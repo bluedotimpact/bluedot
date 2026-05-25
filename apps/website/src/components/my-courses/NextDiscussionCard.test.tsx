@@ -38,24 +38,27 @@ describe('NextDiscussionCard', () => {
     expect(screen.queryByRole('link', { name: 'Join discussion' })).toBeNull();
   });
 
-  test('shows the soon eyebrow text and keeps Prep for discussion when starting within an hour', () => {
+  test('a soon discussion reads as a normal upcoming one (no "starting soon" state)', () => {
     const discussion = createMockGroupDiscussion({
       startDateTime: NOW_SEC + 16 * 60,
       endDateTime: NOW_SEC + 16 * 60 + ONE_HOUR_SECS,
     });
     render(<NextDiscussionCard {...baseProps} discussion={discussion} />);
-    expect(screen.getByText('Starts in 16 minutes')).toBeDefined();
+    expect(screen.getByText('TECHNICAL AI SAFETY: UNIT 3')).toBeDefined();
+    expect(screen.queryByText(/Starts in/)).toBeNull();
     expect(screen.getByRole('link', { name: 'Prep for discussion' })).toBeDefined();
     expect(screen.queryByRole('link', { name: 'Join discussion' })).toBeNull();
   });
 
-  test('swaps Prep for Join discussion when the discussion is live', () => {
+  test('keeps the course name in the eyebrow and swaps Prep for Join when live', () => {
     const discussion = createMockGroupDiscussion({
       startDateTime: NOW_SEC - 10 * 60,
       endDateTime: NOW_SEC + 50 * 60,
       zoomLink: 'https://zoom.us/j/abc',
     });
     render(<NextDiscussionCard {...baseProps} discussion={discussion} />);
+    // Course name stays visible when live (the live cue moves to the left graphic).
+    expect(screen.getByText('TECHNICAL AI SAFETY: UNIT 3')).toBeDefined();
     const join = screen.getByRole('link', { name: 'Join discussion' });
     expect(join.getAttribute('href')).toBe('https://zoom.us/j/abc');
     expect(join.getAttribute('target')).toBe('_blank');

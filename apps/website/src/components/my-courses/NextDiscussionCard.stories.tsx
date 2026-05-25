@@ -28,11 +28,6 @@ const nextDiscussion = createMockGroupDiscussion({
   endDateTime: nowSec + 27 * ONE_HOUR_SECS,
 });
 
-const soonDiscussion = createMockGroupDiscussion({
-  startDateTime: nowSec + 16 * 60,
-  endDateTime: nowSec + 16 * 60 + ONE_HOUR_SECS,
-});
-
 const liveDiscussion = createMockGroupDiscussion({
   startDateTime: nowSec - 10 * 60,
   endDateTime: nowSec + 50 * 60,
@@ -51,7 +46,6 @@ export const AllStates: Story = {
       <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussions</h2>
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} discussion={liveDiscussion} />
-        <NextDiscussionCard {...args} discussion={soonDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} />
       </div>
     </div>
@@ -65,7 +59,6 @@ export const AllFacilitatorStates: Story = {
       <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussions</h2>
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} mode="facilitator" discussion={liveDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
-        <NextDiscussionCard {...args} mode="facilitator" discussion={soonDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
         <NextDiscussionCard {...args} mode="facilitator" discussion={nextDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
       </div>
     </div>
@@ -76,10 +69,6 @@ export const Next: Story = {
   args: { discussion: nextDiscussion },
 };
 
-export const StartingSoon: Story = {
-  args: { discussion: soonDiscussion },
-};
-
 export const Live: Story = {
   args: { discussion: liveDiscussion },
 };
@@ -87,12 +76,6 @@ export const Live: Story = {
 export const FacilitatorNext: Story = {
   args: {
     discussion: nextDiscussion, mode: 'facilitator', group: facilitatorGroup, facilitatorSubtitle,
-  },
-};
-
-export const FacilitatorStartingSoon: Story = {
-  args: {
-    discussion: soonDiscussion, mode: 'facilitator', group: facilitatorGroup, facilitatorSubtitle,
   },
 };
 

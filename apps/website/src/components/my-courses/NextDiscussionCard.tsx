@@ -5,15 +5,11 @@ import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { TimeWidget } from './DiscussionListRow';
+import LiveBadge from './LiveBadge';
 
-type DiscussionTimeState = ReturnType<typeof getDiscussionTimeState>;
-
-const formatEyebrow = (timeState: DiscussionTimeState, prefix: string, unitNumber: string | undefined, minutesUntil: number): ReactNode => {
-  if (timeState === 'live') return 'LIVE';
-  if (timeState === 'soon') {
-    return minutesUntil === 1 ? 'Starts in 1 minute' : `Starts in ${minutesUntil} minutes`;
-  }
-
+// The course name stays in the eyebrow in every state (incl. live); the live cue lives in the
+// left graphic. There's no "starting soon" state — a soon discussion reads as a normal upcoming one.
+const formatEyebrow = (prefix: string, unitNumber: string | undefined): string => {
   const unitText = unitNumber !== undefined ? `UNIT ${unitNumber}` : '';
   if (!prefix) return unitText;
   if (!unitText) return prefix.toUpperCase();
@@ -23,16 +19,21 @@ const formatEyebrow = (timeState: DiscussionTimeState, prefix: string, unitNumbe
 const formatDatetimeLabel = (startSec: number, endSec: number) =>
   `${formatDateMonthAndDay(startSec)}, ${formatTime12HourClock(startSec)} - ${formatTime12HourClock(endSec)}`;
 
-const CalendarBadge = ({ month, day }: { month: string; day: number }) => (
-  <div aria-hidden className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border border-color-divider bg-white sm:size-16 sm:rounded-2xl">
-    <div className="flex h-4 items-center justify-center bg-bluedot-normal sm:h-6">
-      {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-      <span className="text-[10px] leading-[16px] text-white sm:text-size-xxs sm:font-semibold">{month.toUpperCase()}</span>
-    </div>
-    <div className="flex flex-1 items-center justify-center">
-      {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-      <span className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-[28px] sm:font-bold sm:leading-none">{day}</span>
-    </div>
+// Fixed square badge slot: shows the calendar date, or the LIVE indicator (same dimensions) when live.
+const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isLive: boolean }) => (
+  <div aria-hidden={!isLive} className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border border-color-divider bg-white sm:size-16 sm:rounded-2xl">
+    {isLive ? <LiveBadge /> : (
+      <>
+        <div className="flex h-4 items-center justify-center bg-bluedot-normal sm:h-6">
+          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
+          <span className="text-[10px] leading-[16px] text-white sm:text-size-xxs sm:font-semibold">{month.toUpperCase()}</span>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
+          <span className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-[28px] sm:font-bold sm:leading-none">{day}</span>
+        </div>
+      </>
+    )}
   </div>
 );
 
@@ -62,7 +63,6 @@ const NextDiscussionCard = ({
   const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
   const isLive = timeState === 'live';
 
-  const minutesUntil = Math.max(0, Math.round((startMs - currentTimeMs) / 60_000));
   const start = new Date(startMs);
   const month = start.toLocaleDateString('en-US', { month: 'short' });
   const day = start.getDate();
@@ -89,11 +89,11 @@ const NextDiscussionCard = ({
         <div className="flex w-full items-start gap-4 sm:flex-1 sm:items-center sm:gap-5">
           {mode === 'facilitator'
             ? <TimeWidget isLive={isLive} dateTimeSeconds={discussion.startDateTime} />
-            : <CalendarBadge month={month} day={day} />}
+            : <CalendarBadge month={month} day={day} isLive={isLive} />}
           <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
             <div className="flex flex-col items-start">
               <p className="text-size-xxs font-semibold leading-[16px] text-bluedot-normal">
-                {formatEyebrow(timeState, eyebrowPrefix, unitNumber, minutesUntil)}
+                {formatEyebrow(eyebrowPrefix, unitNumber)}
               </p>
               <h3 className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-size-lg sm:leading-[normal]">
                 {titleHref ? (
