@@ -392,6 +392,33 @@ describe('CourseListRow actions', () => {
     });
   });
 
+  describe('View curriculum (shown while the row is in the Upcoming tab)', () => {
+    test('shown on upcoming + Accept', () => {
+      const { container } = renderRow(baseProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }) }));
+      expect(inlineLabels(container)).toContain('View curriculum');
+    });
+
+    test('shown on upcoming + Reject (decision does not change the upcoming state)', () => {
+      const { container } = renderRow(baseProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject' }) }));
+      expect(inlineLabels(container)).toContain('View curriculum');
+    });
+
+    test('hidden on in-progress and past', () => {
+      const active = renderRow(baseProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }) }));
+      expect(inlineLabels(active.container)).not.toContain('View curriculum');
+      const past = renderRow(baseProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Past' }) }));
+      expect(inlineLabels(past.container)).not.toContain('View curriculum');
+    });
+
+    test('hidden once dropped (row moves out of Upcoming)', () => {
+      const { container } = renderRow(baseProps({
+        courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
+        isDroppedOut: true,
+      }));
+      expect(inlineLabels(container)).not.toContain('View curriculum');
+    });
+  });
+
   describe('Certificate visibility (regression: cert can exist before roundStatus flips to Past)', () => {
     test('classifies as completed when a cert exists even while roundStatus is Active', () => {
       const reg = createMockCourseRegistration({ roundStatus: 'Active', certificateCreatedAt: 1700000000 });

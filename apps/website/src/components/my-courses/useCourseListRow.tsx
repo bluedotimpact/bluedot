@@ -271,7 +271,7 @@ const getParticipantActions = (
   triggers: CourseModalTriggers,
 ): CourseAction[] => {
   const {
-    courseRegistration, group, hasSubmittedActionPlan, feedbackFormUrl, meetPersonId, rescheduleEligibleUnits,
+    course, courseRegistration, group, hasSubmittedActionPlan, feedbackFormUrl, meetPersonId, rescheduleEligibleUnits,
   } = row;
   const {
     state, hasCert, showLockedCert, showActionPlan, certificateUrl, applyAgainUrl, docUrl, slackUrl,
@@ -333,6 +333,12 @@ const getParticipantActions = (
           {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
         </CTALinkOrButton>
       ),
+    },
+    {
+      id: 'view-curriculum',
+      isVisible: state === 'upcoming' && Boolean(course.slug),
+      variant: 'inline',
+      inline: <CTALinkOrButton variant="outline-black" size="small" url={`/courses/${course.slug}/1/1`} className="text-size-xxs">View curriculum</CTALinkOrButton>,
     },
     {
       id: 'dropped-pill',
