@@ -1,43 +1,28 @@
 import type {
   Course, CourseRegistration, Group, GroupDiscussion, Unit,
 } from '@bluedot/db';
-import {
-  CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam, useLatestUtmParams,
-} from '@bluedot/ui';
-import { Fragment, useState, type ReactNode } from 'react';
-import { FaCheck, FaLock } from 'react-icons/fa6';
-import { IoBan } from 'react-icons/io5';
+import { OverflowMenu, Tooltip } from '@bluedot/ui';
+import { Fragment, type ReactNode } from 'react';
 import { ChevronRightIcon } from '../icons';
-import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
+import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
-import { ROUTES } from '../../lib/routes';
-import {
-  buildApplicationUrl, buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl,
-} from '../../lib/utils';
-import DropoutModal from '../courses/DropoutModal';
-import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
-import ViewParticipantsModal from '../courses/ViewParticipantsModal';
+import { formatMonthAndDay, parseWeekFromRoundName } from '../../lib/utils';
 import DiscussionList from './DiscussionList';
-import type { CourseAction } from './DiscussionListRow';
+import { classifyCourseRegistration, useCourseListRow } from './useCourseListRow';
 
-export type CourseListRowProps = {
+export type CourseListRowMode = 'participant' | 'facilitator';
+
+type CommonRowProps = {
   courseRegistration: CourseRegistration;
   course: Pick<Course, 'slug' | 'title' | 'applyUrl'>;
-  group: Pick<Group, 'startTimeUtc' | 'slackChannelId' | 'discussionDoc'> | null;
-  facilitatorNames: string[];
+  group: Group | null;
   meetPersonId: string | null;
-  groupsAsParticipant: string[] | null;
   roundId: string | null;
   discussions: GroupDiscussion[];
   attendedDiscussionIds: string[];
   units: Record<string, Unit>;
   roundStartDate: string | null;
   roundEndDate: string | null;
-  rescheduleEligibleUnits: string[];
-  numUnits: number | null;
-  uniqueDiscussionAttendance: number | null;
-  hasSubmittedActionPlan: boolean;
-  feedbackFormUrl: string | null;
   hasSubmittedFeedback: boolean;
   isDroppedOut: boolean;
   isDeferred: boolean;
@@ -45,71 +30,48 @@ export type CourseListRowProps = {
   onToggleExpand?: () => void;
 };
 
-const CourseListRow = ({
-  course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
-  roundStartDate, roundEndDate, rescheduleEligibleUnits, meetPersonId, groupsAsParticipant,
-  numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
-  isDroppedOut, isDeferred,
-  isExpanded, onToggleExpand,
-}: CourseListRowProps) => {
-  const state = classifyCourseRegistration(courseRegistration, { isDroppedOut, isDeferred });
-  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
-  const [viewParticipantsModalOpen, setViewParticipantsModalOpen] = useState(false);
-  const [groupSwitchModalProps, setGroupSwitchModalProps] = useState<{ initialUnitNumber: string; initialSwitchType: SwitchType } | null>(null);
-  const { latestUtmParams } = useLatestUtmParams();
+export type ParticipantRowProps = CommonRowProps & {
+  mode: 'participant';
+  facilitatorNames: string[];
+  groupsAsParticipant: string[] | null;
+  rescheduleEligibleUnits: string[];
+  numUnits: number | null;
+  uniqueDiscussionAttendance: number | null;
+  hasSubmittedActionPlan: boolean;
+  feedbackFormUrl: string | null;
+};
 
-  const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
-  const hasCert = !!courseRegistration.certificateCreatedAt;
+export type FacilitatorRowProps = CommonRowProps & {
+  mode: 'facilitator';
+  roundIntensity: string | null;
+};
 
-  const isNotInGroup = !!meetPersonId && (!groupsAsParticipant || groupsAsParticipant.length === 0);
-  const subtitle = getSubtitle({
-    courseRegistration,
-    group,
-    facilitatorNames,
-    numUnits,
-    uniqueDiscussionAttendance,
-    isNotInGroup,
-    isDroppedOut,
-    isDeferred,
-    roundStartDate,
-    roundEndDate,
-  });
+export type CourseListRowProps = ParticipantRowProps | FacilitatorRowProps;
 
-  let certEligibilityReason: string | null = null;
-  if (
-    (state === 'in-progress' || state === 'completed')
-    && !hasCert
-    && isFacilitatedCourse
-    && uniqueDiscussionAttendance != null
-    && numUnits != null
-  ) {
-    const hasAttendedEnough = numUnits === 0 || (numUnits - uniqueDiscussionAttendance) <= 1;
-    if (!hasAttendedEnough || !hasSubmittedActionPlan) {
-      certEligibilityReason = 'To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.';
-    }
-  }
+const CourseListRow = (row: CourseListRowProps) => {
+  const {
+    mode, course, courseRegistration, meetPersonId,
+    discussions, attendedDiscussionIds, units, isExpanded, onToggleExpand,
+  } = row;
 
-  const showApplicationTimelineTooltip = state === 'upcoming' && courseRegistration.decision !== 'Reject';
+  const {
+    inlineActions, overflowItems, state, canExpand, certEligibilityReason,
+    showApplicationTimelineTooltip, modalElement, modalCallbacks,
+  } = useCourseListRow(row);
 
-  // Dropped rows can still expand if the user attended any discussions before dropping.
-  const canExpand = state !== 'dropped' || attendedDiscussionIds.length > 0;
   const courseConfig = COURSE_CONFIG[course.slug];
   const tint = COURSE_COLORS[course.slug as CourseColorSlug]?.bright;
 
-  const certificateUrl = courseRegistration.certificateId
-    ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-    : `/courses/${course.slug}`;
-  const showLockedCert = state === 'completed' && hasCert && !hasSubmittedFeedback && feedbackFormUrl;
-
-  const applyAgainUrl = buildApplicationUrl(course.applyUrl, latestUtmParams.utm_source) || `/courses/${course.slug}`;
-
-  const showActionPlan = state === 'completed' && !hasCert && isFacilitatedCourse && meetPersonId && courseRegistration.role !== 'Facilitator';
-  const slackUrl = group?.slackChannelId ? buildGroupSlackChannelUrl(group.slackChannelId) : null;
-  const docUrl = group?.discussionDoc ?? null;
+  const isNotInGroup = row.mode === 'participant'
+    && !!meetPersonId
+    && (!row.groupsAsParticipant || row.groupsAsParticipant.length === 0);
+  const subtitle = getSubtitle(row, { isNotInGroup });
 
   const toggleExpand = () => {
     if (canExpand) onToggleExpand?.();
   };
+
+  const hasInlineActions = inlineActions.length > 0;
 
   const chevronButton = canExpand ? (
     <button
@@ -122,131 +84,6 @@ const CourseListRow = ({
       <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
     </button>
   ) : null;
-
-  const inProgressOrUpcoming = state === 'in-progress' || state === 'upcoming';
-  const actions: CourseAction[] = [
-    {
-      id: 'share-feedback',
-      isVisible: Boolean(showLockedCert && feedbackFormUrl),
-      variant: 'inline',
-      inline: feedbackFormUrl ? (
-        <CTALinkOrButton variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5 text-size-xxs">
-          <FaLock />
-          <span>Share feedback<span className="hidden sm:inline"> to view your certificate</span></span>
-        </CTALinkOrButton>
-      ) : null,
-    },
-    {
-      id: 'view-certificate',
-      isVisible: state === 'completed' && hasCert && !showLockedCert,
-      variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" url={certificateUrl} className="text-size-xxs">View certificate</CTALinkOrButton>,
-    },
-    {
-      id: 'action-plan',
-      isVisible: Boolean(showActionPlan),
-      variant: 'inline',
-      inline: hasSubmittedActionPlan ? (
-        <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 text-size-xxs disabled:opacity-80">
-          <span>Action plan submitted</span>
-          <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
-            <FaCheck className="size-1.5 text-bluedot-darker" />
-          </span>
-        </CTALinkOrButton>
-      ) : (
-        <CTALinkOrButton variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank" className="text-size-xxs">
-          Submit action plan
-        </CTALinkOrButton>
-      ),
-    },
-    {
-      id: 'availability',
-      isVisible: state === 'upcoming' && courseRegistration.decision !== 'Reject',
-      variant: 'inline',
-      inline: (
-        <CTALinkOrButton
-          variant="primary"
-          size="small"
-          url={buildAvailabilityFormUrl({
-            email: courseRegistration.email,
-            utmSource: 'bluedot-settings-upcoming',
-            courseRegistration,
-            roundId: courseRegistration.roundId ?? '',
-          })}
-          target="_blank"
-          className="text-size-xxs"
-        >
-          {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
-        </CTALinkOrButton>
-      ),
-    },
-    {
-      id: 'dropped-pill',
-      isVisible: state === 'dropped',
-      variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
-          Dropped
-        </span>
-      ),
-    },
-    {
-      id: 'apply-again',
-      isVisible: state === 'dropped',
-      variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl} target="_blank" className="text-size-xxs">Apply again</CTALinkOrButton>,
-    },
-    {
-      id: 'open-doc',
-      isVisible: Boolean(docUrl),
-      variant: 'overflow',
-      overflow: {
-        id: 'doc', label: 'Open discussion doc', href: docUrl ?? '', target: '_blank',
-      },
-    },
-    {
-      id: 'open-slack',
-      isVisible: Boolean(slackUrl),
-      variant: 'overflow',
-      overflow: {
-        id: 'slack', label: 'Open Slack group', href: slackUrl ?? '', target: '_blank',
-      },
-    },
-    {
-      id: 'view-participants',
-      isVisible: state !== 'dropped' && Boolean(group),
-      variant: 'overflow',
-      overflow: {
-        id: 'view-participants', label: 'View participants', onAction: () => setViewParticipantsModalOpen(true),
-      },
-    },
-    {
-      id: 'switch-group-permanently',
-      isVisible: inProgressOrUpcoming && Boolean(group) && rescheduleEligibleUnits.length > 0,
-      variant: 'overflow',
-      overflow: {
-        id: 'switch-group-permanently',
-        label: 'Switch group permanently',
-        onAction: () => setGroupSwitchModalProps({ initialUnitNumber: '1', initialSwitchType: 'Switch group permanently' }),
-      },
-    },
-    {
-      id: 'drop',
-      isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision !== 'Reject'),
-      variant: 'overflow',
-      overflow: {
-        id: 'drop', label: 'Drop or defer course', onAction: () => setDropoutModalOpen(true),
-      },
-    },
-  ];
-
-  const visible = actions.filter((a) => a.isVisible);
-  const inlineActions = visible.filter((a) => a.variant === 'inline');
-  const overflowItems: OverflowMenuItemProps[] = visible
-    .filter((a) => a.variant === 'overflow' && a.overflow)
-    .map((a) => a.overflow!);
-  const hasInlineActions = inlineActions.length > 0;
 
   return (
     <div className="overflow-hidden rounded-xl border border-color-divider bg-white">
@@ -273,12 +110,17 @@ const CourseListRow = ({
             />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-size-md text-pretty font-semibold text-bluedot-navy sm:text-size-lg">
+            {row.mode === 'facilitator' && (
+              <p className="mb-1 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal">
+                {course.title}
+              </p>
+            )}
+            <h3 className={`text-pretty font-semibold text-bluedot-navy text-size-md ${row.mode === 'facilitator' ? '' : 'sm:text-size-lg'}`}>
               <a
                 href={`/courses/${course.slug}`}
                 className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
               >
-                {course.title}
+                {row.mode === 'facilitator' ? getFacilitatorHeadline(row) : course.title}
               </a>
               {certEligibilityReason && (
                 <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
@@ -301,7 +143,7 @@ const CourseListRow = ({
           <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
             {/* Desktop only: Wide text CTAs / pills; on mobile they live in a separate row below */}
             <div className="hidden items-center gap-3 sm:flex">
-              {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+              {inlineActions}
               {state !== 'dropped' && overflowItems.length > 0 && (
                 <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
               )}
@@ -320,7 +162,7 @@ const CourseListRow = ({
         {hasInlineActions && (
           <div className="relative flex items-center gap-2 px-5 pb-3.5 sm:hidden">
             <div className="flex flex-1 flex-wrap gap-2">
-              {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+              {inlineActions}
             </div>
             {chevronButton}
           </div>
@@ -330,52 +172,26 @@ const CourseListRow = ({
         <div className="border-t border-color-divider">
           {discussions.length > 0 ? (
             <DiscussionList
+              mode={mode}
               discussions={discussions}
               units={units}
               attendedDiscussionIds={attendedDiscussionIds}
               courseSlug={course.slug}
-              canReschedule={state !== 'dropped' && !hasCert}
-              rescheduleEligibleUnits={rescheduleEligibleUnits}
-              onClickReschedule={({ unitNumber, switchType }) => setGroupSwitchModalProps({ initialUnitNumber: unitNumber ?? '1', initialSwitchType: switchType })}
+              canReschedule={state !== 'dropped' && !courseRegistration.certificateCreatedAt}
+              rescheduleEligibleUnits={row.mode === 'participant' ? row.rescheduleEligibleUnits : []}
+              onClickReschedule={modalCallbacks.onClickReschedule}
+              onClickFacilitatorReschedule={modalCallbacks.onClickFacilitatorReschedule}
+              onClickFacilitatorAssignSubstitute={modalCallbacks.onClickFacilitatorAssignSubstitute}
+              onClickViewAttendees={modalCallbacks.onClickViewAttendees}
             />
           ) : (
             <p className="px-5 py-4 text-size-xs text-gray-500 sm:px-6">No discussions to show.</p>
           )}
         </div>
       )}
-      {dropoutModalOpen && (
-        <DropoutModal
-          applicantId={courseRegistration.id}
-          courseSlug={course.slug}
-          currentRoundId={courseRegistration.roundId ?? null}
-          handleClose={() => setDropoutModalOpen(false)}
-        />
-      )}
-      {viewParticipantsModalOpen && meetPersonId && (
-        <ViewParticipantsModal meetPersonId={meetPersonId} handleClose={() => setViewParticipantsModalOpen(false)} />
-      )}
-      {groupSwitchModalProps && roundId && (
-        <GroupSwitchModal
-          handleClose={() => setGroupSwitchModalProps(null)}
-          initialUnitNumber={groupSwitchModalProps.initialUnitNumber}
-          initialSwitchType={groupSwitchModalProps.initialSwitchType}
-          courseSlug={course.slug}
-          roundId={roundId}
-        />
-      )}
+      {modalElement}
     </div>
   );
-};
-
-export type DropoutStatus = { isDroppedOut: boolean; isDeferred: boolean };
-const NOT_DROPPED: DropoutStatus = { isDroppedOut: false, isDeferred: false };
-
-export const classifyCourseRegistration = (cr: CourseRegistration, status: DropoutStatus = NOT_DROPPED) => {
-  if (status.isDroppedOut && !status.isDeferred) return 'dropped';
-  if (cr.certificateCreatedAt) return 'completed';
-  if (cr.roundStatus === 'Active') return 'in-progress';
-  if (cr.roundStatus === 'Future') return 'upcoming';
-  return 'completed';
 };
 
 const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string | null => {
@@ -384,6 +200,17 @@ const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string
   const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
   const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
   return `${weekday}s, ${time}`;
+};
+
+const formatFacilitatorTime = (startTimeUtc: number, intensity: string | null): string => {
+  const date = new Date(startTimeUtc * 1000);
+  const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  if (intensity === 'Part-time') {
+    const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
+    return `${weekday}s ${time}`;
+  }
+
+  return time;
 };
 
 const formatRoundDateRange = (start: string, end: string): string => {
@@ -406,29 +233,44 @@ const formatRoundDateRange = (start: string, end: string): string => {
   return `${startStr} – ${endStr}`;
 };
 
-export const getSubtitle = ({
-  courseRegistration,
-  group,
-  facilitatorNames,
-  numUnits,
-  uniqueDiscussionAttendance,
-  isNotInGroup,
-  isDroppedOut = false,
-  isDeferred = false,
-  roundStartDate,
-  roundEndDate,
-}: {
-  courseRegistration: CourseRegistration;
-  group: Pick<Group, 'startTimeUtc'> | null;
-  facilitatorNames: string[];
-  numUnits: number | null;
-  uniqueDiscussionAttendance: number | null;
-  isNotInGroup: boolean;
-  isDroppedOut?: boolean;
-  isDeferred?: boolean;
-  roundStartDate: string | null;
-  roundEndDate: string | null;
-}): ReactNode => {
+export const getSubtitle = (
+  row: CourseListRowProps,
+  { isNotInGroup }: { isNotInGroup: boolean },
+): ReactNode => {
+  if (row.mode === 'facilitator') return getFacilitatorSubtitle(row);
+
+  return getParticipantSubtitle(row, isNotInGroup);
+};
+
+export const getFacilitatorHeadline = (row: FacilitatorRowProps): string => {
+  const { courseRegistration, group, roundIntensity } = row;
+  const week = parseWeekFromRoundName(courseRegistration.roundName);
+  let groupPart: string | null | undefined = null;
+  if (group) {
+    groupPart = group.groupNumber != null ? `Group ${group.groupNumber}` : group.groupName;
+  }
+
+  const headline = [
+    week !== null ? `Week ${week}` : null,
+    roundIntensity,
+    groupPart,
+  ].filter(Boolean).join(' ');
+  const timePart = group?.startTimeUtc ? formatFacilitatorTime(group.startTimeUtc, roundIntensity) : null;
+  return [headline, timePart].filter(Boolean).join(' · ');
+};
+
+const getFacilitatorSubtitle = (row: FacilitatorRowProps): ReactNode => {
+  const { roundStartDate, roundEndDate } = row;
+  const dateRange = roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null;
+  return dateRange ? <span className="block">{dateRange}</span> : null;
+};
+
+const getParticipantSubtitle = (row: ParticipantRowProps, isNotInGroup: boolean): ReactNode => {
+  const {
+    courseRegistration, group, facilitatorNames, numUnits, uniqueDiscussionAttendance, roundStartDate, roundEndDate,
+    isDroppedOut, isDeferred,
+  } = row;
+
   const renderParts = (parts: ReactNode[]): ReactNode | null => {
     const filtered = parts.filter((p) => p != null && p !== '');
     if (filtered.length === 0) return null;

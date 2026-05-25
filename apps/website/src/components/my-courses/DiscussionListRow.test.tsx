@@ -209,4 +209,101 @@ describe('DiscussionListRow', () => {
       expect(alert.textContent).toMatch(/Could not download/i);
     });
   });
+
+  describe('facilitator mode', () => {
+    const withAttendees = (n: number): GroupDiscussion => ({
+      ...baseDiscussion,
+      participantsExpected: Array.from({ length: n }, (_, i) => `p-${i}`),
+    });
+
+    const renderFacRow = ({
+      status = 'upcoming',
+      discussion = baseDiscussion,
+      onClickFacilitatorReschedule = () => {},
+      onClickFacilitatorAssignSubstitute = () => {},
+      onClickViewAttendees = () => {},
+    }: {
+      status?: DisplayStatus;
+      discussion?: GroupDiscussion;
+      onClickFacilitatorReschedule?: (d: GroupDiscussion) => void;
+      onClickFacilitatorAssignSubstitute?: (d: GroupDiscussion) => void;
+      onClickViewAttendees?: () => void;
+    } = {}) => {
+      const statusProps = propsForStatus(status, discussion);
+      return render(<ul>
+        <DiscussionListRow
+          mode="facilitator"
+          unit={unit}
+          courseSlug="technical-ai-safety"
+          canReschedule
+          onReschedule={() => {}}
+          onClickFacilitatorReschedule={onClickFacilitatorReschedule}
+          onClickFacilitatorAssignSubstitute={onClickFacilitatorAssignSubstitute}
+          onClickViewAttendees={onClickViewAttendees}
+          {...statusProps}
+        />
+      </ul>);
+    };
+
+    const clickOverflowItem = (container: HTMLElement, label: string) => {
+      const button = container.querySelector('.sm\\:flex button[aria-label="Discussion actions"]')!;
+      fireEvent.click(button);
+      const item = Array.from(document.querySelectorAll('[role="menuitem"]'))
+        .find((i) => i.textContent?.trim() === label) as HTMLElement;
+      fireEvent.click(item);
+    };
+
+    test('upcoming: shows the "{N} Attending" pill and the facilitator overflow items', () => {
+      const { container } = renderFacRow({ status: 'upcoming', discussion: withAttendees(3) });
+      expect(screen.getByText('3 Attending')).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
+      expect(openOverflowAndGetLabels(container, 'desktop')).toEqual(expect.arrayContaining(['View attendees', 'Reschedule', 'Change facilitator', 'Download calendar file']));
+    });
+
+    test('live: shows "Join now" and hides the Attending pill', () => {
+      // baseDiscussion has a zoomLink
+      renderFacRow({ status: 'live' });
+      expect(screen.getAllByRole('link', { name: 'Join now' }).length).toBeGreaterThan(0);
+      expect(screen.queryByText(/Attending/)).toBeNull();
+    });
+
+    test('live without a zoom link: no "Join now" link', () => {
+      const noZoom = { ...baseDiscussion, zoomLink: null } as GroupDiscussion;
+      renderFacRow({ status: 'live', discussion: noZoom });
+      expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
+    });
+
+    test('past: shows the "Facilitated" pill; overflow keeps "View attendees" but drops the mutating actions', () => {
+      const { container } = renderFacRow({ status: 'attended' });
+      expect(screen.getByText('Facilitated')).toBeInTheDocument();
+      const items = openOverflowAndGetLabels(container, 'desktop');
+      expect(items).toContain('View attendees');
+      expect(items).not.toContain('Reschedule');
+      expect(items).not.toContain('Change facilitator');
+      expect(items).not.toContain('Download calendar file');
+    });
+
+    test('overflow items invoke their callbacks (one-off reschedule + substitute pass the discussion)', () => {
+      const onClickViewAttendees = vi.fn();
+      const onClickFacilitatorReschedule = vi.fn();
+      const onClickFacilitatorAssignSubstitute = vi.fn();
+      const { container } = renderFacRow({
+        status: 'upcoming',
+        onClickViewAttendees,
+        onClickFacilitatorReschedule,
+        onClickFacilitatorAssignSubstitute,
+      });
+
+      clickOverflowItem(container, 'View attendees');
+      expect(onClickViewAttendees).toHaveBeenCalledTimes(1);
+
+      clickOverflowItem(container, 'Reschedule');
+      expect(onClickFacilitatorReschedule).toHaveBeenCalledTimes(1);
+      expect(onClickFacilitatorReschedule).toHaveBeenCalledWith(expect.objectContaining({ id: baseDiscussion.id }));
+
+      clickOverflowItem(container, 'Change facilitator');
+      expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledTimes(1);
+      expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledWith(expect.objectContaining({ id: baseDiscussion.id }));
+    });
+  });
 });

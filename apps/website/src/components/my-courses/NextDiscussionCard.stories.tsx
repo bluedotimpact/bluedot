@@ -1,3 +1,4 @@
+import type { Group } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
 import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 import NextDiscussionCard from './NextDiscussionCard';
@@ -38,6 +39,11 @@ const liveDiscussion = createMockGroupDiscussion({
   zoomLink: 'https://zoom.us/j/123',
 });
 
+const facilitatorGroup = {
+  id: 'group-9', groupNumber: 9, groupName: 'Group 9', discussionDoc: 'https://example.com/discussion-doc', slackChannelId: 'C01ABC',
+} as Group;
+const facilitatorSubtitle = 'Week 18 Intensive Group 9';
+
 export const AllStates: Story = {
   args: { discussion: nextDiscussion },
   render: (args) => (
@@ -47,6 +53,20 @@ export const AllStates: Story = {
         <NextDiscussionCard {...args} discussion={liveDiscussion} />
         <NextDiscussionCard {...args} discussion={soonDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} />
+      </div>
+    </div>
+  ),
+};
+
+export const AllFacilitatorStates: Story = {
+  args: { discussion: nextDiscussion },
+  render: (args) => (
+    <div>
+      <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussions</h2>
+      <div className="flex flex-col gap-3">
+        <NextDiscussionCard {...args} mode="facilitator" discussion={liveDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
+        <NextDiscussionCard {...args} mode="facilitator" discussion={soonDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
+        <NextDiscussionCard {...args} mode="facilitator" discussion={nextDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
       </div>
     </div>
   ),
@@ -62,4 +82,22 @@ export const StartingSoon: Story = {
 
 export const Live: Story = {
   args: { discussion: liveDiscussion },
+};
+
+export const FacilitatorNext: Story = {
+  args: {
+    discussion: nextDiscussion, mode: 'facilitator', group: facilitatorGroup, facilitatorSubtitle,
+  },
+};
+
+export const FacilitatorStartingSoon: Story = {
+  args: {
+    discussion: soonDiscussion, mode: 'facilitator', group: facilitatorGroup, facilitatorSubtitle,
+  },
+};
+
+export const FacilitatorLive: Story = {
+  args: {
+    discussion: liveDiscussion, mode: 'facilitator', group: facilitatorGroup, facilitatorSubtitle,
+  },
 };

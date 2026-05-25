@@ -58,32 +58,37 @@ export const meetPersonRouter = router({
     }),
 
   /**
-   * Returns the people in the caller's group for a given meetPerson record. The caller must own
-   * the meetPerson. Facilitators are returned first, then participants alphabetically by name.
-   * Caller themselves are excluded from the list.
+   * Returns the people in a group. The caller must be a member of the group — either as a
+   * facilitator or a participant. Facilitators are listed first, then participants;
+   * both sorted alphabetically by name. The caller is excluded from both lists.
    */
   getGroupParticipants: protectedProcedure
-    .input(z.object({ meetPersonId: z.string().min(1) }))
+    .input(z.object({ groupId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const meetPersonRows = await db.pg.select()
-        .from(meetPersonTable.pg)
-        .where(eq(meetPersonTable.pg.id, input.meetPersonId));
-      const callerMeetPerson = meetPersonRows[0];
-      if (callerMeetPerson?.email !== ctx.auth.email) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'meetPerson not found' });
+      const groupRows = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, input.groupId));
+      const group = groupRows[0];
+      if (!group) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'group not found' });
       }
 
-      const groupId = callerMeetPerson.groupsAsParticipant?.[0];
-      if (!groupId) return { facilitators: [], participants: [] };
-
-      const groupRows = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, groupId));
-      const group = groupRows[0];
-      if (!group) return { facilitators: [], participants: [] };
+      const callerMeetPersons = await db.pg
+        .select({ id: meetPersonTable.pg.id })
+        .from(meetPersonTable.pg)
+        .where(eq(meetPersonTable.pg.email, ctx.auth.email));
+      const callerMeetPersonIds = new Set(callerMeetPersons.map((m) => m.id));
 
       const facilitatorIdsArr = group.facilitator ?? [];
-      const participantIdsArr = (group.participants ?? []).filter((id) => id !== callerMeetPerson.id);
-      const allIds = [...facilitatorIdsArr, ...participantIdsArr];
-      if (allIds.length === 0) return { facilitators: [], participants: [] };
+      const participantIdsArr = group.participants ?? [];
+      const callerIsMember = facilitatorIdsArr.some((id) => callerMeetPersonIds.has(id))
+        || participantIdsArr.some((id) => callerMeetPersonIds.has(id));
+      if (!callerIsMember) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'group not found' });
+      }
+
+      const otherFacilitatorIds = facilitatorIdsArr.filter((id) => !callerMeetPersonIds.has(id));
+      const otherParticipantIds = participantIdsArr.filter((id) => !callerMeetPersonIds.has(id));
+      const allOtherIds = [...otherFacilitatorIds, ...otherParticipantIds];
+      if (allOtherIds.length === 0) return { facilitators: [], participants: [] };
 
       const people = await db.pg
         .select({
@@ -91,15 +96,15 @@ export const meetPersonRouter = router({
           name: meetPersonTable.pg.name,
         })
         .from(meetPersonTable.pg)
-        .where(inArray(meetPersonTable.pg.id, allIds));
+        .where(inArray(meetPersonTable.pg.id, allOtherIds));
       const peopleById = new Map(people.map((p) => [p.id, { id: p.id, name: p.name ?? '' }]));
 
-      const facilitators = facilitatorIdsArr
+      const facilitators = otherFacilitatorIds
         .map((id) => peopleById.get(id))
         .filter((p): p is { id: string; name: string } => !!p)
         .sort((a, b) => a.name.localeCompare(b.name));
 
-      const participants = participantIdsArr
+      const participants = otherParticipantIds
         .map((id) => peopleById.get(id))
         .filter((p): p is { id: string; name: string } => !!p)
         .sort((a, b) => a.name.localeCompare(b.name));

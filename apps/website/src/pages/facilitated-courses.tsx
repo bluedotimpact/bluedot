@@ -3,39 +3,41 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
-import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
-import { type CourseListRowProps } from '../components/my-courses/CourseListRow';
 import {
-  TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab as bucketRowsByTab,
+  TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab,
 } from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
 
-const CURRENT_ROUTE = ROUTES.myCourses;
+const CURRENT_ROUTE = ROUTES.facilitatedCourses;
 
 const EMPTY_MESSAGE: Record<CourseTab, string> = {
-  inProgress: 'You are not enrolled in any active courses.',
-  upcoming: 'No upcoming courses to show.',
-  pastCourses: 'No past courses to show.',
+  inProgress: 'You are not facilitating any active courses.',
+  upcoming: 'No upcoming facilitator assignments.',
+  pastCourses: 'No past facilitator assignments.',
 };
 
-// Participants see rejected applications only while the round is still Future, and rows must have a
-// bucketable round status (or a certificate). Facilitators don't filter this way (their data is
-// pre-filtered server-side), so this stays on the participant page rather than in the shared bucketer.
-const isParticipantEligible = (row: CourseListRowProps): boolean => {
-  const { courseRegistration: cr } = row;
-  const hasBucketableStatus = cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || !!cr.certificateCreatedAt;
-  const visibleIfRejected = cr.decision !== 'Reject' || cr.roundStatus === 'Future';
-  return hasBucketableStatus && visibleIfRejected;
+type NextDiscussionItem = { discussion: { startDateTime: number } };
+
+// Per designer: show all of today's discussions if there's more than one, otherwise just the next.
+export const pickVisibleNextDiscussions = <T extends NextDiscussionItem>(items: T[]): T[] => {
+  const startOfTodayLocal = new Date();
+  startOfTodayLocal.setHours(0, 0, 0, 0);
+  const startOfTomorrowLocal = startOfTodayLocal.getTime() + 24 * 60 * 60 * 1000;
+
+  const today = items.filter((nd) => {
+    const startMs = nd.discussion.startDateTime * 1000;
+    return startMs >= startOfTodayLocal.getTime() && startMs < startOfTomorrowLocal;
+  });
+
+  if (today.length > 1) return today;
+  return items.slice(0, 1);
 };
 
-export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> =>
-  bucketRowsByTab(courses, isParticipantEligible);
-
-const MyCoursesPage = () => {
+const FacilitatedCoursesPage = () => {
   const router = useRouter();
   const queryTab = router.query.tab;
   const activeTab: CourseTab = isCourseTab(queryTab) ? queryTab : 'inProgress';
@@ -48,11 +50,10 @@ const MyCoursesPage = () => {
     );
   };
 
-  const { data, isLoading, error } = trpc.myBluedot.myCoursesPage.useQuery();
+  const { data, isLoading, error } = trpc.myBluedot.facilitatedCoursesPage.useQuery();
 
   const buckets = useMemo(() => bucketCoursesByTab(data?.courses), [data?.courses]);
 
-  // Auto-expand the top row of In Progress and Upcoming only
   const expandedDefaults = useMemo<Record<string, boolean>>(() => {
     const m: Record<string, boolean> = {};
     for (const tab of ['inProgress', 'upcoming'] as const) {
@@ -65,7 +66,6 @@ const MyCoursesPage = () => {
     return m;
   }, [buckets]);
 
-  // expandedState is defined at the page level, so rows don't collapse when you switch tabs
   const [expandedState, setExpandedState] = useState<Record<string, boolean>>({});
   const expandedById = { ...expandedDefaults, ...expandedState };
 
@@ -75,14 +75,15 @@ const MyCoursesPage = () => {
   };
 
   const visibleCourses = buckets[activeTab];
-  const nextDiscussion = data?.nextDiscussion ?? null;
+  // Per designer (mallorie): show either the single next discussion, or all of today's if >1.
+  const visibleNextDiscussions = pickVisibleNextDiscussions(data?.nextDiscussions ?? []);
 
   return (
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
-      <MyBlueDotLayout route={CURRENT_ROUTE} afterBreadcrumbs={<InactiveCourseBanners />}>
+      <MyBlueDotLayout route={CURRENT_ROUTE}>
         <div className="flex min-h-[60vh] flex-col gap-6">
           {isLoading && (
             <div className="flex flex-1 items-center justify-center">
@@ -92,15 +93,25 @@ const MyCoursesPage = () => {
           {error && <ErrorSection error={error} />}
           {!isLoading && !error && data && (
             <>
-              {nextDiscussion && (
+              {visibleNextDiscussions.length > 0 && (
                 <div>
-                  <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussion</h2>
-                  <NextDiscussionCard
-                    courseSlug={nextDiscussion.courseSlug}
-                    courseTitle={nextDiscussion.courseTitle}
-                    discussion={nextDiscussion.discussion}
-                    unit={nextDiscussion.unit}
-                  />
+                  <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">
+                    {visibleNextDiscussions.length === 1 ? 'Next discussion' : 'Next discussions'}
+                  </h2>
+                  <div className="flex flex-col gap-3">
+                    {visibleNextDiscussions.map((nd) => (
+                      <NextDiscussionCard
+                        key={`${nd.discussion.id}:${nd.group?.id ?? ''}`}
+                        mode="facilitator"
+                        courseSlug={nd.courseSlug}
+                        courseTitle={nd.courseTitle}
+                        discussion={nd.discussion}
+                        unit={nd.unit}
+                        group={nd.group}
+                        facilitatorSubtitle={nd.facilitatorSubtitle}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
               <TabPills
@@ -124,4 +135,4 @@ const MyCoursesPage = () => {
   );
 };
 
-export default MyCoursesPage;
+export default FacilitatedCoursesPage;

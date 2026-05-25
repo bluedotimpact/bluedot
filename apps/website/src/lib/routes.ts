@@ -105,6 +105,12 @@ const myCourses: BluedotRoute = {
   parentPages: [home],
 };
 
+const facilitatedCourses: BluedotRoute = {
+  title: 'Facilitated Courses',
+  url: '/facilitated-courses',
+  parentPages: [home],
+};
+
 const subscriptionPreferences: BluedotRoute = {
   title: 'Subscription Preferences',
   url: '/subscription-preferences',
@@ -138,6 +144,7 @@ export const ROUTES = {
   profile,
   account,
   myCourses,
+  facilitatedCourses,
   subscriptionPreferences,
 } as const;
 
@@ -151,7 +158,7 @@ export const ROUTES = {
 export const shouldRedirectBackAfterLogout = (path: string): boolean => {
   // Don't redirect to auth-required pages (would show errors after logout)
   // Don't redirect to login pages (confusing UX - user just logged out)
-  const blockedPrefixes = ['/settings', '/profile', '/login', '/my-courses'];
+  const blockedPrefixes = ['/settings', '/profile', '/login', '/my-courses', '/facilitated-courses', '/account'];
 
   return !blockedPrefixes.some((prefix) => path.startsWith(prefix));
 };
