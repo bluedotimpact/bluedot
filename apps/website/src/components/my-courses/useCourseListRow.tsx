@@ -387,7 +387,7 @@ const getParticipantActions = (
     },
     {
       id: 'drop',
-      isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision === 'Accept'),
+      isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision !== 'Reject'),
       variant: 'overflow',
       overflow: {
         id: 'drop', label: 'Drop or defer course', onAction: triggers.openDropout,

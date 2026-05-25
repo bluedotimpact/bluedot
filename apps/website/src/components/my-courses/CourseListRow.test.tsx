@@ -361,7 +361,7 @@ describe('CourseListRow actions', () => {
     });
   });
 
-  describe('Drop or defer course (regression: hidden on application states)', () => {
+  describe('Drop or defer course visibility', () => {
     test('shown on in-progress', () => {
       const { container } = renderRow(baseProps());
       expect(openOverflowItems(container)).toContain('Drop or defer course');
@@ -373,15 +373,15 @@ describe('CourseListRow actions', () => {
       expect(openOverflowItems(container)).toContain('Drop or defer course');
     });
 
-    test('hidden on upcoming + Reject (legacy match: rejected applicants do not see drop)', () => {
-      const upcomingReject = createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject' });
-      const { container } = renderRow(baseProps({ courseRegistration: upcomingReject }));
-      expect(openOverflowItems(container)).not.toContain('Drop or defer course');
-    });
-
-    test('hidden on upcoming + null decision (legacy match: in-review applicants do not see drop)', () => {
+    test('shown on upcoming + null decision (in-review applicants can withdraw, matching legacy)', () => {
       const upcomingPending = createMockCourseRegistration({ roundStatus: 'Future', decision: null });
       const { container } = renderRow(baseProps({ courseRegistration: upcomingPending }));
+      expect(openOverflowItems(container)).toContain('Drop or defer course');
+    });
+
+    test('hidden on upcoming + Reject (rejected applicants do not see drop)', () => {
+      const upcomingReject = createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject' });
+      const { container } = renderRow(baseProps({ courseRegistration: upcomingReject }));
       expect(openOverflowItems(container)).not.toContain('Drop or defer course');
     });
 

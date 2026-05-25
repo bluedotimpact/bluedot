@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { ROUTES } from './routes';
+import { ROUTES, shouldRedirectBackAfterLogout } from './routes';
 
 describe('ROUTES configuration', () => {
   test('contains all required My BlueDot routes', () => {
@@ -53,5 +53,20 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.profile).toBeDefined();
     expect(ROUTES.profile.url).toBe('/profile');
     expect(ROUTES.profile.title).toBe('Profile');
+  });
+});
+
+describe('shouldRedirectBackAfterLogout', () => {
+  test('blocks auth-required My BlueDot pages (would error after logout)', () => {
+    expect(shouldRedirectBackAfterLogout('/account')).toBe(false);
+    expect(shouldRedirectBackAfterLogout('/my-courses')).toBe(false);
+    expect(shouldRedirectBackAfterLogout('/facilitated-courses')).toBe(false);
+    expect(shouldRedirectBackAfterLogout('/settings/courses')).toBe(false);
+    expect(shouldRedirectBackAfterLogout('/profile')).toBe(false);
+  });
+
+  test('allows public pages', () => {
+    expect(shouldRedirectBackAfterLogout('/courses')).toBe(true);
+    expect(shouldRedirectBackAfterLogout('/')).toBe(true);
   });
 });
