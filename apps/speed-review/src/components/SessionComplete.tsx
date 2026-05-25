@@ -181,10 +181,18 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         />
       )}
       <div>
-        <h1 className="text-2xl font-bold text-stone-100">
-          {roundComplete ? 'You\'ve evaluated all the applications for the round!' : 'Session complete'}
+        <h1 className="text-2xl font-bold text-stone-100">{(() => {
+          if (roundComplete) return 'You\'ve evaluated all the applications for the round!';
+          if (rated.length === 0) return 'No scored applications available';
+          return 'Session complete';
+        })()}
         </h1>
         <p className="text-size-sm text-stone-400 mt-1">{round}</p>
+        {!roundComplete && rated.length === 0 && (
+          <p className="text-size-sm text-stone-400 mt-2">
+            The scoring pipeline may still be running for this round. Try again later, or pick a different round.
+          </p>
+        )}
       </div>
 
       {/* Progress bar */}

@@ -5,7 +5,7 @@ import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import CourseCompletionSection from '../../../components/courses/CourseCompletionSection';
 import CourseShell from '../../../components/courses/CourseShell';
-import { isCongratulationsAccessible } from '../../../components/courses/SidebarCertificatePanel';
+import { shouldShowCongratulations } from '../../../components/courses/SidebarCertificatePanel';
 import { FOAI_COURSE_SLUG } from '../../../lib/constants';
 import { type BasicChunk, getActiveChunksByUnit, getCourseData } from '../../../server/routers/courses';
 import { trpc } from '../../../utils/trpc';
@@ -43,10 +43,10 @@ export default function CongratulationsPage({
   }
 
   // FoAI is self-paced: the only valid entry to Congratulations is having earned the certificate.
-  // Cohort courses use the shared `isCongratulationsAccessible` rules.
+  // Cohort courses use the shared `shouldShowCongratulations` rules.
   const isAccessible = courseSlug === FOAI_COURSE_SLUG
     ? certificateData?.status === 'has-certificate'
-    : isCongratulationsAccessible(certificateData);
+    : shouldShowCongratulations(certificateData);
 
   if (!isAccessible) {
     router.replace(`/courses/${courseSlug}/1/1`);

@@ -34,7 +34,7 @@ const defaultProps = {
 
 describe('CourseCompletionSection', () => {
   beforeEach(() => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })));
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const, hasUpcomingRounds: true })));
   });
 
   test('shows ProgressDots while getCourseApplication is loading', () => {

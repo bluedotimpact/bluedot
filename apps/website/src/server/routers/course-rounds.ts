@@ -75,6 +75,24 @@ function groupByIntensity<T extends { intensity: string | null }>(rounds: T[]): 
   };
 }
 
+export async function hasUpcomingRoundsForCourseId(courseId: string) {
+  const deadlineThreshold = getDeadlineThresholdUtc();
+
+  const rows = await db.pg
+    .select({ id: applicationsRoundTable.pg.id })
+    .from(applicationsRoundTable.pg)
+    .where(and(
+      eq(applicationsRoundTable.pg.courseId, courseId),
+      or(
+        sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
+        sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
+      ),
+    ))
+    .limit(1);
+
+  return rows.length > 0;
+}
+
 /**
  * Fetches course rounds data by course slug.
  * This function is shared between the tRPC procedure and getStaticProps.

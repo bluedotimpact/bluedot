@@ -953,11 +953,11 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
   columns: {
     firstName: {
       pgColumn: text(),
-      airtableId: 'flduZeVfCBVWhq0YM',
+      airtableId: 'fldWQsNeLnniYRtBC',
     },
     lastName: {
       pgColumn: text(),
-      airtableId: 'fldKQXPr9ZiQq9DVT',
+      airtableId: 'fld3NWPmPAUoh9ck2',
     },
     // Formula field that outputs a permanent (miniextension-hosted) URL for the Photo attachment.
     // Concatenates up to 5 URLs space-separated; consumers should take the first.
@@ -975,26 +975,30 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
     },
     profileUrl: {
       pgColumn: text(),
-      airtableId: 'fld2h9ghKvg79nayH',
+      airtableId: 'fldES5kHoR5kvuWKP',
     },
   },
 });
-/** Operational table. Only amount + status synced; grantee identifying info stays in Airtable. */
+/** Master CTG applications table. All statuses present — code filters by status for the granted-amount total, and uses timeToDecisionDays for the avg-days-to-decision stat. */
 export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application', {
-  baseId: CONTRACTOR_PAYMENTS_BASE_ID,
-  tableId: 'tblTBVFKyJNlvhfA6',
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tblh5zr4jRdrndKnC',
   columns: {
     grantAmountUsd: {
       pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldkLVS7boXaC3sJT',
+      airtableId: 'fldYhy8btQ5r8vRk0',
     },
-    evaluationStatus: {
+    status: {
       pgColumn: text(),
-      airtableId: 'fldL3RXC6Yuwyng78',
+      airtableId: 'fldnfK6Wgb1CAuvFE',
+    },
+    timeToDecisionDays: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld7SiD8ShzS8sgis',
     },
   },
 });
-/** Operational table. Only amount + decision + createdAt synced; applicant identifying info stays in Airtable. */
+/** Operational table. Only amount + decision + createdAt + decidedAt synced; applicant identifying info stays in Airtable. */
 export const rapidGrantApplicationTable = pgAirtable('rapid_grant_application', {
   baseId: CONTRACTOR_PAYMENTS_BASE_ID,
   tableId: 'tblS9NHgtwl7YaHiZ',
@@ -1010,6 +1014,10 @@ export const rapidGrantApplicationTable = pgAirtable('rapid_grant_application', 
     createdAt: {
       pgColumn: text(),
       airtableId: 'fldSEVGlsG4wcKk4k',
+    },
+    decidedAt: {
+      pgColumn: text(),
+      airtableId: 'fldYSUC9oNUMrRiKr',
     },
   },
 });
@@ -1085,10 +1093,6 @@ export const unitTable = pgAirtable('unit', {
       pgColumn: text().notNull(),
       airtableId: 'fldr9I5YGRIia8xln',
     },
-    path: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldEY7ZHZtXrBL3nv',
-    },
     title: {
       pgColumn: text().notNull(),
       airtableId: 'fldN9BV8GGUHFu9sz',
@@ -1122,6 +1126,11 @@ export const unitTable = pgAirtable('unit', {
     coursePath: {
       pgColumn: text(),
       airtableId: 'fldlCrg7Nv1TPTorZ',
+      deprecated: true,
+    },
+    path: {
+      pgColumn: text(),
+      airtableId: 'fldEY7ZHZtXrBL3nv',
       deprecated: true,
     },
   },
@@ -1163,10 +1172,6 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: text(),
       airtableId: 'fldJX4h1sTNkacKru',
     },
-    avgRating: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldOWWeymJQTwlfaY',
-    },
     syncedAudioUrl: {
       pgColumn: text().default(''), // For future github issue #1148
       airtableId: 'fldIqUoLYILUmMgY0',
@@ -1178,6 +1183,13 @@ export const unitResourceTable = pgAirtable('unit_resource', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldUOh3MNUIf0vnYb',
+    },
+  },
+  deprecatedColumns: {
+    avgRating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldOWWeymJQTwlfaY',
+      deprecated: true,
     },
   },
 });
@@ -1589,6 +1601,25 @@ export const peerFeedbackTable = pgAirtable('peer_feedback', {
   },
 });
 
+export const vanityUrlsTable = pgAirtable('vanity_urls', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblCPvMhgVp78Tghe',
+  columns: {
+    vanityName: {
+      pgColumn: text(),
+      airtableId: 'fldzB8XWT6X7ILYX0',
+    },
+    resolvedUrl: {
+      pgColumn: text(),
+      airtableId: 'fldPBSQtesb6Njx2k',
+    },
+    isActive: {
+      pgColumn: boolean(),
+      airtableId: 'fldTZCimYxTKe8MJv',
+    },
+  },
+});
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
@@ -1630,3 +1661,4 @@ export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;
 export type BugReport = InferSelectModel<typeof bugReportsTable.pg>;
 export type CourseFeedback = InferSelectModel<typeof courseFeedbackTable.pg>;
 export type PeerFeedback = InferSelectModel<typeof peerFeedbackTable.pg>;
+export type VanityUrl = InferSelectModel<typeof vanityUrlsTable.pg>;

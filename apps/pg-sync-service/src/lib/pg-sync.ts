@@ -70,16 +70,34 @@ export async function initializeWebhooks(): Promise<void> {
     }
 
     // Create webhooks for each base with their specific field filters
-    const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
+    const baseEntries = Object.entries(fieldsByBase);
+    const webhookPromises = baseEntries.map(([baseId, fieldIds]) => {
       logger.info(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
       return AirtableWebhook.getOrCreate(baseId, fieldIds, rateLimiter).then((webhook) => {
         webhookInstances[baseId] = webhook;
       });
     });
 
-    await Promise.all(webhookPromises);
+    const results = await Promise.allSettled(webhookPromises);
+    const failures: { baseId: string; reason: unknown }[] = [];
+    results.forEach((r, i) => {
+      if (r.status === 'rejected') {
+        const baseId = baseEntries[i]![0];
+        failures.push({ baseId, reason: r.reason });
+        const msg = r.reason instanceof Error ? r.reason.message : String(r.reason);
+        logger.error(`[initializeWebhooks] Failed to initialize webhook for base ${baseId}: ${msg}`);
+      }
+    });
+    const failedBaseIds = failures.map((f) => f.baseId).join(', ');
+    if (failures.length === baseEntries.length && baseEntries.length > 0) {
+      throw new Error(`All webhook initializations failed (${failedBaseIds})`);
+    }
 
-    logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
+    if (failures.length > 0) {
+      slackAlert(env, [`[initializeWebhooks] ${failures.length}/${baseEntries.length} webhook(s) failed: ${failedBaseIds}`]);
+    }
+
+    logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length}/${baseEntries.length} webhooks with field-level filtering`);
   } catch (error) {
     const initError = `[initializeWebhooks] Critical webhook initialization failure: ${error instanceof Error ? error.message : String(error)}`;
     logger.error(initError);

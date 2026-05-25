@@ -180,6 +180,19 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         question: 'Will you fund a Master\'s or PhD?',
         answer: 'Generally, no. For most people, a Master\'s or PhD isn\'t the most direct route to impactful AI safety work. There are exceptions. Mention it in your application if you think yours is one.',
       },
+      {
+        id: 'grant-structure',
+        question: 'How is the grant structured?',
+        answer: (
+          <>
+            The grant is a fellowship grant in support of your AI safety work. It is not a salary or a contract for services. BlueDot is a UK entity, so we don't issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us.
+            <br />
+            <br />
+            We can't give tax advice, so please check the tax implications with a qualified advisor in your country.
+          </>
+        ),
+        answerText: 'The grant is a fellowship grant in support of your AI safety work. It is not a salary or a contract for services. BlueDot is a UK entity, so we don\'t issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us. We can\'t give tax advice, so please check the tax implications with a qualified advisor in your country.',
+      },
     ],
   },
   'incubator-week': {

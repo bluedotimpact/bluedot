@@ -18,12 +18,13 @@ import {
 
 const PROGRAM_SLUG = 'career-transition-grant';
 const FALLBACK_NAME = 'Career Transition Grants';
-const FALLBACK_DESCRIPTION = 'Funding and support to help you work full-time on AI safety.';
+const FALLBACK_DESCRIPTION = 'Funding and support to help you go full-time on AI safety and biosecurity.';
 
 const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
   const grantsMadeLabel = stats ? String(stats.count) : '—';
   const fundingAwardedLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
+  const avgDaysToDecisionLabel = stats?.averageDaysToDecision != null ? String(stats.averageDaysToDecision) : '—';
 
   return (
     <div>
@@ -47,6 +48,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
         stats={[
           { label: 'Grants made', value: grantsMadeLabel },
           { label: 'Funding awarded', value: fundingAwardedLabel },
+          { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
       />
       <WhatThisIsForSection />

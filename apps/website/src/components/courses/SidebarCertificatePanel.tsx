@@ -22,6 +22,21 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
   );
 };
 
+// Hides the panel and redirects the page when the only CTA we could offer is "join a cohort"
+// but no upcoming rounds exist for that course.
+export const shouldShowCongratulations = (data: CertificateData | undefined): boolean => {
+  if (!data) return true;
+  if (!isCongratulationsAccessible(data)) return false;
+  if (
+    (data.status === 'not-authenticated' || data.status === 'not-enrolled' || data.status === 'not-eligible')
+    && !data.hasUpcomingRounds
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
   <Modal isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Certificate requirement">
     <P>You must meet both requirements to receive a certificate at the end of the course:</P>
@@ -83,7 +98,7 @@ export const SidebarCertificatePanel = ({
     );
   }
 
-  if (isCongratulationsAccessible(certificateData)) {
+  if (shouldShowCongratulations(certificateData)) {
     const defaultCtaOverride = (
       status === 'not-authenticated'
       || status === 'not-enrolled'
@@ -128,6 +143,17 @@ export const SidebarCertificatePanel = ({
         <FaArrowRight className="size-5 shrink-0" />
       </A>
     );
+  }
+
+  // Reached here only when `shouldShowCongratulations` returned false. For the three "join a
+  // cohort" statuses that implies `!hasUpcomingRounds`, and we render nothing rather than fall
+  // through to the LockedPanel below.
+  if (
+    certificateData.status === 'not-authenticated'
+    || certificateData.status === 'not-enrolled'
+    || certificateData.status === 'not-eligible'
+  ) {
+    return null;
   }
 
   // action-plan-pending + not yet submitted + open: two-panel layout
