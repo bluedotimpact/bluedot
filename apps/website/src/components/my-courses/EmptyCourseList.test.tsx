@@ -15,7 +15,7 @@ describe('EmptyCourseList', () => {
     expect(screen.getByRole('link', { name: 'Browse courses' })).toHaveAttribute('href', '/courses');
   });
 
-  test('renders no button when no CTA is provided (e.g. facilitator states)', () => {
+  test('renders no button when no CTA is provided', () => {
     render(<EmptyCourseList title="No past courses" description="Courses you've facilitated will appear here." />);
     expect(screen.queryByRole('link')).toBeNull();
     expect(screen.queryByRole('button')).toBeNull();
