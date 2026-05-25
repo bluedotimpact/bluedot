@@ -3,13 +3,13 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import { ROUTES } from '../../lib/routes';
-import SettingsLayout from '../../components/settings/SettingsLayout';
-import ProfileNameEditor from '../../components/settings/ProfileNameEditor';
-import PasswordSection from '../../components/settings/PasswordSection';
-import { trpc } from '../../utils/trpc';
+import { ROUTES } from '../lib/routes';
+import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
+import ProfileNameEditor from '../components/settings/ProfileNameEditor';
+import PasswordSection from '../components/settings/PasswordSection';
+import { trpc } from '../utils/trpc';
 
-const CURRENT_ROUTE = ROUTES.settingsAccount;
+const CURRENT_ROUTE = ROUTES.account;
 
 const AccountSettingsPage = () => {
   const {
@@ -36,30 +36,23 @@ const AccountSettingsPage = () => {
       {userError && <ErrorSection error={userError} />}
       {user && (
         <>
-          <SettingsLayout activeTab="account" route={CURRENT_ROUTE}>
-            <div className="p-8">
-              {/* Profile Name Editor */}
-              <ProfileNameEditor
-                initialName={user.name}
-                onSave={() => utils.users.getUser.invalidate()}
-              />
+          <MyBlueDotLayout route={CURRENT_ROUTE}>
+            <ProfileNameEditor
+              initialName={user.name}
+              onSave={() => utils.users.getUser.invalidate()}
+            />
 
-              {/* Divider */}
-              <div className="border-t border-color-divider my-6" />
+            <div className="border-t border-color-divider my-6" />
 
-              {/* Email Section */}
-              <div className="mb-6">
-                <P className="font-semibold mb-2">Email*</P>
-                <P className="text-gray-600">{user.email}</P>
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-color-divider my-6" />
-
-              {/* Password Section */}
-              <PasswordSection />
+            <div className="mb-6">
+              <P className="font-semibold mb-2">Email*</P>
+              <P className="text-gray-600">{user.email}</P>
             </div>
-          </SettingsLayout>
+
+            <div className="border-t border-color-divider my-6" />
+
+            <PasswordSection />
+          </MyBlueDotLayout>
 
           {/* Welcome Modal */}
           <Modal

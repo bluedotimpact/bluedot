@@ -136,6 +136,13 @@ export const formatDateTimeRelative = ({
 
 export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string; unitNumber: string | number; chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
 
+// "AGI Strategy (2026 May W19) - Part-time" → 19
+export const parseWeekFromRoundName = (roundName: string | null | undefined): number | null => {
+  if (!roundName) return null;
+  const match = /W(\d+)/.exec(roundName);
+  return match ? Number(match[1]) : null;
+};
+
 export const getActionPlanUrl = (meetPersonId: string) => `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPersonId}`;
 
 export const getGMTOffsetWithCity = () => {

@@ -3,9 +3,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import {
   describe, expect, test, vi, beforeEach,
 } from 'vitest';
-import AccountSettingsPage from '../../../pages/settings/account';
-import { TrpcProvider } from '../../trpcProvider';
-import { server, trpcMsw } from '../../trpcMswSetup';
+import AccountSettingsPage from '../../pages/account';
+import { TrpcProvider } from '../trpcProvider';
+import { server, trpcMsw } from '../trpcMswSetup';
 
 // Only mock withAuth from @bluedot/ui since it wraps the component with auth logic
 // withAuth is a HOC that normally provides auth props from a zustand store
@@ -21,7 +21,7 @@ vi.mock('@bluedot/ui', async () => {
 // Mock Next.js router
 vi.mock('next/router', () => ({
   useRouter: () => ({
-    pathname: '/settings/account',
+    pathname: '/account',
     push: vi.fn(),
   }),
 }));
@@ -42,6 +42,7 @@ describe('AccountSettingsPage', () => {
 
     // @ts-expect-error Only mocking data needed for `AccountSettingsPage`
     server.use(trpcMsw.users.getUser.query(() => mockUserData));
+    server.use(trpcMsw.myBluedot.hasFacilitatorRegistrations.query(() => ({ hasFacilitatorRegistrations: false })));
   });
 
   test('should render account settings page correctly', async () => {

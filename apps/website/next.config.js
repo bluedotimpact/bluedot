@@ -88,6 +88,16 @@ module.exports = withDefaultBlueDotNextConfig({
         destination: '/?utm_source=petr&utm_medium=youtube&utm_campaign=petr',
         permanent: false,
       },
+      {
+        source: '/settings/courses',
+        destination: '/my-courses',
+        statusCode: 301,
+      },
+      {
+        source: '/settings/account',
+        destination: '/account',
+        statusCode: 301,
+      },
     ];
   },
   headers: [

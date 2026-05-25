@@ -43,27 +43,31 @@ const SWITCH_OPTIONS = [
   { value: 'Change permanently', label: 'Change permanently' },
 ] as const;
 
-type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
+export type FacilitatorSwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
 type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   roundId: string;
   /** Only `id` and `group` needed from initialDiscussion */
   initialDiscussion: { id: string; group: string } | null;
+  initialGroupId?: string;
   initialModalType?: FacilitatorModalType;
+  initialSwitchType?: FacilitatorSwitchType;
 };
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   handleClose,
   roundId,
   initialDiscussion,
+  initialGroupId,
   initialModalType = 'Update discussion time',
+  initialSwitchType = 'Change for one unit',
 }) => {
   const [modalType, setModalType] = useState<FacilitatorModalType>(initialModalType);
 
   // Update discussion time state
-  const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
-  const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
+  const [switchType, setSwitchType] = useState<FacilitatorSwitchType | undefined>(initialSwitchType);
+  const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group ?? initialGroupId);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(initialDiscussion?.id);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
@@ -250,7 +254,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <Select
               ariaLabel="Action"
               value={switchType}
-              onChange={(value) => setSwitchType(value as SwitchType)}
+              onChange={(value) => setSwitchType(value as FacilitatorSwitchType)}
               options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
               placeholder="Choose an option"
             />
