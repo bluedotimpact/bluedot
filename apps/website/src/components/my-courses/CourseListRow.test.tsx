@@ -579,6 +579,18 @@ describe('CourseListRow actions', () => {
       });
     });
 
+    describe('Dropped row', () => {
+      test('shows the "Dropped" pill and hides the Drop action once dropped', () => {
+        const { container } = renderFacRow(facProps({
+          courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept', role: 'Facilitator' }),
+          group: null,
+          isDroppedOut: true,
+        }));
+        expect(container.textContent).toContain('Dropped');
+        expect(openOverflowItems(container)).not.toContain('Drop or defer course');
+      });
+    });
+
     describe('Past row', () => {
       const past = (overrides: Partial<FacilitatorRowProps> = {}) => facProps({
         courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', role: 'Facilitator' }),

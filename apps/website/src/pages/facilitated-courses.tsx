@@ -1,12 +1,12 @@
-import type { CourseRegistration } from '@bluedot/db';
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
-import { type CourseListRowProps } from '../components/my-courses/CourseListRow';
-import { isAutoExpandCandidate } from '../components/my-courses/useCourseListRow';
+import {
+  TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab,
+} from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -14,54 +14,10 @@ import { trpc } from '../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.facilitatedCourses;
 
-const TABS = [
-  { id: 'inProgress', label: 'In Progress' },
-  { id: 'upcoming', label: 'Upcoming' },
-  { id: 'pastCourses', label: 'Past Courses' },
-] as const;
-
-type CourseTab = typeof TABS[number]['id'];
-const isCourseTab = (value: unknown): value is CourseTab => TABS.some((t) => t.id === value);
-
 const EMPTY_MESSAGE: Record<CourseTab, string> = {
   inProgress: 'You are not facilitating any active courses.',
   upcoming: 'No upcoming facilitator assignments.',
   pastCourses: 'No past facilitator assignments.',
-};
-
-const sortByStartDateAsc = (courses: CourseListRowProps[]): CourseListRowProps[] => [...courses]
-  .sort((a, b) => {
-    const aStart = a.roundStartDate ? new Date(a.roundStartDate).getTime() : 0;
-    const bStart = b.roundStartDate ? new Date(b.roundStartDate).getTime() : 0;
-    return aStart - bStart;
-  });
-
-const sortByEndDateDesc = (courses: CourseListRowProps[]): CourseListRowProps[] => [...courses]
-  .sort((a, b) => {
-    const aEnd = a.roundEndDate ? new Date(a.roundEndDate).getTime() : 0;
-    const bEnd = b.roundEndDate ? new Date(b.roundEndDate).getTime() : 0;
-    return bEnd - aEnd;
-  });
-
-export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> => {
-  const assignTab = (cr: CourseRegistration): CourseTab | null => {
-    if (cr.roundStatus === 'Active') return 'inProgress';
-    if (cr.roundStatus === 'Future') return 'upcoming';
-    if (cr.roundStatus === 'Past' || cr.certificateCreatedAt) return 'pastCourses';
-    return null;
-  };
-
-  const buckets: Record<CourseTab, CourseListRowProps[]> = { inProgress: [], upcoming: [], pastCourses: [] };
-  for (const row of courses ?? []) {
-    const tab = assignTab(row.courseRegistration);
-    if (tab) buckets[tab].push(row);
-  }
-
-  return {
-    inProgress: sortByStartDateAsc(buckets.inProgress),
-    upcoming: sortByStartDateAsc(buckets.upcoming),
-    pastCourses: sortByEndDateDesc(buckets.pastCourses),
-  };
 };
 
 type NextDiscussionItem = { discussion: { startDateTime: number } };

@@ -6,7 +6,9 @@ import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
 import { type CourseListRowProps } from '../components/my-courses/CourseListRow';
-import { isAutoExpandCandidate } from '../components/my-courses/useCourseListRow';
+import {
+  TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab as bucketRowsByTab,
+} from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -14,81 +16,24 @@ import { trpc } from '../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.myCourses;
 
-const TABS = [
-  { id: 'inProgress', label: 'In Progress' },
-  { id: 'upcoming', label: 'Upcoming' },
-  { id: 'pastCourses', label: 'Past Courses' },
-] as const;
-
-type CourseTab = typeof TABS[number]['id'];
-const isCourseTab = (value: unknown): value is CourseTab => TABS.some((t) => t.id === value);
-
 const EMPTY_MESSAGE: Record<CourseTab, string> = {
   inProgress: 'You are not enrolled in any active courses.',
   upcoming: 'No upcoming courses to show.',
   pastCourses: 'No past courses to show.',
 };
 
-/**
- * Sort by latest "open" (not-attended, not-past) discussion descending. This forces
- * courses with any remaining discussions to bubble above fully-completed ones that
- * are just waiting for a certificate.
-*/
-const sortByFinalDiscussionDesc = (courses: CourseListRowProps[]): CourseListRowProps[] => {
-  const nowSec = Math.floor(Date.now() / 1000);
-  const sortKey = (c: CourseListRowProps): number => {
-    const attendedSet = new Set(c.attendedDiscussionIds);
-
-    const openTimes = c.discussions
-      .filter((d) => !attendedSet.has(d.id) && d.endDateTime >= nowSec)
-      .map((d) => d.startDateTime);
-
-    if (openTimes.length > 0) {
-      return Math.max(...openTimes);
-    }
-
-    if (c.roundStartDate) {
-      return new Date(c.roundStartDate).getTime() / 1000;
-    }
-
-    return 0;
-  };
-
-  return [...courses].sort((a, b) => sortKey(b) - sortKey(a));
+// Participants see rejected applications only while the round is still Future, and rows must have a
+// bucketable round status (or a certificate). Facilitators don't filter this way (their data is
+// pre-filtered server-side), so this stays on the participant page rather than in the shared bucketer.
+const isParticipantEligible = (row: CourseListRowProps): boolean => {
+  const { courseRegistration: cr } = row;
+  const hasBucketableStatus = cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || !!cr.certificateCreatedAt;
+  const visibleIfRejected = cr.decision !== 'Reject' || cr.roundStatus === 'Future';
+  return hasBucketableStatus && visibleIfRejected;
 };
 
-export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> => {
-  const assignTab = (row: CourseListRowProps): CourseTab | null => {
-    const { courseRegistration: cr, isDroppedOut, isDeferred } = row;
-    if (isDeferred) {
-      if (cr.roundStatus === 'Active') return 'inProgress';
-      if (cr.roundStatus === 'Future') return 'upcoming';
-      return null;
-    }
-
-    if (isDroppedOut) return 'pastCourses';
-    if (cr.roundStatus === 'Active') return 'inProgress';
-    if (cr.roundStatus === 'Future') return 'upcoming';
-    return 'pastCourses';
-  };
-
-  const eligible = (courses ?? [])
-    .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
-    .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
-
-  const buckets: Record<CourseTab, CourseListRowProps[]> = { inProgress: [], upcoming: [], pastCourses: [] };
-  for (const row of eligible) {
-    const tab = assignTab(row);
-    if (tab) buckets[tab].push(row);
-  }
-
-  return {
-    inProgress: sortByFinalDiscussionDesc(buckets.inProgress),
-    upcoming: sortByFinalDiscussionDesc(buckets.upcoming),
-    pastCourses: buckets.pastCourses
-      .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity)),
-  };
-};
+export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> =>
+  bucketRowsByTab(courses, isParticipantEligible);
 
 const MyCoursesPage = () => {
   const router = useRouter();

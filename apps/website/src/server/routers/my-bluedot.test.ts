@@ -1010,4 +1010,27 @@ describe('myBluedot.facilitatedCoursesPage', () => {
 
     expect(result.nextDiscussions.map((n) => n.discussion.id)).toEqual(['disc-fac', 'disc-later']);
   });
+
+  test('reports isDroppedOut and drops the row from the Next card when the facilitator has a Drop out record', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.insert(dropoutTable, { id: 'fac-dropout', applicantId: [REG_ID], type: 'Drop out' });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    const [row] = result.courses;
+    expect(row?.isDroppedOut).toBe(true);
+    expect(row?.isDeferred).toBe(false);
+    expect(result.nextDiscussions).toEqual([]);
+  });
+
+  test('reports isDeferred (not dropped) when the facilitator has a Deferral record', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.insert(dropoutTable, { id: 'fac-defer', applicantId: [REG_ID], type: 'Deferral' });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    const [row] = result.courses;
+    expect(row?.isDeferred).toBe(true);
+    expect(row?.isDroppedOut).toBe(false);
+  });
 });

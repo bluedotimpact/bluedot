@@ -317,9 +317,10 @@ export const myBluedotRouter = router({
       return { courses: [] as FacilitatorRowProps[], nextDiscussions: [] };
     }
 
-    const [courses, meetPersons] = await Promise.all([
+    const [courses, meetPersons, dropoutStatusByRegId] = await Promise.all([
       fetchActiveCoursesByIds(unique(courseRegistrations.map((cr) => cr.courseId))),
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
+      fetchDropoutStatusByRegId(courseRegistrations.map((cr) => cr.id)),
     ]);
 
     // Groups + discussions (from meetPersons), rounds (from regs).
@@ -352,6 +353,7 @@ export const myBluedotRouter = router({
       if (!course) return [];
       const meetPerson = meetPersons.find((mp) => mp.applicationsBaseRecordId === cr.id);
       const round = cr.roundId ? roundById.get(cr.roundId) : null;
+      const status = dropoutStatusByRegId.get(cr.id) ?? { isDroppedOut: false, isDeferred: false };
       const baseRow = {
         mode: 'facilitator' as const,
         courseRegistration: cr,
@@ -362,8 +364,8 @@ export const myBluedotRouter = router({
         roundEndDate: round?.lastDiscussionDate ?? null,
         roundIntensity: round?.intensity ?? null,
         hasSubmittedFeedback: (meetPerson?.courseFeedback?.length ?? 0) > 0,
-        isDroppedOut: false,
-        isDeferred: false,
+        isDroppedOut: status.isDroppedOut,
+        isDeferred: status.isDeferred,
       };
 
       const emptyRow: FacilitatorRowProps = {
@@ -410,6 +412,7 @@ export const myBluedotRouter = router({
     const nextDiscussions = perRow
       .flatMap((row) => {
         if (!row.group) return [];
+        if (row.isDroppedOut && !row.isDeferred) return [];
         const soonest = row.discussions.find((d) => d.endDateTime > nowSec);
         if (!soonest) return [];
 

@@ -39,6 +39,94 @@ export const isAutoExpandCandidate = (row: CourseListRowProps): boolean => {
   return canExpandRow(state, row.attendedDiscussionIds) && row.discussions.length > 0;
 };
 
+export const TABS = [
+  { id: 'inProgress', label: 'In Progress' },
+  { id: 'upcoming', label: 'Upcoming' },
+  { id: 'pastCourses', label: 'Past Courses' },
+] as const;
+
+export type CourseTab = typeof TABS[number]['id'];
+
+export const isCourseTab = (value: unknown): value is CourseTab => TABS.some((t) => t.id === value);
+
+/**
+ * Sort by latest "open" (not-attended, not-past) discussion descending. This forces
+ * courses with any remaining discussions to bubble above fully-completed ones that
+ * are just waiting for a certificate.
+*/
+const sortByFinalDiscussionDesc = (courses: CourseListRowProps[]): CourseListRowProps[] => {
+  const nowSec = Math.floor(Date.now() / 1000);
+  const sortKey = (c: CourseListRowProps): number => {
+    const attendedSet = new Set(c.attendedDiscussionIds);
+
+    const openTimes = c.discussions
+      .filter((d) => !attendedSet.has(d.id) && d.endDateTime >= nowSec)
+      .map((d) => d.startDateTime);
+
+    if (openTimes.length > 0) {
+      return Math.max(...openTimes);
+    }
+
+    if (c.roundStartDate) {
+      return new Date(c.roundStartDate).getTime() / 1000;
+    }
+
+    return 0;
+  };
+
+  return [...courses].sort((a, b) => sortKey(b) - sortKey(a));
+};
+
+// Past tab: rows still missing a certificate sort to the top to nudge completion; within each
+// group, most-recent first (certificate date, else round end date). Facilitators never have a
+// certificate, so all their past rows fall in the top group and order by round end date.
+const sortByPastDesc = (courses: CourseListRowProps[]): CourseListRowProps[] => {
+  const recency = (c: CourseListRowProps): number => {
+    if (c.courseRegistration.certificateCreatedAt) return c.courseRegistration.certificateCreatedAt;
+    if (c.roundEndDate) return new Date(c.roundEndDate).getTime() / 1000;
+    return 0;
+  };
+
+  return [...courses].sort((a, b) => {
+    const aHasCert = !!a.courseRegistration.certificateCreatedAt;
+    const bHasCert = !!b.courseRegistration.certificateCreatedAt;
+    if (aHasCert !== bHasCert) return aHasCert ? 1 : -1;
+    return recency(b) - recency(a);
+  });
+};
+
+const assignTab = (row: CourseListRowProps): CourseTab | null => {
+  const { courseRegistration: cr, isDroppedOut, isDeferred } = row;
+  // Deferred rows keep a live track, so bucket them by round status; a drop wins over Future.
+  if (isDeferred) {
+    if (cr.roundStatus === 'Active') return 'inProgress';
+    if (cr.roundStatus === 'Future') return 'upcoming';
+    return null;
+  }
+
+  if (isDroppedOut) return 'pastCourses';
+  if (cr.roundStatus === 'Active') return 'inProgress';
+  if (cr.roundStatus === 'Future') return 'upcoming';
+  return 'pastCourses';
+};
+
+export const bucketCoursesByTab = (
+  courses: CourseListRowProps[] | undefined,
+  isEligible: (row: CourseListRowProps) => boolean = () => true,
+): Record<CourseTab, CourseListRowProps[]> => {
+  const buckets: Record<CourseTab, CourseListRowProps[]> = { inProgress: [], upcoming: [], pastCourses: [] };
+  for (const row of (courses ?? []).filter(isEligible)) {
+    const tab = assignTab(row);
+    if (tab) buckets[tab].push(row);
+  }
+
+  return {
+    inProgress: sortByFinalDiscussionDesc(buckets.inProgress),
+    upcoming: sortByFinalDiscussionDesc(buckets.upcoming),
+    pastCourses: sortByPastDesc(buckets.pastCourses),
+  };
+};
+
 export type ModalCallbacks = {
   onClickReschedule: (input: { unitNumber: string | null; switchType: SwitchType }) => void;
   onClickFacilitatorReschedule: (discussion: GroupDiscussion) => void;
@@ -322,6 +410,17 @@ const getFacilitatorActions = (
   const isPast = state === 'completed';
 
   return [
+    {
+      id: 'dropped-pill',
+      isVisible: state === 'dropped',
+      variant: 'inline',
+      inline: (
+        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+          <IoBan aria-hidden size={14} />
+          Dropped
+        </span>
+      ),
+    },
     {
       id: 'application-pending-pill',
       isVisible: isPending,
