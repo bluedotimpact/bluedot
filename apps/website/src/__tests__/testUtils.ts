@@ -158,7 +158,6 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
 
 export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   chunks: ['recuC87TILbjW4eF4'],
-  content: null,
   courseId: MOCK_COURSE_ID,
   courseSlug: 'test-course',
   courseTitle: 'Test Course',

@@ -209,12 +209,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <NextStepsChunk />
           ) : (
             <>
-              {/* chunk content → unit content if no chunks - Only render if there's actual content */}
-              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-              {(chunk?.chunkContent || unit.content) && (
+              {chunk?.chunkContent && (
                 <MarkdownExtendedRenderer className="mt-8 md:mt-6">
-                  {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-                  {chunk?.chunkContent || unit.content || ''}
+                  {chunk.chunkContent}
                 </MarkdownExtendedRenderer>
               )}
 
@@ -225,7 +222,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   exercises={chunk.exercises || []}
                   unitTitle={unit.title}
                   unitNumber={unitNumber}
-                  className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
+                  className={clsx(chunk?.chunkContent ? 'mt-8 md:mt-6' : 'mt-4')}
                   courseSlug={courseSlug}
                   chunkIndex={chunkIndex}
                 />
