@@ -1,3 +1,3 @@
-export { createRollups, rollupsFor } from './framework';
-export type { Compute, RollupGroup } from './framework';
+export { bindRollups } from './core';
+export type { RollupFunction, RollupGroup, RollupValue } from './core';
 export { rollupDefinitions } from './rollups';

@@ -269,6 +269,7 @@ export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitR
   syncedAudioUrl: null,
   year: 2024,
   autoNumberId: 1,
+  numCompletions: null,
   ...overrides,
 });
 

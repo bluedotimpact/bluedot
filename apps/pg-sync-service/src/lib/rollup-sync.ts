@@ -1,6 +1,6 @@
-import { createRollups, rollupDefinitions } from '@bluedot/rollups';
+import { bindRollups, rollupDefinitions } from '@bluedot/rollups';
 import { db } from './db';
 
-const rollups = createRollups(db, rollupDefinitions);
+const rollups = bindRollups(db, rollupDefinitions);
 
 export const recomputeRollups = () => rollups.invalidate();

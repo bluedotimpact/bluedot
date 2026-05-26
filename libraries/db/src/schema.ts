@@ -1184,6 +1184,12 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldUOh3MNUIf0vnYb',
     },
+    // Aggregate written back to Airtable by @bluedot/rollups, not synced in.
+    // TODO: replace with the real Airtable field id (placeholder).
+    numCompletions: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldUnitResourceNumComps',
+    },
   },
   deprecatedColumns: {
     avgRating: {

@@ -11,12 +11,12 @@ import {
 import {
   afterEach, beforeAll, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { createRollups } from './framework';
+import { bindRollups } from './core';
 import { rollupDefinitions } from './rollups';
 
 let db: PgAirtableDb;
 let testDb: TestPgAirtableDb;
-let rollups: ReturnType<typeof createRollups>;
+let rollups: ReturnType<typeof bindRollups>;
 
 beforeAll(async () => {
   const { pgClient, airtableClient } = createTestDbClients();
@@ -24,7 +24,7 @@ beforeAll(async () => {
     pgConnString: 'unused', airtableApiKey: 'unused', pgClient, airtableClient,
   });
   testDb = db as unknown as TestPgAirtableDb;
-  rollups = createRollups(db, rollupDefinitions);
+  rollups = bindRollups(db, rollupDefinitions);
   await pushTestSchema(db);
 });
 
@@ -97,6 +97,12 @@ describe('rollups.exercise (numCompletions)', () => {
 });
 
 describe('rollups.exercise edge cases', () => {
+  test('binding a field that is not a column on the table throws', () => {
+    expect(() => bindRollups(db, [
+      { table: exerciseTable, fields: { notAColumn: async () => ({}) } },
+    ])).toThrow(/notAColumn/);
+  });
+
   // Several users complete the same exercise at once, each firing its own single-row invalidate.
   // The inline writes race (a stale count can land last), but a full recompute reconciles it.
   test('concurrent completions may race inline, but a recompute makes the count correct', async () => {
