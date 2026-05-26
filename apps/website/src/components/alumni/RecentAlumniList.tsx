@@ -11,7 +11,7 @@ const RecentAlumniList = () => {
   const { data } = trpc.testimonials.getCommunityMembers.useQuery();
   const [expanded, setExpanded] = useState(false);
 
-  const alumni = (data ?? []).filter((t) => !t.isPrioritised);
+  const alumni = (data ?? []).filter((t) => !t.storyUrl);
 
   if (alumni.length === 0) return null;
 
@@ -31,8 +31,8 @@ const RecentAlumniList = () => {
           </H2>
         </div>
         <ul className="grid grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3 gap-x-10">
-          {visible.map((alum) => (
-            <li key={`${alum.name}-${alum.jobTitle}`}>
+          {visible.map((alum, index) => (
+            <li key={`${alum.name}-${alum.jobTitle}-${index}`}>
               <AlumniRow alum={alum} />
             </li>
           ))}
