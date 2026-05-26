@@ -151,8 +151,7 @@ const CertificatePage = ({
     url: `/certification?id=${certificateId}`,
     parentPages: [
       { title: 'Home', url: '/' },
-      { title: 'Settings', url: '/settings' },
-      { title: 'My Courses', url: '/settings/courses' },
+      { title: 'My Courses', url: '/my-courses' },
     ],
   };
 

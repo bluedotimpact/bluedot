@@ -15,6 +15,7 @@ import { jobsRouter } from './jobs';
 import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
 import { missionsRouter } from './missions';
+import { myBluedotRouter } from './my-bluedot';
 import { programsRouter } from './programs';
 import { resourcesRouter } from './resources';
 import { subscriptionPreferencesRouter } from './subscription-preferences';
@@ -39,6 +40,7 @@ export const appRouter = router({
   luma: lumaRouter,
   meetPerson: meetPersonRouter,
   missions: missionsRouter,
+  myBluedot: myBluedotRouter,
   programs: programsRouter,
   resources: resourcesRouter,
   subscriptionPreferences: subscriptionPreferencesRouter,

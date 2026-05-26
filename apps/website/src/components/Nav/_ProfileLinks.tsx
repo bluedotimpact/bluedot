@@ -25,6 +25,7 @@ export const ProfileLinks: React.FC<{
   const { openBugReport } = useBugReport();
 
   const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
+  const { data: facilitatorData } = trpc.myBluedot.hasFacilitatorRegistrations.useQuery();
   const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,
@@ -67,16 +68,24 @@ export const ProfileLinks: React.FC<{
       >
         <div className="profile-links__links flex flex-col gap-4 w-fit overflow-hidden mx-auto">
           <A
-            href={ROUTES.settingsAccount.url}
+            href={ROUTES.myCourses.url}
+            className={getNavLinkClasses()}
+            onClick={onToggleProfile}
+          >My Courses
+          </A>
+          {facilitatorData?.hasFacilitatorRegistrations && (
+            <A
+              href={ROUTES.facilitatedCourses.url}
+              className={getNavLinkClasses()}
+              onClick={onToggleProfile}
+            >Facilitated Courses
+            </A>
+          )}
+          <A
+            href={ROUTES.account.url}
             className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Account
-          </A>
-          <A
-            href={ROUTES.settingsCourses.url}
-            className={getNavLinkClasses()}
-            onClick={onToggleProfile}
-          >Courses
           </A>
           <A
             href={typeof window !== 'undefined'

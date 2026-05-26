@@ -4,10 +4,13 @@ import {
   courseTable,
   dropoutTable,
   eq,
+  groupTable,
+  inArray,
   meetPersonTable,
   notExists,
   sql,
 } from '@bluedot/db';
+import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
@@ -52,5 +55,60 @@ export const meetPersonRouter = router({
           ...(input.courseSlug ? [eq(courseTable.pg.slug, input.courseSlug)] : []),
         ));
       return results;
+    }),
+
+  /**
+   * Returns the people in a group. The caller must be a member of the group — either as a
+   * facilitator or a participant. Facilitators are listed first, then participants;
+   * both sorted alphabetically by name. The caller is excluded from both lists.
+   */
+  getGroupParticipants: protectedProcedure
+    .input(z.object({ groupId: z.string().min(1) }))
+    .query(async ({ input, ctx }) => {
+      const groupRows = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, input.groupId));
+      const group = groupRows[0];
+      if (!group) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'group not found' });
+      }
+
+      const callerMeetPersons = await db.pg
+        .select({ id: meetPersonTable.pg.id })
+        .from(meetPersonTable.pg)
+        .where(eq(meetPersonTable.pg.email, ctx.auth.email));
+      const callerMeetPersonIds = new Set(callerMeetPersons.map((m) => m.id));
+
+      const facilitatorIdsArr = group.facilitator ?? [];
+      const participantIdsArr = group.participants ?? [];
+      const callerIsMember = facilitatorIdsArr.some((id) => callerMeetPersonIds.has(id))
+        || participantIdsArr.some((id) => callerMeetPersonIds.has(id));
+      if (!callerIsMember) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'group not found' });
+      }
+
+      const otherFacilitatorIds = facilitatorIdsArr.filter((id) => !callerMeetPersonIds.has(id));
+      const otherParticipantIds = participantIdsArr.filter((id) => !callerMeetPersonIds.has(id));
+      const allOtherIds = [...otherFacilitatorIds, ...otherParticipantIds];
+      if (allOtherIds.length === 0) return { facilitators: [], participants: [] };
+
+      const people = await db.pg
+        .select({
+          id: meetPersonTable.pg.id,
+          name: meetPersonTable.pg.name,
+        })
+        .from(meetPersonTable.pg)
+        .where(inArray(meetPersonTable.pg.id, allOtherIds));
+      const peopleById = new Map(people.map((p) => [p.id, { id: p.id, name: p.name ?? '' }]));
+
+      const facilitators = otherFacilitatorIds
+        .map((id) => peopleById.get(id))
+        .filter((p): p is { id: string; name: string } => !!p)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      const participants = otherParticipantIds
+        .map((id) => peopleById.get(id))
+        .filter((p): p is { id: string; name: string } => !!p)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      return { facilitators, participants };
     }),
 });
