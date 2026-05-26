@@ -291,7 +291,6 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
                   key={unit.id}
                   href={`/courses/${course.slug}/${unit.unitNumber}`}
                   title={unit.title}
-                  summary={unit.description || undefined}
                   meta={`Unit ${unit.unitNumber}`}
                   ctaLabel="View unit"
                 />

@@ -28,7 +28,6 @@ const seedUnit = (id: string, courseSlug: string, unitNumber: string, opts: { un
     courseSlug,
     title: id,
     unitNumber,
-    description: id,
     unitStatus: opts.unitStatus ?? 'Active',
   });
 
