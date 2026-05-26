@@ -128,6 +128,31 @@ describe('Toaster', () => {
     expect(useToastStore.getState().toasts).toHaveLength(0);
   });
 
+  test('resumes countdown from elapsed time after unpause', () => {
+    render(<Toaster />);
+    act(() => {
+      toast('Hover');
+    });
+    const region = screen.getByRole('region');
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+    fireEvent.mouseEnter(region);
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
+    fireEvent.mouseLeave(region);
+    // Only ~1000ms of the original 4000ms remain. 900ms still visible, then exiting.
+    act(() => {
+      vi.advanceTimersByTime(900);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('visible');
+    act(() => {
+      vi.advanceTimersByTime(200);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('exiting');
+  });
+
   test('dedupe with shorter duration resets countdown', () => {
     render(<Toaster />);
     act(() => {

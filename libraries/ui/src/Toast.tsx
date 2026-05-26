@@ -51,20 +51,23 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
     }
 
     if (paused) {
-      if (timeoutRef.current && startedAtRef.current !== null) {
-        clearTimeout(timeoutRef.current);
-        remainingRef.current -= Date.now() - startedAtRef.current;
-        timeoutRef.current = null;
-      }
-
       return undefined;
     }
 
     startedAtRef.current = Date.now();
     timeoutRef.current = setTimeout(() => startExit(toast.id), remainingRef.current);
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+
+      // Capture elapsed time so a subsequent resume continues from where it left off
+      // rather than restarting from the full duration.
+      if (startedAtRef.current !== null) {
+        remainingRef.current = Math.max(0, remainingRef.current - (Date.now() - startedAtRef.current));
+        startedAtRef.current = null;
+      }
     };
   }, [paused, toast.status, toast.id, toast.duration, remove, startExit]);
 
