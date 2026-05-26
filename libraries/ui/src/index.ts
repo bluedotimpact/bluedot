@@ -82,6 +82,11 @@ export type { TimeAvailabilityGridProps, TimeAvailabilityMap } from './TimeAvail
 export { TimePicker } from './TimePicker';
 export type { TimePickerProps } from './TimePicker';
 
+export { Toaster } from './Toast';
+export {
+  toast, useToastStore, type ToastOptions, type ToastEntry, type ToastVariant,
+} from './toastStore';
+
 export { ToggleSwitch } from './ToggleSwitch';
 export type { ToggleSwitchProps } from './ToggleSwitch';
 
