@@ -70,7 +70,7 @@ const handlers = [
 ];
 
 const meta: Meta<typeof UnitLayout> = {
-  title: 'Courses/UnitLayout',
+  title: 'website/courses/UnitLayout',
   component: UnitLayout,
   parameters: {
     layout: 'fullscreen',

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import FacilitatorFeedbackHeader from './FacilitatorFeedbackHeader';
 
 const meta = {
-  title: 'Courses/FacilitatorFeedbackHeader',
+  title: 'website/courses/FacilitatorFeedbackHeader',
   component: FacilitatorFeedbackHeader,
   parameters: {
     layout: 'fullscreen',
