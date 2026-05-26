@@ -132,7 +132,6 @@ const CurriculumUnit = ({
   const coursePattern = courseName.split(' ').join('[\\s-]');
   const regex = new RegExp(`^${coursePattern}\\s*-\\s*`, 'i');
   const unitTitle = rawTitle.replace(regex, '').trim();
-  const { description } = unit;
 
   const handleToggle = () => {
     if (!isOpen && onExpand) {
@@ -173,11 +172,6 @@ const CurriculumUnit = ({
       >
         <div className="overflow-hidden">
           <div className="flex flex-col gap-3 pb-[18px] pl-9 pr-3 max-[679px]:pl-6">
-            {description && (
-              <P className="text-bluedot-navy/80 whitespace-pre-line">
-                {description}
-              </P>
-            )}
             {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             {(metadataLoading || metadata || metadataError) && (
               <UnitMetadataDisplay
