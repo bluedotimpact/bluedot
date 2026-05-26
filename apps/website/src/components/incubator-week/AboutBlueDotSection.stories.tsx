@@ -25,13 +25,6 @@ export const Default: Story = {
   },
 };
 
-export const WithCustomCtaLabel: Story = {
-  args: {
-    applicationUrl: 'https://example.com/apply',
-    ctaLabel: 'Register interest',
-  },
-};
-
 export const NoApplicationUrl: Story = {
   args: {
     applicationUrl: undefined,
