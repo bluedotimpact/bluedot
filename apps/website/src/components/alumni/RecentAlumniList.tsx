@@ -3,6 +3,7 @@ import { CTALinkOrButton, H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import { trpc } from '../../utils/trpc';
 import type { TransformedTestimonial } from '../../server/routers/testimonials';
+import AlumniAvatar from './AlumniAvatar';
 
 const COLLAPSED_ROWS = 3;
 const COLS_LG = 3;
@@ -55,10 +56,10 @@ const RecentAlumniList = () => {
 const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
   const content = (
     <div className="flex items-center gap-3 py-3.5 border-b border-bluedot-navy/10">
-      <img
-        src={alum.imageSrc}
-        alt={alum.name}
-        className="size-11 rounded-full object-cover flex-shrink-0"
+      <AlumniAvatar
+        name={alum.name}
+        imageSrc={alum.imageSrc}
+        className="size-11 text-size-xs"
       />
       <div className="flex-1 min-w-0">
         <P className="text-size-sm font-semibold leading-tight text-bluedot-navy truncate">{alum.name}</P>

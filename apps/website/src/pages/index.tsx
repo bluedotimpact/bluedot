@@ -15,7 +15,9 @@ const LINK_PREVIEW_IMAGE = 'https://bluedot.org/images/logo/link-preview-fallbac
 const HomePage = () => {
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
 
-  const testimonials = dbTestimonials?.map((t): TestimonialMember => ({ ...t })) ?? [];
+  const testimonials = (dbTestimonials ?? [])
+    .filter((t) => t.imageSrc)
+    .map((t): TestimonialMember => ({ ...t }));
 
   return (
     <div>
