@@ -64,10 +64,13 @@ const handlers = [
   trpcStorybookMsw.grants.getRapidGrantStats.query(() => ({
     count: 42,
     totalAmountUsd: 184500,
+    averageHoursToDecision: 48,
+    p90DaysToDecision: 7,
   })),
   trpcStorybookMsw.grants.getCareerTransitionGrantStats.query(() => ({
     count: 8,
     totalAmountUsd: 360000,
+    averageDaysToDecision: 14,
   })),
 ];
 
