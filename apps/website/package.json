@@ -22,6 +22,7 @@
   "dependencies": {
     "@bluedot/db": "*",
     "@bluedot/docker-scripts": "*",
+    "@bluedot/rollups": "*",
     "@bluedot/ui": "*",
     "@bluedot/utils": "*",
     "@customerio/cdp-analytics-browser": "^0.3.8",

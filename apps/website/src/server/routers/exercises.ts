@@ -15,8 +15,10 @@ import {
   or,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { logger } from '@bluedot/ui/src/api';
 import { z } from 'zod';
 import db from '../../lib/api/db';
+import rollups from '../../lib/api/rollups';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { issueFoaiCertificateIfComplete } from './certificates';
@@ -75,6 +77,14 @@ export const exercisesRouter = router({
           response: input.response,
           completedAt: completedAt ?? null,
         });
+
+      if (input.completed !== undefined) {
+        try {
+          await rollups.invalidate({ field: exerciseTable.pg.numCompletions, id: input.exerciseId });
+        } catch (error) {
+          logger.error('Failed to refresh exercise numCompletions rollup', error);
+        }
+      }
 
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
         ? await issueFoaiCertificateIfComplete(ctx.auth.email)

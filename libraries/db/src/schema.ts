@@ -1234,6 +1234,12 @@ export const exerciseTable = pgAirtable('exercise', {
       pgColumn: text(),
       airtableId: 'flda5e542i9w1nBzv',
     },
+    // Aggregate written back to Airtable by @bluedot/rollups, not synced in.
+    // TODO: replace with the real Airtable field id (placeholder).
+    numCompletions: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldExerciseNumComps',
+    },
   },
   deprecatedColumns: {
     unitNumber: {
