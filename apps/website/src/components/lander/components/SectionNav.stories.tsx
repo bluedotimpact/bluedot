@@ -16,7 +16,7 @@ const meta = {
   decorators: [
     (Story) => (
       <div className="min-h-[200vh]">
-        <div className="min-h-[600px] flex items-center justify-center bg-color-canvas">
+        <div className="min-h-[600px] flex items-center justify-center bg-bluedot-lightest">
           Scroll down to reveal the SectionNav. It only appears once you scroll past ~500px.
         </div>
         <Story />
