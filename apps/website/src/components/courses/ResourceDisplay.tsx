@@ -4,7 +4,6 @@ import { Collapsible, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ResourceListItem } from './ResourceListItem';
 import Exercise from './exercises/Exercise';
-import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { trpc } from '../../utils/trpc';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
@@ -52,7 +51,6 @@ export const filterResourcesByType = <T extends { coreFurtherMaybe?: string | nu
 type ResourceDisplayProps = {
   resources: UnitResource[];
   exercises?: ExerciseType[];
-  unitDescription?: string;
   className?: string;
   unitTitle?: string;
   unitNumber?: string;
@@ -63,7 +61,6 @@ type ResourceDisplayProps = {
 export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   resources,
   exercises = [],
-  unitDescription,
   className = '',
   unitTitle,
   unitNumber,
@@ -95,16 +92,9 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
   return (
     <section className={`resource-display ${className}`} aria-label={unitContext || 'Course resources and exercises'}>
-      {/* Unit description (for unit resource page) */}
-      {unitDescription && (
-        <section className="resource-display__description">
-          <MarkdownExtendedRenderer>{unitDescription}</MarkdownExtendedRenderer>
-        </section>
-      )}
-
       {/* Core Resources */}
       {coreResources.length > 0 && (
-        <section className={`resource-display__core ${unitDescription ? 'mt-8' : ''}`}>
+        <section className="resource-display__core">
           <h4
             id={resourcesHeadingId}
             className="text-size-md font-semibold leading-[140%] tracking-normal mb-6 bluedot-h4 not-prose"
@@ -129,7 +119,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
       {/* Exercises */}
       {exercises.length > 0 && (
-        <section className={`${coreResources.length > 0 || unitDescription ? 'mt-8' : ''}`}>
+        <section className={`${coreResources.length > 0 ? 'mt-8' : ''}`}>
           <h4
             id={exercisesHeadingId}
             className="text-size-md font-semibold leading-[140%] tracking-normal mb-6 bluedot-h4 not-prose"
