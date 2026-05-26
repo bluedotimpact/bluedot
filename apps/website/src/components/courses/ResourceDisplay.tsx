@@ -94,7 +94,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
     <section className={`resource-display ${className}`} aria-label={unitContext || 'Course resources and exercises'}>
       {/* Core Resources */}
       {coreResources.length > 0 && (
-        <section className="resource-display__core">
+        <section>
           <h4
             id={resourcesHeadingId}
             className="text-size-md font-semibold leading-[140%] tracking-normal mb-6 bluedot-h4 not-prose"
