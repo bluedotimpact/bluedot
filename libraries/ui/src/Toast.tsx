@@ -110,7 +110,6 @@ export const Toaster = () => {
       <div
         role="region"
         aria-label="Notifications"
-        aria-live="polite"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onFocus={() => setPaused(true)}
