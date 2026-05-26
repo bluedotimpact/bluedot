@@ -117,9 +117,10 @@ export const Toaster = () => {
         onBlur={() => setPaused(false)}
         className={cn(
           // z-70 sits one step above Modal/BottomDrawerModal (z-60) so toasts surface over dialogs.
+          // Newest toast sits nearest the anchor edge: top on desktop, bottom on mobile.
           'pointer-events-none fixed z-70 flex flex-col gap-2',
-          'right-4 bottom-4 left-4 flex-col-reverse items-center',
-          'md:top-4 md:right-4 md:bottom-auto md:left-auto md:flex-col md:items-end',
+          'right-4 bottom-4 left-4 items-center',
+          'md:top-4 md:right-4 md:bottom-auto md:left-auto md:flex-col-reverse md:items-end',
         )}
       >
         {toasts.map((t) => (
