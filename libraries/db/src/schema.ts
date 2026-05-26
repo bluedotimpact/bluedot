@@ -1097,10 +1097,6 @@ export const unitTable = pgAirtable('unit', {
       pgColumn: text().notNull(),
       airtableId: 'fldN9BV8GGUHFu9sz',
     },
-    content: {
-      pgColumn: text(),
-      airtableId: 'fldF9hjDhZpLbBIUV',
-    },
     duration: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldGdibgcMgRbnuvp',
@@ -1131,6 +1127,11 @@ export const unitTable = pgAirtable('unit', {
     path: {
       pgColumn: text(),
       airtableId: 'fldEY7ZHZtXrBL3nv',
+      deprecated: true,
+    },
+    content: {
+      pgColumn: text(),
+      airtableId: 'fldF9hjDhZpLbBIUV',
       deprecated: true,
     },
   },
