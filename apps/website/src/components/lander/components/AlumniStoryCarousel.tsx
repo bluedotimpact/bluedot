@@ -8,6 +8,7 @@ import {
 import Link from 'next/link';
 import { H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
+import AlumniAvatar from '../../alumni/AlumniAvatar';
 
 export type AlumniStory = {
   name: string;
@@ -307,10 +308,10 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
     {/* Top section with image and info */}
     <div className="flex items-start gap-4 p-5 bd-md:p-6 border-b border-bluedot-navy/6">
-      <img
-        src={story.imageSrc}
-        alt={story.name}
-        className="size-16 bd-md:size-20 rounded-full object-cover flex-shrink-0"
+      <AlumniAvatar
+        name={story.name}
+        imageSrc={story.imageSrc}
+        className="size-16 bd-md:size-20 text-size-md bd-md:text-size-lg"
       />
       <div className="flex flex-col gap-1 min-w-0 pt-1">
         <P className="text-size-md font-semibold leading-[130%] text-bluedot-navy truncate">
