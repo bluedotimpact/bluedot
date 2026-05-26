@@ -122,7 +122,9 @@ const CourseLander = ({
 
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery({ courseSlug });
 
-  const testimonials = dbTestimonials?.map((t): TestimonialMember => ({ ...t }));
+  const testimonials = (dbTestimonials ?? [])
+    .filter((t) => t.imageSrc)
+    .map((t): TestimonialMember => ({ ...t }));
   const shouldShowTestimonials = Boolean(testimonials && testimonials.length > 0 && !content.hideTestimonials);
   const testimonialsSection = shouldShowTestimonials ? (
     <>
