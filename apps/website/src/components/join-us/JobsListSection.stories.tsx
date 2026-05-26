@@ -79,12 +79,6 @@ export const Default: Story = {
   },
 };
 
-export const NoOpenRoles: Story = {
-  args: {
-    jobs: [],
-  },
-};
-
 export const ContractorOnly: Story = {
   args: {
     jobs: sampleJobs.filter((job) => job.category === 'Contractor'),
