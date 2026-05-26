@@ -917,6 +917,10 @@ export const testimonialTable = pgAirtable('testimonial', {
       pgColumn: text(),
       airtableId: 'fldVnQirLcMiPta5A',
     },
+    storyUrl: {
+      pgColumn: text(),
+      airtableId: 'fldsfYjbeOTtWNqZX',
+    },
   },
 });
 
