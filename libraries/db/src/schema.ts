@@ -913,6 +913,10 @@ export const testimonialTable = pgAirtable('testimonial', {
       pgColumn: text(),
       airtableId: 'fldSBm8bIIR5JAaeo',
     },
+    courseRelationship: {
+      pgColumn: text(),
+      airtableId: 'fldVnQirLcMiPta5A',
+    },
   },
 });
 
