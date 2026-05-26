@@ -73,11 +73,3 @@ export const Default: Story = {
     stories: sampleStories,
   },
 };
-
-export const WithSubtitle: Story = {
-  args: {
-    title: 'People who took this path',
-    subtitle: 'A few alumni share where the course took them next.',
-    stories: sampleStories,
-  },
-};
