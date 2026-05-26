@@ -100,7 +100,12 @@ export const Toaster = () => {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    return () => {
+      // Clear paused state if Toaster unmounts while hovered/focused, otherwise
+      // future toasts after remount would never auto-dismiss.
+      setPaused(false);
+    };
+  }, [setPaused]);
 
   if (!mounted) return null;
 
