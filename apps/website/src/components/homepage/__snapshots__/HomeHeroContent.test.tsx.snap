@@ -225,6 +225,13 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                     </div>
                     <a
                       class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                      href="/alumni"
+                      tabindex="0"
+                    >
+                      Alumni
+                    </a>
+                    <a
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/about"
                       tabindex="0"
                     >
@@ -434,6 +441,13 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               </div>
               <a
                 class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                href="/alumni"
+                tabindex="0"
+              >
+                Alumni
+              </a>
+              <a
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/about"
                 tabindex="0"
               >
@@ -531,7 +545,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="OpenAI"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/openai.svg"
                     />
@@ -539,7 +553,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Anthropic"
-                      class="h-6 !h-3"
+                      class="h-6 grayscale opacity-80 !h-3"
                       fetchpriority="high"
                       src="/images/third-party-logos/anthropic.svg"
                     />
@@ -547,7 +561,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Google DeepMind"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/deepmind.svg"
                     />
@@ -555,15 +569,47 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="AI Security Institute"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/aisi.webp"
                     />
                   </li>
                   <li>
                     <img
+                      alt="Apollo Research"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/apollo.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="METR"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/metr.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Redwood Research"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/redwood.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Meridian Research Labs"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/meridian.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
                       alt="United Nations"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/un.webp"
                     />
@@ -571,7 +617,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Amnesty International"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/amnesty.webp"
                     />
@@ -579,7 +625,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Time"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/time.webp"
                     />
@@ -587,15 +633,23 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="NATO"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/nato.webp"
                     />
                   </li>
                   <li>
                     <img
+                      alt="Tony Blair Institute"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/tbi.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
                       alt="Stanford HAI"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/hai.webp"
                     />
@@ -603,7 +657,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Apple"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/apple.webp"
                     />
@@ -611,9 +665,25 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Harvard Kennedy School"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/harvard.webp"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="SecureBio"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/securebio.webp"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="1Day Sooner"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/1day-sooner.webp"
                     />
                   </li>
                 </ul>
@@ -625,7 +695,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="OpenAI"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/openai.svg"
                     />
@@ -633,7 +703,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Anthropic"
-                      class="h-6 !h-3"
+                      class="h-6 grayscale opacity-80 !h-3"
                       fetchpriority="high"
                       src="/images/third-party-logos/anthropic.svg"
                     />
@@ -641,7 +711,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Google DeepMind"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/deepmind.svg"
                     />
@@ -649,15 +719,47 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="AI Security Institute"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/aisi.webp"
                     />
                   </li>
                   <li>
                     <img
+                      alt="Apollo Research"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/apollo.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="METR"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/metr.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Redwood Research"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/redwood.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Meridian Research Labs"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/meridian.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
                       alt="United Nations"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/un.webp"
                     />
@@ -665,7 +767,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Amnesty International"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/amnesty.webp"
                     />
@@ -673,7 +775,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Time"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/time.webp"
                     />
@@ -681,15 +783,23 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="NATO"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/nato.webp"
                     />
                   </li>
                   <li>
                     <img
+                      alt="Tony Blair Institute"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/tbi.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
                       alt="Stanford HAI"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/hai.webp"
                     />
@@ -697,7 +807,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Apple"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/apple.webp"
                     />
@@ -705,9 +815,25 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <li>
                     <img
                       alt="Harvard Kennedy School"
-                      class="h-6"
+                      class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/harvard.webp"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="SecureBio"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/securebio.webp"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="1Day Sooner"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/1day-sooner.webp"
                     />
                   </li>
                 </ul>

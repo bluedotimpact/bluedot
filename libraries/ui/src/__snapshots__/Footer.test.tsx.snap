@@ -109,6 +109,15 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -203,6 +212,15 @@ exports[`Footer > renders default as expected 1`] = `
             <ul
               class="flex flex-col gap-4 list-none p-0"
             >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
@@ -381,6 +399,15 @@ exports[`Footer > renders default as expected 1`] = `
             <ul
               class="flex flex-col gap-4 list-none p-0"
             >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
@@ -628,6 +655,15 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -730,6 +766,15 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             <ul
               class="flex flex-col gap-4 list-none p-0"
             >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
@@ -916,6 +961,15 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             <ul
               class="flex flex-col gap-4 list-none p-0"
             >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
@@ -1171,6 +1225,15 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -1265,6 +1328,15 @@ exports[`Footer > renders with optional args 1`] = `
             <ul
               class="flex flex-col gap-4 list-none p-0"
             >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
@@ -1443,6 +1515,15 @@ exports[`Footer > renders with optional args 1`] = `
             <ul
               class="flex flex-col gap-4 list-none p-0"
             >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+              </li>
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"

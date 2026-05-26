@@ -146,6 +146,12 @@ export const NavLinks: React.FC<{
         loading={loading}
       />
       <A
+        href={ROUTES.alumni.url}
+        className={getLinkClasses(isCurrentPath(ROUTES.alumni.url))}
+      >
+        Alumni
+      </A>
+      <A
         href={ROUTES.about.url}
         className={getLinkClasses(isCurrentPath(ROUTES.about.url))}
       >

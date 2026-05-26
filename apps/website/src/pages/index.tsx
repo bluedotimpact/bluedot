@@ -74,6 +74,7 @@ const HomePage = () => {
         subtitle="Learn more about the incredible work our community is doing."
         variant="homepage"
         hideQuotes
+        cta={{ label: 'Read alumni stories', url: '/alumni' }}
       />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />

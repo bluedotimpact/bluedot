@@ -21,6 +21,12 @@ const about: BluedotRoute = {
   parentPages: [home],
 };
 
+const alumni: BluedotRoute = {
+  title: 'Alumni stories',
+  url: '/alumni',
+  parentPages: [home],
+};
+
 const privacyPolicy: BluedotRoute = {
   title: 'Privacy Policy',
   url: '/privacy-policy',
@@ -126,6 +132,7 @@ const adminSyncDashboard: BluedotRoute = {
 export const ROUTES = {
   about,
   adminSyncDashboard,
+  alumni,
   blog,
   certification,
   contact,
