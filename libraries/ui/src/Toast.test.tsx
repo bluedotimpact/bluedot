@@ -128,6 +128,48 @@ describe('Toaster', () => {
     expect(useToastStore.getState().toasts).toHaveLength(0);
   });
 
+  test('dedupe with shorter duration resets countdown', () => {
+    render(<Toaster />);
+    act(() => {
+      toast('First', { id: 'x', duration: 4000 });
+    });
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+    act(() => {
+      toast('Second', { id: 'x', duration: 500 });
+    });
+    act(() => {
+      vi.advanceTimersByTime(450);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('visible');
+    act(() => {
+      vi.advanceTimersByTime(100);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('exiting');
+  });
+
+  test('dedupe with longer duration resets countdown', () => {
+    render(<Toaster />);
+    act(() => {
+      toast('First', { id: 'x', duration: 1000 });
+    });
+    act(() => {
+      vi.advanceTimersByTime(800);
+    });
+    act(() => {
+      toast('Second', { id: 'x', duration: 4000 });
+    });
+    act(() => {
+      vi.advanceTimersByTime(1500);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('visible');
+    act(() => {
+      vi.advanceTimersByTime(2600);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('exiting');
+  });
+
   test('success variant renders check icon', () => {
     render(<Toaster />);
     act(() => {
