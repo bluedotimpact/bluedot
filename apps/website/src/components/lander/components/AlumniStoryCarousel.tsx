@@ -15,6 +15,7 @@ export type AlumniStory = {
   story: ReactNode;
   imageSrc: string;
   url?: string;
+  storyUrl?: string;
 };
 
 export type AlumniStoryCarouselProps = {
@@ -277,7 +278,7 @@ const AlumniStoryCarousel = ({
             const sectionNumber = Math.floor(index / stories.length);
             const uniqueKey = `${story.name}-${index}-${sectionNumber}`;
             return (
-              <div key={uniqueKey}>
+              <div key={uniqueKey} className="flex">
                 <AlumniStoryCard story={story} />
               </div>
             );
@@ -300,7 +301,7 @@ const AlumniStoryCarousel = ({
   );
 };
 
-const cardClassName = 'flex flex-col flex-shrink-0 bg-white border border-bluedot-navy/10 rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-bluedot-navy/20 hover:shadow-lg transition-all duration-200';
+const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-bluedot-navy/20 hover:shadow-lg transition-all duration-200';
 
 const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
@@ -322,19 +323,26 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
     </div>
 
     {/* Story content */}
-    <div className="p-5 bd-md:p-6 flex-grow">
-      <P className="text-size-sm leading-[1.7] text-bluedot-navy/80">
+    <div className="p-5 bd-md:p-6 flex-grow flex flex-col gap-3">
+      <P className="text-size-sm leading-[1.7] text-bluedot-navy/80 line-clamp-5">
         {story.story}
       </P>
+      {story.storyUrl && (
+        <span className="mt-auto self-end text-size-xs font-semibold text-bluedot-normal whitespace-nowrap">
+          Read full story →
+        </span>
+      )}
     </div>
   </>
 );
 
 const AlumniStoryCard = ({ story }: { story: AlumniStory }) => {
-  if (story.url) {
+  const linkHref = story.storyUrl ?? story.url;
+
+  if (linkHref) {
     return (
       <Link
-        href={story.url}
+        href={linkHref}
         target="_blank"
         rel="noopener noreferrer"
         className={cardClassName}

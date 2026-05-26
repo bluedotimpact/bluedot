@@ -44,6 +44,9 @@ export type TransformedTestimonial = {
   imageSrc: string;
   url?: string;
   quote: string;
+  isPrioritised: boolean;
+  courseRelationship?: string;
+  storyUrl?: string;
 };
 
 function transformTestimonial(t: Testimonial): TransformedTestimonial {
@@ -53,6 +56,9 @@ function transformTestimonial(t: Testimonial): TransformedTestimonial {
     imageSrc: getFirstHeadshotUrl(t.headshotAttachmentUrls),
     url: t.profileUrl ?? undefined,
     quote: t.testimonialText ?? '',
+    isPrioritised: !!t.isPrioritised,
+    courseRelationship: t.courseRelationship ?? undefined,
+    storyUrl: t.storyUrl ?? undefined,
   };
 }
 

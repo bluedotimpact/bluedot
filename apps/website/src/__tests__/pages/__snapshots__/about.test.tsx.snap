@@ -252,6 +252,13 @@ exports[`AboutPage > should render correctly 1`] = `
                       </div>
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/alumni"
+                        tabindex="0"
+                      >
+                        Alumni
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         href="/about"
                         tabindex="0"
                       >
@@ -485,6 +492,13 @@ exports[`AboutPage > should render correctly 1`] = `
                     </div>
                   </div>
                 </div>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   href="/about"

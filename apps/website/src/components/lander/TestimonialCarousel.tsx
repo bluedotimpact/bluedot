@@ -5,7 +5,7 @@ import {
   useCallback,
 } from 'react';
 import Link from 'next/link';
-import { H2, P } from '@bluedot/ui';
+import { CTALinkOrButton, H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
 
 export type TestimonialMember = {
@@ -23,6 +23,8 @@ export type TestimonialCarouselProps = {
   variant?: 'homepage' | 'lander';
   /** When true, suppress the quote text on every card and show image + name + role only. */
   hideQuotes?: boolean;
+  /** Optional CTA shown beneath the carousel (e.g. linking to /alumni). */
+  cta?: { label: string; url: string };
 };
 
 /**
@@ -44,6 +46,7 @@ const TestimonialCarousel = ({
   subtitle,
   variant = 'homepage',
   hideQuotes = false,
+  cta,
 }: TestimonialCarouselProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isResettingRef = useRef(false);
@@ -283,6 +286,14 @@ const TestimonialCarousel = ({
             onClick={() => scroll('right')}
             disabled={false}
           />
+        </div>
+      )}
+
+      {cta && (
+        <div className="flex justify-center mt-10 bd-md:mt-12">
+          <CTALinkOrButton variant="secondary" withChevron url={cta.url}>
+            {cta.label}
+          </CTALinkOrButton>
         </div>
       )}
     </section>

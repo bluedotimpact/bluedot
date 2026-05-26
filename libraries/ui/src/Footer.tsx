@@ -86,6 +86,7 @@ export const Footer: React.FC<FooterProps> = ({
   className, logo, courses = [], programs = [], loading, onReportBug,
 }) => {
   const bluedotLinks: FooterLinkItem[] = [
+    { url: '/alumni', label: 'Alumni' },
     { url: '/about', label: 'About us' },
     { url: '/join-us', label: 'Join us' },
     { url: '/events?utm_source=website&utm_campaign=footer', label: 'Events' },

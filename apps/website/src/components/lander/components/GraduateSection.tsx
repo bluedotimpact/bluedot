@@ -6,13 +6,20 @@ const logos = [
   { src: '/images/third-party-logos/anthropic.svg', alt: 'Anthropic', customClassName: '!h-3' },
   { src: '/images/third-party-logos/deepmind.svg', alt: 'Google DeepMind' },
   { src: '/images/third-party-logos/aisi.webp', alt: 'AI Security Institute' },
+  { src: '/images/third-party-logos/apollo.svg', alt: 'Apollo Research' },
+  { src: '/images/third-party-logos/metr.svg', alt: 'METR' },
+  { src: '/images/third-party-logos/redwood.svg', alt: 'Redwood Research' },
+  { src: '/images/third-party-logos/meridian.svg', alt: 'Meridian Research Labs' },
   { src: '/images/third-party-logos/un.webp', alt: 'United Nations' },
   { src: '/images/third-party-logos/amnesty.webp', alt: 'Amnesty International' },
   { src: '/images/third-party-logos/time.webp', alt: 'Time' },
   { src: '/images/third-party-logos/nato.webp', alt: 'NATO' },
+  { src: '/images/third-party-logos/tbi.svg', alt: 'Tony Blair Institute' },
   { src: '/images/third-party-logos/hai.webp', alt: 'Stanford HAI' },
   { src: '/images/third-party-logos/apple.webp', alt: 'Apple' },
   { src: '/images/third-party-logos/harvard.webp', alt: 'Harvard Kennedy School' },
+  { src: '/images/third-party-logos/securebio.webp', alt: 'SecureBio' },
+  { src: '/images/third-party-logos/1day-sooner.webp', alt: '1Day Sooner' },
 ];
 
 const GraduateSection = () => {
@@ -36,7 +43,7 @@ const GraduateSection = () => {
               {logos.map((logo) => (
                 <li key={logo.src}>
                   {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
-                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
+                  <img className={clsx('h-6 grayscale opacity-80', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
                 </li>
               ))}
             </ul>
@@ -44,7 +51,7 @@ const GraduateSection = () => {
               {logos.map((logo) => (
                 <li key={logo.src}>
                   {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
-                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
+                  <img className={clsx('h-6 grayscale opacity-80', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
                 </li>
               ))}
             </ul>
