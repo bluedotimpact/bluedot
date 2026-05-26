@@ -153,5 +153,5 @@ Write comments only when the *why* is non-obvious. Don't add "NEW:" or "UPDATED:
 - Run `npm test` from `apps/website/` before opening the PR. See root `CLAUDE.md` → "Before opening a PR" for the full checklist.
 - Follow root `CLAUDE.md` → "PR conventions" for commit prefixes, screenshots, and date formats.
 - When writing PR descriptions, explain the user-visible impact in plain language before technical details.
-- For new components, ask if the user wants a Storybook story (useful for design review or reuse by non-technical team members).
+- For new user-facing components, add a Storybook story alongside (see root `CLAUDE.md` → "Before you start a task" for the full add/modify/remove sync rule).
 - Remember: merging ships to **staging only**. Production needs a `website/vX.Y.Z` release tag.
