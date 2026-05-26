@@ -33,10 +33,18 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
   const startExit = useToastStore((s) => s.startExit);
   const remove = useToastStore((s) => s.remove);
   const remainingRef = useRef(toast.duration);
+  const prevDurationRef = useRef(toast.duration);
   const startedAtRef = useRef<number | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    // Dedupe update: if the same toast id was re-fired with a new duration, reset countdown.
+    if (prevDurationRef.current !== toast.duration) {
+      remainingRef.current = toast.duration;
+      prevDurationRef.current = toast.duration;
+      startedAtRef.current = null;
+    }
+
     if (toast.status === 'exiting') {
       const timer = setTimeout(() => remove(toast.id), TOAST_EXIT_DURATION_MS);
       return () => clearTimeout(timer);
@@ -58,7 +66,7 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     };
-  }, [paused, toast.status, toast.id, remove, startExit]);
+  }, [paused, toast.status, toast.id, toast.duration, remove, startExit]);
 
   const isSuccess = toast.variant === 'success';
 
