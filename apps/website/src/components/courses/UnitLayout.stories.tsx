@@ -11,7 +11,6 @@ const mockUnits = [
     title: 'Introduction to AI Safety',
     courseTitle: 'AI Safety Fundamentals',
     unitNumber: '1',
-    content: 'Welcome to the introduction unit.',
   }),
   createMockUnit({
     id: 'unit-2',
