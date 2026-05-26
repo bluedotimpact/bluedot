@@ -58,11 +58,16 @@ const mockGrantees: PublicRapidGrant[] = [
   },
 ];
 
-const meta = {
+const meta: Meta<typeof GranteesListSection> = {
   title: 'website/Grants/GranteesListSection',
   component: GranteesListSection,
   parameters: {
     layout: 'fullscreen',
+    msw: {
+      handlers: [
+        trpcStorybookMsw.grants.getAllPublicRapidGrantees.query(() => mockGrantees),
+      ],
+    },
     docs: {
       description: {
         component: 'List of public rapid grant recipients. Supports an optional `limit` with a "Show more" toggle, an optional heading, and an optional title + subtitle.',
@@ -70,7 +75,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof GranteesListSection>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -80,26 +85,12 @@ export const Default: Story = {
     heading: 'Projects we\'ve funded',
     limit: 4,
   },
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.grants.getAllPublicRapidGrantees.query(() => mockGrantees),
-      ],
-    },
-  },
 };
 
 export const WithTitleAndSubtitle: Story = {
   args: {
     title: 'Projects we\'ve funded',
     subtitle: 'A selection of community projects funded through Rapid Grants in the last six months.',
-  },
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.grants.getAllPublicRapidGrantees.query(() => mockGrantees),
-      ],
-    },
   },
 };
 

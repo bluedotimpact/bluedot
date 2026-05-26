@@ -46,11 +46,16 @@ const mockGrantees: PublicCareerTransitionGrant[] = [
   },
 ];
 
-const meta = {
+const meta: Meta<typeof GranteesSection> = {
   title: 'website/CareerTransitionGrant/GranteesSection',
   component: GranteesSection,
   parameters: {
     layout: 'fullscreen',
+    msw: {
+      handlers: [
+        trpcStorybookMsw.grants.getAllPublicCareerTransitionGrantees.query(() => mockGrantees),
+      ],
+    },
     docs: {
       description: {
         component: 'Grid of career transition grant recipients on /career-transition-grant. Cards link to a profile URL when present. Grantees without an image are filtered out.',
@@ -58,20 +63,12 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof GranteesSection>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.grants.getAllPublicCareerTransitionGrantees.query(() => mockGrantees),
-      ],
-    },
-  },
-};
+export const Default: Story = {};
 
 export const Empty: Story = {
   parameters: {

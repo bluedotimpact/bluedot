@@ -26,11 +26,16 @@ const mockAdvisors = [
   },
 ];
 
-const meta = {
+const meta: Meta<typeof AdvisorsSection> = {
   title: 'website/Advising/AdvisorsSection',
   component: AdvisorsSection,
   parameters: {
     layout: 'fullscreen',
+    msw: {
+      handlers: [
+        trpcStorybookMsw.teamMembers.getOneOnOneAdvisors.query(() => mockAdvisors),
+      ],
+    },
     docs: {
       description: {
         component: 'Grid of 1-1 advisors, loaded via tRPC from the team-members table. Renders nothing if no advisors are returned.',
@@ -38,20 +43,12 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof AdvisorsSection>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.teamMembers.getOneOnOneAdvisors.query(() => mockAdvisors),
-      ],
-    },
-  },
-};
+export const Default: Story = {};
 
 export const Loading: Story = {
   parameters: {

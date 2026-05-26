@@ -2,23 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import HowItWorksSection from './HowItWorksSection';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
-const meta = {
-  title: 'website/RapidGrants/HowItWorksSection',
-  component: HowItWorksSection,
-  parameters: {
-    layout: 'fullscreen',
-    docs: {
-      description: {
-        component: 'Five-step "How it works" card grid on /programs/rapid-grants. The "Apply" card links to the program\'s applicationForm; the trailing community card sits alongside.',
-      },
-    },
-  },
-  tags: ['autodocs'],
-} satisfies Meta<typeof HowItWorksSection>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
 const rapidGrantsProgram = {
   id: 'rec_rapid_grants',
   name: 'Rapid Grants',
@@ -30,12 +13,26 @@ const rapidGrantsProgram = {
   order: '1',
 };
 
-export const Default: Story = {
+const meta: Meta<typeof HowItWorksSection> = {
+  title: 'website/RapidGrants/HowItWorksSection',
+  component: HowItWorksSection,
   parameters: {
+    layout: 'fullscreen',
     msw: {
       handlers: [
         trpcStorybookMsw.programs.getBySlug.query(() => rapidGrantsProgram),
       ],
     },
+    docs: {
+      description: {
+        component: 'Five-step "How it works" card grid on /programs/rapid-grants. The "Apply" card links to the program\'s applicationForm; the trailing community card sits alongside.',
+      },
+    },
   },
+  tags: ['autodocs'],
 };
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
