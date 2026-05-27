@@ -514,7 +514,7 @@ const getFacilitatorActions = (
       isVisible: isPending && courseRegistration.decision !== 'Reject',
       variant: 'overflow',
       overflow: {
-        id: 'drop', label: 'Drop or defer course', onAction: triggers.openDropout,
+        id: 'drop', label: 'Drop out', onAction: triggers.openDropout,
       },
     },
   ];
