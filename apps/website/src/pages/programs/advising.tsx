@@ -8,6 +8,7 @@ import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/advising/WhatThisIsForSection';
 import WhoYouAreSection from '../../components/advising/WhoYouAreSection';
 import WhatToExpectSection from '../../components/advising/WhatToExpectSection';
+import RecommendedReadingSection from '../../components/advising/RecommendedReadingSection';
 import HowItWorksSection from '../../components/advising/HowItWorksSection';
 import AdvisorsSection from '../../components/advising/AdvisorsSection';
 import { ROUTES } from '../../lib/routes';
@@ -48,6 +49,7 @@ const OneOnOneAdvisingPage = ({ programName, programDescription }: ProgramDetail
       <WhatThisIsForSection />
       <WhoYouAreSection />
       <WhatToExpectSection />
+      <RecommendedReadingSection />
       <HowItWorksSection />
       <AdvisorsSection />
       <GrantFaqSection program="advising" />
