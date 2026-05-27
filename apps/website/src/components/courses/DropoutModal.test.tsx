@@ -9,6 +9,7 @@ import {
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { trpc } from '../../utils/trpc';
+import { createMockCourseRegistration } from '../../__tests__/testUtils';
 import DropoutModal from './DropoutModal';
 
 const mockCourseRounds = {
@@ -100,5 +101,51 @@ describe('DropoutModal', () => {
       expect(dropoutStatusRequests).toBeGreaterThan(1);
       expect(courseRegistrationsRequests).toBeGreaterThan(1);
     });
+  });
+
+  it('greys out the deferral option for facilitators and still submits a drop out', async () => {
+    const user = userEvent.setup();
+    let submittedType: string | undefined;
+
+    server.use(
+      trpcMsw.courseRegistrations.getAll.query(() => [
+        createMockCourseRegistration({ id: 'reg-facilitator', role: 'Facilitator' }),
+      ]),
+      trpcMsw.dropout.dropoutOrDeferral.mutation(({ input }) => {
+        submittedType = input.type;
+        return {
+          id: 'new-dropout-id',
+          applicantId: [input.applicantId],
+          reason: input.reason ?? null,
+          type: input.type,
+          newRoundId: null,
+          oldRoundId: null,
+        };
+      }),
+    );
+
+    render(
+      <DropoutModal
+        applicantId="reg-facilitator"
+        courseSlug="ai-safety"
+        currentRoundId="round-active"
+        handleClose={vi.fn()}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Action type' }));
+    const listbox = await screen.findByRole('listbox');
+    await waitFor(() => {
+      expect(within(listbox).getByRole('option', { name: 'Defer to a future round' })).toHaveClass('cursor-not-allowed');
+    });
+
+    await user.click(within(listbox).getByText('Drop out of the course'));
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Your dropout request has been submitted/)).toBeInTheDocument();
+    });
+    expect(submittedType).toBe('Drop out');
   });
 });

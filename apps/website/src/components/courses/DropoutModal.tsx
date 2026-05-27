@@ -73,6 +73,9 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
 
   const { data: courseRounds } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
+  const { data: registrations } = trpc.courseRegistrations.getAll.useQuery();
+  const allowDeferral = registrations?.find((r) => r.id === applicantId)?.role !== 'Facilitator';
+
   const isDeferral = dropoutType === 'Deferral';
 
   const futureRoundsByIntensity = useMemo(() => ({
@@ -202,7 +205,11 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
           ariaLabel="Action type"
           value={dropoutType}
           onChange={(value) => setDropoutType(value as DropoutType)}
-          options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label, disabled: dropoutMutation.isPending }))}
+          options={TYPE_OPTIONS.map((opt) => ({
+            value: opt.value,
+            label: opt.label,
+            disabled: dropoutMutation.isPending || (opt.value === 'Deferral' && !allowDeferral),
+          }))}
           placeholder="Choose an option"
         />
         {isDeferral && renderRoundPicker()}

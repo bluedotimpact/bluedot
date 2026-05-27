@@ -507,7 +507,7 @@ describe('CourseListRow actions', () => {
       test('no participant-only overflow items', () => {
         const { container } = renderFacRow(facProps());
         const items = openOverflowItems(container);
-        expect(items).not.toContain('Drop or defer course');
+        expect(items).not.toContain('Drop out');
         expect(items).not.toContain('Switch group permanently');
       });
 
@@ -566,9 +566,9 @@ describe('CourseListRow actions', () => {
         expect(inlineLabels(container)).toContain('Edit your availability');
       });
 
-      test('overflow offers only "Drop or defer course"', () => {
+      test('overflow offers only "Drop out"', () => {
         const { container } = renderFacRow(pending());
-        expect(openOverflowItems(container)).toEqual(['Drop or defer course']);
+        expect(openOverflowItems(container)).toEqual(['Drop out']);
       });
 
       test('no availability CTA when application was rejected', () => {
@@ -580,21 +580,21 @@ describe('CourseListRow actions', () => {
         expect(labels).not.toContain('Edit your availability');
       });
 
-      test('no "Drop or defer course" when application was rejected', () => {
+      test('no "Drop out" when application was rejected', () => {
         const { container } = renderFacRow(pending({
           courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject', role: 'Facilitator' }),
         }));
-        expect(openOverflowItems(container)).not.toContain('Drop or defer course');
+        expect(openOverflowItems(container)).not.toContain('Drop out');
       });
     });
 
-    describe('Drop or defer course', () => {
+    describe('Drop out (facilitators cannot defer)', () => {
       test('shown on a pending application (upcoming, no group assigned yet)', () => {
         const { container } = renderFacRow(facProps({
           courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept', role: 'Facilitator' }),
           group: null,
         }));
-        expect(openOverflowItems(container)).toContain('Drop or defer course');
+        expect(openOverflowItems(container)).toContain('Drop out');
       });
 
       test('hidden once a group is assigned, even before the round starts', () => {
@@ -602,7 +602,7 @@ describe('CourseListRow actions', () => {
           courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept', role: 'Facilitator' }),
           // facProps default supplies a group
         }));
-        expect(openOverflowItems(container)).not.toContain('Drop or defer course');
+        expect(openOverflowItems(container)).not.toContain('Drop out');
       });
     });
 
@@ -614,7 +614,7 @@ describe('CourseListRow actions', () => {
           isDroppedOut: true,
         }));
         expect(container.textContent).toContain('Dropped');
-        expect(openOverflowItems(container)).not.toContain('Drop or defer course');
+        expect(openOverflowItems(container)).not.toContain('Drop out');
       });
     });
 
@@ -641,12 +641,12 @@ describe('CourseListRow actions', () => {
         expect(labels).not.toContain('Edit feedback');
       });
 
-      test('past overflow keeps doc/slack/participants but drops Update discussion time and Drop or defer course', () => {
+      test('past overflow keeps doc/slack/participants but drops Update discussion time and Drop out', () => {
         const { container } = renderFacRow(past());
         const items = openOverflowItems(container);
         expect(items).toEqual(expect.arrayContaining(['Open discussion doc', 'Open Slack group', 'View participants']));
         expect(items).not.toContain('Update discussion time');
-        expect(items).not.toContain('Drop or defer course');
+        expect(items).not.toContain('Drop out');
       });
     });
 

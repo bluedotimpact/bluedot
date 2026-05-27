@@ -66,6 +66,10 @@ export const dropoutRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
       }
 
+      if (type === 'Deferral' && courseRegistration.role === 'Facilitator') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitators cannot defer a course.' });
+      }
+
       const oldRoundId = courseRegistration.roundId ?? null;
 
       return db.insert(dropoutTable, {
