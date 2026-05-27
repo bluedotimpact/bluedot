@@ -5,7 +5,7 @@ const FeaturedAlumniStories = () => {
   const { data } = trpc.testimonials.getCommunityMembers.useQuery();
 
   const stories: AlumniStory[] = (data ?? [])
-    .filter((t) => t.storyUrl)
+    .filter((t) => t.storyUrl && t.quote)
     .sort((a, b) => Number(!!b.isPrioritised) - Number(!!a.isPrioritised))
     .map((t) => ({
       name: t.name,

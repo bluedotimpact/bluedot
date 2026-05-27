@@ -65,7 +65,7 @@ function transformTestimonial(t: Testimonial): TransformedTestimonial {
 export const testimonialsRouter = router({
   getCommunityMembers: publicProcedure.query(async () => {
     const all = await db.scan(testimonialTable);
-    const filtered = all.filter((t) => t.name && t.testimonialText?.trim());
+    const filtered = all.filter((t) => t.name);
     return sortTestimonials(filtered).map(transformTestimonial);
   }),
 
