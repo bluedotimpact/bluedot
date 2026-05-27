@@ -12,7 +12,9 @@ const RecentAlumniList = () => {
   const { data } = trpc.testimonials.getCommunityMembers.useQuery();
   const [expanded, setExpanded] = useState(false);
 
-  const alumni = (data ?? []).filter((t) => !t.storyUrl);
+  const alumni = (data ?? [])
+    .filter((t) => !(t.storyUrl && t.quote))
+    .sort((a, b) => Number(!!b.storyUrl) - Number(!!a.storyUrl));
 
   if (alumni.length === 0) return null;
 
@@ -54,6 +56,8 @@ const RecentAlumniList = () => {
 };
 
 const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
+  const linkHref = alum.storyUrl ?? alum.url;
+
   const content = (
     <div className="flex items-center gap-3 py-3.5 border-b border-bluedot-navy/10">
       <AlumniAvatar
@@ -65,16 +69,16 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
         <P className="text-size-sm font-semibold leading-tight text-bluedot-navy truncate">{alum.name}</P>
         <P className="text-size-xs text-bluedot-navy/60 truncate">{alum.jobTitle}</P>
       </div>
-      {alum.url && (
+      {linkHref && (
         <span className="text-size-lg text-bluedot-normal flex-shrink-0" aria-hidden="true">→</span>
       )}
     </div>
   );
 
-  if (alum.url) {
+  if (linkHref) {
     return (
       <a
-        href={alum.url}
+        href={linkHref}
         target="_blank"
         rel="noopener noreferrer"
         className={clsx(
