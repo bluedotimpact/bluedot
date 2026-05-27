@@ -28,7 +28,9 @@ const applicationUrl = 'https://forms.bluedot.org/1W29W7atNVeEF3RTkfCX';
 const AiSafetyOpsLander = () => {
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
 
-  const allTestimonials = dbTestimonials?.map((t): Testimonial => ({ ...t, role: t.jobTitle })) ?? [];
+  const allTestimonials = (dbTestimonials ?? [])
+    .filter((t) => t.quote?.trim())
+    .map((t): Testimonial => ({ ...t, role: t.jobTitle }));
 
   return (
     <>
