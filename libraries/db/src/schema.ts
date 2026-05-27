@@ -1370,6 +1370,34 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: boolean(),
       airtableId: 'fld1KQjHFGoDZKf94',
     },
+    numGroupsToFacilitate: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldqirnvpnxjSzGPY',
+    },
+    formFeedback: {
+      pgColumn: text(),
+      airtableId: 'fldRGBrjMUHyUXRJr',
+    },
+    prevEngagement: {
+      pgColumn: text(),
+      airtableId: 'fldJAKX8Lcl5Qeq1K',
+    },
+    skills: {
+      pgColumn: text(),
+      airtableId: 'fldqNrt2OdsIsulMD',
+    },
+    impressiveProject: {
+      pgColumn: text(),
+      airtableId: 'fldL3qU8ILGYiF4ea',
+    },
+    motivationToFacilitate: {
+      pgColumn: text(),
+      airtableId: 'fldLoKwG59WWf8twB',
+    },
+    prevFacilitationExperience: {
+      pgColumn: text(),
+      airtableId: 'fld7qr6IyUtC4ILkT',
+    },
   },
 });
 
