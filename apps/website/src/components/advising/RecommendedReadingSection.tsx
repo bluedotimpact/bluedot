@@ -29,7 +29,7 @@ const READINGS: Reading[] = [
     url: 'https://www.lesswrong.com/posts/muH6H9i8CtNAubcoo/roadmap-through-ai-safety-programs-for-early-career',
   },
   {
-    title: 'I\'m an experienced software engineer. How can I contribute to AI safety\?',
+    title: 'I\'m an experienced software engineer. How can I contribute to AI safety?',
     description: 'Maps out concrete contributions you can make.',
     url: 'https://blog.bluedot.org/p/im-an-experienced-swe',
   },
