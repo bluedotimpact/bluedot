@@ -608,6 +608,30 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   </li>
                   <li>
                     <img
+                      alt="MATS Research"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/mats.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="London Initiative for Safe AI"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/lisa.webp"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Talos Network"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/talos.webp"
+                    />
+                  </li>
+                  <li>
+                    <img
                       alt="United Nations"
                       class="h-6 grayscale opacity-80"
                       fetchpriority="high"
@@ -754,6 +778,30 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       class="h-6 grayscale opacity-80"
                       fetchpriority="high"
                       src="/images/third-party-logos/meridian.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="MATS Research"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/mats.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="London Initiative for Safe AI"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/lisa.webp"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Talos Network"
+                      class="h-6 grayscale opacity-80"
+                      fetchpriority="high"
+                      src="/images/third-party-logos/talos.webp"
                     />
                   </li>
                   <li>
