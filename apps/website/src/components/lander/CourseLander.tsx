@@ -281,7 +281,6 @@ const CourseLander = ({
         </>
       )}
 
-
       {content.courseOutcomes && content.courseOutcomesPlacement === 'beforeStructure' && (
         <>
           <div className="border-t-hairline border-color-divider" />
@@ -326,7 +325,6 @@ const CourseLander = ({
           <QuoteSection {...content.quotes} />
         </>
       )}
-
 
       {content.fieldBuilding && (
         <>
