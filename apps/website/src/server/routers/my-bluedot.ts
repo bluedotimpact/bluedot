@@ -76,7 +76,7 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
   return status;
 };
 
-const unique = <T>(values: (T | null | undefined)[]): T[] =>
+export const unique = <T>(values: (T | null | undefined)[]): T[] =>
   [...new Set(values.filter((v): v is T => v != null))];
 
 export const myBluedotRouter = router({
