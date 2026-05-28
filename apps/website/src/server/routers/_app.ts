@@ -6,6 +6,7 @@ import { courseRoundsRouter } from './course-rounds';
 import { coursesRouter } from './courses';
 import { dropoutRouter } from './dropout';
 import { exercisesRouter } from './exercises';
+import { facilitatorApplicationsRouter } from './facilitator-applications';
 import { facilitatorRouter } from './facilitators';
 import { feedbackRouter } from './feedback';
 import { grantsRouter } from './grants';
@@ -31,6 +32,7 @@ export const appRouter = router({
   courses: coursesRouter,
   dropout: dropoutRouter,
   exercises: exercisesRouter,
+  facilitatorApplications: facilitatorApplicationsRouter,
   facilitators: facilitatorRouter,
   feedback: feedbackRouter,
   grants: grantsRouter,
