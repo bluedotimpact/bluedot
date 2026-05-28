@@ -19,14 +19,14 @@ const BENEFITS: {
   {
     icon: PiHandshake,
     title: 'Work alongside the best',
-    description: 'You\'ll work from our office at LISA alongside Apollo Research and other leading AI safety organizations. We bring in founders, funders, and experts throughout the week.',
+    description: 'You\'ll work in person in San Francisco. We bring in founders, funders, and experts throughout the week.',
   },
   {
     icon: PiCurrencyDollar,
     title: 'Get backed to build',
     description: (
       <>
-        Strong pitches receive initial grants of £50k+ to work on your project full-time. Our first batch backed{' '}
+        If we back your pitch, you&apos;ll receive $50k equity-free to work on your project full-time. Our first batch backed{' '}
         <a href="https://exonalab.com/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Exona</a>
         {' '}— they have since raised more, work from our co-working space, and are already hiring.
       </>

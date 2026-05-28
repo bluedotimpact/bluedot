@@ -61,8 +61,8 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     title: 'Incubator Week',
     href: '/programs/incubator-week',
     track: 'Launch',
-    goal: 'Back graduates launching AI safety companies, with seed funding and an intensive week in London.',
-    scope: 'Cohort 4 runs in London, 1–5 June. Apply by 26 May for a five-day sprint from idea to funded.',
+    goal: 'Back graduates launching AI safety companies, with equity-free funding and an intensive week in San Francisco.',
+    scope: 'Cohort 5 runs in San Francisco, July 20–25. Apply by July 10 for a five-day sprint from idea to funded.',
     scopeLabel: 'Format',
     status: 'Active',
   },
@@ -205,7 +205,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'expenses',
         question: 'What expenses are covered?',
-        answer: 'Everything. We\'ll fly you to London, provide accommodation, and cover all meals during the week. You just need to show up ready to build.',
+        answer: 'Everything. We\'ll fly you to San Francisco, provide accommodation, and cover all meals during the week. You just need to show up ready to build.',
       },
       {
         id: 'tracks',
@@ -215,19 +215,19 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'funding',
         question: 'How does the funding work?',
-        answer: 'Strong pitches on Friday get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest teams. Funding is equity-free.',
+        answer: 'If we back your pitch, we will give you $50k equity-free by the end of the week.',
       },
       {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
         answer: (
           <>
-            We&apos;re a London-based nonprofit. Since 2022, we&apos;ve trained over 6,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more.
+            We&apos;re a London and San Francisco-based nonprofit. Since 2022, we&apos;ve trained over 8,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more.
             <br /><br />
             Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.
           </>
         ),
-        answerText: 'We\'re a London-based nonprofit. Since 2022, we\'ve trained over 6,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more. Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.',
+        answerText: 'We\'re a London and San Francisco-based nonprofit. Since 2022, we\'ve trained over 8,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more. Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.',
       },
     ],
   },

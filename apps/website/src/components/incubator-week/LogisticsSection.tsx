@@ -4,7 +4,7 @@ import { pageSectionHeadingClass } from '../PageListRow';
 const LOGISTICS = [
   {
     label: 'Location',
-    body: 'In-person in London, working from LISA alongside Apollo Research and other leading organizations. We\'ll fly you in and cover all expenses.',
+    body: 'In-person in San Francisco. We\'ll fly you in and cover all expenses.',
   },
   {
     label: 'Focus areas',
@@ -12,7 +12,7 @@ const LOGISTICS = [
   },
   {
     label: 'Schedule',
-    body: '1-5 June.',
+    body: 'July 20–25.',
   },
 ];
 
