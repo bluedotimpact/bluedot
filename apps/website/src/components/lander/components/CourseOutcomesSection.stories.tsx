@@ -10,7 +10,6 @@ import {
 import CourseOutcomesSection, { type CourseOutcome } from './CourseOutcomesSection';
 import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
 import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
-import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const meta = {
   title: 'website/CourseLander/CourseOutcomesSection',
@@ -122,11 +121,3 @@ export const WithCta: Story = {
   },
 };
 
-export const TechnicalAiSafetyColors: Story = {
-  args: {
-    title: 'What you\'ll actually do',
-    outcomes: aiGovernanceOutcomes,
-    accentColor: TAS_COLORS.iconBackground,
-    headingVariant: 'compact',
-  },
-};

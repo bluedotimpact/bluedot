@@ -4,7 +4,6 @@ import { buildApplicationUrl } from '../../lib/utils';
 import { Nav } from '../Nav/Nav';
 import TestimonialCarousel, { type TestimonialMember } from './TestimonialCarousel';
 import GraduateSection from './components/GraduateSection';
-import PartnerSection, { type PartnerSectionProps } from './components/PartnerSection';
 import CourseBenefitsSection, { type CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
 import WhoIsThisForSection, { type WhoIsThisForSectionProps } from './components/WhoIsThisForSection';
 import WhoIsThisForTextSection, { type WhoIsThisForTextSectionProps } from './components/WhoIsThisForTextSection';
@@ -22,9 +21,7 @@ import AlumniLogosSection, { type AlumniLogosSectionProps } from './components/A
 import PersonasSection, { type PersonasSectionProps } from './components/PersonasSection';
 import CourseOutcomesSection, { type CourseOutcomesSectionProps } from './components/CourseOutcomesSection';
 import PrerequisitesSection, { type PrerequisitesSectionProps } from './components/PrerequisitesSection';
-import CaseStudiesSection, { type CaseStudiesSectionProps } from './components/CaseStudiesSection';
 import AlumniStoryCarousel, { type AlumniStoryCarouselProps } from './components/AlumniStoryCarousel';
-import SectionNav, { type SectionNavItem } from './components/SectionNav';
 import FieldBuildingSection, { type FieldBuildingSectionProps } from './components/FieldBuildingSection';
 import { trpc } from '../../utils/trpc';
 import { COURSE_INFORMATION_DETAILS } from '../../lib/courseInformationDetails';
@@ -47,8 +44,6 @@ export type CourseLanderContent = {
   /** Schema.org CourseInstance.courseMode. Defaults to 'Online' if omitted. */
   courseMode?: CourseMode;
   hero: HeroSectionProps;
-  /** Section navigation items - if provided, shows a sticky nav */
-  sectionNav?: SectionNavItem[];
   /** Alumni logos section - if provided, replaces GraduateSection */
   alumniLogos?: AlumniLogosSectionProps;
   /** Standard "Who is this for" section with icon cards */
@@ -77,8 +72,6 @@ export type CourseLanderContent = {
   howTheCourseWorks?: HowTheCourseWorksSectionProps;
   /** Standalone schedule section using PageListRow rows — renders alongside howTheCourseWorks instead of inside courseInformation's box. */
   scheduleList?: ScheduleListSectionProps;
-  /** Case studies / alumni stories section */
-  caseStudies?: CaseStudiesSectionProps;
   /** Alumni story carousel - carousel with full story text */
   alumniStories?: AlumniStoryCarouselProps;
   pathways?: PathwaysSectionProps;
@@ -93,7 +86,6 @@ export type CourseLanderContent = {
   testimonialsHideQuotes?: boolean;
   /** Optional placement override for testimonials section */
   testimonialsPlacement?: 'default' | 'beforeOutcomes';
-  partners?: PartnerSectionProps;
   /** Optional recruiting / field-building section shown before FAQ */
   fieldBuilding?: FieldBuildingSectionProps;
   faq?: FAQSectionProps;
@@ -205,7 +197,6 @@ const CourseLander = ({
       </Head>
 
       <Nav variant={heroProps.gradient ? 'transparent' : 'default'} />
-      {content.sectionNav && <SectionNav sections={content.sectionNav} applyUrl={heroProps.primaryCta?.url} />}
       <HeroSection {...heroProps} />
 
       <div className="border-t-hairline border-color-divider" />
@@ -290,13 +281,6 @@ const CourseLander = ({
         </>
       )}
 
-      {/* Case studies section */}
-      {content.caseStudies && (
-        <>
-          <div className="border-t-hairline border-color-divider" />
-          <CaseStudiesSection {...content.caseStudies} />
-        </>
-      )}
 
       {content.courseOutcomes && content.courseOutcomesPlacement === 'beforeStructure' && (
         <>
@@ -343,12 +327,6 @@ const CourseLander = ({
         </>
       )}
 
-      {content.partners && (
-        <>
-          <div className="border-t-hairline border-color-divider" />
-          <PartnerSection {...content.partners} />
-        </>
-      )}
 
       {content.fieldBuilding && (
         <>

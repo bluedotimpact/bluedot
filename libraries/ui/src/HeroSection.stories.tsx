@@ -19,15 +19,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: () => (
-    <HeroSection>
-      <HeroH1>Welcome to Bluedot</HeroH1>
-      <HeroH2>Discover amazing possibilities</HeroH2>
-    </HeroSection>
-  ),
-};
-
 export const WithCustomClasses: Story = {
   render: () => (
     <HeroSection className="min-h-[500px]">

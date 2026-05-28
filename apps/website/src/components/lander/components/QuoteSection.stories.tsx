@@ -3,8 +3,6 @@ import QuoteSection, { type QuoteWithUrl } from './QuoteSection';
 import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
 import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
 import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
-import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
-import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const meta = {
   title: 'website/CourseLander/QuoteSection',
@@ -132,18 +130,3 @@ export const FutureOfAiColors: Story = {
   },
 };
 
-export const AiGovernanceColors: Story = {
-  args: {
-    quotes: sampleQuotes,
-    cardBackgroundColor: AI_GOVERNANCE_COLORS.bright,
-    accentColor: AI_GOVERNANCE_COLORS.full,
-  },
-};
-
-export const TechnicalAiSafetyColors: Story = {
-  args: {
-    quotes: sampleQuotes,
-    cardBackgroundColor: TAS_COLORS.bright,
-    accentColor: TAS_COLORS.full,
-  },
-};

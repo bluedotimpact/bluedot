@@ -13,26 +13,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    ctaText: 'Learn More',
-    ctaUrl: 'https://example.com',
-    imageSrc: '/images/intro-course.png',
-    subtitle: 'This is a default card.',
-    title: 'Default card',
-  },
-};
-
-export const ClickableCard: Story = {
-  args: {
-    ctaUrl: 'https://example.com',
-    imageSrc: '/images/intro-course.png',
-    isEntireCardClickable: true,
-    subtitle: 'This entire card is clickable.',
-    title: 'Clickable card',
-  },
-};
-
 export const FullWidthCard: Story = {
   args: {
     ctaText: 'Learn More',

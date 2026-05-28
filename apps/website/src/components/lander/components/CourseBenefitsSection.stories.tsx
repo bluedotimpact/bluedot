@@ -3,10 +3,8 @@ import {
   PiRocketLaunch, PiUsersThree, PiHandCoins,
 } from 'react-icons/pi';
 import CourseBenefitsSection from './CourseBenefitsSection';
-import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
 import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
 import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
-import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
 import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const meta = {
@@ -61,14 +59,6 @@ export const Default: Story = {
   },
 };
 
-export const AgiStrategyColors: Story = {
-  args: {
-    title: 'How this course will benefit you',
-    benefits: defaultBenefits,
-    iconBackgroundColor: AGI_STRATEGY_COLORS.bright,
-  },
-};
-
 export const BiosecurityColors: Story = {
   args: {
     title: 'How this course will benefit you',
@@ -82,14 +72,6 @@ export const FutureOfAiColors: Story = {
     title: 'How this course will benefit you',
     benefits: defaultBenefits,
     iconBackgroundColor: FOAI_COLORS.bright,
-  },
-};
-
-export const AiGovernanceColors: Story = {
-  args: {
-    title: 'How this course will benefit you',
-    benefits: defaultBenefits,
-    iconBackgroundColor: AI_GOVERNANCE_COLORS.bright,
   },
 };
 
