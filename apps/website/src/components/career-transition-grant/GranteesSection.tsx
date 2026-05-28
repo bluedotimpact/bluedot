@@ -24,23 +24,23 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
           loading="lazy"
         />
         <div className="flex min-w-0 flex-col">
-          <h4 className="text-[16px] font-semibold leading-tight text-bluedot-navy">
+          <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
             {name}
           </h4>
           {bio && (
-            <p className="mt-1 text-[13px] leading-[1.4] text-bluedot-navy/68">
+            <p className="mt-1 text-size-xs leading-[1.4] text-bluedot-navy/68">
               {bio}
             </p>
           )}
         </div>
       </div>
       {plan && (
-        <P className="mt-4 text-[14px] leading-[1.6] text-bluedot-navy/74">
+        <P className="mt-4 text-size-xs leading-[1.6] text-bluedot-navy/74">
           {plan}
         </P>
       )}
       {profileUrl && (
-        <span className="mt-auto pt-4 text-[14px] font-medium text-bluedot-navy/68 transition-colors group-hover:text-bluedot-navy">
+        <span className="mt-auto pt-4 text-size-xs font-medium text-bluedot-navy/68 transition-colors group-hover:text-bluedot-navy">
           View profile →
         </span>
       )}
@@ -63,9 +63,9 @@ const GranteesSection = () => {
 
   return (
     <section className="section section-body career-transition-grant-grantees-section">
-      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>Some of our grantees</h3>
-        <ul className="list-none grid gap-4 grid-cols-1 min-[680px]:grid-cols-2 min-[1120px]:grid-cols-3">
+        <ul className="list-none grid gap-4 grid-cols-1 bd-md:grid-cols-2 min-[1120px]:grid-cols-3">
           {visibleGrantees.map((g) => (
             <li key={g.granteeName} className="h-full">
               <GranteeCard
