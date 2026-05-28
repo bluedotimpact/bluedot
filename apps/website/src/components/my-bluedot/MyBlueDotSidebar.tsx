@@ -4,6 +4,7 @@ import { trpc } from '../../utils/trpc';
 
 const MY_COURSES_ITEM = { label: 'My Courses', href: '/my-courses' };
 const FACILITATOR_NAV_ITEM = { label: 'Facilitated Courses', href: '/facilitated-courses' };
+const FACILITATOR_APPLICATIONS_ITEM = { label: 'Facilitator Applications', href: '/facilitator-applications' };
 const ACCOUNT_ITEM = { label: 'Account', href: '/account' };
 
 const ITEM_HEIGHT_PX = 44;
@@ -11,10 +12,12 @@ const ITEM_HEIGHT_PX = 44;
 const MyBlueDotSidebar = () => {
   const router = useRouter();
   const { data } = trpc.myBluedot.hasFacilitatorRegistrations.useQuery();
-  // Render unconditionally on /facilitated-courses so direct visits don't blank the active item until the query resolves
-  const showFacilitator = data?.hasFacilitatorRegistrations === true || router.pathname === FACILITATOR_NAV_ITEM.href;
+  // Render unconditionally on facilitator routes so direct visits don't blank the active item until the query resolves
+  const showFacilitator = data?.hasFacilitatorRegistrations === true
+    || router.pathname === FACILITATOR_NAV_ITEM.href
+    || router.pathname === FACILITATOR_APPLICATIONS_ITEM.href;
   const navItems = showFacilitator
-    ? [MY_COURSES_ITEM, FACILITATOR_NAV_ITEM, ACCOUNT_ITEM]
+    ? [MY_COURSES_ITEM, FACILITATOR_NAV_ITEM, FACILITATOR_APPLICATIONS_ITEM, ACCOUNT_ITEM]
     : [MY_COURSES_ITEM, ACCOUNT_ITEM];
   const activeIndex = navItems.findIndex((item) => router.pathname === item.href);
 
