@@ -59,7 +59,7 @@ const mockPrograms = [
     id: 'rec-incubator',
     name: 'Incubator week',
     status: 'Active',
-    description: 'Fly to London to turn your AI safety idea into a funded org.',
+    description: 'Fly to San Francisco to turn your AI safety idea into a funded org.',
     applicationForm: 'https://example.com/incubator',
     category: 'Found',
     slug: 'incubator-week',

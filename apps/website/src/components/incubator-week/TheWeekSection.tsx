@@ -20,7 +20,7 @@ const SCHEDULE = [
   {
     cadence: 'Friday',
     title: 'Pitch for funding',
-    body: 'Pitch to us. Strong pitches get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest teams.',
+    body: 'Pitch to us. If we back your pitch, we will give you $50k equity-free by the end of the week.',
   },
 ];
 

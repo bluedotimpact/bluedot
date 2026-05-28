@@ -54,8 +54,8 @@ export const OnHiatus: Story = {
   args: {
     slug: 'incubator-week',
     title: 'Incubator Week',
-    goal: 'Back graduates launching AI safety companies, with seed funding and an intensive week in London.',
-    scope: 'Cohort 4 runs in London, 1–5 June. Apply by 26 May for a five-day sprint from idea to funded.',
+    goal: 'Back graduates launching AI safety companies, with equity-free funding and an intensive week in San Francisco.',
+    scope: 'Cohort 5 runs in San Francisco, July 20–25. Apply by July 10 for a five-day sprint from idea to funded.',
     scopeLabel: 'Format',
     href: '/programs/incubator-week',
     status: 'On hiatus',

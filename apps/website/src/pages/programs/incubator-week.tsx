@@ -16,8 +16,9 @@ import {
 
 const PROGRAM_SLUG = 'incubator-week';
 const FALLBACK_NAME = 'Incubator Week';
-const FALLBACK_DESCRIPTION = 'Most accelerators take 12 weeks and 7%. We take 5 days and 0%. Fly to London to turn your AI safety idea into a funded org. $50k if your pitch lands. More for the strongest teams. Equity-free.';
-const APPLICATION_DEADLINE = '26 May';
+const PROGRAM_DESCRIPTION = '5 days. All expenses paid. $50k, equity-free, if we back your pitch. San Francisco, July 20–25. Applications close July 10.';
+const APPLICATION_DEADLINE = 'July 10';
+const CONTACT_EMAIL = 'joshua@bluedot.org';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/incubator-week.png`;
 
@@ -41,7 +42,7 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:alt" content="Most accelerators take 12 weeks and 7%. We take 5 days and 0%. Apply by 26 May. BlueDot Impact." />
+        <meta property="og:image:alt" content="Incubator Week v5. 5 days. All expenses paid. $50k equity-free. San Francisco, July 20–25. Apply by July 10. BlueDot Impact." />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
@@ -60,10 +61,10 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
           url: applicationUrl,
         }}
         stats={[
-          { label: 'Cohort', value: 'v4' },
-          { label: 'Runs', value: '1–5 June' },
+          { label: 'Cohort', value: 'v5' },
+          { label: 'Runs', value: 'July 20–25' },
           { label: 'Funding', value: '$50k equity-free' },
-          { label: 'Covered', value: 'Flights, stay, meals' },
+          { label: 'Covered', value: 'All expenses paid' },
         ]}
       />
       <TrackRecordSection />
@@ -72,6 +73,7 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
       <AboutBlueDotSection
         applicationUrl={applicationUrl}
         applicationDeadline={APPLICATION_DEADLINE}
+        contactEmail={CONTACT_EMAIL}
       />
     </div>
   );
@@ -79,7 +81,7 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
 
 export const getStaticProps: GetStaticProps<ProgramDetailPageProps> = () => getProgramDetailPageStaticProps(
   PROGRAM_SLUG,
-  { programName: FALLBACK_NAME, programDescription: FALLBACK_DESCRIPTION },
+  { programName: FALLBACK_NAME, programDescription: PROGRAM_DESCRIPTION },
 );
 
 IncubatorWeekProgramPage.pageRendersOwnNav = true;
