@@ -509,12 +509,11 @@ const getFacilitatorActions = (
       },
     },
     {
-      // Pending => no group. Once a facilitator has a group assigned, don't let them drop out (they would need to ask via Slack)
-      id: 'drop',
-      isVisible: isPending && courseRegistration.decision !== 'Reject',
+      id: 'withdraw',
+      isVisible: state === 'upcoming' && courseRegistration.decision === null,
       variant: 'overflow',
       overflow: {
-        id: 'drop', label: 'Drop out', onAction: triggers.openDropout,
+        id: 'withdraw', label: 'Withdraw application', onAction: triggers.openDropout,
       },
     },
   ];

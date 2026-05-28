@@ -507,7 +507,7 @@ describe('CourseListRow actions', () => {
       test('no participant-only overflow items', () => {
         const { container } = renderFacRow(facProps());
         const items = openOverflowItems(container);
-        expect(items).not.toContain('Drop out');
+        expect(items).not.toContain('Withdraw application');
         expect(items).not.toContain('Switch group permanently');
       });
 
@@ -566,11 +566,6 @@ describe('CourseListRow actions', () => {
         expect(inlineLabels(container)).toContain('Edit your availability');
       });
 
-      test('overflow offers only "Drop out"', () => {
-        const { container } = renderFacRow(pending());
-        expect(openOverflowItems(container)).toEqual(['Drop out']);
-      });
-
       test('no availability CTA when application was rejected', () => {
         const { container } = renderFacRow(pending({
           courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject', role: 'Facilitator' }),
@@ -579,30 +574,31 @@ describe('CourseListRow actions', () => {
         expect(labels).not.toContain('Share availability');
         expect(labels).not.toContain('Edit your availability');
       });
-
-      test('no "Drop out" when application was rejected', () => {
-        const { container } = renderFacRow(pending({
-          courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject', role: 'Facilitator' }),
-        }));
-        expect(openOverflowItems(container)).not.toContain('Drop out');
-      });
     });
 
-    describe('Drop out (facilitators cannot defer)', () => {
-      test('shown on a pending application (upcoming, no group assigned yet)', () => {
+    describe('Withdraw application', () => {
+      test('shown while the application is in review on an upcoming round', () => {
+        const { container } = renderFacRow(facProps({
+          courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: null, role: 'Facilitator' }),
+          group: null,
+        }));
+        expect(openOverflowItems(container)).toContain('Withdraw application');
+      });
+
+      test('hidden once the application is accepted', () => {
         const { container } = renderFacRow(facProps({
           courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept', role: 'Facilitator' }),
           group: null,
         }));
-        expect(openOverflowItems(container)).toContain('Drop out');
+        expect(openOverflowItems(container)).not.toContain('Withdraw application');
       });
 
-      test('hidden once a group is assigned, even before the round starts', () => {
+      test('hidden when the application was rejected', () => {
         const { container } = renderFacRow(facProps({
-          courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept', role: 'Facilitator' }),
-          // facProps default supplies a group
+          courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject', role: 'Facilitator' }),
+          group: null,
         }));
-        expect(openOverflowItems(container)).not.toContain('Drop out');
+        expect(openOverflowItems(container)).not.toContain('Withdraw application');
       });
     });
 
@@ -614,7 +610,7 @@ describe('CourseListRow actions', () => {
           isDroppedOut: true,
         }));
         expect(container.textContent).toContain('Dropped');
-        expect(openOverflowItems(container)).not.toContain('Drop out');
+        expect(openOverflowItems(container)).not.toContain('Withdraw application');
       });
     });
 
@@ -641,12 +637,12 @@ describe('CourseListRow actions', () => {
         expect(labels).not.toContain('Edit feedback');
       });
 
-      test('past overflow keeps doc/slack/participants but drops Update discussion time and Drop out', () => {
+      test('past overflow keeps doc/slack/participants but drops Update discussion time and Withdraw application', () => {
         const { container } = renderFacRow(past());
         const items = openOverflowItems(container);
         expect(items).toEqual(expect.arrayContaining(['Open discussion doc', 'Open Slack group', 'View participants']));
         expect(items).not.toContain('Update discussion time');
-        expect(items).not.toContain('Drop out');
+        expect(items).not.toContain('Withdraw application');
       });
     });
 
