@@ -8,7 +8,7 @@ import {
   getPillVariant,
   isApplicationTab,
   type ApplicationTab,
-} from '../../components/facilitator-applications/useApplicationView';
+} from '../../components/facilitator-applications/applicationTabs';
 import MyBlueDotLayout from '../../components/my-bluedot/MyBlueDotLayout';
 import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
 import TabPills from '../../components/my-courses/TabPills';
@@ -74,7 +74,7 @@ const FacilitatorApplicationsPage = () => {
               {visible.length === 0 ? (
                 <EmptyCourseList {...EMPTY_BY_TAB[activeTab]} />
               ) : (
-                <ul className="flex flex-col">
+                <ul className="flex flex-col gap-3">
                   {visible.map((app) => {
                     const menuItems
                       = app.decision === 'Accept' && app.courseSlug
