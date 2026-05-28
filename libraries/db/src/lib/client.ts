@@ -464,37 +464,34 @@ export class PgAirtableDb {
     /** Must be passed explicitly for a record to be deleted. */
     isDelete?: boolean;
   }): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
-    return this.pgUnrestricted.transaction(async (tx) => {
-      if (isDelete) {
-        const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
-        const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
+    if (isDelete) {
+      const deletedResults = await this.pgUnrestricted.delete(table.pg).where(eq(table.pg.id, id)).returning();
+      const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
-        if (!deletedResult) {
-          return undefined;
-        }
-
-        return deletedResult;
+      if (!deletedResult) {
+        return undefined;
       }
 
-      const data = fullData ?? await this.airtableClient.get(table.airtable, id);
+      return deletedResult;
+    }
 
-      if (!data) {
-        throw new Error('No data found for upsert operation');
-      }
+    const data = fullData ?? await this.airtableClient.get(table.airtable, id);
 
-      // TODO For updates, check if there are changes with SELECT first to avoid acquiring a lock
-      const rows = await tx.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
-        target: table.pg.id,
-        set: data as PgUpdateSetSource<typeof table.pg>,
-      }).returning();
+    if (!data) {
+      throw new Error('No data found for upsert operation');
+    }
 
-      const result = Array.isArray(rows) ? rows[0] : undefined;
+    const rows = await this.pgUnrestricted.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
+      target: table.pg.id,
+      set: data as PgUpdateSetSource<typeof table.pg>,
+    }).returning();
 
-      if (!result) {
-        throw new Error('Unexpected error: Nothing returned from upsert operation');
-      }
+    const result = Array.isArray(rows) ? rows[0] : undefined;
 
-      return result;
-    });
+    if (!result) {
+      throw new Error('Unexpected error: Nothing returned from upsert operation');
+    }
+
+    return result;
   }
 }
