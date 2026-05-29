@@ -1,4 +1,5 @@
-import { type Quote, SectionHeading, SlideList } from '@bluedot/ui';
+import { SectionHeading, SlideList } from '@bluedot/ui';
+import { type Quote } from '../../lander/components/QuoteSection';
 
 export type Testimonial = Quote;
 

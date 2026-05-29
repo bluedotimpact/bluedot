@@ -1,8 +1,16 @@
 import {
   useState, useRef, useCallback,
 } from 'react';
-import { type Quote } from '@bluedot/ui';
 import { useAboveBreakpoint } from '@bluedot/ui/src/hooks/useBreakpoint';
+
+export type Quote = {
+  // Required
+  quote: string;
+  name: string;
+  imageSrc: string;
+  // Optional
+  role?: string;
+};
 
 export type QuoteWithUrl = Quote & {
   /** Source URL for the quote */
