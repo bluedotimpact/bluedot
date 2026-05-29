@@ -1,1 +1,2 @@
 import './vke';
+import './managedDatabase';
