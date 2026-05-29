@@ -13,6 +13,10 @@ export const airtableSyncManagedPg = new vultr.Database('airtable-sync-managed-p
   databaseEngineVersion: '17',
   region: 'ams',
   plan: 'vultr-dbaas-business-cc-2-80-4',
+  // No trustedIps (IP allowlist) by design: matches our established pattern (the existing in-node
+  // Postgres is likewise reachable publicly, gated by credential) and keeps direct dev access
+  // simple, with no VPC tunnel. The endpoint is gated by forced SSL + a strong Vultr-generated
+  // credential held only in secrets.
 }, {
   // Holds Postgres-authoritative data (exercise responses, resource completions) that no longer
   // lives in Airtable, so guard against accidental deletion via destroy / code removal.
