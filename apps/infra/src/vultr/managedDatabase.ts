@@ -13,10 +13,17 @@ export const airtableSyncManagedPg = new vultr.Database('airtable-sync-managed-p
   databaseEngineVersion: '17',
   region: 'ams',
   plan: 'vultr-dbaas-business-cc-2-80-4',
+}, {
+  // Holds Postgres-authoritative data (exercise responses, resource completions) that no longer
+  // lives in Airtable, so guard against accidental deletion via destroy / code removal.
+  protect: true,
 });
 
 // Dedicated logical database, mirroring the intent of the old CNPG `app` database.
 export const airtableSyncManagedDb = new vultr.DatabaseDb('airtable-sync-managed-db', {
   databaseId: airtableSyncManagedPg.id,
   name: 'airtable_sync',
+}, {
+  // The tables live in this logical DB, so dropping it loses data even if the cluster survives.
+  protect: true,
 });
