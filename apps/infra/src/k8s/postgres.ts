@@ -1,6 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
-import { type Input } from '@pulumi/pulumi';
 import { type core } from '@pulumi/kubernetes/types/input';
+import { all, secret, type Input } from '@pulumi/pulumi';
+import { airtableSyncManagedDb, airtableSyncManagedPg } from '../vultr/managedDatabase';
 import { provider } from './provider';
 
 export const cloudNativePg = new k8s.helm.v3.Release('cloud-native-pg', {
@@ -80,4 +81,31 @@ export const getConnectionDetails = (resource: k8s.apiextensions.CustomResource)
     uri: { secretKeyRef: { name: resource.metadata.name.apply((n) => `${n}-app`), key: 'uri' } },
     jdbcUri: { secretKeyRef: { name: resource.metadata.name.apply((n) => `${n}-app`), key: 'jdbc-uri' } },
   };
+};
+
+// Connection URI for the managed database.
+// sslmode=no-verify: node-postgres can reject Vultr's cert chain, so we encrypt but skip CA
+// verification (same posture as the commented-out backend config in serviceDefinitions.ts).
+// The password is URL-encoded in case it contains reserved characters (@ : / etc).
+const managedPgUri = secret(all([
+  airtableSyncManagedPg.user,
+  airtableSyncManagedPg.password,
+  airtableSyncManagedPg.host,
+  airtableSyncManagedPg.port,
+  airtableSyncManagedDb.name,
+]).apply(([user, password, host, port, dbname]) =>
+  `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${dbname}?sslmode=no-verify`));
+
+const managedPgSecret = new k8s.core.v1.Secret(
+  'airtable-sync-managed-pg-secret',
+  {
+    metadata: { name: 'airtable-sync-managed-pg-secret' },
+    stringData: { uri: managedPgUri },
+  },
+  { provider },
+);
+
+// Mirrors getConnectionDetails: a secretKeyRef apps drop into env as PG_URL once we cut over.
+export const managedPgConnectionDetails: Pick<PgConnectionDetails, 'uri'> = {
+  uri: { secretKeyRef: { name: managedPgSecret.metadata.name, key: 'uri' } },
 };
