@@ -2,6 +2,7 @@ import type { CareerTransitionGrant, RapidGrant } from '@bluedot/db';
 import {
   careerTransitionGrantApplicationTable,
   careerTransitionGrantTable,
+  oneOnOneAdvisingApplicationTable,
   rapidGrantApplicationTable,
   rapidGrantTable,
 } from '@bluedot/db';
@@ -15,6 +16,10 @@ export type GrantStats = {
 };
 
 export type CareerTransitionGrantStats = GrantStats & {
+  averageDaysToDecision: number | null;
+};
+
+export type OneOnOneAdvisingStats = {
   averageDaysToDecision: number | null;
 };
 
@@ -61,6 +66,20 @@ const trimmedMean = (values: number[], trimPct: number): number => {
   const cut = Math.floor(sorted.length * trimPct);
   const inner = sorted.slice(cut, sorted.length - cut);
   return inner.reduce((sum, v) => sum + v, 0) / inner.length;
+};
+
+// Rounded mean of the time-to-decision day counts, over decided rows only.
+// A row counts as decided when its formula column holds a finite, non-negative
+// number — a genuine same-day (0) decision included. Undecided rows arrive as
+// null (the Airtable `[*] Time to decision` formula is NaN until a decision date
+// exists) and are dropped, never folded in as 0. The `>= 0` guard also rejects
+// corrupt rows where a decision date was back-filled before the submission date.
+// Null when no decided rows exist.
+const averageDecisionDays = (rows: { timeToDecisionDays: number | null }[]): number | null => {
+  const days = rows
+    .map((row) => row.timeToDecisionDays)
+    .filter((value): value is number => value != null && Number.isFinite(value) && value >= 0);
+  return days.length ? Math.round(days.reduce((sum, value) => sum + value, 0) / days.length) : null;
 };
 
 // pgAirtable stores Airtable date columns as text; parse here and bucket
@@ -171,18 +190,24 @@ export const grantsRouter = router({
   }),
 
   // Master CTG table carries every status — count + funding-awarded filter to granted
-  // statuses, avg-days-to-decision averages all decided rows (rows where the
-  // [*] Time to decision (days) formula yielded a positive integer).
+  // statuses; avg-days-to-decision averages every decided application (any row whose
+  // [*] Time to decision formula has resolved to a number, same-day 0s included).
   getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<CareerTransitionGrantStats> => {
     const all = await db.scan(careerTransitionGrantApplicationTable);
     const granted = all.filter((g) => g.status === 'Approved' || g.status === 'Agreement signed');
-    const decided = all.filter((g) => (g.timeToDecisionDays ?? 0) > 0);
     return {
       count: granted.length,
       totalAmountUsd: granted.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
-      averageDaysToDecision: decided.length
-        ? Math.round(decided.reduce((sum, g) => sum + (g.timeToDecisionDays ?? 0), 0) / decided.length)
-        : null,
+      averageDaysToDecision: averageDecisionDays(all),
+    };
+  }),
+
+  // 1-1 advising decision speed. Same avg-days-to-decision metric as CTG, over
+  // every decided application; the advising page keeps its other stats hardcoded.
+  getOneOnOneAdvisingStats: publicProcedure.query(async (): Promise<OneOnOneAdvisingStats> => {
+    const all = await db.scan(oneOnOneAdvisingApplicationTable);
+    return {
+      averageDaysToDecision: averageDecisionDays(all),
     };
   }),
 });
