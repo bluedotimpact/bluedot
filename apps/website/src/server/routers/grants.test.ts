@@ -268,6 +268,8 @@ describe('grants.getOneOnOneAdvisingStats', () => {
     await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: 0 });
     // Not yet decided — the formula is NaN until a decision date exists, stored as null.
     await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: null });
+    // Corrupt back-fill — decision date before submission yields a negative diff; excluded.
+    await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: -3 });
 
     const caller = createCaller();
     const result = await caller.grants.getOneOnOneAdvisingStats();

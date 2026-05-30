@@ -69,14 +69,16 @@ const trimmedMean = (values: number[], trimPct: number): number => {
 };
 
 // Rounded mean of the time-to-decision day counts, over decided rows only.
-// A row counts as decided when its formula column holds a finite number — a
-// genuine same-day (0) decision included. Undecided rows arrive as null (the
-// Airtable `[*] Time to decision` formula is NaN until a decision date exists)
-// and are dropped, never folded in as 0. Null when no decided rows exist.
+// A row counts as decided when its formula column holds a finite, non-negative
+// number — a genuine same-day (0) decision included. Undecided rows arrive as
+// null (the Airtable `[*] Time to decision` formula is NaN until a decision date
+// exists) and are dropped, never folded in as 0. The `>= 0` guard also rejects
+// corrupt rows where a decision date was back-filled before the submission date.
+// Null when no decided rows exist.
 const averageDecisionDays = (rows: { timeToDecisionDays: number | null }[]): number | null => {
   const days = rows
     .map((row) => row.timeToDecisionDays)
-    .filter((value): value is number => value != null && Number.isFinite(value));
+    .filter((value): value is number => value != null && Number.isFinite(value) && value >= 0);
   return days.length ? Math.round(days.reduce((sum, value) => sum + value, 0) / days.length) : null;
 };
 
