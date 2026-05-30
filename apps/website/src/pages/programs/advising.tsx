@@ -12,6 +12,7 @@ import RecommendedReadingSection from '../../components/advising/RecommendedRead
 import HowItWorksSection from '../../components/advising/HowItWorksSection';
 import AdvisorsSection from '../../components/advising/AdvisorsSection';
 import { ROUTES } from '../../lib/routes';
+import { trpc } from '../../utils/trpc';
 import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
@@ -22,6 +23,9 @@ const FALLBACK_NAME = '1-1 advising';
 const FALLBACK_DESCRIPTION = '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety.';
 
 const OneOnOneAdvisingPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
+  const { data: stats } = trpc.grants.getOneOnOneAdvisingStats.useQuery();
+  const avgDaysToDecisionLabel = stats?.averageDaysToDecision != null ? String(stats.averageDaysToDecision) : '—';
+
   return (
     <div>
       <Head>
@@ -43,7 +47,7 @@ const OneOnOneAdvisingPage = ({ programName, programDescription }: ProgramDetail
         program="advising"
         stats={[
           { label: 'Advising calls done', value: '200+' },
-          { label: 'Decision time', value: '~5 working days' },
+          { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
       />
       <WhatThisIsForSection />
