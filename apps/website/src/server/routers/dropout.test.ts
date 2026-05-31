@@ -45,12 +45,20 @@ describe('dropout.dropoutOrDeferral', () => {
     expect(result).toBeTruthy();
   });
 
-  test('lets a participant defer', async () => {
-    await insertRegistration({ role: 'Participant' });
+  test('lets a participant defer once accepted', async () => {
+    await insertRegistration({ role: 'Participant', decision: 'Accept' });
 
     const result = await createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
       applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
     });
     expect(result).toBeTruthy();
+  });
+
+  test('rejects a pre-decision participant deferral', async () => {
+    await insertRegistration({ role: 'Participant', decision: null });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
+    })).rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 });

@@ -105,6 +105,33 @@ export const NoUpcomingRounds: Story = {
   },
 };
 
+export const Withdraw: Story = {
+  args: {
+    handleClose() {},
+    applicantId: 'rec123456789',
+    courseSlug: 'agi-safety-fundamentals',
+    currentRoundId: null,
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        courseRoundsHandler,
+        trpcStorybookMsw.courseRegistrations.getAll.query(() => [
+          createMockCourseRegistration({ id: 'rec123456789', decision: null }),
+        ]),
+        trpcStorybookMsw.dropout.dropoutOrDeferral.mutation(async ({ input }) => ({
+          id: 'new-dropout-id',
+          applicantId: [input.applicantId],
+          reason: input.reason ?? null,
+          type: input.type,
+          newRoundId: null,
+          oldRoundId: null,
+        })),
+      ],
+    },
+  },
+};
+
 export const Facilitator: Story = {
   args: {
     handleClose() {},

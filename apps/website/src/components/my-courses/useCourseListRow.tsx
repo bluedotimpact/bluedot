@@ -265,6 +265,12 @@ const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undef
   };
 };
 
+export const getApplicationActionLabel = (cr: CourseRegistration, state: CourseRowState): string => (
+  state === 'upcoming' && cr.decision === null
+    ? 'Withdraw application'
+    : 'Drop or defer course'
+);
+
 const getParticipantActions = (
   row: ParticipantRowProps,
   derived: CourseRowDerivedState,
@@ -396,7 +402,9 @@ const getParticipantActions = (
       isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision !== 'Reject'),
       variant: 'overflow',
       overflow: {
-        id: 'drop', label: 'Drop or defer course', onAction: triggers.openDropout,
+        id: 'drop',
+        label: getApplicationActionLabel(courseRegistration, state),
+        onAction: triggers.openDropout,
       },
     },
   ];
@@ -513,7 +521,7 @@ const getFacilitatorActions = (
       isVisible: state === 'upcoming' && courseRegistration.decision === null,
       variant: 'overflow',
       overflow: {
-        id: 'withdraw', label: 'Withdraw application', onAction: triggers.openDropout,
+        id: 'withdraw', label: getApplicationActionLabel(courseRegistration, state), onAction: triggers.openDropout,
       },
     },
   ];

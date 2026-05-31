@@ -148,4 +148,49 @@ describe('DropoutModal', () => {
     });
     expect(submittedType).toBe('Drop out');
   });
+
+  it('renders the withdraw confirm for a pre-decision registration', async () => {
+    const user = userEvent.setup();
+    let submittedType: string | undefined;
+
+    server.use(
+      trpcMsw.courseRegistrations.getAll.query(() => [
+        createMockCourseRegistration({ id: 'reg-pre', decision: null }),
+      ]),
+      trpcMsw.dropout.dropoutOrDeferral.mutation(({ input }) => {
+        submittedType = input.type;
+        return {
+          id: 'new-dropout-id',
+          applicantId: [input.applicantId],
+          reason: input.reason ?? null,
+          type: input.type,
+          newRoundId: null,
+          oldRoundId: null,
+        };
+      }),
+    );
+
+    render(
+      <DropoutModal
+        applicantId="reg-pre"
+        courseSlug="ai-safety"
+        currentRoundId={null}
+        handleClose={vi.fn()}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // No chooser is rendered; just Cancel + Confirm.
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: 'Action type' })).not.toBeInTheDocument();
+    });
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Confirm' }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Your application has been withdrawn/)).toBeInTheDocument();
+    });
+    expect(submittedType).toBe('Drop out');
+  });
 });

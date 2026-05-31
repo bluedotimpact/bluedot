@@ -373,10 +373,10 @@ describe('CourseListRow actions', () => {
       expect(openOverflowItems(container)).toContain('Drop or defer course');
     });
 
-    test('shown on upcoming + null decision (in-review applicants can withdraw, matching legacy)', () => {
+    test('shown as "Withdraw application" on upcoming + null decision (in-review applicants)', () => {
       const upcomingPending = createMockCourseRegistration({ roundStatus: 'Future', decision: null });
       const { container } = renderRow(baseProps({ courseRegistration: upcomingPending }));
-      expect(openOverflowItems(container)).toContain('Drop or defer course');
+      expect(openOverflowItems(container)).toContain('Withdraw application');
     });
 
     test('hidden on upcoming + Reject (rejected applicants do not see drop)', () => {
