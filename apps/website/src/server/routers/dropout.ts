@@ -66,8 +66,18 @@ export const dropoutRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
       }
 
-      if (type === 'Deferral' && courseRegistration.role === 'Facilitator') {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitators cannot defer a course.' });
+      if (type === 'Deferral' && courseRegistration.decision === null) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Deferral is only available once an application decision has been made.' });
+      }
+
+      if (courseRegistration.role === 'Facilitator') {
+        if (type === 'Deferral') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitators cannot defer a course.' });
+        }
+
+        if (courseRegistration.decision !== null) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitators can only withdraw an application that is still pending.' });
+        }
       }
 
       const oldRoundId = courseRegistration.roundId ?? null;

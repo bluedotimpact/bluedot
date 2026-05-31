@@ -265,6 +265,12 @@ const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undef
   };
 };
 
+export const getApplicationActionLabel = (cr: CourseRegistration, state: CourseRowState): string => (
+  state === 'upcoming' && cr.decision === null
+    ? 'Withdraw application'
+    : 'Drop or defer course'
+);
+
 const getParticipantActions = (
   row: ParticipantRowProps,
   derived: CourseRowDerivedState,
@@ -396,7 +402,9 @@ const getParticipantActions = (
       isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision !== 'Reject'),
       variant: 'overflow',
       overflow: {
-        id: 'drop', label: 'Drop or defer course', onAction: triggers.openDropout,
+        id: 'drop',
+        label: getApplicationActionLabel(courseRegistration, state),
+        onAction: triggers.openDropout,
       },
     },
   ];
@@ -509,12 +517,11 @@ const getFacilitatorActions = (
       },
     },
     {
-      // Pending => no group. Once a facilitator has a group assigned, don't let them drop out (they would need to ask via Slack)
-      id: 'drop',
-      isVisible: isPending && courseRegistration.decision !== 'Reject',
+      id: 'withdraw',
+      isVisible: state === 'upcoming' && courseRegistration.decision === null,
       variant: 'overflow',
       overflow: {
-        id: 'drop', label: 'Drop out', onAction: triggers.openDropout,
+        id: 'withdraw', label: getApplicationActionLabel(courseRegistration, state), onAction: triggers.openDropout,
       },
     },
   ];
