@@ -41,8 +41,12 @@ describe('getApplicationStatus', () => {
   test('Reject decision → notPlaced pill', () => {
     expect(getApplicationStatus(baseApp({ decision: 'Reject' }))).toBe('notPlaced');
   });
-  test('null decision → pending pill', () => {
-    expect(getApplicationStatus(baseApp({ decision: null }))).toBe('pending');
+  test('null decision on in-flight round → pending pill', () => {
+    expect(getApplicationStatus(baseApp({ decision: null, roundStatus: 'Future' }))).toBe('pending');
+    expect(getApplicationStatus(baseApp({ decision: null, roundStatus: 'Active' }))).toBe('pending');
+  });
+  test('null decision on past round → notPlaced pill', () => {
+    expect(getApplicationStatus(baseApp({ decision: null, roundStatus: 'Past' }))).toBe('notPlaced');
   });
 });
 

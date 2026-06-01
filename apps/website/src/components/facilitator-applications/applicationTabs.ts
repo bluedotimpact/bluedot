@@ -32,7 +32,7 @@ export const getApplicationStatus = (application: FacilitatorApplicationListItem
     case 'Accept':
       return application.roundStatus === 'Past' ? 'pastAccepted' : 'accepted';
     default:
-      return 'pending';
+      return application.roundStatus === 'Past' ? 'notPlaced' : 'pending';
   }
 };
 
