@@ -136,6 +136,8 @@ export const formatDateTimeRelative = ({
 
 export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string; unitNumber: string | number; chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
 
+export const unique = <T>(values: (T | null | undefined)[]): T[] => [...new Set(values.filter((v): v is T => v != null))];
+
 // "AGI Strategy (2026 May W19) - Part-time" → 19
 export const parseWeekFromRoundName = (roundName: string | null | undefined): number | null => {
   if (!roundName) return null;

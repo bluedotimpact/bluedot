@@ -19,9 +19,10 @@ import {
   type Unit,
   unitTable,
 } from '@bluedot/db';
+import z from 'zod';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
-import { parseWeekFromRoundName } from '../../lib/utils';
+import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { protectedProcedure, router } from '../trpc';
 import { getAvailableGroupsAndDiscussions } from './group-switching';
 
@@ -76,25 +77,27 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
   return status;
 };
 
-const unique = <T>(values: (T | null | undefined)[]): T[] =>
-  [...new Set(values.filter((v): v is T => v != null))];
-
 export const myBluedotRouter = router({
-  hasFacilitatorRegistrations: protectedProcedure.query(async ({ ctx }) => {
-    const rows = await db.pg
-      .select({ id: courseRegistrationTable.pg.id })
-      .from(courseRegistrationTable.pg)
-      .where(and(
-        eq(courseRegistrationTable.pg.email, ctx.auth.email),
-        eq(courseRegistrationTable.pg.role, 'Facilitator'),
-        or(
-          ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
-          isNull(courseRegistrationTable.pg.decision),
-        ),
-      ))
-      .limit(1);
-    return { hasFacilitatorRegistrations: rows.length > 0 };
-  }),
+  hasFacilitatorRegistrations: protectedProcedure
+    .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      const includeWithdrawn = input?.includeWithdrawn ?? false;
+      const rows = await db.pg
+        .select({ id: courseRegistrationTable.pg.id })
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.role, 'Facilitator'),
+          includeWithdrawn
+            ? undefined
+            : or(
+              ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+              isNull(courseRegistrationTable.pg.decision),
+            ),
+        ))
+        .limit(1);
+      return { hasFacilitatorRegistrations: rows.length > 0 };
+    }),
 
   myCoursesPage: protectedProcedure.query(async ({ ctx }) => {
     const { email } = ctx.auth;

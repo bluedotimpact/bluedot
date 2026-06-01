@@ -665,6 +665,65 @@ describe('myBluedot.hasFacilitatorRegistrations', () => {
   });
 });
 
+describe('myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true })', () => {
+  test('returns false when caller has no facilitator registrations', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-participant',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Participant',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: false });
+  });
+
+  test('returns true when caller has at least one facilitator registration', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-fac',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: true });
+  });
+
+  test('includes withdrawn facilitator applications', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-withdrawn',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      decision: 'Withdrawn',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: true });
+  });
+
+  test('ignores other users\' facilitator registrations', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-someone-else',
+      email: 'someone-else@example.com',
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: false });
+  });
+});
+
 describe('myBluedot.facilitatedCoursesPage', () => {
   const ROUND_ID = 'round-fac';
   const GROUP_ID = 'group-fac';
