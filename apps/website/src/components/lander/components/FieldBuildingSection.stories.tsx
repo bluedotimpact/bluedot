@@ -56,14 +56,6 @@ const sampleRoles: FieldBuildingRole[] = [
   },
 ];
 
-export const Default: Story = {
-  args: {
-    title: 'Help build the field',
-    intro: 'We also hire Adjunct Experts and Facilitators (~5h/week) and Fellow-Researchers (20-30h/week) to teach.',
-    roles: sampleRoles,
-  },
-};
-
 export const Compact: Story = {
   args: {
     title: 'Help build the field',

@@ -291,6 +291,23 @@ const facilitatorPendingArgs = stubFacilitator({
   meetPersonId: 'mp-fac-pending',
 });
 
+// Facilitator application still in review (Future + decision: null). Overflow should offer "Withdraw application".
+const facilitatorInReviewArgs = stubFacilitator({
+  courseRegistration: {
+    id: 'reg-fac-in-review',
+    roundStatus: 'Future',
+    decision: null,
+    roundId: 'round-fac-in-review',
+    roundName: 'Technical AI Safety (2026 May W21) - Intensive',
+  } as FacilitatorRowProps['courseRegistration'],
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
+  group: null,
+  roundStartDate: '2026-05-18',
+  roundEndDate: '2026-05-25',
+  roundIntensity: 'Intensive',
+  meetPersonId: 'mp-fac-in-review',
+});
+
 const facilitatorPastNeedFeedbackArgs = stubFacilitator({
   courseRegistration: {
     id: 'reg-fac-past-need',
@@ -351,6 +368,7 @@ const ALL_FACILITATOR = [
   { id: 'fac-in-progress-parttime', args: facilitatorInProgressPartTimeArgs },
   { id: 'fac-upcoming', args: facilitatorUpcomingArgs },
   { id: 'fac-pending', args: facilitatorPendingArgs },
+  { id: 'fac-in-review', args: facilitatorInReviewArgs },
   { id: 'fac-past-need-feedback', args: facilitatorPastNeedFeedbackArgs },
   { id: 'fac-past-feedback-submitted', args: facilitatorPastFeedbackSubmittedArgs },
 ];
@@ -392,5 +410,6 @@ export const FacilitatorInProgressIntensive: Story = { args: facilitatorInProgre
 export const FacilitatorInProgressPartTime: Story = { args: facilitatorInProgressPartTimeArgs };
 export const FacilitatorUpcoming: Story = { args: facilitatorUpcomingArgs };
 export const FacilitatorPending: Story = { args: facilitatorPendingArgs };
+export const FacilitatorInReview: Story = { args: facilitatorInReviewArgs };
 export const FacilitatorPastNeedFeedback: Story = { args: facilitatorPastNeedFeedbackArgs };
 export const FacilitatorPastFeedbackSubmitted: Story = { args: facilitatorPastFeedbackSubmittedArgs };

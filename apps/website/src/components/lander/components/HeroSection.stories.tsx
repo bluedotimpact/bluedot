@@ -61,25 +61,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Default story with all props including image
-export const Default: Story = {
-  args: {
-    categoryLabel: 'AGI STRATEGY',
-    title: 'AGI Strategy – Learn how to navigate humanity\'s most critical decade',
-    description: 'Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.',
-    primaryCta: {
-      text: 'Apply now',
-      url: 'https://example.com/apply',
-    },
-    secondaryCta: {
-      text: 'Browse curriculum',
-      url: '/courses/agi-strategy/1',
-    },
-    imageSrc: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
-    imageAlt: 'AI visualization',
-  },
-};
-
 export const FutureOfAI: Story = {
   args: {
     categoryLabel: 'SELF-PACED COURSE',

@@ -39,13 +39,6 @@ const manyOptions = [
   { value: 'option-15', label: 'Monday 6:00 PM - 7:00 PM (GMT)' },
 ];
 
-export const Default: Story = {
-  args: {
-    options: manyOptions,
-    placeholder: 'Select a time slot',
-  },
-};
-
 const ControlledSelect = () => {
   const [value, setValue] = useState<string | undefined>(undefined);
 

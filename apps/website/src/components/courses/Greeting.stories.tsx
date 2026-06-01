@@ -23,8 +23,3 @@ export const BasicGreeting: Story = {
   },
 };
 
-export const GreetingWithJSX: Story = {
-  args: {
-    children: <span className="text-bluedot-normal font-bold text-size-lg">Styled Text ✨</span>,
-  },
-};

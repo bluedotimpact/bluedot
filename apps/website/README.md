@@ -85,7 +85,7 @@ npm run render-preview # render OG/preview images
 | Modal / drawer / dropdown | `Modal`, `BottomDrawerModal`, `OverflowMenu`, `Tooltip` |
 | Accordion / show-hide | `Collapsible` |
 | Alert / tag / banner | `Banner`, `Tag`, `ErrorSection` |
-| Carousel / list / progress | `SlideList`, `QuoteCarousel`, `ProgressDots`, `Breadcrumbs` |
+| Carousel / list / progress | `SlideList`, `ProgressDots`, `Breadcrumbs` |
 | Avatars / share | `FaceTiles`, `ShareButton`, `SocialShare` |
 | Auth | `LoginRedirectPage`, `LoginOauthCallbackPage`, `useAuthStore`, `withAuth` |
 | Utils | `cn`, `addQueryParam`, `maybePlural`, `asError` |

@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, H1, Modal, P, ProgressDots, Select, Textarea,
+  CTALinkOrButton, ErrorSection, H1, Modal, P, ProgressDots, Select, Textarea,
 } from '@bluedot/ui';
 import { useMemo, useState } from 'react';
 import type { CourseRound, CourseRoundsData } from '../../server/routers/course-rounds';
@@ -73,12 +73,21 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
 
   const { data: courseRounds } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
+  const { data: registrations } = trpc.courseRegistrations.getAll.useQuery();
+  const registration = registrations?.find((r) => r.id === applicantId);
+  const allowDeferral = registration?.role !== 'Facilitator';
+
   const isDeferral = dropoutType === 'Deferral';
 
   const futureRoundsByIntensity = useMemo(() => ({
     'Part-time': courseRounds ? filterFutureRounds(courseRounds.partTime) : [],
     Intensive: courseRounds ? filterFutureRounds(courseRounds.intense) : [],
   }), [courseRounds]);
+
+  // Pre-decision registrations get a simple "withdraw application" confirm, not the drop/defer chooser.
+  if (registration?.decision === null) {
+    return <WithdrawConfirm applicantId={applicantId} handleClose={handleClose} />;
+  }
 
   const effectiveIntensity: Intensity = intensity
     ?? intensityOfRound(courseRounds, currentRoundId)
@@ -202,7 +211,11 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
           ariaLabel="Action type"
           value={dropoutType}
           onChange={(value) => setDropoutType(value as DropoutType)}
-          options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label, disabled: dropoutMutation.isPending }))}
+          options={TYPE_OPTIONS.map((opt) => ({
+            value: opt.value,
+            label: opt.label,
+            disabled: dropoutMutation.isPending || (opt.value === 'Deferral' && !allowDeferral),
+          }))}
           placeholder="Choose an option"
         />
         {isDeferral && renderRoundPicker()}
@@ -264,6 +277,74 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
         <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
           {dropoutMutation.isSuccess ? renderSuccess() : renderForm()}
         </form>
+      </div>
+    </Modal>
+  );
+};
+
+const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }> = ({
+  applicantId, handleClose,
+}) => {
+  const utils = trpc.useUtils();
+  const mutation = trpc.dropout.dropoutOrDeferral.useMutation();
+
+  const handleCloseWithInvalidation = () => {
+    if (mutation.isSuccess) {
+      void utils.meetPerson.getInactiveCourseRegistrations.invalidate();
+      void utils.dropout.getStatusForUser.invalidate();
+      void utils.courseRegistrations.getAll.invalidate();
+      void utils.myBluedot.myCoursesPage.invalidate();
+      void utils.myBluedot.facilitatedCoursesPage.invalidate();
+    }
+
+    handleClose();
+  };
+
+  const handleConfirm = () => mutation.mutate({ applicantId, type: 'Drop out' });
+
+  return (
+    <Modal
+      isOpen
+      setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
+      title={(
+        <div className="flex w-full items-center justify-center gap-2">
+          <div className="text-size-md font-semibold">
+            {mutation.isSuccess ? 'Application withdrawn' : 'Withdraw application'}
+          </div>
+        </div>
+      )}
+      bottomDrawerOnMobile
+      desktopHeaderClassName="border-b border-charcoal-light pt-6 pb-3"
+    >
+      <div className="flex w-full flex-col gap-4 md:w-[400px]">
+        {mutation.isSuccess ? (
+          <>
+            <div className="bg-bluedot-normal/10 self-center rounded-full p-4">
+              <CheckIcon className="text-bluedot-normal" />
+            </div>
+            <P className="text-bluedot-navy/80 text-center text-pretty">
+              Your application has been withdrawn. If this was a mistake, please email us.
+            </P>
+            <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
+              Close
+            </CTALinkOrButton>
+          </>
+        ) : (
+          <>
+            <P className="text-bluedot-navy/80 text-pretty">
+              Are you sure? You&apos;ll need to re-apply if you change your mind.
+            </P>
+            {mutation.isError && <ErrorSection error={mutation.error} />}
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <CTALinkOrButton variant="secondary" className="w-full sm:w-auto" onClick={handleCloseWithInvalidation} disabled={mutation.isPending}>
+                Cancel
+              </CTALinkOrButton>
+              <CTALinkOrButton className="bg-bluedot-normal w-full sm:w-auto" onClick={handleConfirm} disabled={mutation.isPending}>
+                Confirm
+              </CTALinkOrButton>
+            </div>
+          </>
+        )}
       </div>
     </Modal>
   );
