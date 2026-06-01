@@ -5,7 +5,7 @@ import {
   beforeEach, describe, expect, type Mock, test, vi,
 } from 'vitest';
 import { useRouter } from 'next/router';
-import FacilitatorFeedbackPage from '../../../pages/facilitator-feedback/[groupId]';
+import FacilitatorFeedbackPage from '../../../pages/facilitator-feedback/[meetPersonId]';
 import { TrpcProvider } from '../../trpcProvider';
 import { server, trpcMsw } from '../../trpcMswSetup';
 
@@ -14,10 +14,10 @@ vi.mock('next/router', () => ({
 }));
 
 const mockRouter = {
-  query: { groupId: 'rec-facilitator' },
+  query: { meetPersonId: 'rec-facilitator' },
   isReady: true,
   asPath: '/facilitator-feedback/rec-facilitator',
-  pathname: '/facilitator-feedback/[groupId]',
+  pathname: '/facilitator-feedback/[meetPersonId]',
   push: vi.fn(),
   replace: vi.fn(),
 };
