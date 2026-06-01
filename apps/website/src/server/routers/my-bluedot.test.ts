@@ -665,7 +665,7 @@ describe('myBluedot.hasFacilitatorRegistrations', () => {
   });
 });
 
-describe('myBluedot.hasFacilitatorApplications', () => {
+describe('myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true })', () => {
   test('returns false when caller has no facilitator registrations', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-participant',
@@ -675,9 +675,9 @@ describe('myBluedot.hasFacilitatorApplications', () => {
       roundStatus: 'Active',
     });
 
-    const result = await caller.myBluedot.hasFacilitatorApplications();
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
 
-    expect(result).toEqual({ hasFacilitatorApplications: false });
+    expect(result).toEqual({ hasFacilitatorRegistrations: false });
   });
 
   test('returns true when caller has at least one facilitator registration', async () => {
@@ -689,9 +689,9 @@ describe('myBluedot.hasFacilitatorApplications', () => {
       roundStatus: 'Active',
     });
 
-    const result = await caller.myBluedot.hasFacilitatorApplications();
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
 
-    expect(result).toEqual({ hasFacilitatorApplications: true });
+    expect(result).toEqual({ hasFacilitatorRegistrations: true });
   });
 
   test('includes withdrawn facilitator applications', async () => {
@@ -704,9 +704,9 @@ describe('myBluedot.hasFacilitatorApplications', () => {
       roundStatus: 'Active',
     });
 
-    const result = await caller.myBluedot.hasFacilitatorApplications();
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
 
-    expect(result).toEqual({ hasFacilitatorApplications: true });
+    expect(result).toEqual({ hasFacilitatorRegistrations: true });
   });
 
   test('ignores other users\' facilitator registrations', async () => {
@@ -718,9 +718,9 @@ describe('myBluedot.hasFacilitatorApplications', () => {
       roundStatus: 'Active',
     });
 
-    const result = await caller.myBluedot.hasFacilitatorApplications();
+    const result = await caller.myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true });
 
-    expect(result).toEqual({ hasFacilitatorApplications: false });
+    expect(result).toEqual({ hasFacilitatorRegistrations: false });
   });
 });
 
