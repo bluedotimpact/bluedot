@@ -2,7 +2,7 @@ import { OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { formatMonthAndDay } from '../../lib/utils';
-import StatusPill, { type StatusPillVariant } from './StatusPill';
+import { APPLICATION_STATUS_LABEL, type ApplicationStatus } from './applicationTabs';
 
 export type ApplicationRowProps = {
   id: string;
@@ -11,7 +11,7 @@ export type ApplicationRowProps = {
   roundName: string | null;
   roundFirstDiscussionDate: string | null;
   roundLastDiscussionDate: string | null;
-  pillVariant: StatusPillVariant;
+  status: ApplicationStatus;
   menuItems?: OverflowMenuItemProps[];
 };
 
@@ -20,18 +20,21 @@ const formatDateRange = (start: string | null, end: string | null): string | nul
   return `${formatMonthAndDay(start)} - ${formatMonthAndDay(end)}`;
 };
 
+const STATUS_PILL_CLASS = 'text-size-xxs inline-flex min-h-9 items-center justify-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] font-medium text-bluedot-navy';
+
 const ApplicationRow = ({
   courseTitle,
   courseSlug,
   roundName,
   roundFirstDiscussionDate,
   roundLastDiscussionDate,
-  pillVariant,
+  status,
   menuItems,
 }: ApplicationRowProps) => {
   const dateRange = formatDateRange(roundFirstDiscussionDate, roundLastDiscussionDate);
   const courseConfig = courseSlug ? COURSE_CONFIG[courseSlug] : undefined;
   const tint = courseSlug ? COURSE_COLORS[courseSlug as CourseColorSlug]?.bright : undefined;
+  const statusLabel = APPLICATION_STATUS_LABEL[status];
 
   return (
     <li className="overflow-hidden rounded-xl border border-color-divider bg-white">
@@ -69,9 +72,7 @@ const ApplicationRow = ({
           </div>
           <div className="flex shrink-0 items-center gap-3">
             {/* Desktop: pill sits inline on the right; on mobile it lives in a row below */}
-            <span className="hidden sm:inline-flex">
-              <StatusPill variant={pillVariant} />
-            </span>
+            <span className={`hidden sm:inline-flex ${STATUS_PILL_CLASS}`}>{statusLabel}</span>
             {menuItems && menuItems.length > 0 && (
               <OverflowMenu ariaLabel="Application actions" items={menuItems} />
             )}
@@ -79,7 +80,7 @@ const ApplicationRow = ({
         </div>
         {/* Mobile: status pill as a full-width row below the title block */}
         <div className="relative flex px-5 pb-5 sm:hidden">
-          <StatusPill variant={pillVariant} />
+          <span className={STATUS_PILL_CLASS}>{statusLabel}</span>
         </div>
       </div>
     </li>

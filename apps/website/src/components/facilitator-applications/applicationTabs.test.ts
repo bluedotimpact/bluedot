@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
-import { filterByTab, getPillVariant, isApplicationTab } from './applicationTabs';
+import { filterByTab, getApplicationStatus, isApplicationTab } from './applicationTabs';
 
 const baseApp = (overrides: Partial<FacilitatorApplicationListItem>): FacilitatorApplicationListItem => ({
   id: 'reg-1',
@@ -27,22 +27,22 @@ describe('isApplicationTab', () => {
   });
 });
 
-describe('getPillVariant', () => {
+describe('getApplicationStatus', () => {
   test('Withdrawn decision → withdrawn pill', () => {
-    expect(getPillVariant(baseApp({ decision: 'Withdrawn' }))).toBe('withdrawn');
+    expect(getApplicationStatus(baseApp({ decision: 'Withdrawn' }))).toBe('withdrawn');
   });
   test('Accept decision on in-flight round → accepted pill', () => {
-    expect(getPillVariant(baseApp({ decision: 'Accept', roundStatus: 'Future' }))).toBe('accepted');
-    expect(getPillVariant(baseApp({ decision: 'Accept', roundStatus: 'Active' }))).toBe('accepted');
+    expect(getApplicationStatus(baseApp({ decision: 'Accept', roundStatus: 'Future' }))).toBe('accepted');
+    expect(getApplicationStatus(baseApp({ decision: 'Accept', roundStatus: 'Active' }))).toBe('accepted');
   });
   test('Accept decision on past round → pastAccepted pill', () => {
-    expect(getPillVariant(baseApp({ decision: 'Accept', roundStatus: 'Past' }))).toBe('pastAccepted');
+    expect(getApplicationStatus(baseApp({ decision: 'Accept', roundStatus: 'Past' }))).toBe('pastAccepted');
   });
   test('Reject decision → notPlaced pill', () => {
-    expect(getPillVariant(baseApp({ decision: 'Reject' }))).toBe('notPlaced');
+    expect(getApplicationStatus(baseApp({ decision: 'Reject' }))).toBe('notPlaced');
   });
   test('null decision → pending pill', () => {
-    expect(getPillVariant(baseApp({ decision: null }))).toBe('pending');
+    expect(getApplicationStatus(baseApp({ decision: null }))).toBe('pending');
   });
 });
 

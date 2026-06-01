@@ -1,5 +1,4 @@
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
-import type { StatusPillVariant } from './StatusPill';
 
 export const APPLICATION_TABS = [
   { id: 'active', label: 'Active' },
@@ -14,7 +13,17 @@ const TAB_IDS = new Set<string>(APPLICATION_TABS.map((t) => t.id));
 
 export const isApplicationTab = (v: unknown): v is ApplicationTab => typeof v === 'string' && TAB_IDS.has(v);
 
-export const getPillVariant = (application: FacilitatorApplicationListItem): StatusPillVariant => {
+export type ApplicationStatus = 'pending' | 'accepted' | 'pastAccepted' | 'withdrawn' | 'notPlaced';
+
+export const APPLICATION_STATUS_LABEL: Record<ApplicationStatus, string> = {
+  pending: 'Pending',
+  accepted: 'Accepted',
+  pastAccepted: 'Past - Accepted',
+  withdrawn: 'Withdrawn',
+  notPlaced: 'Past - Not Placed',
+};
+
+export const getApplicationStatus = (application: FacilitatorApplicationListItem): ApplicationStatus => {
   switch (application.decision) {
     case 'Withdrawn':
       return 'withdrawn';

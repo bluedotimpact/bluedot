@@ -5,7 +5,7 @@ import ApplicationRow from '../../components/facilitator-applications/Applicatio
 import {
   APPLICATION_TABS,
   filterByTab,
-  getPillVariant,
+  getApplicationStatus,
   isApplicationTab,
   type ApplicationTab,
 } from '../../components/facilitator-applications/applicationTabs';
@@ -95,7 +95,7 @@ const FacilitatorApplicationsPage = () => {
                         roundName={app.roundName}
                         roundFirstDiscussionDate={app.roundFirstDiscussionDate}
                         roundLastDiscussionDate={app.roundLastDiscussionDate}
-                        pillVariant={getPillVariant(app)}
+                        status={getApplicationStatus(app)}
                         menuItems={menuItems}
                       />
                     );

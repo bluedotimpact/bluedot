@@ -21,13 +21,13 @@ const base = {
 };
 
 export const Pending: Story = {
-  args: { ...base, pillVariant: 'pending' },
+  args: { ...base, status: 'pending' },
 };
 
 export const AcceptedWithGoToCourse: Story = {
   args: {
     ...base,
-    pillVariant: 'accepted',
+    status: 'accepted',
     menuItems: [
       { id: 'go-to-course', label: 'Go to course', href: '/courses/technical-ai-safety' },
     ],
@@ -39,7 +39,7 @@ export const PastAccepted: Story = {
     ...base,
     roundFirstDiscussionDate: '2025-09-10',
     roundLastDiscussionDate: '2025-09-17',
-    pillVariant: 'pastAccepted',
+    status: 'pastAccepted',
   },
 };
 
@@ -48,13 +48,13 @@ export const PastNotPlaced: Story = {
     ...base,
     roundFirstDiscussionDate: '2025-09-10',
     roundLastDiscussionDate: '2025-09-17',
-    pillVariant: 'notPlaced',
+    status: 'notPlaced',
   },
 };
 
 export const Withdrawn: Story = {
   args: {
     ...base,
-    pillVariant: 'withdrawn',
+    status: 'withdrawn',
   },
 };
