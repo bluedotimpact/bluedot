@@ -135,9 +135,16 @@ const adminSyncDashboard: BluedotRoute = {
   parentPages: [home],
 };
 
+const adminUserExerciseResponses: BluedotRoute = {
+  title: 'User exercise responses',
+  url: '/admin/exercises',
+  parentPages: [home],
+};
+
 export const ROUTES = {
   about,
   adminSyncDashboard,
+  adminUserExerciseResponses,
   alumni,
   blog,
   certification,
