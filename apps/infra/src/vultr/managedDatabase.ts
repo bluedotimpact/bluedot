@@ -8,7 +8,7 @@ import * as vultr from '@ediri/vultr';
 // leaving Airtable. Plan id, $100/mo cost, and ams availability confirmed against
 // https://api.vultr.com/v2/databases/plans?engine=pg
 export const airtableSyncManagedPg = new vultr.Database('airtable-sync-managed-pg', {
-  label: 'bluedot-airtable-sync',
+  label: 'bluedot-app',
   databaseEngine: 'pg',
   databaseEngineVersion: '18',
   region: 'ams',
