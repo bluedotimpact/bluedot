@@ -32,7 +32,7 @@ const TabPill = <T extends string>({
 const TabPills = <T extends string>({
   ariaLabel, tabs, value, onChange,
 }: TabPillsProps<T>) => (
-  <div role="group" aria-label={ariaLabel} className="flex gap-3">
+  <div role="group" aria-label={ariaLabel} className="flex flex-wrap gap-y-2 gap-x-3">
     {tabs.map((tab) => (
       <TabPill
         key={tab.id}
