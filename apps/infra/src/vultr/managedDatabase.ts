@@ -10,7 +10,7 @@ import * as vultr from '@ediri/vultr';
 export const airtableSyncManagedPg = new vultr.Database('airtable-sync-managed-pg', {
   label: 'bluedot-airtable-sync',
   databaseEngine: 'pg',
-  databaseEngineVersion: '17',
+  databaseEngineVersion: '18',
   region: 'ams',
   plan: 'vultr-dbaas-business-cc-2-80-4',
   // No trustedIps (IP allowlist) by design: matches our established pattern (the existing in-node
