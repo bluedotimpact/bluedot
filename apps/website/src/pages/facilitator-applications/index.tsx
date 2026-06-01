@@ -17,6 +17,17 @@ import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.facilitatorApplications;
 
+const sortByNewestFirst = (apps: FacilitatorApplicationListItem[]): FacilitatorApplicationListItem[] => {
+  return [...apps].sort((a, b) => {
+    const aDate = a.roundFirstDiscussionDate;
+    const bDate = b.roundFirstDiscussionDate;
+    if (!aDate && !bDate) return 0;
+    if (!aDate) return 1;
+    if (!bDate) return -1;
+    return bDate.localeCompare(aDate);
+  });
+};
+
 const EMPTY_BY_TAB: Record<ApplicationTab, { title: string; description: string }> = {
   active: {
     title: 'No active applications',
@@ -47,7 +58,7 @@ const FacilitatorApplicationsPage = () => {
 
   const { data, isLoading, error } = trpc.facilitatorApplications.list.useQuery();
 
-  const visible = data ? filterByTab(data, activeTab) : [];
+  const visible = data ? sortByNewestFirst(filterByTab(data, activeTab)) : [];
 
   return (
     <div>
