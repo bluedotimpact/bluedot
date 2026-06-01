@@ -3,8 +3,8 @@ import {
 } from '@bluedot/db';
 import { type inferRouterOutputs } from '@trpc/server';
 import db from '../../lib/api/db';
+import { unique } from '../../lib/utils';
 import { protectedProcedure, router } from '../trpc';
-import { unique } from './my-bluedot';
 
 type FacilitatorApplicationDecision = 'Accept' | 'Reject' | 'Withdrawn' | null;
 type FacilitatorApplicationRoundStatus = 'Active' | 'Future' | 'Past' | null;
