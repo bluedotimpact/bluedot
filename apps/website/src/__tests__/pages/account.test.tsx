@@ -43,7 +43,6 @@ describe('AccountSettingsPage', () => {
     // @ts-expect-error Only mocking data needed for `AccountSettingsPage`
     server.use(trpcMsw.users.getUser.query(() => mockUserData));
     server.use(trpcMsw.myBluedot.hasFacilitatorRegistrations.query(() => ({ hasFacilitatorRegistrations: false })));
-    server.use(trpcMsw.myBluedot.hasFacilitatorApplications.query(() => ({ hasFacilitatorApplications: false })));
   });
 
   test('should render account settings page correctly', async () => {
