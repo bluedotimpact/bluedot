@@ -1,13 +1,10 @@
 import * as vultr from '@ediri/vultr';
 
-// Managed Postgres for the Airtable replica (#2575, part of #2572).
-//
-// Business tier is deliberate: it provisions a primary + standby replica and 14-day
-// point-in-time recovery, which is what makes this durable enough to host the
-// Postgres-authoritative tables (exercise responses, resource completions) that are
-// leaving Airtable. Plan id, $100/mo cost, and ams availability confirmed against
-// https://api.vultr.com/v2/databases/plans?engine=pg
-export const airtableSyncManagedPg = new vultr.Database('airtable-sync-managed-pg', {
+// The primary production Postgres database. Business tier is deliberate: it provisions a
+// primary + standby replica and 14-day point-in-time recovery, which is what makes it durable
+// enough to hold authoritative data. Plan id, $100/mo cost, and ams availability confirmed
+// against https://api.vultr.com/v2/databases/plans?engine=pg
+export const managedPg = new vultr.Database('managed-pg', {
   label: 'bluedot-app',
   databaseEngine: 'pg',
   databaseEngineVersion: '18',

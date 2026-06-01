@@ -88,18 +88,17 @@ export const getConnectionDetails = (resource: k8s.apiextensions.CustomResource)
 // verification (same posture as the commented-out backend config in serviceDefinitions.ts).
 // The password is URL-encoded in case it contains reserved characters (@ : / etc).
 const managedPgUri = secret(all([
-  airtableSyncManagedPg.user,
-  airtableSyncManagedPg.password,
-  airtableSyncManagedPg.host,
-  airtableSyncManagedPg.port,
-  airtableSyncManagedDb.name,
+  managedPg.user,
+  managedPg.password,
+  managedPg.host,
+  managedPg.port,
 ]).apply(([user, password, host, port, dbname]) =>
   `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${dbname}?sslmode=no-verify`));
 
 const managedPgSecret = new k8s.core.v1.Secret(
-  'airtable-sync-managed-pg-secret',
+  'managed-pg-secret',
   {
-    metadata: { name: 'airtable-sync-managed-pg-secret' },
+    metadata: { name: 'managed-pg-secret' },
     stringData: { uri: managedPgUri },
   },
   { provider },
