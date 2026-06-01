@@ -13,5 +13,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Pending: Story = { args: { variant: 'pending' } };
 export const Accepted: Story = { args: { variant: 'accepted' } };
+export const PastAccepted: Story = { args: { variant: 'pastAccepted' } };
 export const Withdrawn: Story = { args: { variant: 'withdrawn' } };
 export const NotPlaced: Story = { args: { variant: 'notPlaced' } };
