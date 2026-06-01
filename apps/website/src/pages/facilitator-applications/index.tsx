@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import ApplicationRow from '../../components/facilitator-applications/ApplicationRow';
-import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
 import {
   APPLICATION_TABS,
   filterByTab,
@@ -15,6 +14,7 @@ import MyBlueDotLayout from '../../components/my-bluedot/MyBlueDotLayout';
 import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
 import TabPills from '../../components/my-courses/TabPills';
 import { ROUTES } from '../../lib/routes';
+import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
 import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.facilitatorApplications;
