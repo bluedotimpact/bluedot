@@ -171,6 +171,10 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldjhCZEuocd5eYsb',
     },
+    userId: {
+      pgColumn: text().array(),
+      airtableId: 'fldiis2fuPC0Q0smM',
+    },
   },
   deprecatedColumns: {
     completed: {
@@ -1193,6 +1197,10 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: text(),
       airtableId: 'fldJX4h1sTNkacKru',
     },
+    resourceId: {
+      pgColumn: text().array(),
+      airtableId: 'fldJ2YZwUTmtdRp2Z',
+    },
     syncedAudioUrl: {
       pgColumn: text().default(''), // For future github issue #1148
       airtableId: 'fldIqUoLYILUmMgY0',
@@ -1459,6 +1467,18 @@ export const userTable = pgAirtable('user', {
   },
 });
 
+// Course builder base has its own User table, distinct from the Applications-base userTable.
+export const courseBuilderUserTable = pgAirtable('course_builder_user', {
+  baseId: COURSE_BUILDER_BASE_ID,
+  tableId: 'tbl8aI1ksljv2qZv3',
+  columns: {
+    email: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldOkUOWaZGphtQWF',
+    },
+  },
+});
+
 // Resource feedback constants for better readability
 export const RESOURCE_FEEDBACK = {
   DISLIKE: -1,
@@ -1496,6 +1516,14 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbT2G8lDkUsuusY',
+    },
+    resourceId: {
+      pgColumn: text().array(),
+      airtableId: 'fldlRVze2fMzrVX6M',
+    },
+    createdByUserId: {
+      pgColumn: text().array(),
+      airtableId: 'fldtEFIAKCUctCDhW',
     },
   },
   deprecatedColumns: {
@@ -1704,6 +1732,7 @@ export type Exercise = InferSelectModel<typeof exerciseTable.pg>;
 export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable.pg>;
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
+export type CourseBuilderUser = InferSelectModel<typeof courseBuilderUserTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;

@@ -93,6 +93,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         response: newData.response,
         completedAt: newCompletedAt,
         autoNumberId: previousResponse?.autoNumberId ?? null,
+        userId: previousResponse?.userId ?? null,
       });
 
       const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;

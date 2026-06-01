@@ -271,6 +271,7 @@ export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitR
   coreFurtherMaybe: 'Core',
   readingOrder: null,
   unitId: 'unit-1',
+  resourceId: null,
   syncedAudioUrl: null,
   year: 2024,
   autoNumberId: 1,
@@ -302,5 +303,7 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   isCompleted: false,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
   unitResourceId: MOCK_RESOURCE_ID,
+  resourceId: null,
+  createdByUserId: null,
   ...overrides,
 });

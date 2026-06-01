@@ -143,6 +143,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               feedback: updatedFields.feedback ?? '',
               resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
               isCompleted: updatedFields.isCompleted ?? false,
+              resourceId: null,
+              createdByUserId: null,
             });
           }
 
