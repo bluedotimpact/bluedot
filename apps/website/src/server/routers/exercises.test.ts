@@ -5,6 +5,7 @@ import {
   exerciseTable,
   groupTable,
   meetPersonTable,
+  userTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -80,6 +81,28 @@ describe('exercises.saveExerciseResponse', () => {
       completedAt: null,
     });
     expect(result.id).toBeDefined();
+  });
+
+  test('writes userId on insert when the user exists', async () => {
+    await testDb.insert(userTable, {
+      id: 'user-1', email: CALLER_EMAIL, name: 'Test User',
+    });
+
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'exercise-1',
+      response: 'My answer',
+    });
+
+    expect(result.userId).toEqual(['user-1']);
+  });
+
+  test('leaves userId null on insert when the user row is missing', async () => {
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'exercise-1',
+      response: 'My answer',
+    });
+
+    expect(result.userId).toBeNull();
   });
 
   test('updates an existing response', async () => {
