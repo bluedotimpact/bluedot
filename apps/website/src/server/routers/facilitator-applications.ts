@@ -6,8 +6,16 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 import { unique } from './my-bluedot';
 
-export type FacilitatorApplicationDecision = 'Accept' | 'Reject' | 'Withdrawn' | null;
-export type FacilitatorApplicationRoundStatus = 'Active' | 'Future' | 'Past' | null;
+type FacilitatorApplicationDecision = 'Accept' | 'Reject' | 'Withdrawn' | null;
+type FacilitatorApplicationRoundStatus = 'Active' | 'Future' | 'Past' | null;
+
+const toDecision = (v: unknown): FacilitatorApplicationDecision => (
+  v === 'Accept' || v === 'Reject' || v === 'Withdrawn' ? v : null
+);
+
+const toRoundStatus = (v: unknown): FacilitatorApplicationRoundStatus => (
+  v === 'Active' || v === 'Future' || v === 'Past' ? v : null
+);
 
 export type FacilitatorApplicationListItem = inferRouterOutputs<typeof facilitatorApplicationsRouter>['list'][number];
 
@@ -61,8 +69,8 @@ export const facilitatorApplicationsRouter = router({
         roundName: r.roundName ?? null,
         roundFirstDiscussionDate: round?.firstDiscussionDate ?? null,
         roundLastDiscussionDate: round?.lastDiscussionDate ?? null,
-        decision: (r.decision ?? null) as FacilitatorApplicationDecision,
-        roundStatus: (r.roundStatus ?? null) as FacilitatorApplicationRoundStatus,
+        decision: toDecision(r.decision),
+        roundStatus: toRoundStatus(r.roundStatus),
       };
     });
   }),
