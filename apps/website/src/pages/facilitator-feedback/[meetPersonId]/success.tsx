@@ -19,7 +19,8 @@ const formatNames = (names: string[]): string => {
 
 const FacilitatorFeedbackSuccessPage = () => {
   const router = useRouter();
-  const meetPersonId = router.query.groupId as string;
+  // Fallback to old `groupId` param for stale clients mid-deploy. Remove in follow-up PR.
+  const meetPersonId = (router.query.meetPersonId ?? router.query.groupId) as string;
 
   const { data, isLoading, error } = trpc.facilitators.getFeedbackFormData.useQuery(
     { meetPersonId },
