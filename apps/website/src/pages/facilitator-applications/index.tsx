@@ -64,7 +64,7 @@ const FacilitatorApplicationsPage = () => {
           {error && <ErrorSection error={error} />}
           {!isLoading && !error && data && (
             <>
-              <h2 className="text-size-md text-bluedot-black font-semibold">All applications</h2>
+              <h2 className="text-size-md text-bluedot-black font-semibold">All Applications</h2>
               <TabPills
                 ariaLabel="Application filter"
                 tabs={APPLICATION_TABS}
