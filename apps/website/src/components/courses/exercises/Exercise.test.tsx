@@ -105,6 +105,7 @@ describe('Exercise', () => {
       exerciseId: 'ex1',
       response: 'Some text the user wrote',
       completed: false,
+      userId: null,
     })));
 
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
@@ -122,6 +123,7 @@ describe('Exercise', () => {
       exerciseId: 'ex1',
       response: '',
       completed: false,
+      userId: null,
     })));
 
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
@@ -143,6 +145,7 @@ describe('Exercise', () => {
         exerciseId: 'ex1',
         response: 'Old saved text',
         completed: false,
+        userId: null,
       })),
       trpcMsw.exercises.saveExerciseResponse.mutation(({ input }) => {
         savedResponse = input.response;

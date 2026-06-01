@@ -41,6 +41,7 @@ const savedResponse = {
   completed: false,
   completedAt: null,
   autoNumberId: null,
+  userId: null,
 };
 
 const longResponse = 'A better future means access to meaningful work and stronger local institutions. I\'d love to see more investment in public infrastructure — not just roads and transit, but libraries, community centres, and green spaces that bring people together. I think technology can help here, but only if we\'re intentional about how we deploy it. Too often we optimise for efficiency at the expense of human connection. I\'d also like to see education systems that teach critical thinking and adaptability rather than rote memorisation. The pace of change is accelerating, and we need people who can navigate uncertainty with confidence. Ultimately, I think a better future is one where people have more agency over their own lives — more time, more autonomy, and more opportunities to contribute to something larger than themselves.';
