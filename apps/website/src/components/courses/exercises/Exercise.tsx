@@ -91,6 +91,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         email: previousResponse?.email ?? auth?.email ?? '',
         exerciseId,
         response: newData.response,
+        createdAt: previousResponse?.createdAt ?? null,
         completedAt: newCompletedAt,
         createdAt: previousResponse?.createdAt ?? null,
         autoNumberId: previousResponse?.autoNumberId ?? null,

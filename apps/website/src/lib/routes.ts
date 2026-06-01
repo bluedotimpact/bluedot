@@ -129,20 +129,27 @@ const subscriptionPreferences: BluedotRoute = {
   parentPages: [home],
 };
 
-const adminSyncDashboard: BluedotRoute = {
-  title: 'Sync Dashboard',
-  url: '/admin/sync-dashboard',
+const admin: BluedotRoute = {
+  title: 'Admin',
+  url: '/admin',
   parentPages: [home],
 };
 
+const adminSyncDashboard: BluedotRoute = {
+  title: 'Sync Dashboard',
+  url: '/admin/sync-dashboard',
+  parentPages: [home, admin],
+};
+
 const adminUserExerciseResponses: BluedotRoute = {
-  title: 'User exercise responses',
+  title: 'User Exercise Responses',
   url: '/admin/exercises',
-  parentPages: [home],
+  parentPages: [home, admin],
 };
 
 export const ROUTES = {
   about,
+  admin,
   adminSyncDashboard,
   adminUserExerciseResponses,
   alumni,

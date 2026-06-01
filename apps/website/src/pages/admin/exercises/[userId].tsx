@@ -5,9 +5,11 @@ import type { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
-  useCallback, useEffect, useMemo, useRef, useState,
+  useEffect, useMemo, useRef, useState,
 } from 'react';
-import MarketingHero from '../../../components/MarketingHero';
+import { RiSearchLine } from 'react-icons/ri';
+import { maskEmail } from '../../../components/admin/ImpersonationBadge';
+import { UserSearchModal } from '../../../components/admin/UserSearchModal';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import { ROUTES } from '../../../lib/routes';
 import type { UserExerciseResponseItem } from '../../../server/routers/admin';
@@ -15,7 +17,6 @@ import { trpc } from '../../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.adminUserExerciseResponses;
 const PAGE_SIZE = 20;
-const SEARCH_DEBOUNCE_MS = 300;
 
 type StatusFilter = 'all' | 'completed' | 'in-progress';
 
@@ -25,43 +26,81 @@ const PageChrome = ({ children }: { children: React.ReactNode }) => (
       <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       <meta name="robots" content="noindex" />
     </Head>
-    <MarketingHero title={CURRENT_ROUTE.title} subtitle="Read-only admin view of a user's exercise responses across all courses." />
     <Breadcrumbs route={CURRENT_ROUTE} />
     {children}
   </div>
 );
 
+const readUrlParam = (key: string): string => {
+  if (typeof window === 'undefined') return '';
+  return new URLSearchParams(window.location.search).get(key) ?? '';
+};
+
+const writeUrlParams = (changes: Record<string, string | undefined>) => {
+  if (typeof window === 'undefined') return;
+  // We bypass next/router here because `router.replace` updates `router.asPath`, which is used as
+  // the `key` of an ErrorBoundary wrapping every page in `_app.tsx` — any URL change there fully
+  // unmounts and remounts the page (losing input focus, local state, etc.). `history.replaceState`
+  // keeps the URL shareable without disturbing Next.js router state.
+  const params = new URLSearchParams(window.location.search);
+  for (const [k, v] of Object.entries(changes)) {
+    if (v && v.length > 0) params.set(k, v);
+    else params.delete(k);
+  }
+
+  const query = params.toString();
+  const url = `${window.location.pathname}${query ? `?${query}` : ''}`;
+  window.history.replaceState(window.history.state, '', url);
+};
+
 const AdminUserExerciseResponses = () => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
   const userId = typeof router.query.userId === 'string' ? router.query.userId : undefined;
-  const courseId = typeof router.query.courseId === 'string' ? router.query.courseId : undefined;
-  const status: StatusFilter = router.query.status === 'completed' || router.query.status === 'in-progress' ? router.query.status : 'all';
-  const urlSearch = typeof router.query.search === 'string' ? router.query.search : '';
 
-  const updateQuery = useCallback((changes: Record<string, string | undefined>) => {
-    const next: Record<string, string> = {};
-    for (const [k, v] of Object.entries({ ...router.query, ...changes })) {
-      if (typeof v === 'string' && v.length > 0) next[k] = v;
-    }
-
-    router.replace({ pathname: router.pathname, query: next }, undefined, { shallow: true });
-  }, [router]);
-
-  // Search input is locally controlled; URL updates after debounce so the query doesn't refetch per keystroke.
-  const [searchInput, setSearchInput] = useState(urlSearch);
+  // Filter state lives in React, synced to the URL via history.replaceState (not router.replace).
+  // Initial values are read from the URL once on mount. Matches the modal search semantics: every
+  // keystroke fires a fresh query, loading dots show in the results area, no debounce.
+  const [courseId, setCourseIdState] = useState<string | undefined>(undefined);
+  const [status, setStatusState] = useState<StatusFilter>('completed');
+  const [search, setSearchState] = useState<string>('');
   useEffect(() => {
-    setSearchInput(urlSearch);
-  }, [urlSearch]);
-  useEffect(() => {
-    if (searchInput === urlSearch) return undefined;
-    const timer = setTimeout(() => updateQuery({ search: searchInput || undefined }), SEARCH_DEBOUNCE_MS);
-    return () => clearTimeout(timer);
-  }, [searchInput, urlSearch, updateQuery]);
+    const initialSearch = readUrlParam('search');
+    const initialCourseId = readUrlParam('courseId') || undefined;
+    const rawStatus = readUrlParam('status');
+    const initialStatus: StatusFilter = rawStatus === 'all' || rawStatus === 'in-progress' ? rawStatus : 'completed';
+    setCourseIdState(initialCourseId);
+    setStatusState(initialStatus);
+    setSearchState(initialSearch);
+  }, []);
+
+  const setCourseId = (next: string | undefined) => {
+    setCourseIdState(next);
+    writeUrlParams({ courseId: next });
+  };
+
+  const setStatus = (next: StatusFilter) => {
+    setStatusState(next);
+    // Default is 'completed' — omit it from the URL so the URL stays clean.
+    writeUrlParams({ status: next === 'completed' ? undefined : next });
+  };
+
+  const setSearch = (next: string) => {
+    setSearchState(next);
+    writeUrlParams({ search: next || undefined });
+  };
+
+  // Context (user identity + the courses they've responded in) is static for a given userId —
+  // it does NOT depend on filters/search, so it's a separate query that doesn't refetch when those
+  // change. This is what keeps the LHS aside stable.
+  const contextQuery = trpc.admin.getUserExerciseResponseContext.useQuery(
+    { userId: userId ?? '' },
+    { enabled: !!userId && !!auth, retry: false },
+  );
 
   const query = trpc.admin.getUserExerciseResponses.useInfiniteQuery(
     {
-      userId: userId ?? '', courseId, status, search: urlSearch || undefined, limit: PAGE_SIZE,
+      userId: userId ?? '', courseId, status, search: search || undefined, limit: PAGE_SIZE,
     },
     {
       enabled: !!userId && !!auth,
@@ -85,56 +124,38 @@ const AdminUserExerciseResponses = () => {
   }, [query.hasNextPage, query.isFetchingNextPage, query]);
 
   const items = useMemo(() => query.data?.pages.flatMap((p) => p.items) ?? [], [query.data]);
-  const user = query.data?.pages[0]?.user;
-  const courses = query.data?.pages[0]?.courses ?? [];
+  const user = contextQuery.data?.user;
+  const courses = contextQuery.data?.courses ?? [];
 
-  if (!userId) {
+  const [isSelectUserModalOpen, setIsSelectUserModalOpen] = useState(false);
+
+  // Any auth-related or not-found state → redirect to /404 (cleaner than inline error panels).
+  // Includes the "not logged in" case: after a short grace period for auth to hydrate, we redirect.
+  const errorCode = contextQuery.error?.data?.code ?? query.error?.data?.code;
+  const shouldShow404 = errorCode === 'UNAUTHORIZED' || errorCode === 'FORBIDDEN' || errorCode === 'NOT_FOUND';
+  useEffect(() => {
+    if (shouldShow404) router.replace('/404');
+  }, [shouldShow404, router]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!useAuthStore.getState().auth) router.replace('/404');
+    }, 500);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!userId || shouldShow404) {
     return <PageChrome><Section><ProgressDots className="py-8" /></Section></PageChrome>;
   }
 
-  if (!auth) {
-    return (
-      <PageChrome>
-        <Section className="max-w-3xl">
-          <div className="container-lined p-6 bg-red-50 border-red-200">
-            <h3 className="font-bold text-red-800 mb-2">Login required</h3>
-            <p className="text-red-700">Sign in with an admin account to view this page.</p>
-          </div>
-        </Section>
-      </PageChrome>
-    );
-  }
-
-  const errorCode = query.error?.data?.code;
-  const isAccessDenied = errorCode === 'UNAUTHORIZED' || errorCode === 'FORBIDDEN';
-  const isUserNotFound = errorCode === 'NOT_FOUND';
-
   const renderResults = () => {
-    if (isAccessDenied) {
-      return (
-        <div className="container-lined p-6 bg-red-50 border-red-200">
-          <h3 className="font-bold text-red-800 mb-2">Access denied</h3>
-          <p className="text-red-700">You need to be logged in as an admin to view this page.</p>
-        </div>
-      );
-    }
-
-    if (isUserNotFound) {
-      return (
-        <div className="container-lined p-6">
-          <h3 className="font-bold mb-2">User not found</h3>
-          <p>No user with id <code>{userId}</code>.</p>
-        </div>
-      );
-    }
-
-    if (query.error) return <ErrorSection error={query.error} />;
-    if (query.isLoading) return <ProgressDots className="py-8" />;
+    if (query.error && !query.data) return <ErrorSection error={query.error} />;
+    if (!query.data) return <ProgressDots className="py-8" />;
     if (items.length === 0) return <p className="text-bluedot-navy/60 py-8 text-center">No exercise responses match these filters.</p>;
     return (
       <ol className="flex flex-col gap-3">
-        {items.map(({ response, exercise, unit }) => (
-          <ResponseCard key={response.id} response={response} exercise={exercise} unit={unit} />
+        {items.map((item) => (
+          <ResponseCard key={item.response.id} {...item} />
         ))}
       </ol>
     );
@@ -150,7 +171,7 @@ const AdminUserExerciseResponses = () => {
               {user ? (
                 <>
                   <p className="font-semibold text-bluedot-navy break-words">{user.name || '(no name)'}</p>
-                  <p className="text-size-xs text-bluedot-navy/70 break-words">{user.email}</p>
+                  <p className="text-size-xs text-bluedot-navy/70 break-words" title={user.email}>{maskEmail(user.email)}</p>
                   {user.lastSeenAt && (
                     <p className="text-size-xxs text-bluedot-navy/50 mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
                   )}
@@ -159,13 +180,20 @@ const AdminUserExerciseResponses = () => {
                 <p className="text-size-xs text-bluedot-navy/50">Loading user...</p>
               )}
               <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{userId}</code></p>
+              <button
+                type="button"
+                onClick={() => setIsSelectUserModalOpen(true)}
+                className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
+              >
+                Select user
+              </button>
             </div>
 
             <label className="flex items-center gap-2 text-size-xs cursor-pointer">
               <input
                 type="checkbox"
                 checked={status !== 'completed'}
-                onChange={(e) => updateQuery({ status: e.target.checked ? undefined : 'completed' })}
+                onChange={(e) => setStatus(e.target.checked ? 'all' : 'completed')}
               />
               Show in-progress
             </label>
@@ -179,7 +207,7 @@ const AdminUserExerciseResponses = () => {
                       type="radio"
                       name="course"
                       checked={!courseId}
-                      onChange={() => updateQuery({ courseId: undefined })}
+                      onChange={() => setCourseId(undefined)}
                     />
                     All courses
                   </label>
@@ -189,7 +217,7 @@ const AdminUserExerciseResponses = () => {
                         type="radio"
                         name="course"
                         checked={courseId === c.id}
-                        onChange={() => updateQuery({ courseId: c.id ?? undefined })}
+                        onChange={() => setCourseId(c.id ?? undefined)}
                       />
                       {c.title ?? '(untitled)'}
                     </label>
@@ -201,13 +229,16 @@ const AdminUserExerciseResponses = () => {
 
           {/* Main: search + results */}
           <div className="flex-1 flex flex-col gap-4 min-w-0">
-            <input
-              type="search"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search question or response..."
-              className="w-full border border-gray-300 rounded-md p-2 text-size-xs"
-            />
+            <div className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2">
+              <RiSearchLine className="text-gray-400 shrink-0" size={15} />
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search question or response..."
+                className="flex-1 outline-none text-size-xs placeholder:text-gray-400"
+              />
+            </div>
 
             {renderResults()}
 
@@ -220,11 +251,19 @@ const AdminUserExerciseResponses = () => {
           </div>
         </div>
       </Section>
+      <UserSearchModal
+        isOpen={isSelectUserModalOpen}
+        onClose={() => setIsSelectUserModalOpen(false)}
+        title="Select a user to view"
+        onSelectUser={(id) => router.push(`/admin/exercises/${id}`)}
+      />
     </PageChrome>
   );
 };
 
-const ResponseCard = ({ response, exercise, unit }: UserExerciseResponseItem) => {
+const ResponseCard = ({
+  response, exercise, unit, chunkPosition, exercisePosition,
+}: UserExerciseResponseItem) => {
   const [expanded, setExpanded] = useState(false);
   const responseText = response.response ?? '';
   // Same truncation thresholds as the facilitator GroupResponses view.
@@ -236,31 +275,71 @@ const ResponseCard = ({ response, exercise, unit }: UserExerciseResponseItem) =>
         <div className="flex flex-col gap-0.5 min-w-0">
           <p className="font-semibold text-bluedot-navy break-words">
             {exercise?.title ?? '(unknown exercise)'}
-            {exercise?.exerciseNumber && <span className="text-bluedot-navy/50 font-normal"> · {exercise.exerciseNumber}</span>}
           </p>
           <p className="text-bluedot-navy/60 break-words">
-            {unit?.courseTitle ?? '(unknown course)'}
-            {unit && <> · Unit {unit.unitNumber}: {unit.title}</>}
+            {unit?.courseSlug ? (
+              <a
+                href={`/courses/${unit.courseSlug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-bluedot-normal underline hover:opacity-80"
+              >
+                {unit.courseTitle}
+              </a>
+            ) : (
+              unit?.courseTitle ?? '(unknown course)'
+            )}
+            {unit?.courseSlug && unit?.unitNumber ? (
+              <>
+                {' · '}
+                <a
+                  href={chunkPosition ? `/courses/${unit.courseSlug}/${unit.unitNumber}/${chunkPosition}` : `/courses/${unit.courseSlug}/${unit.unitNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-bluedot-normal underline hover:opacity-80"
+                >
+                  Unit {unit.unitNumber}: {unit.title}
+                  {chunkPosition && (
+                    <>
+                      , chunk {chunkPosition}
+                      {exercisePosition && <>, exercise {exercisePosition}</>}
+                    </>
+                  )}
+                </a>
+              </>
+            ) : unit && (
+              <> · Unit {unit.unitNumber}: {unit.title}</>
+            )}
           </p>
         </div>
         <p className="text-bluedot-navy/50 whitespace-nowrap">
-          {response.completedAt
-            ? new Date(response.completedAt).toLocaleString()
-            : <span className="text-orange-700">In progress</span>}
+          {response.completedAt ? (
+            new Date(response.completedAt).toLocaleString()
+          ) : (
+            <span className="text-orange-700">
+              In progress
+              {response.createdAt && <> · started {new Date(response.createdAt).toLocaleString()}</>}
+            </span>
+          )}
         </p>
       </header>
 
       <div className="border-l-2 border-bluedot-lighter pl-4">
-        <div
-          className="leading-relaxed prose-sm"
-          style={!expanded && canTruncate ? {
-            display: '-webkit-box',
-            WebkitLineClamp: 8,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-          } : undefined}
-        >
-          <MarkdownExtendedRenderer>{responseText}</MarkdownExtendedRenderer>
+        <div className="relative">
+          <div
+            className="leading-relaxed"
+            style={!expanded && canTruncate ? {
+              display: '-webkit-box',
+              WebkitLineClamp: 8,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            } : undefined}
+          >
+            <MarkdownExtendedRenderer>{responseText}</MarkdownExtendedRenderer>
+          </div>
+          {!expanded && canTruncate && (
+            <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+          )}
         </div>
         {canTruncate && (
           <button
@@ -276,7 +355,6 @@ const ResponseCard = ({ response, exercise, unit }: UserExerciseResponseItem) =>
   );
 };
 
-AdminUserExerciseResponses.pageRendersOwnNav = true;
 AdminUserExerciseResponses.mainShrinkToContent = true;
 
 // Force server-rendering so Next.js wires up `router.query.userId` for the dynamic param.

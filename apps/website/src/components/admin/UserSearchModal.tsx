@@ -6,13 +6,26 @@ import { RiSearchLine } from 'react-icons/ri';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
 
+type UserSearchModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  /** Modal title. Defaults to the impersonation copy for back-compat. */
+  title?: string;
+  /** Called with the selected user id. Defaults to starting impersonation (sessionStorage + reload). */
+  onSelectUser?: (userId: string) => void;
+};
+
+const defaultImpersonateHandler = (userId: string) => {
+  sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, userId);
+  window.location.reload();
+};
+
 export const UserSearchModal = ({
   isOpen,
   onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) => {
+  title = 'Impersonate a user',
+  onSelectUser,
+}: UserSearchModalProps) => {
   const [searchTermInput, setSearchTermInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const currentTimeMs = useCurrentTimeMs();
@@ -30,15 +43,14 @@ export const UserSearchModal = ({
   );
 
   const handleSelectUser = (userId: string) => {
-    sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, userId);
     onClose();
-    window.location.reload();
+    (onSelectUser ?? defaultImpersonateHandler)(userId);
   };
 
   const showNoResults = !isLoading && searchResults?.length === 0 && searchTermInput.length > 0;
 
   return (
-    <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
+    <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
       <div className="w-full max-w-modal mx-auto">
         {/* Spacer to stop the desktop modal shrinking when there are no results */}
         <div className="hidden md:block w-[600px] max-w-full h-0" />

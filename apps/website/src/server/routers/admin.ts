@@ -1,5 +1,6 @@
 import {
   and,
+  chunkTable,
   courseRegistrationTable,
   desc,
   eq,
@@ -122,6 +123,46 @@ export const adminRouter = router({
     };
   }),
 
+  // Static (per-user) context: identity + the courses the user has any response in. Doesn't depend
+  // on filters/search, so the LHS aside doesn't refetch when the user types or toggles a filter.
+  getUserExerciseResponseContext: protectedProcedure
+    .input(z.object({ userId: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+      if (!await canViewUserExerciseResponses(realEmail, input.userId)) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
+      }
+
+      const user = await db.getFirst(userTable, { filter: { id: input.userId } });
+      if (!user) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+      }
+
+      const userCourses = await db.pg
+        .selectDistinct({ courseId: exerciseTable.pg.courseId })
+        .from(exerciseResponseTable.pg)
+        .innerJoin(exerciseTable.pg, eq(exerciseResponseTable.pg.exerciseId, exerciseTable.pg.id))
+        .where(and(
+          eq(exerciseResponseTable.pg.email, user.email),
+          isNotNull(exerciseTable.pg.courseId),
+        ));
+      const courseIds = userCourses.map((r) => r.courseId).filter((id): id is string => !!id);
+      const courses = courseIds.length > 0
+        ? await db.pg
+          .select({ id: unitTable.pg.courseId, title: unitTable.pg.courseTitle })
+          .from(unitTable.pg)
+          .where(inArray(unitTable.pg.courseId, courseIds))
+          .groupBy(unitTable.pg.courseId, unitTable.pg.courseTitle)
+        : [];
+
+      return {
+        user: {
+          id: user.id, email: user.email, name: user.name, lastSeenAt: user.lastSeenAt,
+        },
+        courses,
+      };
+    }),
+
   getUserExerciseResponses: protectedProcedure
     .input(z.object({
       userId: z.string().min(1),
@@ -165,38 +206,55 @@ export const adminRouter = router({
         .leftJoin(exerciseTable.pg, eq(exerciseResponseTable.pg.exerciseId, exerciseTable.pg.id))
         .leftJoin(unitTable.pg, eq(exerciseTable.pg.unitId, unitTable.pg.id))
         .where(where)
-        .orderBy(sql`${exerciseResponseTable.pg.completedAt} DESC NULLS LAST`, desc(exerciseResponseTable.pg.autoNumberId))
+        // Sort by "most recent activity": completedAt when set, else createdAt (when the draft was started).
+        .orderBy(sql`COALESCE(${exerciseResponseTable.pg.completedAt}, ${exerciseResponseTable.pg.createdAt}) DESC NULLS LAST`, desc(exerciseResponseTable.pg.autoNumberId))
         .limit(input.limit + 1)
         .offset(input.cursor);
 
       const hasMore = rows.length > input.limit;
       const pageRows = rows.slice(0, input.limit);
 
-      // For the LHS filter, show all courses this user has any response in (regardless of current filter)
-      const allUserExercises = await db.pg
-        .selectDistinct({ courseId: exerciseTable.pg.courseId })
-        .from(exerciseResponseTable.pg)
-        .innerJoin(exerciseTable.pg, eq(exerciseResponseTable.pg.exerciseId, exerciseTable.pg.id))
-        .where(and(
-          eq(exerciseResponseTable.pg.email, user.email),
-          isNotNull(exerciseTable.pg.courseId),
-        ));
-      const courseIds = allUserExercises.map((r) => r.courseId).filter((id): id is string => !!id);
-      const courses = courseIds.length > 0
+      // Locate each response's exercise inside its unit's chunks so we can show "chunk N, exercise M"
+      // and link to the chunk URL (`/courses/<slug>/<unit>/<N>`).
+      const unitIdsOnPage = [...new Set(pageRows.map((r) => r.exercise?.unitId).filter((id): id is string => !!id))];
+      const unitChunks = unitIdsOnPage.length > 0
         ? await db.pg
-          .select({ id: unitTable.pg.courseId, title: unitTable.pg.courseTitle })
-          .from(unitTable.pg)
-          .where(inArray(unitTable.pg.courseId, courseIds))
-          .groupBy(unitTable.pg.courseId, unitTable.pg.courseTitle)
+          .select({ unitId: chunkTable.pg.unitId, chunkOrder: chunkTable.pg.chunkOrder, chunkExercises: chunkTable.pg.chunkExercises })
+          .from(chunkTable.pg)
+          .where(inArray(chunkTable.pg.unitId, unitIdsOnPage))
         : [];
+      const chunksByUnit = new Map<string, { chunkOrder: string; chunkExercises: string[] | null }[]>();
+      for (const c of unitChunks) {
+        const list = chunksByUnit.get(c.unitId) ?? [];
+        list.push({ chunkOrder: c.chunkOrder, chunkExercises: c.chunkExercises });
+        chunksByUnit.set(c.unitId, list);
+      }
+
+      for (const list of chunksByUnit.values()) {
+        list.sort((a, b) => parseFloat(a.chunkOrder) - parseFloat(b.chunkOrder));
+      }
+
+      const itemsWithChunkInfo = pageRows.map((r) => {
+        let chunkPosition: number | null = null;
+        let exercisePosition: number | null = null;
+        if (r.exercise?.unitId && r.exercise.id) {
+          const chunks = chunksByUnit.get(r.exercise.unitId) ?? [];
+          for (let i = 0; i < chunks.length; i += 1) {
+            const idx = chunks[i]!.chunkExercises?.indexOf(r.exercise.id) ?? -1;
+            if (idx >= 0) {
+              chunkPosition = i + 1;
+              exercisePosition = idx + 1;
+              break;
+            }
+          }
+        }
+
+        return { ...r, chunkPosition, exercisePosition };
+      });
 
       return {
-        user: {
-          id: user.id, email: user.email, name: user.name, lastSeenAt: user.lastSeenAt,
-        },
-        items: pageRows,
+        items: itemsWithChunkInfo,
         nextCursor: hasMore ? input.cursor + input.limit : null,
-        courses,
       };
     }),
 });

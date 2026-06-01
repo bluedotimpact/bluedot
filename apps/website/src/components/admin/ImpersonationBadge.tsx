@@ -120,7 +120,7 @@ export const ImpersonationBadge = () => {
 /**
  * Mask email `example@test.com` to `ex***le@test.com`.
  */
-const maskEmail = (email: string): string => {
+export const maskEmail = (email: string): string => {
   try {
     const [local, domain] = email.split('@');
 

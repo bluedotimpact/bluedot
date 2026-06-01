@@ -83,56 +83,64 @@ describe('admin.getUserExerciseResponses', () => {
     });
 
     await testDb.insert(exerciseResponseTable, {
-      id: 'resp-a1', email: 'target@example.com', exerciseId: 'ex-a1', response: 'first answer about alignment', completedAt: '2026-05-01T10:00:00Z',
+      id: 'resp-a1', email: 'target@example.com', exerciseId: 'ex-a1', response: 'first answer about alignment', createdAt: '2026-04-30T10:00:00Z', completedAt: '2026-05-01T10:00:00Z',
     });
     await testDb.insert(exerciseResponseTable, {
-      id: 'resp-a2', email: 'target@example.com', exerciseId: 'ex-a2', response: 'second answer in progress', completedAt: null,
+      id: 'resp-a2', email: 'target@example.com', exerciseId: 'ex-a2', response: 'second answer in progress', createdAt: '2026-05-03T10:00:00Z', completedAt: null,
     });
     await testDb.insert(exerciseResponseTable, {
-      id: 'resp-b1', email: 'target@example.com', exerciseId: 'ex-b1', response: 'governance answer', completedAt: '2026-05-02T10:00:00Z',
+      id: 'resp-b1', email: 'target@example.com', exerciseId: 'ex-b1', response: 'governance answer', createdAt: '2026-04-29T10:00:00Z', completedAt: '2026-05-02T10:00:00Z',
     });
   }
 
-  test('regular user gets FORBIDDEN', async () => {
+  test('regular user gets FORBIDDEN on both endpoints', async () => {
     await seedFixture();
     await testDb.insert(userTable, { id: 'regular-id', email: 'regular@example.com', name: 'Regular' });
 
     await expect(callerAs('regular@example.com').admin.getUserExerciseResponses({ userId: 'target-id' }))
       .rejects.toMatchObject({ code: 'FORBIDDEN' });
+    await expect(callerAs('regular@example.com').admin.getUserExerciseResponseContext({ userId: 'target-id' }))
+      .rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
-  test('unknown userId returns NOT_FOUND', async () => {
+  test('unknown userId returns NOT_FOUND on both endpoints', async () => {
     await seedFixture();
     await expect(callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'does-not-exist' }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
+    await expect(callerAs('admin@example.com').admin.getUserExerciseResponseContext({ userId: 'does-not-exist' }))
+      .rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
-  test('returns all responses for the target user, newest completedAt first, nulls last', async () => {
+  test('context endpoint returns user + distinct courses (independent of filters)', async () => {
     await seedFixture();
-    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id' });
+    const result = await callerAs('admin@example.com').admin.getUserExerciseResponseContext({ userId: 'target-id' });
 
     expect(result.user).toMatchObject({ id: 'target-id', email: 'target@example.com', name: 'Target' });
-    expect(result.items).toHaveLength(3);
-    // Newest completedAt first (resp-b1 2026-05-02 > resp-a1 2026-05-01), then in-progress (resp-a2) last
-    expect(result.items.map((i) => i.response.id)).toEqual(['resp-b1', 'resp-a1', 'resp-a2']);
-    expect(result.nextCursor).toBeNull();
-    // Each row includes the joined exercise + unit
-    const first = result.items[0]!;
-    expect(first.exercise).toMatchObject({ id: 'ex-b1', courseId: 'course-b', title: 'B1 question' });
-    expect(first.unit).toMatchObject({ id: 'unit-b', courseTitle: 'Governance' });
-  });
-
-  test('lists distinct courses the user has responded in, regardless of current filter', async () => {
-    await seedFixture();
-    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', courseId: 'course-a' });
-
     expect(result.courses).toEqual(expect.arrayContaining([
       { id: 'course-a', title: 'Alignment' },
       { id: 'course-b', title: 'Governance' },
     ]));
     expect(result.courses).toHaveLength(2);
-    // courseId filter still narrows items
-    expect(result.items.map((i) => i.response.id)).toEqual(['resp-a1', 'resp-a2']);
+  });
+
+  test('orders by COALESCE(completedAt, createdAt) so drafts mix in by start time, not always last', async () => {
+    await seedFixture();
+    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', status: 'all' });
+
+    expect(result.items).toHaveLength(3);
+    // resp-a2 (in-progress, started 2026-05-03) ranks above resp-b1 (completed 2026-05-02) and resp-a1 (completed 2026-05-01).
+    expect(result.items.map((i) => i.response.id)).toEqual(['resp-a2', 'resp-b1', 'resp-a1']);
+    expect(result.nextCursor).toBeNull();
+    // Each row includes the joined exercise + unit
+    const second = result.items[1]!;
+    expect(second.exercise).toMatchObject({ id: 'ex-b1', courseId: 'course-b', title: 'B1 question' });
+    expect(second.unit).toMatchObject({ id: 'unit-b', courseTitle: 'Governance' });
+  });
+
+  test('courseId filter narrows items (course list lives on the context endpoint)', async () => {
+    await seedFixture();
+    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', courseId: 'course-a' });
+    expect(result.items.map((i) => i.response.id)).toEqual(['resp-a2', 'resp-a1']);
   });
 
   test('status filter narrows to completed or in-progress', async () => {
