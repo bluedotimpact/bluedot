@@ -1,10 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
-import {
-  filterByTab,
-  getPillVariant,
-  isApplicationTab,
-} from './applicationTabs';
+import { filterByTab, getPillVariant, isApplicationTab } from './applicationTabs';
 
 const baseApp = (overrides: Partial<FacilitatorApplicationListItem>): FacilitatorApplicationListItem => ({
   id: 'reg-1',
@@ -62,13 +58,15 @@ describe('filterByTab', () => {
   const all = [accepted, pending, activeAccepted, pastAccepted, pastRejected, withdrawnFuture];
 
   test('active includes all in-flight non-withdrawn', () => {
-    expect(filterByTab(all, 'active').map((a) => a.id).sort())
-      .toEqual(['a', 'aa', 'p'].sort());
+    expect(filterByTab(all, 'active')
+      .map((a) => a.id)
+      .sort()).toEqual(['a', 'aa', 'p'].sort());
   });
 
   test('accepted includes only in-flight accepted', () => {
-    expect(filterByTab(all, 'accepted').map((a) => a.id).sort())
-      .toEqual(['a', 'aa'].sort());
+    expect(filterByTab(all, 'accepted')
+      .map((a) => a.id)
+      .sort()).toEqual(['a', 'aa'].sort());
   });
 
   test('pending includes only in-flight without decision', () => {
@@ -76,7 +74,8 @@ describe('filterByTab', () => {
   });
 
   test('past includes past rounds and withdrawn (any status)', () => {
-    expect(filterByTab(all, 'past').map((a) => a.id).sort())
-      .toEqual(['pa', 'pr', 'wf'].sort());
+    expect(filterByTab(all, 'past')
+      .map((a) => a.id)
+      .sort()).toEqual(['pa', 'pr', 'wf'].sort());
   });
 });
