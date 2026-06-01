@@ -1467,7 +1467,7 @@ export const userTable = pgAirtable('user', {
   },
 });
 
-// Course builder base has its own User table, distinct from the Applications-base userTable.
+// Sync of the Applications base User table
 export const courseBuilderUserTable = pgAirtable('course_builder_user', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbl8aI1ksljv2qZv3',
@@ -1521,6 +1521,8 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       pgColumn: text().array(),
       airtableId: 'fldlRVze2fMzrVX6M',
     },
+    // Points at courseBuilderUserTable (the Course-builder-base sync of User), not the
+    // Applications-base userTable — record IDs differ between the two.
     createdByUserId: {
       pgColumn: text().array(),
       airtableId: 'fldtEFIAKCUctCDhW',
