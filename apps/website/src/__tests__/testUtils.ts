@@ -160,13 +160,6 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   roundStatus: 'Active',
   source: null,
   userId: 'user-1',
-  numGroupsToFacilitate: null,
-  formFeedback: null,
-  prevEngagement: null,
-  skills: null,
-  impressiveProject: null,
-  motivationToFacilitate: null,
-  prevFacilitationExperience: null,
   ...overrides,
 });
 
