@@ -1,5 +1,5 @@
 import {
-  and, desc, eq, inArray, resourceCompletionTable,
+  and, courseBuilderUserTable, desc, eq, inArray, resourceCompletionTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { z } from 'zod';
@@ -54,12 +54,16 @@ export const resourcesRouter = router({
         .optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const resourceCompletion = await db.getFirst(resourceCompletionTable, {
-        filter: {
-          unitResourceId: input.unitResourceId,
-          email: ctx.auth.email,
-        },
-      });
+      const [resourceCompletion, unitResource, cbUser] = await Promise.all([
+        db.getFirst(resourceCompletionTable, {
+          filter: {
+            unitResourceId: input.unitResourceId,
+            email: ctx.auth.email,
+          },
+        }),
+        db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
+        db.getFirst(courseBuilderUserTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
+      ]);
 
       let updatedResourceCompletion;
 
@@ -81,6 +85,8 @@ export const resourcesRouter = router({
           isCompleted: input.isCompleted ?? false,
           feedback: input.feedback ?? '',
           resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+          resourceId: unitResource?.resourceId ?? null,
+          createdByUserId: cbUser ? [cbUser.id] : null,
         });
       }
 

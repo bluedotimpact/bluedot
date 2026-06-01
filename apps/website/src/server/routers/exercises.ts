@@ -13,6 +13,7 @@ import {
   isNull,
   meetPersonTable,
   or,
+  userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -52,14 +53,14 @@ export const exercisesRouter = router({
         completedAt = null;
       } // else undefined = "don't change"
 
-      // Fetch the exercise in parallel with the existing-response lookup so the FoAI auto-complete doesn't add latency.
-      const [existingResponse, exercise] = await Promise.all([
+      const [existingResponse, exercise, user] = await Promise.all([
         db.getFirst(exerciseResponseTable, {
           filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
         }),
         input.completed === true
           ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
           : Promise.resolve(undefined),
+        db.getFirst(userTable, { filter: { email: ctx.auth.email } }),
       ]);
 
       const exerciseResponse = existingResponse
@@ -74,6 +75,7 @@ export const exercisesRouter = router({
           exerciseId: input.exerciseId,
           response: input.response,
           completedAt: completedAt ?? null,
+          userId: user ? [user.id] : null,
         });
 
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
