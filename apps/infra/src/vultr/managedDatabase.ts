@@ -20,11 +20,13 @@ export const managedPg = new vultr.Database('managed-pg', {
   protect: true,
 });
 
-// Dedicated logical database, mirroring the intent of the old CNPG `app` database.
-export const airtableSyncManagedDb = new vultr.DatabaseDb('airtable-sync-managed-db', {
-  databaseId: airtableSyncManagedPg.id,
-  name: 'airtable_sync',
+// The application's logical database. Connections use the cluster admin user: this instance holds
+// only this one database, so a scoped role would need full read/write on it anyway. If you add
+// another database here, re-check that admin-level access is still appropriate.
+export const appDatabase = new vultr.DatabaseDb('managed-app-db', {
+  databaseId: managedPg.id,
+  name: 'app',
 }, {
-  // The tables live in this logical DB, so dropping it loses data even if the cluster survives.
+  // The tables live in this logical database, so dropping it loses data even if the cluster survives.
   protect: true,
 });

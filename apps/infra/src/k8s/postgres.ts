@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
 import { type core } from '@pulumi/kubernetes/types/input';
 import { all, secret, type Input } from '@pulumi/pulumi';
-import { airtableSyncManagedDb, airtableSyncManagedPg } from '../vultr/managedDatabase';
+import { appDatabase, managedPg } from '../vultr/managedDatabase';
 import { provider } from './provider';
 
 export const cloudNativePg = new k8s.helm.v3.Release('cloud-native-pg', {
@@ -92,6 +92,7 @@ const managedPgUri = secret(all([
   managedPg.password,
   managedPg.host,
   managedPg.port,
+  appDatabase.name,
 ]).apply(([user, password, host, port, dbname]) =>
   `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${dbname}?sslmode=no-verify`));
 
