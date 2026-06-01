@@ -8,10 +8,10 @@ import {
   useEffect, useMemo, useRef, useState,
 } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
-import { maskEmail } from '../../../components/admin/ImpersonationBadge';
 import { UserSearchModal } from '../../../components/admin/UserSearchModal';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import { ROUTES } from '../../../lib/routes';
+import { maskEmail } from '../../../lib/utils';
 import type { UserExerciseResponseItem } from '../../../server/routers/admin';
 import { trpc } from '../../../utils/trpc';
 

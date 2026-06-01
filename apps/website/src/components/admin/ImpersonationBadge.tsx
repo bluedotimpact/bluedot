@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
+import { maskEmail } from '../../lib/utils';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 
 const IMPERSONATE_QUERY_PARAM = 'impersonate';
@@ -117,22 +118,3 @@ export const ImpersonationBadge = () => {
   );
 };
 
-/**
- * Mask email `example@test.com` to `ex***le@test.com`.
- */
-export const maskEmail = (email: string): string => {
-  try {
-    const [local, domain] = email.split('@');
-
-    if (!local || !domain || local.length === 0 || domain.length === 0) {
-      return '***';
-    }
-
-    const masked = local.length <= 4 ? '*'.repeat(local.length) : `${local.slice(0, 2)}${'*'.repeat(local.length - 4)}${local.slice(-2)}`;
-    return `${masked}@${domain}`;
-  } catch {
-    // This is a low-importance convenience function, so never error, just return the strictest masking
-    // if an error is thrown above.
-    return '***';
-  }
-};

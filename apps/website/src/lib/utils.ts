@@ -195,3 +195,24 @@ export const buildApplicationUrl = (
   // URLSearchParams encodes spaces as '+', but miniextensions requires '%20'
   return urlObj.toString().replace('prefill_PostHog+Session+ID', 'prefill_PostHog%20Session%20ID');
 };
+
+/**
+ * Mask email `example@test.com` to `ex***le@test.com`. Used in admin UIs to keep
+ * other users' addresses out of screenshots / shoulder views.
+ */
+export const maskEmail = (email: string): string => {
+  try {
+    const [local, domain] = email.split('@');
+
+    if (!local || !domain || local.length === 0 || domain.length === 0) {
+      return '***';
+    }
+
+    const masked = local.length <= 4 ? '*'.repeat(local.length) : `${local.slice(0, 2)}${'*'.repeat(local.length - 4)}${local.slice(-2)}`;
+    return `${masked}@${domain}`;
+  } catch {
+    // This is a low-importance convenience function, so never error, just return the strictest masking
+    // if an error is thrown above.
+    return '***';
+  }
+};
