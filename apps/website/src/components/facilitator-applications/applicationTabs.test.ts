@@ -54,13 +54,14 @@ describe('filterByTab', () => {
   const accepted = baseApp({ id: 'a', decision: 'Accept', roundStatus: 'Future' });
   const pending = baseApp({ id: 'p', decision: null, roundStatus: 'Future' });
   const activeAccepted = baseApp({ id: 'aa', decision: 'Accept', roundStatus: 'Active' });
+  const inFlightRejected = baseApp({ id: 'ir', decision: 'Reject', roundStatus: 'Future' });
   const pastAccepted = baseApp({ id: 'pa', decision: 'Accept', roundStatus: 'Past' });
   const pastRejected = baseApp({ id: 'pr', decision: 'Reject', roundStatus: 'Past' });
   const withdrawnFuture = baseApp({ id: 'wf', decision: 'Withdrawn', roundStatus: 'Future' });
 
-  const all = [accepted, pending, activeAccepted, pastAccepted, pastRejected, withdrawnFuture];
+  const all = [accepted, pending, activeAccepted, inFlightRejected, pastAccepted, pastRejected, withdrawnFuture];
 
-  test('active includes all in-flight non-withdrawn', () => {
+  test('active excludes withdrawn and rejected (terminal decisions)', () => {
     expect(filterByTab(all, 'active')
       .map((a) => a.id)
       .sort()).toEqual(['a', 'aa', 'p'].sort());
@@ -76,9 +77,9 @@ describe('filterByTab', () => {
     expect(filterByTab(all, 'pending').map((a) => a.id)).toEqual(['p']);
   });
 
-  test('past includes past rounds and withdrawn (any status)', () => {
+  test('past includes past rounds, withdrawn, and rejected (any round status)', () => {
     expect(filterByTab(all, 'past')
       .map((a) => a.id)
-      .sort()).toEqual(['pa', 'pr', 'wf'].sort());
+      .sort()).toEqual(['ir', 'pa', 'pr', 'wf'].sort());
   });
 });

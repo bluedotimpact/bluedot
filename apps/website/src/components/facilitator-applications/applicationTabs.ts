@@ -41,12 +41,12 @@ const isInFlight = (a: FacilitatorApplicationListItem): boolean =>
   a.roundStatus === 'Active' || a.roundStatus === 'Future';
 
 const TAB_PREDICATES: Record<ApplicationTab, (a: FacilitatorApplicationListItem) => boolean> = {
-  // All in-flight applications, any decision (except withdrawn which falls to Past in the visual design).
-  active: (a) => isInFlight(a) && a.decision !== 'Withdrawn',
+  // In-flight applications still in play (not withdrawn, not rejected — those are terminal).
+  active: (a) => isInFlight(a) && a.decision !== 'Withdrawn' && a.decision !== 'Reject',
   accepted: (a) => isInFlight(a) && a.decision === 'Accept',
   pending: (a) => isInFlight(a) && a.decision == null,
-  // Past rounds AND any withdrawn (regardless of round status).
-  past: (a) => isPast(a) || a.decision === 'Withdrawn',
+  // Past rounds OR any terminal decision (withdrawn / rejected) regardless of round status.
+  past: (a) => isPast(a) || a.decision === 'Withdrawn' || a.decision === 'Reject',
 };
 
 export const filterByTab = (
