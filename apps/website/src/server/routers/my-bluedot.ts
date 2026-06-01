@@ -19,6 +19,7 @@ import {
   type Unit,
   unitTable,
 } from '@bluedot/db';
+import z from 'zod';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
