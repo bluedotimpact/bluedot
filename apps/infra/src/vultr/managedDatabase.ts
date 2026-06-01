@@ -4,7 +4,7 @@ import * as vultr from '@ediri/vultr';
 // primary + standby replica and 14-day point-in-time recovery, which is what makes it durable
 // enough to hold authoritative data. Plan id, $100/mo cost, and ams availability confirmed
 // against https://api.vultr.com/v2/databases/plans?engine=pg
-export const managedPg = new vultr.Database('managed-pg', {
+export const appPg = new vultr.Database('app-pg', {
   label: 'bluedot-app',
   databaseEngine: 'pg',
   databaseEngineVersion: '18',
@@ -21,8 +21,8 @@ export const managedPg = new vultr.Database('managed-pg', {
 // The application's logical database. Connections use the cluster admin user: this instance holds
 // only this one database, so a scoped role would need full read/write on it anyway. If you add
 // another database here, re-check that admin-level access is still appropriate.
-export const appDatabase = new vultr.DatabaseDb('managed-app-db', {
-  databaseId: managedPg.id,
+export const appDatabase = new vultr.DatabaseDb('app-db', {
+  databaseId: appPg.id,
   name: 'app',
 }, {
   // The tables live in this logical database, so dropping it loses data even if the cluster survives.

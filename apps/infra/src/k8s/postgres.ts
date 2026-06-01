@@ -1,7 +1,7 @@
 import * as k8s from '@pulumi/kubernetes';
 import { type core } from '@pulumi/kubernetes/types/input';
 import { all, secret, type Input } from '@pulumi/pulumi';
-import { appDatabase, managedPg } from '../vultr/managedDatabase';
+import { appDatabase, appPg } from '../vultr/managedDatabase';
 import { provider } from './provider';
 
 export const cloudNativePg = new k8s.helm.v3.Release('cloud-native-pg', {
@@ -87,25 +87,25 @@ export const getConnectionDetails = (resource: k8s.apiextensions.CustomResource)
 // sslmode=no-verify: node-postgres can reject Vultr's cert chain, so we encrypt but skip CA
 // verification (same posture as the commented-out backend config in serviceDefinitions.ts).
 // The password is URL-encoded in case it contains reserved characters (@ : / etc).
-const managedPgUri = secret(all([
-  managedPg.user,
-  managedPg.password,
-  managedPg.host,
-  managedPg.port,
+const appPgUri = secret(all([
+  appPg.user,
+  appPg.password,
+  appPg.host,
+  appPg.port,
   appDatabase.name,
 ]).apply(([user, password, host, port, dbname]) =>
   `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${dbname}?sslmode=no-verify`));
 
-const managedPgSecret = new k8s.core.v1.Secret(
-  'managed-pg-secret',
+const appPgSecret = new k8s.core.v1.Secret(
+  'app-pg-secret',
   {
-    metadata: { name: 'managed-pg-secret' },
-    stringData: { uri: managedPgUri },
+    metadata: { name: 'app-pg-secret' },
+    stringData: { uri: appPgUri },
   },
   { provider },
 );
 
 // Mirrors getConnectionDetails: a secretKeyRef apps drop into env as PG_URL once we cut over.
-export const managedPgConnectionDetails: Pick<PgConnectionDetails, 'uri'> = {
-  uri: { secretKeyRef: { name: managedPgSecret.metadata.name, key: 'uri' } },
+export const appPgConnectionDetails: Pick<PgConnectionDetails, 'uri'> = {
+  uri: { secretKeyRef: { name: appPgSecret.metadata.name, key: 'uri' } },
 };
