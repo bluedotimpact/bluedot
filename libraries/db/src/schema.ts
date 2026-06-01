@@ -163,6 +163,10 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
       pgColumn: text().notNull(),
       airtableId: 'fld7Qa3JDnRNwCTlH',
     },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fldhcRNA7rhOJpvHH',
+    },
     completedAt: {
       pgColumn: text(),
       airtableId: 'fldmmwUvlAy3Ju2or',
