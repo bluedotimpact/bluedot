@@ -13,7 +13,6 @@ const baseApp = (overrides: Partial<FacilitatorApplicationListItem>): Facilitato
   roundLastDiscussionDate: null,
   decision: null,
   roundStatus: 'Future',
-  hasAvailability: false,
   ...overrides,
 });
 

@@ -63,7 +63,6 @@ export const facilitatorApplicationsRouter = router({
         roundLastDiscussionDate: round?.lastDiscussionDate ?? null,
         decision: (r.decision ?? null) as FacilitatorApplicationDecision,
         roundStatus: (r.roundStatus ?? null) as FacilitatorApplicationRoundStatus,
-        hasAvailability: Boolean(r.availabilityIntervalsUTC),
       };
     });
   }),

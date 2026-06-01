@@ -79,28 +79,6 @@ describe('facilitatorApplications.list', () => {
     });
   });
 
-  test('hasAvailability is false when availability intervals are missing', async () => {
-    await testDb.insert(courseTable, {
-      id: 'course-1',
-      slug: 'tai-safety',
-      title: 'Technical AI Safety',
-      shortDescription: 's',
-      units: [],
-      status: 'Active',
-    });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-1',
-      email: CALLER_EMAIL,
-      courseId: 'course-1',
-      role: 'Facilitator',
-      decision: null,
-      roundStatus: 'Future',
-    });
-
-    const result = await caller.facilitatorApplications.list();
-    expect(result[0]?.hasAvailability).toBe(false);
-  });
-
   test('includes withdrawn registrations', async () => {
     await testDb.insert(courseTable, {
       id: 'course-1',
