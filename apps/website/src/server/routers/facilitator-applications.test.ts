@@ -75,7 +75,6 @@ describe('facilitatorApplications.list', () => {
       roundLastDiscussionDate: '2026-03-17',
       decision: 'Accept',
       roundStatus: 'Future',
-      hasAvailability: true,
     });
   });
 
