@@ -10,13 +10,11 @@ export const managedPg = new vultr.Database('managed-pg', {
   databaseEngineVersion: '18',
   region: 'ams',
   plan: 'vultr-dbaas-business-cc-2-80-4',
-  // No trustedIps (IP allowlist) by design: matches our established pattern (the existing in-node
-  // Postgres is likewise reachable publicly, gated by credential) and keeps direct dev access
-  // simple, with no VPC tunnel. The endpoint is gated by forced SSL + a strong Vultr-generated
-  // credential held only in secrets.
+  // The public endpoint has no IP allowlist: it is gated by forced SSL + a strong Vultr-generated
+  // credential held only in secrets, and staying public keeps direct dev access simple (no tunnel).
 }, {
-  // Holds Postgres-authoritative data (exercise responses, resource completions) that no longer
-  // lives in Airtable, so guard against accidental deletion via destroy / code removal.
+  // Holds authoritative production data, so guard against accidental deletion via destroy or
+  // removal from code.
   protect: true,
 });
 
