@@ -39,7 +39,7 @@ export const PastAccepted: Story = {
     ...base,
     roundFirstDiscussionDate: '2025-09-10',
     roundLastDiscussionDate: '2025-09-17',
-    pillVariant: 'accepted',
+    pillVariant: 'pastAccepted',
   },
 };
 
