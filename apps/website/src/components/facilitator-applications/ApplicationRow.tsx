@@ -20,7 +20,7 @@ const formatDateRange = (start: string | null, end: string | null): string | nul
   return `${formatMonthAndDay(start)} - ${formatMonthAndDay(end)}`;
 };
 
-const STATUS_PILL_CLASS = 'text-size-xxs inline-flex min-h-9 items-center justify-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] font-medium text-bluedot-navy';
+const STATUS_PILL_CLASS = 'text-size-xxs min-h-9 items-center justify-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] font-medium text-bluedot-navy';
 
 const ApplicationRow = ({
   courseTitle,
@@ -80,7 +80,7 @@ const ApplicationRow = ({
         </div>
         {/* Mobile: status pill as a full-width row below the title block */}
         <div className="relative flex px-5 pb-5 sm:hidden">
-          <span className={STATUS_PILL_CLASS}>{statusLabel}</span>
+          <span className={`inline-flex ${STATUS_PILL_CLASS}`}>{statusLabel}</span>
         </div>
       </div>
     </li>
