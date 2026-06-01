@@ -1,2 +1,2 @@
 import './vke';
-import './managedDatabase';
+import './appPostgres';
