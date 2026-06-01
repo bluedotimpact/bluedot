@@ -77,33 +77,26 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
 };
 
 export const myBluedotRouter = router({
-  hasFacilitatorRegistrations: protectedProcedure.query(async ({ ctx }) => {
-    const rows = await db.pg
-      .select({ id: courseRegistrationTable.pg.id })
-      .from(courseRegistrationTable.pg)
-      .where(and(
-        eq(courseRegistrationTable.pg.email, ctx.auth.email),
-        eq(courseRegistrationTable.pg.role, 'Facilitator'),
-        or(
-          ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
-          isNull(courseRegistrationTable.pg.decision),
-        ),
-      ))
-      .limit(1);
-    return { hasFacilitatorRegistrations: rows.length > 0 };
-  }),
-
-  hasFacilitatorApplications: protectedProcedure.query(async ({ ctx }) => {
-    const rows = await db.pg
-      .select({ id: courseRegistrationTable.pg.id })
-      .from(courseRegistrationTable.pg)
-      .where(and(
-        eq(courseRegistrationTable.pg.email, ctx.auth.email),
-        eq(courseRegistrationTable.pg.role, 'Facilitator'),
-      ))
-      .limit(1);
-    return { hasFacilitatorApplications: rows.length > 0 };
-  }),
+  hasFacilitatorRegistrations: protectedProcedure
+    .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      const includeWithdrawn = input?.includeWithdrawn ?? false;
+      const rows = await db.pg
+        .select({ id: courseRegistrationTable.pg.id })
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.role, 'Facilitator'),
+          includeWithdrawn
+            ? undefined
+            : or(
+              ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+              isNull(courseRegistrationTable.pg.decision),
+            ),
+        ))
+        .limit(1);
+      return { hasFacilitatorRegistrations: rows.length > 0 };
+    }),
 
   myCoursesPage: protectedProcedure.query(async ({ ctx }) => {
     const { email } = ctx.auth;
