@@ -21,7 +21,7 @@ import {
 } from '@bluedot/db';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
-import { parseWeekFromRoundName } from '../../lib/utils';
+import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { protectedProcedure, router } from '../trpc';
 import { getAvailableGroupsAndDiscussions } from './group-switching';
 
@@ -75,9 +75,6 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
 
   return status;
 };
-
-export const unique = <T>(values: (T | null | undefined)[]): T[] =>
-  [...new Set(values.filter((v): v is T => v != null))];
 
 export const myBluedotRouter = router({
   hasFacilitatorRegistrations: protectedProcedure.query(async ({ ctx }) => {
