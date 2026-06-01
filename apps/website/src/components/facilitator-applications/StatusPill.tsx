@@ -1,4 +1,4 @@
-export type StatusPillVariant = 'pending' | 'accepted' | 'withdrawn' | 'notPlaced';
+export type StatusPillVariant = 'pending' | 'accepted' | 'pastAccepted' | 'withdrawn' | 'notPlaced';
 
 type StatusPillProps = {
   variant: StatusPillVariant;
