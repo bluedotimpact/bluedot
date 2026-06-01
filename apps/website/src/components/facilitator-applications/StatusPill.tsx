@@ -7,21 +7,13 @@ type StatusPillProps = {
 const VARIANT_LABEL: Record<StatusPillVariant, string> = {
   pending: 'Pending',
   accepted: 'Accepted',
+  pastAccepted: 'Past - Accepted',
   withdrawn: 'Withdrawn',
-  notPlaced: 'Not placed',
-};
-
-const VARIANT_CLASS: Record<StatusPillVariant, string> = {
-  pending: 'bg-bluedot-lighter/30 text-bluedot-navy',
-  accepted: 'bg-bluedot-lighter/30 text-bluedot-navy',
-  withdrawn: 'bg-black/[0.04] text-bluedot-navy/60',
-  notPlaced: 'bg-black/[0.04] text-bluedot-navy/60',
+  notPlaced: 'Past - Not Placed',
 };
 
 const StatusPill = ({ variant }: StatusPillProps) => (
-  <span
-    className={`text-size-xxs inline-flex min-h-9 items-center justify-center gap-1 rounded-full px-3 py-[7px] font-medium ${VARIANT_CLASS[variant]}`}
-  >
+  <span className="text-size-xxs inline-flex min-h-9 items-center justify-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] font-medium text-bluedot-navy">
     {VARIANT_LABEL[variant]}
   </span>
 );
