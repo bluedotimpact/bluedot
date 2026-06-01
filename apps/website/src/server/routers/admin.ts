@@ -32,9 +32,8 @@ type UserSearchResult = {
   courseCount: number;
 };
 
-// Extension point: today only admins can view a user's exercise responses, but the
-// expected next consumer is "facilitator viewing their participants". Add that branch
-// here rather than at call sites.
+// TODO: also allow facilitators of a group containing the target — mirror the perm
+// chain in `exercisesRouter.getGroupExerciseResponses`.
 const canViewUserExerciseResponses = async (viewerEmail: string, _targetUserId: string): Promise<boolean> => {
   return checkAdminAccess(viewerEmail);
 };
@@ -47,22 +46,34 @@ export const adminRouter = router({
   }),
 
   searchUsers: protectedProcedure
-    .input(z.object({ searchTerm: z.string().max(200).optional() }))
+    .input(z.object({
+      searchTerm: z.string().max(200).optional(),
+      // 'impersonate' = admin or scoped impersonator (restricted); 'all' = admin only.
+      scope: z.enum(['impersonate', 'all']).default('impersonate'),
+    }))
     .query(async ({ ctx, input }) => {
       const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-      const { access, allowedTargets } = await checkImpersonationAccess(realEmail);
 
-      if (access === 'none') {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
+      let scopeClause;
+      if (input.scope === 'all') {
+        if (!await checkAdminAccess(realEmail)) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
+        }
+
+        scopeClause = sql`TRUE`;
+      } else {
+        const { access, allowedTargets } = await checkImpersonationAccess(realEmail);
+        if (access === 'none') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
+        }
+
+        scopeClause = access === 'scoped'
+          ? sql`u.id IN (${sql.join(allowedTargets.map((id) => sql`${id}`), sql`, `)})`
+          : sql`TRUE`;
       }
 
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const trimmedSearchTerm = (input.searchTerm || '').trim();
-
-      // Build WHERE clause: scoped users are restricted to their allowed targets
-      const scopeClause = access === 'scoped'
-        ? sql`u.id IN (${sql.join(allowedTargets.map((id) => sql`${id}`), sql`, `)})`
-        : sql`TRUE`;
 
       const searchClause = trimmedSearchTerm
         ? sql`(u.email ILIKE ${`%${trimmedSearchTerm}%`} OR u.name ILIKE ${`%${trimmedSearchTerm}%`})`
@@ -123,9 +134,10 @@ export const adminRouter = router({
     };
   }),
 
-  // Static (per-user) context: identity + the courses the user has any response in. Doesn't depend
-  // on filters/search, so the LHS aside doesn't refetch when the user types or toggles a filter.
-  getUserExerciseResponseContext: protectedProcedure
+  /**
+   * Used to populate user info and filters in /admin/exercises
+   */
+  getUserExerciseResponsesMetaInfo: protectedProcedure
     .input(z.object({ userId: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
@@ -146,6 +158,7 @@ export const adminRouter = router({
           eq(exerciseResponseTable.pg.email, user.email),
           isNotNull(exerciseTable.pg.courseId),
         ));
+
       const courseIds = userCourses.map((r) => r.courseId).filter((id): id is string => !!id);
       const courses = courseIds.length > 0
         ? await db.pg
@@ -174,10 +187,12 @@ export const adminRouter = router({
     }))
     .query(async ({ ctx, input }) => {
       const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+
       if (!await canViewUserExerciseResponses(realEmail, input.userId)) {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
       }
 
+      // Step 1: Fetch data
       const user = await db.getFirst(userTable, { filter: { id: input.userId } });
       if (!user) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
@@ -198,7 +213,14 @@ export const adminRouter = router({
 
       const rows = await db.pg
         .select({
-          response: exerciseResponseTable.pg,
+          // Omit `email` and `userId` — unused by the UI, no need to ship them per row.
+          response: {
+            id: exerciseResponseTable.pg.id,
+            response: exerciseResponseTable.pg.response,
+            completedAt: exerciseResponseTable.pg.completedAt,
+            createdAt: exerciseResponseTable.pg.createdAt,
+            autoNumberId: exerciseResponseTable.pg.autoNumberId,
+          },
           exercise: exerciseTable.pg,
           unit: unitTable.pg,
         })
@@ -223,6 +245,8 @@ export const adminRouter = router({
           .from(chunkTable.pg)
           .where(inArray(chunkTable.pg.unitId, unitIdsOnPage))
         : [];
+
+      // Step 2: Calculate synthetic results
       const chunksByUnit = new Map<string, { chunkOrder: string; chunkExercises: string[] | null }[]>();
       for (const c of unitChunks) {
         const list = chunksByUnit.get(c.unitId) ?? [];
@@ -253,6 +277,7 @@ export const adminRouter = router({
       });
 
       return {
+        // TODO strip the email from the response here
         items: itemsWithChunkInfo,
         nextCursor: hasMore ? input.cursor + input.limit : null,
       };

@@ -99,7 +99,7 @@ describe('admin.getUserExerciseResponses', () => {
 
     await expect(callerAs('regular@example.com').admin.getUserExerciseResponses({ userId: 'target-id' }))
       .rejects.toMatchObject({ code: 'FORBIDDEN' });
-    await expect(callerAs('regular@example.com').admin.getUserExerciseResponseContext({ userId: 'target-id' }))
+    await expect(callerAs('regular@example.com').admin.getUserExerciseResponsesMetaInfo({ userId: 'target-id' }))
       .rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
@@ -107,13 +107,13 @@ describe('admin.getUserExerciseResponses', () => {
     await seedFixture();
     await expect(callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'does-not-exist' }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
-    await expect(callerAs('admin@example.com').admin.getUserExerciseResponseContext({ userId: 'does-not-exist' }))
+    await expect(callerAs('admin@example.com').admin.getUserExerciseResponsesMetaInfo({ userId: 'does-not-exist' }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
   test('context endpoint returns user + distinct courses (independent of filters)', async () => {
     await seedFixture();
-    const result = await callerAs('admin@example.com').admin.getUserExerciseResponseContext({ userId: 'target-id' });
+    const result = await callerAs('admin@example.com').admin.getUserExerciseResponsesMetaInfo({ userId: 'target-id' });
 
     expect(result.user).toMatchObject({ id: 'target-id', email: 'target@example.com', name: 'Target' });
     expect(result.courses).toEqual(expect.arrayContaining([

@@ -20,17 +20,6 @@ const PAGE_SIZE = 20;
 
 type StatusFilter = 'all' | 'completed' | 'in-progress';
 
-const PageChrome = ({ children }: { children: React.ReactNode }) => (
-  <div>
-    <Head>
-      <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-      <meta name="robots" content="noindex" />
-    </Head>
-    <Breadcrumbs route={CURRENT_ROUTE} />
-    {children}
-  </div>
-);
-
 const readUrlParam = (key: string): string => {
   if (typeof window === 'undefined') return '';
   return new URLSearchParams(window.location.search).get(key) ?? '';
@@ -38,11 +27,9 @@ const readUrlParam = (key: string): string => {
 
 const writeUrlParams = (changes: Record<string, string | undefined>) => {
   if (typeof window === 'undefined') return;
-  // We bypass next/router here because `router.replace` updates `router.asPath`, which is used as
-  // the `key` of an ErrorBoundary wrapping every page in `_app.tsx` — any URL change there fully
-  // unmounts and remounts the page (losing input focus, local state, etc.). `history.replaceState`
-  // keeps the URL shareable without disturbing Next.js router state.
+  // Bypass next/router: _app.tsx keys ErrorBoundary on router.asPath, so router.replace remounts the page.
   const params = new URLSearchParams(window.location.search);
+
   for (const [k, v] of Object.entries(changes)) {
     if (v && v.length > 0) params.set(k, v);
     else params.delete(k);
@@ -58,20 +45,15 @@ const AdminUserExerciseResponses = () => {
   const auth = useAuthStore((s) => s.auth);
   const userId = typeof router.query.userId === 'string' ? router.query.userId : undefined;
 
-  // Filter state lives in React, synced to the URL via history.replaceState (not router.replace).
-  // Initial values are read from the URL once on mount. Matches the modal search semantics: every
-  // keystroke fires a fresh query, loading dots show in the results area, no debounce.
+  // Filter state hydrates from the URL once on mount; setters keep the URL in sync.
   const [courseId, setCourseIdState] = useState<string | undefined>(undefined);
   const [status, setStatusState] = useState<StatusFilter>('completed');
   const [search, setSearchState] = useState<string>('');
   useEffect(() => {
-    const initialSearch = readUrlParam('search');
-    const initialCourseId = readUrlParam('courseId') || undefined;
+    setCourseIdState(readUrlParam('courseId') || undefined);
     const rawStatus = readUrlParam('status');
-    const initialStatus: StatusFilter = rawStatus === 'all' || rawStatus === 'in-progress' ? rawStatus : 'completed';
-    setCourseIdState(initialCourseId);
-    setStatusState(initialStatus);
-    setSearchState(initialSearch);
+    setStatusState(rawStatus === 'all' || rawStatus === 'in-progress' ? rawStatus : 'completed');
+    setSearchState(readUrlParam('search'));
   }, []);
 
   const setCourseId = (next: string | undefined) => {
@@ -81,7 +63,6 @@ const AdminUserExerciseResponses = () => {
 
   const setStatus = (next: StatusFilter) => {
     setStatusState(next);
-    // Default is 'completed' — omit it from the URL so the URL stays clean.
     writeUrlParams({ status: next === 'completed' ? undefined : next });
   };
 
@@ -90,15 +71,12 @@ const AdminUserExerciseResponses = () => {
     writeUrlParams({ search: next || undefined });
   };
 
-  // Context (user identity + the courses they've responded in) is static for a given userId —
-  // it does NOT depend on filters/search, so it's a separate query that doesn't refetch when those
-  // change. This is what keeps the LHS aside stable.
-  const contextQuery = trpc.admin.getUserExerciseResponseContext.useQuery(
+  const metaQuery = trpc.admin.getUserExerciseResponsesMetaInfo.useQuery(
     { userId: userId ?? '' },
     { enabled: !!userId && !!auth, retry: false },
   );
 
-  const query = trpc.admin.getUserExerciseResponses.useInfiniteQuery(
+  const exerciseResponseQuery = trpc.admin.getUserExerciseResponses.useInfiniteQuery(
     {
       userId: userId ?? '', courseId, status, search: search || undefined, limit: PAGE_SIZE,
     },
@@ -110,29 +88,30 @@ const AdminUserExerciseResponses = () => {
     },
   );
 
+  // TODO hate this. Delete, simplify, or use clearer names
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const node = sentinelRef.current;
     if (!node) return undefined;
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0]?.isIntersecting && query.hasNextPage && !query.isFetchingNextPage) {
-        query.fetchNextPage();
+      if (entries[0]?.isIntersecting && exerciseResponseQuery.hasNextPage && !exerciseResponseQuery.isFetchingNextPage) {
+        exerciseResponseQuery.fetchNextPage();
       }
     }, { rootMargin: '300px' });
     observer.observe(node);
     return () => observer.disconnect();
-  }, [query.hasNextPage, query.isFetchingNextPage, query]);
+  }, [exerciseResponseQuery.hasNextPage, exerciseResponseQuery.isFetchingNextPage, exerciseResponseQuery]);
 
-  const items = useMemo(() => query.data?.pages.flatMap((p) => p.items) ?? [], [query.data]);
-  const user = contextQuery.data?.user;
-  const courses = contextQuery.data?.courses ?? [];
+  const items = useMemo(() => exerciseResponseQuery.data?.pages.flatMap((p) => p.items) ?? [], [exerciseResponseQuery.data]);
+  const user = metaQuery.data?.user;
+  const courses = metaQuery.data?.courses ?? [];
 
   const [isSelectUserModalOpen, setIsSelectUserModalOpen] = useState(false);
 
-  // Any auth-related or not-found state → redirect to /404 (cleaner than inline error panels).
-  // Includes the "not logged in" case: after a short grace period for auth to hydrate, we redirect.
-  const errorCode = contextQuery.error?.data?.code ?? query.error?.data?.code;
+  // Any auth-related or not-found state redirects to /404
+  const errorCode = metaQuery.error?.data?.code ?? exerciseResponseQuery.error?.data?.code;
   const shouldShow404 = errorCode === 'UNAUTHORIZED' || errorCode === 'FORBIDDEN' || errorCode === 'NOT_FOUND';
+  // TODO hate this, would be better to block the whole page on an admin gate
   useEffect(() => {
     if (shouldShow404) router.replace('/404');
   }, [shouldShow404, router]);
@@ -144,14 +123,11 @@ const AdminUserExerciseResponses = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!userId || shouldShow404) {
-    return <PageChrome><Section><ProgressDots className="py-8" /></Section></PageChrome>;
-  }
-
   const renderResults = () => {
-    if (query.error && !query.data) return <ErrorSection error={query.error} />;
-    if (!query.data) return <ProgressDots className="py-8" />;
+    if (exerciseResponseQuery.error && !exerciseResponseQuery.data) return <ErrorSection error={exerciseResponseQuery.error} />;
+    if (!exerciseResponseQuery.data) return <ProgressDots className="py-8" />;
     if (items.length === 0) return <p className="text-bluedot-navy/60 py-8 text-center">No exercise responses match these filters.</p>;
+
     return (
       <ol className="flex flex-col gap-3">
         {items.map((item) => (
@@ -162,102 +138,112 @@ const AdminUserExerciseResponses = () => {
   };
 
   return (
-    <PageChrome>
+    <div>
+      <Head>
+        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <meta name="robots" content="noindex" />
+      </Head>
+      <Breadcrumbs route={CURRENT_ROUTE} />
       <Section>
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* LHS: identity + filters (always rendered once auth/userId are present) */}
-          <aside className="md:w-64 shrink-0 flex flex-col gap-6">
-            <div className="container-lined p-4 flex flex-col gap-1">
-              {user ? (
-                <>
-                  <p className="font-semibold text-bluedot-navy break-words">{user.name || '(no name)'}</p>
-                  <p className="text-size-xs text-bluedot-navy/70 break-words" title={user.email}>{maskEmail(user.email)}</p>
-                  {user.lastSeenAt && (
-                    <p className="text-size-xxs text-bluedot-navy/50 mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
-                  )}
-                </>
-              ) : (
-                <p className="text-size-xs text-bluedot-navy/50">Loading user...</p>
-              )}
-              <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{userId}</code></p>
-              <button
-                type="button"
-                onClick={() => setIsSelectUserModalOpen(true)}
-                className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
-              >
-                Select user
-              </button>
-            </div>
+        {(!userId || shouldShow404) ? (
+          <ProgressDots className="py-8" />
+        ) : (
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Left column: identity + filters */}
+            <aside className="md:w-64 shrink-0 flex flex-col gap-6">
+              <div className="container-lined p-4 flex flex-col gap-1">
+                {user ? (
+                  <>
+                    <p className="font-semibold text-bluedot-navy break-words">{user.name || '(no name)'}</p>
+                    <p className="text-size-xs text-bluedot-navy/70 break-words" title={user.email}>{maskEmail(user.email)}</p>
+                    {user.lastSeenAt && (
+                      <p className="text-size-xxs text-bluedot-navy/50 mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-size-xs text-bluedot-navy/50">Loading user...</p>
+                )}
+                <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{userId}</code></p>
+                <button
+                  type="button"
+                  onClick={() => setIsSelectUserModalOpen(true)}
+                  className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
+                >
+                  Select user
+                </button>
+              </div>
 
-            <label className="flex items-center gap-2 text-size-xs cursor-pointer">
-              <input
-                type="checkbox"
-                checked={status !== 'completed'}
-                onChange={(e) => setStatus(e.target.checked ? 'all' : 'completed')}
-              />
-              Show in-progress
-            </label>
+              <label className="flex items-center gap-2 text-size-xs cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={status !== 'completed'}
+                  onChange={(e) => setStatus(e.target.checked ? 'all' : 'completed')}
+                />
+                Show in-progress
+              </label>
 
-            {courses.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <p className="text-size-xs font-semibold text-bluedot-navy">Course</p>
-                <div className="flex flex-col gap-1">
-                  <label className="flex items-center gap-2 text-size-xs cursor-pointer">
-                    <input
-                      type="radio"
-                      name="course"
-                      checked={!courseId}
-                      onChange={() => setCourseId(undefined)}
-                    />
-                    All courses
-                  </label>
-                  {courses.map((c) => (
-                    <label key={c.id ?? '__none__'} className="flex items-center gap-2 text-size-xs cursor-pointer">
+              {courses.length > 0 && (
+                <div className="flex flex-col gap-2">
+                  <p className="text-size-xs font-semibold text-bluedot-navy">Course</p>
+                  <div className="flex flex-col gap-1">
+                    <label className="flex items-center gap-2 text-size-xs cursor-pointer">
                       <input
                         type="radio"
                         name="course"
-                        checked={courseId === c.id}
-                        onChange={() => setCourseId(c.id ?? undefined)}
+                        checked={!courseId}
+                        onChange={() => setCourseId(undefined)}
                       />
-                      {c.title ?? '(untitled)'}
+                      All courses
                     </label>
-                  ))}
+                    {courses.map((c) => (
+                      <label key={c.id ?? '__none__'} className="flex items-center gap-2 text-size-xs cursor-pointer">
+                        <input
+                          type="radio"
+                          name="course"
+                          checked={courseId === c.id}
+                          onChange={() => setCourseId(c.id ?? undefined)}
+                        />
+                        {c.title ?? '(untitled)'}
+                      </label>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </aside>
+              )}
+            </aside>
 
-          {/* Main: search + results */}
-          <div className="flex-1 flex flex-col gap-4 min-w-0">
-            <div className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2">
-              <RiSearchLine className="text-gray-400 shrink-0" size={15} />
-              <input
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search question or response..."
-                className="flex-1 outline-none text-size-xs placeholder:text-gray-400"
-              />
+            {/* Main (right column): search + results */}
+            <div className="flex-1 flex flex-col gap-4 min-w-0">
+              <div className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2">
+                <RiSearchLine className="text-gray-400 shrink-0" size={15} />
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search question or response..."
+                  className="flex-1 outline-none text-size-xs placeholder:text-gray-400"
+                />
+              </div>
+
+              {renderResults()}
+
+              {items.length > 0 && (
+                <div ref={sentinelRef} className="py-4 text-center text-size-xs text-bluedot-navy/50">
+                  {exerciseResponseQuery.isFetchingNextPage && 'Loading...'}
+                  {!exerciseResponseQuery.hasNextPage && 'End of responses'}
+                </div>
+              )}
             </div>
-
-            {renderResults()}
-
-            {items.length > 0 && (
-              <div ref={sentinelRef} className="py-4 text-center text-size-xs text-bluedot-navy/50">
-                {query.isFetchingNextPage && 'Loading...'}
-                {!query.hasNextPage && 'End of responses'}
-              </div>
-            )}
           </div>
-        </div>
+        )}
       </Section>
       <UserSearchModal
         isOpen={isSelectUserModalOpen}
         onClose={() => setIsSelectUserModalOpen(false)}
         title="Select a user to view"
+        scope="all"
         onSelectUser={(id) => router.push(`/admin/exercises/${id}`)}
       />
-    </PageChrome>
+    </div>
   );
 };
 

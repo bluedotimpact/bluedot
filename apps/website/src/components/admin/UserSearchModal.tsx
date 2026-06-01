@@ -3,27 +3,22 @@ import {
   ErrorSection, Modal, ProgressDots, useCurrentTimeMs,
 } from '@bluedot/ui';
 import { RiSearchLine } from 'react-icons/ri';
-import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
+import { trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
 
 type UserSearchModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  /** Modal title. Defaults to the impersonation copy for back-compat. */
-  title?: string;
-  /** Called with the selected user id. Defaults to starting impersonation (sessionStorage + reload). */
-  onSelectUser?: (userId: string) => void;
-};
-
-const defaultImpersonateHandler = (userId: string) => {
-  sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, userId);
-  window.location.reload();
+  title: string;
+  scope: 'impersonate' | 'all';
+  onSelectUser: (userId: string) => void;
 };
 
 export const UserSearchModal = ({
   isOpen,
   onClose,
-  title = 'Impersonate a user',
+  title,
+  scope,
   onSelectUser,
 }: UserSearchModalProps) => {
   const [searchTermInput, setSearchTermInput] = useState('');
@@ -38,13 +33,13 @@ export const UserSearchModal = ({
 
   const searchTerm = searchTermInput.trim();
   const { data: searchResults, isLoading, error } = trpc.admin.searchUsers.useQuery(
-    { searchTerm: searchTerm || undefined },
+    { searchTerm: searchTerm || undefined, scope },
     { enabled: isOpen },
   );
 
   const handleSelectUser = (userId: string) => {
     onClose();
-    (onSelectUser ?? defaultImpersonateHandler)(userId);
+    onSelectUser(userId);
   };
 
   const showNoResults = !isLoading && searchResults?.length === 0 && searchTermInput.length > 0;
