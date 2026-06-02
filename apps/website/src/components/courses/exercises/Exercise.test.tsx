@@ -99,10 +99,10 @@ describe('Exercise', () => {
   test('completion checkbox is enabled when exercise has a saved response', async () => {
     server.use(trpcMsw.exercises.getExerciseResponse.query(() => ({
       id: 'resp-1',
-      createdAt: null,
       email: 'test@example.com',
       autoNumberId: null,
       completedAt: null,
+      createdAt: null,
       exerciseId: 'ex1',
       response: 'Some text the user wrote',
       completed: false,
@@ -118,10 +118,10 @@ describe('Exercise', () => {
   test('completion checkbox is disabled when exercise has no response', async () => {
     server.use(trpcMsw.exercises.getExerciseResponse.query(() => ({
       id: 'resp-2',
-      createdAt: null,
       email: 'test@example.com',
       autoNumberId: null,
       completedAt: null,
+      createdAt: null,
       exerciseId: 'ex1',
       response: '',
       completed: false,
@@ -141,10 +141,10 @@ describe('Exercise', () => {
     server.use(
       trpcMsw.exercises.getExerciseResponse.query(() => ({
         id: 'resp-3',
-        createdAt: null,
         email: 'test@example.com',
         autoNumberId: null,
         completedAt: null,
+        createdAt: null,
         exerciseId: 'ex1',
         response: 'Old saved text',
         completed: false,

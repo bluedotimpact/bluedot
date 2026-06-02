@@ -35,12 +35,12 @@ const multipleChoiceExercise = {
 
 const savedResponse = {
   id: 'response-1',
-  createdAt: null,
   email: 'test+storybook@bluedot.org',
   exerciseId: EXERCISE_ID,
   response: 'I believe a better future involves more equitable access to education and healthcare globally.',
   completed: false,
   completedAt: null,
+  createdAt: null,
   autoNumberId: null,
   userId: null,
 };
