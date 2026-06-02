@@ -1,7 +1,7 @@
 import {
   type FieldPath, type FieldValues, type PathValue, type UseControllerProps, useController,
 } from 'react-hook-form';
-import { offsets } from '../lib/offset';
+import { offsets } from '@bluedot/utils';
 import { ComboBox } from './ComboBox';
 
 const browserTimezoneName = new Intl.DateTimeFormat().resolvedOptions().timeZone;

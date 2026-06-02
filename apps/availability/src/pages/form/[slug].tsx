@@ -5,18 +5,20 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import {
   CTALinkOrButton, ErrorSection, Input, H1, P, ProgressDots, Section, Textarea,
 } from '@bluedot/ui';
-import * as wa from 'weekly-availabilities';
+import {
+  type TimeAvailabilityMap,
+  formatOffsetFromMinutesToString, parseOffsetFromStringToMinutes,
+  weeklyTimeAvToIntervals, shiftIntervals, gridToUtcIntervalString, utcIntervalStringToGrid,
+} from '@bluedot/utils';
 import { type SubmitRequest } from '../api/public/submit';
 import { type GetFormResponse } from '../api/public/get-form';
 import { TimeOffsetSelector } from '../../components/TimeOffsetSelector';
 import { TimeAvailabilityInput } from '../../components/TimeAvailabilityInput';
-import { formatOffsetFromMinutesToString, parseOffsetFromStringToMinutes } from '../../lib/offset';
-import { weeklyTimeAvToIntervals, intervalsToWeeklyTimeAv, shiftIntervals } from '../../lib/util';
 
 type FormFieldData = {
   email: string;
   timezone: string;
-  timeAv: Record<wa.WeeklyTime, boolean>;
+  timeAv: TimeAvailabilityMap;
   comment: string;
 };
 
@@ -36,14 +38,13 @@ const Form: React.FC<{
   const [error, setError] = useState<unknown | undefined>();
   const onSubmit = async (data: FormFieldData) => {
     setSubmitting(true);
-    const intervals = shiftIntervals(weeklyTimeAvToIntervals(data.timeAv), parseOffsetFromStringToMinutes(data.timezone));
 
     try {
       const response = await axios.post(
         '/api/public/submit',
         {
           email: data.email,
-          availability: wa.format(intervals),
+          availability: gridToUtcIntervalString(data.timeAv, data.timezone),
           timezone: data.timezone,
           comments: data.comment,
           ...(roundId && { roundId }),
@@ -152,15 +153,11 @@ const getDefaultFormValues = (searchParams: URLSearchParams): FormFieldData => {
 
   // Parse prefilled intervals (stored in UTC) and convert to local time
   const prefillIntervalsUTC = searchParams.get('prefill_intervals');
-  let timeAv: Record<wa.WeeklyTime, boolean> = {};
+  let timeAv: TimeAvailabilityMap = {};
 
   if (prefillIntervalsUTC) {
     try {
-      const intervalsUTC = wa.parseIntervals(prefillIntervalsUTC);
-      const offsetMinutes = parseOffsetFromStringToMinutes(timezone);
-      const intervalsLocal = shiftIntervals(intervalsUTC, -offsetMinutes);
-
-      timeAv = intervalsToWeeklyTimeAv(intervalsLocal);
+      timeAv = utcIntervalStringToGrid(prefillIntervalsUTC, timezone);
     } catch {
       // If parsing fails, just use empty timeAv
       // eslint-disable-next-line no-console
