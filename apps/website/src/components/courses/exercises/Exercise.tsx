@@ -88,6 +88,7 @@ const Exercise: React.FC<ExerciseProps> = ({
 
       utils.exercises.getExerciseResponse.setData({ exerciseId }, {
         id: previousResponse?.id ?? 'optimistic',
+        createdAt: previousResponse?.createdAt ?? null,
         email: previousResponse?.email ?? auth?.email ?? '',
         exerciseId,
         response: newData.response,
