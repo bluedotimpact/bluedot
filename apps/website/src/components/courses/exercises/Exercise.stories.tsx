@@ -41,7 +41,6 @@ const savedResponse = {
   response: 'I believe a better future involves more equitable access to education and healthcare globally.',
   completed: false,
   completedAt: null,
-  createdAt: null,
   autoNumberId: null,
   userId: null,
 };
