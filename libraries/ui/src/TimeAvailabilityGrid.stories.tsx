@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { TimeAvailabilityGrid, type TimeAvailabilityMap } from './TimeAvailabilityGrid';
+import { type TimeAvailabilityMap } from '@bluedot/utils';
+import { TimeAvailabilityGrid } from './TimeAvailabilityGrid';
 
 const meta = {
   title: 'ui/TimeAvailabilityGrid',

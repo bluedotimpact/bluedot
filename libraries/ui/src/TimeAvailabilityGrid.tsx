@@ -2,8 +2,8 @@ import {
   useEffect, useRef, useState, useMemo,
 } from 'react';
 import clsx from 'clsx';
+import { MINUTES_IN_UNIT, type TimeAvailabilityMap } from '@bluedot/utils';
 
-export const MINUTES_IN_UNIT = 30;
 const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 type Coord = { day: number; minute: number };
@@ -31,8 +31,6 @@ const snapToRect = (
     y: y > bottom ? bottom - 5 : y < top ? top + 5 : y,
   };
 };
-
-export type TimeAvailabilityMap = Record<number, boolean>;
 
 export type TimeAvailabilityGridProps = {
   value: TimeAvailabilityMap;

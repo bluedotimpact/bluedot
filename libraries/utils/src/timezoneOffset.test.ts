@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { formatOffsetFromMinutesToString, offsets, parseOffsetFromStringToMinutes } from './offset';
+import { formatOffsetFromMinutesToString, offsets, parseOffsetFromStringToMinutes } from './timezoneOffset';
 
 describe('parseOffsetFromStringToMinutes', () => {
   test.each([

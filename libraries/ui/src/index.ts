@@ -70,8 +70,8 @@ export type { TagProps } from './Tag';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 
-export { TimeAvailabilityGrid, MINUTES_IN_UNIT } from './TimeAvailabilityGrid';
-export type { TimeAvailabilityGridProps, TimeAvailabilityMap } from './TimeAvailabilityGrid';
+export { TimeAvailabilityGrid } from './TimeAvailabilityGrid';
+export type { TimeAvailabilityGridProps } from './TimeAvailabilityGrid';
 
 export { TimePicker } from './TimePicker';
 export type { TimePickerProps } from './TimePicker';

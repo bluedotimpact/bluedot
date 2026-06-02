@@ -1,13 +1,21 @@
 import * as wa from 'weekly-availabilities';
+import { parseOffsetFromStringToMinutes } from './timezoneOffset';
 
 export const MINUTES_IN_UNIT = 30;
 export const MINUTES_IN_WEEK = 10_080;
 
 /**
+ * A weekly availability selection. Keys are minutes since Monday 00:00 (0–10080);
+ * a `true` value marks that 30-minute slot as selected. This is the shape produced
+ * and consumed by the `TimeAvailabilityGrid` component in `@bluedot/ui`.
+ */
+export type TimeAvailabilityMap = Record<number, boolean>;
+
+/**
  * Converts a weekly time availability map to intervals.
  * Each selected time slot becomes a 30-minute interval, then merged with unionSchedules.
  */
-export const weeklyTimeAvToIntervals = (timeAv: Record<wa.WeeklyTime, boolean>): wa.Interval[] => {
+export const weeklyTimeAvToIntervals = (timeAv: TimeAvailabilityMap): wa.Interval[] => {
   return wa.unionSchedules(Object.entries(timeAv)
     .filter(([, available]) => available)
     .map(([weeklyTime]) => [
@@ -20,8 +28,8 @@ export const weeklyTimeAvToIntervals = (timeAv: Record<wa.WeeklyTime, boolean>):
  * Converts intervals to a weekly time availability map.
  * Normalizes misaligned intervals by rounding start down and end up to MINUTES_IN_UNIT boundaries.
  */
-export const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): Record<wa.WeeklyTime, boolean> => {
-  const timeAv: Record<number, boolean> = {};
+export const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): TimeAvailabilityMap => {
+  const timeAv: TimeAvailabilityMap = {};
   for (const [start, end] of intervals) {
     // Normalize: round start down and end up to nearest MINUTES_IN_UNIT boundary
     const normalizedStart = Math.floor((start as number) / MINUTES_IN_UNIT) * MINUTES_IN_UNIT;
@@ -33,7 +41,7 @@ export const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): Record<wa.Wee
     }
   }
 
-  return timeAv as Record<wa.WeeklyTime, boolean>;
+  return timeAv;
 };
 
 /**
@@ -69,4 +77,26 @@ export const shiftIntervals = (intervals: wa.Interval[], offsetInMinutes: number
   });
   // Simplify and merge adjacent intervals
   return wa.unionSchedules(shifted);
+};
+
+/**
+ * Converts a grid selection (interpreted in `timezone`) into the UTC interval string
+ * persisted by the availability/application forms (weekly-availabilities format).
+ */
+export const gridToUtcIntervalString = (map: TimeAvailabilityMap, timezone: string): string => {
+  const intervals = shiftIntervals(
+    weeklyTimeAvToIntervals(map),
+    parseOffsetFromStringToMinutes(timezone),
+  );
+  return wa.format(intervals);
+};
+
+/**
+ * Parses a UTC interval string (weekly-availabilities format) back into a grid selection
+ * for `timezone`. Throws if the string is malformed.
+ */
+export const utcIntervalStringToGrid = (utc: string, timezone: string): TimeAvailabilityMap => {
+  const intervalsUtc = wa.parseIntervals(utc);
+  const intervalsLocal = shiftIntervals(intervalsUtc, -parseOffsetFromStringToMinutes(timezone));
+  return intervalsToWeeklyTimeAv(intervalsLocal);
 };

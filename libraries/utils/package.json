@@ -10,6 +10,9 @@
     "test": "vitest --run",
     "test:watch": "vitest"
   },
+  "dependencies": {
+    "weekly-availabilities": "^1.0.0"
+  },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",

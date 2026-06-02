@@ -3,9 +3,9 @@ import {
   type FieldPath, type FieldValues, type UseControllerProps,
   useController,
 } from 'react-hook-form';
-import { CTALinkOrButton, TimeAvailabilityGrid, type TimeAvailabilityMap } from '@bluedot/ui';
+import { CTALinkOrButton, TimeAvailabilityGrid } from '@bluedot/ui';
+import { MINUTES_IN_WEEK, type TimeAvailabilityMap } from '@bluedot/utils';
 import type * as wa from 'weekly-availabilities';
-import { MINUTES_IN_WEEK } from '../lib/util';
 
 const toWeeklyTimeAvMap = (m: TimeAvailabilityMap): Record<wa.WeeklyTime, boolean> => {
   for (const key of Object.keys(m)) {
