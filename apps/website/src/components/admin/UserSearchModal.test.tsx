@@ -109,6 +109,7 @@ describe('UserSearchModal', () => {
       sessionStorage.setItem('bluedot_impersonating', userId);
       window.location.reload();
     };
+
     render(<UserSearchModal isOpen onClose={mockOnClose} title="Impersonate a user" scope="impersonate" onSelectUser={impersonateHandler} />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
