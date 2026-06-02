@@ -26,11 +26,6 @@ const mockRouter = {
   replace: vi.fn(),
 };
 
-beforeEach(() => {
-  (useRouter as unknown as Mock).mockReturnValue(mockRouter);
-  server.use(trpcMsw.users.getUser.query(() => mockUser));
-});
-
 const mockUser = {
   id: 'rec-user',
   createdAt: null,
@@ -44,6 +39,11 @@ const mockUser = {
   isAdmin: false,
   allowedImpersonationTargets: null,
 };
+
+beforeEach(() => {
+  (useRouter as unknown as Mock).mockReturnValue(mockRouter);
+  server.use(trpcMsw.users.getUser.query(() => mockUser));
+});
 
 const stubFeedbackFormData = {
   meetPersonId: 'rec-facilitator',
