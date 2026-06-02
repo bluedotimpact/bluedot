@@ -3,6 +3,7 @@ import { CTALinkOrButton, useCurrentTimeMs } from '@bluedot/ui';
 import { useState, type ReactNode } from 'react';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
+import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { TimeWidget } from './DiscussionListRow';
 import LiveBadge from './LiveBadge';
@@ -57,6 +58,7 @@ const NextDiscussionCard = ({
   mode = 'participant', courseSlug, courseTitle, discussion, unit, group, facilitatorSubtitle,
 }: NextDiscussionCardProps) => {
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
+  const [updateTimeOpen, setUpdateTimeOpen] = useState(false);
   const currentTimeMs = useCurrentTimeMs();
 
   const startMs = discussion.startDateTime * 1000;
@@ -123,6 +125,7 @@ const NextDiscussionCard = ({
             discussionDocUrl,
             zoomLink,
             onOpenReschedule: () => setRescheduleOpen(true),
+            onOpenUpdateTime: () => setUpdateTimeOpen(true),
           })}
         </div>
       </div>
@@ -132,6 +135,14 @@ const NextDiscussionCard = ({
           initialUnitNumber={unit?.unitNumber}
           courseSlug={courseSlug}
           roundId={roundId}
+        />
+      )}
+      {updateTimeOpen && roundId && (
+        <FacilitatorSwitchModal
+          handleClose={() => setUpdateTimeOpen(false)}
+          roundId={roundId}
+          initialDiscussion={{ id: discussion.id, group: discussion.group }}
+          initialModalType="Update discussion time"
         />
       )}
     </>
@@ -147,11 +158,14 @@ type NextDiscussionActionContext = {
   discussionDocUrl: string | undefined;
   zoomLink: string | undefined;
   onOpenReschedule: () => void;
+  onOpenUpdateTime: () => void;
 };
 
 const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
   if (ctx.mode === 'facilitator') {
-    const { isLive, discussionDocUrl, zoomLink } = ctx;
+    const {
+      isLive, roundId, discussionDocUrl, zoomLink, onOpenUpdateTime,
+    } = ctx;
     return (
       <>
         <CTALinkOrButton
@@ -164,6 +178,17 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
         >
           Open discussion doc
         </CTALinkOrButton>
+        {!isLive && (
+          <CTALinkOrButton
+            variant="secondary"
+            size="small"
+            onClick={onOpenUpdateTime}
+            disabled={!roundId}
+            className="text-size-xxs"
+          >
+            Update discussion time
+          </CTALinkOrButton>
+        )}
         {isLive && (
           <CTALinkOrButton
             variant="primary"
