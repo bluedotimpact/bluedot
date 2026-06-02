@@ -40,6 +40,7 @@ const FacilitatorFeedbackPage = () => {
   const [difficulties, setDifficulties] = useState('');
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);
   const participantInsightsRef = useRef<HTMLElement>(null);
+  const hydratedMeetPersonIdRef = useRef<string | null>(null);
 
   const {
     noStrongImpressionIds,
@@ -53,6 +54,11 @@ const FacilitatorFeedbackPage = () => {
 
   useEffect(() => {
     if (!formData) return;
+
+    // Hydrate editable form state once per form. React Query may refetch the same
+    // form on window focus; those later snapshots should not overwrite local edits.
+    if (hydratedMeetPersonIdRef.current === meetPersonId) return;
+    hydratedMeetPersonIdRef.current = meetPersonId;
 
     if (formData.existingCourseFeedback) {
       setOverallRating(formData.existingCourseFeedback.courseRating ?? 0);
@@ -80,8 +86,6 @@ const FacilitatorFeedbackPage = () => {
     }
 
     setFeedbackByParticipant(initial);
-    // Read localStorage values once when formData arrives; don't re-hydrate on
-    // subsequent user-driven changes (which would wipe in-flight local saves).
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
