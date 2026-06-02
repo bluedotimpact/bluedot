@@ -370,8 +370,8 @@ describe('getAvailableGroupsAndDiscussions', () => {
     expect(result.groupsAvailable.map((g) => g.group.id)).toEqual(['g-own']);
   });
 
-  test.each([null, 'TODO', 'Strong no'])('falls back to \'Neutral\' when humanOpinion is %j', (humanOpinion) => {
-    // Group requires Neutral; participant has null/invalid opinion. Should still match.
+  test.each([null, 'TODO'])('falls back to \'Neutral\' when humanOpinion is %j', (humanOpinion) => {
+    // Group requires Neutral; participant has no opinion (null) or an unreviewed one (TODO). Should still match.
     const neutralGroup = createMockGroup({ id: 'g-neutral', participants: [], whoCanSwitchIntoThisGroup: ['Neutral'] });
     const strongYesGroup = createMockGroup({ id: 'g-strong', participants: [], whoCanSwitchIntoThisGroup: ['Strong yes'] });
 
@@ -384,6 +384,22 @@ describe('getAvailableGroupsAndDiscussions', () => {
     });
 
     expect(result.allowedGroups.map((g) => g.id)).toEqual(['g-neutral']);
+  });
+
+  test.each(['Weak no', 'Strong no'])('matches humanOpinion %j exactly, so it does not fall back to Neutral', (humanOpinion) => {
+    // No group lists this opinion, so the participant matches nothing (and isn't in any group here).
+    const neutralGroup = createMockGroup({ id: 'g-neutral', participants: [], whoCanSwitchIntoThisGroup: ['Neutral'] });
+    const strongYesGroup = createMockGroup({ id: 'g-strong', participants: [], whoCanSwitchIntoThisGroup: ['Strong yes'] });
+
+    const result = getAvailableGroupsAndDiscussions({
+      allGroupsInRound: [neutralGroup, strongYesGroup],
+      allGroupDiscussionsInRound: [],
+      participantId,
+      participantHumanOpinion: humanOpinion,
+      maxParticipants: 5,
+    });
+
+    expect(result.allowedGroups.map((g) => g.id)).toEqual([]);
   });
 });
 
@@ -731,7 +747,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     expect(groupIds).toEqual(['my-group', 'neutral-group']);
   });
 
-  test.each(['Weak no', 'TODO', 'Strong no'])('humanOpinion "%s" is treated as Neutral', async (invalidOpinion) => {
+  const seedRoundWithNeutralGroup = async (humanOpinion: string) => {
     await testDb.insert(courseTable, {
       id: 'course-1',
       slug: 'test-course',
@@ -760,7 +776,7 @@ describe('groupSwitching.discussionsAvailable', () => {
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
-      humanOpinion: invalidOpinion,
+      humanOpinion,
     });
 
     await testDb.insert(groupTable, {
@@ -781,11 +797,23 @@ describe('groupSwitching.discussionsAvailable', () => {
       facilitators: ['fac-1'],
       participantsExpected: ['someone-else'],
     });
+  };
+
+  test('humanOpinion "TODO" is treated as Neutral', async () => {
+    await seedRoundWithNeutralGroup('TODO');
 
     const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
     expect(result.groupsAvailable).toHaveLength(1);
     expect(result.groupsAvailable[0]!.group.id).toBe('neutral-group');
+  });
+
+  test.each(['Weak no', 'Strong no'])('humanOpinion "%s" matches exactly and is not treated as Neutral', async (noOpinion) => {
+    await seedRoundWithNeutralGroup(noOpinion);
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
+    expect(result.groupsAvailable).toHaveLength(0);
   });
 
   test('returns null spotsLeftIfKnown when round has no max', async () => {
