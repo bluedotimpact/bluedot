@@ -115,8 +115,8 @@ const loadQuickApplyContext = async (email: string, roundId: string) => {
 };
 
 export type FacilitatorApplicationListItem = inferRouterOutputs<typeof facilitatorApplicationsRouter>['list'][number];
-export type QuickApplyPanelCourse = inferRouterOutputs<typeof facilitatorApplicationsRouter>['quickApplyPanel'][number];
-export type QuickApplyFormData = inferRouterOutputs<typeof facilitatorApplicationsRouter>['quickApplyForm'];
+export type EligibleRoundsCourse = inferRouterOutputs<typeof facilitatorApplicationsRouter>['eligibleRounds'][number];
+export type QuickApplyPrefillData = inferRouterOutputs<typeof facilitatorApplicationsRouter>['quickApplyPrefill'];
 
 export const facilitatorApplicationsRouter = router({
   list: protectedProcedure.query(async ({ ctx }) => {
@@ -176,7 +176,7 @@ export const facilitatorApplicationsRouter = router({
 
   // One card per course the facilitator is wrapping up that still has open upcoming rounds
   // they haven't applied to. Each card lists those rounds (earliest first).
-  quickApplyPanel: protectedProcedure.query(async ({ ctx }) => {
+  eligibleRounds: protectedProcedure.query(async ({ ctx }) => {
     const eligibleCourseIds = await getQuickApplyEligibleCourseIds(ctx.auth.email);
     if (eligibleCourseIds.length === 0) return [];
 
@@ -241,7 +241,7 @@ export const facilitatorApplicationsRouter = router({
 
   // Round + course context and prefill (from the facilitator's most recent prior application
   // for the same course) for the quick-apply form. Validates eligibility, openness, no duplicate.
-  quickApplyForm: protectedProcedure
+  quickApplyPrefill: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { round, courseId, priorRegs } = await loadQuickApplyContext(ctx.auth.email, input.roundId);

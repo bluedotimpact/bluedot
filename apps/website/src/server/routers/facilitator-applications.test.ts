@@ -174,13 +174,13 @@ describe('facilitatorApplications.list', () => {
   });
 });
 
-describe('facilitatorApplications.quickApplyPanel', () => {
+describe('facilitatorApplications.eligibleRounds', () => {
   test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).facilitatorApplications.quickApplyPanel()).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+    await expect(createCaller(testAuthContextLoggedOut).facilitatorApplications.eligibleRounds()).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('returns empty when caller has no facilitator registrations', async () => {
-    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+    expect(await caller.facilitatorApplications.eligibleRounds()).toEqual([]);
   });
 
   test('omits a course whose cohort still has more than one future discussion', async () => {
@@ -197,7 +197,7 @@ describe('facilitatorApplications.quickApplyPanel', () => {
     await seedDiscussion('d2', NOW + 2 * HOUR);
     await seedRound('round-next', 'course-1', null);
 
-    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+    expect(await caller.facilitatorApplications.eligibleRounds()).toEqual([]);
   });
 
   test('includes a course wrapping up (one future discussion) with its open, unapplied rounds', async () => {
@@ -215,7 +215,7 @@ describe('facilitatorApplications.quickApplyPanel', () => {
     await seedRound('round-cohort', 'course-1', null); // already applied — excluded
     await seedRound('round-next', 'course-1', null); // open, unapplied
 
-    const result = await caller.facilitatorApplications.quickApplyPanel();
+    const result = await caller.facilitatorApplications.eligibleRounds();
     expect(result).toEqual([
       {
         courseId: 'course-1',
@@ -246,7 +246,7 @@ describe('facilitatorApplications.quickApplyPanel', () => {
     await seedDiscussion('d1', NOW - HOUR); // all done
     await seedRound('round-next', 'course-1', null);
 
-    const result = await caller.facilitatorApplications.quickApplyPanel();
+    const result = await caller.facilitatorApplications.eligibleRounds();
     expect(result.map((c) => c.courseId)).toEqual(['course-1']);
   });
 
@@ -262,7 +262,7 @@ describe('facilitatorApplications.quickApplyPanel', () => {
     await seedMeetPerson('mp-1', 'reg-1', []); // no schedule yet
     await seedRound('round-next', 'course-1', null);
 
-    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+    expect(await caller.facilitatorApplications.eligibleRounds()).toEqual([]);
   });
 
   test('hides the course when every open round has already been applied to', async () => {
@@ -286,7 +286,7 @@ describe('facilitatorApplications.quickApplyPanel', () => {
     await seedRound('round-cohort', 'course-1', null);
     await seedRound('round-next', 'course-1', null);
 
-    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+    expect(await caller.facilitatorApplications.eligibleRounds()).toEqual([]);
   });
 
   test('excludes rounds whose application deadline has passed', async () => {
@@ -302,11 +302,11 @@ describe('facilitatorApplications.quickApplyPanel', () => {
     await seedDiscussion('d1', NOW - HOUR);
     await seedRound('round-closed', 'course-1', '2000-01-01');
 
-    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+    expect(await caller.facilitatorApplications.eligibleRounds()).toEqual([]);
   });
 });
 
-describe('facilitatorApplications.quickApplyForm', () => {
+describe('facilitatorApplications.quickApplyPrefill', () => {
   test('prefills from the most recent prior facilitator application for the same course', async () => {
     await seedCourse('course-1', 'tai', 'Technical AI Safety');
     await testDb.insert(courseRegistrationTable, {
@@ -333,7 +333,7 @@ describe('facilitatorApplications.quickApplyForm', () => {
     });
     await seedRound('round-next', 'course-1', null);
 
-    const result = await caller.facilitatorApplications.quickApplyForm({ roundId: 'round-next' });
+    const result = await caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' });
     expect(result.round).toMatchObject({ courseSlug: 'tai', label: 'Week 25 Intensive', id: 'round-next' });
     expect(result.prefill).toMatchObject({
       numGroupsToFacilitate: 3,
@@ -346,7 +346,7 @@ describe('facilitatorApplications.quickApplyForm', () => {
   test('throws FORBIDDEN when the caller has not facilitated the course', async () => {
     await seedCourse('course-1', 'tai', 'Technical AI Safety');
     await seedRound('round-next', 'course-1', null);
-    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'round-next' })).rejects.toMatchObject({
+    await expect(caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' })).rejects.toMatchObject({
       code: 'FORBIDDEN',
     });
   });
@@ -361,7 +361,7 @@ describe('facilitatorApplications.quickApplyForm', () => {
       roundId: 'round-next',
     });
     await seedRound('round-next', 'course-1', null);
-    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'round-next' })).rejects.toMatchObject({
+    await expect(caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' })).rejects.toMatchObject({
       code: 'CONFLICT',
     });
   });
@@ -376,13 +376,13 @@ describe('facilitatorApplications.quickApplyForm', () => {
       roundId: 'round-a',
     });
     await seedRound('round-closed', 'course-1', '2000-01-01');
-    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'round-closed' })).rejects.toMatchObject({
+    await expect(caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-closed' })).rejects.toMatchObject({
       code: 'NOT_FOUND',
     });
   });
 
   test('throws NOT_FOUND when the round does not exist', async () => {
-    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'nope' })).rejects.toMatchObject({
+    await expect(caller.facilitatorApplications.quickApplyPrefill({ roundId: 'nope' })).rejects.toMatchObject({
       code: 'NOT_FOUND',
     });
   });

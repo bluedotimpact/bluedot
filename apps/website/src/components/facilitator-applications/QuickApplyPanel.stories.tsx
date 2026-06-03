@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import QuickApplyPanel from './QuickApplyPanel';
-import type { QuickApplyPanelCourse } from '../../server/routers/facilitator-applications';
+import type { EligibleRoundsCourse } from '../../server/routers/facilitator-applications';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
-const courses: QuickApplyPanelCourse[] = [
+const courses: EligibleRoundsCourse[] = [
   {
     courseId: 'course-agi',
     courseTitle: 'AGI Strategy',
@@ -32,7 +32,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   parameters: {
     msw: {
-      handlers: [trpcStorybookMsw.facilitatorApplications.quickApplyPanel.query(() => courses)],
+      handlers: [trpcStorybookMsw.facilitatorApplications.eligibleRounds.query(() => courses)],
     },
   },
 };
@@ -41,7 +41,7 @@ export const MultipleRounds: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.facilitatorApplications.quickApplyPanel.query(() => [
+        trpcStorybookMsw.facilitatorApplications.eligibleRounds.query(() => [
           {
             courseId: 'course-tais',
             courseTitle: 'Technical AI Safety',

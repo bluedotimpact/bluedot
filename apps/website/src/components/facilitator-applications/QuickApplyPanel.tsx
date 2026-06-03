@@ -3,10 +3,10 @@ import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
 import { formatDateRange } from '../../lib/utils';
-import type { QuickApplyPanelCourse } from '../../server/routers/facilitator-applications';
+import type { EligibleRoundsCourse } from '../../server/routers/facilitator-applications';
 import { trpc } from '../../utils/trpc';
 
-const CourseQuickApplyCard = ({ course }: { course: QuickApplyPanelCourse }) => {
+const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
   const courseConfig = course.courseSlug ? COURSE_CONFIG[course.courseSlug] : undefined;
   const tint = course.courseSlug ? COURSE_COLORS[course.courseSlug as CourseColorSlug]?.bright : undefined;
 
@@ -70,7 +70,7 @@ const CourseQuickApplyCard = ({ course }: { course: QuickApplyPanelCourse }) => 
 };
 
 const QuickApplyPanel = () => {
-  const { data } = trpc.facilitatorApplications.quickApplyPanel.useQuery();
+  const { data } = trpc.facilitatorApplications.eligibleRounds.useQuery();
 
   if (!data || data.length === 0) return null;
 

@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
 import { formatDateRange } from '../../../lib/utils';
-import type { QuickApplyFormData } from '../../../server/routers/facilitator-applications';
+import type { QuickApplyPrefillData } from '../../../server/routers/facilitator-applications';
 import { trpc } from '../../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.quickApply;
@@ -110,7 +110,7 @@ type FormValues = {
 
 const emptyToUndefined = (value: string): string | undefined => (value.trim() ? value : undefined);
 
-const formatRoundLine = (round: QuickApplyFormData['round']): string => {
+const formatRoundLine = (round: QuickApplyPrefillData['round']): string => {
   const name = [round.courseTitle, round.label].filter(Boolean).join(' - ');
   const dateRange = formatDateRange(round.firstDiscussionDate, round.lastDiscussionDate);
   if (name && dateRange) return `${name} (${dateRange})`;
@@ -213,7 +213,7 @@ const QuestionCollapsible = ({
   </details>
 );
 
-const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & QuickApplyFormData) => {
+const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & QuickApplyPrefillData) => {
   const router = useRouter();
   const defaultTimezone
     = prefill.availabilityTimezone || formatOffsetFromMinutesToString(new Date().getTimezoneOffset());
@@ -411,7 +411,7 @@ const QuickApplyPage = () => {
   const router = useRouter();
   const roundId = typeof router.query.round === 'string' ? router.query.round : undefined;
 
-  const { data, isLoading, error } = trpc.facilitatorApplications.quickApplyForm.useQuery(
+  const { data, isLoading, error } = trpc.facilitatorApplications.quickApplyPrefill.useQuery(
     { roundId: roundId ?? '' },
     { enabled: !!roundId, retry: false },
   );
