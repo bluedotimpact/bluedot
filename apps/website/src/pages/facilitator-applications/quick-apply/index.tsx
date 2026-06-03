@@ -223,7 +223,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
     try {
       defaultTimeAv = utcIntervalStringToGrid(prefill.availabilityIntervalsUTC, defaultTimezone);
     } catch {
-      defaultTimeAv = {};
+      // keep the empty map if stored intervals can't be parsed
     }
   }
 
