@@ -1,6 +1,13 @@
 import {
-  and, applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, courseTable,
-  eq, groupDiscussionTable, inArray, meetPersonTable,
+  and,
+  applicationsCourseTable,
+  applicationsRoundTable,
+  courseRegistrationTable,
+  courseTable,
+  eq,
+  groupDiscussionTable,
+  inArray,
+  meetPersonTable,
 } from '@bluedot/db';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -12,13 +19,11 @@ import { openRoundDeadlineCondition } from './course-rounds';
 type FacilitatorApplicationDecision = 'Accept' | 'Reject' | 'Withdrawn' | null;
 type FacilitatorApplicationRoundStatus = 'Active' | 'Future' | 'Past' | null;
 
-const toDecision = (v: unknown): FacilitatorApplicationDecision => (
-  v === 'Accept' || v === 'Reject' || v === 'Withdrawn' ? v : null
-);
+const toDecision = (v: unknown): FacilitatorApplicationDecision =>
+  v === 'Accept' || v === 'Reject' || v === 'Withdrawn' ? v : null;
 
-const toRoundStatus = (v: unknown): FacilitatorApplicationRoundStatus => (
-  v === 'Active' || v === 'Future' || v === 'Past' ? v : null
-);
+const toRoundStatus = (v: unknown): FacilitatorApplicationRoundStatus =>
+  v === 'Active' || v === 'Future' || v === 'Past' ? v : null;
 
 const buildRoundLabel = (courseRoundIntensity: string | null, intensity: string | null): string => {
   const week = parseWeekFromRoundName(courseRoundIntensity);
@@ -89,8 +94,7 @@ const facilitatorApplicationAnswersSchema = z.object({
   availabilityComments: z.string().optional(),
 });
 
-// Fetches the open round, with courseId narrowed to non-null. Throws if the round doesn't
-// exist or is no longer open.
+// Fetches the open round, with courseId narrowed to non-null. Throws if the round doesn't exist or is no longer open.
 const getOpenRound = async (roundId: string) => {
   const [round] = await db.pg
     .select({
@@ -132,7 +136,6 @@ const getRoundContext = async (roundId: string) => {
   };
 };
 
-// The caller's prior facilitator registrations for a course, most-recent first.
 const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
   const regs = await db.pg
     .select()
@@ -142,13 +145,12 @@ const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
       eq(courseRegistrationTable.pg.role, 'Facilitator'),
       eq(courseRegistrationTable.pg.courseId, courseId),
     ));
+  // Sorts most recent first; when used for pre-filling, the most recent application is likely the most relevant and helpful to pre-fill from.
   return [...regs].sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0));
 };
 
 type PriorFacilitatorReg = Awaited<ReturnType<typeof getPriorFacilitatorRegs>>[number];
 
-// Asserts the caller may quick-apply to this round: they must have facilitated the course
-// before and not already have applied to this round. Returns their prior regs (most-recent first).
 const getEligiblePriorFacilitatorRegs = async (email: string, courseId: string, roundId: string) => {
   const priorRegs = await getPriorFacilitatorRegs(email, courseId);
   if (priorRegs.length === 0) {
@@ -273,7 +275,10 @@ export const facilitatorApplicationsRouter = router({
     const appliedRoundIds = new Set(existingRegs.map((r) => r.roundId).filter((id): id is string => !!id));
 
     const courseById = new Map(courses.map((c) => [c.id, c] as const));
-    const roundsByCourse = new Map<string, { id: string; label: string; firstDiscussionDate: string | null; lastDiscussionDate: string | null }[]>();
+    const roundsByCourse = new Map<
+      string,
+      { id: string; label: string; firstDiscussionDate: string | null; lastDiscussionDate: string | null }[]
+    >();
     for (const r of rounds) {
       if (!r.courseId || appliedRoundIds.has(r.id)) continue;
       const list = roundsByCourse.get(r.courseId) ?? [];
@@ -286,7 +291,10 @@ export const facilitatorApplicationsRouter = router({
       roundsByCourse.set(r.courseId, list);
     }
 
-    const byFirstDiscussionAsc = (a: { firstDiscussionDate: string | null }, b: { firstDiscussionDate: string | null }) => {
+    const byFirstDiscussionAsc = (
+      a: { firstDiscussionDate: string | null },
+      b: { firstDiscussionDate: string | null },
+    ) => {
       if (!a.firstDiscussionDate) return 1;
       if (!b.firstDiscussionDate) return -1;
       return a.firstDiscussionDate.localeCompare(b.firstDiscussionDate);
@@ -298,7 +306,10 @@ export const facilitatorApplicationsRouter = router({
         const courseRounds = (roundsByCourse.get(courseId) ?? []).sort(byFirstDiscussionAsc);
         if (!course || courseRounds.length === 0) return null;
         return {
-          courseId, courseTitle: course.title, courseSlug: course.slug, rounds: courseRounds,
+          courseId,
+          courseTitle: course.title,
+          courseSlug: course.slug,
+          rounds: courseRounds,
         };
       })
       .filter((c): c is NonNullable<typeof c> => c !== null);
@@ -306,17 +317,15 @@ export const facilitatorApplicationsRouter = router({
 
   // Round + course context and prefill (from the facilitator's most recent prior application
   // for the same course) for the quick-apply form. Validates eligibility, openness, no duplicate.
-  quickApplyPrefill: protectedProcedure
-    .input(z.object({ roundId: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const { round, courseId } = await getRoundContext(input.roundId);
-      const priorRegs = await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);
+  quickApplyPrefill: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ ctx, input }) => {
+    const { round, courseId } = await getRoundContext(input.roundId);
+    const priorRegs = await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);
 
-      const mostRecent = priorRegs[0] ?? null;
-      const prefill = mostRecent ? buildPrefill(mostRecent) : null;
+    const mostRecent = priorRegs[0] ?? null;
+    const prefill = mostRecent ? buildPrefill(mostRecent) : null;
 
-      return { round, prefill };
-    }),
+    return { round, prefill };
+  }),
 
   quickApply: protectedProcedure
     .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }))
