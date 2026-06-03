@@ -119,16 +119,16 @@ const formatRoundLine = (round: QuickApplyPrefillData['round']): string => {
 };
 
 const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
-  <header className="flex items-center gap-4 border-b border-gray-300 bg-white px-5 py-5 sm:pr-5 sm:pl-10">
+  <header className="border-charcoal-light flex items-center gap-4 border-b bg-white px-5 py-5 sm:pr-5 sm:pl-10">
     <Link href="/" className="shrink-0">
       <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-5" />
     </Link>
-    <div className="h-[18px] w-px shrink-0 bg-gray-300" aria-hidden />
+    <div className="bg-charcoal-light h-[18px] w-px shrink-0" aria-hidden />
     <div className="text-size-xs flex min-w-0 items-center gap-2">
       <span className="text-bluedot-navy shrink-0 font-semibold">Quick Apply</span>
       {subtitle && (
         <>
-          <span className="shrink-0 text-gray-400" aria-hidden>
+          <span className="text-charcoal-mid shrink-0" aria-hidden>
             &middot;
           </span>
           <span className="text-bluedot-navy/60 truncate font-medium">{subtitle}</span>
