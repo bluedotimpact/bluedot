@@ -1,4 +1,4 @@
-import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
+import { Footer, LatestUtmParamsProvider, Toaster } from '@bluedot/ui';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -126,6 +126,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
       <GoogleTagManager />
       <CustomerioAnalytics />
       <ImpersonationBadge />
+      <Toaster />
     </div>
   );
 };

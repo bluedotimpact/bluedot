@@ -1,7 +1,7 @@
 import { OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
-import { formatMonthAndDay } from '../../lib/utils';
+import { formatDateRange } from '../../lib/utils';
 import { APPLICATION_STATUS_LABEL, type ApplicationStatus } from './applicationTabs';
 
 export type ApplicationRowProps = {
@@ -13,11 +13,6 @@ export type ApplicationRowProps = {
   roundLastDiscussionDate: string | null;
   status: ApplicationStatus;
   menuItems?: OverflowMenuItemProps[];
-};
-
-const formatDateRange = (start: string | null, end: string | null): string | null => {
-  if (!start || !end) return null;
-  return `${formatMonthAndDay(start)} - ${formatMonthAndDay(end)}`;
 };
 
 const STATUS_PILL_CLASS = 'text-size-xxs min-h-9 items-center justify-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] font-medium text-bluedot-navy';

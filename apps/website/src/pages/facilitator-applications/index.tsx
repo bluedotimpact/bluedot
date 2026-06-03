@@ -10,6 +10,7 @@ import {
   isApplicationTab,
   type ApplicationTab,
 } from '../../components/facilitator-applications/applicationTabs';
+import QuickApplyPanel from '../../components/facilitator-applications/QuickApplyPanel';
 import MyBlueDotLayout from '../../components/my-bluedot/MyBlueDotLayout';
 import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
 import TabPills from '../../components/my-courses/TabPills';
@@ -76,6 +77,7 @@ const FacilitatorApplicationsPage = () => {
       </Head>
       <MyBlueDotLayout route={CURRENT_ROUTE}>
         <div className="flex min-h-[60vh] flex-col gap-6">
+          <QuickApplyPanel />
           {isLoading && (
             <div className="flex flex-1 items-center justify-center">
               <ProgressDots />
