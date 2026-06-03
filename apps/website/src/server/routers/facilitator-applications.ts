@@ -75,10 +75,8 @@ export const getQuickApplyEligibleCourseIds = async (email: string): Promise<str
   return [...eligibleCourseIds];
 };
 
-// Loads an open round plus the caller's prior facilitator registrations for its course,
-// enforcing the shared quick-apply guards: the round must still be open, the caller must
-// have facilitated the course before, and must not already have applied to this round.
-const loadQuickApplyContext = async (email: string, roundId: string) => {
+// Fetches open round and corresponding course id. Throws if the round doesn't exist or is no longer open.
+const getOpenRound = async (roundId: string) => {
   const [round] = await db.pg
     .select({
       id: applicationsRoundTable.pg.id,
@@ -94,24 +92,42 @@ const loadQuickApplyContext = async (email: string, roundId: string) => {
 
   if (!round?.courseId) throw new TRPCError({ code: 'NOT_FOUND', message: 'Round not found or no longer open' });
 
-  const priorRegs = await db.pg
+  return { ...round, courseId: round.courseId };
+};
+
+const getRoundContext = async (roundId: string) => {
+  const round = await getOpenRound(roundId);
+
+  const [course] = await db.pg
+    .select({ title: courseTable.pg.title, slug: courseTable.pg.slug })
+    .from(courseTable.pg)
+    .where(eq(courseTable.pg.id, round.courseId))
+    .limit(1);
+
+  return {
+    courseId: round.courseId,
+    round: {
+      id: round.id,
+      courseTitle: course?.title ?? null,
+      courseSlug: course?.slug ?? null,
+      label: buildRoundLabel(round.courseRoundIntensity, round.intensity),
+      firstDiscussionDate: round.firstDiscussionDate,
+      lastDiscussionDate: round.lastDiscussionDate,
+    },
+  };
+};
+
+// The caller's prior facilitator registrations for a course, most-recent first.
+const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
+  const regs = await db.pg
     .select()
     .from(courseRegistrationTable.pg)
     .where(and(
       eq(courseRegistrationTable.pg.email, email),
       eq(courseRegistrationTable.pg.role, 'Facilitator'),
-      eq(courseRegistrationTable.pg.courseId, round.courseId),
+      eq(courseRegistrationTable.pg.courseId, courseId),
     ));
-
-  if (priorRegs.length === 0) {
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
-  }
-
-  if (priorRegs.some((r) => r.roundId === roundId)) {
-    throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
-  }
-
-  return { round, courseId: round.courseId, priorRegs };
+  return [...regs].sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0));
 };
 
 export type FacilitatorApplicationListItem = inferRouterOutputs<typeof facilitatorApplicationsRouter>['list'][number];
@@ -244,10 +260,15 @@ export const facilitatorApplicationsRouter = router({
   quickApplyPrefill: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input }) => {
-      const { round, courseId, priorRegs } = await loadQuickApplyContext(ctx.auth.email, input.roundId);
+      const { round, courseId } = await getRoundContext(input.roundId);
+      const priorRegs = await getPriorFacilitatorRegs(ctx.auth.email, courseId);
+      if (priorRegs.length === 0) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
+      }
 
-      const mostRecent = priorRegs
-        .sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0))[0]!;
+      if (priorRegs.some((r) => r.roundId === input.roundId)) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
+      }
 
       const [course] = await db.pg
         .select({ title: courseTable.pg.title, slug: courseTable.pg.slug })
@@ -294,7 +315,15 @@ export const facilitatorApplicationsRouter = router({
       availabilityComments: z.string().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
-      const { courseId } = await loadQuickApplyContext(ctx.auth.email, input.roundId);
+      const { courseId } = await getOpenRound(input.roundId);
+      const priorRegs = await getPriorFacilitatorRegs(ctx.auth.email, courseId);
+      if (priorRegs.length === 0) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
+      }
+
+      if (priorRegs.some((r) => r.roundId === input.roundId)) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
+      }
 
       // Link the application to its course via the Applications-base course record (courseId,
       // roundName and roundStatus are computed in Airtable from the linked round/course).
