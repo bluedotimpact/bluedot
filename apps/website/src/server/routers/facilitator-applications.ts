@@ -230,7 +230,10 @@ export const facilitatorApplicationsRouter = router({
     const existingRegs = await db.pg
       .select({ roundId: courseRegistrationTable.pg.roundId })
       .from(courseRegistrationTable.pg)
-      .where(eq(courseRegistrationTable.pg.email, ctx.auth.email));
+      .where(and(
+        eq(courseRegistrationTable.pg.email, ctx.auth.email),
+        eq(courseRegistrationTable.pg.role, 'Facilitator'),
+      ));
     const appliedRoundIds = new Set(existingRegs.map((r) => r.roundId).filter((id): id is string => !!id));
 
     const [courses, rounds] = await Promise.all([
