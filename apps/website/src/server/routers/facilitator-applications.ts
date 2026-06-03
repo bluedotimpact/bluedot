@@ -35,22 +35,23 @@ const buildRoundLabel = (courseRoundIntensity: string | null, intensity: string 
  * (not started) don't count. Shared with the future "facilitate again" sidebar (#2531).
  */
 export const getQuickApplyEligibleCourseIds = async (email: string): Promise<string[]> => {
-  const registrations = await db.pg
-    .select({ id: courseRegistrationTable.pg.id, courseId: courseRegistrationTable.pg.courseId })
-    .from(courseRegistrationTable.pg)
-    .where(and(
-      eq(courseRegistrationTable.pg.email, email),
-      eq(courseRegistrationTable.pg.role, 'Facilitator'),
-    ));
+  const [registrations, meetPersons] = await Promise.all([
+    db.pg
+      .select({ id: courseRegistrationTable.pg.id, courseId: courseRegistrationTable.pg.courseId })
+      .from(courseRegistrationTable.pg)
+      .where(and(
+        eq(courseRegistrationTable.pg.email, email),
+        eq(courseRegistrationTable.pg.role, 'Facilitator'),
+      )),
+    db.pg
+      .select({
+        applicationsBaseRecordId: meetPersonTable.pg.applicationsBaseRecordId,
+        expectedDiscussionsFacilitator: meetPersonTable.pg.expectedDiscussionsFacilitator,
+      })
+      .from(meetPersonTable.pg)
+      .where(eq(meetPersonTable.pg.email, email)),
+  ]);
   if (registrations.length === 0) return [];
-
-  const meetPersons = await db.pg
-    .select({
-      applicationsBaseRecordId: meetPersonTable.pg.applicationsBaseRecordId,
-      expectedDiscussionsFacilitator: meetPersonTable.pg.expectedDiscussionsFacilitator,
-    })
-    .from(meetPersonTable.pg)
-    .where(eq(meetPersonTable.pg.email, email));
 
   const discussionIds = unique(meetPersons.flatMap((mp) => mp.expectedDiscussionsFacilitator ?? []));
   if (discussionIds.length === 0) return [];
