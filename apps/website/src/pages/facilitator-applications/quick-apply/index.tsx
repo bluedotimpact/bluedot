@@ -188,6 +188,7 @@ const QuestionCollapsible = ({
     <summary className="text-size-xs text-bluedot-navy flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
       {title}
       <svg
+        aria-hidden
         className="size-5 shrink-0 transition-transform group-open:rotate-180"
         viewBox="0 0 24 24"
         fill="none"
