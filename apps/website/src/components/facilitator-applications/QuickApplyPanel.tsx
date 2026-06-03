@@ -59,7 +59,7 @@ const CourseQuickApplyCard = ({ course }: { course: QuickApplyPanelCourse }) => 
                 key={round.id}
                 className="border-charcoal-light flex flex-wrap items-center justify-between gap-3 border-b py-4"
               >
-                <div className="min-w-0">
+                <div className="min-w-0 flex flex-col gap-1">
                   <p className="text-size-md text-bluedot-navy font-semibold">{round.label}</p>
                   {dateRange && <p className="text-size-xs text-bluedot-navy/80">{dateRange}</p>}
                 </div>
