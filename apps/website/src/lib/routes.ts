@@ -123,6 +123,12 @@ const facilitatorApplications: BluedotRoute = {
   parentPages: [home],
 };
 
+const quickApply: BluedotRoute = {
+  title: 'Quick Apply',
+  url: '/facilitator-applications/quick-apply',
+  parentPages: [home, facilitatorApplications],
+};
+
 const subscriptionPreferences: BluedotRoute = {
   title: 'Subscription Preferences',
   url: '/subscription-preferences',
@@ -159,6 +165,7 @@ export const ROUTES = {
   myCourses,
   facilitatedCourses,
   facilitatorApplications,
+  quickApply,
   subscriptionPreferences,
 } as const;
 
