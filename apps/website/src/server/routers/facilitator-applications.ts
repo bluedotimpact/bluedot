@@ -76,7 +76,7 @@ export const getQuickApplyEligibleCourseIds = async (email: string): Promise<str
 };
 
 const facilitatorApplicationAnswersSchema = z.object({
-  numGroupsToFacilitate: z.number().int().min(1),
+  numGroupsToFacilitate: z.number().int().min(1).max(10),
   formFeedback: z.string().optional(),
   prevEngagement: z.string().optional(),
   skills: z.string().optional(),
