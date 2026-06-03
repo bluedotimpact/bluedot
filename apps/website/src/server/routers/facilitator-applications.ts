@@ -152,11 +152,6 @@ const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
 type PriorFacilitatorReg = Awaited<ReturnType<typeof getPriorFacilitatorRegs>>[number];
 
 const getEligiblePriorFacilitatorRegs = async (email: string, courseId: string, roundId: string) => {
-  const eligibleCourseIds = await getQuickApplyEligibleCourseIds(email);
-  if (!eligibleCourseIds.includes(courseId)) {
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'You are not currently eligible to quick apply for this course' });
-  }
-
   const priorRegs = await getPriorFacilitatorRegs(email, courseId);
   if (priorRegs.length === 0) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });

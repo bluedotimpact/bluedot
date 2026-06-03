@@ -331,8 +331,6 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
       availabilityTimezone: 'UTC+01:00',
       availabilityIntervalsUTC: 'M16:00 M18:00',
     });
-    await seedMeetPerson('mp-1', 'reg-new', ['d1']);
-    await seedDiscussion('d1', NOW - HOUR); // wrapping up: no future discussions
     await seedRound('round-next', 'course-1', null);
 
     const result = await caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' });
@@ -362,29 +360,9 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
       role: 'Facilitator',
       roundId: 'round-next',
     });
-    await seedMeetPerson('mp-1', 'reg-1', ['d1']);
-    await seedDiscussion('d1', NOW - HOUR);
     await seedRound('round-next', 'course-1', null);
     await expect(caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' })).rejects.toMatchObject({
       code: 'CONFLICT',
-    });
-  });
-
-  test('throws FORBIDDEN when the caller is not wrapping up a cohort', async () => {
-    await seedCourse('course-1', 'tai', 'Technical AI Safety');
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-1',
-      email: CALLER_EMAIL,
-      courseId: 'course-1',
-      role: 'Facilitator',
-      roundId: 'round-a',
-    });
-    await seedMeetPerson('mp-1', 'reg-1', ['d1', 'd2']);
-    await seedDiscussion('d1', NOW + HOUR); // two future discussions: still mid-cohort
-    await seedDiscussion('d2', NOW + 2 * HOUR);
-    await seedRound('round-next', 'course-1', null);
-    await expect(caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' })).rejects.toMatchObject({
-      code: 'FORBIDDEN',
     });
   });
 
@@ -436,26 +414,8 @@ describe('facilitatorApplications.quickApply', () => {
       role: 'Facilitator',
       roundId: 'round-next',
     });
-    await seedMeetPerson('mp-1', 'reg-1', ['d1']);
-    await seedDiscussion('d1', NOW - HOUR);
     await seedRound('round-next', 'course-1', null);
     await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'CONFLICT' });
-  });
-
-  test('throws FORBIDDEN when the caller is not wrapping up a cohort', async () => {
-    await seedCourse('course-1', 'tai', 'Technical AI Safety');
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-1',
-      email: CALLER_EMAIL,
-      courseId: 'course-1',
-      role: 'Facilitator',
-      roundId: 'round-a',
-    });
-    await seedMeetPerson('mp-1', 'reg-1', ['d1', 'd2']);
-    await seedDiscussion('d1', NOW + HOUR);
-    await seedDiscussion('d2', NOW + 2 * HOUR);
-    await seedRound('round-next', 'course-1', null);
-    await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
   test('throws NOT_FOUND when the round is closed', async () => {
@@ -484,8 +444,6 @@ describe('facilitatorApplications.quickApply', () => {
       role: 'Facilitator',
       roundId: 'round-a',
     });
-    await seedMeetPerson('mp-1', 'reg-1', ['d1']);
-    await seedDiscussion('d1', NOW - HOUR);
     await seedRound('round-next', 'course-1', null);
     await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
