@@ -271,4 +271,76 @@ export const facilitatorApplicationsRouter = router({
       };
     }),
 
+  quickApply: protectedProcedure
+    .input(z.object({
+      roundId: z.string(),
+      numGroupsToFacilitate: z.number().int().min(1),
+      formFeedback: z.string().optional(),
+      prevEngagement: z.string().optional(),
+      skills: z.string().optional(),
+      impressiveProject: z.string().optional(),
+      motivationToFacilitate: z.string().optional(),
+      prevFacilitationExperience: z.string().optional(),
+      availabilityIntervalsUTC: z.string().optional(),
+      availabilityTimezone: z.string().optional(),
+      availabilityComments: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const [round] = await db.pg
+        .select({
+          id: applicationsRoundTable.pg.id,
+          courseId: applicationsRoundTable.pg.courseId,
+        })
+        .from(applicationsRoundTable.pg)
+        .where(and(eq(applicationsRoundTable.pg.id, input.roundId), openRoundDeadlineCondition()))
+        .limit(1);
+
+      if (!round?.courseId) throw new TRPCError({ code: 'NOT_FOUND', message: 'Round not found or no longer open' });
+
+      const priorRegs = await db.pg
+        .select({ roundId: courseRegistrationTable.pg.roundId })
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.role, 'Facilitator'),
+          eq(courseRegistrationTable.pg.courseId, round.courseId),
+        ));
+
+      if (priorRegs.length === 0) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
+      }
+
+      if (priorRegs.some((r) => r.roundId === input.roundId)) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
+      }
+
+      // Link the application to its course via the Applications-base course record (courseId,
+      // roundName and roundStatus are computed in Airtable from the linked round/course).
+      const applicationsCourse = await db.getFirst(applicationsCourseTable, {
+        sortBy: 'id',
+        filter: { courseBuilderId: round.courseId },
+      });
+      if (!applicationsCourse) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${round.courseId}` });
+      }
+
+      return db.insert(courseRegistrationTable, {
+        email: ctx.auth.email,
+        courseApplicationsBaseId: applicationsCourse.id,
+        roundId: input.roundId,
+        role: 'Facilitator',
+        decision: null,
+        source: 'quick-apply',
+        numGroupsToFacilitate: input.numGroupsToFacilitate,
+        formFeedback: input.formFeedback ?? null,
+        prevEngagement: input.prevEngagement ?? null,
+        skills: input.skills ?? null,
+        impressiveProject: input.impressiveProject ?? null,
+        motivationToFacilitate: input.motivationToFacilitate ?? null,
+        prevFacilitationExperience: input.prevFacilitationExperience ?? null,
+        availabilityIntervalsUTC: input.availabilityIntervalsUTC ?? null,
+        availabilityTimezone: input.availabilityTimezone ?? null,
+        availabilityComments: input.availabilityComments ?? null,
+      });
+    }),
 });
