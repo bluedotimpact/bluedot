@@ -300,6 +300,7 @@ export const facilitatorApplicationsRouter = router({
       a: { firstDiscussionDate: string | null },
       b: { firstDiscussionDate: string | null },
     ) => {
+      if (!a.firstDiscussionDate && !b.firstDiscussionDate) return 0;
       if (!a.firstDiscussionDate) return 1;
       if (!b.firstDiscussionDate) return -1;
       return a.firstDiscussionDate.localeCompare(b.firstDiscussionDate);
