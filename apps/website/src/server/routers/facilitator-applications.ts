@@ -228,16 +228,14 @@ export const facilitatorApplicationsRouter = router({
     const eligibleCourseIds = await getQuickApplyEligibleCourseIds(ctx.auth.email);
     if (eligibleCourseIds.length === 0) return [];
 
-    const existingRegs = await db.pg
-      .select({ roundId: courseRegistrationTable.pg.roundId })
-      .from(courseRegistrationTable.pg)
-      .where(and(
-        eq(courseRegistrationTable.pg.email, ctx.auth.email),
-        eq(courseRegistrationTable.pg.role, 'Facilitator'),
-      ));
-    const appliedRoundIds = new Set(existingRegs.map((r) => r.roundId).filter((id): id is string => !!id));
-
-    const [courses, rounds] = await Promise.all([
+    const [existingRegs, courses, rounds] = await Promise.all([
+      db.pg
+        .select({ roundId: courseRegistrationTable.pg.roundId })
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.role, 'Facilitator'),
+        )),
       db.pg
         .select({ id: courseTable.pg.id, title: courseTable.pg.title, slug: courseTable.pg.slug })
         .from(courseTable.pg)
@@ -257,6 +255,7 @@ export const facilitatorApplicationsRouter = router({
           openRoundDeadlineCondition(),
         )),
     ]);
+    const appliedRoundIds = new Set(existingRegs.map((r) => r.roundId).filter((id): id is string => !!id));
 
     const courseById = new Map(courses.map((c) => [c.id, c] as const));
     const roundsByCourse = new Map<string, { id: string; label: string; firstDiscussionDate: string | null; lastDiscussionDate: string | null }[]>();
