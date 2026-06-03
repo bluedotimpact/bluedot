@@ -15,7 +15,7 @@ export type TimeAvailabilityMap = Record<number, boolean>;
  * Converts a weekly time availability map to intervals.
  * Each selected time slot becomes a 30-minute interval, then merged with unionSchedules.
  */
-export const weeklyTimeAvToIntervals = (timeAv: Record<wa.WeeklyTime, boolean>): wa.Interval[] => {
+export const weeklyTimeAvToIntervals = (timeAv: TimeAvailabilityMap): wa.Interval[] => {
   return wa.unionSchedules(Object.entries(timeAv)
     .filter(([, available]) => available)
     .map(([weeklyTime]) => [
@@ -28,8 +28,8 @@ export const weeklyTimeAvToIntervals = (timeAv: Record<wa.WeeklyTime, boolean>):
  * Converts intervals to a weekly time availability map.
  * Normalizes misaligned intervals by rounding start down and end up to MINUTES_IN_UNIT boundaries.
  */
-export const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): Record<wa.WeeklyTime, boolean> => {
-  const timeAv: Record<number, boolean> = {};
+export const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): TimeAvailabilityMap => {
+  const timeAv: TimeAvailabilityMap = {};
   for (const [start, end] of intervals) {
     // Normalize: round start down and end up to nearest MINUTES_IN_UNIT boundary
     const normalizedStart = Math.floor((start as number) / MINUTES_IN_UNIT) * MINUTES_IN_UNIT;
@@ -41,7 +41,7 @@ export const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): Record<wa.Wee
     }
   }
 
-  return timeAv as Record<wa.WeeklyTime, boolean>;
+  return timeAv;
 };
 
 /**
@@ -85,7 +85,7 @@ export const shiftIntervals = (intervals: wa.Interval[], offsetInMinutes: number
  */
 export const gridToUtcIntervalString = (map: TimeAvailabilityMap, timezone: string): string => {
   const intervals = shiftIntervals(
-    weeklyTimeAvToIntervals(map as Record<wa.WeeklyTime, boolean>),
+    weeklyTimeAvToIntervals(map),
     parseOffsetFromStringToMinutes(timezone),
   );
   return wa.format(intervals);
