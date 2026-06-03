@@ -306,3 +306,85 @@ describe('facilitatorApplications.quickApplyPanel', () => {
   });
 });
 
+describe('facilitatorApplications.quickApplyForm', () => {
+  test('prefills from the most recent prior facilitator application for the same course', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-old',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-a',
+      autoNumberId: 1,
+      numGroupsToFacilitate: 1,
+      motivationToFacilitate: 'old motivation',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-new',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-b',
+      autoNumberId: 2,
+      numGroupsToFacilitate: 3,
+      motivationToFacilitate: 'new motivation',
+      availabilityTimezone: 'UTC+01:00',
+      availabilityIntervalsUTC: 'M16:00 M18:00',
+    });
+    await seedRound('round-next', 'course-1', null);
+
+    const result = await caller.facilitatorApplications.quickApplyForm({ roundId: 'round-next' });
+    expect(result.round).toMatchObject({ courseSlug: 'tai', label: 'Week 25 Intensive', id: 'round-next' });
+    expect(result.prefill).toMatchObject({
+      numGroupsToFacilitate: 3,
+      motivationToFacilitate: 'new motivation',
+      availabilityTimezone: 'UTC+01:00',
+      availabilityIntervalsUTC: 'M16:00 M18:00',
+    });
+  });
+
+  test('throws FORBIDDEN when the caller has not facilitated the course', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await seedRound('round-next', 'course-1', null);
+    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'round-next' })).rejects.toMatchObject({
+      code: 'FORBIDDEN',
+    });
+  });
+
+  test('throws CONFLICT when already applied to the round', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-next',
+    });
+    await seedRound('round-next', 'course-1', null);
+    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'round-next' })).rejects.toMatchObject({
+      code: 'CONFLICT',
+    });
+  });
+
+  test('throws NOT_FOUND when the round is closed', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-a',
+    });
+    await seedRound('round-closed', 'course-1', '2000-01-01');
+    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'round-closed' })).rejects.toMatchObject({
+      code: 'NOT_FOUND',
+    });
+  });
+
+  test('throws NOT_FOUND when the round does not exist', async () => {
+    await expect(caller.facilitatorApplications.quickApplyForm({ roundId: 'nope' })).rejects.toMatchObject({
+      code: 'NOT_FOUND',
+    });
+  });
+});
+
