@@ -4,6 +4,9 @@ import {
   useLatestUtmParams,
 } from '@bluedot/ui';
 import Head from 'next/head';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useFeatureFlagVariantKey } from 'posthog-js/react';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
 
 import { ROUTES } from '../../../lib/routes';
@@ -36,6 +39,16 @@ type CoursePageProps = {
 const CoursePage = ({
   courseSlug, courseData, courseOgImage, soonestDeadline,
 }: CoursePageProps) => {
+  const router = useRouter();
+  // A/B test: skip the landing page for the 'skip-lander' variant (short-lived experiment, see PR #2607)
+  const skipLanderVariant = useFeatureFlagVariantKey('future-of-ai-skip-lander');
+
+  useEffect(() => {
+    if (courseSlug === 'future-of-ai' && skipLanderVariant === 'skip-lander') {
+      void router.replace(FUTURE_OF_AI_START_URL);
+    }
+  }, [courseSlug, skipLanderVariant, router]);
+
   return (
     <div>
       {renderCoursePage({
