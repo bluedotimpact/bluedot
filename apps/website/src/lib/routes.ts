@@ -136,13 +136,13 @@ const admin: BluedotRoute = {
 };
 
 const adminSyncDashboard: BluedotRoute = {
-  title: 'Sync Dashboard',
+  title: 'Sync dashboard',
   url: '/admin/sync-dashboard',
   parentPages: [home, admin],
 };
 
 const adminUserExerciseResponses: BluedotRoute = {
-  title: 'User Exercise Responses',
+  title: 'User exercise responses',
   url: '/admin/exercises',
   parentPages: [home, admin],
 };

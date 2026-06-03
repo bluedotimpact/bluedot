@@ -9,7 +9,6 @@ import {
   gte,
   ilike,
   inArray,
-  isNull,
   isNotNull,
   or,
   sql,
@@ -21,7 +20,7 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import {
-  adminProcedure, checkAdminAccess, checkImpersonationAccess, protectedProcedure, router,
+  adminProcedure, checkAdminAccess, checkImpersonationAccess, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 
 type UserSearchResult = {
@@ -39,6 +38,11 @@ const canViewUserExerciseResponses = async (viewerEmail: string, _targetUserId: 
 };
 
 export const adminRouter = router({
+  isUserAdmin: publicProcedure.query(async ({ ctx }) => {
+    if (!ctx.auth) return false;
+    const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+    return checkAdminAccess(realEmail);
+  }),
   canImpersonate: protectedProcedure.query(async ({ ctx }) => {
     const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
     const { access } = await checkImpersonationAccess(realEmail);
@@ -182,7 +186,7 @@ export const adminRouter = router({
       cursor: z.number().int().min(0).default(0),
       limit: z.number().int().min(1).max(100).default(20),
       courseId: z.string().optional(),
-      status: z.enum(['all', 'completed', 'in-progress']).default('all'),
+      includeInProgress: z.boolean().default(false),
       search: z.string().max(200).optional(),
     }))
     .query(async ({ ctx, input }) => {
@@ -202,8 +206,7 @@ export const adminRouter = router({
       const where = and(
         eq(exerciseResponseTable.pg.email, user.email),
         input.courseId ? eq(exerciseTable.pg.courseId, input.courseId) : undefined,
-        input.status === 'completed' ? isNotNull(exerciseResponseTable.pg.completedAt) : undefined,
-        input.status === 'in-progress' ? isNull(exerciseResponseTable.pg.completedAt) : undefined,
+        input.includeInProgress ? undefined : isNotNull(exerciseResponseTable.pg.completedAt),
         trimmedSearch ? or(
           ilike(exerciseResponseTable.pg.response, `%${trimmedSearch}%`),
           ilike(exerciseTable.pg.title, `%${trimmedSearch}%`),

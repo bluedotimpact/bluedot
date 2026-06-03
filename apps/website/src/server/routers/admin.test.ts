@@ -125,7 +125,7 @@ describe('admin.getUserExerciseResponses', () => {
 
   test('orders by COALESCE(completedAt, createdAt) so drafts mix in by start time, not always last', async () => {
     await seedFixture();
-    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', status: 'all' });
+    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', includeInProgress: true });
 
     expect(result.items).toHaveLength(3);
     // resp-a2 (in-progress, started 2026-05-03) ranks above resp-b1 (completed 2026-05-02) and resp-a1 (completed 2026-05-01).
@@ -139,17 +139,17 @@ describe('admin.getUserExerciseResponses', () => {
 
   test('courseId filter narrows items (course list lives on the context endpoint)', async () => {
     await seedFixture();
-    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', courseId: 'course-a' });
+    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', courseId: 'course-a', includeInProgress: true });
     expect(result.items.map((i) => i.response.id)).toEqual(['resp-a2', 'resp-a1']);
   });
 
-  test('status filter narrows to completed or in-progress', async () => {
+  test('includeInProgress=false (default) hides drafts; true shows both', async () => {
     await seedFixture();
-    const completed = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', status: 'completed' });
-    expect(completed.items.map((i) => i.response.id)).toEqual(['resp-b1', 'resp-a1']);
+    const completedOnly = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id' });
+    expect(completedOnly.items.map((i) => i.response.id)).toEqual(['resp-b1', 'resp-a1']);
 
-    const inProgress = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', status: 'in-progress' });
-    expect(inProgress.items.map((i) => i.response.id)).toEqual(['resp-a2']);
+    const all = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', includeInProgress: true });
+    expect(all.items.map((i) => i.response.id)).toEqual(['resp-a2', 'resp-b1', 'resp-a1']);
   });
 
   test('search filters on response text (case-insensitive)', async () => {
@@ -161,17 +161,17 @@ describe('admin.getUserExerciseResponses', () => {
   test('search also matches exercise title (the question)', async () => {
     await seedFixture();
     // "A2 question" appears in exercise title but not in any response text
-    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', search: 'A2 question' });
+    const result = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', search: 'A2 question', includeInProgress: true });
     expect(result.items.map((i) => i.response.id)).toEqual(['resp-a2']);
   });
 
   test('pagination returns nextCursor when more rows exist', async () => {
     await seedFixture();
-    const page1 = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', limit: 2 });
+    const page1 = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', limit: 2, includeInProgress: true });
     expect(page1.items).toHaveLength(2);
     expect(page1.nextCursor).toBe(2);
 
-    const page2 = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', limit: 2, cursor: 2 });
+    const page2 = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', limit: 2, cursor: 2, includeInProgress: true });
     expect(page2.items).toHaveLength(1);
     expect(page2.nextCursor).toBeNull();
   });
