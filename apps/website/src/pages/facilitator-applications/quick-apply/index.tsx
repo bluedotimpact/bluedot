@@ -267,7 +267,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
         motivationToFacilitate: emptyToUndefined(values.motivationToFacilitate),
         prevFacilitationExperience: emptyToUndefined(values.prevFacilitationExperience),
         availabilityIntervalsUTC,
-        availabilityTimezone: availabilityIntervalsUTC ? values.timezone : undefined,
+        availabilityTimezone: hasAvailability ? values.timezone : undefined,
         availabilityComments: emptyToUndefined(values.availabilityComments),
       },
       {
