@@ -312,7 +312,12 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
                 min={1}
                 max={10}
                 inputClassName="w-16"
-                {...register('numGroupsToFacilitate', { valueAsNumber: true, required: true, min: 1, max: 10 })}
+                {...register('numGroupsToFacilitate', {
+                  valueAsNumber: true,
+                  required: true,
+                  min: 1,
+                  max: 10,
+                })}
               />
               <span className="text-size-xs text-bluedot-navy/60">group(s)</span>
             </div>
