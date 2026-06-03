@@ -31,12 +31,6 @@ type UserSearchResult = {
   courseCount: number;
 };
 
-// TODO: also allow facilitators of a group containing the target — mirror the perm
-// chain in `exercisesRouter.getGroupExerciseResponses`.
-const canViewUserExerciseResponses = async (viewerEmail: string, _targetUserId: string): Promise<boolean> => {
-  return checkAdminAccess(viewerEmail);
-};
-
 export const adminRouter = router({
   isUserAdmin: publicProcedure.query(async ({ ctx }) => {
     if (!ctx.auth) return false;
@@ -141,14 +135,9 @@ export const adminRouter = router({
   /**
    * Used to populate user info and filters in /admin/exercises
    */
-  getUserExerciseResponsesMetaInfo: protectedProcedure
+  getUserExerciseResponsesMetaInfo: adminProcedure
     .input(z.object({ userId: z.string().min(1) }))
-    .query(async ({ ctx, input }) => {
-      const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-      if (!await canViewUserExerciseResponses(realEmail, input.userId)) {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
-      }
-
+    .query(async ({ input }) => {
       const user = await db.getFirst(userTable, { filter: { id: input.userId } });
       if (!user) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
@@ -180,7 +169,7 @@ export const adminRouter = router({
       };
     }),
 
-  getUserExerciseResponses: protectedProcedure
+  getUserExerciseResponses: adminProcedure
     .input(z.object({
       userId: z.string().min(1),
       cursor: z.number().int().min(0).default(0),
@@ -189,13 +178,7 @@ export const adminRouter = router({
       includeInProgress: z.boolean().default(false),
       search: z.string().max(500).optional(),
     }))
-    .query(async ({ ctx, input }) => {
-      const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-
-      if (!await canViewUserExerciseResponses(realEmail, input.userId)) {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
-      }
-
+    .query(async ({ input }) => {
       // Step 1: Fetch data
       const user = await db.getFirst(userTable, { filter: { id: input.userId } });
       if (!user) {

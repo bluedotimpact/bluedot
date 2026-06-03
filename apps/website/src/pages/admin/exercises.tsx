@@ -91,20 +91,21 @@ const AdminUserExerciseResponses = () => {
   );
 
   const infiniteScrollSentinelRef = useRef<HTMLDivElement | null>(null);
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } = exerciseResponseQuery;
   useEffect(() => {
     const node = infiniteScrollSentinelRef.current;
 
     if (!node) return;
 
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0]?.isIntersecting && exerciseResponseQuery.hasNextPage && !exerciseResponseQuery.isFetchingNextPage) {
-        exerciseResponseQuery.fetchNextPage();
+      if (entries[0]?.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
       }
     }, { rootMargin: '300px' });
     observer.observe(node);
 
     return () => observer.disconnect();
-  }, [exerciseResponseQuery.hasNextPage, exerciseResponseQuery.isFetchingNextPage, exerciseResponseQuery]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const items = useMemo(() => exerciseResponseQuery.data?.pages.flatMap((p) => p.items) ?? [], [exerciseResponseQuery.data]);
   const user = metaQuery.data?.user;
@@ -244,7 +245,13 @@ const AdminUserExerciseResponses = () => {
         onClose={() => setIsSelectUserModalOpen(false)}
         title="Select a user to view"
         scope="all"
-        onSelectUser={(id) => router.push(`/admin/exercises?userId=${id}`)}
+        onSelectUser={(id) => {
+          // Invalidate the existing filter selection
+          setCourseIdState(undefined);
+          setIncludeInProgressState(false);
+          setSearchState('');
+          router.push({ pathname: '/admin/exercises', query: { userId: id } });
+        }}
       />
     </div>
   );
@@ -314,15 +321,7 @@ const ResponseCard = ({
 
       <div className="border-l-2 border-bluedot-lighter pl-4">
         <div className="relative">
-          <div
-            className="leading-relaxed"
-            style={!expanded && canTruncate ? {
-              display: '-webkit-box',
-              WebkitLineClamp: 8,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-            } : undefined}
-          >
+          <div className={`leading-relaxed ${!expanded && canTruncate ? 'line-clamp-8' : ''}`}>
             <MarkdownExtendedRenderer>{responseText}</MarkdownExtendedRenderer>
           </div>
           {!expanded && canTruncate && (

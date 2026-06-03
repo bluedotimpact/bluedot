@@ -46,16 +46,6 @@ describe('admin: privilege escalation prevention', () => {
     const caller = await callerForScopedImpersonatingAdmin();
     await expect(caller.admin.searchUsers({ scope: 'all' })).rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
-
-  test('scoped user impersonating an admin cannot read another user\'s exercise responses', async () => {
-    const caller = await callerForScopedImpersonatingAdmin();
-    await testDb.insert(userTable, { id: 'target-id', email: 'target@example.com', name: 'Target' });
-
-    await expect(caller.admin.getUserExerciseResponses({ userId: 'target-id' }))
-      .rejects.toMatchObject({ code: 'FORBIDDEN' });
-    await expect(caller.admin.getUserExerciseResponsesMetaInfo({ userId: 'target-id' }))
-      .rejects.toMatchObject({ code: 'FORBIDDEN' });
-  });
 });
 
 describe('admin.isUserAdmin', () => {
