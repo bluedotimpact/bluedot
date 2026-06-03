@@ -215,11 +215,11 @@ const QuestionCollapsible = ({
 
 const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & QuickApplyPrefillData) => {
   const router = useRouter();
-  const defaultTimezone
-    = prefill.availabilityTimezone || formatOffsetFromMinutesToString(new Date().getTimezoneOffset());
+  const defaultTimezone = emptyToUndefined(prefill?.availabilityTimezone ?? '')
+    ?? formatOffsetFromMinutesToString(new Date().getTimezoneOffset());
 
   let defaultTimeAv: TimeAvailabilityMap = {};
-  if (prefill.availabilityIntervalsUTC) {
+  if (prefill?.availabilityIntervalsUTC) {
     try {
       defaultTimeAv = utcIntervalStringToGrid(prefill.availabilityIntervalsUTC, defaultTimezone);
     } catch {
@@ -235,14 +235,14 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      numGroupsToFacilitate: prefill.numGroupsToFacilitate || 1,
-      formFeedback: prefill.formFeedback,
-      prevEngagement: prefill.prevEngagement,
-      skills: prefill.skills,
-      impressiveProject: prefill.impressiveProject,
-      motivationToFacilitate: prefill.motivationToFacilitate,
-      prevFacilitationExperience: prefill.prevFacilitationExperience,
-      availabilityComments: prefill.availabilityComments,
+      numGroupsToFacilitate: prefill?.numGroupsToFacilitate ?? 1,
+      formFeedback: prefill?.formFeedback ?? '',
+      prevEngagement: prefill?.prevEngagement ?? '',
+      skills: prefill?.skills ?? '',
+      impressiveProject: prefill?.impressiveProject ?? '',
+      motivationToFacilitate: prefill?.motivationToFacilitate ?? '',
+      prevFacilitationExperience: prefill?.prevFacilitationExperience ?? '',
+      availabilityComments: prefill?.availabilityComments ?? '',
       timezone: defaultTimezone,
       timeAv: defaultTimeAv,
     },
