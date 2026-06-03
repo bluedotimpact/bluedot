@@ -238,7 +238,6 @@ export const facilitatorApplicationsRouter = router({
       }
 
       const mostRecent = priorRegs
-        .slice()
         .sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0))[0]!;
 
       const [course] = await db.pg
