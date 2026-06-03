@@ -9,7 +9,7 @@ import {
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { ONE_DAY_MS } from '../../lib/constants';
-import { formatApplicationDeadlineUtcDetailed, formatMonthAndDay } from '../../lib/utils';
+import { formatApplicationDeadlineUtcDetailed, formatDateRange, formatMonthAndDay } from '../../lib/utils';
 import { publicProcedure, router } from '../trpc';
 
 export function getDeadlineThresholdUtc(): Date {
@@ -34,7 +34,7 @@ export function openRoundDeadlineCondition() {
   );
 }
 
-function formatDateRange(
+function formatDiscussionDateRange(
   firstDate: string | null,
   lastDate: string | null,
   numberOfUnits: number | null,
@@ -42,10 +42,10 @@ function formatDateRange(
 ): string | null {
   if (!firstDate) return null;
 
-  const first = new Date(firstDate);
   let computedLast: Date | null = null;
 
   if (numberOfUnits && numberOfUnits > 0) {
+    const first = new Date(firstDate);
     const isPartTime = intensity?.toLowerCase() === 'part-time';
     const daysToAdd = isPartTime ? (numberOfUnits * 7) - 1 : numberOfUnits - 1;
     computedLast = new Date(first.getTime() + daysToAdd * ONE_DAY_MS);
@@ -55,12 +55,7 @@ function formatDateRange(
     return null;
   }
 
-  const firstDay = String(first.getUTCDate());
-  const lastDay = String(computedLast.getUTCDate());
-  const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-  const lastMonth = computedLast.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-
-  return `${firstDay} ${firstMonth} \u2013 ${lastDay} ${lastMonth}`;
+  return formatDateRange(firstDate, computedLast.toISOString());
 }
 
 function compareRoundsByDateAndDuration(
@@ -129,7 +124,7 @@ export async function getCourseRoundsData(courseSlug: string) {
       : 'TBD',
     applicationDeadlineRaw: round.applicationDeadline,
     firstDiscussionDateRaw: round.firstDiscussionDate,
-    dateRange: formatDateRange(
+    dateRange: formatDiscussionDateRange(
       round.firstDiscussionDate,
       round.lastDiscussionDate,
       round.numberOfUnits,
@@ -231,7 +226,7 @@ export const courseRoundsRouter = router({
               : 'TBD',
             applicationDeadlineRaw: round.applicationDeadline,
             firstDiscussionDateRaw: round.firstDiscussionDate,
-            dateRange: formatDateRange(
+            dateRange: formatDiscussionDateRange(
               round.firstDiscussionDate,
               round.lastDiscussionDate,
               round.numberOfUnits,
