@@ -310,13 +310,14 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
                 id="numGroupsToFacilitate"
                 type="number"
                 min={1}
+                max={10}
                 inputClassName="w-16"
-                {...register('numGroupsToFacilitate', { valueAsNumber: true, required: true, min: 1 })}
+                {...register('numGroupsToFacilitate', { valueAsNumber: true, required: true, min: 1, max: 10 })}
               />
               <span className="text-size-xs text-bluedot-navy/60">group(s)</span>
             </div>
             {errors.numGroupsToFacilitate && (
-              <p className="text-size-xs text-red-600">Enter how many groups you can facilitate (at least 1).</p>
+              <p className="text-size-xs text-red-600">Enter how many groups you can facilitate (1 to 10).</p>
             )}
           </div>
 
