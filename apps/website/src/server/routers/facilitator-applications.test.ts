@@ -1,13 +1,66 @@
-import { applicationsRoundTable, courseRegistrationTable, courseTable } from '@bluedot/db';
+import {
+  applicationsRoundTable,
+  courseRegistrationTable,
+  courseTable,
+  groupDiscussionTable,
+  meetPersonTable,
+} from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
-  createCaller, setupTestDb, testAuthContextLoggedIn, testDb,
+  createCaller,
+  setupTestDb,
+  testAuthContextLoggedIn,
+  testAuthContextLoggedOut,
+  testDb,
 } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
+
+const NOW = Math.floor(Date.now() / 1000);
+const HOUR = 3600;
+
+const seedCourse = (id: string, slug: string, title: string) =>
+  testDb.insert(courseTable, {
+    id,
+    slug,
+    title,
+    shortDescription: 's',
+    units: [],
+    status: 'Active',
+  });
+
+const seedRound = (id: string, courseId: string, applicationDeadline: string | null) =>
+  testDb.insert(applicationsRoundTable, {
+    id,
+    courseId,
+    applicationDeadline,
+    courseRoundIntensity: 'Technical AI Safety (2026 Mar W25) - Intensive',
+    intensity: 'Intensive',
+    firstDiscussionDate: '2026-03-10',
+    lastDiscussionDate: '2026-03-17',
+  });
+
+const seedDiscussion = (id: string, endDateTime: number) =>
+  testDb.insert(groupDiscussionTable, {
+    id,
+    group: 'group-1',
+    facilitators: [],
+    participantsExpected: [],
+    startDateTime: endDateTime - HOUR,
+    endDateTime,
+  });
+
+const seedMeetPerson = (id: string, applicationsBaseRecordId: string, expectedDiscussionsFacilitator: string[]) =>
+  testDb.insert(meetPersonTable, {
+    id,
+    email: CALLER_EMAIL,
+    applicationsBaseRecordId,
+    role: 'Facilitator',
+    expectedDiscussionsFacilitator,
+  });
 
 describe('facilitatorApplications.list', () => {
   test('returns empty array when caller has no facilitator registrations', async () => {
@@ -120,3 +173,136 @@ describe('facilitatorApplications.list', () => {
     expect(result).toEqual([]);
   });
 });
+
+describe('facilitatorApplications.quickApplyPanel', () => {
+  test('rejects unauthenticated callers', async () => {
+    await expect(createCaller(testAuthContextLoggedOut).facilitatorApplications.quickApplyPanel()).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+  });
+
+  test('returns empty when caller has no facilitator registrations', async () => {
+    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+  });
+
+  test('omits a course whose cohort still has more than one future discussion', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-cohort',
+    });
+    await seedMeetPerson('mp-1', 'reg-1', ['d1', 'd2']);
+    await seedDiscussion('d1', NOW + HOUR);
+    await seedDiscussion('d2', NOW + 2 * HOUR);
+    await seedRound('round-next', 'course-1', null);
+
+    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+  });
+
+  test('includes a course wrapping up (one future discussion) with its open, unapplied rounds', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-cohort',
+    });
+    await seedMeetPerson('mp-1', 'reg-1', ['d1', 'd2']);
+    await seedDiscussion('d1', NOW - HOUR); // past
+    await seedDiscussion('d2', NOW + HOUR); // one future
+    await seedRound('round-cohort', 'course-1', null); // already applied — excluded
+    await seedRound('round-next', 'course-1', null); // open, unapplied
+
+    const result = await caller.facilitatorApplications.quickApplyPanel();
+    expect(result).toEqual([
+      {
+        courseId: 'course-1',
+        courseTitle: 'Technical AI Safety',
+        courseSlug: 'tai',
+        rounds: [
+          {
+            id: 'round-next',
+            label: 'Week 25 Intensive',
+            firstDiscussionDate: '2026-03-10',
+            lastDiscussionDate: '2026-03-17',
+          },
+        ],
+      },
+    ]);
+  });
+
+  test('keeps a finished cohort (zero future discussions) eligible', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-cohort',
+    });
+    await seedMeetPerson('mp-1', 'reg-1', ['d1']);
+    await seedDiscussion('d1', NOW - HOUR); // all done
+    await seedRound('round-next', 'course-1', null);
+
+    const result = await caller.facilitatorApplications.quickApplyPanel();
+    expect(result.map((c) => c.courseId)).toEqual(['course-1']);
+  });
+
+  test('does not surface a cohort that has not started (no assigned discussions)', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-cohort',
+    });
+    await seedMeetPerson('mp-1', 'reg-1', []); // no schedule yet
+    await seedRound('round-next', 'course-1', null);
+
+    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+  });
+
+  test('hides the course when every open round has already been applied to', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-cohort',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-2',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-next',
+    });
+    await seedMeetPerson('mp-1', 'reg-1', ['d1']);
+    await seedDiscussion('d1', NOW - HOUR);
+    await seedRound('round-cohort', 'course-1', null);
+    await seedRound('round-next', 'course-1', null);
+
+    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+  });
+
+  test('excludes rounds whose application deadline has passed', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-cohort',
+    });
+    await seedMeetPerson('mp-1', 'reg-1', ['d1']);
+    await seedDiscussion('d1', NOW - HOUR);
+    await seedRound('round-closed', 'course-1', '2000-01-01');
+
+    expect(await caller.facilitatorApplications.quickApplyPanel()).toEqual([]);
+  });
+});
+
