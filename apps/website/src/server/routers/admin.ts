@@ -51,7 +51,7 @@ export const adminRouter = router({
 
   searchUsers: protectedProcedure
     .input(z.object({
-      searchTerm: z.string().max(200).optional(),
+      searchTerm: z.string().max(500).optional(),
       // 'impersonate' = admin or scoped impersonator (restricted); 'all' = admin only.
       scope: z.enum(['impersonate', 'all']).default('impersonate'),
     }))
@@ -187,7 +187,7 @@ export const adminRouter = router({
       limit: z.number().int().min(1).max(100).default(20),
       courseId: z.string().optional(),
       includeInProgress: z.boolean().default(false),
-      search: z.string().max(200).optional(),
+      search: z.string().max(500).optional(),
     }))
     .query(async ({ ctx, input }) => {
       const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
@@ -280,7 +280,6 @@ export const adminRouter = router({
       });
 
       return {
-        // TODO strip the email from the response here
         items: itemsWithChunkInfo,
         nextCursor: hasMore ? input.cursor + input.limit : null,
       };
