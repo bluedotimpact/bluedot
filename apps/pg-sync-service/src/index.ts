@@ -1,7 +1,7 @@
 import { logger } from '@bluedot/ui/src/api';
 import { getInstance } from './app';
 import env from './env';
-import { startWebhooksAndProcessingUpdates, startAdminSyncCron } from './lib/cron';
+import { startWebhooksAndProcessingUpdates, startAdminSyncCron, startComputedAirtableFieldsCron } from './lib/cron';
 import { performFullSync } from './lib/scan';
 import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
 import { syncManager } from './lib/sync-manager';
@@ -112,6 +112,7 @@ const start = async () => {
 
     // Start admin sync cron after any initial sync logic is complete
     startAdminSyncCron();
+    startComputedAirtableFieldsCron();
   } catch (error) {
     logger.error('Failed to start server', error);
     process.exit(1);
