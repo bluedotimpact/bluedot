@@ -2,15 +2,9 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
-import { formatMonthAndDay } from '../../lib/utils';
+import { formatDateRange } from '../../lib/utils';
 import type { QuickApplyPanelCourse } from '../../server/routers/facilitator-applications';
 import { trpc } from '../../utils/trpc';
-
-const formatDateRange = (start: string | null, end: string | null): string | null => {
-  if (start && end) return `${formatMonthAndDay(start)} – ${formatMonthAndDay(end)}`;
-  if (start) return formatMonthAndDay(start);
-  return null;
-};
 
 const CourseQuickApplyCard = ({ course }: { course: QuickApplyPanelCourse }) => {
   const courseConfig = course.courseSlug ? COURSE_CONFIG[course.courseSlug] : undefined;

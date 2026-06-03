@@ -60,6 +60,13 @@ export const formatMonthAndDay = (isoDate: string): string => {
 /** Format an ISO date string as a UTC end-of-day application deadline. Example: '9 Feb at 23:59 UTC' */
 export const formatApplicationDeadlineUtcDetailed = (isoDate: string): string => `${formatMonthAndDay(isoDate)} at 23:59 UTC`;
 
+/** Format a start/end pair as a date range. Example: '9 Feb – 16 Feb', or '9 Feb' if only the start is known. */
+export const formatDateRange = (start: string | null, end: string | null): string | null => {
+  if (start && end) return `${formatMonthAndDay(start)} – ${formatMonthAndDay(end)}`;
+  if (start) return formatMonthAndDay(start);
+  return null;
+};
+
 /** Example: 'Jun 19' */
 export const formatDateMonthAndDay = (dateTimeSeconds: number): string => {
   const date = new Date(dateTimeSeconds * 1000);

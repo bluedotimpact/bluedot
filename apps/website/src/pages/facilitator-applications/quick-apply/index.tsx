@@ -21,7 +21,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
-import { formatMonthAndDay } from '../../../lib/utils';
+import { formatDateRange } from '../../../lib/utils';
 import type { QuickApplyFormData } from '../../../server/routers/facilitator-applications';
 import { trpc } from '../../../utils/trpc';
 
@@ -109,12 +109,6 @@ type FormValues = {
 };
 
 const emptyToUndefined = (value: string): string | undefined => (value.trim() ? value : undefined);
-
-const formatDateRange = (start: string | null, end: string | null): string | null => {
-  if (start && end) return `${formatMonthAndDay(start)} – ${formatMonthAndDay(end)}`;
-  if (start) return formatMonthAndDay(start);
-  return null;
-};
 
 const formatRoundLine = (round: QuickApplyFormData['round']): string => {
   const name = [round.courseTitle, round.label].filter(Boolean).join(' - ');
