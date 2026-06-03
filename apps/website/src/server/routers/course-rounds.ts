@@ -21,6 +21,19 @@ export function getDeadlineThresholdUtc(): Date {
   ));
 }
 
+/**
+ * SQL predicate for rounds still open to applications: no deadline, or a deadline today or
+ * later (UTC). Keeps a displayed "12 Apr" deadline visible until 00:00 UTC on 13 Apr.
+ * Shared by every "upcoming rounds" query.
+ */
+export function openRoundDeadlineCondition() {
+  const threshold = getDeadlineThresholdUtc();
+  return or(
+    sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
+    sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${threshold.toISOString()}::timestamp`,
+  );
+}
+
 function formatDateRange(
   firstDate: string | null,
   lastDate: string | null,
@@ -76,18 +89,10 @@ function groupByIntensity<T extends { intensity: string | null }>(rounds: T[]): 
 }
 
 export async function hasUpcomingRoundsForCourseId(courseId: string) {
-  const deadlineThreshold = getDeadlineThresholdUtc();
-
   const rows = await db.pg
     .select({ id: applicationsRoundTable.pg.id })
     .from(applicationsRoundTable.pg)
-    .where(and(
-      eq(applicationsRoundTable.pg.courseId, courseId),
-      or(
-        sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-        sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
-      ),
-    ))
+    .where(and(eq(applicationsRoundTable.pg.courseId, courseId), openRoundDeadlineCondition()))
     .limit(1);
 
   return rows.length > 0;
@@ -110,20 +115,10 @@ export async function getCourseRoundsData(courseSlug: string) {
 
   const courseId = course[0].id;
 
-  // Only show rounds whose deadline is today or later in UTC.
-  // This keeps the displayed "12 Apr" deadline visible until 00:00 UTC on 13 Apr.
-  const deadlineThreshold = getDeadlineThresholdUtc();
-
   const filteredRounds = await db.pg
     .select()
     .from(applicationsRoundTable.pg)
-    .where(and(
-      eq(applicationsRoundTable.pg.courseId, courseId),
-      or(
-        sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-        sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
-      ),
-    ));
+    .where(and(eq(applicationsRoundTable.pg.courseId, courseId), openRoundDeadlineCondition()));
 
   const enrichedRounds = filteredRounds.map((round) => ({
     id: round.id,
@@ -200,17 +195,11 @@ export const courseRoundsRouter = router({
       // Filter out self-paced courses (slug = 'future-of-ai')
       const courses = allCourses.filter((course) => course.slug !== 'future-of-ai');
 
-      // Only show rounds whose deadline is today or later in UTC.
-      const deadlineThreshold = getDeadlineThresholdUtc();
-
       // Fetch all upcoming rounds for all courses
       const allRounds = await db.pg
         .select()
         .from(applicationsRoundTable.pg)
-        .where(or(
-          sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-          sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
-        ));
+        .where(openRoundDeadlineCondition());
 
       // Create a map of courseId to course info
       const courseMap = new Map(courses.map((c) => [c.id, c]));
