@@ -199,7 +199,6 @@ export const adminRouter = router({
 
       const rows = await db.pg
         .select({
-          // Omit `email` and `userId` — unused by the UI, no need to ship them per row.
           response: {
             id: exerciseResponseTable.pg.id,
             response: exerciseResponseTable.pg.response,
