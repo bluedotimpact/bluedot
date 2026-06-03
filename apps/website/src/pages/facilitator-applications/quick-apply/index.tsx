@@ -352,7 +352,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
               bullets={question.bullets}
               outro={question.outro}
             >
-              <Textarea className="min-h-24 w-full" {...register(question.name)} />
+              <Textarea aria-label={question.label} className="min-h-24 w-full" {...register(question.name)} />
             </QuestionCollapsible>
           ))}
         </div>
