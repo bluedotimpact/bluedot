@@ -75,7 +75,21 @@ export const getQuickApplyEligibleCourseIds = async (email: string): Promise<str
   return [...eligibleCourseIds];
 };
 
-// Fetches open round and corresponding course id. Throws if the round doesn't exist or is no longer open.
+const facilitatorApplicationAnswersSchema = z.object({
+  numGroupsToFacilitate: z.number().int().min(1),
+  formFeedback: z.string().optional(),
+  prevEngagement: z.string().optional(),
+  skills: z.string().optional(),
+  impressiveProject: z.string().optional(),
+  motivationToFacilitate: z.string().optional(),
+  prevFacilitationExperience: z.string().optional(),
+  availabilityIntervalsUTC: z.string().optional(),
+  availabilityTimezone: z.string().optional(),
+  availabilityComments: z.string().optional(),
+});
+
+// Fetches the open round, with courseId narrowed to non-null. Throws if the round doesn't
+// exist or is no longer open.
 const getOpenRound = async (roundId: string) => {
   const [round] = await db.pg
     .select({
@@ -301,19 +315,7 @@ export const facilitatorApplicationsRouter = router({
     }),
 
   quickApply: protectedProcedure
-    .input(z.object({
-      roundId: z.string(),
-      numGroupsToFacilitate: z.number().int().min(1),
-      formFeedback: z.string().optional(),
-      prevEngagement: z.string().optional(),
-      skills: z.string().optional(),
-      impressiveProject: z.string().optional(),
-      motivationToFacilitate: z.string().optional(),
-      prevFacilitationExperience: z.string().optional(),
-      availabilityIntervalsUTC: z.string().optional(),
-      availabilityTimezone: z.string().optional(),
-      availabilityComments: z.string().optional(),
-    }))
+    .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const { courseId } = await getOpenRound(input.roundId);
       const priorRegs = await getPriorFacilitatorRegs(ctx.auth.email, courseId);
