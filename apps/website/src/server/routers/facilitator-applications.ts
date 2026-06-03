@@ -147,6 +147,21 @@ const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
 
 type PriorFacilitatorReg = Awaited<ReturnType<typeof getPriorFacilitatorRegs>>[number];
 
+// Asserts the caller may quick-apply to this round: they must have facilitated the course
+// before and not already have applied to this round. Returns their prior regs (most-recent first).
+const getEligiblePriorFacilitatorRegs = async (email: string, courseId: string, roundId: string) => {
+  const priorRegs = await getPriorFacilitatorRegs(email, courseId);
+  if (priorRegs.length === 0) {
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
+  }
+
+  if (priorRegs.some((r) => r.roundId === roundId)) {
+    throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
+  }
+
+  return priorRegs;
+};
+
 // The resolved form of a prior application's answers: every field present (optional strings
 // default to '', numGroupsToFacilitate to 1) so the client form can seed react-hook-form.
 const buildPrefill = (reg: PriorFacilitatorReg) => ({
@@ -295,14 +310,7 @@ export const facilitatorApplicationsRouter = router({
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { round, courseId } = await getRoundContext(input.roundId);
-      const priorRegs = await getPriorFacilitatorRegs(ctx.auth.email, courseId);
-      if (priorRegs.length === 0) {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
-      }
-
-      if (priorRegs.some((r) => r.roundId === input.roundId)) {
-        throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
-      }
+      const priorRegs = await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);
 
       const mostRecent = priorRegs[0] ?? null;
       const prefill = mostRecent ? buildPrefill(mostRecent) : null;
@@ -314,14 +322,7 @@ export const facilitatorApplicationsRouter = router({
     .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const { courseId } = await getOpenRound(input.roundId);
-      const priorRegs = await getPriorFacilitatorRegs(ctx.auth.email, courseId);
-      if (priorRegs.length === 0) {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
-      }
-
-      if (priorRegs.some((r) => r.roundId === input.roundId)) {
-        throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
-      }
+      await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);
 
       // Link the application to its course via the Applications-base course record (courseId,
       // roundName and roundStatus are computed in Airtable from the linked round/course).
