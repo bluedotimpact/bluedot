@@ -388,3 +388,63 @@ describe('facilitatorApplications.quickApplyForm', () => {
   });
 });
 
+describe('facilitatorApplications.quickApply', () => {
+  const validInput = { roundId: 'round-next', numGroupsToFacilitate: 2 };
+
+  test('rejects unauthenticated callers', async () => {
+    await expect(createCaller(testAuthContextLoggedOut).facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+  });
+
+  test('rejects numGroupsToFacilitate below 1', async () => {
+    await expect(caller.facilitatorApplications.quickApply({ roundId: 'round-next', numGroupsToFacilitate: 0 })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  test('throws FORBIDDEN when the caller has not facilitated the course', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await seedRound('round-next', 'course-1', null);
+    await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'FORBIDDEN' });
+  });
+
+  test('throws CONFLICT when already applied to the round', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-next',
+    });
+    await seedRound('round-next', 'course-1', null);
+    await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'CONFLICT' });
+  });
+
+  test('throws NOT_FOUND when the round is closed', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-a',
+    });
+    await seedRound('round-closed', 'course-1', '2000-01-01');
+    await expect(caller.facilitatorApplications.quickApply({ roundId: 'round-closed', numGroupsToFacilitate: 2 })).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  // Validations pass (prior facilitator app exists, round open, not a duplicate), so the mutation
+  // reaches the applications-course lookup and fails there because no config row exists. This
+  // exercises every guard up to the insert. The insert itself can't run under PGlite: like
+  // course-registrations.ensureExists, it omits the Airtable-computed `courseId` (notNull in pg).
+  test('reaches the applications-course lookup once all guards pass', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-a',
+    });
+    await seedRound('round-next', 'course-1', null);
+    await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+});
