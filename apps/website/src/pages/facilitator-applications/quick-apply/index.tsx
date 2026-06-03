@@ -278,8 +278,8 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
       },
       {
         onSuccess: () => {
-          toast.success('Application submitted', { description: 'We’ll be in touch about your facilitation.' });
-          router.push(`${ROUTES.facilitatorApplications.url}?tab=active`);
+          toast.success('Your application has been submitted', { description: 'We’ll be in touch shortly' });
+          router.push(ROUTES.facilitatorApplications.url);
         },
         onError: (error) => {
           toast('Something went wrong', { description: error.message });
