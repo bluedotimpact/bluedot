@@ -1,10 +1,13 @@
 import {
-  and, applicationsRoundTable, courseRegistrationTable, courseTable, eq, inArray,
+  and, applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, courseTable,
+  eq, groupDiscussionTable, inArray, meetPersonTable,
 } from '@bluedot/db';
-import { type inferRouterOutputs } from '@trpc/server';
+import { type inferRouterOutputs, TRPCError } from '@trpc/server';
+import { z } from 'zod';
 import db from '../../lib/api/db';
-import { unique } from '../../lib/utils';
+import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { protectedProcedure, router } from '../trpc';
+import { openRoundDeadlineCondition } from './course-rounds';
 
 type FacilitatorApplicationDecision = 'Accept' | 'Reject' | 'Withdrawn' | null;
 type FacilitatorApplicationRoundStatus = 'Active' | 'Future' | 'Past' | null;
@@ -17,7 +20,63 @@ const toRoundStatus = (v: unknown): FacilitatorApplicationRoundStatus => (
   v === 'Active' || v === 'Future' || v === 'Past' ? v : null
 );
 
+const buildRoundLabel = (courseRoundIntensity: string | null, intensity: string | null): string => {
+  const week = parseWeekFromRoundName(courseRoundIntensity);
+  const label = [week !== null ? `Week ${week}` : null, intensity].filter(Boolean).join(' ');
+  if (label) return label;
+  return courseRoundIntensity ?? 'Upcoming round';
+};
+
+/**
+ * Courses where the facilitator is wrapping up a cohort: a started cohort of theirs has
+ * at most one discussion still in the future. Once a cohort reaches its final discussion
+ * the course stays eligible (remaining only decreases), which gives the "appears then
+ * persists" behaviour of the quick-apply panel. Cohorts with no assigned discussions yet
+ * (not started) don't count. Shared with the future "facilitate again" sidebar (#2531).
+ */
+export const getQuickApplyEligibleCourseIds = async (email: string): Promise<string[]> => {
+  const registrations = await db.pg
+    .select({ id: courseRegistrationTable.pg.id, courseId: courseRegistrationTable.pg.courseId })
+    .from(courseRegistrationTable.pg)
+    .where(and(
+      eq(courseRegistrationTable.pg.email, email),
+      eq(courseRegistrationTable.pg.role, 'Facilitator'),
+    ));
+  if (registrations.length === 0) return [];
+
+  const meetPersons = await db.pg
+    .select({
+      applicationsBaseRecordId: meetPersonTable.pg.applicationsBaseRecordId,
+      expectedDiscussionsFacilitator: meetPersonTable.pg.expectedDiscussionsFacilitator,
+    })
+    .from(meetPersonTable.pg)
+    .where(eq(meetPersonTable.pg.email, email));
+
+  const discussionIds = unique(meetPersons.flatMap((mp) => mp.expectedDiscussionsFacilitator ?? []));
+  if (discussionIds.length === 0) return [];
+
+  const discussions = await db.pg
+    .select({ id: groupDiscussionTable.pg.id, endDateTime: groupDiscussionTable.pg.endDateTime })
+    .from(groupDiscussionTable.pg)
+    .where(inArray(groupDiscussionTable.pg.id, discussionIds));
+  const endById = new Map(discussions.map((d) => [d.id, d.endDateTime] as const));
+
+  const meetPersonByRegId = new Map(meetPersons.map((mp) => [mp.applicationsBaseRecordId, mp] as const));
+  const nowSec = Math.floor(Date.now() / 1000);
+
+  const eligibleCourseIds = new Set<string>();
+  for (const reg of registrations) {
+    const assigned = meetPersonByRegId.get(reg.id)?.expectedDiscussionsFacilitator ?? [];
+    if (assigned.length === 0) continue; // cohort not started / no schedule yet
+    const futureCount = assigned.filter((id) => (endById.get(id) ?? 0) > nowSec).length;
+    if (futureCount <= 1) eligibleCourseIds.add(reg.courseId);
+  }
+
+  return [...eligibleCourseIds];
+};
+
 export type FacilitatorApplicationListItem = inferRouterOutputs<typeof facilitatorApplicationsRouter>['list'][number];
+export type QuickApplyPanelCourse = inferRouterOutputs<typeof facilitatorApplicationsRouter>['quickApplyPanel'][number];
 
 export const facilitatorApplicationsRouter = router({
   list: protectedProcedure.query(async ({ ctx }) => {
@@ -74,4 +133,70 @@ export const facilitatorApplicationsRouter = router({
       };
     });
   }),
+
+  // One card per course the facilitator is wrapping up that still has open upcoming rounds
+  // they haven't applied to. Each card lists those rounds (earliest first).
+  quickApplyPanel: protectedProcedure.query(async ({ ctx }) => {
+    const eligibleCourseIds = await getQuickApplyEligibleCourseIds(ctx.auth.email);
+    if (eligibleCourseIds.length === 0) return [];
+
+    const existingRegs = await db.pg
+      .select({ roundId: courseRegistrationTable.pg.roundId })
+      .from(courseRegistrationTable.pg)
+      .where(eq(courseRegistrationTable.pg.email, ctx.auth.email));
+    const appliedRoundIds = new Set(existingRegs.map((r) => r.roundId).filter((id): id is string => !!id));
+
+    const [courses, rounds] = await Promise.all([
+      db.pg
+        .select({ id: courseTable.pg.id, title: courseTable.pg.title, slug: courseTable.pg.slug })
+        .from(courseTable.pg)
+        .where(inArray(courseTable.pg.id, eligibleCourseIds)),
+      db.pg
+        .select({
+          id: applicationsRoundTable.pg.id,
+          courseId: applicationsRoundTable.pg.courseId,
+          courseRoundIntensity: applicationsRoundTable.pg.courseRoundIntensity,
+          intensity: applicationsRoundTable.pg.intensity,
+          firstDiscussionDate: applicationsRoundTable.pg.firstDiscussionDate,
+          lastDiscussionDate: applicationsRoundTable.pg.lastDiscussionDate,
+        })
+        .from(applicationsRoundTable.pg)
+        .where(and(
+          inArray(applicationsRoundTable.pg.courseId, eligibleCourseIds),
+          openRoundDeadlineCondition(),
+        )),
+    ]);
+
+    const courseById = new Map(courses.map((c) => [c.id, c] as const));
+    const roundsByCourse = new Map<string, { id: string; label: string; firstDiscussionDate: string | null; lastDiscussionDate: string | null }[]>();
+    for (const r of rounds) {
+      if (!r.courseId || appliedRoundIds.has(r.id)) continue;
+      const list = roundsByCourse.get(r.courseId) ?? [];
+      list.push({
+        id: r.id,
+        label: buildRoundLabel(r.courseRoundIntensity, r.intensity),
+        firstDiscussionDate: r.firstDiscussionDate,
+        lastDiscussionDate: r.lastDiscussionDate,
+      });
+      roundsByCourse.set(r.courseId, list);
+    }
+
+    const byFirstDiscussionAsc = (a: { firstDiscussionDate: string | null }, b: { firstDiscussionDate: string | null }) => {
+      if (!a.firstDiscussionDate) return 1;
+      if (!b.firstDiscussionDate) return -1;
+      return a.firstDiscussionDate.localeCompare(b.firstDiscussionDate);
+    };
+
+    return eligibleCourseIds
+      .map((courseId) => {
+        const course = courseById.get(courseId);
+        const courseRounds = (roundsByCourse.get(courseId) ?? []).sort(byFirstDiscussionAsc);
+        if (!course || courseRounds.length === 0) return null;
+        return {
+          courseId, courseTitle: course.title, courseSlug: course.slug, rounds: courseRounds,
+        };
+      })
+      .filter((c): c is NonNullable<typeof c> => c !== null);
+  }),
+
 });
