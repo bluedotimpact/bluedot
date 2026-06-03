@@ -171,7 +171,9 @@ describe('admin.getUserExerciseResponses', () => {
     expect(page1.items).toHaveLength(2);
     expect(page1.nextCursor).toBe(2);
 
-    const page2 = await callerAs('admin@example.com').admin.getUserExerciseResponses({ userId: 'target-id', limit: 2, cursor: 2, includeInProgress: true });
+    const page2 = await callerAs('admin@example.com').admin.getUserExerciseResponses({
+      userId: 'target-id', limit: 2, cursor: 2, includeInProgress: true,
+    });
     expect(page2.items).toHaveLength(1);
     expect(page2.nextCursor).toBeNull();
   });

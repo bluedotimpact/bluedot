@@ -41,7 +41,6 @@ const savedResponse = {
   completed: false,
   createdAt: null,
   completedAt: null,
-  createdAt: null,
   autoNumberId: null,
   userId: null,
 };
