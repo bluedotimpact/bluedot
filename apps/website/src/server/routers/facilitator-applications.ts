@@ -144,6 +144,23 @@ const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
   return [...regs].sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0));
 };
 
+type PriorFacilitatorReg = Awaited<ReturnType<typeof getPriorFacilitatorRegs>>[number];
+
+// The resolved form of a prior application's answers: every field present (optional strings
+// default to '', numGroupsToFacilitate to 1) so the client form can seed react-hook-form.
+const buildPrefill = (reg: PriorFacilitatorReg) => ({
+  numGroupsToFacilitate: reg.numGroupsToFacilitate ?? 1,
+  formFeedback: reg.formFeedback ?? '',
+  prevEngagement: reg.prevEngagement ?? '',
+  skills: reg.skills ?? '',
+  impressiveProject: reg.impressiveProject ?? '',
+  motivationToFacilitate: reg.motivationToFacilitate ?? '',
+  prevFacilitationExperience: reg.prevFacilitationExperience ?? '',
+  availabilityIntervalsUTC: reg.availabilityIntervalsUTC ?? '',
+  availabilityTimezone: reg.availabilityTimezone ?? '',
+  availabilityComments: reg.availabilityComments ?? '',
+});
+
 export type FacilitatorApplicationListItem = inferRouterOutputs<typeof facilitatorApplicationsRouter>['list'][number];
 export type EligibleRoundsCourse = inferRouterOutputs<typeof facilitatorApplicationsRouter>['eligibleRounds'][number];
 export type QuickApplyPrefillData = inferRouterOutputs<typeof facilitatorApplicationsRouter>['quickApplyPrefill'];
@@ -284,34 +301,10 @@ export const facilitatorApplicationsRouter = router({
         throw new TRPCError({ code: 'CONFLICT', message: 'You have already applied to this round' });
       }
 
-      const [course] = await db.pg
-        .select({ title: courseTable.pg.title, slug: courseTable.pg.slug })
-        .from(courseTable.pg)
-        .where(eq(courseTable.pg.id, courseId))
-        .limit(1);
+      const mostRecent = priorRegs[0] ?? null;
+      const prefill = mostRecent ? buildPrefill(mostRecent) : null;
 
-      return {
-        round: {
-          id: round.id,
-          courseTitle: course?.title ?? null,
-          courseSlug: course?.slug ?? null,
-          label: buildRoundLabel(round.courseRoundIntensity, round.intensity),
-          firstDiscussionDate: round.firstDiscussionDate,
-          lastDiscussionDate: round.lastDiscussionDate,
-        },
-        prefill: {
-          numGroupsToFacilitate: mostRecent.numGroupsToFacilitate ?? 1,
-          prevEngagement: mostRecent.prevEngagement ?? '',
-          skills: mostRecent.skills ?? '',
-          impressiveProject: mostRecent.impressiveProject ?? '',
-          motivationToFacilitate: mostRecent.motivationToFacilitate ?? '',
-          prevFacilitationExperience: mostRecent.prevFacilitationExperience ?? '',
-          formFeedback: mostRecent.formFeedback ?? '',
-          availabilityIntervalsUTC: mostRecent.availabilityIntervalsUTC ?? '',
-          availabilityTimezone: mostRecent.availabilityTimezone ?? '',
-          availabilityComments: mostRecent.availabilityComments ?? '',
-        },
-      };
+      return { round, prefill };
     }),
 
   quickApply: protectedProcedure
