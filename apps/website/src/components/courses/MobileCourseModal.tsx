@@ -111,7 +111,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         ))}
         {certificateData?.status !== 'is-facilitator' && (
           <div className="relative p-4">
-            <div className="absolute top-0 inset-x-2 border-t-hairline border-[rgba(42,45,52,0.2)]" />
+            <div className="absolute top-0 inset-x-2 border-t-hairline border-bluedot-navy/20" />
             <SidebarCertificatePanel
               courseTitle={courseTitle}
               courseSlug={courseSlug}
