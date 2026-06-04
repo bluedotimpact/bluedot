@@ -105,6 +105,14 @@ export KUBECONFIG=$(pwd)/kubeconfig.yaml
 2. Install a database client, e.g. [Postico](https://eggerapps.at/postico2/)
 3. Run: `./tools/connectDb.sh`
 
+### Upgrading the Kubernetes version
+
+Bump `version` in [vke.ts](./src/vultr/vke.ts) to the version offered in the Vultr console ("Manage Upgrades"), then merge. Key things to know:
+
+- Drive upgrades through Pulumi; don't let Vultr auto-upgrade. A forced upgrade leaves [vke.ts](./src/vultr/vke.ts) stale and drifts Pulumi state from reality (see PRs #1267 / #1268).
+- `pulumi preview` should show `update`, not `replace` — a replace destroys the prod cluster.
+- The cluster is single-node, so the upgrade briefly takes everything on-cluster down (apps + in-cluster `keycloak-pg`/`grafana-pg`/`airtable-sync-pg`; managed `appPg` is unaffected). Merge late at night and watch through — **there's no rollback**, Kubernetes can't downgrade a minor.
+
 ## Things we set up manually
 
 In general we try to configure things with [infrastructure-as-code](https://en.wikipedia.org/wiki/Infrastructure_as_code) via Pulumi as far as practical.
