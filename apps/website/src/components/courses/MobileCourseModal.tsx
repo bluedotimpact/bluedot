@@ -10,6 +10,7 @@ import type { ChunkProgress, CourseProgress } from '../../server/routers/courses
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 import { SidebarCertificatePanel } from './SidebarCertificatePanel';
+import { SidebarFacilitateAgainPanel } from './SidebarFacilitateAgainPanel';
 
 type MobileCourseModalProps = {
   isOpen: boolean;
@@ -117,6 +118,9 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
               certificateData={certificateData}
             />
           </div>
+        )}
+        {certificateData?.status === 'is-facilitator' && (
+          <SidebarFacilitateAgainPanel courseSlug={courseSlug} />
         )}
       </div>
     </Modal>
