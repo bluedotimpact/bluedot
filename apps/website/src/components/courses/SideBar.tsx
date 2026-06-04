@@ -224,10 +224,10 @@ const SideBar: React.FC<SideBarProps> = ({
             />
           </div>
         )}
+        {certificateData?.status === 'is-facilitator' && (
+          <SidebarFacilitateAgainPanel courseSlug={courseSlug} />
+        )}
       </div>
-      {certificateData?.status === 'is-facilitator' && (
-        <SidebarFacilitateAgainPanel courseSlug={courseSlug} />
-      )}
     </div>
   );
 };
