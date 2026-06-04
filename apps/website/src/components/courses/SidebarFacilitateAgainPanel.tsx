@@ -17,7 +17,7 @@ export const SidebarFacilitateAgainPanel: React.FC<SidebarFacilitateAgainPanelPr
       <div className="border-t-hairline absolute inset-x-2 top-0 border-bluedot-navy/20 md:inset-x-[24px]" />
       <A
         href={`${ROUTES.quickApply.url}?round=${round.id}`}
-        className="border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-colors duration-200"
+        className="border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-3 rounded-[10px] border-hairline border-solid px-3 py-4 no-underline transition-colors duration-200"
       >
         <p className="text-size-sm min-w-0 flex-1 leading-[1.5] font-bold">
           Quick apply to facilitate again (~2 min)
