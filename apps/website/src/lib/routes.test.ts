@@ -63,6 +63,8 @@ describe('shouldRedirectBackAfterLogout', () => {
     expect(shouldRedirectBackAfterLogout('/facilitated-courses')).toBe(false);
     expect(shouldRedirectBackAfterLogout('/settings/courses')).toBe(false);
     expect(shouldRedirectBackAfterLogout('/profile')).toBe(false);
+    expect(shouldRedirectBackAfterLogout('/admin')).toBe(false);
+    expect(shouldRedirectBackAfterLogout('/admin/exercises')).toBe(false);
   });
 
   test('allows public pages', () => {

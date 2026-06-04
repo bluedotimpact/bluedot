@@ -3,16 +3,24 @@ import {
   ErrorSection, Modal, ProgressDots, useCurrentTimeMs,
 } from '@bluedot/ui';
 import { RiSearchLine } from 'react-icons/ri';
-import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
+import { trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
+
+type UserSearchModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  scope: 'impersonate' | 'all';
+  onSelectUser: (userId: string) => void;
+};
 
 export const UserSearchModal = ({
   isOpen,
   onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) => {
+  title,
+  scope,
+  onSelectUser,
+}: UserSearchModalProps) => {
   const [searchTermInput, setSearchTermInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const currentTimeMs = useCurrentTimeMs();
@@ -25,20 +33,19 @@ export const UserSearchModal = ({
 
   const searchTerm = searchTermInput.trim();
   const { data: searchResults, isLoading, error } = trpc.admin.searchUsers.useQuery(
-    { searchTerm: searchTerm || undefined },
+    { searchTerm: searchTerm || undefined, scope },
     { enabled: isOpen },
   );
 
   const handleSelectUser = (userId: string) => {
-    sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, userId);
     onClose();
-    window.location.reload();
+    onSelectUser(userId);
   };
 
   const showNoResults = !isLoading && searchResults?.length === 0 && searchTermInput.length > 0;
 
   return (
-    <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
+    <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
       <div className="w-full max-w-modal mx-auto">
         {/* Spacer to stop the desktop modal shrinking when there are no results */}
         <div className="hidden md:block w-[600px] max-w-full h-0" />

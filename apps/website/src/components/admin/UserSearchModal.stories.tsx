@@ -36,6 +36,9 @@ const meta = {
   args: {
     isOpen: true,
     onClose() {},
+    title: 'Impersonate a user',
+    scope: 'impersonate',
+    onSelectUser() {},
   },
 } satisfies Meta<typeof UserSearchModal>;
 

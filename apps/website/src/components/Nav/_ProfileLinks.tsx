@@ -8,7 +8,7 @@ import {
 } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
-import { trpc } from '../../utils/trpc';
+import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import { useBugReport } from '../../hooks/useBugReport';
 
@@ -129,7 +129,18 @@ export const ProfileLinks: React.FC<{
           </button>
         </div>
       </div>
-      {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}
+      {isImpersonateModalOpen && (
+        <UserSearchModal
+          isOpen={isImpersonateModalOpen}
+          onClose={() => setIsImpersonateModalOpen(false)}
+          title="Impersonate a user"
+          scope="impersonate"
+          onSelectUser={(userId) => {
+            sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, userId);
+            window.location.reload();
+          }}
+        />
+      )}
     </div>
   );
 };

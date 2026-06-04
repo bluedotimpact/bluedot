@@ -96,7 +96,7 @@ describe('SyncDashboard - Main User Journeys', () => {
     await waitFor(() => {
       expect(screen.getByText('No manual sync requests in the last 24 hours')).toBeInTheDocument();
     });
-    expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Sync dashboard' })).toBeInTheDocument();
 
     // Find the sync button
     const syncButton = screen.getByRole('button', { name: 'Request Full Sync' });

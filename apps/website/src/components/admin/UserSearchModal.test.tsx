@@ -73,7 +73,7 @@ describe('UserSearchModal', () => {
       return mockUsers;
     }));
 
-    render(<UserSearchModal isOpen onClose={mockOnClose} />, { wrapper: TrpcProvider });
+    render(<UserSearchModal isOpen onClose={mockOnClose} title="Impersonate a user" scope="impersonate" onSelectUser={() => {}} />, { wrapper: TrpcProvider });
 
     // Initially shows all users
     await waitFor(() => {
@@ -105,7 +105,12 @@ describe('UserSearchModal', () => {
 
     server.use(trpcMsw.admin.searchUsers.query(() => mockUsers));
 
-    render(<UserSearchModal isOpen onClose={mockOnClose} />, { wrapper: TrpcProvider });
+    const impersonateHandler = (userId: string) => {
+      sessionStorage.setItem('bluedot_impersonating', userId);
+      window.location.reload();
+    };
+
+    render(<UserSearchModal isOpen onClose={mockOnClose} title="Impersonate a user" scope="impersonate" onSelectUser={impersonateHandler} />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByText('John Doe')).toBeDefined();
@@ -115,7 +120,7 @@ describe('UserSearchModal', () => {
     const userButton = screen.getByText('John Doe').closest('button');
     fireEvent.click(userButton!);
 
-    // Verify sessionStorage.setItem was called with user ID
+    // Verify the caller's onSelectUser handler ran (impersonation side-effects)
     expect(mockSessionStorage.setItem).toHaveBeenCalledWith('bluedot_impersonating', 'rec123');
 
     // Verify onClose was called
