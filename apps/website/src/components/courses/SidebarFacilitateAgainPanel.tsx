@@ -1,3 +1,4 @@
+import type React from 'react';
 import { A } from '@bluedot/ui';
 import { FaArrowRight } from 'react-icons/fa6';
 import { ROUTES } from '../../lib/routes';
