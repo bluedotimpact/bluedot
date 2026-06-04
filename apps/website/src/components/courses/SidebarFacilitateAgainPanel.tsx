@@ -9,6 +9,7 @@ type SidebarFacilitateAgainPanelProps = {
 
 export const SidebarFacilitateAgainPanel: React.FC<SidebarFacilitateAgainPanelProps> = ({ courseSlug }) => {
   const { data } = trpc.facilitatorApplications.eligibleRounds.useQuery();
+  // Rounds arrive earliest-first from the server, so [0] is the soonest open round.
   const round = data?.find((course) => course.courseSlug === courseSlug)?.rounds[0];
   if (!round) return null;
 
