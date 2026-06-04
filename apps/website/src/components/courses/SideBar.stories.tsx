@@ -8,6 +8,7 @@ import {
   someProgressHandlers,
   allCompletedHandlers,
 } from './courseSidebarStoryFixtures';
+import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof SideBar> = {
   title: 'Courses/SideBar',
@@ -69,5 +70,36 @@ export const OnSecondUnit: Story = {
   args: {
     currentUnitNumber: 2,
     currentChunkIndex: 0,
+  },
+};
+
+// Facilitator wrapping up this course: the certificate panel is replaced by the
+// pinned "facilitate again" quick-apply CTA at the bottom of the sidebar.
+export const Facilitator: Story = {
+  ...loggedInStory(),
+  args: {
+    certificateData: { status: 'is-facilitator' },
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        ...defaultProgressHandlers,
+        trpcStorybookMsw.facilitatorApplications.eligibleRounds.query(() => [
+          {
+            courseId: 'course-1',
+            courseTitle: 'AI Safety Fundamentals',
+            courseSlug: 'ai-safety',
+            rounds: [
+              {
+                id: 'round-1',
+                label: 'Week 28 Intensive',
+                firstDiscussionDate: '2026-04-07',
+                lastDiscussionDate: '2026-04-14',
+              },
+            ],
+          },
+        ]),
+      ],
+    },
   },
 };

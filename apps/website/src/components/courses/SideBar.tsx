@@ -10,6 +10,7 @@ import type { ChunkProgress, CourseProgress } from '../../server/routers/courses
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 import { SidebarCertificatePanel } from './SidebarCertificatePanel';
+import { SidebarFacilitateAgainPanel } from './SidebarFacilitateAgainPanel';
 
 type SideBarProps = {
   courseTitle: string;
@@ -215,13 +216,16 @@ const SideBar: React.FC<SideBarProps> = ({
         ))}
         {certificateData?.status !== 'is-facilitator' && (
           <div className="relative p-6">
-            <div className="border-t-hairline absolute inset-x-[24px] top-0 border-[rgba(42,45,52,0.2)]" />
+            <div className="border-t-hairline absolute inset-x-[24px] top-0 border-bluedot-navy/20" />
             <SidebarCertificatePanel
               courseTitle={courseTitle}
               courseSlug={courseSlug}
               certificateData={certificateData}
             />
           </div>
+        )}
+        {certificateData?.status === 'is-facilitator' && (
+          <SidebarFacilitateAgainPanel courseSlug={courseSlug} />
         )}
       </div>
     </div>

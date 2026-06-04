@@ -702,7 +702,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="relative p-6"
           >
             <div
-              class="border-t-hairline absolute inset-x-[24px] top-0 border-[rgba(42,45,52,0.2)]"
+              class="border-t-hairline absolute inset-x-[24px] top-0 border-bluedot-navy/20"
             />
           </div>
         </div>
