@@ -1,4 +1,3 @@
-import type React from 'react';
 import { A } from '@bluedot/ui';
 import { FaArrowRight } from 'react-icons/fa6';
 import { ROUTES } from '../../lib/routes';
@@ -8,7 +7,7 @@ type SidebarFacilitateAgainPanelProps = {
   courseSlug: string;
 };
 
-export const SidebarFacilitateAgainPanel: React.FC<SidebarFacilitateAgainPanelProps> = ({ courseSlug }) => {
+export const SidebarFacilitateAgainPanel = ({ courseSlug }: SidebarFacilitateAgainPanelProps) => {
   const { data } = trpc.facilitatorApplications.eligibleRounds.useQuery();
   // Rounds arrive earliest-first from the server, so [0] is the soonest open round.
   const round = data?.find((course) => course.courseSlug === courseSlug)?.rounds[0];
