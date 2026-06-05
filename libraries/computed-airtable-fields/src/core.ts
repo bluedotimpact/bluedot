@@ -36,12 +36,20 @@ export async function recomputeValues({
   const column = getColumn(definition);
   let checked = 0;
   let updated = 0;
+  let failed = 0;
+  const errors: unknown[] = [];
 
   const processChunk = async (rows: { id: string; current: ComputedAirtableFieldValue }[]) => {
-    // Step 1: Compute fresh values
-    const computed = await definition.compute(db, rows.map((r) => r.id));
+    let computed: Record<string, ComputedAirtableFieldValue>;
+    try {
+      computed = await definition.compute(db, rows.map((r) => r.id));
+    } catch (err) {
+      // Whole chunk fails — we couldn't determine fresh values, so count every row as failed.
+      errors.push(err);
+      failed += rows.length;
+      return;
+    }
 
-    // Step 2: Diff against current values
     const currentById = Object.fromEntries(rows.map((r) => [r.id, r.current]));
     const changes: { id: string; value: ComputedAirtableFieldValue }[] = [];
     for (const [id, value] of Object.entries(computed)) {
@@ -50,13 +58,16 @@ export async function recomputeValues({
       }
     }
 
-    // Step 3: Push only changed values
     for (const { id, value } of changes) {
-      await beforeWrite?.();
-      await db.update(definition.table, { id, [definition.field]: value });
+      try {
+        await beforeWrite?.();
+        await db.update(definition.table, { id, [definition.field]: value });
+        updated += 1;
+      } catch (err) {
+        errors.push(err);
+        failed += 1;
+      }
     }
-
-    return changes.length;
   };
 
   // Paginate by id so we never hold the whole table in memory
@@ -78,12 +89,14 @@ export async function recomputeValues({
       current: (row.value ?? null) as ComputedAirtableFieldValue,
     }));
 
-    updated += await processChunk(chunk);
+    await processChunk(chunk);
     checked += chunk.length;
     cursor = chunk[chunk.length - 1]!.id;
   }
 
-  return { checked, updated };
+  return {
+    checked, updated, failed, errors,
+  };
 }
 
 function getColumn(definition: ComputedAirtableFieldDefinition): PgColumn {

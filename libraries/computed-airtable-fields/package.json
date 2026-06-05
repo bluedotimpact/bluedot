@@ -7,7 +7,9 @@
     "scripts": {
         "typecheck": "tsc --noEmit",
         "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
-        "lint:fix": "npm run lint -- --fix"
+        "lint:fix": "npm run lint -- --fix",
+        "test": "vitest --run",
+        "test:watch": "vitest"
     },
     "dependencies": {
         "@bluedot/db": "*"
@@ -15,8 +17,11 @@
     "devDependencies": {
         "@bluedot/eslint-config": "*",
         "@bluedot/typescript-config": "*",
+        "@bluedot/utils": "*",
+        "@electric-sql/pglite": "^0.3.15",
         "@types/node": "^22.15.21",
         "eslint": "^9.39.2",
-        "typescript": "^5.8.3"
+        "typescript": "^5.8.3",
+        "vitest": "^3.2.3"
     }
 }
