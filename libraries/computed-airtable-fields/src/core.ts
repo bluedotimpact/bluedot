@@ -26,9 +26,12 @@ const COMPUTE_CHUNK_SIZE = 500;
 export async function recomputeValues({
   db,
   definition,
+  beforeWrite,
 }: {
   db: PgAirtableDb;
   definition: ComputedAirtableFieldDefinition;
+  // Awaited before each Airtable write (basically for enforcing a rate limit)
+  beforeWrite?: () => Promise<void>;
 }) {
   const column = getColumn(definition);
   let checked = 0;
@@ -49,6 +52,7 @@ export async function recomputeValues({
 
     // Step 3: Push only changed values
     for (const { id, value } of changes) {
+      await beforeWrite?.();
       await db.update(definition.table, { id, [definition.field]: value });
     }
 

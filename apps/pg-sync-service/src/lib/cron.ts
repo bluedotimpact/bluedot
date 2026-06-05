@@ -5,13 +5,15 @@ import {
   computedAirtableFieldDefinitions,
   recomputeValues,
 } from '@bluedot/computed-airtable-fields';
-import { initializeWebhooks, pollForUpdates, processUpdateQueue } from './pg-sync';
+import {
+  initializeWebhooks, pollForUpdates, processUpdateQueue, rateLimiter,
+} from './pg-sync';
 import { processAdminDashboardSyncRequests } from './admin-dashboard-sync';
 import { db } from './db';
 
 const QUEUE_PROCESSING_INTERVAL_SECONDS = 5;
 const ADMIN_SYNC_CHECK_INTERVAL_SECONDS = 10;
-const COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE = '0 0 4 * * *'; // daily at 04:00
+const COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE = '0 0 */2 * * *'; // every 2 hours
 
 let isProcessingQueue = false;
 let isCheckingAdminSync = false;
@@ -58,11 +60,15 @@ const recomputeComputedAirtableFieldsCron = async () => {
 
   isRecomputingComputedAirtableFields = true;
   try {
-    // Process fields sequentially — Airtable writes are slow and rate-limited.
+    // Process fields sequentially. Airtable writes share the pg-sync-service rate limit budget.
     for (const { table, fields } of computedAirtableFieldDefinitions) {
       for (const [field, compute] of Object.entries(fields)) {
         // eslint-disable-next-line no-await-in-loop
-        const { checked, updated } = await recomputeValues({ db, definition: { table, field, compute } });
+        const { checked, updated } = await recomputeValues({
+          db,
+          definition: { table, field, compute },
+          beforeWrite: () => rateLimiter.acquire(),
+        });
         logger.info(`[computed-airtable-fields] ${getTableName(table.pg)}.${field}: checked ${checked}, updated ${updated}`);
       }
     }
