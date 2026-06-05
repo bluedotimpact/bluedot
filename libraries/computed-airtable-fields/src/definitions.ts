@@ -1,14 +1,17 @@
 import {
   and,
+  arrayOverlaps,
   count,
   eq,
   exerciseResponseTable,
   exerciseTable,
   inArray,
   isNotNull,
+  ne,
   RESOURCE_FEEDBACK,
   resourceCompletionTable,
   resourceTable,
+  sql,
 } from '@bluedot/db';
 import type { ComputedAirtableFieldGroup } from './core';
 
@@ -36,52 +39,49 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
     table: resourceTable,
     fields: {
       computedNumCompletions: async (db, ids) => {
+        // unnest expands the resourceId array so we can group/count per id.
+        const rid = sql<string>`unnest(${resourceCompletionTable.pg.resourceId})`.as('rid');
+        const rows = await db.pg
+          .select({ rid, n: count() })
+          .from(resourceCompletionTable.pg)
+          .where(and(
+            eq(resourceCompletionTable.pg.isCompleted, true),
+            arrayOverlaps(resourceCompletionTable.pg.resourceId, ids),
+          ))
+          .groupBy(rid);
+
+        // Overlap filter may include unrelated ids from multi-resource rows — keep only chunk ids.
         const targetIdSet = new Set(ids);
         const counts = Object.fromEntries(ids.map((id) => [id, 0]));
-
-        const rows = await db.pg
-          .select({ resourceIds: resourceCompletionTable.pg.resourceId })
-          .from(resourceCompletionTable.pg)
-          .where(eq(resourceCompletionTable.pg.isCompleted, true));
-
-        for (const row of rows) {
-          for (const resourceId of row.resourceIds ?? []) {
-            if (targetIdSet.has(resourceId)) {
-              counts[resourceId] = (counts[resourceId] ?? 0) + 1;
-            }
-          }
+        for (const { rid: id, n } of rows) {
+          if (targetIdSet.has(id)) counts[id] = Number(n);
         }
 
         return counts;
       },
 
       computedAverageRating: async (db, ids) => {
-        const targetIdSet = new Set(ids);
-        const ratingsByResourceId = new Map<string, number[]>();
-
+        const rid = sql<string>`unnest(${resourceCompletionTable.pg.resourceId})`.as('rid');
         const rows = await db.pg
           .select({
-            resourceIds: resourceCompletionTable.pg.resourceId,
-            rating: resourceCompletionTable.pg.resourceFeedback,
+            rid,
+            avg: sql<string>`avg(${resourceCompletionTable.pg.resourceFeedback})`,
           })
-          .from(resourceCompletionTable.pg);
+          .from(resourceCompletionTable.pg)
+          .where(and(
+            arrayOverlaps(resourceCompletionTable.pg.resourceId, ids),
+            // != NO_RESPONSE also excludes NULL (NULL != 0 → UNKNOWN, filtered out).
+            ne(resourceCompletionTable.pg.resourceFeedback, RESOURCE_FEEDBACK.NO_RESPONSE),
+          ))
+          .groupBy(rid);
 
-        for (const { rating, resourceIds } of rows) {
-          if (rating == null || rating === RESOURCE_FEEDBACK.NO_RESPONSE) continue;
-          for (const resourceId of resourceIds ?? []) {
-            if (!targetIdSet.has(resourceId)) continue;
-            const ratings = ratingsByResourceId.get(resourceId) ?? [];
-            ratings.push(rating);
-            ratingsByResourceId.set(resourceId, ratings);
-          }
+        const targetIdSet = new Set(ids);
+        const result: Record<string, number | null> = Object.fromEntries(ids.map((id) => [id, null]));
+        for (const { rid: id, avg } of rows) {
+          if (targetIdSet.has(id) && avg != null) result[id] = Number(avg);
         }
 
-        return Object.fromEntries(ids.map((id) => {
-          const ratings = ratingsByResourceId.get(id) ?? [];
-          if (ratings.length === 0) return [id, null];
-          const mean = ratings.reduce((sum, r) => sum + r, 0) / ratings.length;
-          return [id, mean];
-        }));
+        return result;
       },
     },
   },
