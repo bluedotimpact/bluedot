@@ -13,7 +13,7 @@ import {
 import {
   afterEach, beforeAll, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { recomputeComputedAirtableFieldsAndSyncToAirtable } from './core';
+import { recomputeFieldsAndSyncToAirtable } from './core';
 import { computedAirtableFieldDefinitions } from './definitions';
 
 let db: PgAirtableDb;
@@ -34,7 +34,7 @@ beforeAll(async () => {
 beforeEach(async () => resetTestDb(db));
 afterEach(() => vi.restoreAllMocks());
 
-const recompute = () => recomputeComputedAirtableFieldsAndSyncToAirtable({
+const recompute = () => recomputeFieldsAndSyncToAirtable({
   db,
   definitions: computedAirtableFieldDefinitions,
 });
@@ -150,7 +150,7 @@ describe('computed Airtable fields', () => {
   });
 
   test('throws when a definition targets a field that is not on the table', async () => {
-    await expect(recomputeComputedAirtableFieldsAndSyncToAirtable({
+    await expect(recomputeFieldsAndSyncToAirtable({
       db,
       definitions: [{
         table: exerciseTable,

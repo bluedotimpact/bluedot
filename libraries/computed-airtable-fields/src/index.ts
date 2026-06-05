@@ -1,5 +1,5 @@
 export {
-  recomputeComputedAirtableFieldsAndSyncToAirtable,
+  recomputeFieldsAndSyncToAirtable as recomputeComputedAirtableFieldsAndSyncToAirtable,
 } from './core';
 export type {
   ComputedAirtableFieldDefinition,

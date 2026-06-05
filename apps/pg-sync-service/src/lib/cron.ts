@@ -1,8 +1,12 @@
 import cron from 'node-cron';
 import { logger } from '@bluedot/ui/src/api';
+import {
+  computedAirtableFieldDefinitions,
+  recomputeComputedAirtableFieldsAndSyncToAirtable,
+} from '@bluedot/computed-airtable-fields';
 import { initializeWebhooks, pollForUpdates, processUpdateQueue } from './pg-sync';
 import { processAdminDashboardSyncRequests } from './admin-dashboard-sync';
-import { recomputeComputedAirtableFields } from './computed-airtable-fields-sync';
+import { db } from './db';
 
 const QUEUE_PROCESSING_INTERVAL_SECONDS = 5;
 const ADMIN_SYNC_CHECK_INTERVAL_SECONDS = 10;
@@ -53,7 +57,13 @@ const recomputeComputedAirtableFieldsCron = async () => {
 
   isRecomputingComputedAirtableFields = true;
   try {
-    await recomputeComputedAirtableFields();
+    const results = await recomputeComputedAirtableFieldsAndSyncToAirtable({
+      db,
+      definitions: computedAirtableFieldDefinitions,
+    });
+    for (const result of results) {
+      logger.info(`[computed-airtable-fields] ${result.table}.${result.field}: checked ${result.checked}, updated ${result.updated}`);
+    }
   } catch (error) {
     logger.error('[computed-airtable-fields] Error recomputing fields:', error);
   } finally {
@@ -74,9 +84,4 @@ export const startWebhooksAndProcessingUpdates = async () => {
 export const startAdminSyncCron = () => {
   logger.info('Starting admin sync cron job...');
   checkAdminDashboardSyncRequestsCron();
-};
-
-export const startComputedAirtableFieldsCron = () => {
-  logger.info('Starting computed Airtable fields cron job...');
-  recomputeComputedAirtableFieldsCron();
 };

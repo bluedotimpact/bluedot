@@ -26,7 +26,7 @@ export type RecomputeResult = {
   updated: number;
 };
 
-export async function recomputeComputedAirtableFieldsAndSyncToAirtable({
+export async function recomputeFieldsAndSyncToAirtable({
   db,
   definitions,
 }: {
