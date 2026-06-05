@@ -19,47 +19,34 @@ const course = (overrides: Partial<EligibleRoundsCourse> = {}): EligibleRoundsCo
 });
 
 describe('SidebarFacilitateAgainPanel', () => {
-  test('links to the first (soonest) open round for the matching course', async () => {
-    server.use(trpcMsw.facilitatorApplications.eligibleRounds.query(() => [
-      course({
-        rounds: [
-          {
-            id: 'round-early', label: 'Week 28', firstDiscussionDate: '2026-04-07', lastDiscussionDate: '2026-04-14',
-          },
-          {
-            id: 'round-late', label: 'Week 30', firstDiscussionDate: '2026-04-21', lastDiscussionDate: '2026-04-28',
-          },
-        ],
-      }),
-    ]));
+  test('links to the facilitator applications page when the course has an eligible round', async () => {
+    server.use(trpcMsw.facilitatorApplications.eligibleRounds.query(() => [course()]));
 
     render(<SidebarFacilitateAgainPanel courseSlug="agi-strategy" />, { wrapper: TrpcProvider });
 
     const link = await screen.findByRole('link', { name: /quick apply to facilitate again/i });
-    expect(link).toHaveAttribute('href', '/facilitator-applications/quick-apply?round=round-early');
+    expect(link).toHaveAttribute('href', '/facilitator-applications');
   });
 
-  // Decoy course first: a panel that ignored courseSlug and took rounds[0] would link to
-  // the wrong course's round, so the href assertion catches a broken filter deterministically.
-  test('links to the round for the current course, not another eligible course', async () => {
+  // Render an eligible panel alongside a no-rounds course and a slug with no entry. The eligible
+  // link appearing proves the shared query resolved; a single link then proves the other two
+  // panels rendered nothing (i.e. the panel gates on the current slug having an open round).
+  test('renders nothing for a course with no open rounds or no matching entry', async () => {
     server.use(trpcMsw.facilitatorApplications.eligibleRounds.query(() => [
-      course({
-        courseId: 'course-other',
-        courseSlug: 'other-course',
-        rounds: [{
-          id: 'round-other', label: 'Week 1', firstDiscussionDate: '2026-01-06', lastDiscussionDate: '2026-01-13',
-        }],
-      }),
-      course({
-        rounds: [{
-          id: 'round-agi', label: 'Week 28', firstDiscussionDate: '2026-04-07', lastDiscussionDate: '2026-04-14',
-        }],
-      }),
+      course(),
+      course({ courseId: 'course-empty', courseSlug: 'empty-course', rounds: [] }),
     ]));
 
-    render(<SidebarFacilitateAgainPanel courseSlug="agi-strategy" />, { wrapper: TrpcProvider });
+    render(
+      <>
+        <SidebarFacilitateAgainPanel courseSlug="agi-strategy" />
+        <SidebarFacilitateAgainPanel courseSlug="empty-course" />
+        <SidebarFacilitateAgainPanel courseSlug="missing-course" />
+      </>,
+      { wrapper: TrpcProvider },
+    );
 
-    const link = await screen.findByRole('link', { name: /quick apply to facilitate again/i });
-    expect(link).toHaveAttribute('href', '/facilitator-applications/quick-apply?round=round-agi');
+    await screen.findByRole('link', { name: /quick apply to facilitate again/i });
+    expect(screen.getAllByRole('link', { name: /quick apply to facilitate again/i })).toHaveLength(1);
   });
 });
