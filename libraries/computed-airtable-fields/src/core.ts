@@ -6,11 +6,19 @@ import type { PgColumn } from 'drizzle-orm/pg-core';
 
 export type ComputedAirtableFieldValue = string | number | boolean | null;
 
+type ComputeFn = (db: PgAirtableDb, targetIds: string[]) => Promise<Record<string, ComputedAirtableFieldValue>>;
+
 export type ComputedAirtableFieldDefinition = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   table: PgAirtableTable<any, any>;
   field: string;
-  compute: (db: PgAirtableDb, targetIds: string[]) => Promise<Record<string, ComputedAirtableFieldValue>>;
+  compute: ComputeFn;
+};
+
+export type ComputedAirtableFieldGroup = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  table: PgAirtableTable<any, any>;
+  fields: Record<string, ComputeFn>;
 };
 
 const COMPUTE_CHUNK_SIZE = 500;
@@ -33,8 +41,7 @@ export async function recomputeValues({
     // Step 2: Diff against current values
     const currentById = Object.fromEntries(rows.map((r) => [r.id, r.current]));
     const changes: { id: string; value: ComputedAirtableFieldValue }[] = [];
-    for (const [id, rawValue] of Object.entries(computed)) {
-      const value = ensureSupportedValue(rawValue, definition);
+    for (const [id, value] of Object.entries(computed)) {
       if (value !== currentById[id]) {
         changes.push({ id, value });
       }
@@ -82,15 +89,4 @@ function getColumn(definition: ComputedAirtableFieldDefinition): PgColumn {
   }
 
   return column;
-}
-
-function ensureSupportedValue(
-  value: unknown,
-  definition: ComputedAirtableFieldDefinition,
-): ComputedAirtableFieldValue {
-  if (value === null || typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-    return value;
-  }
-
-  throw new Error(`Computed Airtable field "${getTableName(definition.table.pg)}.${definition.field}" produced an unsupported value: ${JSON.stringify(value)}`);
 }

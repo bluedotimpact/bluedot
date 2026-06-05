@@ -58,11 +58,13 @@ const recomputeComputedAirtableFieldsCron = async () => {
 
   isRecomputingComputedAirtableFields = true;
   try {
-    // Process definitions sequentially — Airtable writes are slow and rate-limited.
-    for (const definition of computedAirtableFieldDefinitions) {
-      // eslint-disable-next-line no-await-in-loop
-      const { checked, updated } = await recomputeValues({ db, definition });
-      logger.info(`[computed-airtable-fields] ${getTableName(definition.table.pg)}.${definition.field}: checked ${checked}, updated ${updated}`);
+    // Process fields sequentially — Airtable writes are slow and rate-limited.
+    for (const { table, fields } of computedAirtableFieldDefinitions) {
+      for (const [field, compute] of Object.entries(fields)) {
+        // eslint-disable-next-line no-await-in-loop
+        const { checked, updated } = await recomputeValues({ db, definition: { table, field, compute } });
+        logger.info(`[computed-airtable-fields] ${getTableName(table.pg)}.${field}: checked ${checked}, updated ${updated}`);
+      }
     }
   } catch (error) {
     logger.error('[computed-airtable-fields] Error recomputing fields:', error);
