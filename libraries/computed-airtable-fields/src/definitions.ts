@@ -16,7 +16,9 @@ import type { ComputedAirtableFieldDefinition, ComputedAirtableFieldValue } from
 export const computedAirtableFieldDefinitions: ComputedAirtableFieldDefinition[] = [
   {
     table: exerciseTable,
+    // TODO don't like plaintext field name
     field: 'computedNumResponses',
+    // TODO don't like non-inline definitions
     compute: computeExerciseNumResponses,
   },
   {

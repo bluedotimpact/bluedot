@@ -1,91 +1,78 @@
+/* eslint-disable no-await-in-loop */
 import {
-  getTableName, type PgAirtableDb, type PgAirtableTable,
+  asc, gt, getTableName, type PgAirtableDb, type PgAirtableTable,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
 
 export type ComputedAirtableFieldValue = string | number | boolean | null;
 
-export type ComputeFieldValues = (
-  db: PgAirtableDb,
-  targetIds: string[],
-) => Promise<Record<string, ComputedAirtableFieldValue>>;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- definitions can target any pgAirtable table
-export type ComputedAirtableFieldTable = PgAirtableTable<any, any>;
-
 export type ComputedAirtableFieldDefinition = {
-  table: ComputedAirtableFieldTable;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  table: PgAirtableTable<any, any>;
   field: string;
-  compute: ComputeFieldValues;
+  compute: (db: PgAirtableDb, targetIds: string[]) => Promise<Record<string, ComputedAirtableFieldValue>>;
 };
 
-export type RecomputeResult = {
-  table: string;
-  field: string;
-  checked: number;
-  updated: number;
-};
+const COMPUTE_CHUNK_SIZE = 500;
 
-export async function recomputeFieldsAndSyncToAirtable({
-  db,
-  definitions,
-}: {
-  db: PgAirtableDb;
-  definitions: ComputedAirtableFieldDefinition[];
-}): Promise<RecomputeResult[]> {
-  const results: RecomputeResult[] = [];
-
-  for (const definition of definitions) {
-    // Airtable writes are slow and rate-limited, so process definitions sequentially.
-    // eslint-disable-next-line no-await-in-loop
-    results.push(await recomputeDefinition({ db, definition }));
-  }
-
-  return results;
-}
-
-async function recomputeDefinition({
+export async function recomputeValues({
   db,
   definition,
 }: {
   db: PgAirtableDb;
   definition: ComputedAirtableFieldDefinition;
-}): Promise<RecomputeResult> {
+}) {
   const column = getColumn(definition);
-  const currentValues = await readCurrentValues(db, definition, column);
-  const computedValues = await definition.compute(db, Object.keys(currentValues));
+  let checked = 0;
   let updated = 0;
 
-  for (const [id, rawValue] of Object.entries(computedValues)) {
-    const value = ensureSupportedValue(rawValue, definition);
-    if (value !== currentValues[id]) {
-      updated += 1;
-      // eslint-disable-next-line no-await-in-loop
+  const processChunk = async (rows: { id: string; current: ComputedAirtableFieldValue }[]) => {
+    // Step 1: Compute fresh values
+    const computed = await definition.compute(db, rows.map((r) => r.id));
+
+    // Step 2: Diff against current values
+    const currentById = Object.fromEntries(rows.map((r) => [r.id, r.current]));
+    const changes: { id: string; value: ComputedAirtableFieldValue }[] = [];
+    for (const [id, rawValue] of Object.entries(computed)) {
+      const value = ensureSupportedValue(rawValue, definition);
+      if (value !== currentById[id]) {
+        changes.push({ id, value });
+      }
+    }
+
+    // Step 3: Push only changed values
+    for (const { id, value } of changes) {
       await db.update(definition.table, { id, [definition.field]: value });
     }
+
+    return changes.length;
+  };
+
+  // Paginate by id so we never hold the whole table in memory
+  let cursor: string | null = null;
+  while (true) {
+    const idColumn = definition.table.pg.id;
+
+    const rows = await db.pg
+      .select({ id: idColumn, value: column })
+      .from(definition.table.pg)
+      .where(cursor === null ? undefined : gt(idColumn, cursor))
+      .orderBy(asc(idColumn))
+      .limit(COMPUTE_CHUNK_SIZE);
+
+    if (rows.length === 0) break;
+
+    const chunk = rows.map((row) => ({
+      id: String(row.id),
+      current: (row.value ?? null) as ComputedAirtableFieldValue,
+    }));
+
+    updated += await processChunk(chunk);
+    checked += chunk.length;
+    cursor = chunk[chunk.length - 1]!.id;
   }
 
-  return {
-    table: getTableName(definition.table.pg),
-    field: definition.field,
-    checked: Object.keys(currentValues).length,
-    updated,
-  };
-}
-
-async function readCurrentValues(
-  db: PgAirtableDb,
-  definition: ComputedAirtableFieldDefinition,
-  column: PgColumn,
-): Promise<Record<string, ComputedAirtableFieldValue>> {
-  const rows = await db.pg
-    .select({ id: definition.table.pg.id, value: column })
-    .from(definition.table.pg);
-
-  return Object.fromEntries(rows.map((row) => [
-    String(row.id),
-    (row.value ?? null) as ComputedAirtableFieldValue,
-  ]));
+  return { checked, updated };
 }
 
 function getColumn(definition: ComputedAirtableFieldDefinition): PgColumn {

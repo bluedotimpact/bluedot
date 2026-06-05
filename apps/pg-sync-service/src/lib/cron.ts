@@ -1,8 +1,9 @@
 import cron from 'node-cron';
 import { logger } from '@bluedot/ui/src/api';
+import { getTableName } from '@bluedot/db';
 import {
   computedAirtableFieldDefinitions,
-  recomputeComputedAirtableFieldsAndSyncToAirtable,
+  recomputeValues,
 } from '@bluedot/computed-airtable-fields';
 import { initializeWebhooks, pollForUpdates, processUpdateQueue } from './pg-sync';
 import { processAdminDashboardSyncRequests } from './admin-dashboard-sync';
@@ -57,12 +58,11 @@ const recomputeComputedAirtableFieldsCron = async () => {
 
   isRecomputingComputedAirtableFields = true;
   try {
-    const results = await recomputeComputedAirtableFieldsAndSyncToAirtable({
-      db,
-      definitions: computedAirtableFieldDefinitions,
-    });
-    for (const result of results) {
-      logger.info(`[computed-airtable-fields] ${result.table}.${result.field}: checked ${result.checked}, updated ${result.updated}`);
+    // Process definitions sequentially — Airtable writes are slow and rate-limited.
+    for (const definition of computedAirtableFieldDefinitions) {
+      // eslint-disable-next-line no-await-in-loop
+      const { checked, updated } = await recomputeValues({ db, definition });
+      logger.info(`[computed-airtable-fields] ${getTableName(definition.table.pg)}.${definition.field}: checked ${checked}, updated ${updated}`);
     }
   } catch (error) {
     logger.error('[computed-airtable-fields] Error recomputing fields:', error);
