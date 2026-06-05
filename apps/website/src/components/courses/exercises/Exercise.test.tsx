@@ -44,6 +44,7 @@ const freeTextExercise = {
   courseIdWrite: 'course-write-1',
   courseIdRead: 'course-read-1',
   exerciseNumber: null,
+  computedNumResponses: null,
 };
 
 beforeEach(() => {
