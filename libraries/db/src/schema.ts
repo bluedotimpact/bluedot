@@ -180,13 +180,6 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
       airtableId: 'fldiis2fuPC0Q0smM',
     },
   },
-  deprecatedColumns: {
-    completed: {
-      pgColumn: boolean(),
-      airtableId: 'fldz8rocQd7Ws9s2q',
-      deprecated: true,
-    },
-  },
 });
 
 export const formConfigurationTable = pgAirtable('form_configuration', {
@@ -1548,13 +1541,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
     createdByUserId: {
       pgColumn: text().array(),
       airtableId: 'fldtEFIAKCUctCDhW',
-    },
-  },
-  deprecatedColumns: {
-    rating: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldq6J5taZX4xLDfD',
-      deprecated: true,
     },
   },
 });
