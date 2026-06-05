@@ -7,6 +7,6 @@ This package contains definitions and a framework for calculating "computed" Air
 1. Add the writable target field in Airtable.
 2. Add the target column to `@bluedot/db`.
 3. Add a definition in `src/definitions.ts`.
-4. I suggest adding a test for the definition function, along the same lines as TODO
+4. I suggest adding a test for the compute function in `src/definitions.test.ts`.
 
 Do not point a computed field at an Airtable lookup, rollup, or formula field. The recompute job writes through `PgAirtableDb.update()`, so the target must be writable.

@@ -64,12 +64,12 @@ const recomputeComputedAirtableFieldsCron = async () => {
     for (const { table, fields } of computedAirtableFieldDefinitions) {
       for (const [field, compute] of Object.entries(fields)) {
         // eslint-disable-next-line no-await-in-loop
-        const { checked, updated } = await recomputeValues({
+        const { checked, updated, failed } = await recomputeValues({
           db,
           definition: { table, field, compute },
           beforeWrite: () => rateLimiter.acquire(),
         });
-        logger.info(`[computed-airtable-fields] ${getTableName(table.pg)}.${field}: checked ${checked}, updated ${updated}`);
+        logger.info(`[computed-airtable-fields] ${getTableName(table.pg)}.${field}: checked ${checked}, updated ${updated}, failed ${failed}`);
       }
     }
   } catch (error) {

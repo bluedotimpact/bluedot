@@ -32,7 +32,6 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
       },
     },
   },
-
   {
     table: resourceTable,
     fields: {
