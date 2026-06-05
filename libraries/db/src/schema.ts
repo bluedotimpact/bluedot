@@ -1227,7 +1227,6 @@ export const unitResourceTable = pgAirtable('unit_resource', {
   },
 });
 
-// Touch to retrigger preview build
 export const resourceTable = pgAirtable('resource', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblmcJcHQp1uKOK4q',
