@@ -1227,6 +1227,21 @@ export const unitResourceTable = pgAirtable('unit_resource', {
   },
 });
 
+export const resourceTable = pgAirtable('resource', {
+  baseId: COURSE_BUILDER_BASE_ID,
+  tableId: 'tblmcJcHQp1uKOK4q',
+  columns: {
+    computedNumCompletions: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldXyNixYfqrJ8XYw',
+    },
+    computedAverageRating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldheVLDg4q4zFjI5',
+    },
+  },
+});
+
 export const exerciseTable = pgAirtable('exercise', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbla7lc2MtSSbWVvS',
@@ -1266,6 +1281,10 @@ export const exerciseTable = pgAirtable('exercise', {
     status: {
       pgColumn: text(),
       airtableId: 'flda5e542i9w1nBzv',
+    },
+    computedNumResponses: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldhemVjXEA0j4d2d',
     },
   },
   deprecatedColumns: {
@@ -1733,6 +1752,7 @@ export type OneOnOneAdvisingApplication = InferSelectModel<typeof oneOnOneAdvisi
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
+export type Resource = InferSelectModel<typeof resourceTable.pg>;
 export type Exercise = InferSelectModel<typeof exerciseTable.pg>;
 export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable.pg>;
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;

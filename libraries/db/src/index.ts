@@ -30,6 +30,7 @@ export {
   chunkTable,
   unitTable,
   unitResourceTable,
+  resourceTable,
   exerciseTable,
   applicationsCourseTable,
   courseRegistrationTable,
@@ -49,6 +50,7 @@ export {
   courseFeedbackTable,
   peerFeedbackTable,
   vanityUrlsTable,
+  RESOURCE_FEEDBACK,
 } from './schema';
 
 // Type exports
@@ -78,6 +80,7 @@ export type {
   Chunk,
   Unit,
   UnitResource,
+  Resource,
   Exercise,
   ApplicationsCourse,
   CourseRegistration,
