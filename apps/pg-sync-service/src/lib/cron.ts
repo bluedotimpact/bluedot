@@ -52,7 +52,7 @@ const checkAdminDashboardSyncRequestsCron = async () => {
   }
 };
 
-const recomputeComputedAirtableFieldsCron = async () => {
+export const recomputeComputedAirtableFieldsCron = async () => {
   if (isRecomputingComputedAirtableFields) {
     logger.info('[computed-airtable-fields] Skipping execution - previous recompute still running');
     return;
@@ -63,25 +63,30 @@ const recomputeComputedAirtableFieldsCron = async () => {
     // Process fields sequentially. Airtable writes share the pg-sync-service rate limit budget.
     for (const { table, fields } of computedAirtableFieldDefinitions) {
       for (const [field, compute] of Object.entries(fields)) {
-        // eslint-disable-next-line no-await-in-loop
-        const { checked, updated, failed } = await recomputeValues({
-          db,
-          definition: { table, field, compute },
-          beforeWrite: () => rateLimiter.acquire(),
-        });
-        logger.info(`[computed-airtable-fields] ${getTableName(table.pg)}.${field}: checked ${checked}, updated ${updated}, failed ${failed}`);
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          const { checked, updated, failed } = await recomputeValues({
+            db,
+            definition: { table, field, compute },
+            beforeWrite: () => rateLimiter.acquire(),
+          });
+          logger.info(`[computed-airtable-fields] ${getTableName(table.pg)}.${field}: checked ${checked}, updated ${updated}, failed ${failed}`);
+        } catch (error) {
+          // Isolate per-field, one bad definition shouldn't skip the remaining fields
+          logger.error(`[computed-airtable-fields] ${getTableName(table.pg)}.${field} failed:`, error);
+        }
       }
     }
-  } catch (error) {
-    logger.error('[computed-airtable-fields] Error recomputing fields:', error);
   } finally {
     isRecomputingComputedAirtableFields = false;
   }
 };
 
-cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
-cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
-cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
+if (process.env.NODE_ENV !== 'test') {
+  cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
+  cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
+  cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
+}
 
 export const startWebhooksAndProcessingUpdates = async () => {
   logger.info('Starting webhooks and queue processing...');
