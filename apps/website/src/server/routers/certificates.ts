@@ -1,8 +1,11 @@
 import {
+  and,
   courseRegistrationTable,
   courseTable,
+  eq,
   exerciseResponseTable,
   exerciseTable,
+  inArray,
   meetPersonTable,
   roundTable,
   type CourseRegistration,
@@ -25,12 +28,13 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
 
   // Scope the response scan to FoAI exercises so we don't pull every response this user has ever
   // submitted (across all courses) just to check FoAI completion.
-  const exerciseResponses = await db.scan(exerciseResponseTable, {
-    AND: [
-      { email },
-      { OR: allExercises.map((exercise) => ({ exerciseId: exercise.id })) },
-    ],
-  });
+  const exerciseResponses = await db.pg
+    .select()
+    .from(exerciseResponseTable.pg)
+    .where(and(
+      eq(exerciseResponseTable.pg.email, email),
+      inArray(exerciseResponseTable.pg.exerciseId, allExercises.map((e) => e.id)),
+    ));
 
   const completedExerciseIds = new Set(exerciseResponses
     .filter((resp) => resp.completedAt != null)
