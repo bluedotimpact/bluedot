@@ -1,5 +1,5 @@
 import {
-  and, courseBuilderUserTable, desc, eq, inArray, resourceCompletionTable, unitResourceTable,
+  and, courseBuilderUserTable, desc, eq, getFirstFromPg, inArray, resourceCompletionTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { z } from 'zod';
@@ -55,7 +55,7 @@ export const resourcesRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const [resourceCompletion, unitResource, cbUser] = await Promise.all([
-        db.getFirst(resourceCompletionTable, {
+        getFirstFromPg(db.pg, resourceCompletionTable.pg, {
           filter: {
             unitResourceId: input.unitResourceId,
             email: ctx.auth.email,

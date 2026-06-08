@@ -1,16 +1,18 @@
-import {
-  eq, and, or, gt, lt, gte, lte, ne, sql, type SQL, desc, asc,
-} from 'drizzle-orm';
-import { type PgInsertValue, type PgUpdateSetSource, type PgColumn } from 'drizzle-orm/pg-core';
+import { eq } from 'drizzle-orm';
+import { type PgInsertValue, type PgUpdateSetSource } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { type drizzle as pgLiteDrizzle } from 'drizzle-orm/pglite';
 import {
   AirtableTs, AirtableTsError, type AirtableTsOptions,
 } from 'airtable-ts';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
 import { type PgAirtableTable } from './db-core';
 import { type AirtableItemFromColumnsMap, type BasePgTableType, type PgAirtableColumnInput } from './typeUtils';
+import {
+  buildWhereClause, getFirstFromPg, type Filter, type PgDatabase,
+} from './pg-query';
 import env from './env';
+
+export { type Filter, type PgDatabase } from './pg-query';
 
 /**
  * Base options interface for getFirst method
@@ -55,28 +57,6 @@ export type GetFirstOptionsWithoutAutoId<TTableName extends string, TColumnsMap 
       direction?: 'asc' | 'desc';
     } | keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
   };
-
-/**
- * Filter operations for querying records
- */
-export type FilterOperation<T> = {
-  [K in keyof T]?:
-    | T[K]
-    | { '>': T[K] }
-    | { '<': T[K] }
-    | { '>=': T[K] }
-    | { '<=': T[K] }
-    | { '=': T[K] }
-    | { '!=': T[K] };
-};
-
-export type Filter<T> = FilterOperation<T> | {
-  AND: Filter<T>[];
-} | {
-  OR: Filter<T>[];
-};
-
-export type PgDatabase = ReturnType<typeof drizzle> | ReturnType<typeof pgLiteDrizzle>;
 
 /**
  * Postgres client which is identical to the standard client in terms of functionality, but
@@ -183,7 +163,7 @@ export class PgAirtableDb {
     const baseQuery = this.pgUnrestricted.select().from(table.pg as any);
 
     if (filter) {
-      const whereClause = this.buildWhereClause(table.pg, filter);
+      const whereClause = buildWhereClause(table.pg, filter);
       return await baseQuery.where(whereClause) as BasePgTableType<TTableName, TColumnsMap>['$inferSelect'][];
     }
 
@@ -219,177 +199,7 @@ export class PgAirtableDb {
       : [options: GetFirstOptionsWithoutAutoId<TTableName, TColumnsMap>]
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | null> {
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    const options = args[0] || {};
-    const {
-      filter,
-      sortBy,
-      limit = 1,
-    } = options;
-
-    const sortConfig = this.resolveSortConfig(table, sortBy);
-
-    if (!sortConfig) {
-      const availableFields = Object.keys(table.pg).join(', ');
-      throw new Error('Table does not have autoNumberId for default sorting. '
-        + `Please specify a sortBy field. Available fields: ${availableFields}\n`);
-    }
-
-    // Build query with sorting
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const baseQuery = this.pgUnrestricted.select().from(table.pg as any);
-
-    // Apply sorting
-    const fieldKey = sortConfig.field as string;
-    const column = (table.pg as Record<string, PgColumn>)[fieldKey];
-    if (!column) {
-      throw new Error(`Field "${String(sortConfig.field)}" does not exist on table`);
-    }
-
-    // Build the final query with all clauses
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let query: any = baseQuery;
-
-    if (filter) {
-      query = query.where(this.buildWhereClause(table.pg, filter));
-    }
-
-    query = sortConfig.direction === 'desc'
-      ? query.orderBy(desc(column))
-      : query.orderBy(asc(column));
-
-    // Apply limit and execute
-    query = query.limit(limit);
-    const results = await query as BasePgTableType<TTableName, TColumnsMap>['$inferSelect'][];
-
-    return results.length > 0 ? results[0]! : null;
-  }
-
-  /**
-   * Resolves sort configuration for getFirst, with intelligent defaults
-   */
-  private resolveSortConfig<
-    TTableName extends string,
-    TColumnsMap extends Record<string, PgAirtableColumnInput>,
-  >(
-    table: PgAirtableTable<TTableName, TColumnsMap>,
-    sortBy?: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | { field: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect']; direction?: 'asc' | 'desc' },
-  ): { field: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect']; direction: 'asc' | 'desc' } | null {
-    // If explicit sortBy provided, use it
-    if (sortBy) {
-      if (typeof sortBy === 'string' || typeof sortBy === 'symbol' || typeof sortBy === 'number') {
-        const field = sortBy as keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
-        return {
-          field,
-          // Default to DESC for autoNumberId (newest first), ASC for others
-          direction: field === 'autoNumberId' ? 'desc' : 'asc',
-        };
-      }
-
-      return {
-        field: sortBy.field,
-        direction: sortBy.direction ?? (sortBy.field === 'autoNumberId' ? 'desc' : 'asc'),
-      };
-    }
-
-    // Check for autoNumberId as default
-    if ('autoNumberId' in table.pg) {
-      return { field: 'autoNumberId', direction: 'desc' };
-    }
-
-    // No default available
-    return null;
-  }
-
-  /**
-   * Build a WHERE clause from a filter object
-   */
-  private buildWhereClause(
-    table: Record<string, PgColumn>,
-    filter: Filter<Record<string, unknown>>,
-  ): SQL {
-    if ('AND' in filter && Array.isArray(filter.AND)) {
-      if (filter.AND.length === 0) {
-        // Mathematically this should be TRUE (empty conjunction), but we return FALSE
-        // defensively to avoid accidentally returning rows the caller doesn't have
-        // permission to see. If a live code path needs empty AND to match everything,
-        // change this to TRUE.
-        return sql`FALSE`;
-      }
-
-      const conditions = filter.AND.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
-      const result = and(...conditions);
-      if (!result) {
-        throw new Error('Failed to build AND condition');
-      }
-
-      return result;
-    }
-
-    if ('OR' in filter && Array.isArray(filter.OR)) {
-      if (filter.OR.length === 0) {
-        return sql`FALSE`;
-      }
-
-      const conditions = filter.OR.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
-      const result = or(...conditions);
-      if (!result) {
-        throw new Error('Failed to build OR condition');
-      }
-
-      return result;
-    }
-
-    // Handle field-level filters
-    const conditions: SQL[] = [];
-
-    for (const [fieldName, fieldFilter] of Object.entries(filter)) {
-      const column = table[fieldName];
-      if (!column) {
-        throw new Error(`Unknown field: ${fieldName}`);
-      }
-
-      if (fieldFilter && typeof fieldFilter === 'object' && !Array.isArray(fieldFilter)) {
-        // Handle operation objects like { $gt: value }
-        for (const [op, value] of Object.entries(fieldFilter)) {
-          switch (op) {
-            case '>':
-              conditions.push(gt(column, value));
-              break;
-            case '<':
-              conditions.push(lt(column, value));
-              break;
-            case '>=':
-              conditions.push(gte(column, value));
-              break;
-            case '<=':
-              conditions.push(lte(column, value));
-              break;
-            case '=':
-              conditions.push(eq(column, value));
-              break;
-            case '!=':
-              conditions.push(ne(column, value));
-              break;
-            default:
-              throw new Error(`Unknown operation: ${op}`);
-          }
-        }
-      } else {
-        // Handle direct equality
-        conditions.push(eq(column, fieldFilter));
-      }
-    }
-
-    if (conditions.length === 0) {
-      throw new Error('No valid filter conditions found');
-    }
-
-    const result = conditions.length === 1 ? conditions[0] : and(...conditions);
-    if (!result) {
-      throw new Error('Failed to build WHERE condition');
-    }
-
-    return result;
+    return getFirstFromPg(this.pgUnrestricted, table.pg, args[0] || {});
   }
 
   /**

@@ -91,10 +91,9 @@ describe('db.getFirst', () => {
   describe('with non-autoNumberId table', () => {
     test('throws when sortBy is not provided', async () => {
       // The type system enforces sortBy at compile time; runtime check is the safety net.
-      await expect(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        db.getFirst(personTable, { filter: { email: 'a@x' } } as any),
-      ).rejects.toThrow(/autoNumberId for default sorting/);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const call = db.getFirst(personTable, { filter: { email: 'a@x' } } as any);
+      await expect(call).rejects.toThrow(/autoNumberId for default sorting/);
     });
 
     test('works with explicit sortBy', async () => {
@@ -167,10 +166,9 @@ describe('db.getFirst', () => {
     });
 
     test('throws on unknown field in filter', async () => {
-      await expect(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        db.getFirst(userTable, { filter: { nonExistent: 'x' } as any }),
-      ).rejects.toThrow(/Unknown field/);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const call = db.getFirst(userTable, { filter: { nonExistent: 'x' } as any });
+      await expect(call).rejects.toThrow(/Unknown field/);
     });
   });
 
