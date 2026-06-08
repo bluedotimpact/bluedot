@@ -13,6 +13,5 @@ export const useQuickApplyBannerStore = create<{
   }),
   {
     name: 'bluedot_quick_apply_banner',
-    version: 20260608,
   },
 ));
