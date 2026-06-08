@@ -52,6 +52,26 @@ const checkAdminDashboardSyncRequestsCron = async () => {
   }
 };
 
+const recomputeSingleField = async (definition: Parameters<typeof recomputeValues>[0]['definition']) => {
+  const key = `${getTableName(definition.table.pg)}.${definition.field}`;
+  try {
+    const {
+      checked, updated, failed, errors,
+    } = await recomputeValues({
+      db,
+      definition,
+      beforeWrite: () => rateLimiter.acquire(),
+    });
+    logger.info(`[computed-airtable-fields] ${key}: checked ${checked}, updated ${updated}, failed ${failed}`);
+
+    if (failed > 0) {
+      logger.error(`[computed-airtable-fields] ${key}: ${failed} failure(s); first error:`, errors[0]);
+    }
+  } catch (error) {
+    logger.error(`[computed-airtable-fields] ${key} failed:`, error);
+  }
+};
+
 export const recomputeComputedAirtableFieldsCron = async () => {
   if (isRecomputingComputedAirtableFields) {
     logger.info('[computed-airtable-fields] Skipping execution - previous recompute still running');
@@ -63,18 +83,8 @@ export const recomputeComputedAirtableFieldsCron = async () => {
     // Process fields sequentially. Airtable writes share the pg-sync-service rate limit budget.
     for (const { table, fields } of computedAirtableFieldDefinitions) {
       for (const [field, compute] of Object.entries(fields)) {
-        try {
-          // eslint-disable-next-line no-await-in-loop
-          const { checked, updated, failed } = await recomputeValues({
-            db,
-            definition: { table, field, compute },
-            beforeWrite: () => rateLimiter.acquire(),
-          });
-          logger.info(`[computed-airtable-fields] ${getTableName(table.pg)}.${field}: checked ${checked}, updated ${updated}, failed ${failed}`);
-        } catch (error) {
-          // Isolate per-field, one bad definition shouldn't skip the remaining fields
-          logger.error(`[computed-airtable-fields] ${getTableName(table.pg)}.${field} failed:`, error);
-        }
+        // eslint-disable-next-line no-await-in-loop
+        await recomputeSingleField({ table, field, compute });
       }
     }
   } finally {
