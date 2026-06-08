@@ -20,13 +20,13 @@ jobs:
       affected_deployable_apps: ${{ steps.get_affected_deployable_apps.outputs.deploy_array }}
     steps:
       - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 10  # Fetch more history to be likely to find a successful commit when identifying affected apps
 
       - name: Use Node.js
         id: setup-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'npm'
@@ -34,7 +34,7 @@ jobs:
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             node_modules
@@ -72,10 +72,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'npm'
@@ -83,7 +83,7 @@ jobs:
 
       - name: Restore node_modules
         id: cache-node-modules
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -96,7 +96,7 @@ jobs:
         run: npm ci --prefer-offline --audit false --fund false
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-typecheck-${{ github.sha }}
@@ -112,10 +112,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'npm'
@@ -123,7 +123,7 @@ jobs:
 
       - name: Restore node_modules
         id: cache-node-modules
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -136,7 +136,7 @@ jobs:
         run: npm ci --prefer-offline --audit false --fund false
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-lint-${{ github.sha }}
@@ -152,10 +152,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'npm'
@@ -163,7 +163,7 @@ jobs:
 
       - name: Restore node_modules
         id: cache-node-modules
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             node_modules
@@ -176,7 +176,7 @@ jobs:
         run: npm ci --prefer-offline --audit false --fund false
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-test-${{ github.sha }}
@@ -220,11 +220,11 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Use Node.js
         id: setup-node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'npm'
@@ -232,7 +232,7 @@ jobs:
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             node_modules
@@ -250,7 +250,7 @@ jobs:
 
       - name: Cache Next.js build (website)
         if: matrix.app == '@bluedot/website'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: apps/website/.next/cache
           key: ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-${{ hashFiles('apps/website/**/*.{js,jsx,ts,tsx,mdx,md,json,css}', '!apps/website/node_modules/**', '!apps/website/.next/**', '!apps/website/dist/**') }}
@@ -258,7 +258,7 @@ jobs:
             ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-
 
       - name: Cache turbo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .turbo
           key: ${{ runner.os }}-turbo-cd-${{ matrix.app }}-${{ github.sha }}
