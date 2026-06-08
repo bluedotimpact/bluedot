@@ -128,23 +128,6 @@ export const courseTable = pgAirtable('course', {
       airtableId: 'fldAtb3GHlRNpYzwC',
     },
   },
-  deprecatedColumns: {
-    image: {
-      pgColumn: text(),
-      airtableId: 'fldh90A6x8HwQSkMy',
-      deprecated: true,
-    },
-    path: {
-      pgColumn: text(),
-      airtableId: 'fldEjx0ZP8SNYcNQR',
-      deprecated: true,
-    },
-    description: {
-      pgColumn: text(),
-      airtableId: 'fldCX0bk6SQuXZaI7',
-      deprecated: true,
-    },
-  },
 });
 
 export const exerciseResponseTable = pgAirtable('exercise_response', {
@@ -1134,28 +1117,6 @@ export const unitTable = pgAirtable('unit', {
       airtableId: 'fldFJbY40IjPXer1Q',
     },
   },
-  deprecatedColumns: {
-    coursePath: {
-      pgColumn: text(),
-      airtableId: 'fldlCrg7Nv1TPTorZ',
-      deprecated: true,
-    },
-    path: {
-      pgColumn: text(),
-      airtableId: 'fldEY7ZHZtXrBL3nv',
-      deprecated: true,
-    },
-    content: {
-      pgColumn: text(),
-      airtableId: 'fldF9hjDhZpLbBIUV',
-      deprecated: true,
-    },
-    description: {
-      pgColumn: text(),
-      airtableId: 'fldpJLWVPh0IXHfmm',
-      deprecated: true,
-    },
-  },
 });
 
 export const unitResourceTable = pgAirtable('unit_resource', {
@@ -1209,13 +1170,6 @@ export const unitResourceTable = pgAirtable('unit_resource', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldUOh3MNUIf0vnYb',
-    },
-  },
-  deprecatedColumns: {
-    avgRating: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldOWWeymJQTwlfaY',
-      deprecated: true,
     },
   },
 });
@@ -1278,23 +1232,6 @@ export const exerciseTable = pgAirtable('exercise', {
     computedNumResponses: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldhemVjXEA0j4d2d',
-    },
-  },
-  deprecatedColumns: {
-    unitNumber: {
-      pgColumn: text(),
-      airtableId: 'fldL42M2hgchJYIdD',
-      deprecated: true,
-    },
-    courseIdWrite: {
-      pgColumn: text(),
-      airtableId: 'fldxcJ5gCihs3iRyE',
-      deprecated: true,
-    },
-    courseIdRead: {
-      pgColumn: text(),
-      airtableId: 'fldc9oyPwJSkeMiAW',
-      deprecated: true,
     },
   },
 });
@@ -1646,13 +1583,6 @@ export const courseFeedbackTable = pgAirtable('course_feedback', {
     personFeedback: {
       pgColumn: text().array(),
       airtableId: 'fldf1vkZDkPDpWdRX',
-    },
-  },
-  deprecatedColumns: {
-    submittedAt: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldU1lnBjth2Fxban',
-      deprecated: true,
     },
   },
 });
