@@ -9,6 +9,7 @@ import {
   TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab,
 } from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
+import { QuickApplyBanner } from '../components/my-courses/QuickApplyBanner';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
@@ -129,6 +130,7 @@ const FacilitatedCoursesPage = () => {
                   </div>
                 </div>
               )}
+              <QuickApplyBanner />
               <TabPills
                 ariaLabel="Course filter"
                 tabs={TABS}
