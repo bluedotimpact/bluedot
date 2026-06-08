@@ -170,6 +170,7 @@ new k8s.apps.v1.Deployment('app-pg-dump', {
         },
       },
       spec: {
+        automountServiceAccountToken: false,
         containers: [
           {
             name: 'pg-dump',
