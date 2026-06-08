@@ -14,6 +14,11 @@ export const appPg = new vultr.Database('app-pg', {
 });
 
 // If you add another database here, re-check that admin-level access is still appropriate.
+//
+// A scoped read-only role `bluedot_dev` exists for dev psql access over
+// untrusted networks (issue #2586). It's created manually via psql (not in IaC).
+// Credentials and the GRANT recipe live in 1Password ("Postgres - app-pg
+// (Vultr) - bluedot_dev (read-only dev)").
 export const appDatabase = new vultr.DatabaseDb('app-db', {
   databaseId: appPg.id,
   name: 'app',
