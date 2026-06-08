@@ -1,8 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { loggedInStory } from '@bluedot/ui/src/utils/storybook';
-import { QuickApplyBanner } from './QuickApplyBanner';
-import type { EligibleRoundsCourse } from '../../server/routers/facilitator-applications';
+import type { Meta, StoryObj } from '@storybook/react';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import type { EligibleRoundsCourse } from '../../server/routers/facilitator-applications';
+import { useQuickApplyBannerStore } from '../../stores/quickApplyBanner';
+import { QuickApplyBanner } from './QuickApplyBanner';
 
 const eligibleCourses: EligibleRoundsCourse[] = [
   {
@@ -27,6 +28,15 @@ const meta = {
   title: 'My Courses/QuickApplyBanner',
   component: QuickApplyBanner,
   parameters: { layout: 'padded' },
+  decorators: [
+    (Story) => {
+      useQuickApplyBannerStore.setState({ dismissedKeys: {} });
+      if (typeof window !== 'undefined') {
+        window.localStorage.removeItem('bluedot_quick_apply_banner');
+      }
+      return <Story />;
+    },
+  ],
   ...loggedInStory(),
 } satisfies Meta<typeof QuickApplyBanner>;
 
