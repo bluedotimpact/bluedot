@@ -173,6 +173,8 @@ new k8s.apps.v1.Deployment('app-pg-dump', {
         containers: [
           {
             name: 'pg-dump',
+            // Keep this major version in sync with databaseEngineVersion in src/vultr/appPostgres.ts.
+            // pg_dump client must be >= the server version.
             image: 'postgres:18-alpine',
             command: ['sleep', 'infinity'],
             env: [
