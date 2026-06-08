@@ -16,8 +16,9 @@
 // - Restore it using restic, password 'pass': restic -r ./backup-files restore latest --target ./restored-files
 
 import * as k8s from '@pulumi/kubernetes';
-import { provider } from './provider';
 import { config } from '../config';
+import { appPgConnectionDetails } from './postgres';
+import { provider } from './provider';
 
 const NAMESPACES_TO_BACKUP = ['default', 'monitoring'];
 
@@ -146,3 +147,50 @@ NAMESPACES_TO_BACKUP.forEach((namespace) => {
     },
   }, { provider, dependsOn: [gcsSecret, resticPasswordSecret, podConfig, k8upOperator] });
 });
+
+// Off-Vultr backup of our managed Postgres (issue #2576). It has no PVC in the cluster, so the
+// volume backups above miss it. k8up execs the `backupcommand` annotation in a running pod and
+// streams stdout into the same restic repo, so the daily Schedule captures a pg_dump too.
+const pgDumpLabels = { app: 'app-pg-dump' };
+new k8s.apps.v1.Deployment('app-pg-dump', {
+  metadata: {
+    name: 'app-pg-dump',
+    namespace: 'default',
+  },
+  spec: {
+    replicas: 1,
+    selector: { matchLabels: pgDumpLabels },
+    template: {
+      metadata: {
+        labels: pgDumpLabels,
+        annotations: {
+          // sh -c so the shell expands $PG_URI (k8up shellword-splits the annotation).
+          'k8up.io/backupcommand': 'sh -c \'pg_dump "$PG_URI"\'',
+          'k8up.io/file-extension': '.sql',
+        },
+      },
+      spec: {
+        automountServiceAccountToken: false,
+        containers: [
+          {
+            name: 'pg-dump',
+            // Keep this major version in sync with databaseEngineVersion in src/vultr/appPostgres.ts.
+            // pg_dump client must be >= the server version.
+            image: 'postgres:18-alpine',
+            command: ['sleep', 'infinity'],
+            env: [
+              {
+                name: 'PG_URI',
+                valueFrom: appPgConnectionDetails.uri,
+              },
+            ],
+            resources: {
+              requests: { cpu: '10m', memory: '32Mi' },
+              limits: { memory: '128Mi' },
+            },
+          },
+        ],
+      },
+    },
+  },
+}, { provider });
