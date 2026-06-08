@@ -34,6 +34,7 @@ const meta = {
       if (typeof window !== 'undefined') {
         window.localStorage.removeItem('bluedot_quick_apply_banner');
       }
+
       return <Story />;
     },
   ],
