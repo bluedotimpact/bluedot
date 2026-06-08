@@ -76,7 +76,7 @@ export async function getFirstFromPg<T extends PgTable>(
 /**
  * Resolves sort configuration for getFirstFromPg, with intelligent defaults.
  */
-export function resolveSortConfig<T extends PgTable>(
+function resolveSortConfig<T extends PgTable>(
   table: T,
   sortBy?: keyof T['$inferSelect'] | { field: keyof T['$inferSelect']; direction?: 'asc' | 'desc' },
 ): { field: keyof T['$inferSelect']; direction: 'asc' | 'desc' } | null {

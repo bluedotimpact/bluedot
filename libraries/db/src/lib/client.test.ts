@@ -5,6 +5,7 @@ import {
   PgAirtableDb,
   createTestDbClients,
   exerciseResponseTable,
+  getFirstFromPg,
   personTable,
   pushTestSchema,
   resetTestDb,
@@ -184,5 +185,28 @@ describe('db.getFirst', () => {
       const result = await db.getFirst(exerciseResponseTable);
       expect(result?.id).toBe('r2');
     });
+  });
+});
+
+describe('getFirstFromPg (direct)', () => {
+  test('returns the matching record with a raw pgClient and PgTable', async () => {
+    await testDb.insert(userTable, { id: 'u1', email: 'direct@x', name: 'Direct' });
+
+    const result = await getFirstFromPg(db.pg, userTable.pg, {
+      filter: { email: 'direct@x' },
+    });
+    expect(result?.id).toBe('u1');
+    expect(result?.name).toBe('Direct');
+  });
+
+  test('returns null when no record matches', async () => {
+    const result = await getFirstFromPg(db.pg, userTable.pg, {
+      filter: { email: 'nobody@x' },
+    });
+    expect(result).toBeNull();
+  });
+
+  test('throws when table has no autoNumberId and no sortBy is provided', async () => {
+    await expect(getFirstFromPg(db.pg, personTable.pg)).rejects.toThrow(/autoNumberId for default sorting/);
   });
 });
