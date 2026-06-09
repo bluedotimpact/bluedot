@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import jsonwebtoken from 'jsonwebtoken';
 import createHttpError from 'http-errors';
-import { groupDiscussionTable, zoomAccountTable } from '@bluedot/db';
+import { groupDiscussionTable, isDiscussionFacilitator, zoomAccountTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import env from '../../../lib/api/env';
@@ -63,11 +63,10 @@ export default makeApiRoute({
 
   const issuedAt = Math.round(Date.now() / 1000);
   const expiresAt = issuedAt + 3600 * 4;
-  const facilitators = groupDiscussion.facilitators || [];
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
     mn: meetingNumber,
-    role: body.participantId && facilitators.includes(body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
+    role: body.participantId && isDiscussionFacilitator(groupDiscussion, [body.participantId]) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
     iat: issuedAt,
     exp: expiresAt,
     tokenExp: expiresAt,

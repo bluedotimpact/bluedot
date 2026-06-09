@@ -53,6 +53,9 @@ export {
   peerFeedbackTable,
   vanityUrlsTable,
   RESOURCE_FEEDBACK,
+  COURSE_ROLE,
+  isDiscussionFacilitator,
+  isDiscussionParticipant,
 } from './schema';
 
 // Type exports

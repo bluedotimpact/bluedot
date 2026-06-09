@@ -1,9 +1,10 @@
 import {
   and,
   arrayContains,
+  COURSE_ROLE,
   groupDiscussionTable,
   groupSwitchingTable,
-  groupTable, inArray, meetPersonTable, roundTable,
+  groupTable, inArray, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, roundTable,
   type Group,
   type GroupDiscussion,
 } from '@bluedot/db';
@@ -67,7 +68,7 @@ export function calculateGroupAvailability({
       ? Math.max(0, maxParticipants - otherParticipants.length)
       : null;
 
-    const userIsParticipant = discussion.participantsExpected.includes(participantId);
+    const userIsParticipant = isDiscussionParticipant(discussion, [participantId]);
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const groupName = group.groupName || 'Group [Unknown]';
 
@@ -184,7 +185,7 @@ export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input: { roundId } }) => {
-      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: 'Participant' } });
+      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT } });
       if (!participant) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
@@ -266,7 +267,7 @@ export const groupSwitchingRouter = router({
       }
 
       const participant = await db.getFirst(meetPersonTable, {
-        filter: { round: roundId, email: ctx.auth.email, role: 'Participant' },
+        filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT },
       });
       if (!participant) {
         throw new TRPCError({
@@ -297,15 +298,16 @@ export const groupSwitchingRouter = router({
           !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
         ]);
 
-        if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
+        if (isDiscussionFacilitator(oldDiscussion, [participantId])
+          || (newDiscussion != null && isDiscussionFacilitator(newDiscussion, [participantId]))) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
 
-        if (!oldDiscussion.participantsExpected.includes(participantId)) {
+        if (!isDiscussionParticipant(oldDiscussion, [participantId])) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User not found in old discussion' });
         }
 
-        if (newDiscussion?.participantsExpected.includes(participantId)) {
+        if (newDiscussion != null && isDiscussionParticipant(newDiscussion, [participantId])) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already expected to attend new discussion' });
         }
 

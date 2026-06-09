@@ -2,6 +2,7 @@ import {
   and,
   applicationsRoundTable,
   arrayOverlaps,
+  COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
   dropoutTable,
@@ -87,7 +88,7 @@ export const myBluedotRouter = router({
         .from(courseRegistrationTable.pg)
         .where(and(
           eq(courseRegistrationTable.pg.email, ctx.auth.email),
-          eq(courseRegistrationTable.pg.role, 'Facilitator'),
+          eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
           includeWithdrawn
             ? undefined
             : or(
@@ -109,8 +110,8 @@ export const myBluedotRouter = router({
       .where(and(
         eq(courseRegistrationTable.pg.email, email),
         or(
-          // Happy path: role === 'Participant'
-          ne(courseRegistrationTable.pg.role, 'Facilitator'),
+          // Happy path: role === COURSE_ROLE.PARTICIPANT
+          ne(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
           isNull(courseRegistrationTable.pg.role),
         ),
         or(
@@ -309,7 +310,7 @@ export const myBluedotRouter = router({
       .from(courseRegistrationTable.pg)
       .where(and(
         eq(courseRegistrationTable.pg.email, email),
-        eq(courseRegistrationTable.pg.role, 'Facilitator'),
+        eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
         or(
           ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
           isNull(courseRegistrationTable.pg.decision),

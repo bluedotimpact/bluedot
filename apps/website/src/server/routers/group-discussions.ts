@@ -6,6 +6,8 @@ import {
   groupDiscussionTable,
   groupTable,
   inArray,
+  isDiscussionFacilitator,
+  isDiscussionParticipant,
   isNull,
   meetPersonTable,
   or,
@@ -170,9 +172,9 @@ export const groupDiscussionsRouter = router({
 
       if (groupDiscussion) {
         const isFacilitator = expectedFacilitatorDiscussionIds.includes(groupDiscussion.id)
-          || participantIds.some((id) => groupDiscussion.facilitators.includes(id));
+          || isDiscussionFacilitator(groupDiscussion, participantIds);
         const isParticipant = expectedParticipantDiscussionIds.includes(groupDiscussion.id)
-          || participantIds.some((id) => groupDiscussion.participantsExpected.includes(id));
+          || isDiscussionParticipant(groupDiscussion, participantIds);
 
         if (isFacilitator) {
           userRole = 'facilitator';

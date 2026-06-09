@@ -1637,6 +1637,25 @@ export const vanityUrlsTable = pgAirtable('vanity_urls', {
   },
 });
 
+// Course-level roles we branch on, as stored on `courseRegistrationTable.role` and the synced
+// `meetPersonTable.role`. The field can also be 'TODO' (applied, not yet assigned facilitator or
+// participant), but we don't branch on that anywhere in our codebase.
+export const COURSE_ROLE = {
+  FACILITATOR: 'Facilitator',
+  PARTICIPANT: 'Participant',
+} as const;
+
+// Whether a user facilitates/participates in a specific discussion is determined by the discussion's linked records, not by their course-level role.
+export const isDiscussionFacilitator = (
+  discussion: Pick<GroupDiscussion, 'facilitators'>,
+  personIds: string[],
+) => personIds.some((id) => discussion.facilitators.includes(id));
+
+export const isDiscussionParticipant = (
+  discussion: Pick<GroupDiscussion, 'participantsExpected'>,
+  personIds: string[],
+) => personIds.some((id) => discussion.participantsExpected.includes(id));
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;

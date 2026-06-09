@@ -1,6 +1,7 @@
 import {
   and,
   arrayContains,
+  COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
   desc,
@@ -130,7 +131,7 @@ export const exercisesRouter = router({
       const meetPerson = await db.getFirst(meetPersonTable, {
         filter: { applicationsBaseRecordId: courseRegistration.id },
       });
-      if (!meetPerson || meetPerson.role !== 'Facilitator') {
+      if (!meetPerson || meetPerson.role !== COURSE_ROLE.FACILITATOR) {
         // Return null rather than throwing — no groups/responses is a valid empty state, and throwing would trigger
         // retries unnecessarily.
         return null;

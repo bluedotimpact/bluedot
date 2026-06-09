@@ -2,6 +2,7 @@ import {
   and,
   applicationsCourseTable,
   applicationsRoundTable,
+  COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
   eq,
@@ -46,7 +47,7 @@ export const getQuickApplyEligibleCourseIds = async (email: string): Promise<str
       .from(courseRegistrationTable.pg)
       .where(and(
         eq(courseRegistrationTable.pg.email, email),
-        eq(courseRegistrationTable.pg.role, 'Facilitator'),
+        eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
       )),
     db.pg
       .select({
@@ -142,7 +143,7 @@ const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
     .from(courseRegistrationTable.pg)
     .where(and(
       eq(courseRegistrationTable.pg.email, email),
-      eq(courseRegistrationTable.pg.role, 'Facilitator'),
+      eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
       eq(courseRegistrationTable.pg.courseId, courseId),
     ));
   // Sorts most recent first; when used for pre-filling, the most recent application is likely the most relevant and helpful to pre-fill from.
@@ -188,7 +189,7 @@ export const facilitatorApplicationsRouter = router({
     const registrations = await db.pg
       .select()
       .from(courseRegistrationTable.pg)
-      .where(and(eq(courseRegistrationTable.pg.email, ctx.auth.email), eq(courseRegistrationTable.pg.role, 'Facilitator')));
+      .where(and(eq(courseRegistrationTable.pg.email, ctx.auth.email), eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR)));
 
     if (registrations.length === 0) return [];
 
@@ -251,7 +252,7 @@ export const facilitatorApplicationsRouter = router({
         .from(courseRegistrationTable.pg)
         .where(and(
           eq(courseRegistrationTable.pg.email, ctx.auth.email),
-          eq(courseRegistrationTable.pg.role, 'Facilitator'),
+          eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
         )),
       db.pg
         .select({ id: courseTable.pg.id, title: courseTable.pg.title, slug: courseTable.pg.slug })
@@ -348,7 +349,7 @@ export const facilitatorApplicationsRouter = router({
         email: ctx.auth.email,
         courseApplicationsBaseId: applicationsCourse.id,
         roundId: input.roundId,
-        role: 'Facilitator',
+        role: COURSE_ROLE.FACILITATOR,
         decision: null,
         source: 'quick-apply',
         numGroupsToFacilitate: input.numGroupsToFacilitate,

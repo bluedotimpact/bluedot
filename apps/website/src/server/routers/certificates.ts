@@ -1,5 +1,6 @@
 import {
   and,
+  COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
   eq,
@@ -175,7 +176,7 @@ export const certificatesRouter = router({
       return { status: 'not-eligible', hasUpcomingRounds } as const;
     }
 
-    if (meetPerson.role === 'Participant') {
+    if (meetPerson.role === COURSE_ROLE.PARTICIPANT) {
       const { uniqueDiscussionAttendance, numUnits } = meetPerson;
       const hasAttendedEnough
         = uniqueDiscussionAttendance == null
@@ -208,7 +209,7 @@ export const certificatesRouter = router({
       } as const;
     }
 
-    if (meetPerson.role === 'Facilitator') {
+    if (meetPerson.role === COURSE_ROLE.FACILITATOR) {
       return { status: 'is-facilitator' } as const;
     }
 
