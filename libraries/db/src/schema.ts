@@ -1638,7 +1638,8 @@ export const vanityUrlsTable = pgAirtable('vanity_urls', {
 });
 
 // Course-level roles we branch on, as stored on `courseRegistrationTable.role` and the synced
-// `meetPersonTable.role`. The field can also be 'TODO', but we don't use that anywhere in our codebase.
+// `meetPersonTable.role`. The field can also be 'TODO' (applied, not yet assigned facilitator or
+// participant), but we don't branch on that anywhere in our codebase.
 export const COURSE_ROLE = {
   FACILITATOR: 'Facilitator',
   PARTICIPANT: 'Participant',
