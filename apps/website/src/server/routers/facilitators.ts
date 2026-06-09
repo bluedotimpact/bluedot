@@ -2,6 +2,7 @@ import {
   and,
   arrayContains,
   asc,
+  COURSE_ROLE,
   courseFeedbackTable,
   eq,
   facilitatorDiscussionSwitchingTable,
@@ -49,7 +50,7 @@ const getNextStepsOptions = async (): Promise<FollowUpOption[]> => {
 
 const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
   const facilitator = await db.getFirst(meetPersonTable, {
-    filter: { round: roundId, email: facilitatorEmail, role: 'Facilitator' },
+    filter: { round: roundId, email: facilitatorEmail, role: COURSE_ROLE.FACILITATOR },
   });
   if (!facilitator) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this round' });
@@ -62,7 +63,7 @@ async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { email:
   const meetPerson = await db.getFirst(meetPersonTable, {
     filter: { id: meetPersonId },
   });
-  if (!meetPerson || meetPerson.role !== 'Facilitator') {
+  if (!meetPerson || meetPerson.role !== COURSE_ROLE.FACILITATOR) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
   }
 
@@ -110,7 +111,7 @@ async function getDropInIdsForGroup(groupId: string, participantIds: string[]) {
   const rows = await db.pg
     .select({ id: meetPersonTable.pg.id })
     .from(meetPersonTable.pg)
-    .where(and(inArray(meetPersonTable.pg.id, candidates), eq(meetPersonTable.pg.role, 'Participant')));
+    .where(and(inArray(meetPersonTable.pg.id, candidates), eq(meetPersonTable.pg.role, COURSE_ROLE.PARTICIPANT)));
   return rows.map((r) => r.id);
 }
 
@@ -139,7 +140,7 @@ export const facilitatorRouter = router({
     const facilitators = await db.pg
       .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name })
       .from(meetPersonTable.pg)
-      .where(and(eq(meetPersonTable.pg.round, roundId), eq(meetPersonTable.pg.role, 'Facilitator')));
+      .where(and(eq(meetPersonTable.pg.round, roundId), eq(meetPersonTable.pg.role, COURSE_ROLE.FACILITATOR)));
 
     return facilitators
       .filter((f) => f.id !== currentFacilitator.id)
@@ -274,7 +275,7 @@ export const facilitatorRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'New facilitator must be in the same round' });
       }
 
-      if (newFacilitator.role !== 'Facilitator') {
+      if (newFacilitator.role !== COURSE_ROLE.FACILITATOR) {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected person is not a facilitator' });
       }
 
@@ -379,7 +380,7 @@ export const facilitatorRouter = router({
       const trimmed = (input.searchTerm ?? '').trim();
       const conditions = [
         eq(meetPersonTable.pg.round, meetPerson.round),
-        eq(meetPersonTable.pg.role, 'Participant'),
+        eq(meetPersonTable.pg.role, COURSE_ROLE.PARTICIPANT),
       ];
       if (excludeIds.length > 0) conditions.push(notInArray(meetPersonTable.pg.id, excludeIds));
       if (trimmed) conditions.push(ilike(meetPersonTable.pg.name, `%${trimmed}%`));
@@ -405,7 +406,7 @@ export const facilitatorRouter = router({
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const target = await db.getFirst(meetPersonTable, { filter: { id: input.participantId } });
-      if (!target || target.role !== 'Participant' || target.round !== meetPerson.round) {
+      if (!target || target.role !== COURSE_ROLE.PARTICIPANT || target.round !== meetPerson.round) {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your round' });
       }
 

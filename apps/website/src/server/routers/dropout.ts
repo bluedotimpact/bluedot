@@ -1,5 +1,5 @@
 import {
-  arrayOverlaps, courseRegistrationTable, dropoutTable, eq,
+  arrayOverlaps, COURSE_ROLE, courseRegistrationTable, dropoutTable, eq,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -70,7 +70,7 @@ export const dropoutRouter = router({
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Deferral is only available once an application decision has been made.' });
       }
 
-      if (courseRegistration.role === 'Facilitator') {
+      if (courseRegistration.role === COURSE_ROLE.FACILITATOR) {
         if (type === 'Deferral') {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitators cannot defer a course.' });
         }

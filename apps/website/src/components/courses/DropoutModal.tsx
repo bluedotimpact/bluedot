@@ -1,6 +1,10 @@
 import {
   CTALinkOrButton, ErrorSection, H1, Modal, P, ProgressDots, Select, Textarea,
 } from '@bluedot/ui';
+/**
+ * Prevents barrel file import errors when importing COURSE_ROLE from @bluedot/db
+ */
+import { COURSE_ROLE } from '@bluedot/db/src/schema';
 import { useMemo, useState } from 'react';
 import type { CourseRound, CourseRoundsData } from '../../server/routers/course-rounds';
 import { ONE_DAY_MS } from '../../lib/constants';
@@ -75,7 +79,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
 
   const { data: registrations } = trpc.courseRegistrations.getAll.useQuery();
   const registration = registrations?.find((r) => r.id === applicantId);
-  const allowDeferral = registration?.role !== 'Facilitator';
+  const allowDeferral = registration?.role !== COURSE_ROLE.FACILITATOR;
 
   const isDeferral = dropoutType === 'Deferral';
 

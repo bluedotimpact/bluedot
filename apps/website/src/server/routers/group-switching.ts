@@ -1,6 +1,7 @@
 import {
   and,
   arrayContains,
+  COURSE_ROLE,
   groupDiscussionTable,
   groupSwitchingTable,
   groupTable, inArray, meetPersonTable, roundTable,
@@ -184,7 +185,7 @@ export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input: { roundId } }) => {
-      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: 'Participant' } });
+      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT } });
       if (!participant) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
@@ -266,7 +267,7 @@ export const groupSwitchingRouter = router({
       }
 
       const participant = await db.getFirst(meetPersonTable, {
-        filter: { round: roundId, email: ctx.auth.email, role: 'Participant' },
+        filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT },
       });
       if (!participant) {
         throw new TRPCError({

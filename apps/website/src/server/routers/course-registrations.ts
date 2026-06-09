@@ -1,5 +1,5 @@
 import {
-  applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, inArray,
+  applicationsCourseTable, applicationsRoundTable, COURSE_ROLE, courseRegistrationTable, inArray,
   eq, and, or, ne, isNull,
 } from '@bluedot/db';
 import z from 'zod';
@@ -81,7 +81,7 @@ export const courseRegistrationsRouter = router({
         return db.insert(courseRegistrationTable, {
           email: ctx.auth.email,
           courseApplicationsBaseId: applicationsCourse.id,
-          role: 'Participant',
+          role: COURSE_ROLE.PARTICIPANT,
           decision: 'Accept',
           source: source ?? null,
         });
