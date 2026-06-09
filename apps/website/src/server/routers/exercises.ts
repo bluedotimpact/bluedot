@@ -7,6 +7,7 @@ import {
   eq,
   exerciseResponseTable,
   exerciseTable,
+  getFirstFromPg,
   groupTable,
   inArray,
   isNotNull,
@@ -32,7 +33,7 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const exerciseResponse = await db.getFirst(exerciseResponseTable, {
+      const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponseTable.pg, {
         filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
       });
 
@@ -54,7 +55,7 @@ export const exercisesRouter = router({
       } // else undefined = "don't change"
 
       const [existingResponse, exercise, user] = await Promise.all([
-        db.getFirst(exerciseResponseTable, {
+        getFirstFromPg(db.pg, exerciseResponseTable.pg, {
           filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
         }),
         input.completed === true
