@@ -105,7 +105,6 @@ export type {
   CourseFeedback,
   PeerFeedback,
   VanityUrl,
-  CourseRole,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

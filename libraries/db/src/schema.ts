@@ -1645,8 +1645,6 @@ export const COURSE_ROLE = {
   PARTICIPANT: 'Participant',
 } as const;
 
-export type CourseRole = typeof COURSE_ROLE[keyof typeof COURSE_ROLE];
-
 // Whether a user facilitates/participates in a specific discussion is determined by the discussion's linked records, not by their course-level role.
 export const isDiscussionFacilitator = (
   discussion: Pick<GroupDiscussion, 'facilitators'>,
