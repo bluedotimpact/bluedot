@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  groupTable, groupDiscussionTable, meetPersonTable, zoomAccountTable,
+  groupTable, groupDiscussionTable, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, zoomAccountTable,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
@@ -82,14 +82,10 @@ export default makeApiRoute({
   // Get zoom account
   const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
 
-  // Get facilitators and participants
-  const facilitatorIds = groupDiscussion.facilitators || [];
-  const participantIds = groupDiscussion.participantsExpected || [];
-
-  // Get all people and filter by IDs
+  // Get all people and split into discussion facilitators / participants
   const allPeople = await db.scan(meetPersonTable);
-  const facilitators = allPeople.filter((person) => facilitatorIds.includes(person.id));
-  const participants = allPeople.filter((person) => participantIds.includes(person.id));
+  const facilitators = allPeople.filter((person) => isDiscussionFacilitator(groupDiscussion, [person.id]));
+  const participants = allPeople.filter((person) => isDiscussionParticipant(groupDiscussion, [person.id]));
 
   const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink);
   const meetingHostKey = zoomAccount.hostKey ?? '';
