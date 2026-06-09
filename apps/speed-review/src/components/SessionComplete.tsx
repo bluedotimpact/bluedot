@@ -22,6 +22,16 @@ const RATING_OPTIONS: { value: RatingValue; humanOpinion: string; decision: stri
   { value: 'no', humanOpinion: 'Weak no', decision: 'Reject' },
 ];
 
+// Strongest yes (top) → most-negative (bottom), used to sort the result lists.
+const RATING_RANK: Record<RatingValue, number> = {
+  'strong-yes': 0,
+  yes: 1,
+  'neutral-accept': 2,
+  'neutral-reject': 3,
+  no: 4,
+  'moved-to-agisc': 5,
+};
+
 const sendOpinion = (id: string, rating: RatingValue) => {
   authFetch('/api/decisions', {
     method: 'POST',
@@ -84,8 +94,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   };
 
   const active = rated.filter((r) => !resetIds.has(r.id));
-  const accepted = active.filter((r) => toDecision(effectiveRating(r)) === 'Accept');
-  const rejected = active.filter((r) => toDecision(effectiveRating(r)) === 'Reject');
+  const byStrength = (a: RatedApplication, b: RatedApplication) => RATING_RANK[effectiveRating(a)] - RATING_RANK[effectiveRating(b)];
+  const accepted = active.filter((r) => toDecision(effectiveRating(r)) === 'Accept').sort(byStrength);
+  const rejected = active.filter((r) => toDecision(effectiveRating(r)) === 'Reject').sort(byStrength);
 
   const totalCount = roundStats?.total ?? null;
   const reviewedCount = roundStats?.evaluated ?? null;
