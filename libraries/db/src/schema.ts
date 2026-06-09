@@ -1646,6 +1646,17 @@ export const COURSE_ROLE = {
 
 export type CourseRole = typeof COURSE_ROLE[keyof typeof COURSE_ROLE];
 
+// Whether a user facilitates/participates in a specific discussion is determined by the discussion's linked records, not by their course-level role.
+export const isDiscussionFacilitator = (
+  discussion: Pick<GroupDiscussion, 'facilitators'>,
+  personIds: string[],
+) => personIds.some((id) => discussion.facilitators.includes(id));
+
+export const isDiscussionParticipant = (
+  discussion: Pick<GroupDiscussion, 'participantsExpected'>,
+  personIds: string[],
+) => personIds.some((id) => discussion.participantsExpected.includes(id));
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
