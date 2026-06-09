@@ -4,7 +4,7 @@ import {
   COURSE_ROLE,
   groupDiscussionTable,
   groupSwitchingTable,
-  groupTable, inArray, meetPersonTable, roundTable,
+  groupTable, inArray, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, roundTable,
   type Group,
   type GroupDiscussion,
 } from '@bluedot/db';
@@ -68,7 +68,7 @@ export function calculateGroupAvailability({
       ? Math.max(0, maxParticipants - otherParticipants.length)
       : null;
 
-    const userIsParticipant = discussion.participantsExpected.includes(participantId);
+    const userIsParticipant = isDiscussionParticipant(discussion, [participantId]);
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const groupName = group.groupName || 'Group [Unknown]';
 
@@ -298,15 +298,16 @@ export const groupSwitchingRouter = router({
           !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
         ]);
 
-        if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
+        if (isDiscussionFacilitator(oldDiscussion, [participantId])
+          || (newDiscussion != null && isDiscussionFacilitator(newDiscussion, [participantId]))) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
 
-        if (!oldDiscussion.participantsExpected.includes(participantId)) {
+        if (!isDiscussionParticipant(oldDiscussion, [participantId])) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User not found in old discussion' });
         }
 
-        if (newDiscussion?.participantsExpected.includes(participantId)) {
+        if (newDiscussion != null && isDiscussionParticipant(newDiscussion, [participantId])) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already expected to attend new discussion' });
         }
 
