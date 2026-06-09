@@ -53,6 +53,7 @@ export {
   peerFeedbackTable,
   vanityUrlsTable,
   RESOURCE_FEEDBACK,
+  COURSE_ROLE,
 } from './schema';
 
 // Type exports
@@ -102,6 +103,7 @@ export type {
   CourseFeedback,
   PeerFeedback,
   VanityUrl,
+  CourseRole,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
