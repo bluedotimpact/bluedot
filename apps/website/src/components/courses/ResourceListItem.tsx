@@ -145,6 +145,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               isCompleted: updatedFields.isCompleted ?? false,
               resourceId: null,
               createdByUserId: null,
+              createdAt: new Date().toISOString(),
             });
           }
 

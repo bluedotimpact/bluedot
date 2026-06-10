@@ -1479,6 +1479,10 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       pgColumn: text().array(),
       airtableId: 'fldtEFIAKCUctCDhW',
     },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fldG9OAIqAYovr56a',
+    },
   },
 });
 

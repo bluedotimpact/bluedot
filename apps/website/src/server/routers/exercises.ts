@@ -76,6 +76,7 @@ export const exercisesRouter = router({
           email: ctx.auth.email,
           exerciseId: input.exerciseId,
           response: input.response,
+          createdAt: new Date().toISOString(),
           completedAt: completedAt ?? null,
           userId: user ? [user.id] : null,
         });
