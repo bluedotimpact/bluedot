@@ -15,6 +15,7 @@
         "deploy:cd": "docker-scripts deploy"
     },
     "dependencies": {
+        "@bluedot/computed-airtable-fields": "*",
         "@bluedot/db": "*",
         "@bluedot/ui": "*",
         "@bluedot/utils": "*",
@@ -50,6 +51,7 @@
             "src/index.ts"
         ],
         "noExternal": [
+            "@bluedot/computed-airtable-fields",
             "@bluedot/db",
             "@bluedot/ui",
             "@bluedot/utils"
