@@ -4,7 +4,7 @@
 # - Add client-side env vars to .env.production (you might need to create this)
 # If you came here to change the build process, edit the `npm run build` script in package.json instead
 
-FROM node:20-alpine@sha256:7a91aa397f2e2dfbfcdad2e2d72599f374e0b0172be1d86eeb73f1d33f36a4b2 AS base
+FROM node:22-alpine@sha256:968df39aedcea65eeb078fb336ed7191baf48f972b4479711397108be0966920 AS base
 
 RUN apk update && apk add --no-cache dumb-init
 
