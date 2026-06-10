@@ -6,7 +6,7 @@ import { type Direction } from '../lib/client/types';
 
 const DIRECTION_STORAGE_KEY = 'speed-review:direction';
 const ROUNDS_PER_COURSE = 3;
-const ALLOWED_COURSES = ['AGI Strategy', 'Technical AI Safety', 'Technical AI Safety Project'];
+const ALLOWED_COURSES = ['AGI Strategy', 'Biosecurity', 'Technical AI Safety', 'Technical AI Safety Project'];
 
 const loadDirection = (): Direction => {
   if (typeof window === 'undefined') return 'top';

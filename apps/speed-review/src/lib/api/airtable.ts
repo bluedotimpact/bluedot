@@ -155,9 +155,8 @@ export const fetchRounds = async (): Promise<Round[]> => {
     ['Course - Round - Intensity', 'Status', 'fldfi2ZKsbSK6NVTV', 'First discussion'],
   );
 
-  // Hide rounds where the first discussion date is within 5 days.
+  // Hide rounds where the first discussion has already happened.
   const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() + 5);
   cutoff.setHours(0, 0, 0, 0);
 
   return records
