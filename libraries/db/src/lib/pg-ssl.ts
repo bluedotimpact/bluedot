@@ -57,8 +57,10 @@ export const pgConnectionConfig = (connString: string): PgPoolConfig => {
     return { connectionString: connString };
   }
 
+  // verify-ca is deliberately excluded: its libpq semantics skip hostname checks, which this
+  // transformation can't preserve (Node TLS would enforce them).
   const sslmode = url.searchParams.get('sslmode');
-  if (sslmode === null || !['require', 'verify-ca', 'verify-full'].includes(sslmode)) {
+  if (sslmode === null || !['require', 'verify-full'].includes(sslmode)) {
     return { connectionString: connString };
   }
 

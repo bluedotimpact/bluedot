@@ -228,7 +228,12 @@ describe('pgConnectionConfig', () => {
     expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
   });
 
-  test.each(['require', 'verify-ca', 'verify-full'])('sslmode=%s strips the param and attaches the Vultr CA plus system roots', (sslmode) => {
+  test('passes through sslmode=verify-ca (its no-hostname-check semantics are not supported)', () => {
+    const connString = 'postgres://user:pass@db.vultrdb.com:16751/app?sslmode=verify-ca';
+    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+  });
+
+  test.each(['require', 'verify-full'])('sslmode=%s strips the param and attaches the Vultr CA plus system roots', (sslmode) => {
     const config = pgConnectionConfig(`postgres://user:pass@db.vultrdb.com:16751/app?sslmode=${sslmode}`);
 
     expect(config.connectionString).toBe('postgres://user:pass@db.vultrdb.com:16751/app');
