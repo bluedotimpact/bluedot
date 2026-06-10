@@ -32,6 +32,7 @@ describe('resources.saveResourceCompletion', () => {
       resourceId: ['resource-1'],
       createdByUserId: ['cb-user-1'],
     });
+    expect(result.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
   });
 
   test('leaves the FK fields null on insert when the lookups miss', async () => {

@@ -87,6 +87,7 @@ export const resourcesRouter = router({
             resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
             resourceId: unitResource?.resourceId ?? null,
             createdByUserId: cbUser ? [cbUser.id] : null,
+            createdAt: new Date().toISOString(),
           })
           .returning();
 
