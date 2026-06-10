@@ -76,6 +76,8 @@ export const exercisesRouter = router({
           email: ctx.auth.email,
           exerciseId: input.exerciseId,
           response: input.response,
+          // Airtable also defaults this field to now(); set it in code so it survives the move off Airtable
+          createdAt: new Date().toISOString(),
           completedAt: completedAt ?? null,
           userId: user ? [user.id] : null,
         });

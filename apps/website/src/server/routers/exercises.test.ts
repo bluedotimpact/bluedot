@@ -81,6 +81,8 @@ describe('exercises.saveExerciseResponse', () => {
       completedAt: null,
     });
     expect(result.id).toBeDefined();
+    // Same format as the Airtable "default to current date" values this replaces, e.g. 2026-06-10T11:03:38.910Z
+    expect(result.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
   });
 
   test('writes userId on insert when the user exists', async () => {
