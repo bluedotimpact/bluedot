@@ -7,8 +7,10 @@ IMAGE_NAME="bluedot-$APP_NAME"
 VERSION_TAG="$(TZ=UTC date +'%Y%m%d.%H%M%S').$(git rev-parse --short HEAD)"
 
 # Build
+# --provenance=false --sbom=false: otherwise buildkit emits an OCI image index with
+# attestation manifests, which ghcr rejects on push with "unknown blob".
 APP_NAME=$APP_NAME VERSION_TAG=$VERSION_TAG npm run build --if-present
-docker build --platform="linux/amd64" -t $IMAGE_NAME --build-arg APP_NAME="$APP_NAME" --build-arg VERSION_TAG="$VERSION_TAG" .
+docker build --provenance=false --sbom=false --platform="linux/amd64" -t $IMAGE_NAME --build-arg APP_NAME="$APP_NAME" --build-arg VERSION_TAG="$VERSION_TAG" .
 
 # Tag and push to registry
 docker tag $IMAGE_NAME $REPO_URL/$IMAGE_NAME:$VERSION_TAG
