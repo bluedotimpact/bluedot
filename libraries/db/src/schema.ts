@@ -1479,7 +1479,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       pgColumn: text().array(),
       airtableId: 'fldtEFIAKCUctCDhW',
     },
-    // Airtable's auto-computed "Created" time; read-only in Airtable, so written in code once this table moves off Airtable
     createdAt: {
       pgColumn: text(),
       airtableId: 'fldG9OAIqAYovr56a',
