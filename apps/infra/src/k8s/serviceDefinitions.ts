@@ -2,7 +2,7 @@ import { jsonStringify } from '@pulumi/pulumi';
 import { type core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import {
-  getConnectionDetails, keycloakPg, airtableSyncPg, appPgConnectionDetails,
+  getConnectionDetails, keycloakPg, appPgConnectionDetails,
 } from './postgres';
 import {
   minioPvc, mcpAggregatorDataPvc, mcpAshbyDataPvc, mcpGoogleDataPvc,
@@ -330,41 +330,11 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-pg-sync-service:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
-          { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
-          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
-          { name: 'PROD_ONLY_WEBHOOK_DELETION', valueFrom: envVarSources.prodOnlyWebhookDeletion },
-        ],
-      }],
-    },
-  },
-  // Shadow instance: populates the new managed Postgres (appPg) so we can cut over
-  // the website from the in-cluster `airtableSyncPg` to the managed DB without a
-  // sync gap. Shares Airtable webhooks with the primary pg-sync-service — each
-  // instance keeps its own in-memory cursor.
-  //
-  // Differences from the primary above:
-  //   - APP_NAME override
-  //   - PG_URL points at the managed DB secret
-  //   - PROD_ONLY_WEBHOOK_DELETION omitted for safety. Unclear if it could cause issues but one
-  //     could imagine the two instances fighting each other over webhook deletion
-  //
-  // Delete once the website has been cut over to the managed DB and the primary
-  // `bluedot-pg-sync-service` is pointed at the managed DB.
-  {
-    name: 'bluedot-pg-sync-shadow',
-    spec: {
-      containers: [{
-        name: 'bluedot-pg-sync-shadow',
-        image: 'ghcr.io/bluedotimpact/bluedot-pg-sync-service:latest',
-        env: [
-          { name: 'APP_NAME', value: 'pg-sync-service-shadow' },
-          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+          { name: 'PROD_ONLY_WEBHOOK_DELETION', valueFrom: envVarSources.prodOnlyWebhookDeletion },
         ],
       }],
     },
