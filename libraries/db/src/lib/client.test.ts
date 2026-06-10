@@ -12,6 +12,7 @@ import {
   type TestPgAirtableDb,
   userTable,
 } from '../index';
+import { pgConnectionConfig, VULTR_PROJECT_CA } from './pg-ssl';
 
 let db: PgAirtableDb;
 let testDb: TestPgAirtableDb;
@@ -208,5 +209,43 @@ describe('getFirstFromPg (direct)', () => {
 
   test('throws when table has no autoNumberId and no sortBy is provided', async () => {
     await expect(getFirstFromPg(db.pg, personTable.pg)).rejects.toThrow(/autoNumberId for default sorting/);
+  });
+});
+
+describe('pgConnectionConfig', () => {
+  test('passes through a connection string with no sslmode', () => {
+    const connString = 'postgres://user:pass@localhost:5432/bluedot_dev';
+    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+  });
+
+  test('passes through sslmode=no-verify (production posture)', () => {
+    const connString = 'postgres://user:pass@db.example.com:5432/app?sslmode=no-verify';
+    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+  });
+
+  test('passes through a non-URI connection string', () => {
+    const connString = 'host=localhost dbname=app';
+    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+  });
+
+  test('passes through sslmode=verify-ca (its no-hostname-check semantics are not supported)', () => {
+    const connString = 'postgres://user:pass@db.vultrdb.com:16751/app?sslmode=verify-ca';
+    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+  });
+
+  test.each(['require', 'verify-full'])('sslmode=%s strips the param and attaches the Vultr CA plus system roots', (sslmode) => {
+    const config = pgConnectionConfig(`postgres://user:pass@db.vultrdb.com:16751/app?sslmode=${sslmode}`);
+
+    expect(config.connectionString).toBe('postgres://user:pass@db.vultrdb.com:16751/app');
+    const { ca } = config.ssl as { ca: string[] };
+    expect(ca[0]).toBe(VULTR_PROJECT_CA);
+    expect(ca.length).toBeGreaterThan(1);
+  });
+
+  test('sslmode=require preserves credentials and other query params', () => {
+    const config = pgConnectionConfig('postgres://user:p%40ss@db.vultrdb.com:16751/app?application_name=x&sslmode=require');
+
+    expect(config.connectionString).toBe('postgres://user:p%40ss@db.vultrdb.com:16751/app?application_name=x');
+    expect(config.ssl).toBeDefined();
   });
 });

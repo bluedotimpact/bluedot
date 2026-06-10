@@ -10,6 +10,7 @@ import { type AirtableItemFromColumnsMap, type BasePgTableType, type PgAirtableC
 import {
   buildWhereClause, getFirstFromPg, type Filter, type PgDatabase,
 } from './pg-query';
+import { pgConnectionConfig } from './pg-ssl';
 import env from './env';
 
 export { type Filter, type PgDatabase } from './pg-query';
@@ -119,7 +120,7 @@ export class PgAirtableDb {
       onWarning,
     });
 
-    this.pgUnrestricted = pgClient ?? drizzle(pgConnString);
+    this.pgUnrestricted = pgClient ?? drizzle({ connection: pgConnectionConfig(pgConnString) });
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
   }
 
