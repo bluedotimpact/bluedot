@@ -90,6 +90,8 @@ export const exercisesRouter = router({
           })
           .returning();
 
+      if (!exerciseResponse) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
+
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
         ? await issueFoaiCertificateIfComplete(ctx.auth.email)
         : false;
