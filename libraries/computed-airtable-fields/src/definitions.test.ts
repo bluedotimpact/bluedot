@@ -105,20 +105,24 @@ describe('resource.computedNumCompletions', () => {
 describe('resource.computedAverageRating', () => {
   const compute = () => getComputeFn(resourceTable, 'computedAverageRating');
 
-  test('returns mean of resourceFeedback, ignoring NO_RESPONSE and null', async () => {
+  test('returns mean of resourceFeedback over completed rows, ignoring NO_RESPONSE and null', async () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
     await testDb.insert(resourceCompletionTable, {
-      id: 'c1', email: 'a@x', resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
+      id: 'c1', email: 'a@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
     });
     await testDb.insert(resourceCompletionTable, {
-      id: 'c2', email: 'b@x', resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
+      id: 'c2', email: 'b@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
     });
     await testDb.insert(resourceCompletionTable, {
-      id: 'c3', email: 'c@x', resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
+      id: 'c3', email: 'c@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
     });
     // Ignored: NO_RESPONSE
     await testDb.insert(resourceCompletionTable, {
-      id: 'c4', email: 'd@x', resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+      id: 'c4', email: 'd@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+    });
+    // Ignored: rated but then un-completed (isCompleted=false), e.g. user rated then unticked the resource
+    await testDb.insert(resourceCompletionTable, {
+      id: 'c5', email: 'e@x', isCompleted: false, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
     });
 
     const result = await compute()(db, ['res-1']);
@@ -129,7 +133,7 @@ describe('resource.computedAverageRating', () => {
   test('returns null when no ratings exist for a resource', async () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
     await testDb.insert(resourceCompletionTable, {
-      id: 'c1', email: 'a@x', resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+      id: 'c1', email: 'a@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
     });
     const result = await compute()(db, ['res-1']);
     expect(result['res-1']).toBeNull();

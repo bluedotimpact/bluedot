@@ -69,6 +69,8 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
           })
           .from(resourceCompletionTable.pg)
           .where(and(
+            // Ratings on uncompleted rows are ignored — same notion of "exists" as computedNumCompletions.
+            eq(resourceCompletionTable.pg.isCompleted, true),
             arrayOverlaps(resourceCompletionTable.pg.resourceId, ids),
             // != NO_RESPONSE also excludes NULL (NULL != 0 → UNKNOWN, filtered out).
             ne(resourceCompletionTable.pg.resourceFeedback, RESOURCE_FEEDBACK.NO_RESPONSE),
