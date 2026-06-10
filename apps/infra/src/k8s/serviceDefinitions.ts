@@ -86,7 +86,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-app-template:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
@@ -102,7 +102,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-frontend-example:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
@@ -128,7 +128,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-website:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'CLIENT_ERRORS_SLACK_CHANNEL_ID', value: CLIENT_ERRORS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
@@ -153,7 +153,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-website-production:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'CLIENT_ERRORS_SLACK_CHANNEL_ID', value: CLIENT_ERRORS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
@@ -191,7 +191,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-editor:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'WEBSITE_ASSETS_BUCKET_ACCESS_KEY_ID', value: websiteAssetsBucket.readWriteUser.name },
@@ -219,7 +219,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-meet:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'NEXT_PUBLIC_ZOOM_CLIENT_ID', value: 'lX1NBglbQWO2ERYSS1xdfA' },
           { name: 'ZOOM_CLIENT_SECRET', valueFrom: envVarSources.meetZoomClientSecret },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
@@ -237,7 +237,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-availability:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
@@ -268,7 +268,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-course-demos:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ANTHROPIC_API_KEY', valueFrom: envVarSources.anthropicApiKey },
           { name: 'OPENAI_API_KEY', valueFrom: envVarSources.openaiApiKey },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
@@ -286,7 +286,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-speed-review:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
