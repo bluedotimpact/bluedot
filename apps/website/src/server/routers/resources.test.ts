@@ -1,6 +1,6 @@
 import {
   courseBuilderUserTable,
-  resourceCompletionTable,
+  resourceCompletionPgTable,
   unitResourceTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
@@ -45,7 +45,7 @@ describe('resources.saveResourceCompletion', () => {
   });
 
   test('updates an existing completion without touching the FK fields', async () => {
-    await testDb.insert(resourceCompletionTable, {
+    await testDb.pg.insert(resourceCompletionPgTable).values({
       id: 'rc-1',
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',

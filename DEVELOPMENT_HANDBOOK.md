@@ -452,7 +452,7 @@ describe('grants.getAllPublicGrantees', () => {
 The database schema is defined in `libraries/db/src/schema.ts` using Drizzle ORM. There are two kinds of tables:
 
 - **`pgAirtable(...)`** — Synced from Airtable. Used for most data (courses, users, grants, etc.). Writes go through Airtable and sync back to Postgres.
-- **`pgTable(...)`** — Postgres-only. Used for data that doesn't need Airtable (e.g., sync metadata, sync requests). Writes go directly to Postgres.
+- **`pgTable(...)`** — Postgres-only. Used for data that doesn't need Airtable or where the table is too large to fit in Airtable. Default the `id` PK to `gen_random_uuid()::text` so Postgres generates string ids on insert.
 
 Tables and their types are exported from `@bluedot/db` (e.g., `import { grantTable, type Grant } from '@bluedot/db'`).
 

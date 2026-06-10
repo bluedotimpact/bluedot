@@ -1,7 +1,8 @@
 import {
-  and, courseBuilderUserTable, desc, eq, getFirstFromPg, inArray, resourceCompletionTable, unitResourceTable,
+  and, courseBuilderUserTable, desc, eq, getFirstFromPg, inArray, resourceCompletionPgTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
@@ -12,12 +13,12 @@ export const resourcesRouter = router({
     .query(async ({ input, ctx }) => {
       const resourceCompletions = await db.pg
         .select()
-        .from(resourceCompletionTable.pg)
+        .from(resourceCompletionPgTable)
         .where(and(
-          inArray(resourceCompletionTable.pg.unitResourceId, input.unitResourceIds),
-          eq(resourceCompletionTable.pg.email, ctx.auth.email),
+          inArray(resourceCompletionPgTable.unitResourceId, input.unitResourceIds),
+          eq(resourceCompletionPgTable.email, ctx.auth.email),
         ))
-        .orderBy(desc(resourceCompletionTable.pg.createdAt));
+        .orderBy(desc(resourceCompletionPgTable.createdAt));
 
       // Deduplicate by unitResourceId, keeping only the first occurrence.
       // Although we should only have one resource completion for a resource per user, it is possible to have multiple
@@ -55,7 +56,7 @@ export const resourcesRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const [resourceCompletion, unitResource, cbUser] = await Promise.all([
-        getFirstFromPg(db.pg, resourceCompletionTable.pg, {
+        getFirstFromPg(db.pg, resourceCompletionPgTable, {
           filter: {
             unitResourceId: input.unitResourceId,
             email: ctx.auth.email,
@@ -66,32 +67,31 @@ export const resourcesRouter = router({
         db.getFirst(courseBuilderUserTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
       ]);
 
-      let updatedResourceCompletion;
+      const [updatedResourceCompletion] = resourceCompletion
+        ? await db.pg
+          .update(resourceCompletionPgTable)
+          .set({
+            isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
+            feedback: input.feedback ?? resourceCompletion.feedback,
+            resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
+          })
+          .where(eq(resourceCompletionPgTable.id, resourceCompletion.id))
+          .returning()
+        : await db.pg
+          .insert(resourceCompletionPgTable)
+          .values({
+            email: ctx.auth.email,
+            unitResourceId: input.unitResourceId,
+            isCompleted: input.isCompleted ?? false,
+            feedback: input.feedback ?? '',
+            resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+            resourceId: unitResource?.resourceId ?? null,
+            createdByUserId: cbUser ? [cbUser.id] : null,
+          })
+          .returning();
 
-      // Upsert logic
-      if (resourceCompletion) {
-        // Update existing resource completion
-        updatedResourceCompletion = await db.update(resourceCompletionTable, {
-          id: resourceCompletion.id,
-          unitResourceId: input.unitResourceId,
-          isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
-          feedback: input.feedback ?? resourceCompletion.feedback,
-          resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
-        });
-      } else {
-        // Create new resource completion
-        updatedResourceCompletion = await db.insert(resourceCompletionTable, {
-          email: ctx.auth.email,
-          unitResourceId: input.unitResourceId,
-          isCompleted: input.isCompleted ?? false,
-          feedback: input.feedback ?? '',
-          resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
-          resourceId: unitResource?.resourceId ?? null,
-          createdByUserId: cbUser ? [cbUser.id] : null,
-        });
-      }
+      if (!updatedResourceCompletion) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save resource completion' });
 
-      // Trim feedback field (Airtable quirk) and return
       return {
         ...updatedResourceCompletion,
         feedback: updatedResourceCompletion.feedback?.trimEnd(),

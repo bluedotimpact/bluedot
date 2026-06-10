@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
-  exerciseResponseTable, exerciseTable, unitTable, userTable,
+  exerciseResponsePgTable, exerciseTable, unitTable, userTable,
 } from '@bluedot/db';
 import {
   describe, expect, test, vi, beforeEach,
@@ -61,13 +61,13 @@ async function seedTargetResponses() {
   await testDb.insert(exerciseTable, {
     id: 'ex-b1', courseId: 'course-b', unitId: 'unit-b', title: 'Governance prompt', exerciseNumber: '1.1', type: 'Free text',
   });
-  await testDb.insert(exerciseResponseTable, {
+  await testDb.pg.insert(exerciseResponsePgTable).values({
     id: 'resp-a1', email: TARGET_EMAIL, exerciseId: 'ex-a1', response: 'thinking about safety mechanisms', createdAt: '2026-04-30T10:00:00Z', completedAt: '2026-05-01T10:00:00Z',
   });
-  await testDb.insert(exerciseResponseTable, {
+  await testDb.pg.insert(exerciseResponsePgTable).values({
     id: 'resp-a2', email: TARGET_EMAIL, exerciseId: 'ex-a2', response: 'draft in progress', createdAt: '2026-05-03T10:00:00Z', completedAt: null,
   });
-  await testDb.insert(exerciseResponseTable, {
+  await testDb.pg.insert(exerciseResponsePgTable).values({
     id: 'resp-b1', email: TARGET_EMAIL, exerciseId: 'ex-b1', response: 'policy considerations are important', createdAt: '2026-04-29T10:00:00Z', completedAt: '2026-05-02T10:00:00Z',
   });
 }
