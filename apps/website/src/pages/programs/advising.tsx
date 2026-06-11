@@ -2,6 +2,7 @@ import { Breadcrumbs } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
+import AnnouncementBanner from '../../components/AnnouncementBanner';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
 import GrantCta from '../../components/grants/sections/GrantCta';
@@ -20,7 +21,7 @@ import {
 
 const PROGRAM_SLUG = 'advising';
 const FALLBACK_NAME = '1-1 advising';
-const FALLBACK_DESCRIPTION = '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety.';
+const FALLBACK_DESCRIPTION = '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety and biosecurity.';
 
 const OneOnOneAdvisingPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getOneOnOneAdvisingStats.useQuery();
@@ -50,6 +51,15 @@ const OneOnOneAdvisingPage = ({ programName, programDescription }: ProgramDetail
           { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
       />
+      <AnnouncementBanner
+        className="advising-capacity-notice border-t"
+        label="A note on timing"
+        dismissible={false}
+      >
+        Many team members are relocating to San Francisco over the next few
+        weeks. Applications are open as usual, but reviews will be slower than
+        normal until early July. Thanks for your patience!
+      </AnnouncementBanner>
       <WhatThisIsForSection />
       <WhoYouAreSection />
       <WhatToExpectSection />

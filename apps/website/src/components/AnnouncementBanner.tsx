@@ -54,6 +54,8 @@ export type AnnouncementBannerProps = React.PropsWithChildren<{
   hideUntil?: Date;
   /** Hide the banner after this time. E.g. hide a banner announcing an event if the event has passed */
   hideAfter?: Date;
+  /** Whether to show the Dismiss button. Defaults to true. */
+  dismissible?: boolean;
 }>;
 
 /** A banner with an announcement, and optionally a CTA. In most cases you'll want to use this in _app.tsx underneath Nav. */
@@ -65,6 +67,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   ctaUrl,
   hideUntil,
   hideAfter,
+  dismissible = true,
 }) => {
   const bannerKey = getAnnouncementBannerKey(children);
   const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
@@ -72,7 +75,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   const currentTimeMs = useCurrentTimeMs();
 
   // If this banner has been dismissed (now or in the past) don't show it
-  if (isDismissed) {
+  if (dismissible && isDismissed) {
     return null;
   }
 
@@ -106,28 +109,32 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {ctaUrl && (
-              <CTALinkOrButton
-                className="announcement-banner__cta"
-                size="small"
-                variant="black"
-                url={ctaUrl}
-                withChevron
-              >
-                {ctaText}
-              </CTALinkOrButton>
-            )}
-            <CTALinkOrButton
-              className="announcement-banner__close"
-              variant="outline-black"
-              size="small"
-              aria-label="Close announcement"
-              onClick={() => dismissBanner(bannerKey)}
-            >
-              Dismiss
-            </CTALinkOrButton>
-          </div>
+          {(!!ctaUrl || dismissible) && (
+            <div className="flex flex-wrap items-center gap-2">
+              {ctaUrl && (
+                <CTALinkOrButton
+                  className="announcement-banner__cta"
+                  size="small"
+                  variant="black"
+                  url={ctaUrl}
+                  withChevron
+                >
+                  {ctaText}
+                </CTALinkOrButton>
+              )}
+              {dismissible && (
+                <CTALinkOrButton
+                  className="announcement-banner__close"
+                  variant="outline-black"
+                  size="small"
+                  aria-label="Close announcement"
+                  onClick={() => dismissBanner(bannerKey)}
+                >
+                  Dismiss
+                </CTALinkOrButton>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
