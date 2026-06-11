@@ -5,7 +5,7 @@ type ScheduleRoundsProps = {
   courseSlug: string;
   applicationUrl: string;
   fallbackContent?: React.ReactNode;
-  /** Accent color for bars and "Apply now" links. Defaults to bluedot-normal */
+  /** Accent color for bars. Defaults to bluedot-normal */
   accentColor?: string;
 };
 
