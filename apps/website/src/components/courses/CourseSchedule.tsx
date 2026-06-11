@@ -8,8 +8,8 @@ import {
   useEffect, useMemo, useState,
 } from 'react';
 import { CourseIcon } from './CourseIcon';
-import { COURSE_CONFIG } from '../../lib/constants';
 import { buildApplicationUrl } from '../../lib/utils';
+import { getCourseAccentColor } from '../../lib/courseColors';
 import RoundGroup from '../shared/RoundGroup';
 import { trpc } from '../../utils/trpc';
 
@@ -20,11 +20,6 @@ const COURSE_DISPLAY_ORDER = [
   'technical-ai-safety',
   'technical-ai-safety-project',
 ];
-
-const getCourseAccentColor = (courseSlug: string): string => {
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  return COURSE_CONFIG[courseSlug]?.accentColor || 'var(--bluedot-normal)';
-};
 
 const sortByDisplayOrder = (items: Course[]) => [...items].sort((a, b) => {
   const aIndex = COURSE_DISPLAY_ORDER.indexOf(a.slug);
