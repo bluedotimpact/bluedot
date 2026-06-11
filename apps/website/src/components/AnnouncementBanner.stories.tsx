@@ -39,6 +39,14 @@ export const CustomContent: Story = {
   },
 };
 
+export const NonDismissible: Story = {
+  args: {
+    label: 'A note on timing',
+    children: 'Many team members are relocating to San Francisco over the next few weeks. Applications are open as usual, but reviews will be slower than normal until early July. Thanks for your patience!',
+    dismissible: false,
+  },
+};
+
 export const CustomJSXContent: Story = {
   args: {
     label: 'Important update',

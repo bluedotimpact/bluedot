@@ -167,6 +167,32 @@ describe('AnnouncementBanner', () => {
     expect(bannerAfterDismiss).toBeNull();
   });
 
+  test('does not render dismiss button when dismissible is false', () => {
+    render(<AnnouncementBanner dismissible={false}>
+      Test Announcement
+    </AnnouncementBanner>);
+
+    const banner = document.querySelector('.announcement-banner');
+    expect(banner).toBeDefined();
+
+    const closeButton = screen.queryByRole('button', { name: 'Close announcement' });
+    expect(closeButton).toBeNull();
+  });
+
+  test('renders despite a persisted dismissal when dismissible is false', () => {
+    const textContent = 'Test Announcement';
+    const bannerKey = getAnnouncementBannerKey(textContent);
+
+    useAnnouncementBannerStore.setState({ dismissedBanners: { [bannerKey]: true } });
+
+    render(<AnnouncementBanner dismissible={false}>
+      {textContent}
+    </AnnouncementBanner>);
+
+    const banner = document.querySelector('.announcement-banner');
+    expect(banner).not.toBeNull();
+  });
+
   test('getAnnouncementBannerKey produces consistent keys', () => {
     const key1 = getAnnouncementBannerKey('Sample Announcement');
     const key2 = getAnnouncementBannerKey('Sample Announcement');
