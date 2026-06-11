@@ -109,7 +109,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
             </div>
           </div>
 
-          {(ctaUrl || dismissible) && (
+          {(!!ctaUrl || dismissible) && (
             <div className="flex flex-wrap items-center gap-2">
               {ctaUrl && (
                 <CTALinkOrButton
