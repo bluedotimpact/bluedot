@@ -55,7 +55,6 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
       <AnnouncementBanner
         className="career-transition-grant-capacity-notice border-t"
         label="A note on timing"
-        hideAfter={new Date('2026-07-06')}
         dismissible={false}
       >
         Our team is relocating from the UK to San Francisco over the next few

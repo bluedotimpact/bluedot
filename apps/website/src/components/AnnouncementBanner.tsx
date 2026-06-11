@@ -75,7 +75,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   const currentTimeMs = useCurrentTimeMs();
 
   // If this banner has been dismissed (now or in the past) don't show it
-  if (isDismissed) {
+  if (dismissible && isDismissed) {
     return null;
   }
 
