@@ -8,6 +8,7 @@ import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/career-transition-grant/WhatThisIsForSection';
 import ExpectationsSection from '../../components/career-transition-grant/ExpectationsSection';
 import NextStepsSection from '../../components/career-transition-grant/NextStepsSection';
+import CapacityNoticeSection from '../../components/career-transition-grant/CapacityNoticeSection';
 import { ROUTES } from '../../lib/routes';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
@@ -55,6 +56,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
       <ExpectationsSection />
       <NextStepsSection />
       <GrantFaqSection program="career-transition-grant" />
+      <CapacityNoticeSection />
       <GrantCta program="career-transition-grant" />
     </div>
   );
