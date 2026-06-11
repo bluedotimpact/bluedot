@@ -36,6 +36,7 @@ export const exercisesRouter = router({
     .query(async ({ input, ctx }) => {
       const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponseTable.pg, {
         filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
+        sortBy: { field: 'createdAt', direction: 'desc' },
       });
 
       return exerciseResponse;
@@ -58,6 +59,7 @@ export const exercisesRouter = router({
       const [existingResponse, exercise, user] = await Promise.all([
         getFirstFromPg(db.pg, exerciseResponseTable.pg, {
           filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
+          sortBy: { field: 'createdAt', direction: 'desc' },
         }),
         input.completed === true
           ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })

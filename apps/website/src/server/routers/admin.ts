@@ -204,7 +204,6 @@ export const adminRouter = router({
             response: exerciseResponseTable.pg.response,
             completedAt: exerciseResponseTable.pg.completedAt,
             createdAt: exerciseResponseTable.pg.createdAt,
-            autoNumberId: exerciseResponseTable.pg.autoNumberId,
           },
           exercise: exerciseTable.pg,
           unit: unitTable.pg,
@@ -214,7 +213,7 @@ export const adminRouter = router({
         .leftJoin(unitTable.pg, eq(exerciseTable.pg.unitId, unitTable.pg.id))
         .where(where)
         // Sort by "most recent activity": completedAt when set, else createdAt (when the draft was started).
-        .orderBy(sql`COALESCE(${exerciseResponseTable.pg.completedAt}, ${exerciseResponseTable.pg.createdAt}) DESC NULLS LAST`, desc(exerciseResponseTable.pg.autoNumberId))
+        .orderBy(sql`COALESCE(${exerciseResponseTable.pg.completedAt}, ${exerciseResponseTable.pg.createdAt}) DESC NULLS LAST`, desc(exerciseResponseTable.pg.createdAt))
         .limit(input.limit + 1)
         .offset(input.cursor);
 

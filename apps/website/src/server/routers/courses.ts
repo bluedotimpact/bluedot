@@ -95,7 +95,7 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
         inArray(resourceCompletionTable.pg.unitResourceId, coreResourceIds),
         eq(resourceCompletionTable.pg.isCompleted, true), // Only fetch completed resources
       ))
-      .orderBy(desc(resourceCompletionTable.pg.autoNumberId)),
+      .orderBy(desc(resourceCompletionTable.pg.createdAt)),
 
     db.pg
       .select({
@@ -108,7 +108,7 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
         inArray(exerciseResponseTable.pg.exerciseId, activeExerciseIds),
         isNotNull(exerciseResponseTable.pg.completedAt), // Only fetch completed exercises
       ))
-      .orderBy(desc(exerciseResponseTable.pg.autoNumberId)),
+      .orderBy(desc(exerciseResponseTable.pg.createdAt)),
   ]);
 
   // Deduplicate by unitResourceId, keeping only the first occurrence.
