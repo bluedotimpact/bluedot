@@ -17,7 +17,7 @@ export const resourcesRouter = router({
           inArray(resourceCompletionTable.pg.unitResourceId, input.unitResourceIds),
           eq(resourceCompletionTable.pg.email, ctx.auth.email),
         ))
-        .orderBy(desc(resourceCompletionTable.pg.autoNumberId));
+        .orderBy(desc(resourceCompletionTable.pg.createdAt));
 
       // Deduplicate by unitResourceId, keeping only the first occurrence.
       // Although we should only have one resource completion for a resource per user, it is possible to have multiple
@@ -60,6 +60,7 @@ export const resourcesRouter = router({
             unitResourceId: input.unitResourceId,
             email: ctx.auth.email,
           },
+          sortBy: { field: 'createdAt', direction: 'desc' },
         }),
         db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
         db.getFirst(courseBuilderUserTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
