@@ -57,7 +57,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
         label="A note on timing"
         dismissible={false}
       >
-        Our team is relocating from the UK to San Francisco over the next few
+        Many team members are relocating to San Francisco over the next few
         weeks. Applications are open as usual, but reviews will be slower than
         normal until early July. Thanks for your patience!
       </AnnouncementBanner>
