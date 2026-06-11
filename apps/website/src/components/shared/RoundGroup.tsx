@@ -3,6 +3,12 @@ import { buildRoundApplyUrl, RoundItem } from './RoundItem';
 
 const DEFAULT_MAX_ROUNDS = 3;
 
+const buildDeadlineSubtitle = (round: CourseRound): string => {
+  if (round.applicationDeadlineDetailed) return `Applications close ${round.applicationDeadlineDetailed}`;
+  if (round.applicationDeadline) return `Applications close ${round.applicationDeadline} at 23:59 UTC`;
+  return 'Applications open';
+};
+
 type RoundGroupProps = {
   type: 'intensive' | 'part-time';
   rounds: CourseRound[];
@@ -36,7 +42,7 @@ export default function RoundGroup({
           <li key={round.id}>
             <RoundItem
               title={round.dateRange}
-              subtitle={`Applications close ${round.applicationDeadlineDetailed ?? `${round.applicationDeadline} at 23:59 UTC`}`}
+              subtitle={buildDeadlineSubtitle(round)}
               href={buildRoundApplyUrl(applicationUrl, round.id)}
               accentColor={accentColor}
             />

@@ -77,3 +77,13 @@ export const ShowAll: Story = {
     maxRounds: Infinity,
   },
 };
+
+// Course-themed surfaces accent the left bar with the course colour; the CTA
+// stays brand-blue everywhere.
+export const Accented: Story = {
+  args: {
+    type: 'intensive',
+    rounds: intensiveRounds,
+    accentColor: '#9177dc',
+  },
+};

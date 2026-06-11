@@ -108,3 +108,11 @@ export const COURSE_COLORS = {
 } as const satisfies Record<string, CourseColors>;
 
 export type CourseColorSlug = keyof typeof COURSE_COLORS;
+
+/**
+ * Resolves a course's accent colour for schedule rounds, hero accents, etc.
+ * Falls back to the brand blue for courses without a registered palette.
+ */
+export const getCourseAccentColor = (courseSlug: string): string => {
+  return COURSE_COLORS[courseSlug as CourseColorSlug]?.full ?? 'var(--bluedot-normal)';
+};

@@ -55,7 +55,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'A list-style schedule section that fetches upcoming course rounds and renders them as `PageListRow` entries grouped into intensive and part-time. Falls back to a CTA when no rounds are open.',
+        component: 'A schedule section that fetches upcoming course rounds and renders them with the shared `RoundGroup` (course-accent left bar) grouped into intensive and part-time. Falls back to a CTA when no rounds are open.',
       },
     },
   },

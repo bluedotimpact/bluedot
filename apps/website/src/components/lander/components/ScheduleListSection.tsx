@@ -1,8 +1,9 @@
 import { CTALinkOrButton, P } from '@bluedot/ui';
 import { type ReactNode } from 'react';
+import { getCourseAccentColor } from '../../../lib/courseColors';
 import { trpc } from '../../../utils/trpc';
-import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../../PageListRow';
-import { buildRoundApplyUrl } from '../../shared/RoundItem';
+import { pageSectionHeadingClass } from '../../PageListRow';
+import RoundGroup from '../../shared/RoundGroup';
 
 export type ScheduleListSectionProps = {
   id?: string;
@@ -13,8 +14,6 @@ export type ScheduleListSectionProps = {
   fallbackText?: ReactNode;
   fallbackCtaText?: string;
 };
-
-const groupLabelClass = 'text-size-xs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/72';
 
 const ScheduleListSection = ({
   id,
@@ -27,22 +26,11 @@ const ScheduleListSection = ({
 }: ScheduleListSectionProps) => {
   const { data: rounds, isLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
-  const intenseRounds = (rounds?.intense ?? []).filter((r) => r.numberOfUnits != null).slice(0, 3);
-  const partTimeRounds = (rounds?.partTime ?? []).filter((r) => r.numberOfUnits != null).slice(0, 3);
+  const intenseRounds = (rounds?.intense ?? []).filter((r) => r.numberOfUnits != null);
+  const partTimeRounds = (rounds?.partTime ?? []).filter((r) => r.numberOfUnits != null);
   const hasRounds = intenseRounds.length > 0 || partTimeRounds.length > 0;
 
-  const intenseLabel = intenseRounds[0]?.numberOfUnits != null
-    ? `Intensive · ${intenseRounds[0].numberOfUnits} days · 5h/day`
-    : 'Intensive';
-  const partTimeLabel = partTimeRounds[0]?.numberOfUnits != null
-    ? `Part-time · ${partTimeRounds[0].numberOfUnits} weeks · 5h/week`
-    : 'Part-time';
-
-  const buildSubtitle = (round: { applicationDeadlineDetailed?: string | null; applicationDeadline?: string | null }) => {
-    if (round.applicationDeadlineDetailed) return `Applications close ${round.applicationDeadlineDetailed}`;
-    if (round.applicationDeadline) return `Applications close ${round.applicationDeadline} at 23:59 UTC`;
-    return 'Applications open';
-  };
+  const accentColor = getCourseAccentColor(courseSlug);
 
   return (
     <section id={id} className="w-full bg-white">
@@ -72,40 +60,22 @@ const ScheduleListSection = ({
           )}
 
           {!isLoading && hasRounds && (
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-16">
               {intenseRounds.length > 0 && (
-                <div className="flex flex-col gap-4">
-                  <p className={groupLabelClass}>{intenseLabel}</p>
-                  <PageListGroup>
-                    {intenseRounds.map((round) => (
-                      <PageListRow
-                        key={round.id}
-                        href={buildRoundApplyUrl(applicationUrl, round.id)}
-                        title={round.dateRange}
-                        summary={buildSubtitle(round)}
-                        ctaLabel="Apply now"
-                        external
-                      />
-                    ))}
-                  </PageListGroup>
-                </div>
+                <RoundGroup
+                  type="intensive"
+                  rounds={intenseRounds}
+                  applicationUrl={applicationUrl}
+                  accentColor={accentColor}
+                />
               )}
               {partTimeRounds.length > 0 && (
-                <div className="flex flex-col gap-4">
-                  <p className={groupLabelClass}>{partTimeLabel}</p>
-                  <PageListGroup>
-                    {partTimeRounds.map((round) => (
-                      <PageListRow
-                        key={round.id}
-                        href={buildRoundApplyUrl(applicationUrl, round.id)}
-                        title={round.dateRange}
-                        summary={buildSubtitle(round)}
-                        ctaLabel="Apply now"
-                        external
-                      />
-                    ))}
-                  </PageListGroup>
-                </div>
+                <RoundGroup
+                  type="part-time"
+                  rounds={partTimeRounds}
+                  applicationUrl={applicationUrl}
+                  accentColor={accentColor}
+                />
               )}
             </div>
           )}
