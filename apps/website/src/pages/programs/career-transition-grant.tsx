@@ -52,11 +52,11 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
           { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
       />
+      <CapacityNoticeSection />
       <WhatThisIsForSection />
       <ExpectationsSection />
       <NextStepsSection />
       <GrantFaqSection program="career-transition-grant" />
-      <CapacityNoticeSection />
       <GrantCta program="career-transition-grant" />
     </div>
   );
