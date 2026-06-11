@@ -3,13 +3,13 @@ import {
   arrayOverlaps,
   count,
   eq,
-  exerciseResponseTable,
+  exerciseResponsePgTable,
   exerciseTable,
   inArray,
   isNotNull,
   ne,
   RESOURCE_FEEDBACK,
-  resourceCompletionTable,
+  resourceCompletionPgTable,
   resourceTable,
   sql,
 } from '@bluedot/db';
@@ -20,7 +20,7 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
     table: exerciseTable,
     fields: {
       computedNumResponses: async (db, ids) => {
-        const response = exerciseResponseTable.pg;
+        const response = exerciseResponsePgTable;
         const rows = await db.pg
           .select({ exerciseId: response.exerciseId, n: count() })
           .from(response)
@@ -40,13 +40,13 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
     fields: {
       computedNumCompletions: async (db, ids) => {
         // unnest expands the resourceId array so we can group/count per id.
-        const rid = sql<string>`unnest(${resourceCompletionTable.pg.resourceId})`.as('rid');
+        const rid = sql<string>`unnest(${resourceCompletionPgTable.resourceId})`.as('rid');
         const rows = await db.pg
           .select({ rid, n: count() })
-          .from(resourceCompletionTable.pg)
+          .from(resourceCompletionPgTable)
           .where(and(
-            eq(resourceCompletionTable.pg.isCompleted, true),
-            arrayOverlaps(resourceCompletionTable.pg.resourceId, ids),
+            eq(resourceCompletionPgTable.isCompleted, true),
+            arrayOverlaps(resourceCompletionPgTable.resourceId, ids),
           ))
           .groupBy(rid);
 
@@ -61,19 +61,19 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
       },
 
       computedAverageRating: async (db, ids) => {
-        const rid = sql<string>`unnest(${resourceCompletionTable.pg.resourceId})`.as('rid');
+        const rid = sql<string>`unnest(${resourceCompletionPgTable.resourceId})`.as('rid');
         const rows = await db.pg
           .select({
             rid,
-            avg: sql<string>`avg(${resourceCompletionTable.pg.resourceFeedback})`,
+            avg: sql<string>`avg(${resourceCompletionPgTable.resourceFeedback})`,
           })
-          .from(resourceCompletionTable.pg)
+          .from(resourceCompletionPgTable)
           .where(and(
             // Ratings on uncompleted rows are ignored — same notion of "exists" as computedNumCompletions.
-            eq(resourceCompletionTable.pg.isCompleted, true),
-            arrayOverlaps(resourceCompletionTable.pg.resourceId, ids),
+            eq(resourceCompletionPgTable.isCompleted, true),
+            arrayOverlaps(resourceCompletionPgTable.resourceId, ids),
             // != NO_RESPONSE also excludes NULL (NULL != 0 → UNKNOWN, filtered out).
-            ne(resourceCompletionTable.pg.resourceFeedback, RESOURCE_FEEDBACK.NO_RESPONSE),
+            ne(resourceCompletionPgTable.resourceFeedback, RESOURCE_FEEDBACK.NO_RESPONSE),
           ))
           .groupBy(rid);
 

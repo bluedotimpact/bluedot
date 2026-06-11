@@ -4,7 +4,7 @@ import {
   courseRegistrationTable,
   courseTable,
   eq,
-  exerciseResponseTable,
+  exerciseResponsePgTable,
   exerciseTable,
   inArray,
   meetPersonTable,
@@ -31,10 +31,10 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
   // submitted (across all courses) just to check FoAI completion.
   const exerciseResponses = await db.pg
     .select()
-    .from(exerciseResponseTable.pg)
+    .from(exerciseResponsePgTable)
     .where(and(
-      eq(exerciseResponseTable.pg.email, email),
-      inArray(exerciseResponseTable.pg.exerciseId, allExercises.map((e) => e.id)),
+      eq(exerciseResponsePgTable.email, email),
+      inArray(exerciseResponsePgTable.exerciseId, allExercises.map((e) => e.id)),
     ));
 
   const completedExerciseIds = new Set(exerciseResponses

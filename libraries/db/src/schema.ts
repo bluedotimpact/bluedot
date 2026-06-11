@@ -2,7 +2,7 @@ import {
   pgTable, text, boolean, numeric, timestamp,
   serial,
 } from 'drizzle-orm/pg-core';
-import { type InferSelectModel } from 'drizzle-orm';
+import { type InferSelectModel, sql } from 'drizzle-orm';
 
 import { pgAirtable } from './lib/db-core';
 
@@ -130,39 +130,15 @@ export const courseTable = pgAirtable('course', {
   },
 });
 
-export const exerciseResponseTable = pgAirtable('exercise_response', {
-  baseId: APPLICATIONS_BASE_ID,
-  tableId: 'tblLNijbqwoLtkd3O',
-  columns: {
-    email: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldI5oHurlbNjQJmM',
-    },
-    exerciseId: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldSKltln4l3yYdi2',
-    },
-    response: {
-      pgColumn: text().notNull(),
-      airtableId: 'fld7Qa3JDnRNwCTlH',
-    },
-    createdAt: {
-      pgColumn: text(),
-      airtableId: 'fldhcRNA7rhOJpvHH',
-    },
-    completedAt: {
-      pgColumn: text(),
-      airtableId: 'fldmmwUvlAy3Ju2or',
-    },
-    autoNumberId: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldjhCZEuocd5eYsb',
-    },
-    userId: {
-      pgColumn: text().array(),
-      airtableId: 'fldiis2fuPC0Q0smM',
-    },
-  },
+export const exerciseResponsePgTable = pgTable('exercise_response', {
+  id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
+  email: text().notNull(),
+  exerciseId: text().notNull(),
+  response: text().notNull(),
+  createdAt: text(),
+  completedAt: text(),
+  autoNumberId: numeric({ mode: 'number' }),
+  userId: text().array(),
 });
 
 export const formConfigurationTable = pgAirtable('form_configuration', {
@@ -1442,48 +1418,18 @@ export const RESOURCE_FEEDBACK = {
 // Type for resourceFeedback field values
 export type ResourceFeedbackValue = typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK];
 
-export const resourceCompletionTable = pgAirtable('resource_completion', {
-  baseId: COURSE_BUILDER_BASE_ID,
-  tableId: 'tblu6YnR7Lh0Bsl6v',
-  columns: {
-    unitResourceId: {
-      pgColumn: text(),
-      airtableId: 'fldk4dbWAohE312Qn',
-    },
-    isCompleted: {
-      pgColumn: boolean(),
-      airtableId: 'fldm74UNAQuC1XkQc',
-    },
-    email: {
-      pgColumn: text(),
-      airtableId: 'fldXqD5YKVZuTGT35',
-    },
-    feedback: {
-      pgColumn: text(),
-      airtableId: 'fld68CYhCZ44jHT21',
-    },
-    resourceFeedback: {
-      pgColumn: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
-      airtableId: 'flda3JolMPL5n8iUT',
-    },
-    autoNumberId: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldbT2G8lDkUsuusY',
-    },
-    resourceId: {
-      pgColumn: text().array(),
-      airtableId: 'fldlRVze2fMzrVX6M',
-    },
-    // Points at courseBuilderUserTable (the Course-builder-base sync of User)
-    createdByUserId: {
-      pgColumn: text().array(),
-      airtableId: 'fldtEFIAKCUctCDhW',
-    },
-    createdAt: {
-      pgColumn: text(),
-      airtableId: 'fldG9OAIqAYovr56a',
-    },
-  },
+export const resourceCompletionPgTable = pgTable('resource_completion', {
+  id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
+  unitResourceId: text(),
+  isCompleted: boolean(),
+  email: text(),
+  feedback: text(),
+  resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
+  autoNumberId: numeric({ mode: 'number' }),
+  resourceId: text().array(),
+  // Points at courseBuilderUserTable (the Course-builder-base sync of User)
+  createdByUserId: text().array(),
+  createdAt: text(),
 });
 
 export const teamMemberTable = pgAirtable('team_member', {
@@ -1665,7 +1611,7 @@ export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
-export type ExerciseResponse = InferSelectModel<typeof exerciseResponseTable.pg>;
+export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
 export type Person = InferSelectModel<typeof personTable.pg>;
 export type SharedDemoOutput = InferSelectModel<typeof sharedDemoOutputTable.pg>;
@@ -1697,7 +1643,7 @@ export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
 export type CourseBuilderUser = InferSelectModel<typeof courseBuilderUserTable.pg>;
-export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
+export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTable>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
 export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;

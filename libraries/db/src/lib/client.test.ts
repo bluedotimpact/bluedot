@@ -4,7 +4,6 @@ import {
 import {
   PgAirtableDb,
   createTestDbClients,
-  exerciseResponseTable,
   getFirstFromPg,
   personTable,
   pushTestSchema,
@@ -176,15 +175,15 @@ describe('db.getFirst', () => {
 
   describe('no-options invocation', () => {
     test('with autoNumberId table, no options at all returns newest row', async () => {
-      await testDb.insert(exerciseResponseTable, {
-        id: 'r1', email: 'a@x', exerciseId: 'e1', response: 'first', autoNumberId: 1,
+      await testDb.insert(userTable, {
+        id: 'u1', email: 'a@x', name: 'First', autoNumberId: 1,
       });
-      await testDb.insert(exerciseResponseTable, {
-        id: 'r2', email: 'a@x', exerciseId: 'e2', response: 'second', autoNumberId: 2,
+      await testDb.insert(userTable, {
+        id: 'u2', email: 'b@x', name: 'Second', autoNumberId: 2,
       });
 
-      const result = await db.getFirst(exerciseResponseTable);
-      expect(result?.id).toBe('r2');
+      const result = await db.getFirst(userTable);
+      expect(result?.id).toBe('u2');
     });
   });
 });

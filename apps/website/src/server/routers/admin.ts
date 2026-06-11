@@ -4,7 +4,7 @@ import {
   courseRegistrationTable,
   desc,
   eq,
-  exerciseResponseTable,
+  exerciseResponsePgTable,
   exerciseTable,
   gte,
   ilike,
@@ -145,10 +145,10 @@ export const adminRouter = router({
 
       const userCourses = await db.pg
         .selectDistinct({ courseId: exerciseTable.pg.courseId })
-        .from(exerciseResponseTable.pg)
-        .innerJoin(exerciseTable.pg, eq(exerciseResponseTable.pg.exerciseId, exerciseTable.pg.id))
+        .from(exerciseResponsePgTable)
+        .innerJoin(exerciseTable.pg, eq(exerciseResponsePgTable.exerciseId, exerciseTable.pg.id))
         .where(and(
-          eq(exerciseResponseTable.pg.email, user.email),
+          eq(exerciseResponsePgTable.email, user.email),
           isNotNull(exerciseTable.pg.courseId),
         ));
 
@@ -187,11 +187,11 @@ export const adminRouter = router({
 
       const trimmedSearch = input.search?.trim();
       const where = and(
-        eq(exerciseResponseTable.pg.email, user.email),
+        eq(exerciseResponsePgTable.email, user.email),
         input.courseId ? eq(exerciseTable.pg.courseId, input.courseId) : undefined,
-        input.includeInProgress ? undefined : isNotNull(exerciseResponseTable.pg.completedAt),
+        input.includeInProgress ? undefined : isNotNull(exerciseResponsePgTable.completedAt),
         trimmedSearch ? or(
-          ilike(exerciseResponseTable.pg.response, `%${trimmedSearch}%`),
+          ilike(exerciseResponsePgTable.response, `%${trimmedSearch}%`),
           ilike(exerciseTable.pg.title, `%${trimmedSearch}%`),
           ilike(exerciseTable.pg.description, `%${trimmedSearch}%`),
         ) : undefined,
@@ -200,20 +200,20 @@ export const adminRouter = router({
       const rows = await db.pg
         .select({
           response: {
-            id: exerciseResponseTable.pg.id,
-            response: exerciseResponseTable.pg.response,
-            completedAt: exerciseResponseTable.pg.completedAt,
-            createdAt: exerciseResponseTable.pg.createdAt,
+            id: exerciseResponsePgTable.id,
+            response: exerciseResponsePgTable.response,
+            completedAt: exerciseResponsePgTable.completedAt,
+            createdAt: exerciseResponsePgTable.createdAt,
           },
           exercise: exerciseTable.pg,
           unit: unitTable.pg,
         })
-        .from(exerciseResponseTable.pg)
-        .leftJoin(exerciseTable.pg, eq(exerciseResponseTable.pg.exerciseId, exerciseTable.pg.id))
+        .from(exerciseResponsePgTable)
+        .leftJoin(exerciseTable.pg, eq(exerciseResponsePgTable.exerciseId, exerciseTable.pg.id))
         .leftJoin(unitTable.pg, eq(exerciseTable.pg.unitId, unitTable.pg.id))
         .where(where)
         // Sort by "most recent activity": completedAt when set, else createdAt (when the draft was started).
-        .orderBy(sql`COALESCE(${exerciseResponseTable.pg.completedAt}, ${exerciseResponseTable.pg.createdAt}) DESC NULLS LAST`, desc(exerciseResponseTable.pg.createdAt), desc(exerciseResponseTable.pg.id))
+        .orderBy(sql`COALESCE(${exerciseResponsePgTable.completedAt}, ${exerciseResponsePgTable.createdAt}) DESC NULLS LAST`, desc(exerciseResponsePgTable.createdAt), desc(exerciseResponsePgTable.id))
         .limit(input.limit + 1)
         .offset(input.cursor);
 

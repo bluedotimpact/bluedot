@@ -1,6 +1,6 @@
 import {
   createTestDbClients,
-  exerciseResponseTable,
+  exerciseResponsePgTable,
   exerciseTable,
   PgAirtableDb,
   pushTestSchema,
@@ -34,10 +34,10 @@ describe('recomputeValues', () => {
   test('writes a fresh value to every row in a single chunk', async () => {
     await testDb.insert(exerciseTable, { id: 'ex-1' });
     await testDb.insert(exerciseTable, { id: 'ex-2' });
-    await testDb.insert(exerciseResponseTable, {
+    await testDb.pg.insert(exerciseResponsePgTable).values({
       id: 'resp-1', email: 'a@example.com', exerciseId: 'ex-1', response: 'done', completedAt: new Date().toISOString(),
     });
-    await testDb.insert(exerciseResponseTable, {
+    await testDb.pg.insert(exerciseResponsePgTable).values({
       id: 'resp-2', email: 'b@example.com', exerciseId: 'ex-1', response: 'done', completedAt: new Date().toISOString(),
     });
 

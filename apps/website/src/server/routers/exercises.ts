@@ -6,7 +6,7 @@ import {
   courseTable,
   desc,
   eq,
-  exerciseResponseTable,
+  exerciseResponsePgTable,
   exerciseTable,
   getFirstFromPg,
   groupTable,
@@ -34,12 +34,12 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponseTable.pg, {
+      const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponsePgTable, {
         filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
         sortBy: { field: 'createdAt', direction: 'desc' },
       });
 
-      return exerciseResponse;
+      return exerciseResponse ?? null;
     }),
 
   saveExerciseResponse: protectedProcedure
@@ -57,7 +57,7 @@ export const exercisesRouter = router({
       } // else undefined = "don't change"
 
       const [existingResponse, exercise, user] = await Promise.all([
-        getFirstFromPg(db.pg, exerciseResponseTable.pg, {
+        getFirstFromPg(db.pg, exerciseResponsePgTable, {
           filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
           sortBy: { field: 'createdAt', direction: 'desc' },
         }),
@@ -67,21 +67,30 @@ export const exercisesRouter = router({
         db.getFirst(userTable, { filter: { email: ctx.auth.email } }),
       ]);
 
-      const exerciseResponse = existingResponse
-        ? await db.update(exerciseResponseTable, {
-          id: existingResponse.id,
-          exerciseId: input.exerciseId,
-          response: input.response,
-          completedAt: completedAt !== undefined ? completedAt : existingResponse.completedAt,
-        })
-        : await db.insert(exerciseResponseTable, {
-          email: ctx.auth.email,
-          exerciseId: input.exerciseId,
-          response: input.response,
-          createdAt: new Date().toISOString(),
-          completedAt: completedAt ?? null,
-          userId: user ? [user.id] : null,
-        });
+      const [exerciseResponse] = existingResponse
+        ? await db.pg
+          .update(exerciseResponsePgTable)
+          .set({
+            exerciseId: input.exerciseId,
+            response: input.response,
+            completedAt: completedAt !== undefined ? completedAt : existingResponse.completedAt,
+          })
+          .where(eq(exerciseResponsePgTable.id, existingResponse.id))
+          .returning()
+        : await db.pg
+          .insert(exerciseResponsePgTable)
+          .values({
+            email: ctx.auth.email,
+            exerciseId: input.exerciseId,
+            response: input.response,
+            // Airtable defaulted this field to now(); without Airtable it must be set in code
+            createdAt: new Date().toISOString(),
+            completedAt: completedAt ?? null,
+            userId: user ? [user.id] : null,
+          })
+          .returning();
+
+      if (!exerciseResponse) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
 
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
         ? await issueFoaiCertificateIfComplete(ctx.auth.email)
@@ -171,14 +180,14 @@ export const exercisesRouter = router({
 
       const exerciseResponses = await db.pg
         .select({
-          email: exerciseResponseTable.pg.email,
-          response: exerciseResponseTable.pg.response,
+          email: exerciseResponsePgTable.email,
+          response: exerciseResponsePgTable.response,
         })
-        .from(exerciseResponseTable.pg)
+        .from(exerciseResponsePgTable)
         .where(and(
-          eq(exerciseResponseTable.pg.exerciseId, input.exerciseId),
-          inArray(exerciseResponseTable.pg.email, allEmails),
-          isNotNull(exerciseResponseTable.pg.completedAt),
+          eq(exerciseResponsePgTable.exerciseId, input.exerciseId),
+          inArray(exerciseResponsePgTable.email, allEmails),
+          isNotNull(exerciseResponsePgTable.completedAt),
         ));
 
       const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));

@@ -4,11 +4,11 @@ import {
   courseTable,
   desc,
   eq,
-  exerciseResponseTable,
+  exerciseResponsePgTable,
   exerciseTable,
   inArray,
   isNotNull,
-  resourceCompletionTable,
+  resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
   type Chunk,
@@ -89,26 +89,26 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
   const [rawResourceCompletions, rawExerciseCompletions] = await Promise.all([
     db.pg
       .select()
-      .from(resourceCompletionTable.pg)
+      .from(resourceCompletionPgTable)
       .where(and(
-        eq(resourceCompletionTable.pg.email, email),
-        inArray(resourceCompletionTable.pg.unitResourceId, coreResourceIds),
-        eq(resourceCompletionTable.pg.isCompleted, true), // Only fetch completed resources
+        eq(resourceCompletionPgTable.email, email),
+        inArray(resourceCompletionPgTable.unitResourceId, coreResourceIds),
+        eq(resourceCompletionPgTable.isCompleted, true), // Only fetch completed resources
       ))
-      .orderBy(desc(resourceCompletionTable.pg.createdAt)),
+      .orderBy(desc(resourceCompletionPgTable.createdAt)),
 
     db.pg
       .select({
-        exerciseId: exerciseResponseTable.pg.exerciseId,
-        completedAt: exerciseResponseTable.pg.completedAt,
+        exerciseId: exerciseResponsePgTable.exerciseId,
+        completedAt: exerciseResponsePgTable.completedAt,
       })
-      .from(exerciseResponseTable.pg)
+      .from(exerciseResponsePgTable)
       .where(and(
-        eq(exerciseResponseTable.pg.email, email),
-        inArray(exerciseResponseTable.pg.exerciseId, activeExerciseIds),
-        isNotNull(exerciseResponseTable.pg.completedAt), // Only fetch completed exercises
+        eq(exerciseResponsePgTable.email, email),
+        inArray(exerciseResponsePgTable.exerciseId, activeExerciseIds),
+        isNotNull(exerciseResponsePgTable.completedAt), // Only fetch completed exercises
       ))
-      .orderBy(desc(exerciseResponseTable.pg.createdAt)),
+      .orderBy(desc(exerciseResponsePgTable.createdAt)),
   ]);
 
   // Deduplicate by unitResourceId, keeping only the first occurrence.
