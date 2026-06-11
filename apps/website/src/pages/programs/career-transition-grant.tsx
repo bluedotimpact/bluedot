@@ -1,7 +1,8 @@
-import { Breadcrumbs, P } from '@bluedot/ui';
+import { Breadcrumbs } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
+import AnnouncementBanner from '../../components/AnnouncementBanner';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
 import GrantCta from '../../components/grants/sections/GrantCta';
@@ -51,14 +52,16 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
           { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
       />
-      <div className="career-transition-grant-capacity-notice section-base -mt-4">
-        <P className="max-w-[60ch] text-size-sm leading-[1.65] text-bluedot-navy/70">
-          <span className="font-semibold text-bluedot-navy">A quick note on timing: </span>
-          our team is relocating from the UK to San Francisco over the next few
-          weeks. Applications are open as usual, but reviews will be slower than
-          normal until early July. Thanks for your patience!
-        </P>
-      </div>
+      <AnnouncementBanner
+        className="career-transition-grant-capacity-notice border-t"
+        label="A note on timing"
+        hideAfter={new Date('2026-07-06')}
+        dismissible={false}
+      >
+        Our team is relocating from the UK to San Francisco over the next few
+        weeks. Applications are open as usual, but reviews will be slower than
+        normal until early July. Thanks for your patience!
+      </AnnouncementBanner>
       <WhatThisIsForSection />
       <ExpectationsSection />
       <NextStepsSection />
