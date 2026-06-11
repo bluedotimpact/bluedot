@@ -21,7 +21,7 @@ import {
 
 const PROGRAM_SLUG = 'advising';
 const FALLBACK_NAME = '1-1 advising';
-const FALLBACK_DESCRIPTION = '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety.';
+const FALLBACK_DESCRIPTION = '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety and biosecurity.';
 
 const OneOnOneAdvisingPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getOneOnOneAdvisingStats.useQuery();
