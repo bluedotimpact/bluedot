@@ -56,9 +56,15 @@ async function cleanupRemovedColumns(pgTables: Record<string, PgAirtableTable['p
   }
 }
 
+export function statementsRequireFullSync(statements: string[]): boolean {
+  // SET DEFAULT / DROP DEFAULT statements are filtered out: drizzle-kit emits
+  // them non-idempotently (e.g. for `gen_random_uuid()::text` defaults)
+  return statements.some((statement) => !/\s(SET|DROP)\sDEFAULT\b/i.test(statement));
+}
+
 /**
  * Wraps pushSchema with a timeout to prevent hanging migrations
- * Returns true if schema changes were applied, false otherwise
+ * Returns true if schema changes warranting a full data sync were applied, false otherwise
  */
 async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['pg']>): Promise<boolean> {
   const timeoutPromise = new Promise<never>((_, reject) => {
@@ -72,8 +78,9 @@ async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['p
     const result = await pushSchema(pgTables, db.pg as any);
     await result.apply();
     if (result.statementsToExecute.length > 0) {
-      logger.info(`[schema-sync] Schema pushed with ${result.statementsToExecute.length} statements`);
-      return true;
+      const needsFullSync = statementsRequireFullSync(result.statementsToExecute);
+      logger.info(`[schema-sync] Schema pushed with ${result.statementsToExecute.length} statements${needsFullSync ? '' : ' (default-only churn, no full sync)'}`);
+      return needsFullSync;
     }
 
     return false;
