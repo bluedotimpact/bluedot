@@ -1,21 +1,17 @@
 import Head from 'next/head';
 import {
-  CTALinkOrButton, H1, P, useLatestUtmParams,
+  CTALinkOrButton, H1, P,
 } from '@bluedot/ui';
 import { Nav } from '../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../lib/courseColors';
-import { buildApplicationUrl } from '../../lib/utils';
 
 const SITE_URL = 'https://bluedot.org';
 const PAGE_PATH = '/puzzles/technical-ai-safety';
 const PAGE_TITLE = 'Technical AI Safety Puzzle #1';
-const PAGE_DEADLINE = '12th June';
-const PAGE_LEADERBOARD_AS_OF = '13th May';
 const PAGE_HOOK = 'Most neural networks represent features linearly in their activations. Ours doesn’t.';
-const PAGE_SUBTITLE = '$2500+ in prizes. Most neural networks represent features linearly in their activations. Ours doesn’t. Can you interpret it?';
+const PAGE_SUBTITLE = 'Most neural networks represent features linearly in their activations. Ours doesn’t. Can you interpret it?';
 
 const PUZZLE_URL = 'https://colab.research.google.com/github/SamDower/bluedot-tais-puzzle/blob/main/puzzle.ipynb';
-const SUBMISSION_FORM_BASE_URL = 'https://web.miniextensions.com/KFslK1ZkgWb1AI4FwEMq';
 const PUZZLE_IMAGE_SRC = '/images/puzzles/technical-ai-safety/puzzle.webp';
 const OG_IMAGE_URL = `${SITE_URL}/images/puzzles/technical-ai-safety/og.png`;
 
@@ -50,22 +46,152 @@ const PRIZES = [
   { place: 'Honourable mentions', amount: '$250 each' },
 ] as const;
 
-const RULES = [
-  `Please do not share answers publicly online until after ${PAGE_DEADLINE}.`,
-  'Use of LLMs for understanding the puzzle and for coding is encouraged.',
-  'Please write your submission in your own words. We will be checking!',
+const CORRECT_SUBMISSIONS = [
+  'Abderrahmene Hamdi',
+  'Abdullah X',
+  'Abhinav Chand',
+  'Adam Webb',
+  'Aditya Suresh',
+  'Adrit Chaudhuri',
+  'Adyasha Patra',
+  'Agustin Brusco',
+  'Akshit Jindal',
+  'Alexandros (Alex) Doumanoglou',
+  'Alexei Gannon',
+  'Alfred Muir',
+  'Ali Al Sahili',
+  'Amen Abebe Gebreyohanes',
+  'Anay Dongre',
+  'Andrej Kotevski',
+  'Aneetej Arora',
+  'Anshuman Singh',
+  'Archie Licudi',
+  'Aresh Pourkavoos',
+  'Ariana Villegas Suarez',
+  'Arjhun Swaminathan',
+  'Art Moskvin',
+  'Artem Zhuravel',
+  'Astley F',
+  'Atharv Kshirsagar',
+  'Baijun Qiao',
+  'Brody McNutt',
+  'Carmen Hilbert',
+  'Cedric Kopp',
+  'Collin Francel',
+  'Dabal Pedamonti',
+  'Daniel Tennant',
+  'Daniel Zhang',
+  'Dauzhan Beketov',
+  'David Zeidler',
+  'Denis Lim',
+  'Diego Oliver',
+  'Edward Cant',
+  'Elsie Jang',
+  'Emily Chen',
+  'Emma Kong',
+  'Eric Enouen',
+  'Eric Todd',
+  'Ethan Kuntz',
+  'Evan Redden',
+  'Fan Wu',
+  'Felix Marti-Perez',
+  'Girish Koushik',
+  'Goutham Nalagatla',
+  'Gustavo Korzune Gurgel',
+  'Han Xiao',
+  'Harinarayan Asoori Sriram',
+  'Harshvardhan Saini',
+  'Hugo De Bosschere',
+  'Husam Usman',
+  'Ian Nielsen',
+  'Igor Pereverzev',
+  'Ishaan Shrivastava',
+  'Jacob Ortiz',
+  'Jan Ebbing',
+  'Janmenjaya Panda',
+  'Javier Masis',
+  'Jishu Sen Gupta',
+  'Johan Daniel',
+  'Julian Quick',
+  'Justin Shenk',
+  'Karine Levonyan',
+  'Karly Hou',
+  'Kiran Pal',
+  'kushal garg',
+  'Lasse Jantsch',
+  'lloyd situmbeko',
+  'Mahesh Pandit',
+  'Maksim Silchenko',
+  'Matthew Duff',
+  'Maximilian Plattner',
+  'Mayank Kamboj',
+  'Michael Hanna',
+  'Michael Zlatin',
+  'Michał Burzyński',
+  'Mihir Sahasrabudhe',
+  'Minh Hoang',
+  'Nathanaël Fijalkow',
+  'Neerav Durejs',
+  'Nichita Mitrea',
+  'Nikoloz Gegenava',
+  'Nilanjan Sarkar',
+  'Nithil Ravikumar',
+  'Noè Canevascini',
+  'Ojonugwa Ejiga Peter',
+  'Oliver Sieweke',
+  'Olivia Zhang',
+  'Omar Darwish',
+  'Omari March',
+  'Owen Sweeney',
+  'Parin Thakkar',
+  'Patrick O\'Donnell',
+  'Patryk Perduta',
+  'Pavan Kumar Dubasi',
+  'Phu Gia Hoang',
+  'Pol Pastells',
+  'Razan Alsulieman',
+  'Richie Mendelsohn',
+  'Robin Haselhorst',
+  'Rohit Kaushik',
+  'Roksana Goworek',
+  'Roman Kniazev',
+  'Sahil Kapadia',
+  'Sam Spillard',
+  'Samuel Liew',
+  'Santiago Maniches',
+  'Sean Murphy',
+  'Sharat Jacob',
+  'Shiv Munagala',
+  'Shivang Kumar Dubey',
+  'Shubh Varshney',
+  'Sidar Aslanoglu',
+  'Simon Elias Schrader',
+  'Soham Takawadekar',
+  'Suman Kumar Subudhi',
+  'Sumit Vekariya',
+  'Syed Adil Ahmed',
+  'Teunis Mulder',
+  'Thomas Johnson',
+  'Ti-Lin Chou',
+  'Tobias Bersia',
+  'Tommy Mancino',
+  'Tomás Korenblit',
+  'Tuyen Tran',
+  'Uday Phalak',
+  'Utsav Shah',
+  'Uttirn Gyan',
+  'Varsha Otta',
+  'Vayk Mathrani',
+  'Venkat T',
+  'Viraaj Minhas',
+  'Vishesh Gupta',
+  'Yash Bhisikar',
 ] as const;
 
-const JUDGING_CRITERIA = [
-  'Clarity of your explanations',
-  'Strength of the evidence you generate for your answers',
-  'Novelty in the model you train',
-] as const;
+// Correct submitters who asked not to be named publicly.
+const UNNAMED_SUBMISSIONS_COUNT = 14;
 
 const PuzzleTechnicalAiSafetyPage = () => {
-  const { latestUtmParams } = useLatestUtmParams();
-  const submissionFormUrl = buildApplicationUrl(SUBMISSION_FORM_BASE_URL, latestUtmParams.utm_source);
-
   return (
     <>
       <Head>
@@ -160,10 +286,20 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section>
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Correct submissions as of {PAGE_LEADERBOARD_AS_OF}</h2>
-              <div className="mt-4 rounded-lg border border-color-divider p-6 lg:p-8 text-center">
-                <p className="text-size-sm text-bluedot-navy/70 leading-relaxed">
-                  No correct submissions yet. Be the first.
+              <h2 className={EYEBROW_CLASS}>Correct submissions</h2>
+              <div className="mt-4 rounded-lg border border-color-divider p-6 lg:p-8">
+                <ul className="columns-2 bd-md:columns-3 lg:columns-4 gap-x-6 space-y-1.5">
+                  {CORRECT_SUBMISSIONS.map((name) => (
+                    <li
+                      key={name}
+                      className="break-inside-avoid text-size-sm text-bluedot-navy/80 leading-relaxed"
+                    >
+                      {name}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-size-xs text-bluedot-navy/50 leading-relaxed">
+                  ...and {UNNAMED_SUBMISSIONS_COUNT} others who chose not to be named.
                 </p>
               </div>
             </div>
@@ -191,51 +327,8 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 ))}
               </div>
               <p className="mt-6 text-size-sm text-bluedot-navy/80 leading-relaxed">
-                Any submissions which impress us will also receive shout outs on all our socials and we&rsquo;ll keep an eye out for strong candidates for our courses, programs, and grants.
+                Winners to be announced soon.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* What you'll submit */}
-        <section>
-          <div className={SECTION_PADDING_CLASS}>
-            <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>What you&rsquo;ll submit</h2>
-              <P className="mt-4 text-size-sm text-bluedot-navy/80 leading-relaxed">
-                A single google doc, documenting what you tried, what worked, what didn&rsquo;t, and what structure emerged in the trained model. Images encouraged. You will be judged on:
-              </P>
-              <ul className="mt-3 space-y-2">
-                {JUDGING_CRITERIA.map((criterion) => (
-                  <li key={criterion} className="flex items-start gap-2 text-size-sm text-bluedot-navy/80 leading-relaxed">
-                    <span
-                      className="mt-2 size-1.5 rounded-full shrink-0"
-                      style={{ backgroundColor: TAS.full }}
-                    />
-                    <span>{criterion}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Rules */}
-        <section className="bg-color-canvas">
-          <div className={SECTION_PADDING_CLASS}>
-            <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Rules</h2>
-              <ul className="mt-4 space-y-2">
-                {RULES.map((r) => (
-                  <li key={r} className="flex items-start gap-2 text-size-sm text-bluedot-navy/80 leading-relaxed">
-                    <span
-                      className="mt-2 size-1.5 rounded-full shrink-0"
-                      style={{ backgroundColor: TAS.full }}
-                    />
-                    <span>{r}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </section>
@@ -248,7 +341,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 className="text-size-xs font-semibold uppercase tracking-[0.18em]"
                 style={{ color: TAS.full }}
               >
-                Deadline: {PAGE_DEADLINE}
+                Deadline passed
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <CTALinkOrButton
@@ -258,14 +351,6 @@ const PuzzleTechnicalAiSafetyPage = () => {
                   style={{ backgroundColor: TAS.full }}
                 >
                   See the puzzle
-                </CTALinkOrButton>
-                <CTALinkOrButton
-                  url={submissionFormUrl}
-                  size="small"
-                  className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md bg-transparent border hover:bg-bluedot-navy/5"
-                  style={{ borderColor: TAS.full, color: TAS.full }}
-                >
-                  Submit your solution
                 </CTALinkOrButton>
               </div>
             </div>
