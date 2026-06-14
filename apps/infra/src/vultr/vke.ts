@@ -4,7 +4,7 @@ import * as k8s from '@pulumi/kubernetes';
 export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
   label: 'bluedot-prod',
   region: 'ams',
-  version: 'v1.33.0+3',
+  version: 'v1.33.0+1',
 
   // Initial node pool
   // nodePools: {
@@ -27,10 +27,27 @@ export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
 new vultr.KubernetesNodePools('vke-node-pool-main', {
   clusterId: k8sCluster.id,
   label: 'main-node-pool',
-  // Temporarily 2 for VKE k8s upgrade: drain needs a target node to reschedule
-  // single-instance pg pods onto. Revert to 1 once the upgrade completes.
-  nodeQuantity: 2,
+  nodeQuantity: 1,
   // https://api.vultr.com/v2/plans
+  plan: 'vhf-4c-16gb',
+  autoScaler: false,
+});
+
+// TEMPORARY: extra node pool to satisfy the VKE upgrade preflight (single-node
+// clusters can't drain). Added as a second pool rather than bumping the main
+// pool's nodeQuantity, because Vultr rejects in-place node-count updates when
+// autoScaler is disabled. Left schedulable (no taint) on purpose: it must accept
+// pods evicted off the main node during the rolling upgrade.
+//
+// Teardown once the upgrade is done: deleting a Vultr node pool hard-deletes the
+// VMs without a graceful drain, so first move workloads off, THEN remove this block:
+//   1. kubectl drain <upgrade-node> --ignore-daemonsets --delete-emptydir-data
+//   2. confirm pods rescheduled and Ready on the main node
+//   3. delete this block and deploy
+new vultr.KubernetesNodePools('vke-node-pool-upgrade', {
+  clusterId: k8sCluster.id,
+  label: 'upgrade-node-pool',
+  nodeQuantity: 1,
   plan: 'vhf-4c-16gb',
   autoScaler: false,
 });
