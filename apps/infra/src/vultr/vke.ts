@@ -13,12 +13,6 @@ export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
   //   plan: 'vc2-1c-2gb',
   //   autoScaler: false,
   // },
-}, {
-  // TEMPORARY: Vultr reports this cluster's version as empty, which breaks upgrade
-  // validation and poisons our state on every read, failing all infra deploys.
-  // Ignoring version stops Pulumi attempting the (rejected) upgrade. Remove once
-  // Vultr repairs the metadata, then resume the upgrade. See #2618.
-  ignoreChanges: ['version'],
 });
 
 // This is a bit hacky, because the Vultr API is annoying
