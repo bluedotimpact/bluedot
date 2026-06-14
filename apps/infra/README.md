@@ -114,6 +114,13 @@ Bump `version` in [vke.ts](./src/vultr/vke.ts) to the version offered in the Vul
 - Don't blindly take Vultr's newest version. Check our operators support it first — especially CloudNativePG ([supported releases](https://cloudnative-pg.io/docs/current/supported_releases/)), which runs the in-cluster DBs and often lags the newest Kubernetes by a release. Target the newest version they all support, bumping charts (in separate prior PRs) as needed.
 - The cluster is single-node, so the upgrade briefly takes everything on-cluster down (apps + in-cluster `keycloak-pg`/`grafana-pg`/`airtable-sync-pg`; managed `appPg` is unaffected). Merge late at night and watch through — **there's no rollback**, Kubernetes can't downgrade a minor.
 
+**Clearing the upgrade preflight.** Vultr refuses the upgrade until the cluster can tolerate disruptions. Two blockers:
+
+- *Single-node cluster* (only while we run one node — #2661 moves us to permanent multi-node, after which this step goes away): nothing to drain pods onto. Add a temporary second node pool as a drain target — a **new** `KubernetesNodePools` block in [vke.ts](./src/vultr/vke.ts), not a `nodeQuantity` bump (Vultr 422s in-place node-count changes while `autoScaler: false`). Deploy, confirm 2 nodes `Ready`, upgrade, then `kubectl drain <temp-node> --ignore-daemonsets --delete-emptydir-data` before deleting the block (deleting a Vultr pool hard-kills its pods).
+- *Single-instance CNPG PDBs*: the `-primary` PDB allows 0 disruptions and blocks drain. We keep `enablePDB: false` on these permanently — leave it unless they go multi-instance.
+
+Expect a full cold-start: Vultr may replace both nodes at once, so single-replica apps all restart with empty image caches (~5 min), and pg/loki pods briefly block on CSI volume reattach.
+
 ## Things we set up manually
 
 In general we try to configure things with [infrastructure-as-code](https://en.wikipedia.org/wiki/Infrastructure_as_code) via Pulumi as far as practical.
