@@ -5,4 +5,4 @@ config:
     - kubernetes
     - minio
 backend:
-  url: s3://bluedot-pulumi-backend/bluedot?endpoint=ams1.vultrobjects.com&s3ForcePathStyle=true&region=vultr&profile=vultr-object-storage
+  url: s3://bluedot-pulumi-backend/bluedot?endpoint=https://ams1.vultrobjects.com&s3ForcePathStyle=true&region=vultr&profile=vultr-object-storage
