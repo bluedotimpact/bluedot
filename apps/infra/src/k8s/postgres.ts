@@ -22,9 +22,10 @@ export const keycloakPg = new k8s.apiextensions.CustomResource('keycloak-pg', {
   },
   spec: {
     instances: 1,
-    // Temporarily disabled for VKE k8s upgrade: single-instance CNPG creates a
-    // primary PDB with minAvailable 1, which blocks node drain entirely. Revert
-    // to default (remove this line) once the upgrade completes.
+    // Disabled deliberately. With instances: 1 there's no replica to fail over to,
+    // so the default primary PDB (minAvailable 1) provides no availability and only
+    // blocks node drains - it broke a VKE k8s upgrade once. Re-enable (remove this
+    // line) only if/when this cluster goes multi-instance.
     enablePDB: false,
     storage: {
       size: '5Gi',
@@ -41,7 +42,7 @@ export const grafanaPg = new k8s.apiextensions.CustomResource('grafana-pg', {
   },
   spec: {
     instances: 1,
-    // Temporarily disabled for VKE k8s upgrade. See keycloak-pg note above.
+    // Disabled deliberately. See keycloak-pg note above.
     enablePDB: false,
     storage: {
       size: '5Gi',
@@ -57,7 +58,7 @@ export const airtableSyncPg = new k8s.apiextensions.CustomResource('airtable-syn
   },
   spec: {
     instances: 1,
-    // Temporarily disabled for VKE k8s upgrade. See keycloak-pg note above.
+    // Disabled deliberately. See keycloak-pg note above.
     enablePDB: false,
     storage: {
       size: '10Gi',
