@@ -27,7 +27,9 @@ export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
 new vultr.KubernetesNodePools('vke-node-pool-main', {
   clusterId: k8sCluster.id,
   label: 'main-node-pool',
-  nodeQuantity: 1,
+  // Temporarily 2 for VKE k8s upgrade: drain needs a target node to reschedule
+  // single-instance pg pods onto. Revert to 1 once the upgrade completes.
+  nodeQuantity: 2,
   // https://api.vultr.com/v2/plans
   plan: 'vhf-4c-16gb',
   autoScaler: false,
