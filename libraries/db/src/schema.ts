@@ -1349,6 +1349,49 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
   },
 });
 
+export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_registration', {
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tbla338CpAd0FF96g',
+  columns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldlSug1fEym6YizF',
+    },
+    userId: {
+      pgColumn: text(),
+      airtableId: 'fldjByk8yK33Wslqs',
+    },
+    fullName: {
+      pgColumn: text(),
+      airtableId: 'fldsS2lCVlk1WDSDw',
+    },
+    courseBuilderCourseId: {
+      pgColumn: text(),
+      airtableId: 'fldNo8YC59IfZByoO',
+    },
+    applicationsBaseCourseId: {
+      pgColumn: text(),
+      airtableId: 'fld0yIgammvJ0rTyt',
+    },
+    certificateId: {
+      pgColumn: text(),
+      airtableId: 'fldTACQXC5bg5Y8UL',
+    },
+    certificateCreatedAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldq4u2jVPPBULMMX',
+    },
+    source: {
+      pgColumn: text(),
+      airtableId: 'fldMCr1ReFdYRj9NP',
+    },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fldRiPmXA2UB9M9j5',
+    },
+  },
+});
+
 export const userTable = pgAirtable('user', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblCgeKADNDSCXPpR',
@@ -1641,6 +1684,7 @@ export type Resource = InferSelectModel<typeof resourceTable.pg>;
 export type Exercise = InferSelectModel<typeof exerciseTable.pg>;
 export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable.pg>;
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
+export type SelfServeCourseRegistration = InferSelectModel<typeof selfServeCourseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
 export type CourseBuilderUser = InferSelectModel<typeof courseBuilderUserTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTable>;
