@@ -9,7 +9,7 @@ import {
   inArray,
   meetPersonTable,
   roundTable,
-  type CourseRegistration,
+  selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { timingSafeEqual } from 'crypto';
@@ -44,11 +44,17 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
 }
 
 export async function issueFoaiCertificateIfComplete(email: string): Promise<boolean> {
-  const courseRegistration = await db.getFirst(courseRegistrationTable, {
+  // In-progress migration to self-serve table (#2526): Prefer the self-serve table, fall back to legacy
+  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
+    filter: { email, courseId: FOAI_COURSE_ID },
+    sortBy: 'createdAt',
+  });
+  const legacyRegistration = await db.getFirst(courseRegistrationTable, {
     filter: { email, courseId: FOAI_COURSE_ID, decision: 'Accept' },
   });
 
-  if (!courseRegistration || courseRegistration.certificateId) {
+  const registration = selfServeRegistration ?? legacyRegistration;
+  if (!registration || registration.certificateId) {
     return false;
   }
 
@@ -56,24 +62,38 @@ export async function issueFoaiCertificateIfComplete(email: string): Promise<boo
     return false;
   }
 
-  await db.update(courseRegistrationTable, {
-    id: courseRegistration.id,
-    certificateId: courseRegistration.id,
-    certificateCreatedAt: Math.floor(Date.now() / 1000),
-  });
+  const certificateCreatedAt = Math.floor(Date.now() / 1000);
+  const certificateId = registration.id;
+
+  if (selfServeRegistration) {
+    await db.update(selfServeCourseRegistrationTable, { id: selfServeRegistration.id, certificateId, certificateCreatedAt });
+  }
+
+  if (legacyRegistration && !legacyRegistration.certificateId) {
+    await db.update(courseRegistrationTable, { id: legacyRegistration.id, certificateId, certificateCreatedAt });
+  }
+
   return true;
 }
 
 export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
 
-export async function getCertificateData(certificateId: string, existingCourseRegistration?: CourseRegistration) {
-  const courseRegistration = existingCourseRegistration ?? (await db.get(courseRegistrationTable, { certificateId }));
-  const course = await db.get(courseTable, { id: courseRegistration.courseId });
+export async function getCertificateData(certificateId: string) {
+  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' })
+  const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
+
+  const registration = selfServeRegistration ?? facilitatedRegistration;
+
+  if (!registration) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Certificate not found' });
+  }
+
+  const course = await db.get(courseTable, { id: registration.courseId });
 
   return {
     certificateId,
-    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
-    recipientName: courseRegistration.fullName ?? '',
+    certificateCreatedAt: registration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
+    recipientName: registration.fullName ?? '',
     courseName: course.title,
     courseSlug: course.slug,
     courseDetailsUrl: course.detailsUrl ?? '',
@@ -133,8 +153,12 @@ export const certificatesRouter = router({
   verifyOwnership: protectedProcedure
     .input(z.object({ certificateId: z.string() }))
     .query(async ({ ctx, input: { certificateId } }) => {
-      const registration = await db.get(courseRegistrationTable, { certificateId });
-      const isOwner = registration?.email.toLowerCase() === ctx.auth.email.toLowerCase();
+      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' })
+      const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
+
+      const registration = selfServeRegistration ?? facilitatedRegistration;
+
+      const isOwner = registration?.email?.toLowerCase() === ctx.auth.email.toLowerCase();
       return { isOwner };
     }),
 
@@ -154,7 +178,7 @@ export const certificatesRouter = router({
     }
 
     if (courseRegistration.certificateId) {
-      const certificate = await getCertificateData(courseRegistration.certificateId, courseRegistration);
+      const certificate = await getCertificateData(courseRegistration.certificateId);
       return {
         status: 'has-certificate' as const,
         ...certificate,

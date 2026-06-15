@@ -1,6 +1,6 @@
 import {
   applicationsCourseTable, applicationsRoundTable, COURSE_ROLE, courseRegistrationTable, inArray,
-  eq, and, or, ne, isNull,
+  eq, and, or, ne, isNull, selfServeCourseRegistrationTable, userTable,
 } from '@bluedot/db';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
@@ -55,17 +55,24 @@ export const courseRegistrationsRouter = router({
     // This mutation will create a course registration if one doesn't already exist for FOAI course.
     .mutation(async ({ ctx, input }) => {
       const { courseId, source } = input;
-      const courseRegistration = await db.getFirst(courseRegistrationTable, {
+
+      // In-progress migration to self-serve table (#2526): Prefer the self-serve table, fall back to legacy
+      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
+        filter: { email: ctx.auth.email, courseId },
+        sortBy: 'createdAt',
+      });
+      const legacyRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
           email: ctx.auth.email,
           courseId,
           decision: 'Accept',
         },
       });
+      const existingRegistration = selfServeRegistration ?? legacyRegistration;
 
       // If the course registration already exists, return it
-      if (courseRegistration) {
-        return courseRegistration;
+      if (existingRegistration) {
+        return existingRegistration;
       }
 
       if (courseId === FOAI_COURSE_ID) {
@@ -78,13 +85,24 @@ export const courseRegistrationsRouter = router({
           throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
         }
 
-        return db.insert(courseRegistrationTable, {
+        // Insert the self-serve row first so a retry (the existence check now reads self-serve first) can't duplicate it
+        const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+        const newRegistration = await db.insert(selfServeCourseRegistrationTable, {
+          userId: user?.id ?? null,
+          courseApplicationsBaseId: applicationsCourse.id,
+          source: source ?? null,
+          createdAt: new Date().toISOString(),
+        });
+
+        await db.insert(courseRegistrationTable, {
           email: ctx.auth.email,
           courseApplicationsBaseId: applicationsCourse.id,
           role: COURSE_ROLE.PARTICIPANT,
           decision: 'Accept',
           source: source ?? null,
         });
+
+        return newRegistration;
       }
 
       return null;

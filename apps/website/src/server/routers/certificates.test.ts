@@ -1,5 +1,6 @@
 import {
-  applicationsRoundTable, courseRegistrationTable, courseTable, meetPersonTable, roundTable,
+  applicationsRoundTable, courseRegistrationTable, courseTable, eq, exerciseResponsePgTable, exerciseTable,
+  meetPersonTable, roundTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import {
   describe, expect, test, vi,
@@ -8,6 +9,7 @@ import {
   createCaller, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
+import { issueFoaiCertificateIfComplete } from './certificates';
 
 vi.mock('../../lib/api/env', () => ({
   default: {
@@ -103,11 +105,21 @@ describe('certificates.verifyOwnership', () => {
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  // Note: when no matching registration exists for the certificateId, the router uses
-  // db.get(...) which throws AirtableTsError(RESOURCE_NOT_FOUND) rather than returning undefined.
-  // The router code at certificates.ts:66 reads `registration?.email`, expecting undefined — so
-  // the "no record" case currently surfaces as a thrown error rather than `{ isOwner: false }`.
-  // Same root cause as the dead-code note in `certificates.create` above.
+  test('returns { isOwner: false } when no certificate matches the id', async () => {
+    const result = await createCaller(testAuthContextLoggedIn)
+      .certificates.verifyOwnership({ certificateId: 'nonexistent' });
+    expect(result).toEqual({ isOwner: false });
+  });
+
+  test('finds certificates on the self-serve table, matching email case-insensitively', async () => {
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-reg-1', email: 'TEST@Example.com', courseId: FOAI_COURSE_ID, certificateId: 'cert-ss',
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn)
+      .certificates.verifyOwnership({ certificateId: 'cert-ss' });
+    expect(result).toEqual({ isOwner: true });
+  });
 
   // `id` and `certificateId` are deliberately distinct in these fixtures so the test proves the
   // router is actually filtering on the certificateId column, not implicitly resolving by primary key.
@@ -316,5 +328,64 @@ describe('certificates.getStatus', () => {
       numUnits: 5,
       isLastDiscussionSoonOrPassed: true,
     });
+  });
+});
+
+describe('issueFoaiCertificateIfComplete', () => {
+  const setupCompletedFoaiExercises = async (email: string) => {
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable).values({
+      id: 'resp-1', email, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+    });
+  };
+
+  test('issues the certificate on the self-serve row and mirrors it to legacy', async () => {
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+    });
+    await setupCompletedFoaiExercises('test@example.com');
+
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+
+    const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
+      .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));
+    expect(selfServe?.certificateId).toBe('ss-1');
+
+    const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
+    expect(legacy.certificateId).toBe('ss-1');
+    expect(legacy.certificateCreatedAt).toBe(selfServe?.certificateCreatedAt);
+  });
+
+  test('issues on the legacy row when no self-serve row exists yet', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+    });
+    await setupCompletedFoaiExercises('test@example.com');
+
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+
+    const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
+    expect(legacy.certificateId).toBe('reg-foai');
+    expect(await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)).toEqual([]);
+  });
+
+  test('writes nothing when exercises are incomplete', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+    });
+
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(false);
+
+    const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
+    expect(legacy.certificateId).toBeNull();
+    expect(await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)).toEqual([]);
   });
 });
