@@ -365,5 +365,25 @@ describe('GroupDiscussionBanner', () => {
       // Should use fallback unit title when error
       expect(await screen.findByText(/Unit 1/)).toBeInTheDocument();
     });
+
+    test('falls back to page unit when getUnit returns null', async () => {
+      server.use(trpcMsw.courses.getUnit.query(() => null));
+
+      const pageUnit = createMockUnit({ title: 'Page Unit', unitNumber: '2', courseSlug: 'page-course' });
+
+      render(
+        <GroupDiscussionBanner
+          unit={pageUnit}
+          groupDiscussion={mockGroupDiscussion}
+          userRole="participant"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Title uses the discussion's unitFallback, and the link resolves to the page unit
+      // since the discussion unit could not be loaded.
+      const unitLink = await screen.findByRole('link', { name: /Unit 1: Test Unit/ });
+      expect(unitLink).toHaveAttribute('href', '/courses/page-course/2/1');
+    });
   });
 });
