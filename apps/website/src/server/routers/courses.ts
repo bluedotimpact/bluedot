@@ -194,10 +194,13 @@ export const coursesRouter = router({
     .query(async ({ input }) => {
       const { courseSlug, unitId } = input;
 
-      return db.get(unitTable, {
-        id: unitId,
-        courseSlug,
-        unitStatus: 'Active',
+      return db.getFirst(unitTable, {
+        filter: {
+          id: unitId,
+          courseSlug,
+          unitStatus: 'Active',
+        },
+        sortBy: 'id',
       });
     }),
 
