@@ -42,15 +42,8 @@ const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
       }
 
-      // Insert the self-serve row first so a retry (the existence check now reads self-serve first) can't duplicate it
-      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-      const newRegistration = await db.insert(selfServeCourseRegistrationTable, {
-        userId: user?.id ?? null,
-        courseApplicationsBaseId: applicationsCourse.id,
-        source: source ?? null,
-        createdAt: new Date().toISOString(),
-      });
-
+      // Legacy first: if the second insert fails, the orphan is a missing self-serve row (harmless
+      // while reads still hit legacy, and healed by the backfill) rather than a missing legacy row.
       await db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
         courseApplicationsBaseId: applicationsCourse.id,
@@ -59,7 +52,13 @@ const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
         source: source ?? null,
       });
 
-      return newRegistration;
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      return db.insert(selfServeCourseRegistrationTable, {
+        userId: user?.id ?? null,
+        courseApplicationsBaseId: applicationsCourse.id,
+        source: source ?? null,
+        createdAt: new Date().toISOString(),
+      });
     }
 
     return null;
