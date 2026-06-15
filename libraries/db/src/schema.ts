@@ -1365,11 +1365,12 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
       pgColumn: text(),
       airtableId: 'fldsS2lCVlk1WDSDw',
     },
-    courseBuilderCourseId: {
-      pgColumn: text(),
+    // Note: This is the id of the course in the COURSE_BUILDER base and not in the APPLICATIONS base
+    courseId: {
+      pgColumn: text().notNull(),
       airtableId: 'fldNo8YC59IfZByoO',
     },
-    applicationsBaseCourseId: {
+    courseApplicationsBaseId: {
       pgColumn: text(),
       airtableId: 'fld0yIgammvJ0rTyt',
     },
