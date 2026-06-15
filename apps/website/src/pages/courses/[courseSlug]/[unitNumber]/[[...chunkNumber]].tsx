@@ -77,7 +77,7 @@ const CourseUnitChunkPage = ({
   }, [courseSlug, unitNumber]);
 
   const { latestUtmParams, isLoading: isUtmLoading } = useLatestUtmParams();
-  const { mutate: createCourseRegistrationMutation, isPending: isEnsureExistsPending } = trpc.courseRegistrations.ensureExists.useMutation();
+  const { mutate: createCourseRegistrationMutation, isPending: isEnsureExistsPending } = trpc.courseRegistrations.ensureSelfServeRegistrationExists.useMutation();
 
   useEffect(() => {
     // FoAI course only: If we're logged in, ensures a course registration is recorded

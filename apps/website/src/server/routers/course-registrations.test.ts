@@ -1,5 +1,5 @@
 import {
-  applicationsRoundTable, courseRegistrationTable,
+  applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -121,7 +121,7 @@ describe('courseRegistrations.getRoundStartDates', () => {
 
 describe('courseRegistrations.ensureExists', () => {
   test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).courseRegistrations.ensureExists({ courseId: otherCourseId }))
+    await expect(createCaller(testAuthContextLoggedOut).courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId }))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
@@ -131,25 +131,35 @@ describe('courseRegistrations.ensureExists', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureExists({ courseId: otherCourseId });
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
     expect(result?.id).toBe('reg-existing');
+  });
+
+  test('prefers an existing self-serve registration over the legacy row', async () => {
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'legacy-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn)
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID });
+    expect(result?.id).toBe('ss-foai');
   });
 
   test('returns null for non-FOAI courses when no registration exists', async () => {
     const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureExists({ courseId: otherCourseId });
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
     expect(result).toBeNull();
   });
 
   test('throws NOT_FOUND for FOAI when no applications_course config row exists', async () => {
     await expect(createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
-  // Note: The "creates a new FOAI registration" path can't be exercised in this test setup.
-  // The router's insert (course-registrations.ts L81-87) omits `courseId`, but the courseId column is `notNull()`
-  // in the pg schema. This either reveals a real bug in the router, or a difference between the
-  // pg test schema and Airtable's actual behaviour (likely a formula/lookup populating courseId from
-  // courseApplicationsBaseId). Flagging as a follow-up rather than asserting against a known failing path.
+  // The full "creates a new FOAI registration" path isn't unit-testable: both inserts omit `courseId`
+  // (a notNull lookup column the pg test schema rejects, populated by Airtable in prod).
 });
