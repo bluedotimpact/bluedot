@@ -79,7 +79,7 @@ export async function issueFoaiCertificateIfComplete(email: string): Promise<boo
 export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
 
 export async function getCertificateData(certificateId: string) {
-  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' })
+  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
   const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
 
   const registration = selfServeRegistration ?? facilitatedRegistration;
@@ -104,7 +104,7 @@ export async function getCertificateData(certificateId: string) {
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
-  create: publicProcedure
+  createFacilitatedCourseCertificate: publicProcedure
     .input(z.object({ courseRegistrationId: z.string(), publicToken: z.string().min(1) }))
     .mutation(async ({ input: { courseRegistrationId, publicToken } }) => {
       // Authenticated by a shared secret rather than a user session. Allows certificate creation
@@ -125,6 +125,11 @@ export const certificatesRouter = router({
 
       if (!courseRegistration) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
+      }
+
+      // Facilitated courses only — FoAI certificates are issued automatically on completion, not here
+      if (courseRegistration.courseId === FOAI_COURSE_ID) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'This endpoint does not issue Future of AI certificates' });
       }
 
       const now = Math.floor(Date.now() / 1000);
@@ -153,7 +158,7 @@ export const certificatesRouter = router({
   verifyOwnership: protectedProcedure
     .input(z.object({ certificateId: z.string() }))
     .query(async ({ ctx, input: { certificateId } }) => {
-      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' })
+      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
       const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
 
       const registration = selfServeRegistration ?? facilitatedRegistration;

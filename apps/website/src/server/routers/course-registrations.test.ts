@@ -121,7 +121,7 @@ describe('courseRegistrations.getRoundStartDates', () => {
 
 describe('courseRegistrations.ensureExists', () => {
   test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).courseRegistrations.ensureExists({ courseId: otherCourseId }))
+    await expect(createCaller(testAuthContextLoggedOut).courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId }))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
@@ -131,7 +131,7 @@ describe('courseRegistrations.ensureExists', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureExists({ courseId: otherCourseId });
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
     expect(result?.id).toBe('reg-existing');
   });
 
@@ -144,19 +144,19 @@ describe('courseRegistrations.ensureExists', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID });
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID });
     expect(result?.id).toBe('ss-foai');
   });
 
   test('returns null for non-FOAI courses when no registration exists', async () => {
     const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureExists({ courseId: otherCourseId });
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
     expect(result).toBeNull();
   });
 
   test('throws NOT_FOUND for FOAI when no applications_course config row exists', async () => {
     await expect(createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 

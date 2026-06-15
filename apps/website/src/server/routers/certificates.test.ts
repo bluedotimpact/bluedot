@@ -30,13 +30,13 @@ const TEST_CERT_TOKEN = 'test-token-secret';
 
 setupTestDb();
 
-describe('certificates.create (Airtable-script callable, shared-secret auth)', () => {
+describe('certificates.createFacilitatedCourseCertificate (Airtable-script callable, shared-secret auth)', () => {
   test('throws UNAUTHORIZED when token is the wrong length (length mismatch short-circuits before timingSafeEqual)', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'c1',
     });
 
-    await expect(createCaller(testAuthContextLoggedOut).certificates.create({
+    await expect(createCaller(testAuthContextLoggedOut).certificates.createFacilitatedCourseCertificate({
       courseRegistrationId: 'reg1',
       publicToken: 'wrong',
     })).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
@@ -48,7 +48,7 @@ describe('certificates.create (Airtable-script callable, shared-secret auth)', (
     });
 
     const sameLengthWrong = 'X'.repeat(TEST_CERT_TOKEN.length);
-    await expect(createCaller(testAuthContextLoggedOut).certificates.create({
+    await expect(createCaller(testAuthContextLoggedOut).certificates.createFacilitatedCourseCertificate({
       courseRegistrationId: 'reg1',
       publicToken: sameLengthWrong,
     })).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
@@ -69,7 +69,7 @@ describe('certificates.create (Airtable-script callable, shared-secret auth)', (
       certificateCreatedAt: 1700000000,
     });
 
-    const result = await createCaller(testAuthContextLoggedOut).certificates.create({
+    const result = await createCaller(testAuthContextLoggedOut).certificates.createFacilitatedCourseCertificate({
       courseRegistrationId: 'reg1',
       publicToken: TEST_CERT_TOKEN,
     });
@@ -85,7 +85,7 @@ describe('certificates.create (Airtable-script callable, shared-secret auth)', (
     });
 
     const before = Math.floor(Date.now() / 1000);
-    const result = await createCaller(testAuthContextLoggedOut).certificates.create({
+    const result = await createCaller(testAuthContextLoggedOut).certificates.createFacilitatedCourseCertificate({
       courseRegistrationId: 'reg1',
       publicToken: TEST_CERT_TOKEN,
     });
