@@ -339,7 +339,7 @@ describe('issueFoaiCertificateIfComplete', () => {
     });
   };
 
-  test('issues the certificate on the self-serve row only (legacy writes have stopped)', async () => {
+  test('issues the certificate on the self-serve row only', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
     });
