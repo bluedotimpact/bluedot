@@ -81,6 +81,24 @@ function makeDb(options: ScriptOptions): PgAirtableDb {
 
 const lowerEmail = (email: string): string => email.trim().toLowerCase();
 
+// Airtable returns transient 5xx/429s on long sequential runs; retry with backoff rather than
+// crashing the whole migration. The run is idempotent, so a crash is recoverable, but this avoids it.
+async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return await fn();
+    } catch (err) {
+      const status = (err as any)?.statusCode ?? (err as any)?.originalError?.statusCode;
+      if (![429, 500, 502, 503, 504].includes(status) || attempt >= 6) throw err;
+      const waitMs = Math.min(30000, 1000 * 2 ** (attempt - 1));
+      console.log(`  retry ${attempt}/5 after ${status} (${label}); waiting ${waitMs}ms`);
+      await new Promise((resolve) => {
+        setTimeout(resolve, waitMs);
+      });
+    }
+  }
+}
+
 const LEGACY_BASE_ID = 'appnJbsG1eWbAdEvf';
 const LEGACY_TABLE_ID = 'tblXKnWoXK3R63F6D';
 
@@ -114,11 +132,18 @@ async function fetchLegacyCreatedTimes(neededIds: Set<string>): Promise<Map<stri
     url.searchParams.append('fields[]', 'Email');
     if (offset) url.searchParams.set('offset', offset);
 
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN}` },
-    });
-    if (!res.ok) throw new Error(`Airtable list failed: ${res.status} ${await res.text()}`);
-    const body = await res.json() as { records: { id: string; createdTime: string }[]; offset?: string };
+    const body = await withRetry(async () => {
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN}` },
+      });
+      if (!res.ok) {
+        const e = new Error(`Airtable list failed: ${res.status} ${await res.text()}`);
+        (e as any).statusCode = res.status;
+        throw e;
+      }
+
+      return await res.json() as { records: { id: string; createdTime: string }[]; offset?: string };
+    }, `createdTimes page ${pages + 1}`);
 
     for (const record of body.records) {
       if (neededIds.has(record.id)) created.set(record.id, record.createdTime);
@@ -254,24 +279,24 @@ async function main() {
     let done = 0;
     for (const insert of inserts) {
       // email, fullName and courseId are Airtable lookups off the User/Course links — write only the links + writable fields
-      await (db.insert as any)(selfServeCourseRegistrationTable, {
+      await withRetry(() => (db.insert as any)(selfServeCourseRegistrationTable, {
         userId: insert.values.userId,
         courseApplicationsBaseId: insert.values.courseApplicationsBaseId,
         certificateId: insert.values.certificateId,
         certificateCreatedAt: insert.values.certificateCreatedAt,
         source: insert.values.source,
         createdAt: insert.values.createdAt,
-      });
+      }), insert.legacyId);
       done += 1;
       if (done % 100 === 0) console.log(`  inserted ${done}/${inserts.length}`);
     }
 
     for (const heal of certHeals) {
-      await (db.update as any)(selfServeCourseRegistrationTable, {
+      await withRetry(() => (db.update as any)(selfServeCourseRegistrationTable, {
         id: heal.selfServeId,
         certificateId: heal.certificateId,
         certificateCreatedAt: heal.certificateCreatedAt,
-      });
+      }), heal.selfServeId);
     }
   }
 
