@@ -77,7 +77,11 @@ const CourseUnitChunkPage = ({
   }, [courseSlug, unitNumber]);
 
   const { latestUtmParams, isLoading: isUtmLoading } = useLatestUtmParams();
-  const { mutate: createCourseRegistrationMutation, isPending: isEnsureExistsPending } = trpc.courseRegistrations.ensureSelfServeRegistrationExists.useMutation();
+  const { mutate: createCourseRegistrationMutation, isPending: isEnsureExistsPending } = trpc.courseRegistrations.ensureSelfServeRegistrationExists.useMutation({
+    // The User row can lag auth (created by oauth-callback's side-effect), so retry until it exists.
+    retry: (failureCount, error) => failureCount < 5 && error.data?.code === 'PRECONDITION_FAILED',
+    retryDelay: 5000,
+  });
 
   useEffect(() => {
     // FoAI course only: If we're logged in, ensures a course registration is recorded

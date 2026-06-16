@@ -1,5 +1,5 @@
 import {
-  applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
+  applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -158,6 +158,14 @@ describe('courseRegistrations.ensureExists', () => {
     await expect(createCaller(testAuthContextLoggedIn)
       .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  test('throws PRECONDITION_FAILED for FOAI when the User record does not exist yet (so the client retries)', async () => {
+    await testDb.insert(applicationsCourseTable, { id: 'foai-app-course', courseBuilderId: FOAI_COURSE_ID });
+
+    await expect(createCaller(testAuthContextLoggedIn)
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))
+      .rejects.toMatchObject({ code: 'PRECONDITION_FAILED' });
   });
 
   // The full "creates a new FOAI registration" path isn't unit-testable: both inserts omit `courseId`
