@@ -62,14 +62,6 @@ export async function issueFoaiCertificateIfComplete(email: string): Promise<boo
 
   await db.update(selfServeCourseRegistrationTable, { id: selfServeRegistration.id, certificateId, certificateCreatedAt });
 
-  // Keep the legacy row in sync until it's deleted at the end of the migration (#2526)
-  const legacyRegistration = await db.getFirst(courseRegistrationTable, {
-    filter: { email, courseId: FOAI_COURSE_ID, decision: 'Accept' },
-  });
-  if (legacyRegistration && !legacyRegistration.certificateId) {
-    await db.update(courseRegistrationTable, { id: legacyRegistration.id, certificateId, certificateCreatedAt });
-  }
-
   return true;
 }
 
