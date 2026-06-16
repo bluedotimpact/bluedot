@@ -44,17 +44,12 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
 }
 
 export async function issueFoaiCertificateIfComplete(email: string): Promise<boolean> {
-  // In-progress migration to self-serve table (#2526): Prefer the self-serve table, fall back to legacy
   const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
     filter: { email, courseId: FOAI_COURSE_ID },
     sortBy: 'createdAt',
   });
-  const legacyRegistration = await db.getFirst(courseRegistrationTable, {
-    filter: { email, courseId: FOAI_COURSE_ID, decision: 'Accept' },
-  });
 
-  const registration = selfServeRegistration ?? legacyRegistration;
-  if (!registration || registration.certificateId) {
+  if (!selfServeRegistration || selfServeRegistration.certificateId) {
     return false;
   }
 
@@ -63,12 +58,14 @@ export async function issueFoaiCertificateIfComplete(email: string): Promise<boo
   }
 
   const certificateCreatedAt = Math.floor(Date.now() / 1000);
-  const certificateId = registration.id;
+  const certificateId = selfServeRegistration.id;
 
-  if (selfServeRegistration) {
-    await db.update(selfServeCourseRegistrationTable, { id: selfServeRegistration.id, certificateId, certificateCreatedAt });
-  }
+  await db.update(selfServeCourseRegistrationTable, { id: selfServeRegistration.id, certificateId, certificateCreatedAt });
 
+  // Keep the legacy row in sync until it's deleted at the end of the migration (#2526)
+  const legacyRegistration = await db.getFirst(courseRegistrationTable, {
+    filter: { email, courseId: FOAI_COURSE_ID, decision: 'Accept' },
+  });
   if (legacyRegistration && !legacyRegistration.certificateId) {
     await db.update(courseRegistrationTable, { id: legacyRegistration.id, certificateId, certificateCreatedAt });
   }
@@ -173,6 +170,29 @@ export const certificatesRouter = router({
       return { status: 'not-authenticated', hasUpcomingRounds } as const;
     }
 
+    // Future of AI is self-serve: it lives in its own table and never has rounds.
+    if (courseId === FOAI_COURSE_ID) {
+      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
+        filter: { email: ctx.auth.email, courseId },
+        sortBy: 'createdAt',
+      });
+
+      if (!selfServeRegistration) {
+        return { status: 'not-enrolled', hasUpcomingRounds: false } as const;
+      }
+
+      if (selfServeRegistration.certificateId) {
+        const certificate = await getCertificateData(selfServeRegistration.certificateId);
+        return {
+          status: 'has-certificate' as const,
+          ...certificate,
+        };
+      }
+
+      // FoAI auto-issues certificates when every active exercise is completed (see saveExerciseResponse).
+      return { status: 'exercises-incomplete' } as const;
+    }
+
     const courseRegistration = await db.getFirst(courseRegistrationTable, {
       filter: { email: ctx.auth.email, courseId, decision: 'Accept' },
     });
@@ -188,12 +208,6 @@ export const certificatesRouter = router({
         status: 'has-certificate' as const,
         ...certificate,
       };
-    }
-
-    if (courseRegistration.courseId === FOAI_COURSE_ID) {
-      // FOAI auto-issues certificates when every active exercise is completed (see saveExerciseResponse).
-      // Reaching this branch means the learner is enrolled but hasn't finished all exercises yet.
-      return { status: 'exercises-incomplete' } as const;
     }
 
     const meetPerson = await db.getFirst(meetPersonTable, {

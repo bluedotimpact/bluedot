@@ -119,39 +119,26 @@ describe('courseRegistrations.getRoundStartDates', () => {
   });
 });
 
-describe('courseRegistrations.ensureExists', () => {
+describe('courseRegistrations.ensureSelfServeRegistrationExists', () => {
   test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId }))
+    await expect(createCaller(testAuthContextLoggedOut).courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  test('returns the existing registration if one already exists', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-existing', email: 'test@example.com', courseId: otherCourseId, decision: 'Accept',
-    });
-
-    const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
-    expect(result?.id).toBe('reg-existing');
+  test('throws BAD_REQUEST for non-FOAI courses', async () => {
+    await expect(createCaller(testAuthContextLoggedIn)
+      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
-  test('prefers an existing self-serve registration over the legacy row', async () => {
+  test('returns the existing self-serve registration', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
-    });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'legacy-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
       .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID });
     expect(result?.id).toBe('ss-foai');
-  });
-
-  test('returns null for non-FOAI courses when no registration exists', async () => {
-    const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
-    expect(result).toBeNull();
   });
 
   test('throws NOT_FOUND for FOAI when no applications_course config row exists', async () => {

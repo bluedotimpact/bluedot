@@ -1,10 +1,12 @@
 import {
   courseRegistrationTable,
   courseTable,
+  eq,
   exerciseResponsePgTable,
   exerciseTable,
   groupTable,
   meetPersonTable,
+  selfServeCourseRegistrationTable,
   userTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
@@ -172,14 +174,20 @@ describe('exercises.saveExerciseResponse', () => {
 });
 
 describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
+  // Self-serve is the authoritative table for FoAI issuance post read-switch (#2526)
   async function seedFoaiRegistration() {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai',
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-foai',
       email: CALLER_EMAIL,
       courseId: FOAI_COURSE_ID,
-      decision: 'Accept',
     });
   }
+
+  const getSelfServeFoai = async () => {
+    const [row] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
+      .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-foai'));
+    return row;
+  };
 
   test('auto-issues a certificate when the final FOAI exercise is completed', async () => {
     await seedFoaiRegistration();
@@ -202,9 +210,9 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
     expect(result.certificateIssued).toBe(true);
 
-    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
-    expect(reg.certificateId).toBe('reg-foai');
-    expect(reg.certificateCreatedAt).toBeGreaterThanOrEqual(before);
+    const reg = await getSelfServeFoai();
+    expect(reg?.certificateId).toBe('ss-foai');
+    expect(reg?.certificateCreatedAt).toBeGreaterThanOrEqual(before);
   });
 
   test('does not auto-issue when other FOAI exercises remain incomplete', async () => {
@@ -223,8 +231,8 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     });
 
     expect(result.certificateIssued).toBe(false);
-    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
-    expect(reg.certificateId).toBeFalsy();
+    const reg = await getSelfServeFoai();
+    expect(reg?.certificateId).toBeFalsy();
   });
 
   test('does not auto-issue for non-FOAI courses', async () => {
@@ -247,12 +255,11 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   });
 
   test('is a no-op when the certificate is already issued', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai',
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-foai',
       email: CALLER_EMAIL,
       courseId: FOAI_COURSE_ID,
-      decision: 'Accept',
-      certificateId: 'reg-foai',
+      certificateId: 'ss-foai',
       certificateCreatedAt: 1700000000,
     });
     await testDb.insert(exerciseTable, {
@@ -266,8 +273,8 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     });
 
     expect(result.certificateIssued).toBe(false);
-    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
-    expect(reg.certificateCreatedAt).toBe(1700000000);
+    const reg = await getSelfServeFoai();
+    expect(reg?.certificateCreatedAt).toBe(1700000000);
   });
 
   test('does not auto-issue when completed is false (un-marking)', async () => {
@@ -286,8 +293,8 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     });
 
     expect(result.certificateIssued).toBe(false);
-    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
-    expect(reg.certificateId).toBeFalsy();
+    const reg = await getSelfServeFoai();
+    expect(reg?.certificateId).toBeFalsy();
   });
 });
 

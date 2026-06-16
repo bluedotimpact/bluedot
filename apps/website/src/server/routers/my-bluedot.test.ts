@@ -6,6 +6,7 @@ import {
   groupDiscussionTable,
   groupTable,
   meetPersonTable,
+  selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -14,6 +15,7 @@ import {
   testAuthContextLoggedIn,
   testDb,
 } from '../../__tests__/dbTestUtils';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 setupTestDb();
 
@@ -602,6 +604,81 @@ describe('myCoursesPage.getOverview', () => {
       const byRegId = Object.fromEntries(result.courses.map((c) => [c.courseRegistration.id, c]));
       expect(byRegId['reg-x']?.rescheduleEligibleUnits).toEqual(['1']);
       expect(byRegId['reg-y']?.rescheduleEligibleUnits).toEqual(['2']);
+    });
+  });
+
+  // Future of AI is self-serve: registrations live in self_serve_course_registration and carry no
+  // round/group/meetPerson data. The server returns them as plain participant rows; whether they're
+  // shown (and in which tab) is decided client-side — see my-courses.test.tsx.
+  describe('Future of AI (self-serve) rows', () => {
+    const seedFoaiCourse = () => testDb.insert(courseTable, {
+      id: FOAI_COURSE_ID,
+      slug: 'future-of-ai',
+      title: 'Future of AI',
+      shortDescription: 'f',
+      units: [],
+      status: 'Active',
+    });
+
+    test('returns a self-serve registration as a participant row with certificate state and no round data', async () => {
+      await seedFoaiCourse();
+      await testDb.insert(selfServeCourseRegistrationTable, {
+        id: 'ss-foai',
+        email: CALLER_EMAIL,
+        courseId: FOAI_COURSE_ID,
+        certificateId: 'ss-foai',
+        certificateCreatedAt: 1700000000,
+      });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      expect(result.courses).toHaveLength(1);
+      const row = result.courses[0]!;
+      expect(row.mode).toBe('participant');
+      expect(row.course.slug).toBe('future-of-ai');
+      expect(row.courseRegistration).toMatchObject({
+        id: 'ss-foai',
+        courseId: FOAI_COURSE_ID,
+        certificateId: 'ss-foai',
+        certificateCreatedAt: 1700000000,
+        roundId: null,
+        roundStatus: null,
+      });
+      expect(row.discussions).toEqual([]);
+      expect(row.meetPersonId).toBeNull();
+      expect(result.nextDiscussion).toBeNull();
+    });
+
+    test('an enrolled-but-incomplete registration is still returned (no certificate)', async () => {
+      await seedFoaiCourse();
+      await testDb.insert(selfServeCourseRegistrationTable, {
+        id: 'ss-foai',
+        email: CALLER_EMAIL,
+        courseId: FOAI_COURSE_ID,
+      });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      expect(result.courses).toHaveLength(1);
+      expect(result.courses[0]!.courseRegistration.certificateCreatedAt).toBeNull();
+    });
+
+    test('does not double-count a learner who still has a legacy FoAI row', async () => {
+      await seedFoaiCourse();
+      await testDb.insert(courseRegistrationTable, {
+        id: 'legacy-foai',
+        email: CALLER_EMAIL,
+        courseId: FOAI_COURSE_ID,
+        decision: 'Accept',
+        role: 'Participant',
+      });
+      await testDb.insert(selfServeCourseRegistrationTable, {
+        id: 'ss-foai',
+        email: CALLER_EMAIL,
+        courseId: FOAI_COURSE_ID,
+      });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      expect(result.courses).toHaveLength(1);
+      expect(result.courses[0]!.courseRegistration.id).toBe('ss-foai');
     });
   });
 });

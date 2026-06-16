@@ -12,8 +12,22 @@ import { classifyCourseRegistration, useCourseListRow } from './useCourseListRow
 
 export type CourseListRowMode = 'participant' | 'facilitator';
 
+export type MyCoursesPageCourseRegistration = Pick<
+  CourseRegistration,
+  | 'id'
+  | 'courseId'
+  | 'email'
+  | 'decision'
+  | 'certificateId'
+  | 'certificateCreatedAt'
+  | 'roundId'
+  | 'roundName'
+  | 'roundStatus'
+  | 'availabilityIntervalsUTC'
+>;
+
 type CommonRowProps = {
-  courseRegistration: CourseRegistration;
+  courseRegistration: MyCoursesPageCourseRegistration;
   course: Pick<Course, 'slug' | 'title' | 'applyUrl'>;
   group: Group | null;
   meetPersonId: string | null;

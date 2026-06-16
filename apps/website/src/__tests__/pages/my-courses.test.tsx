@@ -124,4 +124,29 @@ describe('bucketCoursesByTab', () => {
       }
     });
   });
+
+  // Future of AI is self-serve: its rows have no round, so roundStatus is always null and decision
+  // is never set. These two are the ONLY states a FoAI course currently surfaces in on My Courses.
+  // The enrolled-but-incomplete state being invisible is the known ~broken behaviour — update these
+  // tests deliberately if/when that changes.
+  describe('Future of AI (self-serve) states', () => {
+    const foaiRow = (certificateCreatedAt: number | null): ParticipantRowProps => makeRow({
+      roundStatus: null,
+      decision: null,
+      certificateCreatedAt,
+      certificateId: certificateCreatedAt ? 'cert-foai' : null,
+    });
+
+    test('enrolled without a certificate → not shown in any tab', () => {
+      const buckets = bucketCoursesByTab([foaiRow(null)]);
+      expect([...buckets.inProgress, ...buckets.upcoming, ...buckets.pastCourses]).toHaveLength(0);
+    });
+
+    test('completed (has certificate) → Past Courses only', () => {
+      const buckets = bucketCoursesByTab([foaiRow(1700000000)]);
+      expect(buckets.pastCourses).toHaveLength(1);
+      expect(buckets.inProgress).toHaveLength(0);
+      expect(buckets.upcoming).toHaveLength(0);
+    });
+  });
 });
