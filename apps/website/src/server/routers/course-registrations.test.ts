@@ -1,5 +1,5 @@
 import {
-  applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
+  applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
