@@ -19,6 +19,7 @@ import { missionsRouter } from './missions';
 import { myBluedotRouter } from './my-bluedot';
 import { programsRouter } from './programs';
 import { resourcesRouter } from './resources';
+import { selfServeCourseRegistrationsRouter } from './self-serve-course-registrations';
 import { subscriptionPreferencesRouter } from './subscription-preferences';
 import { teamMembersRouter } from './teamMembers';
 import { testimonialsRouter } from './testimonials';
@@ -45,6 +46,7 @@ export const appRouter = router({
   myBluedot: myBluedotRouter,
   programs: programsRouter,
   resources: resourcesRouter,
+  selfServeCourseRegistrations: selfServeCourseRegistrationsRouter,
   subscriptionPreferences: subscriptionPreferencesRouter,
   teamMembers: teamMembersRouter,
   testimonials: testimonialsRouter,
