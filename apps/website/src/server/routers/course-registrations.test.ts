@@ -1,5 +1,5 @@
 import {
-  applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
+  applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -119,55 +119,16 @@ describe('courseRegistrations.getRoundStartDates', () => {
   });
 });
 
-describe('courseRegistrations.ensureExists', () => {
-  test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId }))
-      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
-  });
-
-  test('returns the existing registration if one already exists', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-existing', email: 'test@example.com', courseId: otherCourseId, decision: 'Accept',
-    });
-
-    const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
-    expect(result?.id).toBe('reg-existing');
-  });
-
-  test('prefers an existing self-serve registration over the legacy row', async () => {
+// Self-serve registration behaviour is tested in self-serve-course-registrations.test.ts; here we
+// only assert the backwards-compatible aliases still route to that procedure.
+describe('courseRegistrations self-serve aliases', () => {
+  test('ensureExists and ensureSelfServeRegistrationExists both return the self-serve registration', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
     });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'legacy-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
-    });
+    const caller = createCaller(testAuthContextLoggedIn);
 
-    const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID });
-    expect(result?.id).toBe('ss-foai');
+    expect((await caller.courseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))?.id).toBe('ss-foai');
+    expect((await caller.courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))?.id).toBe('ss-foai');
   });
-
-  test('returns null for non-FOAI courses when no registration exists', async () => {
-    const result = await createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: otherCourseId });
-    expect(result).toBeNull();
-  });
-
-  test('throws NOT_FOUND for FOAI when no applications_course config row exists', async () => {
-    await expect(createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))
-      .rejects.toMatchObject({ code: 'NOT_FOUND' });
-  });
-
-  test('throws PRECONDITION_FAILED for FOAI when the User record does not exist yet (so the client retries)', async () => {
-    await testDb.insert(applicationsCourseTable, { id: 'foai-app-course', courseBuilderId: FOAI_COURSE_ID });
-
-    await expect(createCaller(testAuthContextLoggedIn)
-      .courseRegistrations.ensureSelfServeRegistrationExists({ courseId: FOAI_COURSE_ID }))
-      .rejects.toMatchObject({ code: 'PRECONDITION_FAILED' });
-  });
-
-  // The full "creates a new FOAI registration" path isn't unit-testable: both inserts omit `courseId`
-  // (a notNull lookup column the pg test schema rejects, populated by Airtable in prod).
 });

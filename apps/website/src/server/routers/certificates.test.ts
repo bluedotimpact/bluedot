@@ -183,11 +183,10 @@ describe('certificates.getStatus', () => {
       detailsUrl: 'https://example.com/foai',
       units: [],
     });
-    await testDb.insert(courseRegistrationTable, {
+    await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
       courseId: FOAI_COURSE_ID,
-      decision: 'Accept',
       certificateId: 'cert-1',
       certificateCreatedAt: 1700000000,
       fullName: 'Dewi Erwan',
@@ -214,11 +213,10 @@ describe('certificates.getStatus', () => {
       title: 'Future of AI',
       units: [],
     });
-    await testDb.insert(courseRegistrationTable, {
+    await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
       courseId: FOAI_COURSE_ID,
-      decision: 'Accept',
       certificateId: 'cert-1',
       certificateCreatedAt: 1700000000,
     });
@@ -228,8 +226,8 @@ describe('certificates.getStatus', () => {
   });
 
   test('returns exercises-incomplete for FOAI registrations without a certificate', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
@@ -361,17 +359,17 @@ describe('issueFoaiCertificateIfComplete', () => {
     expect(legacy.certificateCreatedAt).toBe(selfServe?.certificateCreatedAt);
   });
 
-  test('issues on the legacy row when no self-serve row exists yet', async () => {
+  test('does nothing when no self-serve row exists', async () => {
+    // Self-serve is authoritative post read-switch; a learner without a self-serve row can't be issued to.
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
     });
     await setupCompletedFoaiExercises('test@example.com');
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(false);
 
     const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
-    expect(legacy.certificateId).toBe('reg-foai');
-    expect(await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)).toEqual([]);
+    expect(legacy.certificateId).toBeNull();
   });
 
   test('writes nothing when exercises are incomplete', async () => {

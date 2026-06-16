@@ -17,15 +17,39 @@ import {
   ne,
   or,
   roundTable,
+  selfServeCourseRegistrationTable,
   type Unit,
   unitTable,
 } from '@bluedot/db';
 import z from 'zod';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { protectedProcedure, router } from '../trpc';
 import { getAvailableGroupsAndDiscussions } from './group-switching';
+
+// Used for mapping self-serve registrations (where all these fields are empty) into the expected shape
+const EMPTY_PARTICIPANT_ROW = {
+  group: null,
+  facilitatorNames: [],
+  meetPersonId: null,
+  groupsAsParticipant: null,
+  roundId: null,
+  discussions: [],
+  attendedDiscussionIds: [],
+  units: {},
+  roundStartDate: null,
+  roundEndDate: null,
+  rescheduleEligibleUnits: [],
+  numUnits: null,
+  uniqueDiscussionAttendance: null,
+  hasSubmittedActionPlan: false,
+  feedbackFormUrl: null,
+  hasSubmittedFeedback: false,
+  isDroppedOut: false,
+  isDeferred: false,
+} satisfies Omit<ParticipantRowProps, 'mode' | 'course' | 'courseRegistration'>;
 
 const fetchActiveCoursesByIds = async (ids: string[]) => {
   if (ids.length === 0) return [];
@@ -104,31 +128,43 @@ export const myBluedotRouter = router({
     const { email } = ctx.auth;
 
     // Step 1: Fetch data
-    const courseRegistrations = await db.pg
-      .select()
-      .from(courseRegistrationTable.pg)
-      .where(and(
-        eq(courseRegistrationTable.pg.email, email),
-        or(
-          // Happy path: role === COURSE_ROLE.PARTICIPANT
-          ne(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
-          isNull(courseRegistrationTable.pg.role),
-        ),
-        or(
-          // Happy path: decision === 'Accept'
-          ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
-          isNull(courseRegistrationTable.pg.decision),
-        ),
-      ));
+    const [facilitatedRegistrations, selfServeRegistrations] = await Promise.all([
+      db.pg
+        .select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, email),
+          // FoAI registrations live in self_serve_course_registration now; they're unioned in below
+          ne(courseRegistrationTable.pg.courseId, FOAI_COURSE_ID),
+          or(
+            // Happy path: role === COURSE_ROLE.PARTICIPANT
+            ne(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
+            isNull(courseRegistrationTable.pg.role),
+          ),
+          or(
+            // Happy path: decision === 'Accept'
+            ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+            isNull(courseRegistrationTable.pg.decision),
+          ),
+        )),
+      db.pg
+        .select()
+        .from(selfServeCourseRegistrationTable.pg)
+        .where(eq(selfServeCourseRegistrationTable.pg.email, email)),
+    ]);
 
-    if (courseRegistrations.length === 0) {
+    if (facilitatedRegistrations.length === 0 && selfServeRegistrations.length === 0) {
       return { courses: [], nextDiscussion: null };
     }
 
+    const courseIds = unique([
+      ...facilitatedRegistrations.map((cr) => cr.courseId),
+      ...selfServeRegistrations.map((cr) => cr.courseId),
+    ]);
     const [courses, meetPersons, dropoutStatusByRegId] = await Promise.all([
-      fetchActiveCoursesByIds(unique(courseRegistrations.map((cr) => cr.courseId))),
+      fetchActiveCoursesByIds(courseIds),
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
-      fetchDropoutStatusByRegId(courseRegistrations.map((cr) => cr.id)),
+      fetchDropoutStatusByRegId(facilitatedRegistrations.map((cr) => cr.id)),
     ]);
 
     // The user's own groups (needs meetPersons.groupsAsParticipant).
@@ -140,7 +176,7 @@ export const myBluedotRouter = router({
     // Facilitators (from groups), discussions (from meetPersons), rounds (from regs).
     const facilitatorIds = unique(groups.flatMap((g) => g.facilitator ?? []));
     const allExpectedDiscussionIds = unique(meetPersons.flatMap((mp) => mp.expectedDiscussionsParticipant ?? []));
-    const allRoundIds = unique(courseRegistrations.map((cr) => cr.roundId));
+    const allRoundIds = unique(facilitatedRegistrations.map((cr) => cr.roundId));
 
     const [facilitators, discussions, roundRows] = await Promise.all([
       facilitatorIds.length > 0
@@ -204,7 +240,7 @@ export const myBluedotRouter = router({
     const discussionById = new Map(discussions.map((d) => [d.id, d] as const));
     const roundById = new Map(roundRows.map((r) => [r.id, r] as const));
 
-    const perCourse: ParticipantRowProps[] = courseRegistrations.flatMap((cr): ParticipantRowProps[] => {
+    const facilitatedRows: ParticipantRowProps[] = facilitatedRegistrations.flatMap((cr): ParticipantRowProps[] => {
       const course = courses.find((c) => c.id === cr.courseId);
       if (!course) return [];
 
@@ -260,6 +296,33 @@ export const myBluedotRouter = router({
         isDeferred: status.isDeferred,
       }];
     });
+
+    // Self-serve (Future of AI) rows: no round, group, meetPerson or dropout lifecycle, so they
+    // skip all the facilitated machinery above and carry only identity + certificate state.
+    const selfServeRows: ParticipantRowProps[] = selfServeRegistrations.flatMap((reg): ParticipantRowProps[] => {
+      const course = courses.find((c) => c.id === reg.courseId);
+      if (!course) return [];
+
+      return [{
+        mode: 'participant',
+        ...EMPTY_PARTICIPANT_ROW,
+        course,
+        courseRegistration: {
+          id: reg.id,
+          courseId: reg.courseId,
+          email: reg.email ?? '',
+          decision: null,
+          certificateId: reg.certificateId,
+          certificateCreatedAt: reg.certificateCreatedAt,
+          roundId: null,
+          roundName: null,
+          roundStatus: null,
+          availabilityIntervalsUTC: null,
+        },
+      }];
+    });
+
+    const perCourse = [...facilitatedRows, ...selfServeRows];
 
     // Step 3: Calculate results for NextDiscussionCard section
     const courseByDiscussionId = new Map<string, { slug: string; title: string }>();

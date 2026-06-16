@@ -1,7 +1,7 @@
 import {
   CTALinkOrButton, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
-import type { CourseRegistration, GroupDiscussion } from '@bluedot/db';
+import type { GroupDiscussion } from '@bluedot/db';
 import { Fragment, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { IoBan } from 'react-icons/io5';
@@ -9,7 +9,9 @@ import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { ROUTES } from '../../lib/routes';
 import { buildApplicationUrl, buildGroupSlackChannelUrl, getActionPlanUrl } from '../../lib/utils';
 import { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
-import type { CourseListRowProps, FacilitatorRowProps, ParticipantRowProps } from './CourseListRow';
+import type {
+  MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
+} from './CourseListRow';
 import type { CourseAction } from './DiscussionListRow';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
@@ -20,7 +22,7 @@ export type DropoutStatus = { isDroppedOut: boolean; isDeferred: boolean };
 const NOT_DROPPED: DropoutStatus = { isDroppedOut: false, isDeferred: false };
 
 export const classifyCourseRegistration = (
-  cr: CourseRegistration,
+  cr: MyCoursesPageCourseRegistration,
   status: DropoutStatus = NOT_DROPPED,
 ): CourseRowState => {
   if (status.isDroppedOut && !status.isDeferred) return 'dropped';
@@ -265,7 +267,7 @@ const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undef
   };
 };
 
-export const getApplicationActionLabel = (cr: CourseRegistration, state: CourseRowState): string => (
+export const getApplicationActionLabel = (cr: MyCoursesPageCourseRegistration, state: CourseRowState): string => (
   state === 'upcoming' && cr.decision === null
     ? 'Withdraw application'
     : 'Drop or defer course'
