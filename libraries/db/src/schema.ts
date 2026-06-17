@@ -59,6 +59,20 @@ export const syncRequestsTable = pgTable('sync_requests', {
   completedAt: timestamp(),
 });
 
+/**
+ * Append-only log of analytics events already emitted to PostHog by `@bluedot/computed-posthog-events`.
+ * See libraries/computed-posthog-events and the `shipPosthogEventsCron` in pg-sync-service
+ */
+export const posthogEmittedEventsTable = pgTable('posthog_emitted_events', {
+  id: text().primaryKey(), // `${event}:${internalUniqueKey}`
+  event: text().notNull(),
+  internalUniqueKey: text().notNull(),
+  externalUuid: text().notNull(), // the uuid we sent to PostHog, deterministically derived from internalUniqueKey
+  distinctId: text().notNull(), // a row exists only after a successful emit, which always has a distinct_id
+  eventTimestamp: timestamp({ mode: 'string', withTimezone: true }).notNull(),
+  sentAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+});
+
 export const courseTable = pgAirtable('course', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbl6nq5AVLKINBJ73',
@@ -1260,6 +1274,20 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldWVKY5EFAGSRcDT',
     },
+    acceptedAt: {
+      pgColumn: text(),
+      airtableId: 'fldaUhr1WKxaMGoBK',
+    },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fldyZHM0qpgIkzo8c',
+    },
+    // "PostHog Session ID" — the browser session that submitted the application, captured via the
+    // application form prefill. Lets `application_submitted` join to the applicant's PostHog session.
+    posthogSessionId: {
+      pgColumn: text(),
+      airtableId: 'fld5G27T1IMkkkoGN',
+    },
     role: {
       pgColumn: text(),
       airtableId: 'fld52Y2AyWV8tECDy',
@@ -1654,6 +1682,7 @@ export const isDiscussionParticipant = (
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
+export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
 export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
