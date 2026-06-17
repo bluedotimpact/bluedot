@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@bluedot/computed-airtable-fields": "*",
+        "@bluedot/computed-posthog-events": "*",
         "@bluedot/db": "*",
         "@bluedot/ui": "*",
         "@bluedot/utils": "*",
@@ -52,6 +53,7 @@
         ],
         "noExternal": [
             "@bluedot/computed-airtable-fields",
+            "@bluedot/computed-posthog-events",
             "@bluedot/db",
             "@bluedot/ui",
             "@bluedot/utils"
