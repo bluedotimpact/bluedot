@@ -163,6 +163,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   acceptedAt: null,
   createdAt: null,
   posthogSessionId: null,
+  posthogDistinctId: null,
   ...overrides,
 });
 
