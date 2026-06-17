@@ -6,8 +6,8 @@ import {
   beforeAll, beforeEach, describe, expect, test,
 } from 'vitest';
 import {
-  runProjections, deterministicUuid,
-  type Candidate, type Projection, type PosthogClient, type PosthogEvent,
+  shipEventType, deterministicUuid,
+  type Event, type EventProjectionRule, type PosthogClient, type PosthogEvent,
 } from './core';
 
 let db: PgAirtableDb;
@@ -47,13 +47,13 @@ function makeFakePosthog() {
 
 // A projection that just returns fixed candidates, so tests feed the runner controlled input
 // while still exercising the real PGlite-backed log.
-const feed = (event: string, candidates: Candidate[]): Projection => ({
-  event,
+const feed = (event: string, candidates: Event[]): EventProjectionRule => ({
+  eventType: event,
   calculateEvents: async () => candidates,
 });
 
-const candidate = (over: Partial<Candidate> = {}): Candidate => ({
-  key: 'k1', distinctId: 'a@example.com', timestampMs: 1_000_000, properties: {}, ...over,
+const candidate = (over: Partial<Event> = {}): Event => ({
+  internalUniqueKey: 'k1', distinctId: 'a@example.com', timestampMs: 1_000_000, properties: {}, ...over,
 });
 const logRows = () => db.pg.select().from(posthogEmittedEventsTable);
 
@@ -66,78 +66,64 @@ describe('deterministicUuid', () => {
   });
 });
 
-describe('runProjections', () => {
+describe('runProjection', () => {
   test('emits one event per candidate, logs them, second run is a no-op', async () => {
     const ph = makeFakePosthog();
-    const projections = [feed('certificate_issued', [candidate({ key: 'r1' }), candidate({ key: 'r2' })])];
+    const projection = feed('certificate_issued', [candidate({ internalUniqueKey: 'r1' }), candidate({ internalUniqueKey: 'r2' })]);
 
-    const first = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    const first = await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
-    expect(first.byEvent.certificate_issued).toMatchObject({ candidates: 2, sent: 2, alreadySent: 0 });
+    expect(first).toMatchObject({ candidates: 2, sent: 2, alreadySent: 0 });
     expect(await logRows()).toHaveLength(2);
 
-    const second = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    const second = await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
-    expect(second.byEvent.certificate_issued).toMatchObject({ sent: 0, alreadySent: 2 });
+    expect(second).toMatchObject({ sent: 0, alreadySent: 2 });
     expect(ph.events()).toHaveLength(2); // nothing new sent
   });
 
   test('skips candidates with null/empty distinctId or non-finite timestamp', async () => {
     const ph = makeFakePosthog();
-    const projections = [feed('e', [
-      candidate({ key: 'ok' }),
-      candidate({ key: 'no-email', distinctId: null }),
-      candidate({ key: 'blank', distinctId: '' }),
-      candidate({ key: 'bad-ts', timestampMs: NaN }),
-    ])];
+    const projection = feed('e', [
+      candidate({ internalUniqueKey: 'ok' }),
+      candidate({ internalUniqueKey: 'no-email', distinctId: null }),
+      candidate({ internalUniqueKey: 'blank', distinctId: '' }),
+      candidate({ internalUniqueKey: 'bad-ts', timestampMs: NaN }),
+    ]);
 
-    const stats = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    const result = await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
-    expect(stats.byEvent.e).toMatchObject({ candidates: 4, skipped: 3, sent: 1 });
+    expect(result).toMatchObject({ candidates: 4, skipped: 3, sent: 1 });
     expect(ph.events().map((e) => e.distinct_id)).toEqual(['a@example.com']);
   });
 
   test('fan-out: one projection returning N candidates yields N distinct-key events', async () => {
     const ph = makeFakePosthog();
-    const projection: Projection = {
-      event: 'discussion_attended',
+    const projection: EventProjectionRule = {
+      eventType: 'discussion_attended',
       calculateEvents: async () => ['p1', 'p2', 'p3'].map((p) => ({
         key: `d1:${p}`, distinctId: `${p}@x.com`, timestampMs: 1_000_000, properties: {},
       })),
     };
-    const stats = await runProjections({
-      db, posthog: ph.client, projections: [projection], now: 2_000_000,
+    const result = await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
-    expect(stats.byEvent.discussion_attended).toMatchObject({ candidates: 3, sent: 3 });
+    expect(result).toMatchObject({ candidates: 3, sent: 3 });
     expect((await logRows()).map((r) => r.internalUniqueKey).sort()).toEqual(['d1:p1', 'd1:p2', 'd1:p3']);
-  });
-
-  test('two projections sharing one event name sum under it, with distinct keys', async () => {
-    const ph = makeFakePosthog();
-    const projections = [
-      feed('certificate_issued', [candidate({ key: 'a' })]),
-      feed('certificate_issued', [candidate({ key: 'b' })]),
-    ];
-
-    const stats = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
-    });
-    expect(stats.byEvent.certificate_issued).toMatchObject({ candidates: 2, sent: 2 });
-    expect((await logRows()).map((r) => r.internalUniqueKey).sort()).toEqual(['a', 'b']);
   });
 
   test('partitions live (<=48h) and historical (>48h) into separate batches with the right flag', async () => {
     const ph = makeFakePosthog();
-    const now = 1_000 * 60 * 60 * 24 * 10;
-    const live = now - (10 * 60 * 60 * 1000); // 10h old
-    const old = now - (10 * 24 * 60 * 60 * 1000); // 10d old
-    const projections = [feed('e', [candidate({ key: 'live', timestampMs: live }), candidate({ key: 'old', timestampMs: old })])];
+    const nowMs = 1_000 * 60 * 60 * 24 * 10;
+    const live = nowMs - (10 * 60 * 60 * 1000); // 10h old
+    const old = nowMs - (10 * 24 * 60 * 60 * 1000); // 10d old
+    const projection = feed('e', [candidate({ internalUniqueKey: 'live', timestampMs: live }), candidate({ internalUniqueKey: 'old', timestampMs: old })]);
 
-    await runProjections({
-      db, posthog: ph.client, projections, now,
+    await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: new Date(nowMs).toISOString(),
     });
 
     const liveCall = ph.calls.find((c) => !c.historicalMigration);
@@ -146,22 +132,36 @@ describe('runProjections', () => {
     expect(histCall?.events[0]?.timestamp).toBe(new Date(old).toISOString());
   });
 
-  test('send failure leaves the batch unlogged and retried next run (never log before send)', async () => {
+  test('a send failure is collected (not thrown), leaving the batch unlogged for next run', async () => {
     const ph = makeFakePosthog();
-    const projections = [feed('e', [candidate({ key: 'k' })])];
+    const projection = feed('e', [candidate({ internalUniqueKey: 'k' })]);
 
     ph.failNextSends(1);
-    const first = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    const first = await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
-    expect(first.byEvent.e).toMatchObject({ sent: 0, failedBatches: 1 });
+    expect(first).toMatchObject({ sent: 0, failedBatches: 1 });
+    expect(first.errors).toHaveLength(1);
     expect(await logRows()).toHaveLength(0);
 
-    const second = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    const second = await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
-    expect(second.byEvent.e).toMatchObject({ sent: 1 });
+    expect(second).toMatchObject({ sent: 1 });
     expect(await logRows()).toHaveLength(1);
+  });
+
+  test('a calculateEvents failure throws — the cron loop isolates it per projection', async () => {
+    const ph = makeFakePosthog();
+    const projection: EventProjectionRule = {
+      eventType: 'boom',
+      calculateEvents: async () => {
+        throw new Error('query failed');
+      },
+    };
+    await expect(shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    })).rejects.toThrow('query failed');
   });
 
   test('anti-join: a pre-logged key is not re-sent; a fresh key alongside it is', async () => {
@@ -169,57 +169,45 @@ describe('runProjections', () => {
     await db.pg.insert(posthogEmittedEventsTable).values({
       id: 'e:already', event: 'e', internalUniqueKey: 'already', externalUuid: 'x', eventTimestamp: new Date(1).toISOString(), distinctId: 'a@x.com',
     });
-    const projections = [feed('e', [candidate({ key: 'already' }), candidate({ key: 'fresh' })])];
+    const projection = feed('e', [candidate({ internalUniqueKey: 'already' }), candidate({ internalUniqueKey: 'fresh' })]);
 
-    const stats = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    const result = await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
-    expect(stats.byEvent.e).toMatchObject({ alreadySent: 1, sent: 1 });
+    expect(result).toMatchObject({ alreadySent: 1, sent: 1 });
     expect(ph.events()).toHaveLength(1);
   });
 
   test('dedup backstop: if the log is lost, the re-send carries an identical uuid', async () => {
     const ph = makeFakePosthog();
-    const projections = [feed('e', [candidate({ key: 'k', timestampMs: 1_234 })])];
+    const projection = feed('e', [candidate({ internalUniqueKey: 'k', timestampMs: 1_234 })]);
 
-    await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     const firstUuid = ph.events()[0]?.uuid;
 
     await db.pg.delete(posthogEmittedEventsTable).where(eq(posthogEmittedEventsTable.event, 'e'));
 
-    await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
+    await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(ph.events()[1]?.uuid).toBe(firstUuid);
   });
 
-  test('passes `since` through to each projection', async () => {
+  test('passes `since` through to the projection', async () => {
     const ph = makeFakePosthog();
-    let seen: number | undefined = -1;
-    const projection: Projection = {
-      event: 'e',
+    let seen: string | undefined = 'unset';
+    const projection: EventProjectionRule = {
+      eventType: 'e',
       calculateEvents: async (_db, opts) => {
         seen = opts.since;
         return [];
       },
     };
-    await runProjections({
-      db, posthog: ph.client, projections: [projection], since: 12_345, now: 2_000_000,
+    await shipEventType({
+      db, posthog: ph.client, eventProjectionRule: projection, since: '2026-01-01T00:00:00.000Z', now: '2026-01-01T00:00:00.000Z',
     });
-    expect(seen).toBe(12_345);
-  });
-
-  test('one projection failing does not stop the others', async () => {
-    const ph = makeFakePosthog();
-    ph.failNextSends(1);
-    const projections = [feed('a', [candidate({ key: 'ka' })]), feed('b', [candidate({ key: 'kb' })])];
-
-    const stats = await runProjections({
-      db, posthog: ph.client, projections, now: 2_000_000,
-    });
-    expect(stats.byEvent.a).toMatchObject({ sent: 0, failedBatches: 1 });
-    expect(stats.byEvent.b).toMatchObject({ sent: 1 });
+    expect(seen).toBe('2026-01-01T00:00:00.000Z');
   });
 });

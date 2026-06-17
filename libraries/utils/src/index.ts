@@ -1,5 +1,6 @@
 export { validateEnv } from './validateEnv';
 export { slackAlert } from './slackNotifications';
+export { chunk } from './array';
 
 export {
   MINUTES_IN_UNIT,

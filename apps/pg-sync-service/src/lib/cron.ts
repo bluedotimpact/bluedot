@@ -5,7 +5,9 @@ import {
   computedAirtableFieldDefinitions,
   recomputeValues,
 } from '@bluedot/computed-airtable-fields';
-import { runProjections, createPosthogClient, projections } from '@bluedot/computed-posthog-events';
+import {
+  runProjection, createPosthogClient, projections, type Projection, type PosthogClient,
+} from '@bluedot/computed-posthog-events';
 import {
   initializeWebhooks, pollForUpdates, processUpdateQueue, rateLimiter,
 } from './pg-sync';
@@ -17,7 +19,6 @@ const QUEUE_PROCESSING_INTERVAL_SECONDS = 5;
 const ADMIN_SYNC_CHECK_INTERVAL_SECONDS = 10;
 const COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE = '0 0 */2 * * *'; // every 2 hours
 const POSTHOG_EVENTS_SCHEDULE = '0 */30 * * * *'; // every 30 minutes
-const POSTHOG_EVENTS_LOOKBACK_MS = 24 * 60 * 60 * 1000; // re-scan the last 24h to cover downtime
 
 let isProcessingQueue = false;
 let isCheckingAdminSync = false;
@@ -97,6 +98,26 @@ export const recomputeComputedAirtableFieldsCron = async () => {
   }
 };
 
+const POSTHOG_EVENTS_LOOKBACK_MS = 24 * 60 * 60 * 1000; // re-scan the last 24h to cover brief downtime
+
+const shipProjection = async (projection: Projection, posthog: PosthogClient, since: string) => {
+  const { eventType: event } = projection;
+  try {
+    const {
+      candidates, skipped, alreadySent, sent, failedBatches, errors,
+    } = await runProjection({
+      db, posthog, eventProjectionRule: projection, since,
+    });
+
+    logger.info(`[posthog-events] ${event}: ${sent} sent, ${alreadySent} already sent, ${skipped} skipped (of ${candidates})`);
+    if (failedBatches > 0) {
+      logger.error(`[posthog-events] ${event}: ${failedBatches} batch failure(s); first error:`, errors[0]);
+    }
+  } catch (error) {
+    logger.error(`[posthog-events] ${event} failed:`, error);
+  }
+};
+
 export const shipPosthogEventsCron = async () => {
   if (!env.POSTHOG_PROJECT_API_KEY) {
     logger.info('[posthog-events] Skipping — POSTHOG_PROJECT_API_KEY not configured');
@@ -114,16 +135,12 @@ export const shipPosthogEventsCron = async () => {
       host: env.POSTHOG_HOST ?? 'https://eu.i.posthog.com',
       apiKey: env.POSTHOG_PROJECT_API_KEY,
     });
-    // since the last 24h: cheap incremental scan that still self-heals across short downtime.
-    const stats = await runProjections({
-      db, posthog, projections, since: Date.now() - POSTHOG_EVENTS_LOOKBACK_MS,
-    });
-    logger.info('[posthog-events] Run complete:', JSON.stringify(stats.byEvent));
-    if (stats.errors.length > 0) {
-      logger.error(`[posthog-events] ${stats.errors.length} batch failure(s); first error:`, stats.errors[0]);
+    const since = new Date(Date.now() - POSTHOG_EVENTS_LOOKBACK_MS).toISOString();
+    // Process each event type independently — one failing must not stop the others.
+    for (const projection of projections) {
+      // eslint-disable-next-line no-await-in-loop
+      await shipProjection(projection, posthog, since);
     }
-  } catch (error) {
-    logger.error('[posthog-events] Run failed:', error);
   } finally {
     isShippingPosthogEvents = false;
   }

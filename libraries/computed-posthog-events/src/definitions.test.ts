@@ -6,7 +6,7 @@ import {
 import {
   beforeAll, beforeEach, describe, expect, test,
 } from 'vitest';
-import { runProjections, type PosthogClient, type PosthogEvent } from './core';
+import { shipEventType, type PosthogClient, type PosthogEvent } from './core';
 import { projections } from './definitions';
 
 let db: PgAirtableDb;
@@ -30,11 +30,21 @@ function makeFakePosthog() {
   return { client, events };
 }
 
-const run = (posthog: PosthogClient, now = Date.parse('2026-07-01T00:00:00Z')) => (
-  runProjections({
-    db, posthog, projections, now,
-  })
-);
+// Run every projection, the way the cron loops them.
+const runAll = async (posthog: PosthogClient, opts: { since?: string; now?: string } = {}) => {
+  const now = opts.now ?? '2026-07-01T00:00:00.000Z';
+  for (const projection of projections) {
+    // eslint-disable-next-line no-await-in-loop
+    await shipEventType({
+      db, posthog, eventProjectionRule: projection, since: opts.since, now,
+    });
+  }
+};
+
+// Run a single projection by event name and return its result (for asserting per-event stats).
+const runOne = (posthog: PosthogClient, event: string, opts: { since?: string; now?: string } = {}) => shipEventType({
+  db, posthog, eventProjectionRule: projections.find((p) => p.eventType === event)!, since: opts.since, now: opts.now ?? '2026-07-01T00:00:00.000Z',
+});
 const eventsOf = (events: PosthogEvent[], name: string) => events.filter((e) => e.event === name);
 
 describe('certificate_issued (two source tables)', () => {
@@ -53,7 +63,7 @@ describe('certificate_issued (two source tables)', () => {
     });
 
     const ph = makeFakePosthog();
-    await run(ph.client);
+    await runAll(ph.client);
 
     const certs = eventsOf(ph.events, 'certificate_issued');
     expect(certs.map((e) => String(e.properties.certificate_id)).sort()).toEqual(['cert1', 'sc1']);
@@ -77,9 +87,7 @@ describe('since (incremental scans)', () => {
       },
     ]);
     const ph = makeFakePosthog();
-    await runProjections({
-      db, posthog: ph.client, projections, since: 1_650_000_000 * 1000, now: Date.parse('2026-07-01T00:00:00Z'),
-    });
+    await runAll(ph.client, { since: '2022-01-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'certificate_issued').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 
@@ -93,9 +101,7 @@ describe('since (incremental scans)', () => {
       },
     ]);
     const ph = makeFakePosthog();
-    await runProjections({
-      db, posthog: ph.client, projections, since: Date.parse('2026-03-01T00:00:00Z'), now: Date.parse('2026-07-01T00:00:00Z'),
-    });
+    await runAll(ph.client, { since: '2026-03-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 });
@@ -115,7 +121,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
     ]);
 
     const ph = makeFakePosthog();
-    await run(ph.client);
+    await runAll(ph.client);
 
     const accepts = eventsOf(ph.events, 'application_accepted');
     expect(accepts).toHaveLength(1);
@@ -129,7 +135,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
     });
 
     const ph = makeFakePosthog();
-    await run(ph.client);
+    await runAll(ph.client);
     expect(eventsOf(ph.events, 'application_accepted')).toHaveLength(1);
 
     // `Accepted at` is write-once in Airtable, but even if it somehow moved, the log prevents re-emit.
@@ -137,7 +143,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
       .set({ acceptedAt: '2026-06-20T12:00:00.000Z' })
       .where(eq(courseRegistrationTable.pg.id, 'a1'));
 
-    await run(ph.client);
+    await runAll(ph.client);
     expect(eventsOf(ph.events, 'application_accepted')).toHaveLength(1);
     expect(eventsOf(ph.events, 'application_accepted')[0]?.timestamp).toBe('2026-06-01T10:00:00.000Z');
   });
@@ -165,12 +171,12 @@ describe('discussion_attended (fan-out + distinct_id lookup)', () => {
     ]);
 
     const ph = makeFakePosthog();
-    const stats = await run(ph.client);
+    const result = await runOne(ph.client, 'discussion_attended');
 
     const attended = eventsOf(ph.events, 'discussion_attended');
     expect(attended.map((e) => e.distinct_id).sort()).toEqual(['p1@x.com', 'p2@x.com']);
     expect(attended.every((e) => e.timestamp === START_ISO)).toBe(true);
-    expect(stats.byEvent.discussion_attended).toMatchObject({ candidates: 3, skipped: 1, sent: 2 });
+    expect(result).toMatchObject({ candidates: 3, skipped: 1, sent: 2 });
   });
 
   test('incremental: a newly-added attendee emits on the next run, existing ones do not', async () => {
@@ -189,15 +195,15 @@ describe('discussion_attended (fan-out + distinct_id lookup)', () => {
     ]);
 
     const ph = makeFakePosthog();
-    await run(ph.client);
+    await runAll(ph.client);
     expect(eventsOf(ph.events, 'discussion_attended')).toHaveLength(1);
 
     await db.pg.update(groupDiscussionTable.pg)
       .set({ attendees: ['p1', 'p4'] })
       .where(eq(groupDiscussionTable.pg.id, 'd1'));
 
-    const stats = await run(ph.client);
-    expect(stats.byEvent.discussion_attended).toMatchObject({ alreadySent: 1, sent: 1 });
+    const result = await runOne(ph.client, 'discussion_attended');
+    expect(result).toMatchObject({ alreadySent: 1, sent: 1 });
     expect(eventsOf(ph.events, 'discussion_attended').map((e) => e.distinct_id).sort())
       .toEqual(['p1@x.com', 'p4@x.com']);
   });
