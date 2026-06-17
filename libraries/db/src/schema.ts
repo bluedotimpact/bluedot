@@ -59,6 +59,20 @@ export const syncRequestsTable = pgTable('sync_requests', {
   completedAt: timestamp(),
 });
 
+/**
+ * Append-only log of analytics events already emitted to PostHog by `@bluedot/computed-posthog-events`.
+ * See libraries/computed-posthog-events and the `shipPosthogEventsCron` in pg-sync-service
+ */
+export const posthogEmittedEventsTable = pgTable('posthog_emitted_events', {
+  id: text().primaryKey(), // `${event}:${internalUniqueKey}`
+  event: text().notNull(),
+  internalUniqueKey: text().notNull(),
+  externalUuid: text().notNull(), // the uuid we sent to PostHog, deterministically derived from internalUniqueKey
+  distinctId: text(),
+  eventTimestamp: timestamp({ mode: 'string', withTimezone: true }).notNull(),
+  sentAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+});
+
 export const courseTable = pgAirtable('course', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbl6nq5AVLKINBJ73',
@@ -1259,6 +1273,20 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     decision: {
       pgColumn: text(),
       airtableId: 'fldWVKY5EFAGSRcDT',
+    },
+    acceptedAt: {
+      pgColumn: text(),
+      airtableId: 'fldaUhr1WKxaMGoBK',
+    },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fldyZHM0qpgIkzo8c',
+    },
+    // "PostHog Session ID" — the browser session that submitted the application, captured via the
+    // application form prefill. Lets `application_submitted` join to the applicant's PostHog session.
+    posthogSessionId: {
+      pgColumn: text(),
+      airtableId: 'fld5G27T1IMkkkoGN',
     },
     role: {
       pgColumn: text(),

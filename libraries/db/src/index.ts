@@ -11,6 +11,7 @@ export {
   metaTable,
   syncMetadataTable,
   syncRequestsTable,
+  posthogEmittedEventsTable,
   exerciseResponsePgTable,
   courseTable,
   formConfigurationTable,
