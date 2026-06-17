@@ -8,8 +8,9 @@ import {
 } from 'vitest';
 import { type AxiosError, type AxiosResponse } from 'axios';
 const mockGetSessionId = vi.fn<() => string | null>();
+const mockGetDistinctId = vi.fn<() => string | null>();
 vi.mock('posthog-js', () => ({
-  default: { get_session_id: () => mockGetSessionId() },
+  default: { get_session_id: () => mockGetSessionId(), get_distinct_id: () => mockGetDistinctId() },
 }));
 
 const {
@@ -322,6 +323,7 @@ describe('getInitials', () => {
 describe('buildApplicationUrl', () => {
   beforeEach(() => {
     mockGetSessionId.mockReturnValue(null);
+    mockGetDistinctId.mockReturnValue(null);
   });
 
   it('returns empty string for null / undefined / empty base URL', () => {
@@ -353,5 +355,23 @@ describe('buildApplicationUrl', () => {
   it('preserves existing query params', () => {
     expect(buildApplicationUrl('https://example.com/apply?foo=bar', 'twitter'))
       .toBe('https://example.com/apply?foo=bar&prefill_Source=twitter');
+  });
+
+  it('appends prefill_PostHog Distinct ID (URL-encoded) when the distinct id is anonymous', () => {
+    mockGetDistinctId.mockReturnValue('0190abcd-1234-7000-8000-abcdef012345');
+    expect(buildApplicationUrl('https://example.com/apply', null))
+      .toBe('https://example.com/apply?prefill_PostHog%20Distinct%20ID=0190abcd-1234-7000-8000-abcdef012345');
+  });
+
+  it('does not append the distinct id once it is the email (already identified)', () => {
+    mockGetDistinctId.mockReturnValue('user@example.com');
+    expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
+  });
+
+  it('appends session id and anonymous distinct id together', () => {
+    mockGetSessionId.mockReturnValue('sess-123');
+    mockGetDistinctId.mockReturnValue('anon-abc');
+    expect(buildApplicationUrl('https://example.com/apply', null))
+      .toBe('https://example.com/apply?prefill_PostHog%20Session%20ID=sess-123&prefill_PostHog%20Distinct%20ID=anon-abc');
   });
 });

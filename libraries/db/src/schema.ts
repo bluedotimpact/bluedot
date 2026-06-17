@@ -1288,6 +1288,13 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fld5G27T1IMkkkoGN',
     },
+    // "PostHog Distinct ID" — the PostHog id of the user that submitted the application,
+    // captured via the form prefill. Lets the backend identify that anonymous user as the
+    // owner of the applicant's email
+    posthogDistinctId: {
+      pgColumn: text(),
+      airtableId: 'fldd0jwAHFgywIt7N',
+    },
     role: {
       pgColumn: text(),
       airtableId: 'fld52Y2AyWV8tECDy',

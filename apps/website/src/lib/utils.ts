@@ -182,7 +182,7 @@ export function getInitials(name: string): string {
 }
 
 /**
- * Build an application form URL with PostHog session and UTM source prefill params
+ * Build an application form URL with PostHog session id, anonymous distinct id, and UTM source prefill params.
  */
 export const buildApplicationUrl = (
   baseUrl: string | null | undefined,
@@ -194,13 +194,21 @@ export const buildApplicationUrl = (
   // new URL() requires an absolute URL; skip relative paths (e.g. internal nav links)
   if (!urlWithUtm.startsWith('http://') && !urlWithUtm.startsWith('https://')) return urlWithUtm;
 
-  const sessionId = posthog.get_session_id?.();
-  if (!sessionId) return urlWithUtm;
-
   const urlObj = new URL(urlWithUtm);
-  urlObj.searchParams.set('prefill_PostHog Session ID', sessionId);
+
+  const sessionId = posthog.get_session_id?.();
+  if (sessionId) urlObj.searchParams.set('prefill_PostHog Session ID', sessionId);
+
+  // Forward the distinct id only while it's still anonymous (a uuid). Once the user is identified
+  // it's their email — which we don't want to leak into the external form, and there is no need
+  // to identify them then anyway.
+  const distinctId = posthog.get_distinct_id?.();
+  if (distinctId && !distinctId.includes('@')) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
+
   // URLSearchParams encodes spaces as '+', but miniextensions requires '%20'
-  return urlObj.toString().replace('prefill_PostHog+Session+ID', 'prefill_PostHog%20Session%20ID');
+  return urlObj.toString()
+    .replace('prefill_PostHog+Session+ID', 'prefill_PostHog%20Session%20ID')
+    .replace('prefill_PostHog+Distinct+ID', 'prefill_PostHog%20Distinct%20ID');
 };
 
 /**
