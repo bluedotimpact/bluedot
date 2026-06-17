@@ -1,7 +1,6 @@
 import {
   createTestDbClients, PgAirtableDb, pushTestSchema, resetTestDb,
-  courseRegistrationTable, selfServeCourseRegistrationTable,
-  groupDiscussionTable, meetPersonTable, eq,
+  courseRegistrationTable, selfServeCourseRegistrationTable, eq,
 } from '@bluedot/db';
 import {
   afterEach, beforeAll, beforeEach, describe, expect, test, vi,
@@ -107,6 +106,20 @@ describe('since (incremental scans)', () => {
     await runAll({ since: '2026-03-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
+
+  test('application_submitted: only rows with createdAt >= since (ISO text)', async () => {
+    await db.pg.insert(courseRegistrationTable.pg).values([
+      {
+        id: 'old', courseId: 'c1', email: 'old@x.com', createdAt: '2026-01-01T00:00:00.000Z',
+      },
+      {
+        id: 'new', courseId: 'c1', email: 'new@x.com', createdAt: '2026-06-01T00:00:00.000Z',
+      },
+    ]);
+    const ph = makeFakePosthog();
+    await runAll({ since: '2026-03-01T00:00:00.000Z' });
+    expect(eventsOf(ph.events, 'application_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+  });
 });
 
 describe('application_accepted (write-once `Accepted at`)', () => {
@@ -152,62 +165,38 @@ describe('application_accepted (write-once `Accepted at`)', () => {
   });
 });
 
-describe('discussion_attended (fan-out + distinct_id lookup)', () => {
-  const START = 1_746_090_000; // epoch seconds
-  const START_ISO = new Date(START * 1000).toISOString();
-
-  test('one event per resolvable attendee; unresolved attendees are skipped', async () => {
-    await db.pg.insert(groupDiscussionTable.pg).values({
-      id: 'd1',
-      attendees: ['p1', 'p2', 'p3'],
-      startDateTime: START,
-      round: 'rd1',
-      facilitators: [],
-      participantsExpected: [],
-      endDateTime: START,
-      group: 'g1',
-    });
-    await db.pg.insert(meetPersonTable.pg).values([
-      { id: 'p1', email: 'p1@x.com' },
-      { id: 'p2', email: 'p2@x.com' },
-      // p3 has no meetPerson -> no email -> skipped
+describe('application_submitted (one per registration, accepted or not)', () => {
+  test('emits at createdAt for every registration, joining the PostHog session when captured', async () => {
+    await db.pg.insert(courseRegistrationTable.pg).values([
+      {
+        id: 'r1', courseId: 'c1', email: 'a@x.com', roundId: 'rd1', createdAt: '2026-05-01T09:00:00.000Z', posthogSessionId: 'sess-1',
+      },
+      {
+        id: 'r2', courseId: 'c1', email: 'b@x.com', decision: 'Reject', createdAt: '2026-05-02T09:00:00.000Z',
+      }, // rejected still counts as a submission; no session id captured
     ]);
 
     const ph = makeFakePosthog();
-    const result = await runOne('discussion_attended');
+    const result = await runOne('application_submitted');
 
-    const attended = eventsOf(ph.events, 'discussion_attended');
-    expect(attended.map((e) => e.distinct_id).sort()).toEqual(['p1@x.com', 'p2@x.com']);
-    expect(attended.every((e) => e.timestamp === START_ISO)).toBe(true);
-    expect(result).toMatchObject({ candidates: 3, skipped: 1, sent: 2 });
+    const submits = eventsOf(ph.events, 'application_submitted');
+    expect(result).toMatchObject({ candidates: 2, sent: 2, skipped: 0 });
+    expect(submits.map((e) => e.distinct_id).sort()).toEqual(['a@x.com', 'b@x.com']);
+    const withSession = submits.find((e) => e.distinct_id === 'a@x.com')!;
+    expect(withSession.timestamp).toBe('2026-05-01T09:00:00.000Z');
+    expect(withSession.properties).toMatchObject({ course: 'c1', round: 'rd1', $session_id: 'sess-1' });
+    // no session id captured -> no $session_id property
+    expect(submits.find((e) => e.distinct_id === 'b@x.com')!.properties).not.toHaveProperty('$session_id');
   });
 
-  test('incremental: a newly-added attendee emits on the next run, existing ones do not', async () => {
-    await db.pg.insert(groupDiscussionTable.pg).values({
-      id: 'd1',
-      attendees: ['p1'],
-      startDateTime: START,
-      facilitators: [],
-      participantsExpected: [],
-      endDateTime: START,
-      group: 'g1',
+  test('skips registrations without a createdAt', async () => {
+    await db.pg.insert(courseRegistrationTable.pg).values({
+      id: 'r1', courseId: 'c1', email: 'a@x.com',
     });
-    await db.pg.insert(meetPersonTable.pg).values([
-      { id: 'p1', email: 'p1@x.com' },
-      { id: 'p4', email: 'p4@x.com' },
-    ]);
 
     const ph = makeFakePosthog();
-    await runAll();
-    expect(eventsOf(ph.events, 'discussion_attended')).toHaveLength(1);
-
-    await db.pg.update(groupDiscussionTable.pg)
-      .set({ attendees: ['p1', 'p4'] })
-      .where(eq(groupDiscussionTable.pg.id, 'd1'));
-
-    const result = await runOne('discussion_attended');
-    expect(result).toMatchObject({ alreadySent: 1, sent: 1 });
-    expect(eventsOf(ph.events, 'discussion_attended').map((e) => e.distinct_id).sort())
-      .toEqual(['p1@x.com', 'p4@x.com']);
+    const result = await runOne('application_submitted');
+    expect(result).toMatchObject({ candidates: 0, sent: 0 });
+    expect(eventsOf(ph.events, 'application_submitted')).toHaveLength(0);
   });
 });

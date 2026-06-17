@@ -13,8 +13,7 @@ const env = validateEnv({
     'PORT',
     'PROD_ONLY_WEBHOOK_DELETION',
     'VITEST',
-    // PostHog event shipping (env-specific project ingestion key — must match the website's project
-    // for this env). Optional for now: the cron no-ops if unset. POSTHOG_HOST defaults to direct.
+    // Must match the project website/ uses
     'POSTHOG_PROJECT_API_KEY',
     'POSTHOG_HOST',
   ],
