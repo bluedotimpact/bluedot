@@ -22,6 +22,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         distinctId: r.email,
         timestampMs: Date.parse(r.createdAt!),
         properties: {
+          // TODO worth including readable values here, since it will be hard to re-look them up in posthog
           course: r.courseId,
           round: r.roundId,
           // $session_id is PostHog's reserved key for session stitching; only set when we captured one.
@@ -40,6 +41,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         internalUniqueKey: `accept:${r.id}`,
         distinctId: r.email,
         timestampMs: Date.parse(r.acceptedAt!),
+        // TODO worth including readable values
         properties: { course: r.courseId, round: r.roundId },
       }));
     },
@@ -61,6 +63,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
           internalUniqueKey: `courseReg:${r.id}`,
           distinctId: r.email,
           timestampMs: Number(r.certificateCreatedAt) * 1000,
+          // TODO worth including readable values
           properties: { course: r.courseId, round: r.roundId, certificate_id: r.certificateId },
         })),
         ...selfServe.filter((r) => r.certificateId != null).map((r) => ({
