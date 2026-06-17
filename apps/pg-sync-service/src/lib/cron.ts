@@ -6,7 +6,7 @@ import {
   recomputeValues,
 } from '@bluedot/computed-airtable-fields';
 import {
-  runProjection, createPosthogClient, projections, type Projection, type PosthogClient,
+  forwardEventTypeToPostHog, eventProjectionRules, type EventProjectionRule, type PosthogCredentials,
 } from '@bluedot/computed-posthog-events';
 import {
   initializeWebhooks, pollForUpdates, processUpdateQueue, rateLimiter,
@@ -100,13 +100,13 @@ export const recomputeComputedAirtableFieldsCron = async () => {
 
 const POSTHOG_EVENTS_LOOKBACK_MS = 24 * 60 * 60 * 1000; // re-scan the last 24h to cover brief downtime
 
-const shipProjection = async (projection: Projection, posthog: PosthogClient, since: string) => {
-  const { eventType: event } = projection;
+const forwardSingleEventTypeToPostHog = async (eventProjectionRule: EventProjectionRule, posthogCredentials: PosthogCredentials, since: string) => {
+  const { eventType: event } = eventProjectionRule;
   try {
     const {
       candidates, skipped, alreadySent, sent, failedBatches, errors,
-    } = await runProjection({
-      db, posthog, eventProjectionRule: projection, since,
+    } = await forwardEventTypeToPostHog({
+      db, posthogCredentials, eventProjectionRule, since,
     });
 
     logger.info(`[posthog-events] ${event}: ${sent} sent, ${alreadySent} already sent, ${skipped} skipped (of ${candidates})`);
@@ -118,8 +118,9 @@ const shipProjection = async (projection: Projection, posthog: PosthogClient, si
   }
 };
 
-export const shipPosthogEventsCron = async () => {
-  if (!env.POSTHOG_PROJECT_API_KEY) {
+export const forwardAllEventsToPostHogCron = async () => {
+  const apiKey = env.POSTHOG_PROJECT_API_KEY;
+  if (!apiKey) {
     logger.info('[posthog-events] Skipping — POSTHOG_PROJECT_API_KEY not configured');
     return;
   }
@@ -131,15 +132,15 @@ export const shipPosthogEventsCron = async () => {
 
   isShippingPosthogEvents = true;
   try {
-    const posthog = createPosthogClient({
+    const posthogCredentials: PosthogCredentials = {
       host: env.POSTHOG_HOST ?? 'https://eu.i.posthog.com',
-      apiKey: env.POSTHOG_PROJECT_API_KEY,
-    });
+      apiKey,
+    };
     const since = new Date(Date.now() - POSTHOG_EVENTS_LOOKBACK_MS).toISOString();
     // Process each event type independently — one failing must not stop the others.
-    for (const projection of projections) {
+    for (const projection of eventProjectionRules) {
       // eslint-disable-next-line no-await-in-loop
-      await shipProjection(projection, posthog, since);
+      await forwardSingleEventTypeToPostHog(projection, posthogCredentials, since);
     }
   } finally {
     isShippingPosthogEvents = false;
@@ -150,7 +151,7 @@ if (process.env.NODE_ENV !== 'test') {
   cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
   cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
   cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
-  cron.schedule(POSTHOG_EVENTS_SCHEDULE, shipPosthogEventsCron);
+  cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
 }
 
 export const startWebhooksAndProcessingUpdates = async () => {

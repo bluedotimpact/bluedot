@@ -6,25 +6,24 @@ import {
 import type { PgColumn } from 'drizzle-orm/pg-core';
 import type { EventProjectionRule } from './core';
 
-// Gate helpers: a column must be present, and (for incremental runs) >= `since`. `since` is an ISO
-// timestamp; each definition converts it to its column's unit — epoch seconds for numeric columns,
-// or the ISO string directly for text columns.
-const gatePresentSince = (col: PgColumn, sinceValue: number | string | undefined) => (
+const filterGteOrNull = (col: PgColumn, sinceValue: number | string | undefined) => (
   sinceValue == null ? isNotNull(col) : and(isNotNull(col), gte(col, sinceValue))
 );
-const isoToEpochSeconds = (sinceIso?: string) => (sinceIso == null ? undefined : Math.floor(Date.parse(sinceIso) / 1000));
+const isoDateToEpochSeconds = (sinceIso?: string) => (sinceIso == null ? undefined : Math.floor(Date.parse(sinceIso) / 1000));
 
-export const projections: EventProjectionRule[] = [
+export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'certificate_issued',
     async calculateEvents(db, { since }) {
-      const s = isoToEpochSeconds(since); // certificateCreatedAt is epoch seconds in both tables
+      const sinceEpochSeconds = isoDateToEpochSeconds(since); // certificateCreatedAt is epoch seconds in both tables
+
       const [facilitated, selfServe] = await Promise.all([
         db.pg.select().from(courseRegistrationTable.pg)
-          .where(gatePresentSince(courseRegistrationTable.pg.certificateCreatedAt, s)),
+          .where(filterGteOrNull(courseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds)),
         db.pg.select().from(selfServeCourseRegistrationTable.pg)
-          .where(gatePresentSince(selfServeCourseRegistrationTable.pg.certificateCreatedAt, s)),
+          .where(filterGteOrNull(selfServeCourseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds)),
       ]);
+
       return [
         ...facilitated.filter((r) => r.certificateId != null).map((r) => ({
           internalUniqueKey: `courseReg:${r.id}`,
@@ -41,16 +40,14 @@ export const projections: EventProjectionRule[] = [
       ];
     },
   },
-
-  // Gated on the write-once `Accepted at` field (stamped the first time Decision becomes Accept and
-  // never moved). So the timestamp is stable and the event emits once, even if the Decision later flips.
   {
     eventType: 'application_accepted',
     async calculateEvents(db, { since }) {
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
-        .where(gatePresentSince(courseRegistrationTable.pg.acceptedAt, since)); // acceptedAt is ISO text
+        .where(filterGteOrNull(courseRegistrationTable.pg.acceptedAt, since)); // acceptedAt is ISO text
+
       return rows.map((r) => ({
-        key: `accept:${r.id}`,
+        internalUniqueKey: `accept:${r.id}`,
         distinctId: r.email,
         timestampMs: Date.parse(r.acceptedAt!),
         properties: { course: r.courseId, round: r.roundId },
@@ -58,13 +55,13 @@ export const projections: EventProjectionRule[] = [
     },
   },
 
-  // One row -> N events (attendee array), distinct_id resolved via an id->email map.
+  // TODO to application_submitted instead
   {
     eventType: 'discussion_attended',
     async calculateEvents(db, { since }) {
       const [discussions, people] = await Promise.all([
         db.pg.select().from(groupDiscussionTable.pg)
-          .where(gatePresentSince(groupDiscussionTable.pg.startDateTime, isoToEpochSeconds(since))),
+          .where(filterGteOrNull(groupDiscussionTable.pg.startDateTime, isoDateToEpochSeconds(since))),
         db.pg.select({ id: meetPersonTable.pg.id, email: meetPersonTable.pg.email }).from(meetPersonTable.pg),
       ]);
       const emailById = new Map(people.map((p) => [p.id, p.email]));

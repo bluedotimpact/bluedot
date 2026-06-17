@@ -1,7 +1,7 @@
 export {
-  shipEventType as runProjection, createPosthogClient, deterministicUuid,
+  forwardEventTypeToPostHog,
 } from './core';
 export type {
-  EventProjectionRule as Projection, Event as Candidate, PosthogEvent, PosthogClient, PosthogClientConfig, ProjectionResult,
+  EventProjectionRule, Event, PosthogEvent, PosthogCredentials, ProjectionResult,
 } from './core';
-export { projections } from './definitions';
+export { eventProjectionRules } from './definitions';

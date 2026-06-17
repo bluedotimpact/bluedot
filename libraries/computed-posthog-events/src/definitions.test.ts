@@ -4,10 +4,12 @@ import {
   groupDiscussionTable, meetPersonTable, eq,
 } from '@bluedot/db';
 import {
-  beforeAll, beforeEach, describe, expect, test,
+  afterEach, beforeAll, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { shipEventType, type PosthogClient, type PosthogEvent } from './core';
-import { projections } from './definitions';
+import { forwardEventTypeToPostHog, type PosthogEvent } from './core';
+import { eventProjectionRules } from './definitions';
+
+const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 
 let db: PgAirtableDb;
 
@@ -19,31 +21,32 @@ beforeAll(async () => {
   await pushTestSchema(db);
 });
 beforeEach(async () => resetTestDb(db));
+afterEach(() => vi.unstubAllGlobals());
 
+// Stub global fetch to record every event sent to PostHog's /batch.
 function makeFakePosthog() {
   const events: PosthogEvent[] = [];
-  const client: PosthogClient = {
-    async sendBatch(batch) {
-      events.push(...batch);
-    },
-  };
-  return { client, events };
+  vi.stubGlobal('fetch', async (_url: string, init: { body: string }) => {
+    events.push(...JSON.parse(init.body).batch);
+    return new Response(JSON.stringify({ status: 'Ok' }), { status: 200 });
+  });
+  return { events };
 }
 
 // Run every projection, the way the cron loops them.
-const runAll = async (posthog: PosthogClient, opts: { since?: string; now?: string } = {}) => {
+const runAll = async (opts: { since?: string; now?: string } = {}) => {
   const now = opts.now ?? '2026-07-01T00:00:00.000Z';
-  for (const projection of projections) {
+  for (const projection of eventProjectionRules) {
     // eslint-disable-next-line no-await-in-loop
-    await shipEventType({
-      db, posthog, eventProjectionRule: projection, since: opts.since, now,
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, since: opts.since, now,
     });
   }
 };
 
 // Run a single projection by event name and return its result (for asserting per-event stats).
-const runOne = (posthog: PosthogClient, event: string, opts: { since?: string; now?: string } = {}) => shipEventType({
-  db, posthog, eventProjectionRule: projections.find((p) => p.eventType === event)!, since: opts.since, now: opts.now ?? '2026-07-01T00:00:00.000Z',
+const runOne = (event: string, opts: { since?: string; now?: string } = {}) => forwardEventTypeToPostHog({
+  db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: eventProjectionRules.find((p) => p.eventType === event)!, since: opts.since, now: opts.now ?? '2026-07-01T00:00:00.000Z',
 });
 const eventsOf = (events: PosthogEvent[], name: string) => events.filter((e) => e.event === name);
 
@@ -63,7 +66,7 @@ describe('certificate_issued (two source tables)', () => {
     });
 
     const ph = makeFakePosthog();
-    await runAll(ph.client);
+    await runAll();
 
     const certs = eventsOf(ph.events, 'certificate_issued');
     expect(certs.map((e) => String(e.properties.certificate_id)).sort()).toEqual(['cert1', 'sc1']);
@@ -87,7 +90,7 @@ describe('since (incremental scans)', () => {
       },
     ]);
     const ph = makeFakePosthog();
-    await runAll(ph.client, { since: '2022-01-01T00:00:00.000Z' });
+    await runAll({ since: '2022-01-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'certificate_issued').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 
@@ -101,7 +104,7 @@ describe('since (incremental scans)', () => {
       },
     ]);
     const ph = makeFakePosthog();
-    await runAll(ph.client, { since: '2026-03-01T00:00:00.000Z' });
+    await runAll({ since: '2026-03-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 });
@@ -121,7 +124,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
     ]);
 
     const ph = makeFakePosthog();
-    await runAll(ph.client);
+    await runAll();
 
     const accepts = eventsOf(ph.events, 'application_accepted');
     expect(accepts).toHaveLength(1);
@@ -135,7 +138,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
     });
 
     const ph = makeFakePosthog();
-    await runAll(ph.client);
+    await runAll();
     expect(eventsOf(ph.events, 'application_accepted')).toHaveLength(1);
 
     // `Accepted at` is write-once in Airtable, but even if it somehow moved, the log prevents re-emit.
@@ -143,7 +146,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
       .set({ acceptedAt: '2026-06-20T12:00:00.000Z' })
       .where(eq(courseRegistrationTable.pg.id, 'a1'));
 
-    await runAll(ph.client);
+    await runAll();
     expect(eventsOf(ph.events, 'application_accepted')).toHaveLength(1);
     expect(eventsOf(ph.events, 'application_accepted')[0]?.timestamp).toBe('2026-06-01T10:00:00.000Z');
   });
@@ -171,7 +174,7 @@ describe('discussion_attended (fan-out + distinct_id lookup)', () => {
     ]);
 
     const ph = makeFakePosthog();
-    const result = await runOne(ph.client, 'discussion_attended');
+    const result = await runOne('discussion_attended');
 
     const attended = eventsOf(ph.events, 'discussion_attended');
     expect(attended.map((e) => e.distinct_id).sort()).toEqual(['p1@x.com', 'p2@x.com']);
@@ -195,14 +198,14 @@ describe('discussion_attended (fan-out + distinct_id lookup)', () => {
     ]);
 
     const ph = makeFakePosthog();
-    await runAll(ph.client);
+    await runAll();
     expect(eventsOf(ph.events, 'discussion_attended')).toHaveLength(1);
 
     await db.pg.update(groupDiscussionTable.pg)
       .set({ attendees: ['p1', 'p4'] })
       .where(eq(groupDiscussionTable.pg.id, 'd1'));
 
-    const result = await runOne(ph.client, 'discussion_attended');
+    const result = await runOne('discussion_attended');
     expect(result).toMatchObject({ alreadySent: 1, sent: 1 });
     expect(eventsOf(ph.events, 'discussion_attended').map((e) => e.distinct_id).sort())
       .toEqual(['p1@x.com', 'p4@x.com']);

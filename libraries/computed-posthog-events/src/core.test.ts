@@ -3,12 +3,14 @@ import {
   posthogEmittedEventsTable, eq,
 } from '@bluedot/db';
 import {
-  beforeAll, beforeEach, describe, expect, test,
+  afterEach, beforeAll, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  shipEventType, deterministicUuid,
-  type Event, type EventProjectionRule, type PosthogClient, type PosthogEvent,
+  forwardEventTypeToPostHog, deterministicUuid,
+  type Event, type EventProjectionRule, type PosthogEvent,
 } from './core';
+
+const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 
 let db: PgAirtableDb;
 
@@ -20,23 +22,23 @@ beforeAll(async () => {
   await pushTestSchema(db);
 });
 beforeEach(async () => resetTestDb(db));
+afterEach(() => vi.unstubAllGlobals());
 
-// Fake PostHog client: records batches; can be told to fail the next N sends.
+// Stub global fetch to record the /batch posts; can be told to fail the next N sends.
 function makeFakePosthog() {
   const calls: { events: PosthogEvent[]; historicalMigration: boolean }[] = [];
   let failNext = 0;
-  const client: PosthogClient = {
-    async sendBatch(events, opts) {
-      if (failNext > 0) {
-        failNext -= 1;
-        throw new Error('posthog down');
-      }
+  vi.stubGlobal('fetch', async (_url: string, init: { body: string }) => {
+    if (failNext > 0) {
+      failNext -= 1;
+      return new Response('posthog down', { status: 500 });
+    }
 
-      calls.push({ events: [...events], historicalMigration: opts.historicalMigration });
-    },
-  };
+    const body = JSON.parse(init.body);
+    calls.push({ events: body.batch, historicalMigration: body.historical_migration });
+    return new Response(JSON.stringify({ status: 'Ok' }), { status: 200 });
+  });
   return {
-    client,
     calls,
     failNextSends: (n: number) => {
       failNext = n;
@@ -47,7 +49,7 @@ function makeFakePosthog() {
 
 // A projection that just returns fixed candidates, so tests feed the runner controlled input
 // while still exercising the real PGlite-backed log.
-const feed = (event: string, candidates: Event[]): EventProjectionRule => ({
+const staticEventProjectionRule = (event: string, candidates: Event[]): EventProjectionRule => ({
   eventType: event,
   calculateEvents: async () => candidates,
 });
@@ -69,16 +71,16 @@ describe('deterministicUuid', () => {
 describe('runProjection', () => {
   test('emits one event per candidate, logs them, second run is a no-op', async () => {
     const ph = makeFakePosthog();
-    const projection = feed('certificate_issued', [candidate({ internalUniqueKey: 'r1' }), candidate({ internalUniqueKey: 'r2' })]);
+    const projection = staticEventProjectionRule('certificate_issued', [candidate({ internalUniqueKey: 'r1' }), candidate({ internalUniqueKey: 'r2' })]);
 
-    const first = await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    const first = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(first).toMatchObject({ candidates: 2, sent: 2, alreadySent: 0 });
     expect(await logRows()).toHaveLength(2);
 
-    const second = await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    const second = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(second).toMatchObject({ sent: 0, alreadySent: 2 });
     expect(ph.events()).toHaveLength(2); // nothing new sent
@@ -86,30 +88,30 @@ describe('runProjection', () => {
 
   test('skips candidates with null/empty distinctId or non-finite timestamp', async () => {
     const ph = makeFakePosthog();
-    const projection = feed('e', [
+    const projection = staticEventProjectionRule('e', [
       candidate({ internalUniqueKey: 'ok' }),
       candidate({ internalUniqueKey: 'no-email', distinctId: null }),
       candidate({ internalUniqueKey: 'blank', distinctId: '' }),
       candidate({ internalUniqueKey: 'bad-ts', timestampMs: NaN }),
     ]);
 
-    const result = await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    const result = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(result).toMatchObject({ candidates: 4, skipped: 3, sent: 1 });
     expect(ph.events().map((e) => e.distinct_id)).toEqual(['a@example.com']);
   });
 
   test('fan-out: one projection returning N candidates yields N distinct-key events', async () => {
-    const ph = makeFakePosthog();
+    makeFakePosthog();
     const projection: EventProjectionRule = {
       eventType: 'discussion_attended',
       calculateEvents: async () => ['p1', 'p2', 'p3'].map((p) => ({
-        key: `d1:${p}`, distinctId: `${p}@x.com`, timestampMs: 1_000_000, properties: {},
+        internalUniqueKey: `d1:${p}`, distinctId: `${p}@x.com`, timestampMs: 1_000_000, properties: {},
       })),
     };
-    const result = await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    const result = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(result).toMatchObject({ candidates: 3, sent: 3 });
     expect((await logRows()).map((r) => r.internalUniqueKey).sort()).toEqual(['d1:p1', 'd1:p2', 'd1:p3']);
@@ -120,10 +122,10 @@ describe('runProjection', () => {
     const nowMs = 1_000 * 60 * 60 * 24 * 10;
     const live = nowMs - (10 * 60 * 60 * 1000); // 10h old
     const old = nowMs - (10 * 24 * 60 * 60 * 1000); // 10d old
-    const projection = feed('e', [candidate({ internalUniqueKey: 'live', timestampMs: live }), candidate({ internalUniqueKey: 'old', timestampMs: old })]);
+    const projection = staticEventProjectionRule('e', [candidate({ internalUniqueKey: 'live', timestampMs: live }), candidate({ internalUniqueKey: 'old', timestampMs: old })]);
 
-    await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: new Date(nowMs).toISOString(),
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: new Date(nowMs).toISOString(),
     });
 
     const liveCall = ph.calls.find((c) => !c.historicalMigration);
@@ -134,33 +136,33 @@ describe('runProjection', () => {
 
   test('a send failure is collected (not thrown), leaving the batch unlogged for next run', async () => {
     const ph = makeFakePosthog();
-    const projection = feed('e', [candidate({ internalUniqueKey: 'k' })]);
+    const projection = staticEventProjectionRule('e', [candidate({ internalUniqueKey: 'k' })]);
 
     ph.failNextSends(1);
-    const first = await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    const first = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(first).toMatchObject({ sent: 0, failedBatches: 1 });
     expect(first.errors).toHaveLength(1);
     expect(await logRows()).toHaveLength(0);
 
-    const second = await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    const second = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(second).toMatchObject({ sent: 1 });
     expect(await logRows()).toHaveLength(1);
   });
 
   test('a calculateEvents failure throws — the cron loop isolates it per projection', async () => {
-    const ph = makeFakePosthog();
+    makeFakePosthog();
     const projection: EventProjectionRule = {
       eventType: 'boom',
       calculateEvents: async () => {
         throw new Error('query failed');
       },
     };
-    await expect(shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    await expect(forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     })).rejects.toThrow('query failed');
   });
 
@@ -169,10 +171,10 @@ describe('runProjection', () => {
     await db.pg.insert(posthogEmittedEventsTable).values({
       id: 'e:already', event: 'e', internalUniqueKey: 'already', externalUuid: 'x', eventTimestamp: new Date(1).toISOString(), distinctId: 'a@x.com',
     });
-    const projection = feed('e', [candidate({ internalUniqueKey: 'already' }), candidate({ internalUniqueKey: 'fresh' })]);
+    const projection = staticEventProjectionRule('e', [candidate({ internalUniqueKey: 'already' }), candidate({ internalUniqueKey: 'fresh' })]);
 
-    const result = await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    const result = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(result).toMatchObject({ alreadySent: 1, sent: 1 });
     expect(ph.events()).toHaveLength(1);
@@ -180,23 +182,23 @@ describe('runProjection', () => {
 
   test('dedup backstop: if the log is lost, the re-send carries an identical uuid', async () => {
     const ph = makeFakePosthog();
-    const projection = feed('e', [candidate({ internalUniqueKey: 'k', timestampMs: 1_234 })]);
+    const projection = staticEventProjectionRule('e', [candidate({ internalUniqueKey: 'k', timestampMs: 1_234 })]);
 
-    await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     const firstUuid = ph.events()[0]?.uuid;
 
     await db.pg.delete(posthogEmittedEventsTable).where(eq(posthogEmittedEventsTable.event, 'e'));
 
-    await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
     });
     expect(ph.events()[1]?.uuid).toBe(firstUuid);
   });
 
   test('passes `since` through to the projection', async () => {
-    const ph = makeFakePosthog();
+    makeFakePosthog();
     let seen: string | undefined = 'unset';
     const projection: EventProjectionRule = {
       eventType: 'e',
@@ -205,8 +207,8 @@ describe('runProjection', () => {
         return [];
       },
     };
-    await shipEventType({
-      db, posthog: ph.client, eventProjectionRule: projection, since: '2026-01-01T00:00:00.000Z', now: '2026-01-01T00:00:00.000Z',
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, since: '2026-01-01T00:00:00.000Z', now: '2026-01-01T00:00:00.000Z',
     });
     expect(seen).toBe('2026-01-01T00:00:00.000Z');
   });
