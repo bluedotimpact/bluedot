@@ -65,6 +65,7 @@ export type {
   Meta,
   SyncMetadata,
   SyncRequest,
+  PosthogEmittedEvent,
   SyncStatus,
   Course,
   ExerciseResponse,

@@ -68,7 +68,7 @@ export const posthogEmittedEventsTable = pgTable('posthog_emitted_events', {
   event: text().notNull(),
   internalUniqueKey: text().notNull(),
   externalUuid: text().notNull(), // the uuid we sent to PostHog, deterministically derived from internalUniqueKey
-  distinctId: text(),
+  distinctId: text().notNull(), // a row exists only after a successful emit, which always has a distinct_id
   eventTimestamp: timestamp({ mode: 'string', withTimezone: true }).notNull(),
   sentAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
 });
@@ -1682,6 +1682,7 @@ export const isDiscussionParticipant = (
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
+export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
 export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
