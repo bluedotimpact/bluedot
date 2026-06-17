@@ -1,5 +1,5 @@
 import {
-  applicationsCourseTable, COURSE_ROLE, courseRegistrationTable, selfServeCourseRegistrationTable, userTable,
+  applicationsCourseTable, selfServeCourseRegistrationTable, userTable,
 } from '@bluedot/db';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
@@ -40,29 +40,12 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'PRECONDITION_FAILED', message: 'User record not available yet' });
     }
 
-    const selfServeRegistration = await db.insert(selfServeCourseRegistrationTable, {
+    return db.insert(selfServeCourseRegistrationTable, {
       userId: user.id,
       courseApplicationsBaseId: applicationsCourse.id,
       source: source ?? null,
       createdAt: new Date().toISOString(),
     });
-
-    // Keep dual-writing the legacy row until the migration to the self-serve table (#2526)
-    // is fully complete
-    const existingLegacy = await db.getFirst(courseRegistrationTable, {
-      filter: { email: ctx.auth.email, courseId, decision: 'Accept' },
-    });
-    if (!existingLegacy) {
-      await db.insert(courseRegistrationTable, {
-        email: ctx.auth.email,
-        courseApplicationsBaseId: applicationsCourse.id,
-        role: COURSE_ROLE.PARTICIPANT,
-        decision: 'Accept',
-        source: source ?? null,
-      });
-    }
-
-    return selfServeRegistration;
   });
 
 export const selfServeCourseRegistrationsRouter = router({

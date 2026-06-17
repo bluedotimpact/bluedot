@@ -339,7 +339,7 @@ describe('issueFoaiCertificateIfComplete', () => {
     });
   };
 
-  test('issues the certificate on the self-serve row and mirrors it to legacy', async () => {
+  test('issues the certificate on the self-serve row only', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
     });
@@ -355,8 +355,7 @@ describe('issueFoaiCertificateIfComplete', () => {
     expect(selfServe?.certificateId).toBe('ss-1');
 
     const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
-    expect(legacy.certificateId).toBe('ss-1');
-    expect(legacy.certificateCreatedAt).toBe(selfServe?.certificateCreatedAt);
+    expect(legacy.certificateId).toBeNull();
   });
 
   test('does nothing when no self-serve row exists', async () => {
