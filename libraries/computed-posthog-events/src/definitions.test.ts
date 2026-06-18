@@ -1,11 +1,11 @@
 import {
   createTestDbClients, PgAirtableDb, pushTestSchema, resetTestDb,
-  courseRegistrationTable, selfServeCourseRegistrationTable, eq,
+  courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
 } from '@bluedot/db';
 import {
   afterEach, beforeAll, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { forwardEventTypeToPostHog, type PosthogEvent } from './core';
+import { forwardEventTypeToPostHog, type PostHogEvent } from './core';
 import { eventProjectionRules } from './definitions';
 
 const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
@@ -24,7 +24,7 @@ afterEach(() => vi.unstubAllGlobals());
 
 // Stub global fetch to record every event sent to PostHog's /batch.
 function makeFakePosthog() {
-  const events: PosthogEvent[] = [];
+  const events: PostHogEvent[] = [];
   vi.stubGlobal('fetch', async (_url: string, init: { body: string }) => {
     events.push(...JSON.parse(init.body).batch);
     return new Response(JSON.stringify({ status: 'Ok' }), { status: 200 });
@@ -47,7 +47,7 @@ const runAll = async (opts: { since?: string; now?: string } = {}) => {
 const runOne = (event: string, opts: { since?: string; now?: string } = {}) => forwardEventTypeToPostHog({
   db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: eventProjectionRules.find((p) => p.eventType === event)!, since: opts.since, now: opts.now ?? '2026-07-01T00:00:00.000Z',
 });
-const eventsOf = (events: PosthogEvent[], name: string) => events.filter((e) => e.event === name);
+const eventsOf = (events: PostHogEvent[], name: string) => events.filter((e) => e.event === name);
 
 describe('certificate_issued (two source tables)', () => {
   test('emits from both courseRegistration and selfServe, namespaced; skips rows without a cert', async () => {
@@ -198,5 +198,20 @@ describe('application_submitted (one per registration, accepted or not)', () => 
     const result = await runOne('application_submitted');
     expect(result).toMatchObject({ candidates: 0, sent: 0 });
     expect(eventsOf(ph.events, 'application_submitted')).toHaveLength(0);
+  });
+
+  test('reports the readable course title (from courseTable) and round name', async () => {
+    await db.pg.insert(courseTable.pg).values({
+      id: 'c1', slug: 'agi-strategy', shortDescription: 'x', title: 'AGI Strategy', units: [],
+    });
+    await db.pg.insert(courseRegistrationTable.pg).values({
+      id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', roundName: 'AGI Strategy (2026 Mar W12) - Part-time',
+    });
+
+    const ph = makeFakePosthog();
+    await runOne('application_submitted');
+
+    expect(eventsOf(ph.events, 'application_submitted')[0]?.properties)
+      .toMatchObject({ course: 'AGI Strategy', round: 'AGI Strategy (2026 Mar W12) - Part-time' });
   });
 });

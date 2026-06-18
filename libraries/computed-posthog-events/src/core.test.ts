@@ -7,7 +7,7 @@ import {
 } from 'vitest';
 import {
   forwardEventTypeToPostHog, deterministicUuid,
-  type Event, type EventProjectionRule, type PosthogEvent,
+  type Event, type TrackEvent, type EventProjectionRule, type PostHogEvent,
 } from './core';
 
 const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
@@ -26,7 +26,7 @@ afterEach(() => vi.unstubAllGlobals());
 
 // Stub global fetch to record the /batch posts; can be told to fail the next N sends.
 function makeFakePosthog() {
-  const calls: { events: PosthogEvent[]; historicalMigration: boolean }[] = [];
+  const calls: { events: PostHogEvent[]; historicalMigration: boolean }[] = [];
   let failNext = 0;
   vi.stubGlobal('fetch', async (_url: string, init: { body: string }) => {
     if (failNext > 0) {
@@ -54,7 +54,7 @@ const staticEventProjectionRule = (event: string, candidates: Event[]): EventPro
   calculateEvents: async () => candidates,
 });
 
-const candidate = (over: Partial<Event> = {}): Event => ({
+const candidate = (over: Partial<TrackEvent> = {}): TrackEvent => ({
   internalUniqueKey: 'k1', distinctId: 'a@example.com', timestampMs: 1_000_000, properties: {}, ...over,
 });
 const logRows = () => db.pg.select().from(posthogEmittedEventsTable);

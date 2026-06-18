@@ -5,15 +5,31 @@ import {
 import { chunk } from '@bluedot/utils';
 import { v5 as uuidv5 } from 'uuid';
 
-/** A single logical event derived from source state. */
-export type Event = {
+/** A track event: a normal analytics event (the default kind). `distinctId` is the PostHog person key. */
+export type TrackEvent = {
+  type?: 'track';
   /** Unique within an event type. E.g. the record id of a course registration */
   internalUniqueKey: string;
-  /** PostHog person key. */
   distinctId: string | null;
   timestampMs: number;
   properties: Record<string, unknown>;
 };
+
+/**
+ * An identify event: merges an anonymous distinct id into the identified one (e.g. an email), and —
+ * for live batches only — sets person properties. The engine always sends these live, because under
+ * historical_migration PostHog performs the merge but drops the `$set` (verified against staging).
+ */
+export type IdentifyEvent = {
+  type: 'identify';
+  internalUniqueKey: string;
+  distinctId: string; // the identified id, e.g. email
+  anonDistinctId: string; // merged into distinctId
+  timestampMs: number;
+  set?: Record<string, unknown>;
+};
+
+export type Event = TrackEvent | IdentifyEvent;
 
 /** One event type and how to derive it. */
 export type EventProjectionRule = {
@@ -22,7 +38,7 @@ export type EventProjectionRule = {
 };
 
 /** What we POST to PostHog. distinct_id + uuid are top-level (requirement for PostHog to join to user and dedup internally). */
-export type PosthogEvent = {
+export type PostHogEvent = {
   event: string;
   distinct_id: string;
   uuid: string;
@@ -40,7 +56,7 @@ const BATCH_SIZE = 100; // events per PostHog /batch request
 
 export type ProjectionResult = {
   candidates: number; // total produced by calculateEvents
-  skipped: number; // null/empty distinctId or non-finite timestamp
+  skipped: number; // malformed event
   alreadySent: number; // already in the log
   sent: number; // newly delivered + logged
   failedBatches: number; // batches whose send/log threw (events stay unlogged, retried next run)
@@ -61,57 +77,77 @@ export async function forwardEventTypeToPostHog({
   since?: string;
   now?: string;
 }): Promise<ProjectionResult> {
-  const { eventType: event } = eventProjectionRule;
+  const { eventType } = eventProjectionRule;
   const batchUrl = `${posthogCredentials.host.replace(/\/$/, '')}/batch/`;
   const result: ProjectionResult = {
     candidates: 0, skipped: 0, alreadySent: 0, sent: 0, failedBatches: 0, errors: [],
   };
 
-  // Step 1: Calculate events
+  // A track event is sent under the rule's event type; an identify under PostHog's reserved `$identify`.
+  const posthogEventName = (event: Event) => (event.type === 'identify' ? '$identify' : eventType);
+  const postgresIdOfEvent = (event: Event) => `${posthogEventName(event)}:${event.internalUniqueKey}`;
+  const isValid = (event: Event) => {
+    if (!Number.isFinite(event.timestampMs)) return false;
+    if (event.type === 'identify') return Boolean(event.distinctId) && Boolean(event.anonDistinctId);
+    return event.distinctId != null && event.distinctId !== '';
+  };
+
+  // Step 1: Calculate events, dropping invalid ones
   const candidateEvents = await eventProjectionRule.calculateEvents(db, { since });
   result.candidates = candidateEvents.length;
 
   const validCandidateEvents = candidateEvents.filter((c) => {
-    const ok = c.distinctId != null && c.distinctId !== '' && Number.isFinite(c.timestampMs);
+    const ok = isValid(c);
     if (!ok) result.skipped += 1;
     return ok;
   });
 
   // Step 2: Drop events that have already been sent (per our `posthogEmittedEventsTable`)
-  const sentInternalUniqueKeys = new Set<string>();
-  for (const keyChunk of chunk(validCandidateEvents.map((c) => c.internalUniqueKey), 10_000)) {
+  const sentPostgresIds = new Set<string>();
+  for (const idChunk of chunk(validCandidateEvents.map(postgresIdOfEvent), 10_000)) {
     const rows = await db.pg
-      .select({ internalUniqueKey: posthogEmittedEventsTable.internalUniqueKey })
+      .select({ id: posthogEmittedEventsTable.id })
       .from(posthogEmittedEventsTable)
-      .where(inArray(posthogEmittedEventsTable.id, keyChunk.map((k) => `${event}:${k}`)));
+      .where(inArray(posthogEmittedEventsTable.id, idChunk));
 
     for (const r of rows) {
-      sentInternalUniqueKeys.add(r.internalUniqueKey);
+      sentPostgresIds.add(r.id);
     }
   }
 
-  const eventsToSend = validCandidateEvents.filter((c) => !sentInternalUniqueKeys.has(c.internalUniqueKey));
+  const eventsToSend = validCandidateEvents.filter((c) => !sentPostgresIds.has(postgresIdOfEvent(c)));
   result.alreadySent = validCandidateEvents.length - eventsToSend.length;
 
-  // Step 3: Send events to posthog in batches
-  // historical_migration is per-request, so live (<=48h) and historical (>48h) can't share a batch.
+  // Step 3: Send to PostHog in batches. historical_migration is per-request, so live (<=48h) and
+  // historical (>48h) can't share a batch. Identify events always apply as-live (a historical identify
+  // merges users for all time), so they're routed to the live partition regardless of timestamp.
   const nowMs = Date.parse(now);
+  const isLive = (c: Event) => c.type === 'identify' || nowMs - c.timestampMs <= FORTY_EIGHT_HOURS_MS;
   const partitions = [
-    { group: eventsToSend.filter((c) => nowMs - c.timestampMs <= FORTY_EIGHT_HOURS_MS), historicalMigration: false },
-    { group: eventsToSend.filter((c) => nowMs - c.timestampMs > FORTY_EIGHT_HOURS_MS), historicalMigration: true },
+    { group: eventsToSend.filter((c) => isLive(c)), historicalMigration: false },
+    { group: eventsToSend.filter((c) => !isLive(c)), historicalMigration: true },
   ];
 
+  const toPostHogEvent = (event: Event): PostHogEvent => {
+    const uuid = deterministicUuid(postgresIdOfEvent(event));
+    const timestamp = new Date(event.timestampMs).toISOString();
+    if (event.type === 'identify') {
+      return {
+        event: '$identify',
+        distinct_id: event.distinctId,
+        uuid,
+        timestamp,
+        properties: { $anon_distinct_id: event.anonDistinctId, ...(event.set ? { $set: event.set } : {}) },
+      };
+    }
+
+    return {
+      event: eventType, distinct_id: event.distinctId!, uuid, timestamp, properties: event.properties,
+    };
+  };
+
   const sendSingleBatch = async (batch: Event[], historicalMigration: boolean) => {
-    const prepared = batch.map((c) => ({
-      candidate: c,
-      event: {
-        event,
-        distinct_id: c.distinctId!,
-        uuid: deterministicUuid(`${event}:${c.internalUniqueKey}`),
-        timestamp: new Date(c.timestampMs).toISOString(),
-        properties: c.properties,
-      } satisfies PosthogEvent,
-    }));
+    const prepared = batch.map((c) => ({ candidate: c, event: toPostHogEvent(c) }));
 
     try {
       // Send THEN log. A crash between leaves the chunk unlogged, so the next run re-sends it
@@ -129,8 +165,8 @@ export async function forwardEventTypeToPostHog({
       }
 
       await db.pg.insert(posthogEmittedEventsTable).values(prepared.map((p) => ({
-        id: `${event}:${p.candidate.internalUniqueKey}`,
-        event,
+        id: postgresIdOfEvent(p.candidate),
+        event: posthogEventName(p.candidate),
         internalUniqueKey: p.candidate.internalUniqueKey,
         externalUuid: p.event.uuid,
         eventTimestamp: new Date(p.candidate.timestampMs).toISOString(),
