@@ -106,7 +106,7 @@ const forwardSingleEventTypeToPostHog = async (eventProjectionRule: EventProject
     const {
       candidates, skipped, alreadySent, sent, failedBatches, errors,
     } = await forwardEventTypeToPostHog({
-      db, posthogCredentials, eventProjectionRule, since,
+      db, posthogCredentials, eventProjectionRule, since, sourceVersion: env.VERSION_TAG,
     });
 
     logger.info(`[posthog-events] ${event}: ${sent} sent, ${alreadySent} already sent, ${skipped} skipped (of ${candidates})`);

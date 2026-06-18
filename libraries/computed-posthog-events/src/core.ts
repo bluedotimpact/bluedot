@@ -52,6 +52,9 @@ export const deterministicUuid = (name: string): string => uuidv5(name, UUID_NAM
 const FORTY_EIGHT_HOURS_MS = 48 * 60 * 60 * 1000;
 const BATCH_SIZE = 100; // events per PostHog /batch request
 
+// Tag every emitted event so this backend's events are filterable in PostHog.
+const EVENT_SOURCE = 'computed-posthog-events';
+
 export type ProjectionResult = {
   candidates: number; // total produced by calculateEvents
   skipped: number; // malformed event
@@ -67,13 +70,14 @@ export type ProjectionResult = {
  * to *compute* the events (or read the log) throws.
  */
 export async function forwardEventTypeToPostHog({
-  db, posthogCredentials, eventProjectionRule, since, now = new Date().toISOString(),
+  db, posthogCredentials, eventProjectionRule, since, now = new Date().toISOString(), sourceVersion,
 }: {
   db: PgAirtableDb;
   posthogCredentials: PosthogCredentials;
   eventProjectionRule: EventProjectionRule;
   since?: string;
   now?: string;
+  sourceVersion?: string; // deploy version stamped onto every event (the pg-sync image's VERSION_TAG)
 }): Promise<ProjectionResult> {
   const { eventType } = eventProjectionRule;
   const batchUrl = `${posthogCredentials.host.replace(/\/$/, '')}/batch/`;
@@ -126,6 +130,7 @@ export async function forwardEventTypeToPostHog({
     { group: eventsToSend.filter((c) => !isLive(c)), historicalMigration: true },
   ];
 
+  const sourceProps = { source: EVENT_SOURCE, ...(sourceVersion ? { source_version: sourceVersion } : {}) };
   const toPostHogEvent = (event: Event): PostHogEvent => {
     const uuid = deterministicUuid(postgresIdOfEvent(event));
     const timestamp = new Date(event.timestampMs).toISOString();
@@ -135,12 +140,12 @@ export async function forwardEventTypeToPostHog({
         distinct_id: event.distinctId,
         uuid,
         timestamp,
-        properties: { $anon_distinct_id: event.anonDistinctId, ...(event.set ? { $set: event.set } : {}) },
+        properties: { $anon_distinct_id: event.anonDistinctId, ...(event.set ? { $set: event.set } : {}), ...sourceProps },
       };
     }
 
     return {
-      event: eventType, distinct_id: event.distinctId!, uuid, timestamp, properties: event.properties,
+      event: eventType, distinct_id: event.distinctId!, uuid, timestamp, properties: { ...event.properties, ...sourceProps },
     };
   };
 

@@ -98,6 +98,16 @@ describe('runProjection', () => {
     expect((await db.pg.select().from(posthogEmittedEventsTable)).map((r) => r.internalUniqueKey).sort()).toEqual(['d1:p1', 'd1:p2', 'd1:p3']);
   });
 
+  test('stamps every event with source, and source_version when provided', async () => {
+    const ph = mockPostHogBackend();
+    const projection = staticEventProjectionRule('e', [candidateEvent({ internalUniqueKey: 'k' })]);
+
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, sourceVersion: '20260618.120000.abc1234', now: '2026-01-01T00:00:00.000Z',
+    });
+    expect(ph.events[0]?.properties).toMatchObject({ source: 'computed-posthog-events', source_version: '20260618.120000.abc1234' });
+  });
+
   test('partitions live (<=48h) and historical (>48h) into separate batches with the right flag', async () => {
     const ph = mockPostHogBackend();
     const nowMs = 1_000 * 60 * 60 * 24 * 10;

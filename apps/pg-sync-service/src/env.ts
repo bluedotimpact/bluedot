@@ -16,6 +16,8 @@ const env = validateEnv({
     // Must match the project website/ uses
     'POSTHOG_PROJECT_API_KEY',
     'POSTHOG_HOST',
+    // Build tag (`YYYYMMDD.HHMMSS.<git-short-sha>`) baked into the image; stamped onto emitted PostHog events
+    'VERSION_TAG',
   ],
 });
 
