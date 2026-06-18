@@ -20,6 +20,8 @@ export type PosthogBackend = {
   events: PostHogEvent[];
   /** Each /batch request received, with its historical_migration flag. */
   receivedBatches: { historicalMigration: boolean; events: PostHogEvent[] }[];
+  /** Fault injection: make the next `n` /batch sends fail with a 500 (nothing recorded), to exercise retry paths. */
+  failNextSends: (n: number) => void;
   /** Resolved person id for a distinct id (undefined if never seen). */
   personIdFor: (distinctId: string) => string | undefined;
   /** Person properties for a distinct id's person. */
@@ -36,6 +38,7 @@ export function mockPostHogBackend(): PosthogBackend {
   const personIdByDistinctId = new Map<string, string>();
   const persons = new Map<string, Person>();
   let sequentialCounter = 0;
+  let failNext = 0;
 
   const ensurePerson = (distinctId: string): string => {
     const existing = personIdByDistinctId.get(distinctId);
@@ -68,6 +71,11 @@ export function mockPostHogBackend(): PosthogBackend {
   };
 
   vi.stubGlobal('fetch', async (_url: string, init: { body: string }) => {
+    if (failNext > 0) {
+      failNext -= 1;
+      return new Response('posthog down', { status: 500 });
+    }
+
     const body = JSON.parse(init.body) as { historical_migration?: boolean; batch: PostHogEvent[] };
     const historical = body.historical_migration === true;
     for (const ev of body.batch) {
@@ -89,6 +97,9 @@ export function mockPostHogBackend(): PosthogBackend {
   return {
     events,
     receivedBatches,
+    failNextSends: (n) => {
+      failNext = n;
+    },
     personIdFor: (d) => personIdByDistinctId.get(d),
     personPropsFor: (d) => {
       const pid = personIdByDistinctId.get(d);

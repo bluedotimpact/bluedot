@@ -30,11 +30,7 @@ const forwardAllEventsToPostHog = async (opts: { since?: string; now?: string } 
   }
 };
 
-const forwardSingleEventTypeToPostHog = (event: string, opts: { since?: string; now?: string } = {}) => forwardEventTypeToPostHog({
-  db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: eventProjectionRules.find((p) => p.eventType === event)!, since: opts.since, now: opts.now ?? '2026-07-01T00:00:00.000Z',
-}); // TODO inline also
-const eventsOf = (events: PostHogEvent[], name: string) => events.filter((e) => e.event === name); // TODO just inline
-const batchWith = (ph: ReturnType<typeof mockPostHogBackend>, name: string) => ph.receivedBatches.find((b) => b.events.some((e) => e.event === name)); // TODO inline
+const applicationSubmitted = eventProjectionRules.find((p) => p.eventType === 'application_submitted')!;
 
 describe('certificate_issued (two source tables)', () => {
   test('emits from both courseRegistration and selfServe, namespaced; skips rows without a cert', async () => {
@@ -52,7 +48,7 @@ describe('certificate_issued (two source tables)', () => {
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog();
 
-    const certs = eventsOf(ph.events, 'certificate_issued');
+    const certs = ph.events.filter((e) => e.event === 'certificate_issued');
     expect(certs.map((e) => String(e.properties.certificate_id)).sort()).toEqual(['cert1', 'sc1']);
     const courseReg = certs.find((e) => e.properties.certificate_id === 'cert1')!;
     expect(courseReg.distinct_id).toBe('a@x.com');
@@ -73,7 +69,7 @@ describe('since (incremental scans)', () => {
     });
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2022-01-01T00:00:00.000Z' });
-    expect(eventsOf(ph.events, 'certificate_issued').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'certificate_issued').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 
   test('application_accepted: only rows with acceptedAt >= since (ISO text)', async () => {
@@ -85,7 +81,7 @@ describe('since (incremental scans)', () => {
     });
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
-    expect(eventsOf(ph.events, 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 
   test('application_submitted: only rows with createdAt >= since (ISO text)', async () => {
@@ -97,7 +93,7 @@ describe('since (incremental scans)', () => {
     });
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
-    expect(eventsOf(ph.events, 'application_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'application_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 });
 
@@ -116,7 +112,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog();
 
-    const accepts = eventsOf(ph.events, 'application_accepted');
+    const accepts = ph.events.filter((e) => e.event === 'application_accepted');
     expect(accepts).toHaveLength(1);
     expect(accepts[0]?.distinct_id).toBe('acc@x.com');
     expect(accepts[0]?.timestamp).toBe('2026-06-01T10:00:00.000Z');
@@ -129,7 +125,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
 
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog();
-    expect(eventsOf(ph.events, 'application_accepted')).toHaveLength(1);
+    expect(ph.events.filter((e) => e.event === 'application_accepted')).toHaveLength(1);
 
     // `Accepted at` is write-once in Airtable, but even if it somehow moved, the log prevents re-emit.
     await db.pg.update(courseRegistrationTable.pg)
@@ -137,8 +133,8 @@ describe('application_accepted (write-once `Accepted at`)', () => {
       .where(eq(courseRegistrationTable.pg.id, 'a1'));
 
     await forwardAllEventsToPostHog();
-    expect(eventsOf(ph.events, 'application_accepted')).toHaveLength(1);
-    expect(eventsOf(ph.events, 'application_accepted')[0]?.timestamp).toBe('2026-06-01T10:00:00.000Z');
+    expect(ph.events.filter((e) => e.event === 'application_accepted')).toHaveLength(1);
+    expect(ph.events.find((e) => e.event === 'application_accepted')?.timestamp).toBe('2026-06-01T10:00:00.000Z');
   });
 });
 
@@ -153,9 +149,11 @@ describe('application_submitted (one per registration, accepted or not)', () => 
     });
 
     const ph = mockPostHogBackend();
-    const result = await forwardSingleEventTypeToPostHog('application_submitted');
+    const result = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+    });
 
-    const submits = eventsOf(ph.events, 'application_submitted');
+    const submits = ph.events.filter((e) => e.event === 'application_submitted');
     expect(result).toMatchObject({ candidates: 2, sent: 2, skipped: 0 });
     expect(submits.map((e) => e.distinct_id).sort()).toEqual(['a@x.com', 'b@x.com']);
     const withSession = submits.find((e) => e.distinct_id === 'a@x.com')!;
@@ -169,9 +167,11 @@ describe('application_submitted (one per registration, accepted or not)', () => 
     await testDb.insert(courseRegistrationTable, { id: 'r1', courseId: 'c1', email: 'a@x.com' });
 
     const ph = mockPostHogBackend();
-    const result = await forwardSingleEventTypeToPostHog('application_submitted');
+    const result = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+    });
     expect(result).toMatchObject({ candidates: 0, sent: 0 });
-    expect(eventsOf(ph.events, 'application_submitted')).toHaveLength(0);
+    expect(ph.events.filter((e) => e.event === 'application_submitted')).toHaveLength(0);
   });
 
   test('reports the readable course title (from courseTable) and round name', async () => {
@@ -183,9 +183,11 @@ describe('application_submitted (one per registration, accepted or not)', () => 
     });
 
     const ph = mockPostHogBackend();
-    await forwardSingleEventTypeToPostHog('application_submitted');
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+    });
 
-    expect(eventsOf(ph.events, 'application_submitted')[0]?.properties).toMatchObject({
+    expect(ph.events.find((e) => e.event === 'application_submitted')?.properties).toMatchObject({
       course_id: 'c1',
       course_name: 'AGI Strategy',
       round_id: 'rd1',
@@ -209,7 +211,9 @@ describe('application_submitted (one per registration, accepted or not)', () => 
       }]);
       expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(false);
 
-      const result = await forwardSingleEventTypeToPostHog('application_submitted');
+      const result = await forwardEventTypeToPostHog({
+        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+      });
 
       expect(result).toMatchObject({ candidates: 2, sent: 2 }); // the identify and the submitted event
       // the anonymous browsing is now stitched to the email person, with the email set as a property
@@ -234,11 +238,13 @@ describe('application_submitted (one per registration, accepted or not)', () => 
       });
 
       const ph = mockPostHogBackend();
-      const result = await forwardSingleEventTypeToPostHog('application_submitted');
+      const result = await forwardEventTypeToPostHog({
+        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+      });
 
       expect(result).toMatchObject({ candidates: 2, sent: 2 }); // two submitted events, no identifies
-      expect(eventsOf(ph.events, '$identify')).toHaveLength(0);
-      expect(eventsOf(ph.events, 'application_submitted')).toHaveLength(2);
+      expect(ph.events.filter((e) => e.event === '$identify')).toHaveLength(0);
+      expect(ph.events.filter((e) => e.event === 'application_submitted')).toHaveLength(2);
     });
 
     test('sends the identify live even for an old (backfilled) application, while the submitted event ships as historical', async () => {
@@ -247,12 +253,15 @@ describe('application_submitted (one per registration, accepted or not)', () => 
       });
 
       const ph = mockPostHogBackend();
-      await forwardSingleEventTypeToPostHog('application_submitted', { now: '2026-07-01T00:00:00.000Z' });
+      await forwardEventTypeToPostHog({
+        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+      });
 
-      const identifyBatch = batchWith(ph, '$identify')!;
-      const submittedBatch = batchWith(ph, 'application_submitted')!;
-      expect(identifyBatch.historicalMigration).toBe(false); // identify is always live
-      expect(submittedBatch.historicalMigration).toBe(true); // the old submission is backfilled as historical
+      // the identify ships live (in its own batch); the old submission is backfilled as historical
+      const liveBatch = ph.receivedBatches.find((b) => !b.historicalMigration)!;
+      const historicalBatch = ph.receivedBatches.find((b) => b.historicalMigration)!;
+      expect(liveBatch.events.map((e) => e.event)).toEqual(['$identify']);
+      expect(historicalBatch.events.map((e) => e.event)).toEqual(['application_submitted']);
       expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(true);
     });
 
@@ -262,11 +271,15 @@ describe('application_submitted (one per registration, accepted or not)', () => 
       });
 
       mockPostHogBackend();
-      const first = await forwardSingleEventTypeToPostHog('application_submitted');
+      const first = await forwardEventTypeToPostHog({
+        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+      });
       expect(first).toMatchObject({ sent: 2, alreadySent: 0 });
 
       const ph2 = mockPostHogBackend();
-      const second = await forwardSingleEventTypeToPostHog('application_submitted');
+      const second = await forwardEventTypeToPostHog({
+        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
+      });
       expect(second).toMatchObject({ sent: 0, alreadySent: 2 });
       expect(ph2.events).toHaveLength(0);
     });

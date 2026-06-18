@@ -16,9 +16,7 @@ export type TrackEvent = {
 };
 
 /**
- * An identify event: merges an anonymous distinct id into the identified one (e.g. an email) and sets
- * person properties via `$set`. The engine always sends these live: identifying the applicant is a
- * "now" operation regardless of when they originally browsed.
+ * An identify event: merges an anonymous distinct id into the identified one (e.g. an email).
  */
 export type IdentifyEvent = {
   type: 'identify';
