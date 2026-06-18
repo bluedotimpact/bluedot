@@ -32,7 +32,7 @@ export type Event = TrackEvent | IdentifyEvent;
 /** One event type and how to derive it. */
 export type EventProjectionRule = {
   eventType: string;
-  calculateEvents: (db: PgAirtableDb, opts: { since?: string; now: string }) => Promise<Event[]>;
+  calculateEvents: (db: PgAirtableDb, opts: { since?: string; now?: string }) => Promise<Event[]>;
 };
 
 /** What we POST to PostHog. distinct_id + uuid are top-level (requirement for PostHog to join to user and dedup internally). */

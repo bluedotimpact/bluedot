@@ -18,10 +18,10 @@ const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
 
 const calculateDiscussionAttendanceEvents = async (
   db: PgAirtableDb,
-  { since, now }: { since?: string; now: string },
+  { since, now }: { since?: string; now?: string },
   kind: 'attended' | 'absent',
 ): Promise<Event[]> => {
-  const nowMs = Date.parse(now);
+  const nowMs = now ? Date.parse(now) : Date.now();
   // discussion datetimes are epoch seconds; `since` bounds work only — the emitted-events log keeps delivery send-once.
   const discussions = await db.pg.select().from(groupDiscussionTable.pg)
     .where(filterGteOrNull(groupDiscussionTable.pg.endDateTime, isoDateToEpochSeconds(since)));
