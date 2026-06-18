@@ -3,11 +3,11 @@
 /**
  * Model-based testing: validate the model against the system under test.
  *
- * `posthogBackend.ts` is a *model* of PostHog's ingestion. Its assumptions are largely undocumented,
+ * `posthogBackend.ts` is a *model* of PostHog's ingestion. PostHog's assumptions are largely undocumented,
  * so we pin them down empirically and keep the model honest. The invariants the model encodes are the
- * test oracle: `identify.test.ts` asserts they hold for the MODEL (fast, in CI); the tests here assert
- * the SAME invariants hold for the real SYSTEM (PostHog), so if PostHog ever changes behaviour these
- * fail and tell us the model has drifted.
+ * test oracle: the `application_submitted` identify tests in `definitions.test.ts` assert they hold for
+ * the MODEL (fast, in CI); the tests here assert the SAME invariants hold for the real SYSTEM (PostHog),
+ * so if PostHog ever changes behaviour these fail and tell us the model has drifted.
  *
  * Invariants (each maps to behaviour in posthogBackend.ts):
  *   I1  a track event creates/uses a person for its distinct_id
@@ -26,7 +26,7 @@
  *
  * They read the staging NEXT_PUBLIC_POSTHOG_KEY (ingestion -> project 50809) and POSTHOG_PERSONAL_API_KEY
  * (HogQL read) directly from apps/website/.env.local (vitest's test.env doesn't expose them). The model's
- * CI tests live in identify.test.ts.
+ * CI tests live in definitions.test.ts (the application_submitted identify cases).
  */
 /* eslint-disable turbo/no-undeclared-env-vars -- POSTHOG_MODEL_CHECK is read only by the default-skipped manual run, so it doesn't affect turbo caching */
 import { readFileSync } from 'node:fs';

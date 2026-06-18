@@ -6,22 +6,19 @@ import {
 } from 'vitest';
 import { forwardEventTypeToPostHog, type PostHogEvent } from './core';
 import { eventProjectionRules } from './definitions';
-import { db, testDb, setupTestDb } from './__tests__/testDb';
+import { installPosthogBackend } from './__tests__/posthogBackend';
+import { db, testDb, setupTestDb } from './__tests__/dbTestUtils';
 
 const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 
 setupTestDb();
 afterEach(() => vi.unstubAllGlobals());
 
-// Stub global fetch to record every event sent to PostHog's /batch.
-function makeFakePosthog() {
-  const events: PostHogEvent[] = [];
-  vi.stubGlobal('fetch', async (_url: string, init: { body: string }) => {
-    events.push(...JSON.parse(init.body).batch);
-    return new Response(JSON.stringify({ status: 'Ok' }), { status: 200 });
-  });
-  return { events };
-}
+// Post a raw batch straight to the (stubbed) backend — used to model prior anonymous browsing.
+const sendRaw = (batch: PostHogEvent[]) => fetch('https://test.posthog/batch/', {
+  method: 'POST',
+  body: JSON.stringify({ historical_migration: false, batch }),
+});
 
 // Run every projection, the way the cron loops them.
 const runAll = async (opts: { since?: string; now?: string } = {}) => {
@@ -39,6 +36,7 @@ const runOne = (event: string, opts: { since?: string; now?: string } = {}) => f
   db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: eventProjectionRules.find((p) => p.eventType === event)!, since: opts.since, now: opts.now ?? '2026-07-01T00:00:00.000Z',
 });
 const eventsOf = (events: PostHogEvent[], name: string) => events.filter((e) => e.event === name);
+const batchWith = (ph: ReturnType<typeof installPosthogBackend>, name: string) => ph.receivedBatches.find((b) => b.events.some((e) => e.event === name));
 
 describe('certificate_issued (two source tables)', () => {
   test('emits from both courseRegistration and selfServe, namespaced; skips rows without a cert', async () => {
@@ -53,7 +51,7 @@ describe('certificate_issued (two source tables)', () => {
       id: 'ss1', courseId: 'c2', email: 'c@x.com', certificateId: 'sc1', certificateCreatedAt: 1_700_000_001,
     });
 
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     await runAll();
 
     const certs = eventsOf(ph.events, 'certificate_issued');
@@ -75,7 +73,7 @@ describe('since (incremental scans)', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'new', courseId: 'c1', email: 'new@x.com', certificateId: 'cNew', certificateCreatedAt: 1_700_000_000,
     });
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     await runAll({ since: '2022-01-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'certificate_issued').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
@@ -87,7 +85,7 @@ describe('since (incremental scans)', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'new', courseId: 'c1', email: 'new@x.com', acceptedAt: '2026-06-01T00:00:00.000Z',
     });
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     await runAll({ since: '2026-03-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
@@ -99,7 +97,7 @@ describe('since (incremental scans)', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'new', courseId: 'c1', email: 'new@x.com', createdAt: '2026-06-01T00:00:00.000Z',
     });
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     await runAll({ since: '2026-03-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'application_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
@@ -117,7 +115,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
       id: 'a3', courseId: 'c1', email: 'pending@x.com', decision: 'Accept',
     }); // Accept but not yet stamped -> not loaded
 
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     await runAll();
 
     const accepts = eventsOf(ph.events, 'application_accepted');
@@ -131,7 +129,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
       id: 'a1', courseId: 'c1', email: 'acc@x.com', acceptedAt: '2026-06-01T10:00:00.000Z',
     });
 
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     await runAll();
     expect(eventsOf(ph.events, 'application_accepted')).toHaveLength(1);
 
@@ -156,7 +154,7 @@ describe('application_submitted (one per registration, accepted or not)', () => 
       id: 'r2', courseId: 'c1', email: 'b@x.com', decision: 'Reject', createdAt: '2026-05-02T09:00:00.000Z',
     });
 
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     const result = await runOne('application_submitted');
 
     const submits = eventsOf(ph.events, 'application_submitted');
@@ -172,7 +170,7 @@ describe('application_submitted (one per registration, accepted or not)', () => 
   test('skips registrations without a createdAt', async () => {
     await testDb.insert(courseRegistrationTable, { id: 'r1', courseId: 'c1', email: 'a@x.com' });
 
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     const result = await runOne('application_submitted');
     expect(result).toMatchObject({ candidates: 0, sent: 0 });
     expect(eventsOf(ph.events, 'application_submitted')).toHaveLength(0);
@@ -186,10 +184,89 @@ describe('application_submitted (one per registration, accepted or not)', () => 
       id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', roundName: 'AGI Strategy (2026 Mar W12) - Part-time',
     });
 
-    const ph = makeFakePosthog();
+    const ph = installPosthogBackend();
     await runOne('application_submitted');
 
     expect(eventsOf(ph.events, 'application_submitted')[0]?.properties)
       .toMatchObject({ course: 'AGI Strategy', round: 'AGI Strategy (2026 Mar W12) - Part-time' });
+  });
+
+  // When the form captured the applicant's anonymous PostHog id, application_submitted also emits an
+  // `$identify` that merges that anonymous person into the email person. Exercised end-to-end against
+  // the in-memory model of PostHog (the same model the staging check validates).
+  describe('identify (merge anonymous browsing into the email person)', () => {
+    test('merges the captured anonymous id into the email person; the submitted event lands on the merged person', async () => {
+      await testDb.insert(courseRegistrationTable, {
+        id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', posthogDistinctId: 'anon-1',
+      });
+
+      const ph = installPosthogBackend();
+      // the applicant browsed anonymously (logged out) before applying
+      await sendRaw([{
+        event: '$pageview', distinct_id: 'anon-1', uuid: 'u0', timestamp: '2026-04-01T00:00:00.000Z', properties: {},
+      }]);
+      expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(false);
+
+      const result = await runOne('application_submitted');
+
+      expect(result).toMatchObject({ candidates: 2, sent: 2 }); // the identify and the submitted event
+      // the anonymous browsing is now stitched to the email person, with the email set as a property
+      expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(true);
+      expect(ph.personPropsFor('a@x.com')).toMatchObject({ email: 'a@x.com' });
+      // the $identify wire event carries the merge shape
+      const identifyEvent = ph.events.find((e) => e.event === '$identify')!;
+      expect(identifyEvent.distinct_id).toBe('a@x.com');
+      expect(identifyEvent.properties).toMatchObject({ $anon_distinct_id: 'anon-1', $set: { email: 'a@x.com' } });
+      // the submitted event resolves to the same (merged) person as the anonymous browsing
+      const submitted = ph.events.find((e) => e.event === 'application_submitted')!;
+      expect(ph.personIdFor(submitted.distinct_id)).toBe(ph.personIdFor('anon-1'));
+    });
+
+    test('emits no identify when no anonymous id was captured, or it is just the applicant\'s email', async () => {
+      await testDb.insert(courseRegistrationTable, {
+        id: 'none', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z',
+      });
+      // a distinct id equal to the email is PII we don't forward (no merge needed anyway)
+      await testDb.insert(courseRegistrationTable, {
+        id: 'self', courseId: 'c1', email: 'b@x.com', createdAt: '2026-05-02T09:00:00.000Z', posthogDistinctId: 'b@x.com',
+      });
+
+      const ph = installPosthogBackend();
+      const result = await runOne('application_submitted');
+
+      expect(result).toMatchObject({ candidates: 2, sent: 2 }); // two submitted events, no identifies
+      expect(eventsOf(ph.events, '$identify')).toHaveLength(0);
+      expect(eventsOf(ph.events, 'application_submitted')).toHaveLength(2);
+    });
+
+    test('sends the identify live even for an old (backfilled) application, while the submitted event ships as historical', async () => {
+      await testDb.insert(courseRegistrationTable, {
+        id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-01-01T00:00:00.000Z', posthogDistinctId: 'anon-1',
+      });
+
+      const ph = installPosthogBackend();
+      await runOne('application_submitted', { now: '2026-07-01T00:00:00.000Z' });
+
+      const identifyBatch = batchWith(ph, '$identify')!;
+      const submittedBatch = batchWith(ph, 'application_submitted')!;
+      expect(identifyBatch.historicalMigration).toBe(false); // identify is always live
+      expect(submittedBatch.historicalMigration).toBe(true); // the old submission is backfilled as historical
+      expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(true);
+    });
+
+    test('logs the identify and the submitted event once each: a second run is a no-op', async () => {
+      await testDb.insert(courseRegistrationTable, {
+        id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', posthogDistinctId: 'anon-1',
+      });
+
+      installPosthogBackend();
+      const first = await runOne('application_submitted');
+      expect(first).toMatchObject({ sent: 2, alreadySent: 0 });
+
+      const ph2 = installPosthogBackend();
+      const second = await runOne('application_submitted');
+      expect(second).toMatchObject({ sent: 0, alreadySent: 2 });
+      expect(ph2.events).toHaveLength(0);
+    });
   });
 });

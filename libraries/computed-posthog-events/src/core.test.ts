@@ -8,7 +8,7 @@ import {
   forwardEventTypeToPostHog, deterministicUuid,
   type Event, type TrackEvent, type EventProjectionRule, type PostHogEvent,
 } from './core';
-import { db, setupTestDb } from './__tests__/testDb';
+import { db, setupTestDb } from './__tests__/dbTestUtils';
 
 const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 
@@ -91,6 +91,19 @@ describe('runProjection', () => {
     });
     expect(result).toMatchObject({ candidates: 4, skipped: 3, sent: 1 });
     expect(ph.events().map((e) => e.distinct_id)).toEqual(['a@example.com']);
+  });
+
+  test('skips an identify event missing its anonymous distinct id', async () => {
+    const ph = makeFakePosthog();
+    const projection = staticEventProjectionRule('application_submitted', [{
+      type: 'identify', internalUniqueKey: 'no-anon', distinctId: 'a@x.com', anonDistinctId: '', timestampMs: 1_000_000, set: { email: 'a@x.com' },
+    }]);
+
+    const result = await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: projection, now: '2026-01-01T00:00:00.000Z',
+    });
+    expect(result).toMatchObject({ candidates: 1, skipped: 1, sent: 0 });
+    expect(ph.events()).toHaveLength(0);
   });
 
   test('fan-out: one projection returning N candidates yields N distinct-key events', async () => {

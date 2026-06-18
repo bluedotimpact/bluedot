@@ -19,17 +19,38 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)); // createdAt is ISO text
 
-      return rows.map((r) => ({
-        internalUniqueKey: r.id,
-        distinctId: r.email,
-        timestampMs: Date.parse(r.createdAt!),
-        properties: {
-          course: courseTitleById.get(r.courseId) ?? r.courseId,
-          round: r.roundName ?? r.roundId,
-          // $session_id is PostHog's reserved key for session stitching; only set when we captured one.
-          ...(r.posthogSessionId ? { $session_id: r.posthogSessionId } : {}),
-        },
-      }));
+      return rows.flatMap((r) => {
+        const timestampMs = Date.parse(r.createdAt!);
+        const submitted = {
+          internalUniqueKey: r.id,
+          distinctId: r.email,
+          timestampMs,
+          properties: {
+            course: courseTitleById.get(r.courseId) ?? r.courseId,
+            round: r.roundName ?? r.roundId,
+            // $session_id is PostHog's reserved key for session stitching; only set when we captured one.
+            ...(r.posthogSessionId ? { $session_id: r.posthogSessionId } : {}),
+          },
+        };
+
+        // If we captured the applicant's anonymous PostHog id, identify them first: merge that
+        // anonymous person into the email person so their pre-application browsing is attributed to them.
+        if (r.posthogDistinctId && r.posthogDistinctId !== r.email) {
+          return [
+            {
+              type: 'identify' as const,
+              internalUniqueKey: r.id,
+              distinctId: r.email,
+              anonDistinctId: r.posthogDistinctId,
+              timestampMs,
+              set: { email: r.email },
+            },
+            submitted,
+          ];
+        }
+
+        return [submitted];
+      });
     },
   },
   {
@@ -53,6 +74,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
     async calculateEvents(db, { since }) {
       const sinceEpochSeconds = isoDateToEpochSeconds(since); // certificateCreatedAt is epoch seconds in both tables
       const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      // TODO this can just be a join
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
       const facilitated = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds));

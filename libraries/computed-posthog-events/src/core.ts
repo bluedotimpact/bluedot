@@ -16,9 +16,9 @@ export type TrackEvent = {
 };
 
 /**
- * An identify event: merges an anonymous distinct id into the identified one (e.g. an email), and —
- * for live batches only — sets person properties. The engine always sends these live, because under
- * historical_migration PostHog performs the merge but drops the `$set` (verified against staging).
+ * An identify event: merges an anonymous distinct id into the identified one (e.g. an email) and sets
+ * person properties via `$set`. The engine always sends these live: identifying the applicant is a
+ * "now" operation regardless of when they originally browsed.
  */
 export type IdentifyEvent = {
   type: 'identify';
