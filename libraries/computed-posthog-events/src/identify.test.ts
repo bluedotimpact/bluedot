@@ -1,28 +1,17 @@
 import {
-  createTestDbClients, PgAirtableDb, pushTestSchema, resetTestDb,
-} from '@bluedot/db';
-import {
-  afterEach, beforeAll, beforeEach, describe, expect, test, vi,
+  afterEach, describe, expect, test, vi,
 } from 'vitest';
 import {
   forwardEventTypeToPostHog, type Event, type EventProjectionRule, type PostHogEvent,
 } from './core';
 import { installPosthogBackend } from './__tests__/posthogBackend';
+import { db, setupTestDb } from './__tests__/testDb';
 
 const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 const NOW = '2026-06-17T00:00:00.000Z';
 const OLD = '2026-01-01T00:00:00.000Z'; // >48h before NOW
 
-let db: PgAirtableDb;
-
-beforeAll(async () => {
-  const { pgClient, airtableClient } = createTestDbClients();
-  db = new PgAirtableDb({
-    pgConnString: 'unused', airtableApiKey: 'unused', pgClient, airtableClient,
-  });
-  await pushTestSchema(db);
-});
-beforeEach(async () => resetTestDb(db));
+setupTestDb();
 afterEach(() => vi.unstubAllGlobals());
 
 // A projection returning fixed (track and/or identify) events.
@@ -84,7 +73,7 @@ describe('identify / merge', () => {
     const trackBatch = ph.receivedBatches.find((b) => b.events.some((e) => e.event === 'application_submitted'))!;
     expect(identifyBatch.historicalMigration).toBe(false); // identify is always live
     expect(trackBatch.historicalMigration).toBe(true); // the old track event is backfilled as historical
-    // because the identify went live, the $set still applied
+    // the merge stitches the anonymous browsing to the email person and applies $set
     expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(true);
     expect(ph.personPropsFor('a@x.com')).toMatchObject({ email: 'a@x.com' });
   });

@@ -1,7 +1,6 @@
 import {
   and, gte, isNotNull,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
-  type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
 import type { EventProjectionRule } from './core';
@@ -11,22 +10,14 @@ const filterGteOrNull = (col: PgColumn, sinceValue: number | string | undefined)
 );
 const isoDateToEpochSeconds = (sinceIso?: string) => (sinceIso == null ? undefined : Math.floor(Date.parse(sinceIso) / 1000));
 
-// Readable course title keyed by the `courseId` stored on registrations (a course-builder record id).
-// This is the same name the my-courses page shows (course.title); the round uses `roundName`.
-const loadCourseTitlesById = async (db: PgAirtableDb): Promise<Map<string, string>> => {
-  const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
-  return new Map(courses.map((c) => [c.id, c.title]));
-};
-
 export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'application_submitted',
     async calculateEvents(db, { since }) {
-      const [courseTitleById, rows] = await Promise.all([
-        loadCourseTitlesById(db),
-        db.pg.select().from(courseRegistrationTable.pg)
-          .where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)), // createdAt is ISO text
-      ]);
+      const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+      const rows = await db.pg.select().from(courseRegistrationTable.pg)
+        .where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)); // createdAt is ISO text
 
       return rows.map((r) => ({
         internalUniqueKey: r.id,
@@ -44,11 +35,10 @@ export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'application_accepted',
     async calculateEvents(db, { since }) {
-      const [courseTitleById, rows] = await Promise.all([
-        loadCourseTitlesById(db),
-        db.pg.select().from(courseRegistrationTable.pg)
-          .where(filterGteOrNull(courseRegistrationTable.pg.acceptedAt, since)), // acceptedAt is ISO text
-      ]);
+      const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+      const rows = await db.pg.select().from(courseRegistrationTable.pg)
+        .where(filterGteOrNull(courseRegistrationTable.pg.acceptedAt, since)); // acceptedAt is ISO text
 
       return rows.map((r) => ({
         internalUniqueKey: `accept:${r.id}`,
@@ -62,14 +52,12 @@ export const eventProjectionRules: EventProjectionRule[] = [
     eventType: 'certificate_issued',
     async calculateEvents(db, { since }) {
       const sinceEpochSeconds = isoDateToEpochSeconds(since); // certificateCreatedAt is epoch seconds in both tables
-
-      const [courseTitleById, facilitated, selfServe] = await Promise.all([
-        loadCourseTitlesById(db),
-        db.pg.select().from(courseRegistrationTable.pg)
-          .where(filterGteOrNull(courseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds)),
-        db.pg.select().from(selfServeCourseRegistrationTable.pg)
-          .where(filterGteOrNull(selfServeCourseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds)),
-      ]);
+      const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+      const facilitated = await db.pg.select().from(courseRegistrationTable.pg)
+        .where(filterGteOrNull(courseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds));
+      const selfServe = await db.pg.select().from(selfServeCourseRegistrationTable.pg)
+        .where(filterGteOrNull(selfServeCourseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds));
 
       return [
         ...facilitated.filter((r) => r.certificateId != null).map((r) => ({

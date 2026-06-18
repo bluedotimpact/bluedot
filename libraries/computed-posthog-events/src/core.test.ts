@@ -1,27 +1,18 @@
 import {
-  createTestDbClients, PgAirtableDb, pushTestSchema, resetTestDb,
   posthogEmittedEventsTable, eq,
 } from '@bluedot/db';
 import {
-  afterEach, beforeAll, beforeEach, describe, expect, test, vi,
+  afterEach, describe, expect, test, vi,
 } from 'vitest';
 import {
   forwardEventTypeToPostHog, deterministicUuid,
   type Event, type TrackEvent, type EventProjectionRule, type PostHogEvent,
 } from './core';
+import { db, setupTestDb } from './__tests__/testDb';
 
 const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 
-let db: PgAirtableDb;
-
-beforeAll(async () => {
-  const { pgClient, airtableClient } = createTestDbClients();
-  db = new PgAirtableDb({
-    pgConnString: 'unused', airtableApiKey: 'unused', pgClient, airtableClient,
-  });
-  await pushTestSchema(db);
-});
-beforeEach(async () => resetTestDb(db));
+setupTestDb();
 afterEach(() => vi.unstubAllGlobals());
 
 // Stub global fetch to record the /batch posts; can be told to fail the next N sends.

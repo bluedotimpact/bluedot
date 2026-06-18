@@ -1,25 +1,16 @@
 import {
-  createTestDbClients, PgAirtableDb, pushTestSchema, resetTestDb,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
 } from '@bluedot/db';
 import {
-  afterEach, beforeAll, beforeEach, describe, expect, test, vi,
+  afterEach, describe, expect, test, vi,
 } from 'vitest';
 import { forwardEventTypeToPostHog, type PostHogEvent } from './core';
 import { eventProjectionRules } from './definitions';
+import { db, testDb, setupTestDb } from './__tests__/testDb';
 
 const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 
-let db: PgAirtableDb;
-
-beforeAll(async () => {
-  const { pgClient, airtableClient } = createTestDbClients();
-  db = new PgAirtableDb({
-    pgConnString: 'unused', airtableApiKey: 'unused', pgClient, airtableClient,
-  });
-  await pushTestSchema(db);
-});
-beforeEach(async () => resetTestDb(db));
+setupTestDb();
 afterEach(() => vi.unstubAllGlobals());
 
 // Stub global fetch to record every event sent to PostHog's /batch.
@@ -51,16 +42,14 @@ const eventsOf = (events: PostHogEvent[], name: string) => events.filter((e) => 
 
 describe('certificate_issued (two source tables)', () => {
   test('emits from both courseRegistration and selfServe, namespaced; skips rows without a cert', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values([
-      {
-        id: 'cr1', courseId: 'c1', email: 'a@x.com', certificateId: 'cert1', certificateCreatedAt: 1_700_000_000, roundId: 'rd1',
-      },
-      { id: 'cr2', courseId: 'c1', email: 'b@x.com' }, // no cert -> not loaded
-      {
-        id: 'cr3', courseId: 'c1', email: 'd@x.com', certificateCreatedAt: 1_700_000_500,
-      }, // cert timestamp but no certificateId -> loaded, but toEvents returns []
-    ]);
-    await db.pg.insert(selfServeCourseRegistrationTable.pg).values({
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr1', courseId: 'c1', email: 'a@x.com', certificateId: 'cert1', certificateCreatedAt: 1_700_000_000, roundId: 'rd1',
+    });
+    await testDb.insert(courseRegistrationTable, { id: 'cr2', courseId: 'c1', email: 'b@x.com' }); // no cert -> not loaded
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr3', courseId: 'c1', email: 'd@x.com', certificateCreatedAt: 1_700_000_500,
+    }); // cert timestamp but no certificateId -> loaded, but emits nothing
+    await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss1', courseId: 'c2', email: 'c@x.com', certificateId: 'sc1', certificateCreatedAt: 1_700_000_001,
     });
 
@@ -80,42 +69,36 @@ describe('certificate_issued (two source tables)', () => {
 
 describe('since (incremental scans)', () => {
   test('certificate_issued: only rows with certificateCreatedAt >= since (epoch seconds)', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values([
-      {
-        id: 'old', courseId: 'c1', email: 'old@x.com', certificateId: 'cOld', certificateCreatedAt: 1_600_000_000,
-      },
-      {
-        id: 'new', courseId: 'c1', email: 'new@x.com', certificateId: 'cNew', certificateCreatedAt: 1_700_000_000,
-      },
-    ]);
+    await testDb.insert(courseRegistrationTable, {
+      id: 'old', courseId: 'c1', email: 'old@x.com', certificateId: 'cOld', certificateCreatedAt: 1_600_000_000,
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'new', courseId: 'c1', email: 'new@x.com', certificateId: 'cNew', certificateCreatedAt: 1_700_000_000,
+    });
     const ph = makeFakePosthog();
     await runAll({ since: '2022-01-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'certificate_issued').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 
   test('application_accepted: only rows with acceptedAt >= since (ISO text)', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values([
-      {
-        id: 'old', courseId: 'c1', email: 'old@x.com', acceptedAt: '2026-01-01T00:00:00.000Z',
-      },
-      {
-        id: 'new', courseId: 'c1', email: 'new@x.com', acceptedAt: '2026-06-01T00:00:00.000Z',
-      },
-    ]);
+    await testDb.insert(courseRegistrationTable, {
+      id: 'old', courseId: 'c1', email: 'old@x.com', acceptedAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'new', courseId: 'c1', email: 'new@x.com', acceptedAt: '2026-06-01T00:00:00.000Z',
+    });
     const ph = makeFakePosthog();
     await runAll({ since: '2026-03-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 
   test('application_submitted: only rows with createdAt >= since (ISO text)', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values([
-      {
-        id: 'old', courseId: 'c1', email: 'old@x.com', createdAt: '2026-01-01T00:00:00.000Z',
-      },
-      {
-        id: 'new', courseId: 'c1', email: 'new@x.com', createdAt: '2026-06-01T00:00:00.000Z',
-      },
-    ]);
+    await testDb.insert(courseRegistrationTable, {
+      id: 'old', courseId: 'c1', email: 'old@x.com', createdAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'new', courseId: 'c1', email: 'new@x.com', createdAt: '2026-06-01T00:00:00.000Z',
+    });
     const ph = makeFakePosthog();
     await runAll({ since: '2026-03-01T00:00:00.000Z' });
     expect(eventsOf(ph.events, 'application_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
@@ -124,17 +107,15 @@ describe('since (incremental scans)', () => {
 
 describe('application_accepted (write-once `Accepted at`)', () => {
   test('emits only for rows with an `Accepted at` timestamp', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values([
-      {
-        id: 'a1', courseId: 'c1', email: 'acc@x.com', acceptedAt: '2026-06-01T10:00:00.000Z',
-      },
-      {
-        id: 'a2', courseId: 'c1', email: 'rej@x.com', decision: 'Reject',
-      }, // never accepted -> not loaded
-      {
-        id: 'a3', courseId: 'c1', email: 'pending@x.com', decision: 'Accept',
-      }, // Accept but not yet stamped -> not loaded
-    ]);
+    await testDb.insert(courseRegistrationTable, {
+      id: 'a1', courseId: 'c1', email: 'acc@x.com', acceptedAt: '2026-06-01T10:00:00.000Z',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'a2', courseId: 'c1', email: 'rej@x.com', decision: 'Reject',
+    }); // never accepted -> not loaded
+    await testDb.insert(courseRegistrationTable, {
+      id: 'a3', courseId: 'c1', email: 'pending@x.com', decision: 'Accept',
+    }); // Accept but not yet stamped -> not loaded
 
     const ph = makeFakePosthog();
     await runAll();
@@ -146,7 +127,7 @@ describe('application_accepted (write-once `Accepted at`)', () => {
   });
 
   test('the log keeps it send-once across runs, even if the source value changes', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values({
+    await testDb.insert(courseRegistrationTable, {
       id: 'a1', courseId: 'c1', email: 'acc@x.com', acceptedAt: '2026-06-01T10:00:00.000Z',
     });
 
@@ -167,14 +148,13 @@ describe('application_accepted (write-once `Accepted at`)', () => {
 
 describe('application_submitted (one per registration, accepted or not)', () => {
   test('emits at createdAt for every registration, joining the PostHog session when captured', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values([
-      {
-        id: 'r1', courseId: 'c1', email: 'a@x.com', roundId: 'rd1', createdAt: '2026-05-01T09:00:00.000Z', posthogSessionId: 'sess-1',
-      },
-      {
-        id: 'r2', courseId: 'c1', email: 'b@x.com', decision: 'Reject', createdAt: '2026-05-02T09:00:00.000Z',
-      }, // rejected still counts as a submission; no session id captured
-    ]);
+    await testDb.insert(courseRegistrationTable, {
+      id: 'r1', courseId: 'c1', email: 'a@x.com', roundId: 'rd1', createdAt: '2026-05-01T09:00:00.000Z', posthogSessionId: 'sess-1',
+    });
+    // rejected still counts as a submission; no session id captured
+    await testDb.insert(courseRegistrationTable, {
+      id: 'r2', courseId: 'c1', email: 'b@x.com', decision: 'Reject', createdAt: '2026-05-02T09:00:00.000Z',
+    });
 
     const ph = makeFakePosthog();
     const result = await runOne('application_submitted');
@@ -190,9 +170,7 @@ describe('application_submitted (one per registration, accepted or not)', () => 
   });
 
   test('skips registrations without a createdAt', async () => {
-    await db.pg.insert(courseRegistrationTable.pg).values({
-      id: 'r1', courseId: 'c1', email: 'a@x.com',
-    });
+    await testDb.insert(courseRegistrationTable, { id: 'r1', courseId: 'c1', email: 'a@x.com' });
 
     const ph = makeFakePosthog();
     const result = await runOne('application_submitted');
@@ -201,10 +179,10 @@ describe('application_submitted (one per registration, accepted or not)', () => 
   });
 
   test('reports the readable course title (from courseTable) and round name', async () => {
-    await db.pg.insert(courseTable.pg).values({
+    await testDb.insert(courseTable, {
       id: 'c1', slug: 'agi-strategy', shortDescription: 'x', title: 'AGI Strategy', units: [],
     });
-    await db.pg.insert(courseRegistrationTable.pg).values({
+    await testDb.insert(courseRegistrationTable, {
       id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', roundName: 'AGI Strategy (2026 Mar W12) - Part-time',
     });
 
