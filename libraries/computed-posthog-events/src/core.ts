@@ -168,7 +168,7 @@ export async function forwardEventTypeToPostHog({
         internalUniqueKey: p.candidate.internalUniqueKey,
         externalUuid: p.event.uuid,
         eventTimestamp: new Date(p.candidate.timestampMs).toISOString(),
-        distinctId: p.candidate.distinctId,
+        distinctId: p.event.distinct_id, // non-null: the id we actually sent (validation dropped null ones)
       }))).onConflictDoNothing();
 
       result.sent += prepared.length;

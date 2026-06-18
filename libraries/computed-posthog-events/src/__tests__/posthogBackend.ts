@@ -9,9 +9,12 @@ import type { PostHogEvent } from '../core';
  *    person — both distinct ids then resolve to one person;
  *  - the `$set` person properties on that identify are applied to the merged person.
  *
- * Both the merge and the `$set` happen whether or not the batch is sent with `historical_migration`
- * (verified against staging — see posthogBackend.staging.test.ts). The engine sends `$identify` live
- * regardless, so this only matters for keeping the model faithful.
+ * Both the merge and the `$set` happen whether or not the batch is sent with `historical_migration`.
+ * The engine sends `$identify` live regardless, so this only matters for keeping the model faithful.
+ *
+ * These semantics were validated against real PostHog ingestion model-based test, which is preserved
+ * on the `wh-2663-posthog-events-2026-06-archive` git branch, file
+ * `libraries/computed-posthog-events/src/__tests__/posthogBackend.staging.test.ts`.
  *
  * Install in a test and call `vi.unstubAllGlobals()` in `afterEach` to remove the fetch stub.
  */
