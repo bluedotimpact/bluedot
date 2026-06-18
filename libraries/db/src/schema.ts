@@ -1278,6 +1278,14 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldaUhr1WKxaMGoBK',
     },
+    rejectedAt: {
+      pgColumn: text(),
+      airtableId: 'fldI2QaCLAJDw4VzM',
+    },
+    withdrawnAt: {
+      pgColumn: text(),
+      airtableId: 'fldaNQYypNEFnZwHy',
+    },
     createdAt: {
       pgColumn: text(),
       airtableId: 'fldyZHM0qpgIkzo8c',
