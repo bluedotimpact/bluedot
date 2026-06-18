@@ -9,6 +9,10 @@ ENV NODE_ENV=production
 ARG APP_NAME
 ENV APP_NAME=${APP_NAME}
 
+# Build tag (`YYYYMMDD.HHMMSS.<git-short-sha>`); read at runtime to stamp emitted PostHog events
+ARG VERSION_TAG
+ENV VERSION_TAG=${VERSION_TAG}
+
 COPY package.json ./
 COPY dist_tools/package-lock.json ./
 

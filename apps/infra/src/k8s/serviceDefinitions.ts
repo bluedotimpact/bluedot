@@ -14,6 +14,10 @@ const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
 const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
 
+// Public PostHog project key, same value the website ships as NEXT_PUBLIC_POSTHOG_KEY
+// (apps/website/.env.production.template). Not a secret: it's exposed in the browser bundle.
+const POSTHOG_PROJECT_API_KEY = 'phc_NVqRwH6xZ0MiP9I5a9tx3l9zsTWBvMI1YEbvbCOXDcI';
+
 const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
 const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
 const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
@@ -335,6 +339,7 @@ export const services: ServiceDefinition[] = [
           { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'PROD_ONLY_WEBHOOK_DELETION', valueFrom: envVarSources.prodOnlyWebhookDeletion },
+          { name: 'POSTHOG_PROJECT_API_KEY', value: POSTHOG_PROJECT_API_KEY },
         ],
       }],
     },
