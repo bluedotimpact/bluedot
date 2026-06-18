@@ -1,14 +1,88 @@
 import {
-  and, gte, isNotNull,
+  and, gte, isNotNull, inArray,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
+  groupDiscussionTable, meetPersonTable, roundTable, unitTable,
+  type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
-import type { EventProjectionRule } from './core';
+import type { Event, EventProjectionRule } from './core';
 
 const filterGteOrNull = (col: PgColumn, sinceValue: number | string | undefined) => (
   sinceValue == null ? isNotNull(col) : and(isNotNull(col), gte(col, sinceValue))
 );
 const isoDateToEpochSeconds = (sinceIso?: string) => (sinceIso == null ? undefined : Math.floor(Date.parse(sinceIso) / 1000));
+
+// Mirrors the my-courses UI (deriveStatus in useDiscussionActions.tsx): a participant is `attended` when
+// their meet_person id is in the discussion's attendees, and `absent` once the discussion has ended without it.
+const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
+
+const calculateDiscussionAttendanceEvents = async (
+  db: PgAirtableDb,
+  { since, now }: { since?: string; now?: string },
+  kind: 'attended' | 'absent',
+): Promise<Event[]> => {
+  const nowMs = now ? Date.parse(now) : Date.now();
+  // discussion datetimes are epoch seconds; `since` bounds work only — the emitted-events log keeps delivery send-once.
+  const discussions = await db.pg.select().from(groupDiscussionTable.pg)
+    .where(filterGteOrNull(groupDiscussionTable.pg.endDateTime, isoDateToEpochSeconds(since)));
+
+  const meetPersonIds = [...new Set(discussions.flatMap((d) => d.participantsExpected ?? []))];
+  if (meetPersonIds.length === 0) return [];
+  const meetPersons = await db.pg.select().from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, meetPersonIds));
+  const meetPersonById = new Map(meetPersons.map((mp) => [mp.id, mp] as const));
+
+  const roundIds = [...new Set(meetPersons.map((mp) => mp.round).filter((r): r is string => !!r))];
+  const rounds = roundIds.length
+    ? await db.pg.select({ id: roundTable.pg.id, title: roundTable.pg.title }).from(roundTable.pg).where(inArray(roundTable.pg.id, roundIds))
+    : [];
+  const roundTitleById = new Map(rounds.map((r) => [r.id, r.title] as const));
+
+  const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter((u): u is string => !!u))];
+  const units = unitIds.length
+    ? await db.pg.select().from(unitTable.pg).where(inArray(unitTable.pg.id, unitIds))
+    : [];
+  const unitById = new Map(units.map((u) => [u.id, u] as const));
+
+  const events: Event[] = [];
+  for (const d of discussions) {
+    // absent only materialises once a discussion has comfortably ended; attended emits as soon as recorded.
+    const hasEnded = d.endDateTime * 1000 <= nowMs - FIFTEEN_MINUTES_MS;
+    if (kind === 'absent' && !hasEnded) continue;
+
+    const attendedSet = new Set(d.attendees ?? []);
+    const unit = d.courseBuilderUnitRecordId ? unitById.get(d.courseBuilderUnitRecordId) : undefined;
+    const unitNumber = d.unitNumber ?? (unit ? Number(unit.unitNumber) : null);
+    const unitName = unit?.title ?? d.unitFallback ?? null;
+
+    for (const meetPersonId of d.participantsExpected ?? []) {
+      const isAttended = attendedSet.has(meetPersonId);
+      if (kind === 'attended' ? !isAttended : isAttended) continue;
+
+      const meetPerson = meetPersonById.get(meetPersonId);
+      if (!meetPerson?.email) continue;
+      const roundName = meetPerson.round ? roundTitleById.get(meetPerson.round) : undefined;
+
+      events.push({
+        internalUniqueKey: `${meetPersonId}:${d.id}`,
+        distinctId: meetPerson.email,
+        timestampMs: d.startDateTime * 1000,
+        properties: {
+          discussion_id: d.id,
+          ...(unit ? { course_id: unit.courseId, course_name: unit.courseTitle, course_slug: unit.courseSlug } : {}),
+          ...(meetPerson.round ? { round_id: meetPerson.round } : {}),
+          ...(roundName ? { round_name: roundName } : {}),
+          ...(unitNumber != null && Number.isFinite(unitNumber) ? { unit_number: unitNumber } : {}),
+          ...(unitName ? { unit_name: unitName } : {}),
+          ...(d.group ? { group_id: d.group } : {}),
+          // total discussions in the course (attendance denominator: certificate needs all but one)
+          ...(meetPerson.numUnits != null ? { num_discussions: meetPerson.numUnits } : {}),
+        },
+      });
+    }
+  }
+
+  return events;
+};
 
 export const eventProjectionRules: EventProjectionRule[] = [
   {
@@ -118,5 +192,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
         }),
       ];
     },
+  },
+  {
+    eventType: 'discussion_attended',
+    calculateEvents: (db, opts) => calculateDiscussionAttendanceEvents(db, opts, 'attended'),
+  },
+  {
+    eventType: 'discussion_absent',
+    calculateEvents: (db, opts) => calculateDiscussionAttendanceEvents(db, opts, 'absent'),
   },
 ];

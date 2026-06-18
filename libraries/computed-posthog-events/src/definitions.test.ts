@@ -1,5 +1,6 @@
 import {
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
+  groupDiscussionTable, meetPersonTable, roundTable, unitTable,
 } from '@bluedot/db';
 import {
   afterEach, describe, expect, test, vi,
@@ -283,5 +284,155 @@ describe('application_submitted (one per registration, accepted or not)', () => 
       expect(second).toMatchObject({ sent: 0, alreadySent: 2 });
       expect(ph2.events).toHaveLength(0);
     });
+  });
+});
+
+describe('discussion_attended / discussion_absent', () => {
+  const NOW = '2026-07-01T00:00:00.000Z';
+  const nowSec = Math.floor(Date.parse(NOW) / 1000);
+
+  const insertDiscussion = (d: {
+    id: string;
+    participantsExpected: string[];
+    attendees?: string[];
+    startSec: number;
+    endSec: number;
+    group?: string;
+    courseBuilderUnitRecordId?: string;
+    unitNumber?: number;
+    unitFallback?: string;
+  }) => testDb.insert(groupDiscussionTable, {
+    id: d.id,
+    facilitators: [],
+    participantsExpected: d.participantsExpected,
+    attendees: d.attendees,
+    startDateTime: d.startSec,
+    endDateTime: d.endSec,
+    group: d.group ?? 'g1',
+    courseBuilderUnitRecordId: d.courseBuilderUnitRecordId,
+    unitNumber: d.unitNumber,
+    unitFallback: d.unitFallback,
+  });
+
+  const seedPeople = async () => {
+    await testDb.insert(roundTable, { id: 'rd1', title: 'AGI Strategy (2026 Jun W26) - Part-time' });
+    await testDb.insert(unitTable, {
+      id: 'u1', courseId: 'c1', courseTitle: 'AGI Strategy', courseSlug: 'agi-strategy', title: 'Intro to AGI', unitNumber: '1', unitStatus: 'Active',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp1', email: 'attendee@x.com', round: 'rd1', numUnits: 8,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp2', email: 'absentee@x.com', round: 'rd1', numUnits: 8,
+    });
+  };
+
+  test('attended for those in attendees, absent for the rest once the discussion has ended', async () => {
+    await seedPeople();
+    await insertDiscussion({
+      id: 'd1',
+      participantsExpected: ['mp1', 'mp2'],
+      attendees: ['mp1'],
+      startSec: nowSec - 7200,
+      endSec: nowSec - 3600, // ended an hour ago
+      courseBuilderUnitRecordId: 'u1',
+      unitNumber: 1,
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW });
+
+    const attended = ph.events.filter((e) => e.event === 'discussion_attended');
+    const absent = ph.events.filter((e) => e.event === 'discussion_absent');
+    expect(attended.map((e) => e.distinct_id)).toEqual(['attendee@x.com']);
+    expect(absent.map((e) => e.distinct_id)).toEqual(['absentee@x.com']);
+
+    // both attended and absent are timestamped at the discussion's scheduled start
+    expect(attended[0]!.timestamp).toBe(new Date((nowSec - 7200) * 1000).toISOString());
+    expect(absent[0]!.timestamp).toBe(new Date((nowSec - 7200) * 1000).toISOString());
+    expect(attended[0]!.properties).toMatchObject({
+      discussion_id: 'd1',
+      course_id: 'c1',
+      course_name: 'AGI Strategy',
+      course_slug: 'agi-strategy',
+      round_id: 'rd1',
+      round_name: 'AGI Strategy (2026 Jun W26) - Part-time',
+      unit_number: 1,
+      unit_name: 'Intro to AGI',
+      group_id: 'g1',
+      num_discussions: 8,
+    });
+  });
+
+  test('no absent within the 15-minute grace, nor for live/upcoming discussions', async () => {
+    await seedPeople();
+    await insertDiscussion({
+      id: 'recent', participantsExpected: ['mp2'], attendees: [], startSec: nowSec - 3900, endSec: nowSec - 300, // ended 5 min ago
+    });
+    await insertDiscussion({
+      id: 'upcoming', participantsExpected: ['mp2'], attendees: [], startSec: nowSec + 3600, endSec: nowSec + 7200,
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW });
+
+    expect(ph.events.filter((e) => e.event === 'discussion_absent')).toHaveLength(0);
+  });
+
+  test('attended emits even while the discussion is live (not gated by the grace)', async () => {
+    await seedPeople();
+    await insertDiscussion({
+      id: 'live', participantsExpected: ['mp1'], attendees: ['mp1'], startSec: nowSec - 600, endSec: nowSec + 3000,
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW });
+
+    const attended = ph.events.filter((e) => e.event === 'discussion_attended');
+    expect(attended.map((e) => e.distinct_id)).toEqual(['attendee@x.com']);
+  });
+
+  test('skips expected participants we cannot resolve an email for', async () => {
+    await testDb.insert(meetPersonTable, { id: 'mp1', email: 'attendee@x.com', round: 'rd1' });
+    await testDb.insert(meetPersonTable, { id: 'noEmail' }); // no email -> skipped
+    await insertDiscussion({
+      id: 'd1', participantsExpected: ['mp1', 'noEmail'], attendees: ['mp1'], startSec: nowSec - 7200, endSec: nowSec - 3600,
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW });
+
+    expect(ph.events.filter((e) => e.event === 'discussion_attended').map((e) => e.distinct_id)).toEqual(['attendee@x.com']);
+    expect(ph.events.filter((e) => e.event === 'discussion_absent')).toHaveLength(0);
+  });
+
+  test('since scans only discussions ending on/after it', async () => {
+    await seedPeople();
+    await insertDiscussion({
+      id: 'old', participantsExpected: ['mp2'], attendees: [], startSec: nowSec - (100 * 86400), endSec: nowSec - (100 * 86400) + 3600,
+    });
+    await insertDiscussion({
+      id: 'recentEnded', participantsExpected: ['mp2'], attendees: [], startSec: nowSec - 7200, endSec: nowSec - 3600,
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW, since: new Date((nowSec - 86400) * 1000).toISOString() });
+
+    const absent = ph.events.filter((e) => e.event === 'discussion_absent');
+    expect(absent.map((e) => e.properties.discussion_id)).toEqual(['recentEnded']);
+  });
+
+  test('send-once across runs: a second run re-sends nothing', async () => {
+    await seedPeople();
+    await insertDiscussion({
+      id: 'd1', participantsExpected: ['mp1', 'mp2'], attendees: ['mp1'], startSec: nowSec - 7200, endSec: nowSec - 3600,
+    });
+
+    mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW });
+
+    const ph2 = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW });
+    expect(ph2.events.filter((e) => e.event.startsWith('discussion_'))).toHaveLength(0);
   });
 });
