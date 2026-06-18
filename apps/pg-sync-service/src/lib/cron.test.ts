@@ -238,14 +238,17 @@ describe('forwardAllEventsToPostHogCron', () => {
 
   it('scans the last 24h, passing the same since window to every event type', async () => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date('2026-06-18T12:00:00.000Z'));
-    mockProjectionRules.push({ eventType: 'application_submitted' }, { eventType: 'certificate_issued' });
+    try {
+      vi.setSystemTime(new Date('2026-06-18T12:00:00.000Z'));
+      mockProjectionRules.push({ eventType: 'application_submitted' }, { eventType: 'certificate_issued' });
 
-    await forwardAllEventsToPostHogCron();
+      await forwardAllEventsToPostHogCron();
 
-    const since = '2026-06-17T12:00:00.000Z';
-    expect(mockForwardEvent.mock.calls.every(([arg]) => arg.since === since)).toBe(true);
-    expect(mockForwardEvent).toHaveBeenCalledTimes(2);
-    vi.useRealTimers();
+      const since = '2026-06-17T12:00:00.000Z';
+      expect(mockForwardEvent.mock.calls.every(([arg]) => arg.since === since)).toBe(true);
+      expect(mockForwardEvent).toHaveBeenCalledTimes(2);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

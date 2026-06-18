@@ -14,7 +14,13 @@ describe('chunk', () => {
     expect(chunk([1, 2, 3], 10)).toEqual([[1, 2, 3]]);
   });
 
-  test('returns an empty array for empty input', () => {
+  test('returns an empty array for empty input, regardless of size', () => {
     expect(chunk([], 3)).toEqual([]);
+    expect(chunk([], 0)).toEqual([]);
+  });
+
+  test('throws on a non-positive size for non-empty input (would otherwise loop forever)', () => {
+    expect(() => chunk([1, 2, 3], 0)).toThrow(RangeError);
+    expect(() => chunk([1, 2, 3], -1)).toThrow(RangeError);
   });
 });
