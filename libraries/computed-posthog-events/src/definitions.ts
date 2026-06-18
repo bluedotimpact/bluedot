@@ -19,38 +19,36 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)); // createdAt is ISO text
 
-      return rows.flatMap((r) => {
-        const timestampMs = Date.parse(r.createdAt!);
-        const submitted = {
+      const trackEvents = rows.map((r) => {
+        const courseName = courseTitleById.get(r.courseId);
+        return {
           internalUniqueKey: r.id,
           distinctId: r.email,
-          timestampMs,
+          timestampMs: Date.parse(r.createdAt!),
           properties: {
-            course: courseTitleById.get(r.courseId) ?? r.courseId,
-            round: r.roundName ?? r.roundId,
+            course_id: r.courseId,
+            ...(courseName ? { course_name: courseName } : {}),
+            ...(r.roundId ? { round_id: r.roundId } : {}),
+            ...(r.roundName ? { round_name: r.roundName } : {}),
             // $session_id is PostHog's reserved key for session stitching; only set when we captured one.
             ...(r.posthogSessionId ? { $session_id: r.posthogSessionId } : {}),
           },
         };
-
-        // If we captured the applicant's anonymous PostHog id, identify them first: merge that
-        // anonymous person into the email person so their pre-application browsing is attributed to them.
-        if (r.posthogDistinctId && r.posthogDistinctId !== r.email) {
-          return [
-            {
-              type: 'identify' as const,
-              internalUniqueKey: r.id,
-              distinctId: r.email,
-              anonDistinctId: r.posthogDistinctId,
-              timestampMs,
-              set: { email: r.email },
-            },
-            submitted,
-          ];
-        }
-
-        return [submitted];
       });
+
+      // Where we captured the applicant's anonymous PostHog id, identify them: merge that anonymous
+      // person into the email person so their pre-application browsing is attributed to them.
+      const anonUsers = rows.filter((r) => r.posthogDistinctId && r.posthogDistinctId !== r.email);
+      const identifyEvents = anonUsers.map((r) => ({
+        type: 'identify' as const,
+        internalUniqueKey: r.id,
+        distinctId: r.email,
+        anonDistinctId: r.posthogDistinctId!,
+        timestampMs: Date.parse(r.createdAt!),
+        set: { email: r.email },
+      }));
+
+      return [...identifyEvents, ...trackEvents];
     },
   },
   {
@@ -61,12 +59,20 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.acceptedAt, since)); // acceptedAt is ISO text
 
-      return rows.map((r) => ({
-        internalUniqueKey: `accept:${r.id}`,
-        distinctId: r.email,
-        timestampMs: Date.parse(r.acceptedAt!),
-        properties: { course: courseTitleById.get(r.courseId) ?? r.courseId, round: r.roundName ?? r.roundId },
-      }));
+      return rows.map((r) => {
+        const courseName = courseTitleById.get(r.courseId);
+        return {
+          internalUniqueKey: `accept:${r.id}`,
+          distinctId: r.email,
+          timestampMs: Date.parse(r.acceptedAt!),
+          properties: {
+            course_id: r.courseId,
+            ...(courseName ? { course_name: courseName } : {}),
+            ...(r.roundId ? { round_id: r.roundId } : {}),
+            ...(r.roundName ? { round_name: r.roundName } : {}),
+          },
+        };
+      });
     },
   },
   {
@@ -74,7 +80,6 @@ export const eventProjectionRules: EventProjectionRule[] = [
     async calculateEvents(db, { since }) {
       const sinceEpochSeconds = isoDateToEpochSeconds(since); // certificateCreatedAt is epoch seconds in both tables
       const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
-      // TODO this can just be a join
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
       const facilitated = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds));
@@ -82,18 +87,35 @@ export const eventProjectionRules: EventProjectionRule[] = [
         .where(filterGteOrNull(selfServeCourseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds));
 
       return [
-        ...facilitated.filter((r) => r.certificateId != null).map((r) => ({
-          internalUniqueKey: `courseReg:${r.id}`,
-          distinctId: r.email,
-          timestampMs: Number(r.certificateCreatedAt) * 1000,
-          properties: { course: courseTitleById.get(r.courseId) ?? r.courseId, round: r.roundName ?? r.roundId, certificate_id: r.certificateId },
-        })),
-        ...selfServe.filter((r) => r.certificateId != null).map((r) => ({
-          internalUniqueKey: `selfServe:${r.id}`,
-          distinctId: r.email,
-          timestampMs: Number(r.certificateCreatedAt) * 1000,
-          properties: { course: courseTitleById.get(r.courseId) ?? r.courseId, certificate_id: r.certificateId }, // self-serve has no round
-        })),
+        ...facilitated.filter((r) => r.certificateId != null).map((r) => {
+          const courseName = courseTitleById.get(r.courseId);
+          return {
+            internalUniqueKey: `courseReg:${r.id}`,
+            distinctId: r.email,
+            timestampMs: Number(r.certificateCreatedAt) * 1000,
+            properties: {
+              course_id: r.courseId,
+              ...(courseName ? { course_name: courseName } : {}),
+              ...(r.roundId ? { round_id: r.roundId } : {}),
+              ...(r.roundName ? { round_name: r.roundName } : {}),
+              certificate_id: r.certificateId,
+            },
+          };
+        }),
+        ...selfServe.filter((r) => r.certificateId != null).map((r) => {
+          const courseName = courseTitleById.get(r.courseId);
+          return {
+            internalUniqueKey: `selfServe:${r.id}`,
+            distinctId: r.email,
+            timestampMs: Number(r.certificateCreatedAt) * 1000,
+            // self-serve has no round
+            properties: {
+              course_id: r.courseId,
+              ...(courseName ? { course_name: courseName } : {}),
+              certificate_id: r.certificateId,
+            },
+          };
+        }),
       ];
     },
   },

@@ -2,8 +2,8 @@ import { vi } from 'vitest';
 import type { PostHogEvent } from '../core';
 
 /**
- * In-memory model of PostHog ingestion of the `/batch` endpoint, matching the (largely undocumented)
- * semantics we verified against staging:
+ * In-memory model of PostHog ingestion, matching the (partly undocumented) semantics we
+ * verified against staging:
  *  - a track event creates/uses a person for its `distinct_id`;
  *  - a `$identify` event carrying `$anon_distinct_id` MERGES the anonymous person into the identified
  *    person — both distinct ids then resolve to one person;
@@ -30,20 +30,23 @@ export type PosthogBackend = {
 
 type Person = { id: string; properties: Record<string, unknown> };
 
-export function installPosthogBackend(): PosthogBackend {
+export function mockPostHogBackend(): PosthogBackend {
   const events: PostHogEvent[] = [];
   const receivedBatches: { historicalMigration: boolean; events: PostHogEvent[] }[] = [];
   const personIdByDistinctId = new Map<string, string>();
   const persons = new Map<string, Person>();
-  let seq = 0;
+  let sequentialCounter = 0;
 
   const ensurePerson = (distinctId: string): string => {
     const existing = personIdByDistinctId.get(distinctId);
+
     if (existing) return existing;
-    seq += 1;
-    const id = `person-${seq}`;
+
+    sequentialCounter += 1;
+    const id = `person-${sequentialCounter}`;
     personIdByDistinctId.set(distinctId, id);
     persons.set(id, { id, properties: {} });
+
     return id;
   };
 
