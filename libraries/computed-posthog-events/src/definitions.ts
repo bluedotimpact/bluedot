@@ -1,7 +1,7 @@
 import {
   and, gte, isNotNull, inArray,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
-  groupDiscussionTable, meetPersonTable, roundTable, unitTable,
+  groupDiscussionTable, meetPersonTable, roundTable, unitTable, exerciseTable, exerciseResponsePgTable,
   type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
@@ -224,5 +224,43 @@ export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'discussion_absent',
     calculateEvents: (db, opts) => calculateDiscussionAttendanceEvents(db, opts, 'absent'),
+  },
+  {
+    eventType: 'exercise_completed',
+    async calculateEvents(db, { since }) {
+      const responses = await db.pg.select().from(exerciseResponsePgTable)
+        .where(filterGteOrNull(exerciseResponsePgTable.completedAt, since)); // completedAt is ISO text
+      if (responses.length === 0) return [];
+
+      const [courses, exercises] = await Promise.all([
+        db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg),
+        db.pg.select({
+          id: exerciseTable.pg.id, courseId: exerciseTable.pg.courseId, title: exerciseTable.pg.title,
+          type: exerciseTable.pg.type, unitId: exerciseTable.pg.unitId,
+        }).from(exerciseTable.pg),
+      ]);
+      const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+      const exerciseById = new Map(exercises.map((e) => [e.id, e]));
+
+      return responses.map((r) => {
+        const exercise = exerciseById.get(r.exerciseId);
+        const courseName = exercise?.courseId ? courseTitleById.get(exercise.courseId) : undefined;
+        return {
+          internalUniqueKey: r.id,
+          distinctId: r.email,
+          // Note: completedAt is mutable (can un-complete and re-complete), the event will
+          // capture the *first time* we saw the response in a completed state
+          timestampMs: Date.parse(r.completedAt!),
+          properties: {
+            exercise_id: r.exerciseId,
+            ...(exercise?.title ? { exercise_name: exercise.title } : {}),
+            ...(exercise?.type ? { exercise_type: exercise.type } : {}),
+            ...(exercise?.unitId ? { unit_id: exercise.unitId } : {}),
+            ...(exercise?.courseId ? { course_id: exercise.courseId } : {}),
+            ...(courseName ? { course_name: courseName } : {}),
+          },
+        };
+      });
+    },
   },
 ];

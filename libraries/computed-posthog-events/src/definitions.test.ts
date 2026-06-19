@@ -1,6 +1,7 @@
 import {
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
+  exerciseTable, exerciseResponsePgTable,
 } from '@bluedot/db';
 import {
   afterEach, describe, expect, test, vi,
@@ -469,5 +470,78 @@ describe('discussion_attended / discussion_absent', () => {
     const ph2 = mockPostHogBackend();
     await forwardAllEventsToPostHog({ now: NOW });
     expect(ph2.events.filter((e) => e.event.startsWith('discussion_'))).toHaveLength(0);
+  });
+});
+
+describe('exercise_completed', () => {
+  const seedCourse = (id: string, title: string) => testDb.insert(courseTable, {
+    id, slug: id, title, shortDescription: title, units: [], status: 'Active',
+  });
+  const seedExercise = (id: string, opts: { courseId?: string; unitId?: string; title?: string; type?: string } = {}) =>
+    testDb.insert(exerciseTable, {
+      id, courseId: opts.courseId, unitId: opts.unitId, title: opts.title, type: opts.type, status: 'Active',
+    });
+  const completeExercise = (id: string, email: string, exerciseId: string, completedAt: string | null) =>
+    db.pg.insert(exerciseResponsePgTable).values({
+      id, email, exerciseId, response: 'an answer', createdAt: '2026-06-01T00:00:00.000Z', completedAt,
+    });
+
+  test('emits one event per completed response, enriched with the exercise and course', async () => {
+    await seedCourse('c1', 'AGI Strategy');
+    await seedExercise('ex2', {
+      courseId: 'c1', unitId: 'u1', title: 'Quiz', type: 'Multiple choice',
+    });
+    await completeExercise('r1', 'a@x.com', 'ex2', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const events = ph.events.filter((e) => e.event === 'exercise_completed');
+    expect(events).toHaveLength(1);
+    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
+    expect(events[0]!.properties).toMatchObject({
+      exercise_id: 'ex2',
+      exercise_name: 'Quiz',
+      exercise_type: 'Multiple choice',
+      unit_id: 'u1',
+      course_id: 'c1',
+      course_name: 'AGI Strategy',
+    });
+  });
+
+  test('skips responses without a completedAt', async () => {
+    await seedCourse('c1', 'AGI Strategy');
+    await seedExercise('ex1', { courseId: 'c1' });
+    await completeExercise('r1', 'a@x.com', 'ex1', null);
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph.events.filter((e) => e.event === 'exercise_completed')).toHaveLength(0);
+  });
+
+  test('since scans only responses completed on/after it', async () => {
+    await seedCourse('c1', 'AGI Strategy');
+    await seedExercise('ex1', { courseId: 'c1' });
+    await completeExercise('old', 'old@x.com', 'ex1', '2026-01-01T00:00:00.000Z');
+    await completeExercise('new', 'new@x.com', 'ex1', '2026-06-01T00:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
+
+    expect(ph.events.filter((e) => e.event === 'exercise_completed').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+  });
+
+  test('send-once across runs: a second run re-sends nothing', async () => {
+    await seedCourse('c1', 'AGI Strategy');
+    await seedExercise('ex1', { courseId: 'c1' });
+    await completeExercise('r1', 'a@x.com', 'ex1', '2026-06-10T10:00:00.000Z');
+
+    mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const ph2 = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph2.events.filter((e) => e.event === 'exercise_completed')).toHaveLength(0);
   });
 });
