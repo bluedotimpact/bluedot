@@ -162,7 +162,6 @@ export async function forwardEventTypeToPostHog({
           historical_migration: historicalMigration,
           batch: prepared.map((p) => p.event),
         }),
-        signal: AbortSignal.timeout(60_000), // don't let a hung request hold the cron's reentry guard
       });
       if (!res.ok) {
         throw new Error(`PostHog /batch failed: ${res.status} ${res.statusText} ${await res.text().catch(() => '')}`);
