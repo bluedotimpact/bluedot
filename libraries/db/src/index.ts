@@ -28,6 +28,7 @@ export {
   meetPersonTable,
   zoomAccountTable,
   roundTable,
+  projectSubmissionTable,
   applicationsRoundTable,
   meetCourseTable,
   chunkTable,
