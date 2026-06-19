@@ -67,4 +67,33 @@ describe('resources.saveResourceCompletion', () => {
       createdByUserId: ['cb-user-original'],
     });
   });
+
+  test('stamps completedAt on insert when marked complete, leaves it null otherwise', async () => {
+    const completed = await caller.resources.saveResourceCompletion({ unitResourceId: 'ur-1', isCompleted: true });
+    expect(completed.completedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+
+    const notCompleted = await caller.resources.saveResourceCompletion({ unitResourceId: 'ur-2', isCompleted: false });
+    expect(notCompleted.completedAt).toBeNull();
+  });
+
+  test('stamps completedAt when an existing row is completed and clears it when un-completed', async () => {
+    await testDb.pg.insert(resourceCompletionPgTable).values({
+      id: 'rc-1', email: CALLER_EMAIL, unitResourceId: 'ur-1', isCompleted: false,
+    });
+
+    const completed = await caller.resources.saveResourceCompletion({ unitResourceId: 'ur-1', isCompleted: true });
+    expect(completed.completedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+
+    const uncompleted = await caller.resources.saveResourceCompletion({ unitResourceId: 'ur-1', isCompleted: false });
+    expect(uncompleted.completedAt).toBeNull();
+  });
+
+  test('preserves completedAt when an update does not change completion', async () => {
+    await testDb.pg.insert(resourceCompletionPgTable).values({
+      id: 'rc-1', email: CALLER_EMAIL, unitResourceId: 'ur-1', isCompleted: true, completedAt: '2026-06-01T00:00:00.000Z',
+    });
+
+    const result = await caller.resources.saveResourceCompletion({ unitResourceId: 'ur-1', feedback: 'helpful' });
+    expect(result.completedAt).toBe('2026-06-01T00:00:00.000Z');
+  });
 });

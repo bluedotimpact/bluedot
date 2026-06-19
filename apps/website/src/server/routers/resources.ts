@@ -55,6 +55,13 @@ export const resourcesRouter = router({
         .optional(),
     }))
     .mutation(async ({ input, ctx }) => {
+      let completedAt: string | null | undefined;
+      if (input.isCompleted === true) {
+        completedAt = new Date().toISOString();
+      } else if (input.isCompleted === false) {
+        completedAt = null;
+      }
+
       const [resourceCompletion, unitResource, cbUser] = await Promise.all([
         getFirstFromPg(db.pg, resourceCompletionPgTable, {
           filter: {
@@ -74,6 +81,7 @@ export const resourcesRouter = router({
             isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
             feedback: input.feedback ?? resourceCompletion.feedback,
             resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
+            completedAt: completedAt !== undefined ? completedAt : resourceCompletion.completedAt,
           })
           .where(eq(resourceCompletionPgTable.id, resourceCompletion.id))
           .returning()
@@ -88,6 +96,7 @@ export const resourcesRouter = router({
             resourceId: unitResource?.resourceId ?? null,
             createdByUserId: cbUser ? [cbUser.id] : null,
             createdAt: new Date().toISOString(),
+            completedAt: completedAt ?? null,
           })
           .returning();
 
