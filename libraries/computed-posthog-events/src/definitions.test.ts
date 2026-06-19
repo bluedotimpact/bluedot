@@ -85,6 +85,18 @@ describe('since (incremental scans)', () => {
     expect(ph.events.filter((e) => e.event === 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
   });
 
+  test('application_rejected: only rows with rejectedAt >= since (ISO text)', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'old', courseId: 'c1', email: 'old@x.com', rejectedAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'new', courseId: 'c1', email: 'new@x.com', rejectedAt: '2026-06-01T00:00:00.000Z',
+    });
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
+    expect(ph.events.filter((e) => e.event === 'application_rejected').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+  });
+
   test('application_submitted: only rows with createdAt >= since (ISO text)', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'old', courseId: 'c1', email: 'old@x.com', createdAt: '2026-01-01T00:00:00.000Z',
@@ -136,6 +148,29 @@ describe('application_accepted (write-once `Accepted at`)', () => {
     await forwardAllEventsToPostHog();
     expect(ph.events.filter((e) => e.event === 'application_accepted')).toHaveLength(1);
     expect(ph.events.find((e) => e.event === 'application_accepted')?.timestamp).toBe('2026-06-01T10:00:00.000Z');
+  });
+});
+
+describe('application_rejected (write-once `Rejected at`)', () => {
+  test('emits only for rows with a `Rejected at` timestamp', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'a1', courseId: 'c1', email: 'rej@x.com', rejectedAt: '2026-06-01T10:00:00.000Z',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'a2', courseId: 'c1', email: 'acc@x.com', decision: 'Accept',
+    }); // never rejected -> not loaded
+    await testDb.insert(courseRegistrationTable, {
+      id: 'a3', courseId: 'c1', email: 'pending@x.com', decision: 'Reject',
+    }); // Reject but not yet stamped -> not loaded
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const rejects = ph.events.filter((e) => e.event === 'application_rejected');
+    expect(rejects).toHaveLength(1);
+    expect(rejects[0]?.distinct_id).toBe('rej@x.com');
+    expect(rejects[0]?.timestamp).toBe('2026-06-01T10:00:00.000Z');
+    expect(rejects[0]?.properties).toMatchObject({ course_id: 'c1' });
   });
 });
 

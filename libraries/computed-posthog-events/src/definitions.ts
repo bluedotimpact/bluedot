@@ -150,6 +150,30 @@ export const eventProjectionRules: EventProjectionRule[] = [
     },
   },
   {
+    eventType: 'application_rejected',
+    async calculateEvents(db, { since }) {
+      const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+      const rows = await db.pg.select().from(courseRegistrationTable.pg)
+        .where(filterGteOrNull(courseRegistrationTable.pg.rejectedAt, since)); // rejectedAt is ISO text
+
+      return rows.map((r) => {
+        const courseName = courseTitleById.get(r.courseId);
+        return {
+          internalUniqueKey: `reject:${r.id}`,
+          distinctId: r.email,
+          timestampMs: Date.parse(r.rejectedAt!),
+          properties: {
+            course_id: r.courseId,
+            ...(courseName ? { course_name: courseName } : {}),
+            ...(r.roundId ? { round_id: r.roundId } : {}),
+            ...(r.roundName ? { round_name: r.roundName } : {}),
+          },
+        };
+      });
+    },
+  },
+  {
     eventType: 'certificate_issued',
     async calculateEvents(db, { since }) {
       const sinceEpochSeconds = isoDateToEpochSeconds(since); // certificateCreatedAt is epoch seconds in both tables
