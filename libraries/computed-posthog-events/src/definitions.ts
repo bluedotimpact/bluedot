@@ -2,6 +2,7 @@ import {
   and, gte, isNotNull, inArray,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
+  unitResourceTable, resourceCompletionPgTable,
   type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
@@ -224,5 +225,43 @@ export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'discussion_absent',
     calculateEvents: (db, opts) => calculateDiscussionAttendanceEvents(db, opts, 'absent'),
+  },
+  {
+    eventType: 'resource_completed',
+    async calculateEvents(db, { since }) {
+      const rows = await db.pg.select().from(resourceCompletionPgTable)
+        .where(filterGteOrNull(resourceCompletionPgTable.completedAt, since));
+      if (rows.length === 0) return [];
+
+      const [unitResources, units] = await Promise.all([
+        db.pg.select({
+          id: unitResourceTable.pg.id,
+          resourceName: unitResourceTable.pg.resourceName,
+          unitId: unitResourceTable.pg.unitId,
+          coreFurtherMaybe: unitResourceTable.pg.coreFurtherMaybe,
+        }).from(unitResourceTable.pg),
+        db.pg.select({ id: unitTable.pg.id, courseId: unitTable.pg.courseId, courseTitle: unitTable.pg.courseTitle }).from(unitTable.pg),
+      ]);
+      const unitResourceById = new Map(unitResources.map((u) => [u.id, u]));
+      const unitById = new Map(units.map((u) => [u.id, u]));
+
+      return rows.map((r) => {
+        const unitResource = r.unitResourceId ? unitResourceById.get(r.unitResourceId) : undefined;
+        const unit = unitResource?.unitId ? unitById.get(unitResource.unitId) : undefined;
+        return {
+          internalUniqueKey: r.id,
+          distinctId: r.email,
+          timestampMs: Date.parse(r.completedAt!),
+          properties: {
+            ...(r.unitResourceId ? { resource_id: r.unitResourceId } : {}),
+            ...(unitResource?.resourceName ? { resource_name: unitResource.resourceName } : {}),
+            ...(unitResource?.unitId ? { unit_id: unitResource.unitId } : {}),
+            ...(unit?.courseId ? { course_id: unit.courseId } : {}),
+            ...(unit?.courseTitle ? { course_name: unit.courseTitle } : {}),
+            is_core: unitResource?.coreFurtherMaybe === 'Core',
+          },
+        };
+      });
+    },
   },
 ];

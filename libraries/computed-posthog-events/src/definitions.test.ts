@@ -1,6 +1,7 @@
 import {
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
+  unitResourceTable, resourceCompletionPgTable,
 } from '@bluedot/db';
 import {
   afterEach, describe, expect, test, vi,
@@ -469,5 +470,87 @@ describe('discussion_attended / discussion_absent', () => {
     const ph2 = mockPostHogBackend();
     await forwardAllEventsToPostHog({ now: NOW });
     expect(ph2.events.filter((e) => e.event.startsWith('discussion_'))).toHaveLength(0);
+  });
+});
+
+describe('resource_completed', () => {
+  const seedUnit = (id: string, courseId: string, courseTitle: string) => testDb.insert(unitTable, {
+    id, courseId, courseTitle, courseSlug: courseId, title: id, unitNumber: '1', unitStatus: 'Active',
+  });
+  const seedUnitResource = (id: string, unitId: string, resourceName: string, coreFurtherMaybe: string) =>
+    testDb.insert(unitResourceTable, {
+      id, unitId, resourceName, coreFurtherMaybe,
+    });
+  const completeResource = (id: string, email: string, unitResourceId: string, completedAt: string | null) =>
+    db.pg.insert(resourceCompletionPgTable).values({
+      id, email, unitResourceId, isCompleted: completedAt != null, createdAt: '2026-06-01T00:00:00.000Z', completedAt,
+    });
+
+  test('emits one event per completed resource, enriched with resource, unit, course, and core flag', async () => {
+    await seedUnit('u1', 'c1', 'AGI Strategy');
+    await seedUnitResource('ur1', 'u1', 'Intro reading', 'Core');
+    await completeResource('rc1', 'a@x.com', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const events = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(events).toHaveLength(1);
+    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
+    expect(events[0]!.properties).toMatchObject({
+      resource_id: 'ur1',
+      resource_name: 'Intro reading',
+      unit_id: 'u1',
+      course_id: 'c1',
+      course_name: 'AGI Strategy',
+      is_core: true,
+    });
+  });
+
+  test('marks non-core resources is_core false', async () => {
+    await seedUnit('u1', 'c1', 'AGI Strategy');
+    await seedUnitResource('ur1', 'u1', 'Further reading', 'Further');
+    await completeResource('rc1', 'a@x.com', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    expect(ph.events.find((e) => e.event === 'resource_completed')!.properties).toMatchObject({ is_core: false });
+  });
+
+  test('skips rows without a completedAt', async () => {
+    await seedUnit('u1', 'c1', 'AGI Strategy');
+    await seedUnitResource('ur1', 'u1', 'Intro reading', 'Core');
+    await completeResource('rc1', 'a@x.com', 'ur1', null);
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph.events.filter((e) => e.event === 'resource_completed')).toHaveLength(0);
+  });
+
+  test('since scans only resources completed on/after it', async () => {
+    await seedUnit('u1', 'c1', 'AGI Strategy');
+    await seedUnitResource('ur1', 'u1', 'Intro reading', 'Core');
+    await completeResource('old', 'old@x.com', 'ur1', '2026-01-01T00:00:00.000Z');
+    await completeResource('new', 'new@x.com', 'ur1', '2026-06-01T00:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
+
+    expect(ph.events.filter((e) => e.event === 'resource_completed').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+  });
+
+  test('send-once across runs: a second run re-sends nothing', async () => {
+    await seedUnit('u1', 'c1', 'AGI Strategy');
+    await seedUnitResource('ur1', 'u1', 'Intro reading', 'Core');
+    await completeResource('rc1', 'a@x.com', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const ph2 = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph2.events.filter((e) => e.event === 'resource_completed')).toHaveLength(0);
   });
 });
