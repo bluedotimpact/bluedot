@@ -85,7 +85,9 @@ async function getGroupsForFacilitator(facilitatorId: string) {
   const groups = await db.pg
     .select({ id: groupTable.pg.id, groupName: groupTable.pg.groupName, participants: groupTable.pg.participants })
     .from(groupTable.pg)
-    .where(arrayContains(groupTable.pg.facilitator, [facilitatorId]));
+    .where(arrayContains(groupTable.pg.facilitator, [facilitatorId]))
+    // Deterministic group order
+    .orderBy(asc(groupTable.pg.groupName), asc(groupTable.pg.id));
   if (groups.length === 0) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No group found for this facilitator' });
   }
