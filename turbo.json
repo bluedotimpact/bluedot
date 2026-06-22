@@ -14,7 +14,9 @@
     "lint:fix": {
       "cache": false
     },
-    "typecheck": {},
+    "typecheck": {
+      "cache": false
+    },
     "test": {},
     "start": {
       "cache": false,
