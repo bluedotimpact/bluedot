@@ -79,23 +79,29 @@ async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { email:
   return meetPerson;
 }
 
-async function getGroupForFacilitator(facilitatorId: string) {
+// A meetPerson maps to one application, but can facilitate several groups within the same round
+// (never across rounds). The feedback form spans all of them.
+async function getGroupsForFacilitator(facilitatorId: string) {
   const groups = await db.pg
     .select({ id: groupTable.pg.id, groupName: groupTable.pg.groupName, participants: groupTable.pg.participants })
     .from(groupTable.pg)
-    .where(arrayContains(groupTable.pg.facilitator, [facilitatorId]));
+    .where(arrayContains(groupTable.pg.facilitator, [facilitatorId]))
+    // Deterministic group order
+    .orderBy(asc(groupTable.pg.groupName), asc(groupTable.pg.id));
   if (groups.length === 0) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No group found for this facilitator' });
   }
 
-  return groups[0]!;
+  return groups;
 }
 
-async function getDropInIdsForGroup(groupId: string, participantIds: string[]) {
+async function getDropInIdsForGroups(groupIds: string[], participantIds: string[]) {
+  if (groupIds.length === 0) return [];
+
   const discussions = await db.pg
     .select({ attendees: groupDiscussionTable.pg.attendees })
     .from(groupDiscussionTable.pg)
-    .where(eq(groupDiscussionTable.pg.group, groupId));
+    .where(inArray(groupDiscussionTable.pg.group, groupIds));
   const participantSet = new Set(participantIds);
   const candidateSet = new Set<string>();
   for (const d of discussions) {
@@ -297,10 +303,11 @@ export const facilitatorRouter = router({
     .input(z.object({ meetPersonId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
-      const group = await getGroupForFacilitator(meetPerson.id);
-      const participantIds = group.participants ?? [];
+      const groups = await getGroupsForFacilitator(meetPerson.id);
+      const groupIds = groups.map((g) => g.id);
+      const participantIds = [...new Set(groups.flatMap((g) => g.participants ?? []))];
       const [dropInIds, followUpOptions] = await Promise.all([
-        getDropInIdsForGroup(group.id, participantIds),
+        getDropInIdsForGroups(groupIds, participantIds),
         getNextStepsOptions(),
       ]);
 
@@ -329,7 +336,6 @@ export const facilitatorRouter = router({
           .orderBy(asc(meetPersonTable.pg.name))
         : [];
       const nameById = new Map(people.map((p) => [p.id, p.name ?? '']));
-      const participantIdSet = new Set(participantIds);
       const dropInIdSet = new Set(dropInIds);
 
       return {
@@ -341,10 +347,11 @@ export const facilitatorRouter = router({
         roundName: round?.title ?? '',
         roundStartDate: round?.startDate ?? null,
         roundLastDiscussionDate: round?.lastDiscussionDate ?? null,
-        groupId: group.id,
-        groupName: group.groupName,
+        groupIds,
         followUpOptions,
-        participants: people.filter((p) => participantIdSet.has(p.id)).map((p) => ({ id: p.id, name: p.name ?? '' })),
+        // Ordered by group (group 1's participants, then group 2's, ...) to help the facilitator
+        // work through the form group by group.
+        participants: participantIds.filter((id) => nameById.has(id)).map((id) => ({ id, name: nameById.get(id) ?? '' })),
         dropIns: people.filter((p) => dropInIdSet.has(p.id)).map((p) => ({ id: p.id, name: p.name ?? '' })),
         existingCourseFeedback: existingCourseFeedback ? {
           id: existingCourseFeedback.id,
@@ -371,9 +378,9 @@ export const facilitatorRouter = router({
     .input(z.object({ meetPersonId: z.string().min(1), searchTerm: z.string().max(200).optional() }))
     .query(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
-      const group = await getGroupForFacilitator(meetPerson.id);
-      const participantIds = group.participants ?? [];
-      const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
+      const groups = await getGroupsForFacilitator(meetPerson.id);
+      const participantIds = [...new Set(groups.flatMap((g) => g.participants ?? []))];
+      const dropInIds = await getDropInIdsForGroups(groups.map((g) => g.id), participantIds);
       const excludeIds = [...participantIds, ...dropInIds];
       if (!meetPerson.round) return [];
 

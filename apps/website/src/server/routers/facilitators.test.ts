@@ -35,6 +35,10 @@ const DROP_IN = 'drop-in-1';
 const ROUND_ID = 'round-1';
 const GROUP_ID = 'group-1';
 const DISCUSSION_ID = 'discussion-1';
+const GROUP_2_ID = 'group-2';
+const PARTICIPANT_3 = 'participant-3';
+const DROP_IN_2 = 'drop-in-2';
+const DISCUSSION_2_ID = 'discussion-2';
 
 async function seedFacilitatorGroup() {
   await testDb.insert(courseTable, {
@@ -79,6 +83,23 @@ async function seedFacilitatorGroup() {
     round: ROUND_ID,
     facilitator: [FACILITATOR_ID],
     participants: [PARTICIPANT_1, PARTICIPANT_2],
+  });
+}
+
+// A second group facilitated by the same meetPerson within the same round.
+async function seedSecondGroup() {
+  await testDb.insert(meetPersonTable, {
+    id: PARTICIPANT_3,
+    email: 'p3@example.com',
+    round: ROUND_ID,
+    role: 'Participant',
+  });
+  await testDb.insert(groupTable, {
+    id: GROUP_2_ID,
+    groupName: 'Group 2',
+    round: ROUND_ID,
+    facilitator: [FACILITATOR_ID],
+    participants: [PARTICIPANT_3],
   });
 }
 
@@ -289,7 +310,7 @@ describe('facilitators.getFeedbackFormData', () => {
 
     const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
 
-    expect(result.groupId).toBe(GROUP_ID);
+    expect(result.groupIds).toEqual([GROUP_ID]);
     expect(result.participants.map((p) => p.id).sort()).toEqual([PARTICIPANT_1, PARTICIPANT_2].sort());
     expect(result.dropIns).toEqual([]);
     expect(result.existingCourseFeedback).toMatchObject({
@@ -328,6 +349,43 @@ describe('facilitators.getFeedbackFormData', () => {
 
     expect(result.participants.map((p) => p.id).sort()).toEqual([PARTICIPANT_1, PARTICIPANT_2].sort());
     expect(result.dropIns).toEqual([{ id: DROP_IN, name: 'Drop In' }]);
+  });
+
+  test('aggregates participants across all groups the facilitator runs, in group order', async () => {
+    await seedFacilitatorGroup();
+    await seedSecondGroup();
+
+    const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
+
+    expect(result.groupIds.sort()).toEqual([GROUP_ID, GROUP_2_ID].sort());
+    // Group 1's participants come before group 2's.
+    expect(result.participants.map((p) => p.id)).toEqual([PARTICIPANT_1, PARTICIPANT_2, PARTICIPANT_3]);
+  });
+
+  test('aggregates drop-ins across all groups the facilitator runs', async () => {
+    await seedFacilitatorGroup();
+    await seedSecondGroup();
+    await seedDropIn();
+    await testDb.insert(meetPersonTable, {
+      id: DROP_IN_2,
+      email: 'dropin2@example.com',
+      name: 'Drop In Two',
+      round: ROUND_ID,
+      role: 'Participant',
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: DISCUSSION_2_ID,
+      group: GROUP_2_ID,
+      facilitators: [FACILITATOR_ID],
+      participantsExpected: [PARTICIPANT_3],
+      attendees: [PARTICIPANT_3, DROP_IN_2],
+      startDateTime: 1000,
+      endDateTime: 2000,
+    });
+
+    const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
+
+    expect(result.dropIns.map((p) => p.id).sort()).toEqual([DROP_IN, DROP_IN_2].sort());
   });
 
   test('excludes facilitators from drop-ins (self and co-facilitators)', async () => {
@@ -380,6 +438,17 @@ describe('facilitators.searchAddableParticipants', () => {
 
     const result = await caller.facilitators.searchAddableParticipants({ meetPersonId: FACILITATOR_ID });
 
+    expect(result.map((p) => p.id)).toEqual([OUTSIDER]);
+  });
+
+  test('excludes participants from all groups the facilitator runs', async () => {
+    await seedFacilitatorGroup();
+    await seedSecondGroup();
+    await testDb.update(meetPersonTable, { id: OUTSIDER, name: 'Outside R. Group' });
+
+    const result = await caller.facilitators.searchAddableParticipants({ meetPersonId: FACILITATOR_ID });
+
+    // PARTICIPANT_3 (second group) is excluded; only the genuinely-unaffiliated OUTSIDER remains.
     expect(result.map((p) => p.id)).toEqual([OUTSIDER]);
   });
 
