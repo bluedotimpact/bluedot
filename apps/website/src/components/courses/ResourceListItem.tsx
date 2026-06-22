@@ -146,6 +146,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               resourceId: null,
               createdByUserId: null,
               createdAt: new Date().toISOString(),
+              completedAt: new Date().toISOString(),
             });
           }
 

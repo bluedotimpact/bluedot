@@ -1517,6 +1517,7 @@ export const resourceCompletionPgTable = pgTable('resource_completion', {
   // Points at courseBuilderUserTable (the Course-builder-base sync of User)
   createdByUserId: text().array(),
   createdAt: text(),
+  completedAt: text(),
 });
 
 export const teamMemberTable = pgAirtable('team_member', {

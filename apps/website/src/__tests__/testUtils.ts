@@ -161,6 +161,8 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   source: null,
   userId: 'user-1',
   acceptedAt: null,
+  rejectedAt: null,
+  withdrawnAt: null,
   createdAt: null,
   posthogSessionId: null,
   posthogDistinctId: null,
@@ -310,5 +312,6 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   resourceId: null,
   createdByUserId: null,
   createdAt: null,
+  completedAt: null,
   ...overrides,
 });
