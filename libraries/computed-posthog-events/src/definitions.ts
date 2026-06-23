@@ -1,8 +1,8 @@
 import {
-  and, gte, isNotNull, inArray,
+  and, eq, gte, isNotNull, inArray,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable, exerciseTable, exerciseResponsePgTable,
-  unitResourceTable, resourceCompletionPgTable, projectSubmissionTable,
+  unitResourceTable, resourceCompletionPgTable, projectSubmissionTable, dropoutTable,
   type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
@@ -85,6 +85,51 @@ const calculateDiscussionAttendanceEvents = async (
   return events;
 };
 
+const calculateDropoutEvents = async (
+  db: PgAirtableDb,
+  { since }: { since?: string },
+  type: 'Drop out' | 'Deferral',
+): Promise<Event[]> => {
+  // createdAt is Airtable's createdTime: set once when the dropout row is created, immutable.
+  const rows = await db.pg.select().from(dropoutTable.pg)
+    .where(and(filterGteOrNull(dropoutTable.pg.createdAt, since), eq(dropoutTable.pg.type, type)));
+  if (rows.length === 0) return [];
+
+  // Identity, course and round come off the linked application, not the dropout table's own email lookup.
+  const registrationIds = [...new Set(rows.flatMap((r) => r.applicantId ?? []))];
+  const registrations = registrationIds.length
+    ? await db.pg.select({
+      id: courseRegistrationTable.pg.id,
+      email: courseRegistrationTable.pg.email,
+      courseId: courseRegistrationTable.pg.courseId,
+      roundId: courseRegistrationTable.pg.roundId,
+      roundName: courseRegistrationTable.pg.roundName,
+    }).from(courseRegistrationTable.pg).where(inArray(courseRegistrationTable.pg.id, registrationIds))
+    : [];
+  const registrationById = new Map(registrations.map((r) => [r.id, r] as const));
+
+  const courses = registrations.length
+    ? await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg)
+    : [];
+  const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+
+  return rows.map((row) => {
+    const registration = row.applicantId?.[0] ? registrationById.get(row.applicantId[0]) : undefined;
+    const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
+    return {
+      internalUniqueKey: row.id,
+      distinctId: registration?.email ?? null,
+      timestampMs: Date.parse(row.createdAt!),
+      properties: {
+        ...(registration?.courseId ? { course_id: registration.courseId } : {}),
+        ...(courseName ? { course_name: courseName } : {}),
+        ...(registration?.roundId ? { round_id: registration.roundId } : {}),
+        ...(registration?.roundName ? { round_name: registration.roundName } : {}),
+      },
+    };
+  });
+};
+
 export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'application_submitted',
@@ -164,6 +209,30 @@ export const eventProjectionRules: EventProjectionRule[] = [
           internalUniqueKey: `reject:${r.id}`,
           distinctId: r.email,
           timestampMs: Date.parse(r.rejectedAt!),
+          properties: {
+            course_id: r.courseId,
+            ...(courseName ? { course_name: courseName } : {}),
+            ...(r.roundId ? { round_id: r.roundId } : {}),
+            ...(r.roundName ? { round_name: r.roundName } : {}),
+          },
+        };
+      });
+    },
+  },
+  {
+    eventType: 'application_withdrawn',
+    async calculateEvents(db, { since }) {
+      const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+      const rows = await db.pg.select().from(courseRegistrationTable.pg)
+        .where(filterGteOrNull(courseRegistrationTable.pg.withdrawnAt, since)); // withdrawnAt is ISO text
+
+      return rows.map((r) => {
+        const courseName = courseTitleById.get(r.courseId);
+        return {
+          internalUniqueKey: `withdraw:${r.id}`,
+          distinctId: r.email,
+          timestampMs: Date.parse(r.withdrawnAt!),
           properties: {
             course_id: r.courseId,
             ...(courseName ? { course_name: courseName } : {}),
@@ -365,5 +434,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
         };
       }));
     },
+  },
+  {
+    eventType: 'course_dropped_out',
+    calculateEvents: (db, opts) => calculateDropoutEvents(db, opts, 'Drop out'),
+  },
+  {
+    eventType: 'course_deferred',
+    calculateEvents: (db, opts) => calculateDropoutEvents(db, opts, 'Deferral'),
   },
 ];

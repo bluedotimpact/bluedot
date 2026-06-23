@@ -2,7 +2,7 @@ import {
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
   exerciseTable, exerciseResponsePgTable, projectSubmissionTable,
-  unitResourceTable, resourceCompletionPgTable,
+  unitResourceTable, resourceCompletionPgTable, dropoutTable,
 } from '@bluedot/db';
 import {
   afterEach, describe, expect, test, vi,
@@ -761,5 +761,142 @@ describe('project_submitted', () => {
     const ph2 = mockPostHogBackend();
     await forwardAllEventsToPostHog();
     expect(ph2.events.filter((e) => e.event === 'project_submitted')).toHaveLength(0);
+  });
+});
+
+describe('application_withdrawn', () => {
+  const seedWithdrawn = (id: string, email: string, withdrawnAt: string | null) => testDb.insert(courseRegistrationTable, {
+    id, courseId: 'c1', email, roundId: 'rd1', roundName: 'AGI Strategy (2026 Mar W14) - Intensive', withdrawnAt,
+  });
+
+  test('emits at withdrawnAt, enriched with course and round', async () => {
+    await testDb.insert(courseTable, {
+      id: 'c1', slug: 'agi-strategy', shortDescription: 'x', title: 'AGI Strategy', units: [], status: 'Active',
+    });
+    await seedWithdrawn('cr1', 'a@x.com', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const events = ph.events.filter((e) => e.event === 'application_withdrawn');
+    expect(events).toHaveLength(1);
+    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
+    expect(events[0]!.properties).toMatchObject({
+      course_id: 'c1',
+      course_name: 'AGI Strategy',
+      round_id: 'rd1',
+      round_name: 'AGI Strategy (2026 Mar W14) - Intensive',
+    });
+  });
+
+  test('emits only for rows with a withdrawnAt timestamp', async () => {
+    await seedWithdrawn('cr1', 'pending@x.com', null);
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph.events.filter((e) => e.event === 'application_withdrawn')).toHaveLength(0);
+  });
+
+  test('since scans only rows withdrawn on/after it', async () => {
+    await seedWithdrawn('old', 'old@x.com', '2026-01-01T00:00:00.000Z');
+    await seedWithdrawn('new', 'new@x.com', '2026-06-01T00:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
+    expect(ph.events.filter((e) => e.event === 'application_withdrawn').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+  });
+
+  test('send-once across runs: a second run re-sends nothing', async () => {
+    await seedWithdrawn('cr1', 'a@x.com', '2026-06-10T10:00:00.000Z');
+
+    mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const ph2 = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph2.events.filter((e) => e.event === 'application_withdrawn')).toHaveLength(0);
+  });
+});
+
+describe('course_dropped_out / course_deferred', () => {
+  const seedCourseAndRegistration = async () => {
+    await testDb.insert(courseTable, {
+      id: 'c1', slug: 'agi-strategy', shortDescription: 'x', title: 'AGI Strategy', units: [], status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr1', courseId: 'c1', email: 'a@x.com', roundId: 'rd1', roundName: 'AGI Strategy (2026 Mar W14) - Intensive',
+    });
+  };
+
+  const seedDropout = (id: string, type: string, opts: { applicantId?: string; createdAt?: string } = {}) => testDb.insert(dropoutTable, {
+    id,
+    type,
+    applicantId: opts.applicantId ? [opts.applicantId] : null,
+    createdAt: opts.createdAt ?? '2026-06-10T10:00:00.000Z',
+  });
+
+  test('course_dropped_out: emits at the dropout createdAt, enriched via the linked application', async () => {
+    await seedCourseAndRegistration();
+    await seedDropout('do1', 'Drop out', { applicantId: 'cr1', createdAt: '2026-06-10T10:00:00.000Z' });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const events = ph.events.filter((e) => e.event === 'course_dropped_out');
+    expect(events).toHaveLength(1);
+    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
+    expect(events[0]!.properties).toMatchObject({
+      course_id: 'c1',
+      course_name: 'AGI Strategy',
+      round_id: 'rd1',
+      round_name: 'AGI Strategy (2026 Mar W14) - Intensive',
+    });
+  });
+
+  test('drop-out and deferral are separated by type, each at its own row', async () => {
+    await seedCourseAndRegistration();
+    await seedDropout('do1', 'Drop out', { applicantId: 'cr1', createdAt: '2026-06-10T10:00:00.000Z' });
+    await seedDropout('df1', 'Deferral', { applicantId: 'cr1', createdAt: '2026-06-12T10:00:00.000Z' });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const dropped = ph.events.filter((e) => e.event === 'course_dropped_out');
+    const deferred = ph.events.filter((e) => e.event === 'course_deferred');
+    expect(dropped.map((e) => e.timestamp)).toEqual(['2026-06-10T10:00:00.000Z']);
+    expect(deferred.map((e) => e.timestamp)).toEqual(['2026-06-12T10:00:00.000Z']);
+    expect(deferred[0]!.distinct_id).toBe('a@x.com');
+  });
+
+  test('skips a dropout whose application cannot be resolved (no email to attribute)', async () => {
+    await seedDropout('do1', 'Drop out', { applicantId: 'missing' });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph.events.filter((e) => e.event === 'course_dropped_out')).toHaveLength(0);
+  });
+
+  test('since scans only dropouts created on/after it', async () => {
+    await seedCourseAndRegistration();
+    await seedDropout('old', 'Drop out', { applicantId: 'cr1', createdAt: '2026-01-01T00:00:00.000Z' });
+    await seedDropout('new', 'Drop out', { applicantId: 'cr1', createdAt: '2026-06-01T00:00:00.000Z' });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
+    expect(ph.events.filter((e) => e.event === 'course_dropped_out').map((e) => e.timestamp)).toEqual(['2026-06-01T00:00:00.000Z']);
+  });
+
+  test('send-once across runs: a second run re-sends nothing', async () => {
+    await seedCourseAndRegistration();
+    await seedDropout('do1', 'Drop out', { applicantId: 'cr1' });
+
+    mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const ph2 = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph2.events.filter((e) => e.event === 'course_dropped_out')).toHaveLength(0);
   });
 });
