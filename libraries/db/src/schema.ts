@@ -566,6 +566,29 @@ export const roundTable = pgAirtable('round', {
   },
 });
 
+export const projectSubmissionTable = pgAirtable('project_submission', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblKo0mCsC7gfRGC7',
+  columns: {
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fld1XLhbEMh6SR2nc',
+    },
+    projectTitle: {
+      pgColumn: text(),
+      airtableId: 'fldSEaFkf5t8a4ppA',
+    },
+    link: {
+      pgColumn: text(),
+      airtableId: 'fldzIGtGZGde6xxVR',
+    },
+    participant: {
+      pgColumn: text().array(),
+      airtableId: 'fldZwtnXXfW2amO1H',
+    },
+  },
+});
+
 export const applicationsRoundTable = pgAirtable('applications_round', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblt1XjyP5KPoVPfB',
@@ -1710,6 +1733,7 @@ export type GroupSwitching = InferSelectModel<typeof groupSwitchingTable.pg>;
 export type MeetPerson = InferSelectModel<typeof meetPersonTable.pg>;
 export type ZoomAccount = InferSelectModel<typeof zoomAccountTable.pg>;
 export type Round = InferSelectModel<typeof roundTable.pg>;
+export type ProjectSubmission = InferSelectModel<typeof projectSubmissionTable.pg>;
 export type ApplicationsRound = InferSelectModel<typeof applicationsRoundTable.pg>;
 export type MeetCourse = InferSelectModel<typeof meetCourseTable.pg>;
 export type Blog = InferSelectModel<typeof blogTable.pg>;
