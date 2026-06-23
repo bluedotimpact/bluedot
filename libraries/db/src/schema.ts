@@ -1242,6 +1242,10 @@ export const exerciseTable = pgAirtable('exercise', {
       pgColumn: text(),
       airtableId: 'flda5e542i9w1nBzv',
     },
+    isOptional: {
+      pgColumn: boolean(),
+      airtableId: 'fldnzXgcFpPT8WZrI',
+    },
     computedNumResponses: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldhemVjXEA0j4d2d',
