@@ -2,7 +2,7 @@ import {
   and, gte, isNotNull, inArray,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable, exerciseTable, exerciseResponsePgTable,
-  unitResourceTable, resourceCompletionPgTable,
+  unitResourceTable, resourceCompletionPgTable, projectSubmissionTable,
   type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
@@ -308,6 +308,59 @@ export const eventProjectionRules: EventProjectionRule[] = [
             },
           };
         });
+    },
+  },
+  {
+    eventType: 'project_submitted',
+    async calculateEvents(db, { since }) {
+      // createdAt is Airtable's createdTime: set once when the submission row is created, immutable.
+      const submissions = await db.pg.select().from(projectSubmissionTable.pg)
+        .where(filterGteOrNull(projectSubmissionTable.pg.createdAt, since));
+      if (submissions.length === 0) return [];
+
+      // The form links each submission to a meet_person (participant). The email and the course/round
+      // both come off that link: meetPerson.email is the distinct id; meetPerson.applicationsBaseRecordId
+      // -> course_registration gives the course and round.
+      const participantIds = [...new Set(submissions.flatMap((s) => s.participant ?? []))];
+      const meetPersons = participantIds.length
+        ? await db.pg.select({
+          id: meetPersonTable.pg.id, email: meetPersonTable.pg.email, applicationsBaseRecordId: meetPersonTable.pg.applicationsBaseRecordId,
+        }).from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, participantIds))
+        : [];
+      const meetPersonById = new Map(meetPersons.map((m) => [m.id, m] as const));
+
+      const registrationIds = [...new Set(meetPersons.map((m) => m.applicationsBaseRecordId).filter((id): id is string => !!id))];
+      const registrations = registrationIds.length
+        ? await db.pg.select({
+          id: courseRegistrationTable.pg.id,
+          courseId: courseRegistrationTable.pg.courseId,
+          roundId: courseRegistrationTable.pg.roundId,
+          roundName: courseRegistrationTable.pg.roundName,
+        }).from(courseRegistrationTable.pg).where(inArray(courseRegistrationTable.pg.id, registrationIds))
+        : [];
+      const registrationById = new Map(registrations.map((r) => [r.id, r] as const));
+
+      const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
+
+      return submissions.map((s) => {
+        const meetPerson = s.participant?.[0] ? meetPersonById.get(s.participant[0]) : undefined;
+        const registration = meetPerson?.applicationsBaseRecordId ? registrationById.get(meetPerson.applicationsBaseRecordId) : undefined;
+        const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
+        return {
+          internalUniqueKey: s.id,
+          distinctId: meetPerson?.email ?? null,
+          timestampMs: Date.parse(s.createdAt!),
+          properties: {
+            ...(registration?.courseId ? { course_id: registration.courseId } : {}),
+            ...(courseName ? { course_name: courseName } : {}),
+            ...(registration?.roundId ? { round_id: registration.roundId } : {}),
+            ...(registration?.roundName ? { round_name: registration.roundName } : {}),
+            ...(s.projectTitle ? { project_name: s.projectTitle } : {}),
+            ...(s.link ? { project_url: s.link } : {}),
+          },
+        };
+      });
     },
   },
 ];

@@ -1,7 +1,7 @@
 import {
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
-  exerciseTable, exerciseResponsePgTable,
+  exerciseTable, exerciseResponsePgTable, projectSubmissionTable,
   unitResourceTable, resourceCompletionPgTable,
 } from '@bluedot/db';
 import {
@@ -641,5 +641,108 @@ describe('resource_completed', () => {
     const ph2 = mockPostHogBackend();
     await forwardAllEventsToPostHog();
     expect(ph2.events.filter((e) => e.event === 'resource_completed')).toHaveLength(0);
+  });
+});
+
+describe('project_submitted', () => {
+  // distinct id (email) and course/round are all resolved via the participant link, not stored on the row:
+  // submission.participant -> meetPerson.email, and meetPerson.applicationsBaseRecordId -> course_registration.
+  const seedRegisteredParticipant = async () => {
+    await testDb.insert(courseTable, {
+      id: 'c1', slug: 'agi-strategy', shortDescription: 'x', title: 'AGI Strategy', units: [], status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr1', courseId: 'c1', email: 'a@x.com', roundId: 'rd1', roundName: 'AGI Strategy (2026 Mar W14) - Intensive',
+    });
+    await testDb.insert(meetPersonTable, { id: 'mp1', email: 'a@x.com', applicationsBaseRecordId: 'cr1' });
+  };
+
+  test('emits one event per submission at its createdAt, enriched with course/round via the participant link', async () => {
+    await seedRegisteredParticipant();
+    await testDb.insert(projectSubmissionTable, {
+      id: 'ps1',
+      createdAt: '2026-06-08T01:10:28.000Z',
+      projectTitle: 'My action plan',
+      link: 'https://docs.google.com/document/d/abc',
+      participant: ['mp1'],
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const events = ph.events.filter((e) => e.event === 'project_submitted');
+    expect(events).toHaveLength(1);
+    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.timestamp).toBe('2026-06-08T01:10:28.000Z');
+    expect(events[0]!.properties).toMatchObject({
+      course_id: 'c1',
+      course_name: 'AGI Strategy',
+      round_id: 'rd1',
+      round_name: 'AGI Strategy (2026 Mar W14) - Intensive',
+      project_name: 'My action plan',
+      project_url: 'https://docs.google.com/document/d/abc',
+    });
+  });
+
+  test('emits with email but no course/round when the participant has no registration', async () => {
+    await testDb.insert(meetPersonTable, { id: 'mp2', email: 'solo@x.com' }); // no applicationsBaseRecordId
+    await testDb.insert(projectSubmissionTable, {
+      id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', link: 'https://example.com/p', participant: ['mp2'],
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const event = ph.events.find((e) => e.event === 'project_submitted')!;
+    expect(event.distinct_id).toBe('solo@x.com');
+    expect(event.properties).toMatchObject({ project_url: 'https://example.com/p' });
+    expect(event.properties).not.toHaveProperty('course_id');
+    expect(event.properties).not.toHaveProperty('round_id');
+  });
+
+  test('skips submissions whose participant resolves to no email (nothing to attribute to)', async () => {
+    await testDb.insert(projectSubmissionTable, {
+      id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', link: 'https://example.com/p', participant: ['unknown'],
+    });
+
+    const ph = mockPostHogBackend();
+    const result = await forwardEventTypeToPostHog({
+      db,
+      posthogCredentials: POSTHOG_CREDS,
+      eventProjectionRule: eventProjectionRules.find((p) => p.eventType === 'project_submitted')!,
+      now: '2026-07-01T00:00:00.000Z',
+    });
+    expect(result).toMatchObject({ candidates: 1, skipped: 1, sent: 0 });
+    expect(ph.events.filter((e) => e.event === 'project_submitted')).toHaveLength(0);
+  });
+
+  test('since scans only submissions created on/after it', async () => {
+    await seedRegisteredParticipant();
+    await testDb.insert(projectSubmissionTable, {
+      id: 'old', createdAt: '2026-01-01T00:00:00.000Z', participant: ['mp1'],
+    });
+    await testDb.insert(meetPersonTable, { id: 'mp2', email: 'new@x.com' });
+    await testDb.insert(projectSubmissionTable, {
+      id: 'new', createdAt: '2026-06-01T00:00:00.000Z', participant: ['mp2'],
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
+
+    expect(ph.events.filter((e) => e.event === 'project_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+  });
+
+  test('send-once across runs: a second run re-sends nothing', async () => {
+    await seedRegisteredParticipant();
+    await testDb.insert(projectSubmissionTable, {
+      id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', participant: ['mp1'],
+    });
+
+    mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const ph2 = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph2.events.filter((e) => e.event === 'project_submitted')).toHaveLength(0);
   });
 });
