@@ -22,8 +22,9 @@ import type { AppRouter } from './_app';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
-  const allExercises = await db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' });
-  if (allExercises.length === 0) {
+  const activeExercises = await db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' });
+  const requiredExercises = activeExercises.filter((exercise) => !exercise.isOptional);
+  if (requiredExercises.length === 0) {
     return false;
   }
 
@@ -34,13 +35,13 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
     .from(exerciseResponsePgTable)
     .where(and(
       eq(exerciseResponsePgTable.email, email),
-      inArray(exerciseResponsePgTable.exerciseId, allExercises.map((e) => e.id)),
+      inArray(exerciseResponsePgTable.exerciseId, requiredExercises.map((e) => e.id)),
     ));
 
   const completedExerciseIds = new Set(exerciseResponses
     .filter((resp) => resp.completedAt != null)
     .map((resp) => resp.exerciseId));
-  return allExercises.every((exercise) => completedExerciseIds.has(exercise.id));
+  return requiredExercises.every((exercise) => completedExerciseIds.has(exercise.id));
 }
 
 export async function issueFoaiCertificateIfComplete(email: string): Promise<boolean> {

@@ -385,4 +385,26 @@ describe('issueFoaiCertificateIfComplete', () => {
     expect(legacy.certificateId).toBeNull();
     expect(await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)).toEqual([]);
   });
+
+  test('issues the certificate even when an optional exercise is incomplete', async () => {
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Required', exerciseNumber: '1',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable).values({
+      id: 'resp-1', email: 'test@example.com', exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+    });
+    // Optional exercise with no completed response — must not block the certificate.
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-opt', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Optional', exerciseNumber: '2', isOptional: true,
+    });
+
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+
+    const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
+      .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));
+    expect(selfServe?.certificateId).toBe('ss-1');
+  });
 });

@@ -97,7 +97,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         userId: previousResponse?.userId ?? null,
       });
 
-      const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
+      const previousCourseProgress = newData.completed !== undefined && !exerciseData?.isOptional ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
       return { previousResponse, previousCourseProgress };
     },
     onError(_err, _variables, mutationResult) {
