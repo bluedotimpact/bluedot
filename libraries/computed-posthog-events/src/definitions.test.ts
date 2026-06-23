@@ -700,6 +700,23 @@ describe('project_submitted', () => {
     expect(event.properties).not.toHaveProperty('round_id');
   });
 
+  test('group projects fan out: one event per participant, each keyed and attributed separately', async () => {
+    await seedRegisteredParticipant(); // mp1 -> a@x.com (course c1, round rd1)
+    await testDb.insert(meetPersonTable, { id: 'mp2', email: 'b@x.com', applicationsBaseRecordId: 'cr1' });
+    await testDb.insert(projectSubmissionTable, {
+      id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', projectTitle: 'Group plan', participant: ['mp1', 'mp2'],
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const events = ph.events.filter((e) => e.event === 'project_submitted');
+    expect(events.map((e) => e.distinct_id).sort()).toEqual(['a@x.com', 'b@x.com']);
+    // distinct uuids (derived from the per-participant internalUniqueKey) so neither is dropped as a duplicate
+    expect(new Set(events.map((e) => e.uuid)).size).toBe(2);
+    expect(events.every((e) => e.properties.project_title === 'Group plan' && e.properties.course_id === 'c1')).toBe(true);
+  });
+
   test('skips submissions whose participant resolves to no email (nothing to attribute to)', async () => {
     await testDb.insert(projectSubmissionTable, {
       id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', link: 'https://example.com/p', participant: ['unknown'],

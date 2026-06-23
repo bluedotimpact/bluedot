@@ -343,12 +343,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
 
-      return submissions.map((s) => {
-        const meetPerson = s.participant?.[0] ? meetPersonById.get(s.participant[0]) : undefined;
+      // Group projects link several participants; emit one event per participant so each gets credited.
+      return submissions.flatMap((s) => (s.participant ?? []).map((participantId) => {
+        const meetPerson = meetPersonById.get(participantId);
         const registration = meetPerson?.applicationsBaseRecordId ? registrationById.get(meetPerson.applicationsBaseRecordId) : undefined;
         const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
         return {
-          internalUniqueKey: s.id,
+          internalUniqueKey: `${s.id}:${participantId}`,
           distinctId: meetPerson?.email ?? null,
           timestampMs: Date.parse(s.createdAt!),
           properties: {
@@ -360,7 +361,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
             ...(s.link ? { project_url: s.link } : {}),
           },
         };
-      });
+      }));
     },
   },
 ];
