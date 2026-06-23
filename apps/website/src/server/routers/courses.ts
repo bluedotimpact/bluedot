@@ -8,6 +8,8 @@ import {
   exerciseTable,
   inArray,
   isNotNull,
+  isNull,
+  or,
   resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
@@ -18,6 +20,12 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
+
+// Non-optional exercises sync as isOptional = null (not false), so match both.
+const exerciseIsRequired = or(
+  eq(exerciseTable.pg.isOptional, false),
+  isNull(exerciseTable.pg.isOptional),
+);
 
 export type BasicChunk = {
   id: string;
@@ -176,11 +184,11 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
     .where(and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)));
   const coreResourceIds = coreResources.map((r) => r.id);
 
-  const activeExercises = await db.pg
-    .select({ id: exerciseTable.pg.id, isOptional: exerciseTable.pg.isOptional })
+  const requiredExercises = await db.pg
+    .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)
-    .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, allExerciseIds)));
-  const requiredExerciseIds = activeExercises.filter((e) => !e.isOptional).map((e) => e.id);
+    .where(and(eq(exerciseTable.pg.status, 'Active'), exerciseIsRequired, inArray(exerciseTable.pg.id, allExerciseIds)));
+  const requiredExerciseIds = requiredExercises.map((e) => e.id);
 
   return { coreResourceIds, requiredExerciseIds };
 };
@@ -241,16 +249,15 @@ export const coursesRouter = router({
       const referencedExerciseIds = allChunks.flatMap((c) => c.chunkExercises ?? []);
       const requiredExerciseIds = new Set<string>();
       if (referencedExerciseIds.length > 0) {
-        const activeExercises = await db.pg
-          .select({ id: exerciseTable.pg.id, isOptional: exerciseTable.pg.isOptional })
+        const requiredExercises = await db.pg
+          .select({ id: exerciseTable.pg.id })
           .from(exerciseTable.pg)
           .where(and(
             eq(exerciseTable.pg.status, 'Active'),
+            exerciseIsRequired,
             inArray(exerciseTable.pg.id, referencedExerciseIds),
           ));
-        for (const e of activeExercises) {
-          if (!e.isOptional) requiredExerciseIds.add(e.id);
-        }
+        for (const e of requiredExercises) requiredExerciseIds.add(e.id);
       }
 
       // Calculate duration:

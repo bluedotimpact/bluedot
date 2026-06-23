@@ -7,7 +7,9 @@ import {
   exerciseResponsePgTable,
   exerciseTable,
   inArray,
+  isNull,
   meetPersonTable,
+  or,
   roundTable,
   selfServeCourseRegistrationTable,
 } from '@bluedot/db';
@@ -22,8 +24,15 @@ import type { AppRouter } from './_app';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
-  const activeExercises = await db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' });
-  const requiredExercises = activeExercises.filter((exercise) => !exercise.isOptional);
+  // Non-optional exercises sync as isOptional = null (not false), so match both.
+  const requiredExercises = await db.pg
+    .select({ id: exerciseTable.pg.id })
+    .from(exerciseTable.pg)
+    .where(and(
+      eq(exerciseTable.pg.courseId, FOAI_COURSE_ID),
+      eq(exerciseTable.pg.status, 'Active'),
+      or(eq(exerciseTable.pg.isOptional, false), isNull(exerciseTable.pg.isOptional)),
+    ));
   if (requiredExercises.length === 0) {
     return false;
   }
