@@ -67,4 +67,48 @@ describe('resources.saveResourceCompletion', () => {
       createdByUserId: ['cb-user-original'],
     });
   });
+
+  test('sets completedAt when isCompleted is true', async () => {
+    const result = await caller.resources.saveResourceCompletion({
+      unitResourceId: 'ur-1',
+      isCompleted: true,
+    });
+
+    expect(result.completedAt).toBeTruthy();
+    expect(new Date(result.completedAt!).getTime()).not.toBeNaN();
+  });
+
+  test('clears completedAt when isCompleted is false', async () => {
+    await testDb.pg.insert(resourceCompletionPgTable).values({
+      id: 'rc-1',
+      email: CALLER_EMAIL,
+      unitResourceId: 'ur-1',
+      isCompleted: true,
+      completedAt: '2026-01-01T00:00:00.000Z',
+    });
+
+    const result = await caller.resources.saveResourceCompletion({
+      unitResourceId: 'ur-1',
+      isCompleted: false,
+    });
+
+    expect(result.completedAt).toBeNull();
+  });
+
+  test('preserves completedAt when isCompleted is omitted', async () => {
+    await testDb.pg.insert(resourceCompletionPgTable).values({
+      id: 'rc-1',
+      email: CALLER_EMAIL,
+      unitResourceId: 'ur-1',
+      isCompleted: true,
+      completedAt: '2026-01-01T00:00:00.000Z',
+    });
+
+    const result = await caller.resources.saveResourceCompletion({
+      unitResourceId: 'ur-1',
+      feedback: 'some feedback',
+    });
+
+    expect(result.completedAt).toBe('2026-01-01T00:00:00.000Z');
+  });
 });

@@ -55,6 +55,13 @@ export const resourcesRouter = router({
         .optional(),
     }))
     .mutation(async ({ input, ctx }) => {
+      let completedAt: string | null | undefined;
+      if (input.isCompleted === true) {
+        completedAt = new Date().toISOString();
+      } else if (input.isCompleted === false) {
+        completedAt = null;
+      } // else undefined = "don't change"
+
       const [resourceCompletion, unitResource, cbUser] = await Promise.all([
         getFirstFromPg(db.pg, resourceCompletionPgTable, {
           filter: {
@@ -72,6 +79,7 @@ export const resourcesRouter = router({
           .update(resourceCompletionPgTable)
           .set({
             isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
+            completedAt: completedAt !== undefined ? completedAt : resourceCompletion.completedAt,
             feedback: input.feedback ?? resourceCompletion.feedback,
             resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
           })
@@ -83,6 +91,7 @@ export const resourcesRouter = router({
             email: ctx.auth.email,
             unitResourceId: input.unitResourceId,
             isCompleted: input.isCompleted ?? false,
+            completedAt: completedAt ?? null,
             feedback: input.feedback ?? '',
             resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
             resourceId: unitResource?.resourceId ?? null,
