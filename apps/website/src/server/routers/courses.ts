@@ -8,6 +8,8 @@ import {
   exerciseTable,
   inArray,
   isNotNull,
+  isNull,
+  or,
   resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
@@ -85,7 +87,7 @@ export const getAllActiveCourses = async () => {
   return courses;
 };
 
-const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: string[], email: string) => {
+const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds: string[], email: string) => {
   const [rawResourceCompletions, rawExerciseCompletions] = await Promise.all([
     db.pg
       .select()
@@ -105,7 +107,7 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
       .from(exerciseResponsePgTable)
       .where(and(
         eq(exerciseResponsePgTable.email, email),
-        inArray(exerciseResponsePgTable.exerciseId, activeExerciseIds),
+        inArray(exerciseResponsePgTable.exerciseId, requiredExerciseIds),
         isNotNull(exerciseResponsePgTable.completedAt), // Only fetch completed exercises
       ))
       .orderBy(desc(exerciseResponsePgTable.createdAt)),
@@ -146,12 +148,12 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
 const calculateChunkProgress = (
   chunk: Chunk,
   coreResourceIds: Set<string>,
-  activeExerciseIds: Set<string>,
+  requiredExerciseIds: Set<string>,
   completedResourceIds: Set<string>,
   completedExerciseIds: Set<string>,
 ) => {
   const chunkResourceIds = chunk.chunkResources?.filter((id) => coreResourceIds.has(id)) ?? [];
-  const chunkExerciseIds = chunk.chunkExercises?.filter((id) => activeExerciseIds.has(id)) ?? [];
+  const chunkExerciseIds = chunk.chunkExercises?.filter((id) => requiredExerciseIds.has(id)) ?? [];
 
   const chunkCompletedResources = chunkResourceIds.filter((id) => completedResourceIds.has(id));
   const chunkCompletedExercises = chunkExerciseIds.filter((id) => completedExerciseIds.has(id));
@@ -166,7 +168,7 @@ const calculateChunkProgress = (
   };
 };
 
-const getCoreResourceAndActiveExerciseIds = async (chunks: Chunk[]) => {
+const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
   const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
   const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
 
@@ -176,13 +178,17 @@ const getCoreResourceAndActiveExerciseIds = async (chunks: Chunk[]) => {
     .where(and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)));
   const coreResourceIds = coreResources.map((r) => r.id);
 
-  const activeExercises = await db.pg
+  const requiredExercises = await db.pg
     .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)
-    .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, allExerciseIds)));
-  const activeExerciseIds = activeExercises.map((e) => e.id);
+    .where(and(
+      eq(exerciseTable.pg.status, 'Active'),
+      or(eq(exerciseTable.pg.isOptional, false), isNull(exerciseTable.pg.isOptional)),
+      inArray(exerciseTable.pg.id, allExerciseIds),
+    ));
+  const requiredExerciseIds = requiredExercises.map((e) => e.id);
 
-  return { coreResourceIds, activeExerciseIds };
+  return { coreResourceIds, requiredExerciseIds };
 };
 
 export const coursesRouter = router({
@@ -239,16 +245,17 @@ export const coursesRouter = router({
         : [];
 
       const referencedExerciseIds = allChunks.flatMap((c) => c.chunkExercises ?? []);
-      const activeExerciseIds = new Set<string>();
+      const requiredExerciseIds = new Set<string>();
       if (referencedExerciseIds.length > 0) {
-        const activeExercises = await db.pg
+        const requiredExercises = await db.pg
           .select({ id: exerciseTable.pg.id })
           .from(exerciseTable.pg)
           .where(and(
             eq(exerciseTable.pg.status, 'Active'),
+            or(eq(exerciseTable.pg.isOptional, false), isNull(exerciseTable.pg.isOptional)),
             inArray(exerciseTable.pg.id, referencedExerciseIds),
           ));
-        for (const e of activeExercises) activeExerciseIds.add(e.id);
+        for (const e of requiredExercises) requiredExerciseIds.add(e.id);
       }
 
       // Calculate duration:
@@ -271,7 +278,7 @@ export const coursesRouter = router({
         const totalDuration = regularTime + optionMaxTime;
 
         const exerciseCount = [...new Set(chunks.flatMap((c) => c.chunkExercises ?? []))]
-          .filter((id) => activeExerciseIds.has(id)).length;
+          .filter((id) => requiredExerciseIds.has(id)).length;
 
         return {
           unitId: unit.id,
@@ -295,17 +302,17 @@ export const coursesRouter = router({
         .from(chunkTable.pg)
         .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
 
-      const { coreResourceIds, activeExerciseIds } = await getCoreResourceAndActiveExerciseIds(allChunks);
+      const { coreResourceIds, requiredExerciseIds } = await getCoreResourceAndRequiredExerciseIds(allChunks);
 
       const { resourceCompletions, exerciseCompletions } = await getUserCompletions(
         coreResourceIds,
-        activeExerciseIds,
+        requiredExerciseIds,
         ctx.auth.email,
       );
 
       // Build Sets for faster lookup
       const coreResourceIdSet = new Set(coreResourceIds);
-      const activeExerciseIdSet = new Set(activeExerciseIds);
+      const requiredExerciseIdSet = new Set(requiredExerciseIds);
       const completedResourceIdSet = new Set(resourceCompletions.map((c) => c.unitResourceId).filter((id): id is string => id != null));
       const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
@@ -319,14 +326,14 @@ export const coursesRouter = router({
           return calculateChunkProgress(
             chunk,
             coreResourceIdSet,
-            activeExerciseIdSet,
+            requiredExerciseIdSet,
             completedResourceIdSet,
             completedExerciseIdSet,
           );
         });
       }
 
-      const courseTotalCount = coreResourceIds.length + activeExerciseIds.length;
+      const courseTotalCount = coreResourceIds.length + requiredExerciseIds.length;
       const courseCompletedCount = completedResourceIdSet.size + completedExerciseIdSet.size;
       const percentage = courseTotalCount > 0 ? Math.round((courseCompletedCount / courseTotalCount) * 100) : 0;
 

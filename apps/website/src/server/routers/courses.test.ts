@@ -1,6 +1,7 @@
 import {
   chunkTable,
   courseTable,
+  exerciseResponsePgTable,
   exerciseTable,
   unitTable,
 } from '@bluedot/db';
@@ -48,7 +49,7 @@ const seedChunk = (id: string, unitId: string, opts: {
     status: opts.status ?? 'Active',
   });
 
-const seedExercise = (id: string, status = 'Active') => testDb.insert(exerciseTable, { id, status });
+const seedExercise = (id: string, status = 'Active', isOptional = false) => testDb.insert(exerciseTable, { id, status, isOptional });
 
 // Cases mirror real course-builder data shapes (see gh-2544 prod inspection): most chunks carry no
 // estimatedTime; some chunkExercises reference inactive exercises; alignment/pandemics use
@@ -127,5 +128,38 @@ describe('courses.getCurriculumMetadata', () => {
     const result = await caller.courses.getCurriculumMetadata({ courseSlug: 'no-active' });
 
     expect(result).toEqual([]);
+  });
+
+  test('optional exercises are excluded from the exercise count', async () => {
+    await seedCourse('opt');
+    await seedUnit('uo1', 'opt', '1');
+    await seedChunk('uo1-a', 'uo1', { title: 'Reading', exercises: ['ex-req', 'ex-opt'] });
+    await seedExercise('ex-req');
+    await seedExercise('ex-opt', 'Active', true);
+
+    const result = await caller.courses.getCurriculumMetadata({ courseSlug: 'opt' });
+
+    expect(result).toEqual([{
+      unitId: 'uo1', unitNumber: '1', duration: null, exerciseCount: 1,
+    }]);
+  });
+});
+
+describe('courses.getCourseProgress', () => {
+  test('optional exercises count towards neither the total nor completion', async () => {
+    await seedCourse('prog');
+    await seedUnit('up', 'prog', '1');
+    await seedChunk('up-a', 'up', { exercises: ['ex-req', 'ex-opt'] });
+    await seedExercise('ex-req');
+    await seedExercise('ex-opt', 'Active', true);
+
+    // Complete the optional exercise; it must not move the progress numbers.
+    await testDb.pg.insert(exerciseResponsePgTable).values({
+      id: 'r-opt', email: 'test@example.com', exerciseId: 'ex-opt', response: 'x', completedAt: '2026-01-01',
+    });
+
+    const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'prog' });
+
+    expect(courseProgress).toEqual({ totalCount: 1, completedCount: 0, percentage: 0 });
   });
 });

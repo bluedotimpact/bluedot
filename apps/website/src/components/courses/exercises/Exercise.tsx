@@ -21,6 +21,16 @@ type ExerciseProps = {
   chunkIndex?: number;
 };
 
+export function maybeApplyOptionalPrefix({ title, isOptional }: { title: string; isOptional: boolean | null | undefined }): string {
+  if (!isOptional) {
+    return title;
+  }
+
+  const [firstToken = ''] = title.trim().split(/\s+/);
+  const firstWord = firstToken.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '').toLowerCase();
+  return firstWord === 'optional' ? title : `[Optional] ${title}`;
+}
+
 const Exercise: React.FC<ExerciseProps> = ({
   exerciseId, courseSlug, unitNumber, chunkIndex,
 }) => {
@@ -97,7 +107,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         userId: previousResponse?.userId ?? null,
       });
 
-      const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
+      const previousCourseProgress = newData.completed !== undefined && !exerciseData?.isOptional ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
       return { previousResponse, previousCourseProgress };
     },
     onError(_err, _variables, mutationResult) {
@@ -150,6 +160,8 @@ const Exercise: React.FC<ExerciseProps> = ({
   }
 
   const showGroupResponses = !!facilitatorGroupResponses && showGroupResponsesIfFacilitator;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const displayTitle = maybeApplyOptionalPrefix({ title: exerciseData.title || '', isOptional: exerciseData.isOptional });
 
   // Free text completion checkbox (positioned outside the card)
   const hasResponse = editorHasText || !!(responseData?.response?.trim());
@@ -235,8 +247,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         {/* Conditional padding: GroupResponses needs edge-to-edge for its blue background */}
         <div className={cn('container-lined bg-white flex flex-col gap-5', !showGroupResponses && 'p-8')}>
           <div className={cn('flex flex-col gap-2', showGroupResponses && 'px-8 pt-8')}>
-            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-            <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
+            <p className="bluedot-h4 not-prose">{displayTitle}</p>
             {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
           </div>
