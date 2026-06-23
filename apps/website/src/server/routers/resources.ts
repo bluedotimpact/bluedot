@@ -67,11 +67,19 @@ export const resourcesRouter = router({
         db.getFirst(courseBuilderUserTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
       ]);
 
+      let completedAt: string | null | undefined;
+      if (input.isCompleted === true && resourceCompletion?.isCompleted !== true) {
+        completedAt = new Date().toISOString();
+      } else if (input.isCompleted === false) {
+        completedAt = null;
+      } // else undefined = "don't change"
+
       const [updatedResourceCompletion] = resourceCompletion
         ? await db.pg
           .update(resourceCompletionPgTable)
           .set({
             isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
+            completedAt: completedAt !== undefined ? completedAt : resourceCompletion.completedAt,
             feedback: input.feedback ?? resourceCompletion.feedback,
             resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
           })
@@ -83,6 +91,7 @@ export const resourcesRouter = router({
             email: ctx.auth.email,
             unitResourceId: input.unitResourceId,
             isCompleted: input.isCompleted ?? false,
+            completedAt: completedAt ?? null,
             feedback: input.feedback ?? '',
             resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
             resourceId: unitResource?.resourceId ?? null,
