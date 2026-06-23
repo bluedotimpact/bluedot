@@ -2,6 +2,7 @@ import {
   and, gte, isNotNull, inArray,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable, exerciseTable, exerciseResponsePgTable,
+  unitResourceTable, resourceCompletionPgTable,
   type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
@@ -261,6 +262,52 @@ export const eventProjectionRules: EventProjectionRule[] = [
           },
         };
       });
+    },
+  },
+  {
+    eventType: 'resource_completed',
+    async calculateEvents(db, { since }) {
+      const completions = await db.pg.select().from(resourceCompletionPgTable)
+        .where(filterGteOrNull(resourceCompletionPgTable.completedAt, since)); // completedAt is ISO text
+      if (completions.length === 0) return [];
+
+      const [unitResources, units] = await Promise.all([
+        db.pg.select({
+          id: unitResourceTable.pg.id, resourceName: unitResourceTable.pg.resourceName,
+          unitId: unitResourceTable.pg.unitId, coreFurtherMaybe: unitResourceTable.pg.coreFurtherMaybe,
+        }).from(unitResourceTable.pg),
+        db.pg.select({
+          id: unitTable.pg.id, courseId: unitTable.pg.courseId, courseTitle: unitTable.pg.courseTitle,
+          courseSlug: unitTable.pg.courseSlug, title: unitTable.pg.title, unitNumber: unitTable.pg.unitNumber,
+        }).from(unitTable.pg),
+      ]);
+      const unitResourceById = new Map(unitResources.map((ur) => [ur.id, ur]));
+      const unitById = new Map(units.map((u) => [u.id, u]));
+
+      return completions
+        .filter((c) => c.email) // a null distinctId can't be attributed in PostHog
+        .map((c) => {
+          const unitResource = c.unitResourceId ? unitResourceById.get(c.unitResourceId) : undefined;
+          const unit = unitResource?.unitId ? unitById.get(unitResource.unitId) : undefined;
+          const unitNumber = unit ? Number(unit.unitNumber) : null;
+          return {
+            internalUniqueKey: c.id,
+            distinctId: c.email,
+            // Note: completedAt is mutable (can un-complete and re-complete), the event will
+            // capture the *first time* we saw the resource in a completed state
+            timestampMs: Date.parse(c.completedAt!),
+            properties: {
+              ...(c.resourceId?.[0] ? { resource_id: c.resourceId[0] } : {}),
+              ...(c.unitResourceId ? { unit_resource_id: c.unitResourceId } : {}),
+              ...(unitResource?.resourceName ? { resource_name: unitResource.resourceName } : {}),
+              ...(unitResource?.coreFurtherMaybe ? { core_further_maybe: unitResource.coreFurtherMaybe } : {}),
+              ...(unitResource?.unitId ? { unit_id: unitResource.unitId } : {}),
+              ...(unitNumber != null && Number.isFinite(unitNumber) ? { unit_number: unitNumber } : {}),
+              ...(unit?.title ? { unit_name: unit.title } : {}),
+              ...(unit ? { course_id: unit.courseId, course_name: unit.courseTitle, course_slug: unit.courseSlug } : {}),
+            },
+          };
+        });
     },
   },
 ];
