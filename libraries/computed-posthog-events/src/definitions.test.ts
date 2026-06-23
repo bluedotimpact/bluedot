@@ -562,15 +562,24 @@ describe('resource_completed', () => {
     testDb.insert(unitResourceTable, {
       id, unitId: opts.unitId, resourceName: opts.resourceName, coreFurtherMaybe: opts.coreFurtherMaybe,
     });
-  const completeResource = (id: string, email: string, unitResourceId: string, completedAt: string | null) =>
+  const completeResource = (
+    id: string, email: string | null, unitResourceId: string | null, completedAt: string | null,
+    resourceId?: string,
+  ) =>
     db.pg.insert(resourceCompletionPgTable).values({
-      id, email, unitResourceId, isCompleted: completedAt != null, createdAt: '2026-06-01T00:00:00.000Z', completedAt,
+      id,
+      email,
+      unitResourceId,
+      resourceId: resourceId ? [resourceId] : null,
+      isCompleted: completedAt != null,
+      createdAt: '2026-06-01T00:00:00.000Z',
+      completedAt,
     });
 
   test('emits one event per completed resource, enriched with the unit_resource and unit', async () => {
     await seedUnit('u1', { unitNumber: '2', title: 'What is AGI?' });
     await seedUnitResource('ur1', { unitId: 'u1', resourceName: 'The Bitter Lesson', coreFurtherMaybe: 'Core' });
-    await completeResource('rc1', 'a@x.com', 'ur1', '2026-06-10T10:00:00.000Z');
+    await completeResource('rc1', 'a@x.com', 'ur1', '2026-06-10T10:00:00.000Z', 'res1');
 
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog();
@@ -580,9 +589,10 @@ describe('resource_completed', () => {
     expect(events[0]!.distinct_id).toBe('a@x.com');
     expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
     expect(events[0]!.properties).toMatchObject({
-      resource_id: 'ur1',
+      resource_id: 'res1',
+      unit_resource_id: 'ur1',
       resource_name: 'The Bitter Lesson',
-      resource_type: 'Core',
+      core_further_maybe: 'Core',
       unit_id: 'u1',
       unit_number: 2,
       unit_name: 'What is AGI?',
@@ -595,6 +605,15 @@ describe('resource_completed', () => {
   test('skips completions without a completedAt', async () => {
     await seedUnitResource('ur1', { unitId: 'u1' });
     await completeResource('rc1', 'a@x.com', 'ur1', null);
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph.events.filter((e) => e.event === 'resource_completed')).toHaveLength(0);
+  });
+
+  test('skips completions without an email (no distinct id to attribute)', async () => {
+    await seedUnitResource('ur1', { unitId: 'u1' });
+    await completeResource('rc1', null, 'ur1', '2026-06-10T10:00:00.000Z');
 
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog();

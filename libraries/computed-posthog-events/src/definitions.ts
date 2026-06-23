@@ -284,27 +284,30 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const unitResourceById = new Map(unitResources.map((ur) => [ur.id, ur]));
       const unitById = new Map(units.map((u) => [u.id, u]));
 
-      return completions.map((c) => {
-        const unitResource = c.unitResourceId ? unitResourceById.get(c.unitResourceId) : undefined;
-        const unit = unitResource?.unitId ? unitById.get(unitResource.unitId) : undefined;
-        const unitNumber = unit ? Number(unit.unitNumber) : null;
-        return {
-          internalUniqueKey: c.id,
-          distinctId: c.email,
-          // Note: completedAt is mutable (can un-complete and re-complete), the event will
-          // capture the *first time* we saw the resource in a completed state
-          timestampMs: Date.parse(c.completedAt!),
-          properties: {
-            resource_id: c.unitResourceId,
-            ...(unitResource?.resourceName ? { resource_name: unitResource.resourceName } : {}),
-            ...(unitResource?.coreFurtherMaybe ? { resource_type: unitResource.coreFurtherMaybe } : {}),
-            ...(unitResource?.unitId ? { unit_id: unitResource.unitId } : {}),
-            ...(unitNumber != null && Number.isFinite(unitNumber) ? { unit_number: unitNumber } : {}),
-            ...(unit?.title ? { unit_name: unit.title } : {}),
-            ...(unit ? { course_id: unit.courseId, course_name: unit.courseTitle, course_slug: unit.courseSlug } : {}),
-          },
-        };
-      });
+      return completions
+        .filter((c) => c.email) // a null distinctId can't be attributed in PostHog
+        .map((c) => {
+          const unitResource = c.unitResourceId ? unitResourceById.get(c.unitResourceId) : undefined;
+          const unit = unitResource?.unitId ? unitById.get(unitResource.unitId) : undefined;
+          const unitNumber = unit ? Number(unit.unitNumber) : null;
+          return {
+            internalUniqueKey: c.id,
+            distinctId: c.email,
+            // Note: completedAt is mutable (can un-complete and re-complete), the event will
+            // capture the *first time* we saw the resource in a completed state
+            timestampMs: Date.parse(c.completedAt!),
+            properties: {
+              ...(c.resourceId?.[0] ? { resource_id: c.resourceId[0] } : {}),
+              ...(c.unitResourceId ? { unit_resource_id: c.unitResourceId } : {}),
+              ...(unitResource?.resourceName ? { resource_name: unitResource.resourceName } : {}),
+              ...(unitResource?.coreFurtherMaybe ? { core_further_maybe: unitResource.coreFurtherMaybe } : {}),
+              ...(unitResource?.unitId ? { unit_id: unitResource.unitId } : {}),
+              ...(unitNumber != null && Number.isFinite(unitNumber) ? { unit_number: unitNumber } : {}),
+              ...(unit?.title ? { unit_name: unit.title } : {}),
+              ...(unit ? { course_id: unit.courseId, course_name: unit.courseTitle, course_slug: unit.courseSlug } : {}),
+            },
+          };
+        });
     },
   },
 ];
