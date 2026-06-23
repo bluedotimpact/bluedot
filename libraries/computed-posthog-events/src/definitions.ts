@@ -340,7 +340,9 @@ export const eventProjectionRules: EventProjectionRule[] = [
         : [];
       const registrationById = new Map(registrations.map((r) => [r.id, r] as const));
 
-      const courses = await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg);
+      const courses = registrations.length
+        ? await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg)
+        : [];
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
 
       // Group projects link several participants; emit one event per participant so each gets credited.
