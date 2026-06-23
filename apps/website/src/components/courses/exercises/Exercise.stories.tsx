@@ -18,6 +18,7 @@ const freeTextExercise = {
   unitNumber: null,
   exerciseNumber: null,
   computedNumResponses: null,
+  isOptional: null,
 };
 
 const multipleChoiceExercise = {
@@ -33,6 +34,7 @@ const multipleChoiceExercise = {
   unitNumber: null,
   exerciseNumber: null,
   computedNumResponses: null,
+  isOptional: null,
 };
 
 const savedResponse = {
