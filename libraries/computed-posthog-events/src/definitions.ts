@@ -356,7 +356,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
             ...(courseName ? { course_name: courseName } : {}),
             ...(registration?.roundId ? { round_id: registration.roundId } : {}),
             ...(registration?.roundName ? { round_name: registration.roundName } : {}),
-            ...(s.projectTitle ? { project_name: s.projectTitle } : {}),
+            ...(s.projectTitle ? { project_title: s.projectTitle } : {}),
             ...(s.link ? { project_url: s.link } : {}),
           },
         };

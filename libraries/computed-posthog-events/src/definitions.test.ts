@@ -679,7 +679,7 @@ describe('project_submitted', () => {
       course_name: 'AGI Strategy',
       round_id: 'rd1',
       round_name: 'AGI Strategy (2026 Mar W14) - Intensive',
-      project_name: 'My action plan',
+      project_title: 'My action plan',
       project_url: 'https://docs.google.com/document/d/abc',
     });
   });
