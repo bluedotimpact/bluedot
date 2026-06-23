@@ -24,7 +24,6 @@ import type { AppRouter } from './_app';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
-  // Non-optional exercises sync as isOptional = null (not false), so match both.
   const requiredExercises = await db.pg
     .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)

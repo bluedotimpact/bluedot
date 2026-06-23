@@ -21,12 +21,6 @@ import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
-// Non-optional exercises sync as isOptional = null (not false), so match both.
-const exerciseIsRequired = or(
-  eq(exerciseTable.pg.isOptional, false),
-  isNull(exerciseTable.pg.isOptional),
-);
-
 export type BasicChunk = {
   id: string;
   chunkTitle: string;
@@ -187,7 +181,11 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
   const requiredExercises = await db.pg
     .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)
-    .where(and(eq(exerciseTable.pg.status, 'Active'), exerciseIsRequired, inArray(exerciseTable.pg.id, allExerciseIds)));
+    .where(and(
+      eq(exerciseTable.pg.status, 'Active'),
+      or(eq(exerciseTable.pg.isOptional, false), isNull(exerciseTable.pg.isOptional)),
+      inArray(exerciseTable.pg.id, allExerciseIds),
+    ));
   const requiredExerciseIds = requiredExercises.map((e) => e.id);
 
   return { coreResourceIds, requiredExerciseIds };
@@ -254,7 +252,7 @@ export const coursesRouter = router({
           .from(exerciseTable.pg)
           .where(and(
             eq(exerciseTable.pg.status, 'Active'),
-            exerciseIsRequired,
+            or(eq(exerciseTable.pg.isOptional, false), isNull(exerciseTable.pg.isOptional)),
             inArray(exerciseTable.pg.id, referencedExerciseIds),
           ));
         for (const e of requiredExercises) requiredExerciseIds.add(e.id);
