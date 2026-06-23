@@ -1582,6 +1582,10 @@ export const dropoutTable = pgAirtable('dropout', {
       pgColumn: text().array(),
       airtableId: 'fldNsQ3fThCB4Z2sd',
     },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fld3p5UUEwIg0eTPQ',
+    },
   },
 });
 
