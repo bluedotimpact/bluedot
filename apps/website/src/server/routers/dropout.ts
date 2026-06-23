@@ -82,12 +82,19 @@ export const dropoutRouter = router({
 
       const oldRoundId = courseRegistration.roundId ?? null;
 
-      return db.insert(dropoutTable, {
+      const dropout = await db.insert(dropoutTable, {
         applicantId: [applicantId],
         reason: reason ?? null,
         type,
         newRoundId: type === 'Deferral' && newRoundId ? [newRoundId] : null,
         oldRoundId: type === 'Deferral' && oldRoundId ? [oldRoundId] : null,
       });
+
+      // A pre-decision application moves to "Withdrawn" so it's no longer evaluated (and potentially accepted) in review.
+      if (type === 'Drop out' && courseRegistration.decision === null) {
+        await db.update(courseRegistrationTable, { id: applicantId, decision: 'Withdrawn' });
+      }
+
+      return dropout;
     }),
 });
