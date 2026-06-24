@@ -271,7 +271,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
       expect(screen.getByLabelText('Mark as incomplete')).toBeInTheDocument();
     });
 
-    resolveMutation({ ...mockResourceCompletion, isCompleted: true });
+    resolveMutation({ ...mockResourceCompletion, completedAt: '2024-01-01T00:00:00.000Z' });
 
     // UI stays in same state after mutation resolves
     await waitFor(() => {
@@ -283,7 +283,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
     const user = userEvent.setup();
 
     // Start with a completed resource so we can see the feedback buttons
-    const completedMock = { ...mockResourceCompletion, isCompleted: true };
+    const completedMock = { ...mockResourceCompletion, completedAt: '2024-01-01T00:00:00.000Z' };
 
     let resolveMutation: (value: typeof completedMock) => void = () => {};
     const mutationPendingPromise = new Promise<typeof completedMock>((resolve) => {
@@ -332,7 +332,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
 
     server.use(trpcMsw.resources.saveResourceCompletion.mutation(async () => {
       await mutationPendingPromise; // This line will throw when we call rejectMutation()
-      const result = { ...mockResourceCompletion, isCompleted: true };
+      const result = { ...mockResourceCompletion, completedAt: '2024-01-01T00:00:00.000Z' };
       return {
         ...result,
         feedback: result.feedback?.trimEnd(),

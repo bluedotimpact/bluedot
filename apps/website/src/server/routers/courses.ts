@@ -95,7 +95,7 @@ const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds
       .where(and(
         eq(resourceCompletionPgTable.email, email),
         inArray(resourceCompletionPgTable.unitResourceId, coreResourceIds),
-        eq(resourceCompletionPgTable.isCompleted, true), // Only fetch completed resources
+        isNotNull(resourceCompletionPgTable.completedAt), // Only fetch completed resources
       ))
       .orderBy(desc(resourceCompletionPgTable.createdAt)),
 

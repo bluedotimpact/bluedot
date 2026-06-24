@@ -15,6 +15,8 @@ import {
 } from 'vitest';
 import { computedAirtableFieldDefinitions } from './definitions';
 
+const COMPLETED_AT = '2024-01-01T00:00:00.000Z';
+
 let db: PgAirtableDb;
 let testDb: TestPgAirtableDb;
 
@@ -81,14 +83,14 @@ describe('resource.computedNumCompletions', () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
     await testDb.insert(resourceTable, { id: 'res-2' });
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c1', email: 'a@x', isCompleted: true, resourceId: ['res-1'],
+      id: 'c1', email: 'a@x', completedAt: COMPLETED_AT, resourceId: ['res-1'],
     });
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c2', email: 'b@x', isCompleted: true, resourceId: ['res-1', 'res-2'],
+      id: 'c2', email: 'b@x', completedAt: COMPLETED_AT, resourceId: ['res-1', 'res-2'],
     });
-    // Not counted: isCompleted=false
+    // Not counted: not completed (completedAt null)
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c3', email: 'c@x', isCompleted: false, resourceId: ['res-1'],
+      id: 'c3', email: 'c@x', resourceId: ['res-1'],
     });
 
     const result = await compute()(db, ['res-1', 'res-2']);
@@ -108,21 +110,21 @@ describe('resource.computedAverageRating', () => {
   test('returns mean of resourceFeedback over completed rows, ignoring NO_RESPONSE and null', async () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c1', email: 'a@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
+      id: 'c1', email: 'a@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
     });
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c2', email: 'b@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
+      id: 'c2', email: 'b@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
     });
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c3', email: 'c@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
+      id: 'c3', email: 'c@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
     });
     // Ignored: NO_RESPONSE
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c4', email: 'd@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+      id: 'c4', email: 'd@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
     });
-    // Ignored: rated but then un-completed (isCompleted=false), e.g. user rated then unticked the resource
+    // Ignored: rated but then un-completed (completedAt null), e.g. user rated then unticked the resource
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c5', email: 'e@x', isCompleted: false, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
+      id: 'c5', email: 'e@x', resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
     });
 
     const result = await compute()(db, ['res-1']);
@@ -133,7 +135,7 @@ describe('resource.computedAverageRating', () => {
   test('returns null when no ratings exist for a resource', async () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
     await testDb.pg.insert(resourceCompletionPgTable).values({
-      id: 'c1', email: 'a@x', isCompleted: true, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+      id: 'c1', email: 'a@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
     });
     const result = await compute()(db, ['res-1']);
     expect(result['res-1']).toBeNull();
