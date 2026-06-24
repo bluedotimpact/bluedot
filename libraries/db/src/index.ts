@@ -112,7 +112,10 @@ export type {
   VanityUrl,
 } from './schema';
 
-export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
+export {
+  getPgAirtableFromIds, PgAirtableTable, SafePgTable, safePgTable, isSchemaTable,
+} from './lib/db-core';
+export type { SchemaTable } from './lib/db-core';
 
 export { AirtableTsError, ErrorType } from 'airtable-ts/dist/AirtableTsError';
 

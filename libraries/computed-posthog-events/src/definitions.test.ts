@@ -483,7 +483,7 @@ describe('exercise_completed', () => {
       id, courseId: opts.courseId, unitId: opts.unitId, title: opts.title, type: opts.type, status: 'Active',
     });
   const completeExercise = (id: string, email: string, exerciseId: string, completedAt: string | null) =>
-    db.pg.insert(exerciseResponsePgTable).values({
+    db.pg.insert(exerciseResponsePgTable.pg).values({
       id, email, exerciseId, response: 'an answer', createdAt: '2026-06-01T00:00:00.000Z', completedAt,
     });
 
@@ -566,7 +566,7 @@ describe('resource_completed', () => {
     id: string, email: string | null, unitResourceId: string | null, completedAt: string | null,
     resourceId?: string,
   ) =>
-    db.pg.insert(resourceCompletionPgTable).values({
+    db.pg.insert(resourceCompletionPgTable.pg).values({
       id,
       email,
       unitResourceId,

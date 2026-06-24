@@ -91,26 +91,26 @@ const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds
   const [rawResourceCompletions, rawExerciseCompletions] = await Promise.all([
     db.pg
       .select()
-      .from(resourceCompletionPgTable)
+      .from(resourceCompletionPgTable.pg)
       .where(and(
-        eq(resourceCompletionPgTable.email, email),
-        inArray(resourceCompletionPgTable.unitResourceId, coreResourceIds),
-        isNotNull(resourceCompletionPgTable.completedAt), // Only fetch completed resources
+        eq(resourceCompletionPgTable.pg.email, email),
+        inArray(resourceCompletionPgTable.pg.unitResourceId, coreResourceIds),
+        isNotNull(resourceCompletionPgTable.pg.completedAt), // Only fetch completed resources
       ))
-      .orderBy(desc(resourceCompletionPgTable.createdAt)),
+      .orderBy(desc(resourceCompletionPgTable.pg.createdAt)),
 
     db.pg
       .select({
-        exerciseId: exerciseResponsePgTable.exerciseId,
-        completedAt: exerciseResponsePgTable.completedAt,
+        exerciseId: exerciseResponsePgTable.pg.exerciseId,
+        completedAt: exerciseResponsePgTable.pg.completedAt,
       })
-      .from(exerciseResponsePgTable)
+      .from(exerciseResponsePgTable.pg)
       .where(and(
-        eq(exerciseResponsePgTable.email, email),
-        inArray(exerciseResponsePgTable.exerciseId, requiredExerciseIds),
-        isNotNull(exerciseResponsePgTable.completedAt), // Only fetch completed exercises
+        eq(exerciseResponsePgTable.pg.email, email),
+        inArray(exerciseResponsePgTable.pg.exerciseId, requiredExerciseIds),
+        isNotNull(exerciseResponsePgTable.pg.completedAt), // Only fetch completed exercises
       ))
-      .orderBy(desc(exerciseResponsePgTable.createdAt)),
+      .orderBy(desc(exerciseResponsePgTable.pg.createdAt)),
   ]);
 
   // Deduplicate by unitResourceId, keeping only the first occurrence.

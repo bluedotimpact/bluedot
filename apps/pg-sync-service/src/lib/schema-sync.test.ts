@@ -1,8 +1,12 @@
 import { describe, expect, test } from 'vitest';
-import { PgAirtableTable, isTable } from '@bluedot/db';
+import {
+  SafePgTable, isSchemaTable, isTable, sql,
+} from '@bluedot/db';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { text } from 'drizzle-orm/pg-core';
 import { pushSchema } from 'drizzle-kit/api';
 import * as schema from '@bluedot/db/src/schema';
-import { statementsRequireFullSync } from './schema-sync';
+import { statementsRequireFullSync, cleanupRemovedColumns } from './schema-sync';
 import { db } from './db';
 
 describe('statementsRequireFullSync', () => {
@@ -131,11 +135,10 @@ describe('statementsRequireFullSync against real drizzle-kit push output', () =>
   // against drift in drizzle's real output format, not just hand-written strings.
   test('re-pushing the unchanged schema produces only default churn and requires no full sync', async () => {
     const pgTables = Object.fromEntries(Object.entries(schema)
-      .filter(([, value]) => value instanceof PgAirtableTable || isTable(value))
+      .filter(([, value]) => isSchemaTable(value) || isTable(value))
       .map(([name, value]) => [
         name,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        value instanceof PgAirtableTable ? ((value as any).pgWithDeprecatedColumns ?? value.pg) : value,
+        isSchemaTable(value) ? (value.pgWithDeprecatedColumns ?? value.pg) : value,
       ]));
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -152,5 +155,57 @@ describe('statementsRequireFullSync against real drizzle-kit push output', () =>
     }
 
     expect(statementsRequireFullSync(result.statementsToExecute)).toBe(false);
+  });
+});
+
+describe('cleanupRemovedColumns and SafePgTable deprecated columns', () => {
+  // A SafePgTable keeps deprecated columns out of `.pg` (active) but present in
+  // `.pgWithDeprecatedColumns`. runDrizzlePush feeds the with-deprecated variant to
+  // cleanupRemovedColumns, so the deprecated column must survive — that's the whole
+  // point of the wrapper (a still-released consumer keeps SELECTing it). To isolate
+  // this from the shared schema, we create a throwaway physical table directly.
+  const createPhysicalTable = async (): Promise<void> => {
+    await db.pg.execute(sql`DROP TABLE IF EXISTS safe_pg_cleanup_test`);
+    await db.pg.execute(sql`CREATE TABLE safe_pg_cleanup_test ("active" text, "legacy" text)`);
+  };
+
+  const getColumns = async (): Promise<Set<string>> => {
+    const cols = await db.pg.execute(sql`
+      SELECT column_name FROM information_schema.columns
+      WHERE table_name = 'safe_pg_cleanup_test' AND table_schema = 'public'
+    `);
+    return new Set(cols.rows.map((row: { column_name: string }) => row.column_name));
+  };
+
+  test('keeps the deprecated column when given the with-deprecated variant', async () => {
+    const table = new SafePgTable('safe_pg_cleanup_test', {
+      columns: { active: text() },
+      deprecatedColumns: { legacy: text() },
+    });
+    await createPhysicalTable();
+
+    await cleanupRemovedColumns({ table: table.pgWithDeprecatedColumns! });
+
+    const colNames = await getColumns();
+    expect(colNames.has('active')).toBe(true);
+    expect(colNames.has('legacy')).toBe(true);
+
+    await db.pg.execute(sql`DROP TABLE IF EXISTS safe_pg_cleanup_test`);
+  });
+
+  test('drops the deprecated column if only the active variant is passed (proving the variant matters)', async () => {
+    const table = new SafePgTable('safe_pg_cleanup_test', {
+      columns: { active: text() },
+      deprecatedColumns: { legacy: text() },
+    });
+    await createPhysicalTable();
+
+    await cleanupRemovedColumns({ table: table.pg });
+
+    const colNames = await getColumns();
+    expect(colNames.has('active')).toBe(true);
+    expect(colNames.has('legacy')).toBe(false);
+
+    await db.pg.execute(sql`DROP TABLE IF EXISTS safe_pg_cleanup_test`);
   });
 });

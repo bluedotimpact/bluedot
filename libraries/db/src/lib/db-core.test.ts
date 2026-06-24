@@ -1,6 +1,6 @@
 import { text } from 'drizzle-orm/pg-core';
 import { describe, expect, test } from 'vitest';
-import { PgAirtableTable } from './db-core';
+import { PgAirtableTable, SafePgTable } from './db-core';
 
 describe('PgAirtableTable', () => {
   test('throws if deprecated column uses notNull', () => {
@@ -30,6 +30,38 @@ describe('PgAirtableTable', () => {
       tableId: 'table',
       columns: { duplicateCol: { pgColumn: text(), airtableId: 'fld1' } },
       deprecatedColumns: { duplicateCol: { pgColumn: text(), airtableId: 'fld2', deprecated: true } },
+    })).toThrow(/appears in both columns and deprecatedColumns/);
+  });
+});
+
+describe('SafePgTable', () => {
+  test('has no pgWithDeprecatedColumns when there are no deprecated columns', () => {
+    const table = new SafePgTable('test', {
+      columns: { active: text() },
+    });
+    expect(table.pg).toBeDefined();
+    expect(table.pgWithDeprecatedColumns).toBeUndefined();
+  });
+
+  test('throws if deprecated column uses notNull', () => {
+    expect(() => new SafePgTable('test', {
+      columns: { active: text() },
+      deprecatedColumns: { badCol: text().notNull() },
+    })).toThrow(/must be nullable/);
+  });
+
+  test('creates pgWithDeprecatedColumns when deprecated columns exist', () => {
+    const table = new SafePgTable('test', {
+      columns: { active: text() },
+      deprecatedColumns: { old: text() },
+    });
+    expect(table.pgWithDeprecatedColumns).toBeDefined();
+  });
+
+  test('throws if column appears in both columns and deprecatedColumns', () => {
+    expect(() => new SafePgTable('test', {
+      columns: { duplicateCol: text() },
+      deprecatedColumns: { duplicateCol: text() },
     })).toThrow(/appears in both columns and deprecatedColumns/);
   });
 });

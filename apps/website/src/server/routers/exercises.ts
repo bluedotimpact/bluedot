@@ -34,7 +34,7 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponsePgTable, {
+      const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponsePgTable.pg, {
         filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
         sortBy: { field: 'createdAt', direction: 'desc' },
       });
@@ -57,7 +57,7 @@ export const exercisesRouter = router({
       } // else undefined = "don't change"
 
       const [existingResponse, exercise, user] = await Promise.all([
-        getFirstFromPg(db.pg, exerciseResponsePgTable, {
+        getFirstFromPg(db.pg, exerciseResponsePgTable.pg, {
           filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
           sortBy: { field: 'createdAt', direction: 'desc' },
         }),
@@ -69,16 +69,16 @@ export const exercisesRouter = router({
 
       const [exerciseResponse] = existingResponse
         ? await db.pg
-          .update(exerciseResponsePgTable)
+          .update(exerciseResponsePgTable.pg)
           .set({
             exerciseId: input.exerciseId,
             response: input.response,
             completedAt: completedAt !== undefined ? completedAt : existingResponse.completedAt,
           })
-          .where(eq(exerciseResponsePgTable.id, existingResponse.id))
+          .where(eq(exerciseResponsePgTable.pg.id, existingResponse.id))
           .returning()
         : await db.pg
-          .insert(exerciseResponsePgTable)
+          .insert(exerciseResponsePgTable.pg)
           .values({
             email: ctx.auth.email,
             exerciseId: input.exerciseId,
@@ -180,14 +180,14 @@ export const exercisesRouter = router({
 
       const exerciseResponses = await db.pg
         .select({
-          email: exerciseResponsePgTable.email,
-          response: exerciseResponsePgTable.response,
+          email: exerciseResponsePgTable.pg.email,
+          response: exerciseResponsePgTable.pg.response,
         })
-        .from(exerciseResponsePgTable)
+        .from(exerciseResponsePgTable.pg)
         .where(and(
-          eq(exerciseResponsePgTable.exerciseId, input.exerciseId),
-          inArray(exerciseResponsePgTable.email, allEmails),
-          isNotNull(exerciseResponsePgTable.completedAt),
+          eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
+          inArray(exerciseResponsePgTable.pg.email, allEmails),
+          isNotNull(exerciseResponsePgTable.pg.completedAt),
         ));
 
       const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));

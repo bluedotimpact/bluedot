@@ -298,8 +298,8 @@ export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'exercise_completed',
     async calculateEvents(db, { since }) {
-      const responses = await db.pg.select().from(exerciseResponsePgTable)
-        .where(filterGteOrNull(exerciseResponsePgTable.completedAt, since)); // completedAt is ISO text
+      const responses = await db.pg.select().from(exerciseResponsePgTable.pg)
+        .where(filterGteOrNull(exerciseResponsePgTable.pg.completedAt, since)); // completedAt is ISO text
       if (responses.length === 0) return [];
 
       const [courses, exercises] = await Promise.all([
@@ -336,8 +336,8 @@ export const eventProjectionRules: EventProjectionRule[] = [
   {
     eventType: 'resource_completed',
     async calculateEvents(db, { since }) {
-      const completions = await db.pg.select().from(resourceCompletionPgTable)
-        .where(filterGteOrNull(resourceCompletionPgTable.completedAt, since)); // completedAt is ISO text
+      const completions = await db.pg.select().from(resourceCompletionPgTable.pg)
+        .where(filterGteOrNull(resourceCompletionPgTable.pg.completedAt, since)); // completedAt is ISO text
       if (completions.length === 0) return [];
 
       const [unitResources, units] = await Promise.all([

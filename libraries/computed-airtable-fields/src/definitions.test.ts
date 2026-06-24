@@ -51,18 +51,18 @@ describe('exercise.computedNumResponses', () => {
     await testDb.insert(exerciseTable, { id: 'ex-2' });
     await testDb.insert(exerciseTable, { id: 'ex-other' });
     // ex-1: 2 completed, 1 in-progress → 2
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'r1', email: 'a@x', exerciseId: 'ex-1', response: '', completedAt: '2026-01-01',
     });
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'r2', email: 'b@x', exerciseId: 'ex-1', response: '', completedAt: '2026-01-02',
     });
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'r3', email: 'c@x', exerciseId: 'ex-1', response: '', completedAt: null,
     });
     // ex-2: 0 completed → 0
     // ex-other not in input → not in output
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'r4', email: 'd@x', exerciseId: 'ex-other', response: '', completedAt: '2026-01-03',
     });
 
@@ -82,14 +82,14 @@ describe('resource.computedNumCompletions', () => {
   test('counts completed resource_completion rows per resource, multi-resource arrays counted once each', async () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
     await testDb.insert(resourceTable, { id: 'res-2' });
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c1', email: 'a@x', completedAt: COMPLETED_AT, resourceId: ['res-1'],
     });
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c2', email: 'b@x', completedAt: COMPLETED_AT, resourceId: ['res-1', 'res-2'],
     });
     // Not counted: not completed (completedAt null)
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c3', email: 'c@x', resourceId: ['res-1'],
     });
 
@@ -109,21 +109,21 @@ describe('resource.computedAverageRating', () => {
 
   test('returns mean of resourceFeedback over completed rows, ignoring NO_RESPONSE and null', async () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c1', email: 'a@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
     });
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c2', email: 'b@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.LIKE,
     });
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c3', email: 'c@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
     });
     // Ignored: NO_RESPONSE
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c4', email: 'd@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
     });
     // Ignored: rated but then un-completed (completedAt null), e.g. user rated then unticked the resource
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c5', email: 'e@x', resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.DISLIKE,
     });
 
@@ -134,7 +134,7 @@ describe('resource.computedAverageRating', () => {
 
   test('returns null when no ratings exist for a resource', async () => {
     await testDb.insert(resourceTable, { id: 'res-1' });
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'c1', email: 'a@x', completedAt: COMPLETED_AT, resourceId: ['res-1'], resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
     });
     const result = await compute()(db, ['res-1']);

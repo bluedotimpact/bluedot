@@ -2,7 +2,11 @@ import { type Table } from 'airtable-ts';
 import {
   pgTable,
   text,
+  type PgColumnBuilderBase,
+  type PgTable,
+  type PgTableWithColumns,
 } from 'drizzle-orm/pg-core';
+import { type BuildColumns } from 'drizzle-orm/column-builder';
 import {
   drizzleColumnToTsTypeString,
   type TsTypeString,
@@ -14,10 +18,99 @@ import {
   type ExtractPgColumns,
 } from './typeUtils';
 
+/**
+ * Shared shape for tables that own a Postgres definition and may carry deprecated
+ * columns that are still present in the physical table but no longer written to.
+ *
+ * Both `PgAirtableTable` (Airtable-synced) and `SafePgTable` (Postgres-only)
+ * satisfy this, letting pg-sync-service push `pgWithDeprecatedColumns ?? pg`
+ * through a single code path.
+ */
+export type SchemaTable = {
+  pg: PgTable;
+  pgWithDeprecatedColumns?: PgTable;
+};
+
+export function isSchemaTable(value: unknown): value is SchemaTable {
+  // instanceof rather than duck-typing on `'pg' in value`, so a plain pgTable
+  // that happens to have a column named `pg` can't be misclassified.
+  return value instanceof PgAirtableTable || value instanceof SafePgTable;
+}
+
+type SafePgColumnsMap = Record<string, PgColumnBuilderBase>;
+
+type SafePgTablePg<
+  TTableName extends string,
+  TColumnsMap extends SafePgColumnsMap,
+> = PgTableWithColumns<{
+  name: TTableName;
+  schema: undefined;
+  columns: BuildColumns<TTableName, TColumnsMap, 'pg'>;
+  dialect: 'pg';
+}>;
+
+export type SafePgTableConfig<
+  TColumnsMap extends SafePgColumnsMap,
+> = {
+  columns: TColumnsMap;
+  deprecatedColumns?: SafePgColumnsMap;
+};
+
+/**
+ * A Postgres-only table (not synced from Airtable) that supports deprecating
+ * columns the same way `pgAirtable` does: deprecated columns stay physically
+ * present in the DB (via `pgWithDeprecatedColumns`) while application code reads
+ * and writes through `pg` (active columns only). This lets a still-released
+ * consumer keep SELECTing a column for the deploy window after it's dropped from
+ * the active schema, instead of pg-sync-service dropping it immediately.
+ */
+export class SafePgTable<
+  TTableName extends string = string,
+  TColumnsMap extends SafePgColumnsMap = SafePgColumnsMap,
+> implements SchemaTable {
+  public readonly pg: SafePgTablePg<TTableName, TColumnsMap>;
+
+  public readonly pgWithDeprecatedColumns?: SchemaTable['pg'];
+
+  constructor(name: TTableName, config: SafePgTableConfig<TColumnsMap>) {
+    this.pg = pgTable(name, config.columns) as SafePgTablePg<TTableName, TColumnsMap>;
+
+    if (config.deprecatedColumns && Object.keys(config.deprecatedColumns).length > 0) {
+      for (const [columnName, columnBuilder] of Object.entries(config.deprecatedColumns)) {
+        // @ts-expect-error accessing internal config
+        if (columnBuilder?.config?.notNull) {
+          throw new Error(`Deprecated column "${columnName}" in table "${name}" must be nullable. `
+            + 'Deprecated columns cannot use .notNull() because they stop receiving sync updates.');
+        }
+
+        if (columnName in config.columns) {
+          throw new Error(`Column "${columnName}" in table "${name}" appears in both columns and deprecatedColumns. `
+            + 'A column should only be in one or the other.');
+        }
+      }
+
+      this.pgWithDeprecatedColumns = pgTable(name, {
+        ...config.columns,
+        ...config.deprecatedColumns,
+      }) as unknown as SchemaTable['pg'];
+    }
+  }
+}
+
+export function safePgTable<
+  TTableName extends string,
+  TColumnsMap extends SafePgColumnsMap,
+>(
+  name: TTableName,
+  config: SafePgTableConfig<TColumnsMap>,
+): SafePgTable<TTableName, TColumnsMap> {
+  return new SafePgTable(name, config);
+}
+
 export class PgAirtableTable<
   TTableName extends string = string,
   TColumnsMap extends Record<string, PgAirtableColumnInput> = Record<string, PgAirtableColumnInput>,
-> {
+> implements SchemaTable {
   public readonly pg: BasePgTableType<TTableName, TColumnsMap>;
 
   public readonly pgWithDeprecatedColumns?: PgAirtableTable['pg'];

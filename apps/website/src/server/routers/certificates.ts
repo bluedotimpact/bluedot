@@ -40,10 +40,10 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
   // submitted (across all courses) just to check FoAI completion.
   const exerciseResponses = await db.pg
     .select()
-    .from(exerciseResponsePgTable)
+    .from(exerciseResponsePgTable.pg)
     .where(and(
-      eq(exerciseResponsePgTable.email, email),
-      inArray(exerciseResponsePgTable.exerciseId, requiredExercises.map((e) => e.id)),
+      eq(exerciseResponsePgTable.pg.email, email),
+      inArray(exerciseResponsePgTable.pg.exerciseId, requiredExercises.map((e) => e.id)),
     ));
 
   const completedExerciseIds = new Set(exerciseResponses
