@@ -305,7 +305,6 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   email: '',
   feedback: null,
   id: MOCK_RESOURCE_COMPLETION_ID,
-  isCompleted: false,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
   unitResourceId: MOCK_RESOURCE_ID,
   resourceId: null,
