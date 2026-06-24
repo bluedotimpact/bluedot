@@ -302,7 +302,6 @@ export const createMockRound = (overrides: Partial<CourseRound> = {}): CourseRou
 };
 
 export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
-  autoNumberId: 1,
   email: '',
   feedback: null,
   id: MOCK_RESOURCE_COMPLETION_ID,

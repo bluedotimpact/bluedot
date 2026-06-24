@@ -151,7 +151,6 @@ export const exerciseResponsePgTable = pgTable('exercise_response', {
   response: text().notNull(),
   createdAt: text(),
   completedAt: text(),
-  autoNumberId: numeric({ mode: 'number' }),
   userId: text().array(),
 });
 
@@ -1539,7 +1538,6 @@ export const resourceCompletionPgTable = pgTable('resource_completion', {
   email: text(),
   feedback: text(),
   resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
-  autoNumberId: numeric({ mode: 'number' }),
   resourceId: text().array(),
   // Points at courseBuilderUserTable (the Course-builder-base sync of User)
   createdByUserId: text().array(),
