@@ -112,7 +112,7 @@ Bump `version` in [vke.ts](./src/vultr/vke.ts) to the version offered in the Vul
 - Drive upgrades through Pulumi; don't let Vultr auto-upgrade. A forced upgrade leaves [vke.ts](./src/vultr/vke.ts) stale and drifts Pulumi state from reality (see PRs #1267 / #1268).
 - `pulumi preview` should show `update`, not `replace` — a replace destroys the prod cluster.
 - Don't blindly take Vultr's newest version. Check our operators support it first — especially CloudNativePG ([supported releases](https://cloudnative-pg.io/docs/current/supported_releases/)), which runs the in-cluster DBs and often lags the newest Kubernetes by a release. Target the newest version they all support, bumping charts (in separate prior PRs) as needed.
-- The cluster is single-node, so the upgrade briefly takes everything on-cluster down (apps + in-cluster `keycloak-pg`/`grafana-pg`/`airtable-sync-pg`; managed `appPg` is unaffected). Merge late at night and watch through — **there's no rollback**, Kubernetes can't downgrade a minor.
+- The cluster is single-node, so the upgrade briefly takes everything on-cluster down (apps + in-cluster `keycloak-pg`/`grafana-pg`; managed `appPg` is unaffected). Merge late at night and watch through — **there's no rollback**, Kubernetes can't downgrade a minor.
 
 **Clearing the upgrade preflight.** Vultr refuses the upgrade until the cluster can tolerate disruptions. Two blockers:
 
