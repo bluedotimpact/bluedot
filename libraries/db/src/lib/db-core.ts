@@ -26,14 +26,12 @@ import {
  * satisfy this, letting pg-sync-service push `pgWithDeprecatedColumns ?? pg`
  * through a single code path.
  */
-export type SchemaTable = {
+export type DeprecationSafeTable = {
   pg: PgTable;
   pgWithDeprecatedColumns?: PgTable;
 };
 
-export function isSchemaTable(value: unknown): value is SchemaTable {
-  // instanceof rather than duck-typing on `'pg' in value`, so a plain pgTable
-  // that happens to have a column named `pg` can't be misclassified.
+export function isDeprecationSafeTable(value: unknown): value is DeprecationSafeTable {
   return value instanceof PgAirtableTable || value instanceof SafePgTable;
 }
 
@@ -67,10 +65,10 @@ export type SafePgTableConfig<
 export class SafePgTable<
   TTableName extends string = string,
   TColumnsMap extends SafePgColumnsMap = SafePgColumnsMap,
-> implements SchemaTable {
+> implements DeprecationSafeTable {
   public readonly pg: SafePgTablePg<TTableName, TColumnsMap>;
 
-  public readonly pgWithDeprecatedColumns?: SchemaTable['pg'];
+  public readonly pgWithDeprecatedColumns?: DeprecationSafeTable['pg'];
 
   constructor(name: TTableName, config: SafePgTableConfig<TColumnsMap>) {
     this.pg = pgTable(name, config.columns) as SafePgTablePg<TTableName, TColumnsMap>;
@@ -92,7 +90,7 @@ export class SafePgTable<
       this.pgWithDeprecatedColumns = pgTable(name, {
         ...config.columns,
         ...config.deprecatedColumns,
-      }) as unknown as SchemaTable['pg'];
+      }) as unknown as DeprecationSafeTable['pg'];
     }
   }
 }
@@ -110,7 +108,7 @@ export function safePgTable<
 export class PgAirtableTable<
   TTableName extends string = string,
   TColumnsMap extends Record<string, PgAirtableColumnInput> = Record<string, PgAirtableColumnInput>,
-> implements SchemaTable {
+> implements DeprecationSafeTable {
   public readonly pg: BasePgTableType<TTableName, TColumnsMap>;
 
   public readonly pgWithDeprecatedColumns?: PgAirtableTable['pg'];

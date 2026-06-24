@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import {
-  SafePgTable, isSchemaTable, isTable, sql,
+  SafePgTable, isDeprecationSafeTable, isTable, sql,
 } from '@bluedot/db';
-// eslint-disable-next-line import/no-extraneous-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies -- drizzle-orm is transitive via @bluedot/db; only needed to build a table fixture below
 import { text } from 'drizzle-orm/pg-core';
 import { pushSchema } from 'drizzle-kit/api';
 import * as schema from '@bluedot/db/src/schema';
@@ -135,10 +135,10 @@ describe('statementsRequireFullSync against real drizzle-kit push output', () =>
   // against drift in drizzle's real output format, not just hand-written strings.
   test('re-pushing the unchanged schema produces only default churn and requires no full sync', async () => {
     const pgTables = Object.fromEntries(Object.entries(schema)
-      .filter(([, value]) => isSchemaTable(value) || isTable(value))
+      .filter(([, value]) => isDeprecationSafeTable(value) || isTable(value))
       .map(([name, value]) => [
         name,
-        isSchemaTable(value) ? (value.pgWithDeprecatedColumns ?? value.pg) : value,
+        isDeprecationSafeTable(value) ? (value.pgWithDeprecatedColumns ?? value.pg) : value,
       ]));
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -162,9 +162,9 @@ describe('cleanupRemovedColumns and SafePgTable deprecated columns', () => {
   // A SafePgTable keeps deprecated columns out of `.pg` (active) but present in
   // `.pgWithDeprecatedColumns`. runDrizzlePush feeds the with-deprecated variant to
   // cleanupRemovedColumns, so the deprecated column must survive — that's the whole
-  // point of the wrapper (a still-released consumer keeps SELECTing it). To isolate
-  // this from the shared schema, we create a throwaway physical table directly.
-  const createPhysicalTable = async (): Promise<void> => {
+  // point of the wrapper. To isolate this from the shared schema, we create a
+  // throwaway physical table directly.
+  const createTestTable = async (): Promise<void> => {
     await db.pg.execute(sql`DROP TABLE IF EXISTS safe_pg_cleanup_test`);
     await db.pg.execute(sql`CREATE TABLE safe_pg_cleanup_test ("active" text, "legacy" text)`);
   };
@@ -182,7 +182,7 @@ describe('cleanupRemovedColumns and SafePgTable deprecated columns', () => {
       columns: { active: text() },
       deprecatedColumns: { legacy: text() },
     });
-    await createPhysicalTable();
+    await createTestTable();
 
     await cleanupRemovedColumns({ table: table.pgWithDeprecatedColumns! });
 
@@ -198,7 +198,7 @@ describe('cleanupRemovedColumns and SafePgTable deprecated columns', () => {
       columns: { active: text() },
       deprecatedColumns: { legacy: text() },
     });
-    await createPhysicalTable();
+    await createTestTable();
 
     await cleanupRemovedColumns({ table: table.pg });
 

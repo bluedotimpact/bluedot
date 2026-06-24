@@ -113,9 +113,9 @@ export type {
 } from './schema';
 
 export {
-  getPgAirtableFromIds, PgAirtableTable, SafePgTable, safePgTable, isSchemaTable,
+  getPgAirtableFromIds, PgAirtableTable, SafePgTable, safePgTable, isDeprecationSafeTable,
 } from './lib/db-core';
-export type { SchemaTable } from './lib/db-core';
+export type { DeprecationSafeTable } from './lib/db-core';
 
 export { AirtableTsError, ErrorType } from 'airtable-ts/dist/AirtableTsError';
 
