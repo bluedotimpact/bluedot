@@ -102,7 +102,6 @@ describe('Exercise', () => {
     server.use(trpcMsw.exercises.getExerciseResponse.query(() => ({
       id: 'resp-1',
       email: 'test@example.com',
-      autoNumberId: null,
       completedAt: null,
       createdAt: null,
       exerciseId: 'ex1',
@@ -121,7 +120,6 @@ describe('Exercise', () => {
     server.use(trpcMsw.exercises.getExerciseResponse.query(() => ({
       id: 'resp-2',
       email: 'test@example.com',
-      autoNumberId: null,
       completedAt: null,
       createdAt: null,
       exerciseId: 'ex1',
@@ -144,7 +142,6 @@ describe('Exercise', () => {
       trpcMsw.exercises.getExerciseResponse.query(() => ({
         id: 'resp-3',
         email: 'test@example.com',
-        autoNumberId: null,
         completedAt: null,
         createdAt: null,
         exerciseId: 'ex1',

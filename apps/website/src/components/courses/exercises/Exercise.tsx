@@ -103,7 +103,6 @@ const Exercise: React.FC<ExerciseProps> = ({
         response: newData.response,
         completedAt: newCompletedAt,
         createdAt: previousResponse?.createdAt ?? null,
-        autoNumberId: previousResponse?.autoNumberId ?? null,
         userId: previousResponse?.userId ?? null,
       });
 
