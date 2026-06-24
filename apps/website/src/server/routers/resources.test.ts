@@ -28,7 +28,6 @@ describe('resources.saveResourceCompletion', () => {
 
     expect(result).toMatchObject({
       unitResourceId: 'ur-1',
-      isCompleted: true,
       resourceId: ['resource-1'],
       createdByUserId: ['cb-user-1'],
     });
@@ -50,7 +49,6 @@ describe('resources.saveResourceCompletion', () => {
       id: 'rc-1',
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
-      isCompleted: false,
       resourceId: ['resource-original'],
       createdByUserId: ['cb-user-original'],
     });
@@ -62,7 +60,6 @@ describe('resources.saveResourceCompletion', () => {
 
     expect(result).toMatchObject({
       id: 'rc-1',
-      isCompleted: true,
       resourceId: ['resource-original'],
       createdByUserId: ['cb-user-original'],
     });
@@ -83,7 +80,6 @@ describe('resources.saveResourceCompletion', () => {
       id: 'rc-1',
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
-      isCompleted: true,
       completedAt: '2026-01-01T00:00:00.000Z',
     });
 
@@ -100,7 +96,6 @@ describe('resources.saveResourceCompletion', () => {
       id: 'rc-1',
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
-      isCompleted: true,
       completedAt: '2026-01-01T00:00:00.000Z',
     });
 
