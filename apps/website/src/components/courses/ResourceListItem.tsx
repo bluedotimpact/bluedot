@@ -125,6 +125,10 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
 
           const { unitResourceId, ...updatedFields } = newData;
 
+          const completedAtUpdate = newData.isCompleted === undefined
+            ? {}
+            : { completedAt: newData.isCompleted ? new Date().toISOString() : null };
+
           const existingIndex = oldData.findIndex((item) => item.unitResourceId === resource.id);
 
           if (newArray[existingIndex]) {
@@ -132,6 +136,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
             newArray[existingIndex] = {
               ...newArray[existingIndex],
               ...updatedFields,
+              ...completedAtUpdate,
             };
           } else if (newData.isCompleted) {
             // If no existing item and isCompleted is true, add a new item
@@ -154,7 +159,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
       );
 
       // Optimistically update overall course progress
-      const isCompletionChange = newData.isCompleted !== undefined && newData.isCompleted !== (resourceCompletion?.isCompleted ?? false);
+      const isCompletionChange = newData.isCompleted !== undefined && newData.isCompleted !== (resourceCompletion?.completedAt != null);
       const previousCourseProgress = isCompletionChange ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.isCompleted ? 1 : -1) : undefined;
 
       return { previousQueriesData, previousCourseProgress };
@@ -171,7 +176,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
   // Only use mutation variables if mutation hasn't failed (to support rollback on error)
   const isCompleted = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.isCompleted !== undefined)
     ? saveCompletionMutation.variables.isCompleted
-    : (resourceCompletion?.isCompleted ?? false);
+    : (resourceCompletion?.completedAt != null);
   const resourceFeedback = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.resourceFeedback !== undefined)
     ? saveCompletionMutation.variables.resourceFeedback
     : (resourceCompletion?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);

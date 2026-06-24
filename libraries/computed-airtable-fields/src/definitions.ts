@@ -2,7 +2,6 @@ import {
   and,
   arrayOverlaps,
   count,
-  eq,
   exerciseResponsePgTable,
   exerciseTable,
   inArray,
@@ -45,7 +44,7 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
           .select({ rid, n: count() })
           .from(resourceCompletionPgTable)
           .where(and(
-            eq(resourceCompletionPgTable.isCompleted, true),
+            isNotNull(resourceCompletionPgTable.completedAt),
             arrayOverlaps(resourceCompletionPgTable.resourceId, ids),
           ))
           .groupBy(rid);
@@ -70,7 +69,7 @@ export const computedAirtableFieldDefinitions: ComputedAirtableFieldGroup[] = [
           .from(resourceCompletionPgTable)
           .where(and(
             // Ratings on uncompleted rows are ignored — same notion of "exists" as computedNumCompletions.
-            eq(resourceCompletionPgTable.isCompleted, true),
+            isNotNull(resourceCompletionPgTable.completedAt),
             arrayOverlaps(resourceCompletionPgTable.resourceId, ids),
             // != NO_RESPONSE also excludes NULL (NULL != 0 → UNKNOWN, filtered out).
             ne(resourceCompletionPgTable.resourceFeedback, RESOURCE_FEEDBACK.NO_RESPONSE),
