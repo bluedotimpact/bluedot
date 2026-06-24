@@ -30,10 +30,5 @@ export const ingressNginx = new k8s.helm.v3.Release('ingress-nginx', {
         default: 'true',
       },
     },
-    // This enables public connections to the airtable-sync-pg database
-    // For others, use `./tools/connectDb.sh` or `kubectl port-forward svc/postgres-cluster-rw 5433:5432`
-    tcp: {
-      5432: 'default/airtable-sync-pg-rw:5432',
-    },
   },
 }, { provider });
