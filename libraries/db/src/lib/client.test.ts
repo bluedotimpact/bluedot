@@ -26,8 +26,7 @@ beforeAll(async () => {
   });
   testDb = db as unknown as TestPgAirtableDb;
   await pushTestSchema(db);
-  // Fix for intermittent timeout in CI
-}, 30_000);
+});
 
 beforeEach(async () => resetTestDb(db));
 
