@@ -26,7 +26,9 @@ beforeAll(async () => {
   });
   testDb = db as unknown as TestPgAirtableDb;
   await pushTestSchema(db);
-});
+  // pushTestSchema runs drizzle-kit's schema diff against a fresh PGlite instance,
+  // which is ~1s locally but can exceed the 10s default under CI CPU contention.
+}, 30_000);
 
 beforeEach(async () => resetTestDb(db));
 
