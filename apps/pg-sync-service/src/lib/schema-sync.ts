@@ -99,7 +99,7 @@ async function runDrizzlePush(): Promise<boolean> {
   const pgTables = Object.fromEntries(Object.entries(schema)
     .filter(([, value]) => isTable(value) || isDeprecationSafeTable(value))
     .map(([name, value]) => {
-      // PgAirtableTable and SafePgTable both expose `.pg` plus an optional
+      // PgAirtableTable and DeprecationSafePgTable both expose `.pg` plus an optional
       // `.pgWithDeprecatedColumns`. Pushing the with-deprecated variant when
       // present keeps deprecated columns in the physical table so a still-released
       // consumer can keep SELECTing them during a deploy window.

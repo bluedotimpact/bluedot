@@ -113,7 +113,7 @@ export type {
 } from './schema';
 
 export {
-  getPgAirtableFromIds, PgAirtableTable, SafePgTable, safePgTable, isDeprecationSafeTable,
+  getPgAirtableFromIds, PgAirtableTable, DeprecationSafePgTable, deprecationSafePgTable, isDeprecationSafeTable,
 } from './lib/db-core';
 export type { DeprecationSafeTable } from './lib/db-core';
 

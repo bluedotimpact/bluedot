@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import {
-  SafePgTable, isDeprecationSafeTable, isTable, sql,
+  DeprecationSafePgTable, isDeprecationSafeTable, isTable, sql,
 } from '@bluedot/db';
 // eslint-disable-next-line import/no-extraneous-dependencies -- drizzle-orm is transitive via @bluedot/db; only needed to build a table fixture below
 import { text } from 'drizzle-orm/pg-core';
@@ -158,8 +158,8 @@ describe('statementsRequireFullSync against real drizzle-kit push output', () =>
   });
 });
 
-describe('cleanupRemovedColumns and SafePgTable deprecated columns', () => {
-  // A SafePgTable keeps deprecated columns out of `.pg` (active) but present in
+describe('cleanupRemovedColumns and DeprecationSafePgTable deprecated columns', () => {
+  // A DeprecationSafePgTable keeps deprecated columns out of `.pg` (active) but present in
   // `.pgWithDeprecatedColumns`. runDrizzlePush feeds the with-deprecated variant to
   // cleanupRemovedColumns, so the deprecated column must survive — that's the whole
   // point of the wrapper. To isolate this from the shared schema, we create a
@@ -178,7 +178,7 @@ describe('cleanupRemovedColumns and SafePgTable deprecated columns', () => {
   };
 
   test('keeps the deprecated column when given the with-deprecated variant', async () => {
-    const table = new SafePgTable('safe_pg_cleanup_test', {
+    const table = new DeprecationSafePgTable('safe_pg_cleanup_test', {
       columns: { active: text() },
       deprecatedColumns: { legacy: text() },
     });
@@ -194,7 +194,7 @@ describe('cleanupRemovedColumns and SafePgTable deprecated columns', () => {
   });
 
   test('drops the deprecated column if only the active variant is passed (proving the variant matters)', async () => {
-    const table = new SafePgTable('safe_pg_cleanup_test', {
+    const table = new DeprecationSafePgTable('safe_pg_cleanup_test', {
       columns: { active: text() },
       deprecatedColumns: { legacy: text() },
     });

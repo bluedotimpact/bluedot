@@ -22,7 +22,7 @@ import {
  * Shared shape for tables that own a Postgres definition and may carry deprecated
  * columns that are still present in the physical table but no longer written to.
  *
- * Both `PgAirtableTable` (Airtable-synced) and `SafePgTable` (Postgres-only)
+ * Both `PgAirtableTable` (Airtable-synced) and `DeprecationSafePgTable` (Postgres-only)
  * satisfy this, letting pg-sync-service push `pgWithDeprecatedColumns ?? pg`
  * through a single code path.
  */
@@ -32,14 +32,14 @@ export type DeprecationSafeTable = {
 };
 
 export function isDeprecationSafeTable(value: unknown): value is DeprecationSafeTable {
-  return value instanceof PgAirtableTable || value instanceof SafePgTable;
+  return value instanceof PgAirtableTable || value instanceof DeprecationSafePgTable;
 }
 
-type SafePgColumnsMap = Record<string, PgColumnBuilderBase>;
+type DeprecationSafePgColumnsMap = Record<string, PgColumnBuilderBase>;
 
-type SafePgTablePg<
+type DeprecationSafePgTablePg<
   TTableName extends string,
-  TColumnsMap extends SafePgColumnsMap,
+  TColumnsMap extends DeprecationSafePgColumnsMap,
 > = PgTableWithColumns<{
   name: TTableName;
   schema: undefined;
@@ -47,11 +47,11 @@ type SafePgTablePg<
   dialect: 'pg';
 }>;
 
-export type SafePgTableConfig<
-  TColumnsMap extends SafePgColumnsMap,
+export type DeprecationSafePgTableConfig<
+  TColumnsMap extends DeprecationSafePgColumnsMap,
 > = {
   columns: TColumnsMap;
-  deprecatedColumns?: SafePgColumnsMap;
+  deprecatedColumns?: DeprecationSafePgColumnsMap;
 };
 
 /**
@@ -62,16 +62,16 @@ export type SafePgTableConfig<
  * consumer keep SELECTing a column for the deploy window after it's dropped from
  * the active schema, instead of pg-sync-service dropping it immediately.
  */
-export class SafePgTable<
+export class DeprecationSafePgTable<
   TTableName extends string = string,
-  TColumnsMap extends SafePgColumnsMap = SafePgColumnsMap,
+  TColumnsMap extends DeprecationSafePgColumnsMap = DeprecationSafePgColumnsMap,
 > implements DeprecationSafeTable {
-  public readonly pg: SafePgTablePg<TTableName, TColumnsMap>;
+  public readonly pg: DeprecationSafePgTablePg<TTableName, TColumnsMap>;
 
   public readonly pgWithDeprecatedColumns?: DeprecationSafeTable['pg'];
 
-  constructor(name: TTableName, config: SafePgTableConfig<TColumnsMap>) {
-    this.pg = pgTable(name, config.columns) as SafePgTablePg<TTableName, TColumnsMap>;
+  constructor(name: TTableName, config: DeprecationSafePgTableConfig<TColumnsMap>) {
+    this.pg = pgTable(name, config.columns) as DeprecationSafePgTablePg<TTableName, TColumnsMap>;
 
     if (config.deprecatedColumns && Object.keys(config.deprecatedColumns).length > 0) {
       for (const [columnName, columnBuilder] of Object.entries(config.deprecatedColumns)) {
@@ -95,14 +95,14 @@ export class SafePgTable<
   }
 }
 
-export function safePgTable<
+export function deprecationSafePgTable<
   TTableName extends string,
-  TColumnsMap extends SafePgColumnsMap,
+  TColumnsMap extends DeprecationSafePgColumnsMap,
 >(
   name: TTableName,
-  config: SafePgTableConfig<TColumnsMap>,
-): SafePgTable<TTableName, TColumnsMap> {
-  return new SafePgTable(name, config);
+  config: DeprecationSafePgTableConfig<TColumnsMap>,
+): DeprecationSafePgTable<TTableName, TColumnsMap> {
+  return new DeprecationSafePgTable(name, config);
 }
 
 export class PgAirtableTable<

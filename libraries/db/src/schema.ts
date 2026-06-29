@@ -4,7 +4,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { type InferSelectModel, sql } from 'drizzle-orm';
 
-import { pgAirtable, safePgTable } from './lib/db-core';
+import { pgAirtable, deprecationSafePgTable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
@@ -144,7 +144,7 @@ export const courseTable = pgAirtable('course', {
   },
 });
 
-export const exerciseResponsePgTable = safePgTable('exercise_response', {
+export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response', {
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
     email: text().notNull(),
@@ -1533,7 +1533,7 @@ export const RESOURCE_FEEDBACK = {
 // Type for resourceFeedback field values
 export type ResourceFeedbackValue = typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK];
 
-export const resourceCompletionPgTable = safePgTable('resource_completion', {
+export const resourceCompletionPgTable = deprecationSafePgTable('resource_completion', {
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
     unitResourceId: text(),
