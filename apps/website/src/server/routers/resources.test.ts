@@ -46,7 +46,7 @@ describe('resources.saveResourceCompletion', () => {
   });
 
   test('updates an existing completion without touching the FK fields', async () => {
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
@@ -79,7 +79,7 @@ describe('resources.saveResourceCompletion', () => {
   });
 
   test('clears completedAt when isCompleted is false', async () => {
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
@@ -96,7 +96,7 @@ describe('resources.saveResourceCompletion', () => {
   });
 
   test('preserves completedAt when isCompleted is omitted', async () => {
-    await testDb.pg.insert(resourceCompletionPgTable).values({
+    await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',

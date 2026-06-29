@@ -8,7 +8,7 @@ import {
 import { pushSchema } from 'drizzle-kit/api';
 import { type PgAirtableDb, type PgDatabase } from './client';
 import { MockAirtableTs } from './mock-airtable-ts';
-import { PgAirtableTable } from './db-core';
+import { isDeprecationSafeTable, type PgAirtableTable } from './db-core';
 import type { PgAirtableColumnInput, AirtableItemFromColumnsMap, BasePgTableType } from './typeUtils';
 import * as schema from '../schema';
 
@@ -37,9 +37,9 @@ export function createTestDbClients() {
 
 function collectPgTables() {
   return Object.fromEntries(Object.entries(schema)
-    .filter(([, value]) => value instanceof PgAirtableTable || isTable(value))
+    .filter(([, value]) => isDeprecationSafeTable(value) || isTable(value))
     .map(([name, value]) => {
-      if (value instanceof PgAirtableTable) {
+      if (isDeprecationSafeTable(value)) {
         return [name, value.pg];
       }
 

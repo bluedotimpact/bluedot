@@ -4,7 +4,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { type InferSelectModel, sql } from 'drizzle-orm';
 
-import { pgAirtable } from './lib/db-core';
+import { pgAirtable, deprecationSafePgTable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
@@ -144,14 +144,16 @@ export const courseTable = pgAirtable('course', {
   },
 });
 
-export const exerciseResponsePgTable = pgTable('exercise_response', {
-  id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
-  email: text().notNull(),
-  exerciseId: text().notNull(),
-  response: text().notNull(),
-  createdAt: text(),
-  completedAt: text(),
-  userId: text().array(),
+export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response', {
+  columns: {
+    id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
+    email: text().notNull(),
+    exerciseId: text().notNull(),
+    response: text().notNull(),
+    createdAt: text(),
+    completedAt: text(),
+    userId: text().array(),
+  },
 });
 
 export const formConfigurationTable = pgAirtable('form_configuration', {
@@ -1531,18 +1533,20 @@ export const RESOURCE_FEEDBACK = {
 // Type for resourceFeedback field values
 export type ResourceFeedbackValue = typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK];
 
-export const resourceCompletionPgTable = pgTable('resource_completion', {
-  id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
-  unitResourceId: text(),
-  isCompleted: boolean(),
-  email: text(),
-  feedback: text(),
-  resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
-  resourceId: text().array(),
-  // Points at courseBuilderUserTable (the Course-builder-base sync of User)
-  createdByUserId: text().array(),
-  createdAt: text(),
-  completedAt: text(),
+export const resourceCompletionPgTable = deprecationSafePgTable('resource_completion', {
+  columns: {
+    id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
+    unitResourceId: text(),
+    isCompleted: boolean(),
+    email: text(),
+    feedback: text(),
+    resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
+    resourceId: text().array(),
+    // Points at courseBuilderUserTable (the Course-builder-base sync of User)
+    createdByUserId: text().array(),
+    createdAt: text(),
+    completedAt: text(),
+  },
 });
 
 export const teamMemberTable = pgAirtable('team_member', {
@@ -1729,7 +1733,7 @@ export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
-export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable>;
+export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable.pg>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
 export type Person = InferSelectModel<typeof personTable.pg>;
 export type SharedDemoOutput = InferSelectModel<typeof sharedDemoOutputTable.pg>;
@@ -1763,7 +1767,7 @@ export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable
 export type SelfServeCourseRegistration = InferSelectModel<typeof selfServeCourseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
 export type CourseBuilderUser = InferSelectModel<typeof courseBuilderUserTable.pg>;
-export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTable>;
+export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
 export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;

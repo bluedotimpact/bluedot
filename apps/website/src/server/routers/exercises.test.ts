@@ -197,7 +197,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Action plan', exerciseNumber: '2',
     });
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
@@ -282,7 +282,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
     });
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
@@ -489,7 +489,7 @@ describe('exercises.getGroupExerciseResponses', () => {
 
   test('returns completed responses from group participants', async () => {
     await seedFacilitatorFlow();
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
       email: 'participant@example.com',
       exerciseId: 'ex-1',
@@ -511,7 +511,7 @@ describe('exercises.getGroupExerciseResponses', () => {
 
   test('excludes responses where completedAt is null', async () => {
     await seedFacilitatorFlow();
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
       email: 'participant@example.com',
       exerciseId: 'ex-1',
@@ -554,7 +554,7 @@ describe('exercises.getGroupExerciseResponses', () => {
       facilitator: ['meet-facilitator'],
       participants: ['meet-participant'],
     });
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
       email: 'noname@example.com',
       exerciseId: 'ex-1',

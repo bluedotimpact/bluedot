@@ -13,12 +13,12 @@ export const resourcesRouter = router({
     .query(async ({ input, ctx }) => {
       const resourceCompletions = await db.pg
         .select()
-        .from(resourceCompletionPgTable)
+        .from(resourceCompletionPgTable.pg)
         .where(and(
-          inArray(resourceCompletionPgTable.unitResourceId, input.unitResourceIds),
-          eq(resourceCompletionPgTable.email, ctx.auth.email),
+          inArray(resourceCompletionPgTable.pg.unitResourceId, input.unitResourceIds),
+          eq(resourceCompletionPgTable.pg.email, ctx.auth.email),
         ))
-        .orderBy(desc(resourceCompletionPgTable.createdAt));
+        .orderBy(desc(resourceCompletionPgTable.pg.createdAt));
 
       // Deduplicate by unitResourceId, keeping only the first occurrence.
       // Although we should only have one resource completion for a resource per user, it is possible to have multiple
@@ -56,7 +56,7 @@ export const resourcesRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const [resourceCompletion, unitResource, cbUser] = await Promise.all([
-        getFirstFromPg(db.pg, resourceCompletionPgTable, {
+        getFirstFromPg(db.pg, resourceCompletionPgTable.pg, {
           filter: {
             unitResourceId: input.unitResourceId,
             email: ctx.auth.email,
@@ -76,17 +76,17 @@ export const resourcesRouter = router({
 
       const [updatedResourceCompletion] = resourceCompletion
         ? await db.pg
-          .update(resourceCompletionPgTable)
+          .update(resourceCompletionPgTable.pg)
           .set({
             isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
             completedAt: completedAt !== undefined ? completedAt : resourceCompletion.completedAt,
             feedback: input.feedback ?? resourceCompletion.feedback,
             resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
           })
-          .where(eq(resourceCompletionPgTable.id, resourceCompletion.id))
+          .where(eq(resourceCompletionPgTable.pg.id, resourceCompletion.id))
           .returning()
         : await db.pg
-          .insert(resourceCompletionPgTable)
+          .insert(resourceCompletionPgTable.pg)
           .values({
             email: ctx.auth.email,
             unitResourceId: input.unitResourceId,

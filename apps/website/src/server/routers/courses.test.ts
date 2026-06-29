@@ -154,7 +154,7 @@ describe('courses.getCourseProgress', () => {
     await seedExercise('ex-opt', 'Active', true);
 
     // Complete the optional exercise; it must not move the progress numbers.
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'r-opt', email: 'test@example.com', exerciseId: 'ex-opt', response: 'x', completedAt: '2026-01-01',
     });
 

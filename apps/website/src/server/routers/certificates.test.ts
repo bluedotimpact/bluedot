@@ -334,7 +334,7 @@ describe('issueFoaiCertificateIfComplete', () => {
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
     });
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1', email, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
   };
@@ -393,7 +393,7 @@ describe('issueFoaiCertificateIfComplete', () => {
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Required', exerciseNumber: '1',
     });
-    await testDb.pg.insert(exerciseResponsePgTable).values({
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1', email: 'test@example.com', exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
     // Optional exercise with no completed response — must not block the certificate.

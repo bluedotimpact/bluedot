@@ -2,7 +2,9 @@ import { logger } from '@bluedot/ui/src/api';
 import {
   getTableName, metaTable, sql, PgAirtableTable,
   isTable,
+  isDeprecationSafeTable,
   getTableColumns,
+  type DeprecationSafeTable,
 } from '@bluedot/db';
 import * as schema from '@bluedot/db/src/schema';
 import { pushSchema } from 'drizzle-kit/api';
@@ -14,7 +16,7 @@ import env from '../env';
  * Cleans up columns that exist in the database but are no longer in the schema definition.
  * This prevents migration hangs caused by simultaneous add/drop operations (e.g., column renames).
  */
-async function cleanupRemovedColumns(pgTables: Record<string, PgAirtableTable['pg']>): Promise<void> {
+export async function cleanupRemovedColumns(pgTables: Record<string, DeprecationSafeTable['pg']>): Promise<void> {
   // Get current schema definition - what columns SHOULD exist
   const expectedColumns = new Map<string, Set<string>>();
 
@@ -66,7 +68,7 @@ export function statementsRequireFullSync(statements: string[]): boolean {
  * Wraps pushSchema with a timeout to prevent hanging migrations
  * Returns true if schema changes warranting a full data sync were applied, false otherwise
  */
-async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['pg']>): Promise<boolean> {
+async function pushSchemaWithTimeout(pgTables: Record<string, DeprecationSafeTable['pg']>): Promise<boolean> {
   const timeoutPromise = new Promise<never>((_, reject) => {
     setTimeout(() => {
       reject(new Error('Schema push migration hung after 120 seconds. This is likely because you have made a change that breaks drizzle\'s pushSchema function. Also see https://github.com/drizzle-team/drizzle-orm/issues/4651.'));
@@ -95,14 +97,17 @@ async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['p
  */
 async function runDrizzlePush(): Promise<boolean> {
   const pgTables = Object.fromEntries(Object.entries(schema)
-    .filter(([, value]) => isTable(value) || 'pg' in value)
+    .filter(([, value]) => isTable(value) || isDeprecationSafeTable(value))
     .map(([name, value]) => {
-      if (value instanceof PgAirtableTable) {
-        // Use pgWithDeprecatedColumns when available to prevent Drizzle from dropping deprecated columns
-        return [name, (value.pgWithDeprecatedColumns ?? value.pg) as unknown as PgAirtableTable['pg']];
+      // PgAirtableTable and DeprecationSafePgTable both expose `.pg` plus an optional
+      // `.pgWithDeprecatedColumns`. Pushing the with-deprecated variant when
+      // present keeps deprecated columns in the physical table so a still-released
+      // consumer can keep SELECTing them during a deploy window.
+      if (isDeprecationSafeTable(value)) {
+        return [name, (value.pgWithDeprecatedColumns ?? value.pg) as unknown as DeprecationSafeTable['pg']];
       }
 
-      return [name, value as unknown as PgAirtableTable['pg']];
+      return [name, value as unknown as DeprecationSafeTable['pg']];
     }));
   logger.info(`[schema-sync] Running schema push with tables: ${Object.keys(pgTables).join(', ')}`);
 
