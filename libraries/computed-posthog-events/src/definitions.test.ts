@@ -571,7 +571,6 @@ describe('resource_completed', () => {
       email,
       unitResourceId,
       resourceId: resourceId ? [resourceId] : null,
-      isCompleted: completedAt != null,
       createdAt: '2026-06-01T00:00:00.000Z',
       completedAt,
     });
