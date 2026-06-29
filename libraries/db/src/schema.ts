@@ -1537,7 +1537,6 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
     unitResourceId: text(),
-    isCompleted: boolean(),
     email: text(),
     feedback: text(),
     resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
@@ -1546,6 +1545,9 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     createdByUserId: text().array(),
     createdAt: text(),
     completedAt: text(),
+  },
+  deprecatedColumns: {
+    isCompleted: boolean(),
   },
 });
 

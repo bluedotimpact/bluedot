@@ -68,7 +68,7 @@ export const resourcesRouter = router({
       ]);
 
       let completedAt: string | null | undefined;
-      if (input.isCompleted === true && resourceCompletion?.isCompleted !== true) {
+      if (input.isCompleted === true && resourceCompletion?.completedAt == null) {
         completedAt = new Date().toISOString();
       } else if (input.isCompleted === false) {
         completedAt = null;
@@ -78,7 +78,6 @@ export const resourcesRouter = router({
         ? await db.pg
           .update(resourceCompletionPgTable.pg)
           .set({
-            isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
             completedAt: completedAt !== undefined ? completedAt : resourceCompletion.completedAt,
             feedback: input.feedback ?? resourceCompletion.feedback,
             resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
@@ -90,7 +89,6 @@ export const resourcesRouter = router({
           .values({
             email: ctx.auth.email,
             unitResourceId: input.unitResourceId,
-            isCompleted: input.isCompleted ?? false,
             completedAt: completedAt ?? null,
             feedback: input.feedback ?? '',
             resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
