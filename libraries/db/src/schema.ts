@@ -1546,9 +1546,6 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     createdAt: text(),
     completedAt: text(),
   },
-  deprecatedColumns: {
-    isCompleted: boolean(),
-  },
 });
 
 export const teamMemberTable = pgAirtable('team_member', {
