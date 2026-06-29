@@ -14,6 +14,21 @@ reviews:
   suggested_reviewers: false
   in_progress_fortune: false
   poem: false
+  path_instructions:
+    - path: "libraries/db/src/schema.ts"
+      instructions: |
+        These tables are synced to Postgres by pg-sync-service, which pushes schema changes before
+        the website adopts the new code. Comment ONLY when a change appears to skip the migration
+        process below; stay silent on additive or unrelated edits.
+        - A column is deleted outright instead of first being moved into the table's
+          `deprecatedColumns`. Safe removal is two PRs: move to `deprecatedColumns` (nullable),
+          merge and deploy to prod, then delete.
+        - A column key is renamed in one step rather than add-new -> migrate-consumers ->
+          deprecate-old.
+        - For plain `pgTable`s, which don't support deprecatedColumns, still comment if a column
+          is deleted. Prompt the user to explain why it is safe to drop the column straight away,
+          rather than first migrating to `deprecationSafePgTable` (either approach may be acceptable).
+        See CLAUDE.md "Database / schema changes".
   auto_review:
     enabled: true
     ignore_title_keywords:
