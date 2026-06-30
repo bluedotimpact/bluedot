@@ -58,7 +58,12 @@ async function ensureOk(resp: Response, context: string): Promise<void> {
 // A date string the client computed in the user's local timezone (YYYY-MM-DD).
 // Falls back to the server's date if absent/malformed (server runs in UTC).
 function resolveLocalDate(localDate?: string): string {
-  if (localDate && /^\d{4}-\d{2}-\d{2}$/.test(localDate)) return localDate;
+  if (localDate && /^\d{4}-\d{2}-\d{2}$/.test(localDate)) {
+    // Reject shape-valid but impossible dates (e.g. 2026-99-99) by round-tripping.
+    const parsed = new Date(`${localDate}T00:00:00.000Z`);
+    if (!Number.isNaN(parsed.getTime()) && parsed.toISOString().startsWith(localDate)) return localDate;
+  }
+
   const d = new Date();
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -237,10 +242,26 @@ export type UpdatePersonInput = {
   localDate?: string;
 };
 
+// Verify a page actually belongs to the Top Talent CRM database before mutating it.
+// Without this, any authenticated staffer could PATCH/DELETE arbitrary Notion pages
+// the integration token can see by supplying a foreign pageId.
+async function assertPageInCrm(token: string, pageId: string): Promise<void> {
+  const resp = await fetch(`${NOTION_BASE}/pages/${pageId}`, { headers: headers(token) });
+  await ensureOk(resp, 'load page');
+  const page = await resp.json() as { parent?: { database_id?: string } };
+  const norm = (id: string) => id.replace(/-/g, '').toLowerCase();
+  if (norm(page.parent?.database_id ?? '') !== norm(CRM_DATABASE_ID)) {
+    throw new createHttpError.Forbidden('That page is not in the Top Talent CRM.');
+  }
+}
+
 // Update an existing CRM row: status + scores, and (if a note is given) prepend
 // a new dated bullet above the existing notes.
 export async function updatePerson(token: string, pageId: string, input: UpdatePersonInput): Promise<{ id: string }> {
   const { status, scores, notes } = input;
+
+  // Guard: only CRM pages may be mutated (pageId comes from the client).
+  await assertPageInCrm(token, pageId);
 
   // 1. Properties (status + any set scores).
   const properties: Record<string, unknown> = { ...scoreProperties(scores) };
@@ -271,7 +292,9 @@ export async function updatePerson(token: string, pageId: string, input: UpdateP
     await ensureOk(appendResp, 'append note');
     for (const n of old) {
       // eslint-disable-next-line no-await-in-loop
-      await fetch(`${NOTION_BASE}/blocks/${n.id}`, { method: 'DELETE', headers: headers(token) });
+      const delResp = await fetch(`${NOTION_BASE}/blocks/${n.id}`, { method: 'DELETE', headers: headers(token) });
+      // eslint-disable-next-line no-await-in-loop
+      await ensureOk(delResp, `delete old note block ${n.id}`);
     }
   }
 
