@@ -27,6 +27,7 @@ const toK8s = [
   'lumaApiKey',
   'mcpGoogleOauthClientId',
   'mcpGoogleOauthClientSecret',
+  'notionApiToken',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

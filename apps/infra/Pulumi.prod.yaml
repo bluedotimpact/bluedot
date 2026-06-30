@@ -52,3 +52,5 @@ config:
     secure: v1:rrEk1XQ9LwV+9G6s:KUs0YC8GYniqNrD8Z+xB1l/7S5Lt5B2aZVvaXMCEHmObdtlp15idwrHIJKg6RzqFCQuPXJbZYC+KvCHiA0fURDJ81ABpm4Ax0ex60de4SvuVmx5L1P5P6w==
   infra:mcpGoogleOauthClientSecret:
     secure: v1:b5UzcM6qaYfkVVdW:xhm2fxYkE8rZ/hdDf/HxweP6Ey/Xwbb7Yakk+BfCTZ4/RKcOSDvMyHQry7dr9ahBJ2cU
+  infra:notionApiToken:
+    secure: v1:HEjKay/4nQ17dBxm:xLYbdntkzu0viT4+zw9sbwrJ4u4Ukn4vL4g0G67mxk50SgCEmTo2dyXR+BGQQhC4ksuYs67z2xi3g5U+RTjSG/5Q

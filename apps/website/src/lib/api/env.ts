@@ -21,6 +21,7 @@ export default validateEnv({
     'CIO_APP_API_KEY',
     'CIO_TRACK_API_KEY',
     'CIO_HMAC_SECRET',
+    'NOTION_API_TOKEN',
     'VITEST',
   ],
 });
