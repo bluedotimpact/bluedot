@@ -439,6 +439,11 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text(),
       airtableId: 'fldoKAVy6QPWZmofb',
     },
+    // ID of the user in the Applications base
+    userId: {
+      pgColumn: text(),
+      airtableId: 'fldSJzQwhZn1aX1Lc',
+    },
     projectSubmission: {
       pgColumn: text().array(),
       airtableId: 'fldFjRSrXH8Z5sGaQ',
