@@ -1,7 +1,7 @@
 import {
   and, courseBuilderUserTable, desc, eq, getFirstFromPg, inArray, resourceCompletionPgTable, unitResourceTable,
 } from '@bluedot/db';
-import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK, userTable } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
@@ -55,7 +55,7 @@ export const resourcesRouter = router({
         .optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const [resourceCompletion, unitResource, cbUser] = await Promise.all([
+      const [resourceCompletion, unitResource, cbUser, user] = await Promise.all([
         getFirstFromPg(db.pg, resourceCompletionPgTable.pg, {
           filter: {
             unitResourceId: input.unitResourceId,
@@ -65,6 +65,7 @@ export const resourcesRouter = router({
         }),
         db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
         db.getFirst(courseBuilderUserTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
+        db.getFirst(userTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
       ]);
 
       let completedAt: string | null | undefined;
@@ -93,6 +94,7 @@ export const resourcesRouter = router({
             feedback: input.feedback ?? '',
             resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
             resourceId: unitResource?.resourceId ?? null,
+            userId: user ? [user.id] : null,
             createdByUserId: cbUser ? [cbUser.id] : null,
             createdAt: new Date().toISOString(),
           })
