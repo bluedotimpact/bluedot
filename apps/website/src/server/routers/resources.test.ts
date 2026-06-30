@@ -2,6 +2,7 @@ import {
   courseBuilderUserTable,
   resourceCompletionPgTable,
   unitResourceTable,
+  userTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -17,7 +18,8 @@ const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
 
 describe('resources.saveResourceCompletion', () => {
-  test('writes resourceId and createdByUserId on insert when both can be resolved', async () => {
+  test('writes resourceId, userId, and createdByUserId on insert when both can be resolved', async () => {
+    await testDb.insert(userTable, { id: 'user-1', name: 'user-1-name', email: CALLER_EMAIL });
     await testDb.insert(courseBuilderUserTable, { id: 'cb-user-1', email: CALLER_EMAIL });
     await testDb.insert(unitResourceTable, { id: 'ur-1', resourceId: ['resource-1'] });
 
@@ -29,6 +31,7 @@ describe('resources.saveResourceCompletion', () => {
     expect(result).toMatchObject({
       unitResourceId: 'ur-1',
       resourceId: ['resource-1'],
+      userId: ['user-1'],
       createdByUserId: ['cb-user-1'],
     });
     expect(result.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
@@ -41,6 +44,7 @@ describe('resources.saveResourceCompletion', () => {
     });
 
     expect(result.resourceId).toBeNull();
+    expect(result.userId).toBeNull();
     expect(result.createdByUserId).toBeNull();
   });
 
@@ -50,6 +54,7 @@ describe('resources.saveResourceCompletion', () => {
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
       resourceId: ['resource-original'],
+      userId: ['user-original'],
       createdByUserId: ['cb-user-original'],
     });
 
@@ -61,6 +66,7 @@ describe('resources.saveResourceCompletion', () => {
     expect(result).toMatchObject({
       id: 'rc-1',
       resourceId: ['resource-original'],
+      userId: ['user-original'],
       createdByUserId: ['cb-user-original'],
     });
   });

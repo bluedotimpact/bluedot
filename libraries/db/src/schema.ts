@@ -1541,6 +1541,8 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     feedback: text(),
     resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
     resourceId: text().array(),
+    // Points at userTable
+    userId: text().array(),
     // Points at courseBuilderUserTable (the Course-builder-base sync of User)
     createdByUserId: text().array(),
     createdAt: text(),
