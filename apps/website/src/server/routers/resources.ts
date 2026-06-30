@@ -1,7 +1,7 @@
 import {
-  and, courseBuilderUserTable, desc, eq, getFirstFromPg, inArray, resourceCompletionPgTable, unitResourceTable,
+  and, courseBuilderUserTable, userTable, desc, eq, getFirstFromPg, inArray, resourceCompletionPgTable, unitResourceTable,
 } from '@bluedot/db';
-import { RESOURCE_FEEDBACK, userTable } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
