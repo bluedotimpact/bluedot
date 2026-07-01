@@ -124,10 +124,11 @@ describe('/admin/exercises', () => {
     const alignmentRadio = screen.getByRole('radio', { name: 'Alignment' });
     await user.click(alignmentRadio);
 
+    // This used to be flaky (#2716), fixed by moving the 'thinking about safety mechanisms' expect into the waitFor
     await waitFor(() => {
       expect(screen.queryByText(/policy considerations are important/)).not.toBeInTheDocument();
+      expect(screen.getByText(/thinking about safety mechanisms/)).toBeInTheDocument();
     });
-    expect(screen.getByText(/thinking about safety mechanisms/)).toBeInTheDocument();
 
     const allCoursesRadio = screen.getByRole('radio', { name: 'All courses' });
     await user.click(allCoursesRadio);
