@@ -5,10 +5,10 @@ import {
   COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
+  desc,
   eq,
   exerciseResponsePgTable,
   exerciseTable,
-  getFirstFromPg,
   groupTable,
   inArray,
   isNotNull,
@@ -68,16 +68,25 @@ export const exercisesRouter = router({
         completedAt = null;
       } // else undefined = "don't change"
 
-      const [existingResponse, exercise, user] = await Promise.all([
-        getFirstFromPg(db.pg, exerciseResponsePgTable.pg, {
-          filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
-          sortBy: { field: 'createdAt', direction: 'desc' },
-        }),
+      const [exercise, user] = await Promise.all([
         input.completed === true
           ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
           : Promise.resolve(undefined),
         db.getFirst(userTable, { filter: { email: ctx.auth.email } }),
       ]);
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
+      const [existingResponse] = await db.pg
+        .select()
+        .from(exerciseResponsePgTable.pg)
+        .where(and(
+          eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
+          arrayContains(exerciseResponsePgTable.pg.userId, [user.id]),
+        ))
+        .orderBy(desc(exerciseResponsePgTable.pg.createdAt))
+        .limit(1);
 
       const [exerciseResponse] = existingResponse
         ? await db.pg
@@ -98,14 +107,14 @@ export const exercisesRouter = router({
             // Airtable defaulted this field to now(); without Airtable it must be set in code
             createdAt: new Date().toISOString(),
             completedAt: completedAt ?? null,
-            userId: user ? [user.id] : null,
+            userId: [user.id],
           })
           .returning();
 
       if (!exerciseResponse) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
 
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
-        ? await issueFoaiCertificateIfComplete(ctx.auth.email)
+        ? await issueFoaiCertificateIfComplete(ctx.auth.email, user.id)
         : false;
 
       return { ...exerciseResponse, certificateIssued };
