@@ -35,10 +35,21 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponsePgTable.pg, {
-        filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
-        sortBy: { field: 'createdAt', direction: 'desc' },
-      });
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
+      const [exerciseResponse] = await db.pg
+        .select()
+        .from(exerciseResponsePgTable.pg)
+        .where(and(
+          eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
+          arrayContains(exerciseResponsePgTable.pg.userId, [user.id]),
+        ))
+        .orderBy(desc(exerciseResponsePgTable.pg.createdAt))
+        .limit(1);
 
       return exerciseResponse ?? null;
     }),

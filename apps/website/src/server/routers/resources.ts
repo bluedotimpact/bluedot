@@ -1,5 +1,5 @@
 import {
-  and, courseBuilderUserTable, userTable, desc, eq, getFirstFromPg, inArray, resourceCompletionPgTable, unitResourceTable,
+  and, arrayContains, courseBuilderUserTable, userTable, desc, eq, getFirstFromPg, inArray, resourceCompletionPgTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
@@ -11,12 +11,18 @@ export const resourcesRouter = router({
   getResourceCompletions: protectedProcedure
     .input(z.object({ unitResourceIds: z.array(z.string().min(1)).max(100) }))
     .query(async ({ input, ctx }) => {
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       const resourceCompletions = await db.pg
         .select()
         .from(resourceCompletionPgTable.pg)
         .where(and(
           inArray(resourceCompletionPgTable.pg.unitResourceId, input.unitResourceIds),
-          eq(resourceCompletionPgTable.pg.email, ctx.auth.email),
+          arrayContains(resourceCompletionPgTable.pg.userId, [user.id]),
         ))
         .orderBy(desc(resourceCompletionPgTable.pg.createdAt));
 

@@ -111,6 +111,8 @@ describe('exercises.saveExerciseResponse', () => {
   });
 
   test('updates an existing response', async () => {
+    await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+
     await caller.exercises.saveExerciseResponse({
       exerciseId: 'exercise-1',
       response: 'Draft answer',
@@ -301,11 +303,16 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
 describe('exercises.getExerciseResponse', () => {
   test('returns null when no response exists', async () => {
+    await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+
     const result = await caller.exercises.getExerciseResponse({ exerciseId: 'exercise-1' });
     expect(result).toBeNull();
   });
 
   test('returns response scoped to the current user', async () => {
+    await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+    await testDb.insert(userTable, { id: 'user-other', email: 'other@example.com', name: 'Other User' });
+
     await caller.exercises.saveExerciseResponse({
       exerciseId: 'exercise-1',
       response: 'My answer',
