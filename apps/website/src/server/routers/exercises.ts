@@ -1,6 +1,7 @@
 import {
   and,
   arrayContains,
+  arrayOverlaps,
   COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
@@ -185,31 +186,33 @@ export const exercisesRouter = router({
       }
 
       const participants = await db.pg
-        .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name, email: meetPersonTable.pg.email })
+        .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name, userId: meetPersonTable.pg.userId })
         .from(meetPersonTable.pg)
         .where(inArray(meetPersonTable.pg.id, allParticipantIds));
 
       const participantById = new Map(participants.map((p) => [p.id, p]));
 
       // 6. Get completed responses for this exercise from all participants
-      const allEmails = participants.map((p) => p.email).filter(Boolean) as string[];
-      if (allEmails.length === 0) {
+      const participantUserIds = participants.map((p) => p.userId).filter(Boolean) as string[];
+      if (participantUserIds.length === 0) {
         return null;
       }
 
       const exerciseResponses = await db.pg
         .select({
-          email: exerciseResponsePgTable.pg.email,
+          userId: exerciseResponsePgTable.pg.userId,
           response: exerciseResponsePgTable.pg.response,
         })
         .from(exerciseResponsePgTable.pg)
         .where(and(
           eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
-          inArray(exerciseResponsePgTable.pg.email, allEmails),
+          arrayOverlaps(exerciseResponsePgTable.pg.userId, participantUserIds),
           isNotNull(exerciseResponsePgTable.pg.completedAt),
         ));
 
-      const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));
+      const responseByUserId = new Map(exerciseResponses
+        .map((r) => [r.userId?.[0], r.response] as const)
+        .filter((entry): entry is readonly [string, string] => entry[0] != null));
 
       // 7. Build per-group response data
       const groupData = groups.map((g) => {
@@ -217,11 +220,11 @@ export const exercisesRouter = router({
         const responses: { name: string; response: string }[] = [];
         for (const pid of groupParticipantIds) {
           const p = participantById.get(pid);
-          if (!p?.email) {
+          if (!p?.userId) {
             continue;
           }
 
-          const response = responseByEmail.get(p.email);
+          const response = responseByUserId.get(p.userId);
           if (response !== undefined) {
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             responses.push({ name: p.name || 'Anonymous', response });
