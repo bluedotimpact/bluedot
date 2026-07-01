@@ -51,7 +51,6 @@ async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
 }
 
 export async function issueFoaiCertificateIfComplete(email: string, userId: string): Promise<boolean> {
-  // TODO we should use userId here even
   const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
     filter: { email, courseId: FOAI_COURSE_ID },
     sortBy: 'createdAt',
