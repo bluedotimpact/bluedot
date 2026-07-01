@@ -1,5 +1,5 @@
 import {
-  and, arrayContains, courseBuilderUserTable, userTable, desc, eq, getFirstFromPg, inArray, resourceCompletionPgTable, unitResourceTable,
+  and, arrayContains, courseBuilderUserTable, userTable, desc, eq, inArray, resourceCompletionPgTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
@@ -61,18 +61,24 @@ export const resourcesRouter = router({
         .optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const [resourceCompletion, unitResource, cbUser, user] = await Promise.all([
-        getFirstFromPg(db.pg, resourceCompletionPgTable.pg, {
-          filter: {
-            unitResourceId: input.unitResourceId,
-            email: ctx.auth.email,
-          },
-          sortBy: { field: 'createdAt', direction: 'desc' },
-        }),
+      const [unitResource, cbUser, user] = await Promise.all([
         db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
         db.getFirst(courseBuilderUserTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
         db.getFirst(userTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
       ]);
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
+      const [resourceCompletion] = await db.pg
+        .select()
+        .from(resourceCompletionPgTable.pg)
+        .where(and(
+          eq(resourceCompletionPgTable.pg.unitResourceId, input.unitResourceId),
+          arrayContains(resourceCompletionPgTable.pg.userId, [user.id]),
+        ))
+        .orderBy(desc(resourceCompletionPgTable.pg.createdAt))
+        .limit(1);
 
       let completedAt: string | null | undefined;
       if (input.isCompleted === true && resourceCompletion?.completedAt == null) {
@@ -100,7 +106,7 @@ export const resourcesRouter = router({
             feedback: input.feedback ?? '',
             resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
             resourceId: unitResource?.resourceId ?? null,
-            userId: user ? [user.id] : null,
+            userId: [user.id],
             createdByUserId: cbUser ? [cbUser.id] : null,
             createdAt: new Date().toISOString(),
           })
