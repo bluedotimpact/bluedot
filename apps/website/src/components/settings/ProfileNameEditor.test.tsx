@@ -259,7 +259,7 @@ describe('ProfileNameEditor (with DB)', () => {
     expect(user.name).toBe('Jane Doe');
   });
 
-  test('shows error when user does not exist in DB', async () => {
+  test('saves name onto an auto-created user row when none existed', async () => {
     const { container } = render(
       <ProfileNameEditor initialName="Ghost User" />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
@@ -272,8 +272,10 @@ describe('ProfileNameEditor (with DB)', () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      const error = container.querySelector('[role="alert"]');
-      expect(error).toBeInTheDocument();
+      expect(container.querySelector('button[aria-label="Save profile name changes"]')).not.toBeInTheDocument();
     });
+
+    const user = await db.get(userTable, { email: 'test@example.com' });
+    expect(user.name).toBe('New Name');
   });
 });

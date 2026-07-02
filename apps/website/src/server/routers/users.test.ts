@@ -25,9 +25,26 @@ describe('users.getUser', () => {
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  test('throws NOT_FOUND when no user record exists for the authed email', async () => {
-    await expect(createCaller(testAuthContextLoggedIn).users.getUser())
-      .rejects.toMatchObject({ code: 'NOT_FOUND' });
+  test('auto-creates a user row for a first-time authenticated caller', async () => {
+    const result = await createCaller(testAuthContextLoggedIn).users.getUser();
+
+    expect(result.email).toBe('test@example.com');
+
+    const users = await testDb.scan(userTable);
+    expect(users).toHaveLength(1);
+  });
+
+  test('concurrent first requests create only one user row', async () => {
+    const caller = createCaller(testAuthContextLoggedIn);
+
+    await Promise.all([
+      caller.users.getUser(),
+      caller.users.getUser(),
+      caller.users.trackUtmOnLogin(undefined),
+    ]);
+
+    const users = await testDb.scan(userTable);
+    expect(users).toHaveLength(1);
   });
 
   test('returns the user and bumps lastSeenAt', async () => {
@@ -99,18 +116,14 @@ describe('users.changePassword', () => {
   });
 });
 
-describe('users.ensureExists', () => {
+describe('users.trackUtmOnLogin', () => {
   test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).users.ensureExists(undefined))
+    await expect(createCaller(testAuthContextLoggedOut).users.trackUtmOnLogin(undefined))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  // Skipped: the "create new user" path in ensureExists asserts isNewUser: true after inserting a row,
-  // but the router's insert (users.ts L66-72) omits `name`, which is `notNull()` in the userTable schema.
-  // Test left in place as a tripwire so the gap stays visible until the router is fixed (e.g. derive a
-  // default name from auth, or accept name as part of createUserSchema).
-  test.skip('creates a new user and persists initial UTM fields', async () => {
-    const result = await createCaller(testAuthContextLoggedIn).users.ensureExists({
+  test('creates a new user and persists initial UTM fields', async () => {
+    const result = await createCaller(testAuthContextLoggedIn).users.trackUtmOnLogin({
       initialUtmSource: 'twitter',
       initialUtmCampaign: 'launch',
       initialUtmContent: 'thread',
@@ -124,25 +137,43 @@ describe('users.ensureExists', () => {
     expect(user.utmContent).toBe('thread');
   });
 
-  test('updates lastSeenAt on an existing user without overwriting their UTM fields', async () => {
+  test('records UTM fields on an existing user that has none (e.g. created by an Airtable automation)', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn).users.trackUtmOnLogin({
+      initialUtmSource: 'twitter',
+      initialUtmCampaign: 'launch',
+    });
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.utmSource).toBe('twitter');
+    expect(user.utmCampaign).toBe('launch');
+  });
+
+  test('does not overwrite UTM fields already set on an existing user', async () => {
     await testDb.insert(userTable, {
       id: 'u1',
       email: 'test@example.com',
       name: 'Test User',
       utmSource: 'original-source',
-      lastSeenAt: '2020-01-01T00:00:00.000Z',
     });
 
-    const before = Date.now();
-    const result = await createCaller(testAuthContextLoggedIn).users.ensureExists({
+    const result = await createCaller(testAuthContextLoggedIn).users.trackUtmOnLogin({
       initialUtmSource: 'should-be-ignored',
+      initialUtmCampaign: 'should-also-be-ignored',
     });
 
     expect(result).toEqual({ isNewUser: false });
 
     const user = await testDb.get(userTable, { email: 'test@example.com' });
     expect(user.utmSource).toBe('original-source');
-    expect(new Date(user.lastSeenAt!).getTime()).toBeGreaterThanOrEqual(before);
+    expect(user.utmCampaign).toBeFalsy();
   });
 });
 
@@ -152,9 +183,9 @@ describe('users.updateName', () => {
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  test('throws NOT_FOUND when the authed user has no record', async () => {
-    await expect(createCaller(testAuthContextLoggedIn).users.updateName({ name: 'New' }))
-      .rejects.toMatchObject({ code: 'NOT_FOUND' });
+  test('updates name on an auto-created user when no record existed', async () => {
+    const result = await createCaller(testAuthContextLoggedIn).users.updateName({ name: 'New' });
+    expect(result.name).toBe('New');
   });
 
   test('updates name on an existing user', async () => {

@@ -1,5 +1,5 @@
 import {
-  AirtableTsError, ErrorType, userTable,
+  AirtableTsError, ErrorType, type InferSelectModel, userTable,
 } from '@bluedot/db';
 import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 import { initTRPC, TRPCError } from '@trpc/server';
@@ -138,22 +138,57 @@ const overrideUndefinedResponse = t.middleware(async (opts) => {
   return result;
 });
 
+type User = InferSelectModel<typeof userTable.pg>;
+
+// Dedupes concurrent get-or-creates for the same email within this process: the Airtable
+// insert takes ~1-2s, and a check-then-insert race here would create duplicate user rows.
+const inFlightUserLookups = new Map<string, Promise<{ user: User; isNewUser: boolean }>>();
+
+const getOrCreateUser = (email: string): Promise<{ user: User; isNewUser: boolean }> => {
+  const inFlight = inFlightUserLookups.get(email);
+  if (inFlight) return inFlight;
+
+  const lookup = (async () => {
+    const existingUser = await db.getFirst(userTable, { filter: { email } });
+    if (existingUser) return { user: existingUser, isNewUser: false };
+
+    const user = await db.insert(userTable, {
+      email,
+      name: '',
+      lastSeenAt: new Date().toISOString(),
+    });
+    return { user, isNewUser: true };
+  })().finally(() => inFlightUserLookups.delete(email));
+
+  inFlightUserLookups.set(email, lookup);
+  return lookup;
+};
+
 // Base router and procedure helpers
 export const { router } = t;
 export const publicProcedure = t.procedure.use(openTelemetryMiddleware).use(overrideUndefinedResponse);
-export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
+export const protectedProcedure = publicProcedure.use(async ({ ctx, next }) => {
   if (!ctx.auth) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authentication required' });
   }
 
-  return next({ ctx });
+  // Guarantees every protected procedure has a userTable row for the caller, so routes never
+  // have to handle the authenticated-but-no-user-row window shortly after first login.
+  const { user, isNewUser } = await getOrCreateUser(ctx.auth.email);
+
+  return next({
+    ctx: {
+      ...ctx, auth: ctx.auth, user, isNewUser,
+    },
+  });
 });
 
 export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   // During impersonation, check the real user's permissions, not the impersonated user's.
   // This prevents privilege escalation when a scoped user impersonates an admin.
-  const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-  const hasAdminAccess = await checkAdminAccess(realEmail);
+  const hasAdminAccess = ctx.impersonation
+    ? await checkAdminAccess(ctx.impersonation.adminEmail)
+    : ctx.user.isAdmin === true;
   if (!hasAdminAccess) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
   }

@@ -128,7 +128,7 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
     // Step 2: User completes OAuth and lands on oauth-callback
     // The OIDC response includes the redirectTo with UTM params
     mockProcessSigninResponse.mockResolvedValue(createMockOidcResponse({ userState: { redirectTo: redirectToWithUtm } }));
-    server.use(trpcMsw.users.ensureExists.mutation(() => ({ isNewUser: true })));
+    server.use(trpcMsw.users.trackUtmOnLogin.mutation(() => ({ isNewUser: true })));
 
     render(<OauthCallbackPage />, { wrapper: TrpcProvider });
 
@@ -205,7 +205,7 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
 
     // Step 3: User completes OAuth and lands on oauth-callback
     mockProcessSigninResponse.mockResolvedValue(createMockOidcResponse({ userState: { redirectTo: redirectToWithUtm } }));
-    server.use(trpcMsw.users.ensureExists.mutation(() => ({ isNewUser: true })));
+    server.use(trpcMsw.users.trackUtmOnLogin.mutation(() => ({ isNewUser: true })));
 
     render(<OauthCallbackPage />, { wrapper: TrpcProvider });
 

@@ -100,13 +100,14 @@ describe('exercises.saveExerciseResponse', () => {
     expect(result.userId).toEqual(['user-1']);
   });
 
-  test('leaves userId null on insert when the user row is missing', async () => {
+  test('writes the auto-created user on insert when no user row existed', async () => {
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'exercise-1',
       response: 'My answer',
     });
 
-    expect(result.userId).toBeNull();
+    const user = await testDb.get(userTable, { email: CALLER_EMAIL });
+    expect(result.userId).toEqual([user.id]);
   });
 
   test('updates an existing response', async () => {

@@ -37,15 +37,17 @@ describe('resources.saveResourceCompletion', () => {
     expect(result.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
   });
 
-  test('leaves the FK fields null on insert when the lookups miss', async () => {
+  test('leaves the resource FK fields null on insert when the lookups miss, but links the auto-created user', async () => {
     const result = await caller.resources.saveResourceCompletion({
       unitResourceId: 'ur-missing',
       isCompleted: true,
     });
 
     expect(result.resourceId).toBeNull();
-    expect(result.userId).toBeNull();
     expect(result.createdByUserId).toBeNull();
+
+    const user = await testDb.get(userTable, { email: CALLER_EMAIL });
+    expect(result.userId).toEqual([user.id]);
   });
 
   test('updates an existing completion without touching the FK fields', async () => {

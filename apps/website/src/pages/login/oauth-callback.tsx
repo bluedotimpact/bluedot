@@ -3,13 +3,13 @@ import posthog from 'posthog-js';
 import { trpc } from '../../utils/trpc';
 
 export default () => {
-  const ensureUserExistsMutation = trpc.users.ensureExists.useMutation();
+  const trackUtmOnLoginMutation = trpc.users.trackUtmOnLogin.useMutation();
 
   return (
     <LoginOauthCallbackPage
       loginPreset={loginPresets.keycloak}
       onLoginComplete={async (auth, redirectTo) => {
-        // Extract UTM params from the redirectTo URL and send them to `users.ensureExists` to track them in the database
+        // Extract UTM params from the redirectTo URL and send them to `users.trackUtmOnLogin` to track them in the database
         let initialUtmSource: string | null = null;
         let initialUtmCampaign: string | null = null;
         let initialUtmContent: string | null = null;
@@ -29,7 +29,7 @@ export default () => {
         }
 
         try {
-          const response = await ensureUserExistsMutation.mutateAsync({
+          const response = await trackUtmOnLoginMutation.mutateAsync({
             initialUtmSource,
             initialUtmCampaign,
             initialUtmContent,
@@ -71,7 +71,7 @@ export default () => {
           }
         } catch (error) {
           // eslint-disable-next-line no-console
-          console.error('Error ensuring user exists:', error);
+          console.error('Error tracking UTM params on login:', error);
         }
       }}
     />

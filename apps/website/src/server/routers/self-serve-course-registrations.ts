@@ -1,5 +1,5 @@
 import {
-  applicationsCourseTable, selfServeCourseRegistrationTable, userTable,
+  applicationsCourseTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
@@ -33,15 +33,8 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
     }
 
-    // The User row is created by a lagging login side-effect (oauth-callback). Fail before writing
-    // anything so the client retries
-    const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-    if (!user) {
-      throw new TRPCError({ code: 'PRECONDITION_FAILED', message: 'User record not available yet' });
-    }
-
     return db.insert(selfServeCourseRegistrationTable, {
-      userId: user.id,
+      userId: ctx.user.id,
       courseApplicationsBaseId: applicationsCourse.id,
       source: source ?? null,
       createdAt: new Date().toISOString(),

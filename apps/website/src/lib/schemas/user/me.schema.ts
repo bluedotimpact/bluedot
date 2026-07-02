@@ -1,6 +1,6 @@
 import z from 'zod';
 
-export const createUserSchema = z.object({
+export const trackUtmSchema = z.object({
   initialUtmSource: z.string().trim().max(255).nullish(),
   initialUtmCampaign: z.string().trim().max(255).nullish(),
   initialUtmContent: z.string().trim().max(255).nullish(),
