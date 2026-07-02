@@ -165,7 +165,9 @@ new k8s.apps.v1.Deployment('app-pg-dump', {
         labels: pgDumpLabels,
         annotations: {
           // sh -c so the shell expands $PG_URI (k8up shellword-splits the annotation).
-          'k8up.io/backupcommand': 'sh -c \'pg_dump "$PG_URI"\'',
+          // PG_URI carries sslmode=no-verify for node-postgres, but libpq/pg_dump rejects that
+          // value; rewrite it to the libpq equivalent `require` (encrypt, skip CA verification).
+          'k8up.io/backupcommand': 'sh -c \'pg_dump "$(echo "$PG_URI" | sed "s/sslmode=no-verify/sslmode=require/")"\'',
           'k8up.io/file-extension': '.sql',
         },
       },
