@@ -19,7 +19,6 @@ const mockCourseRounds = {
 
 const QueryWatchers = () => {
   trpc.meetPerson.getInactiveCourseRegistrations.useQuery({});
-  trpc.dropout.getStatusForUser.useQuery();
   trpc.courseRegistrations.getAll.useQuery();
 
   return null;
@@ -27,12 +26,10 @@ const QueryWatchers = () => {
 
 describe('DropoutModal', () => {
   let inactiveRegistrationsRequests: number;
-  let dropoutStatusRequests: number;
   let courseRegistrationsRequests: number;
 
   beforeEach(() => {
     inactiveRegistrationsRequests = 0;
-    dropoutStatusRequests = 0;
     courseRegistrationsRequests = 0;
 
     server.use(
@@ -40,10 +37,6 @@ describe('DropoutModal', () => {
       trpcMsw.meetPerson.getInactiveCourseRegistrations.query(() => {
         inactiveRegistrationsRequests += 1;
         return [];
-      }),
-      trpcMsw.dropout.getStatusForUser.query(() => {
-        dropoutStatusRequests += 1;
-        return {};
       }),
       trpcMsw.courseRegistrations.getAll.query(() => {
         courseRegistrationsRequests += 1;
@@ -80,7 +73,6 @@ describe('DropoutModal', () => {
 
     await waitFor(() => {
       expect(inactiveRegistrationsRequests).toBe(1);
-      expect(dropoutStatusRequests).toBe(1);
       expect(courseRegistrationsRequests).toBe(1);
     });
 
@@ -99,7 +91,6 @@ describe('DropoutModal', () => {
     expect(handleClose).toHaveBeenCalled();
     await waitFor(() => {
       expect(inactiveRegistrationsRequests).toBeGreaterThan(1);
-      expect(dropoutStatusRequests).toBeGreaterThan(1);
       expect(courseRegistrationsRequests).toBeGreaterThan(1);
     });
   });

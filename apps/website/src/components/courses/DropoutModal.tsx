@@ -66,7 +66,6 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
   const handleCloseWithInvalidation = () => {
     if (dropoutMutation.isSuccess) {
       void utils.meetPerson.getInactiveCourseRegistrations.invalidate();
-      void utils.dropout.getStatusForUser.invalidate();
       void utils.courseRegistrations.getAll.invalidate();
       void utils.myBluedot.myCoursesPage.invalidate();
       void utils.myBluedot.facilitatedCoursesPage.invalidate();
@@ -295,7 +294,6 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
   const handleCloseWithInvalidation = () => {
     if (mutation.isSuccess) {
       void utils.meetPerson.getInactiveCourseRegistrations.invalidate();
-      void utils.dropout.getStatusForUser.invalidate();
       void utils.courseRegistrations.getAll.invalidate();
       void utils.myBluedot.myCoursesPage.invalidate();
       void utils.myBluedot.facilitatedCoursesPage.invalidate();

@@ -17,22 +17,6 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 export const meetPersonRouter = router({
-  getByCourseRegistrationId: protectedProcedure
-    .input(z.object({ courseRegistrationId: z.string() }))
-    .query(async ({ input: { courseRegistrationId }, ctx }) => {
-      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
-      }
-
-      return db.getFirst(meetPersonTable, {
-        filter: {
-          applicationsBaseRecordId: courseRegistrationId,
-          userId: user.id,
-        },
-      });
-    }),
-
   getInactiveCourseRegistrations: protectedProcedure
     .input(z.object({ courseSlug: z.string().min(1).optional() }))
     .query(async ({ ctx, input }) => {
