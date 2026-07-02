@@ -7,9 +7,10 @@ import {
   groupTable,
   groupDiscussionTable,
   groupSwitchingTable,
+  userTable,
 } from '@bluedot/db';
 import {
-  describe, expect, it, test,
+  beforeEach, describe, expect, it, test,
 } from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
 import {
@@ -19,6 +20,11 @@ import { calculateGroupAvailability, getAvailableGroupsAndDiscussions } from './
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 setupTestDb();
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await testDb.insert(userTable, { id: 'user-1', email: 'test@example.com', name: 'Test User' });
+});
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);
@@ -438,6 +444,7 @@ async function seedCourseWithGroups() {
   await testDb.insert(meetPersonTable, {
     id: 'participant-1',
     email: 'test@example.com',
+    userId: 'user-1',
     applicationsBaseRecordId: 'reg-1',
     round: 'round-1',
     role: 'Participant',
@@ -599,6 +606,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'user-1',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
@@ -676,6 +684,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'user-1',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
@@ -773,6 +782,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'user-1',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
@@ -879,6 +889,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'user-1',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',

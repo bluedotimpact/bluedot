@@ -113,7 +113,7 @@ export const exercisesRouter = router({
       if (!exerciseResponse) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
 
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
-        ? await issueFoaiCertificateIfComplete(ctx.auth.email, user.id)
+        ? await issueFoaiCertificateIfComplete(user.id)
         : false;
 
       return { ...exerciseResponse, certificateIssued };
@@ -134,13 +134,18 @@ export const exercisesRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${input.courseSlug}` });
       }
 
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       // 2. Find caller's registration
       // roundStatus is 'Active' for live rounds, or null for self-paced courses with no round
       const courseRegistrationRows = await db.pg
         .select()
         .from(courseRegistrationTable.pg)
         .where(and(
-          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.userId, user.id),
           eq(courseRegistrationTable.pg.courseId, course.id),
           eq(courseRegistrationTable.pg.decision, 'Accept'),
           or(

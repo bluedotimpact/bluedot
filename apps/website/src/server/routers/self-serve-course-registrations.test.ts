@@ -1,4 +1,4 @@
-import { applicationsCourseTable, selfServeCourseRegistrationTable } from '@bluedot/db';
+import { applicationsCourseTable, selfServeCourseRegistrationTable, userTable } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
   createCaller, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
@@ -22,8 +22,9 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
   });
 
   test('returns the existing self-serve registration', async () => {
+    await testDb.insert(userTable, { id: 'user-test', email: 'test@example.com', name: 'Test User' });
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
+      id: 'ss-foai', email: 'test@example.com', userId: 'user-test', courseId: FOAI_COURSE_ID,
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -32,6 +33,7 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
   });
 
   test('throws NOT_FOUND for FOAI when no applications_course config row exists', async () => {
+    await testDb.insert(userTable, { id: 'user-test', email: 'test@example.com', name: 'Test User' });
     await expect(createCaller(testAuthContextLoggedIn)
       .selfServeCourseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });

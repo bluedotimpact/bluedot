@@ -6,6 +6,7 @@ import {
   groupDiscussionTable,
   meetPersonTable,
   unitTable,
+  userTable,
 } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
@@ -74,12 +75,14 @@ export default makeApiRoute({
     })
     : [];
 
-  const allowedEmails = new Set([
-    ...meetPeople.map((meetPerson) => meetPerson.email).filter((email): email is string => Boolean(email)),
-    ...courseRegistrations.map((registration) => registration.email).filter((email): email is string => Boolean(email)),
+  const requestingUser = await db.getFirst(userTable, { filter: { email: auth.email } });
+
+  const allowedUserIds = new Set([
+    ...meetPeople.map((meetPerson) => meetPerson.userId).filter((id): id is string => Boolean(id)),
+    ...courseRegistrations.map((registration) => registration.userId).filter((id): id is string => Boolean(id)),
   ]);
 
-  if (!allowedEmails.has(auth.email)) {
+  if (!requestingUser || !allowedUserIds.has(requestingUser.id)) {
     throw new createHttpError.Forbidden('You do not have access to this discussion');
   }
 

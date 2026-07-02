@@ -9,6 +9,7 @@ import {
   meetPersonTable,
   notExists,
   sql,
+  userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -19,10 +20,15 @@ export const meetPersonRouter = router({
   getByCourseRegistrationId: protectedProcedure
     .input(z.object({ courseRegistrationId: z.string() }))
     .query(async ({ input: { courseRegistrationId }, ctx }) => {
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       return db.getFirst(meetPersonTable, {
         filter: {
           applicationsBaseRecordId: courseRegistrationId,
-          email: ctx.auth.email,
+          userId: user.id,
         },
       });
     }),
@@ -30,6 +36,11 @@ export const meetPersonRouter = router({
   getInactiveCourseRegistrations: protectedProcedure
     .input(z.object({ courseSlug: z.string().min(1).optional() }))
     .query(async ({ ctx, input }) => {
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       const results = await db.pg
         .select({
           courseRegistrationId: courseRegistrationTable.pg.id,
@@ -40,7 +51,7 @@ export const meetPersonRouter = router({
         .innerJoin(meetPersonTable.pg, eq(meetPersonTable.pg.applicationsBaseRecordId, courseRegistrationTable.pg.id))
         .innerJoin(courseTable.pg, eq(courseTable.pg.id, courseRegistrationTable.pg.courseId))
         .where(and(
-          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.userId, user.id),
           eq(courseRegistrationTable.pg.decision, 'Accept'),
           eq(courseRegistrationTable.pg.roundStatus, 'Active'),
           // Exclude users who have dropped out or deferred
@@ -65,6 +76,11 @@ export const meetPersonRouter = router({
   getGroupParticipants: protectedProcedure
     .input(z.object({ groupId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       const groupRows = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, input.groupId));
       const group = groupRows[0];
       if (!group) {
@@ -74,7 +90,7 @@ export const meetPersonRouter = router({
       const callerMeetPersons = await db.pg
         .select({ id: meetPersonTable.pg.id })
         .from(meetPersonTable.pg)
-        .where(eq(meetPersonTable.pg.email, ctx.auth.email));
+        .where(eq(meetPersonTable.pg.userId, user.id));
       const callerMeetPersonIds = new Set(callerMeetPersons.map((m) => m.id));
 
       const facilitatorIdsArr = group.facilitator ?? [];

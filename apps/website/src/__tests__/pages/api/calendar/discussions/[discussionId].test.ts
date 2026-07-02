@@ -43,6 +43,7 @@ vi.mock('../../../../../lib/api/db', () => ({
   default: {
     get: vi.fn(),
     scan: vi.fn(),
+    getFirst: vi.fn(),
   },
 }));
 
@@ -111,6 +112,7 @@ describe('calendar discussion download api', () => {
     const { req, res } = createMockReqRes();
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(db.getFirst).mockResolvedValue({ id: 'user-ash', email: 'ash@example.com' } as never);
     vi.mocked(db.get).mockResolvedValueOnce(createMockGroupDiscussion({
       id: 'discussion-1',
       participantsExpected: ['meet-person-1'],
@@ -118,12 +120,12 @@ describe('calendar discussion download api', () => {
     vi.mocked(db.scan)
       .mockResolvedValueOnce([createMockMeetPerson({
         id: 'meet-person-1',
-        email: 'someone-else@example.com',
+        userId: 'user-someone-else',
         applicationsBaseRecordId: 'course-registration-1',
       })])
       .mockResolvedValueOnce([createMockCourseRegistration({
         id: 'course-registration-1',
-        email: 'someone-else@example.com',
+        userId: 'user-someone-else',
       })]);
 
     await handler(req, res);
@@ -136,6 +138,7 @@ describe('calendar discussion download api', () => {
     const { req, res } = createMockReqRes();
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(db.getFirst).mockResolvedValue({ id: 'user-ash', email: 'ash@example.com' } as never);
     vi.mocked(db.get)
       .mockResolvedValueOnce(createMockGroupDiscussion({
         id: 'discussion-1',
@@ -156,12 +159,12 @@ describe('calendar discussion download api', () => {
     vi.mocked(db.scan)
       .mockResolvedValueOnce([createMockMeetPerson({
         id: 'meet-person-1',
-        email: 'ash@example.com',
+        userId: 'user-ash',
         applicationsBaseRecordId: 'course-registration-1',
       })])
       .mockResolvedValueOnce([createMockCourseRegistration({
         id: 'course-registration-1',
-        email: 'ash@example.com',
+        userId: 'user-ash',
       })]);
 
     await handler(req, res);

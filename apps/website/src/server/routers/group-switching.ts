@@ -5,6 +5,7 @@ import {
   groupDiscussionTable,
   groupSwitchingTable,
   groupTable, inArray, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, roundTable,
+  userTable,
   type Group,
   type GroupDiscussion,
 } from '@bluedot/db';
@@ -185,7 +186,12 @@ export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input: { roundId } }) => {
-      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT } });
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
+      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, userId: user.id, role: COURSE_ROLE.PARTICIPANT } });
       if (!participant) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
@@ -266,8 +272,13 @@ export const groupSwitchingRouter = router({
         });
       }
 
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       const participant = await db.getFirst(meetPersonTable, {
-        filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT },
+        filter: { round: roundId, userId: user.id, role: COURSE_ROLE.PARTICIPANT },
       });
       if (!participant) {
         throw new TRPCError({

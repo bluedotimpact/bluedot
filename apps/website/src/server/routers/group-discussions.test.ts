@@ -3,8 +3,11 @@ import {
   courseTable,
   groupDiscussionTable,
   meetPersonTable,
+  userTable,
 } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import {
+  beforeEach, describe, expect, test,
+} from 'vitest';
 import {
   createCaller,
   setupTestDb,
@@ -16,6 +19,11 @@ setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await testDb.insert(userTable, { id: 'user-test', email: CALLER_EMAIL, name: 'Test User' });
+});
 
 describe('groupDiscussions.getByCourseSlug', () => {
   test('uses expected facilitator discussion ids when indirect round linkage misses the upcoming session', async () => {
@@ -33,6 +41,7 @@ describe('groupDiscussions.getByCourseSlug', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-test',
       courseId: 'course-1',
       decision: 'Accept',
     });
