@@ -4,8 +4,11 @@ import {
   courseTable,
   groupDiscussionTable,
   meetPersonTable,
+  userTable,
 } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import {
+  beforeEach, describe, expect, test,
+} from 'vitest';
 import {
   createCaller,
   setupTestDb,
@@ -18,6 +21,12 @@ setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+  await testDb.insert(userTable, { id: 'user-other', email: 'other@example.com', name: 'Other User' });
+});
 
 const NOW = Math.floor(Date.now() / 1000);
 const HOUR = 3600;
@@ -57,6 +66,7 @@ const seedMeetPerson = (id: string, applicationsBaseRecordId: string, expectedDi
   testDb.insert(meetPersonTable, {
     id,
     email: CALLER_EMAIL,
+    userId: 'user-1',
     applicationsBaseRecordId,
     role: 'Facilitator',
     expectedDiscussionsFacilitator,
@@ -80,6 +90,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-p',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Participant',
       decision: 'Accept',
@@ -106,6 +117,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Accept',
@@ -143,6 +155,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-w',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Withdrawn',
@@ -164,6 +177,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-other',
       email: 'other@example.com',
+      userId: 'user-other',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Accept',
@@ -188,6 +202,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -205,6 +220,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -238,6 +254,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -255,6 +272,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -270,6 +288,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -277,6 +296,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-2',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-next',
@@ -294,6 +314,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -312,6 +333,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-old',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',
@@ -322,6 +344,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-new',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-b',
@@ -356,6 +379,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-next',
@@ -371,6 +395,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',
@@ -410,6 +435,7 @@ describe('facilitatorApplications.quickApply', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-next',
@@ -423,6 +449,7 @@ describe('facilitatorApplications.quickApply', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',
@@ -440,6 +467,7 @@ describe('facilitatorApplications.quickApply', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',

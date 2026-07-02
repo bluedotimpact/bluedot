@@ -13,6 +13,7 @@ import {
   or,
   sql,
   unitTable,
+  userTable,
   zoomAccountTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
@@ -94,13 +95,18 @@ export const groupDiscussionsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${courseSlug}` });
       }
 
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       // Get all accepted course registrations for this course (not just the first),
       // so facilitators with discussions across multiple rounds see the soonest one
       const courseRegistrations = await db.pg
         .select()
         .from(courseRegistrationTable.pg)
         .where(and(
-          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.userId, user.id),
           eq(courseRegistrationTable.pg.courseId, course.id),
           eq(courseRegistrationTable.pg.decision, 'Accept'),
           or(

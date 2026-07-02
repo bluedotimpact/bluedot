@@ -1,9 +1,9 @@
 import {
   applicationsRoundTable, courseRegistrationTable, courseTable, eq, exerciseResponsePgTable, exerciseTable,
-  meetPersonTable, roundTable, selfServeCourseRegistrationTable,
+  meetPersonTable, roundTable, selfServeCourseRegistrationTable, userTable,
 } from '@bluedot/db';
 import {
-  describe, expect, test, vi,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
   createCaller, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
@@ -30,10 +30,16 @@ const TEST_CERT_TOKEN = 'test-token-secret';
 
 setupTestDb();
 
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await testDb.insert(userTable, { id: 'user-test', email: 'test@example.com', name: 'Test User' });
+  await testDb.insert(userTable, { id: 'user-other', email: 'someone-else@example.com', name: 'Someone Else' });
+});
+
 describe('certificates.createFacilitatedCourseCertificate (Airtable-script callable, shared-secret auth)', () => {
   test('throws UNAUTHORIZED when token is the wrong length (length mismatch short-circuits before timingSafeEqual)', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'c1',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'c1',
     });
 
     await expect(createCaller(testAuthContextLoggedOut).certificates.createFacilitatedCourseCertificate({
@@ -44,7 +50,7 @@ describe('certificates.createFacilitatedCourseCertificate (Airtable-script calla
 
   test('throws UNAUTHORIZED for a same-length but different token', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'c1',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'c1',
     });
 
     const sameLengthWrong = 'X'.repeat(TEST_CERT_TOKEN.length);
@@ -64,6 +70,7 @@ describe('certificates.createFacilitatedCourseCertificate (Airtable-script calla
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
+      userId: 'user-test',
       courseId: 'c1',
       certificateId: 'reg1',
       certificateCreatedAt: 1700000000,
@@ -81,7 +88,7 @@ describe('certificates.createFacilitatedCourseCertificate (Airtable-script calla
 
   test('issues a new certificate and persists certificateId/certificateCreatedAt', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'c1',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'c1',
     });
 
     const before = Math.floor(Date.now() / 1000);
@@ -111,9 +118,9 @@ describe('certificates.verifyOwnership', () => {
     expect(result).toEqual({ isOwner: false });
   });
 
-  test('finds certificates on the self-serve table, matching email case-insensitively', async () => {
+  test('returns { isOwner: true } when the self-serve registration userId matches the caller', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-reg-1', email: 'TEST@Example.com', courseId: FOAI_COURSE_ID, certificateId: 'cert-ss',
+      id: 'ss-reg-1', email: 'test@example.com', userId: 'user-test', courseId: FOAI_COURSE_ID, certificateId: 'cert-ss',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -125,7 +132,7 @@ describe('certificates.verifyOwnership', () => {
   // router is actually filtering on the certificateId column, not implicitly resolving by primary key.
   test('returns { isOwner: false } when the certificate belongs to someone else', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-someone-else', email: 'someone-else@example.com', courseId: 'c1', certificateId: 'cert-1',
+      id: 'reg-someone-else', email: 'someone-else@example.com', userId: 'user-other', courseId: 'c1', certificateId: 'cert-1',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -133,9 +140,9 @@ describe('certificates.verifyOwnership', () => {
     expect(result).toEqual({ isOwner: false });
   });
 
-  test('returns { isOwner: true } for the owner, case-insensitively', async () => {
+  test('returns { isOwner: true } when the facilitated registration userId matches the caller', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-owner', email: 'TEST@Example.com', courseId: 'c1', certificateId: 'cert-1',
+      id: 'reg-owner', email: 'test@example.com', userId: 'user-test', courseId: 'c1', certificateId: 'cert-1',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -186,6 +193,7 @@ describe('certificates.getStatus', () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
+      userId: 'user-test',
       courseId: FOAI_COURSE_ID,
       certificateId: 'cert-1',
       certificateCreatedAt: 1700000000,
@@ -216,6 +224,7 @@ describe('certificates.getStatus', () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
+      userId: 'user-test',
       courseId: FOAI_COURSE_ID,
       certificateId: 'cert-1',
       certificateCreatedAt: 1700000000,
@@ -227,7 +236,7 @@ describe('certificates.getStatus', () => {
 
   test('returns exercises-incomplete for FOAI registrations without a certificate', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
+      id: 'ss-reg-foai', email: 'test@example.com', userId: 'user-test', courseId: FOAI_COURSE_ID,
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
@@ -236,7 +245,7 @@ describe('certificates.getStatus', () => {
 
   test('returns not-eligible for non-FOAI registrations without a meetPerson record', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'rec-other', decision: 'Accept',
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
@@ -245,7 +254,7 @@ describe('certificates.getStatus', () => {
 
   test('returns action-plan-pending for non-FOAI Participants, with submission flag', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(roundTable, {
       id: 'round1', lastDiscussionDate: '2020-01-01',
@@ -269,7 +278,7 @@ describe('certificates.getStatus', () => {
 
   test('returns hasSubmittedActionPlan: false when projectSubmission is empty', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(meetPersonTable, {
       id: 'mp1', applicationsBaseRecordId: 'reg1', role: 'Participant', projectSubmission: [],
@@ -281,7 +290,7 @@ describe('certificates.getStatus', () => {
 
   test('returns is-facilitator for non-FOAI Facilitators', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(meetPersonTable, {
       id: 'mp1', applicationsBaseRecordId: 'reg1', role: 'Facilitator',
@@ -293,7 +302,7 @@ describe('certificates.getStatus', () => {
 
   test('returns not-eligible for an unrecognised meetPerson role', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(meetPersonTable, {
       id: 'mp1', applicationsBaseRecordId: 'reg1', role: 'Observer',
@@ -305,7 +314,7 @@ describe('certificates.getStatus', () => {
 
   test('returns attendance-ineligible when a participant misses more than one discussion', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
+      id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(roundTable, {
       id: 'round1', lastDiscussionDate: '2020-01-01',
@@ -343,14 +352,14 @@ describe('issueFoaiCertificateIfComplete', () => {
 
   test('issues the certificate on the self-serve row only', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+      id: 'ss-1', email: 'test@example.com', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+      id: 'reg-foai', email: 'test@example.com', userId: 'user-test', courseId: FOAI_COURSE_ID, decision: 'Accept',
     });
     await setupCompletedFoaiExercises('test@example.com');
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(true);
+    expect(await issueFoaiCertificateIfComplete(FOAI_USER_ID)).toBe(true);
 
     const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
       .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));
@@ -363,11 +372,11 @@ describe('issueFoaiCertificateIfComplete', () => {
   test('does nothing when no self-serve row exists', async () => {
     // Self-serve is authoritative post read-switch; a learner without a self-serve row can't be issued to.
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+      id: 'reg-foai', email: 'test@example.com', userId: 'user-test', courseId: FOAI_COURSE_ID, decision: 'Accept',
     });
     await setupCompletedFoaiExercises('test@example.com');
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(false);
+    expect(await issueFoaiCertificateIfComplete(FOAI_USER_ID)).toBe(false);
 
     const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
     expect(legacy.certificateId).toBeNull();
@@ -375,13 +384,13 @@ describe('issueFoaiCertificateIfComplete', () => {
 
   test('writes nothing when exercises are incomplete', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
+      id: 'reg-foai', email: 'test@example.com', userId: 'user-test', courseId: FOAI_COURSE_ID, decision: 'Accept',
     });
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
     });
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(false);
+    expect(await issueFoaiCertificateIfComplete(FOAI_USER_ID)).toBe(false);
 
     const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
     expect(legacy.certificateId).toBeNull();
@@ -390,7 +399,7 @@ describe('issueFoaiCertificateIfComplete', () => {
 
   test('issues the certificate even when an optional exercise is incomplete', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+      id: 'ss-1', email: 'test@example.com', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
     });
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Required', exerciseNumber: '1',
@@ -403,7 +412,7 @@ describe('issueFoaiCertificateIfComplete', () => {
       id: 'foai-ex-opt', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Optional', exerciseNumber: '2', isOptional: true,
     });
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(true);
+    expect(await issueFoaiCertificateIfComplete(FOAI_USER_ID)).toBe(true);
 
     const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
       .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));

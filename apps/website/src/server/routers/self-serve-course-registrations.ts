@@ -16,8 +16,15 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'BAD_REQUEST', message: 'Only the Future of AI course supports self-serve registration' });
     }
 
+    // The User row is created by a lagging login side-effect (oauth-callback). Fail before reading or
+    // writing anything so the client retries
+    const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+    if (!user) {
+      throw new TRPCError({ code: 'PRECONDITION_FAILED', message: 'User record not available yet' });
+    }
+
     const existingRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
-      filter: { email: ctx.auth.email, courseId },
+      filter: { userId: user.id, courseId },
       sortBy: 'createdAt',
     });
 
@@ -31,13 +38,6 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
     });
     if (!applicationsCourse) {
       throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
-    }
-
-    // The User row is created by a lagging login side-effect (oauth-callback). Fail before writing
-    // anything so the client retries
-    const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-    if (!user) {
-      throw new TRPCError({ code: 'PRECONDITION_FAILED', message: 'User record not available yet' });
     }
 
     return db.insert(selfServeCourseRegistrationTable, {

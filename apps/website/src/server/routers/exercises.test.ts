@@ -49,6 +49,7 @@ async function seedFacilitatorFlow() {
   await testDb.insert(courseRegistrationTable, {
     id: 'reg-facilitator',
     email: CALLER_EMAIL,
+    userId: 'user-1',
     courseId: 'course-1',
     decision: 'Accept',
     roundStatus: 'Active',
@@ -186,6 +187,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: FOAI_COURSE_ID,
     });
   }
@@ -244,7 +246,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
   test('does not auto-issue for non-FOAI courses', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-other', email: CALLER_EMAIL, courseId: 'rec-other', decision: 'Accept',
+      id: 'reg-other', email: CALLER_EMAIL, userId: 'user-1', courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(exerciseTable, {
       id: 'other-ex-1', courseId: 'rec-other', status: 'Active', title: 'Other', exerciseNumber: '1',
@@ -265,6 +267,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: FOAI_COURSE_ID,
       certificateId: 'ss-foai',
       certificateCreatedAt: 1700000000,
@@ -348,6 +351,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: 'Past',
@@ -378,6 +382,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: null,
@@ -409,6 +414,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: null,
@@ -427,6 +433,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: null,
@@ -461,6 +468,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: 'Active',
@@ -545,6 +553,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-facilitator',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: 'Active',

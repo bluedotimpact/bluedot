@@ -1,7 +1,8 @@
 import {
   applicationsRoundTable, courseRegistrationTable, inArray,
-  eq, and, or, ne, isNull,
+  eq, and, or, ne, isNull, userTable,
 } from '@bluedot/db';
+import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
@@ -12,9 +13,14 @@ export const courseRegistrationsRouter = router({
     .input(z.object({ courseId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { courseId } = input;
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       return db.getFirst(courseRegistrationTable, {
         filter: {
-          email: ctx.auth.email,
+          userId: user.id,
           courseId,
           decision: 'Accept',
         },
@@ -22,10 +28,15 @@ export const courseRegistrationsRouter = router({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
+    const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+    if (!user) {
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+    }
+
     return db.pg.select()
       .from(courseRegistrationTable.pg)
       .where(and(
-        eq(courseRegistrationTable.pg.email, ctx.auth.email),
+        eq(courseRegistrationTable.pg.userId, user.id),
         or(
           ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
           isNull(courseRegistrationTable.pg.decision),

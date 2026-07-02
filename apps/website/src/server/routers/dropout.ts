@@ -1,5 +1,5 @@
 import {
-  arrayOverlaps, COURSE_ROLE, courseRegistrationTable, dropoutTable, eq,
+  arrayOverlaps, COURSE_ROLE, courseRegistrationTable, dropoutTable, eq, userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -8,10 +8,15 @@ import { protectedProcedure, router } from '../trpc';
 
 export const dropoutRouter = router({
   getStatusForUser: protectedProcedure.query(async ({ ctx }) => {
+    const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+    if (!user) {
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+    }
+
     const regs = await db.pg
       .select({ id: courseRegistrationTable.pg.id })
       .from(courseRegistrationTable.pg)
-      .where(eq(courseRegistrationTable.pg.email, ctx.auth.email));
+      .where(eq(courseRegistrationTable.pg.userId, user.id));
     const regIds = regs.map((r) => r.id);
     if (regIds.length === 0) {
       return {};
@@ -56,10 +61,15 @@ export const dropoutRouter = router({
         applicantId, reason, type, newRoundId,
       } = input;
 
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
           id: applicantId,
-          email: ctx.auth.email,
+          userId: user.id,
         },
       });
       if (!courseRegistration) {

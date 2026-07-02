@@ -1,5 +1,7 @@
-import { groupTable, meetPersonTable } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import { groupTable, meetPersonTable, userTable } from '@bluedot/db';
+import {
+  beforeEach, describe, expect, test,
+} from 'vitest';
 import {
   createCaller,
   setupTestDb,
@@ -11,6 +13,11 @@ setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+});
 
 describe('meetPerson.getGroupParticipants', () => {
   test('throws NOT_FOUND when the group does not exist', async () => {
@@ -42,6 +49,7 @@ describe('meetPerson.getGroupParticipants', () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-me',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       applicationsBaseRecordId: 'reg-me',
       round: 'round-1',
       role: 'Participant',
@@ -78,6 +86,7 @@ describe('meetPerson.getGroupParticipants', () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-me-fac',
       email: CALLER_EMAIL,
+      userId: 'user-1',
       applicationsBaseRecordId: 'reg-me-fac',
       round: 'round-1',
       role: 'Facilitator',
