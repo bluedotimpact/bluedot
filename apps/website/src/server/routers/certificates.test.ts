@@ -312,6 +312,16 @@ describe('certificates.getStatus', () => {
     expect(result).toEqual({ status: 'not-eligible', hasUpcomingRounds: false });
   });
 
+  test('returns not-authenticated when a logged-in caller has no user row yet', async () => {
+    const authContextNoUserRow = {
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, email: 'no-row@example.com' },
+    };
+
+    const result = await createCaller(authContextNoUserRow).certificates.getStatus({ courseId: FOAI_COURSE_ID });
+    expect(result).toEqual({ status: 'not-authenticated', hasUpcomingRounds: false });
+  });
+
   test('returns attendance-ineligible when a participant misses more than one discussion', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', userId: 'user-test', courseId: 'rec-other', decision: 'Accept',

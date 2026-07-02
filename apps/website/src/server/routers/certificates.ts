@@ -180,7 +180,9 @@ export const certificatesRouter = router({
 
     const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
     if (!user) {
-      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      // users.ensureExists can lag behind login, leaving a logged-in caller with no user row yet
+      const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
+      return { status: 'not-authenticated', hasUpcomingRounds } as const;
     }
 
     // Future of AI is self-serve: it lives in its own table and never has rounds.
