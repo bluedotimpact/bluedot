@@ -9,6 +9,7 @@ import {
   groupDiscussionTable,
   inArray,
   meetPersonTable,
+  userTable,
 } from '@bluedot/db';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -163,6 +164,53 @@ const getEligiblePriorFacilitatorRegs = async (email: string, courseId: string, 
   }
 
   return priorRegs;
+};
+
+// Trims a name part, treating null/undefined/blank/whitespace-only as "no value".
+const cleanNamePart = (value: string | null | undefined): string | null => {
+  const trimmed = value?.trim();
+  if (!trimmed) return null;
+  return trimmed;
+};
+
+// Best-effort split of a single full-name string on the first space. The last name captures
+// everything after the first word, which is imperfect for multi-word given names but keeps the
+// first name (used in greetings) correct.
+const splitName = (name: string): { firstName: string; lastName: string | null } => {
+  const normalised = name.trim().replace(/\s+/g, ' ');
+  const spaceIndex = normalised.indexOf(' ');
+  if (spaceIndex === -1) return { firstName: normalised, lastName: null };
+  return { firstName: normalised.slice(0, spaceIndex), lastName: normalised.slice(spaceIndex + 1) };
+};
+
+// The quick-apply form doesn't capture the applicant's name. Prefer the split first/last from
+// their most recent prior application (any course/role) that recorded one — human-entered, so the
+// most accurate split. Otherwise fall back to the user account's single name field (always present
+// for a logged-in user), split on the first space. Leaves both null only if neither has a name.
+export const resolveApplicantName = async (email: string): Promise<{ firstName: string | null; lastName: string | null }> => {
+  const regs = await db.pg
+    .select({
+      firstName: courseRegistrationTable.pg.firstName,
+      lastName: courseRegistrationTable.pg.lastName,
+      autoNumberId: courseRegistrationTable.pg.autoNumberId,
+    })
+    .from(courseRegistrationTable.pg)
+    .where(eq(courseRegistrationTable.pg.email, email));
+
+  const named = [...regs]
+    .sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0))
+    .map((r) => ({ firstName: cleanNamePart(r.firstName), lastName: cleanNamePart(r.lastName) }))
+    .find((r) => r.firstName !== null || r.lastName !== null);
+  if (named) return named;
+
+  const [user] = await db.pg
+    .select({ name: userTable.pg.name })
+    .from(userTable.pg)
+    .where(eq(userTable.pg.email, email))
+    .limit(1);
+  if (user?.name) return splitName(user.name);
+
+  return { firstName: null, lastName: null };
 };
 
 // The resolved form of a prior application's answers: every field present (optional strings
@@ -345,8 +393,12 @@ export const facilitatorApplicationsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
       }
 
+      const { firstName, lastName } = await resolveApplicantName(ctx.auth.email);
+
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
+        firstName,
+        lastName,
         courseApplicationsBaseId: applicationsCourse.id,
         roundId: input.roundId,
         role: COURSE_ROLE.FACILITATOR,

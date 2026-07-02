@@ -4,6 +4,7 @@ import {
   courseTable,
   groupDiscussionTable,
   meetPersonTable,
+  userTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -13,6 +14,7 @@ import {
   testAuthContextLoggedOut,
   testDb,
 } from '../../__tests__/dbTestUtils';
+import { resolveApplicantName } from './facilitator-applications';
 
 setupTestDb();
 
@@ -446,5 +448,107 @@ describe('facilitatorApplications.quickApply', () => {
     });
     await seedRound('round-next', 'course-1', null);
     await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+});
+
+describe('resolveApplicantName', () => {
+  const seedUser = (email: string, name: string) => testDb.insert(userTable, { id: `user-${email}`, email, name });
+
+  test('returns null names when neither a prior application nor a user account has a name', async () => {
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: null, lastName: null });
+  });
+
+  test('prefers a prior application\'s split name over the user account', async () => {
+    await seedUser(CALLER_EMAIL, 'Account Name');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Participant',
+      firstName: 'Ada',
+      lastName: 'Lovelace',
+      autoNumberId: 1,
+    });
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Ada', lastName: 'Lovelace' });
+  });
+
+  test('prefers the most recent prior application that has a name', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-old',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Participant',
+      firstName: 'Ada',
+      lastName: 'Lovelace',
+      autoNumberId: 1,
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-new',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      firstName: 'Grace',
+      lastName: 'Hopper',
+      autoNumberId: 2,
+    });
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
+  });
+
+  test('trims surrounding whitespace on a prior application name', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Participant',
+      firstName: 'Caroline ',
+      lastName: ' Chitongo',
+      autoNumberId: 1,
+    });
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Caroline', lastName: 'Chitongo' });
+  });
+
+  test('ignores a prior application whose name is only whitespace and falls back to the user account', async () => {
+    await seedUser(CALLER_EMAIL, 'Grace Hopper');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-ws',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      firstName: '   ',
+      lastName: '',
+      autoNumberId: 5,
+    });
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
+  });
+
+  test('falls back to the user account name (split on first space) when no prior application has a name', async () => {
+    await seedUser(CALLER_EMAIL, 'Caroline Shamiso Chitongo');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-blank',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      autoNumberId: 2,
+    });
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Caroline', lastName: 'Shamiso Chitongo' });
+  });
+
+  test('splits a single-word user account name into a null last name', async () => {
+    await seedUser(CALLER_EMAIL, 'Cher');
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Cher', lastName: null });
+  });
+
+  test('does not read another user\'s name from either source', async () => {
+    await seedUser('other@example.com', 'Someone Else');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-other',
+      email: 'other@example.com',
+      courseId: 'course-1',
+      role: 'Participant',
+      firstName: 'Someone',
+      lastName: 'Else',
+      autoNumberId: 1,
+    });
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: null, lastName: null });
   });
 });
