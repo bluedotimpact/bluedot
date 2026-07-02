@@ -1477,6 +1477,11 @@ export const userTable = pgAirtable('user', {
       pgColumn: text().notNull(),
       airtableId: 'fldLAGRfn7S6uEVRo',
     },
+    // The `sub` property returned from Keycloak
+    keycloakIdentifier: {
+      pgColumn: text(),
+      airtableId: 'fldCC20cAsdKtl4mX',
+    },
     createdAt: {
       pgColumn: text(),
       airtableId: 'fld2AGYp0VLOz3Pg6',

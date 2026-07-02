@@ -37,6 +37,7 @@ const mockUser = {
   utmCampaign: null,
   utmContent: null,
   isAdmin: false,
+  keycloakIdentifier: null,
   allowedImpersonationTargets: null,
 };
 
