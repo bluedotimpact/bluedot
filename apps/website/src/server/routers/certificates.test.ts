@@ -118,9 +118,9 @@ describe('certificates.verifyOwnership', () => {
     expect(result).toEqual({ isOwner: false });
   });
 
-  test('finds certificates on the self-serve table, matching email case-insensitively', async () => {
+  test('returns { isOwner: true } when the self-serve registration userId matches the caller', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-reg-1', email: 'TEST@Example.com', userId: 'user-test', courseId: FOAI_COURSE_ID, certificateId: 'cert-ss',
+      id: 'ss-reg-1', email: 'test@example.com', userId: 'user-test', courseId: FOAI_COURSE_ID, certificateId: 'cert-ss',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -140,9 +140,9 @@ describe('certificates.verifyOwnership', () => {
     expect(result).toEqual({ isOwner: false });
   });
 
-  test('returns { isOwner: true } for the owner, case-insensitively', async () => {
+  test('returns { isOwner: true } when the facilitated registration userId matches the caller', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-owner', email: 'TEST@Example.com', userId: 'user-test', courseId: 'c1', certificateId: 'cert-1',
+      id: 'reg-owner', email: 'test@example.com', userId: 'user-test', courseId: 'c1', certificateId: 'cert-1',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
