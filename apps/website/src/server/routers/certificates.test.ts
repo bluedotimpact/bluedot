@@ -330,12 +330,14 @@ describe('certificates.getStatus', () => {
 });
 
 describe('issueFoaiCertificateIfComplete', () => {
+  const FOAI_USER_ID = 'user-foai';
+
   const setupCompletedFoaiExercises = async (email: string) => {
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', email, userId: [FOAI_USER_ID], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
   };
 
@@ -348,7 +350,7 @@ describe('issueFoaiCertificateIfComplete', () => {
     });
     await setupCompletedFoaiExercises('test@example.com');
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(true);
 
     const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
       .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));
@@ -365,7 +367,7 @@ describe('issueFoaiCertificateIfComplete', () => {
     });
     await setupCompletedFoaiExercises('test@example.com');
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(false);
+    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(false);
 
     const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
     expect(legacy.certificateId).toBeNull();
@@ -379,7 +381,7 @@ describe('issueFoaiCertificateIfComplete', () => {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
     });
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(false);
+    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(false);
 
     const legacy = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
     expect(legacy.certificateId).toBeNull();
@@ -394,14 +396,14 @@ describe('issueFoaiCertificateIfComplete', () => {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Required', exerciseNumber: '1',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: 'test@example.com', exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', email: 'test@example.com', userId: [FOAI_USER_ID], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
     // Optional exercise with no completed response — must not block the certificate.
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-opt', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Optional', exerciseNumber: '2', isOptional: true,
     });
 
-    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+    expect(await issueFoaiCertificateIfComplete('test@example.com', FOAI_USER_ID)).toBe(true);
 
     const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
       .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));

@@ -4,6 +4,7 @@ import {
   exerciseResponsePgTable,
   exerciseTable,
   unitTable,
+  userTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
@@ -147,6 +148,7 @@ describe('courses.getCurriculumMetadata', () => {
 
 describe('courses.getCourseProgress', () => {
   test('optional exercises count towards neither the total nor completion', async () => {
+    await testDb.insert(userTable, { id: 'user-1', email: 'test@example.com', name: 'Test User' });
     await seedCourse('prog');
     await seedUnit('up', 'prog', '1');
     await seedChunk('up-a', 'up', { exercises: ['ex-req', 'ex-opt'] });
@@ -155,7 +157,7 @@ describe('courses.getCourseProgress', () => {
 
     // Complete the optional exercise; it must not move the progress numbers.
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-opt', email: 'test@example.com', exerciseId: 'ex-opt', response: 'x', completedAt: '2026-01-01',
+      id: 'r-opt', email: 'test@example.com', userId: ['user-1'], exerciseId: 'ex-opt', response: 'x', completedAt: '2026-01-01',
     });
 
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'prog' });

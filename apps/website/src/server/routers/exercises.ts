@@ -1,6 +1,7 @@
 import {
   and,
   arrayContains,
+  arrayOverlaps,
   COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
@@ -8,7 +9,6 @@ import {
   eq,
   exerciseResponsePgTable,
   exerciseTable,
-  getFirstFromPg,
   groupTable,
   inArray,
   isNotNull,
@@ -34,10 +34,21 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const exerciseResponse = await getFirstFromPg(db.pg, exerciseResponsePgTable.pg, {
-        filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
-        sortBy: { field: 'createdAt', direction: 'desc' },
-      });
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
+      const [exerciseResponse] = await db.pg
+        .select()
+        .from(exerciseResponsePgTable.pg)
+        .where(and(
+          eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
+          arrayContains(exerciseResponsePgTable.pg.userId, [user.id]),
+        ))
+        .orderBy(desc(exerciseResponsePgTable.pg.createdAt))
+        .limit(1);
 
       return exerciseResponse ?? null;
     }),
@@ -56,16 +67,25 @@ export const exercisesRouter = router({
         completedAt = null;
       } // else undefined = "don't change"
 
-      const [existingResponse, exercise, user] = await Promise.all([
-        getFirstFromPg(db.pg, exerciseResponsePgTable.pg, {
-          filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
-          sortBy: { field: 'createdAt', direction: 'desc' },
-        }),
+      const [exercise, user] = await Promise.all([
         input.completed === true
           ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
           : Promise.resolve(undefined),
         db.getFirst(userTable, { filter: { email: ctx.auth.email } }),
       ]);
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
+      const [existingResponse] = await db.pg
+        .select()
+        .from(exerciseResponsePgTable.pg)
+        .where(and(
+          eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
+          arrayContains(exerciseResponsePgTable.pg.userId, [user.id]),
+        ))
+        .orderBy(desc(exerciseResponsePgTable.pg.createdAt))
+        .limit(1);
 
       const [exerciseResponse] = existingResponse
         ? await db.pg
@@ -86,14 +106,14 @@ export const exercisesRouter = router({
             // Airtable defaulted this field to now(); without Airtable it must be set in code
             createdAt: new Date().toISOString(),
             completedAt: completedAt ?? null,
-            userId: user ? [user.id] : null,
+            userId: [user.id],
           })
           .returning();
 
       if (!exerciseResponse) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
 
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
-        ? await issueFoaiCertificateIfComplete(ctx.auth.email)
+        ? await issueFoaiCertificateIfComplete(ctx.auth.email, user.id)
         : false;
 
       return { ...exerciseResponse, certificateIssued };
@@ -166,31 +186,33 @@ export const exercisesRouter = router({
       }
 
       const participants = await db.pg
-        .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name, email: meetPersonTable.pg.email })
+        .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name, userId: meetPersonTable.pg.userId })
         .from(meetPersonTable.pg)
         .where(inArray(meetPersonTable.pg.id, allParticipantIds));
 
       const participantById = new Map(participants.map((p) => [p.id, p]));
 
       // 6. Get completed responses for this exercise from all participants
-      const allEmails = participants.map((p) => p.email).filter(Boolean) as string[];
-      if (allEmails.length === 0) {
+      const participantUserIds = participants.map((p) => p.userId).filter(Boolean) as string[];
+      if (participantUserIds.length === 0) {
         return null;
       }
 
       const exerciseResponses = await db.pg
         .select({
-          email: exerciseResponsePgTable.pg.email,
+          userId: exerciseResponsePgTable.pg.userId,
           response: exerciseResponsePgTable.pg.response,
         })
         .from(exerciseResponsePgTable.pg)
         .where(and(
           eq(exerciseResponsePgTable.pg.exerciseId, input.exerciseId),
-          inArray(exerciseResponsePgTable.pg.email, allEmails),
+          arrayOverlaps(exerciseResponsePgTable.pg.userId, participantUserIds),
           isNotNull(exerciseResponsePgTable.pg.completedAt),
         ));
 
-      const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));
+      const responseByUserId = new Map(exerciseResponses
+        .map((r) => [r.userId?.[0], r.response] as const)
+        .filter((entry): entry is readonly [string, string] => entry[0] != null));
 
       // 7. Build per-group response data
       const groupData = groups.map((g) => {
@@ -198,11 +220,11 @@ export const exercisesRouter = router({
         const responses: { name: string; response: string }[] = [];
         for (const pid of groupParticipantIds) {
           const p = participantById.get(pid);
-          if (!p?.email) {
+          if (!p?.userId) {
             continue;
           }
 
-          const response = responseByEmail.get(p.email);
+          const response = responseByUserId.get(p.userId);
           if (response !== undefined) {
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             responses.push({ name: p.name || 'Anonymous', response });

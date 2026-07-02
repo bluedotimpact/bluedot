@@ -1,5 +1,6 @@
 import {
   and,
+  arrayContains,
   COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
@@ -23,7 +24,7 @@ import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
-async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
+async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
   const requiredExercises = await db.pg
     .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)
@@ -42,7 +43,7 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
     .select()
     .from(exerciseResponsePgTable.pg)
     .where(and(
-      eq(exerciseResponsePgTable.pg.email, email),
+      arrayContains(exerciseResponsePgTable.pg.userId, [userId]),
       inArray(exerciseResponsePgTable.pg.exerciseId, requiredExercises.map((e) => e.id)),
     ));
 
@@ -52,7 +53,7 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
   return requiredExercises.every((exercise) => completedExerciseIds.has(exercise.id));
 }
 
-export async function issueFoaiCertificateIfComplete(email: string): Promise<boolean> {
+export async function issueFoaiCertificateIfComplete(email: string, userId: string): Promise<boolean> {
   const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
     filter: { email, courseId: FOAI_COURSE_ID },
     sortBy: 'createdAt',
@@ -62,7 +63,7 @@ export async function issueFoaiCertificateIfComplete(email: string): Promise<boo
     return false;
   }
 
-  if (!(await areAllFoaiExercisesComplete(email))) {
+  if (!(await areAllFoaiExercisesComplete(userId))) {
     return false;
   }
 
