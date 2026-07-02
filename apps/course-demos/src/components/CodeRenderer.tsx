@@ -17,7 +17,7 @@ type CodeRendererProps = {
 const stripCodeFences = (raw: string): string => {
   return raw
     .trim()
-    .replace(/^```[^\n]*\n?/, '')
+    .replace(/^```\w*\n?/, '')
     .replace(/\n?```\s*$/, '');
 };
 
