@@ -57,6 +57,7 @@ describe('ImpersonationBadge', () => {
       utmCampaign: null,
       utmContent: null,
       isAdmin: null,
+      keycloakIdentifier: null,
       allowedImpersonationTargets: [],
     })));
 
@@ -89,6 +90,7 @@ describe('ImpersonationBadge', () => {
       utmCampaign: null,
       utmContent: null,
       isAdmin: null,
+      keycloakIdentifier: null,
       allowedImpersonationTargets: [],
     })));
 
