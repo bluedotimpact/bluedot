@@ -49,7 +49,10 @@ export default makeApiRoute({
   const res = rawRes as unknown as NextApiResponse<string>;
   const discussionId = getDiscussionId(req.query.discussionId);
 
-  const discussion = await db.get(groupDiscussionTable, { id: discussionId });
+  const [discussion, requestingUser] = await Promise.all([
+    db.get(groupDiscussionTable, { id: discussionId }),
+    db.getFirst(userTable, { filter: { email: auth.email } }),
+  ]);
   if (!discussion) {
     throw new createHttpError.NotFound('Discussion not found');
   }
@@ -74,8 +77,6 @@ export default makeApiRoute({
       OR: courseRegistrationIds.map((id) => ({ id })),
     })
     : [];
-
-  const requestingUser = await db.getFirst(userTable, { filter: { email: auth.email } });
 
   const allowedUserIds = new Set([
     ...meetPeople.map((meetPerson) => meetPerson.userId).filter((id): id is string => Boolean(id)),
