@@ -50,7 +50,7 @@ Please follow these requirements:
 3. Do not use any external libraries or any import statements. React is available as a global.
 4. Make the component follow responsive design principles
 5. Do not include any comments
-6. Return ONLY the component code without any explanation or backticks code block formatting
+6. Return ONLY raw component code. Do not wrap it in markdown code fences (no \`\`\`, no \`\`\`jsx), do not add any explanation and do not include a leading language label. Your response must start directly with the code.
 
 Example output:
 const Component = () => {

@@ -11,13 +11,23 @@ type CodeRendererProps = {
   hidePreview?: boolean;
 };
 
+// The model is instructed not to wrap output in markdown code fences, but it
+// sometimes ignores that. Strip them so the fenced text doesn't break the render.
+// Written to also handle partial output while the response is still streaming.
+const stripCodeFences = (raw: string): string => {
+  return raw
+    .trim()
+    .replace(/^```[^\n]*\n?/, '')
+    .replace(/\n?```\s*$/, '');
+};
+
 export const CodeRenderer: React.FC<CodeRendererProps> = ({ code, height, hidePreview = false }) => {
   const editorContainerRef = useRef<HTMLDivElement>(null);
   const files = {
     '/App.js': {
       code: `import React from 'react';
 
-${code}
+${stripCodeFences(code)}
 
 export default function App() {
   return (
