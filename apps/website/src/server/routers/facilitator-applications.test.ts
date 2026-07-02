@@ -538,6 +538,11 @@ describe('resolveApplicantName', () => {
     expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Cher', lastName: null });
   });
 
+  test('treats a whitespace-only user account name as missing', async () => {
+    await seedUser(CALLER_EMAIL, '   ');
+    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: null, lastName: null });
+  });
+
   test('does not read another user\'s name from either source', async () => {
     await seedUser('other@example.com', 'Someone Else');
     await testDb.insert(courseRegistrationTable, {

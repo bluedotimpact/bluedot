@@ -208,7 +208,8 @@ export const resolveApplicantName = async (email: string): Promise<{ firstName: 
     .from(userTable.pg)
     .where(eq(userTable.pg.email, email))
     .limit(1);
-  if (user?.name) return splitName(user.name);
+  const accountName = cleanNamePart(user?.name);
+  if (accountName) return splitName(accountName);
 
   return { firstName: null, lastName: null };
 };
