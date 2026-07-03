@@ -11,7 +11,6 @@ import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons';
 import { FOAI_COURSE_SLUG } from '../../../lib/constants';
-import { isRequiredExercise } from '../../../lib/exerciseStatus';
 import { trpc } from '../../../utils/trpc';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../../utils/optimisticCourseProgress';
 
@@ -97,7 +96,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         userId: previousResponse?.userId ?? null,
       });
 
-      const previousCourseProgress = newData.completed !== undefined && exerciseData && isRequiredExercise(exerciseData) ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
+      const previousCourseProgress = newData.completed !== undefined && exerciseData?.status === 'Core' ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
       return { previousResponse, previousCourseProgress };
     },
     onError(_err, _variables, mutationResult) {

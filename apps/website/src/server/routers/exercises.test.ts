@@ -192,10 +192,10 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   test('auto-issues a certificate when the final FOAI exercise is completed', async () => {
     await seedFoaiRegistration();
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Reading reflection', exerciseNumber: '1',
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Reading reflection', exerciseNumber: '1',
     });
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Action plan', exerciseNumber: '2',
+      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Action plan', exerciseNumber: '2',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
@@ -218,10 +218,10 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   test('does not auto-issue when other FOAI exercises remain incomplete', async () => {
     await seedFoaiRegistration();
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
     });
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 2', exerciseNumber: '2',
+      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 2', exerciseNumber: '2',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -240,7 +240,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       id: 'reg-other', email: CALLER_EMAIL, courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(exerciseTable, {
-      id: 'other-ex-1', courseId: 'rec-other', status: 'Active', title: 'Other', exerciseNumber: '1',
+      id: 'other-ex-1', courseId: 'rec-other', status: 'Core', title: 'Other', exerciseNumber: '1',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -263,7 +263,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       certificateCreatedAt: 1700000000,
     });
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -280,7 +280,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   test('does not auto-issue when completed is false (un-marking)', async () => {
     await seedFoaiRegistration();
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',

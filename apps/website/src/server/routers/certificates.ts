@@ -20,7 +20,6 @@ import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
-import { requiredExerciseCondition } from './courses';
 
 async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
   const requiredExercises = await db.pg
@@ -28,7 +27,7 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
     .from(exerciseTable.pg)
     .where(and(
       eq(exerciseTable.pg.courseId, FOAI_COURSE_ID),
-      requiredExerciseCondition(),
+      eq(exerciseTable.pg.status, 'Core'),
     ));
   if (requiredExercises.length === 0) {
     return false;

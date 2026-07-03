@@ -2,7 +2,6 @@ import type React from 'react';
 import { type unitResourceTable, type exerciseTable, type InferSelectModel } from '@bluedot/db';
 import { Collapsible, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { isOptionalExercise, isRequiredExercise } from '../../lib/exerciseStatus';
 import { ResourceListItem } from './ResourceListItem';
 import Exercise from './exercises/Exercise';
 import { trpc } from '../../utils/trpc';
@@ -83,8 +82,8 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   const coreResources = filterResourcesByType(resources, 'Core');
   const optionalResources = filterResourcesByType(resources, 'Further');
   const totalCoreResourceTime = calculateResourceTime(coreResources);
-  const requiredExercises = exercises.filter(isRequiredExercise);
-  const optionalExercises = exercises.filter(isOptionalExercise);
+  const requiredExercises = exercises.filter((exercise) => exercise.status === 'Core');
+  const optionalExercises = exercises.filter((exercise) => exercise.status === 'Further');
 
   // Generate unique IDs for ARIA labeling
   const unitContext = unitTitle && unitNumber ? `Unit ${unitNumber}: ${unitTitle}` : '';

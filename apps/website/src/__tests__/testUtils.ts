@@ -314,8 +314,7 @@ export const createMockExercise = (overrides: Partial<Exercise> = {}): Exercise 
   title: 'Exercise title',
   type: 'Free text',
   unitId: 'unit-1',
-  status: 'Active',
-  isOptional: false,
+  status: 'Core',
   computedNumResponses: null,
   ...overrides,
 });
