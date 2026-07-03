@@ -391,14 +391,24 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
 });
 
 describe('facilitatorApplications.quickApply', () => {
-  const validInput = { roundId: 'round-next', numGroupsToFacilitate: 2 };
+  const validInput = {
+    roundId: 'round-next',
+    numGroupsToFacilitate: 2,
+    availabilityIntervalsUTC: 'M16:00 M18:00',
+    availabilityTimezone: 'UTC+00:00',
+  };
 
   test('rejects unauthenticated callers', async () => {
     await expect(createCaller(testAuthContextLoggedOut).facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('rejects numGroupsToFacilitate below 1', async () => {
-    await expect(caller.facilitatorApplications.quickApply({ roundId: 'round-next', numGroupsToFacilitate: 0 })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    await expect(caller.facilitatorApplications.quickApply({ ...validInput, numGroupsToFacilitate: 0 })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  test('rejects missing availability', async () => {
+    // @ts-expect-error intentionally omit required availability fields to exercise server-side validation
+    await expect(caller.facilitatorApplications.quickApply({ roundId: 'round-next', numGroupsToFacilitate: 2 })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
   test('throws FORBIDDEN when the caller has not facilitated the course', async () => {
@@ -430,7 +440,7 @@ describe('facilitatorApplications.quickApply', () => {
       roundId: 'round-a',
     });
     await seedRound('round-closed', 'course-1', '2000-01-01');
-    await expect(caller.facilitatorApplications.quickApply({ roundId: 'round-closed', numGroupsToFacilitate: 2 })).rejects.toMatchObject({ code: 'NOT_FOUND' });
+    await expect(caller.facilitatorApplications.quickApply({ ...validInput, roundId: 'round-closed' })).rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
   // Validations pass (prior facilitator app exists, round open, not a duplicate), so the mutation
