@@ -390,11 +390,15 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
           </button>
         </div>
 
-        <Controller
-          control={control}
-          name="timeAv"
-          render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
-        />
+        <div className="flex flex-col gap-2">
+          <Controller
+            control={control}
+            name="timeAv"
+            rules={{ validate: (v) => Object.values(v).some(Boolean) || 'Select at least one time slot.' }}
+            render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
+          />
+          {errors.timeAv && <p className="text-size-xs text-red-600">{errors.timeAv.message}</p>}
+        </div>
 
         <div className="flex flex-col gap-3">
           <label htmlFor="availabilityComments" className="text-size-xs text-bluedot-navy font-semibold">
