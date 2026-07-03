@@ -1,6 +1,9 @@
 import { logger } from '@bluedot/ui/src/api';
+import { slackAlert } from '@bluedot/utils';
 import { getInstance } from './app';
 import env from './env';
+import { db } from './lib/db';
+import { assertAirtableLiveness } from './lib/airtable-liveness';
 import { startWebhooksAndProcessingUpdates, startAdminSyncCron } from './lib/cron';
 import { performFullSync } from './lib/scan';
 import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
@@ -30,6 +33,14 @@ const getInitialSyncTableNames = (args: string[]) => {
 const start = async () => {
   try {
     logger.info('Server starting...');
+
+    try {
+      await assertAirtableLiveness(db.airtableClient);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      await slackAlert(env, [`pg-sync-service: Airtable liveness check failed on startup: ${message}`]);
+      throw error;
+    }
 
     const hasInitialSyncFlag = process.argv.includes('--initial-sync');
     const hasInitialSyncTablesFlag = process.argv.includes('--initial-sync-tables');
