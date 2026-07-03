@@ -11,6 +11,7 @@ import {
   meetPersonTable,
   userTable,
 } from '@bluedot/db';
+import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
@@ -379,7 +380,16 @@ export const facilitatorApplicationsRouter = router({
   }),
 
   quickApply: protectedProcedure
-    .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }))
+    .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }).refine(
+      (v) => {
+        try {
+          return Object.values(utcIntervalStringToGrid(v.availabilityIntervalsUTC, v.availabilityTimezone)).some(Boolean);
+        } catch {
+          return false;
+        }
+      },
+      { message: 'Invalid availability', path: ['availabilityIntervalsUTC'] },
+    ))
     .mutation(async ({ ctx, input }) => {
       const { courseId } = await getOpenRound(input.roundId);
       await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);

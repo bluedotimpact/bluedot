@@ -411,6 +411,11 @@ describe('facilitatorApplications.quickApply', () => {
     await expect(caller.facilitatorApplications.quickApply({ roundId: 'round-next', numGroupsToFacilitate: 2 })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
+  test('rejects malformed availability strings', async () => {
+    await expect(caller.facilitatorApplications.quickApply({ ...validInput, availabilityTimezone: 'bad' })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    await expect(caller.facilitatorApplications.quickApply({ ...validInput, availabilityIntervalsUTC: '   ' })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
   test('throws FORBIDDEN when the caller has not facilitated the course', async () => {
     await seedCourse('course-1', 'tai', 'Technical AI Safety');
     await seedRound('round-next', 'course-1', null);
