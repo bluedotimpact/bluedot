@@ -2,6 +2,7 @@ import type {
   Chunk,
   Course,
   CourseRegistration,
+  Exercise,
   Group,
   GroupDiscussion,
   MeetPerson,
@@ -64,6 +65,7 @@ const MOCK_GROUP_ID = 'group-id';
 const MOCK_MEET_PERSON_ID = 'meet-person-id';
 const MOCK_RESOURCE_ID = 'resource-id';
 const MOCK_RESOURCE_COMPLETION_ID = 'resource-completion-id';
+const MOCK_EXERCISE_ID = 'exercise-id';
 
 /** Default Programs router output for tests that render the Nav. */
 export const MOCK_NAV_PROGRAMS: Program[] = [
@@ -301,6 +303,22 @@ export const createMockRound = (overrides: Partial<CourseRound> = {}): CourseRou
     ...overrides,
   };
 };
+
+export const createMockExercise = (overrides: Partial<Exercise> = {}): Exercise => ({
+  id: MOCK_EXERCISE_ID,
+  answer: null,
+  courseId: 'course-id',
+  exerciseNumber: '1',
+  description: 'Exercise description',
+  options: null,
+  title: 'Exercise title',
+  type: 'Free text',
+  unitId: 'unit-1',
+  status: 'Active',
+  isOptional: false,
+  computedNumResponses: null,
+  ...overrides,
+});
 
 export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
   email: '',

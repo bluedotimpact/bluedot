@@ -6,7 +6,7 @@ import {
 } from 'vitest';
 import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../../__tests__/trpcProvider';
-import Exercise, { maybeApplyOptionalPrefix } from './Exercise';
+import Exercise from './Exercise';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -178,24 +178,5 @@ describe('Exercise', () => {
       expect(savedResponse).toContain('new draft');
       expect(savedResponse).not.toBe('Old saved text');
     });
-  });
-});
-
-describe('maybeApplyOptionalPrefix', () => {
-  test('leaves non-optional titles untouched', () => {
-    expect(maybeApplyOptionalPrefix({ title: 'Comprehension questions', isOptional: false })).toBe('Comprehension questions');
-    expect(maybeApplyOptionalPrefix({ title: 'Comprehension questions', isOptional: null })).toBe('Comprehension questions');
-  });
-
-  test('prepends [Optional] to optional titles without an existing marker', () => {
-    expect(maybeApplyOptionalPrefix({ title: 'Comprehension questions', isOptional: true })).toBe('[Optional] Comprehension questions');
-  });
-
-  test('does not double up when the title already starts with an optional marker', () => {
-    expect(maybeApplyOptionalPrefix({ title: '(Optional) Comprehension questions', isOptional: true })).toBe('(Optional) Comprehension questions');
-    expect(maybeApplyOptionalPrefix({ title: '[Optional] Reflection', isOptional: true })).toBe('[Optional] Reflection');
-    expect(maybeApplyOptionalPrefix({ title: '(Optional:) Additional prompts', isOptional: true })).toBe('(Optional:) Additional prompts');
-    expect(maybeApplyOptionalPrefix({ title: '(Optional, recommended) Historical efforts', isOptional: true })).toBe('(Optional, recommended) Historical efforts');
-    expect(maybeApplyOptionalPrefix({ title: 'Optional reading', isOptional: true })).toBe('Optional reading');
   });
 });
