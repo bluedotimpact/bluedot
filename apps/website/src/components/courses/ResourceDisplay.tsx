@@ -129,7 +129,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
           >
             Exercises
           </h4>
-          <div className="resource-display__exercises flex flex-col gap-6" aria-labelledby={exercisesHeadingId}>
+          <div className="flex flex-col gap-6" aria-labelledby={exercisesHeadingId}>
             {requiredExercises.map((exercise) => (
               <Exercise
                 key={exercise.id}
@@ -145,7 +145,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
       {/* Optional Resources */}
       {optionalResources.length > 0 && (
-        <section className="resource-display__optional mt-8">
+        <section className="mt-8">
           <Collapsible title="Optional Resources" summaryClassName="justify-start gap-2">
             <ul className="flex flex-col gap-6" aria-label="Optional resources">
               {optionalResources.map((resource) => (
@@ -162,7 +162,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
       {/* Optional Exercises */}
       {optionalExercises.length > 0 && (
-        <section className="resource-display__optional-exercises mt-8">
+        <section className="mt-8">
           <Collapsible title="Optional Exercises" summaryClassName="justify-start gap-2">
             <div className="flex flex-col gap-6" aria-label="Optional exercises">
               {optionalExercises.map((exercise) => (
