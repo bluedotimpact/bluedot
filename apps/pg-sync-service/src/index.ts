@@ -38,7 +38,14 @@ const start = async () => {
       await assertAirtableLiveness(db.airtableClient);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      await slackAlert(env, [`pg-sync-service: Airtable liveness check failed on startup: ${message}`]);
+      // Best-effort alert, but never let a stalled Slack request block the process
+      // from failing fast: cap the wait so we always fall through to `throw` → exit.
+      await Promise.race([
+        slackAlert(env, [`pg-sync-service: Airtable liveness check failed on startup: ${message}`]),
+        new Promise((resolve) => {
+          setTimeout(resolve, 5000);
+        }),
+      ]).catch(() => {});
       throw error;
     }
 
