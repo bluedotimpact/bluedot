@@ -7,10 +7,6 @@ vi.mock('@bluedot/ui/src/api', () => ({
   logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
 }));
 
-vi.mock('@bluedot/db', () => ({
-  courseTable: { airtable: { baseId: 'base', tableId: 'table', schema: {} } },
-}));
-
 // Minimal stand-in for the AirtableTs client; only scan() is exercised.
 const makeClient = (scan: ReturnType<typeof vi.fn>) => ({ scan }) as unknown as Parameters<typeof assertAirtableLiveness>[0];
 
