@@ -1,6 +1,9 @@
 import { logger } from '@bluedot/ui/src/api';
+import { slackAlert } from '@bluedot/utils';
 import { getInstance } from './app';
 import env from './env';
+import { db } from './lib/db';
+import { assertAirtableLiveness } from './lib/airtable-liveness';
 import { startWebhooksAndProcessingUpdates, startAdminSyncCron } from './lib/cron';
 import { performFullSync } from './lib/scan';
 import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
@@ -30,6 +33,21 @@ const getInitialSyncTableNames = (args: string[]) => {
 const start = async () => {
   try {
     logger.info('Server starting...');
+
+    try {
+      await assertAirtableLiveness(db.airtableClient);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      // Best-effort alert, but never let a stalled Slack request block the process
+      // from failing fast: cap the wait so we always fall through to `throw` → exit.
+      await Promise.race([
+        slackAlert(env, [`pg-sync-service: Airtable liveness check failed on startup: ${message}`]),
+        new Promise((resolve) => {
+          setTimeout(resolve, 5000);
+        }),
+      ]).catch(() => {});
+      throw error;
+    }
 
     const hasInitialSyncFlag = process.argv.includes('--initial-sync');
     const hasInitialSyncTablesFlag = process.argv.includes('--initial-sync-tables');
