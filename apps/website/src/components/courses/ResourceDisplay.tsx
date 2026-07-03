@@ -2,6 +2,7 @@ import type React from 'react';
 import { type unitResourceTable, type exerciseTable, type InferSelectModel } from '@bluedot/db';
 import { Collapsible, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
+import { isOptionalExercise, isRequiredExercise } from '../../lib/exerciseStatus';
 import { ResourceListItem } from './ResourceListItem';
 import Exercise from './exercises/Exercise';
 import { trpc } from '../../utils/trpc';
@@ -82,6 +83,8 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   const coreResources = filterResourcesByType(resources, 'Core');
   const optionalResources = filterResourcesByType(resources, 'Further');
   const totalCoreResourceTime = calculateResourceTime(coreResources);
+  const requiredExercises = exercises.filter(isRequiredExercise);
+  const optionalExercises = exercises.filter(isOptionalExercise);
 
   // Generate unique IDs for ARIA labeling
   const unitContext = unitTitle && unitNumber ? `Unit ${unitNumber}: ${unitTitle}` : '';
@@ -118,7 +121,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
       )}
 
       {/* Exercises */}
-      {exercises.length > 0 && (
+      {requiredExercises.length > 0 && (
         <section className={`${coreResources.length > 0 ? 'mt-8' : ''}`}>
           <h4
             id={exercisesHeadingId}
@@ -126,8 +129,8 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
           >
             Exercises
           </h4>
-          <div className="resource-display__exercises flex flex-col gap-6" aria-labelledby={exercisesHeadingId}>
-            {exercises.map((exercise) => (
+          <div className="flex flex-col gap-6" aria-labelledby={exercisesHeadingId}>
+            {requiredExercises.map((exercise) => (
               <Exercise
                 key={exercise.id}
                 exerciseId={exercise.id}
@@ -142,7 +145,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
       {/* Optional Resources */}
       {optionalResources.length > 0 && (
-        <section className="resource-display__optional mt-8">
+        <section className="mt-8">
           <Collapsible title="Optional Resources" summaryClassName="justify-start gap-2">
             <ul className="flex flex-col gap-6" aria-label="Optional resources">
               {optionalResources.map((resource) => (
@@ -153,6 +156,25 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 />
               ))}
             </ul>
+          </Collapsible>
+        </section>
+      )}
+
+      {/* Optional Exercises */}
+      {optionalExercises.length > 0 && (
+        <section className="mt-8">
+          <Collapsible title="Optional Exercises" summaryClassName="justify-start gap-2">
+            <div className="flex flex-col gap-6" aria-label="Optional exercises">
+              {optionalExercises.map((exercise) => (
+                <Exercise
+                  key={exercise.id}
+                  exerciseId={exercise.id}
+                  courseSlug={courseSlug}
+                  unitNumber={unitNumber}
+                  chunkIndex={chunkIndex}
+                />
+              ))}
+            </div>
           </Collapsible>
         </section>
       )}

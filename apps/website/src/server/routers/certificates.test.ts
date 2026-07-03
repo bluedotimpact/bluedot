@@ -407,4 +407,50 @@ describe('issueFoaiCertificateIfComplete', () => {
       .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));
     expect(selfServe?.certificateId).toBe('ss-1');
   });
+
+  test('issues the certificate even when a Further or Maybe exercise is incomplete', async () => {
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Required', exerciseNumber: '1',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-1', email: 'test@example.com', exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+    });
+    // Further/Maybe exercises with no completed response — must not block the certificate.
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-further', courseId: FOAI_COURSE_ID, status: 'Further', title: 'Further', exerciseNumber: '2',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-maybe', courseId: FOAI_COURSE_ID, status: 'Maybe', title: 'Maybe', exerciseNumber: '3',
+    });
+
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+
+    const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
+      .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));
+    expect(selfServe?.certificateId).toBe('ss-1');
+  });
+
+  test('does not issue the certificate while a Core exercise is incomplete, and issues once it is completed', async () => {
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-1', email: 'test@example.com', courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-core', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Core', exerciseNumber: '1',
+    });
+
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(false);
+
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-core', email: 'test@example.com', exerciseId: 'foai-ex-core', response: 'done', completedAt: '2026-01-01',
+    });
+
+    expect(await issueFoaiCertificateIfComplete('test@example.com')).toBe(true);
+
+    const [selfServe] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
+      .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-1'));
+    expect(selfServe?.certificateId).toBe('ss-1');
+  });
 });

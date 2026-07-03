@@ -246,7 +246,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       ? db.pg
         .select()
         .from(exerciseTable.pg)
-        .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, chunkExerciseIds)))
+        .where(and(inArray(exerciseTable.pg.status, ['Active', 'Core', 'Further']), inArray(exerciseTable.pg.id, chunkExerciseIds)))
       : [],
   ]);
 

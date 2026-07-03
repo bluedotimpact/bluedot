@@ -143,6 +143,36 @@ describe('courses.getCurriculumMetadata', () => {
       unitId: 'uo1', unitNumber: '1', duration: null, exerciseCount: 1,
     }]);
   });
+
+  test('Core status counts toward the exercise count like Active+required', async () => {
+    await seedCourse('core');
+    await seedUnit('uc1', 'core', '1');
+    await seedChunk('uc1-a', 'uc1', { title: 'Reading', exercises: ['ex-core'] });
+    await seedExercise('ex-core', 'Core');
+
+    const result = await caller.courses.getCurriculumMetadata({ courseSlug: 'core' });
+
+    expect(result).toEqual([{
+      unitId: 'uc1', unitNumber: '1', duration: null, exerciseCount: 1,
+    }]);
+  });
+
+  test('Further, Maybe, and Inactive statuses are excluded from the exercise count', async () => {
+    await seedCourse('nonreq');
+    await seedUnit('un1', 'nonreq', '1');
+    await seedChunk('un1-a', 'un1', {
+      title: 'Reading', exercises: ['ex-further', 'ex-maybe', 'ex-inactive'],
+    });
+    await seedExercise('ex-further', 'Further');
+    await seedExercise('ex-maybe', 'Maybe');
+    await seedExercise('ex-inactive', 'Inactive');
+
+    const result = await caller.courses.getCurriculumMetadata({ courseSlug: 'nonreq' });
+
+    expect(result).toEqual([{
+      unitId: 'un1', unitNumber: '1', duration: null, exerciseCount: 0,
+    }]);
+  });
 });
 
 describe('courses.getCourseProgress', () => {
@@ -159,6 +189,42 @@ describe('courses.getCourseProgress', () => {
     });
 
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'prog' });
+
+    expect(courseProgress).toEqual({ totalCount: 1, completedCount: 0, percentage: 0 });
+  });
+
+  test('Core-status exercises count toward progress like Active+required', async () => {
+    await seedCourse('core-prog');
+    await seedUnit('ucp', 'core-prog', '1');
+    await seedChunk('ucp-a', 'ucp', { exercises: ['ex-core'] });
+    await seedExercise('ex-core', 'Core');
+
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'r-core', email: 'test@example.com', exerciseId: 'ex-core', response: 'x', completedAt: '2026-01-01',
+    });
+
+    const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'core-prog' });
+
+    expect(courseProgress).toEqual({ totalCount: 1, completedCount: 1, percentage: 100 });
+  });
+
+  test('Further and Maybe statuses count towards neither the total nor completion', async () => {
+    await seedCourse('further-prog');
+    await seedUnit('ufp', 'further-prog', '1');
+    await seedChunk('ufp-a', 'ufp', { exercises: ['ex-req', 'ex-further', 'ex-maybe'] });
+    await seedExercise('ex-req');
+    await seedExercise('ex-further', 'Further');
+    await seedExercise('ex-maybe', 'Maybe');
+
+    // Complete the non-required exercises; they must not move the progress numbers.
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'r-further', email: 'test@example.com', exerciseId: 'ex-further', response: 'x', completedAt: '2026-01-01',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'r-maybe', email: 'test@example.com', exerciseId: 'ex-maybe', response: 'x', completedAt: '2026-01-01',
+    });
+
+    const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'further-prog' });
 
     expect(courseProgress).toEqual({ totalCount: 1, completedCount: 0, percentage: 0 });
   });
