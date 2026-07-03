@@ -155,7 +155,7 @@ const Section = ({
   children,
 }: {
   label: string;
-  title: string;
+  title: React.ReactNode;
   description?: string;
   children: React.ReactNode;
 }) => (
@@ -360,7 +360,11 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
 
       <Section
         label="Your availability"
-        title="Share your availability"
+        title={(
+          <>
+            Share your availability <span className="text-red-600">*</span>
+          </>
+        )}
         description="Provide your availability so we can schedule your discussions at times that suit you. It'll be saved as a default for your next application."
       >
         <div className="flex items-end justify-between gap-4">
