@@ -11,6 +11,7 @@ import {
   meetPersonTable,
   userTable,
 } from '@bluedot/db';
+import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
@@ -91,8 +92,8 @@ const facilitatorApplicationAnswersSchema = z.object({
   impressiveProject: z.string().optional(),
   motivationToFacilitate: z.string().optional(),
   prevFacilitationExperience: z.string().optional(),
-  availabilityIntervalsUTC: z.string().optional(),
-  availabilityTimezone: z.string().optional(),
+  availabilityIntervalsUTC: z.string().min(1),
+  availabilityTimezone: z.string().min(1),
   availabilityComments: z.string().optional(),
 });
 
@@ -379,7 +380,16 @@ export const facilitatorApplicationsRouter = router({
   }),
 
   quickApply: protectedProcedure
-    .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }))
+    .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }).refine(
+      (v) => {
+        try {
+          return Object.values(utcIntervalStringToGrid(v.availabilityIntervalsUTC, v.availabilityTimezone)).some(Boolean);
+        } catch {
+          return false;
+        }
+      },
+      { message: 'Invalid availability', path: ['availabilityIntervalsUTC'] },
+    ))
     .mutation(async ({ ctx, input }) => {
       const { courseId } = await getOpenRound(input.roundId);
       await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);
@@ -412,8 +422,8 @@ export const facilitatorApplicationsRouter = router({
         impressiveProject: input.impressiveProject ?? null,
         motivationToFacilitate: input.motivationToFacilitate ?? null,
         prevFacilitationExperience: input.prevFacilitationExperience ?? null,
-        availabilityIntervalsUTC: input.availabilityIntervalsUTC ?? null,
-        availabilityTimezone: input.availabilityTimezone ?? null,
+        availabilityIntervalsUTC: input.availabilityIntervalsUTC,
+        availabilityTimezone: input.availabilityTimezone,
         availabilityComments: input.availabilityComments ?? null,
       });
     }),

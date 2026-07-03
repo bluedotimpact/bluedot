@@ -155,7 +155,7 @@ const Section = ({
   children,
 }: {
   label: string;
-  title: string;
+  title: React.ReactNode;
   description?: string;
   children: React.ReactNode;
 }) => (
@@ -252,11 +252,6 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
   const quickApply = trpc.facilitatorApplications.quickApply.useMutation();
 
   const onSubmit = (values: FormValues) => {
-    const hasAvailability = Object.values(values.timeAv).some(Boolean);
-    const availabilityIntervalsUTC = hasAvailability
-      ? gridToUtcIntervalString(values.timeAv, values.timezone)
-      : undefined;
-
     quickApply.mutate(
       {
         roundId,
@@ -267,8 +262,8 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
         impressiveProject: emptyToUndefined(values.impressiveProject),
         motivationToFacilitate: emptyToUndefined(values.motivationToFacilitate),
         prevFacilitationExperience: emptyToUndefined(values.prevFacilitationExperience),
-        availabilityIntervalsUTC,
-        availabilityTimezone: hasAvailability ? values.timezone : undefined,
+        availabilityIntervalsUTC: gridToUtcIntervalString(values.timeAv, values.timezone),
+        availabilityTimezone: values.timezone,
         availabilityComments: emptyToUndefined(values.availabilityComments),
       },
       {
@@ -360,7 +355,11 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
 
       <Section
         label="Your availability"
-        title="Share your availability"
+        title={(
+          <>
+            Share your availability <span className="text-red-600">*</span>
+          </>
+        )}
         description="Provide your availability so we can schedule your discussions at times that suit you. It'll be saved as a default for your next application."
       >
         <div className="flex items-end justify-between gap-4">
@@ -391,11 +390,15 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
           </button>
         </div>
 
-        <Controller
-          control={control}
-          name="timeAv"
-          render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
-        />
+        <div className="flex flex-col gap-2">
+          <Controller
+            control={control}
+            name="timeAv"
+            rules={{ validate: (v) => Object.values(v).some(Boolean) || 'Select at least one time slot.' }}
+            render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
+          />
+          {errors.timeAv && <p className="text-size-xs text-red-600">{errors.timeAv.message}</p>}
+        </div>
 
         <div className="flex flex-col gap-3">
           <label htmlFor="availabilityComments" className="text-size-xs text-bluedot-navy font-semibold">
