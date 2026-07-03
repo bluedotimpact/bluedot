@@ -252,11 +252,6 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
   const quickApply = trpc.facilitatorApplications.quickApply.useMutation();
 
   const onSubmit = (values: FormValues) => {
-    const hasAvailability = Object.values(values.timeAv).some(Boolean);
-    const availabilityIntervalsUTC = hasAvailability
-      ? gridToUtcIntervalString(values.timeAv, values.timezone)
-      : undefined;
-
     quickApply.mutate(
       {
         roundId,
@@ -267,8 +262,8 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
         impressiveProject: emptyToUndefined(values.impressiveProject),
         motivationToFacilitate: emptyToUndefined(values.motivationToFacilitate),
         prevFacilitationExperience: emptyToUndefined(values.prevFacilitationExperience),
-        availabilityIntervalsUTC,
-        availabilityTimezone: hasAvailability ? values.timezone : undefined,
+        availabilityIntervalsUTC: gridToUtcIntervalString(values.timeAv, values.timezone),
+        availabilityTimezone: values.timezone,
         availabilityComments: emptyToUndefined(values.availabilityComments),
       },
       {
