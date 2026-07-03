@@ -1,24 +1,19 @@
 import { userTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { loginPresets } from '@bluedot/ui';
+import z from 'zod';
 import db from '../../lib/api/db';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
-import { createUserSchema, updateNameSchema } from '../../lib/schemas/user/me.schema';
-import { protectedProcedure, router } from '../trpc';
+import { updateNameSchema } from '../../lib/schemas/user/me.schema';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const usersRouter = router({
   getUser: protectedProcedure
     .query(async ({ ctx }) => {
-      const existingUser = await db.getFirst(userTable, {
-        filter: { email: ctx.auth.email },
-      });
-      if (!existingUser) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
-      }
-
       // Update lastSeenAt timestamp
       return db.update(userTable, {
-        id: existingUser.id,
+        id: ctx.user.id,
         lastSeenAt: new Date().toISOString(),
       });
     }),
@@ -48,14 +43,28 @@ export const usersRouter = router({
       };
     }),
 
-  ensureExists: protectedProcedure
-    .input(createUserSchema)
-    .mutation(async ({ input, ctx }) => {
-      const { sub } = ctx.auth;
+  // publicProcedure because it runs before login completes, so the token isn't in the auth store yet
+  ensureExists: publicProcedure
+    .input(z.object({
+      token: z.string().min(1),
+      initialUtmSource: z.string().trim().max(255).nullish(),
+      initialUtmCampaign: z.string().trim().max(255).nullish(),
+      initialUtmContent: z.string().trim().max(255).nullish(),
+    }))
+    .mutation(async ({ input }) => {
+      let auth;
+      try {
+        // Must verify against the same login preset the oauth-callback page authenticates with
+        auth = await loginPresets.keycloak.verifyAndDecodeToken(input.token);
+      } catch {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid login token' });
+      }
+
+      const { sub } = auth;
 
       const [existingUserByEmail, existingUserByKeycloakIdentifier] = await Promise.all([
         db.getFirst(userTable, {
-          filter: { email: ctx.auth.email },
+          filter: { email: auth.email },
         }),
         // Skip the keycloakIdentifier lookup if `sub` is somehow empty so we never persist an empty identifier
         sub
@@ -83,12 +92,13 @@ export const usersRouter = router({
       } else {
         // Create user if doesn't exist
         await db.insert(userTable, {
-          email: ctx.auth.email,
+          email: auth.email,
+          name: '',
           ...(sub && { keycloakIdentifier: sub }),
           lastSeenAt: new Date().toISOString(),
-          ...(input?.initialUtmSource && { utmSource: input.initialUtmSource }),
-          ...(input?.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),
-          ...(input?.initialUtmContent && { utmContent: input.initialUtmContent }),
+          ...(input.initialUtmSource && { utmSource: input.initialUtmSource }),
+          ...(input.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),
+          ...(input.initialUtmContent && { utmContent: input.initialUtmContent }),
         });
       }
 
@@ -100,16 +110,8 @@ export const usersRouter = router({
   updateName: protectedProcedure
     .input(updateNameSchema)
     .mutation(async ({ ctx, input }) => {
-      const existingUser = await db.getFirst(userTable, {
-        filter: { email: ctx.auth.email },
-      });
-
-      if (!existingUser) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
-      }
-
       return db.update(userTable, {
-        id: existingUser.id,
+        id: ctx.user.id,
         name: input.name,
       });
     }),

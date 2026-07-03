@@ -15,7 +15,11 @@ export type LoginPageProps = {
 };
 
 export type LoginOauthCallbackPageProps = LoginPageProps & {
-  onLoginComplete?: (auth: Auth, redirectTo: string) => Promise<void>;
+  /**
+   * Runs after the OIDC response is validated but before auth is persisted to the store.
+   * Throwing aborts the login (shows the error page) and auth is never saved.
+   */
+  onBeforeAuthPersist?: (auth: Auth, redirectTo: string) => Promise<void>;
 };
 
 const verifyJwt = async (
@@ -222,7 +226,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
   return <ProgressDots />;
 };
 
-export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ loginPreset, onLoginComplete }) => {
+export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ loginPreset, onBeforeAuthPersist }) => {
   const [error, setError] = useState<undefined | React.ReactNode | Error>();
   const setAuth = useAuthStore((s) => s.setAuth);
   const router = useRouter();
@@ -257,14 +261,14 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
           email: user.profile.email,
         };
 
-        setAuth(auth);
-
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const redirectTo = (user.userState as { redirectTo?: string }).redirectTo || '/';
 
-        if (onLoginComplete) {
-          await onLoginComplete(auth, redirectTo);
+        if (onBeforeAuthPersist) {
+          await onBeforeAuthPersist(auth, redirectTo);
         }
+
+        setAuth(auth);
 
         router.push(redirectTo);
       } catch (err) {
@@ -276,7 +280,7 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
       hasEverMounted.current = true;
       signinUser();
     }
-  }, [loginPreset.oidcSettings, onLoginComplete, router, setAuth]);
+  }, [loginPreset.oidcSettings, onBeforeAuthPersist, router, setAuth]);
 
   if (error) {
     return <ErrorSection error={error} />;

@@ -3,7 +3,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { unstable_localLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
-import { pushTestSchema, resetTestDb, type TestPgAirtableDb } from '@bluedot/db';
+import {
+  pushTestSchema, resetTestDb, type TestPgAirtableDb, userTable,
+} from '@bluedot/db';
 import type { AppRouter } from '../server/routers/_app';
 import type { Context } from '../server/context';
 import { appRouter } from '../server/routers/_app';
@@ -43,6 +45,13 @@ export function setupTestDb() {
     await resetTestDb(db);
   });
 }
+
+// Seeds the userTable row for `testAuthContextLoggedIn`, required by protectedProcedure
+export const seedLoggedInUser = () => testDb.insert(userTable, {
+  id: 'test-user',
+  email: 'test@example.com',
+  name: 'Test User',
+});
 
 // Server-side caller, for router tests that don't render components
 export const createCaller = (ctx: Context = testAuthContextLoggedOut) => appRouter.createCaller(ctx);

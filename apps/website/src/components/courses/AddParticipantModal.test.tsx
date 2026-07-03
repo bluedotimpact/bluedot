@@ -6,14 +6,15 @@ import {
   courseTable, groupTable, meetPersonTable, roundTable,
 } from '@bluedot/db';
 import {
-  describe, expect, test, vi,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn, testDb,
+  createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 import AddParticipantModal from './AddParticipantModal';
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 const FACILITATOR = 'rec-facilitator';
 const GROUP = 'rec-group';

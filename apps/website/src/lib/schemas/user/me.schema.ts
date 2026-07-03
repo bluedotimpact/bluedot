@@ -1,11 +1,5 @@
 import z from 'zod';
 
-export const createUserSchema = z.object({
-  initialUtmSource: z.string().trim().max(255).nullish(),
-  initialUtmCampaign: z.string().trim().max(255).nullish(),
-  initialUtmContent: z.string().trim().max(255).nullish(),
-}).optional();
-
 export const updateNameSchema = z.object({
   name: z.string()
     .trim()

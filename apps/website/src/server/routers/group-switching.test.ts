@@ -9,16 +9,17 @@ import {
   groupSwitchingTable,
 } from '@bluedot/db';
 import {
-  describe, expect, it, test,
+  beforeEach, describe, expect, it, test,
 } from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
 import {
-  setupTestDb, createCaller, testAuthContextLoggedIn, testDb,
+  setupTestDb, createCaller, seedLoggedInUser, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 import { calculateGroupAvailability, getAvailableGroupsAndDiscussions } from './group-switching';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);

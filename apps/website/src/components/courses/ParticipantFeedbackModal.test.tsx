@@ -6,10 +6,10 @@ import {
   courseTable, groupTable, meetPersonTable, peerFeedbackTable, roundTable,
 } from '@bluedot/db';
 import {
-  describe, expect, test, vi,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn, testDb,
+  createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 import ParticipantFeedbackModal from './ParticipantFeedbackModal';
 
@@ -24,6 +24,7 @@ vi.mock('../../server/airtableFieldOptions', () => ({
 }));
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 const FACILITATOR = 'rec-facilitator';
 const GROUP = 'rec-group';

@@ -3,12 +3,15 @@ import posthog from 'posthog-js';
 import { trpc } from '../../utils/trpc';
 
 export default () => {
-  const ensureUserExistsMutation = trpc.users.ensureExists.useMutation();
+  const ensureUserExistsMutation = trpc.users.ensureExists.useMutation({
+    retry: 2,
+    retryDelay: (failureCount) => (failureCount + 1) * 1000,
+  });
 
   return (
     <LoginOauthCallbackPage
       loginPreset={loginPresets.keycloak}
-      onLoginComplete={async (auth, redirectTo) => {
+      onBeforeAuthPersist={async (auth, redirectTo) => {
         // Extract UTM params from the redirectTo URL and send them to `users.ensureExists` to track them in the database
         let initialUtmSource: string | null = null;
         let initialUtmCampaign: string | null = null;
@@ -28,12 +31,14 @@ export default () => {
           console.warn('Failed to parse UTM params from redirectTo:', error);
         }
 
+        const response = await ensureUserExistsMutation.mutateAsync({
+          token: auth.token,
+          initialUtmSource,
+          initialUtmCampaign,
+          initialUtmContent,
+        });
+
         try {
-          const response = await ensureUserExistsMutation.mutateAsync({
-            initialUtmSource,
-            initialUtmCampaign,
-            initialUtmContent,
-          });
           if (typeof window !== 'undefined' && window.dataLayer) {
             window.dataLayer.push({
               event: 'CompletedSignup',
@@ -71,7 +76,7 @@ export default () => {
           }
         } catch (error) {
           // eslint-disable-next-line no-console
-          console.error('Error ensuring user exists:', error);
+          console.error('Error recording signup analytics:', error);
         }
       }}
     />

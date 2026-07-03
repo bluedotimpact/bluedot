@@ -3,10 +3,10 @@ import {
   meetPersonTable, roundTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import {
-  describe, expect, test, vi,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  createCaller, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
+  createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { issueFoaiCertificateIfComplete } from './certificates';
@@ -29,6 +29,7 @@ vi.mock('../../lib/api/env', () => ({
 const TEST_CERT_TOKEN = 'test-token-secret';
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 describe('certificates.createFacilitatedCourseCertificate (Airtable-script callable, shared-secret auth)', () => {
   test('throws UNAUTHORIZED when token is the wrong length (length mismatch short-circuits before timingSafeEqual)', async () => {

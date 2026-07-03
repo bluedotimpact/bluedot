@@ -6,9 +6,12 @@ import {
   meetPersonTable,
   userTable,
 } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import {
+  beforeEach, describe, expect, test,
+} from 'vitest';
 import {
   createCaller,
+  seedLoggedInUser,
   setupTestDb,
   testAuthContextLoggedIn,
   testAuthContextLoggedOut,
@@ -65,6 +68,8 @@ const seedMeetPerson = (id: string, applicationsBaseRecordId: string, expectedDi
   });
 
 describe('facilitatorApplications.list', () => {
+  beforeEach(seedLoggedInUser);
+
   test('returns empty array when caller has no facilitator registrations', async () => {
     const result = await caller.facilitatorApplications.list();
     expect(result).toEqual([]);
@@ -177,6 +182,8 @@ describe('facilitatorApplications.list', () => {
 });
 
 describe('facilitatorApplications.eligibleRounds', () => {
+  beforeEach(seedLoggedInUser);
+
   test('rejects unauthenticated callers', async () => {
     await expect(createCaller(testAuthContextLoggedOut).facilitatorApplications.eligibleRounds()).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
@@ -309,6 +316,8 @@ describe('facilitatorApplications.eligibleRounds', () => {
 });
 
 describe('facilitatorApplications.quickApplyPrefill', () => {
+  beforeEach(seedLoggedInUser);
+
   test('prefills from the most recent prior facilitator application for the same course', async () => {
     await seedCourse('course-1', 'tai', 'Technical AI Safety');
     await testDb.insert(courseRegistrationTable, {
@@ -391,6 +400,8 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
 });
 
 describe('facilitatorApplications.quickApply', () => {
+  beforeEach(seedLoggedInUser);
+
   const validInput = {
     roundId: 'round-next',
     numGroupsToFacilitate: 2,

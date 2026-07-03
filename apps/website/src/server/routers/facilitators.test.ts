@@ -8,10 +8,10 @@ import {
   roundTable,
 } from '@bluedot/db';
 import {
-  describe, expect, test, vi,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  createCaller, setupTestDb, testAuthContextLoggedIn, testDb,
+  createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 
 vi.mock('../airtableFieldOptions', () => ({
@@ -25,6 +25,7 @@ vi.mock('../airtableFieldOptions', () => ({
 }));
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 const FACILITATOR_EMAIL = 'test@example.com';
 const FACILITATOR_ID = 'facilitator-1';
