@@ -480,7 +480,7 @@ describe('exercise_completed', () => {
   });
   const seedExercise = (id: string, opts: { courseId?: string; unitId?: string; title?: string; type?: string } = {}) =>
     testDb.insert(exerciseTable, {
-      id, courseId: opts.courseId, unitId: opts.unitId, title: opts.title, type: opts.type, status: 'Active',
+      id, courseId: opts.courseId, unitId: opts.unitId, title: opts.title, type: opts.type, status: 'Core',
     });
   const completeExercise = (id: string, email: string, exerciseId: string, completedAt: string | null) =>
     db.pg.insert(exerciseResponsePgTable.pg).values({

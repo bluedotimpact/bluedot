@@ -72,16 +72,10 @@ describe('ResourceDisplay - exercise status split', () => {
     );
   };
 
-  test('required exercises render in the main Exercises section; Further/Active+isOptional render under Optional Exercises; Maybe/Inactive are absent', async () => {
+  test('Core exercises render in the main Exercises section; Further renders under Optional Exercises; Maybe/Inactive are absent', async () => {
     const exercises = [
       createMockExercise({ id: 'ex-core', status: 'Core', title: 'Core exercise' }),
-      createMockExercise({
-        id: 'ex-active-req', status: 'Active', isOptional: false, title: 'Active required exercise',
-      }),
       createMockExercise({ id: 'ex-further', status: 'Further', title: 'Further exercise' }),
-      createMockExercise({
-        id: 'ex-active-opt', status: 'Active', isOptional: true, title: 'Active optional exercise',
-      }),
       createMockExercise({ id: 'ex-maybe', status: 'Maybe', title: 'Maybe exercise' }),
       createMockExercise({ id: 'ex-inactive', status: 'Inactive', title: 'Inactive exercise' }),
     ];
@@ -90,24 +84,19 @@ describe('ResourceDisplay - exercise status split', () => {
     render(<ResourceDisplay resources={[]} exercises={exercises} />, { wrapper: TrpcProvider });
 
     expect(await screen.findByText('Core exercise')).toBeInTheDocument();
-    expect(await screen.findByText('Active required exercise')).toBeInTheDocument();
     expect(await screen.findByText('Further exercise')).toBeInTheDocument();
-    expect(await screen.findByText('Active optional exercise')).toBeInTheDocument();
     expect(screen.queryByText('Maybe exercise')).not.toBeInTheDocument();
     expect(screen.queryByText('Inactive exercise')).not.toBeInTheDocument();
 
-    // Required exercises render inside the main "Exercises" section, not the collapsible
+    // Core exercises render inside the main "Exercises" section, not the collapsible
     const exercisesSection = screen.getByText('Exercises').closest('section')!;
     expect(within(exercisesSection).getByText('Core exercise')).toBeInTheDocument();
-    expect(within(exercisesSection).getByText('Active required exercise')).toBeInTheDocument();
     expect(within(exercisesSection).queryByText('Further exercise')).not.toBeInTheDocument();
-    expect(within(exercisesSection).queryByText('Active optional exercise')).not.toBeInTheDocument();
 
-    // Further/Active+isOptional exercises render inside the "Optional Exercises" collapsible
+    // Further exercises render inside the "Optional Exercises" collapsible
     expect(screen.getByText('Optional Exercises')).toBeInTheDocument();
     const optionalExercisesSection = screen.getByText('Optional Exercises').closest('details')!;
     expect(within(optionalExercisesSection).getByText('Further exercise')).toBeInTheDocument();
-    expect(within(optionalExercisesSection).getByText('Active optional exercise')).toBeInTheDocument();
   });
 
   test('does not render the Optional Exercises collapsible when there are no optional exercises', async () => {

@@ -14,11 +14,10 @@ const freeTextExercise = {
   options: null,
   courseId: 'course-1',
   unitId: 'unit-1',
-  status: null,
+  status: 'Core',
   unitNumber: null,
   exerciseNumber: null,
   computedNumResponses: null,
-  isOptional: null,
 };
 
 const multipleChoiceExercise = {
@@ -30,11 +29,10 @@ const multipleChoiceExercise = {
   options: 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n',
   courseId: 'course-1',
   unitId: 'unit-1',
-  status: null,
+  status: 'Core',
   unitNumber: null,
   exerciseNumber: null,
   computedNumResponses: null,
-  isOptional: null,
 };
 
 const savedResponse = {

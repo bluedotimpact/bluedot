@@ -37,7 +37,7 @@ const freeTextExercise = {
   type: 'Free text' as const,
   answer: null,
   options: null,
-  status: null,
+  status: 'Core',
   unitNumber: null,
   unitId: 'unit-1',
   courseId: null,
@@ -45,7 +45,6 @@ const freeTextExercise = {
   courseIdRead: 'course-read-1',
   exerciseNumber: null,
   computedNumResponses: null,
-  isOptional: null,
 };
 
 beforeEach(() => {

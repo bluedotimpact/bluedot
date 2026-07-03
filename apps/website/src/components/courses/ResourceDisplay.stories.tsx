@@ -25,30 +25,14 @@ const coreExercise = createMockExercise({
   description: 'Describe your ideal future in a few sentences.',
 });
 
-const activeRequiredExercise = createMockExercise({
-  id: 'exercise-active-1',
-  status: 'Active',
-  isOptional: false,
-  title: '2. What drove the shift from cod to shrimp fishing?',
-  description: 'Select the most accurate answer based on the reading.',
-});
-
 const furtherExercise = createMockExercise({
   id: 'exercise-further-1',
   status: 'Further',
-  title: '3. Go deeper: alternative fishing regulations',
+  title: '2. Go deeper: alternative fishing regulations',
   description: 'An optional extension exercise for those who want to go further.',
 });
 
-const activeOptionalExercise = createMockExercise({
-  id: 'exercise-active-opt-1',
-  status: 'Active',
-  isOptional: true,
-  title: '4. Optional: reflect on your own community',
-  description: 'How do the dynamics from this unit show up in a community you are part of?',
-});
-
-const allExercises = [coreExercise, activeRequiredExercise, furtherExercise, activeOptionalExercise];
+const allExercises = [coreExercise, furtherExercise];
 
 const handlers = [
   trpcStorybookMsw.exercises.getExercise.query(({ input }) => allExercises.find((e) => e.id === input.exerciseId)!),
@@ -92,7 +76,7 @@ type Story = StoryObj<typeof ResourceDisplay>;
 export const Default: Story = {
   args: {
     resources: [coreResource],
-    exercises: [coreExercise, activeRequiredExercise],
+    exercises: [coreExercise],
   },
 };
 

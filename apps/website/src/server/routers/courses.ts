@@ -8,8 +8,6 @@ import {
   exerciseTable,
   inArray,
   isNotNull,
-  isNull,
-  or,
   resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
@@ -20,16 +18,6 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
-
-// SQL equivalent of isRequiredExercise (src/lib/exerciseStatus.ts), which can't build drizzle
-// conditions itself as it is imported by client components.
-export const requiredExerciseCondition = () => or(
-  eq(exerciseTable.pg.status, 'Core'),
-  and(
-    eq(exerciseTable.pg.status, 'Active'),
-    or(eq(exerciseTable.pg.isOptional, false), isNull(exerciseTable.pg.isOptional)),
-  ),
-);
 
 export type BasicChunk = {
   id: string;
@@ -192,7 +180,7 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
     .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)
     .where(and(
-      requiredExerciseCondition(),
+      eq(exerciseTable.pg.status, 'Core'),
       inArray(exerciseTable.pg.id, allExerciseIds),
     ));
   const requiredExerciseIds = requiredExercises.map((e) => e.id);
@@ -260,7 +248,7 @@ export const coursesRouter = router({
           .select({ id: exerciseTable.pg.id })
           .from(exerciseTable.pg)
           .where(and(
-            requiredExerciseCondition(),
+            eq(exerciseTable.pg.status, 'Core'),
             inArray(exerciseTable.pg.id, referencedExerciseIds),
           ));
         for (const e of requiredExercises) requiredExerciseIds.add(e.id);
