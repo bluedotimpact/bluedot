@@ -91,8 +91,8 @@ const facilitatorApplicationAnswersSchema = z.object({
   impressiveProject: z.string().optional(),
   motivationToFacilitate: z.string().optional(),
   prevFacilitationExperience: z.string().optional(),
-  availabilityIntervalsUTC: z.string().optional(),
-  availabilityTimezone: z.string().optional(),
+  availabilityIntervalsUTC: z.string().min(1),
+  availabilityTimezone: z.string().min(1),
   availabilityComments: z.string().optional(),
 });
 
@@ -412,8 +412,8 @@ export const facilitatorApplicationsRouter = router({
         impressiveProject: input.impressiveProject ?? null,
         motivationToFacilitate: input.motivationToFacilitate ?? null,
         prevFacilitationExperience: input.prevFacilitationExperience ?? null,
-        availabilityIntervalsUTC: input.availabilityIntervalsUTC ?? null,
-        availabilityTimezone: input.availabilityTimezone ?? null,
+        availabilityIntervalsUTC: input.availabilityIntervalsUTC,
+        availabilityTimezone: input.availabilityTimezone,
         availabilityComments: input.availabilityComments ?? null,
       });
     }),
