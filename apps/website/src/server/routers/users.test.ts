@@ -145,6 +145,21 @@ describe('users.ensureExists', () => {
     expect(user.utmSource).toBe('original-source');
     expect(new Date(user.lastSeenAt!).getTime()).toBeGreaterThanOrEqual(before);
   });
+
+  test('backfills keycloakIdentifier on login for a user that already existed without one (e.g. created by an Airtable automation), and does not report them as new', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn).users.ensureExists(undefined);
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.keycloakIdentifier).toBe('test-sub');
+  });
 });
 
 describe('users.updateName', () => {

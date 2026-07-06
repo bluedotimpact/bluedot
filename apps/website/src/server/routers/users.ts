@@ -51,14 +51,30 @@ export const usersRouter = router({
   ensureExists: protectedProcedure
     .input(createUserSchema)
     .mutation(async ({ input, ctx }) => {
-      const existingUser = await db.getFirst(userTable, {
-        filter: { email: ctx.auth.email },
-      });
+      const [existingUserByEmail, existingUserByKeycloakIdentifier] = await Promise.all([
+        db.getFirst(userTable, {
+          filter: { email: ctx.auth.email },
+        }),
+        db.getFirst(userTable, {
+          filter: { keycloakIdentifier: ctx.auth.sub },
+        }),
+      ]);
 
-      if (existingUser) {
+      if (existingUserByKeycloakIdentifier) {
         // Update last seen timestamp if already exists
         await db.update(userTable, {
-          id: existingUser.id,
+          id: existingUserByKeycloakIdentifier.id,
+          lastSeenAt: new Date().toISOString(),
+        });
+      } else if (existingUserByEmail) {
+        // If `existingUserByEmail` exists but not `existingUserByKeycloakIdentifier`, that
+        // means the user has been created by an Airtable automation, but hasn't logged in yet.
+        // Adopt the existing user row in this case (by setting `keycloakIdentifier` for next time).
+        // Note: Until https://github.com/bluedotimpact/bluedot/issues/2710 is complete, this also covers
+        // the case of legacy users who haven't yet been migrated from email -> keycloakIdentifier
+        await db.update(userTable, {
+          id: existingUserByEmail.id,
+          keycloakIdentifier: ctx.auth.sub,
           lastSeenAt: new Date().toISOString(),
         });
       } else {
@@ -74,7 +90,7 @@ export const usersRouter = router({
       }
 
       return {
-        isNewUser: !existingUser,
+        isNewUser: !existingUserByEmail && !existingUserByKeycloakIdentifier,
       };
     }),
 
