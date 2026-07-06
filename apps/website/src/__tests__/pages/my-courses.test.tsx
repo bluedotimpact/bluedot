@@ -91,6 +91,12 @@ describe('bucketCoursesByTab', () => {
         rs: 'Past', d: 'Accept', drop: false, defer: false, cert: true, tab: 'pastCourses',
       },
       {
+        rs: 'Past', d: 'Accept', drop: false, defer: true, cert: true, tab: 'pastCourses', why: 'certificate outranks a stale deferral',
+      },
+      {
+        rs: 'Past', d: 'Accept', drop: false, defer: true, cert: false, tab: null, why: 'deferred away without cert stays hidden (superseded by successor)',
+      },
+      {
         rs: 'Past', d: 'Reject', drop: false, defer: false, cert: false, tab: null, why: 'rejection only visible while Future',
       },
 
