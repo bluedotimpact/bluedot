@@ -1,10 +1,10 @@
 import {
   and,
-  arrayContains,
+  arrayOverlaps,
+  asc,
   COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
-  desc,
   eq,
   exerciseResponsePgTable,
   exerciseTable,
@@ -15,6 +15,7 @@ import {
   isNull,
   meetPersonTable,
   or,
+  roundTable,
   userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
@@ -114,9 +115,9 @@ export const exercisesRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${input.courseSlug}` });
       }
 
-      // 2. Find caller's registration
+      // 2. Find all of caller's active registrations for this course
       // roundStatus is 'Active' for live rounds, or null for self-paced courses with no round
-      const courseRegistrationRows = await db.pg
+      const courseRegistrations = await db.pg
         .select()
         .from(courseRegistrationTable.pg)
         .where(and(
@@ -131,36 +132,64 @@ export const exercisesRouter = router({
             eq(courseRegistrationTable.pg.roundStatus, 'Active'),
             isNull(courseRegistrationTable.pg.roundStatus),
           ),
-        ))
-        .orderBy(desc(courseRegistrationTable.pg.autoNumberId))
-        .limit(1);
-      const courseRegistration = courseRegistrationRows[0] ?? null;
-      if (!courseRegistration) {
+        ));
+      if (courseRegistrations.length === 0) {
         return null;
       }
 
-      // 3. Find meetPerson record and verify facilitator role
-      const meetPerson = await db.getFirst(meetPersonTable, {
-        filter: { applicationsBaseRecordId: courseRegistration.id },
-      });
-      if (!meetPerson || meetPerson.role !== COURSE_ROLE.FACILITATOR) {
+      // 3. Find facilitator meetPerson records for all registrations
+      const facilitatorMeetPersons = await db.pg
+        .select({ id: meetPersonTable.pg.id })
+        .from(meetPersonTable.pg)
+        .where(and(
+          inArray(meetPersonTable.pg.applicationsBaseRecordId, courseRegistrations.map((r) => r.id)),
+          eq(meetPersonTable.pg.role, COURSE_ROLE.FACILITATOR),
+        ));
+      if (facilitatorMeetPersons.length === 0) {
         // Return null rather than throwing — no groups/responses is a valid empty state, and throwing would trigger
         // retries unnecessarily.
         return null;
       }
 
-      // 4. Find groups this person facilitates
+      const facilitatorMeetPersonIds = facilitatorMeetPersons.map((mp) => mp.id);
+
+      // 4. Find groups facilitated by any of these meetPersons
       const groups = await db.pg
-        .select({ id: groupTable.pg.id, groupName: groupTable.pg.groupName, participants: groupTable.pg.participants })
+        .select({
+          id: groupTable.pg.id,
+          groupName: groupTable.pg.groupName,
+          participants: groupTable.pg.participants,
+          round: groupTable.pg.round,
+          groupNumber: groupTable.pg.groupNumber,
+        })
         .from(groupTable.pg)
-        .where(arrayContains(groupTable.pg.facilitator, [meetPerson.id]));
+        .where(arrayOverlaps(groupTable.pg.facilitator, facilitatorMeetPersonIds))
+        .orderBy(asc(groupTable.pg.groupNumber), asc(groupTable.pg.id));
 
       if (groups.length === 0) {
         return null;
       }
 
+      const roundIds = [...new Set(groups.map((g) => g.round).filter((r): r is string => r != null))];
+      const rounds = roundIds.length > 0
+        ? await db.pg
+          .select({ id: roundTable.pg.id, title: roundTable.pg.title, startDate: roundTable.pg.startDate })
+          .from(roundTable.pg)
+          .where(inArray(roundTable.pg.id, roundIds))
+        : [];
+      const roundById = new Map(rounds.map((r) => [r.id, r]));
+
+      // Newest round first (groups of the same round contiguous, even if two rounds share a start
+      // date); the SQL groupNumber ordering is the stable within-round tiebreak
+      const startDateOf = (round: string | null) => (round ? roundById.get(round)?.startDate ?? '' : '');
+      const sortedGroups = [...groups].sort((a, b) => {
+        const byStartDate = startDateOf(b.round).localeCompare(startDateOf(a.round));
+        if (byStartDate !== 0) return byStartDate;
+        return (a.round ?? '').localeCompare(b.round ?? '');
+      });
+
       // 5. Get all participant IDs across all groups
-      const allParticipantIds = [...new Set(groups.flatMap((g) => g.participants ?? []))];
+      const allParticipantIds = [...new Set(sortedGroups.flatMap((g) => g.participants ?? []))];
       if (allParticipantIds.length === 0) {
         return null;
       }
@@ -193,7 +222,7 @@ export const exercisesRouter = router({
       const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));
 
       // 7. Build per-group response data
-      const groupData = groups.map((g) => {
+      const groupData = sortedGroups.map((g) => {
         const groupParticipantIds = g.participants ?? [];
         const responses: { name: string; response: string }[] = [];
         for (const pid of groupParticipantIds) {
@@ -213,6 +242,8 @@ export const exercisesRouter = router({
           id: g.id,
           // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           name: g.groupName || 'Unnamed group',
+          roundName: g.round ? roundById.get(g.round)?.title ?? null : null,
+          groupNumber: g.groupNumber,
           totalParticipants: groupParticipantIds.length,
           responses,
         };
