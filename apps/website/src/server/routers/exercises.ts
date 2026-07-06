@@ -22,7 +22,6 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { FOAI_COURSE_ID } from '../../lib/constants';
-import { unique } from '../../lib/utils';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { issueFoaiCertificateIfComplete } from './certificates';
 
@@ -171,7 +170,7 @@ export const exercisesRouter = router({
         return null;
       }
 
-      const roundIds = unique(groups.map((g) => g.round));
+      const roundIds = [...new Set(groups.map((g) => g.round).filter((r): r is string => r != null))];
       const rounds = roundIds.length > 0
         ? await db.pg
           .select({ id: roundTable.pg.id, title: roundTable.pg.title, startDate: roundTable.pg.startDate })

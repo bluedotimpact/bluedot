@@ -18,8 +18,7 @@ export type GroupData = {
   responses: { name: string; response: string }[];
 };
 
-// "Week 28 Part-time Group 12" — same format as the Facilitated Courses page, so facilitators
-// with groups in multiple rounds can tell which is which
+// "Week 28 Part-time Group 12"
 const getGroupLabel = (group: GroupData): string => {
   const week = parseWeekFromRoundName(group.roundName);
   if (week === null || group.groupNumber == null) {
