@@ -122,6 +122,7 @@ describe('users.ensureExists', () => {
     expect(user.utmSource).toBe('twitter');
     expect(user.utmCampaign).toBe('launch');
     expect(user.utmContent).toBe('thread');
+    expect(user.keycloakIdentifier).toBe('test-sub');
   });
 
   test('updates lastSeenAt on an existing user without overwriting their UTM fields', async () => {
