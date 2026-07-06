@@ -152,6 +152,12 @@ export const parseWeekFromRoundName = (roundName: string | null | undefined): nu
   return match ? Number(match[1]) : null;
 };
 
+// "AGI Strategy (2026 May W19) - Part-time" → "Part-time"
+export const parseIntensityFromRoundName = (roundName: string | null | undefined): string | null => {
+  if (!roundName) return null;
+  return /- (Part-time|Intensive)$/.exec(roundName)?.[1] ?? null;
+};
+
 export const getActionPlanUrl = (meetPersonId: string) => `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPersonId}`;
 
 export const getGMTOffsetWithCity = () => {

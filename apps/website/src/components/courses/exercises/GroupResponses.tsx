@@ -4,6 +4,7 @@ import { Select } from '@bluedot/ui';
 import { FaUser } from 'react-icons/fa6';
 // TODO remove this import cycle
 
+import { parseIntensityFromRoundName, parseWeekFromRoundName } from '../../../lib/utils';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
 const TRUNCATION_LINES = 8;
@@ -11,8 +12,22 @@ const TRUNCATION_LINES = 8;
 export type GroupData = {
   id: string;
   name: string;
+  roundName?: string | null;
+  groupNumber?: number | null;
   totalParticipants: number;
   responses: { name: string; response: string }[];
+};
+
+// "Week 28 Part-time Group 12" — same format as the Facilitated Courses page, so facilitators
+// with groups in multiple rounds can tell which is which
+const getGroupLabel = (group: GroupData): string => {
+  const week = parseWeekFromRoundName(group.roundName);
+  if (week === null || group.groupNumber == null) {
+    return group.name;
+  }
+
+  const intensity = parseIntensityFromRoundName(group.roundName);
+  return [`Week ${week}`, intensity, `Group ${group.groupNumber}`].filter(Boolean).join(' ');
 };
 
 export type GroupResponsesProps = {
@@ -39,7 +54,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
         <div className="flex flex-col gap-2">
           <span className="text-size-xs font-semibold text-bluedot-navy">Select your group:</span>
           <Select
-            options={groups.map((g) => ({ value: g.id, label: g.name }))}
+            options={groups.map((g) => ({ value: g.id, label: getGroupLabel(g) }))}
             value={selectedGroup.id}
             onChange={setSelectedGroupId}
             ariaLabel="Select your group"

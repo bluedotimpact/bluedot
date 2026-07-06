@@ -84,7 +84,7 @@ describe('Exercise', () => {
   test('shows facilitator view when group data is returned', async () => {
     server.use(trpcMsw.exercises.getGroupExerciseResponses.query(() => ({
       groups: [{
-        id: 'g1', name: 'Group 1', totalParticipants: 2, responses: [{ name: 'Alice', response: 'My answer' }],
+        id: 'g1', name: 'Group 1', roundName: null, groupNumber: null, totalParticipants: 2, responses: [{ name: 'Alice', response: 'My answer' }],
       }],
     })));
 

@@ -60,3 +60,20 @@ export const EmptyResponses: Story = {
     }],
   },
 };
+
+// Dropdown labels render as "Week 28 Part-time Group 6" etc., matching the Facilitated Courses page
+export const MultipleRounds: Story = {
+  args: {
+    groups: [
+      {
+        id: '1', name: 'Group 06 - Bartek Zielinski', roundName: 'AGI Strategy (2026 Jul W28) - Part-time', groupNumber: 6, totalParticipants: 5, responses: [{ name: 'Alice Thompson', response: shortResponse }],
+      },
+      {
+        id: '2', name: 'Group 07 - Priya Sharma', roundName: 'AGI Strategy (2026 Jul W28) - Part-time', groupNumber: 7, totalParticipants: 4, responses: [],
+      },
+      {
+        id: '3', name: 'Group 02 - Carlos Mendez', roundName: 'AGI Strategy (2026 Jun W23) - Intensive', groupNumber: 2, totalParticipants: 3, responses: [{ name: 'Fatima Al-Rashid', response: longResponse }],
+      },
+    ],
+  },
+};

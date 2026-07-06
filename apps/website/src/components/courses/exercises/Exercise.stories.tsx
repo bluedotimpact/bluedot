@@ -55,6 +55,8 @@ const groupResponsesData = {
     {
       id: '1',
       name: 'Group 01 - Alice Thompson',
+      roundName: null,
+      groupNumber: null,
       totalParticipants: 5,
       responses: [
         { name: 'Alice Thompson', response: longResponse },
@@ -63,7 +65,7 @@ const groupResponsesData = {
       ],
     },
     {
-      id: '2', name: 'Group 02 - Carlos Mendez', totalParticipants: 4, responses: [],
+      id: '2', name: 'Group 02 - Carlos Mendez', roundName: null, groupNumber: null, totalParticipants: 4, responses: [],
     },
   ],
 };

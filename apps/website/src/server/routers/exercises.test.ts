@@ -6,6 +6,7 @@ import {
   exerciseTable,
   groupTable,
   meetPersonTable,
+  roundTable,
   selfServeCourseRegistrationTable,
   userTable,
 } from '@bluedot/db';
@@ -568,5 +569,126 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
 
     expect(result!.groups[0]!.responses[0]!.name).toBe('Anonymous');
+  });
+
+  // Registration + facilitator meetPerson + a one-participant group, suffixed so multiple rounds can coexist
+  async function seedFacilitatorRound(suffix: string, {
+    roundStatus = 'Active', roundTitle, roundStartDate, groupNumber = 1,
+  }: { roundStatus?: string; roundTitle?: string; roundStartDate?: string; groupNumber?: number } = {}) {
+    await testDb.insert(courseRegistrationTable, {
+      id: `reg-${suffix}`,
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      decision: 'Accept',
+      roundStatus,
+    });
+    await testDb.insert(roundTable, {
+      id: `round-${suffix}`,
+      title: roundTitle,
+      startDate: roundStartDate,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: `meet-facilitator-${suffix}`,
+      email: CALLER_EMAIL,
+      applicationsBaseRecordId: `reg-${suffix}`,
+      role: 'Facilitator',
+      round: `round-${suffix}`,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: `meet-participant-${suffix}`, email: `${suffix}@example.com`, name: `Participant ${suffix}`,
+    });
+    await testDb.insert(groupTable, {
+      id: `group-${suffix}`,
+      groupName: `Group ${suffix}`,
+      round: `round-${suffix}`,
+      groupNumber,
+      facilitator: [`meet-facilitator-${suffix}`],
+      participants: [`meet-participant-${suffix}`],
+    });
+  }
+
+  test('returns groups from all active rounds, newest round first by start date', async () => {
+    await seedCourse();
+    await seedFacilitatorRound('old', { roundTitle: 'Course (2026 Jun W23) - Part-time', roundStartDate: '2026-06-01T00:00:00.000Z' });
+    await seedFacilitatorRound('new', { roundTitle: 'Course (2026 Jul W28) - Part-time', roundStartDate: '2026-07-06T00:00:00.000Z' });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result!.groups.map((g) => g.id)).toEqual(['group-new', 'group-old']);
+    expect(result!.groups.map((g) => g.roundName)).toEqual(['Course (2026 Jul W28) - Part-time', 'Course (2026 Jun W23) - Part-time']);
+    expect(result!.groups.map((g) => g.groupNumber)).toEqual([1, 1]);
+  });
+
+  test('keeps each round\'s groups contiguous when rounds share a start date', async () => {
+    await seedCourse();
+    await seedFacilitatorRound('a', { roundStartDate: '2026-07-06T00:00:00.000Z', groupNumber: 2 });
+    await seedFacilitatorRound('b', { roundStartDate: '2026-07-06T00:00:00.000Z', groupNumber: 1 });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    // Sorted by round id on the start-date tie, not interleaved by groupNumber
+    expect(result!.groups.map((g) => g.id)).toEqual(['group-a', 'group-b']);
+  });
+
+  test('orders groups within a round by groupNumber', async () => {
+    await seedCourse();
+    await seedFacilitatorRound('r1', { groupNumber: 2 });
+    await testDb.insert(groupTable, {
+      id: 'group-b', round: 'round-r1', groupNumber: 10, facilitator: ['meet-facilitator-r1'], participants: ['meet-participant-r1'],
+    });
+    await testDb.insert(groupTable, {
+      id: 'group-a', round: 'round-r1', groupNumber: 1, facilitator: ['meet-facilitator-r1'], participants: ['meet-participant-r1'],
+    });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result!.groups.map((g) => g.id)).toEqual(['group-a', 'group-r1', 'group-b']);
+  });
+
+  test('still returns facilitator groups when a newer registration is not a facilitator', async () => {
+    await seedCourse();
+    await seedFacilitatorRound('old');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-new',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      decision: 'Accept',
+      roundStatus: 'Active',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'meet-self-as-participant',
+      email: CALLER_EMAIL,
+      applicationsBaseRecordId: 'reg-new',
+      role: 'Participant',
+    });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result!.groups.map((g) => g.id)).toEqual(['group-old']);
+  });
+
+  test('excludes groups from non-active rounds', async () => {
+    await seedCourse();
+    await seedFacilitatorRound('active');
+    await seedFacilitatorRound('past', { roundStatus: 'Past' });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result!.groups.map((g) => g.id)).toEqual(['group-active']);
   });
 });

@@ -59,6 +59,30 @@ describe('GroupResponses', () => {
     expect(screen.queryByText('Select your group:')).not.toBeInTheDocument();
   });
 
+  test('dropdown labels use week/intensity/group number format when derivable', () => {
+    render(<GroupResponses groups={[
+      ...makeGroups({ roundName: 'Course (2026 Jul W28) - Part-time', groupNumber: 9 }),
+      {
+        id: 'g2', name: 'Group B', roundName: 'Course (2026 Jun W23) - Intensive', groupNumber: 12, totalParticipants: 3, responses: [],
+      },
+    ]}
+    />);
+    expect(screen.getAllByText('Week 28 Part-time Group 9').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Week 23 Intensive Group 12').length).toBeGreaterThan(0);
+  });
+
+  test('dropdown labels fall back to group name when round or group number is missing', () => {
+    render(<GroupResponses groups={[
+      ...makeGroups({ roundName: null, groupNumber: 1 }),
+      {
+        id: 'g2', name: 'Group B', roundName: 'Course (2026 Jul W28) - Part-time', groupNumber: null, totalParticipants: 3, responses: [],
+      },
+    ]}
+    />);
+    expect(screen.getAllByText('Group A').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Group B').length).toBeGreaterThan(0);
+  });
+
   test('short responses do not show "Show more"', () => {
     render(<GroupResponses groups={makeGroups()} />);
     expect(screen.queryByText('Show more')).not.toBeInTheDocument();
