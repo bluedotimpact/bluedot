@@ -91,6 +91,12 @@ describe('bucketCoursesByTab', () => {
         rs: 'Past', d: 'Accept', drop: false, defer: false, cert: true, tab: 'pastCourses',
       },
       {
+        rs: 'Past', d: 'Accept', drop: false, defer: true, cert: true, tab: 'pastCourses', why: 'certificate outranks a stale deferral',
+      },
+      {
+        rs: 'Past', d: 'Accept', drop: false, defer: true, cert: false, tab: null, why: 'deferred away without cert stays hidden (superseded by successor)',
+      },
+      {
         rs: 'Past', d: 'Reject', drop: false, defer: false, cert: false, tab: null, why: 'rejection only visible while Future',
       },
 
@@ -100,6 +106,12 @@ describe('bucketCoursesByTab', () => {
       },
       {
         rs: null, d: 'Accept', drop: false, defer: false, cert: false, tab: null, why: 'no roundStatus + no cert is filtered out (FOAI bug — update when fixed)',
+      },
+      {
+        rs: null, d: 'Accept', drop: false, defer: true, cert: true, tab: 'pastCourses', why: 'deferred + null roundStatus falls to the cert branch → certificate outranks the stale deferral',
+      },
+      {
+        rs: null, d: 'Accept', drop: false, defer: true, cert: false, tab: null, why: 'deferred + null roundStatus + no cert stays hidden',
       },
     ])('rs=$rs, d=$d, drop=$drop, defer=$defer, cert=$cert → $tab', ({
       rs, d, drop, defer, cert, tab,

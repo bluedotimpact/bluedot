@@ -100,10 +100,12 @@ const sortByPastDesc = (courses: CourseListRowProps[]): CourseListRowProps[] => 
 const assignTab = (row: CourseListRowProps): CourseTab | null => {
   const { courseRegistration: cr, isDroppedOut, isDeferred } = row;
   // Deferred rows keep a live track, so bucket them by round status; a drop wins over Future.
+  // A certificate outranks a stale deferral: the user completed the course, so surface it in Past
+  // rather than hiding it. Deferred-away rows without a certificate stay hidden.
   if (isDeferred) {
     if (cr.roundStatus === 'Active') return 'inProgress';
     if (cr.roundStatus === 'Future') return 'upcoming';
-    return null;
+    return cr.certificateCreatedAt ? 'pastCourses' : null;
   }
 
   if (isDroppedOut) return 'pastCourses';
