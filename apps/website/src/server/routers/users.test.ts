@@ -160,6 +160,26 @@ describe('users.ensureExists', () => {
     const user = await testDb.get(userTable, { email: 'test@example.com' });
     expect(user.keycloakIdentifier).toBe('test-sub');
   });
+
+  test('does not write an empty keycloakIdentifier when sub is empty (e.g. impersonating a not-yet-backfilled target)', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+    });
+
+    const caller = createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, email: 'test@example.com', sub: '' },
+      impersonation: { adminEmail: 'admin@example.com', targetEmail: 'test@example.com' },
+    });
+    const result = await caller.users.ensureExists(undefined);
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.keycloakIdentifier).toBeNull();
+  });
 });
 
 describe('users.updateName', () => {

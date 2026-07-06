@@ -51,13 +51,16 @@ export const usersRouter = router({
   ensureExists: protectedProcedure
     .input(createUserSchema)
     .mutation(async ({ input, ctx }) => {
+      const { sub } = ctx.auth;
+
       const [existingUserByEmail, existingUserByKeycloakIdentifier] = await Promise.all([
         db.getFirst(userTable, {
           filter: { email: ctx.auth.email },
         }),
-        db.getFirst(userTable, {
-          filter: { keycloakIdentifier: ctx.auth.sub },
-        }),
+        // Skip the keycloakIdentifier lookup if `sub` is somehow empty so we never persist an empty identifier
+        sub
+          ? db.getFirst(userTable, { filter: { keycloakIdentifier: sub } })
+          : Promise.resolve(null),
       ]);
 
       if (existingUserByKeycloakIdentifier) {
@@ -74,14 +77,14 @@ export const usersRouter = router({
         // the case of legacy users who haven't yet been migrated from email -> keycloakIdentifier
         await db.update(userTable, {
           id: existingUserByEmail.id,
-          keycloakIdentifier: ctx.auth.sub,
+          ...(sub && { keycloakIdentifier: sub }),
           lastSeenAt: new Date().toISOString(),
         });
       } else {
         // Create user if doesn't exist
         await db.insert(userTable, {
           email: ctx.auth.email,
-          keycloakIdentifier: ctx.auth.sub,
+          ...(sub && { keycloakIdentifier: sub }),
           lastSeenAt: new Date().toISOString(),
           ...(input?.initialUtmSource && { utmSource: input.initialUtmSource }),
           ...(input?.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),

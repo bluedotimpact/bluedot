@@ -56,11 +56,37 @@ describe('createContext: User impersonation', () => {
     vi.clearAllMocks();
   });
 
-  test('admin can impersonate any user', async () => {
-    const adminAuth = { ...mockAuth, email: 'admin@example.com' };
+  test('admin can impersonate any user, and the context carries the target\'s sub not the admin\'s', async () => {
+    const adminAuth = { ...mockAuth, email: 'admin@example.com', sub: 'admin-sub' };
     await testDb.insert(userTable, {
-      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true,
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
     });
+    await testDb.insert(userTable, {
+      id: 'target-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
+    });
+
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
+
+    const req = createMockReq({
+      authorization: 'Bearer valid-token',
+      'x-impersonate-user': 'target-id',
+    });
+    const result = await createContext({ req } as Parameters<typeof createContext>[0]);
+
+    expect(result.auth?.email).toBe('target@example.com');
+    expect(result.auth?.sub).toBe('target-sub');
+    expect(result.impersonation).toEqual({
+      adminEmail: 'admin@example.com',
+      targetEmail: 'target@example.com',
+    });
+  });
+
+  test('impersonating a not-yet-backfilled target yields an empty sub (falls back to email lookups downstream)', async () => {
+    const adminAuth = { ...mockAuth, email: 'admin@example.com', sub: 'admin-sub' };
+    await testDb.insert(userTable, {
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
+    });
+    // Target has no keycloakIdentifier yet (e.g. hasn't logged in since the backfill).
     await testDb.insert(userTable, { id: 'target-id', email: 'target@example.com', name: 'Target User' });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
@@ -72,10 +98,7 @@ describe('createContext: User impersonation', () => {
     const result = await createContext({ req } as Parameters<typeof createContext>[0]);
 
     expect(result.auth?.email).toBe('target@example.com');
-    expect(result.impersonation).toEqual({
-      adminEmail: 'admin@example.com',
-      targetEmail: 'target@example.com',
-    });
+    expect(result.auth?.sub).toBe('');
   });
 
   test('scoped user can impersonate allowed target', async () => {
