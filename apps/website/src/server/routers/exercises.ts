@@ -242,7 +242,7 @@ export const exercisesRouter = router({
 
       const responseByUserId = new Map(exerciseResponses
         .map((r) => [r.userId?.[0], r.response] as const)
-        .filter((entry): entry is readonly [string, string] => entry[0] != null));
+        .filter((entry): entry is readonly [string, string] => entry[0] !== undefined && entry[0] !== null));
 
       // 7. Build per-group response data
       const groupData = sortedGroups.map((g) => {
