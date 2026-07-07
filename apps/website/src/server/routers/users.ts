@@ -6,14 +6,17 @@ import db from '../../lib/api/db';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import {
+  getUserOrThrow, protectedProcedure, publicProcedure, router,
+} from '../trpc';
 
 export const usersRouter = router({
   getUser: protectedProcedure
     .query(async ({ ctx }) => {
+      const user = await getUserOrThrow(ctx.auth.email);
       // Update lastSeenAt timestamp
       return db.update(userTable, {
-        id: ctx.user.id,
+        id: user.id,
         lastSeenAt: new Date().toISOString(),
       });
     }),
@@ -110,8 +113,9 @@ export const usersRouter = router({
   updateName: protectedProcedure
     .input(updateNameSchema)
     .mutation(async ({ ctx, input }) => {
+      const user = await getUserOrThrow(ctx.auth.email);
       return db.update(userTable, {
-        id: ctx.user.id,
+        id: user.id,
         name: input.name,
       });
     }),

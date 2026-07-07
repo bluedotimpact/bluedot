@@ -4,7 +4,7 @@ import {
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
-import { protectedProcedure, router } from '../trpc';
+import { getUserOrThrow, protectedProcedure, router } from '../trpc';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
@@ -33,8 +33,9 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
     }
 
+    const user = await getUserOrThrow(ctx.auth.email);
     return db.insert(selfServeCourseRegistrationTable, {
-      userId: ctx.user.id,
+      userId: user.id,
       courseApplicationsBaseId: applicationsCourse.id,
       source: source ?? null,
       createdAt: new Date().toISOString(),

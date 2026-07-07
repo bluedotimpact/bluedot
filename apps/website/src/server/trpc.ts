@@ -111,6 +111,15 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
+export const getUserOrThrow = async (email: string) => {
+  const user = await db.getFirst(userTable, { filter: { email } });
+  if (!user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No user record for this account. Please log in again.' });
+  }
+
+  return user;
+};
+
 export const checkAdminAccess = async (email: string): Promise<boolean> => {
   const user = await db.getFirst(userTable, { filter: { email } });
 
@@ -141,26 +150,19 @@ const overrideUndefinedResponse = t.middleware(async (opts) => {
 // Base router and procedure helpers
 export const { router } = t;
 export const publicProcedure = t.procedure.use(openTelemetryMiddleware).use(overrideUndefinedResponse);
-export const protectedProcedure = publicProcedure.use(async ({ ctx, next }) => {
+export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.auth) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authentication required' });
   }
 
-  const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-  if (!user) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No user record for this account. Please log in again.' });
-  }
-
-  // Patch the user into the context
-  return next({ ctx: { ...ctx, auth: ctx.auth, user } });
+  return next({ ctx });
 });
 
 export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   // During impersonation, check the real user's permissions, not the impersonated user's.
   // This prevents privilege escalation when a scoped user impersonates an admin.
-  const hasAdminAccess = ctx.impersonation
-    ? await checkAdminAccess(ctx.impersonation.adminEmail)
-    : ctx.user.isAdmin === true;
+  const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+  const hasAdminAccess = await checkAdminAccess(realEmail);
   if (!hasAdminAccess) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
   }
