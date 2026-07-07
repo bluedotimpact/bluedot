@@ -1,13 +1,17 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { CTALinkOrButton, P } from '@bluedot/ui';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { pageSectionHeadingClass } from '../PageListRow';
+import AlumniAvatar from '../alumni/AlumniAvatar';
 import { trpc } from '../../utils/trpc';
+
+const COLLAPSED_ROWS = 3;
 
 type GranteeCardProps = {
   name: string;
   bio: string;
   plan: string;
-  imageUrl: string;
+  imageUrl?: string;
   profileUrl?: string | null;
 };
 
@@ -17,12 +21,7 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
   const cardContent = (
     <>
       <div className="flex items-center gap-4">
-        <img
-          src={imageUrl}
-          alt=""
-          className="size-14 rounded-full object-cover"
-          loading="lazy"
-        />
+        <AlumniAvatar name={name} imageSrc={imageUrl} className="size-14 text-size-md" />
         <div className="flex min-w-0 flex-col">
           <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
             {name}
@@ -54,12 +53,47 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
   return <div className={cardClass}>{cardContent}</div>;
 };
 
+// Tracks the grid's column count so the collapsed view shows exactly
+// COLLAPSED_ROWS rows at any width. Breakpoints mirror the grid classes below
+// (bd-md = 680px, 3-col at 1120px).
+const useGridColumns = (): number => {
+  const [columns, setColumns] = useState(3);
+
+  useEffect(() => {
+    const tablet = window.matchMedia('(min-width: 680px)');
+    const desktop = window.matchMedia('(min-width: 1120px)');
+    const update = () => {
+      if (desktop.matches) {
+        setColumns(3);
+      } else {
+        setColumns(tablet.matches ? 2 : 1);
+      }
+    };
+
+    update();
+    tablet.addEventListener('change', update);
+    desktop.addEventListener('change', update);
+    return () => {
+      tablet.removeEventListener('change', update);
+      desktop.removeEventListener('change', update);
+    };
+  }, []);
+
+  return columns;
+};
+
 const GranteesSection = () => {
   const { data: grantees } = trpc.grants.getAllPublicCareerTransitionGrantees.useQuery();
+  const [expanded, setExpanded] = useState(false);
+  const columns = useGridColumns();
 
-  const visibleGrantees = grantees?.filter((g) => g.imageUrl) ?? [];
+  const allGrantees = grantees ?? [];
 
-  if (visibleGrantees.length === 0) return null;
+  if (allGrantees.length === 0) return null;
+
+  const collapsedCount = columns * COLLAPSED_ROWS;
+  const isCollapsible = allGrantees.length > collapsedCount;
+  const visibleGrantees = expanded ? allGrantees : allGrantees.slice(0, collapsedCount);
 
   return (
     <section className="section section-body career-transition-grant-grantees-section">
@@ -72,12 +106,22 @@ const GranteesSection = () => {
                 name={g.granteeName}
                 bio={g.bio ?? ''}
                 plan={g.grantPlan ?? ''}
-                imageUrl={g.imageUrl!}
+                imageUrl={g.imageUrl}
                 profileUrl={g.profileUrl}
               />
             </li>
           ))}
         </ul>
+        {isCollapsible && (
+          <div className="flex justify-center">
+            <CTALinkOrButton
+              variant="secondary"
+              onClick={() => setExpanded((prev) => !prev)}
+            >
+              {expanded ? 'Show fewer' : `Show ${allGrantees.length - collapsedCount} more`}
+            </CTALinkOrButton>
+          </div>
+        )}
       </div>
     </section>
   );

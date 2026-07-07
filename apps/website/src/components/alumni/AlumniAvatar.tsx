@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useState } from 'react';
 import { getInitials } from '../../lib/utils';
 
 type Props = {
@@ -8,12 +9,17 @@ type Props = {
 };
 
 const AlumniAvatar = ({ name, imageSrc, className }: Props) => {
-  if (imageSrc) {
+  // Fall back to initials when the image is missing OR fails to load (e.g. a
+  // formula-generated headshot URL that 404s/500s for a person with no photo).
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+
+  if (imageSrc && imageSrc !== failedSrc) {
     return (
       <img
         src={imageSrc}
         alt={name}
         className={clsx('rounded-full object-cover shrink-0', className)}
+        onError={() => setFailedSrc(imageSrc)}
       />
     );
   }
