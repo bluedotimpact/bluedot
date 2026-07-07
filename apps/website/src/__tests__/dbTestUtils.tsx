@@ -46,7 +46,7 @@ export function setupTestDb() {
   });
 }
 
-// Seeds the userTable row for `testAuthContextLoggedIn`, required by protectedProcedure
+// Seeds the userTable row for `testAuthContextLoggedIn`, required by procedures that call getUserOrThrow
 export const seedLoggedInUser = () => testDb.insert(userTable, {
   id: 'test-user',
   email: 'test@example.com',
