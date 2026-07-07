@@ -10,7 +10,9 @@ import {
   selfServeCourseRegistrationTable,
   userTable,
 } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import {
+  beforeEach, describe, expect, test,
+} from 'vitest';
 import {
   createCaller,
   setupTestDb,
@@ -22,6 +24,11 @@ setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+});
 
 async function seedCourse() {
   return testDb.insert(courseTable, {
@@ -58,6 +65,7 @@ async function seedFacilitatorFlow() {
   await testDb.insert(meetPersonTable, {
     id: 'meet-participant',
     email: 'participant@example.com',
+    userId: 'up-user',
     name: 'Alice',
     role: 'Participant',
   });
@@ -89,10 +97,6 @@ describe('exercises.saveExerciseResponse', () => {
   });
 
   test('writes userId on insert when the user exists', async () => {
-    await testDb.insert(userTable, {
-      id: 'user-1', email: CALLER_EMAIL, name: 'Test User',
-    });
-
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'exercise-1',
       response: 'My answer',
@@ -101,13 +105,16 @@ describe('exercises.saveExerciseResponse', () => {
     expect(result.userId).toEqual(['user-1']);
   });
 
-  test('leaves userId null on insert when the user row is missing', async () => {
-    const result = await caller.exercises.saveExerciseResponse({
-      exerciseId: 'exercise-1',
-      response: 'My answer',
+  test('throws UNAUTHORIZED when the user row is missing', async () => {
+    const noUserCaller = createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, email: 'nouser@example.com' },
     });
 
-    expect(result.userId).toBeNull();
+    await expect(noUserCaller.exercises.saveExerciseResponse({
+      exerciseId: 'exercise-1',
+      response: 'My answer',
+    })).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('updates an existing response', async () => {
@@ -199,7 +206,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Action plan', exerciseNumber: '2',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', email: CALLER_EMAIL, userId: ['user-1'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
     const before = Math.floor(Date.now() / 1000);
@@ -284,7 +291,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', email: CALLER_EMAIL, userId: ['user-1'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -306,6 +313,8 @@ describe('exercises.getExerciseResponse', () => {
   });
 
   test('returns response scoped to the current user', async () => {
+    await testDb.insert(userTable, { id: 'user-other', email: 'other@example.com', name: 'Other User' });
+
     await caller.exercises.saveExerciseResponse({
       exerciseId: 'exercise-1',
       response: 'My answer',
@@ -429,7 +438,9 @@ describe('exercises.getGroupExerciseResponses', () => {
       applicationsBaseRecordId: 'reg-1',
       role: 'Facilitator',
     });
-    await testDb.insert(meetPersonTable, { id: 'meet-participant', email: 'participant@example.com', name: 'Alice' });
+    await testDb.insert(meetPersonTable, {
+      id: 'meet-participant', email: 'participant@example.com', userId: 'up-user', name: 'Alice',
+    });
     await testDb.insert(groupTable, {
       id: 'group-1',
       facilitator: ['meet-facilitator'],
@@ -493,6 +504,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
       email: 'participant@example.com',
+      userId: ['up-user'],
       exerciseId: 'ex-1',
       response: 'My answer',
       completedAt: new Date().toISOString(),
@@ -515,6 +527,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
       email: 'participant@example.com',
+      userId: ['up-user'],
       exerciseId: 'ex-1',
       response: 'Work in progress',
       completedAt: null,
@@ -546,6 +559,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(meetPersonTable, {
       id: 'meet-participant',
       email: 'noname@example.com',
+      userId: 'noname-user',
       name: null,
       role: 'Participant',
     });
@@ -558,6 +572,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
       email: 'noname@example.com',
+      userId: ['noname-user'],
       exerciseId: 'ex-1',
       response: 'An answer',
       completedAt: new Date().toISOString(),
@@ -595,7 +610,7 @@ describe('exercises.getGroupExerciseResponses', () => {
       round: `round-${suffix}`,
     });
     await testDb.insert(meetPersonTable, {
-      id: `meet-participant-${suffix}`, email: `${suffix}@example.com`, name: `Participant ${suffix}`,
+      id: `meet-participant-${suffix}`, email: `${suffix}@example.com`, userId: `user-${suffix}`, name: `Participant ${suffix}`,
     });
     await testDb.insert(groupTable, {
       id: `group-${suffix}`,

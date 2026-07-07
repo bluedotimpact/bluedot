@@ -1,5 +1,6 @@
 import {
   and,
+  arrayContains,
   chunkTable,
   courseRegistrationTable,
   desc,
@@ -148,7 +149,7 @@ export const adminRouter = router({
         .from(exerciseResponsePgTable.pg)
         .innerJoin(exerciseTable.pg, eq(exerciseResponsePgTable.pg.exerciseId, exerciseTable.pg.id))
         .where(and(
-          eq(exerciseResponsePgTable.pg.email, user.email),
+          arrayContains(exerciseResponsePgTable.pg.userId, [user.id]),
           isNotNull(exerciseTable.pg.courseId),
         ));
 
@@ -187,7 +188,7 @@ export const adminRouter = router({
 
       const trimmedSearch = input.search?.trim();
       const where = and(
-        eq(exerciseResponsePgTable.pg.email, user.email),
+        arrayContains(exerciseResponsePgTable.pg.userId, [user.id]),
         input.courseId ? eq(exerciseTable.pg.courseId, input.courseId) : undefined,
         input.includeInProgress ? undefined : isNotNull(exerciseResponsePgTable.pg.completedAt),
         trimmedSearch ? or(

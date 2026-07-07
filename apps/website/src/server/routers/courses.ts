@@ -1,5 +1,6 @@
 import {
   and,
+  arrayContains,
   chunkTable,
   courseTable,
   desc,
@@ -11,6 +12,7 @@ import {
   resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
+  userTable,
   type Chunk,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
@@ -85,13 +87,13 @@ export const getAllActiveCourses = async () => {
   return courses;
 };
 
-const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds: string[], email: string) => {
+const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds: string[], userId: string) => {
   const [rawResourceCompletions, rawExerciseCompletions] = await Promise.all([
     db.pg
       .select()
       .from(resourceCompletionPgTable.pg)
       .where(and(
-        eq(resourceCompletionPgTable.pg.email, email),
+        arrayContains(resourceCompletionPgTable.pg.userId, [userId]),
         inArray(resourceCompletionPgTable.pg.unitResourceId, coreResourceIds),
         isNotNull(resourceCompletionPgTable.pg.completedAt), // Only fetch completed resources
       ))
@@ -104,7 +106,7 @@ const getUserCompletions = async (coreResourceIds: string[], requiredExerciseIds
       })
       .from(exerciseResponsePgTable.pg)
       .where(and(
-        eq(exerciseResponsePgTable.pg.email, email),
+        arrayContains(exerciseResponsePgTable.pg.userId, [userId]),
         inArray(exerciseResponsePgTable.pg.exerciseId, requiredExerciseIds),
         isNotNull(exerciseResponsePgTable.pg.completedAt), // Only fetch completed exercises
       ))
@@ -300,10 +302,15 @@ export const coursesRouter = router({
 
       const { coreResourceIds, requiredExerciseIds } = await getCoreResourceAndRequiredExerciseIds(allChunks);
 
+      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
+      }
+
       const { resourceCompletions, exerciseCompletions } = await getUserCompletions(
         coreResourceIds,
         requiredExerciseIds,
-        ctx.auth.email,
+        user.id,
       );
 
       // Build Sets for faster lookup
