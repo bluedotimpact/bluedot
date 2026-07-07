@@ -122,6 +122,7 @@ describe('users.ensureExists', () => {
     expect(user.utmSource).toBe('twitter');
     expect(user.utmCampaign).toBe('launch');
     expect(user.utmContent).toBe('thread');
+    expect(user.keycloakIdentifier).toBe('test-sub');
   });
 
   test('updates lastSeenAt on an existing user without overwriting their UTM fields', async () => {
@@ -143,6 +144,41 @@ describe('users.ensureExists', () => {
     const user = await testDb.get(userTable, { email: 'test@example.com' });
     expect(user.utmSource).toBe('original-source');
     expect(new Date(user.lastSeenAt!).getTime()).toBeGreaterThanOrEqual(before);
+  });
+
+  test('backfills keycloakIdentifier on login for a user that already existed without one (e.g. created by an Airtable automation), and does not report them as new', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn).users.ensureExists(undefined);
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.keycloakIdentifier).toBe('test-sub');
+  });
+
+  test('does not write an empty keycloakIdentifier when sub is empty (e.g. impersonating a not-yet-backfilled target)', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+    });
+
+    const caller = createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, email: 'test@example.com', sub: '' },
+      impersonation: { adminEmail: 'admin@example.com', targetEmail: 'test@example.com' },
+    });
+    const result = await caller.users.ensureExists(undefined);
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.keycloakIdentifier).toBeNull();
   });
 });
 
