@@ -53,22 +53,24 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
   return <div className={cardClass}>{cardContent}</div>;
 };
 
+// Column count for the current viewport, matching the grid classes below
+// (bd-md = 680px, 3-col at 1120px). Defaults to desktop during SSR.
+const getGridColumns = (): number => {
+  if (typeof window === 'undefined') return 3;
+  if (window.matchMedia('(min-width: 1120px)').matches) return 3;
+  return window.matchMedia('(min-width: 680px)').matches ? 2 : 1;
+};
+
 // Tracks the grid's column count so the collapsed view shows exactly
-// COLLAPSED_ROWS rows at any width. Breakpoints mirror the grid classes below
-// (bd-md = 680px, 3-col at 1120px).
+// COLLAPSED_ROWS rows at any width. Initialised from the viewport so the
+// collapsed count is correct on first paint (no flash of the wrong row count).
 const useGridColumns = (): number => {
-  const [columns, setColumns] = useState(3);
+  const [columns, setColumns] = useState(getGridColumns);
 
   useEffect(() => {
     const tablet = window.matchMedia('(min-width: 680px)');
     const desktop = window.matchMedia('(min-width: 1120px)');
-    const update = () => {
-      if (desktop.matches) {
-        setColumns(3);
-      } else {
-        setColumns(tablet.matches ? 2 : 1);
-      }
-    };
+    const update = () => setColumns(getGridColumns());
 
     update();
     tablet.addEventListener('change', update);
