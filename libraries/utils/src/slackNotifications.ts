@@ -117,6 +117,11 @@ const addToBatch = (
       escalationChannelId: spikeOptions.escalationChannelId,
     };
     batchers.set(batchKey, batcher);
+  } else {
+    // Keep spike settings current: a later call in the same window should not be
+    // silently ignored just because the batcher already exists.
+    batcher.spikeThreshold = spikeOptions.spikeThreshold;
+    batcher.escalationChannelId = spikeOptions.escalationChannelId;
   }
 
   const existing = batcher.batches.get(signature);

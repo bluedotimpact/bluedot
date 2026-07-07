@@ -441,6 +441,54 @@ describe('slackNotifications', () => {
 
       expect(fetchMock).toHaveBeenCalledTimes(1);
     });
+
+    test('falls back to occurrence count when messages carry no record IDs', async () => {
+      // No rec IDs -> affectedRecords stays empty -> spikeCount uses raw occurrences.
+      for (let i = 0; i < 3; i++) {
+        slackAlert(mockEnv, ['Validation warning with no record id'], {
+          batchKey: 'test',
+          flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
+          spikeThreshold: 3,
+          escalationChannelId,
+        });
+      }
+
+      fetchMock
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '1.0' }) })
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '2.0' }) });
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
+
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      const escalationBody = JSON.parse(fetchMock.mock.calls[1]?.[1].body);
+      expect(escalationBody.channel).toBe(escalationChannelId);
+      expect(escalationBody.text).toContain('3 affected');
+    });
+
+    test('uses spike options from a later call in the same window', async () => {
+      // First call omits spike options; a later call in the same window supplies them.
+      // The later options should take effect rather than being silently ignored.
+      slackAlert(mockEnv, ['Validation warning rec1AbCdEfGhIjKl'], {
+        batchKey: 'test',
+        flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
+      });
+      slackAlert(mockEnv, ['Validation warning rec2MnOpQrStUvWx'], {
+        batchKey: 'test',
+        flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
+        spikeThreshold: 2,
+        escalationChannelId,
+      });
+
+      fetchMock
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '1.0' }) })
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '2.0' }) });
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
+
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      const escalationBody = JSON.parse(fetchMock.mock.calls[1]?.[1].body);
+      expect(escalationBody.channel).toBe(escalationChannelId);
+    });
   });
 
   describe('error handling', () => {
