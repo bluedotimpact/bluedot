@@ -370,6 +370,79 @@ describe('slackNotifications', () => {
     });
   });
 
+  describe('spike escalation', () => {
+    const escalationChannelId = 'alerts-channel';
+
+    test('cross-posts batched summary to escalation channel when record count hits threshold', async () => {
+      const messages = ['rec1AbCdEfGhIjKl', 'rec2MnOpQrStUvWx', 'rec3ZzYyXxWwVvUu']
+        .map((recordId) => `Validation warning ${recordId}`);
+
+      for (const message of messages) {
+        slackAlert(mockEnv, [message], {
+          batchKey: 'test',
+          flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
+          spikeThreshold: 3,
+          escalationChannelId,
+        });
+      }
+
+      fetchMock
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '1.0' }) })
+        .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '2.0' }) });
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
+
+      // One batched message to the default channel + one escalation to the alerts channel
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+
+      const batchBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
+      expect(batchBody.channel).toBe('test-channel');
+
+      const escalationBody = JSON.parse(fetchMock.mock.calls[1]?.[1].body);
+      expect(escalationBody.channel).toBe(escalationChannelId);
+      expect(escalationBody.text).toContain('High-volume warning spike');
+      expect(escalationBody.text).toContain('3 affected');
+    });
+
+    test('does not escalate when below threshold', async () => {
+      slackAlert(mockEnv, ['Validation warning rec1AbCdEfGhIjKl'], {
+        batchKey: 'test',
+        flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
+        spikeThreshold: 3,
+        escalationChannelId,
+      });
+
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '1.0' }) });
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const body = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
+      expect(body.channel).toBe('test-channel');
+    });
+
+    test('does not escalate when escalation channel equals batch channel', async () => {
+      const messages = ['rec1AbCdEfGhIjKl', 'rec2MnOpQrStUvWx', 'rec3ZzYyXxWwVvUu']
+        .map((recordId) => `Validation warning ${recordId}`);
+
+      for (const message of messages) {
+        slackAlert(mockEnv, [message], {
+          batchKey: 'test',
+          flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
+          spikeThreshold: 3,
+          channelId: 'test-channel',
+          escalationChannelId: 'test-channel',
+        });
+      }
+
+      fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true, ts: '1.0' }) });
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('error handling', () => {
     test('should log error when fetch fails in immediate mode', async () => {
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
