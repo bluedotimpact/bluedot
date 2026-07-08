@@ -8,6 +8,12 @@ type SlackAlertOptions = {
   channelId?: string;
   batchKey?: string;
   flushIntervalMs?: number;
+  // When a batched signature affects at least this many distinct records within a
+  // flush window, cross-post the batched summary to escalationChannelId. Lets a
+  // low-priority side channel stay quiet for routine drift while a sudden base-wide
+  // spike still reaches the main alerts channel.
+  spikeThreshold?: number;
+  escalationChannelId?: string;
 };
 
 type MessageBatch = {
@@ -25,6 +31,8 @@ type BatcherState = {
   flushTimer: NodeJS.Timeout | null;
   env: SlackAlertEnv;
   channelId: string;
+  spikeThreshold?: number;
+  escalationChannelId?: string;
   createdAt?: number;
 };
 
@@ -42,6 +50,8 @@ const batchers = new Map<string, BatcherState>();
  * @param options.channelId - If provided, sends to this channel instead of ALERTS_SLACK_CHANNEL_ID
  * @param options.batchKey - If provided, enables batching with this key as the batch group identifier
  * @param options.flushIntervalMs - Time window for batching in ms (default: 60000, only used when batchKey is provided). Uses a rolling window - each new message resets the timer.
+ * @param options.spikeThreshold - If provided, when a batched signature affects at least this many distinct records within a flush window, cross-post the batched summary to escalationChannelId.
+ * @param options.escalationChannelId - If provided, specifies the channel to which batched summaries are cross-posted when the spikeThreshold is exceeded.
  */
 export const slackAlert = async (
   env: SlackAlertEnv,
@@ -56,7 +66,10 @@ export const slackAlert = async (
   const flushIntervalMs = options?.flushIntervalMs ?? DEFAULT_FLUSH_INTERVAL_MS;
 
   if (options?.batchKey) {
-    addToBatch(getBatcherKey(options.batchKey, env, channelId), env, messages, channelId, flushIntervalMs);
+    addToBatch(getBatcherKey(options.batchKey, env, channelId), env, messages, channelId, flushIntervalMs, {
+      spikeThreshold: options.spikeThreshold,
+      escalationChannelId: options.escalationChannelId,
+    });
     return;
   }
 
@@ -82,6 +95,7 @@ const addToBatch = (
   messages: string[],
   channelId: string,
   flushIntervalMs: number,
+  spikeOptions: { spikeThreshold?: number; escalationChannelId?: string },
 ) => {
   const [mainMessage] = messages;
   if (!mainMessage) {
@@ -99,8 +113,15 @@ const addToBatch = (
       flushTimer: null,
       env,
       channelId,
+      spikeThreshold: spikeOptions.spikeThreshold,
+      escalationChannelId: spikeOptions.escalationChannelId,
     };
     batchers.set(batchKey, batcher);
+  } else {
+    // Keep spike settings current: a later call in the same window should not be
+    // silently ignored just because the batcher already exists.
+    batcher.spikeThreshold = spikeOptions.spikeThreshold;
+    batcher.escalationChannelId = spikeOptions.escalationChannelId;
   }
 
   const existing = batcher.batches.get(signature);
@@ -232,6 +253,34 @@ const flushBatcher = async (batcher: BatcherState) => {
       // eslint-disable-next-line no-console
       console.error('Error sending batched Slack alert:', error);
     }
+
+    // eslint-disable-next-line no-await-in-loop
+    await maybeEscalateSpike(batcher, batch, messages[0]!);
+  }
+};
+
+const maybeEscalateSpike = async (batcher: BatcherState, batch: MessageBatch, mainMessage: string) => {
+  const { spikeThreshold, escalationChannelId } = batcher;
+  if (spikeThreshold === undefined || !escalationChannelId || escalationChannelId === batcher.channelId) {
+    return;
+  }
+
+  // Distinct records is the blast radius; fall back to raw occurrences when a
+  // warning carries no record IDs (e.g. a retry loop on the same broken field).
+  const spikeCount = batch.affectedRecords.size > 0 ? batch.affectedRecords.size : batch.occurrences;
+  if (spikeCount < spikeThreshold) {
+    return;
+  }
+
+  try {
+    await sendSingleSlackMessage(
+      batcher.env,
+      `🚨 High-volume warning spike (${spikeCount} affected in one window, threshold ${spikeThreshold}):\n${mainMessage}`,
+      escalationChannelId,
+    );
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error escalating spiked Slack alert:', error);
   }
 };
 

@@ -6,7 +6,7 @@ const env = validateEnv({
     'PG_URL',
     'AIRTABLE_PERSONAL_ACCESS_TOKEN',
     'ALERTS_SLACK_CHANNEL_ID',
-    'INFO_SLACK_CHANNEL_ID',
+    'PG_SYNC_SLACK_CHANNEL_ID',
     'ALERTS_SLACK_BOT_TOKEN',
   ],
   optional: [

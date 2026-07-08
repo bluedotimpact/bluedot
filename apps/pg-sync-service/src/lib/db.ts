@@ -1,13 +1,16 @@
 import { PgAirtableDb, createTestDbClients } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils';
 import env from '../env';
-import { RateLimiter } from './rate-limiter';
-
-// Rate limiting: During a full sync there is the potential to generate thousands of redundant warnings
-// if there is a mismatch between the schema and Airtable. Drop these above a low rate limit.
-const alertRateLimiter = new RateLimiter(30, 30_000);
 
 const isTest = env.VITEST === 'true';
+
+// Validation warnings are mostly schema/Airtable drift, so they go to a
+// dedicated low-priority channel to keep the main alerts channel readable. A
+// sudden spike affecting many records in one flush window likely signals a new
+// schema change or other breakage -> escalate to the main alerts channel when
+// the distinct affected-record count in a window reaches this threshold (falls
+// back to raw occurrence count for warnings with no record IDs).
+const VALIDATION_WARNING_SPIKE_THRESHOLD = 25;
 
 export const db = new PgAirtableDb({
   pgConnString: env.PG_URL,
@@ -20,21 +23,14 @@ export const db = new PgAirtableDb({
     // eslint-disable-next-line no-console
     console.warn(message);
 
-    const { allowed: slackAlertAllowed, lastAllowedRequest } = alertRateLimiter.tryAcquire();
-
-    if (!slackAlertAllowed) {
-      return;
-    }
-
     await slackAlert(env, [
       message,
       ...(err.stack ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
-    ], { batchKey: 'airtable-validation' });
-
-    if (lastAllowedRequest) {
-      await slackAlert(env, [
-        'Rate limit hit for Airtable validation warnings. Any new warnings will be logged but not sent to Slack until the rate limit expires.',
-      ]);
-    }
+    ], {
+      channelId: env.PG_SYNC_SLACK_CHANNEL_ID,
+      batchKey: 'airtable-validation',
+      spikeThreshold: VALIDATION_WARNING_SPIKE_THRESHOLD,
+      escalationChannelId: env.ALERTS_SLACK_CHANNEL_ID,
+    });
   },
 });
