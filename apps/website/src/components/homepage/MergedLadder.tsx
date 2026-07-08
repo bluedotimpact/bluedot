@@ -70,7 +70,7 @@ const FoaiRungCard = () => (
         </div>
       </div>
       <div className="flex flex-col gap-3 mt-5">
-        <H3 className="text-size-lg font-[500] leading-[1.3] tracking-[-0.3px] text-white">
+        <H3 className="text-size-lg font-medium leading-[1.3] tracking-[-0.3px] text-white">
           The Future of AI
           <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
         </H3>
@@ -128,7 +128,7 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
         </div>
         <div className="flex flex-col gap-3 mt-5">
           <H3 className={clsx(
-            'font-[500] leading-[1.3] tracking-[-0.3px] text-white',
+            'font-medium leading-[1.3] tracking-[-0.3px] text-white',
             featured ? 'text-size-lg' : 'text-size-md md:text-size-lg',
           )}
           >

@@ -218,8 +218,8 @@ const EventsPage = () => {
                         type="button"
                         onClick={() => setSelectedFilter(filter)}
                         className={isActive
-                          ? 'inline-flex items-center justify-center rounded-md bg-bluedot-navy px-4 py-2 text-size-sm font-[500] tracking-[-0.3px] text-white'
-                          : 'inline-flex items-center justify-center rounded-md bg-bluedot-navy/10 px-4 py-2 text-size-sm font-[500] tracking-[-0.3px] text-bluedot-navy transition-colors hover:bg-bluedot-navy/15'}
+                          ? 'inline-flex items-center justify-center rounded-md bg-bluedot-navy px-4 py-2 text-size-sm font-medium tracking-[-0.3px] text-white'
+                          : 'inline-flex items-center justify-center rounded-md bg-bluedot-navy/10 px-4 py-2 text-size-sm font-medium tracking-[-0.3px] text-bluedot-navy transition-colors hover:bg-bluedot-navy/15'}
                         aria-pressed={isActive}
                       >
                         {FILTER_LABELS[filter]}
