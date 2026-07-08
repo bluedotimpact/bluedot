@@ -7,13 +7,13 @@ import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/ke
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import {
-  getUserOrThrow, protectedProcedure, publicProcedure, router,
+  getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 
 export const usersRouter = router({
   getUser: protectedProcedure
     .query(async ({ ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
       // Update lastSeenAt timestamp
       return db.update(userTable, {
         id: user.id,
@@ -119,7 +119,7 @@ export const usersRouter = router({
   updateName: protectedProcedure
     .input(updateNameSchema)
     .mutation(async ({ ctx, input }) => {
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
       return db.update(userTable, {
         id: user.id,
         name: input.name,

@@ -5,13 +5,13 @@ import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { getUserOrThrow, protectedProcedure, router } from '../trpc';
+import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 
 export const resourcesRouter = router({
   getResourceCompletions: protectedProcedure
     .input(z.object({ unitResourceIds: z.array(z.string().min(1)).max(100) }))
     .query(async ({ input, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const resourceCompletions = await db.pg
         .select()
@@ -59,7 +59,7 @@ export const resourcesRouter = router({
     .mutation(async ({ input, ctx }) => {
       const [unitResource, user] = await Promise.all([
         db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
-        getUserOrThrow(ctx.auth.sub),
+        getUserFromAuthOrThrow(ctx.auth),
       ]);
 
       const [resourceCompletion] = await db.pg

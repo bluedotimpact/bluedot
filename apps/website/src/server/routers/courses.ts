@@ -19,7 +19,7 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
 import {
-  getUserOrThrow, protectedProcedure, publicProcedure, router,
+  getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 
 export type BasicChunk = {
@@ -303,7 +303,7 @@ export const coursesRouter = router({
 
       const { coreResourceIds, requiredExerciseIds } = await getCoreResourceAndRequiredExerciseIds(allChunks);
 
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const { resourceCompletions, exerciseCompletions } = await getUserCompletions(
         coreResourceIds,

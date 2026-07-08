@@ -26,7 +26,7 @@ import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/
 import db from '../../lib/api/db';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
-import { getUserOrThrow, protectedProcedure, router } from '../trpc';
+import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { getAvailableGroupsAndDiscussions } from './group-switching';
 
 // Used for mapping self-serve registrations (where all these fields are empty) into the expected shape
@@ -107,7 +107,7 @@ export const myBluedotRouter = router({
     .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
     .query(async ({ ctx, input }) => {
       const includeWithdrawn = input?.includeWithdrawn ?? false;
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const rows = await db.pg
         .select({ id: courseRegistrationTable.pg.id })
@@ -127,7 +127,7 @@ export const myBluedotRouter = router({
     }),
 
   myCoursesPage: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     // Step 1: Fetch data
     const [facilitatedRegistrations, selfServeRegistrations] = await Promise.all([
@@ -367,7 +367,7 @@ export const myBluedotRouter = router({
   }),
 
   facilitatedCoursesPage: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     // Step 1: Fetch data
     const courseRegistrations = await db.pg

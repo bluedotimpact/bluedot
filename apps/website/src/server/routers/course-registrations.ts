@@ -7,7 +7,7 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
 import {
-  getUserOrThrow, protectedProcedure, publicProcedure, router,
+  getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
 
@@ -16,7 +16,7 @@ export const courseRegistrationsRouter = router({
     .input(z.object({ courseId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { courseId } = input;
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       return db.getFirst(courseRegistrationTable, {
         filter: {
@@ -28,7 +28,7 @@ export const courseRegistrationsRouter = router({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     return db.pg.select()
       .from(courseRegistrationTable.pg)

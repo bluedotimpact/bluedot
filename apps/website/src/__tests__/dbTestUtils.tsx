@@ -46,14 +46,13 @@ export function setupTestDb() {
   });
 }
 
-// Seeds the userTable row for `testAuthContextLoggedIn`, required by procedures that call getUserOrThrow.
-// keycloakIdentifier must match testAuthContextLoggedIn.auth.sub so sub-only lookups resolve.
+// Seeds the userTable row for `testAuthContextLoggedIn`, required by procedures that call getUserFromAuthOrThrow.
+// Test identifier convention: subs are `${id}-sub`, emails are `${id}@example.com`. keycloakIdentifier must
+// match testAuthContextLoggedIn.auth.sub so sub-only lookups resolve.
 export const seedLoggedInUser = () => testDb.insert(userTable, {
   id: 'test-user',
   email: 'test@example.com',
   name: 'Test User',
-  // TODO convention (to be used across the board in tests): ${id}-sub for subs, ${id}@example.com for emails
-  // No need to fix historically, but should for any tests we touch
   keycloakIdentifier: 'test-sub',
 });
 

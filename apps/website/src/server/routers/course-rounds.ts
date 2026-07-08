@@ -10,7 +10,7 @@ import { z } from 'zod';
 import db from '../../lib/api/db';
 import { ONE_DAY_MS } from '../../lib/constants';
 import { formatApplicationDeadlineUtcDetailed, formatDateRange, formatMonthAndDay } from '../../lib/utils';
-import { getUserBySub, publicProcedure, router } from '../trpc';
+import { getUserFromAuth, publicProcedure, router } from '../trpc';
 
 export function getDeadlineThresholdUtc(): Date {
   const now = new Date();
@@ -273,7 +273,7 @@ export const courseRoundsRouter = router({
       let hasApplied = false;
       if (ctx.auth?.sub) {
         // Optional-auth endpoint: resolve the user without throwing; no user means not applied.
-        const user = await getUserBySub(ctx.auth.sub);
+        const user = await getUserFromAuth(ctx.auth);
         if (user) {
           const result = await db.pg.execute<{ exists: boolean }>(sql`
             SELECT EXISTS (

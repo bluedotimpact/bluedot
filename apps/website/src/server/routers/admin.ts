@@ -49,17 +49,17 @@ export const adminRouter = router({
       scope: z.enum(['impersonate', 'all']).default('impersonate'),
     }))
     .query(async ({ ctx, input }) => {
-      const realSub = impersonationRealIdentity(ctx);
+      const realAuth = impersonationRealIdentity(ctx);
 
       let scopeClause;
       if (input.scope === 'all') {
-        if (!await checkAdminAccess(realSub)) {
+        if (!await checkAdminAccess(realAuth)) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
         }
 
         scopeClause = sql`TRUE`;
       } else {
-        const { access, allowedTargets } = await checkImpersonationAccess(realSub);
+        const { access, allowedTargets } = await checkImpersonationAccess(realAuth);
         if (access === 'none') {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
         }

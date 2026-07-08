@@ -4,11 +4,11 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { getUserOrThrow, protectedProcedure, router } from '../trpc';
+import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 
 export const dropoutRouter = router({
   getStatusForUser: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     const regs = await db.pg
       .select({ id: courseRegistrationTable.pg.id })
@@ -58,7 +58,7 @@ export const dropoutRouter = router({
         applicantId, reason, type, newRoundId,
       } = input;
 
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {

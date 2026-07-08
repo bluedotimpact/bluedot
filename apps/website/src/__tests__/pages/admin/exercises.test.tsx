@@ -28,21 +28,19 @@ vi.mock('next/head', () => ({
   default: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-// Permission checks resolve the caller by sub (keycloakIdentifier). Use the email as the sub too,
-// so seeding `keycloakIdentifier: <email>` makes the caller resolve.
-const ctxFor = (email: string) => ({
+// Permission checks resolve the caller by sub (keycloakIdentifier), so callers are keyed on sub.
+const ctxFor = (sub: string) => ({
   ...testAuthContextLoggedIn,
-  auth: { ...testAuthContextLoggedIn.auth!, email, sub: email },
+  auth: { ...testAuthContextLoggedIn.auth!, sub },
 });
 
-// TODO these are still written in quite a path-dependent way, we use email-first for everything. We should instead
-// use sub first, and derive emails from subs if needed (e.g. ${sub}@example.com)
+const ADMIN_SUB = 'admin-sub';
 const ADMIN_EMAIL = 'admin@example.com';
 const TARGET_EMAIL = 'target@example.com';
 
 async function seedAdminAndTarget() {
   await testDb.insert(userTable, {
-    id: 'admin-id', email: ADMIN_EMAIL, name: 'Admin', isAdmin: true, keycloakIdentifier: ADMIN_EMAIL,
+    id: 'admin-id', email: ADMIN_EMAIL, name: 'Admin', isAdmin: true, keycloakIdentifier: ADMIN_SUB,
   });
   await testDb.insert(userTable, {
     id: 'target-id', email: TARGET_EMAIL, name: 'Target',
@@ -90,10 +88,10 @@ describe('/admin/exercises', () => {
 
   test('non-admin is redirected to /404', async () => {
     await testDb.insert(userTable, {
-      id: 'regular-id', email: 'regular@example.com', name: 'Regular', keycloakIdentifier: 'regular@example.com',
+      id: 'regular-id', email: 'regular@example.com', name: 'Regular', keycloakIdentifier: 'regular-sub',
     });
 
-    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor('regular@example.com')) });
+    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor('regular-sub')) });
 
     await waitFor(() => {
       expect(routerReplace).toHaveBeenCalledWith('/404');
@@ -103,7 +101,7 @@ describe('/admin/exercises', () => {
   test('selecting a user via the modal navigates with their userId', async () => {
     await seedAdminAndTarget();
     const user = userEvent.setup();
-    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_EMAIL)) });
+    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_SUB)) });
 
     const selectButton = await screen.findByRole('button', { name: 'Select user' });
     await user.click(selectButton);
@@ -120,7 +118,7 @@ describe('/admin/exercises', () => {
     await seedTargetResponses();
     routerQuery = { userId: 'target-id' };
     const user = userEvent.setup();
-    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_EMAIL)) });
+    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_SUB)) });
 
     await waitFor(() => {
       expect(screen.getByText(/thinking about safety mechanisms/)).toBeInTheDocument();
@@ -149,7 +147,7 @@ describe('/admin/exercises', () => {
     await seedTargetResponses();
     routerQuery = { userId: 'target-id' };
     const user = userEvent.setup();
-    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_EMAIL)) });
+    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_SUB)) });
 
     const searchInput = await screen.findByPlaceholderText(/Search question or response/);
 
@@ -172,7 +170,7 @@ describe('/admin/exercises', () => {
   test('query errors render an ErrorSection rather than crashing', async () => {
     await seedAdminAndTarget();
     routerQuery = { userId: 'nonexistent-id' };
-    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_EMAIL)) });
+    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_SUB)) });
 
     // Both metaQuery and exerciseResponseQuery error with NOT_FOUND; each renders an ErrorSection.
     const headings = await screen.findAllByRole('heading', { name: /User not found/ });
@@ -184,7 +182,7 @@ describe('/admin/exercises', () => {
     await seedTargetResponses();
     routerQuery = { userId: 'target-id' };
     const user = userEvent.setup();
-    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_EMAIL)) });
+    render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor(ADMIN_SUB)) });
 
     await waitFor(() => {
       expect(screen.getByText(/thinking about safety mechanisms/)).toBeInTheDocument();

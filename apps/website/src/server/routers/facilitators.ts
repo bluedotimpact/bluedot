@@ -20,7 +20,7 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import {
-  checkAdminAccess, getUserOrThrow, impersonationRealIdentity, protectedProcedure, router,
+  checkAdminAccess, getUserFromAuthOrThrow, impersonationRealIdentity, protectedProcedure, router,
 } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
@@ -63,7 +63,7 @@ const getFacilitator = async (roundId: string, userId: string) => {
 
 async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { sub: string }; impersonation?: { adminSub: string } | null }) {
   const [user, meetPerson] = await Promise.all([
-    getUserOrThrow(ctx.auth.sub),
+    getUserFromAuthOrThrow(ctx.auth),
     db.getFirst(meetPersonTable, {
       filter: { id: meetPersonId },
     }),
@@ -146,7 +146,7 @@ export const facilitatorRouter = router({
 
   getFacilitatorsForRound: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ input, ctx }) => {
     const { roundId } = input;
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
     const currentFacilitator = await getFacilitator(roundId, user.id);
 
     const facilitators = await db.pg
@@ -162,7 +162,7 @@ export const facilitatorRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ input: { roundId }, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
       const facilitator = await getFacilitator(roundId, user.id);
 
       const groupDiscussions = await db.pg
@@ -209,7 +209,7 @@ export const facilitatorRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
       }
 
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
       const facilitator = await getFacilitator(roundId, user.id);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
@@ -262,7 +262,7 @@ export const facilitatorRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { roundId, discussionId, groupId, newFacilitatorId } = input;
 
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
       const facilitator = await getFacilitator(roundId, user.id);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];

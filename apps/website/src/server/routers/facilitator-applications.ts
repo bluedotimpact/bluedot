@@ -16,7 +16,7 @@ import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
-import { getUserOrThrow, protectedProcedure, router } from '../trpc';
+import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
 
 type FacilitatorApplicationDecision = 'Accept' | 'Reject' | 'Withdrawn' | null;
@@ -236,7 +236,7 @@ export type QuickApplyPrefillData = inferRouterOutputs<typeof facilitatorApplica
 
 export const facilitatorApplicationsRouter = router({
   list: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     const registrations = await db.pg
       .select()
@@ -295,7 +295,7 @@ export const facilitatorApplicationsRouter = router({
   // One card per course the facilitator is wrapping up that still has open upcoming rounds
   // they haven't applied to. Each card lists those rounds (earliest first).
   eligibleRounds: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     const eligibleCourseIds = await getQuickApplyEligibleCourseIds(user.id);
     if (eligibleCourseIds.length === 0) return [];
@@ -374,7 +374,7 @@ export const facilitatorApplicationsRouter = router({
   // Round + course context and prefill (from the facilitator's most recent prior application
   // for the same course) for the quick-apply form. Validates eligibility, openness, no duplicate.
   quickApplyPrefill: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ ctx, input }) => {
-    const user = await getUserOrThrow(ctx.auth.sub);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     const { round, courseId } = await getRoundContext(input.roundId);
     const priorRegs = await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
@@ -397,7 +397,7 @@ export const facilitatorApplicationsRouter = router({
       { message: 'Invalid availability', path: ['availabilityIntervalsUTC'] },
     ))
     .mutation(async ({ ctx, input }) => {
-      const user = await getUserOrThrow(ctx.auth.sub);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const { courseId } = await getOpenRound(input.roundId);
       await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);

@@ -9,7 +9,7 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { SpanStatusCode, trace } from '@opentelemetry/api';
 import db from '../lib/api/db';
 import env from '../lib/api/env';
-import type { Context } from './context';
+import type { AuthContext, Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
 // For instance, the use of a t variable is common in i18n libraries.
@@ -111,15 +111,13 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
-// TODO rename to getUserFromAuth(auth: Pick<AuthType, 'sub'>)
-export const getUserBySub = async (sub: string) => {
-  if (!sub) return null;
-  return db.getFirst(userTable, { filter: { keycloakIdentifier: sub } });
+export const getUserFromAuth = async (auth: Pick<AuthContext, 'sub'>) => {
+  if (!auth.sub) return null;
+  return db.getFirst(userTable, { filter: { keycloakIdentifier: auth.sub } });
 };
 
-// TODO rename to getUserFromAuthOrThrow
-export const getUserOrThrow = async (sub: string) => {
-  const user = await getUserBySub(sub);
+export const getUserFromAuthOrThrow = async (auth: Pick<AuthContext, 'sub'>) => {
+  const user = await getUserFromAuth(auth);
   if (!user) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No user record for this account. Please log in again.' });
   }
@@ -127,26 +125,23 @@ export const getUserOrThrow = async (sub: string) => {
   return user;
 };
 
-// TODO comment is over-egged, also: We should restructure to do this *first* as a standalone commit, *then* to the migration from email -> sub
-// The sub of the real actor behind the request: during impersonation this is the admin's
-// verified sub, otherwise the caller's own. Use this for permission checks so a scoped user
-// can't escalate by impersonating an admin.
+// The real actor behind the request — the admin during impersonation, otherwise the caller.
+// Permission checks use this so impersonating an admin can't escalate a scoped user.
 export const impersonationRealIdentity = (ctx: {
   auth: { sub: string } | null;
   impersonation?: { adminSub: string } | null;
-}): string => ctx.impersonation?.adminSub ?? ctx.auth?.sub ?? '';
+}): Pick<AuthContext, 'sub'> => ({ sub: ctx.impersonation?.adminSub ?? ctx.auth?.sub ?? '' });
 
-export const checkAdminAccess = async (sub: string): Promise<boolean> => {
-  const user = await getUserBySub(sub);
+export const checkAdminAccess = async (auth: Pick<AuthContext, 'sub'>): Promise<boolean> => {
+  const user = await getUserFromAuth(auth);
 
   return user?.isAdmin === true;
 };
 
 export type ImpersonationAccess = 'admin' | 'scoped' | 'none';
 
-// TODO again pass auth: Pick<AuthType, 'sub'>, makes it more readable ('sub' is hard to remember as a standalone var)
-export const checkImpersonationAccess = async (sub: string): Promise<{ access: ImpersonationAccess; allowedTargets: string[] }> => {
-  const user = await getUserBySub(sub);
+export const checkImpersonationAccess = async (auth: Pick<AuthContext, 'sub'>): Promise<{ access: ImpersonationAccess; allowedTargets: string[] }> => {
+  const user = await getUserFromAuth(auth);
   if (user?.isAdmin) return { access: 'admin', allowedTargets: [] };
   if (user?.allowedImpersonationTargets?.length) return { access: 'scoped', allowedTargets: user.allowedImpersonationTargets };
   return { access: 'none', allowedTargets: [] };

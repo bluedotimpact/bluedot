@@ -6,6 +6,10 @@ import type * as trpcNext from '@trpc/server/adapters/next';
 import db from '../lib/api/db';
 import { checkImpersonationAccess } from './trpc';
 
+// The server-verified caller identity, decoded from the Keycloak bearer token. Sourced directly from
+// the token verifier (not from `Context`) so permission helpers can reference it without a circular type.
+export type AuthContext = Awaited<ReturnType<typeof loginPresets.keycloak.verifyAndDecodeToken>>;
+
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
   const authHeader = req.headers.authorization;
   const userAgent = req.headers['user-agent'];
@@ -27,7 +31,7 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
     // - Audit: impersonation events are logged with both admin and target emails so we can see when this is used in prod
     const impersonateUserId = req.headers['x-impersonate-user'] as string | undefined;
     if (impersonateUserId) {
-      const { access, allowedTargets } = await checkImpersonationAccess(auth.sub);
+      const { access, allowedTargets } = await checkImpersonationAccess(auth);
       const canImpersonate = access === 'admin' || (access === 'scoped' && allowedTargets.includes(impersonateUserId));
 
       const targetUser = canImpersonate

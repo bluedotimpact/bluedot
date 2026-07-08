@@ -10,7 +10,7 @@ import {
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import { createDiscussionCalendarIcs } from '../../../../lib/calendar';
-import { getUserBySub } from '../../../../server/trpc';
+import { getUserFromAuth } from '../../../../server/trpc';
 
 function getDiscussionId(queryValue: string | string[] | undefined) {
   if (typeof queryValue === 'string' && queryValue.trim().length > 0) {
@@ -51,7 +51,7 @@ export default makeApiRoute({
 
   const [discussion, requestingUser] = await Promise.all([
     db.get(groupDiscussionTable, { id: discussionId }),
-    getUserBySub(auth.sub),
+    getUserFromAuth(auth),
   ]);
   if (!discussion) {
     throw new createHttpError.NotFound('Discussion not found');
