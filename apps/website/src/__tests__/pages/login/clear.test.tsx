@@ -37,6 +37,7 @@ describe('Logout Page - Redirect Logic', () => {
     token: 'mock-token-123',
     expiresAt: Date.now() + ONE_HOUR_MS,
     email: 'test@example.com',
+    sub: 'mock-sub-123',
   };
 
   const mockSetAuth = vi.fn();
