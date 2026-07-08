@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import {
-  careerTransitionGrantApplicationTable, oneOnOneAdvisingApplicationTable, rapidGrantApplicationTable, rapidGrantTable,
+  careerTransitionGrantApplicationTable, careerTransitionGrantTable, oneOnOneAdvisingApplicationTable, rapidGrantApplicationTable, rapidGrantTable,
 } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
@@ -125,6 +125,55 @@ describe('grants.getAllPublicRapidGrantees', () => {
         monthLabel: undefined,
       },
     ]);
+  });
+});
+
+describe('grants.getAllPublicCareerTransitionGrantees', () => {
+  test('drops nameless rows, trims and sanitizes fields, and surfaces complete cards (photo + bio + description) first, each group alphabetical', async () => {
+    // Complete cards (photo, bio and grant plan) — should lead, alphabetised between themselves.
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Zoe', lastName: 'Adams', imageUrl: 'https://example.com/zoe.png', bio: 'Engineer', grantPlan: 'Skilling up on evals', profileUrl: 'https://example.com/zoe',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: '  Amy  ', lastName: '  Baker  ', imageUrl: '  https://example.com/amy.png  ', bio: '  Researcher  ', grantPlan: '  Studying interpretability  ', profileUrl: ' https://example.com/amy ',
+    });
+    // Incomplete — each missing exactly one of photo / bio / description — should fall below, alphabetised.
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Ann', lastName: 'Davis', imageUrl: 'https://example.com/ann.png', bio: 'Has a bio but no plan', grantPlan: '   ',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Bob', lastName: 'Carter', imageUrl: 'https://example.com/bob.png', bio: '   ', grantPlan: 'Has a plan but no bio',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Cara', lastName: 'Evans',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Kai', lastName: 'Foster', bio: 'Has a bio and plan but no photo', grantPlan: 'Doing safety work',
+    });
+    // Dropped — missing last name.
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'NoLast', lastName: '   ', imageUrl: 'https://example.com/x.png', bio: 'x', grantPlan: 'y',
+    });
+
+    const caller = createCaller();
+    const result = await caller.grants.getAllPublicCareerTransitionGrantees();
+
+    expect(result.map((grantee) => grantee.granteeName)).toEqual([
+      'Amy Baker',
+      'Zoe Adams',
+      'Ann Davis',
+      'Bob Carter',
+      'Cara Evans',
+      'Kai Foster',
+    ]);
+    // Leading complete card has its fields trimmed and URLs sanitized.
+    expect(result[0]).toEqual({
+      granteeName: 'Amy Baker',
+      imageUrl: 'https://example.com/amy.png',
+      bio: 'Researcher',
+      grantPlan: 'Studying interpretability',
+      profileUrl: 'https://example.com/amy',
+    });
   });
 });
 
