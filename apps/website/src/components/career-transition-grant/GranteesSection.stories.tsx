@@ -44,6 +44,29 @@ const mockGrantees: PublicCareerTransitionGrant[] = [
     grantPlan: 'Producing investigative pieces on frontier lab governance while exploring comms roles at AISIs.',
     profileUrl: 'https://www.linkedin.com/in/example-hana',
   },
+  // No imageUrl — renders the initials fallback avatar.
+  {
+    granteeName: 'Tomás Ferreira',
+    profileUrl: 'https://www.linkedin.com/in/example-tomas',
+  },
+  // No imageUrl and no profileUrl — initials avatar, non-linked card.
+  {
+    granteeName: 'Wei Chen',
+  },
+  {
+    granteeName: 'Amara Okafor',
+    imageUrl: 'https://picsum.photos/seed/amara/200/200',
+    profileUrl: 'https://www.linkedin.com/in/example-amara',
+  },
+  {
+    granteeName: 'Ravi Menon',
+    imageUrl: 'https://picsum.photos/seed/ravi/200/200',
+  },
+  {
+    granteeName: 'Elena Novak',
+    imageUrl: 'https://picsum.photos/seed/elena/200/200',
+    profileUrl: 'https://www.linkedin.com/in/example-elena',
+  },
 ];
 
 const meta: Meta<typeof GranteesSection> = {
@@ -58,7 +81,7 @@ const meta: Meta<typeof GranteesSection> = {
     },
     docs: {
       description: {
-        component: 'Grid of career transition grant recipients on /career-transition-grant. Cards link to a profile URL when present. Grantees without an image are filtered out.',
+        component: 'Grid of career transition grant recipients on /career-transition-grant. Cards link to a profile URL when present, and fall back to an initials avatar when a grantee has no headshot. Collapses to three rows with a "Show more" toggle once there are more than that.',
       },
     },
   },
