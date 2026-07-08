@@ -112,10 +112,10 @@
         font-family: InterDisplay, var(--font-sans);
     }
     .bluedot-h3 {
-        @apply text-color-secondary-text font-sans text-size-lg font-[650];
+        @apply text-color-secondary-text font-sans text-size-lg font-[600];
     }
     .bluedot-h4 {
-        @apply text-color-secondary-text font-sans text-size-md font-[650];
+        @apply text-color-secondary-text font-sans text-size-md font-[600];
     }
     .bluedot-p {
         @apply text-color-text font-sans text-size-sm font-normal leading-[1.6];
