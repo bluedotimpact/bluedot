@@ -1,5 +1,4 @@
 import {
-  courseBuilderUserTable,
   resourceCompletionPgTable,
   unitResourceTable,
   userTable,
@@ -25,8 +24,7 @@ beforeEach(async () => {
 });
 
 describe('resources.saveResourceCompletion', () => {
-  test('writes resourceId, userId, and createdByUserId on insert when both can be resolved', async () => {
-    await testDb.insert(courseBuilderUserTable, { id: 'cb-user-1', email: CALLER_EMAIL });
+  test('writes resourceId and userId on insert when they can be resolved', async () => {
     await testDb.insert(unitResourceTable, { id: 'ur-1', resourceId: ['resource-1'] });
 
     const result = await caller.resources.saveResourceCompletion({
@@ -38,12 +36,11 @@ describe('resources.saveResourceCompletion', () => {
       unitResourceId: 'ur-1',
       resourceId: ['resource-1'],
       userId: ['user-1'],
-      createdByUserId: ['cb-user-1'],
     });
     expect(result.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
   });
 
-  test('leaves resourceId and createdByUserId null when those lookups miss', async () => {
+  test('leaves resourceId null when the resource lookup misses', async () => {
     const result = await caller.resources.saveResourceCompletion({
       unitResourceId: 'ur-missing',
       isCompleted: true,
@@ -51,7 +48,6 @@ describe('resources.saveResourceCompletion', () => {
 
     expect(result.resourceId).toBeNull();
     expect(result.userId).toEqual(['user-1']);
-    expect(result.createdByUserId).toBeNull();
   });
 
   test('throws UNAUTHORIZED when the user row is missing', async () => {
@@ -73,7 +69,6 @@ describe('resources.saveResourceCompletion', () => {
       unitResourceId: 'ur-1',
       resourceId: ['resource-original'],
       userId: ['user-1'],
-      createdByUserId: ['cb-user-original'],
     });
 
     const result = await caller.resources.saveResourceCompletion({
@@ -85,7 +80,6 @@ describe('resources.saveResourceCompletion', () => {
       id: 'rc-1',
       resourceId: ['resource-original'],
       userId: ['user-1'],
-      createdByUserId: ['cb-user-original'],
     });
   });
 

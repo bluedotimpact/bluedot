@@ -327,7 +327,6 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   unitResourceId: MOCK_RESOURCE_ID,
   resourceId: null,
   userId: null,
-  createdByUserId: null,
   createdAt: null,
   completedAt: null,
   ...overrides,

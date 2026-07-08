@@ -1,5 +1,5 @@
 import {
-  and, arrayContains, courseBuilderUserTable, userTable, desc, eq, inArray, resourceCompletionPgTable, unitResourceTable,
+  and, arrayContains, userTable, desc, eq, inArray, resourceCompletionPgTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
@@ -61,9 +61,8 @@ export const resourcesRouter = router({
         .optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const [unitResource, cbUser, user] = await Promise.all([
+      const [unitResource, user] = await Promise.all([
         db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
-        db.getFirst(courseBuilderUserTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
         db.getFirst(userTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
       ]);
       if (!user) {
@@ -107,7 +106,6 @@ export const resourcesRouter = router({
             resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
             resourceId: unitResource?.resourceId ?? null,
             userId: [user.id],
-            createdByUserId: cbUser ? [cbUser.id] : null,
             createdAt: new Date().toISOString(),
           })
           .returning();
