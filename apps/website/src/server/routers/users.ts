@@ -13,7 +13,7 @@ import {
 export const usersRouter = router({
   getUser: protectedProcedure
     .query(async ({ ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
       // Update lastSeenAt timestamp
       return db.update(userTable, {
         id: user.id,
@@ -119,7 +119,7 @@ export const usersRouter = router({
   updateName: protectedProcedure
     .input(updateNameSchema)
     .mutation(async ({ ctx, input }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
       return db.update(userTable, {
         id: user.id,
         name: input.name,

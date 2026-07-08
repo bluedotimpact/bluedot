@@ -96,7 +96,7 @@ export const groupDiscussionsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${courseSlug}` });
       }
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       // Get all accepted course registrations for this course (not just the first),
       // so facilitators with discussions across multiple rounds see the soonest one

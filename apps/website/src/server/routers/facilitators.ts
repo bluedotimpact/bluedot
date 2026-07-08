@@ -20,7 +20,7 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import {
-  checkAdminAccess, getUserOrThrow, protectedProcedure, router,
+  checkAdminAccess, getUserOrThrow, impersonationRealIdentity, protectedProcedure, router,
 } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
@@ -61,9 +61,9 @@ const getFacilitator = async (roundId: string, userId: string) => {
   return facilitator;
 };
 
-async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { email: string }; impersonation?: { adminEmail: string } | null }) {
+async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { sub: string }; impersonation?: { adminSub: string } | null }) {
   const [user, meetPerson] = await Promise.all([
-    getUserOrThrow(ctx.auth.email),
+    getUserOrThrow(ctx.auth.sub),
     db.getFirst(meetPersonTable, {
       filter: { id: meetPersonId },
     }),
@@ -75,8 +75,7 @@ async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { email:
 
   if (meetPerson.userId !== user.id) {
     // During impersonation, check the real admin's permissions, not the impersonated user's.
-    const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-    const isAdmin = await checkAdminAccess(realEmail);
+    const isAdmin = await checkAdminAccess(impersonationRealIdentity(ctx));
     if (!isAdmin) {
       throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
     }
@@ -147,7 +146,7 @@ export const facilitatorRouter = router({
 
   getFacilitatorsForRound: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ input, ctx }) => {
     const { roundId } = input;
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.sub);
     const currentFacilitator = await getFacilitator(roundId, user.id);
 
     const facilitators = await db.pg
@@ -163,7 +162,7 @@ export const facilitatorRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ input: { roundId }, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
       const facilitator = await getFacilitator(roundId, user.id);
 
       const groupDiscussions = await db.pg
@@ -210,7 +209,7 @@ export const facilitatorRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
       }
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
       const facilitator = await getFacilitator(roundId, user.id);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
@@ -263,7 +262,7 @@ export const facilitatorRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { roundId, discussionId, groupId, newFacilitatorId } = input;
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
       const facilitator = await getFacilitator(roundId, user.id);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];

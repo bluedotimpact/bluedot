@@ -8,7 +8,7 @@ import { getUserOrThrow, protectedProcedure, router } from '../trpc';
 
 export const dropoutRouter = router({
   getStatusForUser: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.sub);
 
     const regs = await db.pg
       .select({ id: courseRegistrationTable.pg.id })
@@ -58,7 +58,7 @@ export const dropoutRouter = router({
         applicantId, reason, type, newRoundId,
       } = input;
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {

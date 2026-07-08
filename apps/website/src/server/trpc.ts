@@ -111,8 +111,15 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
-export const getUserOrThrow = async (email: string) => {
-  const user = await db.getFirst(userTable, { filter: { email } });
+// TODO rename to getUserFromAuth(auth: Pick<AuthType, 'sub'>)
+export const getUserBySub = async (sub: string) => {
+  if (!sub) return null;
+  return db.getFirst(userTable, { filter: { keycloakIdentifier: sub } });
+};
+
+// TODO rename to getUserFromAuthOrThrow
+export const getUserOrThrow = async (sub: string) => {
+  const user = await getUserBySub(sub);
   if (!user) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No user record for this account. Please log in again.' });
   }
@@ -120,16 +127,26 @@ export const getUserOrThrow = async (email: string) => {
   return user;
 };
 
-export const checkAdminAccess = async (email: string): Promise<boolean> => {
-  const user = await db.getFirst(userTable, { filter: { email } });
+// TODO comment is over-egged, also: We should restructure to do this *first* as a standalone commit, *then* to the migration from email -> sub
+// The sub of the real actor behind the request: during impersonation this is the admin's
+// verified sub, otherwise the caller's own. Use this for permission checks so a scoped user
+// can't escalate by impersonating an admin.
+export const impersonationRealIdentity = (ctx: {
+  auth: { sub: string } | null;
+  impersonation?: { adminSub: string } | null;
+}): string => ctx.impersonation?.adminSub ?? ctx.auth?.sub ?? '';
+
+export const checkAdminAccess = async (sub: string): Promise<boolean> => {
+  const user = await getUserBySub(sub);
 
   return user?.isAdmin === true;
 };
 
 export type ImpersonationAccess = 'admin' | 'scoped' | 'none';
 
-export const checkImpersonationAccess = async (email: string): Promise<{ access: ImpersonationAccess; allowedTargets: string[] }> => {
-  const user = await db.getFirst(userTable, { filter: { email } });
+// TODO again pass auth: Pick<AuthType, 'sub'>, makes it more readable ('sub' is hard to remember as a standalone var)
+export const checkImpersonationAccess = async (sub: string): Promise<{ access: ImpersonationAccess; allowedTargets: string[] }> => {
+  const user = await getUserBySub(sub);
   if (user?.isAdmin) return { access: 'admin', allowedTargets: [] };
   if (user?.allowedImpersonationTargets?.length) return { access: 'scoped', allowedTargets: user.allowedImpersonationTargets };
   return { access: 'none', allowedTargets: [] };
@@ -161,8 +178,7 @@ export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
 export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   // During impersonation, check the real user's permissions, not the impersonated user's.
   // This prevents privilege escalation when a scoped user impersonates an admin.
-  const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-  const hasAdminAccess = await checkAdminAccess(realEmail);
+  const hasAdminAccess = await checkAdminAccess(impersonationRealIdentity(ctx));
   if (!hasAdminAccess) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
   }

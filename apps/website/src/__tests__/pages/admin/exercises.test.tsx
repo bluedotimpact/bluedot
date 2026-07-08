@@ -28,17 +28,21 @@ vi.mock('next/head', () => ({
   default: ({ children }: { children: React.ReactNode }) => children,
 }));
 
+// Permission checks resolve the caller by sub (keycloakIdentifier). Use the email as the sub too,
+// so seeding `keycloakIdentifier: <email>` makes the caller resolve.
 const ctxFor = (email: string) => ({
   ...testAuthContextLoggedIn,
-  auth: { ...testAuthContextLoggedIn.auth!, email },
+  auth: { ...testAuthContextLoggedIn.auth!, email, sub: email },
 });
 
+// TODO these are still written in quite a path-dependent way, we use email-first for everything. We should instead
+// use sub first, and derive emails from subs if needed (e.g. ${sub}@example.com)
 const ADMIN_EMAIL = 'admin@example.com';
 const TARGET_EMAIL = 'target@example.com';
 
 async function seedAdminAndTarget() {
   await testDb.insert(userTable, {
-    id: 'admin-id', email: ADMIN_EMAIL, name: 'Admin', isAdmin: true,
+    id: 'admin-id', email: ADMIN_EMAIL, name: 'Admin', isAdmin: true, keycloakIdentifier: ADMIN_EMAIL,
   });
   await testDb.insert(userTable, {
     id: 'target-id', email: TARGET_EMAIL, name: 'Target',
@@ -85,7 +89,9 @@ describe('/admin/exercises', () => {
   });
 
   test('non-admin is redirected to /404', async () => {
-    await testDb.insert(userTable, { id: 'regular-id', email: 'regular@example.com', name: 'Regular' });
+    await testDb.insert(userTable, {
+      id: 'regular-id', email: 'regular@example.com', name: 'Regular', keycloakIdentifier: 'regular@example.com',
+    });
 
     render(<AdminExercisesPage />, { wrapper: createTrpcDbProvider(ctxFor('regular@example.com')) });
 

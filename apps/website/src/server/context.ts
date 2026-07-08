@@ -1,6 +1,7 @@
 import { userTable } from '@bluedot/db';
 import { loginPresets } from '@bluedot/ui/src/Login';
 import { logger } from '@bluedot/ui/src/api';
+import { TRPCError } from '@trpc/server';
 import type * as trpcNext from '@trpc/server/adapters/next';
 import db from '../lib/api/db';
 import { checkImpersonationAccess } from './trpc';
@@ -26,24 +27,36 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
     // - Audit: impersonation events are logged with both admin and target emails so we can see when this is used in prod
     const impersonateUserId = req.headers['x-impersonate-user'] as string | undefined;
     if (impersonateUserId) {
-      const { access, allowedTargets } = await checkImpersonationAccess(auth.email);
+      const { access, allowedTargets } = await checkImpersonationAccess(auth.sub);
       const canImpersonate = access === 'admin' || (access === 'scoped' && allowedTargets.includes(impersonateUserId));
 
-      if (canImpersonate) {
-        const targetUser = await db.getFirst(userTable, { filter: { id: impersonateUserId } });
-        if (targetUser) {
-          logger.info(`${auth.email} impersonating user ${targetUser.email} (access: ${access})`);
-          return {
-            auth: { ...auth, email: targetUser.email, sub: targetUser.keycloakIdentifier ?? '' },
-            impersonation: { adminEmail: auth.email, targetEmail: targetUser.email },
-            userAgent,
-          };
+      const targetUser = canImpersonate
+        ? await db.getFirst(userTable, { filter: { id: impersonateUserId } })
+        : null;
+      if (targetUser) {
+        // A target with no keycloakIdentifier has never logged in via Keycloak and so is not a
+        // legitimate user to act as. Block impersonation rather than downgrading to an empty sub
+        // (downstream reads resolve callers by sub only, so an empty sub can never resolve).
+        if (!targetUser.keycloakIdentifier) {
+          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Cannot impersonate a user who has never logged in' });
         }
+
+        logger.info(`${auth.email} impersonating user ${targetUser.email} (access: ${access})`);
+        return {
+          auth: { ...auth, email: targetUser.email, sub: targetUser.keycloakIdentifier },
+          impersonation: { adminEmail: auth.email, adminSub: auth.sub, targetEmail: targetUser.email },
+          userAgent,
+        };
       }
     }
 
     return { auth, impersonation: null, userAgent };
   } catch (error) {
+    // Deliberate rejections (e.g. impersonating an ineligible target) propagate as-is.
+    if (error instanceof TRPCError) {
+      throw error;
+    }
+
     // Token verification failed - return null and let protectedProcedure handle it
     logger.error('Error verifying token', error);
     return { auth: null, impersonation: null, userAgent };

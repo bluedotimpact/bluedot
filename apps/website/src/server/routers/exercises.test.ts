@@ -110,7 +110,7 @@ describe('exercises.saveExerciseResponse', () => {
   test('throws UNAUTHORIZED when the user row is missing', async () => {
     const noUserCaller = createCaller({
       ...testAuthContextLoggedIn,
-      auth: { ...testAuthContextLoggedIn.auth!, email: 'nouser@example.com' },
+      auth: { ...testAuthContextLoggedIn.auth!, email: 'nouser@example.com', sub: 'nouser-sub' },
     });
 
     await expect(noUserCaller.exercises.saveExerciseResponse({
@@ -317,7 +317,9 @@ describe('exercises.getExerciseResponse', () => {
   });
 
   test('returns response scoped to the current user', async () => {
-    await testDb.insert(userTable, { id: 'user-other', email: 'other@example.com', name: 'Other User' });
+    await testDb.insert(userTable, {
+      id: 'user-other', email: 'other@example.com', name: 'Other User', keycloakIdentifier: 'other-sub',
+    });
 
     await caller.exercises.saveExerciseResponse({
       exerciseId: 'exercise-1',
@@ -329,6 +331,7 @@ describe('exercises.getExerciseResponse', () => {
       auth: {
         ...testAuthContextLoggedIn.auth!,
         email: 'other@example.com',
+        sub: 'other-sub',
       },
     });
 

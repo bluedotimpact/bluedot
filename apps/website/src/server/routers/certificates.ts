@@ -147,7 +147,7 @@ export const certificatesRouter = router({
   verifyOwnership: protectedProcedure
     .input(z.object({ certificateId: z.string() }))
     .query(async ({ ctx, input: { certificateId } }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
       const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
@@ -164,7 +164,7 @@ export const certificatesRouter = router({
       return { status: 'not-authenticated', hasUpcomingRounds } as const;
     }
 
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.sub);
 
     // Future of AI is self-serve: it lives in its own table and never has rounds.
     if (courseId === FOAI_COURSE_ID) {

@@ -16,7 +16,7 @@ export const courseRegistrationsRouter = router({
     .input(z.object({ courseId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { courseId } = input;
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       return db.getFirst(courseRegistrationTable, {
         filter: {
@@ -28,7 +28,7 @@ export const courseRegistrationsRouter = router({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.sub);
 
     return db.pg.select()
       .from(courseRegistrationTable.pg)

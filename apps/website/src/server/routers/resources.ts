@@ -11,7 +11,7 @@ export const resourcesRouter = router({
   getResourceCompletions: protectedProcedure
     .input(z.object({ unitResourceIds: z.array(z.string().min(1)).max(100) }))
     .query(async ({ input, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const resourceCompletions = await db.pg
         .select()
@@ -59,7 +59,7 @@ export const resourcesRouter = router({
     .mutation(async ({ input, ctx }) => {
       const [unitResource, user] = await Promise.all([
         db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
-        getUserOrThrow(ctx.auth.email),
+        getUserOrThrow(ctx.auth.sub),
       ]);
 
       const [resourceCompletion] = await db.pg

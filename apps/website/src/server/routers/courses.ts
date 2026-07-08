@@ -303,7 +303,7 @@ export const coursesRouter = router({
 
       const { coreResourceIds, requiredExerciseIds } = await getCoreResourceAndRequiredExerciseIds(allChunks);
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const { resourceCompletions, exerciseCompletions } = await getUserCompletions(
         coreResourceIds,

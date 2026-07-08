@@ -185,7 +185,7 @@ export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input: { roundId } }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, userId: user.id, role: COURSE_ROLE.PARTICIPANT } });
       if (!participant) {
@@ -268,7 +268,7 @@ export const groupSwitchingRouter = router({
         });
       }
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const participant = await db.getFirst(meetPersonTable, {
         filter: { round: roundId, userId: user.id, role: COURSE_ROLE.PARTICIPANT },

@@ -37,7 +37,7 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const [exerciseResponse] = await db.pg
         .select()
@@ -70,7 +70,7 @@ export const exercisesRouter = router({
         input.completed === true
           ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
           : Promise.resolve(undefined),
-        getUserOrThrow(ctx.auth.email),
+        getUserOrThrow(ctx.auth.sub),
       ]);
 
       const [existingResponse] = await db.pg
@@ -130,7 +130,7 @@ export const exercisesRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${input.courseSlug}` });
       }
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       // 2. Find all of caller's active registrations for this course
       // roundStatus is 'Active' for live rounds, or null for self-paced courses with no round

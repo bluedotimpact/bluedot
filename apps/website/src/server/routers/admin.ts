@@ -21,7 +21,7 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import {
-  adminProcedure, checkAdminAccess, checkImpersonationAccess, protectedProcedure, publicProcedure, router,
+  adminProcedure, checkAdminAccess, checkImpersonationAccess, protectedProcedure, publicProcedure, impersonationRealIdentity, router,
 } from '../trpc';
 
 type UserSearchResult = {
@@ -35,12 +35,10 @@ type UserSearchResult = {
 export const adminRouter = router({
   isUserAdmin: publicProcedure.query(async ({ ctx }) => {
     if (!ctx.auth) return false;
-    const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-    return checkAdminAccess(realEmail);
+    return checkAdminAccess(impersonationRealIdentity(ctx));
   }),
   canImpersonate: protectedProcedure.query(async ({ ctx }) => {
-    const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-    const { access } = await checkImpersonationAccess(realEmail);
+    const { access } = await checkImpersonationAccess(impersonationRealIdentity(ctx));
     return access;
   }),
 
@@ -51,17 +49,17 @@ export const adminRouter = router({
       scope: z.enum(['impersonate', 'all']).default('impersonate'),
     }))
     .query(async ({ ctx, input }) => {
-      const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+      const realSub = impersonationRealIdentity(ctx);
 
       let scopeClause;
       if (input.scope === 'all') {
-        if (!await checkAdminAccess(realEmail)) {
+        if (!await checkAdminAccess(realSub)) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
         }
 
         scopeClause = sql`TRUE`;
       } else {
-        const { access, allowedTargets } = await checkImpersonationAccess(realEmail);
+        const { access, allowedTargets } = await checkImpersonationAccess(realSub);
         if (access === 'none') {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
         }

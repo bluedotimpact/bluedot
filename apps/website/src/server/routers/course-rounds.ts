@@ -5,13 +5,12 @@ import {
   courseTable,
   eq,
   or, sql,
-  userTable,
 } from '@bluedot/db';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { ONE_DAY_MS } from '../../lib/constants';
 import { formatApplicationDeadlineUtcDetailed, formatDateRange, formatMonthAndDay } from '../../lib/utils';
-import { publicProcedure, router } from '../trpc';
+import { getUserBySub, publicProcedure, router } from '../trpc';
 
 export function getDeadlineThresholdUtc(): Date {
   const now = new Date();
@@ -272,9 +271,9 @@ export const courseRoundsRouter = router({
 
       // Check if user has already applied (requires auth context)
       let hasApplied = false;
-      if (ctx.auth?.email) {
+      if (ctx.auth?.sub) {
         // Optional-auth endpoint: resolve the user without throwing; no user means not applied.
-        const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+        const user = await getUserBySub(ctx.auth.sub);
         if (user) {
           const result = await db.pg.execute<{ exists: boolean }>(sql`
             SELECT EXISTS (

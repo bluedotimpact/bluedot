@@ -16,7 +16,7 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'BAD_REQUEST', message: 'Only the Future of AI course supports self-serve registration' });
     }
 
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.sub);
 
     const existingRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
       filter: { userId: user.id, courseId },

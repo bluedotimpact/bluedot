@@ -19,7 +19,7 @@ export const meetPersonRouter = router({
   getByCourseRegistrationId: protectedProcedure
     .input(z.object({ courseRegistrationId: z.string() }))
     .query(async ({ input: { courseRegistrationId }, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       return db.getFirst(meetPersonTable, {
         filter: {
@@ -32,7 +32,7 @@ export const meetPersonRouter = router({
   getInactiveCourseRegistrations: protectedProcedure
     .input(z.object({ courseSlug: z.string().min(1).optional() }))
     .query(async ({ ctx, input }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const results = await db.pg
         .select({
@@ -69,7 +69,7 @@ export const meetPersonRouter = router({
   getGroupParticipants: protectedProcedure
     .input(z.object({ groupId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const groupRows = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, input.groupId));
       const group = groupRows[0];

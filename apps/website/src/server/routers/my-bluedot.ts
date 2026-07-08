@@ -107,7 +107,7 @@ export const myBluedotRouter = router({
     .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
     .query(async ({ ctx, input }) => {
       const includeWithdrawn = input?.includeWithdrawn ?? false;
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.sub);
 
       const rows = await db.pg
         .select({ id: courseRegistrationTable.pg.id })
@@ -127,7 +127,7 @@ export const myBluedotRouter = router({
     }),
 
   myCoursesPage: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.sub);
 
     // Step 1: Fetch data
     const [facilitatedRegistrations, selfServeRegistrations] = await Promise.all([
@@ -367,7 +367,7 @@ export const myBluedotRouter = router({
   }),
 
   facilitatedCoursesPage: protectedProcedure.query(async ({ ctx }) => {
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.sub);
 
     // Step 1: Fetch data
     const courseRegistrations = await db.pg

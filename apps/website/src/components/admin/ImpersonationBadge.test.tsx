@@ -128,7 +128,7 @@ describe('ImpersonationBadge URL param handling', () => {
 
   test('?impersonate=<email> resolves via admin.searchUsers and writes sessionStorage', async () => {
     await testDb.insert(userTable, {
-      id: 'rec-admin', email: testAuthContextLoggedIn.auth!.email, name: 'Admin', isAdmin: true,
+      id: 'rec-admin', email: testAuthContextLoggedIn.auth!.email, name: 'Admin', isAdmin: true, keycloakIdentifier: testAuthContextLoggedIn.auth!.sub,
     });
     await testDb.insert(userTable, { id: 'rec-foo', email: 'foo@bar.com', name: 'Foo' });
 
