@@ -71,7 +71,9 @@ export type Auth = {
   refreshToken?: string;
   oidcSettings?: OidcClientSettings;
   email: string;
-  sub: string;
+  // Always set for new logins, will be absent for users who logged inprior to
+  // https://github.com/bluedotimpact/bluedot/pull/2755 being deployed
+  sub?: string;
 };
 
 export const useAuthStore = create<{
