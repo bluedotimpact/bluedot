@@ -189,7 +189,7 @@
                 @apply text-inherit
             }
         }
-    
+
         /* https://bluedotimpact.slack.com/archives/C08LQKWBX9B/p1745428606815279 */
         &:where(blockquote) {
             /* Disable quote marks */
@@ -202,7 +202,7 @@
                 @apply not-italic
             }
         }
-    
+
         /* Disable code backticks */
         &:where(code) {
             &::before,
@@ -210,12 +210,12 @@
                 content: none;
             }
         }
-    
+
         /* Hovering link color */
         &:where(a) {
             @apply hover:text-color-primary-accent
         }
-    
+
         /* Links in headings should be the same font weight
         * See https://github.com/tailwindlabs/tailwindcss-typography/issues/391 */
         &:where(h1, h2, h3, h4, h5, h6) {
@@ -245,24 +245,24 @@
     --bluedot-charcoal-light: #CCCCCC;
     --bluedot-charcoal-mid: #6A6F7A;
     --bluedot-charcoal-normal: #1E1E1E;
-  
+
     --bluedot-aisf-lighter: #E6B3FF;
     --bluedot-aisf-light: #D680FF;
     --bluedot-aisf-normal: #C64EFF;
     --bluedot-aisf-dark: #9C00E5;
     --bluedot-aisf-darker: #560080;
-  
+
     --bluedot-pandemics-lighter: #C7F7C0;
     --bluedot-pandemics-light: #78EB66;
     --bluedot-pandemics-normal: #34CE1B;
     --bluedot-pandemics-dark: #1D7510;
     --bluedot-pandemics-darker: #11430A;
-  
+
     --bluedot-cream-normal: #FCFBF9;
     --bluedot-cream-dark: #D9D6D2;
-  
+
     --max-width: 1436px;
-  
+
     --spacing-x-xl: 5rem; /* 80px */
     --spacing-x-lg: 3rem; /* 48px */
     --spacing-x-md: 3rem; /* 48px */
@@ -273,7 +273,7 @@
     --space-between-lg: 1rem; /* 16px */
     --space-between-md: 1rem; /* 16px */
     --space-between-sm: 0.5rem; /* 8px */
-  
+
     /* Default breakpoint values */
     --text-size-xxs: 0.75rem; /* 12px */
     --text-size-xs: 0.875rem; /* 14px */
@@ -301,7 +301,7 @@
         --space-between: var(--space-between-md); /* For space between items */
     }
  }
- 
+
 /* Maps to Tailwind "lg" breakpoint */
 @media (width >= 64rem) {
     :root {
