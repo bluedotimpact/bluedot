@@ -6,8 +6,6 @@ import type * as trpcNext from '@trpc/server/adapters/next';
 import db from '../lib/api/db';
 import { checkImpersonationAccess } from './trpc';
 
-// The server-verified caller identity, decoded from the Keycloak bearer token. Sourced directly from
-// the token verifier (not from `Context`) so permission helpers can reference it without a circular type.
 export type AuthContext = Awaited<ReturnType<typeof loginPresets.keycloak.verifyAndDecodeToken>>;
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
