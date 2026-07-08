@@ -1556,10 +1556,11 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     resourceId: text().array(),
     // Points at userTable
     userId: text().array(),
-    // Points at courseBuilderUserTable (the Course-builder-base sync of User)
-    createdByUserId: text().array(),
     createdAt: text(),
     completedAt: text(),
+  },
+  deprecatedColumns: {
+    createdByUserId: text().array(),
   },
 });
 
