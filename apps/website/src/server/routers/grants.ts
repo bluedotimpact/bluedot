@@ -142,7 +142,14 @@ const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCa
         profileUrl: sanitizeUrl(grant.profileUrl),
       };
     })
-    .sort((a, b) => a.granteeName.localeCompare(b.granteeName));
+    .sort((a, b) => {
+      // Grantees with a photo, a bio and a grant description render as full
+      // cards, so surface those first; the rest follow, each group alphabetical.
+      const aComplete = Boolean(a.imageUrl) && Boolean(a.bio) && Boolean(a.grantPlan);
+      const bComplete = Boolean(b.imageUrl) && Boolean(b.bio) && Boolean(b.grantPlan);
+      if (aComplete !== bComplete) return aComplete ? -1 : 1;
+      return a.granteeName.localeCompare(b.granteeName);
+    });
 };
 
 export const grantsRouter = router({
