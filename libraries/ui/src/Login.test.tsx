@@ -185,6 +185,7 @@ describe('LoginOauthCallbackPage', () => {
       refreshToken: mockSigninResponse.refresh_token,
       oidcSettings: mockLoginPreset.oidcSettings,
       email: mockSigninResponse.profile.email,
+      sub: mockSigninResponse.profile.sub,
     };
 
     await waitFor(() => {

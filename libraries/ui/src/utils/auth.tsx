@@ -44,6 +44,7 @@ const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
         refreshToken: user.refresh_token ?? auth.refreshToken,
         oidcSettings: auth.oidcSettings,
         email: user.profile.email ?? auth.email,
+        sub: user.profile.sub ?? auth.sub,
       };
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
@@ -70,6 +71,7 @@ export type Auth = {
   refreshToken?: string;
   oidcSettings?: OidcClientSettings;
   email: string;
+  sub: string;
 };
 
 export const useAuthStore = create<{

@@ -56,6 +56,7 @@ const withLoggedInUser = () => {
       email: 'test@example.com',
       token: 'mockToken',
       expiresAt: Date.now() + 86400_000,
+      sub: 'mock-sub',
     },
   });
 };

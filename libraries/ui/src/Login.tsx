@@ -249,12 +249,17 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
           throw new Error('Bad login response: user.profile.email is missing or not a string');
         }
 
+        if (typeof user.profile.sub !== 'string') {
+          throw new Error('Bad login response: user.profile.sub is missing or not a string');
+        }
+
         const auth = {
           expiresAt: user.expires_at * 1000,
           token: user.id_token,
           refreshToken: user.refresh_token,
           oidcSettings: loginPreset.oidcSettings,
           email: user.profile.email,
+          sub: user.profile.sub,
         };
 
         setAuth(auth);

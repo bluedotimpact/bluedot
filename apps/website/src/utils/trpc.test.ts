@@ -22,6 +22,7 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
     redirect_uri: 'http://localhost:3000/callback',
   },
   email: 'test+auth@bluedot.org',
+  sub: 'test-sub',
   ...overrides,
 });
 
