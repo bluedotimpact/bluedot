@@ -67,7 +67,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="courses-dropdown"
                         aria-expanded="false"
-                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
                         Courses
@@ -121,7 +121,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="programs-dropdown"
                         aria-expanded="false"
-                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
                         Programs
@@ -175,7 +175,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="projects-dropdown"
                         aria-expanded="false"
-                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
                         Projects
@@ -224,21 +224,21 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       </div>
                     </div>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/alumni"
                       tabindex="0"
                     >
                       Alumni
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/about"
                       tabindex="0"
                     >
                       About
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/join-us"
                       tabindex="0"
                     >
@@ -283,7 +283,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 <button
                   aria-controls="courses-dropdown"
                   aria-expanded="false"
-                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
                   Courses
@@ -337,7 +337,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 <button
                   aria-controls="programs-dropdown"
                   aria-expanded="false"
-                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
                   Programs
@@ -391,7 +391,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 <button
                   aria-controls="projects-dropdown"
                   aria-expanded="false"
-                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
                   Projects
@@ -440,21 +440,21 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </div>
               </div>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/alumni"
                 tabindex="0"
               >
                 Alumni
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/about"
                 tabindex="0"
               >
                 About
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/join-us"
                 tabindex="0"
               >
