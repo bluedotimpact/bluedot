@@ -26,7 +26,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h2
-      className={clsx('hero-section__subtitle text-color-text-on-dark text-2xl font-[400] text-center mt-4 bluedot-h2', className)}
+      className={clsx('hero-section__subtitle text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2', className)}
       {...otherProps}
     >
       {children}

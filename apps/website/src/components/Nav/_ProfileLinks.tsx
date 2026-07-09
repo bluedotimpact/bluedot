@@ -45,7 +45,7 @@ export const ProfileLinks: React.FC<{
   const getNavLinkClasses = () => {
     // Profile dropdown links: always dark text on white background
     return clsx(
-      'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle',
       'text-bluedot-darker hover:text-bluedot-darker',
     );
   };

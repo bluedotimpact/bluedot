@@ -41,11 +41,13 @@
     --color-cream-dark: var(--bluedot-cream-dark);
 
     --font-sans:
-        Roobert, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Deprecated: unused (no component references font-serif). Reckless Neue was
+       removed in the Inter migration; kept only as a generic serif fallback. */
     --font-serif:
-        'Reckless Neue', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+        ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 
     --text-size-xxs: var(--text-size-xxs);
     --text-size-xxs--line-height: 1.2;
@@ -100,17 +102,20 @@
         border-color: var(--color-stone-200, currentColor);
     }
 
+    /* h1 and h2 use Inter Display */
     .bluedot-h1 {
-        @apply text-color-secondary-text font-sans text-size-xl font-bold;
+        @apply text-color-secondary-text text-size-xl font-bold;
+        font-family: InterDisplay, var(--font-sans);
     }
     .bluedot-h2 {
-        @apply text-color-secondary-text font-sans text-size-xl font-bold;
+        @apply text-color-secondary-text text-size-xl font-bold;
+        font-family: InterDisplay, var(--font-sans);
     }
     .bluedot-h3 {
-        @apply text-color-secondary-text font-sans text-size-lg font-[650];
+        @apply text-color-secondary-text font-sans text-size-lg font-semibold;
     }
     .bluedot-h4 {
-        @apply text-color-secondary-text font-sans text-size-md font-[650];
+        @apply text-color-secondary-text font-sans text-size-md font-semibold;
     }
     .bluedot-p {
         @apply text-color-text font-sans text-size-sm font-normal leading-[1.6];
@@ -189,7 +194,7 @@
                 @apply text-inherit
             }
         }
-    
+
         /* https://bluedotimpact.slack.com/archives/C08LQKWBX9B/p1745428606815279 */
         &:where(blockquote) {
             /* Disable quote marks */
@@ -202,7 +207,7 @@
                 @apply not-italic
             }
         }
-    
+
         /* Disable code backticks */
         &:where(code) {
             &::before,
@@ -210,12 +215,12 @@
                 content: none;
             }
         }
-    
+
         /* Hovering link color */
         &:where(a) {
             @apply hover:text-color-primary-accent
         }
-    
+
         /* Links in headings should be the same font weight
         * See https://github.com/tailwindlabs/tailwindcss-typography/issues/391 */
         &:where(h1, h2, h3, h4, h5, h6) {
@@ -245,24 +250,24 @@
     --bluedot-charcoal-light: #CCCCCC;
     --bluedot-charcoal-mid: #6A6F7A;
     --bluedot-charcoal-normal: #1E1E1E;
-  
+
     --bluedot-aisf-lighter: #E6B3FF;
     --bluedot-aisf-light: #D680FF;
     --bluedot-aisf-normal: #C64EFF;
     --bluedot-aisf-dark: #9C00E5;
     --bluedot-aisf-darker: #560080;
-  
+
     --bluedot-pandemics-lighter: #C7F7C0;
     --bluedot-pandemics-light: #78EB66;
     --bluedot-pandemics-normal: #34CE1B;
     --bluedot-pandemics-dark: #1D7510;
     --bluedot-pandemics-darker: #11430A;
-  
+
     --bluedot-cream-normal: #FCFBF9;
     --bluedot-cream-dark: #D9D6D2;
-  
+
     --max-width: 1436px;
-  
+
     --spacing-x-xl: 5rem; /* 80px */
     --spacing-x-lg: 3rem; /* 48px */
     --spacing-x-md: 3rem; /* 48px */
@@ -273,7 +278,7 @@
     --space-between-lg: 1rem; /* 16px */
     --space-between-md: 1rem; /* 16px */
     --space-between-sm: 0.5rem; /* 8px */
-  
+
     /* Default breakpoint values */
     --text-size-xxs: 0.75rem; /* 12px */
     --text-size-xs: 0.875rem; /* 14px */
@@ -301,7 +306,7 @@
         --space-between: var(--space-between-md); /* For space between items */
     }
  }
- 
+
 /* Maps to Tailwind "lg" breakpoint */
 @media (width >= 64rem) {
     :root {
@@ -319,71 +324,65 @@
 }
 
 @font-face {
-    font-family: "Reckless Neue";
-    src: url("https://bluedot.org/fonts/RecklessNeue-Light.woff2") format("woff2");
-    font-weight: 300;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal
-}
-
-@font-face {
-    font-family: "Reckless Neue";
-    src: url("https://bluedot.org/fonts/RecklessNeue-LightItalic.woff2") format("woff2");
-    font-weight: 300;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: italic
-}
-
-@font-face {
-    font-family: "Reckless Neue";
-    src: url("https://bluedot.org/fonts/RecklessNeue-Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal
-}
-
-@font-face {
-    font-family: "Roobert";
-    src: url("https://bluedot.org/fonts/Roobert-Light.woff2") format("woff2");
-    font-weight: 300;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal
-}
-
-@font-face {
-    font-family: "Roobert";
-    src: url("https://bluedot.org/fonts/Roobert-Regular.woff2") format("woff2");
+    font-family: Inter;
+    src: url("https://bluedot.org/fonts/Inter-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal
+    font-display: swap;
 }
 
 @font-face {
-    font-family: "Roobert";
-    src: url("https://bluedot.org/fonts/Roobert-SemiBold.woff2") format("woff2");
-    font-weight: 650;
+    font-family: Inter;
+    src: url("https://bluedot.org/fonts/Inter-Medium.woff2") format("woff2");
+    font-weight: 500;
     font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal
+    font-display: swap;
 }
 
 @font-face {
-    font-family: "Roobert";
-    src: url("https://bluedot.org/fonts/Roobert-Bold.woff2") format("woff2");
+    font-family: Inter;
+    src: url("https://bluedot.org/fonts/Inter-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url("https://bluedot.org/fonts/Inter-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal
+    font-display: swap;
+}
+
+@font-face {
+    font-family: InterDisplay;
+    src: url("https://bluedot.org/fonts/InterDisplay-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: InterDisplay;
+    src: url("https://bluedot.org/fonts/InterDisplay-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: InterDisplay;
+    src: url("https://bluedot.org/fonts/InterDisplay-SemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: InterDisplay;
+    src: url("https://bluedot.org/fonts/InterDisplay-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
 }
