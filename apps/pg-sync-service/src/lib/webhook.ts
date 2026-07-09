@@ -513,7 +513,37 @@ export const createAirtableAxiosInstance = (): AxiosInstance => {
       'Content-Type': 'application/json',
     },
   });
+  instance.interceptors.response.use(undefined, async (error: unknown) => {
+    throw redactAxiosError(error);
+  });
   return instance;
+};
+
+/**
+ * Axios errors embed the full request config and raw ClientRequest, both of which
+ * contain the Authorization header. Strip these before the error can reach a logger
+ * or Slack alert. The request objects carry no diagnostic value beyond what config
+ * (url, method) and response (status, data) already provide.
+ */
+export const redactAxiosError = (error: unknown): unknown => {
+  if (isAxiosError(error)) {
+    const { headers } = error.config ?? {};
+    if (headers) {
+      for (const key of Object.keys(headers)) {
+        if (key.toLowerCase() === 'authorization') {
+          headers[key] = '[REDACTED]';
+        }
+      }
+    }
+
+    delete error.request;
+
+    if (error.response) {
+      delete error.response.request;
+    }
+  }
+
+  return error;
 };
 
 const getAirtableFeedbackMessage = (statusCode: number | undefined): string => {
