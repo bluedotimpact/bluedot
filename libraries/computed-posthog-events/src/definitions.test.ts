@@ -1,5 +1,5 @@
 import {
-  courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
+  courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq, userTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
   exerciseTable, exerciseResponsePgTable, projectSubmissionTable,
   unitResourceTable, resourceCompletionPgTable, dropoutTable,
@@ -897,5 +897,112 @@ describe('course_dropped_out / course_deferred', () => {
     const ph2 = mockPostHogBackend();
     await forwardAllEventsToPostHog();
     expect(ph2.events.filter((e) => e.event === 'course_dropped_out')).toHaveLength(0);
+  });
+});
+
+describe('identify_applicants', () => {
+  const identifyApplicants = eventProjectionRules.find((p) => p.eventType === 'identify_applicants')!;
+
+  const runIdentifyApplicants = (opts: { since?: string } = {}) => forwardEventTypeToPostHog({
+    db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: identifyApplicants, since: opts.since, now: '2026-07-01T00:00:00.000Z',
+  });
+
+  const seedRegistration = (id: string, email: string, opts: { createdAt?: string; posthogDistinctId?: string } = {}) => (
+    testDb.insert(courseRegistrationTable, {
+      id, courseId: 'c1', email, createdAt: opts.createdAt ?? '2026-05-01T00:00:00.000Z', posthogDistinctId: opts.posthogDistinctId,
+    })
+  );
+
+  const seedLoggedInUser = (id: string, email: string, opts: { firstLoggedInAt?: string | null } = {}) => testDb.insert(userTable, {
+    id, email, name: email, firstLoggedInAt: opts.firstLoggedInAt === undefined ? '2026-05-02T00:00:00.000Z' : opts.firstLoggedInAt,
+  });
+
+  test('a new login joins an application created before `since`', async () => {
+    await seedRegistration('cr1', 'a@x.com', { createdAt: '2026-01-01T00:00:00.000Z', posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u1', 'a@x.com', { firstLoggedInAt: '2026-06-01T00:00:00.000Z' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants({ since: '2026-03-01T00:00:00.000Z' });
+
+    const identify = ph.events.find((e) => e.event === '$identify')!;
+    expect(identify.distinct_id).toBe('a@x.com');
+    expect(identify.properties).toMatchObject({ $anon_distinct_id: 'anon-1', $set: { email: 'a@x.com' } });
+  });
+
+  test('a new application joins a user who logged in before `since`', async () => {
+    await seedLoggedInUser('u1', 'a@x.com', { firstLoggedInAt: '2026-01-01T00:00:00.000Z' });
+    await seedRegistration('cr1', 'a@x.com', { createdAt: '2026-06-01T00:00:00.000Z', posthogDistinctId: 'anon-1' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants({ since: '2026-03-01T00:00:00.000Z' });
+
+    const identify = ph.events.find((e) => e.event === '$identify')!;
+    expect(identify.distinct_id).toBe('a@x.com');
+    expect(identify.properties).toMatchObject({ $anon_distinct_id: 'anon-1' });
+  });
+
+  test('anchors on the registration record id when no posthogDistinctId was captured', async () => {
+    await seedRegistration('cr-norec', 'b@x.com');
+    await seedLoggedInUser('u1', 'b@x.com');
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events.find((e) => e.event === '$identify')!.properties).toMatchObject({ $anon_distinct_id: 'cr-norec' });
+  });
+
+  test('anchors on the record id when posthogDistinctId is the email itself (legacy rows)', async () => {
+    await seedRegistration('cr-legacy', 'b@x.com', { posthogDistinctId: 'b@x.com' });
+    await seedLoggedInUser('u1', 'b@x.com');
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events.find((e) => e.event === '$identify')!.properties).toMatchObject({ $anon_distinct_id: 'cr-legacy' });
+  });
+
+  test('no-op when no user has the application email', async () => {
+    await seedRegistration('cr1', 'orphan@x.com', { posthogDistinctId: 'anon-1' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events).toHaveLength(0);
+  });
+
+  test('no-op when the matching user has never logged in', async () => {
+    // user rows are created at apply time, before any login — that alone must not trigger a join
+    await seedRegistration('cr1', 'a@x.com', { posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u1', 'a@x.com', { firstLoggedInAt: null });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events).toHaveLength(0);
+  });
+
+  test('each application is joined at most once across runs', async () => {
+    await seedRegistration('cr1', 'a@x.com', { posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u1', 'a@x.com');
+
+    mockPostHogBackend();
+    expect(await runIdentifyApplicants()).toMatchObject({ sent: 1 });
+
+    const ph2 = mockPostHogBackend();
+    expect(await runIdentifyApplicants()).toMatchObject({ sent: 0, alreadySent: 1 });
+    expect(ph2.events).toHaveLength(0);
+  });
+
+  test('earliest login wins when multiple users share an email', async () => {
+    await seedRegistration('cr1', 'shared@x.com', { posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u-late', 'shared@x.com', { firstLoggedInAt: '2026-06-01T00:00:00.000Z' });
+    await seedLoggedInUser('u-early', 'shared@x.com', { firstLoggedInAt: '2026-04-01T00:00:00.000Z' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    const identifies = ph.events.filter((e) => e.event === '$identify');
+    expect(identifies).toHaveLength(1);
+    expect(identifies[0]!.timestamp).toBe('2026-04-01T00:00:00.000Z'); // the earliest login's timestamp
   });
 });
