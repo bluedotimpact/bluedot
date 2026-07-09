@@ -37,8 +37,7 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
         : null;
       if (targetUser) {
         // A target with no keycloakIdentifier has never logged in via Keycloak and so is not a
-        // legitimate user to act as. Block impersonation rather than downgrading to an empty sub
-        // (downstream reads resolve callers by sub only, so an empty sub can never resolve).
+        // legitimate user to act as.
         if (!targetUser.keycloakIdentifier) {
           throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Cannot impersonate a user who has never logged in' });
         }

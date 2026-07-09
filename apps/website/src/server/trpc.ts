@@ -125,8 +125,7 @@ export const getUserFromAuthOrThrow = async (auth: Pick<AuthContext, 'sub'>) => 
   return user;
 };
 
-// The real actor behind the request — the admin during impersonation, otherwise the caller.
-// Permission checks use this so impersonating an admin can't escalate a scoped user.
+// The real actor behind the request: the admin during impersonation, otherwise the caller.
 export const impersonationRealIdentity = (ctx: {
   auth: { sub: string } | null;
   impersonation?: { adminSub: string } | null;

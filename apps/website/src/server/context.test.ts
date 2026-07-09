@@ -82,7 +82,7 @@ describe('createContext: User impersonation', () => {
     });
   });
 
-  test('impersonating a not-yet-backfilled target (no keycloakIdentifier) is blocked', async () => {
+  test('impersonating a never-logged-in target (no keycloakIdentifier) is blocked', async () => {
     const adminAuth = { ...mockAuth, email: 'admin@example.com', sub: 'admin-sub' };
     await testDb.insert(userTable, {
       id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
