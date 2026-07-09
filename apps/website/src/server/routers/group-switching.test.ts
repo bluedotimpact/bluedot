@@ -19,7 +19,11 @@ import { calculateGroupAvailability, getAvailableGroupsAndDiscussions } from './
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 setupTestDb();
-beforeEach(seedLoggedInUser);
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await seedLoggedInUser();
+});
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);
@@ -439,6 +443,7 @@ async function seedCourseWithGroups() {
   await testDb.insert(meetPersonTable, {
     id: 'participant-1',
     email: 'test@example.com',
+    userId: 'test-user',
     applicationsBaseRecordId: 'reg-1',
     round: 'round-1',
     role: 'Participant',
@@ -600,6 +605,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
@@ -677,6 +683,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
@@ -774,6 +781,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
@@ -880,6 +888,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
       email: 'test@example.com',
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',

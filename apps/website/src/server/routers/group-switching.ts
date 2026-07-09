@@ -12,7 +12,7 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
-import { protectedProcedure, router } from '../trpc';
+import { getUserOrThrow, protectedProcedure, router } from '../trpc';
 
 export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
 
@@ -185,7 +185,9 @@ export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ ctx, input: { roundId } }) => {
-      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT } });
+      const user = await getUserOrThrow(ctx.auth.email);
+
+      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, userId: user.id, role: COURSE_ROLE.PARTICIPANT } });
       if (!participant) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
@@ -266,8 +268,10 @@ export const groupSwitchingRouter = router({
         });
       }
 
+      const user = await getUserOrThrow(ctx.auth.email);
+
       const participant = await db.getFirst(meetPersonTable, {
-        filter: { round: roundId, email: ctx.auth.email, role: COURSE_ROLE.PARTICIPANT },
+        filter: { round: roundId, userId: user.id, role: COURSE_ROLE.PARTICIPANT },
       });
       if (!participant) {
         throw new TRPCError({

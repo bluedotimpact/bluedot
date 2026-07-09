@@ -12,14 +12,15 @@ import {
   resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
-  userTable,
   type Chunk,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import {
+  getUserOrThrow, protectedProcedure, publicProcedure, router,
+} from '../trpc';
 
 export type BasicChunk = {
   id: string;
@@ -302,10 +303,7 @@ export const coursesRouter = router({
 
       const { coreResourceIds, requiredExerciseIds } = await getCoreResourceAndRequiredExerciseIds(allChunks);
 
-      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
-      }
+      const user = await getUserOrThrow(ctx.auth.email);
 
       const { resourceCompletions, exerciseCompletions } = await getUserCompletions(
         coreResourceIds,

@@ -26,7 +26,7 @@ import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/
 import db from '../../lib/api/db';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
-import { protectedProcedure, router } from '../trpc';
+import { getUserOrThrow, protectedProcedure, router } from '../trpc';
 import { getAvailableGroupsAndDiscussions } from './group-switching';
 
 // Used for mapping self-serve registrations (where all these fields are empty) into the expected shape
@@ -107,11 +107,13 @@ export const myBluedotRouter = router({
     .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
     .query(async ({ ctx, input }) => {
       const includeWithdrawn = input?.includeWithdrawn ?? false;
+      const user = await getUserOrThrow(ctx.auth.email);
+
       const rows = await db.pg
         .select({ id: courseRegistrationTable.pg.id })
         .from(courseRegistrationTable.pg)
         .where(and(
-          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.userId, user.id),
           eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
           includeWithdrawn
             ? undefined
@@ -125,7 +127,7 @@ export const myBluedotRouter = router({
     }),
 
   myCoursesPage: protectedProcedure.query(async ({ ctx }) => {
-    const { email } = ctx.auth;
+    const user = await getUserOrThrow(ctx.auth.email);
 
     // Step 1: Fetch data
     const [facilitatedRegistrations, selfServeRegistrations] = await Promise.all([
@@ -133,7 +135,7 @@ export const myBluedotRouter = router({
         .select()
         .from(courseRegistrationTable.pg)
         .where(and(
-          eq(courseRegistrationTable.pg.email, email),
+          eq(courseRegistrationTable.pg.userId, user.id),
           // FoAI registrations live in self_serve_course_registration now; they're unioned in below
           ne(courseRegistrationTable.pg.courseId, FOAI_COURSE_ID),
           or(
@@ -150,7 +152,7 @@ export const myBluedotRouter = router({
       db.pg
         .select()
         .from(selfServeCourseRegistrationTable.pg)
-        .where(eq(selfServeCourseRegistrationTable.pg.email, email)),
+        .where(eq(selfServeCourseRegistrationTable.pg.userId, user.id)),
     ]);
 
     if (facilitatedRegistrations.length === 0 && selfServeRegistrations.length === 0) {
@@ -163,7 +165,7 @@ export const myBluedotRouter = router({
     ]);
     const [courses, meetPersons, dropoutStatusByRegId] = await Promise.all([
       fetchActiveCoursesByIds(courseIds),
-      db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
+      db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.userId, user.id)),
       fetchDropoutStatusByRegId(facilitatedRegistrations.map((cr) => cr.id)),
     ]);
 
@@ -365,14 +367,14 @@ export const myBluedotRouter = router({
   }),
 
   facilitatedCoursesPage: protectedProcedure.query(async ({ ctx }) => {
-    const { email } = ctx.auth;
+    const user = await getUserOrThrow(ctx.auth.email);
 
     // Step 1: Fetch data
     const courseRegistrations = await db.pg
       .select()
       .from(courseRegistrationTable.pg)
       .where(and(
-        eq(courseRegistrationTable.pg.email, email),
+        eq(courseRegistrationTable.pg.userId, user.id),
         eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
         or(
           ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
@@ -386,7 +388,7 @@ export const myBluedotRouter = router({
 
     const [courses, meetPersons, dropoutStatusByRegId] = await Promise.all([
       fetchActiveCoursesByIds(unique(courseRegistrations.map((cr) => cr.courseId))),
-      db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
+      db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.userId, user.id)),
       fetchDropoutStatusByRegId(courseRegistrations.map((cr) => cr.id)),
     ]);
 

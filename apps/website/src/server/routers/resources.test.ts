@@ -1,13 +1,13 @@
 import {
   resourceCompletionPgTable,
   unitResourceTable,
-  userTable,
 } from '@bluedot/db';
 import {
   beforeEach, describe, expect, test,
 } from 'vitest';
 import {
   createCaller,
+  seedLoggedInUser,
   setupTestDb,
   testAuthContextLoggedIn,
   testDb,
@@ -20,7 +20,7 @@ const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
 
 // The authenticated user's row is assumed to exist by the userId-scoped routes.
 beforeEach(async () => {
-  await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+  await seedLoggedInUser();
 });
 
 describe('resources.saveResourceCompletion', () => {
@@ -35,7 +35,7 @@ describe('resources.saveResourceCompletion', () => {
     expect(result).toMatchObject({
       unitResourceId: 'ur-1',
       resourceId: ['resource-1'],
-      userId: ['user-1'],
+      userId: ['test-user'],
     });
     expect(result.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
   });
@@ -47,7 +47,7 @@ describe('resources.saveResourceCompletion', () => {
     });
 
     expect(result.resourceId).toBeNull();
-    expect(result.userId).toEqual(['user-1']);
+    expect(result.userId).toEqual(['test-user']);
   });
 
   test('throws UNAUTHORIZED when the user row is missing', async () => {
@@ -68,7 +68,7 @@ describe('resources.saveResourceCompletion', () => {
       email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
       resourceId: ['resource-original'],
-      userId: ['user-1'],
+      userId: ['test-user'],
     });
 
     const result = await caller.resources.saveResourceCompletion({
@@ -79,7 +79,7 @@ describe('resources.saveResourceCompletion', () => {
     expect(result).toMatchObject({
       id: 'rc-1',
       resourceId: ['resource-original'],
-      userId: ['user-1'],
+      userId: ['test-user'],
     });
   });
 
@@ -97,7 +97,7 @@ describe('resources.saveResourceCompletion', () => {
     await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
       email: CALLER_EMAIL,
-      userId: ['user-1'],
+      userId: ['test-user'],
       unitResourceId: 'ur-1',
       completedAt: '2026-01-01T00:00:00.000Z',
     });
@@ -114,7 +114,7 @@ describe('resources.saveResourceCompletion', () => {
     await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
       email: CALLER_EMAIL,
-      userId: ['user-1'],
+      userId: ['test-user'],
       unitResourceId: 'ur-1',
       completedAt: '2026-01-01T00:00:00.000Z',
     });

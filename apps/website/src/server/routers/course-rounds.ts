@@ -5,6 +5,7 @@ import {
   courseTable,
   eq,
   or, sql,
+  userTable,
 } from '@bluedot/db';
 import { z } from 'zod';
 import db from '../../lib/api/db';
@@ -272,14 +273,18 @@ export const courseRoundsRouter = router({
       // Check if user has already applied (requires auth context)
       let hasApplied = false;
       if (ctx.auth?.email) {
-        const result = await db.pg.execute<{ exists: boolean }>(sql`
-          SELECT EXISTS (
-            SELECT 1 FROM ${courseRegistrationTable.pg}
-            WHERE ${courseRegistrationTable.pg.email} = ${ctx.auth.email}
-            AND ${courseRegistrationTable.pg.courseId} = ${courseId}
-          )
-        `);
-        hasApplied = result.rows[0]?.exists ?? false;
+        // Optional-auth endpoint: resolve the user without throwing; no user means not applied.
+        const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
+        if (user) {
+          const result = await db.pg.execute<{ exists: boolean }>(sql`
+            SELECT EXISTS (
+              SELECT 1 FROM ${courseRegistrationTable.pg}
+              WHERE ${courseRegistrationTable.pg.userId} = ${user.id}
+              AND ${courseRegistrationTable.pg.courseId} = ${courseId}
+            )
+          `);
+          hasApplied = result.rows[0]?.exists ?? false;
+        }
       }
 
       return {

@@ -10,9 +10,13 @@ import {
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 setupTestDb();
-beforeEach(seedLoggedInUser);
 
 const otherCourseId = 'recOtherCourseId12345';
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await seedLoggedInUser();
+});
 
 describe('courseRegistrations.getByCourseId', () => {
   test('rejects unauthenticated callers', async () => {
@@ -29,6 +33,7 @@ describe('courseRegistrations.getByCourseId', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
+      userId: 'test-user',
       courseId: otherCourseId,
       decision: 'Accept',
     });
@@ -40,10 +45,10 @@ describe('courseRegistrations.getByCourseId', () => {
 
   test('does not return registrations with a non-Accept decision', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', courseId: otherCourseId, decision: 'Reject',
+      id: 'reg1', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Reject',
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg2', email: 'test@example.com', courseId: otherCourseId, decision: 'Withdrawn',
+      id: 'reg2', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Withdrawn',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -53,7 +58,7 @@ describe('courseRegistrations.getByCourseId', () => {
 
   test('does not leak registrations belonging to other users', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'someone-else@example.com', courseId: otherCourseId, decision: 'Accept',
+      id: 'reg1', email: 'someone-else@example.com', userId: 'user-other', courseId: otherCourseId, decision: 'Accept',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -70,16 +75,16 @@ describe('courseRegistrations.getAll', () => {
 
   test('returns all non-Withdrawn registrations for the auth email, including null-decision rows', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-accept', email: 'test@example.com', courseId: 'a', decision: 'Accept',
+      id: 'reg-accept', email: 'test@example.com', userId: 'test-user', courseId: 'a', decision: 'Accept',
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-pending', email: 'test@example.com', courseId: 'b', decision: null,
+      id: 'reg-pending', email: 'test@example.com', userId: 'test-user', courseId: 'b', decision: null,
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-withdrawn', email: 'test@example.com', courseId: 'c', decision: 'Withdrawn',
+      id: 'reg-withdrawn', email: 'test@example.com', userId: 'test-user', courseId: 'c', decision: 'Withdrawn',
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-other', email: 'someone-else@example.com', courseId: 'a', decision: 'Accept',
+      id: 'reg-other', email: 'someone-else@example.com', userId: 'user-other', courseId: 'a', decision: 'Accept',
     });
 
     const result = await createCaller(testAuthContextLoggedIn).courseRegistrations.getAll();
@@ -127,7 +132,7 @@ describe('courseRegistrations.getRoundStartDates', () => {
 describe('courseRegistrations self-serve aliases', () => {
   test('ensureExists and ensureSelfServeRegistrationExists both return the self-serve registration', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
+      id: 'ss-foai', email: 'test@example.com', userId: 'test-user', courseId: FOAI_COURSE_ID,
     });
     const caller = createCaller(testAuthContextLoggedIn);
 

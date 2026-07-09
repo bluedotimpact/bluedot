@@ -16,10 +16,14 @@ import {
 } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
-beforeEach(seedLoggedInUser);
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await seedLoggedInUser();
+});
 
 describe('groupDiscussions.getByCourseSlug', () => {
   test('uses expected facilitator discussion ids when indirect round linkage misses the upcoming session', async () => {
@@ -37,6 +41,7 @@ describe('groupDiscussions.getByCourseSlug', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
     });

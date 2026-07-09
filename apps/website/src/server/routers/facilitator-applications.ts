@@ -16,7 +16,7 @@ import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
-import { protectedProcedure, router } from '../trpc';
+import { getUserOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
 
 type FacilitatorApplicationDecision = 'Accept' | 'Reject' | 'Withdrawn' | null;
@@ -42,13 +42,13 @@ const buildRoundLabel = (courseRoundIntensity: string | null, intensity: string 
  * persists" behaviour of the quick-apply panel. Cohorts with no assigned discussions yet
  * (not started) don't count. Shared with the future "facilitate again" sidebar (#2531).
  */
-export const getQuickApplyEligibleCourseIds = async (email: string): Promise<string[]> => {
+export const getQuickApplyEligibleCourseIds = async (userId: string): Promise<string[]> => {
   const [registrations, meetPersons] = await Promise.all([
     db.pg
       .select({ id: courseRegistrationTable.pg.id, courseId: courseRegistrationTable.pg.courseId })
       .from(courseRegistrationTable.pg)
       .where(and(
-        eq(courseRegistrationTable.pg.email, email),
+        eq(courseRegistrationTable.pg.userId, userId),
         eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
       )),
     db.pg
@@ -57,7 +57,7 @@ export const getQuickApplyEligibleCourseIds = async (email: string): Promise<str
         expectedDiscussionsFacilitator: meetPersonTable.pg.expectedDiscussionsFacilitator,
       })
       .from(meetPersonTable.pg)
-      .where(eq(meetPersonTable.pg.email, email)),
+      .where(eq(meetPersonTable.pg.userId, userId)),
   ]);
   if (registrations.length === 0) return [];
 
@@ -139,12 +139,12 @@ const getRoundContext = async (roundId: string) => {
   };
 };
 
-const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
+const getPriorFacilitatorRegs = async (userId: string, courseId: string) => {
   const regs = await db.pg
     .select()
     .from(courseRegistrationTable.pg)
     .where(and(
-      eq(courseRegistrationTable.pg.email, email),
+      eq(courseRegistrationTable.pg.userId, userId),
       eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
       eq(courseRegistrationTable.pg.courseId, courseId),
     ));
@@ -154,8 +154,8 @@ const getPriorFacilitatorRegs = async (email: string, courseId: string) => {
 
 type PriorFacilitatorReg = Awaited<ReturnType<typeof getPriorFacilitatorRegs>>[number];
 
-const getEligiblePriorFacilitatorRegs = async (email: string, courseId: string, roundId: string) => {
-  const priorRegs = await getPriorFacilitatorRegs(email, courseId);
+const getEligiblePriorFacilitatorRegs = async (userId: string, courseId: string, roundId: string) => {
+  const priorRegs = await getPriorFacilitatorRegs(userId, courseId);
   if (priorRegs.length === 0) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'You have not facilitated this course before' });
   }
@@ -236,10 +236,12 @@ export type QuickApplyPrefillData = inferRouterOutputs<typeof facilitatorApplica
 
 export const facilitatorApplicationsRouter = router({
   list: protectedProcedure.query(async ({ ctx }) => {
+    const user = await getUserOrThrow(ctx.auth.email);
+
     const registrations = await db.pg
       .select()
       .from(courseRegistrationTable.pg)
-      .where(and(eq(courseRegistrationTable.pg.email, ctx.auth.email), eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR)));
+      .where(and(eq(courseRegistrationTable.pg.userId, user.id), eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR)));
 
     if (registrations.length === 0) return [];
 
@@ -293,7 +295,9 @@ export const facilitatorApplicationsRouter = router({
   // One card per course the facilitator is wrapping up that still has open upcoming rounds
   // they haven't applied to. Each card lists those rounds (earliest first).
   eligibleRounds: protectedProcedure.query(async ({ ctx }) => {
-    const eligibleCourseIds = await getQuickApplyEligibleCourseIds(ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.email);
+
+    const eligibleCourseIds = await getQuickApplyEligibleCourseIds(user.id);
     if (eligibleCourseIds.length === 0) return [];
 
     const [existingRegs, courses, rounds] = await Promise.all([
@@ -301,7 +305,7 @@ export const facilitatorApplicationsRouter = router({
         .select({ roundId: courseRegistrationTable.pg.roundId })
         .from(courseRegistrationTable.pg)
         .where(and(
-          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.userId, user.id),
           eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
         )),
       db.pg
@@ -370,8 +374,10 @@ export const facilitatorApplicationsRouter = router({
   // Round + course context and prefill (from the facilitator's most recent prior application
   // for the same course) for the quick-apply form. Validates eligibility, openness, no duplicate.
   quickApplyPrefill: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ ctx, input }) => {
+    const user = await getUserOrThrow(ctx.auth.email);
+
     const { round, courseId } = await getRoundContext(input.roundId);
-    const priorRegs = await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);
+    const priorRegs = await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
 
     const mostRecent = priorRegs[0] ?? null;
     const prefill = mostRecent ? buildPrefill(mostRecent) : null;
@@ -391,8 +397,10 @@ export const facilitatorApplicationsRouter = router({
       { message: 'Invalid availability', path: ['availabilityIntervalsUTC'] },
     ))
     .mutation(async ({ ctx, input }) => {
+      const user = await getUserOrThrow(ctx.auth.email);
+
       const { courseId } = await getOpenRound(input.roundId);
-      await getEligiblePriorFacilitatorRegs(ctx.auth.email, courseId, input.roundId);
+      await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
 
       // Link the application to its course via the Applications-base course record (courseId,
       // roundName and roundStatus are computed in Airtable from the linked round/course).
@@ -408,6 +416,7 @@ export const facilitatorApplicationsRouter = router({
 
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
+        userId: user.id,
         firstName,
         lastName,
         courseApplicationsBaseId: applicationsCourse.id,

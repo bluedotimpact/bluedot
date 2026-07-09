@@ -24,6 +24,12 @@ setupTestDb();
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
 
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await seedLoggedInUser();
+  await testDb.insert(userTable, { id: 'user-other', email: 'other@example.com', name: 'Other User' });
+});
+
 const NOW = Math.floor(Date.now() / 1000);
 const HOUR = 3600;
 
@@ -62,14 +68,13 @@ const seedMeetPerson = (id: string, applicationsBaseRecordId: string, expectedDi
   testDb.insert(meetPersonTable, {
     id,
     email: CALLER_EMAIL,
+    userId: 'test-user',
     applicationsBaseRecordId,
     role: 'Facilitator',
     expectedDiscussionsFacilitator,
   });
 
 describe('facilitatorApplications.list', () => {
-  beforeEach(seedLoggedInUser);
-
   test('returns empty array when caller has no facilitator registrations', async () => {
     const result = await caller.facilitatorApplications.list();
     expect(result).toEqual([]);
@@ -87,6 +92,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-p',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Participant',
       decision: 'Accept',
@@ -113,6 +119,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Accept',
@@ -150,6 +157,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-w',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Withdrawn',
@@ -171,6 +179,7 @@ describe('facilitatorApplications.list', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-other',
       email: 'other@example.com',
+      userId: 'user-other',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Accept',
@@ -182,8 +191,6 @@ describe('facilitatorApplications.list', () => {
 });
 
 describe('facilitatorApplications.eligibleRounds', () => {
-  beforeEach(seedLoggedInUser);
-
   test('rejects unauthenticated callers', async () => {
     await expect(createCaller(testAuthContextLoggedOut).facilitatorApplications.eligibleRounds()).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
@@ -197,6 +204,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -214,6 +222,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -247,6 +256,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -264,6 +274,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -279,6 +290,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -286,6 +298,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-2',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-next',
@@ -303,6 +316,7 @@ describe('facilitatorApplications.eligibleRounds', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-cohort',
@@ -316,13 +330,12 @@ describe('facilitatorApplications.eligibleRounds', () => {
 });
 
 describe('facilitatorApplications.quickApplyPrefill', () => {
-  beforeEach(seedLoggedInUser);
-
   test('prefills from the most recent prior facilitator application for the same course', async () => {
     await seedCourse('course-1', 'tai', 'Technical AI Safety');
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-old',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',
@@ -333,6 +346,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-new',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-b',
@@ -367,6 +381,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-next',
@@ -382,6 +397,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',
@@ -400,8 +416,6 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
 });
 
 describe('facilitatorApplications.quickApply', () => {
-  beforeEach(seedLoggedInUser);
-
   const validInput = {
     roundId: 'round-next',
     numGroupsToFacilitate: 2,
@@ -438,6 +452,7 @@ describe('facilitatorApplications.quickApply', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-next',
@@ -451,6 +466,7 @@ describe('facilitatorApplications.quickApply', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',
@@ -468,6 +484,7 @@ describe('facilitatorApplications.quickApply', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundId: 'round-a',
@@ -478,6 +495,12 @@ describe('facilitatorApplications.quickApply', () => {
 });
 
 describe('resolveApplicantName', () => {
+  // These tests exercise the user-account name fallback directly and manage their own user rows,
+  // so clear the default users seeded by the file-level beforeEach to avoid duplicate-email matches.
+  beforeEach(async () => {
+    await testDb.pg.delete(userTable.pg);
+  });
+
   const seedUser = (email: string, name: string) => testDb.insert(userTable, { id: `user-${email}`, email, name });
 
   test('returns null names when neither a prior application nor a user account has a name', async () => {
