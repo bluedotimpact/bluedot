@@ -16,7 +16,8 @@ const isoDateToEpochSeconds = (sinceIso?: string) => (sinceIso == null ? undefin
 
 // Use the captured distinctId from the browser session if we have it, otherwise fall back to record id
 const courseRegistrationAnonDistinctId = (r: Pick<CourseRegistration, 'id' | 'posthogDistinctId'>) => (
-  r.posthogDistinctId ?? r.id
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  r.posthogDistinctId || r.id
 );
 
 // Mirrors the my-courses UI (deriveStatus in useDiscussionActions.tsx): a participant is `attended` when
