@@ -98,7 +98,7 @@ describe('createContext: User impersonation', () => {
     });
 
     await expect(createContext({ req } as Parameters<typeof createContext>[0]))
-      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+      .rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
   test('scoped user can impersonate allowed target', async () => {

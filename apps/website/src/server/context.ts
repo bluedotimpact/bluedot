@@ -39,7 +39,7 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
         // A target with no keycloakIdentifier has never logged in via Keycloak and so is not a
         // legitimate user to act as.
         if (!targetUser.keycloakIdentifier) {
-          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Cannot impersonate a user who has never logged in' });
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Cannot impersonate a user who has never logged in' });
         }
 
         logger.info(`${auth.email} impersonating user ${targetUser.email} (access: ${access})`);
