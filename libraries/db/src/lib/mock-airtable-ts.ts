@@ -10,6 +10,16 @@ function generateRecordId(): string {
   return `rec${Math.random().toString(36).slice(2, 16).padEnd(14, 'a')}`;
 }
 
+function defaultForTsType(tsType: string): unknown {
+  if (tsType.includes('| null')) return null;
+  if (tsType.endsWith('[]')) return [];
+  if (tsType === 'string') return '';
+  if (tsType === 'boolean') return false;
+  // Matches airtable-ts, which throws when a missing value can't be coerced to
+  // the declared non-nullable type (e.g. 'number').
+  throw new Error(`MockAirtableTs: no value provided for non-nullable field of type '${tsType}'.`);
+}
+
 /**
  * Test mock of AirtableTs.
  *
@@ -66,10 +76,20 @@ export class MockAirtableTs extends AirtableTs {
     throw new Error('MockAirtableTs does not support scan(). PgAirtableDb.scan() reads from Postgres directly, so this method should not be called.');
   }
 
-  override async insert<T extends Item>(_table: Table<T>, data: Partial<Omit<T, 'id'>>): Promise<T> {
+  override async insert<T extends Item>(table: Table<T>, data: Partial<Omit<T, 'id'>>): Promise<T> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const id = (data as any).id ?? generateRecordId();
-    return { ...data, id } as T;
+    // Real Airtable omits unset fields in the created record, and airtable-ts maps
+    // them to type-appropriate defaults ('' / false / [] / null). Mirror that here so
+    // inserts that omit non-nullable fields behave the same as in production.
+    const defaults: Record<string, unknown> = {};
+    for (const [field, tsType] of Object.entries<string>(table.schema)) {
+      if (!(field in data)) {
+        defaults[field] = defaultForTsType(tsType);
+      }
+    }
+
+    return { ...defaults, ...data, id } as T;
   }
 
   override async update<T extends Item>(table: Table<T>, data: Partial<T> & { id: string }): Promise<T> {
