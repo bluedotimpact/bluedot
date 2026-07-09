@@ -117,6 +117,10 @@ export const useAuthStore = create<{
       email: auth.email,
     });
 
+    if (auth.sub) {
+      posthog.alias(auth.sub, auth.email);
+    }
+
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
     const clearInMs = expiresInMs - FIVE_SEC_MS; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
