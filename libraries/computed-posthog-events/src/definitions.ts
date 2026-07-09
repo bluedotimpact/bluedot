@@ -4,7 +4,7 @@ import {
   groupDiscussionTable, meetPersonTable, roundTable, unitTable, exerciseTable, exerciseResponsePgTable,
   unitResourceTable, resourceCompletionPgTable, projectSubmissionTable, dropoutTable, userTable,
   type PgAirtableDb,
-  CourseRegistration,
+  type CourseRegistration,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
 import type { Event, EventProjectionRule } from './core';
@@ -13,6 +13,11 @@ const filterGteOrNull = (col: PgColumn, sinceValue: number | string | undefined)
   sinceValue == null ? isNotNull(col) : and(isNotNull(col), gte(col, sinceValue))
 );
 const isoDateToEpochSeconds = (sinceIso?: string) => (sinceIso == null ? undefined : Math.floor(Date.parse(sinceIso) / 1000));
+
+// Use the captured distinctId from the browser session if we have it, otherwise fall back to record id
+const courseRegistrationAnonDistinctId = (r: Pick<CourseRegistration, 'id' | 'posthogDistinctId'>) => (
+  r.posthogDistinctId ?? r.id
+);
 
 // Mirrors the my-courses UI (deriveStatus in useDiscussionActions.tsx): a participant is `attended` when
 // their meet_person id is in the discussion's attendees, and `absent` once the discussion has ended without it.
@@ -140,11 +145,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)); // createdAt is ISO text
 
-      const trackEvents = rows.map((r) => {
+      return rows.map((r) => {
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: r.id,
-          distinctId: r.email,
+          // Emitted under a deterministic anonymous distinct id, so it can later be joined up to
+          // the user when they log in (via identify_applicants)
+          distinctId: courseRegistrationAnonDistinctId(r),
           timestampMs: Date.parse(r.createdAt!),
           properties: {
             course_id: r.courseId,
@@ -153,33 +160,16 @@ export const eventProjectionRules: EventProjectionRule[] = [
             ...(r.roundName ? { round_name: r.roundName } : {}),
             // $session_id is PostHog's reserved key for session stitching; only set when we captured one.
             ...(r.posthogSessionId ? { $session_id: r.posthogSessionId } : {}),
+            $set: { email: r.email },
           },
         };
       });
-
-      // Where we captured the applicant's anonymous PostHog id, identify them: merge that anonymous
-      // person into the email person so their pre-application browsing is attributed to them.
-      const anonUsers = rows.filter((r) => r.posthogDistinctId && r.posthogDistinctId !== r.email);
-      const identifyEvents = anonUsers.map((r) => ({
-        type: 'identify' as const,
-        internalUniqueKey: r.id,
-        distinctId: r.email,
-        anonDistinctId: r.posthogDistinctId!,
-        timestampMs: Date.parse(r.createdAt!),
-        set: { email: r.email },
-      }));
-
-      return [...identifyEvents, ...trackEvents];
     },
   },
   {
     // Submit an `identify` event when we are able to join up an application to a logged in user.
     eventType: 'identify_applicants',
     async calculateEvents(db, { since }) {
-      const anonDistinctId = (registration: Pick<CourseRegistration, 'id' | 'email' | 'posthogDistinctId'>) => (
-        registration.posthogDistinctId && registration.posthogDistinctId !== registration.email ? registration.posthogDistinctId : registration.id
-      );
-
       const [newRegistrations, newUsers] = await Promise.all([
         db.pg.select().from(courseRegistrationTable.pg).where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)),
         // strict gte: never-logged-in users have a NULL firstLoggedInAt and must not match every scan
@@ -211,7 +201,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
           type: 'identify',
           internalUniqueKey: `identify_applicants:${registration.id}`,
           distinctId: user.email,
-          anonDistinctId: anonDistinctId(registration),
+          anonDistinctId: courseRegistrationAnonDistinctId(registration),
           timestampMs: Date.parse(user.firstLoggedInAt!),
           set: { email: user.email },
         }];
