@@ -111,6 +111,15 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
+export const getUserOrThrow = async (email: string) => {
+  const user = await db.getFirst(userTable, { filter: { email } });
+  if (!user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No user record for this account. Please log in again.' });
+  }
+
+  return user;
+};
+
 export const checkAdminAccess = async (email: string): Promise<boolean> => {
   const user = await db.getFirst(userTable, { filter: { email } });
 

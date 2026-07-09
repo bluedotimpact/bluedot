@@ -8,9 +8,12 @@ import {
   meetPersonTable,
   selfServeCourseRegistrationTable,
 } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import {
+  beforeEach, describe, expect, test,
+} from 'vitest';
 import {
   createCaller,
+  seedLoggedInUser,
   setupTestDb,
   testAuthContextLoggedIn,
   testDb,
@@ -18,6 +21,7 @@ import {
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;

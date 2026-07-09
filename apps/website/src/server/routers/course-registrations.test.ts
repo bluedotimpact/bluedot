@@ -1,13 +1,16 @@
 import {
   applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable,
 } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
 import {
-  createCaller, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
+  beforeEach, describe, expect, test,
+} from 'vitest';
+import {
+  createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 const otherCourseId = 'recOtherCourseId12345';
 

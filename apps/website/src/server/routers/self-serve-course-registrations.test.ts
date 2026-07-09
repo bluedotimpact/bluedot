@@ -1,7 +1,7 @@
-import { applicationsCourseTable, selfServeCourseRegistrationTable } from '@bluedot/db';
+import { selfServeCourseRegistrationTable } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
-  createCaller, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
+  createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
@@ -16,12 +16,14 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
   });
 
   test('throws BAD_REQUEST for non-FOAI courses', async () => {
+    await seedLoggedInUser();
     await expect(createCaller(testAuthContextLoggedIn)
       .selfServeCourseRegistrations.ensureExists({ courseId: otherCourseId }))
       .rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
   test('returns the existing self-serve registration', async () => {
+    await seedLoggedInUser();
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
     });
@@ -32,17 +34,10 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
   });
 
   test('throws NOT_FOUND for FOAI when no applications_course config row exists', async () => {
+    await seedLoggedInUser();
     await expect(createCaller(testAuthContextLoggedIn)
       .selfServeCourseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
-  });
-
-  test('throws PRECONDITION_FAILED for FOAI when the User record does not exist yet (so the client retries)', async () => {
-    await testDb.insert(applicationsCourseTable, { id: 'foai-app-course', courseBuilderId: FOAI_COURSE_ID });
-
-    await expect(createCaller(testAuthContextLoggedIn)
-      .selfServeCourseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))
-      .rejects.toMatchObject({ code: 'PRECONDITION_FAILED' });
   });
 
   // The full "creates a new FOAI registration" path isn't unit-testable: the insert omits `courseId`

@@ -1,10 +1,11 @@
 import { userTable } from '@bluedot/db';
+import { loginPresets } from '@bluedot/ui';
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
 import {
-  createCaller, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
+  createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
 
 vi.mock('../../lib/api/keycloak', () => ({
@@ -12,11 +13,32 @@ vi.mock('../../lib/api/keycloak', () => ({
   updateKeycloakPassword: vi.fn(),
 }));
 
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual('@bluedot/ui');
+  return {
+    ...actual,
+    loginPresets: {
+      keycloak: {
+        verifyAndDecodeToken: vi.fn(),
+      },
+    },
+  };
+});
+
 setupTestDb();
 
 beforeEach(() => {
   vi.mocked(verifyKeycloakPassword).mockReset();
   vi.mocked(updateKeycloakPassword).mockReset();
+  vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockReset();
+  vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+    sub: 'test-sub',
+    email: 'test@example.com',
+    iss: 'test-issuer',
+    aud: 'test-audience',
+    exp: Math.floor(Date.now() / 1000) + 3600,
+    email_verified: true,
+  });
 });
 
 describe('users.getUser', () => {
@@ -25,9 +47,9 @@ describe('users.getUser', () => {
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  test('throws NOT_FOUND when no user record exists for the authed email', async () => {
+  test('rejects with UNAUTHORIZED when the authed user has no row (ensureExists not run)', async () => {
     await expect(createCaller(testAuthContextLoggedIn).users.getUser())
-      .rejects.toMatchObject({ code: 'NOT_FOUND' });
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('returns the user and bumps lastSeenAt', async () => {
@@ -56,6 +78,7 @@ describe('users.changePassword', () => {
   });
 
   test('blocks password change while impersonating another user', async () => {
+    await seedLoggedInUser();
     const caller = createCaller({
       ...testAuthContextLoggedIn,
       auth: { ...testAuthContextLoggedIn.auth!, email: 'test@example.com' },
@@ -70,6 +93,7 @@ describe('users.changePassword', () => {
   });
 
   test('throws UNAUTHORIZED when current password is wrong, and does not update', async () => {
+    await seedLoggedInUser();
     vi.mocked(verifyKeycloakPassword).mockResolvedValue(false);
 
     await expect(createCaller(testAuthContextLoggedIn).users.changePassword(validInput))
@@ -79,6 +103,7 @@ describe('users.changePassword', () => {
   });
 
   test('rejects new passwords shorter than 8 chars at the schema layer', async () => {
+    await seedLoggedInUser();
     await expect(createCaller(testAuthContextLoggedIn).users.changePassword({
       currentPassword: 'old-pw',
       newPassword: 'short',
@@ -88,6 +113,7 @@ describe('users.changePassword', () => {
   });
 
   test('updates Keycloak when current password verifies', async () => {
+    await seedLoggedInUser();
     vi.mocked(verifyKeycloakPassword).mockResolvedValue(true);
     vi.mocked(updateKeycloakPassword).mockResolvedValue(undefined);
 
@@ -100,17 +126,16 @@ describe('users.changePassword', () => {
 });
 
 describe('users.ensureExists', () => {
-  test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).users.ensureExists(undefined))
+  test('rejects invalid tokens with UNAUTHORIZED', async () => {
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new Error('bad token'));
+
+    await expect(createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'bad-token' }))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  // Skipped: the "create new user" path in ensureExists asserts isNewUser: true after inserting a row,
-  // but the router's insert (users.ts L66-72) omits `name`, which is `notNull()` in the userTable schema.
-  // Test left in place as a tripwire so the gap stays visible until the router is fixed (e.g. derive a
-  // default name from auth, or accept name as part of createUserSchema).
-  test.skip('creates a new user and persists initial UTM fields', async () => {
-    const result = await createCaller(testAuthContextLoggedIn).users.ensureExists({
+  test('creates a new user and persists initial UTM fields', async () => {
+    const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({
+      token: 'valid-token',
       initialUtmSource: 'twitter',
       initialUtmCampaign: 'launch',
       initialUtmContent: 'thread',
@@ -123,6 +148,19 @@ describe('users.ensureExists', () => {
     expect(user.utmCampaign).toBe('launch');
     expect(user.utmContent).toBe('thread');
     expect(user.keycloakIdentifier).toBe('test-sub');
+    expect(user.lastSeenAt).toBeTruthy();
+  });
+
+  test('is idempotent: a second call reports isNewUser false and creates no extra row', async () => {
+    const caller = createCaller(testAuthContextLoggedOut);
+
+    await caller.users.ensureExists({ token: 'valid-token' });
+    const second = await caller.users.ensureExists({ token: 'valid-token' });
+
+    expect(second).toEqual({ isNewUser: false });
+
+    const users = await testDb.scan(userTable);
+    expect(users).toHaveLength(1);
   });
 
   test('updates lastSeenAt on an existing user without overwriting their UTM fields', async () => {
@@ -135,7 +173,8 @@ describe('users.ensureExists', () => {
     });
 
     const before = Date.now();
-    const result = await createCaller(testAuthContextLoggedIn).users.ensureExists({
+    const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({
+      token: 'valid-token',
       initialUtmSource: 'should-be-ignored',
     });
 
@@ -153,7 +192,7 @@ describe('users.ensureExists', () => {
       name: 'Test User',
     });
 
-    const result = await createCaller(testAuthContextLoggedIn).users.ensureExists(undefined);
+    const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
     expect(result).toEqual({ isNewUser: false });
 
@@ -161,19 +200,22 @@ describe('users.ensureExists', () => {
     expect(user.keycloakIdentifier).toBe('test-sub');
   });
 
-  test('does not write an empty keycloakIdentifier when sub is empty (e.g. impersonating a not-yet-backfilled target)', async () => {
+  test('does not write an empty keycloakIdentifier when the token has an empty sub', async () => {
     await testDb.insert(userTable, {
       id: 'u1',
       email: 'test@example.com',
       name: 'Test User',
     });
 
-    const caller = createCaller({
-      ...testAuthContextLoggedIn,
-      auth: { ...testAuthContextLoggedIn.auth!, email: 'test@example.com', sub: '' },
-      impersonation: { adminEmail: 'admin@example.com', targetEmail: 'test@example.com' },
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+      sub: '',
+      email: 'test@example.com',
+      iss: 'test-issuer',
+      aud: 'test-audience',
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      email_verified: true,
     });
-    const result = await caller.users.ensureExists(undefined);
+    const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
     expect(result).toEqual({ isNewUser: false });
 
@@ -188,9 +230,9 @@ describe('users.updateName', () => {
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  test('throws NOT_FOUND when the authed user has no record', async () => {
+  test('rejects with UNAUTHORIZED when the authed user has no row (ensureExists not run)', async () => {
     await expect(createCaller(testAuthContextLoggedIn).users.updateName({ name: 'New' }))
-      .rejects.toMatchObject({ code: 'NOT_FOUND' });
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('updates name on an existing user', async () => {
@@ -203,11 +245,13 @@ describe('users.updateName', () => {
   });
 
   test('rejects empty names at the schema layer', async () => {
+    await seedLoggedInUser();
     await expect(createCaller(testAuthContextLoggedIn).users.updateName({ name: '   ' }))
       .rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
   test('rejects names longer than 50 characters at the schema layer', async () => {
+    await seedLoggedInUser();
     await expect(createCaller(testAuthContextLoggedIn).users.updateName({
       name: 'x'.repeat(51),
     })).rejects.toMatchObject({ code: 'BAD_REQUEST' });

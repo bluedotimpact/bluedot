@@ -1,13 +1,17 @@
 import { groupTable, meetPersonTable } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import {
+  beforeEach, describe, expect, test,
+} from 'vitest';
 import {
   createCaller,
+  seedLoggedInUser,
   setupTestDb,
   testAuthContextLoggedIn,
   testDb,
 } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
+beforeEach(seedLoggedInUser);
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;

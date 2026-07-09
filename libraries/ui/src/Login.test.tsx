@@ -169,14 +169,14 @@ describe('LoginRedirectPage', () => {
 describe('LoginOauthCallbackPage', () => {
   const mockLoginPreset = loginPresets.keycloak;
 
-  test('should set auth and call `onLoginComplete` on success', async () => {
-    const mockOnLoginComplete = vi.fn();
+  test('should set auth and call `onBeforeAuthPersist` on success', async () => {
+    const mockOnBeforeAuthPersist = vi.fn();
     const mockSigninResponse = createMockOidcResponse({ userState: { redirectTo: CUSTOM_REDIRECT_PATH } });
     mockProcessSigninResponse.mockResolvedValue(mockSigninResponse);
 
     render(<LoginOauthCallbackPage
       loginPreset={mockLoginPreset}
-      onLoginComplete={mockOnLoginComplete}
+      onBeforeAuthPersist={mockOnBeforeAuthPersist}
     />);
 
     const expectedAuthObject = {
@@ -189,8 +189,8 @@ describe('LoginOauthCallbackPage', () => {
     };
 
     await waitFor(() => {
-      expect(mockOnLoginComplete).toHaveBeenCalledTimes(1);
-      expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject, CUSTOM_REDIRECT_PATH);
+      expect(mockOnBeforeAuthPersist).toHaveBeenCalledTimes(1);
+      expect(mockOnBeforeAuthPersist).toHaveBeenCalledWith(expectedAuthObject, CUSTOM_REDIRECT_PATH);
     });
 
     expect(OidcClient).toHaveBeenCalledTimes(1);
@@ -203,6 +203,46 @@ describe('LoginOauthCallbackPage', () => {
     expect(mockSetAuth).toHaveBeenCalledWith(expectedAuthObject);
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(CUSTOM_REDIRECT_PATH);
+  });
+
+  test('should run onBeforeAuthPersist before setting auth', async () => {
+    const callOrder: string[] = [];
+    const mockOnBeforeAuthPersist = vi.fn(async () => {
+      callOrder.push('onBeforeAuthPersist');
+    });
+    mockSetAuth.mockImplementationOnce(() => {
+      callOrder.push('setAuth');
+    });
+    mockProcessSigninResponse.mockResolvedValue(createMockOidcResponse({ userState: { redirectTo: CUSTOM_REDIRECT_PATH } }));
+
+    render(<LoginOauthCallbackPage
+      loginPreset={mockLoginPreset}
+      onBeforeAuthPersist={mockOnBeforeAuthPersist}
+    />);
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith(CUSTOM_REDIRECT_PATH);
+    });
+
+    expect(callOrder).toEqual(['onBeforeAuthPersist', 'setAuth']);
+  });
+
+  test('should not set auth or redirect when onBeforeAuthPersist rejects', async () => {
+    mockProcessSigninResponse.mockResolvedValue(createMockOidcResponse({ userState: { redirectTo: CUSTOM_REDIRECT_PATH } }));
+
+    const { getByText } = render(<LoginOauthCallbackPage
+      loginPreset={mockLoginPreset}
+      onBeforeAuthPersist={async () => {
+        throw new Error('failed to create user row');
+      }}
+    />);
+
+    await waitFor(() => {
+      expect(getByText('failed to create user row')).toBeInTheDocument();
+    });
+
+    expect(mockSetAuth).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
   });
 
   test('should throw error if no user returned', async () => {
