@@ -75,13 +75,7 @@ export class AirtableWebhook {
     this.baseId = baseId;
     this.fieldIds = fieldIds;
     this.rateLimiter = rateLimiter;
-    this.axiosInstance = axios.create({
-      baseURL: 'https://api.airtable.com/v0',
-      headers: {
-        Authorization: `Bearer ${env.AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    this.axiosInstance = createAirtableAxiosInstance();
   }
 
   public static async getOrCreate(baseId: string, fieldIds: string[], rateLimiter: RateLimiter): Promise<AirtableWebhook> {
@@ -510,6 +504,17 @@ export class AirtableWebhook {
     }
   }
 }
+
+export const createAirtableAxiosInstance = (): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: 'https://api.airtable.com/v0',
+    headers: {
+      Authorization: `Bearer ${env.AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  return instance;
+};
 
 const getAirtableFeedbackMessage = (statusCode: number | undefined): string => {
   switch (statusCode) {
