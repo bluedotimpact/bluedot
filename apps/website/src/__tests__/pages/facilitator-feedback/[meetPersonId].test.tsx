@@ -33,6 +33,7 @@ const mockUser = {
   name: 'Test Facilitator',
   autoNumberId: null,
   lastSeenAt: null,
+  firstLoggedInAt: null,
   utmSource: null,
   utmCampaign: null,
   utmContent: null,
