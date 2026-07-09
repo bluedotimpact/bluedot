@@ -1,5 +1,6 @@
 import { userTable } from '@bluedot/db';
 import { loginPresets } from '@bluedot/ui';
+import db from '../../lib/api/db';
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
@@ -149,6 +150,19 @@ describe('users.ensureExists', () => {
     expect(user.utmContent).toBe('thread');
     expect(user.keycloakIdentifier).toBe('test-sub');
     expect(user.lastSeenAt).toBeTruthy();
+  });
+
+  test('does not send an explicit name when creating the user', async () => {
+    // Writing name: '' puts the Airtable cell in an "explicitly empty" state, which makes
+    // lookups of the field return [null] instead of omitting it, breaking record mapping
+    // downstream (see #2763). The field must be left out of the insert payload entirely.
+    const insertSpy = vi.spyOn(db.airtableClient, 'insert');
+
+    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+    expect(insertSpy).toHaveBeenCalledTimes(1);
+    expect(insertSpy.mock.calls[0]?.[1]).not.toHaveProperty('name');
+    insertSpy.mockRestore();
   });
 
   test('is idempotent: a second call reports isNewUser false and creates no extra row', async () => {
