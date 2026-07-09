@@ -101,9 +101,9 @@ export const usersRouter = router({
           ...(sub && { keycloakIdentifier: sub }),
           lastSeenAt: new Date().toISOString(),
           firstLoggedInAt: new Date().toISOString(),
-          ...(input?.initialUtmSource && { utmSource: input.initialUtmSource }),
-          ...(input?.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),
-          ...(input?.initialUtmContent && { utmContent: input.initialUtmContent }),
+          ...(input.initialUtmSource && { utmSource: input.initialUtmSource }),
+          ...(input.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),
+          ...(input.initialUtmContent && { utmContent: input.initialUtmContent }),
         });
       }
 
