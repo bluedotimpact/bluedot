@@ -96,7 +96,6 @@ export const usersRouter = router({
         // Create user if doesn't exist
         await db.insert(userTable, {
           email: auth.email,
-          name: '',
           ...(sub && { keycloakIdentifier: sub }),
           lastSeenAt: new Date().toISOString(),
           ...(input.initialUtmSource && { utmSource: input.initialUtmSource }),
