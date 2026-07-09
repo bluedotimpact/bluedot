@@ -324,7 +324,7 @@
 }
 
 @font-face {
-    font-family: "Inter";
+    font-family: Inter;
     src: url("https://bluedot.org/fonts/Inter-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
@@ -332,7 +332,7 @@
 }
 
 @font-face {
-    font-family: "Inter";
+    font-family: Inter;
     src: url("https://bluedot.org/fonts/Inter-Medium.woff2") format("woff2");
     font-weight: 500;
     font-style: normal;
@@ -340,7 +340,7 @@
 }
 
 @font-face {
-    font-family: "Inter";
+    font-family: Inter;
     src: url("https://bluedot.org/fonts/Inter-SemiBold.woff2") format("woff2");
     font-weight: 600;
     font-style: normal;
@@ -348,7 +348,7 @@
 }
 
 @font-face {
-    font-family: "Inter";
+    font-family: Inter;
     src: url("https://bluedot.org/fonts/Inter-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
@@ -356,7 +356,7 @@
 }
 
 @font-face {
-    font-family: "InterDisplay";
+    font-family: InterDisplay;
     src: url("https://bluedot.org/fonts/InterDisplay-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
@@ -364,7 +364,7 @@
 }
 
 @font-face {
-    font-family: "InterDisplay";
+    font-family: InterDisplay;
     src: url("https://bluedot.org/fonts/InterDisplay-Medium.woff2") format("woff2");
     font-weight: 500;
     font-style: normal;
@@ -372,7 +372,7 @@
 }
 
 @font-face {
-    font-family: "InterDisplay";
+    font-family: InterDisplay;
     src: url("https://bluedot.org/fonts/InterDisplay-SemiBold.woff2") format("woff2");
     font-weight: 600;
     font-style: normal;
@@ -380,7 +380,7 @@
 }
 
 @font-face {
-    font-family: "InterDisplay";
+    font-family: InterDisplay;
     src: url("https://bluedot.org/fonts/InterDisplay-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
