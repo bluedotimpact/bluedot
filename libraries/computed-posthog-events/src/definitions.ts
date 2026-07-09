@@ -1,8 +1,8 @@
 import {
-  and, eq, gte, isNotNull, inArray,
+  and, eq, gte, isNotNull, inArray, sql,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable, exerciseTable, exerciseResponsePgTable,
-  unitResourceTable, resourceCompletionPgTable, projectSubmissionTable, dropoutTable,
+  unitResourceTable, resourceCompletionPgTable, projectSubmissionTable, dropoutTable, userTable,
   type PgAirtableDb,
 } from '@bluedot/db';
 import type { PgColumn } from 'drizzle-orm/pg-core';
@@ -12,6 +12,17 @@ const filterGteOrNull = (col: PgColumn, sinceValue: number | string | undefined)
   sinceValue == null ? isNotNull(col) : and(isNotNull(col), gte(col, sinceValue))
 );
 const isoDateToEpochSeconds = (sinceIso?: string) => (sinceIso == null ? undefined : Math.floor(Date.parse(sinceIso) / 1000));
+
+// The anonymous anchor an application's PostHog activity sits under: the captured browse device id,
+// or the registration record id when that's absent (or, for a few legacy rows, equal to the email —
+// email must not become an identity anchor).
+const anchorId = (registration: { id: string; email: string; posthogDistinctId: string | null }) => (
+  registration.posthogDistinctId && registration.posthogDistinctId !== registration.email
+    ? registration.posthogDistinctId
+    : registration.id
+);
+
+const normalizeEmail = (email: string) => email.trim().toLowerCase();
 
 // Mirrors the my-courses UI (deriveStatus in useDiscussionActions.tsx): a participant is `attended` when
 // their meet_person id is in the discussion's attendees, and `absent` once the discussion has ended without it.
@@ -169,6 +180,50 @@ export const eventProjectionRules: EventProjectionRule[] = [
       }));
 
       return [...identifyEvents, ...trackEvents];
+    },
+  },
+  {
+    // Merges an application's anonymous anchor into the applicant's account, once a user with a
+    // matching email has actually logged in. User rows are created at apply time by an Airtable
+    // automation, so firstLoggedInAt — not createdAt — marks when an account becomes joinable.
+    eventType: 'identify_applicants',
+    async calculateEvents(db, { since }) {
+      const [newRegistrations, newUsers] = await Promise.all([
+        db.pg.select().from(courseRegistrationTable.pg).where(filterGteOrNull(courseRegistrationTable.pg.createdAt, since)),
+        // strict gte: never-logged-in users have a NULL firstLoggedInAt and must not match every scan
+        db.pg.select().from(userTable.pg)
+          .where(since == null ? isNotNull(userTable.pg.firstLoggedInAt) : gte(userTable.pg.firstLoggedInAt, since)),
+      ]);
+
+      // Load both full sides for the union of emails, so either side of a pair being new triggers the join.
+      const emails = [...new Set([...newRegistrations, ...newUsers].map((row) => normalizeEmail(row.email)))];
+      if (emails.length === 0) return [];
+      const [registrations, users] = await Promise.all([
+        db.pg.select().from(courseRegistrationTable.pg).where(inArray(sql`lower(trim(${courseRegistrationTable.pg.email}))`, emails)),
+        db.pg.select().from(userTable.pg)
+          .where(and(isNotNull(userTable.pg.firstLoggedInAt), inArray(sql`lower(trim(${userTable.pg.email}))`, emails))),
+      ]);
+
+      // Earliest login wins when an email maps to multiple users, so the merge target is deterministic.
+      const userByEmail = new Map<string, typeof users[number]>();
+      for (const user of users) {
+        const key = normalizeEmail(user.email);
+        const existing = userByEmail.get(key);
+        if (!existing || user.firstLoggedInAt! < existing.firstLoggedInAt!) userByEmail.set(key, user);
+      }
+
+      return registrations.flatMap((registration): Event[] => {
+        const user = userByEmail.get(normalizeEmail(registration.email));
+        if (!user) return []; // no account yet — the application stays anonymous
+        return [{
+          type: 'identify',
+          internalUniqueKey: `identify_applicants:${registration.id}`, // the ledger makes each join fire once, ever
+          distinctId: user.email,
+          anonDistinctId: anchorId(registration),
+          timestampMs: Date.parse(user.firstLoggedInAt!),
+          set: { email: user.email },
+        }];
+      });
     },
   },
   {
