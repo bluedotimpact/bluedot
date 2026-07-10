@@ -1,9 +1,13 @@
 import axios from 'axios';
+import { logger } from '@bluedot/ui/src/api';
 import { isHttpError } from 'http-errors';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { registerPreviewRedirectUri } from './keycloak';
 
 vi.mock('axios');
+vi.mock('@bluedot/ui/src/api', () => ({
+  logger: { error: vi.fn(), info: vi.fn(), warn: vi.fn() },
+}));
 vi.mock('./env', () => ({
   default: {
     KEYCLOAK_CLIENT_ID: 'fake',
@@ -138,6 +142,7 @@ describe('registerPreviewRedirectUri', () => {
     // config.data and the bearer token in config.headers.Authorization.
     const axiosError = Object.assign(new Error('Request failed with status code 401'), {
       isAxiosError: true,
+      code: 'ERR_BAD_REQUEST',
       config: {
         data: `grant_type=client_credentials&client_id=preview-client&client_secret=${CLIENT_SECRET}`,
         headers: { Authorization: `Bearer ${ADMIN_TOKEN}` },
@@ -160,5 +165,14 @@ describe('registerPreviewRedirectUri', () => {
     const serialised = JSON.stringify(caught) + caught.message + (caught.stack ?? '');
     expect(serialised).not.toContain(CLIENT_SECRET);
     expect(serialised).not.toContain(ADMIN_TOKEN);
+
+    // Safe diagnostics are logged; secrets are not.
+    expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('Keycloak request failed'), {
+      status: 401,
+      code: 'ERR_BAD_REQUEST',
+    });
+    const loggedArgs = JSON.stringify(vi.mocked(logger.error).mock.calls);
+    expect(loggedArgs).not.toContain(CLIENT_SECRET);
+    expect(loggedArgs).not.toContain(ADMIN_TOKEN);
   });
 });
