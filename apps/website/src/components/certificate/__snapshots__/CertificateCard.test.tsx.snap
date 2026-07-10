@@ -31,7 +31,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
         class="relative flex flex-col items-center px-5 md:px-16 pb-0"
       >
         <p
-          class="mt-16 text-size-xs md:text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid text-center"
+          class="mt-16 text-size-xs md:text-size-sm font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid text-center"
         >
           Professional certification
         </p>
@@ -45,7 +45,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           class="mt-12"
         >
           <p
-            class="text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid text-center"
+            class="text-size-sm font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid text-center"
           >
             Awarded to
           </p>
@@ -59,7 +59,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           class="mt-12 md:max-w-[672px]"
         >
           <p
-            class="text-size-sm md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-charcoal-mid text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
+            class="text-size-sm md:text-base leading-relaxed md:leading-[26px] tracking-[-0.3125px] text-charcoal-mid text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
             style="font-feature-settings: 'ss04' 1;"
           >
             Successfully completed the 
@@ -81,7 +81,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           class="w-[156px] md:w-[240px]"
         >
           <p
-            class="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid"
+            class="text-size-xs font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid"
           >
             Issued
           </p>
@@ -112,7 +112,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           class="w-[156px] md:w-[240px] text-right"
         >
           <p
-            class="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid"
+            class="text-size-xs font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid"
           >
             Certificate ID
           </p>

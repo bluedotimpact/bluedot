@@ -177,7 +177,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   1
                   . 
@@ -287,7 +287,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   2
                   . 
@@ -393,7 +393,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   3
                   . 
@@ -499,7 +499,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   4
                   . 
@@ -605,7 +605,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   5
                   . 
@@ -845,7 +845,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="unit__title-container"
               >
                 <p
-                  class="bluedot-p not-prose unit__course-title font-semibold text-size-xs leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2"
+                  class="bluedot-p not-prose unit__course-title font-semibold text-size-xs leading-normal tracking-[0.04em] uppercase text-bluedot-normal mb-2"
                 >
                   Unit 
                   1
@@ -859,7 +859,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </h1>
               </div>
               <div
-                class="markdown-extended-renderer prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none mt-8 md:mt-6"
+                class="markdown-extended-renderer prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-relaxed prose-li:leading-relaxed prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-relaxed prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none mt-8 md:mt-6"
               >
                 <p>
                   Five years ago, AI systems struggled to form coherent sentences. Today, &gt;5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks.
