@@ -1,6 +1,8 @@
 import createHttpError from 'http-errors';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import {
+  describe, it, expect, vi, beforeEach,
+} from 'vitest';
 import { registerPreviewRedirectUri } from '../../lib/api/keycloak';
 import handler from './keycloak-register-preview-redirect-uri';
 
@@ -76,9 +78,7 @@ describe('keycloak-register-preview-redirect-uri', () => {
   });
 
   it('maps an HttpError from the lib to its status code', async () => {
-    mockedRegister.mockRejectedValueOnce(
-      createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.'),
-    );
+    mockedRegister.mockRejectedValueOnce(createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.'));
     const { req, res } = createMockReqRes();
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(503);

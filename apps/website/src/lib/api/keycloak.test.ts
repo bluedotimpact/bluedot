@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { logger } from '@bluedot/ui/src/api';
 import { isHttpError } from 'http-errors';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import {
+  describe, it, expect, vi, beforeEach,
+} from 'vitest';
 import { registerPreviewRedirectUri } from './keycloak';
 
 vi.mock('axios');
@@ -129,9 +131,7 @@ describe('registerPreviewRedirectUri', () => {
     mockedAxios.post.mockResolvedValueOnce(FAKE_TOKEN_RESPONSE);
     mockedAxios.get.mockResolvedValueOnce({ data: [] });
 
-    await expect(registerPreviewRedirectUri('https://bluedot-website-pr-42.onrender.com/*')).rejects.toThrow(
-      "Client 'bluedot-web-apps' not found",
-    );
+    await expect(registerPreviewRedirectUri('https://bluedot-website-pr-42.onrender.com/*')).rejects.toThrow('Client \'bluedot-web-apps\' not found');
   });
 
   it('does not leak client_secret or admin token when Keycloak errors', async () => {
@@ -152,9 +152,7 @@ describe('registerPreviewRedirectUri', () => {
     mockedAxios.post.mockRejectedValueOnce(axiosError);
     mockedAxios.isAxiosError.mockReturnValue(true);
 
-    const caught: unknown = await registerPreviewRedirectUri('https://bluedot-website-pr-42.onrender.com/*').catch(
-      (error: unknown) => error,
-    );
+    const caught: unknown = await registerPreviewRedirectUri('https://bluedot-website-pr-42.onrender.com/*').catch((error: unknown) => error);
 
     if (!isHttpError(caught)) {
       throw new Error('expected an HttpError');
