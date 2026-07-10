@@ -75,7 +75,6 @@
     --leading-relaxed: 1.6;
     --tracking-tighter: -0.02em;
     --tracking-tight: -0.01em;
-    --tracking-normal: 0em;
 
     --spacing-max-width: var(--max-width);
     --spacing-spacing-x: var(--spacing-x);
