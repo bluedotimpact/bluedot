@@ -1,4 +1,5 @@
 import { timingSafeEqual } from 'crypto';
+import { isHttpError } from 'http-errors';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import env from '../../lib/api/env';
 import { registerPreviewRedirectUri } from '../../lib/api/keycloak';
@@ -28,6 +29,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ error: 'Invalid token' });
   }
 
-  const result = await registerPreviewRedirectUri(redirectUri);
-  return res.status(200).json(result);
+  try {
+    const result = await registerPreviewRedirectUri(redirectUri);
+    return res.status(200).json(result);
+  } catch (error) {
+    if (isHttpError(error)) {
+      return res.status(error.statusCode).json({ error: error.message });
+    }
+
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 }
