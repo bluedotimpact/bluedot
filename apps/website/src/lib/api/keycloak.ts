@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logger } from '@bluedot/ui/src/api';
 import createHttpError from 'http-errors';
 import env from './env';
 import { ONE_MINUTE_SECONDS } from '../constants';
@@ -255,9 +256,11 @@ export async function registerPreviewRedirectUri(redirectUri: string): Promise<{
     return { added, cleaned };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw createHttpError.ServiceUnavailable(
-        'Authentication service is currently unavailable. Please try again later.',
-      );
+      logger.error('registerPreviewRedirectUri: Keycloak request failed', {
+        status: error.response?.status,
+        code: error.code,
+      });
+      throw createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.');
     }
 
     throw error;
