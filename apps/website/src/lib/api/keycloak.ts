@@ -191,61 +191,75 @@ export async function registerPreviewRedirectUri(redirectUri: string): Promise<{
     throw createHttpError.InternalServerError('KEYCLOAK_PREVIEW_CLIENT_ID and KEYCLOAK_PREVIEW_CLIENT_SECRET must be set');
   }
 
-  const tokenResponse = await axios.post(
-    `${KEYCLOAK_BASE_URL}/realms/customers/protocol/openid-connect/token`,
-    new URLSearchParams({
-      grant_type: 'client_credentials',
-      client_id: env.KEYCLOAK_PREVIEW_CLIENT_ID,
-      client_secret: env.KEYCLOAK_PREVIEW_CLIENT_SECRET,
-    }),
-    { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-  );
-  const token = (tokenResponse.data as { access_token: string }).access_token;
+  // Axios errors embed config.data (the token request body, which carries
+  // client_secret) and config.headers (the admin bearer token). Drop so neither can reach any logging path.
+  try {
+    const tokenResponse = await axios.post(
+      `${KEYCLOAK_BASE_URL}/realms/customers/protocol/openid-connect/token`,
+      new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: env.KEYCLOAK_PREVIEW_CLIENT_ID,
+        client_secret: env.KEYCLOAK_PREVIEW_CLIENT_SECRET,
+      }),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+    );
+    const token = (tokenResponse.data as { access_token: string }).access_token;
 
-  // Get current client config
-  const clientsResponse = await axios.get(
-    `${KEYCLOAK_BASE_URL}/admin/realms/customers/clients?clientId=${PUBLIC_LOGIN_CLIENT_ID}`,
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
+    // Get current client config
+    const clientsResponse = await axios.get(
+      `${KEYCLOAK_BASE_URL}/admin/realms/customers/clients?clientId=${PUBLIC_LOGIN_CLIENT_ID}`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
 
-  const clients = clientsResponse.data as Record<string, unknown>[];
-  if (clients.length === 0) {
-    throw createHttpError.InternalServerError(`Client '${PUBLIC_LOGIN_CLIENT_ID}' not found`);
-  }
-
-  const client = clients[0]!;
-  const existingUris = client.redirectUris as string[];
-  let uris = [...existingUris];
-
-  const added = !uris.includes(redirectUri);
-  if (added) {
-    uris.push(redirectUri);
-  }
-
-  // Clean up URIs for closed PRs
-  const previewUris = existingUris.filter((uri) => uri !== redirectUri && !PERMANENT_URIS.has(uri) && extractPrNumber(uri) !== null);
-  const openStatuses = await Promise.all(previewUris.map((uri) => isPrOpen(extractPrNumber(uri)!)));
-  const staleUris = new Set(previewUris.filter((_, i) => !openStatuses[i]));
-  uris = uris.filter((uri) => !staleUris.has(uri));
-  const cleaned = staleUris.size;
-
-  if (uris.length === existingUris.length && uris.every((u) => existingUris.includes(u))) {
-    return { added, cleaned };
-  }
-
-  // Safety check: never remove permanent URIs
-  for (const permanent of PERMANENT_URIS) {
-    if (!uris.includes(permanent) && existingUris.includes(permanent)) {
-      throw createHttpError.InternalServerError(`Bug: would have removed permanent URI ${permanent}`);
+    const clients = clientsResponse.data as Record<string, unknown>[];
+    if (clients.length === 0) {
+      throw createHttpError.InternalServerError(`Client '${PUBLIC_LOGIN_CLIENT_ID}' not found`);
     }
+
+    const client = clients[0]!;
+    const existingUris = client.redirectUris as string[];
+    let uris = [...existingUris];
+
+    const added = !uris.includes(redirectUri);
+    if (added) {
+      uris.push(redirectUri);
+    }
+
+    // Clean up URIs for closed PRs
+    const previewUris = existingUris.filter(
+      (uri) => uri !== redirectUri && !PERMANENT_URIS.has(uri) && extractPrNumber(uri) !== null,
+    );
+    const openStatuses = await Promise.all(previewUris.map((uri) => isPrOpen(extractPrNumber(uri)!)));
+    const staleUris = new Set(previewUris.filter((_, i) => !openStatuses[i]));
+    uris = uris.filter((uri) => !staleUris.has(uri));
+    const cleaned = staleUris.size;
+
+    if (uris.length === existingUris.length && uris.every((u) => existingUris.includes(u))) {
+      return { added, cleaned };
+    }
+
+    // Safety check: never remove permanent URIs
+    for (const permanent of PERMANENT_URIS) {
+      if (!uris.includes(permanent) && existingUris.includes(permanent)) {
+        throw createHttpError.InternalServerError(`Bug: would have removed permanent URI ${permanent}`);
+      }
+    }
+
+    // Update client with full representation
+    await axios.put(
+      `${KEYCLOAK_BASE_URL}/admin/realms/customers/clients/${client.id as string}`,
+      { ...client, redirectUris: uris },
+      { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } },
+    );
+
+    return { added, cleaned };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw createHttpError.ServiceUnavailable(
+        'Authentication service is currently unavailable. Please try again later.',
+      );
+    }
+
+    throw error;
   }
-
-  // Update client with full representation
-  await axios.put(
-    `${KEYCLOAK_BASE_URL}/admin/realms/customers/clients/${client.id as string}`,
-    { ...client, redirectUris: uris },
-    { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } },
-  );
-
-  return { added, cleaned };
 }
