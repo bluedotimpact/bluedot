@@ -68,6 +68,15 @@
     --text-size-4xl: var(--text-size-4xl);
     --text-size-4xl--line-height: 1.05;
 
+    /* Redefine Tailwind's default leading/tracking scales to match our designs. */
+    --leading-tight: 1.1;
+    --leading-snug: 1.25;
+    --leading-normal: 1.4;
+    --leading-relaxed: 1.6;
+    --tracking-tighter: -0.02em;
+    --tracking-tight: -0.01em;
+    --tracking-normal: 0em;
+
     --spacing-max-width: var(--max-width);
     --spacing-spacing-x: var(--spacing-x);
     --spacing-spacing-y: var(--spacing-y);
