@@ -207,7 +207,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                     </p>
                   </div>
                   {chunk.estimatedTime != null && (
-                    <div className="flex gap-1 text-size-xs leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
+                    <div className="flex gap-1 text-size-xs leading-normal tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>

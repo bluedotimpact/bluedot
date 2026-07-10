@@ -45,7 +45,7 @@ const PersonasSection = ({
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
-        <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
+        <H2 className="text-size-xl font-semibold leading-snug text-bluedot-navy text-center mb-12 md:mb-16 tracking-tight">
           {title}
         </H2>
         <div className="max-w-text-narrow mx-auto flex flex-col gap-4">
@@ -117,7 +117,7 @@ const PersonasSection = ({
                           <p className="text-size-xxs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
                             What this looks like
                           </p>
-                          <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
+                          <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                             {persona.valueProposition}
                           </P>
                         </div>
@@ -142,7 +142,7 @@ const PersonasSection = ({
           </div>
         )}
         {footerText && (
-          <P className="text-center text-size-sm leading-[1.6] text-bluedot-navy/60 mt-10 md:mt-12">
+          <P className="text-center text-size-sm leading-relaxed text-bluedot-navy/60 mt-10 md:mt-12">
             {footerText}
           </P>
         )}

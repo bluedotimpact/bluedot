@@ -40,7 +40,7 @@ const RungHeader = ({ rung }: { rung: Rung }) => (
       {rung.step}
     </P>
     <h2
-      className="text-size-xl bd-md:text-size-2xl font-medium leading-[125%] text-bluedot-navy tracking-[-1px]"
+      className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-[-1px]"
       style={{ fontFeatureSettings: '\'ss04\' on' }}
     >
       {rung.title}
@@ -81,7 +81,7 @@ const FoaiRungCard = () => (
           {['2 hours', 'Free', 'No application'].map((tag) => (
             <span
               key={tag}
-              className="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
             >
               {tag}
             </span>
@@ -140,11 +140,11 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
           </P>
           <div className="flex flex-wrap gap-2 mt-1">
             {course.durationHours != null && (
-              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
                 {course.durationHours}H
               </span>
             )}
-            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
               Cohort-based
             </span>
           </div>

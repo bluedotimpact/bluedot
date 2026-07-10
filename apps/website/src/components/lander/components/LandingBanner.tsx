@@ -39,7 +39,7 @@ const LandingBanner = ({
             <img src={iconSrc} alt={iconAlt} className="w-8 h-[30px]" />
 
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: banner H3 with bespoke text-size-md → 36px ramp paired with viewport-specific max-w */}
-            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-semibold text-white leading-[140%] bd-md:leading-[125%]">
+            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-semibold text-white leading-normal bd-md:leading-snug">
               {title}
             </H3>
 

@@ -190,7 +190,7 @@ const CertificatePage = ({
         <div className="hidden md:block">
           <Breadcrumbs
             route={certificateRoute}
-            className="text-size-xs leading-[1.4] tracking-[-0.065px]"
+            className="text-size-xs leading-normal tracking-[-0.065px]"
           />
         </div>
       )}

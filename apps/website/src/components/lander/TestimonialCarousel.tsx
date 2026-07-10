@@ -189,7 +189,7 @@ const TestimonialCarousel = ({
               <h2
                 className={clsx(
                   headerSizeClasses,
-                  'font-medium leading-[125%] text-bluedot-navy tracking-[-1px]',
+                  'font-medium leading-snug text-bluedot-navy tracking-[-1px]',
                 )}
                 style={{ fontFeatureSettings: '\'ss04\' on' }}
               >
@@ -197,13 +197,13 @@ const TestimonialCarousel = ({
                 {title || defaultTitle}
               </h2>
             ) : (
-              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]')}>
+              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-snug text-bluedot-navy tracking-tight')}>
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {title || defaultTitle}
               </H2>
             )}
             {subtitle && (
-              <P className="text-size-sm bd-md:text-size-md font-normal leading-[160%] text-bluedot-navy/80 max-w-full">
+              <P className="text-size-sm bd-md:text-size-md font-normal leading-relaxed text-bluedot-navy/80 max-w-full">
                 {subtitle}
               </P>
             )}
@@ -315,10 +315,10 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
 
   const nameRoleBlock = (
     <div className="flex flex-col items-start gap-1 w-full">
-      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy text-left w-full">
+      <P className="text-size-sm font-semibold leading-snug text-bluedot-navy text-left w-full">
         {testimonial.name}
       </P>
-      <P className="text-size-xs font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
+      <P className="text-size-xs font-normal leading-relaxed text-bluedot-navy/60 text-left w-full">
         {testimonial.jobTitle}
       </P>
     </div>
@@ -341,7 +341,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
       <div className="flex flex-1 flex-col p-6">
         <div className="flex flex-1 flex-col gap-8">
           {hasQuote ? (
-            <P className="flex-1 text-size-sm font-normal leading-[160%] text-bluedot-navy text-left w-full">
+            <P className="flex-1 text-size-sm font-normal leading-relaxed text-bluedot-navy text-left w-full">
               {testimonial.quote}
             </P>
           ) : (

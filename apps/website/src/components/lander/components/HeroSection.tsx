@@ -79,7 +79,7 @@ const HeroSection = ({
               <div className="space-y-4">
                 {categoryLabel && (
                   <p
-                    className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                    className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
                     style={{ color: effectiveCategoryLabelColor }}
                   >
                     {categoryLabel}
@@ -88,7 +88,7 @@ const HeroSection = ({
                 <h1 className="text-size-xl leading-tight font-semibold tracking-[-0.5px] text-white">
                   {title}
                 </h1>
-                <p className="text-size-sm bd-md:text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line">
+                <p className="text-size-sm bd-md:text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
                   {description}
                 </p>
               </div>
@@ -127,7 +127,7 @@ const HeroSection = ({
                 <div className="space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
@@ -137,7 +137,7 @@ const HeroSection = ({
                   <H1 className="text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
                     {title}
                   </H1>
-                  <P className="text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line">
+                  <P className="text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
                     {description}
                   </P>
                 </div>
@@ -191,7 +191,7 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
@@ -203,7 +203,7 @@ const HeroSection = ({
                     {title}
                   </H1>
 
-                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-white whitespace-pre-line">
+                  <P className="text-size-sm sm:text-lg sm:leading-relaxed lg:text-lg leading-relaxed opacity-80 text-white whitespace-pre-line">
                     {description}
                   </P>
                 </div>
@@ -252,7 +252,7 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase text-bluedot-normal"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase text-bluedot-normal"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
@@ -264,7 +264,7 @@ const HeroSection = ({
                     {title}
                   </H1>
 
-                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
+                  <P className="text-size-sm sm:text-lg sm:leading-relaxed lg:text-lg leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
                     {description}
                   </P>
                 </div>

@@ -129,9 +129,9 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
   <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
     <div className="flex flex-col gap-8 p-6 md:w-1/2 md:px-10 md:py-8">
       <div className="flex flex-col gap-3">
-        <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">{title}</h3>
+        <h3 className="text-bluedot-navy text-size-md leading-normal font-semibold">{title}</h3>
         {description && (
-          <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.032px]">{description}</P>
+          <P className="text-bluedot-navy text-size-sm leading-relaxed tracking-[-0.032px]">{description}</P>
         )}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-3">{actions}</div>}
@@ -391,7 +391,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             <H2 className="text-[32px] leading-[1.3] font-bold tracking-[-0.015em] text-white">
               Help more people discover AI safety today
             </H2>
-            <P className="text-size-sm leading-[1.6] tracking-[-0.002em] text-white">
+            <P className="text-size-sm leading-relaxed tracking-[-0.002em] text-white">
               You&apos;ve spent time understanding one of the most important problems of our era. A post or a message to
               the right person can have a real ripple effect.
             </P>
@@ -436,8 +436,8 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {courseId === FOAI_COURSE_ID && (
         <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
           <div className="flex flex-col gap-3">
-            <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
-            <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
+            <h3 className="text-bluedot-navy text-size-md leading-normal font-semibold">Want to go deeper?</h3>
+            <P className="text-bluedot-navy text-size-sm leading-relaxed tracking-[-0.002em]">
               <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
               facilitated in small groups with live discussion. No specific background required. New rounds start
               every month.

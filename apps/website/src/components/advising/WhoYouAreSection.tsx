@@ -30,7 +30,7 @@ const WhoYouAreSection = () => {
           {PERSONAS.map(({ title, description }) => (
             <li
               key={title}
-              className="text-bluedot-navy/80 leading-[1.6]"
+              className="text-bluedot-navy/80 leading-relaxed"
             >
               <strong className="text-bluedot-navy">
                 {title}

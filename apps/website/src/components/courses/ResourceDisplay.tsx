@@ -99,7 +99,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
         <section>
           <h4
             id={resourcesHeadingId}
-            className="text-size-md font-semibold leading-[140%] tracking-normal mb-6 bluedot-h4 not-prose"
+            className="text-size-md font-semibold leading-normal tracking-normal mb-6 bluedot-h4 not-prose"
           >
             Resources{totalCoreResourceTime > 0 ? ` (${formatResourceTime(totalCoreResourceTime)})` : ''}
           </h4>
@@ -124,7 +124,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
         <section className={`${coreResources.length > 0 ? 'mt-8' : ''}`}>
           <h4
             id={exercisesHeadingId}
-            className="text-size-md font-semibold leading-[140%] tracking-normal mb-6 bluedot-h4 not-prose"
+            className="text-size-md font-semibold leading-normal tracking-normal mb-6 bluedot-h4 not-prose"
           >
             Exercises
           </h4>

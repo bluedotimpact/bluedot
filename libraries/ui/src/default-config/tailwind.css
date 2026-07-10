@@ -127,7 +127,7 @@
         @apply text-color-secondary-text font-sans text-size-md font-semibold;
     }
     .bluedot-p {
-        @apply text-color-text font-sans text-size-sm font-normal leading-[1.6];
+        @apply text-color-text font-sans text-size-sm font-normal leading-relaxed;
         font-variant-ligatures: none;
         font-feature-settings: "liga" 0, "clig" 0;
     }
