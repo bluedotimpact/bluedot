@@ -10,14 +10,14 @@ import { TRPCError } from '@trpc/server';
 import { timingSafeEqual } from 'crypto';
 import env from './env';
 
-/**
- * Verify the shared secret sent by Airtable automation scripts. Use this at the top
- * of any public procedure that should only be callable by our own automations.
- */
 export function normaliseEmail(email: string) {
   return email.trim().toLowerCase();
 }
 
+/**
+ * Verify the shared secret sent by Airtable automation scripts. Use this at the top
+ * of any public procedure that should only be callable by our own automations.
+ */
 export function verifyPublicToken(publicToken: string) {
   if (!env.CERTIFICATE_CREATION_TOKEN) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Public token not configured' });

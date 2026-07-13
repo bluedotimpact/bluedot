@@ -7,7 +7,6 @@ import {
 import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
-import env from '../../lib/api/env';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 setupTestDb();
@@ -146,28 +145,8 @@ const getRegistration = (id: string) => testDb.getFirst(courseRegistrationTable,
 
 const countUsers = async () => (await testDb.pg.select().from(userTable.pg)).length;
 
-describe('courseRegistrations.linkToUser auth', () => {
-  test('throws UNAUTHORIZED when the token is the wrong length', async () => {
-    await expect(linkToUser({ courseRegistrationId: 'reg1', publicToken: 'wrong' }))
-      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
-  });
-
-  test('throws UNAUTHORIZED for a same-length but different token', async () => {
-    await expect(linkToUser({ courseRegistrationId: 'reg1', publicToken: 'X'.repeat(TEST_TOKEN.length) }))
-      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
-  });
-
-  test('throws INTERNAL_SERVER_ERROR when the token is not configured', async () => {
-    const mutableEnv = env as { CERTIFICATE_CREATION_TOKEN?: string };
-    mutableEnv.CERTIFICATE_CREATION_TOKEN = undefined;
-    try {
-      await expect(linkToUser({ courseRegistrationId: 'reg1' }))
-        .rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-    } finally {
-      mutableEnv.CERTIFICATE_CREATION_TOKEN = TEST_TOKEN;
-    }
-  });
-
+// Token verification behaviour is unit-tested in lib/api/utils.test.ts
+describe('courseRegistrations.linkToUser input validation', () => {
   test('throws BAD_REQUEST when both courseRegistrationId and userId are provided', async () => {
     await expect(linkToUser({ courseRegistrationId: 'reg1', userId: 'user1' }))
       .rejects.toMatchObject({ code: 'BAD_REQUEST' });
