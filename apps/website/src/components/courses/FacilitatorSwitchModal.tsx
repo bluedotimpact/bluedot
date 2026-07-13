@@ -3,6 +3,7 @@ import {
   DatePicker,
   H1,
   Modal,
+  ModalTitle,
   P,
   ProgressDots,
   Select,
@@ -168,7 +169,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (updateDiscussionTimeMutation.isSuccess || changeFacilitatorMutation.isSuccess) {
       return (
         <div className="flex w-full items-center justify-center gap-2">
-          <div className="text-size-md font-semibold">Success</div>
+          <ModalTitle>Success</ModalTitle>
         </div>
       );
     }

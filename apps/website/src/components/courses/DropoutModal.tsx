@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, ErrorSection, H1, Modal, P, ProgressDots, Select, Textarea,
+  CTALinkOrButton, ErrorSection, H1, Modal, ModalTitle, P, ProgressDots, Select, Textarea,
 } from '@bluedot/ui';
 /**
  * Prevents barrel file import errors when importing COURSE_ROLE from @bluedot/db
@@ -263,9 +263,9 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
 
   const renderTitle = () => (
     <div className="flex w-full items-center justify-center gap-2">
-      <div className="text-size-md font-semibold">
+      <ModalTitle>
         {dropoutMutation.isSuccess ? 'Request Submitted' : 'Leave Course'}
-      </div>
+      </ModalTitle>
     </div>
   );
 
@@ -312,9 +312,9 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
       setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
       title={(
         <div className="flex w-full items-center justify-center gap-2">
-          <div className="text-size-md font-semibold">
+          <ModalTitle>
             {mutation.isSuccess ? 'Application withdrawn' : 'Withdraw application'}
-          </div>
+          </ModalTitle>
         </div>
       )}
       bottomDrawerOnMobile

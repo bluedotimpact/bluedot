@@ -1,5 +1,5 @@
 import {
-  cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots,
+  cn, CTALinkOrButton, ErrorSection, Modal, ModalTitle, ProgressDots,
 } from '@bluedot/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
@@ -78,9 +78,9 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
       isOpen
       setIsOpen={(open: boolean) => !open && handleCloseWithCacheUpdate()}
       title={
-        <div className="text-size-md mx-auto py-3 font-semibold">
+        <ModalTitle className="mx-auto py-3">
           {rejoinMutation.isSuccess ? 'Success' : 'Rejoin a group'}
-        </div>
+        </ModalTitle>
       }
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
