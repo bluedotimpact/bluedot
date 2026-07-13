@@ -579,7 +579,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="bluedot-a not-prose breadcrumbs__link no-underline"
+              class="bluedot-a not-prose breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal"
               href="/"
               tabindex="0"
             >
@@ -595,7 +595,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="bluedot-a not-prose breadcrumbs__link no-underline"
+              class="bluedot-a not-prose breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal"
               href="/join-us"
               tabindex="0"
             >
