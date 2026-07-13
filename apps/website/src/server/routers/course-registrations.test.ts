@@ -179,9 +179,9 @@ describe('courseRegistrations.linkToUser auth', () => {
 });
 
 describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
-  test('throws NOT_FOUND for an unknown course registration', async () => {
+  test('throws for an unknown course registration', async () => {
     await expect(linkToUser({ courseRegistrationId: 'missing' }))
-      .rejects.toMatchObject({ code: 'NOT_FOUND' });
+      .rejects.toThrow('No records found');
   });
 
   test('leaves an already-linked registration untouched', async () => {
@@ -282,8 +282,8 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
 });
 
 describe('courseRegistrations.linkToUser by userId', () => {
-  test('throws NOT_FOUND for an unknown user', async () => {
-    await expect(linkToUser({ userId: 'missing' })).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  test('throws for an unknown user', async () => {
+    await expect(linkToUser({ userId: 'missing' })).rejects.toThrow('No records found');
   });
 
   test('links all unlinked registrations matching the user email case-insensitively', async () => {

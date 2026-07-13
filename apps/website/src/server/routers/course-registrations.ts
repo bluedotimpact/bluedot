@@ -1,23 +1,12 @@
 import {
   applicationsRoundTable, courseRegistrationTable, inArray,
-  eq, and, or, ne, isNull, desc, sql, userTable,
+  eq, and, or, ne, isNull, sql, userTable,
 } from '@bluedot/db';
-import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { verifyPublicToken } from '../../lib/api/utils';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
-
-async function getCanonicalUserByEmail(email: string) {
-  const users = await db.pg
-    .select()
-    .from(userTable.pg)
-    .where(sql`lower(${userTable.pg.email}) = ${email.toLowerCase()}`)
-    .orderBy(desc(userTable.pg.autoNumberId))
-    .limit(1);
-  return users[0] ?? null;
-}
 
 export const courseRegistrationsRouter = router({
   getByCourseId: protectedProcedure
@@ -75,10 +64,7 @@ export const courseRegistrationsRouter = router({
 
       // 1. Link-or-create the user if we are given a course registration
       if (input.courseRegistrationId !== undefined) {
-        const courseRegistration = await db.getFirst(courseRegistrationTable, { filter: { id: input.courseRegistrationId } });
-        if (!courseRegistration) {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
-        }
+        const courseRegistration = await db.get(courseRegistrationTable, { id: input.courseRegistrationId });
 
         if (courseRegistration.userId) {
           return { action: 'already-linked', userId: courseRegistration.userId } as const;
@@ -88,7 +74,7 @@ export const courseRegistrationsRouter = router({
           return { action: 'skipped-no-email' } as const;
         }
 
-        const existingUser = await getCanonicalUserByEmail(courseRegistration.email);
+        const existingUser = await db.getFirst(userTable, { filter: { email: courseRegistration.email.trim().toLowerCase() } });
         if (existingUser) {
           await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
           return { action: 'linked', userId: existingUser.id } as const;
@@ -104,16 +90,13 @@ export const courseRegistrationsRouter = router({
       }
 
       // 2. Link all matching course registrations if we are given a user
-      const user = await db.getFirst(userTable, { filter: { id: input.userId! } });
-      if (!user) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
-      }
+      const user = await db.get(userTable, { id: input.userId! });
 
       if (!user.email) {
         return { action: 'skipped-no-email' } as const;
       }
 
-      const canonicalUser = (await getCanonicalUserByEmail(user.email)) ?? user;
+      const canonicalUser = (await db.getFirst(userTable, { filter: { email: user.email.toLowerCase() } })) ?? user;
 
       const unlinkedRegistrations = await db.pg
         .select()
