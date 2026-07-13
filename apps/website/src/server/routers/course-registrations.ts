@@ -4,7 +4,7 @@ import {
 } from '@bluedot/db';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { verifyPublicToken } from '../../lib/api/utils';
+import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
 
@@ -70,11 +70,12 @@ export const courseRegistrationsRouter = router({
           return { action: 'already-linked', userId: courseRegistration.userId } as const;
         }
 
-        if (!courseRegistration.email) {
+        const email = normaliseEmail(courseRegistration.email);
+        if (!email) {
           return { action: 'skipped-no-email' } as const;
         }
 
-        const existingUser = await db.getFirst(userTable, { filter: { email: courseRegistration.email.trim().toLowerCase() } });
+        const existingUser = await db.getFirst(userTable, { filter: { email } });
         if (existingUser) {
           await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
           return { action: 'linked', userId: existingUser.id } as const;
@@ -82,7 +83,7 @@ export const courseRegistrationsRouter = router({
 
         const name = [courseRegistration.firstName, courseRegistration.lastName].filter(Boolean).join(' ').trim();
         const newUser = await db.insert(userTable, {
-          email: courseRegistration.email.toLowerCase(),
+          email,
           ...(name && { name }),
         });
         await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });
@@ -92,17 +93,18 @@ export const courseRegistrationsRouter = router({
       // 2. Link all matching course registrations if we are given a user
       const user = await db.get(userTable, { id: input.userId! });
 
-      if (!user.email) {
+      const email = normaliseEmail(user.email);
+      if (!email) {
         return { action: 'skipped-no-email' } as const;
       }
 
-      const canonicalUser = (await db.getFirst(userTable, { filter: { email: user.email.toLowerCase() } })) ?? user;
+      const canonicalUser = (await db.getFirst(userTable, { filter: { email } })) ?? user;
 
       const unlinkedRegistrations = await db.pg
         .select()
         .from(courseRegistrationTable.pg)
         .where(and(
-          sql`lower(${courseRegistrationTable.pg.email}) = ${user.email.toLowerCase()}`,
+          sql`lower(trim(${courseRegistrationTable.pg.email})) = ${email}`,
           or(isNull(courseRegistrationTable.pg.userId), eq(courseRegistrationTable.pg.userId, '')),
         ));
 
