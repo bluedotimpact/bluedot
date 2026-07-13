@@ -17,7 +17,10 @@ export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   children, className, ...otherProps
 }) => {
   return (
-    <h1 className={clsx('hero-section__title text-color-text-on-dark text-center bluedot-h1', className)} {...otherProps}>{children}</h1>
+    // Keeps `bluedot-h1` for the InterDisplay font-family
+    // Display ramp (40 → 56 → 64 → 72) is deliberately arbitrary px, not a text-size-* token.
+    // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size
+    <h1 className={clsx('bluedot-h1 text-color-text-on-dark text-center text-[40px] md:text-[56px] lg:text-[64px] xl:text-[72px] font-normal leading-tight tracking-tighter', className)} {...otherProps}>{children}</h1>
   );
 };
 
