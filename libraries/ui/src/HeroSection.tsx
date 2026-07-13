@@ -9,7 +9,7 @@ export const HeroMiniTitle: React.FC<HeroMiniTitleProps> = ({
   children, className,
 }) => {
   return (
-    <div className={cn('hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
+    <div className={cn('text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
   );
 };
 
@@ -29,7 +29,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h2
-      className={cn('hero-section__subtitle text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2', className)}
+      className={cn('text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2', className)}
       {...otherProps}
     >
       {children}
@@ -61,8 +61,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   children,
 }) => {
   return (
-    <div className={cn('hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x', className)}>
-      <div className="hero-section__content max-w-[920px] py-12">
+    <div className={cn('bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x', className)}>
+      <div className="max-w-[920px] py-12">
         {children}
       </div>
     </div>
