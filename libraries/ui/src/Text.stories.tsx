@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React from 'react';
 
 import {
   H1, H2, H3, H4, P, A,
