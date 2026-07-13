@@ -845,7 +845,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="unit__title-container"
               >
                 <p
-                  class="bluedot-p not-prose unit__course-title font-semibold text-size-xs leading-normal tracking-[0.04em] uppercase text-bluedot-normal mb-2"
+                  class="bluedot-p not-prose unit__course-title font-semibold text-size-xs leading-normal tracking-wide uppercase text-bluedot-normal mb-2"
                 >
                   Unit 
                   1
