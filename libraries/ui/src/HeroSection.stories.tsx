@@ -19,6 +19,20 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {
+  render: () => (
+    <HeroSection>
+      <HeroH1>Make AI go well</HeroH1>
+      <HeroH2>Free courses and career support for beneficial AI</HeroH2>
+      <HeroCTAContainer>
+        <CTALinkOrButton variant="primary" withChevron url="https://example.com">
+          Explore our courses
+        </CTALinkOrButton>
+      </HeroCTAContainer>
+    </HeroSection>
+  ),
+};
+
 export const WithCustomClasses: Story = {
   render: () => (
     <HeroSection className="min-h-[500px]">
