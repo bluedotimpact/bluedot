@@ -1,4 +1,6 @@
-import { ErrorSection, Modal, ModalTitle, ProgressDots } from '@bluedot/ui';
+import {
+  ErrorSection, Modal, ModalTitle, ProgressDots,
+} from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import ParticipantRow from './ParticipantRow';
 
