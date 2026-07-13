@@ -47,7 +47,7 @@ const RecommendedReadingSection = () => {
 
         <ul className="list-disc pl-6 flex flex-col gap-2">
           {READINGS.map(({ title, description, url }) => (
-            <li key={url} className="text-bluedot-navy/80 leading-[1.6]">
+            <li key={url} className="text-bluedot-navy/80 leading-relaxed">
               <A
                 href={url}
                 target="_blank"

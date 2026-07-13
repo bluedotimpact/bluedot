@@ -86,7 +86,7 @@ export const NavLinks: React.FC<{
     }
 
     return clsx(
-      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle',
+      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
       textColor,
       isCurrentPathValue && 'font-bold',
     );
@@ -234,7 +234,7 @@ const NavDropdown: React.FC<{
         aria-controls={`${title.toLowerCase()}-dropdown`}
         className={clsx(
           'nav-dropdown__btn flex items-center gap-2 cursor-pointer',
-          'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle',
+          'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
           getDropdownButtonClasses(),
         )}
       >
@@ -275,7 +275,7 @@ const NavDropdown: React.FC<{
                     href={link.url}
                     {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     className={clsx(
-                      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-[160%] align-middle',
+                      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
                       'pt-1',
                       linkTextColor,
                     )}

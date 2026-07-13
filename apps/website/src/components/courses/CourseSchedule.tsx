@@ -229,7 +229,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
     <article className="flex flex-col">
       <CourseScheduleHeader course={course} />
 
-      <p className="mt-6 text-size-md leading-[1.6] font-normal text-bluedot-navy/80">
+      <p className="mt-6 text-size-md leading-relaxed font-normal text-bluedot-navy/80">
         {course.shortDescription}
       </p>
 
@@ -260,7 +260,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
 
         {!roundsLoading && !showRounds && (
           <div className="flex items-center min-h-12 border-l-4 border-bluedot-navy/20 pl-5">
-            <p className="text-size-sm leading-[1.6] font-normal text-bluedot-navy/50">
+            <p className="text-size-sm leading-relaxed font-normal text-bluedot-navy/50">
               No upcoming rounds.{' '}
               <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course
@@ -291,10 +291,10 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 cursor-pointer"
         >
-          <h2 className="text-size-lg leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <h2 className="text-size-lg leading-normal font-semibold tracking-[-0.5px] text-bluedot-navy">
             {course.title}
           </h2>
-          <span className="text-size-lg leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -308,10 +308,10 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
-          <h2 className="text-size-lg leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <h2 className="text-size-lg leading-normal font-semibold tracking-[-0.5px] text-bluedot-navy">
             {course.title}
           </h2>
-          <span className="text-size-lg leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>

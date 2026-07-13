@@ -231,11 +231,11 @@ const AlumniStoryCarousel = ({
       <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-12 lg:mb-16">
         <div className="flex flex-col items-center text-center bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left gap-6 bd-md:gap-16">
           <div className="flex flex-col gap-4">
-            <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+            <H2 className="text-size-xl font-semibold leading-snug text-bluedot-navy tracking-tight">
               {title}
             </H2>
             {subtitle && (
-              <P className="text-size-sm bd-md:text-size-md font-normal leading-[160%] text-bluedot-navy/60 italic">
+              <P className="text-size-sm bd-md:text-size-md font-normal leading-relaxed text-bluedot-navy/60 italic">
                 {subtitle}
               </P>
             )}

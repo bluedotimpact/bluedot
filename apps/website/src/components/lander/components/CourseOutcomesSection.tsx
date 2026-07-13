@@ -42,7 +42,7 @@ const CourseOutcomesSection = ({
             {title}
           </h3>
         ) : (
-          <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
+          <H2 className="text-size-xl font-semibold leading-snug text-bluedot-navy text-center mb-12 md:mb-16 tracking-tight">
             {title}
           </H2>
         )}

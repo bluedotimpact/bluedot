@@ -50,7 +50,7 @@ const WhatYouGetSection = () => {
                 <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                   {title}
                 </h4>
-                <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
+                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                   {description}
                 </P>
               </div>

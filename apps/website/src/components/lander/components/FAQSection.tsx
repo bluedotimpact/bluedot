@@ -73,7 +73,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
       <section id={id} className={clsx('w-full', background === 'canvas' ? 'bg-color-canvas' : 'bg-white')}>
         <div className="max-w-max-width bd-md:px-8 lg:px-spacing-x bd-md:pt-16 bd-md:pb-12 mx-auto px-5 py-12 lg:py-16 xl:py-24">
           <div className="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16">
-            <h2 className="text-bluedot-navy text-center text-size-xl leading-[125%] font-semibold tracking-[-0.01em]">
+            <h2 className="text-bluedot-navy text-center text-size-xl leading-snug font-semibold tracking-tight">
               {title}
             </h2>
 
@@ -92,7 +92,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                       aria-expanded={isOpen}
                       aria-controls={`faq-answer-${item.id}`}
                     >
-                      <span className="text-bluedot-navy flex-grow text-size-md leading-[125%] font-semibold">
+                      <span className="text-bluedot-navy flex-grow text-size-md leading-snug font-semibold">
                         {item.question}
                       </span>
                       <PlusToggleIcon

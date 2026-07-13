@@ -45,7 +45,7 @@ const WhatToExpectSection = () => {
 
         <ul className="list-disc pl-6 flex flex-col gap-2">
           {UNIVERSAL_OUTCOMES.map(({ label, body }) => (
-            <li key={label} className="text-bluedot-navy/80 leading-[1.6]">
+            <li key={label} className="text-bluedot-navy/80 leading-relaxed">
               <strong className="text-bluedot-navy">{label}</strong> {body}
             </li>
           ))}
@@ -55,7 +55,7 @@ const WhatToExpectSection = () => {
 
         <ul className="list-disc pl-6 flex flex-col gap-2">
           {RIGHT_FIT_OUTCOMES.map(({ label, body }) => (
-            <li key={label} className="text-bluedot-navy/80 leading-[1.6]">
+            <li key={label} className="text-bluedot-navy/80 leading-relaxed">
               <strong className="text-bluedot-navy">{label}</strong> {body}
             </li>
           ))}

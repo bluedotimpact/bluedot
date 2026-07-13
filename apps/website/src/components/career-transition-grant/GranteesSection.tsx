@@ -27,14 +27,14 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
             {name}
           </h4>
           {bio && (
-            <p className="mt-1 text-size-xs leading-[1.4] text-bluedot-navy/68">
+            <p className="mt-1 text-size-xs leading-normal text-bluedot-navy/68">
               {bio}
             </p>
           )}
         </div>
       </div>
       {plan && (
-        <P className="mt-4 text-size-xs leading-[1.6] text-bluedot-navy/74">
+        <P className="mt-4 text-size-xs leading-relaxed text-bluedot-navy/74">
           {plan}
         </P>
       )}

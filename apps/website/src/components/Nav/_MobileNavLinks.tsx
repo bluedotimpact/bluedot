@@ -34,7 +34,7 @@ export const MobileNavLinks: React.FC<{
   );
 
   const getPrimaryButtonClasses = () => {
-    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-[160%] items-center justify-center';
+    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center';
 
     return clsx(
       baseClasses,

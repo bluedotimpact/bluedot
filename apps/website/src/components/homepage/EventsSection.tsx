@@ -315,7 +315,7 @@ const EventsSection = () => {
         <div className="flex flex-col items-center text-center gap-8 bd-md:gap-12 mb-12 xl:mb-16">
           <h2
             id="events-section-heading"
-            className="text-size-xl bd-md:text-size-2xl font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
+            className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-[-1px] max-w-[666px]"
             style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you

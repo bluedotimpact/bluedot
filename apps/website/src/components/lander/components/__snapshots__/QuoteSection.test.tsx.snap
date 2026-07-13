@@ -64,7 +64,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                         Dario Amodei
                       </div>
                       <div
-                        class="text-size-sm leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
+                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
                         style="color: var(--bluedot-navy);"
                       >
                         CEO, Anthropic
@@ -143,7 +143,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                         Dario Amodei
                       </div>
                       <div
-                        class="text-size-sm leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
+                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
                         style="color: var(--bluedot-navy);"
                       >
                         CEO, Anthropic
