@@ -66,7 +66,7 @@ const PostPreviewPanel = ({
   courseUrl: string;
 }) => (
   <div className="flex h-full flex-col gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l">
-    <p className="text-bluedot-navy/40 text-size-xxs font-semibold tracking-[0.04em] uppercase">Post Preview</p>
+    <p className="text-bluedot-navy/40 text-size-xxs font-semibold tracking-wide uppercase">Post Preview</p>
     <div className="flex items-center gap-3">
       <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">
@@ -384,7 +384,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           style={{ background: courseColors.gradient }}
         >
           <div className="flex max-w-[653px] flex-col items-center gap-4 text-center">
-            <p className="text-size-sm font-semibold tracking-[0.04em] uppercase" style={{ color: courseColors.accent }}>
+            <p className="text-size-sm font-semibold tracking-wide uppercase" style={{ color: courseColors.accent }}>
               Start making impact today
             </p>
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
