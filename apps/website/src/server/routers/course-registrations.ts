@@ -1,10 +1,11 @@
 import {
   applicationsRoundTable, courseRegistrationTable, inArray,
-  eq, and, or, ne, isNull,
+  eq, and, or, ne, isNull, sql, userTable,
 } from '@bluedot/db';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { protectedProcedure, router } from '../trpc';
+import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
 
 export const courseRegistrationsRouter = router({
@@ -47,6 +48,72 @@ export const courseRegistrationsRouter = router({
         .from(applicationsRoundTable.pg)
         .where(inArray(applicationsRoundTable.pg.id, input.roundIds));
       return Object.fromEntries(rounds.map((r) => [r.id, r.firstDiscussionDate])) as Record<string, string | null>;
+    }),
+
+  linkToUser: publicProcedure
+    .input(z.object({
+      publicToken: z.string().min(1),
+      courseRegistrationId: z.string().optional(),
+      userId: z.string().optional(),
+    }).refine(
+      (input) => (input.courseRegistrationId === undefined) !== (input.userId === undefined),
+      { message: 'Provide exactly one of courseRegistrationId or userId' },
+    ))
+    .mutation(async ({ input }) => {
+      verifyPublicToken(input.publicToken);
+
+      // 1. Link-or-create the user if we are given a course registration
+      if (input.courseRegistrationId !== undefined) {
+        const courseRegistration = await db.get(courseRegistrationTable, { id: input.courseRegistrationId });
+
+        if (courseRegistration.userId) {
+          return { action: 'already-linked', userId: courseRegistration.userId } as const;
+        }
+
+        const email = normaliseEmail(courseRegistration.email);
+        if (!email) {
+          return { action: 'skipped-no-email' } as const;
+        }
+
+        const existingUser = await db.getFirst(userTable, { filter: { email } });
+        if (existingUser) {
+          await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
+          return { action: 'linked', userId: existingUser.id } as const;
+        }
+
+        const name = [courseRegistration.firstName, courseRegistration.lastName].filter(Boolean).join(' ').trim();
+        const newUser = await db.insert(userTable, {
+          email,
+          ...(name && { name }),
+        });
+        await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });
+        return { action: 'created-user-and-linked', userId: newUser.id } as const;
+      }
+
+      // 2. Link all matching course registrations if we are given a user
+      const user = await db.get(userTable, { id: input.userId! });
+
+      const email = normaliseEmail(user.email);
+      if (!email) {
+        return { action: 'skipped-no-email' } as const;
+      }
+
+      const canonicalUser = (await db.getFirst(userTable, { filter: { email } })) ?? user;
+
+      const unlinkedRegistrations = await db.pg
+        .select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          sql`lower(trim(${courseRegistrationTable.pg.email})) = ${email}`,
+          or(isNull(courseRegistrationTable.pg.userId), eq(courseRegistrationTable.pg.userId, '')),
+        ));
+
+      await Promise.all(unlinkedRegistrations.map((registration) => db.update(courseRegistrationTable, {
+        id: registration.id,
+        userId: canonicalUser.id,
+      })));
+
+      return { action: 'linked-user-registrations', userId: canonicalUser.id, linkedCount: unlinkedRegistrations.length } as const;
     }),
 
   // Self-serve registration now lives in selfServeCourseRegistrations.ensureExists; these two are
