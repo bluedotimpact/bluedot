@@ -22,6 +22,7 @@ export type ModalProps = {
   /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
   ariaLabel?: string;
   noClickaway?: boolean;
+  centerTitle?: boolean;
 };
 
 const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
@@ -32,6 +33,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   desktopHeaderClassName,
   ariaLabel,
   noClickaway,
+  centerTitle,
 }) => {
   return (
     <ModalOverlay
@@ -43,7 +45,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       <AriaModal>
         <Dialog className="bg-white rounded-xl shadow-xl w-full pb-8 outline-none" aria-label={ariaLabel}>
           <div className={cn('flex justify-between items-center mb-4 pt-10 pl-8 pr-6', desktopHeaderClassName)}>
-            {title && typeof title === 'string' ? <ModalTitle>{title}</ModalTitle> : title}
+            {title && typeof title === 'string' ? <ModalTitle className={centerTitle ? 'mx-auto' : undefined}>{title}</ModalTitle> : title}
             <ClickTarget onClick={() => setIsOpen(false)} aria-label="Close" className="text-black rounded-full p-1 hover:bg-gray-100 cursor-pointer">
               <CloseIcon size={20} />
             </ClickTarget>
@@ -67,6 +69,7 @@ export const Modal: React.FC<ModalProps> = ({
   desktopHeaderClassName,
   ariaLabel,
   noClickaway,
+  centerTitle,
 }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
@@ -79,14 +82,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} noClickaway={noClickaway}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} noClickaway={noClickaway} centerTitle={centerTitle}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName} noClickaway={noClickaway}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName} noClickaway={noClickaway} centerTitle={centerTitle}>
       {children}
     </DesktopModal>
   );

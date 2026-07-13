@@ -40,6 +40,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   children,
   ariaLabel,
   noClickaway,
+  centerTitle,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -194,7 +195,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                     {title && (
                       <div className="flex items-center justify-between px-5 pb-4">
                         {titleIsString ? (
-                          <ModalTitle id="mobile-modal-title">
+                          <ModalTitle id="mobile-modal-title" className={centerTitle ? 'mx-auto' : undefined}>
                             {title}
                           </ModalTitle>
                         ) : title}
