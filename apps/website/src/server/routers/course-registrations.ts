@@ -19,63 +19,6 @@ async function getCanonicalUserByEmail(email: string) {
   return users[0] ?? null;
 }
 
-async function linkCourseRegistration(courseRegistrationId: string) {
-  const courseRegistration = await db.getFirst(courseRegistrationTable, { filter: { id: courseRegistrationId } });
-  if (!courseRegistration) {
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
-  }
-
-  if (courseRegistration.userId) {
-    return { action: 'already-linked', userId: courseRegistration.userId } as const;
-  }
-
-  if (!courseRegistration.email) {
-    return { action: 'skipped-no-email' } as const;
-  }
-
-  const existingUser = await getCanonicalUserByEmail(courseRegistration.email);
-  if (existingUser) {
-    await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
-    return { action: 'linked', userId: existingUser.id } as const;
-  }
-
-  const name = [courseRegistration.firstName, courseRegistration.lastName].filter(Boolean).join(' ').trim();
-  const newUser = await db.insert(userTable, {
-    email: courseRegistration.email.toLowerCase(),
-    ...(name && { name }),
-  });
-  await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });
-  return { action: 'created-user-and-linked', userId: newUser.id } as const;
-}
-
-async function linkUserCourseRegistrations(userId: string) {
-  const user = await db.getFirst(userTable, { filter: { id: userId } });
-  if (!user) {
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
-  }
-
-  if (!user.email) {
-    return { action: 'skipped-no-email' } as const;
-  }
-
-  const canonicalUser = (await getCanonicalUserByEmail(user.email)) ?? user;
-
-  const unlinkedRegistrations = await db.pg
-    .select()
-    .from(courseRegistrationTable.pg)
-    .where(and(
-      sql`lower(${courseRegistrationTable.pg.email}) = ${user.email.toLowerCase()}`,
-      or(isNull(courseRegistrationTable.pg.userId), eq(courseRegistrationTable.pg.userId, '')),
-    ));
-
-  await Promise.all(unlinkedRegistrations.map((registration) => db.update(courseRegistrationTable, {
-    id: registration.id,
-    userId: canonicalUser.id,
-  })));
-
-  return { action: 'linked-user-registrations', userId: canonicalUser.id, linkedCount: unlinkedRegistrations.length } as const;
-}
-
 export const courseRegistrationsRouter = router({
   getByCourseId: protectedProcedure
     .input(z.object({ courseId: z.string() }))
@@ -130,11 +73,62 @@ export const courseRegistrationsRouter = router({
     .mutation(async ({ input }) => {
       verifyPublicToken(input.publicToken);
 
+      // 1. Link-or-create the user if we are given a course registration
       if (input.courseRegistrationId !== undefined) {
-        return linkCourseRegistration(input.courseRegistrationId);
+        const courseRegistration = await db.getFirst(courseRegistrationTable, { filter: { id: input.courseRegistrationId } });
+        if (!courseRegistration) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
+        }
+
+        if (courseRegistration.userId) {
+          return { action: 'already-linked', userId: courseRegistration.userId } as const;
+        }
+
+        if (!courseRegistration.email) {
+          return { action: 'skipped-no-email' } as const;
+        }
+
+        const existingUser = await getCanonicalUserByEmail(courseRegistration.email);
+        if (existingUser) {
+          await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
+          return { action: 'linked', userId: existingUser.id } as const;
+        }
+
+        const name = [courseRegistration.firstName, courseRegistration.lastName].filter(Boolean).join(' ').trim();
+        const newUser = await db.insert(userTable, {
+          email: courseRegistration.email.toLowerCase(),
+          ...(name && { name }),
+        });
+        await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });
+        return { action: 'created-user-and-linked', userId: newUser.id } as const;
       }
 
-      return linkUserCourseRegistrations(input.userId!);
+      // 2. Link all matching course registrations if we are given a user
+      const user = await db.getFirst(userTable, { filter: { id: input.userId! } });
+      if (!user) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+      }
+
+      if (!user.email) {
+        return { action: 'skipped-no-email' } as const;
+      }
+
+      const canonicalUser = (await getCanonicalUserByEmail(user.email)) ?? user;
+
+      const unlinkedRegistrations = await db.pg
+        .select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          sql`lower(${courseRegistrationTable.pg.email}) = ${user.email.toLowerCase()}`,
+          or(isNull(courseRegistrationTable.pg.userId), eq(courseRegistrationTable.pg.userId, '')),
+        ));
+
+      await Promise.all(unlinkedRegistrations.map((registration) => db.update(courseRegistrationTable, {
+        id: registration.id,
+        userId: canonicalUser.id,
+      })));
+
+      return { action: 'linked-user-registrations', userId: canonicalUser.id, linkedCount: unlinkedRegistrations.length } as const;
     }),
 
   // Self-serve registration now lives in selfServeCourseRegistrations.ensureExists; these two are

@@ -11,12 +11,8 @@ import { timingSafeEqual } from 'crypto';
 import env from './env';
 
 /**
- * Verify the shared secret sent by external callers of public procedures (currently
- * Airtable automation scripts). Use this at the top of any public procedure that
- * should only be callable by our own automations, before touching the database.
- *
- * Throws UNAUTHORIZED if the token doesn't match, or INTERNAL_SERVER_ERROR if the
- * secret isn't configured in the environment. Comparison is constant-time.
+ * Verify the shared secret sent by Airtable automation scripts. Use this at the top
+ * of any public procedure that should only be callable by our own automations.
  */
 export function verifyPublicToken(publicToken: string) {
   if (!env.CERTIFICATE_CREATION_TOKEN) {
