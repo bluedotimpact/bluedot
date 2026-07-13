@@ -1,5 +1,5 @@
 import type React from 'react';
-import clsx from 'clsx';
+import { cn } from './utils';
 
 export type HeroMiniTitleProps = React.PropsWithChildren<{
   className?: string;
@@ -9,7 +9,7 @@ export const HeroMiniTitle: React.FC<HeroMiniTitleProps> = ({
   children, className,
 }) => {
   return (
-    <div className={clsx('hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
+    <div className={cn('hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
   );
 };
 
@@ -20,7 +20,7 @@ export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
     // Keeps `bluedot-h1` for the InterDisplay font-family
     // Display ramp (40 → 56 → 64 → 72) is deliberately arbitrary px, not a text-size-* token.
     // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size
-    <h1 className={clsx('bluedot-h1 text-color-text-on-dark text-center text-[40px] md:text-[56px] lg:text-[64px] xl:text-[72px] font-normal leading-tight tracking-tighter', className)} {...otherProps}>{children}</h1>
+    <h1 className={cn('bluedot-h1 text-color-text-on-dark text-center text-[40px] md:text-[56px] lg:text-[64px] xl:text-[72px] font-normal leading-tight tracking-tighter', className)} {...otherProps}>{children}</h1>
   );
 };
 
@@ -29,7 +29,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h2
-      className={clsx('hero-section__subtitle text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2', className)}
+      className={cn('hero-section__subtitle text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2', className)}
       {...otherProps}
     >
       {children}
@@ -46,7 +46,7 @@ export const HeroCTAContainer: React.FC<HeroCTAContainerProps> = ({
   children,
 }) => {
   return (
-    <div className={clsx('flex justify-center mt-8', className)}>
+    <div className={cn('flex justify-center mt-8', className)}>
       {children}
     </div>
   );
@@ -61,7 +61,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   children,
 }) => {
   return (
-    <div className={clsx('hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x', className)}>
+    <div className={cn('hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x', className)}>
       <div className="hero-section__content max-w-[920px] py-12">
         {children}
       </div>
