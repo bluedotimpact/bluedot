@@ -6,6 +6,7 @@ import {
   Modal as AriaModal,
   ModalOverlay,
 } from 'react-aria-components';
+import { ModalTitle } from './ModalTitle';
 import {
   animate,
   AnimatePresence,
@@ -193,9 +194,9 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                     {title && (
                       <div className="flex items-center justify-between px-5 pb-4">
                         {titleIsString ? (
-                          <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-bluedot-navy">
+                          <ModalTitle id="mobile-modal-title">
                             {title}
-                          </h2>
+                          </ModalTitle>
                         ) : title}
                       </div>
                     )}

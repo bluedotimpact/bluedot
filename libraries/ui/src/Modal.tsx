@@ -4,9 +4,9 @@ import {
   Dialog,
   Modal as AriaModal,
   ModalOverlay,
-  Heading,
 } from 'react-aria-components';
 import { ClickTarget } from './ClickTarget';
+import { ModalTitle } from './ModalTitle';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
 import { CloseIcon } from './icons/CloseIcon';
@@ -43,7 +43,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       <AriaModal>
         <Dialog className="bg-white rounded-xl shadow-xl w-full pb-8 outline-none" aria-label={ariaLabel}>
           <div className={cn('flex justify-between items-center mb-4 pt-10 pl-8 pr-6', desktopHeaderClassName)}>
-            {title && typeof title === 'string' ? <Heading slot="title" className="text-size-lg font-semibold">{title}</Heading> : title}
+            {title && typeof title === 'string' ? <ModalTitle>{title}</ModalTitle> : title}
             <ClickTarget onClick={() => setIsOpen(false)} aria-label="Close" className="text-black rounded-full p-1 hover:bg-gray-100 cursor-pointer">
               <CloseIcon size={20} />
             </ClickTarget>
