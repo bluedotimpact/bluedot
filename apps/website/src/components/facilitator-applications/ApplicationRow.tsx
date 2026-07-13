@@ -1,4 +1,4 @@
-import { OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
+import { Eyebrow, OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { formatDateRange } from '../../lib/utils';
@@ -53,9 +53,9 @@ const ApplicationRow = ({
         </div>
         <div className="min-w-0 flex-1">
           {courseTitle && (
-            <p className="mb-1 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal">
+            <Eyebrow className="mb-1">
               {courseTitle}
-            </p>
+            </Eyebrow>
           )}
           <p className="text-pretty text-size-md font-semibold text-bluedot-navy">
             {roundName ?? 'Round'}

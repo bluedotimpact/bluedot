@@ -1,6 +1,7 @@
 import {
   Breadcrumbs,
   CTALinkOrButton,
+  Eyebrow,
   useLatestUtmParams,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -209,9 +210,9 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
           <div className="flex flex-col gap-5">
             <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-xl" />
             <div className="flex flex-col gap-4">
-              <p className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px]">
+              <Eyebrow>
                 External course from {externalCoursePage.providerName}
-              </p>
+              </Eyebrow>
               <h1 className="text-size-xl bd-md:text-size-2xl leading-[1.15] font-semibold tracking-tighter text-bluedot-navy">
                 {course.title}
               </h1>

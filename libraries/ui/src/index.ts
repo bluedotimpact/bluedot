@@ -92,6 +92,7 @@ export {
   H1, H2, H3, H4, P, A,
 } from './Text';
 export { ModalTitle, type ModalTitleProps } from './ModalTitle';
+export { Eyebrow, type EyebrowProps } from './Eyebrow';
 
 export { BugReportModal } from './BugReportModal';
 export type { BugReportModalProps, FeedbackData } from './BugReportModal';

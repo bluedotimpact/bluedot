@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { ErrorSection, ProgressDots } from '@bluedot/ui';
+import { ErrorSection, Eyebrow, ProgressDots } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
 } from 'react-icons/pi';
@@ -194,7 +194,7 @@ const FacilitatorFeedbackPage = () => {
         {/* Course feedback card */}
         <section className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
-            <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Course feedback</p>
+            <Eyebrow>Course feedback</Eyebrow>
             <div className="flex flex-col gap-1">
               <h2 className="text-size-lg font-bold text-bluedot-navy">How did the course go?</h2>
               <p className="text-size-xs text-bluedot-navy/60 leading-relaxed">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
@@ -245,7 +245,7 @@ const FacilitatorFeedbackPage = () => {
         {/* Participant insights card */}
         <section ref={participantInsightsRef} className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-5">
           <div className="flex flex-col gap-4">
-            <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Participant insights</p>
+            <Eyebrow>Participant insights</Eyebrow>
             <div className="flex flex-col gap-2">
               <h2 className="text-size-lg font-bold text-bluedot-navy">Share your insights on each participant</h2>
               <p className="text-size-xs text-bluedot-navy/60 leading-relaxed">
