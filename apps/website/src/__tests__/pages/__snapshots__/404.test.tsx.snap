@@ -4,10 +4,10 @@ exports[`Error404Page > should render correctly 1`] = `
 <div>
   <div>
     <div
-      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x 404-hero overflow-hidden"
+      class="bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x 404-hero overflow-hidden"
     >
       <div
-        class="hero-section__content max-w-[920px] py-12"
+        class="max-w-[920px] py-12"
       >
         <div
           class="404-hero__animation-container w-[400px] max-w-[80vw] aspect-2/1 shadow-[0_0_120px_120px_#011664]"
@@ -22,7 +22,7 @@ exports[`Error404Page > should render correctly 1`] = `
           </div>
         </div>
         <h2
-          class="hero-section__subtitle text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2"
+          class="text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2"
         >
           Sorry, this page does not exist.
         </h2>
