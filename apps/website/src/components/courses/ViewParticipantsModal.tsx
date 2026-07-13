@@ -1,5 +1,5 @@
 import {
-  ErrorSection, Modal, ModalTitle, ProgressDots,
+  ErrorSection, Modal, ProgressDots,
 } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import ParticipantRow from './ParticipantRow';
@@ -22,7 +22,7 @@ const ViewParticipantsModal = ({ groupId, handleClose }: ViewParticipantsModalPr
       setIsOpen={(v) => {
         if (!v) handleClose();
       }}
-      title={<ModalTitle>Participants</ModalTitle>}
+      title="Participants"
       desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Participants in your group"

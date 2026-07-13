@@ -7,7 +7,6 @@ import { z } from 'zod';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
-import { ModalTitle } from './ModalTitle';
 import { ProgressDots } from './ProgressDots';
 import { cn } from './utils';
 
@@ -201,7 +200,8 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     <Modal
       isOpen={isOpen}
       setIsOpen={handleModalOpenChange}
-      title={<ModalTitle className="mx-auto">{showSuccess ? 'Thank you' : 'Submit feedback'}</ModalTitle>}
+      title={showSuccess ? 'Thank you' : 'Submit feedback'}
+      centerTitle
       ariaLabel={showSuccess ? 'Thank you' : 'Submit feedback'}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"

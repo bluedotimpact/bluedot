@@ -1,4 +1,4 @@
-import { Modal, ModalTitle, ProgressDots } from '@bluedot/ui';
+import { Modal, ProgressDots } from '@bluedot/ui';
 import { useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
@@ -27,7 +27,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
       setIsOpen={(v) => {
         if (!v) onClose();
       }}
-      title={<ModalTitle>Add a participant</ModalTitle>}
+      title="Add a participant"
       desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Add a participant"
