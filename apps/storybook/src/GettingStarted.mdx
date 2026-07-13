@@ -96,9 +96,11 @@ Our color tokens are built to be used with Tailwind CSS utility classes. Here ar
 
 You may use `text-size-` classes for different text sizes, from `text-size-xxs` (12px) for the smallest text to `text-size-4xl` (56px → 72px at md+) for marketing-hero headlines. The `xl`, `2xl`, `3xl` and `4xl` tokens are responsive — they scale up at the `md` breakpoint.
 
-For convenience we also ship `<H1>` through `<H4>`, `<P>`, `<Blockquote>`, `<A>` tags that you can use in your React components.
+For convenience we also ship `<H1>` through `<H4>`, `<P>` and `<A>` tags that you can use in your React components. Each one bakes in its own weight, line-height, letter-spacing and colour, so you shouldn't need to pass a `className` for the standard look — reach for the plain tag first.
 
 Need those same styles but for a different tag? Use the `.bluedot-h1`, ..., `.bluedot-h4`, `.bluedot-p` & `.bluedot-a` utility classes.
+
+`H1` and `H2` are no longer identical: `H1` is `text-size-2xl`, `H2` is `text-size-xl`; both are semibold navy in Inter Display. `HeroSection`'s `<HeroH1>` is the on-dark marketing variant (white, regular weight, larger display ramp).
 
 ```jsx
 import { H1, H2, H3, H4, P, A } from '@bluedot/ui';
@@ -115,8 +117,15 @@ import { H1, H2, H3, H4, P, A } from '@bluedot/ui';
 <div className="bluedot-p">Body</div> <!-- Same as P -->
 <A href="#">Link</A>
 <span className="bluedot-a">Link</span> <!-- Same as A -->
-<Blockquote>Blockquote</Blockquote>
 ```
+
+#### Weight, line-height & letter-spacing tokens
+
+Beyond size, the scale defines named tokens for the other three dimensions. Prefer these over arbitrary values (`font-[450]`, `leading-[160%]`, `tracking-[-1px]`).
+
+- **Weight** — the four static Inter cuts: `font-normal` (400), `font-medium` (500), `font-semibold` (600), `font-bold` (700). There is no 450/650 cut; arbitrary in-between weights snap to the nearest of these.
+- **Line-height** — `leading-tight` (1.1), `leading-snug` (1.25), `leading-normal` (1.4), `leading-relaxed` (1.6).
+- **Letter-spacing** — `tracking-tighter` (−0.02em), `tracking-tight` (−0.01em), `tracking-normal` (0), `tracking-wide` (0.04em). Use `em`, not `px`, so tracking scales with font size.
 
 #### Text Sizes
 {(() => {
