@@ -33,7 +33,7 @@ const FieldBuildingSection = ({
               {title}
             </h3>
           ) : (
-            <H2 className="text-size-xl font-semibold leading-snug text-bluedot-navy tracking-tight">
+            <H2>
               {title}
             </H2>
           )}

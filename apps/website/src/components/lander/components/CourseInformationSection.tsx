@@ -58,7 +58,7 @@ const CourseInformationSection = ({
             {title}
           </h3>
         ) : (
-          <H2 className="w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-snug text-bluedot-navy tracking-tight">
+          <H2 className="w-full bd-md:max-w-text text-center">
             {title}
           </H2>
         )}
