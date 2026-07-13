@@ -496,35 +496,38 @@ describe('facilitatorApplications.quickApply', () => {
 
 describe('resolveApplicantName', () => {
   // These tests exercise the user-account name fallback directly and manage their own user rows,
-  // so clear the default users seeded by the file-level beforeEach to avoid duplicate-email matches.
+  // so clear the default users seeded by the file-level beforeEach (which have names that would
+  // otherwise satisfy the fallback).
   beforeEach(async () => {
     await testDb.pg.delete(userTable.pg);
   });
 
-  const seedUser = (email: string, name: string) => testDb.insert(userTable, { id: `user-${email}`, email, name });
+  const seedUser = (id: string, name: string) => testDb.insert(userTable, { id, email: `${id}@example.com`, name });
 
   test('returns null names when neither a prior application nor a user account has a name', async () => {
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: null, lastName: null });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
   });
 
   test('prefers a prior application\'s split name over the user account', async () => {
-    await seedUser(CALLER_EMAIL, 'Account Name');
+    await seedUser('test-user', 'Account Name');
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Participant',
       firstName: 'Ada',
       lastName: 'Lovelace',
       autoNumberId: 1,
     });
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Ada', lastName: 'Lovelace' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Ada', lastName: 'Lovelace' });
   });
 
   test('prefers the most recent prior application that has a name', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-old',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Participant',
       firstName: 'Ada',
@@ -534,75 +537,80 @@ describe('resolveApplicantName', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-new',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       firstName: 'Grace',
       lastName: 'Hopper',
       autoNumberId: 2,
     });
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
   });
 
   test('trims surrounding whitespace on a prior application name', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Participant',
       firstName: 'Caroline ',
       lastName: ' Chitongo',
       autoNumberId: 1,
     });
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Caroline', lastName: 'Chitongo' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline', lastName: 'Chitongo' });
   });
 
   test('ignores a prior application whose name is only whitespace and falls back to the user account', async () => {
-    await seedUser(CALLER_EMAIL, 'Grace Hopper');
+    await seedUser('test-user', 'Grace Hopper');
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-ws',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       firstName: '   ',
       lastName: '',
       autoNumberId: 5,
     });
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
   });
 
   test('falls back to the user account name (split on first space) when no prior application has a name', async () => {
-    await seedUser(CALLER_EMAIL, 'Caroline Shamiso Chitongo');
+    await seedUser('test-user', 'Caroline Shamiso Chitongo');
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-blank',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       autoNumberId: 2,
     });
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Caroline', lastName: 'Shamiso Chitongo' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline', lastName: 'Shamiso Chitongo' });
   });
 
   test('splits a single-word user account name into a null last name', async () => {
-    await seedUser(CALLER_EMAIL, 'Cher');
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: 'Cher', lastName: null });
+    await seedUser('test-user', 'Cher');
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Cher', lastName: null });
   });
 
   test('treats a whitespace-only user account name as missing', async () => {
-    await seedUser(CALLER_EMAIL, '   ');
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: null, lastName: null });
+    await seedUser('test-user', '   ');
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
   });
 
-  test('does not read another user\'s name from either source', async () => {
-    await seedUser('other@example.com', 'Someone Else');
+  test('does not read another user\'s name from either source, even with a matching email', async () => {
+    await seedUser('user-other', 'Someone Else');
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-other',
-      email: 'other@example.com',
+      email: CALLER_EMAIL,
+      userId: 'user-other',
       courseId: 'course-1',
       role: 'Participant',
       firstName: 'Someone',
       lastName: 'Else',
       autoNumberId: 1,
     });
-    expect(await resolveApplicantName(CALLER_EMAIL)).toEqual({ firstName: null, lastName: null });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
   });
 });

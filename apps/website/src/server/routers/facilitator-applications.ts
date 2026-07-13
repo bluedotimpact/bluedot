@@ -188,7 +188,7 @@ const splitName = (name: string): { firstName: string; lastName: string | null }
 // their most recent prior application (any course/role) that recorded one — human-entered, so the
 // most accurate split. Otherwise fall back to the user account's single name field (always present
 // for a logged-in user), split on the first space. Leaves both null only if neither has a name.
-export const resolveApplicantName = async (email: string): Promise<{ firstName: string | null; lastName: string | null }> => {
+export const resolveApplicantName = async (userId: string): Promise<{ firstName: string | null; lastName: string | null }> => {
   const regs = await db.pg
     .select({
       firstName: courseRegistrationTable.pg.firstName,
@@ -196,7 +196,7 @@ export const resolveApplicantName = async (email: string): Promise<{ firstName: 
       autoNumberId: courseRegistrationTable.pg.autoNumberId,
     })
     .from(courseRegistrationTable.pg)
-    .where(eq(courseRegistrationTable.pg.email, email));
+    .where(eq(courseRegistrationTable.pg.userId, userId));
 
   const named = [...regs]
     .sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0))
@@ -207,7 +207,7 @@ export const resolveApplicantName = async (email: string): Promise<{ firstName: 
   const [user] = await db.pg
     .select({ name: userTable.pg.name })
     .from(userTable.pg)
-    .where(eq(userTable.pg.email, email))
+    .where(eq(userTable.pg.id, userId))
     .limit(1);
   const accountName = cleanNamePart(user?.name);
   if (accountName) return splitName(accountName);
@@ -412,7 +412,7 @@ export const facilitatorApplicationsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
       }
 
-      const { firstName, lastName } = await resolveApplicantName(ctx.auth.email);
+      const { firstName, lastName } = await resolveApplicantName(user.id);
 
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
