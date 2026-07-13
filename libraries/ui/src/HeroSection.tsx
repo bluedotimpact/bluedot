@@ -29,7 +29,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h2
-      className={cn('text-color-text-on-dark text-2xl font-normal text-center mt-4 bluedot-h2', className)}
+      className={cn('text-color-text-on-dark text-2xl font-normal text-center mt-4 leading-snug tracking-normal bluedot-h2', className)}
       {...otherProps}
     >
       {children}
