@@ -1,6 +1,7 @@
 import { router } from '../trpc';
 import { adminRouter } from './admin';
 import { certificatesRouter } from './certificates';
+import { courseRegistrationLinkingRouter } from './course-registration-linking';
 import { courseRegistrationsRouter } from './course-registrations';
 import { courseRoundsRouter } from './course-rounds';
 import { coursesRouter } from './courses';
@@ -28,6 +29,7 @@ import { usersRouter } from './users';
 export const appRouter = router({
   admin: adminRouter,
   certificates: certificatesRouter,
+  courseRegistrationLinking: courseRegistrationLinkingRouter,
   courseRegistrations: courseRegistrationsRouter,
   courseRounds: courseRoundsRouter,
   courses: coursesRouter,

@@ -6,6 +6,29 @@ import {
   type Unit,
   type PgAirtableDb,
 } from '@bluedot/db';
+import { TRPCError } from '@trpc/server';
+import { timingSafeEqual } from 'crypto';
+import env from './env';
+
+/**
+ * Verify the shared secret sent by external callers of public procedures (currently
+ * Airtable automation scripts). Use this at the top of any public procedure that
+ * should only be callable by our own automations, before touching the database.
+ *
+ * Throws UNAUTHORIZED if the token doesn't match, or INTERNAL_SERVER_ERROR if the
+ * secret isn't configured in the environment. Comparison is constant-time.
+ */
+export function verifyPublicToken(publicToken: string) {
+  if (!env.CERTIFICATE_CREATION_TOKEN) {
+    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Public token not configured' });
+  }
+
+  const tokenBuf = Buffer.from(publicToken);
+  const secretBuf = Buffer.from(env.CERTIFICATE_CREATION_TOKEN);
+  if (tokenBuf.length !== secretBuf.length || !timingSafeEqual(tokenBuf, secretBuf)) {
+    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
+  }
+}
 
 /**
  * Filter the `chunks` field on each element of `units` to only include the ids of active
