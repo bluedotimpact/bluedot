@@ -112,7 +112,7 @@ export const loginPresets = {
       authority: 'https://login.bluedot.org/realms/customers/',
       client_id: 'bluedot-web-apps',
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
-      scope: 'openid email offline_access',
+      scope: 'openid email profile offline_access',
     },
     async verifyAndDecodeToken(token: string) {
       return verifyJwt(token, {
