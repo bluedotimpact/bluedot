@@ -182,8 +182,27 @@ describe('users.ensureExists', () => {
     expect(user.name).toBe('John Doe');
   });
 
-  test('backfills an empty name from the token on an existing user', async () => {
+  test('backfills an empty name from the token on a user matched by email (no keycloakIdentifier yet)', async () => {
     await testDb.insert(userTable, { id: 'u1', email: 'test@example.com' });
+
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+      sub: 'test-sub',
+      email: 'test@example.com',
+      name: 'John Doe',
+      iss: 'test-issuer',
+      aud: 'test-audience',
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      email_verified: true,
+    });
+
+    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.name).toBe('John Doe');
+  });
+
+  test('backfills an empty name from the token on a returning user matched by keycloakIdentifier', async () => {
+    await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub' });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
       sub: 'test-sub',
