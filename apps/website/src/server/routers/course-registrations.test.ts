@@ -2,7 +2,7 @@ import {
   applicationsRoundTable, courseRegistrationTable, selfServeCourseRegistrationTable, userTable,
 } from '@bluedot/db';
 import {
-  beforeEach, describe, expect, test,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
@@ -158,9 +158,20 @@ describe('courseRegistrations.linkToUser input validation', () => {
 });
 
 describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
-  test('throws for an unknown course registration', async () => {
+  test('throws NOT_FOUND for an unknown course registration', async () => {
     await expect(linkToUser({ courseRegistrationId: 'missing' }))
-      .rejects.toThrow('No records found');
+      .rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  test('reads the triggering registration from Airtable, not the Postgres replica', async () => {
+    await testDb.insert(courseRegistrationTable, { id: 'reg1', email: 'new@example.com', courseId: 'c1' });
+    const airtableGetSpy = vi.spyOn(testDb.airtableClient, 'get');
+
+    const result = await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(result.action).toBe('created-user-and-linked');
+    expect(airtableGetSpy).toHaveBeenCalledWith(courseRegistrationTable.airtable, 'reg1');
+    airtableGetSpy.mockRestore();
   });
 
   test('leaves an already-linked registration untouched', async () => {
@@ -261,8 +272,32 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
 });
 
 describe('courseRegistrations.linkToUser by userId', () => {
-  test('throws for an unknown user', async () => {
-    await expect(linkToUser({ userId: 'missing' })).rejects.toThrow('No records found');
+  test('throws NOT_FOUND for an unknown user', async () => {
+    await expect(linkToUser({ userId: 'missing' })).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  test('reads the triggering user from Airtable, not the Postgres replica', async () => {
+    await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com', name: 'Someone' });
+    await testDb.insert(courseRegistrationTable, { id: 'reg1', email: 'someone@example.com', courseId: 'c1' });
+    const airtableGetSpy = vi.spyOn(testDb.airtableClient, 'get');
+
+    const result = await linkToUser({ userId: 'user1' });
+
+    expect(result).toEqual({ action: 'linked-user-registrations', userId: 'user1', linkedCount: 1 });
+    expect(airtableGetSpy).toHaveBeenCalledWith(userTable.airtable, 'user1');
+    airtableGetSpy.mockRestore();
+  });
+
+  test('links registrations when the triggering user exists in Airtable but has not synced to Postgres yet', async () => {
+    const airtableGetSpy = vi.spyOn(testDb.airtableClient, 'get')
+      .mockResolvedValueOnce({ id: 'user-fresh', email: 'fresh@example.com', name: 'Fresh' } as never);
+    await testDb.insert(courseRegistrationTable, { id: 'reg1', email: 'fresh@example.com', courseId: 'c1' });
+
+    const result = await linkToUser({ userId: 'user-fresh' });
+
+    expect(result).toEqual({ action: 'linked-user-registrations', userId: 'user-fresh', linkedCount: 1 });
+    expect((await getRegistration('reg1'))?.userId).toBe('user-fresh');
+    airtableGetSpy.mockRestore();
   });
 
   test('links all unlinked registrations matching the user email case-insensitively', async () => {
