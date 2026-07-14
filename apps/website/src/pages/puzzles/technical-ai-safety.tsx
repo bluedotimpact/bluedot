@@ -40,11 +40,21 @@ const TASKS = [
 ] as const;
 
 const PRIZES = [
-  { place: '1st', amount: '$1,000' },
-  { place: '2nd', amount: '$750' },
-  { place: '3rd', amount: '$500' },
-  { place: 'Honourable mentions', amount: '$250 each' },
+  {
+    place: '1st place', amount: '$1,000', medal: '🥇', winners: ['Gustavo Korzune Gurgel'],
+  },
+  {
+    place: '2nd place', amount: '$750', medal: '🥈', winners: ['Patryk Perduta'],
+  },
+  {
+    place: '3rd place', amount: '$500', medal: '🥉', winners: ['Sam Spillard'],
+  },
+  {
+    place: 'Honourable mentions', amount: '$250 each', medal: '🏅', winners: ['Karine Levonyan', 'Phu Gia Hoang', 'Michael Zlatin'],
+  },
 ] as const;
+
+const [FIRST_PRIZE, ...RUNNER_UP_PRIZES] = PRIZES;
 
 const CORRECT_SUBMISSIONS = [
   'Abderrahmene Hamdi',
@@ -278,12 +288,63 @@ const PuzzleTechnicalAiSafetyPage = () => {
                   </li>
                 ))}
               </ol>
+              <div className="mt-6 flex justify-center">
+                <CTALinkOrButton
+                  url={PUZZLE_URL}
+                  size="small"
+                  className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-white hover:brightness-110"
+                  style={{ backgroundColor: TAS.full }}
+                >
+                  See the puzzle
+                </CTALinkOrButton>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Winners */}
+        <section>
+          <div className={SECTION_PADDING_CLASS}>
+            <div className="max-w-text mx-auto">
+              <h2 className={EYEBROW_CLASS}>Winners</h2>
+              <div
+                className="mt-5 rounded-lg border border-color-divider p-6 lg:p-8 text-center"
+                style={{ backgroundColor: TAS.bright }}
+              >
+                <p className="text-size-xl leading-none">{FIRST_PRIZE.medal}</p>
+                <p
+                  className="mt-3 text-size-xs font-semibold uppercase tracking-[0.18em]"
+                  style={{ color: TAS.full }}
+                >
+                  {FIRST_PRIZE.place} · {FIRST_PRIZE.amount}
+                </p>
+                <p className="mt-2 text-size-lg font-semibold text-bluedot-navy">
+                  {FIRST_PRIZE.winners[0]}
+                </p>
+              </div>
+              <div className="mt-4 grid bd-md:grid-cols-3 gap-4">
+                {RUNNER_UP_PRIZES.map((p) => (
+                  <div key={p.place} className="rounded-lg border border-color-divider p-5 text-center">
+                    <p className="text-size-lg leading-none">{p.medal}</p>
+                    <p className="mt-3 text-size-xs font-semibold uppercase tracking-[0.18em] text-bluedot-navy/60">
+                      {p.place} · {p.amount}
+                    </p>
+                    <ul className="mt-2 space-y-0.5">
+                      {p.winners.map((name) => (
+                        <li key={name} className="text-size-sm font-semibold text-bluedot-navy leading-snug">
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* Correct submissions */}
-        <section>
+        <section className="bg-color-canvas">
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
               <h2 className={EYEBROW_CLASS}>Correct submissions</h2>
@@ -301,57 +362,6 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 <p className="mt-4 text-size-xs text-bluedot-navy/50 leading-relaxed">
                   ...and {UNNAMED_SUBMISSIONS_COUNT} others who chose not to be named.
                 </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* What you get */}
-        <section className="bg-color-canvas">
-          <div className={SECTION_PADDING_CLASS}>
-            <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>What you get</h2>
-              <div className="mt-5 grid grid-cols-2 bd-md:grid-cols-4 gap-4 text-center">
-                {PRIZES.map((p) => (
-                  <div key={p.place}>
-                    <p
-                      className="text-size-lg font-semibold tabular-nums leading-none"
-                      style={{ color: TAS.full }}
-                    >
-                      {p.amount}
-                    </p>
-                    <p className="mt-2 text-size-xs font-semibold uppercase tracking-[0.18em] text-bluedot-navy/60">
-                      {p.place}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-6 text-size-sm text-bluedot-navy/80 leading-relaxed">
-                Winners to be announced soon.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Closing CTA — deadline + buttons, restrained */}
-        <section>
-          <div className={`${SECTION_CONTAINER_CLASS} py-10 bd-md:py-12 lg:py-14`}>
-            <div className="max-w-text mx-auto text-center space-y-5">
-              <p
-                className="text-size-xs font-semibold uppercase tracking-[0.18em]"
-                style={{ color: TAS.full }}
-              >
-                Deadline passed
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <CTALinkOrButton
-                  url={PUZZLE_URL}
-                  size="small"
-                  className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-white hover:brightness-110"
-                  style={{ backgroundColor: TAS.full }}
-                >
-                  See the puzzle
-                </CTALinkOrButton>
               </div>
             </div>
           </div>
