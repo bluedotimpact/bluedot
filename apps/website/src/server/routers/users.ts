@@ -91,14 +91,15 @@ export const usersRouter = router({
           id: existingUserByEmail.id,
           ...(sub && { keycloakIdentifier: sub }),
           lastSeenAt: new Date().toISOString(),
+          firstLoggedInAt: new Date().toISOString(),
         });
       } else {
         // Create user if doesn't exist
         await db.insert(userTable, {
           email: auth.email,
-          name: '',
           ...(sub && { keycloakIdentifier: sub }),
           lastSeenAt: new Date().toISOString(),
+          firstLoggedInAt: new Date().toISOString(),
           ...(input.initialUtmSource && { utmSource: input.initialUtmSource }),
           ...(input.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),
           ...(input.initialUtmContent && { utmContent: input.initialUtmContent }),

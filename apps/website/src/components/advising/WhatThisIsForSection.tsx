@@ -17,7 +17,7 @@ const WhatThisIsForSection = () => {
 
         <ul className="list-disc pl-6 flex flex-col gap-2">
           {HELP_BULLETS.map((item) => (
-            <li key={item} className="text-bluedot-navy/80 leading-[1.6]">
+            <li key={item} className="text-bluedot-navy/80 leading-relaxed">
               {item}
             </li>
           ))}

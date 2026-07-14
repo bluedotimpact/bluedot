@@ -212,13 +212,13 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
               <p className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px]">
                 External course from {externalCoursePage.providerName}
               </p>
-              <h1 className="text-size-xl bd-md:text-size-2xl leading-[1.15] font-semibold tracking-[-0.02em] text-bluedot-navy">
+              <h1 className="text-size-xl bd-md:text-size-2xl leading-[1.15] font-semibold tracking-tighter text-bluedot-navy">
                 {course.title}
               </h1>
-              <p className="text-size-md leading-[1.6] text-bluedot-navy/80">
+              <p className="text-size-md leading-relaxed text-bluedot-navy/80">
                 {course.shortDescription}
               </p>
-              <p className="text-size-sm leading-[1.6] text-bluedot-navy/70">
+              <p className="text-size-sm leading-relaxed text-bluedot-navy/70">
                 {externalCoursePage.summary}
               </p>
             </div>
@@ -235,7 +235,7 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
             </CTALinkOrButton>
           </div>
 
-          <p className="text-size-xs leading-[1.6] text-bluedot-navy/60">
+          <p className="text-size-xs leading-relaxed text-bluedot-navy/60">
             Questions about the course? Contact{' '}
             <a href="mailto:online-course@digitalminds.cam" className="text-bluedot-normal underline">
               online-course@digitalminds.cam

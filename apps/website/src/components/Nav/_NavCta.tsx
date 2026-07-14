@@ -32,7 +32,7 @@ export const NavCta: React.FC<{
     }
   }, [router.asPath]);
   const getButtonClasses = (type: 'primary' | 'secondary') => {
-    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center';
+    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center';
 
     if (type === 'primary') {
       return clsx(

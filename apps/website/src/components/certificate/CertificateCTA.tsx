@@ -39,7 +39,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
     >
       <div className="relative flex flex-col md:flex-row flex-1">
         <div className="pt-8 px-6 md:p-10 w-full md:w-[450px] flex flex-col gap-[21px] md:gap-6">
-          <p className="text-size-xs font-medium leading-[1.6] tracking-[0.24px] uppercase text-[var(--cta-accent)]">
+          <p className="text-size-xs font-medium leading-relaxed tracking-[0.24px] uppercase text-[var(--cta-accent)]">
             {nextCohortDate}
           </p>
 
@@ -53,7 +53,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
                 Your certificate<br />awaits. Enroll today.
               </h2>
 
-              <p className="text-size-xs font-normal leading-[1.6] text-white md:text-white/80">
+              <p className="text-size-xs font-normal leading-relaxed text-white md:text-white/80">
                 Join thousands of professionals building expertise in {courseName.toLowerCase()}.
               </p>
             </div>

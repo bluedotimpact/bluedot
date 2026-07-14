@@ -58,7 +58,7 @@ const CourseInformationSection = ({
             {title}
           </h3>
         ) : (
-          <H2 className="w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+          <H2 className="w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-snug text-bluedot-navy tracking-tight">
             {title}
           </H2>
         )}
@@ -74,7 +74,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
                     <div className="bd-md:w-[120px] lg:w-[144px] xl:w-40 shrink-0">
-                      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
+                      <P className="text-size-sm font-semibold leading-snug text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>
@@ -87,7 +87,7 @@ const CourseInformationSection = ({
                         accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
-                            <P className="text-size-sm leading-[160%] text-bluedot-navy/80 font-normal">
+                            <P className="text-size-sm leading-relaxed text-bluedot-navy/80 font-normal">
                               {detail.scheduleDescription}
                             </P>
                             <div className="flex justify-start">
@@ -107,14 +107,14 @@ const CourseInformationSection = ({
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
                     <div className="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0">
-                      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
+                      <P className="text-size-sm font-semibold leading-snug text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                      <div className="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal">
+                      <div className="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal">
                         {detail.description}
                       </div>
                     </div>

@@ -13,10 +13,9 @@ import {
   selfServeCourseRegistrationTable,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
-import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
-import env from '../../lib/api/env';
+import { verifyPublicToken } from '../../lib/api/utils';
 import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
 import {
   getUserOrThrow, protectedProcedure, publicProcedure, router,
@@ -107,15 +106,7 @@ export const certificatesRouter = router({
     .mutation(async ({ input: { courseRegistrationId, publicToken } }) => {
       // Authenticated by a shared secret rather than a user session. Allows certificate creation
       // even when not all exercises are complete, for the admin/Airtable issuance flow.
-      if (!env.CERTIFICATE_CREATION_TOKEN) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Certificate creation not configured' });
-      }
-
-      const tokenBuf = Buffer.from(publicToken);
-      const secretBuf = Buffer.from(env.CERTIFICATE_CREATION_TOKEN);
-      if (tokenBuf.length !== secretBuf.length || !timingSafeEqual(tokenBuf, secretBuf)) {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
-      }
+      verifyPublicToken(publicToken);
 
       const courseRegistration = await db.get(courseRegistrationTable, {
         id: courseRegistrationId,

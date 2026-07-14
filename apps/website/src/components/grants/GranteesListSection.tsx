@@ -37,7 +37,7 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
             {grantee.projectTitle}
           </p>
           {summary && (
-            <p className="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62">
+            <p className="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62">
               {summary}
             </p>
           )}
@@ -101,12 +101,12 @@ const GranteesListSection = ({
       {(title ?? subtitle) && (
         <div className="mb-8 bd-md:mb-10 max-w-[760px]">
           {title && (
-            <h2 className="text-size-xl font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
+            <h2 className="text-size-xl font-semibold leading-snug tracking-tight text-bluedot-navy">
               {title}
             </h2>
           )}
           {subtitle && (
-            <P className="text-size-sm bd-md:text-size-md leading-[160%] text-bluedot-navy/75 mt-4">
+            <P className="text-size-sm bd-md:text-size-md leading-relaxed text-bluedot-navy/75 mt-4">
               {subtitle}
             </P>
           )}

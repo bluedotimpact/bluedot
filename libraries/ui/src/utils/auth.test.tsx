@@ -4,6 +4,7 @@ import {
 import { OidcClient } from 'oidc-client-ts';
 import { render } from '@testing-library/react';
 import type * as React from 'react';
+import posthog from 'posthog-js';
 import { type Auth, useAuthStore, withAuth } from './auth';
 import { createMockOidcResponse } from './testUtils';
 
@@ -25,6 +26,7 @@ vi.mock('posthog-js', () => ({
   default: {
     identify: vi.fn(),
     reset: vi.fn(),
+    alias: vi.fn(),
   },
 }));
 
@@ -84,6 +86,21 @@ describe('auth', () => {
 
       const state = useAuthStore.getState();
       expect(state.auth).toEqual(auth);
+    });
+
+    test('should identify by email and alias the sub onto the same person on login', () => {
+      const auth = createAuth({ sub: 'keycloak-sub-123', email: 'user@bluedot.org' });
+      useAuthStore.getState().setAuth(auth);
+
+      expect(posthog.identify).toHaveBeenCalledWith('user@bluedot.org', { email: 'user@bluedot.org' });
+      expect(posthog.alias).toHaveBeenCalledWith('keycloak-sub-123', 'user@bluedot.org');
+    });
+
+    test('should not alias when sub is absent', () => {
+      const auth = createAuth({ sub: undefined });
+      useAuthStore.getState().setAuth(auth);
+
+      expect(posthog.alias).not.toHaveBeenCalled();
     });
 
     test('should keep new token when replacing soon-to-expire token', () => {

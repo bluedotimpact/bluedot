@@ -1,5 +1,5 @@
 import {
-  courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq,
+  courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq, userTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
   exerciseTable, exerciseResponsePgTable, projectSubmissionTable,
   unitResourceTable, resourceCompletionPgTable, dropoutTable,
@@ -7,7 +7,7 @@ import {
 import {
   afterEach, describe, expect, test, vi,
 } from 'vitest';
-import { forwardEventTypeToPostHog, type PostHogEvent } from './core';
+import { forwardEventTypeToPostHog } from './core';
 import { eventProjectionRules } from './definitions';
 import { mockPostHogBackend } from './__tests__/posthogBackend';
 import { db, testDb, setupTestDb } from './__tests__/dbTestUtils';
@@ -16,12 +16,6 @@ const POSTHOG_CREDS = { host: 'https://test.posthog', apiKey: 'phc_test' };
 
 setupTestDb();
 afterEach(() => vi.unstubAllGlobals());
-
-/** used to model prior anonymous browsing */
-const sendRawPostHogEvent = (batch: PostHogEvent[]) => fetch('https://test.posthog/batch/', {
-  method: 'POST',
-  body: JSON.stringify({ historical_migration: false, batch }),
-});
 
 const forwardAllEventsToPostHog = async (opts: { since?: string; now?: string } = {}) => {
   const now = opts.now ?? '2026-07-01T00:00:00.000Z';
@@ -108,7 +102,8 @@ describe('since (incremental scans)', () => {
     });
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
-    expect(ph.events.filter((e) => e.event === 'application_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    // no posthogDistinctId captured, so it falls back to the record id, not the email
+    expect(ph.events.filter((e) => e.event === 'application_submitted').map((e) => e.distinct_id)).toEqual(['new']);
   });
 });
 
@@ -193,12 +188,15 @@ describe('application_submitted (one per registration, accepted or not)', () => 
 
     const submits = ph.events.filter((e) => e.event === 'application_submitted');
     expect(result).toMatchObject({ candidates: 2, sent: 2, skipped: 0 });
-    expect(submits.map((e) => e.distinct_id).sort()).toEqual(['a@x.com', 'b@x.com']);
-    const withSession = submits.find((e) => e.distinct_id === 'a@x.com')!;
+    // emitted under the anonymous anchor (record id, as no posthogDistinctId was captured), not the email
+    expect(submits.map((e) => e.distinct_id).sort()).toEqual(['r1', 'r2']);
+    const withSession = submits.find((e) => e.distinct_id === 'r1')!;
     expect(withSession.timestamp).toBe('2026-05-01T09:00:00.000Z');
-    expect(withSession.properties).toMatchObject({ course_id: 'c1', round_id: 'rd1', $session_id: 'sess-1' });
+    expect(withSession.properties).toMatchObject({
+      course_id: 'c1', round_id: 'rd1', $session_id: 'sess-1', $set: { email: 'a@x.com' },
+    });
     // no session id captured -> no $session_id property
-    expect(submits.find((e) => e.distinct_id === 'b@x.com')!.properties).not.toHaveProperty('$session_id');
+    expect(submits.find((e) => e.distinct_id === 'r2')!.properties).not.toHaveProperty('$session_id');
   });
 
   test('skips registrations without a createdAt', async () => {
@@ -233,94 +231,34 @@ describe('application_submitted (one per registration, accepted or not)', () => 
     });
   });
 
-  // When the form captured the applicant's anonymous PostHog id, application_submitted also emits an
-  // `$identify` that merges that anonymous person into the email person. Exercised end-to-end against
-  // the in-memory model of PostHog (the same model the staging check validates).
-  describe('identify (merge anonymous browsing into the email person)', () => {
-    test('merges the captured anonymous id into the email person; the submitted event lands on the merged person', async () => {
-      await testDb.insert(courseRegistrationTable, {
-        id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', posthogDistinctId: 'anon-1',
-      });
-
-      const ph = mockPostHogBackend();
-      // the applicant browsed anonymously (logged out) before applying
-      await sendRawPostHogEvent([{
-        event: '$pageview', distinct_id: 'anon-1', uuid: 'u0', timestamp: '2026-04-01T00:00:00.000Z', properties: {},
-      }]);
-      expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(false);
-
-      const result = await forwardEventTypeToPostHog({
-        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
-      });
-
-      expect(result).toMatchObject({ candidates: 2, sent: 2 }); // the identify and the submitted event
-      // the anonymous browsing is now stitched to the email person, with the email set as a property
-      expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(true);
-      expect(ph.personPropsFor('a@x.com')).toMatchObject({ email: 'a@x.com' });
-      // the $identify wire event carries the merge shape
-      const identifyEvent = ph.events.find((e) => e.event === '$identify')!;
-      expect(identifyEvent.distinct_id).toBe('a@x.com');
-      expect(identifyEvent.properties).toMatchObject({ $anon_distinct_id: 'anon-1', $set: { email: 'a@x.com' } });
-      // the submitted event resolves to the same (merged) person as the anonymous browsing
-      const submitted = ph.events.find((e) => e.event === 'application_submitted')!;
-      expect(ph.personIdFor(submitted.distinct_id)).toBe(ph.personIdFor('anon-1'));
+  test('emits under the captured posthogDistinctId (not the email), with the email as a $set property and no identify', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', posthogDistinctId: 'anon-1',
     });
 
-    test('emits no identify when no anonymous id was captured, or it is just the applicant\'s email', async () => {
-      await testDb.insert(courseRegistrationTable, {
-        id: 'none', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z',
-      });
-      // a distinct id equal to the email is PII we don't forward (no merge needed anyway)
-      await testDb.insert(courseRegistrationTable, {
-        id: 'self', courseId: 'c1', email: 'b@x.com', createdAt: '2026-05-02T09:00:00.000Z', posthogDistinctId: 'b@x.com',
-      });
-
-      const ph = mockPostHogBackend();
-      const result = await forwardEventTypeToPostHog({
-        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
-      });
-
-      expect(result).toMatchObject({ candidates: 2, sent: 2 }); // two submitted events, no identifies
-      expect(ph.events.filter((e) => e.event === '$identify')).toHaveLength(0);
-      expect(ph.events.filter((e) => e.event === 'application_submitted')).toHaveLength(2);
+    const ph = mockPostHogBackend();
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
     });
 
-    test('sends the identify live even for an old (backfilled) application, while the submitted event ships as historical', async () => {
-      await testDb.insert(courseRegistrationTable, {
-        id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-01-01T00:00:00.000Z', posthogDistinctId: 'anon-1',
-      });
+    const submit = ph.events.find((e) => e.event === 'application_submitted')!;
+    expect(submit.distinct_id).toBe('anon-1'); // the captured browse device id, not the email
+    expect(submit.properties).toMatchObject({ $set: { email: 'a@x.com' } });
+    expect(ph.events.filter((e) => e.event === '$identify')).toHaveLength(0);
+  });
 
-      const ph = mockPostHogBackend();
-      await forwardEventTypeToPostHog({
-        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
-      });
-
-      // the identify ships live (in its own batch); the old submission is backfilled as historical
-      const liveBatch = ph.receivedBatches.find((b) => !b.historicalMigration)!;
-      const historicalBatch = ph.receivedBatches.find((b) => b.historicalMigration)!;
-      expect(liveBatch.events.map((e) => e.event)).toEqual(['$identify']);
-      expect(historicalBatch.events.map((e) => e.event)).toEqual(['application_submitted']);
-      expect(ph.isSamePerson('anon-1', 'a@x.com')).toBe(true);
+  test('falls back to the record id when no posthogDistinctId was captured', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'none', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z',
     });
 
-    test('logs the identify and the submitted event once each: a second run is a no-op', async () => {
-      await testDb.insert(courseRegistrationTable, {
-        id: 'r1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T09:00:00.000Z', posthogDistinctId: 'anon-1',
-      });
-
-      mockPostHogBackend();
-      const first = await forwardEventTypeToPostHog({
-        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
-      });
-      expect(first).toMatchObject({ sent: 2, alreadySent: 0 });
-
-      const ph2 = mockPostHogBackend();
-      const second = await forwardEventTypeToPostHog({
-        db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
-      });
-      expect(second).toMatchObject({ sent: 0, alreadySent: 2 });
-      expect(ph2.events).toHaveLength(0);
+    const ph = mockPostHogBackend();
+    await forwardEventTypeToPostHog({
+      db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: applicationSubmitted, now: '2026-07-01T00:00:00.000Z',
     });
+
+    expect(ph.events.filter((e) => e.event === 'application_submitted').map((e) => e.distinct_id)).toEqual(['none']);
+    expect(ph.events.filter((e) => e.event === '$identify')).toHaveLength(0);
   });
 });
 
@@ -897,5 +835,102 @@ describe('course_dropped_out / course_deferred', () => {
     const ph2 = mockPostHogBackend();
     await forwardAllEventsToPostHog();
     expect(ph2.events.filter((e) => e.event === 'course_dropped_out')).toHaveLength(0);
+  });
+});
+
+describe('identify_applicants', () => {
+  const identifyApplicants = eventProjectionRules.find((p) => p.eventType === 'identify_applicants')!;
+
+  const runIdentifyApplicants = (opts: { since?: string } = {}) => forwardEventTypeToPostHog({
+    db, posthogCredentials: POSTHOG_CREDS, eventProjectionRule: identifyApplicants, since: opts.since, now: '2026-07-01T00:00:00.000Z',
+  });
+
+  const seedRegistration = (id: string, email: string, opts: { createdAt?: string; posthogDistinctId?: string } = {}) => (
+    testDb.insert(courseRegistrationTable, {
+      id, courseId: 'c1', email, createdAt: opts.createdAt ?? '2026-05-01T00:00:00.000Z', posthogDistinctId: opts.posthogDistinctId,
+    })
+  );
+
+  const seedLoggedInUser = (id: string, email: string, opts: { firstLoggedInAt?: string | null } = {}) => testDb.insert(userTable, {
+    id, email, name: email, firstLoggedInAt: opts.firstLoggedInAt === undefined ? '2026-05-02T00:00:00.000Z' : opts.firstLoggedInAt,
+  });
+
+  test('a new login joins an application created before `since`', async () => {
+    await seedRegistration('cr1', 'a@x.com', { createdAt: '2026-01-01T00:00:00.000Z', posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u1', 'a@x.com', { firstLoggedInAt: '2026-06-01T00:00:00.000Z' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants({ since: '2026-03-01T00:00:00.000Z' });
+
+    const identify = ph.events.find((e) => e.event === '$identify')!;
+    expect(identify.distinct_id).toBe('a@x.com');
+    expect(identify.properties).toMatchObject({ $anon_distinct_id: 'anon-1', $set: { email: 'a@x.com' } });
+  });
+
+  test('a new application joins a user who logged in before `since`', async () => {
+    await seedLoggedInUser('u1', 'a@x.com', { firstLoggedInAt: '2026-01-01T00:00:00.000Z' });
+    await seedRegistration('cr1', 'a@x.com', { createdAt: '2026-06-01T00:00:00.000Z', posthogDistinctId: 'anon-1' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants({ since: '2026-03-01T00:00:00.000Z' });
+
+    const identify = ph.events.find((e) => e.event === '$identify')!;
+    expect(identify.distinct_id).toBe('a@x.com');
+    expect(identify.properties).toMatchObject({ $anon_distinct_id: 'anon-1' });
+  });
+
+  test('anchors on the registration record id when no posthogDistinctId was captured', async () => {
+    await seedRegistration('cr-norec', 'b@x.com');
+    await seedLoggedInUser('u1', 'b@x.com');
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events.find((e) => e.event === '$identify')!.properties).toMatchObject({ $anon_distinct_id: 'cr-norec' });
+  });
+
+  test('no-op when no user has the application email', async () => {
+    await seedRegistration('cr1', 'orphan@x.com', { posthogDistinctId: 'anon-1' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events).toHaveLength(0);
+  });
+
+  test('no-op when the matching user has never logged in', async () => {
+    // user rows are created at apply time, before any login — that alone must not trigger a join
+    await seedRegistration('cr1', 'a@x.com', { posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u1', 'a@x.com', { firstLoggedInAt: null });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events).toHaveLength(0);
+  });
+
+  test('each application is joined at most once across runs', async () => {
+    await seedRegistration('cr1', 'a@x.com', { posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u1', 'a@x.com');
+
+    mockPostHogBackend();
+    expect(await runIdentifyApplicants()).toMatchObject({ sent: 1 });
+
+    const ph2 = mockPostHogBackend();
+    expect(await runIdentifyApplicants()).toMatchObject({ sent: 0, alreadySent: 1 });
+    expect(ph2.events).toHaveLength(0);
+  });
+
+  test('earliest login wins when multiple users share an email', async () => {
+    await seedRegistration('cr1', 'shared@x.com', { posthogDistinctId: 'anon-1' });
+    await seedLoggedInUser('u-late', 'shared@x.com', { firstLoggedInAt: '2026-06-01T00:00:00.000Z' });
+    await seedLoggedInUser('u-early', 'shared@x.com', { firstLoggedInAt: '2026-04-01T00:00:00.000Z' });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    const identifies = ph.events.filter((e) => e.event === '$identify');
+    expect(identifies).toHaveLength(1);
+    expect(identifies[0]!.timestamp).toBe('2026-04-01T00:00:00.000Z'); // the earliest login's timestamp
   });
 });

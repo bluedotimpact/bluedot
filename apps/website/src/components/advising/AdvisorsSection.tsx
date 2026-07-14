@@ -47,7 +47,7 @@ const AdvisorsSection = () => {
                       {advisor.name}
                     </h4>
                     {advisor.jobTitle && (
-                      <p className="text-size-xs leading-[1.4] text-bluedot-navy/68">
+                      <p className="text-size-xs leading-normal text-bluedot-navy/68">
                         {advisor.jobTitle}
                       </p>
                     )}

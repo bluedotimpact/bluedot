@@ -1,12 +1,16 @@
+import createHttpError from 'http-errors';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
   describe, it, expect, vi, beforeEach,
 } from 'vitest';
+import { registerPreviewRedirectUri } from '../../lib/api/keycloak';
 import handler from './keycloak-register-preview-redirect-uri';
 
 vi.mock('../../lib/api/keycloak', () => ({
   registerPreviewRedirectUri: vi.fn().mockResolvedValue({ added: true, cleaned: 0 }),
 }));
+
+const mockedRegister = vi.mocked(registerPreviewRedirectUri);
 
 vi.mock('../../lib/api/env', () => ({
   default: {
@@ -71,5 +75,23 @@ describe('keycloak-register-preview-redirect-uri', () => {
     await handler(req, res);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({ added: true, cleaned: 0 });
+  });
+
+  it('maps an HttpError from the lib to its status code', async () => {
+    mockedRegister.mockRejectedValueOnce(createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.'));
+    const { req, res } = createMockReqRes();
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(503);
+    expect(res.json).toHaveBeenCalledWith({
+      error: 'Authentication service is currently unavailable. Please try again later.',
+    });
+  });
+
+  it('returns a generic 500 for non-HttpError failures', async () => {
+    mockedRegister.mockRejectedValueOnce(new Error('unexpected'));
+    const { req, res } = createMockReqRes();
+    await handler(req, res);
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Internal server error' });
   });
 });

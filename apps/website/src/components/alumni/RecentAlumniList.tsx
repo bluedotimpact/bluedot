@@ -29,7 +29,7 @@ const RecentAlumniList = () => {
           <p className="text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60">
             More stories
           </p>
-          <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy">
+          <H2 className="text-size-xl font-semibold leading-snug text-bluedot-navy">
             Some of our alumni
           </H2>
         </div>

@@ -1489,6 +1489,10 @@ export const userTable = pgAirtable('user', {
       pgColumn: text(),
       airtableId: 'fld2AGYp0VLOz3Pg6',
     },
+    firstLoggedInAt: {
+      pgColumn: text(),
+      airtableId: 'fldy6HecnK8seKW9s',
+    },
     lastSeenAt: {
       pgColumn: text(),
       airtableId: 'fldOFCUM6lD5Mne9Y',

@@ -31,7 +31,7 @@ const WhoIsThisForTextSection = ({
             <div className={`${paragraphs.length > 0 ? 'mt-8' : ''} flex flex-col gap-8`}>
               {items.map((item) => (
                 <div key={item.heading} className="flex flex-col gap-2">
-                  <h4 className="text-size-md font-semibold leading-[1.4] text-bluedot-navy">
+                  <h4 className="text-size-md font-semibold leading-normal text-bluedot-navy">
                     {item.heading}
                   </h4>
                   <P>{item.body}</P>

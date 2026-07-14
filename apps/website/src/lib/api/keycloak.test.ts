@@ -1,10 +1,15 @@
 import axios from 'axios';
+import { logger } from '@bluedot/ui/src/api';
+import { isHttpError } from 'http-errors';
 import {
   describe, it, expect, vi, beforeEach,
 } from 'vitest';
 import { registerPreviewRedirectUri } from './keycloak';
 
 vi.mock('axios');
+vi.mock('@bluedot/ui/src/api', () => ({
+  logger: { error: vi.fn(), info: vi.fn(), warn: vi.fn() },
+}));
 vi.mock('./env', () => ({
   default: {
     KEYCLOAK_CLIENT_ID: 'fake',
@@ -126,7 +131,46 @@ describe('registerPreviewRedirectUri', () => {
     mockedAxios.post.mockResolvedValueOnce(FAKE_TOKEN_RESPONSE);
     mockedAxios.get.mockResolvedValueOnce({ data: [] });
 
-    await expect(registerPreviewRedirectUri('https://bluedot-website-pr-42.onrender.com/*'))
-      .rejects.toThrow('Client \'bluedot-web-apps\' not found');
+    await expect(registerPreviewRedirectUri('https://bluedot-website-pr-42.onrender.com/*')).rejects.toThrow('Client \'bluedot-web-apps\' not found');
+  });
+
+  it('does not leak client_secret or admin token when Keycloak errors', async () => {
+    const CLIENT_SECRET = 'preview-secret';
+    const ADMIN_TOKEN = 'super-secret-admin-token';
+
+    // A realistic axios error embeds the request body (with client_secret) in
+    // config.data and the bearer token in config.headers.Authorization.
+    const axiosError = Object.assign(new Error('Request failed with status code 401'), {
+      isAxiosError: true,
+      code: 'ERR_BAD_REQUEST',
+      config: {
+        data: `grant_type=client_credentials&client_id=preview-client&client_secret=${CLIENT_SECRET}`,
+        headers: { Authorization: `Bearer ${ADMIN_TOKEN}` },
+      },
+      response: { status: 401, data: { error: 'invalid_client' } },
+    });
+    mockedAxios.post.mockRejectedValueOnce(axiosError);
+    mockedAxios.isAxiosError.mockReturnValue(true);
+
+    const caught: unknown = await registerPreviewRedirectUri('https://bluedot-website-pr-42.onrender.com/*').catch((error: unknown) => error);
+
+    if (!isHttpError(caught)) {
+      throw new Error('expected an HttpError');
+    }
+
+    expect(caught.statusCode).toBe(503);
+
+    const serialised = JSON.stringify(caught) + caught.message + (caught.stack ?? '');
+    expect(serialised).not.toContain(CLIENT_SECRET);
+    expect(serialised).not.toContain(ADMIN_TOKEN);
+
+    // Safe diagnostics are logged; secrets are not.
+    expect(logger.error).toHaveBeenCalledWith(expect.stringContaining('Keycloak request failed'), {
+      status: 401,
+      code: 'ERR_BAD_REQUEST',
+    });
+    const loggedArgs = JSON.stringify(vi.mocked(logger.error).mock.calls);
+    expect(loggedArgs).not.toContain(CLIENT_SECRET);
+    expect(loggedArgs).not.toContain(ADMIN_TOKEN);
   });
 });

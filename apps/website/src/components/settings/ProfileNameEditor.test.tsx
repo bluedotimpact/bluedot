@@ -19,6 +19,7 @@ const mockUser = {
   name: 'Jane Doe',
   createdAt: null,
   lastSeenAt: null,
+  firstLoggedInAt: null,
   utmSource: null,
   utmCampaign: null,
   utmContent: null,

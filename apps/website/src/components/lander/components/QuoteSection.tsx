@@ -109,7 +109,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
             <div className="text-size-md leading-tight font-semibold" style={{ color: DEFAULT_COLORS.text }}>
               {quote.name}
             </div>
-            <div className="text-size-sm leading-[1.6] opacity-80 text-center lg:text-left lg:px-0" style={{ color: DEFAULT_COLORS.text }}>
+            <div className="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0" style={{ color: DEFAULT_COLORS.text }}>
               {quote.role}
             </div>
           </div>
@@ -255,7 +255,7 @@ const QuoteSection = ({
                       className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
                     />
                     <div className="flex flex-col">
-                      <div className="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+                      <div className="text-size-sm bd-md:text-size-md font-semibold leading-normal text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
                         {quote.name}
                       </div>
                       <div className="text-size-sm leading-[1.5] text-bluedot-navy/60">

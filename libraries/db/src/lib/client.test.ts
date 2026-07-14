@@ -248,3 +248,23 @@ describe('pgConnectionConfig', () => {
     expect(config.ssl).toBeDefined();
   });
 });
+
+describe('db.insert (mock field defaults)', () => {
+  test('fills omitted fields with the defaults the real Airtable client produces', async () => {
+    const user = await db.insert(userTable, { email: 'a@x' });
+
+    // Non-nullable string falls back to '' (matches airtable-ts, and satisfies pg notNull)
+    expect(user.name).toBe('');
+    // Nullable fields fall back to null
+    expect(user.utmSource).toBeNull();
+    expect(user.isAdmin).toBeNull();
+    expect(user.allowedImpersonationTargets).toBeNull();
+  });
+
+  test('provided values are not overwritten by defaults', async () => {
+    const user = await db.insert(userTable, { email: 'a@x', name: 'Alice', isAdmin: true });
+
+    expect(user.name).toBe('Alice');
+    expect(user.isAdmin).toBe(true);
+  });
+});

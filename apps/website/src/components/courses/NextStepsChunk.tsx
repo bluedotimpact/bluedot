@@ -25,7 +25,7 @@ const NextStepsChunk: React.FC = () => {
 
   return (
     <div className="next-steps-chunk flex flex-col gap-6 mt-8 md:mt-6">
-      <P className="text-size-sm leading-[1.6] text-bluedot-navy">
+      <P className="text-size-sm leading-relaxed text-bluedot-navy">
         You&apos;ve got context now. Here&apos;s how you can continue contributing to AI safety.
       </P>
 
