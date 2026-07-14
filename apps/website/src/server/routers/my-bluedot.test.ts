@@ -7,6 +7,7 @@ import {
   groupTable,
   meetPersonTable,
   selfServeCourseRegistrationTable,
+  userTable,
 } from '@bluedot/db';
 import {
   beforeEach, describe, expect, test,
@@ -21,10 +22,15 @@ import {
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 setupTestDb();
-beforeEach(seedLoggedInUser);
 
 const caller = createCaller(testAuthContextLoggedIn);
 const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await seedLoggedInUser();
+  await testDb.insert(userTable, { id: 'user-other', email: 'someone-else@example.com', name: 'Someone Else' });
+});
 
 const nowSec = Math.floor(Date.now() / 1000);
 const ONE_DAY = 24 * 60 * 60;
@@ -60,6 +66,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-p',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-p',
       decision: 'Accept',
       role: 'Participant',
@@ -68,6 +75,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-f',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-f',
       decision: 'Accept',
       role: 'Facilitator',
@@ -77,6 +85,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-p',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-p',
       round: 'round-p',
       role: 'Participant',
@@ -86,6 +95,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-f',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-f',
       round: 'round-f',
       role: 'Facilitator',
@@ -161,6 +171,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-active',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-active',
       decision: 'Accept',
       role: 'Participant',
@@ -169,6 +180,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-dropped',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-dropped',
       decision: 'Accept',
       role: 'Participant',
@@ -183,6 +195,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-active',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-active',
       round: 'round-active',
       role: 'Participant',
@@ -192,6 +205,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-dropped',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       applicationsBaseRecordId: 'reg-dropped',
       round: 'round-dropped',
       role: 'Participant',
@@ -259,6 +273,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-active',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-active',
       decision: 'Accept',
       role: 'Participant',
@@ -267,6 +282,7 @@ describe('myCoursesPage.getOverview', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-archived',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-archived',
       decision: 'Accept',
       role: 'Participant',
@@ -293,7 +309,7 @@ describe('myCoursesPage.getOverview', () => {
       roundId: string | null;
     }> = {}) =>
       testDb.insert(courseRegistrationTable, {
-        id, email: CALLER_EMAIL, decision: 'Accept', role: 'Participant', roundStatus: 'Active', ...opts,
+        id, email: CALLER_EMAIL, userId: 'test-user', decision: 'Accept', role: 'Participant', roundStatus: 'Active', ...opts,
       });
 
     test('two registrations for the same course in different rounds produce two rows', async () => {
@@ -324,6 +340,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-dropped',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-dropped',
         round: 'round-dropped',
         role: 'Participant',
@@ -372,6 +389,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-self',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-1',
         round: 'round-1',
         role: 'Participant',
@@ -408,6 +426,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-1',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-1',
         round: 'round-1',
         role: 'Participant',
@@ -445,6 +464,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-1',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-1',
         round: 'round-1',
         role: 'Participant',
@@ -487,6 +507,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-x',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-x',
         round: 'round-x',
         role: 'Participant',
@@ -496,6 +517,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-y',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-y',
         round: 'round-y',
         role: 'Participant',
@@ -545,6 +567,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-x',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-x',
         round: 'round-x',
         role: 'Participant',
@@ -554,6 +577,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(meetPersonTable, {
         id: 'mp-y',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         applicationsBaseRecordId: 'reg-y',
         round: 'round-y',
         role: 'Participant',
@@ -629,6 +653,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(selfServeCourseRegistrationTable, {
         id: 'ss-foai',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         courseId: FOAI_COURSE_ID,
         certificateId: 'ss-foai',
         certificateCreatedAt: 1700000000,
@@ -657,6 +682,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(selfServeCourseRegistrationTable, {
         id: 'ss-foai',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         courseId: FOAI_COURSE_ID,
       });
 
@@ -670,6 +696,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(courseRegistrationTable, {
         id: 'legacy-foai',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         courseId: FOAI_COURSE_ID,
         decision: 'Accept',
         role: 'Participant',
@@ -677,6 +704,7 @@ describe('myCoursesPage.getOverview', () => {
       await testDb.insert(selfServeCourseRegistrationTable, {
         id: 'ss-foai',
         email: CALLER_EMAIL,
+        userId: 'test-user',
         courseId: FOAI_COURSE_ID,
       });
 
@@ -692,6 +720,7 @@ describe('myBluedot.hasFacilitatorRegistrations', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-participant',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Participant',
       roundStatus: 'Active',
@@ -706,6 +735,7 @@ describe('myBluedot.hasFacilitatorRegistrations', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-fac',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundStatus: 'Active',
@@ -720,6 +750,7 @@ describe('myBluedot.hasFacilitatorRegistrations', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-withdrawn',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Withdrawn',
@@ -735,6 +766,7 @@ describe('myBluedot.hasFacilitatorRegistrations', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-someone-else',
       email: 'someone-else@example.com',
+      userId: 'user-other',
       courseId: 'course-1',
       role: 'Facilitator',
       roundStatus: 'Active',
@@ -751,6 +783,7 @@ describe('myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true })', ()
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-participant',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Participant',
       roundStatus: 'Active',
@@ -765,6 +798,7 @@ describe('myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true })', ()
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-fac',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       roundStatus: 'Active',
@@ -779,6 +813,7 @@ describe('myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true })', ()
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-withdrawn',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       role: 'Facilitator',
       decision: 'Withdrawn',
@@ -794,6 +829,7 @@ describe('myBluedot.hasFacilitatorRegistrations({ includeWithdrawn: true })', ()
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-someone-else',
       email: 'someone-else@example.com',
+      userId: 'user-other',
       courseId: 'course-1',
       role: 'Facilitator',
       roundStatus: 'Active',
@@ -830,6 +866,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: REG_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: 'Accept',
@@ -840,6 +877,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(meetPersonTable, {
       id: MEET_PERSON_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       applicationsBaseRecordId: REG_ID,
       round: ROUND_ID,
       role: 'Facilitator',
@@ -868,6 +906,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-participant-only',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Participant',
       roundStatus: 'Active',
@@ -945,6 +984,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: REG_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: 'Accept',
@@ -969,6 +1009,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: REG_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: null,
@@ -988,6 +1029,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: REG_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: 'Reject',
@@ -1006,6 +1048,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-active-no-mp',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: 'Accept',
@@ -1014,6 +1057,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-past-no-mp',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: 'Accept',
@@ -1043,6 +1087,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: REG_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: 'Accept',
@@ -1053,6 +1098,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(meetPersonTable, {
       id: MEET_PERSON_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       applicationsBaseRecordId: REG_ID,
       round: ROUND_ID,
       role: 'Facilitator',
@@ -1078,6 +1124,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: REG_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Facilitator',
       decision: 'Withdrawn',
@@ -1101,6 +1148,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     await testDb.insert(courseRegistrationTable, {
       id: REG_ID,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: COURSE_ID,
       role: 'Participant',
       roundStatus: 'Active',

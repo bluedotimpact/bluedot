@@ -19,7 +19,9 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { checkAdminAccess, protectedProcedure, router } from '../trpc';
+import {
+  checkAdminAccess, getUserOrThrow, protectedProcedure, router,
+} from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
 // Options whose Airtable name starts with "[!]" are "actionable" — flagging the participant
@@ -48,9 +50,9 @@ const getNextStepsOptions = async (): Promise<FollowUpOption[]> => {
   });
 };
 
-const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
+const getFacilitator = async (roundId: string, userId: string) => {
   const facilitator = await db.getFirst(meetPersonTable, {
-    filter: { round: roundId, email: facilitatorEmail, role: COURSE_ROLE.FACILITATOR },
+    filter: { round: roundId, userId, role: COURSE_ROLE.FACILITATOR },
   });
   if (!facilitator) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this round' });
@@ -60,14 +62,18 @@ const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
 };
 
 async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { email: string }; impersonation?: { adminEmail: string } | null }) {
-  const meetPerson = await db.getFirst(meetPersonTable, {
-    filter: { id: meetPersonId },
-  });
+  const [user, meetPerson] = await Promise.all([
+    getUserOrThrow(ctx.auth.email),
+    db.getFirst(meetPersonTable, {
+      filter: { id: meetPersonId },
+    }),
+  ]);
+
   if (!meetPerson || meetPerson.role !== COURSE_ROLE.FACILITATOR) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
   }
 
-  if (meetPerson.email !== ctx.auth.email) {
+  if (meetPerson.userId !== user.id) {
     // During impersonation, check the real admin's permissions, not the impersonated user's.
     const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
     const isAdmin = await checkAdminAccess(realEmail);
@@ -141,7 +147,8 @@ export const facilitatorRouter = router({
 
   getFacilitatorsForRound: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ input, ctx }) => {
     const { roundId } = input;
-    const currentFacilitator = await getFacilitator(roundId, ctx.auth.email);
+    const user = await getUserOrThrow(ctx.auth.email);
+    const currentFacilitator = await getFacilitator(roundId, user.id);
 
     const facilitators = await db.pg
       .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name })
@@ -156,7 +163,8 @@ export const facilitatorRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
     .query(async ({ input: { roundId }, ctx }) => {
-      const facilitator = await getFacilitator(roundId, ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, user.id);
 
       const groupDiscussions = await db.pg
         .select()
@@ -202,7 +210,8 @@ export const facilitatorRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
       }
 
-      const facilitator = await getFacilitator(roundId, ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, user.id);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
@@ -254,7 +263,8 @@ export const facilitatorRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { roundId, discussionId, groupId, newFacilitatorId } = input;
 
-      const facilitator = await getFacilitator(roundId, ctx.auth.email);
+      const user = await getUserOrThrow(ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, user.id);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 

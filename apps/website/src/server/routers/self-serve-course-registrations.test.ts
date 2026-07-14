@@ -25,7 +25,7 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
   test('returns the existing self-serve registration', async () => {
     await seedLoggedInUser();
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID,
+      id: 'ss-foai', email: 'test@example.com', userId: 'test-user', courseId: FOAI_COURSE_ID,
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -38,6 +38,12 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
     await expect(createCaller(testAuthContextLoggedIn)
       .selfServeCourseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  test('throws UNAUTHORIZED for FOAI when the authenticated caller has no User record', async () => {
+    await expect(createCaller(testAuthContextLoggedIn)
+      .selfServeCourseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID }))
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   // The full "creates a new FOAI registration" path isn't unit-testable: the insert omits `courseId`

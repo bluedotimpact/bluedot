@@ -6,7 +6,9 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import {
+  getUserOrThrow, protectedProcedure, publicProcedure, router,
+} from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
 
 export const courseRegistrationsRouter = router({
@@ -14,9 +16,11 @@ export const courseRegistrationsRouter = router({
     .input(z.object({ courseId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { courseId } = input;
+      const user = await getUserOrThrow(ctx.auth.email);
+
       return db.getFirst(courseRegistrationTable, {
         filter: {
-          email: ctx.auth.email,
+          userId: user.id,
           courseId,
           decision: 'Accept',
         },
@@ -24,10 +28,12 @@ export const courseRegistrationsRouter = router({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
+    const user = await getUserOrThrow(ctx.auth.email);
+
     return db.pg.select()
       .from(courseRegistrationTable.pg)
       .where(and(
-        eq(courseRegistrationTable.pg.email, ctx.auth.email),
+        eq(courseRegistrationTable.pg.userId, user.id),
         or(
           ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
           isNull(courseRegistrationTable.pg.decision),

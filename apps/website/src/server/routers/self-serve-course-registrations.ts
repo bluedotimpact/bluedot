@@ -16,8 +16,10 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'BAD_REQUEST', message: 'Only the Future of AI course supports self-serve registration' });
     }
 
+    const user = await getUserOrThrow(ctx.auth.email);
+
     const existingRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
-      filter: { email: ctx.auth.email, courseId },
+      filter: { userId: user.id, courseId },
       sortBy: 'createdAt',
     });
 
@@ -33,7 +35,6 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
     }
 
-    const user = await getUserOrThrow(ctx.auth.email);
     return db.insert(selfServeCourseRegistrationTable, {
       userId: user.id,
       courseApplicationsBaseId: applicationsCourse.id,

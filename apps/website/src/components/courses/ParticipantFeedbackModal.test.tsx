@@ -37,7 +37,7 @@ async function seed() {
   });
   await testDb.insert(roundTable, { id: ROUND, title: 'Round 1', course: 'rec-course' });
   await testDb.insert(meetPersonTable, {
-    id: FACILITATOR, email: testAuthContextLoggedIn.auth!.email, round: ROUND, role: 'Facilitator',
+    id: FACILITATOR, email: testAuthContextLoggedIn.auth!.email, userId: 'test-user', round: ROUND, role: 'Facilitator',
   });
   await testDb.insert(meetPersonTable, {
     id: ALICE, email: 'a@example.com', name: 'Alice Anand', round: ROUND, role: 'Participant',

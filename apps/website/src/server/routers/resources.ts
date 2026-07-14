@@ -1,21 +1,17 @@
 import {
-  and, arrayContains, userTable, desc, eq, inArray, resourceCompletionPgTable, unitResourceTable,
+  and, arrayContains, desc, eq, inArray, resourceCompletionPgTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { protectedProcedure, router } from '../trpc';
+import { getUserOrThrow, protectedProcedure, router } from '../trpc';
 
 export const resourcesRouter = router({
   getResourceCompletions: protectedProcedure
     .input(z.object({ unitResourceIds: z.array(z.string().min(1)).max(100) }))
     .query(async ({ input, ctx }) => {
-      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
-      }
+      const user = await getUserOrThrow(ctx.auth.email);
 
       const resourceCompletions = await db.pg
         .select()
@@ -63,11 +59,8 @@ export const resourcesRouter = router({
     .mutation(async ({ input, ctx }) => {
       const [unitResource, user] = await Promise.all([
         db.getFirst(unitResourceTable, { filter: { id: input.unitResourceId }, sortBy: 'id' }),
-        db.getFirst(userTable, { filter: { email: ctx.auth.email }, sortBy: 'email' }),
+        getUserOrThrow(ctx.auth.email),
       ]);
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
-      }
 
       const [resourceCompletion] = await db.pg
         .select()

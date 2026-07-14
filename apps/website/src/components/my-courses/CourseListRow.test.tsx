@@ -781,9 +781,12 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
   });
 
   // discussionsAvailable / getFacilitatorsForRound both look up the caller's facilitator record for the round.
-  const seedFacilitator = () => testDb.insert(meetPersonTable, {
-    id: 'mp-fac', email: AUTH_EMAIL, round: ROUND, role: 'Facilitator', expectedDiscussionsFacilitator: [],
-  });
+  const seedFacilitator = async () => {
+    await testDb.insert(userTable, { id: 'user-1', email: AUTH_EMAIL, name: 'Test User' });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-fac', email: AUTH_EMAIL, userId: 'user-1', round: ROUND, role: 'Facilitator', expectedDiscussionsFacilitator: [],
+    });
+  };
 
   const seedParticipant = async () => {
     await testDb.insert(userTable, { id: 'user-1', email: AUTH_EMAIL, name: 'Test User' });

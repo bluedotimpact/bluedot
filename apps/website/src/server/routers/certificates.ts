@@ -17,7 +17,9 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { verifyPublicToken } from '../../lib/api/utils';
 import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import {
+  getUserOrThrow, protectedProcedure, publicProcedure, router,
+} from '../trpc';
 import type { AppRouter } from './_app';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
@@ -49,9 +51,9 @@ async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
   return requiredExercises.every((exercise) => completedExerciseIds.has(exercise.id));
 }
 
-export async function issueFoaiCertificateIfComplete(email: string, userId: string): Promise<boolean> {
+export async function issueFoaiCertificateIfComplete(userId: string): Promise<boolean> {
   const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
-    filter: { email, courseId: FOAI_COURSE_ID },
+    filter: { userId, courseId: FOAI_COURSE_ID },
     sortBy: 'createdAt',
   });
 
@@ -145,12 +147,14 @@ export const certificatesRouter = router({
   verifyOwnership: protectedProcedure
     .input(z.object({ certificateId: z.string() }))
     .query(async ({ ctx, input: { certificateId } }) => {
+      const user = await getUserOrThrow(ctx.auth.email);
+
       const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
       const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
 
       const registration = selfServeRegistration ?? facilitatedRegistration;
 
-      const isOwner = registration?.email?.toLowerCase() === ctx.auth.email.toLowerCase();
+      const isOwner = registration?.userId === user.id;
       return { isOwner };
     }),
 
@@ -160,10 +164,12 @@ export const certificatesRouter = router({
       return { status: 'not-authenticated', hasUpcomingRounds } as const;
     }
 
+    const user = await getUserOrThrow(ctx.auth.email);
+
     // Future of AI is self-serve: it lives in its own table and never has rounds.
     if (courseId === FOAI_COURSE_ID) {
       const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
-        filter: { email: ctx.auth.email, courseId },
+        filter: { userId: user.id, courseId },
         sortBy: 'createdAt',
       });
 
@@ -184,7 +190,7 @@ export const certificatesRouter = router({
     }
 
     const courseRegistration = await db.getFirst(courseRegistrationTable, {
-      filter: { email: ctx.auth.email, courseId, decision: 'Accept' },
+      filter: { userId: user.id, courseId, decision: 'Accept' },
     });
 
     if (!courseRegistration) {

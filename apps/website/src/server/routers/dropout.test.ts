@@ -7,7 +7,11 @@ import {
 } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
-beforeEach(seedLoggedInUser);
+
+// The authenticated user's row is assumed to exist by the userId-scoped routes.
+beforeEach(async () => {
+  await seedLoggedInUser();
+});
 
 const getDecision = async (id: string) => {
   const [reg] = await testDb.pg
@@ -20,6 +24,7 @@ const getDecision = async (id: string) => {
 const insertRegistration = (overrides: Record<string, unknown>) => testDb.insert(courseRegistrationTable, {
   id: 'reg-1',
   email: 'test@example.com',
+  userId: 'test-user',
   courseId: 'course-1',
   decision: 'Accept',
   roundId: 'round-1',

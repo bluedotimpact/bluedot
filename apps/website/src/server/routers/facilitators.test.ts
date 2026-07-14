@@ -57,6 +57,7 @@ async function seedFacilitatorGroup() {
   await testDb.insert(meetPersonTable, {
     id: FACILITATOR_ID,
     email: FACILITATOR_EMAIL,
+    userId: 'test-user',
     round: ROUND_ID,
     role: 'Facilitator',
   });
@@ -270,6 +271,7 @@ describe('facilitators.savePeerFeedback', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-self',
       email: FACILITATOR_EMAIL,
+      userId: 'test-user',
       round: ROUND_ID,
       role: 'Participant',
     });
@@ -285,6 +287,7 @@ describe('facilitators.savePeerFeedback', () => {
     await testDb.insert(meetPersonTable, {
       id: 'other-facilitator',
       email: 'other@example.com',
+      userId: 'user-other',
       round: ROUND_ID,
       role: 'Facilitator',
     });
@@ -292,6 +295,21 @@ describe('facilitators.savePeerFeedback', () => {
     await expect(caller.facilitators.savePeerFeedback({
       ...baseInput,
       meetPersonId: 'other-facilitator',
+    })).rejects.toThrow('Not found');
+  });
+
+  test('rejects meetPersonId that matches by email but is not linked by userId', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'unlinked-facilitator',
+      email: FACILITATOR_EMAIL,
+      round: ROUND_ID,
+      role: 'Facilitator',
+    });
+
+    await expect(caller.facilitators.savePeerFeedback({
+      ...baseInput,
+      meetPersonId: 'unlinked-facilitator',
     })).rejects.toThrow('Not found');
   });
 });
@@ -334,6 +352,7 @@ describe('facilitators.getFeedbackFormData', () => {
     await testDb.insert(meetPersonTable, {
       id: 'other-facilitator',
       email: 'other@example.com',
+      userId: 'user-other',
       round: ROUND_ID,
       role: 'Facilitator',
     });
@@ -476,6 +495,39 @@ describe('facilitators.searchAddableParticipants', () => {
   });
 });
 
+describe('facilitators.getFacilitatorsForRound', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+
+  test('finds the caller\'s facilitator row by userId and lists the others', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'other-facilitator',
+      email: 'other@example.com',
+      name: 'Other Facilitator',
+      userId: 'user-other',
+      round: ROUND_ID,
+      role: 'Facilitator',
+    });
+
+    const result = await caller.facilitators.getFacilitatorsForRound({ roundId: ROUND_ID });
+
+    expect(result).toEqual([{ value: 'other-facilitator', label: 'Other Facilitator' }]);
+  });
+
+  test('rejects when the caller\'s row matches by email but is not linked by userId', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'unlinked-facilitator',
+      email: FACILITATOR_EMAIL,
+      round: 'round-2',
+      role: 'Facilitator',
+    });
+
+    await expect(caller.facilitators.getFacilitatorsForRound({ roundId: 'round-2' }))
+      .rejects.toThrow('No facilitator found for this round');
+  });
+});
+
 describe('facilitators.submitFeedback', () => {
   const caller = createCaller(testAuthContextLoggedIn);
 
@@ -520,6 +572,7 @@ describe('facilitators.submitFeedback', () => {
     await testDb.insert(meetPersonTable, {
       id: 'participant-self',
       email: FACILITATOR_EMAIL,
+      userId: 'test-user',
       round: ROUND_ID,
       role: 'Participant',
     });
