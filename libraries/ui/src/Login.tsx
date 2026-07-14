@@ -115,11 +115,13 @@ export const loginPresets = {
       scope: 'openid email profile offline_access',
     },
     async verifyAndDecodeToken(token: string) {
-      return verifyJwt(token, {
+      const payload = await verifyJwt(token, {
         aud: 'bluedot-web-apps',
         iss: 'https://login.bluedot.org/realms/customers',
         jwksUrl: 'https://login.bluedot.org/realms/customers/protocol/openid-connect/certs',
       });
+      const name = typeof payload.name === 'string' ? payload.name.trim() : undefined;
+      return { ...payload, ...(name && { name }) };
     },
     getRegistrationUrl(authUrl: string) {
       const url = new URL(authUrl);
