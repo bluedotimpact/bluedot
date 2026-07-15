@@ -51,7 +51,7 @@ const samplePrograms: Programs = [
     id: 'rec_p5',
     name: 'Incubator Week',
     status: 'Active',
-    description: 'Back graduates launching AI safety companies, with seed funding and an intensive week in London.',
+    description: 'Back graduates launching AI safety startups, with grant funding and an intensive week in San Francisco.',
     applicationForm: 'https://example.com/apply/incubator-week',
     category: 'Launch',
     slug: 'incubator-week',

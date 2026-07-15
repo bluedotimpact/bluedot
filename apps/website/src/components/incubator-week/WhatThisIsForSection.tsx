@@ -35,7 +35,7 @@ const WhatThisIsForSection = () => {
             Incubator Week is a 5-day sprint for experts considering founding in AI safety.
           </P>
           <P>
-            We&apos;ll launch you into the field, help you lock in on a problem, find a co-founder. If we back your pitch we will give you $50k equity-free by the end of the week. The week is held in San Francisco.
+            We&apos;ll launch you into the field, help you lock in on a problem, find a co-founder. If we back your pitch, we will fund your immediate needs on the spot and—if you make good progress—give you up to $100k in grant funding within two weeks. The week is held in San Francisco.
           </P>
         </div>
 
@@ -43,7 +43,7 @@ const WhatThisIsForSection = () => {
 
         <div className="flex flex-col gap-5">
           <P>
-            Past cohorts: 9 companies founded, $1M+ raised, 9-figure aggregate expected this year.
+            Past cohorts: 9 startups founded, $1M+ raised, 9-figure aggregate expected this year.
           </P>
           <div className="flex flex-col gap-2">
             <P>Alumni include:</P>
