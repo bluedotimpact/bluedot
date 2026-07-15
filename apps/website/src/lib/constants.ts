@@ -16,9 +16,26 @@ export const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 export const FOAI_COURSE_SLUG = 'future-of-ai';
 
 // Synthetic chunk appended to the last unit of every non-FoAI course so the
-// final view points learners at next-step programs (advising, grants, etc.).
+// final view points learners to relevant ways to continue after the course.
 export const NEXT_STEPS_CHUNK_ID = 'next-steps-synthetic';
 export const NEXT_STEPS_CHUNK_TITLE = 'Next steps: Programs';
+export const DIGITAL_MINDS_NEXT_STEPS_CHUNK_TITLE = 'Next steps';
+
+const DIGITAL_MINDS_COURSE_SLUGS = [
+  'digital-minds',
+  'introduction-to-digital-minds',
+  'cambridge-digital-minds',
+];
+
+export const isDigitalMindsCourseSlug = (courseSlug: string) => (
+  DIGITAL_MINDS_COURSE_SLUGS.includes(courseSlug)
+);
+
+export const getNextStepsChunkTitle = (courseSlug: string) => (
+  isDigitalMindsCourseSlug(courseSlug)
+    ? DIGITAL_MINDS_NEXT_STEPS_CHUNK_TITLE
+    : NEXT_STEPS_CHUNK_TITLE
+);
 
 export const BLUEDOT_LINKEDIN_ORG_ID = '86200389';
 

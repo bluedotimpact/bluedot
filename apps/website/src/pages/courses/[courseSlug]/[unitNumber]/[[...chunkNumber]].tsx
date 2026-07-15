@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import UnitLayout, { type ChunkWithContent } from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
 import {
-  FOAI_COURSE_ID, FOAI_COURSE_SLUG, NEXT_STEPS_CHUNK_ID, NEXT_STEPS_CHUNK_TITLE,
+  FOAI_COURSE_ID, FOAI_COURSE_SLUG, getNextStepsChunkTitle, NEXT_STEPS_CHUNK_ID,
 } from '../../../../lib/constants';
 import { getCourseOgImage } from '../../../../lib/courseOgImage';
 import { buildCourseUnitUrl } from '../../../../lib/utils';
@@ -178,18 +178,18 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   }
 };
 
-const buildNextStepsBasicChunk = (chunkOrder: string): BasicChunk => ({
+const buildNextStepsBasicChunk = (courseSlug: string, chunkOrder: string): BasicChunk => ({
   id: NEXT_STEPS_CHUNK_ID,
-  chunkTitle: NEXT_STEPS_CHUNK_TITLE,
+  chunkTitle: getNextStepsChunkTitle(courseSlug),
   chunkOrder,
   estimatedTime: null,
 });
 
-const buildNextStepsChunkWithContent = (unitId: string, chunkOrder: string): ChunkWithContent => ({
+const buildNextStepsChunkWithContent = (courseSlug: string, unitId: string, chunkOrder: string): ChunkWithContent => ({
   id: NEXT_STEPS_CHUNK_ID,
   chunkId: NEXT_STEPS_CHUNK_ID,
   unitId,
-  chunkTitle: NEXT_STEPS_CHUNK_TITLE,
+  chunkTitle: getNextStepsChunkTitle(courseSlug),
   chunkOrder,
   chunkType: 'next-steps',
   chunkContent: '',
@@ -214,14 +214,14 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const allUnitChunks = await getActiveChunksByUnit(units);
 
   // Append a synthetic "Next steps" chunk to the last unit of every non-FoAI
-  // course so learners see programs to continue with after finishing.
+  // course so learners see relevant ways to continue after finishing.
   const finalUnit = units[units.length - 1];
   const shouldShowNextSteps = courseSlug !== FOAI_COURSE_SLUG && finalUnit !== undefined;
   if (shouldShowNextSteps) {
     const finalUnitChunks = allUnitChunks[finalUnit.id] ?? [];
     const lastChunkOrder = finalUnitChunks[finalUnitChunks.length - 1]?.chunkOrder;
     const nextStepsOrder = String(Number(lastChunkOrder ?? '0') + 1);
-    allUnitChunks[finalUnit.id] = [...finalUnitChunks, buildNextStepsBasicChunk(nextStepsOrder)];
+    allUnitChunks[finalUnit.id] = [...finalUnitChunks, buildNextStepsBasicChunk(courseSlug, nextStepsOrder)];
   }
 
   // Get chunks for current unit (with full resources/exercises)
@@ -281,6 +281,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     ? [
       ...chunksWithContent,
       buildNextStepsChunkWithContent(
+        courseSlug,
         unit.id,
         String(Number(chunksWithContent[chunksWithContent.length - 1]?.chunkOrder ?? '0') + 1),
       ),

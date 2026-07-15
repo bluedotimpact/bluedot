@@ -1,12 +1,100 @@
 import { ErrorSection, P, ProgressDots } from '@bluedot/ui';
 import type React from 'react';
 import { PageListGroup, PageListRow } from '../PageListRow';
+import { isDigitalMindsCourseSlug } from '../../lib/constants';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 const pluralizeGrants = (count: number) => `${count} ${count === 1 ? 'grant' : 'grants'}`;
 
-const NextStepsChunk: React.FC = () => {
+type NextStepsChunkProps = {
+  courseSlug: string;
+};
+
+const externalLinkClassName = 'font-semibold text-bluedot-normal underline hover:text-bluedot-navy';
+
+const DigitalMindsNextStepsChunk: React.FC = () => (
+  <div className="next-steps-chunk flex flex-col gap-6 mt-8 md:mt-6">
+    <P className="text-size-sm leading-relaxed text-bluedot-navy">
+      Congratulations on finishing the Introduction to Digital Minds course! Here are some ways you can continue to learn about and contribute to the digital minds field.
+    </P>
+
+    <div className="flex flex-col gap-5 text-size-sm leading-relaxed text-bluedot-navy">
+      <div>
+        <a
+          href="https://www.digitalminds.news/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={externalLinkClassName}
+        >
+          Cambridge Digital Minds Newsletter
+        </a>
+        <p className="mt-1">
+          A quarterly round-up of the latest news and research on AI consciousness, moral status and digital minds
+        </p>
+      </div>
+
+      <div>
+        <a
+          href="https://digitalminds.cam/fellowship/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={externalLinkClassName}
+        >
+          Cambridge Digital Minds Fellowship
+        </a>
+        <p className="mt-1">
+          In person workshops and mentorship on projects. Sign up to the CDM Newsletter to hear when applications open.
+        </p>
+      </div>
+
+      <div>
+        <h2 className="font-semibold">Other fellowships and opportunities</h2>
+        <p className="mt-1">
+          The{' '}
+          <a
+            href="https://digitalminds.guide/events"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={externalLinkClassName}
+          >
+            Beginner’s Guide to Digital Minds
+          </a>
+          {' '}has a really helpful list. Also, keep an eye on programmes with organisations like{' '}
+          <a
+            href="https://futureimpact.group/ai-sentience"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={externalLinkClassName}
+          >
+            Future Impact Group
+          </a>
+          ,{' '}
+          <a
+            href="https://www.matsprogram.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={externalLinkClassName}
+          >
+            MATS
+          </a>
+          ,{' '}
+          <a
+            href="https://www.sentientfutures.ai/projectincubator"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={externalLinkClassName}
+          >
+            Sentient Futures
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+const BlueDotNextStepsChunk: React.FC = () => {
   const { data: programs, isLoading, error } = trpc.programs.getAll.useQuery();
   const { data: rapidStats } = trpc.grants.getRapidGrantStats.useQuery();
   const { data: ctStats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
@@ -48,5 +136,11 @@ const NextStepsChunk: React.FC = () => {
     </div>
   );
 };
+
+const NextStepsChunk: React.FC<NextStepsChunkProps> = ({ courseSlug }) => (
+  isDigitalMindsCourseSlug(courseSlug)
+    ? <DigitalMindsNextStepsChunk />
+    : <BlueDotNextStepsChunk />
+);
 
 export default NextStepsChunk;
