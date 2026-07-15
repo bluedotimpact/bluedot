@@ -28,15 +28,23 @@ const TrackRecordSection = () => {
               </li>
               <li>
                 <a href="https://www.linkedin.com/in/jacob-arbeid/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Jacob Arbeid</a>
-                : quit AISI; raised from Manifund for an automated evals lab (stealth)
+                : quit AISI; raised from ACX/Manifund to build an automated cyber evals lab (stealth)
               </li>
               <li>
                 <a href="https://www.linkedin.com/in/shay-yahal/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Shay Yahal</a>
                 : enterprise AI safety (stealth); paying customers, Redwood Research partnership
               </li>
               <li>
-                <a href="https://www.linkedin.com/in/z-saber/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Zac Saber</a>
-                : dropped out of EF; building long-horizon evals (stealth)
+                <a href="https://www.linkedin.com/in/cecilia-elena-tilli-8a6890a4/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Cecilia Tilli</a>
+                : raised $480k from Coefficient Giving after pitching on the Friday of Incubator Week; building an organisation working on desirable propensities and character traits for safe deployment in multi-agent settings
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/alexcsaky/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Alex Csaky</a>
+                : offered an Entrepreneur in Residence role at Forethought after Incubator Week; now growing the field around AI for epistemics and coordination technology
+              </li>
+              <li>
+                <a href="https://safely.bio/" target="_blank" rel="noreferrer" className="underline hover:no-underline">safely.bio</a>
+                : runs know-your-customer checks on researchers placing synthetic DNA orders, records the evidence, and returns a clear recommendation so labs can distinguish legitimate researchers from bad actors before shipping
               </li>
             </ul>
           </div>
