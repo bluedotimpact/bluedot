@@ -15,6 +15,7 @@ const bugReportContext = createContext<BugReportContextType | null>(null);
 export default function BugReportProvider({ children }: { children: React.ReactNode }) {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
+  const [pageUrl, setPageUrl] = useState<string | undefined>();
 
   const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
 
@@ -51,6 +52,7 @@ export default function BugReportProvider({ children }: { children: React.ReactN
       description: data.description,
       email: data.email,
       recordingUrl: data.recordingUrl,
+      pageUrl,
       attachments: await Promise.all(data.attachments?.map(async (file) => ({
         base64: (await toBase64(file)).split(',')[1] ?? '',
         filename: file.name,
@@ -64,6 +66,11 @@ export default function BugReportProvider({ children }: { children: React.ReactN
     if (!v) setRecordingUrl(undefined);
   };
 
+  const openBugReport = () => {
+    setPageUrl(window.location.origin + window.location.pathname);
+    setIsBugReportOpen(true);
+  };
+
   const handleRecordScreen = () => {
     if (!window.birdie) return;
     setIsBugReportOpen(false);
@@ -73,7 +80,7 @@ export default function BugReportProvider({ children }: { children: React.ReactN
   };
 
   return (
-    <bugReportContext.Provider value={{ openBugReport: () => setIsBugReportOpen(true) }}>
+    <bugReportContext.Provider value={{ openBugReport }}>
       {children}
       <BugReportModal
         isOpen={isBugReportOpen}
