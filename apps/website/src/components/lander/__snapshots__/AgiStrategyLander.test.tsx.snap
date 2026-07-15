@@ -1066,7 +1066,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
       >
         <h2
-          class="bluedot-h2 not-prose w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-snug text-bluedot-navy tracking-tight"
+          class="bluedot-h2 not-prose w-full bd-md:max-w-text text-center"
         >
           How the course works
         </h2>

@@ -38,7 +38,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
         <ol className="breadcrumbs__list flex">
           {items.map((item, index) => (
             <li key={item.url} className="breadcrumbs__item flex items-center">
-              <A className="breadcrumbs__link no-underline" href={item.url}>{item.title}</A>
+              <A className="breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal" href={item.url}>{item.title}</A>
               {index < items.length - 1 && (
                 <span className="breadcrumbs__separator mx-2">{'>'}</span>
               )}

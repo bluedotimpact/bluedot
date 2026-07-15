@@ -45,7 +45,7 @@ const PersonasSection = ({
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
-        <H2 className="text-size-xl font-semibold leading-snug text-bluedot-navy text-center mb-12 md:mb-16 tracking-tight">
+        <H2 className="text-center mb-12 md:mb-16">
           {title}
         </H2>
         <div className="max-w-text-narrow mx-auto flex flex-col gap-4">

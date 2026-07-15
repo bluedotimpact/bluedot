@@ -197,7 +197,7 @@ const TestimonialCarousel = ({
                 {title || defaultTitle}
               </h2>
             ) : (
-              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-snug text-bluedot-navy tracking-tight')}>
+              <H2>
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {title || defaultTitle}
               </H2>
