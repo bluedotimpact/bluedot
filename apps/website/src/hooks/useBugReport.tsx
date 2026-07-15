@@ -11,6 +11,8 @@ type BugReportContextType = {
 
 const bugReportContext = createContext<BugReportContextType | null>(null);
 
+const getPageUrl = () => window.location.origin + window.location.pathname;
+
 // eslint-disable-next-line react/function-component-definition
 export default function BugReportProvider({ children }: { children: React.ReactNode }) {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
@@ -67,7 +69,7 @@ export default function BugReportProvider({ children }: { children: React.ReactN
   };
 
   const openBugReport = () => {
-    setPageUrl(window.location.origin + window.location.pathname);
+    setPageUrl(getPageUrl());
     setIsBugReportOpen(true);
   };
 
