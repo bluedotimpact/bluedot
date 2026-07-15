@@ -63,7 +63,7 @@ export const usersRouter = router({
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid login token' });
       }
 
-      const { sub } = auth;
+      const { sub, name } = auth;
 
       const [existingUserByEmail, existingUserByKeycloakIdentifier] = await Promise.all([
         db.getFirst(userTable, {
@@ -79,6 +79,8 @@ export const usersRouter = router({
         // Update last seen timestamp if already exists
         await db.update(userTable, {
           id: existingUserByKeycloakIdentifier.id,
+          // Don't clobber a name the user set themselves; only backfill an empty one
+          ...(name && !existingUserByKeycloakIdentifier.name && { name }),
           lastSeenAt: new Date().toISOString(),
         });
       } else if (existingUserByEmail) {
@@ -90,6 +92,8 @@ export const usersRouter = router({
         await db.update(userTable, {
           id: existingUserByEmail.id,
           ...(sub && { keycloakIdentifier: sub }),
+          // Don't clobber a name the user set themselves; only backfill an empty one
+          ...(name && !existingUserByEmail.name && { name }),
           lastSeenAt: new Date().toISOString(),
           firstLoggedInAt: new Date().toISOString(),
         });
@@ -98,6 +102,7 @@ export const usersRouter = router({
         await db.insert(userTable, {
           email: auth.email,
           ...(sub && { keycloakIdentifier: sub }),
+          ...(name && { name }),
           lastSeenAt: new Date().toISOString(),
           firstLoggedInAt: new Date().toISOString(),
           ...(input.initialUtmSource && { utmSource: input.initialUtmSource }),

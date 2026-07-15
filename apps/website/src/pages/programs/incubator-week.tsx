@@ -16,8 +16,8 @@ import {
 
 const PROGRAM_SLUG = 'incubator-week';
 const FALLBACK_NAME = 'Incubator Week';
-const PROGRAM_DESCRIPTION = '5 days. All expenses paid. $50k, equity-free, if we back your pitch. San Francisco, July 20–25. Applications close July 10.';
-const APPLICATION_DEADLINE = 'July 10';
+const PROGRAM_DESCRIPTION = '5 days. All expenses paid. $100k in funding if we back your pitch.';
+const APPLICATION_DEADLINE = 'August 7';
 const CONTACT_EMAIL = 'joshua@bluedot.org';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/incubator-week.png`;
@@ -42,7 +42,7 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:alt" content="Incubator Week v5. 5 days. All expenses paid. $50k equity-free. San Francisco, July 20–25. Apply by July 10. BlueDot Impact." />
+        <meta property="og:image:alt" content="Incubator Week v5. 5 days. All expenses paid. $100k in funding. San Francisco, August 17–21. Apply by August 7. BlueDot Impact." />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
@@ -62,8 +62,8 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         }}
         stats={[
           { label: 'Cohort', value: 'v5' },
-          { label: 'Runs', value: 'July 20–25' },
-          { label: 'Funding', value: '$50k equity-free' },
+          { label: 'Runs', value: 'August 17–21' },
+          { label: 'Funding', value: 'Up to $100k in grants' },
           { label: 'Covered', value: 'All expenses paid' },
         ]}
       />

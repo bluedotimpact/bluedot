@@ -4,11 +4,11 @@ import {
   exerciseResponsePgTable,
   exerciseTable,
   unitTable,
-  userTable,
 } from '@bluedot/db';
 import { describe, expect, test } from 'vitest';
 import {
   createCaller,
+  seedLoggedInUser,
   setupTestDb,
   testAuthContextLoggedIn,
   testDb,
@@ -164,14 +164,14 @@ describe('courses.getCurriculumMetadata', () => {
 
 describe('courses.getCourseProgress', () => {
   test('Core-status exercises count toward progress', async () => {
-    await testDb.insert(userTable, { id: 'user-1', email: 'test@example.com', name: 'Test User' });
+    await seedLoggedInUser();
     await seedCourse('core-prog');
     await seedUnit('ucp', 'core-prog', '1');
     await seedChunk('ucp-a', 'ucp', { exercises: ['ex-core'] });
     await seedExercise('ex-core');
 
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-core', email: 'test@example.com', userId: ['user-1'], exerciseId: 'ex-core', response: 'x', completedAt: '2026-01-01',
+      id: 'r-core', email: 'test@example.com', userId: ['test-user'], exerciseId: 'ex-core', response: 'x', completedAt: '2026-01-01',
     });
 
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'core-prog' });
@@ -180,7 +180,7 @@ describe('courses.getCourseProgress', () => {
   });
 
   test('Further and Maybe statuses count towards neither the total nor completion', async () => {
-    await testDb.insert(userTable, { id: 'user-1', email: 'test@example.com', name: 'Test User' });
+    await seedLoggedInUser();
     await seedCourse('further-prog');
     await seedUnit('ufp', 'further-prog', '1');
     await seedChunk('ufp-a', 'ufp', { exercises: ['ex-req', 'ex-further', 'ex-maybe'] });
@@ -190,10 +190,10 @@ describe('courses.getCourseProgress', () => {
 
     // Complete the non-required exercises; they must not move the progress numbers.
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-further', email: 'test@example.com', userId: ['user-1'], exerciseId: 'ex-further', response: 'x', completedAt: '2026-01-01',
+      id: 'r-further', email: 'test@example.com', userId: ['test-user'], exerciseId: 'ex-further', response: 'x', completedAt: '2026-01-01',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-maybe', email: 'test@example.com', userId: ['user-1'], exerciseId: 'ex-maybe', response: 'x', completedAt: '2026-01-01',
+      id: 'r-maybe', email: 'test@example.com', userId: ['test-user'], exerciseId: 'ex-maybe', response: 'x', completedAt: '2026-01-01',
     });
 
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'further-prog' });

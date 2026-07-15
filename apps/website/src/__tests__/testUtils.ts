@@ -103,7 +103,7 @@ export const MOCK_NAV_PROGRAMS: Program[] = [
     id: 'rec-incubator',
     name: 'Incubator Week',
     status: 'Active',
-    description: '5 days. All expenses paid. $50k, equity-free, if we back your pitch. San Francisco, July 20–25. Applications close July 10.',
+    description: '5 days. All expenses paid. $100k in funding if we back your pitch.',
     applicationForm: 'https://example.com/incubator',
     category: 'Found',
     slug: 'incubator-week',

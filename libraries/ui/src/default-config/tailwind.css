@@ -132,7 +132,7 @@
         font-feature-settings: "liga" 0, "clig" 0;
     }
     .bluedot-a {
-        @apply text-bluedot-normal hover:text-bluedot-darker cursor-pointer underline;
+        @apply text-bluedot-normal hover:text-bluedot-dark cursor-pointer underline;
     }
 }
 

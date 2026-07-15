@@ -26,7 +26,7 @@ const BENEFITS: {
     title: 'Get backed to build',
     description: (
       <>
-        If we back your pitch, you&apos;ll receive $50k equity-free to work on your project full-time. Our first batch backed{' '}
+        If we back your pitch, we&apos;ll fund your immediate needs on the spot and—if you make good progress—give you up to $100k in grant funding within two weeks. Our first batch backed{' '}
         <a href="https://exonalab.com/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Exona</a>
         {' '}— they have since raised more, work from our co-working space, and are already hiring.
       </>

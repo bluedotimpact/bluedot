@@ -15,6 +15,7 @@ import {
 } from 'vitest';
 import {
   createCaller,
+  seedLoggedInUser,
   setupTestDb,
   testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
@@ -27,7 +28,7 @@ const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
 
 // The authenticated user's row is assumed to exist by the userId-scoped routes.
 beforeEach(async () => {
-  await testDb.insert(userTable, { id: 'user-1', email: CALLER_EMAIL, name: 'Test User' });
+  await seedLoggedInUser();
 });
 
 async function seedCourse() {
@@ -50,6 +51,7 @@ async function seedFacilitatorFlow() {
   await testDb.insert(courseRegistrationTable, {
     id: 'reg-facilitator',
     email: CALLER_EMAIL,
+    userId: 'test-user',
     courseId: 'course-1',
     decision: 'Accept',
     roundStatus: 'Active',
@@ -102,7 +104,7 @@ describe('exercises.saveExerciseResponse', () => {
       response: 'My answer',
     });
 
-    expect(result.userId).toEqual(['user-1']);
+    expect(result.userId).toEqual(['test-user']);
   });
 
   test('throws UNAUTHORIZED when the user row is missing', async () => {
@@ -187,6 +189,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: FOAI_COURSE_ID,
     });
   }
@@ -206,7 +209,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Action plan', exerciseNumber: '2',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: CALLER_EMAIL, userId: ['user-1'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', email: CALLER_EMAIL, userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
     const before = Math.floor(Date.now() / 1000);
@@ -245,7 +248,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
   test('does not auto-issue for non-FOAI courses', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-other', email: CALLER_EMAIL, courseId: 'rec-other', decision: 'Accept',
+      id: 'reg-other', email: CALLER_EMAIL, userId: 'test-user', courseId: 'rec-other', decision: 'Accept',
     });
     await testDb.insert(exerciseTable, {
       id: 'other-ex-1', courseId: 'rec-other', status: 'Core', title: 'Other', exerciseNumber: '1',
@@ -266,6 +269,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: FOAI_COURSE_ID,
       certificateId: 'ss-foai',
       certificateCreatedAt: 1700000000,
@@ -291,7 +295,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: CALLER_EMAIL, userId: ['user-1'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', email: CALLER_EMAIL, userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -349,6 +353,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: 'Past',
@@ -379,6 +384,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: null,
@@ -410,6 +416,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: null,
@@ -428,6 +435,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: null,
@@ -462,6 +470,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-1',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: 'Active',
@@ -546,6 +555,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-facilitator',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: 'Active',
@@ -593,6 +603,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: `reg-${suffix}`,
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus,
@@ -675,6 +686,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-new',
       email: CALLER_EMAIL,
+      userId: 'test-user',
       courseId: 'course-1',
       decision: 'Accept',
       roundStatus: 'Active',

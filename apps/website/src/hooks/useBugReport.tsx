@@ -11,10 +11,13 @@ type BugReportContextType = {
 
 const bugReportContext = createContext<BugReportContextType | null>(null);
 
+const getPageUrl = () => window.location.origin + window.location.pathname;
+
 // eslint-disable-next-line react/function-component-definition
 export default function BugReportProvider({ children }: { children: React.ReactNode }) {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
+  const [pageUrl, setPageUrl] = useState<string | undefined>();
 
   const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
 
@@ -39,9 +42,11 @@ export default function BugReportProvider({ children }: { children: React.ReactN
     };
   }, []);
 
-  // Auto-open bug report modal when recording completes and recording URL is available
+  // Auto-open bug report modal when recording completes and recording URL is available.
+  // Recapture the page here: the page they stopped recording on is the most relevant one.
   useEffect(() => {
     if (recordingUrl) {
+      setPageUrl(getPageUrl());
       setIsBugReportOpen(true);
     }
   }, [recordingUrl]);
@@ -51,6 +56,7 @@ export default function BugReportProvider({ children }: { children: React.ReactN
       description: data.description,
       email: data.email,
       recordingUrl: data.recordingUrl,
+      pageUrl,
       attachments: await Promise.all(data.attachments?.map(async (file) => ({
         base64: (await toBase64(file)).split(',')[1] ?? '',
         filename: file.name,
@@ -64,6 +70,11 @@ export default function BugReportProvider({ children }: { children: React.ReactN
     if (!v) setRecordingUrl(undefined);
   };
 
+  const openBugReport = () => {
+    setPageUrl(getPageUrl());
+    setIsBugReportOpen(true);
+  };
+
   const handleRecordScreen = () => {
     if (!window.birdie) return;
     setIsBugReportOpen(false);
@@ -73,7 +84,7 @@ export default function BugReportProvider({ children }: { children: React.ReactN
   };
 
   return (
-    <bugReportContext.Provider value={{ openBugReport: () => setIsBugReportOpen(true) }}>
+    <bugReportContext.Provider value={{ openBugReport }}>
       {children}
       <BugReportModal
         isOpen={isBugReportOpen}

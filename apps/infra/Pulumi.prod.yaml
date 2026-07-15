@@ -1,7 +1,7 @@
 encryptionsalt: v1:1DwWI+bI55I=:v1:tpqziDy1t6GntGld:l3IA3E6yuXwTfNlPX8Lxe59IqDG7QA==
 config:
   infra:airtablePat:
-    secure: v1:xxnGOjci0H2TTfIY:p5/SIY+vels8uuUTUCJYRW3JIIYJNF9Jmr1m8usCqYgjU073BMKjQ+uq3dUb42f1iNeOs0A124ZIzDjxv9f1cJNaOd8gfvAxQf1oA1WC/A/CqnHyoNFIG6zpE1C0gNtu+u8=
+    secure: v1:7LERTW5Fe/YbUgg4:VBFGQWjeYkAjVumzdlZnFrSrtoLERM2XxrpJGNRzqrQ3Zj71kqHKdFJJ5n7Pr/hMJQFdrqHX9tr8HQWKypcQykCPhCKn+H5R0C5VXHmGCLpIKx/jlcnWoGS3x/HXH3ZD9BE=
   infra:alertsSlackBotToken:
     secure: v1:ymhuxWmu1MF/LSuC:ziehvfiYe/7ySIbrnMs6KLtah5FGqMEBH5A2a8rzhOjSioUq0vX2TxXGKX8XVWiNdgKihOXKHg796HvFJRf4jQQaYmHv1Dw6Og==
   infra:loginProxyKeycloakClientSecret:

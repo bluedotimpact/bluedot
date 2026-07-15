@@ -17,13 +17,14 @@ import {
   meetPersonTable,
   or,
   roundTable,
-  userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { FOAI_COURSE_ID } from '../../lib/constants';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
+import {
+  getUserOrThrow, protectedProcedure, publicProcedure, router,
+} from '../trpc';
 import { issueFoaiCertificateIfComplete } from './certificates';
 
 export const exercisesRouter = router({
@@ -36,11 +37,7 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const user = await db.getFirst(userTable, { filter: { email: ctx.auth.email } });
-
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
-      }
+      const user = await getUserOrThrow(ctx.auth.email);
 
       const [exerciseResponse] = await db.pg
         .select()
@@ -73,11 +70,8 @@ export const exercisesRouter = router({
         input.completed === true
           ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
           : Promise.resolve(undefined),
-        db.getFirst(userTable, { filter: { email: ctx.auth.email } }),
+        getUserOrThrow(ctx.auth.email),
       ]);
-      if (!user) {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'user not found' });
-      }
 
       const [existingResponse] = await db.pg
         .select()
@@ -115,7 +109,7 @@ export const exercisesRouter = router({
       if (!exerciseResponse) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
 
       const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
-        ? await issueFoaiCertificateIfComplete(ctx.auth.email, user.id)
+        ? await issueFoaiCertificateIfComplete(user.id)
         : false;
 
       return { ...exerciseResponse, certificateIssued };
@@ -136,13 +130,15 @@ export const exercisesRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${input.courseSlug}` });
       }
 
+      const user = await getUserOrThrow(ctx.auth.email);
+
       // 2. Find all of caller's active registrations for this course
       // roundStatus is 'Active' for live rounds, or null for self-paced courses with no round
       const courseRegistrations = await db.pg
         .select()
         .from(courseRegistrationTable.pg)
         .where(and(
-          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.userId, user.id),
           eq(courseRegistrationTable.pg.courseId, course.id),
           eq(courseRegistrationTable.pg.decision, 'Accept'),
           or(

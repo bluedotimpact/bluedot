@@ -206,7 +206,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             )}
           </div>
           {chunk?.id === NEXT_STEPS_CHUNK_ID ? (
-            <NextStepsChunk />
+            <NextStepsChunk courseSlug={courseSlug} />
           ) : (
             <>
               {chunk?.chunkContent && (

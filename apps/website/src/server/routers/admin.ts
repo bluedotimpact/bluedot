@@ -92,7 +92,7 @@ export const adminRouter = router({
           COALESCE(
             (SELECT COUNT(*)
              FROM ${courseRegistrationTable.pg} cr
-             WHERE cr.email = u.email AND (cr."certificateId" IS NOT NULL OR cr.decision = 'Accepted')),
+             WHERE cr."userId" = u.id AND (cr."certificateId" IS NOT NULL OR cr.decision = 'Accepted')),
             0
           )::int AS "courseCount"
         FROM ${userTable.pg} u

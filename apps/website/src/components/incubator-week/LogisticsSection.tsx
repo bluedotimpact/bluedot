@@ -8,11 +8,11 @@ const LOGISTICS = [
   },
   {
     label: 'Focus areas',
-    body: 'For-profit and non-profit founders in fields like AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction.',
+    body: 'Founders building nonprofit and for-profit startups in fields like AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction.',
   },
   {
     label: 'Schedule',
-    body: 'July 20–25.',
+    body: 'August 17–21.',
   },
 ];
 
