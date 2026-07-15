@@ -1626,9 +1626,15 @@ export const bugReportsTable = pgAirtable('bug_reports', {
       pgColumn: text().array(),
       airtableId: 'fldwb2IJjBIpE4fJi',
     },
+    // Birdie URL for the recording of the bug report session, if any
     recordingUrl: {
       pgColumn: text(),
       airtableId: 'fldSd9pPXP44Sho8G',
+    },
+    // Page the bug was submitted from
+    pageUrl: {
+      pgColumn: text(),
+      airtableId: 'flduxQyQW2lFbi4S0',
     },
     email: {
       pgColumn: text(),
