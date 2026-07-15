@@ -11,6 +11,7 @@ export const feedbackRouter = router({
       description: z.string().min(1).max(5000),
       email: z.string().email(),
       recordingUrl: z.string().url().optional(),
+      pageUrl: z.string().url().optional(),
       attachments: z
         .array(z.object({
           base64: z.string().max(Math.ceil(10 * 1024 * 1024 / 3) * 4), // 10MB max file size; raw base64 is ceil(n/3)*4 chars
@@ -26,6 +27,7 @@ export const feedbackRouter = router({
         description: input.description,
         email: input.email,
         recordingUrl: input.recordingUrl ?? null,
+        pageUrl: input.pageUrl ?? null,
         createdAt: Math.floor(Date.now() / 1000),
       });
 
