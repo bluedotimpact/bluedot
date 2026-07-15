@@ -20,7 +20,7 @@ const SCHEDULE = [
   {
     cadence: 'Friday',
     title: 'Pitch for funding',
-    body: 'Pitch to us. If we back your pitch, we will give you $50k equity-free by the end of the week.',
+    body: 'Pitch to us. If we back your pitch, we will fund your immediate needs on the spot and—if you make good progress—give you up to $100k in grant funding within two weeks.',
   },
 ];
 
