@@ -42,10 +42,11 @@ export default function BugReportProvider({ children }: { children: React.ReactN
     };
   }, []);
 
-  // Auto-open bug report modal when recording completes and recording URL is available
+  // Auto-open bug report modal when recording completes and recording URL is available.
+  // Recapture the page here: the page they stopped recording on is the most relevant one.
   useEffect(() => {
     if (recordingUrl) {
-      setPageUrl((prev) => prev ?? getPageUrl());
+      setPageUrl(getPageUrl());
       setIsBugReportOpen(true);
     }
   }, [recordingUrl]);
