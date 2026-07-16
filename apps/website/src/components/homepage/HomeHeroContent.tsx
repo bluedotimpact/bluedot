@@ -29,6 +29,10 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
               <HeroH1
                 // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- bespoke 4-breakpoint homepage display ramp; the site's only consumer, kept inline rather than minting a token
                 className="text-[40px] bd-md:text-[56px] lg:text-[64px] xl:text-[72px] leading-[115%] tracking-[-1px] w-full lg:w-[682px] slide-up-fade-in flex items-center"
+                /* Deliberately Inter, not the InterDisplay that `.bluedot-h1` sets: the design
+                   calls for Inter's wider letterforms here. Inline style because the unlayered
+                   `.bluedot-h1` rule in globals.css outranks any Tailwind font utility. */
+                style={{ fontFamily: 'var(--font-sans)' }}
               >
                 We help you have a positive impact on the trajectory of AI
               </HeroH1>
