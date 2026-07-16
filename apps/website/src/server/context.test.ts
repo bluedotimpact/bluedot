@@ -2,13 +2,13 @@ import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import { userTable } from '@bluedot/db';
-import { loginPresets } from '@bluedot/ui';
+import { loginPresets } from '@bluedot/ui/src/Login';
 import { createContext } from './context';
 import { setupTestDb, testDb } from '../__tests__/dbTestUtils';
 import { ONE_HOUR_SECONDS } from '../lib/constants';
 
-vi.mock('@bluedot/ui', async () => {
-  const actual = await vi.importActual('@bluedot/ui');
+vi.mock('@bluedot/ui/src/Login', async () => {
+  const actual = await vi.importActual('@bluedot/ui/src/Login');
   return {
     ...actual,
     loginPresets: {

@@ -1,4 +1,4 @@
-import { addQueryParam } from '@bluedot/ui';
+import { addQueryParam } from '@bluedot/ui/src/utils/addQueryParam';
 import { type AxiosError } from 'axios';
 import posthog from 'posthog-js';
 
