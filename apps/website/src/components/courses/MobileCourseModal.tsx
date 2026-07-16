@@ -1,5 +1,5 @@
 import type { Unit } from '@bluedot/db';
-import { Modal } from '@bluedot/ui';
+import { Modal, ModalTitle } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -85,9 +85,9 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
           <div className="flex items-center gap-4">
             <CourseIcon courseSlug={courseSlug} />
-            <h3 className="text-size-md leading-[40px] font-semibold text-bluedot-navy">
+            <ModalTitle className="leading-[40px]">
               {courseTitle}
-            </h3>
+            </ModalTitle>
           </div>
         </div>
       )}

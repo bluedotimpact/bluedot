@@ -261,13 +261,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
     </>
   );
 
-  const renderTitle = () => (
-    <div className="flex w-full items-center justify-center gap-2">
-      <div className="text-size-md font-semibold">
-        {dropoutMutation.isSuccess ? 'Request Submitted' : 'Leave Course'}
-      </div>
-    </div>
-  );
+  const renderTitle = () => (dropoutMutation.isSuccess ? 'Request Submitted' : 'Leave Course');
 
   return (
     <Modal
@@ -275,6 +269,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
       setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
       title={renderTitle()}
       bottomDrawerOnMobile
+      centerTitle
       desktopHeaderClassName="border-b border-charcoal-light py-4"
     >
       <div className="w-full md:w-[600px]">
@@ -310,14 +305,9 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
-      title={(
-        <div className="flex w-full items-center justify-center gap-2">
-          <div className="text-size-md font-semibold">
-            {mutation.isSuccess ? 'Application withdrawn' : 'Withdraw application'}
-          </div>
-        </div>
-      )}
+      title={mutation.isSuccess ? 'Application withdrawn' : 'Withdraw application'}
       bottomDrawerOnMobile
+      centerTitle
       desktopHeaderClassName="border-b border-charcoal-light pt-6 pb-3"
     >
       <div className="flex w-full flex-col gap-4 md:w-[400px]">

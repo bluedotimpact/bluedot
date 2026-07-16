@@ -1,4 +1,4 @@
-import { ErrorSection, Modal } from '@bluedot/ui';
+import { ErrorSection, Modal, ModalTitle } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
 import { getInitials } from '../../lib/utils';
@@ -77,7 +77,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           <div className="size-10 rounded-full bg-bluedot-normal flex items-center justify-center text-white text-size-xs font-bold shrink-0">
             {getInitials(participant.name)}
           </div>
-          <span className="font-bold text-size-md text-bluedot-navy">{participant.name}</span>
+          <ModalTitle>{participant.name}</ModalTitle>
           <button
             type="button"
             onClick={onNoStrongImpression}

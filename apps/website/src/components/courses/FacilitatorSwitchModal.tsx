@@ -166,11 +166,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   const renderTitle = () => {
     if (updateDiscussionTimeMutation.isSuccess || changeFacilitatorMutation.isSuccess) {
-      return (
-        <div className="flex w-full items-center justify-center gap-2">
-          <div className="text-size-md font-semibold">Success</div>
-        </div>
-      );
+      return 'Success';
     }
 
     return (
@@ -404,6 +400,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={renderTitle()}
+      centerTitle
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"
     >

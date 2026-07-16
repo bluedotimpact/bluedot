@@ -2,6 +2,7 @@ import {
   CTALinkOrButton,
   ErrorSection,
   Input,
+  Eyebrow,
   ProgressDots,
   Select,
   Textarea,
@@ -161,7 +162,7 @@ const Section = ({
 }) => (
   <section className="border-charcoal-light flex flex-col gap-7 rounded-lg border bg-white p-6 sm:p-9">
     <div className="flex flex-col gap-4">
-      <p className="text-size-xxs text-bluedot-normal font-semibold tracking-wide uppercase">{label}</p>
+      <Eyebrow>{label}</Eyebrow>
       <div className="flex flex-col gap-1.5">
         <h2 className="text-size-md text-bluedot-navy font-bold">{title}</h2>
         {description && <p className="text-size-xs text-bluedot-navy/60">{description}</p>}

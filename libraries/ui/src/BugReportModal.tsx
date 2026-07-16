@@ -200,7 +200,8 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     <Modal
       isOpen={isOpen}
       setIsOpen={handleModalOpenChange}
-      title={<span className="mx-auto text-size-lg font-semibold">{showSuccess ? 'Thank you' : 'Submit feedback'}</span>}
+      title={showSuccess ? 'Thank you' : 'Submit feedback'}
+      centerTitle
       ariaLabel={showSuccess ? 'Thank you' : 'Submit feedback'}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"

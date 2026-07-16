@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
   cn, ClickTarget, CTALinkOrButton,
-  ErrorSection, Modal, ProgressDots,
+  ErrorSection, Modal, ModalTitle, ProgressDots,
   Select,
 } from '@bluedot/ui';
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
@@ -180,8 +180,6 @@ export default function GroupSwitchModal({
   };
 
   const getModalTitle = () => {
-    const modalTitleClassName = 'text-size-md py-3 font-semibold mx-auto';
-
     if (isManualRequest && !showSuccess) {
       return (
         <div className="flex items-center w-full">
@@ -192,17 +190,17 @@ export default function GroupSwitchModal({
           >
             <FaArrowLeft size={16} />
           </ClickTarget>
-          <div className={cn(modalTitleClassName, 'md:pr-0 pr-6')}>Request manual switch</div>
+          <ModalTitle className="py-3 mx-auto md:pr-0 pr-6">Request manual switch</ModalTitle>
         </div>
       );
     }
 
     if (isManualRequest && showSuccess) {
-      return <div className={modalTitleClassName}>We are working on your request</div>;
+      return <ModalTitle className="py-3 mx-auto">We are working on your request</ModalTitle>;
     }
 
     if (showSuccess) {
-      return <div className={modalTitleClassName}>Success</div>;
+      return <ModalTitle className="py-3 mx-auto">Success</ModalTitle>;
     }
 
     return (
