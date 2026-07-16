@@ -1,5 +1,5 @@
 import { userTable } from '@bluedot/db';
-import { loginPresets } from '@bluedot/ui';
+import { loginPresets } from '@bluedot/ui/src/Login';
 import { logger } from '@bluedot/ui/src/api';
 import type * as trpcNext from '@trpc/server/adapters/next';
 import db from '../lib/api/db';

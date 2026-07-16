@@ -1,6 +1,6 @@
 import { userTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
-import { loginPresets } from '@bluedot/ui';
+import { loginPresets } from '@bluedot/ui/src/Login';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';

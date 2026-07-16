@@ -1,5 +1,5 @@
 import { userTable } from '@bluedot/db';
-import { loginPresets } from '@bluedot/ui';
+import { loginPresets } from '@bluedot/ui/src/Login';
 import db from '../../lib/api/db';
 import {
   beforeEach, describe, expect, test, vi,
@@ -14,8 +14,8 @@ vi.mock('../../lib/api/keycloak', () => ({
   updateKeycloakPassword: vi.fn(),
 }));
 
-vi.mock('@bluedot/ui', async () => {
-  const actual = await vi.importActual('@bluedot/ui');
+vi.mock('@bluedot/ui/src/Login', async () => {
+  const actual = await vi.importActual('@bluedot/ui/src/Login');
   return {
     ...actual,
     loginPresets: {
