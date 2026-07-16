@@ -325,7 +325,7 @@ const getParticipantActions = (
     },
     {
       id: 'availability',
-      isVisible: state === 'upcoming' && courseRegistration.decision !== 'Reject',
+      isVisible: state === 'upcoming' && courseRegistration.decision !== 'Reject' && !!courseRegistration.email,
       variant: 'inline',
       inline: (
         <CTALinkOrButton
@@ -451,7 +451,7 @@ const getFacilitatorActions = (
     },
     {
       id: 'availability-facilitator',
-      isVisible: isPending && courseRegistration.decision !== 'Reject',
+      isVisible: isPending && courseRegistration.decision !== 'Reject' && !!courseRegistration.email,
       variant: 'inline',
       inline: (
         <CTALinkOrButton
