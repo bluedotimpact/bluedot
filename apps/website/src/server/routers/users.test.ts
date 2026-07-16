@@ -276,6 +276,71 @@ describe('users.ensureExists', () => {
     expect(new Date(user.lastSeenAt!).getTime()).toBeGreaterThanOrEqual(before);
   });
 
+  test('writes initial UTM fields on first login for an applicant row (email exists, no keycloakIdentifier)', async () => {
+    // Row auto-created when the person applied (#2163): has an email but never logged in, so no
+    // keycloakIdentifier and no UTM. Their first login carries the UTM params in `input`.
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+    });
+
+    const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({
+      token: 'valid-token',
+      initialUtmSource: 'twitter',
+      initialUtmCampaign: 'launch',
+      initialUtmContent: 'thread',
+    });
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.keycloakIdentifier).toBe('test-sub');
+    expect(user.utmSource).toBe('twitter');
+    expect(user.utmCampaign).toBe('launch');
+    expect(user.utmContent).toBe('thread');
+  });
+
+  test('does not write UTM fields on first login when no UTM params are supplied', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+    });
+
+    const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.keycloakIdentifier).toBe('test-sub');
+    expect(user.utmSource).toBeNull();
+    expect(user.utmCampaign).toBeNull();
+    expect(user.utmContent).toBeNull();
+  });
+
+  test('does not touch UTM fields for an email-matched user that already has a keycloakIdentifier (not their first login)', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1',
+      email: 'test@example.com',
+      name: 'Test User',
+      keycloakIdentifier: 'other-sub',
+      utmSource: 'original-source',
+    });
+
+    const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({
+      token: 'valid-token',
+      initialUtmSource: 'should-be-ignored',
+      initialUtmCampaign: 'should-be-ignored',
+    });
+
+    expect(result).toEqual({ isNewUser: false });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user.utmSource).toBe('original-source');
+    expect(user.utmCampaign).toBeNull();
+  });
+
   test('backfills keycloakIdentifier on login for a user that already existed without one (e.g. created by an Airtable automation), and does not report them as new', async () => {
     await testDb.insert(userTable, {
       id: 'u1',

@@ -75,6 +75,12 @@ export const usersRouter = router({
           : Promise.resolve(null),
       ]);
 
+      const getInitialUtmFields = (existingUser?: typeof existingUserByEmail) => ({
+        ...(input.initialUtmSource && !existingUser?.utmSource && { utmSource: input.initialUtmSource }),
+        ...(input.initialUtmCampaign && !existingUser?.utmCampaign && { utmCampaign: input.initialUtmCampaign }),
+        ...(input.initialUtmContent && !existingUser?.utmContent && { utmContent: input.initialUtmContent }),
+      });
+
       if (existingUserByKeycloakIdentifier) {
         // Update last seen timestamp if already exists
         await db.update(userTable, {
@@ -87,8 +93,7 @@ export const usersRouter = router({
         // If `existingUserByEmail` exists but not `existingUserByKeycloakIdentifier`, that
         // means the user has been created by an Airtable automation, but hasn't logged in yet.
         // Adopt the existing user row in this case (by setting `keycloakIdentifier` for next time).
-        // Note: Until https://github.com/bluedotimpact/bluedot/issues/2710 is complete, this also covers
-        // the case of legacy users who haven't yet been migrated from email -> keycloakIdentifier
+        const isFirstLogin = !existingUserByEmail.keycloakIdentifier;
         await db.update(userTable, {
           id: existingUserByEmail.id,
           ...(sub && { keycloakIdentifier: sub }),
@@ -96,6 +101,7 @@ export const usersRouter = router({
           ...(name && !existingUserByEmail.name && { name }),
           lastSeenAt: new Date().toISOString(),
           firstLoggedInAt: new Date().toISOString(),
+          ...(isFirstLogin && getInitialUtmFields(existingUserByEmail)),
         });
       } else {
         // Create user if doesn't exist
@@ -105,9 +111,7 @@ export const usersRouter = router({
           ...(name && { name }),
           lastSeenAt: new Date().toISOString(),
           firstLoggedInAt: new Date().toISOString(),
-          ...(input.initialUtmSource && { utmSource: input.initialUtmSource }),
-          ...(input.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),
-          ...(input.initialUtmContent && { utmContent: input.initialUtmContent }),
+          ...getInitialUtmFields(),
         });
       }
 
