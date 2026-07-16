@@ -73,13 +73,6 @@ body {
   @apply text-size-lg font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy;
 }
 
-/* Canonical white-on-image marketing-hero H1.
-   Used in MarketingHero; the 6 pages that still inline an identical hero will
-   inherit this class once they migrate to <MarketingHero>. */
-.bluedot-marketing-hero-h1 {
-  @apply text-[32px] bd-md:text-[40px] lg:text-[48px] leading-tight font-medium tracking-[-1px] text-white;
-}
-
 @theme {
   --animate-infinite-scroll: infinite-scroll 50s linear infinite;
 
