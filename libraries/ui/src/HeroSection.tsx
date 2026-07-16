@@ -1,18 +1,6 @@
 import type React from 'react';
 import { cn } from './utils';
 
-export type HeroMiniTitleProps = React.PropsWithChildren<{
-  className?: string;
-}>;
-
-export const HeroMiniTitle: React.FC<HeroMiniTitleProps> = ({
-  children, className,
-}) => {
-  return (
-    <div className={cn('text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
-  );
-};
-
 export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   children, className, ...otherProps
 }) => {
