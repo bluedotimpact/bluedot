@@ -65,8 +65,8 @@ export const adminRouter = router({
         }
 
         scopeClause = access === 'scoped'
-          ? sql`u.id IN (${sql.join(allowedTargets.map((id) => sql`${id}`), sql`, `)})`
-          : sql`TRUE`;
+          ? sql`u.id IN (${sql.join(allowedTargets.map((id) => sql`${id}`), sql`, `)}) AND u."keycloakIdentifier" IS NOT NULL`
+          : sql`u."keycloakIdentifier" IS NOT NULL`;
       }
 
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
