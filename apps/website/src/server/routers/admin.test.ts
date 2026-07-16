@@ -8,9 +8,10 @@ import {
 
 setupTestDb();
 
-const callerAs = (email: string) => createCaller({
+// Permission checks resolve the caller by sub (keycloakIdentifier), so callers are keyed on sub.
+const callerAs = (sub: string) => createCaller({
   ...testAuthContextLoggedIn,
-  auth: { ...testAuthContextLoggedIn.auth!, email },
+  auth: { ...testAuthContextLoggedIn.auth!, sub },
 });
 
 describe('admin: privilege escalation prevention', () => {
@@ -18,15 +19,15 @@ describe('admin: privilege escalation prevention', () => {
   // the caller built for that impersonation. Every admin-gated procedure should refuse.
   async function callerForScopedImpersonatingAdmin() {
     await testDb.insert(userTable, {
-      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped', allowedImpersonationTargets: ['admin-id'],
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped', keycloakIdentifier: 'scoped-sub', allowedImpersonationTargets: ['admin-id'],
     });
     await testDb.insert(userTable, {
-      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true,
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
     });
     return createCaller({
       ...testAuthContextLoggedIn,
-      auth: { ...testAuthContextLoggedIn.auth!, email: 'admin@example.com' },
-      impersonation: { adminEmail: 'scoped@example.com', targetEmail: 'admin@example.com' },
+      auth: { ...testAuthContextLoggedIn.auth!, email: 'admin@example.com', sub: 'admin-sub' },
+      impersonation: { adminEmail: 'scoped@example.com', adminSub: 'scoped-sub', targetEmail: 'admin@example.com' },
     });
   }
 
@@ -53,44 +54,79 @@ describe('admin.isUserAdmin', () => {
   });
 
   test('regular user → false', async () => {
-    await testDb.insert(userTable, { id: 'regular-id', email: 'regular@example.com', name: 'Regular' });
-    expect(await callerAs('regular@example.com').admin.isUserAdmin()).toBe(false);
+    await testDb.insert(userTable, {
+      id: 'regular-id', email: 'regular@example.com', name: 'Regular', keycloakIdentifier: 'regular-sub',
+    });
+    expect(await callerAs('regular-sub').admin.isUserAdmin()).toBe(false);
   });
 
   test('admin → true', async () => {
     await testDb.insert(userTable, {
-      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true,
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
     });
-    expect(await callerAs('admin@example.com').admin.isUserAdmin()).toBe(true);
+    expect(await callerAs('admin-sub').admin.isUserAdmin()).toBe(true);
   });
 });
 
 describe('admin.searchUsers', () => {
   test('scoped user only sees allowed targets', async () => {
     await testDb.insert(userTable, {
-      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped', allowedImpersonationTargets: ['user-1'],
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped', keycloakIdentifier: 'scoped-sub', allowedImpersonationTargets: ['user-1'],
     });
-    await testDb.insert(userTable, { id: 'user-1', email: 'alice@example.com', name: 'Alice' });
-    await testDb.insert(userTable, { id: 'user-2', email: 'bob@example.com', name: 'Bob' });
+    await testDb.insert(userTable, {
+      id: 'user-1', email: 'alice@example.com', name: 'Alice', keycloakIdentifier: 'alice-sub',
+    });
+    await testDb.insert(userTable, {
+      id: 'user-2', email: 'bob@example.com', name: 'Bob', keycloakIdentifier: 'bob-sub',
+    });
 
-    const results = await callerAs('scoped@example.com').admin.searchUsers({});
+    const results = await callerAs('scoped-sub').admin.searchUsers({});
     expect(results).toHaveLength(1);
     expect(results[0]!.email).toBe('alice@example.com');
   });
 
   test('regular user gets FORBIDDEN', async () => {
-    await testDb.insert(userTable, { id: 'regular-id', email: 'regular@example.com', name: 'Regular' });
+    await testDb.insert(userTable, {
+      id: 'regular-id', email: 'regular@example.com', name: 'Regular', keycloakIdentifier: 'regular-sub',
+    });
 
-    await expect(callerAs('regular@example.com').admin.searchUsers({})).rejects.toMatchObject({ code: 'FORBIDDEN' });
+    await expect(callerAs('regular-sub').admin.searchUsers({})).rejects.toMatchObject({ code: 'FORBIDDEN' });
+  });
+
+  test('impersonate scope excludes never-logged-in users; all scope includes them', async () => {
+    await testDb.insert(userTable, {
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
+    });
+    await testDb.insert(userTable, {
+      id: 'user-1', email: 'alice@example.com', name: 'Alice', keycloakIdentifier: 'alice-sub',
+    });
+    await testDb.insert(userTable, { id: 'user-2', email: 'bob@example.com', name: 'Bob' });
+
+    const impersonateResults = await callerAs('admin-sub').admin.searchUsers({});
+    expect(impersonateResults.map((r) => r.email)).not.toContain('bob@example.com');
+    expect(impersonateResults.map((r) => r.email)).toContain('alice@example.com');
+
+    const allResults = await callerAs('admin-sub').admin.searchUsers({ scope: 'all' });
+    expect(allResults.map((r) => r.email)).toContain('bob@example.com');
+  });
+
+  test('scoped user cannot see a never-logged-in allowed target', async () => {
+    await testDb.insert(userTable, {
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped', keycloakIdentifier: 'scoped-sub', allowedImpersonationTargets: ['ghost-id'],
+    });
+    await testDb.insert(userTable, { id: 'ghost-id', email: 'ghost@example.com', name: 'Ghost' });
+
+    const results = await callerAs('scoped-sub').admin.searchUsers({});
+    expect(results).toHaveLength(0);
   });
 
   test('scope=all: non-admin gets FORBIDDEN even if they have scoped impersonation access', async () => {
     await testDb.insert(userTable, {
-      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped', allowedImpersonationTargets: ['user-1'],
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped', keycloakIdentifier: 'scoped-sub', allowedImpersonationTargets: ['user-1'],
     });
     await testDb.insert(userTable, { id: 'user-1', email: 'alice@example.com', name: 'Alice' });
 
-    await expect(callerAs('scoped@example.com').admin.searchUsers({ scope: 'all' }))
+    await expect(callerAs('scoped-sub').admin.searchUsers({ scope: 'all' }))
       .rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 });

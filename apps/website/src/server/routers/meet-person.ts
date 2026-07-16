@@ -13,13 +13,13 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { getUserOrThrow, protectedProcedure, router } from '../trpc';
+import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 
 export const meetPersonRouter = router({
   getByCourseRegistrationId: protectedProcedure
     .input(z.object({ courseRegistrationId: z.string() }))
     .query(async ({ input: { courseRegistrationId }, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       return db.getFirst(meetPersonTable, {
         filter: {
@@ -32,7 +32,7 @@ export const meetPersonRouter = router({
   getInactiveCourseRegistrations: protectedProcedure
     .input(z.object({ courseSlug: z.string().min(1).optional() }))
     .query(async ({ ctx, input }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const results = await db.pg
         .select({
@@ -69,7 +69,7 @@ export const meetPersonRouter = router({
   getGroupParticipants: protectedProcedure
     .input(z.object({ groupId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const groupRows = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, input.groupId));
       const group = groupRows[0];

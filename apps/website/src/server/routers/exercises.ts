@@ -23,7 +23,7 @@ import { z } from 'zod';
 import db from '../../lib/api/db';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import {
-  getUserOrThrow, protectedProcedure, publicProcedure, router,
+  getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 import { issueFoaiCertificateIfComplete } from './certificates';
 
@@ -37,7 +37,7 @@ export const exercisesRouter = router({
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const [exerciseResponse] = await db.pg
         .select()
@@ -70,7 +70,7 @@ export const exercisesRouter = router({
         input.completed === true
           ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
           : Promise.resolve(undefined),
-        getUserOrThrow(ctx.auth.email),
+        getUserFromAuthOrThrow(ctx.auth),
       ]);
 
       const [existingResponse] = await db.pg
@@ -130,7 +130,7 @@ export const exercisesRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${input.courseSlug}` });
       }
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       // 2. Find all of caller's active registrations for this course
       // roundStatus is 'Active' for live rounds, or null for self-paced courses with no round

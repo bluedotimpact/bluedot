@@ -53,7 +53,7 @@ describe('resources.saveResourceCompletion', () => {
   test('throws UNAUTHORIZED when the user row is missing', async () => {
     const noUserCaller = createCaller({
       ...testAuthContextLoggedIn,
-      auth: { ...testAuthContextLoggedIn.auth!, email: 'nouser@example.com' },
+      auth: { ...testAuthContextLoggedIn.auth!, email: 'nouser@example.com', sub: 'nouser-sub' },
     });
 
     await expect(noUserCaller.resources.saveResourceCompletion({

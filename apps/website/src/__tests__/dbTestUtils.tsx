@@ -46,11 +46,12 @@ export function setupTestDb() {
   });
 }
 
-// Seeds the userTable row for `testAuthContextLoggedIn`, required by procedures that call getUserOrThrow
+// Seeds the userTable row for `testAuthContextLoggedIn`, required by procedures that call getUserFromAuthOrThrow.
 export const seedLoggedInUser = () => testDb.insert(userTable, {
   id: 'test-user',
   email: 'test@example.com',
   name: 'Test User',
+  keycloakIdentifier: 'test-sub',
 });
 
 // Server-side caller, for router tests that don't render components

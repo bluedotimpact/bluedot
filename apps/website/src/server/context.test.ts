@@ -77,11 +77,12 @@ describe('createContext: User impersonation', () => {
     expect(result.auth?.sub).toBe('target-sub');
     expect(result.impersonation).toEqual({
       adminEmail: 'admin@example.com',
+      adminSub: 'admin-sub',
       targetEmail: 'target@example.com',
     });
   });
 
-  test('impersonating a not-yet-backfilled target yields an empty sub (falls back to email lookups downstream)', async () => {
+  test('impersonating a never-logged-in target (no keycloakIdentifier) is blocked', async () => {
     const adminAuth = { ...mockAuth, email: 'admin@example.com', sub: 'admin-sub' };
     await testDb.insert(userTable, {
       id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
@@ -95,18 +96,19 @@ describe('createContext: User impersonation', () => {
       authorization: 'Bearer valid-token',
       'x-impersonate-user': 'target-id',
     });
-    const result = await createContext({ req } as Parameters<typeof createContext>[0]);
 
-    expect(result.auth?.email).toBe('target@example.com');
-    expect(result.auth?.sub).toBe('');
+    await expect(createContext({ req } as Parameters<typeof createContext>[0]))
+      .rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
   test('scoped user can impersonate allowed target', async () => {
-    const scopedAuth = { ...mockAuth, email: 'scoped@example.com' };
+    const scopedAuth = { ...mockAuth, email: 'scoped@example.com', sub: 'scoped-sub' };
     await testDb.insert(userTable, {
-      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped User', allowedImpersonationTargets: ['allowed-id'],
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped User', keycloakIdentifier: 'scoped-sub', allowedImpersonationTargets: ['allowed-id'],
     });
-    await testDb.insert(userTable, { id: 'allowed-id', email: 'target@example.com', name: 'Target User' });
+    await testDb.insert(userTable, {
+      id: 'allowed-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
+    });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
 
@@ -119,16 +121,19 @@ describe('createContext: User impersonation', () => {
     expect(result.auth?.email).toBe('target@example.com');
     expect(result.impersonation).toEqual({
       adminEmail: 'scoped@example.com',
+      adminSub: 'scoped-sub',
       targetEmail: 'target@example.com',
     });
   });
 
   test('scoped user cannot impersonate non-allowed target', async () => {
-    const scopedAuth = { ...mockAuth, email: 'scoped@example.com' };
+    const scopedAuth = { ...mockAuth, email: 'scoped@example.com', sub: 'scoped-sub' };
     await testDb.insert(userTable, {
-      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped User', allowedImpersonationTargets: ['allowed-id'],
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped User', keycloakIdentifier: 'scoped-sub', allowedImpersonationTargets: ['allowed-id'],
     });
-    await testDb.insert(userTable, { id: 'other-id', email: 'other@example.com', name: 'Other User' });
+    await testDb.insert(userTable, {
+      id: 'other-id', email: 'other@example.com', name: 'Other User', keycloakIdentifier: 'other-sub',
+    });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
 
@@ -143,8 +148,13 @@ describe('createContext: User impersonation', () => {
   });
 
   test('user with no impersonation access is rejected', async () => {
-    await testDb.insert(userTable, { id: 'regular-id', email: 'user@example.com', name: 'Regular User' });
-    await testDb.insert(userTable, { id: 'some-target-id', email: 'target@example.com', name: 'Target User' });
+    // mockAuth.sub is 'user-sub-123'
+    await testDb.insert(userTable, {
+      id: 'regular-id', email: 'user@example.com', name: 'Regular User', keycloakIdentifier: 'user-sub-123',
+    });
+    await testDb.insert(userTable, {
+      id: 'some-target-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
+    });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
 
@@ -159,9 +169,9 @@ describe('createContext: User impersonation', () => {
   });
 
   test('impersonation falls back to normal user when target user not found', async () => {
-    const adminAuth = { ...mockAuth, email: 'admin@example.com' };
+    const adminAuth = { ...mockAuth, email: 'admin@example.com', sub: 'admin-sub' };
     await testDb.insert(userTable, {
-      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true,
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
     });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);

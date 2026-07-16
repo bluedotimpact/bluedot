@@ -21,7 +21,7 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import {
-  getUserOrThrow, protectedProcedure, publicProcedure, router,
+  getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 
 export type GroupDiscussionWithGroupAndUnit = inferRouterOutputs<
@@ -96,7 +96,7 @@ export const groupDiscussionsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${courseSlug}` });
       }
 
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       // Get all accepted course registrations for this course (not just the first),
       // so facilitators with discussions across multiple rounds see the soonest one

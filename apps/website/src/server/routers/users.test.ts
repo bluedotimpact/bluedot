@@ -58,6 +58,7 @@ describe('users.getUser', () => {
       id: 'u1',
       email: 'test@example.com',
       name: 'Test User',
+      keycloakIdentifier: 'test-sub',
       lastSeenAt: '2020-01-01T00:00:00.000Z',
     });
 
@@ -83,7 +84,7 @@ describe('users.changePassword', () => {
     const caller = createCaller({
       ...testAuthContextLoggedIn,
       auth: { ...testAuthContextLoggedIn.auth!, email: 'test@example.com' },
-      impersonation: { adminEmail: 'admin@example.com', targetEmail: 'test@example.com' },
+      impersonation: { adminEmail: 'admin@example.com', adminSub: 'admin-sub', targetEmail: 'test@example.com' },
     });
 
     await expect(caller.users.changePassword(validInput))
@@ -327,7 +328,7 @@ describe('users.updateName', () => {
 
   test('updates name on an existing user', async () => {
     await testDb.insert(userTable, {
-      id: 'u1', email: 'test@example.com', name: 'Old Name',
+      id: 'u1', email: 'test@example.com', name: 'Old Name', keycloakIdentifier: 'test-sub',
     });
 
     const result = await createCaller(testAuthContextLoggedIn).users.updateName({ name: 'New Name' });

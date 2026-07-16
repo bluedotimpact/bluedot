@@ -234,6 +234,7 @@ describe('ProfileNameEditor (with DB)', () => {
     await db.insert(userTable, {
       email: 'test@example.com',
       name: 'John Doe',
+      keycloakIdentifier: 'test-sub',
     });
 
     const { container } = render(

@@ -9,7 +9,7 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { SpanStatusCode, trace } from '@opentelemetry/api';
 import db from '../lib/api/db';
 import env from '../lib/api/env';
-import type { Context } from './context';
+import type { AuthContext, Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
 // For instance, the use of a t variable is common in i18n libraries.
@@ -111,8 +111,13 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
-export const getUserOrThrow = async (email: string) => {
-  const user = await db.getFirst(userTable, { filter: { email } });
+export const getUserFromAuth = async (auth: Pick<AuthContext, 'sub'>) => {
+  if (!auth.sub) return null;
+  return db.getFirst(userTable, { filter: { keycloakIdentifier: auth.sub } });
+};
+
+export const getUserFromAuthOrThrow = async (auth: Pick<AuthContext, 'sub'>) => {
+  const user = await getUserFromAuth(auth);
   if (!user) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'No user record for this account. Please log in again.' });
   }
@@ -120,16 +125,22 @@ export const getUserOrThrow = async (email: string) => {
   return user;
 };
 
-export const checkAdminAccess = async (email: string): Promise<boolean> => {
-  const user = await db.getFirst(userTable, { filter: { email } });
+// The real actor behind the request: the admin during impersonation, otherwise the caller.
+export const impersonationRealIdentity = (ctx: {
+  auth: { sub: string } | null;
+  impersonation?: { adminSub: string } | null;
+}): Pick<AuthContext, 'sub'> => ({ sub: ctx.impersonation?.adminSub ?? ctx.auth?.sub ?? '' });
+
+export const checkAdminAccess = async (auth: Pick<AuthContext, 'sub'>): Promise<boolean> => {
+  const user = await getUserFromAuth(auth);
 
   return user?.isAdmin === true;
 };
 
 export type ImpersonationAccess = 'admin' | 'scoped' | 'none';
 
-export const checkImpersonationAccess = async (email: string): Promise<{ access: ImpersonationAccess; allowedTargets: string[] }> => {
-  const user = await db.getFirst(userTable, { filter: { email } });
+export const checkImpersonationAccess = async (auth: Pick<AuthContext, 'sub'>): Promise<{ access: ImpersonationAccess; allowedTargets: string[] }> => {
+  const user = await getUserFromAuth(auth);
   if (user?.isAdmin) return { access: 'admin', allowedTargets: [] };
   if (user?.allowedImpersonationTargets?.length) return { access: 'scoped', allowedTargets: user.allowedImpersonationTargets };
   return { access: 'none', allowedTargets: [] };
@@ -161,8 +172,7 @@ export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
 export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   // During impersonation, check the real user's permissions, not the impersonated user's.
   // This prevents privilege escalation when a scoped user impersonates an admin.
-  const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
-  const hasAdminAccess = await checkAdminAccess(realEmail);
+  const hasAdminAccess = await checkAdminAccess(impersonationRealIdentity(ctx));
   if (!hasAdminAccess) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
   }

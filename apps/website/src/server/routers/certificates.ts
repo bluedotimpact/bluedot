@@ -18,7 +18,7 @@ import db from '../../lib/api/db';
 import { verifyPublicToken } from '../../lib/api/utils';
 import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
 import {
-  getUserOrThrow, protectedProcedure, publicProcedure, router,
+  getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 import type { AppRouter } from './_app';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
@@ -147,7 +147,7 @@ export const certificatesRouter = router({
   verifyOwnership: protectedProcedure
     .input(z.object({ certificateId: z.string() }))
     .query(async ({ ctx, input: { certificateId } }) => {
-      const user = await getUserOrThrow(ctx.auth.email);
+      const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
       const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
@@ -164,7 +164,7 @@ export const certificatesRouter = router({
       return { status: 'not-authenticated', hasUpcomingRounds } as const;
     }
 
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     // Future of AI is self-serve: it lives in its own table and never has rounds.
     if (courseId === FOAI_COURSE_ID) {

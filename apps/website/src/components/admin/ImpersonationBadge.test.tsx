@@ -128,9 +128,11 @@ describe('ImpersonationBadge URL param handling', () => {
 
   test('?impersonate=<email> resolves via admin.searchUsers and writes sessionStorage', async () => {
     await testDb.insert(userTable, {
-      id: 'rec-admin', email: testAuthContextLoggedIn.auth!.email, name: 'Admin', isAdmin: true,
+      id: 'rec-admin', email: testAuthContextLoggedIn.auth!.email, name: 'Admin', isAdmin: true, keycloakIdentifier: testAuthContextLoggedIn.auth!.sub,
     });
-    await testDb.insert(userTable, { id: 'rec-foo', email: 'foo@bar.com', name: 'Foo' });
+    await testDb.insert(userTable, {
+      id: 'rec-foo', email: 'foo@bar.com', name: 'Foo', keycloakIdentifier: 'foo-sub',
+    });
 
     stubLocationSearch('?impersonate=foo@bar.com');
 
@@ -139,6 +141,26 @@ describe('ImpersonationBadge URL param handling', () => {
     await waitFor(() => {
       expect(mockSessionStorage.setItem).toHaveBeenCalledWith('bluedot_impersonating', 'rec-foo');
     });
+  });
+
+  test('?impersonate=<email> targeting a never-logged-in user does not start impersonating', async () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    await testDb.insert(userTable, {
+      id: 'rec-admin', email: testAuthContextLoggedIn.auth!.email, name: 'Admin', isAdmin: true, keycloakIdentifier: testAuthContextLoggedIn.auth!.sub,
+    });
+    await testDb.insert(userTable, { id: 'rec-ghost', email: 'ghost@bar.com', name: 'Ghost' });
+
+    stubLocationSearch('?impersonate=ghost@bar.com');
+
+    render(<ImpersonationBadge />, { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) });
+
+    // searchUsers filters out never-logged-in users, so the lookup finds no match
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringContaining('no user found with that email'));
+    });
+    expect(mockSessionStorage.setItem).not.toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
   });
 
   test('?impersonate=clear removes any active impersonation', async () => {

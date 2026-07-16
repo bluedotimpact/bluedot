@@ -4,7 +4,7 @@ import {
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
-import { getUserOrThrow, protectedProcedure, router } from '../trpc';
+import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
@@ -16,7 +16,7 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       throw new TRPCError({ code: 'BAD_REQUEST', message: 'Only the Future of AI course supports self-serve registration' });
     }
 
-    const user = await getUserOrThrow(ctx.auth.email);
+    const user = await getUserFromAuthOrThrow(ctx.auth);
 
     const existingRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
       filter: { userId: user.id, courseId },
