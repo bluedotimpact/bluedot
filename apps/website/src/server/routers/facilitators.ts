@@ -15,6 +15,7 @@ import {
   peerFeedbackTable,
   roundTable,
   unitTable,
+  userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -324,6 +325,13 @@ export const facilitatorRouter = router({
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'id' })
         : null;
 
+      const facilitatorUser = meetPerson.userId
+        ? await db.getFirst(userTable, { filter: { id: meetPerson.userId }, sortBy: 'id' })
+        : null;
+      if (!facilitatorUser) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Facilitator has no linked user' });
+      }
+
       const existingCourseFeedback = (meetPerson.courseFeedback ?? []).length > 0
         ? await db.getFirst(courseFeedbackTable, { filter: { id: meetPerson.courseFeedback![0]! }, sortBy: 'id' })
         : null;
@@ -351,7 +359,7 @@ export const facilitatorRouter = router({
         meetPersonId: meetPerson.id,
         firstName: meetPerson.firstName,
         lastName: meetPerson.lastName,
-        email: meetPerson.email,
+        email: facilitatorUser.email,
         payForFacilitatedDiscussions: meetPerson.payForFacilitatedDiscussions,
         roundName: round?.title ?? '',
         roundStartDate: round?.startDate ?? null,

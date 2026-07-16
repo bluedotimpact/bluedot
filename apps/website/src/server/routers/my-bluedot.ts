@@ -312,7 +312,7 @@ export const myBluedotRouter = router({
         courseRegistration: {
           id: reg.id,
           courseId: reg.courseId,
-          email: reg.email ?? '',
+          email: '',
           decision: null,
           certificateId: reg.certificateId,
           certificateCreatedAt: reg.certificateCreatedAt,

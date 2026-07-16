@@ -6,6 +6,7 @@ import {
   meetPersonTable,
   peerFeedbackTable,
   roundTable,
+  userTable,
 } from '@bluedot/db';
 import {
   beforeEach, describe, expect, test, vi,
@@ -329,6 +330,7 @@ describe('facilitators.getFeedbackFormData', () => {
 
     const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
 
+    expect(result.email).toBe('test@example.com');
     expect(result.groupIds).toEqual([GROUP_ID]);
     expect(result.participants.map((p) => p.id).sort()).toEqual([PARTICIPANT_1, PARTICIPANT_2].sort());
     expect(result.dropIns).toEqual([]);
@@ -359,6 +361,32 @@ describe('facilitators.getFeedbackFormData', () => {
 
     await expect(caller.facilitators.getFeedbackFormData({ meetPersonId: 'other-facilitator' }))
       .rejects.toThrow('Not found');
+  });
+
+  test('errors when the facilitator meetPerson has no linked user', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(userTable, {
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'unlinked-facilitator',
+      round: ROUND_ID,
+      role: 'Facilitator',
+    });
+    await testDb.insert(groupTable, {
+      id: 'unlinked-group',
+      groupName: 'Unlinked Group',
+      round: ROUND_ID,
+      facilitator: ['unlinked-facilitator'],
+      participants: [PARTICIPANT_1],
+    });
+    const adminCaller = createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, sub: 'admin-sub' },
+    });
+
+    await expect(adminCaller.facilitators.getFeedbackFormData({ meetPersonId: 'unlinked-facilitator' }))
+      .rejects.toThrow('Facilitator has no linked user');
   });
 
   test('returns drop-ins (attendees not in group.participants)', async () => {
