@@ -552,12 +552,12 @@ exports[`AboutPage > should render correctly 1`] = `
             class="flex flex-col gap-6 max-w-[780px]"
           >
             <h1
-              class="bluedot-h1 not-prose bluedot-marketing-hero-h1"
+              class="bluedot-h1 text-white text-size-xl leading-tight font-normal tracking-tighter text-left"
             >
               About us
             </h1>
             <p
-              class="text-size-sm bd-md:text-size-md leading-[1.55] tracking-[-0.1px] text-white"
+              class="text-size-sm bd-md:text-size-md leading-relaxed text-white"
             >
               Building the workforce that protects humanity
             </p>
