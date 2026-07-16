@@ -6,9 +6,8 @@ export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     // Keeps `bluedot-h1` for the InterDisplay font-family
-    // Display ramp (40 → 56 → 64 → 72) is deliberately arbitrary px, not a text-size-* token.
-    // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size
-    <h1 className={cn('bluedot-h1 text-color-text-on-dark text-center text-[40px] md:text-[56px] lg:text-[64px] xl:text-[72px] font-normal tracking-tighter', className)} {...otherProps}>{children}</h1>
+    // Explicit leading-tight because the text-size-xl token carries line-height 1.2.
+    <h1 className={cn('bluedot-h1 text-white text-center text-size-xl leading-tight font-normal tracking-tighter', className)} {...otherProps}>{children}</h1>
   );
 };
 
