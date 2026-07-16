@@ -328,6 +328,9 @@ export const facilitatorRouter = router({
       const facilitatorUser = meetPerson.userId
         ? await db.getFirst(userTable, { filter: { id: meetPerson.userId }, sortBy: 'id' })
         : null;
+      if (!facilitatorUser) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Facilitator has no linked user' });
+      }
 
       const existingCourseFeedback = (meetPerson.courseFeedback ?? []).length > 0
         ? await db.getFirst(courseFeedbackTable, { filter: { id: meetPerson.courseFeedback![0]! }, sortBy: 'id' })
@@ -356,7 +359,7 @@ export const facilitatorRouter = router({
         meetPersonId: meetPerson.id,
         firstName: meetPerson.firstName,
         lastName: meetPerson.lastName,
-        email: facilitatorUser?.email ?? null,
+        email: facilitatorUser.email,
         payForFacilitatedDiscussions: meetPerson.payForFacilitatedDiscussions,
         roundName: round?.title ?? '',
         roundStartDate: round?.startDate ?? null,
