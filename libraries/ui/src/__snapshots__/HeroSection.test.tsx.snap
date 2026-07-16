@@ -21,7 +21,7 @@ exports[`HeroSection > renders with buttons 1`] = `
       class="max-w-[920px] py-12"
     >
       <h1
-        class="bluedot-h1 text-color-text-on-dark text-center text-[40px] md:text-[56px] lg:text-[64px] xl:text-[72px] font-normal tracking-tighter"
+        class="bluedot-h1 text-white text-center text-size-xl leading-tight font-normal tracking-tighter"
       >
         This is the title
       </h1>
@@ -71,7 +71,7 @@ exports[`HeroSection > renders with titles 1`] = `
       class="max-w-[920px] py-12"
     >
       <h1
-        class="bluedot-h1 text-color-text-on-dark text-center text-[40px] md:text-[56px] lg:text-[64px] xl:text-[72px] font-normal tracking-tighter"
+        class="bluedot-h1 text-white text-center text-size-xl leading-tight font-normal tracking-tighter"
       >
         This is the title
       </h1>
