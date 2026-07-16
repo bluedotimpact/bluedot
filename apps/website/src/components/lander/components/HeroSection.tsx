@@ -85,7 +85,7 @@ const HeroSection = ({
                     {categoryLabel}
                   </p>
                 )}
-                <HeroH1>
+                <HeroH1 className="font-semibold">
                   {title}
                 </HeroH1>
                 <p className="text-size-sm bd-md:text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
@@ -133,7 +133,7 @@ const HeroSection = ({
                       {categoryLabel}
                     </p>
                   )}
-                  <HeroH1 className="text-left">
+                  <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
                   <P className="text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
@@ -197,7 +197,7 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  <HeroH1 className="text-left">
+                  <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
 
@@ -257,7 +257,7 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  <HeroH1 className="text-left text-bluedot-navy">
+                  <HeroH1 className="font-semibold text-left text-bluedot-navy">
                     {title}
                   </HeroH1>
 

@@ -21,7 +21,7 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
               class="space-y-5 sm:space-y-4"
             >
               <h1
-                class="bluedot-h1 text-size-xl leading-tight font-normal tracking-tighter text-left text-bluedot-navy"
+                class="bluedot-h1 text-size-xl leading-tight tracking-tighter font-semibold text-left text-bluedot-navy"
               >
                 AGI Strategy – Learn how to navigate humanity's most critical decade
               </h1>
@@ -99,7 +99,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
                 COHORT-BASED COURSE
               </p>
               <h1
-                class="bluedot-h1 text-white text-size-xl leading-tight font-normal tracking-tighter text-left"
+                class="bluedot-h1 text-white text-size-xl leading-tight tracking-tighter font-semibold text-left"
               >
                 The Future of AI
               </h1>
