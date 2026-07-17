@@ -552,7 +552,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="flex flex-col gap-6 max-w-[780px]"
           >
             <h1
-              class="bluedot-h1 text-white text-size-xl leading-tight font-normal tracking-tighter text-left"
+              class="bluedot-h1 text-color-text-on-dark text-[40px] md:text-[56px] lg:text-[64px] xl:text-[72px] font-normal tracking-tighter text-left"
             >
               Work with us
             </h1>
