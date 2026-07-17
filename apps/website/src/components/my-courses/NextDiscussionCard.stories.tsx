@@ -44,7 +44,7 @@ export const AllStates: Story = {
   args: { discussion: nextDiscussion },
   render: (args) => (
     <div>
-      <H2 className="mb-3 text-size-sm">Next discussions</H2>
+      <H2 className="mb-3 text-size-sm font-sans">Next discussions</H2>
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} discussion={liveDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} />
@@ -57,7 +57,7 @@ export const AllFacilitatorStates: Story = {
   args: { discussion: nextDiscussion },
   render: (args) => (
     <div>
-      <H2 className="mb-3 text-size-sm">Next discussions</H2>
+      <H2 className="mb-3 text-size-sm font-sans">Next discussions</H2>
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} mode="facilitator" discussion={liveDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
         <NextDiscussionCard {...args} mode="facilitator" discussion={nextDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />

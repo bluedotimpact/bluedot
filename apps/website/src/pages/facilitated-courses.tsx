@@ -111,7 +111,7 @@ const FacilitatedCoursesPage = () => {
             <>
               {visibleNextDiscussions.length > 0 && (
                 <div>
-                  <H2 className="mb-3 text-size-sm">
+                  <H2 className="mb-3 text-size-sm font-sans">
                     {visibleNextDiscussions.length === 1 ? 'Next discussion' : 'Next discussions'}
                   </H2>
                   <div className="flex flex-col gap-3">

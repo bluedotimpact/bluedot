@@ -152,7 +152,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-col"
               >
                 <h2
-                  class="bluedot-h2 not-prose text-size-lg leading-[44px]"
+                  class="bluedot-h2 not-prose text-size-lg font-sans leading-[44px]"
                 >
                   What the fish [Test Course]
                 </h2>

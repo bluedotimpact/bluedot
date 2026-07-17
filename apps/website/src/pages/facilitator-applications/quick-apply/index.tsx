@@ -166,7 +166,7 @@ const Section = ({
     <div className="flex flex-col gap-4">
       <Eyebrow>{label}</Eyebrow>
       <div className="flex flex-col gap-1.5">
-        <H2 className="text-size-md">{title}</H2>
+        <H2 className="text-size-md font-sans">{title}</H2>
         {description && <p className="text-size-xs text-bluedot-navy/60">{description}</p>}
       </div>
     </div>

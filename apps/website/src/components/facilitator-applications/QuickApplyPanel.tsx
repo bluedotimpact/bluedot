@@ -76,7 +76,7 @@ const QuickApplyPanel = () => {
 
   return (
     <section className="flex flex-col gap-4" aria-label="Quick apply to courses you've facilitated">
-      <H2 className="text-size-md">Quick apply to courses you&rsquo;ve facilitated</H2>
+      <H2 className="text-size-md font-sans">Quick apply to courses you&rsquo;ve facilitated</H2>
       <ul className="flex flex-col gap-3">
         {data.map((course) => (
           <CourseQuickApplyCard key={course.courseId} course={course} />
