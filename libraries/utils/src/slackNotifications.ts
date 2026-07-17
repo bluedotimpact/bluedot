@@ -227,12 +227,18 @@ const flushBatcher = async (batcher: BatcherState) => {
     if (batch.occurrences > 1) {
       const tableInfo = batch.tableId ? ` (Table: ${batch.tableId})` : '';
       const fieldInfo = batch.fieldId ? ` (Field: ${batch.fieldId})` : '';
-      const recordList = Array.from(batch.affectedRecords).slice(0, 10).join(', ');
-      const moreRecords = batch.affectedRecords.size > 10 ? ` and ${batch.affectedRecords.size - 10} more` : '';
+      const header = `${mainMessage}${tableInfo}${fieldInfo}\n\n⚠️ This error occurred ${batch.occurrences} times`;
 
-      messages.push(`${mainMessage}${tableInfo}${fieldInfo}\n\n`
-        + `⚠️ This error occurred ${batch.occurrences} times affecting ${batch.affectedRecords.size} record(s):\n`
-        + `${recordList}${moreRecords}`);
+      // Only Airtable-derived warnings carry record IDs; other batched errors
+      // (e.g. tRPC server errors) have none, so drop the record clause for them.
+      if (batch.affectedRecords.size > 0) {
+        const recordList = Array.from(batch.affectedRecords).slice(0, 10).join(', ');
+        const moreRecords = batch.affectedRecords.size > 10 ? ` and ${batch.affectedRecords.size - 10} more` : '';
+
+        messages.push(`${header} affecting ${batch.affectedRecords.size} record(s):\n${recordList}${moreRecords}`);
+      } else {
+        messages.push(`${header}.`);
+      }
     } else {
       messages.push(mainMessage!);
     }
