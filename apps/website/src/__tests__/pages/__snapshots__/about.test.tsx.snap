@@ -609,7 +609,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="intro-section section section-body"
     >
       <h3
-        class="bluedot-section-heading mb-6"
+        class="bluedot-h3 not-prose mb-6"
       >
         Who we are
       </h3>
@@ -642,7 +642,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="beliefs-section section section-body"
     >
       <h3
-        class="bluedot-section-heading mb-6"
+        class="bluedot-h3 not-prose mb-6"
       >
         Core beliefs
       </h3>
@@ -651,7 +651,7 @@ exports[`AboutPage > should render correctly 1`] = `
       >
         <div>
           <h4
-            class="bluedot-h4 mb-2"
+            class="bluedot-h4 not-prose mb-2"
           >
             AGI could arrive soon, and society is dangerously unprepared
           </h4>
@@ -663,7 +663,7 @@ exports[`AboutPage > should render correctly 1`] = `
         </div>
         <div>
           <h4
-            class="bluedot-h4 mb-2"
+            class="bluedot-h4 not-prose mb-2"
           >
             People at key moments rewrite history
           </h4>
@@ -675,7 +675,7 @@ exports[`AboutPage > should render correctly 1`] = `
         </div>
         <div>
           <h4
-            class="bluedot-h4 mb-2"
+            class="bluedot-h4 not-prose mb-2"
           >
             We need urgency and wisdom
           </h4>
@@ -691,7 +691,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="values-section section section-body"
     >
       <h3
-        class="bluedot-section-heading mb-6"
+        class="bluedot-h3 not-prose mb-6"
       >
         Values
       </h3>
@@ -700,7 +700,7 @@ exports[`AboutPage > should render correctly 1`] = `
       >
         <div>
           <h4
-            class="bluedot-h4 mb-2"
+            class="bluedot-h4 not-prose mb-2"
           >
             Own the mission
           </h4>
@@ -712,7 +712,7 @@ exports[`AboutPage > should render correctly 1`] = `
         </div>
         <div>
           <h4
-            class="bluedot-h4 mb-2"
+            class="bluedot-h4 not-prose mb-2"
           >
             Think hard and move fast
           </h4>
@@ -724,7 +724,7 @@ exports[`AboutPage > should render correctly 1`] = `
         </div>
         <div>
           <h4
-            class="bluedot-h4 mb-2"
+            class="bluedot-h4 not-prose mb-2"
           >
             Say the uncomfortable truth
           </h4>
@@ -740,7 +740,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="history-section section section-body"
     >
       <h3
-        class="bluedot-section-heading mb-6"
+        class="bluedot-h3 not-prose mb-6"
       >
         Our history
       </h3>
@@ -878,7 +878,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="team-section section section-body !border-b-0"
     >
       <h3
-        class="bluedot-section-heading mb-6"
+        class="bluedot-h3 not-prose mb-6"
       >
         Our team
       </h3>

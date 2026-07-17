@@ -1,5 +1,5 @@
 import type { Unit } from '@bluedot/db';
-import { A, P } from '@bluedot/ui';
+import { A, H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -191,7 +191,7 @@ const SideBar: React.FC<SideBarProps> = ({
           <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
             <div className="flex flex-col">
-              <h2 className="font-semibold text-size-lg leading-[44px] text-bluedot-navy">{courseTitle}</h2>
+              <H2 className="text-size-lg leading-[44px]">{courseTitle}</H2>
               {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
                 <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
               )}

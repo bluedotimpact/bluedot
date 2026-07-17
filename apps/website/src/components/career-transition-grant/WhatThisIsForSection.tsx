@@ -1,5 +1,4 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, H4, P } from '@bluedot/ui';
 import {
   PiCompass,
   PiHandshake,
@@ -28,7 +27,7 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body career-transition-grant-what-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>What this is for</h3>
+        <H3>What this is for</H3>
 
         <div className="flex flex-col gap-5">
           <P>
@@ -44,9 +43,9 @@ const WhatThisIsForSection = () => {
                 <Icon className="text-bluedot-navy" size={28} />
               </div>
               <div className="flex flex-col gap-2">
-                <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+                <H4>
                   {title}
-                </h4>
+                </H4>
                 <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                   {description}
                 </P>

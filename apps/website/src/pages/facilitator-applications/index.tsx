@@ -1,4 +1,6 @@
-import { CTALinkOrButton, ErrorSection, ProgressDots } from '@bluedot/ui';
+import {
+  CTALinkOrButton, ErrorSection, H2, ProgressDots,
+} from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -86,7 +88,7 @@ const FacilitatorApplicationsPage = () => {
           {error && <ErrorSection error={error} />}
           {!isLoading && !error && data && (
             <>
-              <h2 className="text-size-md text-bluedot-black font-semibold">All Applications</h2>
+              <H2 className="text-size-md">All Applications</H2>
               <TabPills
                 ariaLabel="Application filter"
                 tabs={APPLICATION_TABS}

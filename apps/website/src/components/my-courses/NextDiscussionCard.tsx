@@ -1,5 +1,5 @@
 import type { Group, GroupDiscussion, Unit } from '@bluedot/db';
-import { CTALinkOrButton, useCurrentTimeMs } from '@bluedot/ui';
+import { CTALinkOrButton, H3, useCurrentTimeMs } from '@bluedot/ui';
 import { useState, type ReactNode } from 'react';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
@@ -97,7 +97,7 @@ const NextDiscussionCard = ({
               <p className="text-size-xxs font-semibold leading-[16px] text-bluedot-normal">
                 {formatEyebrow(eyebrowPrefix, unitNumber)}
               </p>
-              <h3 className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-size-lg sm:leading-[normal]">
+              <H3 className="text-size-md sm:text-size-lg">
                 {titleHref ? (
                   <a
                     href={titleHref}
@@ -106,7 +106,7 @@ const NextDiscussionCard = ({
                     {unit?.title ?? 'Discussion'}
                   </a>
                 ) : (unit?.title ?? 'Discussion')}
-              </h3>
+              </H3>
             </div>
             <p className="text-size-xs text-bluedot-navy">
               {mode === 'facilitator'

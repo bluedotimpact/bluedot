@@ -1,7 +1,8 @@
-import { CTALinkOrButton, P } from '@bluedot/ui';
+import {
+  CTALinkOrButton, H3, H4, P,
+} from '@bluedot/ui';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { pageSectionHeadingClass } from '../PageListRow';
 import AlumniAvatar from '../alumni/AlumniAvatar';
 import { trpc } from '../../utils/trpc';
 
@@ -23,9 +24,9 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
       <div className="flex items-center gap-4">
         <AlumniAvatar name={name} imageSrc={imageUrl} className="size-14 text-size-md" />
         <div className="flex min-w-0 flex-col">
-          <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
+          <H4 className="text-size-sm">
             {name}
-          </h4>
+          </H4>
           {bio && (
             <p className="mt-1 text-size-xs leading-normal text-bluedot-navy/68">
               {bio}
@@ -100,7 +101,7 @@ const GranteesSection = () => {
   return (
     <section className="section section-body career-transition-grant-grantees-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Some of our grantees</h3>
+        <H3>Some of our grantees</H3>
         <ul className="list-none grid gap-4 grid-cols-1 bd-md:grid-cols-2 min-[1120px]:grid-cols-3">
           {visibleGrantees.map((g) => (
             <li key={g.granteeName} className="h-full">

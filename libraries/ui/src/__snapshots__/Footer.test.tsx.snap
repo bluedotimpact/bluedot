@@ -99,7 +99,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -177,7 +177,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -189,7 +189,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -205,7 +205,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -283,7 +283,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -295,7 +295,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -392,7 +392,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -470,7 +470,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -482,7 +482,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -645,7 +645,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -731,7 +731,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -743,7 +743,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -759,7 +759,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -845,7 +845,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -857,7 +857,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -954,7 +954,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1040,7 +1040,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -1052,7 +1052,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -1215,7 +1215,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1293,7 +1293,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -1305,7 +1305,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -1321,7 +1321,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1399,7 +1399,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -1411,7 +1411,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>
@@ -1508,7 +1508,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1586,7 +1586,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
             </h3>
@@ -1598,7 +1598,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] font-semibold"
+              class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Programs
             </h3>

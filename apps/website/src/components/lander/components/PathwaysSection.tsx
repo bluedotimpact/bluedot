@@ -1,4 +1,4 @@
-import { H2, P } from '@bluedot/ui';
+import { H2, H3, P } from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
 import Link from 'next/link';
@@ -62,9 +62,9 @@ const PathwaysSection = ({
                     <IconComponent className="text-white" size={24} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="text-size-md font-semibold leading-[130%] text-bluedot-navy">
+                    <H3 className="text-size-md">
                       {pathway.title}
-                    </h3>
+                    </H3>
                     <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">
                       {pathway.description}
                     </P>

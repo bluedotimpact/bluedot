@@ -1,4 +1,4 @@
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3 } from '@bluedot/ui';
 
 type Persona = {
   title: string;
@@ -24,7 +24,7 @@ const WhoYouAreSection = () => {
   return (
     <section className="section section-body advising-who-you-are-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Who we can help</h3>
+        <H3>Who we can help</H3>
 
         <ul className="list-disc pl-6 flex flex-col gap-2">
           {PERSONAS.map(({ title, description }) => (

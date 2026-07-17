@@ -1,6 +1,5 @@
-import { H2, P } from '@bluedot/ui';
+import { H2, H3, P } from '@bluedot/ui';
 import Link from 'next/link';
-import { pageSectionHeadingClass } from '../../PageListRow';
 
 export type FieldBuildingRole = {
   title: string;
@@ -29,9 +28,9 @@ const FieldBuildingSection = ({
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-12 xl:px-40 py-12 bd-md:py-16 xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         <div className={headingVariant === 'compact' ? 'w-full max-w-text' : 'max-w-text text-center'}>
           {headingVariant === 'compact' ? (
-            <h3 className={pageSectionHeadingClass}>
+            <H3>
               {title}
-            </h3>
+            </H3>
           ) : (
             <H2>
               {title}

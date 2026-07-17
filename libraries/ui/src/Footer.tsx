@@ -6,7 +6,7 @@ import {
 } from 'react-icons/fa6';
 import { ClickTarget } from './ClickTarget';
 import { ProgressDots } from './ProgressDots';
-import { A } from './Text';
+import { A, H3 } from './Text';
 
 export type FooterProps = React.PropsWithChildren<{
   className?: string;
@@ -30,9 +30,9 @@ type FooterSectionProps = {
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, className }) => (
   <div className={clsx('flex flex-col gap-4', className)}>
     {title && (
-      <h3 className="text-white text-size-sm leading-[19px] font-semibold">
+      <H3 className="text-white text-size-sm">
         {title}
-      </h3>
+      </H3>
     )}
     {links && (
       <ul className="flex flex-col gap-4 list-none p-0">

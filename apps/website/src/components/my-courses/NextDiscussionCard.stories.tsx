@@ -1,5 +1,6 @@
 import type { Group } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
+import { H2 } from '@bluedot/ui';
 import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 import NextDiscussionCard from './NextDiscussionCard';
 
@@ -43,7 +44,7 @@ export const AllStates: Story = {
   args: { discussion: nextDiscussion },
   render: (args) => (
     <div>
-      <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussions</h2>
+      <H2 className="mb-3 text-size-sm">Next discussions</H2>
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} discussion={liveDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} />
@@ -56,7 +57,7 @@ export const AllFacilitatorStates: Story = {
   args: { discussion: nextDiscussion },
   render: (args) => (
     <div>
-      <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussions</h2>
+      <H2 className="mb-3 text-size-sm">Next discussions</H2>
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} mode="facilitator" discussion={liveDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />
         <NextDiscussionCard {...args} mode="facilitator" discussion={nextDiscussion} group={facilitatorGroup} facilitatorSubtitle={facilitatorSubtitle} />

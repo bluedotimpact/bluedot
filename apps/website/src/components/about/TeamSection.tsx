@@ -1,11 +1,10 @@
-import { SlideList } from '@bluedot/ui';
+import { H3, H4, SlideList } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
-import { pageSectionHeadingClass } from '../PageListRow';
 
 const TeamSectionShell: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <section className="team-section section section-body !border-b-0">
-      <h3 className={`${pageSectionHeadingClass} mb-6`}>Our team</h3>
+      <H3 className="mb-6">Our team</H3>
       {children}
     </section>
   );
@@ -63,7 +62,7 @@ const TeamSection = () => {
                 )}
               </div>
               <div className="card__content w-full p-4">
-                <h4 className="card__title font-bold text-size-lg mb-1">{member.name}</h4>
+                <H4 className="card__title text-size-lg mb-1">{member.name}</H4>
                 <p className="card__subtitle text-gray-600">{member.jobTitle}</p>
               </div>
             </div>

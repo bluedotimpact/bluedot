@@ -1,5 +1,5 @@
 import {
-  addQueryParam, cn, CTALinkOrButton, H2, P, ProgressDots, useAuthStore,
+  addQueryParam, cn, CTALinkOrButton, H2, H3, P, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
@@ -129,7 +129,7 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
   <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
     <div className="flex flex-col gap-8 p-6 md:w-1/2 md:px-10 md:py-8">
       <div className="flex flex-col gap-3">
-        <h3 className="text-bluedot-navy text-size-md leading-normal font-semibold">{title}</h3>
+        <H3 className="text-size-md">{title}</H3>
         {description && (
           <P className="text-bluedot-navy text-size-sm leading-relaxed tracking-[-0.032px]">{description}</P>
         )}
@@ -436,7 +436,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {courseId === FOAI_COURSE_ID && (
         <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
           <div className="flex flex-col gap-3">
-            <h3 className="text-bluedot-navy text-size-md leading-normal font-semibold">Want to go deeper?</h3>
+            <H3 className="text-size-md">Want to go deeper?</H3>
             <P className="text-bluedot-navy text-size-sm leading-relaxed tracking-[-0.002em]">
               <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
               facilitated in small groups with live discussion. No specific background required. New rounds start

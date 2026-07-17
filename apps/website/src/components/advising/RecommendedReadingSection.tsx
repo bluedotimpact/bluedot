@@ -1,5 +1,4 @@
-import { A, P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { A, H3, P } from '@bluedot/ui';
 
 type Reading = {
   title: string;
@@ -39,7 +38,7 @@ const RecommendedReadingSection = () => {
   return (
     <section className="section section-body advising-recommended-reading-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>What our best advisees have in common</h3>
+        <H3>What our best advisees have in common</H3>
 
         <P>
           They read these before applying and acted on the advice. The call then builds on what they&apos;ve already tried.

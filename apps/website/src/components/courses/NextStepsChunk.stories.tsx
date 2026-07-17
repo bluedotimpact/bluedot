@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { H1 } from '@bluedot/ui';
 import NextStepsChunk from './NextStepsChunk';
 
 const meta = {
@@ -10,7 +11,7 @@ const meta = {
   decorators: [
     (Story) => (
       <div className="mx-auto max-w-[900px] text-bluedot-navy">
-        <h1 className="text-size-xl font-bold leading-[130%] tracking-[-0.015em]">Next steps</h1>
+        <H1 className="text-size-xl font-bold">Next steps</H1>
         <Story />
       </div>
     ),

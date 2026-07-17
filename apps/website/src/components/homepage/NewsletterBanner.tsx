@@ -1,4 +1,5 @@
 import React from 'react';
+import { H3 } from '@bluedot/ui';
 import { getCioAnalytics } from '../analytics/CustomerioAnalytics';
 
 const NewsletterBanner = () => {
@@ -83,9 +84,9 @@ const NewsletterBanner = () => {
             Newsletter
           </span>
 
-          <h3 className="text-2xl leading-tight text-white max-w-narrow">
+          <H3 className="text-white max-w-narrow">
             Subscribe to get AI safety news and course updates delivered directly to your inbox
-          </h3>
+          </H3>
         </div>
 
         <div className="relative w-full lg:w-[480px]">

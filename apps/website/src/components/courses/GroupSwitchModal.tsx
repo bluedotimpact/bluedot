@@ -4,7 +4,7 @@ import {
 } from 'react';
 import {
   cn, ClickTarget, CTALinkOrButton,
-  ErrorSection, Modal, ModalTitle, ProgressDots,
+  ErrorSection, H3, Modal, ModalTitle, ProgressDots,
   Select,
 } from '@bluedot/ui';
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
@@ -437,7 +437,7 @@ export default function GroupSwitchModal({
           <div className="border-t border-color-divider pt-8 mt-8 mb-2">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
-                <h3 className="text-size-sm font-medium text-bluedot-navy">Don't see a group that works?</h3>
+                <H3 className="text-size-sm">Don't see a group that works?</H3>
                 <p className="text-size-xs text-charcoal-mid">
                   You can request a manual switch to join a group that's full or a group that is not
                   listed above, and we'll do our best to accommodate you.

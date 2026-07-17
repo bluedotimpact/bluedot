@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
-import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { CTALinkOrButton, H1, ProgressDots } from '@bluedot/ui';
 import { type Round } from '../lib/api/airtable';
 import { type Direction } from '../lib/client/types';
 
@@ -86,7 +86,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
     <div className="min-h-screen bg-stone-950 flex items-center justify-center p-4 sm:p-8">
       <div className="bg-stone-900 rounded-xl border border-stone-700 p-4 sm:p-8 max-w-md w-full space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-stone-100">Speed Review</h1>
+          <H1 className="text-size-lg text-stone-100">Speed Review</H1>
           <p className="text-size-sm text-stone-400 mt-1">Select a round to review</p>
         </div>
 

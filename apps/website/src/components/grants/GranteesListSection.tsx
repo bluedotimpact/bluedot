@@ -1,12 +1,12 @@
 import {
-  CTALinkOrButton, ErrorSection, P, ProgressDots,
+  CTALinkOrButton, ErrorSection, H2, H3, P, ProgressDots,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../PageListRow';
+import { PageListGroup, PageListRow } from '../PageListRow';
 
 type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
 
@@ -86,7 +86,7 @@ const GranteesListSection = ({
     >
       {heading && (
         <div className="mb-6 flex items-center justify-between gap-4">
-          <h3 className={pageSectionHeadingClass}>{heading}</h3>
+          <H3>{heading}</H3>
           {hasHiddenGrantees && showAll && (
             <CTALinkOrButton
               variant="secondary"
@@ -101,9 +101,9 @@ const GranteesListSection = ({
       {(title ?? subtitle) && (
         <div className="mb-8 bd-md:mb-10 max-w-[760px]">
           {title && (
-            <h2 className="text-size-xl font-semibold leading-snug tracking-tight text-bluedot-navy">
+            <H2>
               {title}
-            </h2>
+            </H2>
           )}
           {subtitle && (
             <P className="text-size-sm bd-md:text-size-md leading-relaxed text-bluedot-navy/75 mt-4">

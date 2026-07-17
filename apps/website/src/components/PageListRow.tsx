@@ -1,7 +1,7 @@
 import type React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, H3 } from '@bluedot/ui';
 
 export type PageListRowProps = {
   href?: string;
@@ -29,8 +29,6 @@ const accentBarClassName = clsx(
 );
 
 const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-size-sm leading-relaxed font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap';
-
-export const pageSectionHeadingClass = 'bluedot-section-heading';
 
 const titleClassName = 'text-size-sm leading-[1.45] font-semibold text-bluedot-navy';
 const summaryClassName = 'mt-1 text-size-sm leading-relaxed text-bluedot-navy/62';
@@ -162,9 +160,9 @@ export const PageListGroup: React.FC<PageListGroupProps> = ({ label, children, c
   return (
     <div className={clsx('flex flex-col gap-6', className)}>
       {label && (
-        <h3 className={pageSectionHeadingClass}>
+        <H3>
           {label}
-        </h3>
+        </H3>
       )}
 
       <ul className="list-none flex flex-col divide-y divide-bluedot-navy/10">

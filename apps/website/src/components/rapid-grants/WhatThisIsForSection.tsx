@@ -1,5 +1,4 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, H4, P } from '@bluedot/ui';
 import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 
 const DECISION_CARDS = [
@@ -19,7 +18,7 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body rapid-grants-what-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Who this is for</h3>
+        <H3>Who this is for</H3>
 
         <div className="flex flex-col gap-5">
           <P>For anyone working on concrete AI safety projects. Research, events, community building, tooling, compute.</P>
@@ -45,9 +44,9 @@ const WhatThisIsForSection = () => {
               key={card.title}
               className="rounded-2xl border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
             >
-              <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+              <H4>
                 {card.title}
-              </h4>
+              </H4>
               <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
                 {card.body}
               </P>

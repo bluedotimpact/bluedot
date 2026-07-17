@@ -2,7 +2,7 @@ import { isAxiosError } from 'axios';
 import { asError } from './utils/asError';
 import { Collapsible } from './Collapsible';
 import { contactUsUrl } from './constants';
-import { A } from './Text';
+import { A, H3 } from './Text';
 
 export type ErrorViewProps = {
   error: unknown;
@@ -17,8 +17,8 @@ export const ErrorView: React.FC<ErrorViewProps> = ({ error: input }) => {
 
   return (
     <div className="border-l-4 border-red-500 bg-red-100 text-black p-8 flex flex-col gap-4 not-prose">
-      <h3 className="bluedot-h3 whitespace-pre-line">Error: {primaryErrorText}
-      </h3>
+      <H3 className="whitespace-pre-line">Error: {primaryErrorText}
+      </H3>
       <p>If the above message doesn't help, try again later or <A href={contactUsUrl}>contact us</A> for support.</p>
       <Collapsible title="Show full error details" className="-my-6 max-w-full">
         <div className="flex flex-col gap-4 overflow-x-auto [&_pre]:max-w-0">

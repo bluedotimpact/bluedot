@@ -1,3 +1,4 @@
+import { H1 } from '@bluedot/ui';
 import { type Application } from '../lib/client/types';
 import { SummaryCard } from './SummaryCard';
 import { PreviousApplicationsCard } from './PreviousApplicationsCard';
@@ -40,7 +41,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-stone-100">{name}</h1>
+          <H1 className="text-size-lg text-stone-100">{name}</H1>
           {subtitle && (
             <p className="text-size-sm text-stone-400 mt-0.5">{subtitle}</p>
           )}

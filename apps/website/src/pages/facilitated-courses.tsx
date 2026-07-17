@@ -1,4 +1,4 @@
-import { ErrorSection, ProgressDots } from '@bluedot/ui';
+import { ErrorSection, H2, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
@@ -111,9 +111,9 @@ const FacilitatedCoursesPage = () => {
             <>
               {visibleNextDiscussions.length > 0 && (
                 <div>
-                  <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">
+                  <H2 className="mb-3 text-size-sm">
                     {visibleNextDiscussions.length === 1 ? 'Next discussion' : 'Next discussions'}
-                  </h2>
+                  </H2>
                   <div className="flex flex-col gap-3">
                     {visibleNextDiscussions.map((nd) => (
                       <NextDiscussionCard

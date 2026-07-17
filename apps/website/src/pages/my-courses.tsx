@@ -1,4 +1,4 @@
-import { ErrorSection, ProgressDots } from '@bluedot/ui';
+import { ErrorSection, H2, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
@@ -109,7 +109,7 @@ const MyCoursesPage = () => {
             <>
               {nextDiscussion && (
                 <div>
-                  <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussion</h2>
+                  <H2 className="mb-3 text-size-sm">Next discussion</H2>
                   <NextDiscussionCard
                     courseSlug={nextDiscussion.courseSlug}
                     courseTitle={nextDiscussion.courseTitle}

@@ -1,10 +1,9 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, P } from '@bluedot/ui';
 
 const HistorySection = () => {
   return (
     <section className="history-section section section-body">
-      <h3 className={`${pageSectionHeadingClass} mb-6`}>Our history</h3>
+      <H3 className="mb-6">Our history</H3>
       <div className="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8">
         <HistoryEvent year="2021">Started as reading groups at the University of Cambridge.</HistoryEvent>
         <HistoryEvent year="2022">Founded BlueDot Impact. Launched our first AI safety course with 400 participants.</HistoryEvent>

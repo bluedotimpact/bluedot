@@ -1,5 +1,4 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, H4, P } from '@bluedot/ui';
 
 const NEXT_STEPS = [
   {
@@ -20,7 +19,7 @@ const NextStepsSection = () => {
   return (
     <section className="section section-body career-transition-grant-next-steps-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>What happens next</h3>
+        <H3>What happens next</H3>
 
         <ol className="grid gap-8 bd-md:gap-6 grid-cols-1 bd-md:grid-cols-3">
           {NEXT_STEPS.map((step, index) => (
@@ -31,9 +30,9 @@ const NextStepsSection = () => {
               >
                 {index + 1}
               </span>
-              <h4 className="text-size-md font-semibold text-bluedot-navy">
+              <H4>
                 {step.title}
-              </h4>
+              </H4>
               <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
                 {step.body}
               </P>

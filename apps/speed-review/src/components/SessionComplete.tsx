@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
+import { H1, H2 } from '@bluedot/ui';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
 } from '../lib/client/types';
@@ -192,12 +193,12 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         />
       )}
       <div>
-        <h1 className="text-2xl font-bold text-stone-100">{(() => {
+        <H1 className="text-size-lg text-stone-100">{(() => {
           if (roundComplete) return 'You\'ve evaluated all the applications for the round!';
           if (rated.length === 0) return 'No scored applications available';
           return 'Session complete';
         })()}
-        </h1>
+        </H1>
         <p className="text-size-sm text-stone-400 mt-1">{round}</p>
         {!roundComplete && rated.length === 0 && (
           <p className="text-size-sm text-stone-400 mt-2">
@@ -254,17 +255,17 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="min-w-0">
-          <h2 className="text-size-sm font-semibold uppercase tracking-wide text-green-400 mb-3">
+          <H2 className="text-size-sm uppercase tracking-wide text-green-400 mb-3">
             Accept ({accepted.length})
-          </h2>
+          </H2>
           <div className="space-y-2">
             {accepted.map((r) => renderRow(r, 'green'))}
           </div>
         </div>
         <div className="min-w-0">
-          <h2 className="text-size-sm font-semibold uppercase tracking-wide text-red-400 mb-3">
+          <H2 className="text-size-sm uppercase tracking-wide text-red-400 mb-3">
             Reject ({rejected.length})
-          </h2>
+          </H2>
           <div className="space-y-2">
             {rejected.map((r) => renderRow(r, 'red'))}
           </div>

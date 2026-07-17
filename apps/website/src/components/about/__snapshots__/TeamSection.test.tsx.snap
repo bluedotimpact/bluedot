@@ -6,7 +6,7 @@ exports[`TeamSection > renders as expected 1`] = `
     class="team-section section section-body !border-b-0"
   >
     <h3
-      class="bluedot-section-heading mb-6"
+      class="bluedot-h3 not-prose mb-6"
     >
       Our team
     </h3>
@@ -51,7 +51,7 @@ exports[`TeamSection > renders as expected 1`] = `
                   class="card__content w-full p-4"
                 >
                   <h4
-                    class="card__title font-bold text-size-lg mb-1"
+                    class="bluedot-h4 not-prose card__title text-size-lg mb-1"
                   >
                     Test Person
                   </h4>

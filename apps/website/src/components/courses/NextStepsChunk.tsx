@@ -1,4 +1,6 @@
-import { ErrorSection, P, ProgressDots } from '@bluedot/ui';
+import {
+  ErrorSection, H2, P, ProgressDots,
+} from '@bluedot/ui';
 import type React from 'react';
 import { PageListGroup, PageListRow } from '../PageListRow';
 import { isDigitalMindsCourseSlug } from '../../lib/constants';
@@ -49,7 +51,7 @@ const DigitalMindsNextStepsChunk: React.FC = () => (
       </div>
 
       <div>
-        <h2 className="font-semibold">Other fellowships and opportunities</h2>
+        <H2 className="text-size-sm">Other fellowships and opportunities</H2>
         <p className="mt-1">
           The{' '}
           <a

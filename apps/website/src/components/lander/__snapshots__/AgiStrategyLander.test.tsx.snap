@@ -700,7 +700,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-text bd-md:mx-auto"
         >
           <h3
-            class="bluedot-section-heading mb-6"
+            class="bluedot-h3 not-prose mb-6"
           >
             Who this course is for
           </h3>
@@ -744,7 +744,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-text bd-md:mx-auto"
         >
           <h3
-            class="bluedot-section-heading mb-8"
+            class="bluedot-h3 not-prose mb-8"
           >
             How this course will benefit you
           </h3>
@@ -755,7 +755,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col gap-2"
             >
               <h4
-                class="text-size-md font-semibold leading-normal text-bluedot-navy"
+                class="bluedot-h4 not-prose"
               >
                 A launchpad for your AI safety career
               </h4>
@@ -769,7 +769,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col gap-2"
             >
               <h4
-                class="text-size-md font-semibold leading-normal text-bluedot-navy"
+                class="bluedot-h4 not-prose"
               >
                 A clear way to think about the future of AI
               </h4>
@@ -783,7 +783,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col gap-2"
             >
               <h4
-                class="text-size-md font-semibold leading-normal text-bluedot-navy"
+                class="bluedot-h4 not-prose"
               >
                 A community of builders
               </h4>
@@ -814,7 +814,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-3"
           >
             <h3
-              class="bluedot-section-heading"
+              class="bluedot-h3 not-prose"
             >
               What happens after
             </h3>
@@ -1215,7 +1215,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-3"
           >
             <h3
-              class="bluedot-section-heading"
+              class="bluedot-h3 not-prose"
             >
               Schedule
             </h3>
@@ -1484,7 +1484,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16"
         >
           <h2
-            class="text-bluedot-navy text-center text-size-xl leading-snug font-semibold tracking-tight"
+            class="bluedot-h2 not-prose text-center"
           >
             Frequently Asked Questions
           </h2>

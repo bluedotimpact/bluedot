@@ -1,4 +1,4 @@
-import { CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, H2 } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
@@ -76,7 +76,7 @@ const QuickApplyPanel = () => {
 
   return (
     <section className="flex flex-col gap-4" aria-label="Quick apply to courses you've facilitated">
-      <h2 className="text-size-md text-bluedot-black font-semibold">Quick apply to courses you&rsquo;ve facilitated</h2>
+      <H2 className="text-size-md">Quick apply to courses you&rsquo;ve facilitated</H2>
       <ul className="flex flex-col gap-3">
         {data.map((course) => (
           <CourseQuickApplyCard key={course.courseId} course={course} />

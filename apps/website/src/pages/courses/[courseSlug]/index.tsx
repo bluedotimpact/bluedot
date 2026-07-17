@@ -2,6 +2,7 @@ import {
   Breadcrumbs,
   CTALinkOrButton,
   Eyebrow,
+  H1,
   useLatestUtmParams,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -213,9 +214,9 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
               <Eyebrow>
                 External course from {externalCoursePage.providerName}
               </Eyebrow>
-              <h1 className="text-size-xl bd-md:text-size-2xl leading-[1.15] font-semibold tracking-tighter text-bluedot-navy">
+              <H1 className="text-size-xl bd-md:text-size-2xl">
                 {course.title}
-              </h1>
+              </H1>
               <p className="text-size-md leading-relaxed text-bluedot-navy/80">
                 {course.shortDescription}
               </p>

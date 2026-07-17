@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import { H2 } from '@bluedot/ui';
 
 import {
   ArrowDownIcon,
@@ -51,7 +52,7 @@ const Grid = ({ children }: { children: ReactNode }) => (
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="flex flex-col gap-3">
-    <h2 className="text-size-sm font-semibold tracking-wider text-gray-600 uppercase">{title}</h2>
+    <H2 className="text-size-sm tracking-wider text-gray-600 uppercase">{title}</H2>
     {children}
   </section>
 );

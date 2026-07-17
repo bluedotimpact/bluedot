@@ -1,5 +1,5 @@
 import {
-  ProgressDots, useLatestUtmParams,
+  H2, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
 import type { Course } from '@bluedot/db';
 import clsx from 'clsx';
@@ -180,9 +180,9 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
       {sections.map((section, index) => (
         section.items.length > 0 && (
           <div key={section.label} className={index > 0 ? 'mt-8' : undefined}>
-            <h2 className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-[30px]">
+            <H2 className="text-size-xxs text-bluedot-normal uppercase tracking-[0.5px] mb-[30px]">
               {section.label}
-            </h2>
+            </H2>
             {renderItems(section.items)}
           </div>
         )
@@ -291,9 +291,9 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 cursor-pointer"
         >
-          <h2 className="text-size-lg leading-normal font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <H2 className="text-size-lg leading-normal">
             {course.title}
-          </h2>
+          </H2>
           <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
@@ -308,9 +308,9 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
-          <h2 className="text-size-lg leading-normal font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <H2 className="text-size-lg leading-normal">
             {course.title}
-          </h2>
+          </H2>
           <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>

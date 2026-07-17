@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Input } from './Input';
+import { H3 } from './Text';
 
 const meta = {
   title: 'ui/Input',
@@ -15,7 +16,7 @@ export const AllVariants: Story = {
     () => (
       <div className="flex flex-col gap-8 p-4">
         <div>
-          <h3 className="text-size-lg font-bold mb-4">Text Input</h3>
+          <H3 className="mb-4">Text Input</H3>
           <Input
             type="text"
             label="This is the label"
@@ -23,7 +24,7 @@ export const AllVariants: Story = {
           />
         </div>
         <div>
-          <h3 className="text-size-lg font-bold mb-4">Radio Button</h3>
+          <H3 className="mb-4">Radio Button</H3>
           <form className="flex flex-col gap-4">
             <Input
               type="radio"
@@ -38,7 +39,7 @@ export const AllVariants: Story = {
           </form>
         </div>
         <div>
-          <h3 className="text-size-lg font-bold mb-4">Checkbox</h3>
+          <H3 className="mb-4">Checkbox</H3>
           <form className="flex flex-col gap-4">
             <Input
               type="checkbox"

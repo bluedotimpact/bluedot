@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import {
   A, H3, H4, P,
 } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
 
 type ScheduleItem = {
   cadence: string;
@@ -36,7 +35,7 @@ const TheWeekSection = () => {
   return (
     <section className="section section-body fieldbuilder-week-schedule-section">
       <div className="w-full flex flex-col gap-6">
-        <H3 className={`${pageSectionHeadingClass} max-w-[720px] text-balance`}>
+        <H3 className="max-w-[720px] text-balance">
           Incubator Week helps people found orgs. Fieldbuilder Week helps people found programs.
         </H3>
 
