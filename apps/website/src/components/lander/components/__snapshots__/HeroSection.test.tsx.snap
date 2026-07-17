@@ -93,7 +93,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
               class="space-y-5 sm:space-y-4"
             >
               <p
-                class="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                class="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                 style="color: #91cfff;"
               >
                 COHORT-BASED COURSE

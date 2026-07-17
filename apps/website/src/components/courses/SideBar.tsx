@@ -68,7 +68,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
         className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
       >
         <summary className="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors">
-          <p className="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1">
+          <p className="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1">
             {unit.unitNumber}. {unit.title}
           </p>
           <FaChevronRight className="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy" />
@@ -94,12 +94,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <ChunkIcon isActive={isActive} />
                   <div className="flex flex-col items-start p-0 flex-1">
                     <div className="flex flex-col items-start gap-1.5">
-                      <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
+                      <p className="font-normal text-size-xs leading-relaxed text-bluedot-navy">
                         {chunk.chunkTitle}
                       </p>
                     </div>
                     {chunk.estimatedTime && (
-                      <div className="flex gap-1 text-size-xs leading-normal tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
+                      <div className="flex gap-1 text-size-xs leading-normal font-medium text-bluedot-navy/60 mt-2">
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
@@ -132,12 +132,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                 <ChunkIcon isActive={false} />
                 <div className="flex flex-col items-start p-0 flex-1">
                   <div className="flex flex-col items-start gap-1.5">
-                    <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
+                    <p className="font-normal text-size-xs leading-relaxed text-bluedot-navy">
                       {chunk.chunkTitle}
                     </p>
                   </div>
                   {chunk.estimatedTime && (
-                    <div className="flex gap-1 text-size-xs leading-normal tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
+                    <div className="flex gap-1 text-size-xs leading-normal font-medium text-bluedot-navy/60 mt-2">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>

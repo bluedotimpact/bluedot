@@ -46,13 +46,13 @@ const FieldBuildingSection = ({
             <div key={role.title}>
               <div className="flex flex-col md:flex-row gap-3 md:gap-8 px-5 md:px-8 py-5 md:py-6">
                 <div className="md:w-40 shrink-0">
-                  <P className="text-size-sm font-semibold leading-[1.3] text-bluedot-navy">
+                  <P className="text-size-sm font-semibold leading-snug text-bluedot-navy">
                     {role.title}
                   </P>
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
+                  <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                     {role.description}
                   </P>
                   <Link

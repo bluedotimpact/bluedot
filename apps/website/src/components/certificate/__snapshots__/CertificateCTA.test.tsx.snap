@@ -24,7 +24,7 @@ exports[`CertificateCTA > renders correctly with valid props 1`] = `
             class="flex flex-col gap-3"
           >
             <h2
-              class="text-[36px] font-medium leading-tight tracking-[-0.25px] text-white font-display"
+              class="text-[36px] font-medium leading-tight tracking-tight text-white font-display"
               style="font-feature-settings: 'ss04' 1;"
             >
               Your certificate

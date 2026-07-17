@@ -44,7 +44,7 @@ const TheWeekSection = () => {
                 <H4>
                   {item.title}
                 </H4>
-                <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
+                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                   {item.body}
                 </P>
               </div>

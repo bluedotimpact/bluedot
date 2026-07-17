@@ -114,19 +114,19 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
         </div>
 
         <div className="relative flex flex-col items-center px-5 md:px-16 pb-0">
-          <p className="mt-16 text-size-xs md:text-size-sm font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid text-center">
+          <p className="mt-16 text-size-xs md:text-size-sm font-medium uppercase tracking-wide leading-relaxed text-charcoal-mid text-center">
             Professional certification
           </p>
 
           <h1
-            className="mt-1 text-size-2xl font-semibold leading-tight tracking-[-0.5px] text-bluedot-navy text-center font-display"
+            className="mt-1 text-size-2xl font-semibold leading-tight tracking-tight text-bluedot-navy text-center font-display"
             style={DISPLAY_FONT_STYLE}
           >
             {courseName}
           </h1>
 
           <div className="mt-12">
-            <p className="text-size-sm font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid text-center">
+            <p className="text-size-sm font-medium uppercase tracking-wide leading-relaxed text-charcoal-mid text-center">
               Awarded to
             </p>
             <p className="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display">
@@ -136,7 +136,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
 
           <div className="mt-12 md:max-w-[672px]">
             <p
-              className="text-size-sm md:text-base leading-relaxed md:leading-[26px] tracking-[-0.3125px] text-charcoal-mid text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
+              className="text-size-sm md:text-base leading-relaxed tracking-tighter text-charcoal-mid text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
 
               dangerouslySetInnerHTML={{ __html: description }}
@@ -148,11 +148,11 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
       <div className="mt-16 mx-5 md:mx-16 border-t border-slate-200 pt-[25px] pb-6">
         <div className="flex justify-between items-end">
           <div className="w-[156px] md:w-[240px]">
-            <p className="text-size-xs font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid">
+            <p className="text-size-xs font-medium uppercase tracking-wide leading-relaxed text-charcoal-mid">
               Issued
             </p>
             <p
-              className="mt-1 text-size-sm md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
+              className="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
             >
               {issuedDate}
@@ -170,11 +170,11 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </div>
 
           <div className="w-[156px] md:w-[240px] text-right">
-            <p className="text-size-xs font-medium uppercase tracking-[0.02em] leading-relaxed text-charcoal-mid">
+            <p className="text-size-xs font-medium uppercase tracking-wide leading-relaxed text-charcoal-mid">
               Certificate ID
             </p>
             <p
-              className="mt-1 text-size-sm md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
+              className="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
             >
               {certificateId}

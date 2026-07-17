@@ -258,7 +258,7 @@ const QuoteSection = ({
                       <div className="text-size-sm bd-md:text-size-md font-semibold leading-normal text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
                         {quote.name}
                       </div>
-                      <div className="text-size-sm leading-[1.5] text-bluedot-navy/60">
+                      <div className="text-size-sm leading-relaxed text-bluedot-navy/60">
                         {quote.role}
                       </div>
                     </div>
@@ -271,7 +271,7 @@ const QuoteSection = ({
                     aria-hidden={!isActive}
                   >
                     <blockquote
-                      className={`${getEditorialFontSize(quote.quote)} leading-[1.5] font-medium text-bluedot-navy`}
+                      className={`${getEditorialFontSize(quote.quote)} leading-relaxed font-medium text-bluedot-navy`}
                     >
                       {quote.quote}
                     </blockquote>

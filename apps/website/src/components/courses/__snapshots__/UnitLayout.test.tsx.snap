@@ -43,7 +43,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="mobile-unit-header__course-title-row flex items-center gap-1"
             >
               <p
-                class="mobile-unit-header__course-title text-size-md text-bluedot-navy truncate leading-[120%] font-semibold tracking-[-0.5%]"
+                class="mobile-unit-header__course-title text-size-md text-bluedot-navy truncate leading-snug font-semibold"
               >
                 What the fish [Test Course]
               </p>
@@ -177,7 +177,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
                 >
                   1
                   . 
@@ -232,7 +232,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -264,7 +264,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -287,7 +287,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
                 >
                   2
                   . 
@@ -337,7 +337,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -370,7 +370,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -393,7 +393,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
                 >
                   3
                   . 
@@ -443,7 +443,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -476,7 +476,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -499,7 +499,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
                 >
                   4
                   . 
@@ -549,7 +549,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -582,7 +582,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -605,7 +605,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
-                  class="font-semibold text-size-xs leading-normal tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
                 >
                   5
                   . 
@@ -655,7 +655,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -688,7 +688,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-1.5"
                     >
                       <p
-                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -739,7 +739,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
                 <span
-                  class="tracking-[-0.005em]"
+                  class=""
                 >
                   Hide
                 </span>
@@ -752,7 +752,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex min-h-[18px] min-w-0 flex-1 items-center gap-2"
             >
               <a
-                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
+                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy leading-snug font-medium text-charcoal-mid no-underline transition-colors"
                 href="/courses"
                 tabindex="0"
               >
@@ -773,7 +773,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 />
               </svg>
               <a
-                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
+                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy truncate leading-snug font-medium text-charcoal-mid no-underline transition-colors"
                 href="/courses/test-course"
                 tabindex="0"
               >
@@ -794,7 +794,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 />
               </svg>
               <span
-                class="text-size-xs text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em]"
+                class="text-size-xs text-bluedot-navy truncate leading-snug font-medium"
                 title="1. Basic Principles of Fish"
               >
                 1. Basic Principles of Fish
@@ -805,7 +805,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <button
                 aria-label="Previous"
-                class="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                class="flex items-center gap-1 text-size-xs font-medium leading-snug text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 disabled=""
                 title="Navigate to previous section (use ← arrow key)"
                 type="button"
@@ -814,7 +814,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </button>
               <button
                 aria-label="Next"
-                class="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                class="flex items-center gap-1 text-size-xs font-medium leading-snug text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 title="Navigate to next section (use → arrow key)"
                 type="button"
               >
@@ -853,13 +853,13 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   Basic Principles of Fish
                 </p>
                 <h1
-                  class="bluedot-h1 not-prose unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy"
+                  class="bluedot-h1 not-prose unit__title font-bold text-[32px] leading-snug text-bluedot-navy"
                 >
                   What can AI do today?
                 </h1>
               </div>
               <div
-                class="markdown-extended-renderer prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-relaxed prose-li:leading-relaxed prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-relaxed prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none mt-8 md:mt-6"
+                class="markdown-extended-renderer prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-relaxed prose-li:leading-relaxed prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-relaxed prose-a:font-normal prose-a:underline max-w-none mt-8 md:mt-6"
               >
                 <p>
                   Five years ago, AI systems struggled to form coherent sentences. Today, &gt;5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks.

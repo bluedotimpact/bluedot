@@ -112,7 +112,7 @@ const CoursesPage = () => {
                   {displayedProjects.length > 0 && (
                     <>
                       <div id="projects" className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
-                      <h2 className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-12 xl:hidden">
+                      <h2 className="text-size-xxs leading-snug font-semibold text-bluedot-normal uppercase tracking-wide mb-12 xl:hidden">
                         Projects
                       </h2>
                       <CourseScheduleList courses={displayedProjects} />

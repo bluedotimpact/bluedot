@@ -53,7 +53,7 @@ const AdvisorsSection = () => {
                     )}
                   </div>
                   {advisor.advisorProfileDescription && (
-                    <p className="text-size-xs leading-[1.5] text-bluedot-navy/80">
+                    <p className="text-size-xs leading-relaxed text-bluedot-navy/80">
                       {advisor.advisorProfileDescription}
                     </p>
                   )}

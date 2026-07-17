@@ -68,7 +68,7 @@ const CourseOutcomesSection = ({
                     <H3 className="text-size-md">
                       {outcome.title}
                     </H3>
-                    <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">
+                    <P className="text-size-sm leading-relaxed text-bluedot-navy/70">
                       {outcome.description}
                     </P>
                     {outcome.linkUrl && (

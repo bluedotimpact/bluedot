@@ -72,7 +72,7 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
         <H4 className="bd-md:text-size-lg font-medium tracking-[-0.04em]">
           {title}
         </H4>
-        <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
+        <P className="text-size-sm leading-relaxed text-bluedot-navy/70">
           {body}
         </P>
       </div>

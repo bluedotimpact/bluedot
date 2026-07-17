@@ -22,7 +22,7 @@ const ListenToArticleButton: React.FC<ListenToArticleButtonProps> = ({ audioUrl,
       <PlayCircleIcon aria-hidden="true" className="group-hover:text-bluedot-navy transition-colors duration-200" />
 
       {/* Text */}
-      <span className="text-size-xs font-medium leading-normal tracking-[-0.005em] text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200">
+      <span className="text-size-xs font-medium leading-normal text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200">
         Listen to article
       </span>
     </button>

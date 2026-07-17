@@ -44,7 +44,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             </svg>
           </div>
           <span
-            class="text-size-md font-semibold leading-[130%] flex-grow text-left"
+            class="text-size-md font-semibold leading-snug flex-grow text-left"
             style="color: white;"
           >
             Technical people considering governance
@@ -79,7 +79,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You get the tech. Now you want to know if policy is where you should point it.
               </p>
               <p
-                class="bluedot-p not-prose text-size-sm leading-[1.7] text-bluedot-navy/70"
+                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/70"
               >
                 You understand the technology - how the systems work, what scaling means.
               </p>
@@ -129,7 +129,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             </svg>
           </div>
           <span
-            class="text-size-md font-semibold leading-[130%] flex-grow text-left"
+            class="text-size-md font-semibold leading-snug flex-grow text-left"
             style="color: var(--bluedot-navy);"
           >
             High-potential people early in their careers
@@ -164,7 +164,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You have options. You're not the type to drift into a default path.
               </p>
               <p
-                class="bluedot-p not-prose text-size-sm leading-[1.7] text-bluedot-navy/70"
+                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/70"
               >
                 You're at a top university or recently graduated.
               </p>
@@ -214,7 +214,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             </svg>
           </div>
           <span
-            class="text-size-md font-semibold leading-[130%] flex-grow text-left"
+            class="text-size-md font-semibold leading-snug flex-grow text-left"
             style="color: var(--bluedot-navy);"
           >
             Policy professionals adding AI expertise
@@ -249,7 +249,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You know how policy works. AI is eating your field.
               </p>
               <p
-                class="bluedot-p not-prose text-size-sm leading-[1.7] text-bluedot-navy/70"
+                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/70"
               >
                 You already work in government, a think tank, or policy.
               </p>

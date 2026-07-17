@@ -62,7 +62,7 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
   const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
   const xUrl = `https://x.com/intent/post?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
 
-  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-md flex items-center justify-center gap-2 font-medium text-size-xs leading-[22px] transition-opacity hover:opacity-90';
+  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-md flex items-center justify-center gap-2 font-medium text-size-xs leading-relaxed transition-opacity hover:opacity-90';
 
   return (
     <div className="flex flex-col sm:flex-row gap-2 justify-center">
@@ -190,7 +190,7 @@ const CertificatePage = ({
         <div className="hidden md:block">
           <Breadcrumbs
             route={certificateRoute}
-            className="text-size-xs leading-normal tracking-[-0.065px]"
+            className="text-size-xs leading-normal"
           />
         </div>
       )}
@@ -231,7 +231,7 @@ const CertificatePage = ({
           {isOwner ? (
             <div className="flex flex-col items-center gap-6">
               <ShareButtons shareUrl={shareUrl} shareText={shareText} />
-              <p className="text-size-md leading-[26px] tracking-[-0.3125px] text-charcoal-mid text-center">
+              <p className="text-size-md leading-normal tracking-tighter text-charcoal-mid text-center">
                 Celebrate your achievement by sharing it with your professional network & friends.
               </p>
             </div>

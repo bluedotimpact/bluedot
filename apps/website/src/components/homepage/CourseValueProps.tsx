@@ -5,12 +5,12 @@ const Header = () => (
   <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
     <div className="flex flex-col gap-5">
       <h2
-        className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-[-1px]"
+        className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-tighter"
         style={{ fontFeatureSettings: '\'ss04\' on' }}
       >
         Start making an impact today
       </h2>
-      <P className="text-size-sm md:text-size-md leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">
+      <P className="text-size-sm md:text-size-md leading-relaxed opacity-70 max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>

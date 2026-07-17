@@ -27,11 +27,11 @@ const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isL
       <>
         <div className="flex h-4 items-center justify-center bg-bluedot-normal sm:h-6">
           {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-          <span className="text-[10px] leading-[16px] text-white sm:text-size-xxs sm:font-semibold">{month.toUpperCase()}</span>
+          <span className="text-[10px] leading-relaxed text-white sm:text-size-xxs sm:font-semibold">{month.toUpperCase()}</span>
         </div>
         <div className="flex flex-1 items-center justify-center">
           {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-          <span className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-[28px] sm:font-bold sm:leading-none">{day}</span>
+          <span className="text-size-md font-semibold leading-normal text-bluedot-navy sm:text-[28px] sm:font-bold sm:leading-none">{day}</span>
         </div>
       </>
     )}
@@ -94,7 +94,7 @@ const NextDiscussionCard = ({
             : <CalendarBadge month={month} day={day} isLive={isLive} />}
           <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
             <div className="flex flex-col items-start">
-              <p className="text-size-xxs font-semibold leading-[16px] text-bluedot-normal">
+              <p className="text-size-xxs font-semibold leading-normal text-bluedot-normal">
                 {formatEyebrow(eyebrowPrefix, unitNumber)}
               </p>
               <H3 className="text-size-md sm:text-size-lg">

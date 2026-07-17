@@ -79,7 +79,7 @@ const HeroSection = ({
               <div className="space-y-4">
                 {categoryLabel && (
                   <p
-                    className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                    className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                     style={{ color: effectiveCategoryLabelColor }}
                   >
                     {categoryLabel}
@@ -127,7 +127,7 @@ const HeroSection = ({
                 <div className="space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
@@ -191,7 +191,7 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
@@ -252,7 +252,7 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase text-bluedot-normal"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase text-bluedot-normal"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}

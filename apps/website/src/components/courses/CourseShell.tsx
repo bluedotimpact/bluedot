@@ -55,7 +55,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         <CourseIcon courseSlug={courseSlug} size="small" />
         <div className="mobile-unit-header__course-title-container flex min-w-0 flex-1 flex-col justify-center text-left">
           <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-            <p className="mobile-unit-header__course-title text-size-md text-bluedot-navy truncate leading-[120%] font-semibold tracking-[-0.5%]">
+            <p className="mobile-unit-header__course-title text-size-md text-bluedot-navy truncate leading-snug font-semibold">
               {courseTitle}
             </p>
             <FaChevronDown className="text-bluedot-navy size-3 flex-shrink-0" />
@@ -248,7 +248,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >
                   <FaBars className="size-[16px]" />
-                  <span className="tracking-[-0.005em]">{isSidebarHidden ? 'Show' : 'Hide'}</span>
+                  <span className="">{isSidebarHidden ? 'Show' : 'Hide'}</span>
                 </button>
                 <span className="h-[18px] w-px bg-charcoal-mid opacity-50" />
               </div>
@@ -257,20 +257,20 @@ const CourseShell: React.FC<CourseShellProps> = ({
               <nav className="flex min-h-[18px] min-w-0 flex-1 items-center gap-2">
                 <A
                   href={ROUTES.courses.url}
-                  className="text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
+                  className="text-size-xs hover:text-bluedot-navy leading-snug font-medium text-charcoal-mid no-underline transition-colors"
                 >
                   Courses
                 </A>
                 <FaChevronRight className="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50" />
                 <A
                   href={`/courses/${courseSlug}`}
-                  className="text-size-xs hover:text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
+                  className="text-size-xs hover:text-bluedot-navy truncate leading-snug font-medium text-charcoal-mid no-underline transition-colors"
                 >
                   {courseTitle}
                 </A>
                 <FaChevronRight className="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50" />
                 <span
-                  className="text-size-xs text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em]"
+                  className="text-size-xs text-bluedot-navy truncate leading-snug font-medium"
                   title={typeof breadcrumb === 'string' ? breadcrumb : undefined}
                 >
                   {breadcrumb}

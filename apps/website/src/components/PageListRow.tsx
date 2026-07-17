@@ -30,7 +30,7 @@ const accentBarClassName = clsx(
 
 const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-size-sm leading-relaxed font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap';
 
-const titleClassName = 'text-size-sm leading-[1.45] font-semibold text-bluedot-navy';
+const titleClassName = 'text-size-sm leading-normal font-semibold text-bluedot-navy';
 const summaryClassName = 'mt-1 text-size-sm leading-relaxed text-bluedot-navy/62';
 const metaClassName = 'mt-1 text-size-sm leading-relaxed text-bluedot-navy/50';
 

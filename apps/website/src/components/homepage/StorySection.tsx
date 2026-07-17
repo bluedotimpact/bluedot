@@ -5,7 +5,7 @@ const StorySection = () => {
   return (
     <section className="py-12 px-5 bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20">
       <div className="flex flex-col items-center max-w-2xl mx-auto text-center">
-        <H2 className="text-size-xl bd-md:text-size-2xl leading-tight tracking-[-1px] font-medium mb-12 bd-md:mb-8">
+        <H2 className="text-size-xl bd-md:text-size-2xl leading-tight tracking-tighter font-medium mb-12 bd-md:mb-8">
           Who is BlueDot?
         </H2>
 
@@ -23,7 +23,7 @@ const StorySection = () => {
           <CTALinkOrButton
             size="small"
             url={ROUTES.about.url}
-            className="h-11 px-[17px] py-4 text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200"
+            className="h-11 px-[17px] py-4 text-size-xs font-normal leading-snug tracking-wide text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200"
           >
             Learn more
           </CTALinkOrButton>

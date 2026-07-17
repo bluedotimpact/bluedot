@@ -505,7 +505,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
             class="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white"
           >
             <h1
-              class="bluedot-h1 text-white text-center font-normal text-[40px] bd-md:text-[56px] lg:text-[64px] xl:text-[72px] leading-[115%] tracking-[-1px] w-full lg:w-[682px] slide-up-fade-in flex items-center"
+              class="bluedot-h1 text-white text-center font-normal text-[40px] bd-md:text-[56px] lg:text-[64px] xl:text-[72px] leading-tight tracking-tighter w-full lg:w-[682px] slide-up-fade-in flex items-center"
               style="font-family: var(--font-sans);"
             >
               We help you have a positive impact on the trajectory of AI
@@ -532,7 +532,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               class="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none"
             >
               <p
-                class="bluedot-p not-prose text-bluedot-navy text-size-sm leading-[26px] whitespace-nowrap flex-shrink-0"
+                class="bluedot-p not-prose text-bluedot-navy text-size-sm leading-relaxed whitespace-nowrap flex-shrink-0"
               >
                 Our 8,000+ alumni work at
               </p>

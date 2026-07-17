@@ -65,7 +65,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
     <div className="relative size-16 lg:size-20 bg-white rounded-lg lg:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] lg:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
       {/* Month Label */}
       <div className="relative flex items-center justify-center py-[4.8px] lg:py-1.5 border-b border-bluedot-navy/10 bg-gradient-to-r from-blue-600 to-blue-500">
-        <span className="text-size-xxs lg:text-size-xs font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
+        <span className="text-size-xxs lg:text-size-xs font-semibold uppercase tracking-wide text-white leading-[11.2px] lg:leading-[14px]">
           {month}
         </span>
       </div>
@@ -73,7 +73,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
       {/* Day Number */}
       <div className="relative flex items-center justify-center h-[43.2px] lg:h-[54px]">
         {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: day-number sized to fit 43.2px / 54px containers */}
-        <span className="text-[32px] lg:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] lg:tracking-[-1px] leading-tight">
+        <span className="text-[32px] lg:text-[40px] font-normal text-bluedot-navy tracking-tighter leading-tight">
           {day}
         </span>
       </div>
@@ -93,21 +93,21 @@ const EventCard = ({ event }: { event: Event }) => {
       <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
-        <p className="text-size-xxs font-medium uppercase tracking-[0.5px] leading-[14px] text-bluedot-normal">
+        <p className="text-size-xxs font-medium uppercase tracking-wide leading-snug text-bluedot-normal">
           {event.location}
         </p>
         <a
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-size-md bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-bluedot-normal transition-colors"
+          className="text-size-md bd-md:text-size-lg font-normal leading-snug tracking-tighter bd-md:tracking-tight text-bluedot-navy hover:text-bluedot-normal transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
             {event.title}
           </h3>
         </a>
-        <p className="text-size-sm font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
+        <p className="text-size-sm font-normal leading-relaxed text-bluedot-navy/70">
           {timeString}
         </p>
       </div>
@@ -315,7 +315,7 @@ const EventsSection = () => {
         <div className="flex flex-col items-center text-center gap-8 bd-md:gap-12 mb-12 xl:mb-16">
           <h2
             id="events-section-heading"
-            className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-[-1px] max-w-[666px]"
+            className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-tighter max-w-[666px]"
             style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you
@@ -361,7 +361,7 @@ const EventsSection = () => {
               {/* CTA Button - visible on all screen sizes */}
               <CTALinkOrButton
                 url={EVENTS_SECTION_URL}
-                className="flex h-11 px-[17px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200 whitespace-nowrap"
+                className="flex h-11 px-[17px] text-size-xs font-normal leading-snug tracking-wide text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200 whitespace-nowrap"
               >
                 See upcoming events
               </CTALinkOrButton>
@@ -369,7 +369,7 @@ const EventsSection = () => {
           )}
 
           {!isLoading && displayEvents.length === 0 && (
-            <p className="text-size-sm font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
+            <p className="text-size-sm font-normal leading-relaxed text-bluedot-navy/70">
               No upcoming events at the moment. Check back soon!
             </p>
           )}

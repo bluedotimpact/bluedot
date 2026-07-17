@@ -138,7 +138,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <>
           <button
             type="button"
-            className="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             disabled={isFirstChunk && !prevUnit}
             onClick={handlePrevClick}
             aria-label="Previous"
@@ -148,7 +148,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           </button>
           <button
             type="button"
-            className="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             disabled={isLastChunk && !nextUnit}
             onClick={handleNextClick}
             aria-label="Next"
@@ -202,7 +202,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <P className="unit__course-title font-semibold text-size-xs leading-normal tracking-wide uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunk?.chunkTitle && (
               // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: standalone H1 in course-unit chrome, fixed 32px is intentional
-              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
+              <H1 className="unit__title font-bold text-[32px] leading-snug text-bluedot-navy">{chunk.chunkTitle}</H1>
             )}
           </div>
           {chunk?.id === NEXT_STEPS_CHUNK_ID ? (

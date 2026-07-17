@@ -65,7 +65,7 @@ const PathwaysSection = ({
                     <H3 className="text-size-md">
                       {pathway.title}
                     </H3>
-                    <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">
+                    <P className="text-size-sm leading-relaxed text-bluedot-navy/70">
                       {pathway.description}
                     </P>
                     {pathway.linkUrl && pathway.linkText && (
@@ -85,7 +85,7 @@ const PathwaysSection = ({
 
           {callout && (
             <div className="mt-10 md:mt-12 p-6 md:p-8 rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03]">
-              <div className="text-size-sm leading-[1.7] text-bluedot-navy/80">
+              <div className="text-size-sm leading-relaxed text-bluedot-navy/80">
                 {callout}
               </div>
             </div>

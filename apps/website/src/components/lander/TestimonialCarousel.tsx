@@ -189,7 +189,7 @@ const TestimonialCarousel = ({
               <h2
                 className={clsx(
                   headerSizeClasses,
-                  'font-medium leading-snug text-bluedot-navy tracking-[-1px]',
+                  'font-medium leading-snug text-bluedot-navy tracking-tighter',
                 )}
                 style={{ fontFeatureSettings: '\'ss04\' on' }}
               >

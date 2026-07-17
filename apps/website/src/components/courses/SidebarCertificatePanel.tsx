@@ -61,8 +61,8 @@ const LockedPanel = ({ label, subtitle, className }: {
 }) => (
   <div className={cn('flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4', className)}>
     <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
-      <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
-      <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
+      <p className="text-size-sm leading-relaxed font-bold">{label}</p>
+      <p className="text-size-xs leading-relaxed font-normal">{subtitle}</p>
     </div>
     <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
   </div>
@@ -135,10 +135,10 @@ export const SidebarCertificatePanel = ({
         )}
       >
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <p className="text-size-sm leading-[1.5] font-bold">
+          <p className="text-size-sm leading-relaxed font-bold">
             {title}
           </p>
-          {!defaultCtaOverride && <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>}
+          {!defaultCtaOverride && <p className="text-size-xs leading-relaxed font-normal">{subtitle}</p>}
         </div>
         <FaArrowRight className="size-5 shrink-0" />
       </A>
@@ -170,7 +170,7 @@ export const SidebarCertificatePanel = ({
           rel="noopener noreferrer"
           className="border-bluedot-normal bg-bluedot-normal/5 text-bluedot-normal flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90"
         >
-          <p className="text-size-sm min-w-0 flex-1 leading-[1.5] font-bold">Submit your project/action plan</p>
+          <p className="text-size-sm min-w-0 flex-1 leading-relaxed font-bold">Submit your project/action plan</p>
           <FaArrowRight className="size-5 shrink-0" />
         </a>
         <LockedPanel label={label} subtitle="Submit your project/action plan to claim" />
