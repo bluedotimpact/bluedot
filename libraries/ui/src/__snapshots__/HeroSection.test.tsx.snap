@@ -25,11 +25,6 @@ exports[`HeroSection > renders with buttons 1`] = `
       >
         This is the title
       </h1>
-      <h2
-        class="text-color-text-on-dark text-2xl font-normal text-center mt-4 leading-snug tracking-normal bluedot-h2"
-      >
-        This is the subtitle
-      </h2>
       <div
         class="flex justify-center mt-8"
       >
@@ -75,11 +70,6 @@ exports[`HeroSection > renders with titles 1`] = `
       >
         This is the title
       </h1>
-      <h2
-        class="text-color-text-on-dark text-2xl font-normal text-center mt-4 leading-snug tracking-normal bluedot-h2"
-      >
-        This is the subtitle
-      </h2>
     </div>
   </div>
 </div>
