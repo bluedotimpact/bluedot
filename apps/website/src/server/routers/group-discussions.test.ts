@@ -48,7 +48,6 @@ describe('groupDiscussions.getByCourseSlug', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'facilitator-1',
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: 'reg-1',
       round: 'round-without-discussion',
       role: 'Facilitator',

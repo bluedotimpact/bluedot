@@ -132,7 +132,7 @@ describe('courseRegistrations.getRoundStartDates', () => {
 describe('courseRegistrations self-serve aliases', () => {
   test('ensureExists and ensureSelfServeRegistrationExists both return the self-serve registration', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-foai', email: 'test@example.com', userId: 'test-user', courseId: FOAI_COURSE_ID,
+      id: 'ss-foai', userId: 'test-user', courseId: FOAI_COURSE_ID,
     });
     const caller = createCaller(testAuthContextLoggedIn);
 

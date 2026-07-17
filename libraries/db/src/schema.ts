@@ -484,10 +484,6 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldRtqMTFX50uqLw5',
     },
-    email: {
-      pgColumn: text(),
-      airtableId: 'fld9BqZjF67r9Ce6O',
-    },
     numUnits: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld1ICMPmCd5y7B17',
@@ -522,6 +518,13 @@ export const meetPersonTable = pgAirtable('meet_person', {
     slackProfileUrl: {
       pgColumn: text(),
       airtableId: 'fldGhn89JZWlISRvc',
+    },
+  },
+  deprecatedColumns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fld9BqZjF67r9Ce6O',
+      deprecated: true,
     },
   },
 });
@@ -1432,10 +1435,6 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tbla338CpAd0FF96g',
   columns: {
-    email: {
-      pgColumn: text(),
-      airtableId: 'fldlSug1fEym6YizF',
-    },
     userId: {
       pgColumn: text(),
       airtableId: 'fldjByk8yK33Wslqs',
@@ -1468,6 +1467,13 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
     createdAt: {
       pgColumn: text(),
       airtableId: 'fldRiPmXA2UB9M9j5',
+    },
+  },
+  deprecatedColumns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldlSug1fEym6YizF',
+      deprecated: true,
     },
   },
 });

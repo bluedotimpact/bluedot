@@ -120,7 +120,7 @@ describe('certificates.verifyOwnership', () => {
 
   test('returns { isOwner: true } when the self-serve registration userId matches the caller', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-reg-1', email: 'test@example.com', userId: 'test-user', courseId: FOAI_COURSE_ID, certificateId: 'cert-ss',
+      id: 'ss-reg-1', userId: 'test-user', courseId: FOAI_COURSE_ID, certificateId: 'cert-ss',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -192,7 +192,6 @@ describe('certificates.getStatus', () => {
     });
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'reg1',
-      email: 'test@example.com',
       userId: 'test-user',
       courseId: FOAI_COURSE_ID,
       certificateId: 'cert-1',
@@ -223,7 +222,6 @@ describe('certificates.getStatus', () => {
     });
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'reg1',
-      email: 'test@example.com',
       userId: 'test-user',
       courseId: FOAI_COURSE_ID,
       certificateId: 'cert-1',
@@ -236,7 +234,7 @@ describe('certificates.getStatus', () => {
 
   test('returns exercises-incomplete for FOAI registrations without a certificate', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-reg-foai', email: 'test@example.com', userId: 'test-user', courseId: FOAI_COURSE_ID,
+      id: 'ss-reg-foai', userId: 'test-user', courseId: FOAI_COURSE_ID,
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
@@ -352,7 +350,7 @@ describe('issueFoaiCertificateIfComplete', () => {
 
   test('issues the certificate on the self-serve row only', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-1', email: 'test@example.com', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+      id: 'ss-1', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
     });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-foai', email: 'test@example.com', userId: 'test-user', courseId: FOAI_COURSE_ID, decision: 'Accept',
@@ -399,7 +397,7 @@ describe('issueFoaiCertificateIfComplete', () => {
 
   test('issues the certificate even when a Further or Maybe exercise is incomplete', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-1', email: 'test@example.com', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+      id: 'ss-1', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
     });
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Required', exerciseNumber: '1',
@@ -424,7 +422,7 @@ describe('issueFoaiCertificateIfComplete', () => {
 
   test('does not issue the certificate while a Core exercise is incomplete, and issues once it is completed', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-1', email: 'test@example.com', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+      id: 'ss-1', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
     });
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-core', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Core', exerciseNumber: '1',

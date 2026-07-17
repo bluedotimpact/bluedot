@@ -59,14 +59,12 @@ async function seedFacilitatorFlow() {
 
   await testDb.insert(meetPersonTable, {
     id: 'meet-facilitator',
-    email: CALLER_EMAIL,
     applicationsBaseRecordId: 'reg-facilitator',
     role: 'Facilitator',
   });
 
   await testDb.insert(meetPersonTable, {
     id: 'meet-participant',
-    email: 'participant@example.com',
     userId: 'up-user',
     name: 'Alice',
     role: 'Participant',
@@ -188,7 +186,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   async function seedFoaiRegistration() {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       courseId: FOAI_COURSE_ID,
     });
@@ -268,7 +265,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   test('is a no-op when the certificate is already issued', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-foai',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       courseId: FOAI_COURSE_ID,
       certificateId: 'ss-foai',
@@ -363,11 +359,10 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'meet-facilitator',
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: 'reg-1',
       role: 'Facilitator',
     });
-    await testDb.insert(meetPersonTable, { id: 'meet-participant', email: 'participant@example.com', name: 'Alice' });
+    await testDb.insert(meetPersonTable, { id: 'meet-participant', name: 'Alice' });
     await testDb.insert(groupTable, {
       id: 'group-1',
       facilitator: ['meet-facilitator'],
@@ -395,11 +390,10 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'meet-facilitator',
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: 'reg-1',
       role: 'Facilitator',
     });
-    await testDb.insert(meetPersonTable, { id: 'meet-participant', email: 'participant@example.com', name: 'Alice' });
+    await testDb.insert(meetPersonTable, { id: 'meet-participant', name: 'Alice' });
     await testDb.insert(groupTable, {
       id: 'group-1',
       facilitator: ['meet-facilitator'],
@@ -445,12 +439,11 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'meet-facilitator',
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: 'reg-1',
       role: 'Facilitator',
     });
     await testDb.insert(meetPersonTable, {
-      id: 'meet-participant', email: 'participant@example.com', userId: 'up-user', name: 'Alice',
+      id: 'meet-participant', userId: 'up-user', name: 'Alice',
     });
     await testDb.insert(groupTable, {
       id: 'group-1',
@@ -480,7 +473,6 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'meet-1',
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: 'reg-1',
       role: 'Participant',
     });
@@ -565,13 +557,11 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'meet-facilitator',
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: 'reg-facilitator',
       role: 'Facilitator',
     });
     await testDb.insert(meetPersonTable, {
       id: 'meet-participant',
-      email: 'noname@example.com',
       userId: 'noname-user',
       name: null,
       role: 'Participant',
@@ -618,13 +608,12 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: `meet-facilitator-${suffix}`,
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: `reg-${suffix}`,
       role: 'Facilitator',
       round: `round-${suffix}`,
     });
     await testDb.insert(meetPersonTable, {
-      id: `meet-participant-${suffix}`, email: `${suffix}@example.com`, userId: `user-${suffix}`, name: `Participant ${suffix}`,
+      id: `meet-participant-${suffix}`, userId: `user-${suffix}`, name: `Participant ${suffix}`,
     });
     await testDb.insert(groupTable, {
       id: `group-${suffix}`,
@@ -696,7 +685,6 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'meet-self-as-participant',
-      email: CALLER_EMAIL,
       applicationsBaseRecordId: 'reg-new',
       role: 'Participant',
     });

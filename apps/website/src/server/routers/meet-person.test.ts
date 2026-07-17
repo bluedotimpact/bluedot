@@ -13,7 +13,6 @@ import {
 setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
-const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
 
 // The authenticated user's row is assumed to exist by the userId-scoped routes.
 beforeEach(async () => {
@@ -29,7 +28,6 @@ describe('meetPerson.getGroupParticipants', () => {
   test('throws NOT_FOUND when caller is not a member of the group', async () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-someone-else',
-      email: 'someone-else@example.com',
       applicationsBaseRecordId: 'reg-someone-else',
       round: 'round-1',
       role: 'Participant',
@@ -49,7 +47,6 @@ describe('meetPerson.getGroupParticipants', () => {
   test('returns facilitators + co-participants, sorted alphabetically, excluding the caller (participant caller)', async () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-me',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-me',
       round: 'round-1',
@@ -57,16 +54,16 @@ describe('meetPerson.getGroupParticipants', () => {
       groupsAsParticipant: ['group-1'],
     });
     await testDb.insert(meetPersonTable, {
-      id: 'mp-fac-zara', email: 'zara-fac@example.com', applicationsBaseRecordId: 'reg-fac-zara', round: 'round-1', role: 'Facilitator', name: 'Zara Facilitator',
+      id: 'mp-fac-zara', applicationsBaseRecordId: 'reg-fac-zara', round: 'round-1', role: 'Facilitator', name: 'Zara Facilitator',
     });
     await testDb.insert(meetPersonTable, {
-      id: 'mp-fac-alice', email: 'alice-fac@example.com', applicationsBaseRecordId: 'reg-fac-alice', round: 'round-1', role: 'Facilitator', name: 'Alice Facilitator',
+      id: 'mp-fac-alice', applicationsBaseRecordId: 'reg-fac-alice', round: 'round-1', role: 'Facilitator', name: 'Alice Facilitator',
     });
     await testDb.insert(meetPersonTable, {
-      id: 'mp-p-bob', email: 'bob@example.com', applicationsBaseRecordId: 'reg-p-bob', round: 'round-1', role: 'Participant', name: 'Bob Participant',
+      id: 'mp-p-bob', applicationsBaseRecordId: 'reg-p-bob', round: 'round-1', role: 'Participant', name: 'Bob Participant',
     });
     await testDb.insert(meetPersonTable, {
-      id: 'mp-p-yara', email: 'yara@example.com', applicationsBaseRecordId: 'reg-p-yara', round: 'round-1', role: 'Participant', name: 'Yara Participant',
+      id: 'mp-p-yara', applicationsBaseRecordId: 'reg-p-yara', round: 'round-1', role: 'Participant', name: 'Yara Participant',
     });
 
     await testDb.insert(groupTable, {
@@ -86,7 +83,6 @@ describe('meetPerson.getGroupParticipants', () => {
   test('authorizes facilitator caller via group.facilitator membership', async () => {
     await testDb.insert(meetPersonTable, {
       id: 'mp-me-fac',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-me-fac',
       round: 'round-1',
@@ -94,7 +90,7 @@ describe('meetPerson.getGroupParticipants', () => {
       // No groupsAsParticipant
     });
     await testDb.insert(meetPersonTable, {
-      id: 'mp-p-bob', email: 'bob@example.com', applicationsBaseRecordId: 'reg-p-bob', round: 'round-1', role: 'Participant', name: 'Bob Participant',
+      id: 'mp-p-bob', applicationsBaseRecordId: 'reg-p-bob', round: 'round-1', role: 'Participant', name: 'Bob Participant',
     });
 
     await testDb.insert(groupTable, {
