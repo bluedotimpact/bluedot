@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { H1 } from '@bluedot/ui';
+import { HeroH1 } from '@bluedot/ui';
 import { Nav } from './Nav/Nav';
 
 type MarketingHeroProps = {
@@ -21,11 +21,11 @@ const MarketingHero = ({ title, subtitle, cta }: MarketingHeroProps) => {
       <div className={`relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] ${cta ? 'pb-6' : 'pb-12'} pt-20 ${cta ? 'bd-md:pb-8' : 'bd-md:pb-16'}`}>
         <div className="section-base">
           <div className="flex flex-col gap-6 max-w-[780px]">
-            <H1 className="bluedot-marketing-hero-h1">
+            <HeroH1 className="text-left">
               {title}
-            </H1>
+            </HeroH1>
             {subtitle && (
-              <p className="text-size-sm bd-md:text-size-md leading-[1.55] tracking-[-0.1px] text-white">
+              <p className="text-size-sm bd-md:text-size-md leading-relaxed text-white">
                 {subtitle}
               </p>
             )}

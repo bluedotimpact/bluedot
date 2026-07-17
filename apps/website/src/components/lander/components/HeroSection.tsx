@@ -1,4 +1,4 @@
-import { CTALinkOrButton, H1, P } from '@bluedot/ui';
+import { CTALinkOrButton, HeroH1, P } from '@bluedot/ui';
 
 type CtaProps = {
   /** Overridden with "Apply by [deadline]" in CourseLander when a deadline exists */
@@ -85,9 +85,9 @@ const HeroSection = ({
                     {categoryLabel}
                   </p>
                 )}
-                <h1 className="text-size-xl leading-tight font-semibold tracking-[-0.5px] text-white">
+                <HeroH1 className="font-semibold">
                   {title}
-                </h1>
+                </HeroH1>
                 <p className="text-size-sm bd-md:text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
                   {description}
                 </p>
@@ -134,9 +134,9 @@ const HeroSection = ({
                     </p>
                   )}
                   {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: hero variant pairing text-[40px] with xl:text-5xl (Tailwind default = 48px) */}
-                  <H1 className="text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
+                  <HeroH1 className="text-[40px] xl:text-5xl leading-tight font-semibold text-left">
                     {title}
-                  </H1>
+                  </HeroH1>
                   <P className="text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
                     {description}
                   </P>
@@ -198,10 +198,10 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive 2xl token */}
-                  <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive xl token */}
+                  <HeroH1 className="text-[32px] sm:text-[40px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-left">
                     {title}
-                  </H1>
+                  </HeroH1>
 
                   <P className="text-size-sm sm:text-lg sm:leading-relaxed lg:text-lg leading-relaxed opacity-80 text-white whitespace-pre-line">
                     {description}
@@ -259,10 +259,10 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive 2xl token */}
-                  <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-bluedot-navy">
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive xl token */}
+                  <HeroH1 className="text-[32px] sm:text-[40px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-left text-bluedot-navy">
                     {title}
-                  </H1>
+                  </HeroH1>
 
                   <P className="text-size-sm sm:text-lg sm:leading-relaxed lg:text-lg leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
                     {description}

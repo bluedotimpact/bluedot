@@ -80,7 +80,7 @@ npm run render-preview # render OG/preview images
 | Button or link CTA | `CTALinkOrButton` (variants: primary, secondary, black, outline-black, ghost; sizes: default, small) |
 | Page section / card | `Section`, `SectionHeading`, `Card` |
 | Heading / paragraph / link | `H1`–`H4`, `P`, `A` (or `bluedot-h1` / `bluedot-p` / `bluedot-a` utility classes) |
-| Hero (page top) | `HeroSection` + `HeroH1` / `HeroH2` / `HeroCTAContainer` |
+| Hero (page top) | `HeroSection` + `HeroH1` / `HeroCTAContainer` |
 | Form input | `Input`, `Textarea`, `Select`, `DatePicker`, `TimePicker`, `ToggleSwitch` |
 | Modal / drawer / dropdown | `Modal`, `BottomDrawerModal`, `OverflowMenu`, `Tooltip` |
 | Accordion / show-hide | `Collapsible` |

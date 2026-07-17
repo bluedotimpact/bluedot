@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { render } from '@testing-library/react';
 import {
-  HeroSection, HeroH1, HeroH2, HeroCTAContainer,
+  HeroSection, HeroH1, HeroCTAContainer,
 } from './HeroSection';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
@@ -14,7 +14,6 @@ describe('HeroSection', () => {
   test('renders with titles', () => {
     const { container } = render(<HeroSection>
       <HeroH1>This is the title</HeroH1>
-      <HeroH2>This is the subtitle</HeroH2>
     </HeroSection>);
     expect(container).toMatchSnapshot();
   });
@@ -22,7 +21,6 @@ describe('HeroSection', () => {
   test('renders with buttons', () => {
     const { container } = render(<HeroSection>
       <HeroH1>This is the title</HeroH1>
-      <HeroH2>This is the subtitle</HeroH2>
       <HeroCTAContainer>
         <CTALinkOrButton url="https://example.com">Do a thing</CTALinkOrButton>
       </HeroCTAContainer>

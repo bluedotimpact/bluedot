@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { H1 } from '@bluedot/ui';
+import { HeroH1 } from '@bluedot/ui';
 import GraduateSection from '../lander/components/GraduateSection';
 import { Nav } from '../Nav/Nav';
 
@@ -26,14 +26,18 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
           <div className="w-full max-w-[1488px] mx-auto min-[1440px]:px-6">
             {/* Text container with responsive dimensions */}
             <div className="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white">
-              <H1
-                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: bespoke 4-breakpoint homepage hero ramp (40 → 56 → 64 → 72) tied to viewport-specific max-w values; can't compose into the 2-step responsive token chain
-                className="w-full text-[40px] bd-md:text-[56px] lg:w-[682px] lg:text-[64px] xl:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
+              <HeroH1
+                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- bespoke 4-breakpoint homepage display ramp; the site's only consumer, kept inline rather than minting a token
+                className="text-[40px] bd-md:text-[56px] lg:text-[64px] xl:text-[72px] leading-[115%] tracking-[-1px] w-full lg:w-[682px] slide-up-fade-in flex items-center"
+                /* Deliberately Inter, not the InterDisplay that `.bluedot-h1` sets: the design
+                   calls for Inter's wider letterforms here. Inline style because the unlayered
+                   `.bluedot-h1` rule in globals.css outranks any Tailwind font utility. */
+                style={{ fontFamily: 'var(--font-sans)' }}
               >
                 We help you have a positive impact on the trajectory of AI
-              </H1>
+              </HeroH1>
               <p
-                className="text-size-sm bd-md:text-size-md leading-[155%] font-normal w-full max-w-[280px] bd-md:max-w-[616px] lg:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
+                className="text-size-sm bd-md:text-size-md leading-relaxed font-normal w-full max-w-[280px] bd-md:max-w-[616px] lg:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto"
                 style={{
                   /* Tailwind doesn't support OpenType font-feature-settings for stylistic alternates */
                   fontFeatureSettings: '"ss02" on',
