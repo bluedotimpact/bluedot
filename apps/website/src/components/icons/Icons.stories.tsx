@@ -52,7 +52,7 @@ const Grid = ({ children }: { children: ReactNode }) => (
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="flex flex-col gap-3">
-    <H2 className="text-size-sm font-sans tracking-wider text-gray-600 uppercase">{title}</H2>
+    <H2 className="text-size-sm tracking-wider text-gray-600 uppercase">{title}</H2>
     {children}
   </section>
 );

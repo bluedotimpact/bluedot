@@ -130,7 +130,7 @@ const FacilitatorFeedbackSuccessPage = () => {
               <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
             </div>
             <div className="flex flex-col gap-2">
-              <H1 className="text-size-lg font-sans">Feedback submitted!</H1>
+              <H1 className="text-size-lg">Feedback submitted!</H1>
               <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
                 Your insights help BlueDot support the most engaged participants and improve every future cohort.
               </p>

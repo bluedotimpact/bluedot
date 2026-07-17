@@ -191,7 +191,7 @@ const SideBar: React.FC<SideBarProps> = ({
           <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
             <div className="flex flex-col">
-              <H2 className="text-size-lg font-sans leading-[44px]">{courseTitle}</H2>
+              <H2 className="text-size-lg leading-[44px]">{courseTitle}</H2>
               {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
                 <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
               )}

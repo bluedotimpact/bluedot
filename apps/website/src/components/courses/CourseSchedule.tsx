@@ -180,7 +180,7 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
       {sections.map((section, index) => (
         section.items.length > 0 && (
           <div key={section.label} className={index > 0 ? 'mt-8' : undefined}>
-            <H2 className="text-size-xxs font-sans text-bluedot-normal uppercase tracking-wide mb-[30px]">
+            <H2 className="text-size-xxs text-bluedot-normal uppercase tracking-wide mb-[30px]">
               {section.label}
             </H2>
             {renderItems(section.items)}
@@ -291,7 +291,7 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 cursor-pointer"
         >
-          <H2 className="text-size-lg font-sans leading-normal">
+          <H2 className="text-size-lg leading-normal">
             {course.title}
           </H2>
           <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
@@ -308,7 +308,7 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
-          <H2 className="text-size-lg font-sans leading-normal">
+          <H2 className="text-size-lg leading-normal">
             {course.title}
           </H2>
           <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">

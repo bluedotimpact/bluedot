@@ -51,7 +51,7 @@ const DigitalMindsNextStepsChunk: React.FC = () => (
       </div>
 
       <div>
-        <H2 className="text-size-sm font-sans">Other fellowships and opportunities</H2>
+        <H2 className="text-size-sm">Other fellowships and opportunities</H2>
         <p className="mt-1">
           The{' '}
           <a

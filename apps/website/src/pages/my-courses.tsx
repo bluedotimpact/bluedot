@@ -109,7 +109,7 @@ const MyCoursesPage = () => {
             <>
               {nextDiscussion && (
                 <div>
-                  <H2 className="mb-3 text-size-sm font-sans">Next discussion</H2>
+                  <H2 className="mb-3 text-size-sm">Next discussion</H2>
                   <NextDiscussionCard
                     courseSlug={nextDiscussion.courseSlug}
                     courseTitle={nextDiscussion.courseTitle}

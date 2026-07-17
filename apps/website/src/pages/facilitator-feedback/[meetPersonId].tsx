@@ -183,7 +183,7 @@ const FacilitatorFeedbackPage = () => {
         {/* Hero card */}
         <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 flex flex-col gap-6">
           <div>
-            <H1 className="text-3xl font-sans mb-2">Course Feedback</H1>
+            <H1 className="text-3xl mb-2">Course Feedback</H1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
           <div className="flex flex-col gap-2 text-size-xs text-bluedot-navy/60">
@@ -198,7 +198,7 @@ const FacilitatorFeedbackPage = () => {
           <div className="flex flex-col gap-4">
             <Eyebrow>Course feedback</Eyebrow>
             <div className="flex flex-col gap-1">
-              <H2 className="text-size-lg font-sans">How did the course go?</H2>
+              <H2 className="text-size-lg">How did the course go?</H2>
               <p className="text-size-xs text-bluedot-navy/60 leading-relaxed">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
             </div>
           </div>
@@ -249,7 +249,7 @@ const FacilitatorFeedbackPage = () => {
           <div className="flex flex-col gap-4">
             <Eyebrow>Participant insights</Eyebrow>
             <div className="flex flex-col gap-2">
-              <H2 className="text-size-lg font-sans">Share your insights on each participant</H2>
+              <H2 className="text-size-lg">Share your insights on each participant</H2>
               <p className="text-size-xs text-bluedot-navy/60 leading-relaxed">
                 We use it to identify the most promising participants in your cohort and decide how to back them — whether that's career introductions, grants, or an invitation to facilitate.
               </p>
