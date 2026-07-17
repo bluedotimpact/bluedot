@@ -2,7 +2,6 @@ import {
   HeroSection,
   type BluedotRoute,
   Breadcrumbs,
-  HeroH2,
   HeroCTAContainer,
   CTALinkOrButton,
 } from '@bluedot/ui';
@@ -37,7 +36,7 @@ const Error404Page = () => {
             layout={new Layout({ fit: Fit.Fill })}
           />
         </div>
-        <HeroH2>Sorry, this page does not exist.</HeroH2>
+        <h2 className="bluedot-h2 text-cream-normal text-2xl font-normal text-center mt-4 leading-snug tracking-normal">Sorry, this page does not exist.</h2>
         <HeroCTAContainer>
           <div className="flex flex-col sm:flex-row gap-3">
             <CTALinkOrButton url={ROUTES.courses.url} variant="primary">Browse courses</CTALinkOrButton>

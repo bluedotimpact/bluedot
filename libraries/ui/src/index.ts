@@ -28,7 +28,7 @@ export { Footer } from './Footer';
 export type { FooterProps } from './Footer';
 
 export {
-  HeroSection, HeroH1, HeroH2, HeroCTAContainer,
+  HeroSection, HeroH1, HeroCTAContainer,
 } from './HeroSection';
 export type { HeroSectionProps, HeroCTAContainerProps } from './HeroSection';
 

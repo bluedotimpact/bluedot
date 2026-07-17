@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
 import {
-  HeroSection, HeroH1, HeroH2, HeroCTAContainer,
+  HeroSection, HeroH1, HeroCTAContainer,
 } from './HeroSection';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
@@ -23,7 +23,6 @@ export const Default: Story = {
   render: () => (
     <HeroSection>
       <HeroH1>Make AI go well</HeroH1>
-      <HeroH2>Free courses and career support for beneficial AI</HeroH2>
       <HeroCTAContainer>
         <CTALinkOrButton variant="primary" withChevron url="https://example.com">
           Explore our courses
@@ -37,7 +36,6 @@ export const WithCustomClasses: Story = {
   render: () => (
     <HeroSection className="min-h-[500px]">
       <HeroH1 className="text-size-2xl">Custom Hero Title</HeroH1>
-      <HeroH2 className="italic">With custom styling</HeroH2>
       <HeroCTAContainer className="gap-4">
         <CTALinkOrButton variant="primary" withChevron>
           Primary CTA
@@ -54,7 +52,6 @@ export const WithLink: Story = {
   render: () => (
     <HeroSection>
       <HeroH1>Hero with Link</HeroH1>
-      <HeroH2>Click below to explore</HeroH2>
       <HeroCTAContainer>
         <CTALinkOrButton
           variant="primary"

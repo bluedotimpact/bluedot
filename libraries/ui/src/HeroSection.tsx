@@ -11,19 +11,6 @@ export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   );
 };
 
-export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
-  children, className, ...otherProps
-}) => {
-  return (
-    <h2
-      className={cn('text-color-text-on-dark text-2xl font-normal text-center mt-4 leading-snug tracking-normal bluedot-h2', className)}
-      {...otherProps}
-    >
-      {children}
-    </h2>
-  );
-};
-
 export type HeroCTAContainerProps = React.PropsWithChildren<{
   className?: string;
 }>;
