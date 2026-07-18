@@ -319,7 +319,6 @@ export const createMockExercise = (overrides: Partial<Exercise> = {}): Exercise 
 });
 
 export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
-  email: '',
   feedback: null,
   id: MOCK_RESOURCE_COMPLETION_ID,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
