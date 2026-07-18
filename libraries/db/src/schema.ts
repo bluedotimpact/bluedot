@@ -1534,18 +1534,6 @@ export const userTable = pgAirtable('user', {
   },
 });
 
-// Sync of the Applications base User table
-export const courseBuilderUserTable = pgAirtable('course_builder_user', {
-  baseId: COURSE_BUILDER_BASE_ID,
-  tableId: 'tbl8aI1ksljv2qZv3',
-  columns: {
-    email: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldOkUOWaZGphtQWF',
-    },
-  },
-});
-
 // Resource feedback constants for better readability
 export const RESOURCE_FEEDBACK = {
   DISLIKE: -1,
@@ -1797,7 +1785,6 @@ export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 export type SelfServeCourseRegistration = InferSelectModel<typeof selfServeCourseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
-export type CourseBuilderUser = InferSelectModel<typeof courseBuilderUserTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
