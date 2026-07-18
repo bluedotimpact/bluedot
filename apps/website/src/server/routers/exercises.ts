@@ -96,7 +96,6 @@ export const exercisesRouter = router({
         : await db.pg
           .insert(exerciseResponsePgTable.pg)
           .values({
-            email: ctx.auth.email,
             exerciseId: input.exerciseId,
             response: input.response,
             // Airtable defaulted this field to now(); without Airtable it must be set in code

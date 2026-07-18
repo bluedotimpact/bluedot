@@ -432,7 +432,7 @@ describe('exercise_completed', () => {
   const seedUser = (id: string, email: string) => testDb.insert(userTable, { id, email, name: email });
   const completeExercise = (id: string, userId: string | null, exerciseId: string, completedAt: string | null) =>
     db.pg.insert(exerciseResponsePgTable.pg).values({
-      id, email: 'row@x.com', exerciseId, response: 'an answer', createdAt: '2026-06-01T00:00:00.000Z', completedAt, userId: userId ? [userId] : null,
+      id, exerciseId, response: 'an answer', createdAt: '2026-06-01T00:00:00.000Z', completedAt, userId: userId ? [userId] : null,
     });
 
   test('emits one event per completed response with the linked user\'s email, enriched with the exercise and course', async () => {
@@ -524,7 +524,6 @@ describe('resource_completed', () => {
   ) =>
     db.pg.insert(resourceCompletionPgTable.pg).values({
       id,
-      email: 'row@x.com',
       userId: userId ? [userId] : null,
       unitResourceId,
       resourceId: resourceId ? [resourceId] : null,
