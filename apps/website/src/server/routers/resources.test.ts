@@ -16,7 +16,6 @@ import {
 setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
-const CALLER_EMAIL = testAuthContextLoggedIn.auth!.email;
 
 // The authenticated user's row is assumed to exist by the userId-scoped routes.
 beforeEach(async () => {
@@ -65,7 +64,6 @@ describe('resources.saveResourceCompletion', () => {
   test('updates an existing completion without touching the FK fields', async () => {
     await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
-      email: CALLER_EMAIL,
       unitResourceId: 'ur-1',
       resourceId: ['resource-original'],
       userId: ['test-user'],
@@ -96,7 +94,6 @@ describe('resources.saveResourceCompletion', () => {
   test('clears completedAt when isCompleted is false', async () => {
     await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
-      email: CALLER_EMAIL,
       userId: ['test-user'],
       unitResourceId: 'ur-1',
       completedAt: '2026-01-01T00:00:00.000Z',
@@ -113,7 +110,6 @@ describe('resources.saveResourceCompletion', () => {
   test('preserves completedAt when isCompleted is omitted', async () => {
     await testDb.pg.insert(resourceCompletionPgTable.pg).values({
       id: 'rc-1',
-      email: CALLER_EMAIL,
       userId: ['test-user'],
       unitResourceId: 'ur-1',
       completedAt: '2026-01-01T00:00:00.000Z',

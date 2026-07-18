@@ -147,7 +147,7 @@ export const courseTable = pgAirtable('course', {
 export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response', {
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
-    email: text().notNull(),
+    email: text(),
     exerciseId: text().notNull(),
     response: text().notNull(),
     createdAt: text(),

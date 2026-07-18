@@ -86,7 +86,6 @@ describe('exercises.saveExerciseResponse', () => {
     });
 
     expect(result).toMatchObject({
-      email: 'test@example.com',
       exerciseId: 'exercise-1',
       response: 'My first answer',
       completedAt: null,
@@ -206,7 +205,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Action plan', exerciseNumber: '2',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: CALLER_EMAIL, userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
     const before = Math.floor(Date.now() / 1000);
@@ -291,7 +290,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: CALLER_EMAIL, userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1', userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -507,7 +506,6 @@ describe('exercises.getGroupExerciseResponses', () => {
     await seedFacilitatorFlow();
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
-      email: 'participant@example.com',
       userId: ['up-user'],
       exerciseId: 'ex-1',
       response: 'My answer',
@@ -530,7 +528,6 @@ describe('exercises.getGroupExerciseResponses', () => {
     await seedFacilitatorFlow();
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
-      email: 'participant@example.com',
       userId: ['up-user'],
       exerciseId: 'ex-1',
       response: 'Work in progress',
@@ -574,7 +571,6 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
       id: 'resp-1',
-      email: 'noname@example.com',
       userId: ['noname-user'],
       exerciseId: 'ex-1',
       response: 'An answer',

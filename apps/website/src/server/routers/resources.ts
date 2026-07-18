@@ -92,7 +92,6 @@ export const resourcesRouter = router({
         : await db.pg
           .insert(resourceCompletionPgTable.pg)
           .values({
-            email: ctx.auth.email,
             unitResourceId: input.unitResourceId,
             completedAt: completedAt ?? null,
             feedback: input.feedback ?? '',
