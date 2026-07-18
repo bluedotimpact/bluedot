@@ -147,12 +147,16 @@ export const courseTable = pgAirtable('course', {
 export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response', {
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
-    email: text(),
     exerciseId: text().notNull(),
     response: text().notNull(),
     createdAt: text(),
     completedAt: text(),
     userId: text().array(),
+  },
+  deprecatedColumns: {
+    // Keep until ~2026-08-01: while deprecated, the old email values stay in the column,
+    // so restoring is just moving this back into `columns`
+    email: text(),
   },
 });
 
@@ -1548,7 +1552,6 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
     unitResourceId: text(),
-    email: text(),
     feedback: text(),
     resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
     resourceId: text().array(),
@@ -1559,6 +1562,9 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
   },
   deprecatedColumns: {
     createdByUserId: text().array(),
+    // Keep until ~2026-08-01: while deprecated, the old email values stay in the column,
+    // so restoring is just moving this back into `columns`
+    email: text(),
   },
 });
 

@@ -142,7 +142,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
             // If no existing item and isCompleted is true, add a new item
             newArray.push({
               id: unitResourceId,
-              email: auth?.email ?? '',
               unitResourceId,
               feedback: updatedFields.feedback ?? '',
               resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
