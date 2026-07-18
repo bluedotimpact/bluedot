@@ -67,7 +67,6 @@ const seedDiscussion = (id: string, endDateTime: number) =>
 const seedMeetPerson = (id: string, applicationsBaseRecordId: string, expectedDiscussionsFacilitator: string[]) =>
   testDb.insert(meetPersonTable, {
     id,
-    email: CALLER_EMAIL,
     userId: 'test-user',
     applicationsBaseRecordId,
     role: 'Facilitator',

@@ -784,7 +784,7 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
   const seedFacilitator = async () => {
     await testDb.insert(userTable, { id: 'user-1', email: AUTH_EMAIL, name: 'Test User' });
     await testDb.insert(meetPersonTable, {
-      id: 'mp-fac', email: AUTH_EMAIL, userId: 'user-1', round: ROUND, role: 'Facilitator', expectedDiscussionsFacilitator: [],
+      id: 'mp-fac', userId: 'user-1', round: ROUND, role: 'Facilitator', expectedDiscussionsFacilitator: [],
     });
   };
 
@@ -795,7 +795,7 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     });
     await testDb.insert(roundTable, { id: ROUND, title: 'Round 1', course: COURSE_ID });
     await testDb.insert(meetPersonTable, {
-      id: 'mp-part', email: AUTH_EMAIL, round: ROUND, role: 'Participant',
+      id: 'mp-part', round: ROUND, role: 'Participant',
     });
   };
 

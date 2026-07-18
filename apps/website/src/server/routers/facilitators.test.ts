@@ -28,7 +28,6 @@ vi.mock('../airtableFieldOptions', () => ({
 setupTestDb();
 beforeEach(seedLoggedInUser);
 
-const FACILITATOR_EMAIL = 'test@example.com';
 const FACILITATOR_ID = 'facilitator-1';
 const PARTICIPANT_1 = 'participant-1';
 const PARTICIPANT_2 = 'participant-2';
@@ -57,26 +56,22 @@ async function seedFacilitatorGroup() {
   });
   await testDb.insert(meetPersonTable, {
     id: FACILITATOR_ID,
-    email: FACILITATOR_EMAIL,
     userId: 'test-user',
     round: ROUND_ID,
     role: 'Facilitator',
   });
   await testDb.insert(meetPersonTable, {
     id: PARTICIPANT_1,
-    email: 'p1@example.com',
     round: ROUND_ID,
     role: 'Participant',
   });
   await testDb.insert(meetPersonTable, {
     id: PARTICIPANT_2,
-    email: 'p2@example.com',
     round: ROUND_ID,
     role: 'Participant',
   });
   await testDb.insert(meetPersonTable, {
     id: OUTSIDER,
-    email: 'outsider@example.com',
     round: ROUND_ID,
     role: 'Participant',
   });
@@ -93,7 +88,6 @@ async function seedFacilitatorGroup() {
 async function seedSecondGroup() {
   await testDb.insert(meetPersonTable, {
     id: PARTICIPANT_3,
-    email: 'p3@example.com',
     round: ROUND_ID,
     role: 'Participant',
   });
@@ -109,7 +103,6 @@ async function seedSecondGroup() {
 async function seedDropIn() {
   await testDb.insert(meetPersonTable, {
     id: DROP_IN,
-    email: 'dropin@example.com',
     name: 'Drop In',
     round: ROUND_ID,
     role: 'Participant',
@@ -236,7 +229,6 @@ describe('facilitators.savePeerFeedback', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'other-round-participant',
-      email: 'other-round@example.com',
       round: 'different-round',
       role: 'Participant',
     });
@@ -271,7 +263,6 @@ describe('facilitators.savePeerFeedback', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'participant-self',
-      email: FACILITATOR_EMAIL,
       userId: 'test-user',
       round: ROUND_ID,
       role: 'Participant',
@@ -287,7 +278,6 @@ describe('facilitators.savePeerFeedback', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'other-facilitator',
-      email: 'other@example.com',
       userId: 'user-other',
       round: ROUND_ID,
       role: 'Facilitator',
@@ -303,7 +293,6 @@ describe('facilitators.savePeerFeedback', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'unlinked-facilitator',
-      email: FACILITATOR_EMAIL,
       round: ROUND_ID,
       role: 'Facilitator',
     });
@@ -353,7 +342,6 @@ describe('facilitators.getFeedbackFormData', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'other-facilitator',
-      email: 'other@example.com',
       userId: 'user-other',
       round: ROUND_ID,
       role: 'Facilitator',
@@ -416,7 +404,6 @@ describe('facilitators.getFeedbackFormData', () => {
     await seedDropIn();
     await testDb.insert(meetPersonTable, {
       id: DROP_IN_2,
-      email: 'dropin2@example.com',
       name: 'Drop In Two',
       round: ROUND_ID,
       role: 'Participant',
@@ -440,7 +427,6 @@ describe('facilitators.getFeedbackFormData', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'co-facilitator',
-      email: 'co@example.com',
       name: 'Co Facilitator',
       round: ROUND_ID,
       role: 'Facilitator',
@@ -470,14 +456,12 @@ describe('facilitators.searchAddableParticipants', () => {
     await seedDropIn();
     await testDb.insert(meetPersonTable, {
       id: 'co-facilitator',
-      email: 'co@example.com',
       name: 'Co Facilitator',
       round: ROUND_ID,
       role: 'Facilitator',
     });
     await testDb.insert(meetPersonTable, {
       id: 'other-round-participant',
-      email: 'otherround@example.com',
       name: 'Other Round',
       round: 'different-round',
       role: 'Participant',
@@ -504,14 +488,12 @@ describe('facilitators.searchAddableParticipants', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'alice',
-      email: 'alice@example.com',
       name: 'Alice Adams',
       round: ROUND_ID,
       role: 'Participant',
     });
     await testDb.insert(meetPersonTable, {
       id: 'bob',
-      email: 'bob@example.com',
       name: 'Bob Baker',
       round: ROUND_ID,
       role: 'Participant',
@@ -530,7 +512,6 @@ describe('facilitators.getFacilitatorsForRound', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'other-facilitator',
-      email: 'other@example.com',
       name: 'Other Facilitator',
       userId: 'user-other',
       round: ROUND_ID,
@@ -546,7 +527,6 @@ describe('facilitators.getFacilitatorsForRound', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'unlinked-facilitator',
-      email: FACILITATOR_EMAIL,
       round: 'round-2',
       role: 'Facilitator',
     });
@@ -599,7 +579,6 @@ describe('facilitators.submitFeedback', () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
       id: 'participant-self',
-      email: FACILITATOR_EMAIL,
       userId: 'test-user',
       round: ROUND_ID,
       role: 'Participant',

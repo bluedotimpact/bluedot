@@ -442,7 +442,6 @@ async function seedCourseWithGroups() {
 
   await testDb.insert(meetPersonTable, {
     id: 'participant-1',
-    email: 'test@example.com',
     userId: 'test-user',
     applicationsBaseRecordId: 'reg-1',
     round: 'round-1',
@@ -604,7 +603,6 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
-      email: 'test@example.com',
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
@@ -682,7 +680,6 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
-      email: 'test@example.com',
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
@@ -780,7 +777,6 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
-      email: 'test@example.com',
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
@@ -887,7 +883,6 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
-      email: 'test@example.com',
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',

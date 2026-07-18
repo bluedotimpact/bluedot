@@ -303,7 +303,7 @@ describe('discussion_attended / discussion_absent', () => {
     await testDb.insert(userTable, { id: 'u-att', email: 'attendee@x.com', name: 'attendee' });
     await testDb.insert(userTable, { id: 'u-abs', email: 'absentee@x.com', name: 'absentee' });
     await testDb.insert(meetPersonTable, {
-      id: 'mp1', email: 'row@x.com', userId: 'u-att', round: 'rd1', numUnits: 8,
+      id: 'mp1', userId: 'u-att', round: 'rd1', numUnits: 8,
     });
     await testDb.insert(meetPersonTable, {
       id: 'mp2', userId: 'u-abs', round: 'rd1', numUnits: 8,
@@ -378,7 +378,7 @@ describe('discussion_attended / discussion_absent', () => {
   test('skips expected participants we cannot resolve an email for', async () => {
     await testDb.insert(userTable, { id: 'u-att', email: 'attendee@x.com', name: 'attendee' });
     await testDb.insert(meetPersonTable, { id: 'mp1', userId: 'u-att', round: 'rd1' });
-    await testDb.insert(meetPersonTable, { id: 'noUser', email: 'unused@x.com' }); // no linked user -> skipped
+    await testDb.insert(meetPersonTable, { id: 'noUser' }); // no linked user -> skipped
     await insertDiscussion({
       id: 'd1', participantsExpected: ['mp1', 'noUser'], attendees: ['mp1'], startSec: nowSec - 7200, endSec: nowSec - 3600,
     });
@@ -618,7 +618,7 @@ describe('project_submitted', () => {
     });
     await testDb.insert(userTable, { id: 'u1', email: 'a@x.com', name: 'a' });
     await testDb.insert(meetPersonTable, {
-      id: 'mp1', email: 'row@x.com', userId: 'u1', applicationsBaseRecordId: 'cr1',
+      id: 'mp1', userId: 'u1', applicationsBaseRecordId: 'cr1',
     });
   };
 
