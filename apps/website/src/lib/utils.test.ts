@@ -9,8 +9,9 @@ import {
 import { type AxiosError, type AxiosResponse } from 'axios';
 const mockGetSessionId = vi.fn<() => string | null>();
 const mockGetDistinctId = vi.fn<() => string | null>();
+const mockIsIdentified = vi.fn<() => boolean>(() => false);
 vi.mock('posthog-js', () => ({
-  default: { get_session_id: () => mockGetSessionId(), get_distinct_id: () => mockGetDistinctId() },
+  default: { get_session_id: () => mockGetSessionId(), get_distinct_id: () => mockGetDistinctId(), _isIdentified: () => mockIsIdentified() },
 }));
 
 const {
@@ -357,20 +358,23 @@ describe('buildApplicationUrl', () => {
       .toBe('https://example.com/apply?foo=bar&prefill_Source=twitter');
   });
 
-  it('appends prefill_PostHog Distinct ID (URL-encoded) when the distinct id is anonymous', () => {
+  it('appends prefill_PostHog Distinct ID (URL-encoded) while the user is anonymous', () => {
     mockGetDistinctId.mockReturnValue('0190abcd-1234-7000-8000-abcdef012345');
+    mockIsIdentified.mockReturnValue(false);
     expect(buildApplicationUrl('https://example.com/apply', null))
       .toBe('https://example.com/apply?prefill_PostHog%20Distinct%20ID=0190abcd-1234-7000-8000-abcdef012345');
   });
 
-  it('does not append the distinct id once it is the email (already identified)', () => {
-    mockGetDistinctId.mockReturnValue('user@example.com');
+  it('does not append the distinct id once identified', () => {
+    mockGetDistinctId.mockReturnValue('keycloak-sub-123');
+    mockIsIdentified.mockReturnValue(true);
     expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
   });
 
   it('appends session id and anonymous distinct id together', () => {
     mockGetSessionId.mockReturnValue('sess-123');
     mockGetDistinctId.mockReturnValue('anon-abc');
+    mockIsIdentified.mockReturnValue(false);
     expect(buildApplicationUrl('https://example.com/apply', null))
       .toBe('https://example.com/apply?prefill_PostHog%20Session%20ID=sess-123&prefill_PostHog%20Distinct%20ID=anon-abc');
   });

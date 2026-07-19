@@ -113,13 +113,11 @@ export const useAuthStore = create<{
 
     set({ auth });
 
-    posthog.identify(auth.email, {
+    // Sessions stored before #2755 (2026-07-08) have no sub until their first token refresh;
+    // the email person is aliased to the sub, so both resolve to the same PostHog person.
+    posthog.identify(auth.sub ?? auth.email, {
       email: auth.email,
     });
-
-    if (auth.sub) {
-      posthog.alias(auth.sub, auth.email);
-    }
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
