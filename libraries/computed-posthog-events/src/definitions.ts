@@ -29,13 +29,12 @@ const getKeycloakIdentifierByUserId = async (db: PgAirtableDb, userIds: (string 
   return new Map(users.flatMap((u) => (u.keycloakIdentifier ? [[u.id, u.keycloakIdentifier] as const] : [])));
 };
 
-// The identity preference for registration-scoped events: the linked user's keycloak sub,
-// else the registration's anon anchor (which identify_applicants merges into the sub person
-// at first login). Never email.
-const keycloakIdentifierOrRegistrationAnchor = (
-  keycloakIdentifierByUserId: Map<string, string>,
-  userId: string | null | undefined,
-  registration: Pick<CourseRegistration, 'id' | 'posthogDistinctId'> | null | undefined,
+/**
+ * Get the best distinct id that we can for this event (better == easier to
+ * join to an identified user)
+ */
+const preferredDistinctId = (
+{ keycloakIdentifierByUserId, userId, registration }: { keycloakIdentifierByUserId: Map<string, string>; userId: string | null | undefined; registration: Pick<CourseRegistration, 'id' | 'posthogDistinctId'> | null | undefined; },
 ): string | null => (
   (userId ? keycloakIdentifierByUserId.get(userId) : undefined)
   ?? (registration ? courseRegistrationAnonDistinctId(registration) : null)
@@ -61,7 +60,6 @@ const calculateDiscussionAttendanceEvents = async (
   const meetPersonById = new Map(meetPersons.map((mp) => [mp.id, mp] as const));
   const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, meetPersons.map((mp) => mp.userId));
 
-  // Participants who never log in still get credited via their linked registration's anon anchor
   const registrationIds = [...new Set(meetPersons.map((mp) => mp.applicationsBaseRecordId).filter((id): id is string => !!id))];
   const registrations = registrationIds.length
     ? await db.pg.select({ id: courseRegistrationTable.pg.id, posthogDistinctId: courseRegistrationTable.pg.posthogDistinctId })
@@ -98,7 +96,7 @@ const calculateDiscussionAttendanceEvents = async (
 
       const meetPerson = meetPersonById.get(meetPersonId);
       const registration = meetPerson?.applicationsBaseRecordId ? registrationById.get(meetPerson.applicationsBaseRecordId) : undefined;
-      const distinctId = keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, meetPerson?.userId, registration);
+      const distinctId = preferredDistinctId({ keycloakIdentifierByUserId, userId: meetPerson?.userId, registration });
       if (!meetPerson || !distinctId) continue;
       const roundName = meetPerson.round ? roundTitleById.get(meetPerson.round) : undefined;
 
@@ -134,7 +132,7 @@ const calculateDropoutEvents = async (
     .where(and(filterGteOrNull(dropoutTable.pg.createdAt, since), eq(dropoutTable.pg.type, type)));
   if (rows.length === 0) return [];
 
-  // The anchor, course and round come off the linked application, not the dropout table's own lookups.
+  // The distinct id, course and round come off the linked application, not the dropout table's own lookups.
   const registrationIds = [...new Set(rows.flatMap((r) => r.applicantId ?? []))];
   const registrations = registrationIds.length
     ? await db.pg.select({
@@ -159,7 +157,7 @@ const calculateDropoutEvents = async (
     const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
     return {
       internalUniqueKey: row.id,
-      distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, registration?.userId, registration),
+      distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: registration?.userId, registration }),
       timestampMs: Date.parse(row.createdAt!),
       properties: {
         ...(registration?.courseId ? { course_id: registration.courseId } : {}),
@@ -254,7 +252,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `accept:${r.id}`,
-          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
+          distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),
           timestampMs: Date.parse(r.acceptedAt!),
           properties: {
             course_id: r.courseId,
@@ -279,7 +277,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `reject:${r.id}`,
-          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
+          distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),
           timestampMs: Date.parse(r.rejectedAt!),
           properties: {
             course_id: r.courseId,
@@ -304,7 +302,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `withdraw:${r.id}`,
-          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
+          distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),
           timestampMs: Date.parse(r.withdrawnAt!),
           properties: {
             course_id: r.courseId,
@@ -336,7 +334,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
           const courseName = courseTitleById.get(r.courseId);
           return {
             internalUniqueKey: `courseReg:${r.id}`,
-            distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
+            distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: r.userId, registration: r }),
             timestampMs: Number(r.certificateCreatedAt) * 1000,
             properties: {
               course_id: r.courseId,
@@ -466,7 +464,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
 
       // The form links each submission to a meet_person (participant). The identity and the course/round
       // both come off that link: meetPerson.userId -> user gives the distinct id; meetPerson.applicationsBaseRecordId
-      // -> course_registration gives the course, round, and the anon-anchor fallback for never-logged-in participants.
+      // -> course_registration gives the course, round, and the anon-distinct-id fallback for never-logged-in participants.
       const participantIds = [...new Set(submissions.flatMap((s) => s.participant ?? []))];
       const meetPersons = participantIds.length
         ? await db.pg.select({
@@ -500,7 +498,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
         return {
           internalUniqueKey: `${s.id}:${participantId}`,
-          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, meetPerson?.userId, registration),
+          distinctId: preferredDistinctId({ keycloakIdentifierByUserId, userId: meetPerson?.userId, registration }),
           timestampMs: Date.parse(s.createdAt!),
           properties: {
             ...(registration?.courseId ? { course_id: registration.courseId } : {}),
