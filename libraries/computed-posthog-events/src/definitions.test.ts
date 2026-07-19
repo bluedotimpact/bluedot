@@ -65,6 +65,18 @@ describe('certificate_issued (two source tables)', () => {
     expect(selfServeCert.distinct_id).toBe('sub-u-ss');
     expect(selfServeCert.properties).not.toHaveProperty('round_id');
   });
+
+  test('facilitated: falls back to the registration anchor when the linked user never logged in', async () => {
+    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr-anon', courseId: 'c1', email: 'nosub@x.com', userId: 'u-nosub', posthogDistinctId: 'anon-cert-1', certificateId: 'certA', certificateCreatedAt: 1_700_000_000,
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    expect(ph.events.filter((e) => e.event === 'certificate_issued').map((e) => e.distinct_id)).toEqual(['anon-cert-1']);
+  });
 });
 
 describe('since (incremental scans)', () => {
@@ -395,10 +407,12 @@ describe('discussion_attended / discussion_absent', () => {
     await testDb.insert(userTable, {
       id: 'u-att', email: 'attendee@x.com', name: 'attendee', keycloakIdentifier: 'sub-u-att',
     });
-    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier -> skipped
+    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier
     await testDb.insert(meetPersonTable, { id: 'mp1', userId: 'u-att', round: 'rd1' });
+    // no keycloakIdentifier AND no registration link to fall back to -> skipped
     await testDb.insert(meetPersonTable, { id: 'mpNoSub', userId: 'u-nosub', round: 'rd1' });
-    await testDb.insert(meetPersonTable, { id: 'noUser' }); // no linked user -> skipped
+    // no linked user and no registration link -> skipped
+    await testDb.insert(meetPersonTable, { id: 'noUser' });
     await insertDiscussion({
       id: 'd1', participantsExpected: ['mp1', 'mpNoSub', 'noUser'], attendees: ['mp1', 'mpNoSub'], startSec: nowSec - 7200, endSec: nowSec - 3600,
     });
@@ -408,6 +422,22 @@ describe('discussion_attended / discussion_absent', () => {
 
     expect(ph.events.filter((e) => e.event === 'discussion_attended').map((e) => e.distinct_id)).toEqual(['sub-u-att']);
     expect(ph.events.filter((e) => e.event === 'discussion_absent')).toHaveLength(0);
+  });
+
+  test('falls back to the registration anchor when the participant never logged in', async () => {
+    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr-anon', courseId: 'c1', email: 'nosub@x.com', posthogDistinctId: 'anon-reg-1',
+    });
+    await testDb.insert(meetPersonTable, { id: 'mp1', userId: 'u-nosub', applicationsBaseRecordId: 'cr-anon' });
+    await insertDiscussion({
+      id: 'd1', participantsExpected: ['mp1'], attendees: ['mp1'], startSec: nowSec - 7200, endSec: nowSec - 3600,
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog({ now: NOW });
+
+    expect(ph.events.filter((e) => e.event === 'discussion_attended').map((e) => e.distinct_id)).toEqual(['anon-reg-1']);
   });
 
   test('since scans only discussions ending on/after it', async () => {
@@ -727,6 +757,20 @@ describe('project_submitted', () => {
     });
     expect(result).toMatchObject({ candidates: 1, skipped: 1, sent: 0 });
     expect(ph.events.filter((e) => e.event === 'project_submitted')).toHaveLength(0);
+  });
+
+  test('falls back to the registration anchor (record id) when the participant never logged in', async () => {
+    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier
+    await testDb.insert(courseRegistrationTable, { id: 'cr-anon', courseId: 'c1', email: 'nosub@x.com' }); // no posthogDistinctId
+    await testDb.insert(meetPersonTable, { id: 'mp-anon', userId: 'u-nosub', applicationsBaseRecordId: 'cr-anon' });
+    await testDb.insert(projectSubmissionTable, {
+      id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', participant: ['mp-anon'],
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    expect(ph.events.filter((e) => e.event === 'project_submitted').map((e) => e.distinct_id)).toEqual(['cr-anon']);
   });
 
   test('since scans only submissions created on/after it', async () => {
