@@ -20,12 +20,13 @@ const courseRegistrationAnonDistinctId = (r: Pick<CourseRegistration, 'id' | 'po
   r.posthogDistinctId || r.id
 );
 
-const getEmailByUserId = async (db: PgAirtableDb, userIds: (string | null | undefined)[]): Promise<Map<string, string>> => {
+// The PostHog identity is the Keycloak `sub`; users without one resolve to nothing and are skipped
+const getKeycloakIdentifierByUserId = async (db: PgAirtableDb, userIds: (string | null | undefined)[]): Promise<Map<string, string>> => {
   const ids = [...new Set(userIds.filter((id): id is string => !!id))];
   if (ids.length === 0) return new Map();
-  const users = await db.pg.select({ id: userTable.pg.id, email: userTable.pg.email })
+  const users = await db.pg.select({ id: userTable.pg.id, keycloakIdentifier: userTable.pg.keycloakIdentifier })
     .from(userTable.pg).where(inArray(userTable.pg.id, ids));
-  return new Map(users.map((u) => [u.id, u.email]));
+  return new Map(users.flatMap((u) => (u.keycloakIdentifier ? [[u.id, u.keycloakIdentifier] as const] : [])));
 };
 
 // Mirrors the my-courses UI (deriveStatus in useDiscussionActions.tsx): a participant is `attended` when
@@ -46,7 +47,7 @@ const calculateDiscussionAttendanceEvents = async (
   if (meetPersonIds.length === 0) return [];
   const meetPersons = await db.pg.select().from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, meetPersonIds));
   const meetPersonById = new Map(meetPersons.map((mp) => [mp.id, mp] as const));
-  const emailByUserId = await getEmailByUserId(db, meetPersons.map((mp) => mp.userId));
+  const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, meetPersons.map((mp) => mp.userId));
 
   const roundIds = [...new Set(meetPersons.map((mp) => mp.round).filter((r): r is string => !!r))];
   const rounds = roundIds.length
@@ -76,13 +77,13 @@ const calculateDiscussionAttendanceEvents = async (
       if (kind === 'attended' ? !isAttended : isAttended) continue;
 
       const meetPerson = meetPersonById.get(meetPersonId);
-      const email = meetPerson?.userId ? emailByUserId.get(meetPerson.userId) : undefined;
-      if (!meetPerson || !email) continue;
+      const keycloakIdentifier = meetPerson?.userId ? keycloakIdentifierByUserId.get(meetPerson.userId) : undefined;
+      if (!meetPerson || !keycloakIdentifier) continue;
       const roundName = meetPerson.round ? roundTitleById.get(meetPerson.round) : undefined;
 
       events.push({
         internalUniqueKey: `${meetPersonId}:${d.id}`,
-        distinctId: email,
+        distinctId: keycloakIdentifier,
         timestampMs: d.startDateTime * 1000,
         properties: {
           discussion_id: d.id,
@@ -112,18 +113,20 @@ const calculateDropoutEvents = async (
     .where(and(filterGteOrNull(dropoutTable.pg.createdAt, since), eq(dropoutTable.pg.type, type)));
   if (rows.length === 0) return [];
 
-  // Identity, course and round come off the linked application, not the dropout table's own email lookup.
+  // The anchor, course and round come off the linked application, not the dropout table's own lookups.
   const registrationIds = [...new Set(rows.flatMap((r) => r.applicantId ?? []))];
   const registrations = registrationIds.length
     ? await db.pg.select({
       id: courseRegistrationTable.pg.id,
-      email: courseRegistrationTable.pg.email,
+      userId: courseRegistrationTable.pg.userId,
+      posthogDistinctId: courseRegistrationTable.pg.posthogDistinctId,
       courseId: courseRegistrationTable.pg.courseId,
       roundId: courseRegistrationTable.pg.roundId,
       roundName: courseRegistrationTable.pg.roundName,
     }).from(courseRegistrationTable.pg).where(inArray(courseRegistrationTable.pg.id, registrationIds))
     : [];
   const registrationById = new Map(registrations.map((r) => [r.id, r] as const));
+  const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, registrations.map((r) => r.userId));
 
   const courses = registrations.length
     ? await db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg)
@@ -135,7 +138,9 @@ const calculateDropoutEvents = async (
     const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
     return {
       internalUniqueKey: row.id,
-      distinctId: registration?.email ?? null,
+      distinctId: registration
+        ? ((registration.userId ? keycloakIdentifierByUserId.get(registration.userId) : undefined) ?? courseRegistrationAnonDistinctId(registration))
+        : null,
       timestampMs: Date.parse(row.createdAt!),
       properties: {
         ...(registration?.courseId ? { course_id: registration.courseId } : {}),
@@ -204,12 +209,12 @@ export const eventProjectionRules: EventProjectionRule[] = [
 
       return registrations.flatMap((registration): Event[] => {
         const user = registration.userId ? userById.get(registration.userId) : undefined;
-        if (!user) return []; // no account yet, the application stays anonymous
+        if (!user?.keycloakIdentifier) return []; // no logged-in account yet, the application stays anonymous
 
         return [{
           type: 'identify',
           internalUniqueKey: `identify_applicants:${registration.id}`,
-          distinctId: user.email,
+          distinctId: user.keycloakIdentifier,
           anonDistinctId: courseRegistrationAnonDistinctId(registration),
           timestampMs: Date.parse(user.firstLoggedInAt!),
           set: { email: user.email },
@@ -224,12 +229,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.acceptedAt, since)); // acceptedAt is ISO text
+      const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, rows.map((r) => r.userId));
 
       return rows.map((r) => {
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `accept:${r.id}`,
-          distinctId: r.email,
+          distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? courseRegistrationAnonDistinctId(r),
           timestampMs: Date.parse(r.acceptedAt!),
           properties: {
             course_id: r.courseId,
@@ -248,12 +254,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.rejectedAt, since)); // rejectedAt is ISO text
+      const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, rows.map((r) => r.userId));
 
       return rows.map((r) => {
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `reject:${r.id}`,
-          distinctId: r.email,
+          distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? courseRegistrationAnonDistinctId(r),
           timestampMs: Date.parse(r.rejectedAt!),
           properties: {
             course_id: r.courseId,
@@ -272,12 +279,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
       const rows = await db.pg.select().from(courseRegistrationTable.pg)
         .where(filterGteOrNull(courseRegistrationTable.pg.withdrawnAt, since)); // withdrawnAt is ISO text
+      const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, rows.map((r) => r.userId));
 
       return rows.map((r) => {
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `withdraw:${r.id}`,
-          distinctId: r.email,
+          distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? courseRegistrationAnonDistinctId(r),
           timestampMs: Date.parse(r.withdrawnAt!),
           properties: {
             course_id: r.courseId,
@@ -299,14 +307,17 @@ export const eventProjectionRules: EventProjectionRule[] = [
         .where(filterGteOrNull(courseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds));
       const selfServe = await db.pg.select().from(selfServeCourseRegistrationTable.pg)
         .where(filterGteOrNull(selfServeCourseRegistrationTable.pg.certificateCreatedAt, sinceEpochSeconds));
-      const emailByUserId = await getEmailByUserId(db, selfServe.map((r) => r.userId));
+      const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, [
+        ...facilitated.map((r) => r.userId),
+        ...selfServe.map((r) => r.userId),
+      ]);
 
       return [
         ...facilitated.filter((r) => r.certificateId != null).map((r) => {
           const courseName = courseTitleById.get(r.courseId);
           return {
             internalUniqueKey: `courseReg:${r.id}`,
-            distinctId: r.email,
+            distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? null,
             timestampMs: Number(r.certificateCreatedAt) * 1000,
             properties: {
               course_id: r.courseId,
@@ -321,7 +332,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
           const courseName = courseTitleById.get(r.courseId);
           return {
             internalUniqueKey: `selfServe:${r.id}`,
-            distinctId: (r.userId ? emailByUserId.get(r.userId) : undefined) ?? null,
+            distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? null,
             timestampMs: Number(r.certificateCreatedAt) * 1000,
             // self-serve has no round
             properties: {
@@ -349,13 +360,13 @@ export const eventProjectionRules: EventProjectionRule[] = [
         .where(filterGteOrNull(exerciseResponsePgTable.pg.completedAt, since)); // completedAt is ISO text
       if (responses.length === 0) return [];
 
-      const [courses, exercises, emailByUserId] = await Promise.all([
+      const [courses, exercises, keycloakIdentifierByUserId] = await Promise.all([
         db.pg.select({ id: courseTable.pg.id, title: courseTable.pg.title }).from(courseTable.pg),
         db.pg.select({
           id: exerciseTable.pg.id, courseId: exerciseTable.pg.courseId, title: exerciseTable.pg.title,
           type: exerciseTable.pg.type, unitId: exerciseTable.pg.unitId,
         }).from(exerciseTable.pg),
-        getEmailByUserId(db, responses.map((r) => r.userId?.[0])),
+        getKeycloakIdentifierByUserId(db, responses.map((r) => r.userId?.[0])),
       ]);
       const courseTitleById = new Map(courses.map((c) => [c.id, c.title]));
       const exerciseById = new Map(exercises.map((e) => [e.id, e]));
@@ -365,7 +376,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = exercise?.courseId ? courseTitleById.get(exercise.courseId) : undefined;
         return {
           internalUniqueKey: r.id,
-          distinctId: (r.userId?.[0] ? emailByUserId.get(r.userId[0]) : undefined) ?? null,
+          distinctId: (r.userId?.[0] ? keycloakIdentifierByUserId.get(r.userId[0]) : undefined) ?? null,
           // Note: completedAt is mutable (can un-complete and re-complete), the event will
           // capture the *first time* we saw the response in a completed state
           timestampMs: Date.parse(r.completedAt!),
@@ -388,7 +399,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         .where(filterGteOrNull(resourceCompletionPgTable.pg.completedAt, since)); // completedAt is ISO text
       if (completions.length === 0) return [];
 
-      const [unitResources, units, emailByUserId] = await Promise.all([
+      const [unitResources, units, keycloakIdentifierByUserId] = await Promise.all([
         db.pg.select({
           id: unitResourceTable.pg.id, resourceName: unitResourceTable.pg.resourceName,
           unitId: unitResourceTable.pg.unitId, coreFurtherMaybe: unitResourceTable.pg.coreFurtherMaybe,
@@ -397,7 +408,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
           id: unitTable.pg.id, courseId: unitTable.pg.courseId, courseTitle: unitTable.pg.courseTitle,
           courseSlug: unitTable.pg.courseSlug, title: unitTable.pg.title, unitNumber: unitTable.pg.unitNumber,
         }).from(unitTable.pg),
-        getEmailByUserId(db, completions.map((c) => c.userId?.[0])),
+        getKeycloakIdentifierByUserId(db, completions.map((c) => c.userId?.[0])),
       ]);
       const unitResourceById = new Map(unitResources.map((ur) => [ur.id, ur]));
       const unitById = new Map(units.map((u) => [u.id, u]));
@@ -408,7 +419,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const unitNumber = unit ? Number(unit.unitNumber) : null;
         return {
           internalUniqueKey: c.id,
-          distinctId: (c.userId?.[0] ? emailByUserId.get(c.userId[0]) : undefined) ?? null,
+          distinctId: (c.userId?.[0] ? keycloakIdentifierByUserId.get(c.userId[0]) : undefined) ?? null,
           // Note: completedAt is mutable (can un-complete and re-complete), the event will
           // capture the *first time* we saw the resource in a completed state
           timestampMs: Date.parse(c.completedAt!),
@@ -434,8 +445,8 @@ export const eventProjectionRules: EventProjectionRule[] = [
         .where(filterGteOrNull(projectSubmissionTable.pg.createdAt, since));
       if (submissions.length === 0) return [];
 
-      // The form links each submission to a meet_person (participant). The email and the course/round
-      // both come off that link: meetPerson.userId -> user gives the email; meetPerson.applicationsBaseRecordId
+      // The form links each submission to a meet_person (participant). The identity and the course/round
+      // both come off that link: meetPerson.userId -> user gives the distinct id; meetPerson.applicationsBaseRecordId
       // -> course_registration gives the course and round.
       const participantIds = [...new Set(submissions.flatMap((s) => s.participant ?? []))];
       const meetPersons = participantIds.length
@@ -444,7 +455,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         }).from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, participantIds))
         : [];
       const meetPersonById = new Map(meetPersons.map((m) => [m.id, m] as const));
-      const emailByUserId = await getEmailByUserId(db, meetPersons.map((m) => m.userId));
+      const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, meetPersons.map((m) => m.userId));
 
       const registrationIds = [...new Set(meetPersons.map((m) => m.applicationsBaseRecordId).filter((id): id is string => !!id))];
       const registrations = registrationIds.length
@@ -469,7 +480,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
         return {
           internalUniqueKey: `${s.id}:${participantId}`,
-          distinctId: (meetPerson?.userId ? emailByUserId.get(meetPerson.userId) : undefined) ?? null,
+          distinctId: (meetPerson?.userId ? keycloakIdentifierByUserId.get(meetPerson.userId) : undefined) ?? null,
           timestampMs: Date.parse(s.createdAt!),
           properties: {
             ...(registration?.courseId ? { course_id: registration.courseId } : {}),
