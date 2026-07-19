@@ -407,10 +407,12 @@ describe('discussion_attended / discussion_absent', () => {
     await testDb.insert(userTable, {
       id: 'u-att', email: 'attendee@x.com', name: 'attendee', keycloakIdentifier: 'sub-u-att',
     });
-    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier -> skipped
+    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier
     await testDb.insert(meetPersonTable, { id: 'mp1', userId: 'u-att', round: 'rd1' });
+    // no keycloakIdentifier AND no registration link to fall back to -> skipped
     await testDb.insert(meetPersonTable, { id: 'mpNoSub', userId: 'u-nosub', round: 'rd1' });
-    await testDb.insert(meetPersonTable, { id: 'noUser' }); // no linked user -> skipped
+    // no linked user and no registration link -> skipped
+    await testDb.insert(meetPersonTable, { id: 'noUser' });
     await insertDiscussion({
       id: 'd1', participantsExpected: ['mp1', 'mpNoSub', 'noUser'], attendees: ['mp1', 'mpNoSub'], startSec: nowSec - 7200, endSec: nowSec - 3600,
     });
