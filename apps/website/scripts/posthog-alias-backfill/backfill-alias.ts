@@ -70,8 +70,8 @@ function parseArgs(argv: string[]): ScriptOptions {
   return {
     project,
     dryRun: args.includes('--dry-run'),
-    limit: limit ? Number(limit) : null,
-    from: from ? Number(from) : null,
+    limit: limit !== undefined ? Number(limit) : null,
+    from: from !== undefined ? Number(from) : null,
     input: argValue(args, '--input') ?? null,
     batchSize: Number(argValue(args, '--batch-size') ?? 100),
     sleepMs: Number(argValue(args, '--sleep-ms') ?? 500),
@@ -184,7 +184,7 @@ function classify(users: BackfillUser[], posthogEmails: string[], aliasedSubs: S
 
   for (const user of users) {
     // email must look like an email and sub must not (guards against swapped or malformed data)
-    if (!user.email.includes('@') || user.sub.includes('@')) {
+    if (!user.email?.includes('@') || !user.sub || user.sub.includes('@')) {
       counts.skip_invalid! += 1;
     } else if (seenSubs.has(user.sub)) {
       counts.skip_duplicate_sub! += 1;
@@ -258,8 +258,9 @@ async function main() {
       body: JSON.stringify({ api_key: writeKey, historical_migration: false, batch }),
     });
     if (!res.ok) {
-      const cursorHint = i === 0 ? options.from ?? 'start' : toSend[i - 1]!.autoNumberId;
-      throw new Error(`/batch failed after ${sent} sends (resume with --from ${cursorHint}): ${res.status} ${await res.text()}`);
+      const priorCursor = i === 0 ? options.from : toSend[i - 1]!.autoNumberId;
+      const resumeHint = priorCursor === null ? 're-run without --from' : `resume with --from ${priorCursor}`;
+      throw new Error(`/batch failed after ${sent} sends (${resumeHint}): ${res.status} ${await res.text()}`);
     }
 
     sent += batch.length;
