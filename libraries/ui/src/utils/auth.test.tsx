@@ -88,19 +88,19 @@ describe('auth', () => {
       expect(state.auth).toEqual(auth);
     });
 
-    test('should identify by email and alias the sub onto the same person on login', () => {
+    test('should identify by the keycloak sub, with the email as a person property, on login', () => {
       const auth = createAuth({ sub: 'keycloak-sub-123', email: 'user@bluedot.org' });
       useAuthStore.getState().setAuth(auth);
 
-      expect(posthog.identify).toHaveBeenCalledWith('user@bluedot.org', { email: 'user@bluedot.org' });
-      expect(posthog.alias).toHaveBeenCalledWith('keycloak-sub-123', 'user@bluedot.org');
+      expect(posthog.identify).toHaveBeenCalledWith('keycloak-sub-123', { email: 'user@bluedot.org' });
+      expect(posthog.alias).not.toHaveBeenCalled();
     });
 
-    test('should not alias when sub is absent', () => {
-      const auth = createAuth({ sub: undefined });
+    test('falls back to identifying by email when sub is absent (pre-#2755 stored sessions)', () => {
+      const auth = createAuth({ sub: undefined, email: 'user@bluedot.org' });
       useAuthStore.getState().setAuth(auth);
 
-      expect(posthog.alias).not.toHaveBeenCalled();
+      expect(posthog.identify).toHaveBeenCalledWith('user@bluedot.org', { email: 'user@bluedot.org' });
     });
 
     test('should keep new token when replacing soon-to-expire token', () => {
