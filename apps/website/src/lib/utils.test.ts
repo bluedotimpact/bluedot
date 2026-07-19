@@ -6,12 +6,12 @@ import {
   beforeEach,
   afterEach,
 } from 'vitest';
+import { useAuthStore } from '@bluedot/ui/src/utils/auth';
 import { type AxiosError, type AxiosResponse } from 'axios';
 const mockGetSessionId = vi.fn<() => string | null>();
 const mockGetDistinctId = vi.fn<() => string | null>();
-const mockIsIdentified = vi.fn<() => boolean>(() => false);
 vi.mock('posthog-js', () => ({
-  default: { get_session_id: () => mockGetSessionId(), get_distinct_id: () => mockGetDistinctId(), _isIdentified: () => mockIsIdentified() },
+  default: { get_session_id: () => mockGetSessionId(), get_distinct_id: () => mockGetDistinctId() },
 }));
 
 const {
@@ -358,23 +358,25 @@ describe('buildApplicationUrl', () => {
       .toBe('https://example.com/apply?foo=bar&prefill_Source=twitter');
   });
 
-  it('appends prefill_PostHog Distinct ID (URL-encoded) while the user is anonymous', () => {
+  it('appends prefill_PostHog Distinct ID (URL-encoded) while logged out', () => {
     mockGetDistinctId.mockReturnValue('0190abcd-1234-7000-8000-abcdef012345');
-    mockIsIdentified.mockReturnValue(false);
     expect(buildApplicationUrl('https://example.com/apply', null))
       .toBe('https://example.com/apply?prefill_PostHog%20Distinct%20ID=0190abcd-1234-7000-8000-abcdef012345');
   });
 
-  it('does not append the distinct id once identified', () => {
-    mockGetDistinctId.mockReturnValue('keycloak-sub-123');
-    mockIsIdentified.mockReturnValue(true);
-    expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
+  it('does not append the distinct id when logged in', () => {
+    mockGetDistinctId.mockReturnValue('0190abcd-1234-7000-8000-abcdef012345');
+    useAuthStore.setState({ auth: { expiresAt: Date.now() + 3600_000 } as never });
+    try {
+      expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
+    } finally {
+      useAuthStore.setState({ auth: null });
+    }
   });
 
   it('appends session id and anonymous distinct id together', () => {
     mockGetSessionId.mockReturnValue('sess-123');
     mockGetDistinctId.mockReturnValue('anon-abc');
-    mockIsIdentified.mockReturnValue(false);
     expect(buildApplicationUrl('https://example.com/apply', null))
       .toBe('https://example.com/apply?prefill_PostHog%20Session%20ID=sess-123&prefill_PostHog%20Distinct%20ID=anon-abc');
   });
