@@ -207,9 +207,11 @@ export const buildApplicationUrl = (
 
   // Forward the distinct id only while the user is anonymous. Once identified it's their
   // keycloak sub, and there is no need to capture it: their registration gets linked to
-  // their account instead.
+  // their account instead. _isIdentified is internal to posthog-js, so treat it as possibly
+  // absent and fail closed (forward nothing) rather than leaking identified ids.
+  const isIdentified = (posthog._isIdentified as (() => boolean) | undefined)?.();
   const distinctId = posthog.get_distinct_id?.();
-  if (distinctId && !posthog._isIdentified?.()) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
+  if (distinctId && isIdentified === false) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
 
   // URLSearchParams encodes spaces as '+', but miniextensions requires '%20'
   return urlObj.toString()
