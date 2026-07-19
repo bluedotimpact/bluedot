@@ -31,14 +31,19 @@ const applicationSubmitted = eventProjectionRules.find((p) => p.eventType === 'a
 
 describe('certificate_issued (two source tables)', () => {
   test('emits from both courseRegistration and selfServe, namespaced; skips rows without a cert', async () => {
+    await testDb.insert(userTable, {
+      id: 'u-fac', email: 'a@x.com', name: 'a', keycloakIdentifier: 'sub-u-fac',
+    });
     await testDb.insert(courseRegistrationTable, {
-      id: 'cr1', courseId: 'c1', email: 'a@x.com', certificateId: 'cert1', certificateCreatedAt: 1_700_000_000, roundId: 'rd1',
+      id: 'cr1', courseId: 'c1', email: 'a@x.com', userId: 'u-fac', certificateId: 'cert1', certificateCreatedAt: 1_700_000_000, roundId: 'rd1',
     });
     await testDb.insert(courseRegistrationTable, { id: 'cr2', courseId: 'c1', email: 'b@x.com' }); // no cert -> not loaded
     await testDb.insert(courseRegistrationTable, {
       id: 'cr3', courseId: 'c1', email: 'd@x.com', certificateCreatedAt: 1_700_000_500,
     }); // cert timestamp but no certificateId -> loaded, but emits nothing
-    await testDb.insert(userTable, { id: 'u-ss', email: 'c@x.com', name: 'c' });
+    await testDb.insert(userTable, {
+      id: 'u-ss', email: 'c@x.com', name: 'c', keycloakIdentifier: 'sub-u-ss',
+    });
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss1', courseId: 'c2', userId: 'u-ss', certificateId: 'sc1', certificateCreatedAt: 1_700_000_001,
     });
@@ -52,27 +57,33 @@ describe('certificate_issued (two source tables)', () => {
     const certs = ph.events.filter((e) => e.event === 'certificate_issued');
     expect(certs.map((e) => String(e.properties.certificate_id)).sort()).toEqual(['cert1', 'sc1']);
     const courseReg = certs.find((e) => e.properties.certificate_id === 'cert1')!;
-    expect(courseReg.distinct_id).toBe('a@x.com');
+    expect(courseReg.distinct_id).toBe('sub-u-fac');
     expect(courseReg.timestamp).toBe(new Date(1_700_000_000 * 1000).toISOString());
     expect(courseReg.properties).toMatchObject({ course_id: 'c1', round_id: 'rd1' });
-    // self-serve emails come from the linked user, and self-serve has no round
+    // self-serve identity comes from the linked user (keycloak sub), and self-serve has no round
     const selfServeCert = certs.find((e) => e.properties.certificate_id === 'sc1')!;
-    expect(selfServeCert.distinct_id).toBe('c@x.com');
+    expect(selfServeCert.distinct_id).toBe('sub-u-ss');
     expect(selfServeCert.properties).not.toHaveProperty('round_id');
   });
 });
 
 describe('since (incremental scans)', () => {
   test('certificate_issued: only rows with certificateCreatedAt >= since (epoch seconds)', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'old', courseId: 'c1', email: 'old@x.com', certificateId: 'cOld', certificateCreatedAt: 1_600_000_000,
+    await testDb.insert(userTable, {
+      id: 'u-old', email: 'old@x.com', name: 'old', keycloakIdentifier: 'sub-u-old',
+    });
+    await testDb.insert(userTable, {
+      id: 'u-new', email: 'new@x.com', name: 'new', keycloakIdentifier: 'sub-u-new',
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'new', courseId: 'c1', email: 'new@x.com', certificateId: 'cNew', certificateCreatedAt: 1_700_000_000,
+      id: 'old', courseId: 'c1', email: 'old@x.com', userId: 'u-old', certificateId: 'cOld', certificateCreatedAt: 1_600_000_000,
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'new', courseId: 'c1', email: 'new@x.com', userId: 'u-new', certificateId: 'cNew', certificateCreatedAt: 1_700_000_000,
     });
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2022-01-01T00:00:00.000Z' });
-    expect(ph.events.filter((e) => e.event === 'certificate_issued').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'certificate_issued').map((e) => e.distinct_id)).toEqual(['sub-u-new']);
   });
 
   test('application_accepted: only rows with acceptedAt >= since (ISO text)', async () => {
@@ -84,7 +95,7 @@ describe('since (incremental scans)', () => {
     });
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
-    expect(ph.events.filter((e) => e.event === 'application_accepted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'application_accepted').map((e) => e.distinct_id)).toEqual(['new']);
   });
 
   test('application_rejected: only rows with rejectedAt >= since (ISO text)', async () => {
@@ -96,7 +107,7 @@ describe('since (incremental scans)', () => {
     });
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
-    expect(ph.events.filter((e) => e.event === 'application_rejected').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'application_rejected').map((e) => e.distinct_id)).toEqual(['new']);
   });
 
   test('application_submitted: only rows with createdAt >= since (ISO text)', async () => {
@@ -116,7 +127,7 @@ describe('since (incremental scans)', () => {
 describe('application_accepted (write-once `Accepted at`)', () => {
   test('emits only for rows with an `Accepted at` timestamp', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'a1', courseId: 'c1', email: 'acc@x.com', acceptedAt: '2026-06-01T10:00:00.000Z',
+      id: 'a1', courseId: 'c1', email: 'acc@x.com', posthogDistinctId: 'anon-a1', acceptedAt: '2026-06-01T10:00:00.000Z',
     });
     await testDb.insert(courseRegistrationTable, {
       id: 'a2', courseId: 'c1', email: 'rej@x.com', decision: 'Reject',
@@ -130,7 +141,8 @@ describe('application_accepted (write-once `Accepted at`)', () => {
 
     const accepts = ph.events.filter((e) => e.event === 'application_accepted');
     expect(accepts).toHaveLength(1);
-    expect(accepts[0]?.distinct_id).toBe('acc@x.com');
+    // no linked user -> falls back to the registration's anon anchor (same as its application_submitted)
+    expect(accepts[0]?.distinct_id).toBe('anon-a1');
     expect(accepts[0]?.timestamp).toBe('2026-06-01T10:00:00.000Z');
   });
 
@@ -171,7 +183,7 @@ describe('application_rejected (write-once `Rejected at`)', () => {
 
     const rejects = ph.events.filter((e) => e.event === 'application_rejected');
     expect(rejects).toHaveLength(1);
-    expect(rejects[0]?.distinct_id).toBe('rej@x.com');
+    expect(rejects[0]?.distinct_id).toBe('a1');
     expect(rejects[0]?.timestamp).toBe('2026-06-01T10:00:00.000Z');
     expect(rejects[0]?.properties).toMatchObject({ course_id: 'c1' });
   });
@@ -300,8 +312,12 @@ describe('discussion_attended / discussion_absent', () => {
     await testDb.insert(unitTable, {
       id: 'u1', courseId: 'c1', courseTitle: 'AGI Strategy', courseSlug: 'agi-strategy', title: 'Intro to AGI', unitNumber: '1', unitStatus: 'Active',
     });
-    await testDb.insert(userTable, { id: 'u-att', email: 'attendee@x.com', name: 'attendee' });
-    await testDb.insert(userTable, { id: 'u-abs', email: 'absentee@x.com', name: 'absentee' });
+    await testDb.insert(userTable, {
+      id: 'u-att', email: 'attendee@x.com', name: 'attendee', keycloakIdentifier: 'sub-u-att',
+    });
+    await testDb.insert(userTable, {
+      id: 'u-abs', email: 'absentee@x.com', name: 'absentee', keycloakIdentifier: 'sub-u-abs',
+    });
     await testDb.insert(meetPersonTable, {
       id: 'mp1', userId: 'u-att', round: 'rd1', numUnits: 8,
     });
@@ -327,8 +343,8 @@ describe('discussion_attended / discussion_absent', () => {
 
     const attended = ph.events.filter((e) => e.event === 'discussion_attended');
     const absent = ph.events.filter((e) => e.event === 'discussion_absent');
-    expect(attended.map((e) => e.distinct_id)).toEqual(['attendee@x.com']);
-    expect(absent.map((e) => e.distinct_id)).toEqual(['absentee@x.com']);
+    expect(attended.map((e) => e.distinct_id)).toEqual(['sub-u-att']);
+    expect(absent.map((e) => e.distinct_id)).toEqual(['sub-u-abs']);
 
     // both attended and absent are timestamped at the discussion's scheduled start
     expect(attended[0]!.timestamp).toBe(new Date((nowSec - 7200) * 1000).toISOString());
@@ -372,21 +388,25 @@ describe('discussion_attended / discussion_absent', () => {
     await forwardAllEventsToPostHog({ now: NOW });
 
     const attended = ph.events.filter((e) => e.event === 'discussion_attended');
-    expect(attended.map((e) => e.distinct_id)).toEqual(['attendee@x.com']);
+    expect(attended.map((e) => e.distinct_id)).toEqual(['sub-u-att']);
   });
 
-  test('skips expected participants we cannot resolve an email for', async () => {
-    await testDb.insert(userTable, { id: 'u-att', email: 'attendee@x.com', name: 'attendee' });
+  test('skips expected participants we cannot resolve an identity for', async () => {
+    await testDb.insert(userTable, {
+      id: 'u-att', email: 'attendee@x.com', name: 'attendee', keycloakIdentifier: 'sub-u-att',
+    });
+    await testDb.insert(userTable, { id: 'u-nosub', email: 'nosub@x.com', name: 'nosub' }); // no keycloakIdentifier -> skipped
     await testDb.insert(meetPersonTable, { id: 'mp1', userId: 'u-att', round: 'rd1' });
+    await testDb.insert(meetPersonTable, { id: 'mpNoSub', userId: 'u-nosub', round: 'rd1' });
     await testDb.insert(meetPersonTable, { id: 'noUser' }); // no linked user -> skipped
     await insertDiscussion({
-      id: 'd1', participantsExpected: ['mp1', 'noUser'], attendees: ['mp1'], startSec: nowSec - 7200, endSec: nowSec - 3600,
+      id: 'd1', participantsExpected: ['mp1', 'mpNoSub', 'noUser'], attendees: ['mp1', 'mpNoSub'], startSec: nowSec - 7200, endSec: nowSec - 3600,
     });
 
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ now: NOW });
 
-    expect(ph.events.filter((e) => e.event === 'discussion_attended').map((e) => e.distinct_id)).toEqual(['attendee@x.com']);
+    expect(ph.events.filter((e) => e.event === 'discussion_attended').map((e) => e.distinct_id)).toEqual(['sub-u-att']);
     expect(ph.events.filter((e) => e.event === 'discussion_absent')).toHaveLength(0);
   });
 
@@ -429,13 +449,15 @@ describe('exercise_completed', () => {
     testDb.insert(exerciseTable, {
       id, courseId: opts.courseId, unitId: opts.unitId, title: opts.title, type: opts.type, status: 'Core',
     });
-  const seedUser = (id: string, email: string) => testDb.insert(userTable, { id, email, name: email });
+  const seedUser = (id: string, email: string) => testDb.insert(userTable, {
+    id, email, name: email, keycloakIdentifier: `sub-${id}`,
+  });
   const completeExercise = (id: string, userId: string | null, exerciseId: string, completedAt: string | null) =>
     db.pg.insert(exerciseResponsePgTable.pg).values({
       id, exerciseId, response: 'an answer', createdAt: '2026-06-01T00:00:00.000Z', completedAt, userId: userId ? [userId] : null,
     });
 
-  test('emits one event per completed response with the linked user\'s email, enriched with the exercise and course', async () => {
+  test('emits one event per completed response with the linked user\'s keycloak sub, enriched with the exercise and course', async () => {
     await seedCourse('c1', 'AGI Strategy');
     await seedExercise('ex2', {
       courseId: 'c1', unitId: 'u1', title: 'Quiz', type: 'Multiple choice',
@@ -449,8 +471,8 @@ describe('exercise_completed', () => {
 
     const events = ph.events.filter((e) => e.event === 'exercise_completed');
     expect(events).toHaveLength(1);
-    // the user's email, not the response row's own email column
-    expect(events[0]!.distinct_id).toBe('a@x.com');
+    // the user's keycloak sub, not any email
+    expect(events[0]!.distinct_id).toBe('sub-u1');
     expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
     expect(events[0]!.properties).toMatchObject({
       exercise_id: 'ex2',
@@ -484,7 +506,7 @@ describe('exercise_completed', () => {
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
 
-    expect(ph.events.filter((e) => e.event === 'exercise_completed').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'exercise_completed').map((e) => e.distinct_id)).toEqual(['sub-u-new']);
   });
 
   test('send-once across runs: a second run re-sends nothing', async () => {
@@ -517,7 +539,9 @@ describe('resource_completed', () => {
     testDb.insert(unitResourceTable, {
       id, unitId: opts.unitId, resourceName: opts.resourceName, coreFurtherMaybe: opts.coreFurtherMaybe,
     });
-  const seedUser = (id: string, email: string) => testDb.insert(userTable, { id, email, name: email });
+  const seedUser = (id: string, email: string) => testDb.insert(userTable, {
+    id, email, name: email, keycloakIdentifier: `sub-${id}`,
+  });
   const completeResource = (
     id: string, userId: string | null, unitResourceId: string | null, completedAt: string | null,
     resourceId?: string,
@@ -531,7 +555,7 @@ describe('resource_completed', () => {
       completedAt,
     });
 
-  test('emits one event per completed resource with the linked user\'s email, enriched with the unit_resource and unit', async () => {
+  test('emits one event per completed resource with the linked user\'s keycloak sub, enriched with the unit_resource and unit', async () => {
     await seedUnit('u1', { unitNumber: '2', title: 'What is AGI?' });
     await seedUnitResource('ur1', { unitId: 'u1', resourceName: 'The Bitter Lesson', coreFurtherMaybe: 'Core' });
     await seedUser('user1', 'a@x.com');
@@ -542,8 +566,8 @@ describe('resource_completed', () => {
 
     const events = ph.events.filter((e) => e.event === 'resource_completed');
     expect(events).toHaveLength(1);
-    // the user's email, not the completion row's own email column
-    expect(events[0]!.distinct_id).toBe('a@x.com');
+    // the user's keycloak sub, not any email
+    expect(events[0]!.distinct_id).toBe('sub-user1');
     expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
     expect(events[0]!.properties).toMatchObject({
       resource_id: 'res1',
@@ -588,7 +612,7 @@ describe('resource_completed', () => {
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
 
-    expect(ph.events.filter((e) => e.event === 'resource_completed').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'resource_completed').map((e) => e.distinct_id)).toEqual(['sub-u-new']);
   });
 
   test('send-once across runs: a second run re-sends nothing', async () => {
@@ -606,7 +630,7 @@ describe('resource_completed', () => {
 });
 
 describe('project_submitted', () => {
-  // distinct id (email) and course/round are all resolved via the participant link, not stored on the row:
+  // distinct id (keycloak sub) and course/round are all resolved via the participant link, not stored on the row:
   // submission.participant -> meetPerson.userId -> user, and meetPerson.applicationsBaseRecordId -> course_registration.
   const seedRegisteredParticipant = async () => {
     await testDb.insert(courseTable, {
@@ -615,7 +639,9 @@ describe('project_submitted', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'cr1', courseId: 'c1', email: 'a@x.com', roundId: 'rd1', roundName: 'AGI Strategy (2026 Mar W14) - Intensive',
     });
-    await testDb.insert(userTable, { id: 'u1', email: 'a@x.com', name: 'a' });
+    await testDb.insert(userTable, {
+      id: 'u1', email: 'a@x.com', name: 'a', keycloakIdentifier: 'sub-u1',
+    });
     await testDb.insert(meetPersonTable, {
       id: 'mp1', userId: 'u1', applicationsBaseRecordId: 'cr1',
     });
@@ -636,7 +662,7 @@ describe('project_submitted', () => {
 
     const events = ph.events.filter((e) => e.event === 'project_submitted');
     expect(events).toHaveLength(1);
-    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.distinct_id).toBe('sub-u1');
     expect(events[0]!.timestamp).toBe('2026-06-08T01:10:28.000Z');
     expect(events[0]!.properties).toMatchObject({
       course_id: 'c1',
@@ -648,8 +674,10 @@ describe('project_submitted', () => {
     });
   });
 
-  test('emits with email but no course/round when the participant has no registration', async () => {
-    await testDb.insert(userTable, { id: 'u2', email: 'solo@x.com', name: 'solo' });
+  test('emits with the identity but no course/round when the participant has no registration', async () => {
+    await testDb.insert(userTable, {
+      id: 'u2', email: 'solo@x.com', name: 'solo', keycloakIdentifier: 'sub-u2',
+    });
     await testDb.insert(meetPersonTable, { id: 'mp2', userId: 'u2' }); // no applicationsBaseRecordId
     await testDb.insert(projectSubmissionTable, {
       id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', link: 'https://example.com/p', participant: ['mp2'],
@@ -659,15 +687,17 @@ describe('project_submitted', () => {
     await forwardAllEventsToPostHog();
 
     const event = ph.events.find((e) => e.event === 'project_submitted')!;
-    expect(event.distinct_id).toBe('solo@x.com');
+    expect(event.distinct_id).toBe('sub-u2');
     expect(event.properties).toMatchObject({ project_url: 'https://example.com/p' });
     expect(event.properties).not.toHaveProperty('course_id');
     expect(event.properties).not.toHaveProperty('round_id');
   });
 
   test('group projects fan out: one event per participant, each keyed and attributed separately', async () => {
-    await seedRegisteredParticipant(); // mp1 -> a@x.com (course c1, round rd1)
-    await testDb.insert(userTable, { id: 'u2', email: 'b@x.com', name: 'b' });
+    await seedRegisteredParticipant(); // mp1 -> sub-u1 (course c1, round rd1)
+    await testDb.insert(userTable, {
+      id: 'u2', email: 'b@x.com', name: 'b', keycloakIdentifier: 'sub-u2',
+    });
     await testDb.insert(meetPersonTable, { id: 'mp2', userId: 'u2', applicationsBaseRecordId: 'cr1' });
     await testDb.insert(projectSubmissionTable, {
       id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', projectTitle: 'Group plan', participant: ['mp1', 'mp2'],
@@ -677,13 +707,13 @@ describe('project_submitted', () => {
     await forwardAllEventsToPostHog();
 
     const events = ph.events.filter((e) => e.event === 'project_submitted');
-    expect(events.map((e) => e.distinct_id).sort()).toEqual(['a@x.com', 'b@x.com']);
+    expect(events.map((e) => e.distinct_id).sort()).toEqual(['sub-u1', 'sub-u2']);
     // distinct uuids (derived from the per-participant internalUniqueKey) so neither is dropped as a duplicate
     expect(new Set(events.map((e) => e.uuid)).size).toBe(2);
     expect(events.every((e) => e.properties.project_title === 'Group plan' && e.properties.course_id === 'c1')).toBe(true);
   });
 
-  test('skips submissions whose participant resolves to no email (nothing to attribute to)', async () => {
+  test('skips submissions whose participant resolves to no identity (nothing to attribute to)', async () => {
     await testDb.insert(projectSubmissionTable, {
       id: 'ps1', createdAt: '2026-06-08T01:10:28.000Z', link: 'https://example.com/p', participant: ['unknown'],
     });
@@ -704,7 +734,9 @@ describe('project_submitted', () => {
     await testDb.insert(projectSubmissionTable, {
       id: 'old', createdAt: '2026-01-01T00:00:00.000Z', participant: ['mp1'],
     });
-    await testDb.insert(userTable, { id: 'u-new', email: 'new@x.com', name: 'new' });
+    await testDb.insert(userTable, {
+      id: 'u-new', email: 'new@x.com', name: 'new', keycloakIdentifier: 'sub-u-new',
+    });
     await testDb.insert(meetPersonTable, { id: 'mp2', userId: 'u-new' });
     await testDb.insert(projectSubmissionTable, {
       id: 'new', createdAt: '2026-06-01T00:00:00.000Z', participant: ['mp2'],
@@ -713,7 +745,7 @@ describe('project_submitted', () => {
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
 
-    expect(ph.events.filter((e) => e.event === 'project_submitted').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'project_submitted').map((e) => e.distinct_id)).toEqual(['sub-u-new']);
   });
 
   test('send-once across runs: a second run re-sends nothing', async () => {
@@ -747,7 +779,7 @@ describe('application_withdrawn', () => {
 
     const events = ph.events.filter((e) => e.event === 'application_withdrawn');
     expect(events).toHaveLength(1);
-    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.distinct_id).toBe('cr1');
     expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
     expect(events[0]!.properties).toMatchObject({
       course_id: 'c1',
@@ -771,7 +803,7 @@ describe('application_withdrawn', () => {
 
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog({ since: '2026-03-01T00:00:00.000Z' });
-    expect(ph.events.filter((e) => e.event === 'application_withdrawn').map((e) => e.distinct_id)).toEqual(['new@x.com']);
+    expect(ph.events.filter((e) => e.event === 'application_withdrawn').map((e) => e.distinct_id)).toEqual(['new']);
   });
 
   test('send-once across runs: a second run re-sends nothing', async () => {
@@ -791,8 +823,11 @@ describe('course_dropped_out / course_deferred', () => {
     await testDb.insert(courseTable, {
       id: 'c1', slug: 'agi-strategy', shortDescription: 'x', title: 'AGI Strategy', units: [], status: 'Active',
     });
+    await testDb.insert(userTable, {
+      id: 'u1', email: 'a@x.com', name: 'a', keycloakIdentifier: 'sub-u1',
+    });
     await testDb.insert(courseRegistrationTable, {
-      id: 'cr1', courseId: 'c1', email: 'a@x.com', roundId: 'rd1', roundName: 'AGI Strategy (2026 Mar W14) - Intensive',
+      id: 'cr1', courseId: 'c1', email: 'a@x.com', userId: 'u1', roundId: 'rd1', roundName: 'AGI Strategy (2026 Mar W14) - Intensive',
     });
   };
 
@@ -812,7 +847,7 @@ describe('course_dropped_out / course_deferred', () => {
 
     const events = ph.events.filter((e) => e.event === 'course_dropped_out');
     expect(events).toHaveLength(1);
-    expect(events[0]!.distinct_id).toBe('a@x.com');
+    expect(events[0]!.distinct_id).toBe('sub-u1');
     expect(events[0]!.timestamp).toBe('2026-06-10T10:00:00.000Z');
     expect(events[0]!.properties).toMatchObject({
       course_id: 'c1',
@@ -834,15 +869,24 @@ describe('course_dropped_out / course_deferred', () => {
     const deferred = ph.events.filter((e) => e.event === 'course_deferred');
     expect(dropped.map((e) => e.timestamp)).toEqual(['2026-06-10T10:00:00.000Z']);
     expect(deferred.map((e) => e.timestamp)).toEqual(['2026-06-12T10:00:00.000Z']);
-    expect(deferred[0]!.distinct_id).toBe('a@x.com');
+    expect(deferred[0]!.distinct_id).toBe('sub-u1');
   });
 
-  test('skips a dropout whose application cannot be resolved (no email to attribute)', async () => {
+  test('skips a dropout whose application cannot be resolved (no identity to attribute)', async () => {
     await seedDropout('do1', 'Drop out', { applicantId: 'missing' });
 
     const ph = mockPostHogBackend();
     await forwardAllEventsToPostHog();
     expect(ph.events.filter((e) => e.event === 'course_dropped_out')).toHaveLength(0);
+  });
+
+  test('falls back to the registration anchor when the applicant never logged in', async () => {
+    await testDb.insert(courseRegistrationTable, { id: 'cr-nouser', courseId: 'c1', email: 'a@x.com' });
+    await seedDropout('do1', 'Drop out', { applicantId: 'cr-nouser' });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+    expect(ph.events.filter((e) => e.event === 'course_dropped_out').map((e) => e.distinct_id)).toEqual(['cr-nouser']);
   });
 
   test('since scans only dropouts created on/after it', async () => {
@@ -868,6 +912,48 @@ describe('course_dropped_out / course_deferred', () => {
   });
 });
 
+describe('identity model: registration events share the anon anchor, identify joins it to the sub', () => {
+  const seedCourse = () => testDb.insert(courseTable, {
+    id: 'c1', slug: 'agi-strategy', shortDescription: 'x', title: 'AGI Strategy', units: [], status: 'Active',
+  });
+
+  test('logged-in applicant: submitted lands on the anchor, accepted on the sub, and the identify merges the two', async () => {
+    await seedCourse();
+    await testDb.insert(userTable, {
+      id: 'u1', email: 'a@x.com', name: 'a', keycloakIdentifier: 'sub-u1', firstLoggedInAt: '2026-05-02T00:00:00.000Z',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr1', courseId: 'c1', email: 'a@x.com', userId: 'u1', posthogDistinctId: 'anon-1', createdAt: '2026-05-01T00:00:00.000Z', acceptedAt: '2026-05-03T00:00:00.000Z',
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    expect(ph.events.find((e) => e.event === 'application_submitted')!.distinct_id).toBe('anon-1');
+    // decision events go straight to the sub once the user exists
+    expect(ph.events.find((e) => e.event === 'application_accepted')!.distinct_id).toBe('sub-u1');
+    // ...and the identify merges the anon anchor (submitted + any browsing) into that same sub person
+    const identify = ph.events.find((e) => e.event === '$identify')!;
+    expect(identify.distinct_id).toBe('sub-u1');
+    expect(identify.properties.$anon_distinct_id).toBe('anon-1');
+  });
+
+  test('never-logged-in applicant: the whole funnel accumulates on one anon anchor, with no identify', async () => {
+    await seedCourse();
+    await testDb.insert(courseRegistrationTable, {
+      id: 'cr1', courseId: 'c1', email: 'a@x.com', createdAt: '2026-05-01T00:00:00.000Z', rejectedAt: '2026-05-03T00:00:00.000Z',
+    });
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const funnel = ph.events.filter((e) => e.event.startsWith('application_'));
+    expect(funnel).toHaveLength(2);
+    expect(new Set(funnel.map((e) => e.distinct_id))).toEqual(new Set(['cr1']));
+    expect(ph.events.filter((e) => e.event === '$identify')).toHaveLength(0);
+  });
+});
+
 describe('identify_applicants', () => {
   const identifyApplicants = eventProjectionRules.find((p) => p.eventType === 'identify_applicants')!;
 
@@ -881,8 +967,12 @@ describe('identify_applicants', () => {
     })
   );
 
-  const seedLoggedInUser = (id: string, email: string, opts: { firstLoggedInAt?: string | null } = {}) => testDb.insert(userTable, {
-    id, email, name: email, firstLoggedInAt: opts.firstLoggedInAt === undefined ? '2026-05-02T00:00:00.000Z' : opts.firstLoggedInAt,
+  const seedLoggedInUser = (id: string, email: string, opts: { firstLoggedInAt?: string | null; keycloakIdentifier?: string | null } = {}) => testDb.insert(userTable, {
+    id,
+    email,
+    name: email,
+    firstLoggedInAt: opts.firstLoggedInAt === undefined ? '2026-05-02T00:00:00.000Z' : opts.firstLoggedInAt,
+    keycloakIdentifier: opts.keycloakIdentifier === undefined ? `sub-${id}` : opts.keycloakIdentifier,
   });
 
   test('a new login joins an application created before `since`', async () => {
@@ -893,7 +983,7 @@ describe('identify_applicants', () => {
     await runIdentifyApplicants({ since: '2026-03-01T00:00:00.000Z' });
 
     const identify = ph.events.find((e) => e.event === '$identify')!;
-    expect(identify.distinct_id).toBe('a@x.com');
+    expect(identify.distinct_id).toBe('sub-u1');
     expect(identify.properties).toMatchObject({ $anon_distinct_id: 'anon-1', $set: { email: 'a@x.com' } });
   });
 
@@ -905,7 +995,7 @@ describe('identify_applicants', () => {
     await runIdentifyApplicants({ since: '2026-03-01T00:00:00.000Z' });
 
     const identify = ph.events.find((e) => e.event === '$identify')!;
-    expect(identify.distinct_id).toBe('a@x.com');
+    expect(identify.distinct_id).toBe('sub-u1');
     expect(identify.properties).toMatchObject({ $anon_distinct_id: 'anon-1' });
   });
 
@@ -962,6 +1052,16 @@ describe('identify_applicants', () => {
 
     const identifies = ph.events.filter((e) => e.event === '$identify');
     expect(identifies).toHaveLength(1);
-    expect(identifies[0]!.distinct_id).toBe('new@x.com');
+    expect(identifies[0]!.distinct_id).toBe('sub-u-linked');
+  });
+
+  test('skips the identify when the user has no keycloakIdentifier', async () => {
+    await seedRegistration('cr1', 'a@x.com', { posthogDistinctId: 'anon-1', userId: 'u1' });
+    await seedLoggedInUser('u1', 'a@x.com', { keycloakIdentifier: null });
+
+    const ph = mockPostHogBackend();
+    await runIdentifyApplicants();
+
+    expect(ph.events).toHaveLength(0);
   });
 });
