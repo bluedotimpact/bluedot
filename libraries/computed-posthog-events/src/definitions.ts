@@ -29,6 +29,18 @@ const getKeycloakIdentifierByUserId = async (db: PgAirtableDb, userIds: (string 
   return new Map(users.flatMap((u) => (u.keycloakIdentifier ? [[u.id, u.keycloakIdentifier] as const] : [])));
 };
 
+// The identity preference for registration-scoped events: the linked user's keycloak sub,
+// else the registration's anon anchor (which identify_applicants merges into the sub person
+// at first login). Never email.
+const keycloakIdentifierOrRegistrationAnchor = (
+  keycloakIdentifierByUserId: Map<string, string>,
+  userId: string | null | undefined,
+  registration: Pick<CourseRegistration, 'id' | 'posthogDistinctId'> | null | undefined,
+): string | null => (
+  (userId ? keycloakIdentifierByUserId.get(userId) : undefined)
+  ?? (registration ? courseRegistrationAnonDistinctId(registration) : null)
+);
+
 // Mirrors the my-courses UI (deriveStatus in useDiscussionActions.tsx): a participant is `attended` when
 // their meet_person id is in the discussion's attendees, and `absent` once the discussion has ended without it.
 const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
@@ -48,6 +60,14 @@ const calculateDiscussionAttendanceEvents = async (
   const meetPersons = await db.pg.select().from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, meetPersonIds));
   const meetPersonById = new Map(meetPersons.map((mp) => [mp.id, mp] as const));
   const keycloakIdentifierByUserId = await getKeycloakIdentifierByUserId(db, meetPersons.map((mp) => mp.userId));
+
+  // Participants who never log in still get credited via their linked registration's anon anchor
+  const registrationIds = [...new Set(meetPersons.map((mp) => mp.applicationsBaseRecordId).filter((id): id is string => !!id))];
+  const registrations = registrationIds.length
+    ? await db.pg.select({ id: courseRegistrationTable.pg.id, posthogDistinctId: courseRegistrationTable.pg.posthogDistinctId })
+      .from(courseRegistrationTable.pg).where(inArray(courseRegistrationTable.pg.id, registrationIds))
+    : [];
+  const registrationById = new Map(registrations.map((r) => [r.id, r] as const));
 
   const roundIds = [...new Set(meetPersons.map((mp) => mp.round).filter((r): r is string => !!r))];
   const rounds = roundIds.length
@@ -77,13 +97,14 @@ const calculateDiscussionAttendanceEvents = async (
       if (kind === 'attended' ? !isAttended : isAttended) continue;
 
       const meetPerson = meetPersonById.get(meetPersonId);
-      const keycloakIdentifier = meetPerson?.userId ? keycloakIdentifierByUserId.get(meetPerson.userId) : undefined;
-      if (!meetPerson || !keycloakIdentifier) continue;
+      const registration = meetPerson?.applicationsBaseRecordId ? registrationById.get(meetPerson.applicationsBaseRecordId) : undefined;
+      const distinctId = keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, meetPerson?.userId, registration);
+      if (!meetPerson || !distinctId) continue;
       const roundName = meetPerson.round ? roundTitleById.get(meetPerson.round) : undefined;
 
       events.push({
         internalUniqueKey: `${meetPersonId}:${d.id}`,
-        distinctId: keycloakIdentifier,
+        distinctId,
         timestampMs: d.startDateTime * 1000,
         properties: {
           discussion_id: d.id,
@@ -138,9 +159,7 @@ const calculateDropoutEvents = async (
     const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
     return {
       internalUniqueKey: row.id,
-      distinctId: registration
-        ? ((registration.userId ? keycloakIdentifierByUserId.get(registration.userId) : undefined) ?? courseRegistrationAnonDistinctId(registration))
-        : null,
+      distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, registration?.userId, registration),
       timestampMs: Date.parse(row.createdAt!),
       properties: {
         ...(registration?.courseId ? { course_id: registration.courseId } : {}),
@@ -235,7 +254,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `accept:${r.id}`,
-          distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? courseRegistrationAnonDistinctId(r),
+          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
           timestampMs: Date.parse(r.acceptedAt!),
           properties: {
             course_id: r.courseId,
@@ -260,7 +279,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `reject:${r.id}`,
-          distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? courseRegistrationAnonDistinctId(r),
+          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
           timestampMs: Date.parse(r.rejectedAt!),
           properties: {
             course_id: r.courseId,
@@ -285,7 +304,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = courseTitleById.get(r.courseId);
         return {
           internalUniqueKey: `withdraw:${r.id}`,
-          distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? courseRegistrationAnonDistinctId(r),
+          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
           timestampMs: Date.parse(r.withdrawnAt!),
           properties: {
             course_id: r.courseId,
@@ -317,7 +336,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
           const courseName = courseTitleById.get(r.courseId);
           return {
             internalUniqueKey: `courseReg:${r.id}`,
-            distinctId: (r.userId ? keycloakIdentifierByUserId.get(r.userId) : undefined) ?? null,
+            distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, r.userId, r),
             timestampMs: Number(r.certificateCreatedAt) * 1000,
             properties: {
               course_id: r.courseId,
@@ -447,7 +466,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
 
       // The form links each submission to a meet_person (participant). The identity and the course/round
       // both come off that link: meetPerson.userId -> user gives the distinct id; meetPerson.applicationsBaseRecordId
-      // -> course_registration gives the course and round.
+      // -> course_registration gives the course, round, and the anon-anchor fallback for never-logged-in participants.
       const participantIds = [...new Set(submissions.flatMap((s) => s.participant ?? []))];
       const meetPersons = participantIds.length
         ? await db.pg.select({
@@ -461,6 +480,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
       const registrations = registrationIds.length
         ? await db.pg.select({
           id: courseRegistrationTable.pg.id,
+          posthogDistinctId: courseRegistrationTable.pg.posthogDistinctId,
           courseId: courseRegistrationTable.pg.courseId,
           roundId: courseRegistrationTable.pg.roundId,
           roundName: courseRegistrationTable.pg.roundName,
@@ -480,7 +500,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
         const courseName = registration?.courseId ? courseTitleById.get(registration.courseId) : undefined;
         return {
           internalUniqueKey: `${s.id}:${participantId}`,
-          distinctId: (meetPerson?.userId ? keycloakIdentifierByUserId.get(meetPerson.userId) : undefined) ?? null,
+          distinctId: keycloakIdentifierOrRegistrationAnchor(keycloakIdentifierByUserId, meetPerson?.userId, registration),
           timestampMs: Date.parse(s.createdAt!),
           properties: {
             ...(registration?.courseId ? { course_id: registration.courseId } : {}),
