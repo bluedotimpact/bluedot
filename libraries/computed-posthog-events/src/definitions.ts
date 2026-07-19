@@ -33,9 +33,11 @@ const getKeycloakIdentifierByUserId = async (db: PgAirtableDb, userIds: (string 
  * Get the best distinct id that we can for this event (better == easier to
  * join to an identified user)
  */
-const preferredDistinctId = (
-{ keycloakIdentifierByUserId, userId, registration }: { keycloakIdentifierByUserId: Map<string, string>; userId: string | null | undefined; registration: Pick<CourseRegistration, 'id' | 'posthogDistinctId'> | null | undefined; },
-): string | null => (
+const preferredDistinctId = ({ keycloakIdentifierByUserId, userId, registration }: {
+  keycloakIdentifierByUserId: Map<string, string>;
+  userId: string | null | undefined;
+  registration: Pick<CourseRegistration, 'id' | 'posthogDistinctId'> | null | undefined;
+}): string | null => (
   (userId ? keycloakIdentifierByUserId.get(userId) : undefined)
   ?? (registration ? courseRegistrationAnonDistinctId(registration) : null)
 );
