@@ -20,9 +20,7 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import {
-  checkAdminAccess, getUserFromAuthOrThrow, impersonationRealIdentity, protectedProcedure, router,
-} from '../trpc';
+import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
 // Options whose Airtable name starts with "[!]" are "actionable" — flagging the participant
@@ -62,7 +60,7 @@ const getFacilitator = async (roundId: string, userId: string) => {
   return facilitator;
 };
 
-async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { sub: string }; impersonation?: { adminSub: string } | null }) {
+async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { sub: string } }) {
   const [user, meetPerson] = await Promise.all([
     getUserFromAuthOrThrow(ctx.auth),
     db.getFirst(meetPersonTable, {
@@ -74,12 +72,8 @@ async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { sub: s
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
   }
 
-  if (meetPerson.userId !== user.id) {
-    // During impersonation, check the real admin's permissions, not the impersonated user's.
-    const isAdmin = await checkAdminAccess(impersonationRealIdentity(ctx));
-    if (!isAdmin) {
-      throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
-    }
+  if (meetPerson.userId !== user.id && user.isAdmin !== true) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
   }
 
   return meetPerson;
