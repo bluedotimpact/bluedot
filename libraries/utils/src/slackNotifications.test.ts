@@ -228,10 +228,10 @@ describe('slackNotifications', () => {
 
     test('should default itemNoun to a pluralised "item"', async () => {
       slackAlert(mockEnv, ['boom'], {
-        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'g', dedupeKeys: ['x'] },
+        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: ['x'] },
       });
       slackAlert(mockEnv, ['boom'], {
-        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'g', dedupeKeys: ['y'] },
+        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: ['y'] },
       });
 
       fetchMock.mockResolvedValueOnce({
@@ -310,7 +310,7 @@ describe('slackNotifications', () => {
     });
 
     test('should deduplicate items across batches', async () => {
-      const dedupe = (key: string) => ({ batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'g', dedupeKeys: [key], itemNoun: 'record' } });
+      const dedupe = (key: string) => ({ batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [key], itemNoun: 'record' } });
 
       slackAlert(mockEnv, ['Error'], dedupe('rec1AbCdEfGhIjKl'));
       slackAlert(mockEnv, ['Error'], dedupe('rec1AbCdEfGhIjKl')); // Same key
@@ -333,7 +333,7 @@ describe('slackNotifications', () => {
       const recordIds = Array.from({ length: 15 }, (_, i) => `rec${i}AbCdEfGhIjKl`);
 
       for (const recordId of recordIds) {
-        slackAlert(mockEnv, ['Error'], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'g', dedupeKeys: [recordId], itemNoun: 'record' } });
+        slackAlert(mockEnv, ['Error'], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId], itemNoun: 'record' } });
       }
 
       fetchMock.mockResolvedValueOnce({
@@ -447,7 +447,7 @@ describe('slackNotifications', () => {
           flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
           spikeThreshold: 3,
           escalationChannelId,
-          batchGroup: { signature: 'g', dedupeKeys: [recordId] },
+          batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId] },
         });
       }
 
@@ -496,7 +496,7 @@ describe('slackNotifications', () => {
           spikeThreshold: 3,
           channelId: 'test-channel',
           escalationChannelId: 'test-channel',
-          batchGroup: { signature: 'g', dedupeKeys: [recordId] },
+          batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId] },
         });
       }
 
@@ -536,14 +536,14 @@ describe('slackNotifications', () => {
       slackAlert(mockEnv, ['Validation warning'], {
         batchKey: 'test',
         flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
-        batchGroup: { signature: 'g', dedupeKeys: ['rec1AbCdEfGhIjKl'] },
+        batchGroup: { signature: 'shared-batch', dedupeKeys: ['rec1AbCdEfGhIjKl'] },
       });
       slackAlert(mockEnv, ['Validation warning'], {
         batchKey: 'test',
         flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
         spikeThreshold: 2,
         escalationChannelId,
-        batchGroup: { signature: 'g', dedupeKeys: ['rec2MnOpQrStUvWx'] },
+        batchGroup: { signature: 'shared-batch', dedupeKeys: ['rec2MnOpQrStUvWx'] },
       });
 
       fetchMock
