@@ -18,12 +18,12 @@ describe('verifyPublicToken', () => {
   });
 
   test('throws INTERNAL_SERVER_ERROR when the token is not configured', () => {
-    const mutableEnv = env as { CERTIFICATE_CREATION_TOKEN?: string };
-    mutableEnv.CERTIFICATE_CREATION_TOKEN = undefined;
+    const mutableEnv = env as { AIRTABLE_AUTOMATION_TOKEN?: string };
+    mutableEnv.AIRTABLE_AUTOMATION_TOKEN = undefined;
     try {
       expect(() => verifyPublicToken(TEST_TOKEN)).toThrow('Public token not configured');
     } finally {
-      mutableEnv.CERTIFICATE_CREATION_TOKEN = TEST_TOKEN;
+      mutableEnv.AIRTABLE_AUTOMATION_TOKEN = TEST_TOKEN;
     }
   });
 });
