@@ -151,7 +151,7 @@ describe('slackNotifications', () => {
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
       expect(callBody.text).toContain('test-app:');
-      expect(callBody.text).toContain('This error occurred 3 times affecting 3 record(s)');
+      expect(callBody.text).toContain('This error occurred 3 times affecting 3 records');
       expect(callBody.text).toContain('rec3BGObwkLPSskvb');
       expect(callBody.text).toContain('rec3qTvZcFGYccFcl');
       expect(callBody.text).toContain('rec3060zKybkbm9UH');
@@ -281,7 +281,7 @@ describe('slackNotifications', () => {
       await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
-      expect(callBody.text).toContain('affecting 2 record(s)'); // Only unique records
+      expect(callBody.text).toContain('affecting 2 records'); // Only unique records
       expect(callBody.text).toContain('rec1AbCdEfGhIjKl');
       expect(callBody.text).toContain('rec2MnOpQrStUvWx');
     });
@@ -301,7 +301,7 @@ describe('slackNotifications', () => {
       await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
-      expect(callBody.text).toContain('affecting 15 record(s)');
+      expect(callBody.text).toContain('affecting 15 records');
       expect(callBody.text).toContain('and 5 more'); // 15 - 10 = 5
     });
 

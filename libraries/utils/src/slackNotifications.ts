@@ -234,8 +234,9 @@ const flushBatcher = async (batcher: BatcherState) => {
       if (batch.affectedRecords.size > 0) {
         const recordList = Array.from(batch.affectedRecords).slice(0, 10).join(', ');
         const moreRecords = batch.affectedRecords.size > 10 ? ` and ${batch.affectedRecords.size - 10} more` : '';
+        const recordNoun = batch.affectedRecords.size === 1 ? 'record' : 'records';
 
-        messages.push(`${header} affecting ${batch.affectedRecords.size} record(s):\n${recordList}${moreRecords}`);
+        messages.push(`${header} affecting ${batch.affectedRecords.size} ${recordNoun}:\n${recordList}${moreRecords}`);
       } else {
         messages.push(`${header}.`);
       }
