@@ -508,7 +508,7 @@ describe('slackNotifications', () => {
     });
 
     test('falls back to occurrence count when messages carry no record IDs', async () => {
-      // No rec IDs -> affectedRecords stays empty -> spikeCount uses raw occurrences.
+      // No dedupeKeys -> dedupedItems stays empty -> spikeCount uses raw occurrences.
       for (let i = 0; i < 3; i++) {
         slackAlert(mockEnv, ['Validation warning with no record id'], {
           batchKey: 'test',

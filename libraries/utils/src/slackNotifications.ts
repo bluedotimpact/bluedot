@@ -62,15 +62,16 @@ const batchers = new Map<string, BatcherState>();
  * Sends Slack message(s) to our prod/dev channels
  * - By default, messages are sent immediately to ALERTS_SLACK_CHANNEL_ID
  * - To send to a different channel, provide a channelId
- * - To enable batching, provide a batchKey - messages will be grouped by signature (same error type/table/field)
+ * - To enable batching, provide a batchKey - messages are grouped by signature (the message text by default, or batchGroup.signature)
  * - Batching uses a rolling window: messages are sent N ms after the last message (not from the first)
  * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
  *
  * @param options.channelId - If provided, sends to this channel instead of ALERTS_SLACK_CHANNEL_ID
  * @param options.batchKey - If provided, enables batching with this key as the batch group identifier
  * @param options.flushIntervalMs - Time window for batching in ms (default: 60000, only used when batchKey is provided). Uses a rolling window - each new message resets the timer.
- * @param options.spikeThreshold - If provided, when a batched signature affects at least this many distinct records within a flush window, cross-post the batched summary to escalationChannelId.
+ * @param options.spikeThreshold - If provided, when a batched signature affects at least this many distinct items within a flush window, cross-post the batched summary to escalationChannelId.
  * @param options.escalationChannelId - If provided, specifies the channel to which batched summaries are cross-posted when the spikeThreshold is exceeded.
+ * @param options.batchGroup - If provided, controls how batched messages are grouped and summarised (signature, dedupeKeys, itemNoun, annotations).
  */
 export const slackAlert = async (
   env: SlackAlertEnv,
