@@ -109,14 +109,14 @@ const addToBatch = (
   messages: string[],
   channelId: string,
   flushIntervalMs: number,
-  spikeOptions: { spikeThreshold?: number; escalationChannelId?: string; batchGroup?: BatchGroup },
+  batchOptions: { spikeThreshold?: number; escalationChannelId?: string; batchGroup?: BatchGroup },
 ) => {
   const [mainMessage] = messages;
   if (!mainMessage) {
     return;
   }
 
-  const { batchGroup } = spikeOptions;
+  const { batchGroup } = batchOptions;
   const signature = batchGroup?.signature ?? mainMessage;
   const dedupeKeys = batchGroup?.dedupeKeys ?? [];
 
@@ -128,15 +128,15 @@ const addToBatch = (
       flushTimer: null,
       env,
       channelId,
-      spikeThreshold: spikeOptions.spikeThreshold,
-      escalationChannelId: spikeOptions.escalationChannelId,
+      spikeThreshold: batchOptions.spikeThreshold,
+      escalationChannelId: batchOptions.escalationChannelId,
     };
     batchers.set(batchKey, batcher);
   } else {
     // Keep spike settings current: a later call in the same window should not be
     // silently ignored just because the batcher already exists.
-    batcher.spikeThreshold = spikeOptions.spikeThreshold;
-    batcher.escalationChannelId = spikeOptions.escalationChannelId;
+    batcher.spikeThreshold = batchOptions.spikeThreshold;
+    batcher.escalationChannelId = batchOptions.escalationChannelId;
   }
 
   const existing = batcher.batches.get(signature);
