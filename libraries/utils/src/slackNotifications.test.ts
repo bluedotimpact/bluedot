@@ -124,13 +124,11 @@ describe('slackNotifications', () => {
   });
 
   describe('batching mode', () => {
-    test('should batch by shared signature and render dedupeKeys and annotations', async () => {
+    test('should batch by shared signature and render dedupeKeys', async () => {
       const message = 'Field `unitNumber` on `exercise`: cannot map value. Set to undefined.';
       const batchGroupFor = (recordId: string) => ({
         signature: 'exercise/unitNumber',
         dedupeKeys: [recordId],
-        itemNoun: 'record',
-        annotations: ['Table: tbla7lc2MtSSbWVvS', 'Field: fldL42M2hgchJYIdD'],
       });
 
       slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: batchGroupFor('rec3BGObwkLPSskvb') });
@@ -154,12 +152,10 @@ describe('slackNotifications', () => {
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
       expect(callBody.text).toContain('test-app:');
-      expect(callBody.text).toContain('This error occurred 3 times affecting 3 records');
+      expect(callBody.text).toContain('This error occurred 3 times affecting 3 item(s)');
       expect(callBody.text).toContain('rec3BGObwkLPSskvb');
       expect(callBody.text).toContain('rec3qTvZcFGYccFcl');
       expect(callBody.text).toContain('rec3060zKybkbm9UH');
-      expect(callBody.text).toContain('Table: tbla7lc2MtSSbWVvS');
-      expect(callBody.text).toContain('Field: fldL42M2hgchJYIdD');
     });
 
     test('should send single occurrence without batching summary', async () => {
@@ -223,26 +219,7 @@ describe('slackNotifications', () => {
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
       // First message wins as the batch's main message.
       expect(callBody.text).toContain('Error affecting Alice');
-      expect(callBody.text).toContain('This error occurred 2 times affecting 2 items');
-    });
-
-    test('should default itemNoun to a pluralised "item"', async () => {
-      slackAlert(mockEnv, ['boom'], {
-        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: ['x'] },
-      });
-      slackAlert(mockEnv, ['boom'], {
-        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: ['y'] },
-      });
-
-      fetchMock.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ ok: true, ts: '1.0' }),
-      });
-
-      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
-
-      const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
-      expect(callBody.text).toContain('affecting 2 items');
+      expect(callBody.text).toContain('This error occurred 2 times affecting 2 item(s)');
     });
 
     test('should preserve first reply in batched messages', async () => {
@@ -310,7 +287,7 @@ describe('slackNotifications', () => {
     });
 
     test('should deduplicate items across batches', async () => {
-      const dedupe = (key: string) => ({ batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [key], itemNoun: 'record' } });
+      const dedupe = (key: string) => ({ batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [key] } });
 
       slackAlert(mockEnv, ['Error'], dedupe('rec1AbCdEfGhIjKl'));
       slackAlert(mockEnv, ['Error'], dedupe('rec1AbCdEfGhIjKl')); // Same key
@@ -324,7 +301,7 @@ describe('slackNotifications', () => {
       await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
-      expect(callBody.text).toContain('affecting 2 records'); // Only unique keys
+      expect(callBody.text).toContain('affecting 2 item(s)'); // Only unique keys
       expect(callBody.text).toContain('rec1AbCdEfGhIjKl');
       expect(callBody.text).toContain('rec2MnOpQrStUvWx');
     });
@@ -333,7 +310,7 @@ describe('slackNotifications', () => {
       const recordIds = Array.from({ length: 15 }, (_, i) => `rec${i}AbCdEfGhIjKl`);
 
       for (const recordId of recordIds) {
-        slackAlert(mockEnv, ['Error'], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId], itemNoun: 'record' } });
+        slackAlert(mockEnv, ['Error'], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId] } });
       }
 
       fetchMock.mockResolvedValueOnce({
@@ -344,7 +321,7 @@ describe('slackNotifications', () => {
       await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
-      expect(callBody.text).toContain('affecting 15 records');
+      expect(callBody.text).toContain('affecting 15 item(s)');
       expect(callBody.text).toContain('and 5 more'); // 15 - 10 = 5
     });
 
