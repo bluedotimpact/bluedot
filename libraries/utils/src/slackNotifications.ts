@@ -4,25 +4,44 @@ type SlackAlertEnv = {
   ALERTS_SLACK_CHANNEL_ID: string;
 };
 
+// Domain-neutral batching metadata. Callers describe how to group and summarise their
+// messages without the util needing to know anything about the message contents.
+type BatchGroup = {
+  // Grouping key: messages sharing a signature collapse into one batch. Defaults to the
+  // message text, so callers wanting to group by e.g. error type (ignoring embedded IDs)
+  // must supply a stable signature themselves.
+  signature?: string;
+  // Distinct affected items. Deduplicated across the window, counted, and listed in the
+  // batched summary ("affecting N …", first 10 + "and M more").
+  dedupeKeys?: string[];
+  // Noun for the count line, e.g. 'record'. Pluralised automatically. Defaults to 'item'.
+  itemNoun?: string;
+  // Extra header fragments appended to the batched summary, each rendered as ` (fragment)`,
+  // e.g. 'Table: tbl123'.
+  annotations?: string[];
+};
+
 type SlackAlertOptions = {
   channelId?: string;
   batchKey?: string;
   flushIntervalMs?: number;
-  // When a batched signature affects at least this many distinct records within a
+  // When a batched signature affects at least this many distinct items within a
   // flush window, cross-post the batched summary to escalationChannelId. Lets a
   // low-priority side channel stay quiet for routine drift while a sudden base-wide
   // spike still reaches the main alerts channel.
   spikeThreshold?: number;
   escalationChannelId?: string;
+  // How to group and summarise batched messages. Only used when batchKey is set.
+  batchGroup?: BatchGroup;
 };
 
 type MessageBatch = {
   signature: string;
   occurrences: number;
   messages: string[];
-  tableId: string | null;
-  fieldId: string | null;
-  affectedRecords: Set<string>;
+  annotations: string[];
+  itemNoun: string;
+  dedupedItems: Set<string>;
   lastSeen: number;
 };
 
@@ -69,6 +88,7 @@ export const slackAlert = async (
     addToBatch(getBatcherKey(options.batchKey, env, channelId), env, messages, channelId, flushIntervalMs, {
       spikeThreshold: options.spikeThreshold,
       escalationChannelId: options.escalationChannelId,
+      batchGroup: options.batchGroup,
     });
     return;
   }
@@ -95,15 +115,16 @@ const addToBatch = (
   messages: string[],
   channelId: string,
   flushIntervalMs: number,
-  spikeOptions: { spikeThreshold?: number; escalationChannelId?: string },
+  spikeOptions: { spikeThreshold?: number; escalationChannelId?: string; batchGroup?: BatchGroup },
 ) => {
   const [mainMessage] = messages;
   if (!mainMessage) {
     return;
   }
 
-  const { tableId, fieldId, recordIds } = extractAirtableIds(mainMessage);
-  const signature = getMessageSignature(mainMessage);
+  const { batchGroup } = spikeOptions;
+  const signature = batchGroup?.signature ?? mainMessage;
+  const dedupeKeys = batchGroup?.dedupeKeys ?? [];
 
   let batcher = batchers.get(batchKey);
 
@@ -128,17 +149,17 @@ const addToBatch = (
   if (existing) {
     existing.occurrences += 1;
     existing.lastSeen = Date.now();
-    recordIds.forEach((id) => {
-      existing.affectedRecords.add(id);
+    dedupeKeys.forEach((id) => {
+      existing.dedupedItems.add(id);
     });
   } else {
     batcher.batches.set(signature, {
       signature,
       occurrences: 1,
       messages,
-      tableId,
-      fieldId,
-      affectedRecords: new Set(recordIds),
+      annotations: batchGroup?.annotations ?? [],
+      itemNoun: batchGroup?.itemNoun ?? 'item',
+      dedupedItems: new Set(dedupeKeys),
       lastSeen: Date.now(),
     });
   }
@@ -147,21 +168,6 @@ const addToBatch = (
     // eslint-disable-next-line no-console
     console.error('Error scheduling flush:', error);
   });
-};
-
-const getMessageSignature = (message: string) => {
-  // Match Airtable IDs (tbl/fld/rec + 10+ alphanumeric chars)
-  return message
-    .replace(/\btbl[A-Za-z0-9]{10,}/g, 'tbl***')
-    .replace(/\bfld[A-Za-z0-9]{10,}/g, 'fld***')
-    .replace(/\brec[A-Za-z0-9]{10,}/g, 'rec***');
-};
-
-const extractAirtableIds = (message: string) => {
-  const tableId = (/\btbl[A-Za-z0-9]{10,}/.exec(message))?.[0] ?? null;
-  const fieldId = (/\bfld[A-Za-z0-9]{10,}/.exec(message))?.[0] ?? null;
-  const recordIds = message.match(/\brec[A-Za-z0-9]{10,}/g) ?? [];
-  return { tableId, fieldId, recordIds };
 };
 
 const shouldForceFlush = (batcher: BatcherState, flushIntervalMs: number) => {
@@ -225,18 +231,17 @@ const flushBatcher = async (batcher: BatcherState) => {
 
     // Build main message
     if (batch.occurrences > 1) {
-      const tableInfo = batch.tableId ? ` (Table: ${batch.tableId})` : '';
-      const fieldInfo = batch.fieldId ? ` (Field: ${batch.fieldId})` : '';
-      const header = `${mainMessage}${tableInfo}${fieldInfo}\n\n⚠️ This error occurred ${batch.occurrences} times`;
+      const annotationInfo = batch.annotations.map((a) => ` (${a})`).join('');
+      const header = `${mainMessage}${annotationInfo}\n\n⚠️ This error occurred ${batch.occurrences} times`;
 
-      // Only Airtable-derived warnings carry record IDs; other batched errors
-      // (e.g. tRPC server errors) have none, so drop the record clause for them.
-      if (batch.affectedRecords.size > 0) {
-        const recordList = Array.from(batch.affectedRecords).slice(0, 10).join(', ');
-        const moreRecords = batch.affectedRecords.size > 10 ? ` and ${batch.affectedRecords.size - 10} more` : '';
-        const recordNoun = batch.affectedRecords.size === 1 ? 'record' : 'records';
+      // Only callers that pass dedupeKeys carry affected items; others (e.g. tRPC
+      // server errors) have none, so drop the item clause for them.
+      if (batch.dedupedItems.size > 0) {
+        const itemList = Array.from(batch.dedupedItems).slice(0, 10).join(', ');
+        const moreItems = batch.dedupedItems.size > 10 ? ` and ${batch.dedupedItems.size - 10} more` : '';
+        const noun = batch.dedupedItems.size === 1 ? batch.itemNoun : `${batch.itemNoun}s`;
 
-        messages.push(`${header} affecting ${batch.affectedRecords.size} ${recordNoun}:\n${recordList}${moreRecords}`);
+        messages.push(`${header} affecting ${batch.dedupedItems.size} ${noun}:\n${itemList}${moreItems}`);
       } else {
         messages.push(`${header}.`);
       }
@@ -272,9 +277,9 @@ const maybeEscalateSpike = async (batcher: BatcherState, batch: MessageBatch, ma
     return;
   }
 
-  // Distinct records is the blast radius; fall back to raw occurrences when a
-  // warning carries no record IDs (e.g. a retry loop on the same broken field).
-  const spikeCount = batch.affectedRecords.size > 0 ? batch.affectedRecords.size : batch.occurrences;
+  // Distinct affected items is the blast radius; fall back to raw occurrences when a
+  // batch carries no dedupeKeys (e.g. a retry loop on the same broken field).
+  const spikeCount = batch.dedupedItems.size > 0 ? batch.dedupedItems.size : batch.occurrences;
   if (spikeCount < spikeThreshold) {
     return;
   }
