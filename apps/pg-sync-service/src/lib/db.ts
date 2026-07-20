@@ -1,4 +1,4 @@
-import { PgAirtableDb, createTestDbClients } from '@bluedot/db';
+import { PgAirtableDb, createTestDbClients, formatAirtableWarning } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils';
 import env from '../env';
 
@@ -18,7 +18,8 @@ export const db = new PgAirtableDb({
   ...(isTest ? createTestDbClients() : {}),
   onWarning: async (warning: unknown) => {
     const err = warning instanceof Error ? warning : new Error(String(warning));
-    const message = `Airtable validation warning encountered, attempting to proceed by setting the affected fields to undefined. Warning message: ${err.message}`;
+    const formatted = formatAirtableWarning(err.message);
+    const message = formatted?.message ?? err.message;
 
     // eslint-disable-next-line no-console
     console.warn(message);
@@ -31,6 +32,7 @@ export const db = new PgAirtableDb({
       batchKey: 'airtable-validation',
       spikeThreshold: VALIDATION_WARNING_SPIKE_THRESHOLD,
       escalationChannelId: env.ALERTS_SLACK_CHANNEL_ID,
+      ...(formatted ? { batchGroup: formatted.batchGroup } : {}),
     });
   },
 });
