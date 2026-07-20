@@ -21,7 +21,7 @@ vi.mock('../../lib/api/env', () => ({
     ALERTS_SLACK_BOT_TOKEN: 'fake',
     KEYCLOAK_CLIENT_ID: 'fake',
     KEYCLOAK_CLIENT_SECRET: 'fake',
-    CERTIFICATE_CREATION_TOKEN: 'test-token-secret',
+    AIRTABLE_AUTOMATION_TOKEN: 'test-token-secret',
     VITEST: 'true',
   },
 }));
