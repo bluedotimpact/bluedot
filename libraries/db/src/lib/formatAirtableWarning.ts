@@ -25,6 +25,7 @@ export const formatAirtableWarning = (raw: string): FormattedAirtableWarning | n
   if (!record?.groups) {
     return null;
   }
+
   const { tableName, tableId, recordId } = record.groups;
 
   const field = /Failed to map field (?<fieldName>.+?) \((?<fieldId>fld[A-Za-z0-9]+)\)/.exec(raw);
