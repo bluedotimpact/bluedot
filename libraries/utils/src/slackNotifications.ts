@@ -12,13 +12,8 @@ type BatchGroup = {
   // must supply a stable signature themselves.
   signature?: string;
   // Distinct affected items. Deduplicated across the window, counted, and listed in the
-  // batched summary ("affecting N …", first 10 + "and M more").
+  // batched summary ("affecting N item(s)", first 10 + "and M more").
   dedupeKeys?: string[];
-  // Noun for the count line, e.g. 'record'. Pluralised automatically. Defaults to 'item'.
-  itemNoun?: string;
-  // Extra header fragments appended to the batched summary, each rendered as ` (fragment)`,
-  // e.g. 'Table: tbl123'.
-  annotations?: string[];
 };
 
 type SlackAlertOptions = {
@@ -39,8 +34,6 @@ type MessageBatch = {
   signature: string;
   occurrences: number;
   messages: string[];
-  annotations: string[];
-  itemNoun: string;
   dedupedItems: Set<string>;
   lastSeen: number;
 };
@@ -71,7 +64,7 @@ const batchers = new Map<string, BatcherState>();
  * @param options.flushIntervalMs - Time window for batching in ms (default: 60000, only used when batchKey is provided). Uses a rolling window - each new message resets the timer.
  * @param options.spikeThreshold - If provided, when a batched signature affects at least this many distinct items within a flush window, cross-post the batched summary to escalationChannelId.
  * @param options.escalationChannelId - If provided, specifies the channel to which batched summaries are cross-posted when the spikeThreshold is exceeded.
- * @param options.batchGroup - If provided, controls how batched messages are grouped and summarised (signature, dedupeKeys, itemNoun, annotations).
+ * @param options.batchGroup - If provided, controls how batched messages are grouped and summarised (signature, dedupeKeys).
  */
 export const slackAlert = async (
   env: SlackAlertEnv,
@@ -158,8 +151,6 @@ const addToBatch = (
       signature,
       occurrences: 1,
       messages,
-      annotations: batchGroup?.annotations ?? [],
-      itemNoun: batchGroup?.itemNoun ?? 'item',
       dedupedItems: new Set(dedupeKeys),
       lastSeen: Date.now(),
     });
@@ -232,17 +223,15 @@ const flushBatcher = async (batcher: BatcherState) => {
 
     // Build main message
     if (batch.occurrences > 1) {
-      const annotationInfo = batch.annotations.map((a) => ` (${a})`).join('');
-      const header = `${mainMessage}${annotationInfo}\n\n⚠️ This error occurred ${batch.occurrences} times`;
+      const header = `${mainMessage}\n\n⚠️ This error occurred ${batch.occurrences} times`;
 
       // Only callers that pass dedupeKeys carry affected items; others (e.g. tRPC
       // server errors) have none, so drop the item clause for them.
       if (batch.dedupedItems.size > 0) {
         const itemList = Array.from(batch.dedupedItems).slice(0, 10).join(', ');
         const moreItems = batch.dedupedItems.size > 10 ? ` and ${batch.dedupedItems.size - 10} more` : '';
-        const noun = batch.dedupedItems.size === 1 ? batch.itemNoun : `${batch.itemNoun}s`;
 
-        messages.push(`${header} affecting ${batch.dedupedItems.size} ${noun}:\n${itemList}${moreItems}`);
+        messages.push(`${header} affecting ${batch.dedupedItems.size} item(s):\n${itemList}${moreItems}`);
       } else {
         messages.push(`${header}.`);
       }
