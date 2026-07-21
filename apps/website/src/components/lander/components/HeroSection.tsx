@@ -133,8 +133,7 @@ const HeroSection = ({
                       {categoryLabel}
                     </p>
                   )}
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: hero variant pairing text-[40px] with xl:text-5xl (Tailwind default = 48px) */}
-                  <HeroH1 className="text-[40px] xl:text-5xl leading-tight font-semibold text-left">
+                  <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
                   <P className="text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
@@ -198,8 +197,7 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive xl token */}
-                  <HeroH1 className="text-[32px] sm:text-[40px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-left">
+                  <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
 
@@ -259,8 +257,7 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive xl token */}
-                  <HeroH1 className="text-[32px] sm:text-[40px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-left text-bluedot-navy">
+                  <HeroH1 className="font-semibold text-left text-bluedot-navy">
                     {title}
                   </HeroH1>
 

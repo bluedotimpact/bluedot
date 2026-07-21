@@ -214,7 +214,7 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
               <Eyebrow>
                 External course from {externalCoursePage.providerName}
               </Eyebrow>
-              <H1 className="text-size-xl bd-md:text-size-2xl">
+              <H1>
                 {course.title}
               </H1>
               <p className="text-size-md leading-relaxed text-bluedot-navy/80">
