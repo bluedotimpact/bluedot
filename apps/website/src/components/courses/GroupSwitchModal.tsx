@@ -63,7 +63,7 @@ export default function GroupSwitchModal({
     },
   );
 
-  const { data: courseRegistration } = trpc.courseRegistrations.getByCourseId.useQuery(
+  const { data: courseRegistration, isLoading: isRegistrationLoading } = trpc.courseRegistrations.getByCourseId.useQuery(
     { courseId: courseData?.course.id ?? '' },
     {
       enabled: !!courseData?.course.id,
@@ -79,7 +79,7 @@ export default function GroupSwitchModal({
   });
 
   const isSubmitting = submitGroupSwitchMutation.isPending;
-  const isLoading = isCourseLoading || isDiscussionsLoading;
+  const isLoading = isCourseLoading || isDiscussionsLoading || isRegistrationLoading;
 
   const groups = availableGroupsAndDiscussions?.groupsAvailable ?? [];
   const discussions = availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] ?? [];
@@ -355,16 +355,16 @@ export default function GroupSwitchModal({
       id: 'availability',
       isVisible: !!user && isManualRequest,
       title: 'Update availability (required)',
-      subtitle: courseRegistration ? (
+      subtitle: user ? (
         <>
           To help us assign you to a group which best suits you, {' '}
           <a
             href={buildAvailabilityFormUrl({
-              email: courseRegistration.email,
+              email: courseRegistration?.email ?? user.email,
               utmSource: 'bluedot-group-switch-modal',
               courseRegistration,
               // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              roundId: courseRegistration.roundId || '',
+              roundId: courseRegistration?.roundId || '',
             })}
             target="_blank"
             rel="noopener noreferrer"
