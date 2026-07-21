@@ -141,10 +141,10 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
 );
 
 const primaryBtnClass
-  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-md px-4 py-3 text-[14px] font-semibold tracking-tighter hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
+  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-md px-4 py-3 text-size-xs font-semibold tracking-tighter hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
 
 const outlinedBtnClass
-  = 'flex items-center justify-center gap-2.5 bg-white border border-charcoal-mid/50 text-bluedot-navy rounded-md px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
+  = 'flex items-center justify-center gap-2.5 bg-white border border-charcoal-mid/50 text-bluedot-navy rounded-md px-4 py-3 text-size-xs font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
 
 // --- Attendance ineligible card ---
 
@@ -387,8 +387,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             <p className="text-size-sm font-semibold tracking-wide uppercase" style={{ color: courseColors.accent }}>
               Start making impact today
             </p>
-            {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-            <H2 className="text-[32px] text-white">
+            <H2 className="text-white">
               Help more people discover AI safety today
             </H2>
             <P className="text-size-sm leading-relaxed text-white">
