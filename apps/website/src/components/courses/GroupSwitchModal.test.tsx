@@ -21,7 +21,7 @@ import type { DiscussionsAvailable } from '../../server/routers/group-switching'
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import {
-  createMockCourse, createMockGroupDiscussion, createMockUnit, createMockGroup,
+  createMockCourse, createMockCourseRegistration, createMockGroupDiscussion, createMockUnit, createMockGroup,
 } from '../../__tests__/testUtils';
 
 vi.mock('@bluedot/ui', async () => {
@@ -51,6 +51,10 @@ const mockUser = {
   keycloakIdentifier: null,
   allowedImpersonationTargets: [],
 };
+
+const mockCourseRegistration = createMockCourseRegistration({
+  email: 'registration@bluedot.org',
+});
 
 const mockUnit1 = createMockUnit({
   title: 'Introduction to AI Safety',
@@ -142,6 +146,7 @@ describe('GroupSwitchModal', () => {
     server.use(
       trpcMsw.users.getUser.query(() => mockUser),
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
+      trpcMsw.courseRegistrations.getByCourseId.query(() => mockCourseRegistration),
       trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussions),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
@@ -304,6 +309,9 @@ describe('GroupSwitchModal', () => {
         // UI changes to show manual request form
         expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
+
+      expect(screen.getByRole('link', { name: /please update your availability/i }))
+        .toHaveAttribute('href', expect.stringContaining('email=registration%40bluedot.org'));
 
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {

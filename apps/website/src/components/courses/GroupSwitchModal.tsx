@@ -355,16 +355,16 @@ export default function GroupSwitchModal({
       id: 'availability',
       isVisible: !!user && isManualRequest,
       title: 'Update availability (required)',
-      subtitle: user ? (
+      subtitle: courseRegistration ? (
         <>
           To help us assign you to a group which best suits you, {' '}
           <a
             href={buildAvailabilityFormUrl({
-              email: user.email,
+              email: courseRegistration.email,
               utmSource: 'bluedot-group-switch-modal',
               courseRegistration,
               // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              roundId: courseRegistration?.roundId || '',
+              roundId: courseRegistration.roundId || '',
             })}
             target="_blank"
             rel="noopener noreferrer"
