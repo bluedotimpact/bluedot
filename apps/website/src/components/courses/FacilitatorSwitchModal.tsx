@@ -1,7 +1,7 @@
 import {
   CTALinkOrButton,
   DatePicker,
-  H1,
+
   Modal,
   P,
   ProgressDots,
@@ -246,7 +246,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <>
           <InformationBanner modalType={modalType} />
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
+            <p className="text-size-md font-medium text-black">1. What kind of update are you making?</p>
             <Select
               ariaLabel="Action"
               value={switchType}
@@ -257,7 +257,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-black">2. For which group?</H1>
+            <p className="text-size-md font-medium text-black">2. For which group?</p>
             <Select
               ariaLabel="Group"
               value={selectedGroupId}
@@ -272,7 +272,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
           {isSingleUnitChange && (
             <div className="flex flex-col gap-2">
-              <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
+              <p className="text-size-md font-medium text-black">3. For which discussion?</p>
               <Select
                 ariaLabel="Discussion"
                 options={discussionOptions}
@@ -289,9 +289,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           )}
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-black">
+            <p className="text-size-md font-medium text-black">
               {isSingleUnitChange ? '4' : '3'}. Select new discussion time
-            </H1>
+            </p>
             <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
             <div className="flex flex-row gap-4">
               <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
@@ -331,7 +331,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       <>
         <InformationBanner modalType={modalType} />
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">1. For which group?</H1>
+          <p className="text-size-md font-medium text-black">1. For which group?</p>
           <Select
             ariaLabel="Group"
             value={selectedGroupId}
@@ -345,7 +345,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">2. For which discussion?</H1>
+          <p className="text-size-md font-medium text-black">2. For which discussion?</p>
           <Select
             ariaLabel="Discussion"
             options={discussionOptions}
@@ -356,7 +356,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">3. Select new facilitator</H1>
+          <p className="text-size-md font-medium text-black">3. Select new facilitator</p>
           {facilitatorsQuery.isError && (
             <P className="text-red-600">
               {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}
