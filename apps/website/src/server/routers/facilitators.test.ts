@@ -351,6 +351,38 @@ describe('facilitators.getFeedbackFormData', () => {
       .rejects.toThrow('Not found');
   });
 
+  test('allows an admin (not impersonating) to access another facilitator\'s form', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(userTable, {
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
+    });
+    const adminCaller = createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, sub: 'admin-sub' },
+    });
+
+    const result = await adminCaller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
+    expect(result.meetPersonId).toBe(FACILITATOR_ID);
+  });
+
+  test('rejects an admin impersonating a user who is not the facilitator', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(userTable, {
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
+    });
+    await testDb.insert(userTable, {
+      id: 'user-other', email: 'other@example.com', name: 'Other', keycloakIdentifier: 'other-sub',
+    });
+    const impersonatingCaller = createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, sub: 'other-sub' },
+      impersonation: { adminEmail: 'admin@example.com', adminSub: 'admin-sub', targetEmail: 'other@example.com' },
+    });
+
+    await expect(impersonatingCaller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID }))
+      .rejects.toThrow('Not found');
+  });
+
   test('errors when the facilitator meetPerson has no linked user', async () => {
     await seedFacilitatorGroup();
     await testDb.insert(userTable, {
