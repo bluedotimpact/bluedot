@@ -19,12 +19,12 @@ export function normaliseEmail(email: string) {
  * of any public procedure that should only be callable by our own automations.
  */
 export function verifyPublicToken(publicToken: string) {
-  if (!env.CERTIFICATE_CREATION_TOKEN) {
+  if (!env.AIRTABLE_AUTOMATION_TOKEN) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Public token not configured' });
   }
 
   const tokenBuf = Buffer.from(publicToken);
-  const secretBuf = Buffer.from(env.CERTIFICATE_CREATION_TOKEN);
+  const secretBuf = Buffer.from(env.AIRTABLE_AUTOMATION_TOKEN);
   if (tokenBuf.length !== secretBuf.length || !timingSafeEqual(tokenBuf, secretBuf)) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
   }

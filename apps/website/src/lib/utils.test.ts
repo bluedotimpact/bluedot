@@ -6,6 +6,7 @@ import {
   beforeEach,
   afterEach,
 } from 'vitest';
+import { useAuthStore } from '@bluedot/ui/src/utils/auth';
 import { type AxiosError, type AxiosResponse } from 'axios';
 const mockGetSessionId = vi.fn<() => string | null>();
 const mockGetDistinctId = vi.fn<() => string | null>();
@@ -357,15 +358,20 @@ describe('buildApplicationUrl', () => {
       .toBe('https://example.com/apply?foo=bar&prefill_Source=twitter');
   });
 
-  it('appends prefill_PostHog Distinct ID (URL-encoded) when the distinct id is anonymous', () => {
+  it('appends prefill_PostHog Distinct ID (URL-encoded) while logged out', () => {
     mockGetDistinctId.mockReturnValue('0190abcd-1234-7000-8000-abcdef012345');
     expect(buildApplicationUrl('https://example.com/apply', null))
       .toBe('https://example.com/apply?prefill_PostHog%20Distinct%20ID=0190abcd-1234-7000-8000-abcdef012345');
   });
 
-  it('does not append the distinct id once it is the email (already identified)', () => {
-    mockGetDistinctId.mockReturnValue('user@example.com');
-    expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
+  it('does not append the distinct id when logged in', () => {
+    mockGetDistinctId.mockReturnValue('0190abcd-1234-7000-8000-abcdef012345');
+    useAuthStore.setState({ auth: { expiresAt: Date.now() + 3600_000 } as never });
+    try {
+      expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
+    } finally {
+      useAuthStore.setState({ auth: null });
+    }
   });
 
   it('appends session id and anonymous distinct id together', () => {

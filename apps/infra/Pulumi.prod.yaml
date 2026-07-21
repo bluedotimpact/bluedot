@@ -28,8 +28,6 @@ config:
     secure: v1:xFifyNHW/RrW9Nu2:El+89xjeyp8EiGmgtvyscw129C+CinAwLde1sd6k6xgiorWDbUEaCdvq5jY7xewv
   infra:prodOnlyWebhookDeletion:
     secure: v1:9v9u5E5OOc+3SDxJ:V7AxNmgk9GmkCYegen7P9IEIZyQ=
-  infra:certificateCreationToken:
-    secure: v1:/LmEHmIJhdM2YpOA:NF9rrScCurxLl+Q7KsHLDGaL5gQG0Cq/MXiSHQp7EFq48csaa9Ub3iQGE1hkw9ni
   infra:lumaApiKey:
     secure: v1:Vm3B5jcIwUAYhL0b:+Q0iFfwl5wMPDpRDoRDOYY64MD+h0E6nL8NaQoA+iKiHC2JDH0CnGhZHwNtZBUie
   infra:keycloakPreviewClientId:
@@ -54,3 +52,5 @@ config:
     secure: v1:b5UzcM6qaYfkVVdW:xhm2fxYkE8rZ/hdDf/HxweP6Ey/Xwbb7Yakk+BfCTZ4/RKcOSDvMyHQry7dr9ahBJ2cU
   infra:notionApiToken:
     secure: v1:HEjKay/4nQ17dBxm:xLYbdntkzu0viT4+zw9sbwrJ4u4Ukn4vL4g0G67mxk50SgCEmTo2dyXR+BGQQhC4ksuYs67z2xi3g5U+RTjSG/5Q
+  infra:airtableAutomationToken:
+    secure: v1:6tP/YKX2E+Gb4R26:Wrz1cPwU10jp4aydNBZG89RZRHcKEhUkDHlh+XiYebdh69+RWWRaaZpBrdlSD4O1

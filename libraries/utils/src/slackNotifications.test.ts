@@ -178,6 +178,28 @@ describe('slackNotifications', () => {
       expect(callBody.text).not.toContain('This error occurred');
     });
 
+    test('should batch messages without record IDs and omit the record clause', async () => {
+      const message = 'Error: Failed request on route users.getUser, type query: The service is temporarily unavailable. Please retry shortly.';
+
+      slackAlert(mockEnv, [message], { batchKey: 'trpc-server-errors', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, [message], { batchKey: 'trpc-server-errors', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, [message], { batchKey: 'trpc-server-errors', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ ok: true, ts: '1.0' }),
+      });
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+
+      const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
+      expect(callBody.text).toContain('This error occurred 3 times.');
+      expect(callBody.text).not.toContain('record(s)');
+      expect(callBody.text).not.toContain('affecting');
+    });
+
     test('should preserve first reply in batched messages', async () => {
       const message1 = ['Main error message rec1AbCdEfGhIjKl', 'Stack trace here'];
       const message2 = ['Main error message rec2MnOpQrStUvWx', 'Different stack trace'];

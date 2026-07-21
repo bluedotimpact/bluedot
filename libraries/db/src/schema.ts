@@ -147,12 +147,16 @@ export const courseTable = pgAirtable('course', {
 export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response', {
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
-    email: text().notNull(),
     exerciseId: text().notNull(),
     response: text().notNull(),
     createdAt: text(),
     completedAt: text(),
     userId: text().array(),
+  },
+  deprecatedColumns: {
+    // Keep until ~2026-08-01: while deprecated, the old email values stay in the column,
+    // so restoring is just moving this back into `columns`
+    email: text(),
   },
 });
 
@@ -484,10 +488,6 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldRtqMTFX50uqLw5',
     },
-    email: {
-      pgColumn: text(),
-      airtableId: 'fld9BqZjF67r9Ce6O',
-    },
     numUnits: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld1ICMPmCd5y7B17',
@@ -522,6 +522,13 @@ export const meetPersonTable = pgAirtable('meet_person', {
     slackProfileUrl: {
       pgColumn: text(),
       airtableId: 'fldGhn89JZWlISRvc',
+    },
+  },
+  deprecatedColumns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fld9BqZjF67r9Ce6O',
+      deprecated: true,
     },
   },
 });
@@ -1432,10 +1439,6 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tbla338CpAd0FF96g',
   columns: {
-    email: {
-      pgColumn: text(),
-      airtableId: 'fldlSug1fEym6YizF',
-    },
     userId: {
       pgColumn: text(),
       airtableId: 'fldjByk8yK33Wslqs',
@@ -1468,6 +1471,13 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
     createdAt: {
       pgColumn: text(),
       airtableId: 'fldRiPmXA2UB9M9j5',
+    },
+  },
+  deprecatedColumns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldlSug1fEym6YizF',
+      deprecated: true,
     },
   },
 });
@@ -1528,18 +1538,6 @@ export const userTable = pgAirtable('user', {
   },
 });
 
-// Sync of the Applications base User table
-export const courseBuilderUserTable = pgAirtable('course_builder_user', {
-  baseId: COURSE_BUILDER_BASE_ID,
-  tableId: 'tbl8aI1ksljv2qZv3',
-  columns: {
-    email: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldOkUOWaZGphtQWF',
-    },
-  },
-});
-
 // Resource feedback constants for better readability
 export const RESOURCE_FEEDBACK = {
   DISLIKE: -1,
@@ -1554,7 +1552,6 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
     unitResourceId: text(),
-    email: text(),
     feedback: text(),
     resourceFeedback: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
     resourceId: text().array(),
@@ -1565,6 +1562,9 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
   },
   deprecatedColumns: {
     createdByUserId: text().array(),
+    // Keep until ~2026-08-01: while deprecated, the old email values stay in the column,
+    // so restoring is just moving this back into `columns`
+    email: text(),
   },
 });
 
@@ -1791,7 +1791,6 @@ export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 export type SelfServeCourseRegistration = InferSelectModel<typeof selfServeCourseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
-export type CourseBuilderUser = InferSelectModel<typeof courseBuilderUserTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;

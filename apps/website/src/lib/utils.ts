@@ -1,4 +1,5 @@
 import { addQueryParam } from '@bluedot/ui/src/utils/addQueryParam';
+import { useAuthStore } from '@bluedot/ui/src/utils/auth';
 import { type AxiosError } from 'axios';
 import posthog from 'posthog-js';
 
@@ -205,11 +206,11 @@ export const buildApplicationUrl = (
   const sessionId = posthog.get_session_id?.();
   if (sessionId) urlObj.searchParams.set('prefill_PostHog Session ID', sessionId);
 
-  // Forward the distinct id only while it's still anonymous (a uuid). Once the user is identified
-  // it's their email — which we don't want to leak into the external form, and there is no need
-  // to identify them then anyway.
+  // Forward the distinct id only for logged-out visitors. Logged-in users are identified to
+  // PostHog (by keycloak sub), and there is no need to capture their id: their registration
+  // gets linked to their account instead.
   const distinctId = posthog.get_distinct_id?.();
-  if (distinctId && !distinctId.includes('@')) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
+  if (distinctId && !useAuthStore.getState().auth) urlObj.searchParams.set('prefill_PostHog Distinct ID', distinctId);
 
   // URLSearchParams encodes spaces as '+', but miniextensions requires '%20'
   return urlObj.toString()

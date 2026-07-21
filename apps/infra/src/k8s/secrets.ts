@@ -6,6 +6,7 @@ import { config } from '../config';
 // These Pulumi secrets will be converted to K8s secrets automatically
 const toK8s = [
   'airtablePat',
+  'airtableAutomationToken',
   'alertsSlackBotToken',
   'anthropicApiKey',
   'openaiApiKey',
@@ -20,7 +21,6 @@ const toK8s = [
   'keycloakPreviewClientSecret',
   'keycloakPreviewAuthToken',
   'prodOnlyWebhookDeletion',
-  'certificateCreationToken',
   'cioAppApiKey',
   'cioTrackApiKey',
   'cioHmacSecret',

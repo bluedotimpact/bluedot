@@ -35,10 +35,10 @@ describe('recomputeValues', () => {
     await testDb.insert(exerciseTable, { id: 'ex-1' });
     await testDb.insert(exerciseTable, { id: 'ex-2' });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', email: 'a@example.com', exerciseId: 'ex-1', response: 'done', completedAt: new Date().toISOString(),
+      id: 'resp-1', exerciseId: 'ex-1', response: 'done', completedAt: new Date().toISOString(),
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-2', email: 'b@example.com', exerciseId: 'ex-1', response: 'done', completedAt: new Date().toISOString(),
+      id: 'resp-2', exerciseId: 'ex-1', response: 'done', completedAt: new Date().toISOString(),
     });
 
     const result = await recomputeValues({

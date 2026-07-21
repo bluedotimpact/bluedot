@@ -171,7 +171,7 @@ describe('courses.getCourseProgress', () => {
     await seedExercise('ex-core');
 
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-core', email: 'test@example.com', userId: ['test-user'], exerciseId: 'ex-core', response: 'x', completedAt: '2026-01-01',
+      id: 'r-core', userId: ['test-user'], exerciseId: 'ex-core', response: 'x', completedAt: '2026-01-01',
     });
 
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'core-prog' });
@@ -190,10 +190,10 @@ describe('courses.getCourseProgress', () => {
 
     // Complete the non-required exercises; they must not move the progress numbers.
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-further', email: 'test@example.com', userId: ['test-user'], exerciseId: 'ex-further', response: 'x', completedAt: '2026-01-01',
+      id: 'r-further', userId: ['test-user'], exerciseId: 'ex-further', response: 'x', completedAt: '2026-01-01',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-maybe', email: 'test@example.com', userId: ['test-user'], exerciseId: 'ex-maybe', response: 'x', completedAt: '2026-01-01',
+      id: 'r-maybe', userId: ['test-user'], exerciseId: 'ex-maybe', response: 'x', completedAt: '2026-01-01',
     });
 
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'further-prog' });

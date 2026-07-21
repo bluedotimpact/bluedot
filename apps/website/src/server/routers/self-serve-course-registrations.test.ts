@@ -25,7 +25,7 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
   test('returns the existing self-serve registration', async () => {
     await seedLoggedInUser();
     await testDb.insert(selfServeCourseRegistrationTable, {
-      id: 'ss-foai', email: 'test@example.com', userId: 'test-user', courseId: FOAI_COURSE_ID,
+      id: 'ss-foai', userId: 'test-user', courseId: FOAI_COURSE_ID,
     });
 
     const result = await createCaller(testAuthContextLoggedIn)

@@ -259,7 +259,6 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   numUnits: null,
   groupsAsParticipant: [],
   autoNumberId: 1,
-  email: 'test@example.com',
   courseFeedbackForm: null,
   courseFeedback: null,
   hasSentInactiveEmail: false,
@@ -320,7 +319,6 @@ export const createMockExercise = (overrides: Partial<Exercise> = {}): Exercise 
 });
 
 export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
-  email: '',
   feedback: null,
   id: MOCK_RESOURCE_COMPLETION_ID,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,

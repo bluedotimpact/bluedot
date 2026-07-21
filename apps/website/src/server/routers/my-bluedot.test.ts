@@ -84,7 +84,6 @@ describe('myCoursesPage.getOverview', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'mp-p',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-p',
       round: 'round-p',
@@ -94,7 +93,6 @@ describe('myCoursesPage.getOverview', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'mp-f',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-f',
       round: 'round-f',
@@ -194,7 +192,6 @@ describe('myCoursesPage.getOverview', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'mp-active',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-active',
       round: 'round-active',
@@ -204,7 +201,6 @@ describe('myCoursesPage.getOverview', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: 'mp-dropped',
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: 'reg-dropped',
       round: 'round-dropped',
@@ -339,7 +335,6 @@ describe('myCoursesPage.getOverview', () => {
 
       await testDb.insert(meetPersonTable, {
         id: 'mp-dropped',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-dropped',
         round: 'round-dropped',
@@ -388,7 +383,6 @@ describe('myCoursesPage.getOverview', () => {
 
       await testDb.insert(meetPersonTable, {
         id: 'mp-self',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-1',
         round: 'round-1',
@@ -398,13 +392,13 @@ describe('myCoursesPage.getOverview', () => {
       });
       // Three facilitators on the group: two with usable names, one with both names blank.
       await testDb.insert(meetPersonTable, {
-        id: 'fac-full', email: 'fac-full@example.com', firstName: 'Full', lastName: 'Name', role: 'Facilitator',
+        id: 'fac-full', firstName: 'Full', lastName: 'Name', role: 'Facilitator',
       });
       await testDb.insert(meetPersonTable, {
-        id: 'fac-first-only', email: 'fac-first-only@example.com', firstName: 'Firstonly', lastName: null, role: 'Facilitator',
+        id: 'fac-first-only', firstName: 'Firstonly', lastName: null, role: 'Facilitator',
       });
       await testDb.insert(meetPersonTable, {
-        id: 'fac-blank', email: 'fac-blank@example.com', firstName: '', lastName: '', role: 'Facilitator',
+        id: 'fac-blank', firstName: '', lastName: '', role: 'Facilitator',
       });
       await testDb.insert(groupTable, {
         id: 'group-1',
@@ -425,7 +419,6 @@ describe('myCoursesPage.getOverview', () => {
 
       await testDb.insert(meetPersonTable, {
         id: 'mp-1',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-1',
         round: 'round-1',
@@ -463,7 +456,6 @@ describe('myCoursesPage.getOverview', () => {
 
       await testDb.insert(meetPersonTable, {
         id: 'mp-1',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-1',
         round: 'round-1',
@@ -506,7 +498,6 @@ describe('myCoursesPage.getOverview', () => {
 
       await testDb.insert(meetPersonTable, {
         id: 'mp-x',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-x',
         round: 'round-x',
@@ -516,7 +507,6 @@ describe('myCoursesPage.getOverview', () => {
       });
       await testDb.insert(meetPersonTable, {
         id: 'mp-y',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-y',
         round: 'round-y',
@@ -566,7 +556,6 @@ describe('myCoursesPage.getOverview', () => {
 
       await testDb.insert(meetPersonTable, {
         id: 'mp-x',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-x',
         round: 'round-x',
@@ -576,7 +565,6 @@ describe('myCoursesPage.getOverview', () => {
       });
       await testDb.insert(meetPersonTable, {
         id: 'mp-y',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         applicationsBaseRecordId: 'reg-y',
         round: 'round-y',
@@ -652,7 +640,6 @@ describe('myCoursesPage.getOverview', () => {
       await seedFoaiCourse();
       await testDb.insert(selfServeCourseRegistrationTable, {
         id: 'ss-foai',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         courseId: FOAI_COURSE_ID,
         certificateId: 'ss-foai',
@@ -681,7 +668,6 @@ describe('myCoursesPage.getOverview', () => {
       await seedFoaiCourse();
       await testDb.insert(selfServeCourseRegistrationTable, {
         id: 'ss-foai',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         courseId: FOAI_COURSE_ID,
       });
@@ -703,7 +689,6 @@ describe('myCoursesPage.getOverview', () => {
       });
       await testDb.insert(selfServeCourseRegistrationTable, {
         id: 'ss-foai',
-        email: CALLER_EMAIL,
         userId: 'test-user',
         courseId: FOAI_COURSE_ID,
       });
@@ -876,7 +861,6 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: MEET_PERSON_ID,
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: REG_ID,
       round: ROUND_ID,
@@ -1097,7 +1081,6 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     });
     await testDb.insert(meetPersonTable, {
       id: MEET_PERSON_ID,
-      email: CALLER_EMAIL,
       userId: 'test-user',
       applicationsBaseRecordId: REG_ID,
       round: ROUND_ID,
