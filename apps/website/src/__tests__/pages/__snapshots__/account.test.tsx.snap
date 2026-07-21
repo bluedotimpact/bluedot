@@ -57,7 +57,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
           class="hidden w-[200px] shrink-0 lg:block"
         >
           <p
-            class="mb-4 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal"
+            class="text-size-xxs font-medium uppercase tracking-wide text-bluedot-normal mb-4"
             id="my-bluedot-nav-label"
           >
             My BlueDot

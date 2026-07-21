@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import {
-  cn, CTALinkOrButton, H2, P,
+  cn, CTALinkOrButton, Eyebrow, H2, P,
 } from '@bluedot/ui';
 import { PlusToggleIcon } from '../../icons';
 import { type IconType } from 'react-icons';
@@ -114,9 +114,9 @@ const PersonasSection = ({
                       {/* What this looks like */}
                       {persona.valueProposition && (
                         <div className="pt-4 border-t border-bluedot-navy/10">
-                          <p className="text-size-xxs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
+                          <Eyebrow className="text-bluedot-navy/40 mb-2">
                             What this looks like
-                          </p>
+                          </Eyebrow>
                           <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                             {persona.valueProposition}
                           </P>

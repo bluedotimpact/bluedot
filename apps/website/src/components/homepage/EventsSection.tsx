@@ -4,7 +4,7 @@ import {
   useEffect,
   useCallback,
 } from 'react';
-import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { CTALinkOrButton, Eyebrow, ProgressDots } from '@bluedot/ui';
 import { buildTimeDeltaString } from '../events/eventsUtils';
 import { trpc } from '../../utils/trpc';
 import { ROUTES } from '../../lib/routes';
@@ -93,9 +93,9 @@ const EventCard = ({ event }: { event: Event }) => {
       <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
-        <p className="text-size-xxs font-medium uppercase tracking-wide leading-snug text-bluedot-normal">
+        <Eyebrow>
           {event.location}
-        </p>
+        </Eyebrow>
         <a
           href={event.url}
           target="_blank"

@@ -1,4 +1,6 @@
-import { H3, H4, P } from '@bluedot/ui';
+import {
+  Eyebrow, H3, H4, P,
+} from '@bluedot/ui';
 import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 import { trpc } from '../../utils/trpc';
 
@@ -65,9 +67,9 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
 }) => {
   return (
     <div className="flex h-full flex-col gap-6">
-      <p className={`text-size-xxs font-semibold uppercase tracking-[0.12em] ${eyebrowClass}`}>
+      <Eyebrow className={eyebrowClass}>
         {number}
-      </p>
+      </Eyebrow>
       <div className="flex flex-col gap-3">
         <H4 className="bd-md:text-size-lg font-medium tracking-[-0.04em]">
           {title}

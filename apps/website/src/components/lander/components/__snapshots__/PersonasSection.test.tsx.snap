@@ -87,7 +87,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 class="pt-4 border-t border-bluedot-navy/10"
               >
                 <p
-                  class="text-size-xxs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2"
+                  class="text-size-xxs font-medium uppercase tracking-wide text-bluedot-navy/40 mb-2"
                 >
                   What this looks like
                 </p>
@@ -172,7 +172,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 class="pt-4 border-t border-bluedot-navy/10"
               >
                 <p
-                  class="text-size-xxs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2"
+                  class="text-size-xxs font-medium uppercase tracking-wide text-bluedot-navy/40 mb-2"
                 >
                   What this looks like
                 </p>
@@ -257,7 +257,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 class="pt-4 border-t border-bluedot-navy/10"
               >
                 <p
-                  class="text-size-xxs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2"
+                  class="text-size-xxs font-medium uppercase tracking-wide text-bluedot-navy/40 mb-2"
                 >
                   What this looks like
                 </p>

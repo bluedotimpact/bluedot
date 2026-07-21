@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import {
-  CTALinkOrButton, H1, P,
+  CTALinkOrButton, Eyebrow, H1, P,
 } from '@bluedot/ui';
 import { Nav } from '../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../lib/courseColors';
@@ -312,12 +312,9 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 style={{ backgroundColor: TAS.bright }}
               >
                 <p className="text-size-xl leading-none">{FIRST_PRIZE.medal}</p>
-                <p
-                  className="mt-3 text-size-xs font-semibold uppercase tracking-[0.18em]"
-                  style={{ color: TAS.full }}
-                >
+                <Eyebrow className="mt-3" style={{ color: TAS.full }}>
                   {FIRST_PRIZE.place} · {FIRST_PRIZE.amount}
-                </p>
+                </Eyebrow>
                 <p className="mt-2 text-size-lg font-semibold text-bluedot-navy">
                   {FIRST_PRIZE.winners[0]}
                 </p>
@@ -326,9 +323,9 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 {RUNNER_UP_PRIZES.map((p) => (
                   <div key={p.place} className="rounded-lg border border-color-divider p-5 text-center">
                     <p className="text-size-lg leading-none">{p.medal}</p>
-                    <p className="mt-3 text-size-xs font-semibold uppercase tracking-[0.18em] text-bluedot-navy/60">
+                    <Eyebrow className="mt-3 text-bluedot-navy/60">
                       {p.place} · {p.amount}
-                    </p>
+                    </Eyebrow>
                     <ul className="mt-2 space-y-0.5">
                       {p.winners.map((name) => (
                         <li key={name} className="text-size-sm font-semibold text-bluedot-navy leading-snug">

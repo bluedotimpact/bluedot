@@ -27,3 +27,18 @@ export const OnDark: Story = {
     </div>
   ),
 };
+
+export const Muted: Story = {
+  args: {
+    children: 'More stories',
+    className: 'text-bluedot-navy/60',
+  },
+};
+
+// Computed colours (course accents) pass through the style prop.
+export const DynamicAccent: Story = {
+  args: {
+    children: 'Start making impact today',
+    style: { color: '#a32e00' },
+  },
+};

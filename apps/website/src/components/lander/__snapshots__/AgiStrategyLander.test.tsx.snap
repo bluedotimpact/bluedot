@@ -573,7 +573,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="space-y-4"
             >
               <p
-                class="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
+                class="text-size-xxs font-medium uppercase tracking-wide text-bluedot-normal"
                 style="color: #BCA9FF;"
               >
                 COHORT-BASED COURSE
@@ -626,7 +626,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="space-y-4"
               >
                 <p
-                  class="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
+                  class="text-size-xxs font-medium uppercase tracking-wide text-bluedot-normal"
                   style="color: #BCA9FF;"
                 >
                   COHORT-BASED COURSE

@@ -1,4 +1,6 @@
-import { CTALinkOrButton, HeroH1, P } from '@bluedot/ui';
+import {
+  CTALinkOrButton, Eyebrow, HeroH1, P,
+} from '@bluedot/ui';
 
 type CtaProps = {
   /** Overridden with "Apply by [deadline]" in CourseLander when a deadline exists */
@@ -78,12 +80,9 @@ const HeroSection = ({
             <div className="w-full flex flex-col items-center gap-5 text-center">
               <div className="space-y-4">
                 {categoryLabel && (
-                  <p
-                    className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
-                    style={{ color: effectiveCategoryLabelColor }}
-                  >
+                  <Eyebrow style={{ color: effectiveCategoryLabelColor }}>
                     {categoryLabel}
-                  </p>
+                  </Eyebrow>
                 )}
                 <HeroH1 className="font-semibold">
                   {title}
@@ -126,12 +125,9 @@ const HeroSection = ({
               <div className="w-full space-y-8">
                 <div className="space-y-4">
                   {categoryLabel && (
-                    <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
-                      style={{ color: effectiveCategoryLabelColor }}
-                    >
+                    <Eyebrow style={{ color: effectiveCategoryLabelColor }}>
                       {categoryLabel}
-                    </p>
+                    </Eyebrow>
                   )}
                   <HeroH1 className="font-semibold text-left">
                     {title}
@@ -189,12 +185,9 @@ const HeroSection = ({
                 {/* Text Content */}
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
-                    <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
-                      style={{ color: effectiveCategoryLabelColor }}
-                    >
+                    <Eyebrow style={{ color: effectiveCategoryLabelColor }}>
                       {categoryLabel}
-                    </p>
+                    </Eyebrow>
                   )}
 
                   <HeroH1 className="font-semibold text-left">
@@ -249,12 +242,9 @@ const HeroSection = ({
                 {/* Text Content */}
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
-                    <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase text-bluedot-normal"
-                      style={{ color: effectiveCategoryLabelColor }}
-                    >
+                    <Eyebrow style={{ color: effectiveCategoryLabelColor }}>
                       {categoryLabel}
-                    </p>
+                    </Eyebrow>
                   )}
 
                   <HeroH1 className="font-semibold text-left text-bluedot-navy">
