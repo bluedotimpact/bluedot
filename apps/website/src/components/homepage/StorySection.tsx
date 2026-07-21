@@ -5,7 +5,7 @@ const StorySection = () => {
   return (
     <section className="py-12 px-5 bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20">
       <div className="flex flex-col items-center max-w-2xl mx-auto text-center">
-        <H2 className="bd-md:text-size-2xl leading-tight tracking-tighter font-medium mb-12 bd-md:mb-8">
+        <H2 className="leading-tight tracking-tighter font-medium mb-12 bd-md:mb-8">
           Who is BlueDot?
         </H2>
 

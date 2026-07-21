@@ -5,7 +5,7 @@ const Header = () => (
   <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
     <div className="flex flex-col gap-5">
       <h2
-        className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-tighter"
+        className="text-size-xl font-medium leading-snug text-bluedot-navy tracking-tighter"
         style={{ fontFeatureSettings: '\'ss04\' on' }}
       >
         Start making an impact today

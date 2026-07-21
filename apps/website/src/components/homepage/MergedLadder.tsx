@@ -40,7 +40,7 @@ const RungHeader = ({ rung }: { rung: Rung }) => (
       {rung.step}
     </P>
     <h2
-      className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-tighter"
+      className="text-size-xl font-medium leading-snug text-bluedot-navy tracking-tighter"
       style={{ fontFeatureSettings: '\'ss04\' on' }}
     >
       {rung.title}
