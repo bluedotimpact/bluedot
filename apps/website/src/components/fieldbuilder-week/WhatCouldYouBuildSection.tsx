@@ -51,7 +51,7 @@ const WhatCouldYouBuildSection = () => {
                 <Icon className="text-bluedot-navy" size={24} />
               </div>
               <div className="flex flex-col gap-1.5">
-                <H4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+                <H4>
                   {title}
                 </H4>
                 <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
@@ -65,7 +65,7 @@ const WhatCouldYouBuildSection = () => {
               <PiSparkle className="text-bluedot-navy" size={24} />
             </div>
             <div className="flex flex-col gap-1.5">
-              <H4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+              <H4>
                 Your idea
               </H4>
               <P className="text-size-sm leading-relaxed text-bluedot-navy/80">

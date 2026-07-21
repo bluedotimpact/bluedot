@@ -11,7 +11,7 @@ const meta = {
   decorators: [
     (Story) => (
       <div className="mx-auto max-w-[900px] text-bluedot-navy">
-        <H1 className="text-size-xl font-bold">Next steps</H1>
+        <H1 className="text-size-xl">Next steps</H1>
         <Story />
       </div>
     ),

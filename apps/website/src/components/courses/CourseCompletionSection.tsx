@@ -132,7 +132,7 @@ export default function CourseCompletionSection({
           <SocialProof accentColor={accentColor} />
           <div className="flex flex-col gap-3">
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-            <H2 className="font-bold text-[28px] md:text-[32px] leading-snug text-bluedot-navy">
+            <H2 className="text-[28px] md:text-[32px]">
               Join the next {courseTitle} cohort
             </H2>
             <P className="text-size-sm leading-relaxed text-bluedot-navy">

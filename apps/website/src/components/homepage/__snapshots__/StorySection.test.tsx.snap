@@ -9,7 +9,7 @@ exports[`StorySection > renders default as expected 1`] = `
       class="flex flex-col items-center max-w-2xl mx-auto text-center"
     >
       <h2
-        class="bluedot-h2 not-prose text-size-xl bd-md:text-size-2xl leading-tight tracking-tighter font-medium mb-12 bd-md:mb-8"
+        class="bluedot-h2 not-prose bd-md:text-size-2xl leading-tight tracking-tighter font-medium mb-12 bd-md:mb-8"
       >
         Who is BlueDot?
       </h2>

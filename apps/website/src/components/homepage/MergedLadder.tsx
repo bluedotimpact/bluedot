@@ -70,7 +70,7 @@ const FoaiRungCard = () => (
         </div>
       </div>
       <div className="flex flex-col gap-3 mt-5">
-        <H3 className="text-size-lg font-medium leading-snug tracking-tight text-white">
+        <H3 className="font-medium leading-snug tracking-tight text-white">
           The Future of AI
           <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
         </H3>

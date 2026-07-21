@@ -371,7 +371,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {/* Certificate hero section */}
       <div className="flex flex-col items-center gap-8 pt-12 pb-16">
         <LaurelWreath courseSlug={courseSlug} />
-        <H2 className="max-w-[720px] text-center text-size-xl font-bold">
+        <H2 className="max-w-[720px] text-center">
           Congratulations on finishing the {courseTitle} course!
         </H2>
         {courseId && <CertificateHero courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />}
@@ -388,7 +388,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               Start making impact today
             </p>
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-            <H2 className="text-[32px] leading-snug font-bold text-white">
+            <H2 className="text-[32px] text-white">
               Help more people discover AI safety today
             </H2>
             <P className="text-size-sm leading-relaxed text-white">

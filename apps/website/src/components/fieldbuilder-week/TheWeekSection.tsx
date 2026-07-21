@@ -51,7 +51,7 @@ const TheWeekSection = () => {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <H4 className="text-size-md font-semibold text-bluedot-navy">
+                <H4>
                   {item.title}
                 </H4>
                 <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
