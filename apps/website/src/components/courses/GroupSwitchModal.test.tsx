@@ -21,7 +21,7 @@ import type { DiscussionsAvailable } from '../../server/routers/group-switching'
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import {
-  createMockCourse, createMockGroupDiscussion, createMockUnit, createMockGroup,
+  createMockCourse, createMockCourseRegistration, createMockGroupDiscussion, createMockUnit, createMockGroup,
 } from '../../__tests__/testUtils';
 
 vi.mock('@bluedot/ui', async () => {
@@ -51,6 +51,10 @@ const mockUser = {
   keycloakIdentifier: null,
   allowedImpersonationTargets: [],
 };
+
+const mockCourseRegistration = createMockCourseRegistration({
+  email: 'registration@bluedot.org',
+});
 
 const mockUnit1 = createMockUnit({
   title: 'Introduction to AI Safety',
@@ -142,6 +146,7 @@ describe('GroupSwitchModal', () => {
     server.use(
       trpcMsw.users.getUser.query(() => mockUser),
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
+      trpcMsw.courseRegistrations.getByCourseId.query(() => mockCourseRegistration),
       trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussions),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
@@ -304,6 +309,9 @@ describe('GroupSwitchModal', () => {
         // UI changes to show manual request form
         expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
+
+      expect(screen.getByRole('link', { name: /please update your availability/i }))
+        .toHaveAttribute('href', expect.stringContaining('email=registration%40bluedot.org'));
 
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
@@ -694,6 +702,123 @@ describe('GroupSwitchModal', () => {
       await waitFor(() => {
         expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
       });
+    });
+  });
+
+  describe('Course registration states', () => {
+    test('form is not shown until the course registration has loaded', async () => {
+      let resolveRegistration!: () => void;
+      const registrationRequested = vi.fn();
+      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => {
+        registrationRequested();
+        return new Promise((resolve) => {
+          resolveRegistration = () => resolve(mockCourseRegistration);
+        });
+      }));
+
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          courseSlug="ai-safety"
+          roundId="round-1"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        expect(registrationRequested).toHaveBeenCalled();
+      });
+      await new Promise((resolve) => {
+        setTimeout(resolve, 50);
+      });
+
+      expect(document.querySelector('.progress-dots')).toBeInTheDocument();
+      expect(screen.queryByLabelText('Reason for group switch request')).not.toBeInTheDocument();
+      expect(screen.queryByRole('checkbox', { name: /I have updated my availability/i })).not.toBeInTheDocument();
+
+      resolveRegistration();
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByRole('button', { name: /Request manual group switch/i }));
+
+      await waitFor(() => {
+        expect(screen.getByRole('link', { name: /please update your availability/i }))
+          .toHaveAttribute('href', expect.stringContaining('email=registration%40bluedot.org'));
+      });
+    });
+
+    test('falls back to the account email when the user has no accepted course registration', async () => {
+      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => null));
+
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          courseSlug="ai-safety"
+          roundId="round-1"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByRole('button', { name: /Request manual group switch/i }));
+
+      await waitFor(() => {
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
+      });
+
+      expect(screen.getByRole('link', { name: /please update your availability/i }))
+        .toHaveAttribute('href', expect.stringContaining('email=test%40bluedot.org'));
+
+      fireEvent.click(screen.getByRole('checkbox', { name: /I have updated my availability/i }));
+
+      const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
+      expect(submitButton).not.toBeDisabled();
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith(expect.objectContaining({ isManualRequest: true }));
+      });
+    });
+
+    test('falls back to the account email when the course registration query fails', async () => {
+      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to load registration' });
+      }));
+
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          courseSlug="ai-safety"
+          roundId="round-1"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByRole('button', { name: /Request manual group switch/i }));
+
+      await waitFor(() => {
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
+      });
+
+      expect(screen.getByRole('link', { name: /please update your availability/i }))
+        .toHaveAttribute('href', expect.stringContaining('email=test%40bluedot.org'));
+
+      fireEvent.click(screen.getByRole('checkbox', { name: /I have updated my availability/i }));
+
+      expect(screen.getByRole('button', { name: /Submit group switch request/i })).not.toBeDisabled();
     });
   });
 
