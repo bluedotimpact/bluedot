@@ -387,7 +387,8 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             <p className="text-size-sm font-semibold tracking-wide uppercase" style={{ color: courseColors.accent }}>
               Start making impact today
             </p>
-            <H2 className="text-white">
+            {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: fixed 32px at all breakpoints inside the gradient share card */}
+            <H2 className="text-[32px] text-white">
               Help more people discover AI safety today
             </H2>
             <P className="text-size-sm leading-relaxed text-white">

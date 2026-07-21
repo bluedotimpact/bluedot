@@ -853,7 +853,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   Basic Principles of Fish
                 </p>
                 <h1
-                  class="bluedot-h1 not-prose unit__title text-size-xl"
+                  class="bluedot-h1 not-prose unit__title text-[32px] leading-snug"
                 >
                   What can AI do today?
                 </h1>
