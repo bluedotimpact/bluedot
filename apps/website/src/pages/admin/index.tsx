@@ -37,6 +37,11 @@ const AdminHome = () => {
                 {ROUTES.adminUserExerciseResponses.title}
               </a>
             </li>
+            <li>
+              <a href={ROUTES.adminChangeEmail.url} className="text-bluedot-normal underline hover:opacity-80">
+                {ROUTES.adminChangeEmail.title}
+              </a>
+            </li>
           </ul>
         ) : (
           <ProgressDots className="py-8" />

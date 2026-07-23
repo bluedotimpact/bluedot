@@ -110,6 +110,141 @@ export async function updateKeycloakPassword(
   }
 }
 
+export async function updateKeycloakEmail(
+  userSub: string,
+  newEmail: string,
+): Promise<void> {
+  if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
+    throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
+  }
+
+  try {
+    const adminToken = await getAdminToken();
+
+    const userResponse = await axios.get(
+      `${KEYCLOAK_BASE_URL}/admin/realms/customers/users/${userSub}`,
+      { headers: { Authorization: `Bearer ${adminToken}` } },
+    );
+
+    const user = userResponse.data as { email?: string; username?: string } & Record<string, unknown>;
+
+    await axios.put(
+      `${KEYCLOAK_BASE_URL}/admin/realms/customers/users/${userSub}`,
+      {
+        ...user,
+        email: newEmail,
+        emailVerified: true,
+        ...(user.username && user.username === user.email ? { username: newEmail } : {}),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${adminToken}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        adminTokenCache = null;
+        throw createHttpError.Forbidden('Keycloak rejected the email update. The service account may not have permission to manage users yet.');
+      }
+
+      if (error.response?.status === 404) {
+        throw createHttpError.NotFound('Keycloak account not found for this user.');
+      }
+
+      if (error.response?.status === 400 || error.response?.status === 409) {
+        const data = error.response.data as { errorMessage?: string; error?: string } | undefined;
+        throw createHttpError.BadRequest(data?.errorMessage ?? data?.error ?? 'Keycloak rejected the email update.');
+      }
+
+      throw createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.');
+    }
+
+    throw createHttpError.InternalServerError('An unexpected error occurred while updating email.');
+  }
+}
+
+export type KeycloakFederatedIdentity = {
+  identityProvider: string;
+  userId: string;
+  userName: string;
+};
+
+function mapKeycloakAdminError(error: unknown, fallbackMessage: string): Error {
+  if (axios.isAxiosError(error)) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      adminTokenCache = null;
+      return createHttpError.Forbidden('Keycloak rejected the request. The service account may not have permission to manage users yet.');
+    }
+
+    if (error.response?.status === 404) {
+      return createHttpError.NotFound('Keycloak account not found for this user.');
+    }
+
+    return createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.');
+  }
+
+  return createHttpError.InternalServerError(fallbackMessage);
+}
+
+export async function getKeycloakFederatedIdentities(userSub: string): Promise<KeycloakFederatedIdentity[]> {
+  if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
+    throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
+  }
+
+  try {
+    const adminToken = await getAdminToken();
+
+    const response = await axios.get(
+      `${KEYCLOAK_BASE_URL}/admin/realms/customers/users/${userSub}/federated-identity`,
+      { headers: { Authorization: `Bearer ${adminToken}` } },
+    );
+
+    return response.data as KeycloakFederatedIdentity[];
+  } catch (error) {
+    throw mapKeycloakAdminError(error, 'An unexpected error occurred while reading linked login identities.');
+  }
+}
+
+export async function removeKeycloakFederatedIdentity(userSub: string, alias: string): Promise<void> {
+  if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
+    throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
+  }
+
+  try {
+    const adminToken = await getAdminToken();
+
+    await axios.delete(
+      `${KEYCLOAK_BASE_URL}/admin/realms/customers/users/${userSub}/federated-identity/${alias}`,
+      { headers: { Authorization: `Bearer ${adminToken}` } },
+    );
+  } catch (error) {
+    throw mapKeycloakAdminError(error, 'An unexpected error occurred while removing a linked login identity.');
+  }
+}
+
+export async function hasKeycloakPasswordCredential(userSub: string): Promise<boolean> {
+  if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
+    throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
+  }
+
+  try {
+    const adminToken = await getAdminToken();
+
+    const response = await axios.get(
+      `${KEYCLOAK_BASE_URL}/admin/realms/customers/users/${userSub}/credentials`,
+      { headers: { Authorization: `Bearer ${adminToken}` } },
+    );
+
+    const credentials = response.data as { type?: string }[];
+    return credentials.some((credential) => credential.type === 'password');
+  } catch (error) {
+    throw mapKeycloakAdminError(error, 'An unexpected error occurred while checking login credentials.');
+  }
+}
+
 async function getAdminToken(): Promise<string> {
   // Check if we have a valid cached token
   const currentTimeSeconds = Math.floor(Date.now() / 1000);

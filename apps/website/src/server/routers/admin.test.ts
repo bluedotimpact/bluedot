@@ -130,4 +130,3 @@ describe('admin.searchUsers', () => {
       .rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 });
-

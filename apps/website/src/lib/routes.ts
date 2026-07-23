@@ -147,6 +147,18 @@ const adminSyncDashboard: BluedotRoute = {
   parentPages: [home, admin],
 };
 
+const adminChangeEmail: BluedotRoute = {
+  title: 'Change user email',
+  url: '/admin/change-email',
+  parentPages: [home, admin],
+};
+
+const confirmEmailChange: BluedotRoute = {
+  title: 'Confirm email change',
+  url: '/account/confirm-email-change',
+  parentPages: [home],
+};
+
 const adminUserExerciseResponses: BluedotRoute = {
   title: 'User exercise responses',
   url: '/admin/exercises',
@@ -156,8 +168,10 @@ const adminUserExerciseResponses: BluedotRoute = {
 export const ROUTES = {
   about,
   admin,
+  adminChangeEmail,
   adminSyncDashboard,
   adminUserExerciseResponses,
+  confirmEmailChange,
   alumni,
   blog,
   certification,
