@@ -124,15 +124,16 @@ describe('slackNotifications', () => {
   });
 
   describe('batching mode', () => {
-    test('should batch similar messages by signature', async () => {
-      const message1 = 'Failed to map field unitNumber (fldL42M2hgchJYIdD) from Airtable for table exercise (tbla7lc2MtSSbWVvS) and record rec3BGObwkLPSskvb';
-      const message2 = 'Failed to map field unitNumber (fldL42M2hgchJYIdD) from Airtable for table exercise (tbla7lc2MtSSbWVvS) and record rec3qTvZcFGYccFcl';
-      const message3 = 'Failed to map field unitNumber (fldL42M2hgchJYIdD) from Airtable for table exercise (tbla7lc2MtSSbWVvS) and record rec3060zKybkbm9UH';
+    test('should batch by shared signature and render dedupeKeys', async () => {
+      const message = 'Field `unitNumber` on `exercise`: cannot map value. Set to undefined.';
+      const batchGroupFor = (recordId: string) => ({
+        signature: 'exercise/unitNumber',
+        dedupeKeys: [recordId],
+      });
 
-      // Add messages to batch
-      slackAlert(mockEnv, [message1], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
-      slackAlert(mockEnv, [message2], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
-      slackAlert(mockEnv, [message3], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: batchGroupFor('rec3BGObwkLPSskvb') });
+      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: batchGroupFor('rec3qTvZcFGYccFcl') });
+      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: batchGroupFor('rec3060zKybkbm9UH') });
 
       // No messages sent yet
       expect(fetchMock).not.toHaveBeenCalled();
@@ -151,12 +152,10 @@ describe('slackNotifications', () => {
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
       expect(callBody.text).toContain('test-app:');
-      expect(callBody.text).toContain('This error occurred 3 times affecting 3 record(s)');
+      expect(callBody.text).toContain('This error occurred 3 times affecting 3 item(s)');
       expect(callBody.text).toContain('rec3BGObwkLPSskvb');
       expect(callBody.text).toContain('rec3qTvZcFGYccFcl');
       expect(callBody.text).toContain('rec3060zKybkbm9UH');
-      expect(callBody.text).toContain('Table: tbla7lc2MtSSbWVvS');
-      expect(callBody.text).toContain('Field: fldL42M2hgchJYIdD');
     });
 
     test('should send single occurrence without batching summary', async () => {
@@ -200,9 +199,32 @@ describe('slackNotifications', () => {
       expect(callBody.text).not.toContain('affecting');
     });
 
+    test('should collapse differing messages that share an explicit signature', async () => {
+      // Distinct message bodies but the same signature must land in one batch.
+      slackAlert(mockEnv, ['Error affecting Alice'], {
+        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'same-group', dedupeKeys: ['a'] },
+      });
+      slackAlert(mockEnv, ['Error affecting Bob'], {
+        batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'same-group', dedupeKeys: ['b'] },
+      });
+
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ ok: true, ts: '1.0' }),
+      });
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
+      // First message wins as the batch's main message.
+      expect(callBody.text).toContain('Error affecting Alice');
+      expect(callBody.text).toContain('This error occurred 2 times affecting 2 item(s)');
+    });
+
     test('should preserve first reply in batched messages', async () => {
-      const message1 = ['Main error message rec1AbCdEfGhIjKl', 'Stack trace here'];
-      const message2 = ['Main error message rec2MnOpQrStUvWx', 'Different stack trace'];
+      const message1 = ['Main error message', 'Stack trace here'];
+      const message2 = ['Main error message', 'Different stack trace'];
 
       slackAlert(mockEnv, message1, { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
       slackAlert(mockEnv, message2, { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
@@ -264,14 +286,12 @@ describe('slackNotifications', () => {
       expect(reply2Body.text).toBe('test-app: Reply 2');
     });
 
-    test('should track unique record IDs across batches', async () => {
-      const message1 = 'Error rec1AbCdEfGhIjKl';
-      const message2 = 'Error rec1AbCdEfGhIjKl'; // Same record
-      const message3 = 'Error rec2MnOpQrStUvWx';
+    test('should deduplicate items across batches', async () => {
+      const dedupe = (key: string) => ({ batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [key] } });
 
-      slackAlert(mockEnv, [message1], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
-      slackAlert(mockEnv, [message2], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
-      slackAlert(mockEnv, [message3], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, ['Error'], dedupe('rec1AbCdEfGhIjKl'));
+      slackAlert(mockEnv, ['Error'], dedupe('rec1AbCdEfGhIjKl')); // Same key
+      slackAlert(mockEnv, ['Error'], dedupe('rec2MnOpQrStUvWx'));
 
       fetchMock.mockResolvedValueOnce({
         ok: true,
@@ -281,16 +301,16 @@ describe('slackNotifications', () => {
       await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
-      expect(callBody.text).toContain('affecting 2 record(s)'); // Only unique records
+      expect(callBody.text).toContain('affecting 2 item(s)'); // Only unique keys
       expect(callBody.text).toContain('rec1AbCdEfGhIjKl');
       expect(callBody.text).toContain('rec2MnOpQrStUvWx');
     });
 
-    test('should limit record list to 10 records', async () => {
+    test('should limit the item list to 10', async () => {
       const recordIds = Array.from({ length: 15 }, (_, i) => `rec${i}AbCdEfGhIjKl`);
 
       for (const recordId of recordIds) {
-        slackAlert(mockEnv, [`Error ${recordId}`], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+        slackAlert(mockEnv, ['Error'], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS, batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId] } });
       }
 
       fetchMock.mockResolvedValueOnce({
@@ -301,7 +321,7 @@ describe('slackNotifications', () => {
       await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
-      expect(callBody.text).toContain('affecting 15 record(s)');
+      expect(callBody.text).toContain('affecting 15 item(s)');
       expect(callBody.text).toContain('and 5 more'); // 15 - 10 = 5
     });
 
@@ -395,16 +415,16 @@ describe('slackNotifications', () => {
   describe('spike escalation', () => {
     const escalationChannelId = 'alerts-channel';
 
-    test('cross-posts batched summary to escalation channel when record count hits threshold', async () => {
-      const messages = ['rec1AbCdEfGhIjKl', 'rec2MnOpQrStUvWx', 'rec3ZzYyXxWwVvUu']
-        .map((recordId) => `Validation warning ${recordId}`);
+    test('cross-posts batched summary to escalation channel when item count hits threshold', async () => {
+      const recordIds = ['rec1AbCdEfGhIjKl', 'rec2MnOpQrStUvWx', 'rec3ZzYyXxWwVvUu'];
 
-      for (const message of messages) {
-        slackAlert(mockEnv, [message], {
+      for (const recordId of recordIds) {
+        slackAlert(mockEnv, ['Validation warning'], {
           batchKey: 'test',
           flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
           spikeThreshold: 3,
           escalationChannelId,
+          batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId] },
         });
       }
 
@@ -444,16 +464,16 @@ describe('slackNotifications', () => {
     });
 
     test('does not escalate when escalation channel equals batch channel', async () => {
-      const messages = ['rec1AbCdEfGhIjKl', 'rec2MnOpQrStUvWx', 'rec3ZzYyXxWwVvUu']
-        .map((recordId) => `Validation warning ${recordId}`);
+      const recordIds = ['rec1AbCdEfGhIjKl', 'rec2MnOpQrStUvWx', 'rec3ZzYyXxWwVvUu'];
 
-      for (const message of messages) {
-        slackAlert(mockEnv, [message], {
+      for (const recordId of recordIds) {
+        slackAlert(mockEnv, ['Validation warning'], {
           batchKey: 'test',
           flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
           spikeThreshold: 3,
           channelId: 'test-channel',
           escalationChannelId: 'test-channel',
+          batchGroup: { signature: 'shared-batch', dedupeKeys: [recordId] },
         });
       }
 
@@ -465,7 +485,7 @@ describe('slackNotifications', () => {
     });
 
     test('falls back to occurrence count when messages carry no record IDs', async () => {
-      // No rec IDs -> affectedRecords stays empty -> spikeCount uses raw occurrences.
+      // No dedupeKeys -> dedupedItems stays empty -> spikeCount uses raw occurrences.
       for (let i = 0; i < 3; i++) {
         slackAlert(mockEnv, ['Validation warning with no record id'], {
           batchKey: 'test',
@@ -490,15 +510,17 @@ describe('slackNotifications', () => {
     test('uses spike options from a later call in the same window', async () => {
       // First call omits spike options; a later call in the same window supplies them.
       // The later options should take effect rather than being silently ignored.
-      slackAlert(mockEnv, ['Validation warning rec1AbCdEfGhIjKl'], {
+      slackAlert(mockEnv, ['Validation warning'], {
         batchKey: 'test',
         flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
+        batchGroup: { signature: 'shared-batch', dedupeKeys: ['rec1AbCdEfGhIjKl'] },
       });
-      slackAlert(mockEnv, ['Validation warning rec2MnOpQrStUvWx'], {
+      slackAlert(mockEnv, ['Validation warning'], {
         batchKey: 'test',
         flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
         spikeThreshold: 2,
         escalationChannelId,
+        batchGroup: { signature: 'shared-batch', dedupeKeys: ['rec2MnOpQrStUvWx'] },
       });
 
       fetchMock
