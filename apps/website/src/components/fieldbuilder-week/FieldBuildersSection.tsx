@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { CTALinkOrButton, H3, P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
 
 type Builder = {
   slug: string;
@@ -145,7 +144,7 @@ const FieldBuildersSection = () => {
   return (
     <section className="section section-body fieldbuilder-week-field-builders-section">
       <div className="w-full flex flex-col gap-7">
-        <H3 className={`${pageSectionHeadingClass} max-w-[720px] text-balance`}>
+        <H3 className="max-w-[720px] text-balance">
           Most AI safety programs started because someone saw a talent gap and decided to do something about it.
         </H3>
 

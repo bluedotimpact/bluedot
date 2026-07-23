@@ -1,4 +1,5 @@
 import React from 'react';
+import { H3 } from '@bluedot/ui';
 import { getCioAnalytics } from '../analytics/CustomerioAnalytics';
 
 const NewsletterBanner = () => {
@@ -79,13 +80,13 @@ const NewsletterBanner = () => {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12">
         <div className="flex flex-col gap-4 w-full">
-          <span className="text-size-xxs leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium">
+          <span className="text-size-xxs leading-snug tracking-wide uppercase text-white opacity-70 font-medium">
             Newsletter
           </span>
 
-          <h3 className="text-2xl leading-tight text-white max-w-narrow">
+          <H3 className="text-white max-w-narrow">
             Subscribe to get AI safety news and course updates delivered directly to your inbox
-          </h3>
+          </H3>
         </div>
 
         <div className="relative w-full lg:w-[480px]">
@@ -106,7 +107,7 @@ const NewsletterBanner = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+              className="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-tight tracking-wide text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
               style={{
                 // Gradient border on focus - Tailwind doesn't support gradient borders with double background layers
                 backgroundOrigin: 'padding-box, border-box',
@@ -123,7 +124,7 @@ const NewsletterBanner = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full lg:w-auto h-11 px-[17px] flex items-center justify-center rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-white bg-white/15 border border-white/15 backdrop-blur-[2px] hover:bg-white/20 hover:border-white/20 disabled:hover:bg-white/15 disabled:hover:border-white/15 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full lg:w-auto h-11 px-[17px] flex items-center justify-center rounded-md text-size-sm leading-tight tracking-wide text-white bg-white/15 border border-white/15 backdrop-blur-[2px] hover:bg-white/20 hover:border-white/20 disabled:hover:bg-white/15 disabled:hover:border-white/15 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Subscribing...' : 'Subscribe'}
             </button>
@@ -132,7 +133,7 @@ const NewsletterBanner = () => {
           {/* Success Message */}
           {successMessage && (
             <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-green-50 border border-green-200 animate-in fade-in duration-300">
-              <p className="text-size-sm text-green-800 leading-[18.2px] font-medium">
+              <p className="text-size-sm text-green-800 leading-tight font-medium">
                 {successMessage}
               </p>
             </div>
@@ -141,7 +142,7 @@ const NewsletterBanner = () => {
           {/* Error Message */}
           {errorMessage && (
             <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-red-50 border border-red-200 animate-in fade-in duration-300">
-              <p className="text-size-sm text-red-800 leading-[18.2px] font-medium">
+              <p className="text-size-sm text-red-800 leading-tight font-medium">
                 {errorMessage}
               </p>
             </div>

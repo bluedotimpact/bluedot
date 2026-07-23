@@ -7,7 +7,6 @@ import {
   PiCompass,
   PiSparkle,
 } from 'react-icons/pi';
-import { pageSectionHeadingClass } from '../PageListRow';
 
 const EXAMPLES = [
   {
@@ -41,7 +40,7 @@ const WhatCouldYouBuildSection = () => {
   return (
     <section className="section section-body fieldbuilder-week-what-could-you-build-section">
       <div className="w-full flex flex-col gap-6">
-        <H3 className={pageSectionHeadingClass}>What could you build?</H3>
+        <H3>What could you build?</H3>
         <div className="grid gap-5 grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3">
           {EXAMPLES.map(({ icon: Icon, title, description }) => (
             <div
@@ -52,7 +51,7 @@ const WhatCouldYouBuildSection = () => {
                 <Icon className="text-bluedot-navy" size={24} />
               </div>
               <div className="flex flex-col gap-1.5">
-                <H4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+                <H4>
                   {title}
                 </H4>
                 <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
@@ -66,7 +65,7 @@ const WhatCouldYouBuildSection = () => {
               <PiSparkle className="text-bluedot-navy" size={24} />
             </div>
             <div className="flex flex-col gap-1.5">
-              <H4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+              <H4>
                 Your idea
               </H4>
               <P className="text-size-sm leading-relaxed text-bluedot-navy/80">

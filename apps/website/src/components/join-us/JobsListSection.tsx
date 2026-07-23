@@ -1,8 +1,8 @@
-import { P } from '@bluedot/ui';
+import { H3, P } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
-import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../PageListRow';
+import { PageListGroup, PageListRow } from '../PageListRow';
 
 type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 
@@ -27,7 +27,7 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
         <div id="open-roles-anchor" className="invisible relative bottom-48" />
         {regularJobs.length === 0 ? (
           <>
-            <h3 className={`${pageSectionHeadingClass} mb-6`}>Open roles</h3>
+            <H3 className="mb-6">Open roles</H3>
             <P>We're not currently running any open hiring rounds at the moment.</P>
           </>
         ) : (

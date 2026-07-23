@@ -1,5 +1,4 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, P } from '@bluedot/ui';
 
 const LOGISTICS = [
   {
@@ -20,7 +19,7 @@ const LogisticsSection = () => {
   return (
     <section className="section section-body incubator-week-logistics-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Logistics</h3>
+        <H3>Logistics</H3>
 
         <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
           {LOGISTICS.map((item) => (
@@ -34,7 +33,7 @@ const LogisticsSection = () => {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
+                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                   {item.body}
                 </P>
               </div>

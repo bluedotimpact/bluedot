@@ -173,7 +173,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
         aria-expanded={isExpanded}
         aria-controls={`unit-${unit.id}-chunks`}
       >
-        <p className="font-semibold text-size-sm leading-[150%] flex-1 text-left text-bluedot-navy">
+        <p className="font-semibold text-size-sm leading-relaxed flex-1 text-left text-bluedot-navy">
           {unit.unitNumber}. {unit.title}
         </p>
         <FaChevronRight
@@ -202,12 +202,12 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                 <ChunkIcon isActive={isActive} />
                 <div className="flex flex-col flex-1 min-h-11 justify-center">
                   <div className="flex flex-col gap-1.5">
-                    <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
+                    <p className="font-normal text-size-xs leading-relaxed text-bluedot-navy">
                       {chunk.chunkTitle}
                     </p>
                   </div>
                   {chunk.estimatedTime != null && (
-                    <div className="flex gap-1 text-size-xs leading-normal tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
+                    <div className="flex gap-1 text-size-xs leading-normal font-medium text-bluedot-navy/60 mt-2">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>

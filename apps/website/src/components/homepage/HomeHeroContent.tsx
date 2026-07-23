@@ -27,8 +27,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
             {/* Text container with responsive dimensions */}
             <div className="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white">
               <HeroH1
-                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- bespoke 4-breakpoint homepage display ramp; the site's only consumer, kept inline rather than minting a token
-                className="text-[40px] bd-md:text-[56px] lg:text-[64px] xl:text-[72px] leading-[115%] tracking-[-1px] w-full lg:w-[682px] slide-up-fade-in flex items-center"
+                className="w-full lg:w-[682px] slide-up-fade-in flex items-center"
                 /* Deliberately Inter, not the InterDisplay that `.bluedot-h1` sets: the design
                    calls for Inter's wider letterforms here. Inline style because the unlayered
                    `.bluedot-h1` rule in globals.css outranks any Tailwind font utility. */

@@ -212,7 +212,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             <div className="bg-bluedot-normal/10 mt-2 flex rounded-full p-4">
               <FaCheck className="text-bluedot-normal size-8" />
             </div>
-            <p className="text-bluedot-navy/60 max-w-[500px] text-center text-size-xs leading-[1.5]">
+            <p className="text-bluedot-navy/60 max-w-[500px] text-center text-size-xs leading-relaxed">
               Your feedback has been sent! We'll be in touch if we have follow-up questions.
             </p>
             <CTALinkOrButton className="mt-4 w-full" onClick={() => handleModalOpenChange(false)}>
@@ -224,7 +224,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             {error && <ErrorView error={error} />}
 
             <div className="flex flex-col gap-1.5">
-              <p className="text-bluedot-navy text-size-xs leading-[1.5]">
+              <p className="text-bluedot-navy text-size-xs leading-relaxed">
                 We're here to help! Whether it's a bug or an idea on how to improve your experience, we're all ears.
               </p>
               <label

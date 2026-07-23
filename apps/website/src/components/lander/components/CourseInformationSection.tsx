@@ -1,11 +1,11 @@
 import {
   CTALinkOrButton,
   H2,
+  H3,
   P,
 } from '@bluedot/ui';
 import type { IconType } from 'react-icons';
 import { ScheduleRounds } from './ScheduleRounds';
-import { pageSectionHeadingClass } from '../../PageListRow';
 
 export type CourseDetail = {
   /** Icon component from react-icons (e.g., PiGraduationCap, PiClockClockwise) */
@@ -54,9 +54,9 @@ const CourseInformationSection = ({
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
         {headingVariant === 'compact' ? (
-          <h3 className={`w-full bd-md:max-w-text ${pageSectionHeadingClass}`}>
+          <H3 className="w-full bd-md:max-w-text">
             {title}
-          </h3>
+          </H3>
         ) : (
           <H2 className="w-full bd-md:max-w-text text-center">
             {title}

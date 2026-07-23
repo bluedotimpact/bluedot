@@ -1,10 +1,9 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, P } from '@bluedot/ui';
 
 const IntroSection = () => {
   return (
     <section className="intro-section section section-body">
-      <h3 className={`${pageSectionHeadingClass} mb-6`}>Who we are</h3>
+      <H3 className="mb-6">Who we are</H3>
       <div className="intro-section__text-container flex flex-col gap-5">
         <P>In 2021, a handful of us at Cambridge wanted to work on AI safety, but couldn&apos;t find where to start. Important ideas and arguments were scattered across the internet. There were no courses, no career paths, and few people to talk to. So we started running reading groups.</P>
         <P>Those reading groups evolved into the BlueDot courses. We&apos;ve trained over 7,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.</P>

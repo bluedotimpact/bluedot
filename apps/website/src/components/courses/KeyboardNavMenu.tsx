@@ -1,6 +1,7 @@
 import {
   Button, Dialog, DialogTrigger, Keyboard, Popover,
 } from 'react-aria-components';
+import { ModalTitle } from '@bluedot/ui';
 import { FiCommand } from 'react-icons/fi';
 
 const DEFAULT_SHORTCUTS = [
@@ -37,9 +38,9 @@ const KeyboardNavMenu = ({
           className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
           {popoverTitle && (
-            <h3 className="mb-3 font-semibold">
+            <ModalTitle className="mb-3">
               {popoverTitle}
-            </h3>
+            </ModalTitle>
           )}
           <ul className="space-y-2">
             {shortcuts.map(({ action, keys }) => (

@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useReducer, useRef, useState,
 } from 'react';
 import useAxios from 'axios-hooks';
-import { ProgressDots, withAuth } from '@bluedot/ui';
+import { H1, ProgressDots, withAuth } from '@bluedot/ui';
 import {
   type Application, type RatedApplication, type RatingValue, type Direction, toHumanOpinion, toDecision,
 } from '../lib/client/types';
@@ -462,7 +462,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center p-8">
         <div className="bg-stone-900 rounded-xl border border-red-800 p-4 sm:p-8 max-w-md w-full space-y-4">
-          <h1 className="text-size-xl font-bold text-red-400">Save failed</h1>
+          <H1 className="text-size-xl text-red-400">Save failed</H1>
           <p className="text-size-sm text-stone-300">
             Your last rating didn&apos;t save to Airtable. Continuing would mean your reviews are lost.
           </p>

@@ -230,7 +230,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section>
           <div className={`${SECTION_CONTAINER_CLASS} pt-[calc(var(--nav-height-mobile)+8px)] pb-2 bd-md:pt-[calc(var(--nav-height-mobile)+10px)] bd-md:pb-2 lg:pt-[calc(var(--nav-height-desktop)+10px)] lg:pb-3`}>
             <div className="max-w-text mx-auto text-center space-y-3">
-              <H1 className="text-size-xl leading-tight font-semibold tracking-[-0.4px] text-bluedot-navy">
+              <H1 className="text-size-xl">
                 {PAGE_TITLE}
               </H1>
               <P className="text-size-md leading-relaxed text-bluedot-navy/70">

@@ -573,13 +573,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="space-y-4"
             >
               <p
-                class="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                class="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                 style="color: #BCA9FF;"
               >
                 COHORT-BASED COURSE
               </p>
               <h1
-                class="bluedot-h1 text-white text-center text-size-xl leading-tight tracking-tighter font-semibold"
+                class="bluedot-h1 text-white text-center text-size-2xl lg:text-size-3xl xl:text-size-4xl leading-tight tracking-tighter font-semibold"
               >
                 AGI Strategy
               </h1>
@@ -626,13 +626,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="space-y-4"
               >
                 <p
-                  class="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                  class="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                   style="color: #BCA9FF;"
                 >
                   COHORT-BASED COURSE
                 </p>
                 <h1
-                  class="bluedot-h1 text-white tracking-tighter text-[40px] xl:text-5xl leading-tight font-semibold text-left"
+                  class="bluedot-h1 text-white text-size-2xl lg:text-size-3xl xl:text-size-4xl leading-tight tracking-tighter font-semibold text-left"
                 >
                   AGI Strategy
                 </h1>
@@ -700,7 +700,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-text bd-md:mx-auto"
         >
           <h3
-            class="bluedot-section-heading mb-6"
+            class="bluedot-h3 not-prose mb-6"
           >
             Who this course is for
           </h3>
@@ -744,7 +744,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-text bd-md:mx-auto"
         >
           <h3
-            class="bluedot-section-heading mb-8"
+            class="bluedot-h3 not-prose mb-8"
           >
             How this course will benefit you
           </h3>
@@ -755,7 +755,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col gap-2"
             >
               <h4
-                class="text-size-md font-semibold leading-normal text-bluedot-navy"
+                class="bluedot-h4 not-prose"
               >
                 A launchpad for your AI safety career
               </h4>
@@ -769,7 +769,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col gap-2"
             >
               <h4
-                class="text-size-md font-semibold leading-normal text-bluedot-navy"
+                class="bluedot-h4 not-prose"
               >
                 A clear way to think about the future of AI
               </h4>
@@ -783,7 +783,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col gap-2"
             >
               <h4
-                class="text-size-md font-semibold leading-normal text-bluedot-navy"
+                class="bluedot-h4 not-prose"
               >
                 A community of builders
               </h4>
@@ -814,7 +814,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-3"
           >
             <h3
-              class="bluedot-section-heading"
+              class="bluedot-h3 not-prose"
             >
               What happens after
             </h3>
@@ -847,7 +847,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
                       >
                         Technical AI Safety
                       </p>
@@ -891,7 +891,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
                       >
                         AI Governance
                       </p>
@@ -935,7 +935,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
                       >
                         Biosecurity
                       </p>
@@ -979,7 +979,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
                       >
                         Rapid Grants
                       </p>
@@ -1023,7 +1023,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
                       >
                         Career Transition Grants
                       </p>
@@ -1215,7 +1215,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-3"
           >
             <h3
-              class="bluedot-section-heading"
+              class="bluedot-h3 not-prose"
             >
               Schedule
             </h3>
@@ -1256,7 +1256,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="[grid-area:1/1] flex flex-col gap-8 visible"
             >
               <blockquote
-                class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+                class="text-size-lg lg:text-[28px] leading-relaxed font-medium text-bluedot-navy"
               >
                 "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
               </blockquote>
@@ -1280,7 +1280,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     Ursula von der Leyen
                   </div>
                   <div
-                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
                   >
                     President, European Commission
                   </div>
@@ -1292,7 +1292,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="[grid-area:1/1] flex flex-col gap-8 invisible"
             >
               <blockquote
-                class="text-size-md bd-md:text-size-lg leading-[1.5] font-medium text-bluedot-navy"
+                class="text-size-md bd-md:text-size-lg leading-relaxed font-medium text-bluedot-navy"
               >
                 "I've always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we've done in the past… The downside is, at some point, that humanity loses control of the technology it's developing."
               </blockquote>
@@ -1316,7 +1316,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     Sundar Pichai
                   </div>
                   <div
-                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
                   >
                     CEO, Google
                   </div>
@@ -1328,7 +1328,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="[grid-area:1/1] flex flex-col gap-8 invisible"
             >
               <blockquote
-                class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+                class="text-size-lg lg:text-[28px] leading-relaxed font-medium text-bluedot-navy"
               >
                 "AI could surpass almost all humans at almost everything shortly after 2027."
               </blockquote>
@@ -1352,7 +1352,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     Dario Amodei
                   </div>
                   <div
-                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
                   >
                     CEO, Anthropic
                   </div>
@@ -1364,7 +1364,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="[grid-area:1/1] flex flex-col gap-8 invisible"
             >
               <blockquote
-                class="text-size-md lg:text-size-lg leading-[1.5] font-medium text-bluedot-navy"
+                class="text-size-md lg:text-size-lg leading-relaxed font-medium text-bluedot-navy"
               >
                 "I'm all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. AI is a wonderful tool for the betterment of humanity; AGI is a potential successor species … To the extent the mission produces extra motivation for the team to ship good products, it's a positive. To the extent it might actually succeed, it's a reason for concern."
               </blockquote>
@@ -1388,7 +1388,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     David Sacks
                   </div>
                   <div
-                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
                   >
                     White House AI and Crypto Czar
                   </div>
@@ -1484,7 +1484,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16"
         >
           <h2
-            class="text-bluedot-navy text-center text-size-xl leading-snug font-semibold tracking-tight"
+            class="bluedot-h2 not-prose text-center"
           >
             Frequently Asked Questions
           </h2>
@@ -1964,7 +1964,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               Start building towards a good future today
             </h3>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs hover:text-bluedot-navy text-size-sm font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs hover:text-bluedot-navy text-size-sm font-medium leading-relaxed px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
               href="https://web.miniextensions.com/test"
               tabindex="0"
             >

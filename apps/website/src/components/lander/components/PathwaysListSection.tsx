@@ -1,6 +1,6 @@
-import { P } from '@bluedot/ui';
+import { H3, P } from '@bluedot/ui';
 import { type ReactNode } from 'react';
-import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../../PageListRow';
+import { PageListGroup, PageListRow } from '../../PageListRow';
 
 export type PathwaysListItem = {
   title: string;
@@ -25,7 +25,7 @@ const PathwaysListSection = ({
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <div className="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-6">
           <div className="flex flex-col gap-3">
-            <h3 className={pageSectionHeadingClass}>{title}</h3>
+            <H3>{title}</H3>
             {intro && (
               typeof intro === 'string'
                 ? <P>{intro}</P>

@@ -53,12 +53,12 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
         {discussionPrepareLink ? (
           <a
             href={discussionPrepareLink}
-            className="block text-size-sm font-semibold leading-[24px] text-bluedot-black no-underline w-fit transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+            className="block text-size-sm font-semibold leading-relaxed text-bluedot-black no-underline w-fit transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
           >
             {title}
           </a>
         ) : (
-          <p className="text-size-sm font-semibold leading-[24px] text-bluedot-black">{title}</p>
+          <p className="text-size-sm font-semibold leading-relaxed text-bluedot-black">{title}</p>
         )}
         {downloadError && (
           <p className="mt-1 text-size-xxs text-red-600" role="alert" aria-live="polite">{downloadError}</p>
@@ -87,8 +87,8 @@ export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateT
   <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-[5px] border border-color-divider">
     {isLive ? <LiveBadge /> : (
       <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
-        <div className="text-size-xs font-semibold leading-[22px]">{formatDateMonthAndDay(dateTimeSeconds)}</div>
-        <div className="text-size-xxs font-medium leading-[16px] text-gray-500">{formatTime12HourClock(dateTimeSeconds)}</div>
+        <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>
+        <div className="text-size-xxs font-medium leading-normal text-gray-500">{formatTime12HourClock(dateTimeSeconds)}</div>
       </div>
     )}
   </div>

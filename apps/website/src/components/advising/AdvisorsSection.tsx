@@ -1,5 +1,5 @@
+import { H3, H4 } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
-import { pageSectionHeadingClass } from '../PageListRow';
 
 const AdvisorsSection = () => {
   const { data: advisors, isLoading, error } = trpc.teamMembers.getOneOnOneAdvisors.useQuery();
@@ -7,7 +7,7 @@ const AdvisorsSection = () => {
   if (error) {
     return (
       <section className="section section-body advising-advisors-section">
-        <h3 className={pageSectionHeadingClass}>Advisors</h3>
+        <H3>Advisors</H3>
         <p className="text-red-600">Failed to load advisors.</p>
       </section>
     );
@@ -16,7 +16,7 @@ const AdvisorsSection = () => {
   if (isLoading || !advisors) {
     return (
       <section className="section section-body advising-advisors-section">
-        <h3 className={pageSectionHeadingClass}>Advisors</h3>
+        <H3>Advisors</H3>
         <p>Loading...</p>
       </section>
     );
@@ -29,7 +29,7 @@ const AdvisorsSection = () => {
   return (
     <section className="section section-body advising-advisors-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Advisors</h3>
+        <H3>Advisors</H3>
 
         <ul className="list-none grid gap-8 grid-cols-1 bd-md:grid-cols-2 min-[1120px]:grid-cols-3">
           {advisors.map((advisor) => {
@@ -43,9 +43,9 @@ const AdvisorsSection = () => {
                 />
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col gap-1">
-                    <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
+                    <H4 className="text-size-sm">
                       {advisor.name}
-                    </h4>
+                    </H4>
                     {advisor.jobTitle && (
                       <p className="text-size-xs leading-normal text-bluedot-navy/68">
                         {advisor.jobTitle}
@@ -53,7 +53,7 @@ const AdvisorsSection = () => {
                     )}
                   </div>
                   {advisor.advisorProfileDescription && (
-                    <p className="text-size-xs leading-[1.5] text-bluedot-navy/80">
+                    <p className="text-size-xs leading-relaxed text-bluedot-navy/80">
                       {advisor.advisorProfileDescription}
                     </p>
                   )}

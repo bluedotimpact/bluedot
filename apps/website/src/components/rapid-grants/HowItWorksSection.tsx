@@ -1,5 +1,4 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, H4, P } from '@bluedot/ui';
 import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 import { trpc } from '../../utils/trpc';
 
@@ -70,10 +69,10 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
         {number}
       </p>
       <div className="flex flex-col gap-3">
-        <h4 className="text-size-md bd-md:text-size-lg font-medium tracking-[-0.04em] text-bluedot-navy">
+        <H4 className="bd-md:text-size-lg font-medium tracking-[-0.04em]">
           {title}
-        </h4>
-        <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
+        </H4>
+        <P className="text-size-sm leading-relaxed text-bluedot-navy/70">
           {body}
         </P>
       </div>
@@ -90,7 +89,7 @@ const HowItWorksSection = () => {
   return (
     <section className="section section-body rapid-grants-how-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>How it works</h3>
+        <H3>How it works</H3>
 
         <div className="grid gap-4 bd-md:grid-cols-2 min-[960px]:grid-cols-3">
           {processSteps.map((step) => (

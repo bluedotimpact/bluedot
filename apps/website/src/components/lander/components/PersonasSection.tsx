@@ -78,7 +78,7 @@ const PersonasSection = ({
                     />
                   </div>
                   <span
-                    className="text-size-md font-semibold leading-[130%] flex-grow text-left"
+                    className="text-size-md font-semibold leading-snug flex-grow text-left"
                     style={{ color: isExpanded ? 'white' : 'var(--bluedot-navy)' }}
                   >
                     {persona.title}
@@ -107,7 +107,7 @@ const PersonasSection = ({
                       )}
 
                       {/* Description */}
-                      <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
+                      <P className="text-size-sm leading-relaxed text-bluedot-navy/70">
                         {persona.description}
                       </P>
 

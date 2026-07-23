@@ -79,7 +79,7 @@ const HeroSection = ({
               <div className="space-y-4">
                 {categoryLabel && (
                   <p
-                    className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                    className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                     style={{ color: effectiveCategoryLabelColor }}
                   >
                     {categoryLabel}
@@ -127,14 +127,13 @@ const HeroSection = ({
                 <div className="space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
                   )}
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: hero variant pairing text-[40px] with xl:text-5xl (Tailwind default = 48px) */}
-                  <HeroH1 className="text-[40px] xl:text-5xl leading-tight font-semibold text-left">
+                  <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
                   <P className="text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
@@ -191,15 +190,14 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
                   )}
 
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive xl token */}
-                  <HeroH1 className="text-[32px] sm:text-[40px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-left">
+                  <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
 
@@ -252,15 +250,14 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-relaxed uppercase text-bluedot-normal"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-wide leading-relaxed uppercase text-bluedot-normal"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
                   )}
 
-                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive xl token */}
-                  <HeroH1 className="text-[32px] sm:text-[40px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-left text-bluedot-navy">
+                  <HeroH1 className="font-semibold text-left text-bluedot-navy">
                     {title}
                   </HeroH1>
 

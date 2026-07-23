@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Modal } from './Modal';
 import { CTALinkOrButton } from './CTALinkOrButton';
+import { H3 } from './Text';
 
 // Wrapper component to handle the modal state
 type ModalDemoProps = {
@@ -156,7 +157,7 @@ export const BottomDrawerOnMobile: Story = {
                 to see the different behaviors.
               </p>
               <div className="bg-gray-100 p-4 rounded-lg">
-                <h3 className="font-semibold mb-2">Features on mobile:</h3>
+                <H3 className="mb-2">Features on mobile:</H3>
                 <ul className="list-disc list-inside space-y-1 text-size-sm">
                   <li>Slides up from bottom</li>
                   <li>Drag handle at the top</li>

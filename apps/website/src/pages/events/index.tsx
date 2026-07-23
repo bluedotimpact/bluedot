@@ -191,7 +191,7 @@ const EventsPage = () => {
               <P>
                 Most BlueDot events live on Luma. This page is the quick scan - what's coming up, what we run, and where to RSVP.
               </P>
-              <P className="mt-3 text-size-xs leading-[1.55] text-bluedot-navy/72">
+              <P className="mt-3 text-size-xs text-bluedot-navy/72">
                 Virtual events are shown in your local time. In-person events are shown in local venue time.
               </P>
             </div>
@@ -218,8 +218,8 @@ const EventsPage = () => {
                         type="button"
                         onClick={() => setSelectedFilter(filter)}
                         className={isActive
-                          ? 'inline-flex items-center justify-center rounded-md bg-bluedot-navy px-4 py-2 text-size-sm font-medium tracking-[-0.3px] text-white'
-                          : 'inline-flex items-center justify-center rounded-md bg-bluedot-navy/10 px-4 py-2 text-size-sm font-medium tracking-[-0.3px] text-bluedot-navy transition-colors hover:bg-bluedot-navy/15'}
+                          ? 'inline-flex items-center justify-center rounded-md bg-bluedot-navy px-4 py-2 text-size-sm font-medium tracking-tighter text-white'
+                          : 'inline-flex items-center justify-center rounded-md bg-bluedot-navy/10 px-4 py-2 text-size-sm font-medium tracking-tighter text-bluedot-navy transition-colors hover:bg-bluedot-navy/15'}
                         aria-pressed={isActive}
                       >
                         {FILTER_LABELS[filter]}

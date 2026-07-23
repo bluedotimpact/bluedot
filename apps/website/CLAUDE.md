@@ -77,11 +77,14 @@ Import: `import { H1, H2, H3, H4, P, A } from '@bluedot/ui';`
 
 | Component | Size | Weight | Use for |
 |---|---|---|---|
-| `H1`, `H2` | 32-48px | bold | Page/section titles (auto-applies Inter Display) |
-| `H3` | 24px | 650 | Subsections |
-| `H4` | 18px | 650 | Labels |
-| `P` | 16px | normal | Body text |
+| `H1` | 40-56px (`text-size-2xl`) | semibold | Page titles (auto-applies Inter Display) |
+| `H2` | 32-48px (`text-size-xl`) | semibold | Section titles (auto-applies Inter Display) |
+| `H3` | 24px (`text-size-lg`) | semibold | Subsections |
+| `H4` | 18px (`text-size-md`) | semibold | Card titles / labels |
+| `P` | 16px (`text-size-sm`) | normal | Body text (`leading-relaxed` baked in) |
 | `A` | — | — | Links with proper styling |
+
+Prefer bare components — the defaults are the design system. Override only for a genuine semantic reason (on-dark color, smaller card-title size role); don't re-add weight/leading/tracking the default already sets. Marketing heroes use `HeroH1` from `@bluedot/ui`. Leading tokens: `tight` 1.1 / `snug` 1.25 / `normal` 1.4 / `relaxed` 1.6. Tracking tokens: `tighter` -0.02em / `tight` -0.01em / `normal` 0 / `wide` 0.04em — use these, never arbitrary `leading-[...]`/`tracking-[...]` values.
 
 ### Custom text size tokens
 

@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import {
   A, H3, H4, P,
 } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
 
 type ScheduleItem = {
   cadence: string;
@@ -36,7 +35,7 @@ const TheWeekSection = () => {
   return (
     <section className="section section-body fieldbuilder-week-schedule-section">
       <div className="w-full flex flex-col gap-6">
-        <H3 className={`${pageSectionHeadingClass} max-w-[720px] text-balance`}>
+        <H3 className="max-w-[720px] text-balance">
           Incubator Week helps people found orgs. Fieldbuilder Week helps people found programs.
         </H3>
 
@@ -52,10 +51,10 @@ const TheWeekSection = () => {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <H4 className="text-size-md font-semibold text-bluedot-navy">
+                <H4>
                   {item.title}
                 </H4>
-                <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
+                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
                   {item.body}
                 </P>
               </div>

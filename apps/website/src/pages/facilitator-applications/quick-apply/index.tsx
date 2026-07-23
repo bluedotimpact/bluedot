@@ -1,6 +1,8 @@
 import {
   CTALinkOrButton,
   ErrorSection,
+  H1,
+  H2,
   Input,
   Eyebrow,
   ProgressDots,
@@ -164,7 +166,7 @@ const Section = ({
     <div className="flex flex-col gap-4">
       <Eyebrow>{label}</Eyebrow>
       <div className="flex flex-col gap-1.5">
-        <h2 className="text-size-md text-bluedot-navy font-bold">{title}</h2>
+        <H2 className="text-size-md">{title}</H2>
         {description && <p className="text-size-xs text-bluedot-navy/60">{description}</p>}
       </div>
     </div>
@@ -287,7 +289,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
         <div className="bg-bluedot-normal h-[9px]" />
         <div className="flex flex-col gap-3 bg-white p-6 sm:p-9">
           {roundLine && <p className="text-size-xs text-bluedot-normal font-medium">{roundLine}</p>}
-          <h1 className="text-size-xl text-bluedot-navy font-bold">Quick Apply</h1>
+          <H1 className="text-size-xl">Quick Apply</H1>
         </div>
       </div>
 

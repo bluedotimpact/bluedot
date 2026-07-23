@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
-import { ErrorSection, ProgressDots } from '@bluedot/ui';
+import { ErrorSection, H1, ProgressDots } from '@bluedot/ui';
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { trpc } from '../../../utils/trpc';
@@ -130,7 +130,7 @@ const FacilitatorFeedbackSuccessPage = () => {
               <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
             </div>
             <div className="flex flex-col gap-2">
-              <h1 className="text-2xl font-bold text-bluedot-navy leading-8">Feedback submitted!</h1>
+              <H1 className="text-size-lg">Feedback submitted!</H1>
               <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
                 Your insights help BlueDot support the most engaged participants and improve every future cohort.
               </p>

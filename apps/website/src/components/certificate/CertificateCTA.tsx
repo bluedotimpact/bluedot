@@ -47,7 +47,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
             <div className="flex flex-col gap-3">
               <h2
                 // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: certificate CTA hero, fixed 36px paired with custom font-display
-                className="text-[36px] font-medium leading-tight tracking-[-0.25px] text-white font-display"
+                className="text-[36px] font-medium leading-tight tracking-tight text-white font-display"
                 style={DISPLAY_FONT_STYLE}
               >
                 Your certificate<br />awaits. Enroll today.

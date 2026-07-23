@@ -1,5 +1,5 @@
 import {
-  addQueryParam, cn, CTALinkOrButton, H2, P, ProgressDots, useAuthStore,
+  addQueryParam, cn, CTALinkOrButton, H2, H3, P, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
@@ -74,7 +74,7 @@ const PostPreviewPanel = ({
         <div className="bg-bluedot-navy/15 h-2.5 w-14 rounded-full" />
       </div>
     </div>
-    <p className="text-bluedot-navy line-clamp-3 text-size-sm leading-[1.5]">
+    <p className="text-bluedot-navy line-clamp-3 text-size-sm leading-relaxed">
       {shareText} <span className="text-blue-600">{courseUrl}</span>
     </p>
     <img
@@ -91,7 +91,7 @@ const PostPreviewPanel = ({
 const ChatPreviewPanel = ({ courseUrl, shareText }: { courseUrl: string; shareText: string }) => (
   <div className="flex h-full flex-col items-center justify-center border-l border-[#e5e9f2] bg-[#fbfbfd] p-8">
     <div className="bg-bluedot-normal relative max-w-[280px] rounded-lg px-4 py-3 shadow-sm">
-      <p className="text-size-xs leading-[20px] text-white">
+      <p className="text-size-xs leading-normal text-white">
         {shareText}
         <br />
         <span className="tracking-[0.16px] underline">{courseUrl}</span>
@@ -129,9 +129,9 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
   <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
     <div className="flex flex-col gap-8 p-6 md:w-1/2 md:px-10 md:py-8">
       <div className="flex flex-col gap-3">
-        <h3 className="text-bluedot-navy text-size-md leading-normal font-semibold">{title}</h3>
+        <H3 className="text-size-md">{title}</H3>
         {description && (
-          <P className="text-bluedot-navy text-size-sm leading-relaxed tracking-[-0.032px]">{description}</P>
+          <P className="text-bluedot-navy text-size-sm leading-relaxed">{description}</P>
         )}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-3">{actions}</div>}
@@ -141,10 +141,10 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
 );
 
 const primaryBtnClass
-  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-md px-4 py-3 text-[14px] font-semibold tracking-[-0.35px] hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
+  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-md px-4 py-3 text-size-xs font-semibold tracking-tighter hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
 
 const outlinedBtnClass
-  = 'flex items-center justify-center gap-2.5 bg-white border border-charcoal-mid/50 text-bluedot-navy rounded-md px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
+  = 'flex items-center justify-center gap-2.5 bg-white border border-charcoal-mid/50 text-bluedot-navy rounded-md px-4 py-3 text-size-xs font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
 
 // --- Attendance ineligible card ---
 
@@ -165,7 +165,7 @@ const AttendanceIneligibleCard = ({
           Certificate requirement not met
         </span>
       </div>
-      <p className="text-bluedot-navy text-size-xs leading-[21px]">
+      <p className="text-bluedot-navy text-size-xs leading-relaxed">
         Discussions attended: {uniqueDiscussionAttendance} of {numUnits} discussions - Missed {missed} (max 1 allowed)
       </p>
       <p className="text-bluedot-navy text-size-xs leading-5">
@@ -371,7 +371,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {/* Certificate hero section */}
       <div className="flex flex-col items-center gap-8 pt-12 pb-16">
         <LaurelWreath courseSlug={courseSlug} />
-        <H2 className="max-w-[720px] text-center text-size-xl font-bold tracking-[-0.015em]">
+        <H2 className="max-w-[720px] text-center">
           Congratulations on finishing the {courseTitle} course!
         </H2>
         {courseId && <CertificateHero courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />}
@@ -387,11 +387,11 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             <p className="text-size-sm font-semibold tracking-wide uppercase" style={{ color: courseColors.accent }}>
               Start making impact today
             </p>
-            {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-            <H2 className="text-[32px] leading-[1.3] font-bold tracking-[-0.015em] text-white">
+            {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: fixed 32px at all breakpoints inside the gradient share card */}
+            <H2 className="text-[32px] text-white">
               Help more people discover AI safety today
             </H2>
-            <P className="text-size-sm leading-relaxed tracking-[-0.002em] text-white">
+            <P className="text-size-sm leading-relaxed text-white">
               You&apos;ve spent time understanding one of the most important problems of our era. A post or a message to
               the right person can have a real ripple effect.
             </P>
@@ -436,8 +436,8 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {courseId === FOAI_COURSE_ID && (
         <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
           <div className="flex flex-col gap-3">
-            <h3 className="text-bluedot-navy text-size-md leading-normal font-semibold">Want to go deeper?</h3>
-            <P className="text-bluedot-navy text-size-sm leading-relaxed tracking-[-0.002em]">
+            <H3 className="text-size-md">Want to go deeper?</H3>
+            <P className="text-bluedot-navy text-size-sm leading-relaxed">
               <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
               facilitated in small groups with live discussion. No specific background required. New rounds start
               every month.

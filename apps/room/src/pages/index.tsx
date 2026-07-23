@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
-  ClickTarget, ErrorSection, H1, withAuth,
+  ClickTarget, ErrorSection, H1, H2, withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { type Room } from '../lib/types';
@@ -65,7 +65,7 @@ const DashboardPage = withAuth(({ auth }) => {
           {rooms.map((room) => (
             <ClickTarget key={room.id} onClick={() => router.push(`/${room.id}`)} className="container-lined cursor-pointer hover:bg-cream-dark focus:bg-cream-dark p-6 transition-all">
               <div className="flex items-center justify-between">
-                <h2 className="text-size-lg font-semibold">{room.name}</h2>
+                <H2 className="text-size-lg">{room.name}</H2>
                 <RoomHealthIndicator status={room.status} />
               </div>
             </ClickTarget>

@@ -40,7 +40,7 @@ const RungHeader = ({ rung }: { rung: Rung }) => (
       {rung.step}
     </P>
     <h2
-      className="text-size-xl bd-md:text-size-2xl font-medium leading-snug text-bluedot-navy tracking-[-1px]"
+      className="text-size-xl font-medium leading-snug text-bluedot-navy tracking-tighter"
       style={{ fontFeatureSettings: '\'ss04\' on' }}
     >
       {rung.title}
@@ -70,18 +70,18 @@ const FoaiRungCard = () => (
         </div>
       </div>
       <div className="flex flex-col gap-3 mt-5">
-        <H3 className="text-size-lg font-medium leading-[1.3] tracking-[-0.3px] text-white">
+        <H3 className="font-medium leading-snug tracking-tight text-white">
           The Future of AI
           <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
         </H3>
-        <P className="text-size-sm leading-[1.55] text-white/85">
+        <P className="text-size-sm leading-relaxed text-white/85">
           Free, self-paced, no application. Finish in an evening with a clearer picture of frontier AI and how to help.
         </P>
         <div className="flex flex-wrap gap-2 mt-1">
           {['2 hours', 'Free', 'No application'].map((tag) => (
             <span
               key={tag}
-              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
             >
               {tag}
             </span>
@@ -128,23 +128,23 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
         </div>
         <div className="flex flex-col gap-3 mt-5">
           <H3 className={clsx(
-            'font-medium leading-[1.3] tracking-[-0.3px] text-white',
+            'font-medium leading-snug tracking-tight text-white',
             featured ? 'text-size-lg' : 'text-size-md md:text-size-lg',
           )}
           >
             {course.title}
             <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
           </H3>
-          <P className="text-size-sm leading-[1.55] text-white/85">
+          <P className="text-size-sm leading-relaxed text-white/85">
             {course.shortDescription}
           </P>
           <div className="flex flex-wrap gap-2 mt-1">
             {course.durationHours != null && (
-              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
                 {course.durationHours}H
               </span>
             )}
-            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
               Cohort-based
             </span>
           </div>

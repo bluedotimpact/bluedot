@@ -4,7 +4,6 @@ import {
 import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
 import Link from 'next/link';
-import { pageSectionHeadingClass } from '../../PageListRow';
 
 export type CourseOutcome = {
   icon: IconType;
@@ -38,9 +37,9 @@ const CourseOutcomesSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         {headingVariant === 'compact' ? (
-          <h3 className={`${pageSectionHeadingClass} w-full bd-md:max-w-text bd-md:mx-auto mb-8 md:mb-10`}>
+          <H3 className="w-full bd-md:max-w-text bd-md:mx-auto mb-8 md:mb-10">
             {title}
-          </h3>
+          </H3>
         ) : (
           <H2 className="text-center mb-12 md:mb-16">
             {title}
@@ -66,10 +65,10 @@ const CourseOutcomesSection = ({
                     />
                   </div>
                   <div className="space-y-2">
-                    <H3 className="text-size-md font-semibold leading-[130%] text-bluedot-navy">
+                    <H3 className="text-size-md">
                       {outcome.title}
                     </H3>
-                    <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">
+                    <P className="text-size-sm leading-relaxed text-bluedot-navy/70">
                       {outcome.description}
                     </P>
                     {outcome.linkUrl && (

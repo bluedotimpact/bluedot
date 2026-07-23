@@ -1,11 +1,10 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, P } from '@bluedot/ui';
 
 const TrackRecordSection = () => {
   return (
     <section className="section section-body incubator-week-track-record-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Track record</h3>
+        <H3>Track record</H3>
 
         <div className="flex flex-col gap-5">
           <P>

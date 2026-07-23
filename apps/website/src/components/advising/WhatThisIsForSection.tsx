@@ -1,5 +1,4 @@
-import { P } from '@bluedot/ui';
-import { pageSectionHeadingClass } from '../PageListRow';
+import { H3, P } from '@bluedot/ui';
 
 const HELP_BULLETS = [
   'Prioritise the AI safety work that fits their specific skills and background',
@@ -11,7 +10,7 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body advising-what-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>What this is for</h3>
+        <H3>What this is for</H3>
 
         <P>We&apos;ve had hundreds of advising calls, where we&apos;ve helped people:</P>
 

@@ -147,7 +147,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   </div>
                 </div>
               </div>
-              <p className="text-size-xs text-bluedot-navy/70 max-w-[320px] text-center leading-[150%]">
+              <p className="text-size-xs text-bluedot-navy/70 max-w-[320px] text-center leading-relaxed">
                 You <strong>will receive a calendar invite shortly</strong> and be added to the group's Slack channel.
               </p>
             </div>

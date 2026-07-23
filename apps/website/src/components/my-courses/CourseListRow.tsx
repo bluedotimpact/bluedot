@@ -1,7 +1,7 @@
 import type {
   Course, CourseRegistration, Group, GroupDiscussion, Unit,
 } from '@bluedot/db';
-import { OverflowMenu, Tooltip } from '@bluedot/ui';
+import { H3, OverflowMenu, Tooltip } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
 import { ChevronRightIcon } from '../icons';
 import { COURSE_CONFIG } from '../../lib/constants';
@@ -129,7 +129,7 @@ const CourseListRow = (row: CourseListRowProps) => {
                 {course.title}
               </p>
             )}
-            <h3 className={`text-pretty font-semibold text-bluedot-navy text-size-md ${row.mode === 'facilitator' ? '' : 'sm:text-size-lg'}`}>
+            <H3 className={`text-pretty text-size-md ${row.mode === 'facilitator' ? '' : 'sm:text-size-lg'}`}>
               <a
                 href={`/courses/${course.slug}`}
                 className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
@@ -149,7 +149,7 @@ const CourseListRow = (row: CourseListRowProps) => {
                   />
                 </span>
               )}
-            </h3>
+            </H3>
             {subtitle && (
               <p className="mt-1 text-size-xs text-bluedot-navy">{subtitle}</p>
             )}

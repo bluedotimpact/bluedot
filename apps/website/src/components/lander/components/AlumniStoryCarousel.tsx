@@ -314,10 +314,10 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
         className="size-16 bd-md:size-20 text-size-md bd-md:text-size-lg"
       />
       <div className="flex flex-col gap-1 min-w-0 pt-1">
-        <P className="text-size-md font-semibold leading-[130%] text-bluedot-navy truncate">
+        <P className="text-size-md font-semibold leading-snug text-bluedot-navy truncate">
           {story.name}
         </P>
-        <P className="text-size-xs bd-md:text-size-sm leading-[150%] text-bluedot-navy/70">
+        <P className="text-size-xs bd-md:text-size-sm leading-relaxed text-bluedot-navy/70">
           {story.role}
         </P>
       </div>
@@ -325,7 +325,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
 
     {/* Story content */}
     <div className="p-5 bd-md:p-6 flex-grow flex flex-col gap-3">
-      <P className="text-size-sm leading-[1.7] text-bluedot-navy/80 line-clamp-5">
+      <P className="text-size-sm leading-relaxed text-bluedot-navy/80 line-clamp-5">
         {story.story}
       </P>
       {story.storyUrl && (

@@ -1,12 +1,12 @@
 import {
   Breadcrumbs,
   ErrorSection,
+  H3,
   ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import PageNewsletter from '../../components/PageNewsletter';
-import { pageSectionHeadingClass } from '../../components/PageListRow';
 import JobsListSection from '../../components/join-us/JobsListSection';
 import WhyUsSection from '../../components/join-us/WhyUsSection';
 import { ROUTES } from '../../lib/routes';
@@ -29,9 +29,9 @@ const JoinUsPage = () => {
       <WhyUsSection />
       {cmsLoading && (
         <section className="section section-body">
-          <h3 className={`${pageSectionHeadingClass} mb-6`}>
+          <H3 className="mb-6">
             Open roles
-          </h3>
+          </H3>
           <ProgressDots />
         </section>
       )}
