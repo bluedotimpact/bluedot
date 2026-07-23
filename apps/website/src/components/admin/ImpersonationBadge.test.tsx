@@ -8,7 +8,7 @@ import { ImpersonationBadge } from './ImpersonationBadge';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import {
-  createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn, testDb,
+  createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 
 const createMockStorage = () => {
@@ -127,9 +127,7 @@ describe('ImpersonationBadge URL param handling', () => {
   };
 
   test('?impersonate=<email> resolves via admin.searchUsers and writes sessionStorage', async () => {
-    await testDb.insert(userTable, {
-      id: 'rec-admin', email: testAuthContextLoggedIn.auth!.email, name: 'Admin', isAdmin: true, keycloakIdentifier: testAuthContextLoggedIn.auth!.sub,
-    });
+    await seedLoggedInUser({ isAdmin: true });
     await testDb.insert(userTable, {
       id: 'rec-foo', email: 'foo@bar.com', name: 'Foo', keycloakIdentifier: 'foo-sub',
     });
@@ -145,9 +143,7 @@ describe('ImpersonationBadge URL param handling', () => {
 
   test('?impersonate=<email> targeting a never-logged-in user does not start impersonating', async () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    await testDb.insert(userTable, {
-      id: 'rec-admin', email: testAuthContextLoggedIn.auth!.email, name: 'Admin', isAdmin: true, keycloakIdentifier: testAuthContextLoggedIn.auth!.sub,
-    });
+    await seedLoggedInUser({ isAdmin: true });
     await testDb.insert(userTable, { id: 'rec-ghost', email: 'ghost@bar.com', name: 'Ghost' });
 
     stubLocationSearch('?impersonate=ghost@bar.com');
