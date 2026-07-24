@@ -313,7 +313,7 @@ describe('sendEmailChangeVerification', () => {
     const fetchMock = vi.fn(async () => jsonResponse(200, { delivery_id: 'd1' }));
     vi.stubGlobal('fetch', fetchMock);
 
-    await sendEmailChangeVerification({ oldEmail: '  Old@Example.COM ', newEmail: ' New@Example.com ', confirmUrl: 'http://localhost:8000/account/confirm-email-change?token=abc' });
+    await sendEmailChangeVerification({ oldEmail: '  Old@Example.COM ', newEmail: ' New@Example.com ', confirmUrl: 'http://localhost:8000/account/confirm-email-change?token=abc&uid=u1' });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     const [url, init] = fetchMock.mock.calls[0]! as unknown as [string, { method: string; body: string }];
@@ -323,7 +323,8 @@ describe('sendEmailChangeVerification', () => {
     expect(body.to).toBe('new@example.com');
     expect(body.identifiers).toEqual({ email: 'old@example.com' });
     expect(body.send_to_unsubscribed).toBe(true);
-    expect(body.body).toContain('http://localhost:8000/account/confirm-email-change?token=abc');
+    expect(body.body).toContain('http://localhost:8000/account/confirm-email-change?token=abc&#38;uid=u1');
+    expect(body.body).not.toContain('token=abc&uid=u1');
     expect(body.subject).toBeTruthy();
   });
 

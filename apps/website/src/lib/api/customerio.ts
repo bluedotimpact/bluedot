@@ -96,7 +96,7 @@ export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, new
       throw new Error(`Email update aborted for user ${userId}: the old-email profile is owned by a different user id (${cioProfileByOldEmail.id})`);
     }
 
-    // Changing email requires setting a stable `id` for the profile, so the email itself can mutated.
+    // Changing email requires setting a stable `id` for the profile, so the email itself can be mutated.
     // If the profile has no id, add one (the userId) and wait for this change to propagate.
     if (!cioProfileByOldEmail.id) {
       await identify({ userId, email: oldEmail });
@@ -120,7 +120,10 @@ export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, new
   throw new Error(`Email update failed for user ${userId}: the new email is already owned by ${owners}`);
 }
 
+const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
+
 export async function sendEmailChangeVerification({ oldEmail, newEmail, confirmUrl }: { oldEmail: string; newEmail: string; confirmUrl: string }): Promise<void> {
+  const safeConfirmUrl = escapeHtml(confirmUrl);
   const res = await fetch(`${CIO_API_BASE}/send/email`, {
     method: 'POST',
     headers: { ...appHeaders(), 'Content-Type': 'application/json' },
@@ -134,8 +137,8 @@ export async function sendEmailChangeVerification({ oldEmail, newEmail, confirmU
       subject: 'Confirm your new email address',
       body: [
         '<p>A change of your BlueDot Impact account email to this address has been requested.</p>',
-        `<p><a href="${confirmUrl}">Confirm this email address</a></p>`,
-        `<p>Or copy this link into your browser: ${confirmUrl}</p>`,
+        `<p><a href="${safeConfirmUrl}">Confirm this email address</a></p>`,
+        `<p>Or copy this link into your browser: ${safeConfirmUrl}</p>`,
         '<p>This link expires in 48 hours. If you did not expect this, you can safely ignore this email and nothing will change.</p>',
       ].join('\n'),
     }),
