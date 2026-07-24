@@ -105,8 +105,8 @@ describe('UserSearchModal', () => {
 
     server.use(trpcMsw.admin.searchUsers.query(() => mockUsers));
 
-    const impersonateHandler = (userId: string) => {
-      sessionStorage.setItem('bluedot_impersonating', userId);
+    const impersonateHandler = (user: { id: string }) => {
+      sessionStorage.setItem('bluedot_impersonating', user.id);
       window.location.reload();
     };
 

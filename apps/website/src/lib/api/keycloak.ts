@@ -2,6 +2,7 @@ import axios from 'axios';
 import { logger } from '@bluedot/ui/src/api';
 import createHttpError from 'http-errors';
 import env from './env';
+import { normaliseEmail } from './utils';
 import { ONE_MINUTE_SECONDS } from '../constants';
 
 // Keycloak configuration
@@ -108,6 +109,89 @@ export async function updateKeycloakPassword(
 
     throw createHttpError.InternalServerError('An unexpected error occurred while updating password.');
   }
+}
+
+type KeycloakFederatedIdentity = {
+  identityProvider: string;
+  userId: string;
+  userName: string;
+};
+
+const USERS_ADMIN_URL = `${KEYCLOAK_BASE_URL}/admin/realms/customers/users`;
+
+async function adminRequest<T>(config: { method: 'get' | 'put' | 'delete'; path: string; data?: unknown }): Promise<T> {
+  if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
+    throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
+  }
+
+  try {
+    const adminToken = await getAdminToken();
+    const response = await axios.request<T>({
+      method: config.method,
+      url: `${USERS_ADMIN_URL}${config.path}`,
+      data: config.data,
+      headers: { Authorization: `Bearer ${adminToken}`, 'Content-Type': 'application/json' },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      throw createHttpError.InternalServerError('An unexpected error occurred talking to the authentication service.');
+    }
+
+    const status = error.response?.status;
+    if (status === 401 || status === 403) {
+      adminTokenCache = null;
+      throw createHttpError.Forbidden('Keycloak rejected the request. The service account may not have permission to manage users.');
+    }
+
+    if (status === 404) {
+      throw createHttpError.NotFound('Keycloak account not found for this user.');
+    }
+
+    if (status === 400 || status === 409) {
+      const data = error.response?.data as { errorMessage?: string; error?: string } | undefined;
+      throw createHttpError.BadRequest(data?.errorMessage ?? data?.error ?? 'Keycloak rejected the request.');
+    }
+
+    throw createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.');
+  }
+}
+
+// The customers realm uses registrationEmailAsUsername, so the username tracks the email.
+export async function updateKeycloakEmail(userSub: string, newEmail: string): Promise<void> {
+  const user = await adminRequest<Record<string, unknown>>({ method: 'get', path: `/${userSub}` });
+
+  await adminRequest({
+    method: 'put',
+    path: `/${userSub}`,
+    data: {
+      ...user,
+      email: newEmail,
+      emailVerified: true,
+      username: newEmail,
+    },
+  });
+}
+
+export type LoginMethods = { hasPassword: boolean; hasGoogleLogin: boolean };
+
+/**
+ * Google links match on the provider's subject, not the email, so a link made with the old address keeps
+ * working after an email change. Remove those so the old identity can no longer sign in, and report which
+ * login methods the account is left with.
+ */
+export async function unlinkStaleGoogleIdentities(userSub: string, newEmail: string): Promise<LoginMethods> {
+  const identities = await adminRequest<KeycloakFederatedIdentity[]>({ method: 'get', path: `/${userSub}/federated-identity` });
+  const stale = identities.filter((identity) => identity.identityProvider === 'google' && normaliseEmail(identity.userName) !== newEmail);
+  await Promise.all(stale.map((identity) => adminRequest({ method: 'delete', path: `/${userSub}/federated-identity/${identity.identityProvider}` })));
+
+  const credentials = await adminRequest<{ type?: string }[]>({ method: 'get', path: `/${userSub}/credentials` });
+
+  return {
+    hasPassword: credentials.some((credential) => credential.type === 'password'),
+    hasGoogleLogin: identities.some((identity) => identity.identityProvider === 'google' && !stale.includes(identity)),
+  };
 }
 
 async function getAdminToken(): Promise<string> {

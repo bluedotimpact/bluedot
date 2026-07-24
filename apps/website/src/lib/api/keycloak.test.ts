@@ -4,7 +4,7 @@ import { isHttpError } from 'http-errors';
 import {
   describe, it, expect, vi, beforeEach,
 } from 'vitest';
-import { registerPreviewRedirectUri } from './keycloak';
+import { registerPreviewRedirectUri, unlinkStaleGoogleIdentities } from './keycloak';
 
 vi.mock('axios');
 vi.mock('@bluedot/ui/src/api', () => ({
@@ -172,5 +172,73 @@ describe('registerPreviewRedirectUri', () => {
     const loggedArgs = JSON.stringify(vi.mocked(logger.error).mock.calls);
     expect(loggedArgs).not.toContain(CLIENT_SECRET);
     expect(loggedArgs).not.toContain(ADMIN_TOKEN);
+  });
+});
+
+describe('unlinkStaleGoogleIdentities', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    mockedAxios.post.mockResolvedValue(FAKE_TOKEN_RESPONSE);
+  });
+
+  const googleIdentity = (userName: string) => ({ identityProvider: 'google', userId: 'google-sub', userName });
+
+  const mockKeycloakUser = ({ identities = [], credentials = [] }: {
+    identities?: { identityProvider: string; userId: string; userName: string }[];
+    credentials?: { type?: string }[];
+  }) => {
+    mockedAxios.request.mockImplementation(async ({ url }: { url?: string }) => {
+      if (String(url).endsWith('/federated-identity')) return { data: identities };
+      if (String(url).endsWith('/credentials')) return { data: credentials };
+      return { data: {} };
+    });
+  };
+
+  const unlinkedProviders = () => mockedAxios.request.mock.calls
+    .filter((call) => call[0].method === 'delete')
+    .map((call) => String(call[0].url).split('/federated-identity/')[1]);
+
+  it('unlinks a Google identity tied to the old address', async () => {
+    mockKeycloakUser({ identities: [googleIdentity('old@example.com')], credentials: [{ type: 'password' }] });
+
+    const result = await unlinkStaleGoogleIdentities('user-sub', 'new@example.com');
+
+    expect(unlinkedProviders()).toEqual(['google']);
+    expect(result).toEqual({ hasPassword: true, hasGoogleLogin: false });
+  });
+
+  it('reports no login methods when the stale Google link was the only one', async () => {
+    mockKeycloakUser({ identities: [googleIdentity('old@example.com')] });
+
+    const result = await unlinkStaleGoogleIdentities('user-sub', 'new@example.com');
+
+    expect(result).toEqual({ hasPassword: false, hasGoogleLogin: false });
+  });
+
+  it('keeps a Google identity that already matches the new address, case-insensitively', async () => {
+    mockKeycloakUser({ identities: [googleIdentity('New@Example.com')], credentials: [{ type: 'password' }] });
+
+    const result = await unlinkStaleGoogleIdentities('user-sub', 'new@example.com');
+
+    expect(unlinkedProviders()).toEqual([]);
+    expect(result).toEqual({ hasPassword: true, hasGoogleLogin: true });
+  });
+
+  it('reports a password login for an account with no federated identities', async () => {
+    mockKeycloakUser({ credentials: [{ type: 'password' }] });
+
+    const result = await unlinkStaleGoogleIdentities('user-sub', 'new@example.com');
+
+    expect(result).toEqual({ hasPassword: true, hasGoogleLogin: false });
+  });
+
+  it('leaves identities from other providers linked', async () => {
+    mockKeycloakUser({
+      identities: [googleIdentity('old@example.com'), { identityProvider: 'github', userId: 'github-sub', userName: 'old@example.com' }],
+    });
+
+    await unlinkStaleGoogleIdentities('user-sub', 'new@example.com');
+
+    expect(unlinkedProviders()).toEqual(['google']);
   });
 });

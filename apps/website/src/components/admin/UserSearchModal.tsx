@@ -5,13 +5,14 @@ import {
 import { RiSearchLine } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
+import type { UserSearchResult } from '../../server/routers/admin';
 
 type UserSearchModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   scope: 'impersonate' | 'all';
-  onSelectUser: (userId: string) => void;
+  onSelectUser: (user: UserSearchResult) => void;
 };
 
 export const UserSearchModal = ({
@@ -37,9 +38,9 @@ export const UserSearchModal = ({
     { enabled: isOpen },
   );
 
-  const handleSelectUser = (userId: string) => {
+  const handleSelectUser = (user: UserSearchResult) => {
     onClose();
-    onSelectUser(userId);
+    onSelectUser(user);
   };
 
   const showNoResults = !isLoading && searchResults?.length === 0 && searchTermInput.length > 0;
@@ -69,7 +70,7 @@ export const UserSearchModal = ({
             <button
               key={user.id}
               type="button"
-              onClick={() => handleSelectUser(user.id)}
+              onClick={() => handleSelectUser(user)}
               className="w-full cursor-pointer text-left px-3 py-2 hover:bg-gray-100 rounded"
             >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 md:gap-4">

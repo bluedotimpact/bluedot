@@ -27,6 +27,10 @@ const ActivePostHogProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         }
       },
       persistence: useConsentStore.getState().isConsented ? 'localStorage+cookie' : 'memory',
+      sanitize_properties: (properties) => Object.fromEntries(Object.entries(properties).map(([key, value]) => [
+        key,
+        typeof value === 'string' ? value.replace(/([?&])token=[^&#]+/g, '$1token=redacted') : value,
+      ])),
     });
 
     // Setup page view tracking

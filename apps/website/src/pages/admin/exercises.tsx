@@ -245,12 +245,12 @@ const AdminUserExerciseResponses = () => {
         onClose={() => setIsSelectUserModalOpen(false)}
         title="Select a user to view"
         scope="all"
-        onSelectUser={(id) => {
+        onSelectUser={(user) => {
           // Invalidate the existing filter selection
           setCourseIdState(undefined);
           setIncludeInProgressState(false);
           setSearchState('');
-          router.push({ pathname: '/admin/exercises', query: { userId: id } });
+          router.push({ pathname: '/admin/exercises', query: { userId: user.id } });
         }}
       />
     </div>
