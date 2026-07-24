@@ -66,7 +66,7 @@ const PostPreviewPanel = ({
   courseUrl: string;
 }) => (
   <div className="flex h-full flex-col gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l">
-    <Eyebrow className="text-bluedot-navy/40">Post Preview</Eyebrow>
+    <Eyebrow className="text-bluedot-navy/60">Post Preview</Eyebrow>
     <div className="flex items-center gap-3">
       <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">

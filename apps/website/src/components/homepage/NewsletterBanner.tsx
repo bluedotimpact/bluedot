@@ -80,7 +80,7 @@ const NewsletterBanner = () => {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12">
         <div className="flex flex-col gap-4 w-full">
-          <Eyebrow className="text-white opacity-70">
+          <Eyebrow className="text-white/70">
             Newsletter
           </Eyebrow>
 

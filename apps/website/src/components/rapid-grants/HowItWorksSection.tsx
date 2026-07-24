@@ -59,11 +59,13 @@ const cardBaseClass = 'rapid-grants-step-card relative overflow-hidden rounded-l
 const defaultCardClass = `${cardBaseClass} border-bluedot-navy/10 bg-white`;
 const accentCardClass = `${cardBaseClass} border-bluedot-lighter bg-bluedot-lighter/20`;
 
-const StepCardBody = ({ number, title, body, eyebrowClass }: {
+const StepCardBody = ({
+  number, title, body, eyebrowClass,
+}: {
   number: string;
   title: string;
   body: string;
-  eyebrowClass: string;
+  eyebrowClass?: string;
 }) => {
   return (
     <div className="flex h-full flex-col gap-6">
@@ -107,7 +109,6 @@ const HowItWorksSection = () => {
                   number={step.number}
                   title={step.title}
                   body={step.body}
-                  eyebrowClass="text-bluedot-dark"
                 />
               </a>
             ) : (
@@ -116,7 +117,7 @@ const HowItWorksSection = () => {
                   number={step.number}
                   title={step.title}
                   body={step.body}
-                  eyebrowClass="text-bluedot-navy/40"
+                  eyebrowClass="text-bluedot-navy/60"
                 />
               </div>
             )
@@ -127,7 +128,6 @@ const HowItWorksSection = () => {
               number={COMMUNITY_CARD.eyebrow}
               title={COMMUNITY_CARD.title}
               body={COMMUNITY_CARD.body}
-              eyebrowClass="text-bluedot-dark"
             />
           </div>
         </div>

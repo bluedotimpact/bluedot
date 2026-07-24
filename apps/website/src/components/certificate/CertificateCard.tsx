@@ -115,7 +115,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
         </div>
 
         <div className="relative flex flex-col items-center px-5 md:px-16 pb-0">
-          <Eyebrow className="mt-16 text-size-xs md:text-size-sm leading-relaxed text-charcoal-mid text-center">
+          <Eyebrow className="mt-16 text-charcoal-mid text-center">
             Professional certification
           </Eyebrow>
 
@@ -127,7 +127,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </h1>
 
           <div className="mt-12">
-            <Eyebrow className="text-size-sm leading-relaxed text-charcoal-mid text-center">
+            <Eyebrow className="text-charcoal-mid text-center">
               Awarded to
             </Eyebrow>
             <p className="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display">
@@ -149,7 +149,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
       <div className="mt-16 mx-5 md:mx-16 border-t border-slate-200 pt-[25px] pb-6">
         <div className="flex justify-between items-end">
           <div className="w-[156px] md:w-[240px]">
-            <Eyebrow className="text-size-xs leading-relaxed text-charcoal-mid">
+            <Eyebrow className="text-charcoal-mid">
               Issued
             </Eyebrow>
             <p
@@ -171,7 +171,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </div>
 
           <div className="w-[156px] md:w-[240px] text-right">
-            <Eyebrow className="text-size-xs leading-relaxed text-charcoal-mid">
+            <Eyebrow className="text-charcoal-mid">
               Certificate ID
             </Eyebrow>
             <p

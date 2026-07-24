@@ -19,7 +19,7 @@ const TAS = COURSE_COLORS['technical-ai-safety'];
 
 const SECTION_CONTAINER_CLASS = 'max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x';
 const SECTION_PADDING_CLASS = `${SECTION_CONTAINER_CLASS} py-6 bd-md:py-8 lg:py-10`;
-const EYEBROW_CLASS = 'text-size-xs font-semibold uppercase tracking-[0.18em] text-bluedot-navy/60';
+const EYEBROW_CLASS = 'text-size-xxs font-medium uppercase tracking-wide text-bluedot-navy/60';
 
 const TASKS = [
   {
