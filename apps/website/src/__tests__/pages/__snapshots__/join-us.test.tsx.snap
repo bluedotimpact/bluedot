@@ -674,11 +674,11 @@ exports[`JoinUsPage > should render correctly 1`] = `
             <div
               class="flex flex-col gap-4 w-full"
             >
-              <span
-                class="text-size-xxs leading-snug tracking-wide uppercase text-white opacity-70 font-medium"
+              <p
+                class="text-size-xxs font-medium uppercase tracking-wide text-white/70"
               >
                 Newsletter
-              </span>
+              </p>
               <h3
                 class="bluedot-h3 not-prose text-white max-w-narrow"
               >

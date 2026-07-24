@@ -180,7 +180,7 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
       {sections.map((section, index) => (
         section.items.length > 0 && (
           <div key={section.label} className={index > 0 ? 'mt-8' : undefined}>
-            <H2 className="text-size-xxs text-bluedot-normal uppercase tracking-wide mb-[30px]">
+            <H2 className="text-size-xxs font-medium text-bluedot-normal uppercase tracking-wide mb-[30px]">
               {section.label}
             </H2>
             {renderItems(section.items)}

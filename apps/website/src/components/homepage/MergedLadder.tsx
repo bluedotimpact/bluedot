@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import {
-  H3, P, Section, ProgressDots,
+  Eyebrow, H3, P, Section, ProgressDots,
 } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
@@ -36,9 +36,9 @@ const RUNGS: Rung[] = [
 
 const RungHeader = ({ rung }: { rung: Rung }) => (
   <div className="flex flex-col gap-3 text-center">
-    <P className="text-size-xs font-medium tracking-[1.5px] uppercase text-bluedot-navy/60">
+    <Eyebrow className="text-bluedot-navy/60">
       {rung.step}
-    </P>
+    </Eyebrow>
     <h2
       className="text-size-xl font-medium leading-snug text-bluedot-navy tracking-tighter"
       style={{ fontFeatureSettings: '\'ss04\' on' }}

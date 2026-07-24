@@ -1,4 +1,4 @@
-import { ClickTarget } from '@bluedot/ui';
+import { ClickTarget, Eyebrow } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { trpc } from '../../utils/trpc';
 
@@ -31,12 +31,9 @@ const MyBlueDotSidebar = () => {
       className="hidden w-[200px] shrink-0 lg:block"
       aria-labelledby="my-bluedot-nav-label"
     >
-      <p
-        id="my-bluedot-nav-label"
-        className="mb-4 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal"
-      >
+      <Eyebrow id="my-bluedot-nav-label" className="mb-4">
         My BlueDot
-      </p>
+      </Eyebrow>
       <div className="relative">
         <div aria-hidden className="absolute bottom-0 left-0 top-0 w-1 bg-color-divider" />
         {activeIndex >= 0 && (

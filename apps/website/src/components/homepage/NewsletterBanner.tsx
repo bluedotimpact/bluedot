@@ -1,5 +1,5 @@
 import React from 'react';
-import { H3 } from '@bluedot/ui';
+import { Eyebrow, H3 } from '@bluedot/ui';
 import { getCioAnalytics } from '../analytics/CustomerioAnalytics';
 
 const NewsletterBanner = () => {
@@ -80,9 +80,9 @@ const NewsletterBanner = () => {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12">
         <div className="flex flex-col gap-4 w-full">
-          <span className="text-size-xxs leading-snug tracking-wide uppercase text-white opacity-70 font-medium">
+          <Eyebrow className="text-white/70">
             Newsletter
-          </span>
+          </Eyebrow>
 
           <H3 className="text-white max-w-narrow">
             Subscribe to get AI safety news and course updates delivered directly to your inbox

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { CTALinkOrButton, H2, P } from '@bluedot/ui';
+import {
+  CTALinkOrButton, Eyebrow, H2, P,
+} from '@bluedot/ui';
 import clsx from 'clsx';
 import { trpc } from '../../utils/trpc';
 import type { TransformedTestimonial } from '../../server/routers/testimonials';
@@ -26,9 +28,9 @@ const RecentAlumniList = () => {
     <section className="w-full bg-white py-12 bd-md:py-16 lg:py-20">
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
         <div className="flex flex-col gap-2 mb-8 bd-md:mb-12">
-          <p className="text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60">
+          <Eyebrow className="text-bluedot-navy/60">
             More stories
-          </p>
+          </Eyebrow>
           <H2>
             Some of our alumni
           </H2>

@@ -1,7 +1,9 @@
 import type {
   Course, CourseRegistration, Group, GroupDiscussion, Unit,
 } from '@bluedot/db';
-import { H3, OverflowMenu, Tooltip } from '@bluedot/ui';
+import {
+  Eyebrow, H3, OverflowMenu, Tooltip,
+} from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
 import { ChevronRightIcon } from '../icons';
 import { COURSE_CONFIG } from '../../lib/constants';
@@ -125,9 +127,9 @@ const CourseListRow = (row: CourseListRowProps) => {
           </div>
           <div className="min-w-0 flex-1">
             {row.mode === 'facilitator' && (
-              <p className="mb-1 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal">
+              <Eyebrow className="mb-1">
                 {course.title}
-              </p>
+              </Eyebrow>
             )}
             <H3 className={`text-pretty text-size-md ${row.mode === 'facilitator' ? '' : 'sm:text-size-lg'}`}>
               <a

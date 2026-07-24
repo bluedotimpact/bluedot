@@ -1,5 +1,5 @@
 import {
-  addQueryParam, cn, CTALinkOrButton, H2, H3, P, ProgressDots, useAuthStore,
+  addQueryParam, cn, CTALinkOrButton, Eyebrow, H2, H3, P, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
@@ -66,7 +66,7 @@ const PostPreviewPanel = ({
   courseUrl: string;
 }) => (
   <div className="flex h-full flex-col gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l">
-    <p className="text-bluedot-navy/40 text-size-xxs font-semibold tracking-wide uppercase">Post Preview</p>
+    <Eyebrow className="text-bluedot-navy/60">Post Preview</Eyebrow>
     <div className="flex items-center gap-3">
       <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">
@@ -188,7 +188,7 @@ const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: strin
   return (
     <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-slate-200 bg-white px-6 py-10 shadow-sm">
       <img src={badgeSrc} alt="" className="h-[160px] w-auto object-contain" />
-      <p className="text-size-xxs font-medium tracking-[0.06em] text-charcoal-mid uppercase">Professional Certification</p>
+      <Eyebrow className="text-charcoal-mid">Professional Certification</Eyebrow>
       {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
       <p className="text-bluedot-navy text-center text-[28px] leading-tight font-semibold">{courseTitle}</p>
     </div>
@@ -384,9 +384,9 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           style={{ background: courseColors.gradient }}
         >
           <div className="flex max-w-[653px] flex-col items-center gap-4 text-center">
-            <p className="text-size-sm font-semibold tracking-wide uppercase" style={{ color: courseColors.accent }}>
+            <Eyebrow style={{ color: courseColors.accent }}>
               Start making impact today
-            </p>
+            </Eyebrow>
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: fixed 32px at all breakpoints inside the gradient share card */}
             <H2 className="text-[32px] text-white">
               Help more people discover AI safety today

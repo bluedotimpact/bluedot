@@ -1,5 +1,5 @@
 import type React from 'react';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, Eyebrow } from '@bluedot/ui';
 import { type ConfigurableGrantProgramSlug } from '../grantPrograms';
 import { useGrantApplicationUrl } from '../useGrantApplicationUrl';
 
@@ -79,14 +79,13 @@ const GrantStatsStrip = ({
 };
 
 const Stat = ({ label, value, compact }: { label: string; value: string; compact: boolean }) => {
-  const labelClass = 'text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60';
   const valueClass = compact
     ? 'text-size-md font-medium leading-tight text-bluedot-navy'
     : 'text-size-lg bd-md:text-[28px] font-medium leading-tight text-bluedot-navy';
 
   return (
     <div className="flex flex-col gap-1">
-      <p className={labelClass}>{label}</p>
+      <Eyebrow className="text-bluedot-navy/60">{label}</Eyebrow>
       <p className={valueClass}>{value}</p>
     </div>
   );

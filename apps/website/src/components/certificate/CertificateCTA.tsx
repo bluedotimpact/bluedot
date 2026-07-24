@@ -1,5 +1,5 @@
 import type React from 'react';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, Eyebrow } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 
 type CertificateCTAProps = {
@@ -39,9 +39,9 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
     >
       <div className="relative flex flex-col md:flex-row flex-1">
         <div className="pt-8 px-6 md:p-10 w-full md:w-[450px] flex flex-col gap-[21px] md:gap-6">
-          <p className="text-size-xs font-medium leading-relaxed tracking-[0.24px] uppercase text-[var(--cta-accent)]">
+          <Eyebrow style={{ color: accentColor }}>
             {nextCohortDate}
-          </p>
+          </Eyebrow>
 
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-3">
