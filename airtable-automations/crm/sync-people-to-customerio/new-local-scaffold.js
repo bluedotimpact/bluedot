@@ -97,7 +97,7 @@ async function batchUpdateCustomerIo(batch) {
 async function main() {
   try {
     const persons = await getPersons();
-    const peopleUpdatePayloads = persons.map(person => ({
+    const peopleUpdatePayloads = persons.filter(person => person.userId || person.email).map(person => ({
       type: 'person',
       identifiers: person.userId ? { id: person.userId } : { email: person.email },
       action: 'identify',
