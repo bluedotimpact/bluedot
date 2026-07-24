@@ -36,7 +36,7 @@ const FieldBuildingSection = ({
               {title}
             </H2>
           )}
-          <P className="mt-4 bd-md:text-size-md leading-relaxed text-bluedot-navy/70">
+          <P className="mt-4 bd-md:text-size-md leading-relaxed text-bluedot-navy/80">
             {intro}
           </P>
         </div>

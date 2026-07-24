@@ -637,7 +637,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   AGI Strategy
                 </h1>
                 <p
-                  class="bluedot-p not-prose text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line"
+                  class="bluedot-p not-prose text-size-md leading-relaxed text-white/85 whitespace-pre-line"
                 >
                   Optimistic and concerned about AI's trajectory? Want to do something about it? Start here.
 

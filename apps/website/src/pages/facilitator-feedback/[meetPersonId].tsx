@@ -183,7 +183,7 @@ const FacilitatorFeedbackPage = () => {
         {/* Hero card */}
         <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 flex flex-col gap-6">
           <div>
-            <H1 className="text-3xl mb-2">Course Feedback</H1>
+            <H1 className="text-size-xl mb-2">Course Feedback</H1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
           <div className="flex flex-col gap-2 text-size-xs text-bluedot-navy/60">

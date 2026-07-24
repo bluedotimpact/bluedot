@@ -65,7 +65,7 @@ const PathwaysSection = ({
                     <H3 className="text-size-md">
                       {pathway.title}
                     </H3>
-                    <P className="text-bluedot-navy/70">
+                    <P className="text-bluedot-navy/80">
                       {pathway.description}
                     </P>
                     {pathway.linkUrl && pathway.linkText && (

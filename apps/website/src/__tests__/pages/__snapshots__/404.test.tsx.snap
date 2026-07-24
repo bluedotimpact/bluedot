@@ -21,11 +21,11 @@ exports[`Error404Page > should render correctly 1`] = `
             />
           </div>
         </div>
-        <h2
-          class="bluedot-h2 not-prose text-cream-normal text-size-lg font-normal text-center mt-4 tracking-normal"
+        <p
+          class="bluedot-p not-prose text-cream-normal text-size-lg text-center mt-4"
         >
           Sorry, this page does not exist.
-        </h2>
+        </p>
         <div
           class="flex justify-center mt-8"
         >

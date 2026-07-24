@@ -235,7 +235,7 @@ const AlumniStoryCarousel = ({
               {title}
             </H2>
             {subtitle && (
-              <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/60 italic">
+              <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 italic">
                 {subtitle}
               </P>
             )}
@@ -317,7 +317,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
         <P className="text-size-md font-semibold leading-snug truncate">
           {story.name}
         </P>
-        <P className="text-size-xs bd-md:text-size-sm leading-relaxed text-bluedot-navy/70">
+        <P className="text-size-xs bd-md:text-size-sm leading-relaxed text-bluedot-navy/80">
           {story.role}
         </P>
       </div>

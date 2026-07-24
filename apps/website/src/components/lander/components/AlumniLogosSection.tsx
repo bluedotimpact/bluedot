@@ -1,4 +1,4 @@
-import { H2 } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
 
 export type AlumniOrg = {
   name: string;
@@ -18,9 +18,9 @@ const AlumniLogosSection = ({
   return (
     <section className="w-full bg-bluedot-lightest">
       <div className="max-w-max-width mx-auto px-5 py-10 bd-md:px-8 bd-md:py-12 lg:px-spacing-x">
-        <H2 className="text-size-md font-medium leading-normal text-bluedot-navy/60 text-center mb-8">
+        <P className="text-size-md font-medium leading-normal text-bluedot-navy/80 text-center mb-8">
           {title}
-        </H2>
+        </P>
         <div className="flex flex-wrap justify-center items-center gap-8 bd-md:gap-12 lg:gap-16">
           {organizations.map((org) => {
             const LogoImage = (
