@@ -39,7 +39,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
     >
       <div className="relative flex flex-col md:flex-row flex-1">
         <div className="pt-8 px-6 md:p-10 w-full md:w-[450px] flex flex-col gap-[21px] md:gap-6">
-          <Eyebrow className="text-[var(--cta-accent)]">
+          <Eyebrow style={{ color: accentColor }}>
             {nextCohortDate}
           </Eyebrow>
 
