@@ -194,7 +194,7 @@ const HeroSection = ({
                     {title}
                   </HeroH1>
 
-                  <P className="sm:text-lg leading-relaxed opacity-80 text-white whitespace-pre-line">
+                  <P className="sm:text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
                     {description}
                   </P>
                 </div>
@@ -251,7 +251,7 @@ const HeroSection = ({
                     {title}
                   </HeroH1>
 
-                  <P className="sm:text-lg leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
+                  <P className="sm:text-size-md leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
                     {description}
                   </P>
                 </div>
