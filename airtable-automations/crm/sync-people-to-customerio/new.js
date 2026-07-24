@@ -1,7 +1,6 @@
 // Get these from 1Password
 // Configured in https://fly.customer.io/settings/api_credentials
 const customerIoTrackAuthHeader = 'Basic REPLACE_FROM_1PASSWORD';
-const customerIoAppAuthHeader = 'Bearer REPLACE_FROM_1PASSWORD';
 
 const fieldIds = {
   email: 'fldxWudQeM7b4ZHeR',

@@ -8,7 +8,6 @@
 
 // LOCAL: credentials come from env (the Airtable version hardcodes these from 1Password)
 const customerIoTrackAuthHeader = `Basic ${Buffer.from(process.env.CIO_TRACK_API_KEY).toString('base64')}`;
-const customerIoAppAuthHeader = `Bearer ${process.env.CIO_APP_API_KEY}`;
 
 // LOCAL: cli flags, plus an Airtable-scripting-style `base` backed by the Airtable REST API
 // (the Airtable version gets `base` as a global). --emails becomes a filterByFormula.
