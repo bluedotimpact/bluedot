@@ -4,13 +4,13 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  courseTable, meetPersonTable, roundTable, unitTable, userTable,
+  courseTable, meetPersonTable, roundTable, unitTable,
 } from '@bluedot/db';
 import {
   createMockCourseRegistration, createMockGroup, createMockGroupDiscussion, createMockUnit,
 } from '../../__tests__/testUtils';
 import {
-  createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn, testDb,
+  createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 import CourseListRow, { getSubtitle, type FacilitatorRowProps, type ParticipantRowProps } from './CourseListRow';
 import { classifyCourseRegistration } from './useCourseListRow';
@@ -713,7 +713,6 @@ describe('CourseListRow actions', () => {
 describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
   setupTestDb();
 
-  const AUTH_EMAIL = testAuthContextLoggedIn.auth!.email;
   const ROUND = 'round-1';
   const GROUP = 'group-1';
   const COURSE_ID = 'course-1';
@@ -782,14 +781,14 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
 
   // discussionsAvailable / getFacilitatorsForRound both look up the caller's facilitator record for the round.
   const seedFacilitator = async () => {
-    await testDb.insert(userTable, { id: 'user-1', email: AUTH_EMAIL, name: 'Test User' });
+    await seedLoggedInUser({ id: 'user-1' });
     await testDb.insert(meetPersonTable, {
       id: 'mp-fac', userId: 'user-1', round: ROUND, role: 'Facilitator', expectedDiscussionsFacilitator: [],
     });
   };
 
   const seedParticipant = async () => {
-    await testDb.insert(userTable, { id: 'user-1', email: AUTH_EMAIL, name: 'Test User' });
+    await seedLoggedInUser({ id: 'user-1' });
     await testDb.insert(courseTable, {
       id: COURSE_ID, slug: COURSE_SLUG, title: 'Technical AI Safety', shortDescription: 'T', units: [],
     });

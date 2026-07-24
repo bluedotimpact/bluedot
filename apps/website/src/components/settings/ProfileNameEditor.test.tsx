@@ -8,7 +8,9 @@ import { userTable } from '@bluedot/db';
 import db from '../../lib/api/db';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
+import {
+  createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn,
+} from '../../__tests__/dbTestUtils';
 import ProfileNameEditor from './ProfileNameEditor';
 
 setupTestDb();
@@ -231,19 +233,15 @@ describe('ProfileNameEditor', () => {
 
 describe('ProfileNameEditor (with DB)', () => {
   test('saves name change to the database', async () => {
-    await db.insert(userTable, {
-      email: 'test@example.com',
-      name: 'John Doe',
-      keycloakIdentifier: 'test-sub',
-    });
+    await seedLoggedInUser();
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" />,
+      <ProfileNameEditor initialName="Test User" />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
     const input = container.querySelector<HTMLInputElement>('input[aria-label="Profile name"]')!;
-    expect(input.value).toBe('John Doe');
+    expect(input.value).toBe('Test User');
 
     // Change the name and click Save
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
