@@ -79,10 +79,10 @@ const PuzzleSubmittedPage = () => (
       <section>
         <div className={SECTION_PADDING_CLASS}>
           <div className="max-w-text mx-auto space-y-4">
-            <P className="text-size-md leading-relaxed text-bluedot-navy">
+            <P className="text-size-md leading-relaxed">
               Congratulations on submitting your puzzle solution. If you made it this far you&rsquo;re clearly a technical person who likes solving puzzles and is interested in machine learning. At BlueDot we support people like yourself to build careers in technical AI safety. You would solve hard interesting technical problems AND have a positive impact on the world by reducing catastrophic risk from AI.
             </P>
-            <P className="text-size-md leading-relaxed text-bluedot-navy">
+            <P className="text-size-md leading-relaxed">
               Imagine that feature you were looking for was deception or hazardous biological weapon information in a next generation LLM. Identifying and understanding that representation could prevent a lot of harm, and this is still an open technical question. If you&rsquo;re still not sold that AI poses catastrophic risks, take a look at our
               {' '}
               <a
@@ -102,7 +102,7 @@ const PuzzleSubmittedPage = () => (
         <div className={SECTION_PADDING_CLASS}>
           <div className="max-w-text mx-auto">
             <h2 className={EYEBROW_CLASS}>A free book</h2>
-            <P className="mt-4 text-size-md leading-relaxed text-bluedot-navy">
+            <P className="mt-4 text-size-md leading-relaxed">
               Firstly, claim a
               {' '}
               <a
@@ -139,7 +139,7 @@ const PuzzleSubmittedPage = () => (
                     >
                       {o.name}
                     </a>
-                    <P className="mt-1 text-size-sm text-bluedot-navy/80 leading-relaxed">
+                    <P className="mt-1 text-bluedot-navy/80">
                       {o.description}
                     </P>
                   </div>

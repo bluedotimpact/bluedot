@@ -68,7 +68,7 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
         className="size-11 text-size-xs"
       />
       <div className="flex-1 min-w-0">
-        <P className="text-size-sm font-semibold leading-tight text-bluedot-navy truncate">{alum.name}</P>
+        <P className="font-semibold leading-tight truncate">{alum.name}</P>
         <P className="text-size-xs text-bluedot-navy/60 truncate">{alum.jobTitle}</P>
       </div>
       {linkHref && (

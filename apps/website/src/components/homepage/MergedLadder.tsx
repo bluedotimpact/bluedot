@@ -74,7 +74,7 @@ const FoaiRungCard = () => (
           The Future of AI
           <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
         </H3>
-        <P className="text-size-sm leading-relaxed text-white/85">
+        <P className="text-white/85">
           Free, self-paced, no application. Finish in an evening with a clearer picture of frontier AI and how to help.
         </P>
         <div className="flex flex-wrap gap-2 mt-1">
@@ -129,13 +129,13 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
         <div className="flex flex-col gap-3 mt-5">
           <H3 className={clsx(
             'font-medium leading-snug tracking-tight text-white',
-            featured ? 'text-size-lg' : 'text-size-md md:text-size-lg',
+            !featured && 'text-size-md md:text-size-lg',
           )}
           >
             {course.title}
             <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
           </H3>
-          <P className="text-size-sm leading-relaxed text-white/85">
+          <P className="text-white/85">
             {course.shortDescription}
           </P>
           <div className="flex flex-wrap gap-2 mt-1">

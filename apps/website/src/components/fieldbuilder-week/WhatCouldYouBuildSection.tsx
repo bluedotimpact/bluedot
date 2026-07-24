@@ -54,7 +54,7 @@ const WhatCouldYouBuildSection = () => {
                 <H4>
                   {title}
                 </H4>
-                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+                <P className="text-bluedot-navy/80">
                   {description}
                 </P>
               </div>
@@ -68,7 +68,7 @@ const WhatCouldYouBuildSection = () => {
               <H4>
                 Your idea
               </H4>
-              <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+              <P className="text-bluedot-navy/80">
                 Pitch us whatever you&apos;ve been sitting on. If it brings serious talent into AI safety, we want to hear it.
               </P>
             </div>

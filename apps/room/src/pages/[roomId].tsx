@@ -142,7 +142,7 @@ const RoomControlPage = withAuth(({ auth }) => {
               </div>
             ) : (
               <div className="flex flex-col gap-4">
-                <P>Currently viewing <A href={room.status.currentUrl} className="underline">{room.status.currentUrl}</A></P>
+                <P>Currently viewing <A href={room.status.currentUrl}>{room.status.currentUrl}</A></P>
                 <CTALinkOrButton onClick={() => setPiCurrentUrl(defaultDisplayUrl)}>
                   Leave {room.status.currentUrl.includes('meet') ? 'meeting' : 'page'}
                 </CTALinkOrButton>

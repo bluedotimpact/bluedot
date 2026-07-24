@@ -33,7 +33,7 @@ const HowItWorksSection = () => {
               <H4>
                 {step.title}
               </H4>
-              <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+              <P className="text-bluedot-navy/80">
                 {step.body}
               </P>
             </li>

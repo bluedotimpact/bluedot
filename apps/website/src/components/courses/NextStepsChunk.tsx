@@ -17,7 +17,7 @@ const externalLinkClassName = 'font-semibold text-bluedot-normal underline hover
 
 const DigitalMindsNextStepsChunk: React.FC = () => (
   <div className="next-steps-chunk flex flex-col gap-6 mt-8 md:mt-6">
-    <P className="text-size-sm leading-relaxed text-bluedot-navy">
+    <P>
       Congratulations on finishing the Introduction to Digital Minds course! Here are some ways you can continue to learn about and contribute to the digital minds field.
     </P>
 
@@ -115,7 +115,7 @@ const BlueDotNextStepsChunk: React.FC = () => {
 
   return (
     <div className="next-steps-chunk flex flex-col gap-6 mt-8 md:mt-6">
-      <P className="text-size-sm leading-relaxed text-bluedot-navy">
+      <P>
         You&apos;ve got context now. Here&apos;s how you can continue contributing to AI safety.
       </P>
 

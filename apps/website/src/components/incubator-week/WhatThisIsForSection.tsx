@@ -53,7 +53,7 @@ const WhatThisIsForSection = () => {
               <li>Lysander Mawby: Mechanistic interpretability; Just wrapped up the FR8 incubator ($100k at $5M val)</li>
             </ul>
           </div>
-          <P className="text-size-sm leading-relaxed text-bluedot-navy/80 pt-4">
+          <P className="text-bluedot-navy/80 pt-4">
             Run by BlueDot Impact. We&apos;ve raised over $35M to build the workforce and organizations needed to safely navigate AGI.
           </P>
         </div>
@@ -70,7 +70,7 @@ const WhatThisIsForSection = () => {
                 <H4>
                   {title}
                 </H4>
-                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+                <P className="text-bluedot-navy/80">
                   {description}
                 </P>
               </div>

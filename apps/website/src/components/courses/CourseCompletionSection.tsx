@@ -57,7 +57,7 @@ const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor
       <card.icon className="size-5" style={{ color: accentColor }} />
       <p className="text-size-sm font-semibold leading-normal text-bluedot-navy">{card.title}</p>
     </div>
-    <P className="text-size-sm leading-relaxed text-bluedot-navy/70">{card.description}</P>
+    <P className="text-bluedot-navy/70">{card.description}</P>
   </div>
 );
 
@@ -135,7 +135,7 @@ export default function CourseCompletionSection({
             <H2 className="text-[28px] md:text-[32px]">
               Join the next {courseTitle} cohort
             </H2>
-            <P className="text-size-sm leading-relaxed text-bluedot-navy">
+            <P>
               Learn alongside field experts and leave with a clear next step.
             </P>
           </div>
@@ -179,12 +179,12 @@ export default function CourseCompletionSection({
                     className="flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-5 border-t border-bluedot-navy/10"
                   >
                     <div className="md:w-[160px] shrink-0">
-                      <P className="text-size-sm font-semibold leading-snug text-bluedot-navy">
+                      <P className="font-semibold leading-snug">
                         {detail.label}
                       </P>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <P className="text-size-sm leading-relaxed text-bluedot-navy/80 font-normal">
+                      <P className="text-bluedot-navy/80">
                         {detail.description}
                       </P>
                     </div>

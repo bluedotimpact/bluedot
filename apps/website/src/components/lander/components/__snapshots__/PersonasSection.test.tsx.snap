@@ -74,12 +74,12 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
               class="p-6 bd-md:p-8 flex flex-col gap-4"
             >
               <p
-                class="bluedot-p not-prose text-size-md leading-normal text-bluedot-navy font-semibold"
+                class="bluedot-p not-prose text-size-md leading-normal font-semibold"
               >
                 You get the tech. Now you want to know if policy is where you should point it.
               </p>
               <p
-                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/70"
+                class="bluedot-p not-prose text-bluedot-navy/70"
               >
                 You understand the technology - how the systems work, what scaling means.
               </p>
@@ -92,7 +92,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                   What this looks like
                 </p>
                 <p
-                  class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80"
+                  class="bluedot-p not-prose text-bluedot-navy/80"
                 >
                   People like you have made this move.
                 </p>
@@ -159,12 +159,12 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
               class="p-6 bd-md:p-8 flex flex-col gap-4"
             >
               <p
-                class="bluedot-p not-prose text-size-md leading-normal text-bluedot-navy font-semibold"
+                class="bluedot-p not-prose text-size-md leading-normal font-semibold"
               >
                 You have options. You're not the type to drift into a default path.
               </p>
               <p
-                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/70"
+                class="bluedot-p not-prose text-bluedot-navy/70"
               >
                 You're at a top university or recently graduated.
               </p>
@@ -177,7 +177,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                   What this looks like
                 </p>
                 <p
-                  class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80"
+                  class="bluedot-p not-prose text-bluedot-navy/80"
                 >
                   You'll join a cohort of others at the same stage.
                 </p>
@@ -244,12 +244,12 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
               class="p-6 bd-md:p-8 flex flex-col gap-4"
             >
               <p
-                class="bluedot-p not-prose text-size-md leading-normal text-bluedot-navy font-semibold"
+                class="bluedot-p not-prose text-size-md leading-normal font-semibold"
               >
                 You know how policy works. AI is eating your field.
               </p>
               <p
-                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/70"
+                class="bluedot-p not-prose text-bluedot-navy/70"
               >
                 You already work in government, a think tank, or policy.
               </p>
@@ -262,7 +262,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                   What this looks like
                 </p>
                 <p
-                  class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80"
+                  class="bluedot-p not-prose text-bluedot-navy/80"
                 >
                   You'll become the person your org turns to on AI.
                 </p>

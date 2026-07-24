@@ -203,7 +203,7 @@ const TestimonialCarousel = ({
               </H2>
             )}
             {subtitle && (
-              <P className="text-size-sm bd-md:text-size-md font-normal leading-relaxed text-bluedot-navy/80 max-w-full">
+              <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 max-w-full">
                 {subtitle}
               </P>
             )}
@@ -315,10 +315,10 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
 
   const nameRoleBlock = (
     <div className="flex flex-col items-start gap-1 w-full">
-      <P className="text-size-sm font-semibold leading-snug text-bluedot-navy text-left w-full">
+      <P className="font-semibold leading-snug text-left w-full">
         {testimonial.name}
       </P>
-      <P className="text-size-xs font-normal leading-relaxed text-bluedot-navy/60 text-left w-full">
+      <P className="text-size-xs leading-relaxed text-bluedot-navy/60 text-left w-full">
         {testimonial.jobTitle}
       </P>
     </div>
@@ -341,7 +341,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
       <div className="flex flex-1 flex-col p-6">
         <div className="flex flex-1 flex-col gap-8">
           {hasQuote ? (
-            <P className="flex-1 text-size-sm font-normal leading-relaxed text-bluedot-navy text-left w-full">
+            <P className="flex-1 text-left w-full">
               {testimonial.quote}
             </P>
           ) : (

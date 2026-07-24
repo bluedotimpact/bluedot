@@ -131,7 +131,7 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
       <div className="flex flex-col gap-3">
         <H3 className="text-size-md">{title}</H3>
         {description && (
-          <P className="text-bluedot-navy text-size-sm leading-relaxed">{description}</P>
+          <P>{description}</P>
         )}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-3">{actions}</div>}
@@ -391,7 +391,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             <H2 className="text-[32px] text-white">
               Help more people discover AI safety today
             </H2>
-            <P className="text-size-sm leading-relaxed text-white">
+            <P className="text-white">
               You&apos;ve spent time understanding one of the most important problems of our era. A post or a message to
               the right person can have a real ripple effect.
             </P>
@@ -437,7 +437,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
         <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
           <div className="flex flex-col gap-3">
             <H3 className="text-size-md">Want to go deeper?</H3>
-            <P className="text-bluedot-navy text-size-sm leading-relaxed">
+            <P>
               <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
               facilitated in small groups with live discussion. No specific background required. New rounds start
               every month.
