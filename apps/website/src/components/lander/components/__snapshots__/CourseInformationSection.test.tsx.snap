@@ -26,7 +26,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                class="bluedot-p not-prose font-semibold leading-snug"
               >
                 Options
               </p>
@@ -65,7 +65,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                class="bluedot-p not-prose font-semibold leading-snug"
               >
                 Commitment
               </p>
@@ -105,7 +105,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                class="bluedot-p not-prose font-semibold leading-snug"
               >
                 Facilitator
               </p>
@@ -132,7 +132,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                class="bluedot-p not-prose font-semibold leading-snug"
               >
                 Price
               </p>
@@ -159,7 +159,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="bd-md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                class="bluedot-p not-prose font-semibold leading-snug"
               >
                 Schedule
               </p>

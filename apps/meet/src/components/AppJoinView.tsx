@@ -56,7 +56,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
         </CTALinkOrButton>
       )}
       {secondsToOpen <= 0 && (
-        <p className="mt-4">Button doesn't work? <A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</A></p>
+        <p className="mt-4">Button doesn't work? <A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`}>Join via Zoom website</A></p>
       ) }
     </Page>
   );

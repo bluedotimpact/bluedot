@@ -74,7 +74,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
                     <div className="bd-md:w-[120px] lg:w-[144px] xl:w-40 shrink-0">
-                      <P className="text-size-sm font-semibold leading-snug text-bluedot-navy">
+                      <P className="font-semibold leading-snug">
                         {detail.label}
                       </P>
                     </div>
@@ -87,7 +87,7 @@ const CourseInformationSection = ({
                         accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
-                            <P className="text-size-sm leading-relaxed text-bluedot-navy/80 font-normal">
+                            <P className="text-bluedot-navy/80">
                               {detail.scheduleDescription}
                             </P>
                             <div className="flex justify-start">
@@ -107,7 +107,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
                     <div className="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0">
-                      <P className="text-size-sm font-semibold leading-snug text-bluedot-navy">
+                      <P className="font-semibold leading-snug">
                         {detail.label}
                       </P>
                     </div>

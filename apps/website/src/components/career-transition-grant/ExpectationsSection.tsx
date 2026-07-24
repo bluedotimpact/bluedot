@@ -44,7 +44,7 @@ const ExpectationsSection = () => {
                 <H4>
                   {item.title}
                 </H4>
-                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+                <P className="text-bluedot-navy/80">
                   {item.body}
                 </P>
               </div>

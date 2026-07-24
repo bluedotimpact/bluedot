@@ -10,7 +10,7 @@ const Header = () => (
       >
         Start making an impact today
       </h2>
-      <P className="text-size-sm md:text-size-md leading-relaxed opacity-70 max-w-4xl">
+      <P className="md:text-size-md leading-relaxed opacity-70 max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>

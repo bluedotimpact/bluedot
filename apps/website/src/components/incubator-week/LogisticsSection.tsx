@@ -33,7 +33,7 @@ const LogisticsSection = () => {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+                <P className="text-bluedot-navy/80">
                   {item.body}
                 </P>
               </div>

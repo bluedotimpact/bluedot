@@ -1084,7 +1084,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                    class="bluedot-p not-prose font-semibold leading-snug"
                   >
                     Options
                   </p>
@@ -1111,7 +1111,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                    class="bluedot-p not-prose font-semibold leading-snug"
                   >
                     Commitment
                   </p>
@@ -1151,7 +1151,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                    class="bluedot-p not-prose font-semibold leading-snug"
                   >
                     Facilitator
                   </p>
@@ -1178,7 +1178,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-size-sm font-semibold leading-snug text-bluedot-navy"
+                    class="bluedot-p not-prose font-semibold leading-snug"
                   >
                     Price
                   </p>
@@ -1959,7 +1959,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               src="/images/agi-strategy/bluedot-icon.svg"
             />
             <h3
-              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-semibold text-white leading-normal bd-md:leading-snug"
+              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] text-white leading-normal bd-md:leading-snug"
             >
               Start building towards a good future today
             </h3>

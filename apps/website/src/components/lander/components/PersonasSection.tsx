@@ -101,13 +101,13 @@ const PersonasSection = ({
                     <div className="p-6 bd-md:p-8 flex flex-col gap-4">
                       {/* Summary */}
                       {persona.summary && (
-                        <P className="text-size-md leading-normal text-bluedot-navy font-semibold">
+                        <P className="text-size-md leading-normal font-semibold">
                           {persona.summary}
                         </P>
                       )}
 
                       {/* Description */}
-                      <P className="text-size-sm leading-relaxed text-bluedot-navy/70">
+                      <P className="text-bluedot-navy/70">
                         {persona.description}
                       </P>
 
@@ -117,7 +117,7 @@ const PersonasSection = ({
                           <Eyebrow className="text-bluedot-navy/60 mb-2">
                             What this looks like
                           </Eyebrow>
-                          <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+                          <P className="text-bluedot-navy/80">
                             {persona.valueProposition}
                           </P>
                         </div>
@@ -142,7 +142,7 @@ const PersonasSection = ({
           </div>
         )}
         {footerText && (
-          <P className="text-center text-size-sm leading-relaxed text-bluedot-navy/60 mt-10 md:mt-12">
+          <P className="text-center text-bluedot-navy/60 mt-10 md:mt-12">
             {footerText}
           </P>
         )}

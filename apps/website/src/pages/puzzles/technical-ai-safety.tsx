@@ -256,10 +256,10 @@ const PuzzleTechnicalAiSafetyPage = () => {
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
               <h2 className={EYEBROW_CLASS}>The puzzle</h2>
-              <P className="mt-4 text-size-md leading-relaxed text-bluedot-navy">
+              <P className="mt-4 text-size-md leading-relaxed">
                 We trained a model on short text inputs to predict eight binary features simultaneously (e.g. contains a person&rsquo;s name, mentions a food, phrased as a question). After a particular layer of this model, seven of these features are represented linearly, where a single direction in the activation space describes that feature. However, one feature is represented in a different way.
               </P>
-              <P className="mt-4 text-size-md leading-relaxed text-bluedot-navy">
+              <P className="mt-4 text-size-md leading-relaxed">
                 Your job is to figure out which feature it is and how it is represented.
               </P>
             </div>

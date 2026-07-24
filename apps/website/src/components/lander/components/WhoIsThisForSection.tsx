@@ -45,7 +45,7 @@ const WhoIsThisForSection = ({
               >
                 <IconComponent className="text-white" size={28} />
               </div>
-              <P className="text-size-md leading-relaxed text-bluedot-navy">
+              <P className="text-size-md leading-relaxed">
                 <span className="font-semibold">{boldText}</span>
                 <span> {description}</span>
               </P>

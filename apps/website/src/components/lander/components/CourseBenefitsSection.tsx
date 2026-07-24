@@ -34,7 +34,7 @@ const CourseBenefitsSection = ({ title, benefits, iconBackgroundColor = 'var(--b
                 <H3 className="text-size-md">
                   {benefitTitle}
                 </H3>
-                <P className="text-size-sm leading-relaxed text-bluedot-navy/80">
+                <P className="text-bluedot-navy/80">
                   {description}
                 </P>
               </div>
