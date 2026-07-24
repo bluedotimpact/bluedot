@@ -57,7 +57,7 @@ const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor
       <card.icon className="size-5" style={{ color: accentColor }} />
       <p className="text-size-sm font-semibold leading-normal text-bluedot-navy">{card.title}</p>
     </div>
-    <P className="text-bluedot-navy/70">{card.description}</P>
+    <P className="text-bluedot-navy/80">{card.description}</P>
   </div>
 );
 

@@ -79,7 +79,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You get the tech. Now you want to know if policy is where you should point it.
               </p>
               <p
-                class="bluedot-p not-prose text-bluedot-navy/70"
+                class="bluedot-p not-prose text-bluedot-navy/80"
               >
                 You understand the technology - how the systems work, what scaling means.
               </p>
@@ -164,7 +164,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You have options. You're not the type to drift into a default path.
               </p>
               <p
-                class="bluedot-p not-prose text-bluedot-navy/70"
+                class="bluedot-p not-prose text-bluedot-navy/80"
               >
                 You're at a top university or recently graduated.
               </p>
@@ -249,7 +249,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You know how policy works. AI is eating your field.
               </p>
               <p
-                class="bluedot-p not-prose text-bluedot-navy/70"
+                class="bluedot-p not-prose text-bluedot-navy/80"
               >
                 You already work in government, a think tank, or policy.
               </p>

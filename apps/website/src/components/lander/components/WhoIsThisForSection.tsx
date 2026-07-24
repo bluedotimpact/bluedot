@@ -56,7 +56,7 @@ const WhoIsThisForSection = ({
         {/* Bottom CTA Section */}
         {bottomCta && (
           <div className="w-full max-w-[924px] mx-auto flex flex-col items-center gap-6 mt-12 md:mt-16">
-            <P className="text-size-sm text-bluedot-navy/80 text-center">
+            <P className="text-bluedot-navy/80 text-center">
               <span className="font-semibold">{bottomCta.boldText}</span>
               <span> {bottomCta.text}</span>
             </P>

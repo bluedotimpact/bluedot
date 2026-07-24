@@ -318,7 +318,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
       <P className="font-semibold leading-snug text-left w-full">
         {testimonial.name}
       </P>
-      <P className="text-size-xs leading-relaxed text-bluedot-navy/60 text-left w-full">
+      <P className="text-size-xs leading-relaxed text-bluedot-navy/80 text-left w-full">
         {testimonial.jobTitle}
       </P>
     </div>

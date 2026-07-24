@@ -69,7 +69,7 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
       />
       <div className="flex-1 min-w-0">
         <P className="font-semibold leading-tight truncate">{alum.name}</P>
-        <P className="text-size-xs text-bluedot-navy/60 truncate">{alum.jobTitle}</P>
+        <P className="text-size-xs text-bluedot-navy/80 truncate">{alum.jobTitle}</P>
       </div>
       {linkHref && (
         <span className="text-size-lg text-bluedot-normal flex-shrink-0" aria-hidden="true">→</span>

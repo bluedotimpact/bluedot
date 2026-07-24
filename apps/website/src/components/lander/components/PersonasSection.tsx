@@ -107,7 +107,7 @@ const PersonasSection = ({
                       )}
 
                       {/* Description */}
-                      <P className="text-bluedot-navy/70">
+                      <P className="text-bluedot-navy/80">
                         {persona.description}
                       </P>
 
@@ -142,7 +142,7 @@ const PersonasSection = ({
           </div>
         )}
         {footerText && (
-          <P className="text-center text-bluedot-navy/60 mt-10 md:mt-12">
+          <P className="text-center text-bluedot-navy/80 mt-10 md:mt-12">
             {footerText}
           </P>
         )}

@@ -68,7 +68,7 @@ const PuzzleSubmittedPage = () => (
       <section>
         <div className={`${SECTION_CONTAINER_CLASS} pt-[calc(var(--nav-height-mobile)+8px)] pb-2 bd-md:pt-[calc(var(--nav-height-mobile)+10px)] bd-md:pb-2 lg:pt-[calc(var(--nav-height-desktop)+10px)] lg:pb-3`}>
           <div className="max-w-text mx-auto text-center">
-            <H1 className="text-size-xl">
+            <H1>
               {PAGE_TITLE}
             </H1>
           </div>

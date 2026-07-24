@@ -10,7 +10,7 @@ const Header = () => (
       >
         Start making an impact today
       </h2>
-      <P className="md:text-size-md leading-relaxed opacity-70 max-w-4xl">
+      <P className="md:text-size-md leading-relaxed text-bluedot-navy/80 max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>
@@ -35,7 +35,7 @@ const ValueProp = ({ iconType, title, description }: { iconType: 'career' | 'net
       </div>
       <div className="flex flex-col gap-2">
         <H4 className="text-size-md font-medium">{title}</H4>
-        <P className="text-size-sm opacity-80">{description}</P>
+        <P className="text-bluedot-navy/80">{description}</P>
       </div>
     </div>
   );
