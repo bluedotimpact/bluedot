@@ -21,9 +21,7 @@ import {
 
 const linkNoLongerValid = () => new TRPCError({ code: 'BAD_REQUEST', message: 'This link is no longer valid' });
 
-const describeError = (error: unknown) => (error instanceof Error ? error.message : String(error));
-
-const confirmUrlFor = (token: string) => {
+const getEmailChangeConfirmUrl = (token: string) => {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
   return `${siteUrl}${ROUTES.confirmEmailChange.url}?token=${encodeURIComponent(token)}`;
 };
@@ -38,7 +36,7 @@ async function unlinkStaleGoogleIdentitiesOrAlert(userId: string, keycloakIdenti
   try {
     return { loginMethods: await unlinkStaleGoogleIdentities(keycloakIdentifier, newEmail) };
   } catch (error) {
-    await slackAlert(env, [`[EmailChange] Failed to unlink stale google identities for user ${userId}: ${describeError(error)}`]);
+    await slackAlert(env, [`[EmailChange] Failed to unlink stale google identities for user ${userId}: ${error instanceof Error ? error.message : String(error)}`]);
     return { loginMethods: null };
   }
 }
@@ -187,7 +185,7 @@ export const usersRouter = router({
       }
 
       const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail: input.newEmail });
-      await sendEmailChangeVerification({ oldEmail: user.email, newEmail: input.newEmail, confirmUrl: confirmUrlFor(token) });
+      await sendEmailChangeVerification({ oldEmail: user.email, newEmail: input.newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
 
       logger.info(`[EmailChange] admin ${impersonationRealIdentity(ctx).sub} requested email change for user ${user.id}: ${user.email} -> ${input.newEmail}`);
 
@@ -206,9 +204,9 @@ export const usersRouter = router({
 
       const currentEmail = normaliseEmail(user.email);
 
-      // Already applied: re-running the unlink is safe and keeps a second click on the link idempotent.
+      // Already applied: a second click reports success without re-running anything.
       if (currentEmail === payload.newEmail) {
-        return { newEmail: payload.newEmail, ...await unlinkStaleGoogleIdentitiesOrAlert(user.id, user.keycloakIdentifier, payload.newEmail) };
+        return { newEmail: payload.newEmail, loginMethods: null };
       }
 
       if (currentEmail !== payload.oldEmail) {
@@ -222,20 +220,20 @@ export const usersRouter = router({
       try {
         await updateKeycloakEmail(user.keycloakIdentifier, payload.newEmail);
       } catch (error) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: `Email change failed: ${describeError(error)}`, cause: error });
+        throw new TRPCError({ code: 'BAD_REQUEST', message: `Email change failed: ${error instanceof Error ? error.message : String(error)}`, cause: error });
       }
 
       try {
         await db.update(userTable, { id: user.id, email: payload.newEmail });
       } catch (error) {
-        await slackAlert(env, [`[EmailChange] Keycloak now has ${payload.newEmail} for user ${user.id} but the user table update failed and still has ${payload.oldEmail}: ${describeError(error)}`]);
+        await slackAlert(env, [`[EmailChange] Keycloak now has ${payload.newEmail} for user ${user.id} but the user table update failed and still has ${payload.oldEmail}: ${error instanceof Error ? error.message : String(error)}`]);
         throw error;
       }
 
       logger.info(`[EmailChange] confirmed for user ${user.id}: ${payload.oldEmail} -> ${payload.newEmail}`);
 
       updateCustomerIoEmail({ userId: user.id, oldEmail: user.email, newEmail: payload.newEmail })
-        .catch((error: unknown) => slackAlert(env, [`[EmailChange] customer.io rename failed for user ${user.id}: ${describeError(error)}`]));
+        .catch((error: unknown) => slackAlert(env, [`[EmailChange] customer.io rename failed for user ${user.id}: ${error instanceof Error ? error.message : String(error)}`]));
 
       return { newEmail: payload.newEmail, ...await unlinkStaleGoogleIdentitiesOrAlert(user.id, user.keycloakIdentifier, payload.newEmail) };
     }),

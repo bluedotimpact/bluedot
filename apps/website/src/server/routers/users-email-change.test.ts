@@ -255,23 +255,24 @@ describe('users.confirmEmailChange', () => {
     await anonCaller().users.confirmEmailChange({ token });
     vi.mocked(updateKeycloakEmail).mockClear();
     vi.mocked(updateCustomerIoEmail).mockClear();
+    vi.mocked(unlinkStaleGoogleIdentities).mockClear();
 
     const result = await anonCaller().users.confirmEmailChange({ token });
 
-    expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: { hasPassword: true, hasGoogleLogin: false } });
+    expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: null });
     expect(updateKeycloakEmail).not.toHaveBeenCalled();
     expect(updateCustomerIoEmail).not.toHaveBeenCalled();
+    expect(unlinkStaleGoogleIdentities).not.toHaveBeenCalled();
   });
 
-  test('the already-applied path still unlinks stale identities and reports the login methods', async () => {
+  test('reports success without side effects when the change was already applied', async () => {
     await seedTarget('new@example.com');
-    vi.mocked(unlinkStaleGoogleIdentities).mockResolvedValue({ hasPassword: false, hasGoogleLogin: false });
 
     const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
 
-    expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: { hasPassword: false, hasGoogleLogin: false } });
+    expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: null });
     expect(updateKeycloakEmail).not.toHaveBeenCalled();
-    expect(unlinkStaleGoogleIdentities).toHaveBeenCalledExactlyOnceWith('target-sub', 'new@example.com');
+    expect(unlinkStaleGoogleIdentities).not.toHaveBeenCalled();
   });
 
   test('succeeds and alerts when the identity cleanup fails', async () => {

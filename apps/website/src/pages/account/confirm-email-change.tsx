@@ -38,8 +38,7 @@ const ConfirmEmailChange = () => {
   const router = useRouter();
   const token = typeof router.query.token === 'string' ? router.query.token : '';
 
-  // Without a query string the client has router.isReady on its first render while the server
-  // did not, so gate on mount too to keep the server and client markup identical.
+  // Gate on mount as well as router.isReady to keep the server and client markup identical
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => setIsMounted(true), []);
 

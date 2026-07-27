@@ -174,11 +174,6 @@ export async function updateKeycloakEmail(userSub: string, newEmail: string): Pr
 
 export type LoginMethods = { hasPassword: boolean; hasGoogleLogin: boolean };
 
-/**
- * Google links match on the provider's subject, not the email, so a link made with the old address keeps
- * working after an email change. Remove those so the old identity can no longer sign in, and report which
- * login methods the account is left with.
- */
 export async function unlinkStaleGoogleIdentities(userSub: string, newEmail: string): Promise<LoginMethods> {
   const identities = await adminRequest<KeycloakFederatedIdentity[]>({ method: 'get', path: `/users/${userSub}/federated-identity` });
   const stale = identities.filter((identity) => identity.identityProvider === 'google' && normaliseEmail(identity.userName) !== newEmail);
