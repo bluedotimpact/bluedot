@@ -29,7 +29,7 @@ const confirmUrlFor = (token: string) => {
 };
 
 async function isEmailTakenByAnotherUser(email: string, excludeUserId: string): Promise<boolean> {
-  const existing = await db.pg.execute(sql`SELECT id FROM ${userTable.pg} WHERE LOWER(email) = ${email} AND id != ${excludeUserId} LIMIT 1`);
+  const existing = await db.pg.execute(sql`SELECT id FROM ${userTable.pg} WHERE LOWER(TRIM(email)) = ${email} AND id != ${excludeUserId} LIMIT 1`);
 
   return existing.rows.length > 0;
 }
