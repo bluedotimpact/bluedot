@@ -42,8 +42,11 @@ const makeFakeCio = (profiles: FakeProfile[], { applyWrites = true }: { applyWri
   identifyCalls: [],
 });
 
-const applyIdentify = (cio: FakeCio, id: string, email: string) => {
-  const owner = cio.profiles.find((p) => p.email === email);
+const sameEmail = (a: string | null, b: string | null) => a !== null && b !== null && a.toLowerCase() === b.toLowerCase();
+
+const applyIdentify = (cio: FakeCio, id: string, rawEmail: string) => {
+  const email = rawEmail.toLowerCase();
+  const owner = cio.profiles.find((p) => sameEmail(p.email, email));
   const mine = cio.profiles.find((p) => p.id === id);
   if (owner && owner !== mine) {
     if (!owner.id && !mine) {
@@ -78,7 +81,7 @@ const installFakeCio = (cio: FakeCio) => {
       if (url.pathname === '/v1/customers') {
         const email = url.searchParams.get('email');
         const results = cio.profiles
-          .filter((p) => p.email === email)
+          .filter((p) => sameEmail(p.email, email))
           .map((p) => ({ cio_id: p.cio_id, id: p.id, email: p.email }));
         return jsonResponse(200, { results });
       }
@@ -134,6 +137,7 @@ const runToCompletion = async (promise: Promise<void>) => {
 
 describe('updateCustomerIoEmail', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.useFakeTimers();
   });
 
@@ -281,6 +285,27 @@ describe('updateCustomerIoEmail', () => {
       .rejects.toThrow('no conflicting profile was found');
 
     expect(cio.identifyCalls).toEqual([{ id: 'u1', email: 'new@example.com' }]);
+  });
+
+  test('keeps polling when a read fails while verifying the rename', async () => {
+    const cio = makeFakeCio([{ cio_id: 'c1', id: 'u1', email: 'old@example.com' }]);
+    const fetchMock = installFakeCio(cio);
+    const base = fetchMock.getMockImplementation()!;
+    let attributesCalls = 0;
+    fetchMock.mockImplementation(async (input, init) => {
+      if (String(input).includes('/attributes')) {
+        attributesCalls += 1;
+        if (attributesCalls === 2) throw new Error('network blip');
+        if (attributesCalls === 3) return jsonResponse(500, { meta: { error: 'server error' } });
+      }
+
+      return base(input, init);
+    });
+
+    await runToCompletion(updateCustomerIoEmail({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' }));
+
+    expect(cio.identifyCalls).toEqual([{ id: 'u1', email: 'new@example.com' }]);
+    expect(cio.profiles).toEqual([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
   });
 
   test('succeeds without throwing when the rename lands late, after verify polling gave up', async () => {

@@ -1,3 +1,4 @@
+import { logger } from '@bluedot/ui/src/api';
 import env from './env';
 import { normaliseEmail } from './utils';
 
@@ -70,8 +71,12 @@ async function emailIsVisible({ userId, email }: { userId: string; email: string
     await new Promise((resolve) => {
       setTimeout(resolve, POLL_INTERVAL_MS);
     });
-    // eslint-disable-next-line no-await-in-loop
-    if (profileEmail(await getProfileById(userId)) === email) return true;
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      if (profileEmail(await getProfileById(userId)) === email) return true;
+    } catch (error) {
+      logger.warn(`Failed to read the customer.io profile for user ${userId} while verifying an email change:`, error);
+    }
   }
 
   return false;
