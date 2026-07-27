@@ -73,10 +73,10 @@ async function seed(identifiers: { id?: string; email?: string }, email: string)
   expect(res.ok).toBe(true);
 }
 
-async function getByEmail(email: string): Promise<{ cio_id: string; id?: string | null }[]> {
+async function getByEmail(email: string): Promise<{ cio_id: string; id?: string | null; email?: string | null }[]> {
   const res = await fetch(`${APP}/customers?email=${encodeURIComponent(email)}`, { headers: { Authorization: appAuth } });
   expect(res.ok).toBe(true);
-  const data = await res.json() as { results?: { cio_id: string; id?: string | null }[] };
+  const data = await res.json() as { results?: { cio_id: string; id?: string | null; email?: string | null }[] };
   return data.results ?? [];
 }
 
@@ -173,6 +173,33 @@ describe.runIf(RUN)('updateCustomerIoEmail against the production EU workspace',
     expect(await getByEmail(oldEmail)).toEqual([]);
     expect(await getByEmail(newEmail)).toEqual([]);
   }, 60_000);
+
+  test('case: an email ingested with mixed casing is stored lowercased, and renameable via its lowercase form', async () => {
+    const userId = liveUserId('case');
+    const lowerOldEmail = liveEmail('case-old');
+    const mixedOldEmail = lowerOldEmail.replace('e2e', 'E2E').replace('@example.com', '@Example.COM');
+    const newEmail = liveEmail('case-new');
+    createdUserIds.push(userId);
+    await seed({ email: mixedOldEmail }, mixedOldEmail);
+    // Both casings, so cleanup still finds the profile if lookup turns out to be case-sensitive.
+    createdEmails.push(lowerOldEmail, newEmail);
+
+    const [asStored] = await waitFor(() => getByEmail(mixedOldEmail), (profiles) => profiles.length === 1);
+    expect(asStored).toBeDefined();
+    // customer.io lowercases the email identifier on ingest, which is why the in-memory fake in
+    // customerio.test.ts can treat every stored email as lowercase.
+    expect(asStored!.email).toBe(lowerOldEmail);
+
+    const foundByLowercase = await getByEmail(lowerOldEmail);
+    expect(foundByLowercase.map((p) => p.cio_id)).toEqual([asStored!.cio_id]);
+
+    await updateCustomerIoEmail({ userId, oldEmail: lowerOldEmail, newEmail });
+
+    const renamed = await waitFor(() => getById(userId), (profile) => profile?.email === newEmail);
+    expect(renamed?.email).toBe(newEmail);
+    expect(renamed?.cio_id).toBe(asStored!.cio_id);
+    expect(await getByEmail(mixedOldEmail)).toEqual([]);
+  }, 240_000);
 
   test('verification send + claim + rename: the send attaches to the old-email profile, which is then claimed and renamed in place', async () => {
     const userId = liveUserId('claim');
