@@ -10,11 +10,7 @@ import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.confirmEmailChange;
 
-const LoginAdvice = ({ loginMethods }: { loginMethods: LoginMethods | null }) => {
-  if (!loginMethods) {
-    return <P>Your existing password, if you have one, still works.</P>;
-  }
-
+const LoginAdvice = ({ loginMethods }: { loginMethods: LoginMethods }) => {
   if (loginMethods.hasGoogleLogin) {
     return (
       <P>
@@ -31,9 +27,9 @@ const LoginAdvice = ({ loginMethods }: { loginMethods: LoginMethods | null }) =>
 
   return (
     <P>
-      You used to sign in with Google using your old address, which no longer works for this account.
-      To log in from now on, choose &quot;Forgot password?&quot; on the login page and enter your new
-      email address to set a password.
+      You used to sign in with Google, so there is no password set for this account. To log in, sign
+      with Google from your new email address and click "Add to existing account". Alternatively, choose
+      &quot;Forgot password?&quot; on the login page and enter your new email address to set a password.
     </P>
   );
 };
@@ -62,30 +58,24 @@ const ConfirmEmailChange = () => {
       return <ProgressDots className="py-8" />;
     }
 
-    if (!token) {
-      return (
-        <>
-          <H3>Invalid link</H3>
-          <P>This link is missing its confirmation code. Please use the link from your email.</P>
-        </>
-      );
-    }
-
     if (confirmMutation.isSuccess) {
       return (
         <>
           <H3>Email updated</H3>
           <P>Your BlueDot Impact account email is now {confirmMutation.data.newEmail}.</P>
-          <LoginAdvice loginMethods={confirmMutation.data.loginMethods} />
+          {confirmMutation.data.loginMethods && <LoginAdvice loginMethods={confirmMutation.data.loginMethods} />}
         </>
       );
     }
 
-    if (confirmMutation.error) {
+    const errorMessage = !token
+      ? 'This link is missing its confirmation code. Please use the link from your email.'
+      : confirmMutation.error?.message;
+    if (errorMessage) {
       return (
         <>
           <H3>We couldn&apos;t update your email</H3>
-          <p role="alert">{confirmMutation.error.message}</p>
+          <p role="alert">{errorMessage}</p>
           <P>If you think this is a mistake, email us at team@bluedot.org.</P>
         </>
       );

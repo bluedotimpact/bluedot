@@ -78,18 +78,18 @@ describe('ConfirmEmailChange', () => {
     expect(advice).toHaveTextContent('choose "Forgot password?" on the login page');
   });
 
-  test('falls back to hedged advice when the login methods could not be determined', async () => {
+  test('shows no login advice when the login methods could not be determined', async () => {
     const advice = await confirmAndGetAdvice(null);
 
-    expect(advice).toHaveTextContent('Your existing password, if you have one, still works.');
+    expect(advice).toHaveTextContent('Your BlueDot Impact account email is now new@example.com.');
   });
 
-  test('shows an invalid-link message when the token is missing', () => {
+  test('shows the error state when the token is missing', () => {
     mockQuery = {};
 
     render(<ConfirmEmailChange />, { wrapper: TrpcProvider });
 
-    expect(screen.getByText('Invalid link')).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toHaveTextContent('This link is missing its confirmation code. Please use the link from your email.');
     expect(screen.queryByRole('button', { name: /confirm email change/i })).not.toBeInTheDocument();
   });
 });
