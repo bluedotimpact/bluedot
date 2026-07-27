@@ -73,7 +73,7 @@ export const Card: React.FC<CardProps> = ({
       >
         <div className="card__text">
           <div className="flex flex-row gap-4 items-center mb-2">
-            <p className="card__title bluedot-h4">{title}</p>
+            <p className="bluedot-h4">{title}</p>
             {subtitleBadge && <Tag variant="secondary">{subtitleBadge}</Tag>}
           </div>
           {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
