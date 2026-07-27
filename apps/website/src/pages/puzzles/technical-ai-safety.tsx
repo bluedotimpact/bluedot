@@ -19,7 +19,7 @@ const TAS = COURSE_COLORS['technical-ai-safety'];
 
 const SECTION_CONTAINER_CLASS = 'max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x';
 const SECTION_PADDING_CLASS = `${SECTION_CONTAINER_CLASS} py-6 bd-md:py-8 lg:py-10`;
-const EYEBROW_CLASS = 'text-size-xxs font-medium uppercase tracking-wide text-bluedot-navy/60';
+const EYEBROW_CLASS = 'text-size-xxs font-medium uppercase tracking-wide text-bluedot-navy/80';
 
 const TASKS = [
   {
@@ -323,7 +323,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 {RUNNER_UP_PRIZES.map((p) => (
                   <div key={p.place} className="rounded-lg border border-color-divider p-5 text-center">
                     <p className="text-size-lg leading-none">{p.medal}</p>
-                    <Eyebrow className="mt-3 text-bluedot-navy/60">
+                    <Eyebrow className="mt-3 text-bluedot-navy/80">
                       {p.place} · {p.amount}
                     </Eyebrow>
                     <ul className="mt-2 space-y-0.5">

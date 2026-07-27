@@ -193,7 +193,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <div className="flex flex-col">
               <H2 className="text-size-lg leading-[44px]">{courseTitle}</H2>
               {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
-                <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
+                <P className="text-bluedot-navy/80">{courseProgressData.courseProgress.percentage}% completed</P>
               )}
             </div>
           </div>
