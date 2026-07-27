@@ -117,8 +117,6 @@ type KeycloakFederatedIdentity = {
   userName: string;
 };
 
-const USERS_ADMIN_URL = `${KEYCLOAK_BASE_URL}/admin/realms/customers/users`;
-
 async function adminRequest<T>(config: { method: 'get' | 'put' | 'delete'; path: string; data?: unknown }): Promise<T> {
   if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
     throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
@@ -128,7 +126,7 @@ async function adminRequest<T>(config: { method: 'get' | 'put' | 'delete'; path:
     const adminToken = await getAdminToken();
     const response = await axios.request<T>({
       method: config.method,
-      url: `${USERS_ADMIN_URL}${config.path}`,
+      url: `${KEYCLOAK_BASE_URL}/admin/realms/customers${config.path}`,
       data: config.data,
       headers: { Authorization: `Bearer ${adminToken}`, 'Content-Type': 'application/json' },
     });
@@ -160,11 +158,11 @@ async function adminRequest<T>(config: { method: 'get' | 'put' | 'delete'; path:
 
 // The customers realm uses registrationEmailAsUsername, so the username tracks the email.
 export async function updateKeycloakEmail(userSub: string, newEmail: string): Promise<void> {
-  const user = await adminRequest<Record<string, unknown>>({ method: 'get', path: `/${userSub}` });
+  const user = await adminRequest<Record<string, unknown>>({ method: 'get', path: `/users/${userSub}` });
 
   await adminRequest({
     method: 'put',
-    path: `/${userSub}`,
+    path: `/users/${userSub}`,
     data: {
       ...user,
       email: newEmail,
@@ -182,11 +180,11 @@ export type LoginMethods = { hasPassword: boolean; hasGoogleLogin: boolean };
  * login methods the account is left with.
  */
 export async function unlinkStaleGoogleIdentities(userSub: string, newEmail: string): Promise<LoginMethods> {
-  const identities = await adminRequest<KeycloakFederatedIdentity[]>({ method: 'get', path: `/${userSub}/federated-identity` });
+  const identities = await adminRequest<KeycloakFederatedIdentity[]>({ method: 'get', path: `/users/${userSub}/federated-identity` });
   const stale = identities.filter((identity) => identity.identityProvider === 'google' && normaliseEmail(identity.userName) !== newEmail);
-  await Promise.all(stale.map((identity) => adminRequest({ method: 'delete', path: `/${userSub}/federated-identity/${identity.identityProvider}` })));
+  await Promise.all(stale.map((identity) => adminRequest({ method: 'delete', path: `/users/${userSub}/federated-identity/${identity.identityProvider}` })));
 
-  const credentials = await adminRequest<{ type?: string }[]>({ method: 'get', path: `/${userSub}/credentials` });
+  const credentials = await adminRequest<{ type?: string }[]>({ method: 'get', path: `/users/${userSub}/credentials` });
 
   return {
     hasPassword: credentials.some((credential) => credential.type === 'password'),

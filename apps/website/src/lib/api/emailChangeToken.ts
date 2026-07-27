@@ -3,8 +3,6 @@ import { errors, jwtVerify, SignJWT } from 'jose';
 import env from './env';
 import { normaliseEmail } from './utils';
 
-const TOKEN_TTL = '48h';
-
 type EmailChangePayload = {
   userId: string;
   oldEmail: string;
@@ -22,7 +20,7 @@ const getSecret = (): Uint8Array => {
 export async function createEmailChangeToken({ userId, oldEmail, newEmail }: EmailChangePayload): Promise<string> {
   return new SignJWT({ userId, oldEmail: normaliseEmail(oldEmail), newEmail: normaliseEmail(newEmail) })
     .setProtectedHeader({ alg: 'HS256' })
-    .setExpirationTime(TOKEN_TTL)
+    .setExpirationTime('48h')
     .sign(getSecret());
 }
 
