@@ -216,6 +216,15 @@ describe('updateCustomerIoEmail', () => {
     expect(cio.identifyCalls).toEqual([]);
   });
 
+  test('does nothing when the id profile already has the new email, whatever casing the caller stored it in', async () => {
+    const cio = makeFakeCio([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
+    installFakeCio(cio);
+
+    await runToCompletion(updateCustomerIoEmail({ userId: 'u1', oldEmail: 'Old@Example.com', newEmail: 'New@Example.COM' }));
+
+    expect(cio.identifyCalls).toEqual([]);
+  });
+
   test('refuses to claim an old-email profile owned by a different user id', async () => {
     const cio = makeFakeCio([{ cio_id: 'c1', id: 'u2', email: 'old@example.com' }]);
     installFakeCio(cio);
