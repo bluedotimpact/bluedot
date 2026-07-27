@@ -4,7 +4,7 @@ import { unstable_localLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
 import {
-  pushTestSchema, resetTestDb, type TestPgAirtableDb, userTable,
+  pushTestSchema, resetTestDb, type TestPgAirtableDb, type User, userTable,
 } from '@bluedot/db';
 import type { AppRouter } from '../server/routers/_app';
 import type { Context } from '../server/context';
@@ -47,11 +47,12 @@ export function setupTestDb() {
 }
 
 // Seeds the userTable row for `testAuthContextLoggedIn`, required by procedures that call getUserFromAuthOrThrow.
-export const seedLoggedInUser = () => testDb.insert(userTable, {
+export const seedLoggedInUser = (overrides: Partial<User> = {}) => testDb.insert(userTable, {
   id: 'test-user',
   email: 'test@example.com',
   name: 'Test User',
   keycloakIdentifier: 'test-sub',
+  ...overrides,
 });
 
 // Server-side caller, for router tests that don't render components
