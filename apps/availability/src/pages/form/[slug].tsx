@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import {
-  CTALinkOrButton, ErrorSection, Input, H1, P, ProgressDots, Section, Textarea,
+  CTALinkOrButton, ErrorSection, Eyebrow, Input, H1, P, ProgressDots, Section, Textarea,
 } from '@bluedot/ui';
 import {
   type TimeAvailabilityMap,
@@ -90,8 +90,8 @@ const Form: React.FC<{
   return (
     <main className="min-h-screen bg-bluedot-darker flow-root px-8 py-12">
       <Section className="border-b-0 py-16 px-12 bg-cream-normal rounded-lg max-w-3xl">
-        <P className="uppercase text-color-secondary-text">Time availability form</P>
-        <H1 className="text-3xl">{title}</H1>
+        <Eyebrow>Time availability form</Eyebrow>
+        <H1 className="text-size-lg">{title}</H1>
         <div className="space-y-2 mt-4">
           <P>Submit your availability so we can schedule your discussions at times that suit you.</P>
         </div>

@@ -108,7 +108,7 @@ const BuilderRow = ({ builder }: { builder: Builder }) => {
           className="max-w-full max-h-full object-contain"
         />
       </a>
-      <P className="text-size-md leading-relaxed text-bluedot-navy/85 max-w-[680px]">
+      <P className="text-size-md leading-relaxed text-bluedot-navy/80 max-w-[680px]">
         {builder.founder.profileUrl ? (
           <a
             href={builder.founder.profileUrl}

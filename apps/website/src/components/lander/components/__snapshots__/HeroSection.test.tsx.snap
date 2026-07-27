@@ -104,7 +104,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
                 The Future of AI
               </h1>
               <p
-                class="bluedot-p not-prose sm:text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line"
+                class="bluedot-p not-prose sm:text-size-md leading-relaxed text-white/85 whitespace-pre-line"
               >
                 Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
               </p>

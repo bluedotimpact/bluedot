@@ -85,7 +85,7 @@ const Stat = ({ label, value, compact }: { label: string; value: string; compact
 
   return (
     <div className="flex flex-col gap-1">
-      <Eyebrow className="text-bluedot-navy/60">{label}</Eyebrow>
+      <Eyebrow className="text-bluedot-navy/80">{label}</Eyebrow>
       <p className={valueClass}>{value}</p>
     </div>
   );

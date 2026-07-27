@@ -107,14 +107,14 @@ const PersonasSection = ({
                       )}
 
                       {/* Description */}
-                      <P className="text-bluedot-navy/70">
+                      <P className="text-bluedot-navy/80">
                         {persona.description}
                       </P>
 
                       {/* What this looks like */}
                       {persona.valueProposition && (
                         <div className="pt-4 border-t border-bluedot-navy/10">
-                          <Eyebrow className="text-bluedot-navy/60 mb-2">
+                          <Eyebrow className="text-bluedot-navy/80 mb-2">
                             What this looks like
                           </Eyebrow>
                           <P className="text-bluedot-navy/80">
@@ -142,7 +142,7 @@ const PersonasSection = ({
           </div>
         )}
         {footerText && (
-          <P className="text-center text-bluedot-navy/60 mt-10 md:mt-12">
+          <P className="text-center text-bluedot-navy/80 mt-10 md:mt-12">
             {footerText}
           </P>
         )}

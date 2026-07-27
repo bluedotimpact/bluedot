@@ -183,7 +183,7 @@ const FacilitatorFeedbackPage = () => {
         {/* Hero card */}
         <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 flex flex-col gap-6">
           <div>
-            <H1 className="text-3xl mb-2">Course Feedback</H1>
+            <H1 className="text-size-lg mb-2">Course Feedback</H1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
           <div className="flex flex-col gap-2 text-size-xs text-bluedot-navy/60">
@@ -260,7 +260,7 @@ const FacilitatorFeedbackPage = () => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Eyebrow className="text-bluedot-navy/60">Cohort members</Eyebrow>
+            <Eyebrow className="text-bluedot-navy/80">Cohort members</Eyebrow>
             <div className="flex flex-col gap-2">
               {participants.map((participant) => (
                 <ParticipantCard
@@ -277,7 +277,7 @@ const FacilitatorFeedbackPage = () => {
           {dropIns.length > 0 && (
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-0.5">
-                <Eyebrow className="text-bluedot-navy/60">Drop-ins</Eyebrow>
+                <Eyebrow className="text-bluedot-navy/80">Drop-ins</Eyebrow>
                 <p className="text-size-xs text-bluedot-navy/60">Joined one or more of your group's discussions.</p>
               </div>
               <div className="flex flex-col gap-2">
@@ -296,7 +296,7 @@ const FacilitatorFeedbackPage = () => {
 
           {displayedAddedParticipants.length > 0 && (
             <div className="flex flex-col gap-2">
-              <Eyebrow className="text-bluedot-navy/60">Added by you</Eyebrow>
+              <Eyebrow className="text-bluedot-navy/80">Added by you</Eyebrow>
               <div className="flex flex-col gap-2">
                 {displayedAddedParticipants.map((participant) => (
                   <ParticipantCard

@@ -87,9 +87,9 @@ const HeroSection = ({
                 <HeroH1 className="font-semibold">
                   {title}
                 </HeroH1>
-                <p className="text-size-sm bd-md:text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
+                <P className="bd-md:text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                   {description}
-                </p>
+                </P>
               </div>
 
               {/* CTA Buttons - stacked on mobile, side-by-side on tablet */}
@@ -132,7 +132,7 @@ const HeroSection = ({
                   <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
-                  <P className="text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
+                  <P className="text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                     {description}
                   </P>
                 </div>
@@ -194,7 +194,7 @@ const HeroSection = ({
                     {title}
                   </HeroH1>
 
-                  <P className="sm:text-size-md leading-relaxed opacity-80 text-white whitespace-pre-line">
+                  <P className="sm:text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                     {description}
                   </P>
                 </div>

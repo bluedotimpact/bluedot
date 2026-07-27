@@ -51,7 +51,7 @@ exports[`TeamSection > renders as expected 1`] = `
                   class="card__content w-full p-4"
                 >
                   <h4
-                    class="bluedot-h4 not-prose card__title text-size-lg mb-1"
+                    class="bluedot-h4 not-prose text-size-lg mb-1"
                   >
                     Test Person
                   </h4>

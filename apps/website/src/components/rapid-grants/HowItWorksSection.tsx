@@ -76,7 +76,7 @@ const StepCardBody = ({
         <H4 className="bd-md:text-size-lg font-medium tracking-[-0.04em]">
           {title}
         </H4>
-        <P className="text-bluedot-navy/70">
+        <P className="text-bluedot-navy/80">
           {body}
         </P>
       </div>

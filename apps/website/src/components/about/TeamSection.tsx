@@ -62,7 +62,7 @@ const TeamSection = () => {
                 )}
               </div>
               <div className="card__content w-full p-4">
-                <H4 className="card__title text-size-lg mb-1">{member.name}</H4>
+                <H4 className="text-size-lg mb-1">{member.name}</H4>
                 <p className="card__subtitle text-gray-600">{member.jobTitle}</p>
               </div>
             </div>
