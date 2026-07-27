@@ -36,7 +36,7 @@ const RUNGS: Rung[] = [
 
 const RungHeader = ({ rung }: { rung: Rung }) => (
   <div className="flex flex-col gap-3 text-center">
-    <Eyebrow className="text-bluedot-navy/60">
+    <Eyebrow className="text-bluedot-navy/80">
       {rung.step}
     </Eyebrow>
     <h2
