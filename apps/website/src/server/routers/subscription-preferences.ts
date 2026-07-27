@@ -3,10 +3,8 @@ import { TRPCError } from '@trpc/server';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
+import { CIO_API_BASE, CIO_TRACK_V1_BASE } from '../../lib/api/customerio';
 import env from '../../lib/api/env';
-
-const CIO_API_BASE = 'https://api-eu.customer.io/v1';
-const CIO_TRACK_BASE = 'https://track-eu.customer.io/api/v1';
 
 const HIRING_TOPIC_ID = 16;
 const HIRING_SEGMENT_ID = 365;
@@ -136,7 +134,7 @@ export const subscriptionPreferencesRouter = router({
 
       let res: Response;
       try {
-        res = await fetch(`${CIO_TRACK_BASE}/customers/cio_${input.cid}`, {
+        res = await fetch(`${CIO_TRACK_V1_BASE}/customers/cio_${input.cid}`, {
           method: 'PUT',
           headers: {
             Authorization: `Basic ${Buffer.from(trackApiKey).toString('base64')}`,
