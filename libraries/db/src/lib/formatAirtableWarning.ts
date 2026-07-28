@@ -1,3 +1,4 @@
+import { type BatchGroup } from '@bluedot/utils';
 import { getPgAirtableFromTableId } from './db-core';
 
 /**
@@ -18,10 +19,7 @@ export type FormattedAirtableWarning = {
   message: string;
   /** Slack-flavoured (record ids become links), plus a stack-trace reply. Pass straight to slackAlert. */
   messages: string[];
-  batchGroup: {
-    signature?: string;
-    dedupeKeys?: string[];
-  };
+  batchGroup: BatchGroup;
 };
 
 const TABLE_ID = /\btbl[A-Za-z0-9]{10,}/;

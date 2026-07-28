@@ -6,7 +6,7 @@ type SlackAlertEnv = {
 
 // Domain-neutral batching metadata. Callers describe how to group and summarise their
 // messages without the util needing to know anything about the message contents.
-type BatchGroup = {
+export type BatchGroup = {
   // Grouping key: messages sharing a signature collapse into one batch. Defaults to the
   // message text, so callers wanting to group by e.g. error type (ignoring embedded IDs)
   // must supply a stable signature themselves.
