@@ -133,10 +133,10 @@ const addToBatch = (
     };
     batchers.set(batchKey, batcher);
   } else {
-    // Keep spike settings current: a later call in the same window should not be
-    // silently ignored just because the batcher already exists.
-    batcher.spikeThreshold = batchOptions.spikeThreshold;
-    batcher.escalationChannelId = batchOptions.escalationChannelId;
+    // Keep spike settings current without letting a call that omits them clear what an
+    // earlier call in the same window established.
+    batcher.spikeThreshold = batchOptions.spikeThreshold ?? batcher.spikeThreshold;
+    batcher.escalationChannelId = batchOptions.escalationChannelId ?? batcher.escalationChannelId;
   }
 
   const existing = batcher.batches.get(signature);

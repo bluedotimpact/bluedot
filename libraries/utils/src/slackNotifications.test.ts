@@ -507,20 +507,24 @@ describe('slackNotifications', () => {
       expect(escalationBody.text).toContain('3 affected');
     });
 
-    test('uses spike options from a later call in the same window', async () => {
-      // First call omits spike options; a later call in the same window supplies them.
-      // The later options should take effect rather than being silently ignored.
+    // Spike options are per-call but apply to the whole batcher, so whichever call in the
+    // window carries them must win: a later call must not be ignored, and a later call
+    // that omits them must not clear them.
+    test.each([
+      ['a later call supplies them', [{}, { spikeThreshold: 2, escalationChannelId }]],
+      ['a later call omits them', [{ spikeThreshold: 2, escalationChannelId }, {}]],
+    ] as const)('escalates when %s', async (_name, [firstOptions, secondOptions]) => {
       slackAlert(mockEnv, ['Validation warning'], {
         batchKey: 'test',
         flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
         batchGroup: { signature: 'shared-batch', dedupeKeys: ['rec1AbCdEfGhIjKl'] },
+        ...firstOptions,
       });
       slackAlert(mockEnv, ['Validation warning'], {
         batchKey: 'test',
         flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS,
-        spikeThreshold: 2,
-        escalationChannelId,
         batchGroup: { signature: 'shared-batch', dedupeKeys: ['rec2MnOpQrStUvWx'] },
+        ...secondOptions,
       });
 
       fetchMock
