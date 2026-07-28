@@ -8,11 +8,10 @@ import { getPgAirtableFromTableId } from './db-core';
  *   convert value from airtable type 'multipleLookupValues' to 'string | null', as the
  *   Airtable API provided a 'object'. Suggestion: Update the types...
  *
- * Rather than reformat that string, we scrape the Airtable ids out of it (ids are a stable
- * contract; the prose around them is not) and rebuild the alert from our own table
- * definitions. That gives us the column name, its expected type, and the base id needed to
- * link to the offending record. The prose is only consulted for detail Airtable knows and
- * we don't: the field's actual Airtable type and the shape the API returned.
+ * We peel off the prefixes airtable-ts prepends as the error bubbles up, keeping the innermost
+ * reason plus the ids. Our own table definitions are consulted only for what the message can't
+ * tell us: the base id needed to link the offending record, and the column name in the cases
+ * where airtable-ts reports a field by id alone.
  */
 export type FormattedAirtableWarning = {
   /** Plain text, for logs. */
@@ -29,9 +28,10 @@ const RECORD_ID = /\brec[A-Za-z0-9]{10,}/;
 // Prefixes airtable-ts prepends as an error bubbles up, plus the suggestion it appends.
 // Stripping them leaves the innermost reason, which we can quote without repeating the
 // location we've already stated.
-const RECORD_PREFIX = /^Failed to map record from Airtable format for table '[^']*' \(tbl[A-Za-z0-9]{10,}\) and record rec[A-Za-z0-9]{10,}: /;
-const FIELD_PREFIX = /^Failed to map field .+? from Airtable: /;
+const RECORD_PREFIX = /^Failed to map record from Airtable format for table '([^']*)' \(tbl[A-Za-z0-9]{10,}\) and record rec[A-Za-z0-9]{10,}: /;
+const FIELD_PREFIX = /^Failed to map field (.+?)(?: \(fld[A-Za-z0-9]{10,}\))? from Airtable: /;
 const SUGGESTION = / Suggestion: [\s\S]*$/;
+const TYPE_MISMATCH = /from airtable type '([^']*)' to '([^']*)', as the Airtable API provided a '([^']*)'/;
 
 const scrubIds = (message: string) => message.replace(/\b(tbl|fld|rec)[A-Za-z0-9]{10,}/g, '$1***');
 
@@ -46,23 +46,25 @@ export const formatAirtableWarning = (warning: unknown): FormattedAirtableWarnin
     return { message: raw, messages: withStack(raw), batchGroup: {} };
   }
 
+  // Peel the prefixes off one at a time, capturing what each one carries as we go.
+  const recordPrefix = RECORD_PREFIX.exec(raw);
+  const afterRecord = recordPrefix ? raw.slice(recordPrefix[0].length) : raw;
+  const fieldPrefix = FIELD_PREFIX.exec(afterRecord);
+  const afterField = fieldPrefix ? afterRecord.slice(fieldPrefix[0].length) : afterRecord;
+  const innermost = afterField.replace(SUGGESTION, '');
+
   const fieldId = FIELD_ID.exec(raw)?.[0];
   const table = getPgAirtableFromTableId(tableId);
-  const airtable = table?.airtable;
-
-  const columnName = fieldId && table
-    ? Array.from(table.airtableFieldMap).find(([, airtableId]) => airtableId === fieldId)?.[0]
+  const columnName = fieldId
+    ? Array.from(table?.airtableFieldMap ?? []).find(([, airtableId]) => airtableId === fieldId)?.[0]
     : undefined;
 
-  // Prefer our own definitions, falling back to the message for tables we don't own.
-  const tableName = airtable?.name ?? /for table '([^']*)'/.exec(raw)?.[1] ?? tableId;
-  const fieldName = columnName ?? /Failed to map field (.+?) \(fld/.exec(raw)?.[1] ?? fieldId;
-  const expectedType = (columnName ? airtable?.schema[columnName] : undefined) ?? /to '([^']*)'/.exec(raw)?.[1];
+  const tableName = recordPrefix?.[1] ?? tableId;
+  // airtable-ts usually names the field in its prefix. When it doesn't — e.g. a field deleted
+  // from Airtable, reported by id — recover the column name rather than print a bare id.
+  const fieldName = fieldPrefix?.[1] ?? columnName ?? fieldId;
 
-  const airtableType = /from airtable type '([^']*)'/.exec(raw)?.[1];
-  const providedType = /provided a '([^']*)'/.exec(raw)?.[1];
-
-  const innermost = raw.replace(RECORD_PREFIX, '').replace(FIELD_PREFIX, '').replace(SUGGESTION, '');
+  const [, airtableType, expectedType, providedType] = TYPE_MISMATCH.exec(innermost) ?? [];
   const reason = airtableType && expectedType
     ? `can't map Airtable ${airtableType} → ${expectedType}${providedType ? ` (got ${providedType})` : ''}`
     : innermost;
@@ -77,8 +79,9 @@ export const formatAirtableWarning = (warning: unknown): FormattedAirtableWarnin
     return `${location}: ${reason.replace(/\.$/, '')}.${outcome}`;
   };
 
-  const recordLink = airtable
-    ? `<https://airtable.com/${airtable.baseId}/${tableId}/${recordId}|${recordId}>`
+  const baseId = table?.airtable.baseId;
+  const recordLink = baseId
+    ? `<https://airtable.com/${baseId}/${tableId}/${recordId}|${recordId}>`
     : recordId;
 
   return {
