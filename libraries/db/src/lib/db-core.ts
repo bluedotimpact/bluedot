@@ -229,7 +229,7 @@ export function getPgAirtableFromIds({ baseId, tableId }: { baseId: string; tabl
  * its base id. Useful when all we have is an error message from airtable-ts, which
  * mentions the table id but not the base.
  */
-export function getPgAirtableFromTableId(tableId: string): PgAirtableTable | undefined {
+export function getPgAirtableFromTableId(tableId: string) {
   return Object.values(pgAirtableTableRegistry).find((table) => table.airtable.tableId === tableId);
 }
 
