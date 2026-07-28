@@ -12,6 +12,7 @@ import {
   adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
 } from '../../lib/api/keycloak';
 import { normaliseEmail } from '../../lib/api/utils';
+import { ONE_MINUTE_MS } from '../../lib/constants';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { ROUTES } from '../../lib/routes';
@@ -56,6 +57,31 @@ async function sendEmailChangeConfirmation(
   const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail });
   await sendEmailChangeVerification({ oldEmail: user.email, newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
 }
+
+const RATE_LIMIT_WINDOW_MINUTES = 30;
+const RATE_LIMIT_WINDOW_MS = RATE_LIMIT_WINDOW_MINUTES * ONE_MINUTE_MS;
+const RATE_LIMIT_MAX_ATTEMPTS = 3;
+
+const emailChangeAttemptsByUserId = new Map<string, number[]>();
+
+const recordEmailChangeAttemptOrThrow = (userId: string): void => {
+  const now = Date.now();
+  const recent = (emailChangeAttemptsByUserId.get(userId) ?? []).filter((at) => now - at < RATE_LIMIT_WINDOW_MS);
+
+  if (recent.length >= RATE_LIMIT_MAX_ATTEMPTS) {
+    const minutesLeft = Math.max(1, Math.ceil((Math.min(...recent) + RATE_LIMIT_WINDOW_MS - now) / ONE_MINUTE_MS));
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message: `You've tried to change your email ${RATE_LIMIT_MAX_ATTEMPTS} times in the last ${RATE_LIMIT_WINDOW_MINUTES} minutes. If you're waiting for a confirmation email, check your spam folder, or try again in about ${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}.`,
+    });
+  }
+
+  emailChangeAttemptsByUserId.set(userId, [...recent, now]);
+};
+
+export const resetEmailChangeRateLimits = (): void => {
+  emailChangeAttemptsByUserId.clear();
+};
 
 // By the time this runs the email change has already been applied in Keycloak and the user table,
 // and rolling that back is hard. So on failure we accept partial success: the email change stands,
@@ -223,6 +249,8 @@ export const usersRouter = router({
       }
 
       const user = await getUserFromAuthOrThrow(ctx.auth);
+
+      recordEmailChangeAttemptOrThrow(user.id);
 
       await sendEmailChangeConfirmation(user, input.newEmail);
 

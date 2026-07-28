@@ -7,10 +7,11 @@ import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
+  createCaller, createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 import { sendEmailChangeVerification } from '../../lib/api/customerio';
 import { adminRequest } from '../../lib/api/keycloak';
+import { resetEmailChangeRateLimits } from '../../server/routers/users';
 import env from '../../lib/api/env';
 import ChangeEmailModal from './ChangeEmailModal';
 
@@ -31,6 +32,7 @@ const mutableEnv = env as { EMAIL_CHANGE_TOKEN_SECRET?: string };
 beforeEach(async () => {
   vi.resetAllMocks();
   vi.mocked(adminRequest).mockResolvedValue([]);
+  resetEmailChangeRateLimits();
   mutableEnv.EMAIL_CHANGE_TOKEN_SECRET = 'test-secret';
   await seedLoggedInUser();
 });
@@ -140,6 +142,22 @@ describe('ChangeEmailModal', () => {
 
     expect(await screen.findByRole('heading', { name: /New email is the same as the current email/ })).toBeInTheDocument();
     expect(successView()).not.toBeInTheDocument();
+  });
+
+  test('A rate limited user sees the wait-time message in the generic error view', async () => {
+    const caller = createCaller(testAuthContextLoggedIn);
+    await caller.users.requestOwnEmailChange({ newEmail: 'one@example.com' });
+    await caller.users.requestOwnEmailChange({ newEmail: 'two@example.com' });
+    await caller.users.requestOwnEmailChange({ newEmail: 'three@example.com' });
+    vi.mocked(sendEmailChangeVerification).mockClear();
+    renderModal();
+
+    typeEmail('new@example.com');
+    submit();
+
+    expect(await screen.findByRole('heading', { name: /tried to change your email 3 times in the last 30 minutes.*try again in about \d+ minutes/ })).toBeInTheDocument();
+    expect(successView()).not.toBeInTheDocument();
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
   });
 
   test('An unexpected failure surfaces through the generic error view, and the form stays usable', async () => {
