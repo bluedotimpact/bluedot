@@ -51,7 +51,7 @@ const AccountSettingsPage = () => {
 
             <div className="border-t border-color-divider my-6" />
 
-            <PasswordSection />
+            <PasswordSection currentEmail={user.email} />
           </MyBlueDotLayout>
 
           {/* Welcome Modal */}
