@@ -1,5 +1,6 @@
 import { PgAirtableDb, createTestDbClients, formatAirtableWarning } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils';
+import { logger } from '@bluedot/ui/src/api';
 import env from '../env';
 
 const isTest = env.VITEST === 'true';
@@ -19,8 +20,7 @@ export const db = new PgAirtableDb({
   onWarning: async (warning: unknown) => {
     const { message, messages, batchGroup } = formatAirtableWarning(warning);
 
-    // eslint-disable-next-line no-console
-    console.warn(message);
+    logger.warn(message);
 
     await slackAlert(env, messages, {
       channelId: env.PG_SYNC_SLACK_CHANNEL_ID,
