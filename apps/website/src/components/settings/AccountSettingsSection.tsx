@@ -11,11 +11,7 @@ import { changePasswordWithConfirmSchema } from '../../lib/schemas/user/changePa
 import { trpc } from '../../utils/trpc';
 import ChangeEmailModal from './ChangeEmailModal';
 
-type PasswordSectionProps = {
-  currentEmail: string;
-};
-
-const PasswordSection = ({ currentEmail }: PasswordSectionProps) => {
+const AccountSettingsSection = () => {
   const [showChangeEmailModal, setShowChangeEmailModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
@@ -66,7 +62,6 @@ const PasswordSection = ({ currentEmail }: PasswordSectionProps) => {
       <ChangeEmailModal
         isOpen={showChangeEmailModal}
         setIsOpen={setShowChangeEmailModal}
-        currentEmail={currentEmail}
       />
 
       {/* Change Password Modal */}
@@ -331,4 +326,4 @@ const ChangePasswordModal = ({
   );
 };
 
-export default PasswordSection;
+export default AccountSettingsSection;

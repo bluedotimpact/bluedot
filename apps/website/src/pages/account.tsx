@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { ROUTES } from '../lib/routes';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import ProfileNameEditor from '../components/settings/ProfileNameEditor';
-import PasswordSection from '../components/settings/PasswordSection';
+import AccountSettingsSection from '../components/settings/AccountSettingsSection';
 import { trpc } from '../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.account;
@@ -51,7 +51,7 @@ const AccountSettingsPage = () => {
 
             <div className="border-t border-color-divider my-6" />
 
-            <PasswordSection currentEmail={user.email} />
+            <AccountSettingsSection />
           </MyBlueDotLayout>
 
           {/* Welcome Modal */}

@@ -35,6 +35,28 @@ const getEmailChangeConfirmUrl = (token: string) => {
   return `${siteUrl}${ROUTES.confirmEmailChange.url}?token=${encodeURIComponent(token)}`;
 };
 
+const newEmailInput = z.string().trim().toLowerCase().email();
+
+async function sendEmailChangeConfirmation(
+  user: { id: string; email: string; keycloakIdentifier: string | null },
+  newEmail: string,
+): Promise<void> {
+  if (!user.keycloakIdentifier) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'User has no linked login account' });
+  }
+
+  if (normaliseEmail(user.email) === newEmail) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'New email is the same as the current email' });
+  }
+
+  if (await isEmailTaken(newEmail, user.id, user.keycloakIdentifier)) {
+    throw new TRPCError({ code: 'CONFLICT', message: 'Another user already has this email' });
+  }
+
+  const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail });
+  await sendEmailChangeVerification({ oldEmail: user.email, newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
+}
+
 // By the time this runs the email change has already been applied in Keycloak and the user table,
 // and rolling that back is hard. So on failure we accept partial success: the email change stands,
 // and the stale Google identity is left for manual cleanup via the Slack alert.
@@ -178,7 +200,7 @@ export const usersRouter = router({
   requestEmailChange: adminProcedure
     .input(z.object({
       userId: z.string().min(1),
-      newEmail: z.string().trim().toLowerCase().email(),
+      newEmail: newEmailInput,
     }))
     .mutation(async ({ input, ctx }) => {
       const user = await db.getFirst(userTable, { filter: { id: input.userId } });
@@ -186,22 +208,25 @@ export const usersRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
       }
 
-      if (!user.keycloakIdentifier) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'User has no linked login account' });
-      }
-
-      if (normaliseEmail(user.email) === input.newEmail) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'New email is the same as the current email' });
-      }
-
-      if (await isEmailTaken(input.newEmail, user.id, user.keycloakIdentifier)) {
-        throw new TRPCError({ code: 'CONFLICT', message: 'Another user already has this email' });
-      }
-
-      const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail: input.newEmail });
-      await sendEmailChangeVerification({ oldEmail: user.email, newEmail: input.newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
+      await sendEmailChangeConfirmation(user, input.newEmail);
 
       logger.info(`[EmailChange] admin ${impersonationRealIdentity(ctx).sub} requested email change for user ${user.id}: ${user.email} -> ${input.newEmail}`);
+
+      return { sentTo: input.newEmail };
+    }),
+
+  requestOwnEmailChange: protectedProcedure
+    .input(z.object({ newEmail: newEmailInput }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.impersonation) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change email when impersonating another user' });
+      }
+
+      const user = await getUserFromAuthOrThrow(ctx.auth);
+
+      await sendEmailChangeConfirmation(user, input.newEmail);
+
+      logger.info(`[EmailChange] user ${user.id} requested their own email change: ${user.email} -> ${input.newEmail}`);
 
       return { sentTo: input.newEmail };
     }),

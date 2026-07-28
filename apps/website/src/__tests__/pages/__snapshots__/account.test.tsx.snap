@@ -173,15 +173,26 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             <p
               class="bluedot-p not-prose font-semibold mb-2"
             >
-              Password
+              Account settings
             </p>
-            <button
-              aria-label="Change password"
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-              type="button"
+            <div
+              class="flex flex-col items-start gap-3"
             >
-              Change Password
-            </button>
+              <button
+                aria-label="Change email"
+                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+                type="button"
+              >
+                Change email
+              </button>
+              <button
+                aria-label="Change password"
+                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+                type="button"
+              >
+                Change password
+              </button>
+            </div>
           </div>
         </section>
       </div>

@@ -584,6 +584,111 @@ describe('users.requestEmailChange', () => {
   });
 });
 
+describe('users.requestOwnEmailChange', () => {
+  test('rejects unauthenticated callers', async () => {
+    await expect(anonCaller().users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects callers with no user row', async () => {
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('blocks the request while impersonating another user', async () => {
+    await seedLoggedInUser();
+
+    await expect(createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth! },
+      impersonation: { adminEmail: 'admin@example.com', adminSub: 'admin-sub', targetEmail: 'test@example.com' },
+    }).users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: expect.stringContaining('impersonating') });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects malformed emails', async () => {
+    await seedLoggedInUser();
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'not-an-email' }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects a new email equal to the current one, case-insensitively', async () => {
+    await seedLoggedInUser();
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: ' TEST@Example.com ' }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: expect.stringContaining('same as the current email') });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects a new email already held by another user, case-insensitively', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(userTable, {
+      id: 'other-id', email: 'taken@example.com', name: 'Other', keycloakIdentifier: 'other-sub',
+    });
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'Taken@Example.com' }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('sends a verification email for the caller\'s own account, and changes nothing', async () => {
+    await seedLoggedInUser();
+
+    const result = await createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: ' New@Example.com ' });
+
+    expect(result).toEqual({ sentTo: 'new@example.com' });
+    expect(updateKeycloakEmail).not.toHaveBeenCalled();
+    expect(updateCustomerIoEmail).not.toHaveBeenCalled();
+    expect((await testDb.get(userTable, { id: 'test-user' })).email).toBe('test@example.com');
+
+    expect(sendEmailChangeVerification).toHaveBeenCalledTimes(1);
+    const call = vi.mocked(sendEmailChangeVerification).mock.calls[0]![0];
+    expect(call.oldEmail).toBe('test@example.com');
+    expect(call.newEmail).toBe('new@example.com');
+    expect(call.confirmUrl).toContain(`${ROUTES.confirmEmailChange.url}?token=`);
+  });
+
+  test('mints a token bound to the caller, never to another user who happens to be seeded', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(userTable, {
+      id: 'other-id', email: 'other@example.com', name: 'Other', keycloakIdentifier: 'other-sub',
+    });
+
+    await createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' });
+
+    const { confirmUrl } = vi.mocked(sendEmailChangeVerification).mock.calls[0]![0];
+    const payload = await verifyEmailChangeToken(decodeURIComponent(confirmUrl.split('token=')[1]!));
+    expect(payload).toMatchObject({ userId: 'test-user', oldEmail: 'test@example.com', newEmail: 'new@example.com' });
+  });
+
+  test('the token it mints is accepted by confirmEmailChange', async () => {
+    await seedLoggedInUser();
+
+    await createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' });
+    const { confirmUrl } = vi.mocked(sendEmailChangeVerification).mock.calls[0]![0];
+    const token = decodeURIComponent(confirmUrl.split('token=')[1]!);
+
+    const result = await anonCaller().users.confirmEmailChange({ token });
+
+    expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: { hasPassword: true, hasGoogleLogin: false } });
+    expect(updateKeycloakEmail).toHaveBeenCalledWith('test-sub', 'new@example.com');
+    expect((await testDb.get(userTable, { id: 'test-user' })).email).toBe('new@example.com');
+  });
+
+  test('surfaces a send failure to the user', async () => {
+    await seedLoggedInUser();
+    vi.mocked(sendEmailChangeVerification).mockRejectedValue(new Error('send failed'));
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ message: expect.stringContaining('send failed') });
+  });
+});
+
 describe('users.confirmEmailChange', () => {
   test('rejects an invalid token', async () => {
     await expect(anonCaller().users.confirmEmailChange({ token: 'garbage' }))
