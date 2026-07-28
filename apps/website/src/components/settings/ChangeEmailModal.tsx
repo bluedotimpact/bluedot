@@ -13,7 +13,7 @@ import { trpc } from '../../utils/trpc';
 
 const emailSchema = z.string().trim().toLowerCase().email('Please enter a valid email address');
 
-const EMAIL_TAKEN_MESSAGE = 'That email address is already linked to another BlueDot account. If it\'s yours, sign in with it instead.';
+const EMAIL_TAKEN_MESSAGE = 'That email address is already linked to another BlueDot account.';
 
 const isEmailTakenError = (error: unknown) => error instanceof TRPCClientError && error.data?.code === 'CONFLICT';
 

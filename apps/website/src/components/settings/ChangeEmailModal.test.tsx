@@ -125,7 +125,7 @@ describe('ChangeEmailModal', () => {
     typeEmail('Taken@Example.com');
     submit();
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('That email address is already linked to another BlueDot account. If it\'s yours, sign in with it instead.');
+    expect(await screen.findByRole('alert')).toHaveTextContent('That email address is already linked to another BlueDot account.');
     expect(genericErrorView()).not.toBeInTheDocument();
     expect(successView()).not.toBeInTheDocument();
     expect(screen.getByLabelText(/new email/i)).toBeEnabled();
