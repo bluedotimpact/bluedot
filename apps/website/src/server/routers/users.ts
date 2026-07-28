@@ -32,13 +32,24 @@ async function isEmailTakenByAnotherUser(email: string, excludeUserId: string): 
   return existing.rows.length > 0;
 }
 
+// By the time this runs the email change has already been applied in Keycloak and the user table,
+// and rolling that back is hard. So on failure we accept partial success: the email change stands,
+// and the stale Google identity is left for manual cleanup via the Slack alert.
 async function unlinkStaleGoogleIdentitiesOrAlert(userId: string, keycloakIdentifier: string, newEmail: string): Promise<{ loginMethods: LoginMethods | null }> {
-  try {
-    return { loginMethods: await unlinkStaleGoogleIdentities(keycloakIdentifier, newEmail) };
-  } catch (error) {
-    await slackAlert(env, [`[EmailChange] Failed to unlink stale google identities for user ${userId}: ${error instanceof Error ? error.message : String(error)}`]);
-    return { loginMethods: null };
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      return { loginMethods: await unlinkStaleGoogleIdentities(keycloakIdentifier, newEmail) };
+    } catch (error) {
+      lastError = error;
+    }
   }
+
+  await slackAlert(env, [
+    `[EmailChange] Email for user ${userId} changed successfully to ${newEmail}, but stale Google identity cleanup failed after 3 attempts: ${lastError instanceof Error ? lastError.message : String(lastError)}. The old Google account may still be able to sign in. Check the Keycloak user and remove the stale Google identity manually.`,
+  ]);
+  return { loginMethods: null };
 }
 
 export const usersRouter = router({

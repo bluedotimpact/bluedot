@@ -673,14 +673,28 @@ describe('users.confirmEmailChange', () => {
     expect(unlinkStaleGoogleIdentities).not.toHaveBeenCalled();
   });
 
-  test('succeeds and alerts when the identity cleanup fails', async () => {
+  test('succeeds and alerts when the identity cleanup fails on all attempts', async () => {
     await seedTarget();
     vi.mocked(unlinkStaleGoogleIdentities).mockRejectedValue(new Error('kc down'));
 
     const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
 
     expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: null });
-    expect(slackAlert).toHaveBeenCalledWith(expect.anything(), [expect.stringContaining('unlink stale google identities for user target-id')]);
+    expect(unlinkStaleGoogleIdentities).toHaveBeenCalledTimes(3);
+    expect(slackAlert).toHaveBeenCalledWith(expect.anything(), [expect.stringContaining('Email for user target-id changed successfully to new@example.com, but stale Google identity cleanup failed')]);
     expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('new@example.com');
+  });
+
+  test('retries the identity cleanup once and does not alert if the retry succeeds', async () => {
+    await seedTarget();
+    vi.mocked(unlinkStaleGoogleIdentities)
+      .mockRejectedValueOnce(new Error('kc blip'))
+      .mockResolvedValueOnce({ hasPassword: true, hasGoogleLogin: false });
+
+    const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: { hasPassword: true, hasGoogleLogin: false } });
+    expect(unlinkStaleGoogleIdentities).toHaveBeenCalledTimes(2);
+    expect(slackAlert).not.toHaveBeenCalled();
   });
 });
