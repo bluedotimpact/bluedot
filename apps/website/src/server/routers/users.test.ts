@@ -667,7 +667,7 @@ describe('users.confirmEmailChange', () => {
     vi.mocked(updateKeycloakEmail).mockRejectedValue(new Error('Keycloak rejected the email update.'));
 
     await expect(anonCaller().users.confirmEmailChange({ token: await mintToken() }))
-      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: expect.stringContaining('Email change failed') });
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: 'We could not update your email right now. Please try again later.' });
 
     expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('old@example.com');
     expect(updateCustomerIoEmail).not.toHaveBeenCalled();

@@ -234,7 +234,8 @@ export const usersRouter = router({
       try {
         await updateKeycloakEmail(user.keycloakIdentifier, payload.newEmail);
       } catch (error) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: `Email change failed: ${error instanceof Error ? error.message : String(error)}`, cause: error });
+        logger.error(`[EmailChange] Keycloak update failed for user ${user.id}`, error);
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'We could not update your email right now. Please try again later.', cause: error });
       }
 
       try {
