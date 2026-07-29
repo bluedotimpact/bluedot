@@ -8,10 +8,8 @@ import {
 } from '@bluedot/ui';
 import { TRPCClientError } from '@trpc/client';
 import { useEffect, useRef, useState } from 'react';
-import { z } from 'zod';
+import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { trpc } from '../../utils/trpc';
-
-const emailSchema = z.string().trim().toLowerCase().email('Please enter a valid email address');
 
 const EMAIL_TAKEN_MESSAGE = 'That email address is already linked to another BlueDot account.';
 
@@ -46,7 +44,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
       return;
     }
 
-    const result = emailSchema.safeParse(newEmail);
+    const result = newEmailSchema.safeParse(newEmail);
     if (!result.success) {
       setValidationError(result.error.issues[0]?.message ?? 'Please enter a valid email address');
       return;

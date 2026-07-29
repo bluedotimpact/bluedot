@@ -13,6 +13,7 @@ import {
 } from '../../lib/api/keycloak';
 import { normaliseEmail } from '../../lib/api/utils';
 import { ONE_MINUTE_MS } from '../../lib/constants';
+import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { ROUTES } from '../../lib/routes';
@@ -35,8 +36,6 @@ const getEmailChangeConfirmUrl = (token: string) => {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
   return `${siteUrl}${ROUTES.confirmEmailChange.url}?token=${encodeURIComponent(token)}`;
 };
-
-const newEmailInput = z.string().trim().toLowerCase().email();
 
 async function sendEmailChangeConfirmation(
   user: { id: string; email: string; keycloakIdentifier: string | null },
@@ -226,7 +225,7 @@ export const usersRouter = router({
   requestEmailChange: adminProcedure
     .input(z.object({
       userId: z.string().min(1),
-      newEmail: newEmailInput,
+      newEmail: newEmailSchema,
     }))
     .mutation(async ({ input, ctx }) => {
       const user = await db.getFirst(userTable, { filter: { id: input.userId } });
@@ -242,7 +241,7 @@ export const usersRouter = router({
     }),
 
   requestOwnEmailChange: protectedProcedure
-    .input(z.object({ newEmail: newEmailInput }))
+    .input(z.object({ newEmail: newEmailSchema }))
     .mutation(async ({ input, ctx }) => {
       if (ctx.impersonation) {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change email when impersonating another user' });
