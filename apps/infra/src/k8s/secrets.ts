@@ -24,6 +24,7 @@ const toK8s = [
   'cioAppApiKey',
   'cioTrackApiKey',
   'cioHmacSecret',
+  'emailChangeTokenSecret',
   'lumaApiKey',
   'mcpGoogleOauthClientId',
   'mcpGoogleOauthClientSecret',

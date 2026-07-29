@@ -135,8 +135,8 @@ export const ProfileLinks: React.FC<{
           onClose={() => setIsImpersonateModalOpen(false)}
           title="Impersonate a user"
           scope="impersonate"
-          onSelectUser={(userId) => {
-            sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, userId);
+          onSelectUser={(user) => {
+            sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, user.id);
             window.location.reload();
           }}
         />

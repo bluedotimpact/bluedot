@@ -54,3 +54,5 @@ config:
     secure: v1:HEjKay/4nQ17dBxm:xLYbdntkzu0viT4+zw9sbwrJ4u4Ukn4vL4g0G67mxk50SgCEmTo2dyXR+BGQQhC4ksuYs67z2xi3g5U+RTjSG/5Q
   infra:airtableAutomationToken:
     secure: v1:6tP/YKX2E+Gb4R26:Wrz1cPwU10jp4aydNBZG89RZRHcKEhUkDHlh+XiYebdh69+RWWRaaZpBrdlSD4O1
+  infra:emailChangeTokenSecret:
+    secure: v1:VtFjt+4/HVPIqCye:sEpK3xzXgn6hWPFGE8TH34PS6iOsTnIBqMPdAypUpQBiBAHkZ82tMnwY1vRJ4dq20n7dAjMAwHHOBpq3R/7FWEiOc5mDZFLJEdUbXWyDa+k=

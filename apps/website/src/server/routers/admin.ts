@@ -24,7 +24,7 @@ import {
   adminProcedure, checkAdminAccess, checkImpersonationAccess, protectedProcedure, publicProcedure, impersonationRealIdentity, router,
 } from '../trpc';
 
-type UserSearchResult = {
+export type UserSearchResult = {
   id: string;
   email: string;
   name: string | null;

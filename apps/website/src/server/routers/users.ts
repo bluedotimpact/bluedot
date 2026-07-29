@@ -1,14 +1,59 @@
-import { userTable } from '@bluedot/db';
+import { sql, userTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { logger } from '@bluedot/ui/src/api';
 import { loginPresets } from '@bluedot/ui/src/Login';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
+import env from '../../lib/api/env';
+import { sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
+import { createEmailChangeToken, verifyEmailChangeToken } from '../../lib/api/emailChangeToken';
+import {
+  adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
+} from '../../lib/api/keycloak';
+import { normaliseEmail } from '../../lib/api/utils';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
+import { ROUTES } from '../../lib/routes';
 import {
-  getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
+  adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, protectedProcedure, publicProcedure, router,
 } from '../trpc';
+
+const linkNoLongerValid = () => new TRPCError({ code: 'BAD_REQUEST', message: 'This link is no longer valid' });
+
+async function isEmailTaken(email: string, excludeUserId: string, excludeUserSub: string): Promise<boolean> {
+  const [loginAccounts, keycloakAccounts] = await Promise.all([
+    db.pg.execute<{ id: string }>(sql`SELECT id FROM ${userTable.pg} WHERE LOWER(TRIM(email)) = ${email} AND id != ${excludeUserId} LIMIT 1`),
+    adminRequest<{ id: string }[]>({ method: 'get', path: `/users?email=${encodeURIComponent(email)}&exact=true` }),
+  ]);
+
+  return loginAccounts.rows.length > 0 || keycloakAccounts.some((account: { id: string }) => account.id !== excludeUserSub);
+}
+
+const getEmailChangeConfirmUrl = (token: string) => {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
+  return `${siteUrl}${ROUTES.confirmEmailChange.url}?token=${encodeURIComponent(token)}`;
+};
+
+// By the time this runs the email change has already been applied in Keycloak and the user table,
+// and rolling that back is hard. So on failure we accept partial success: the email change stands,
+// and the stale Google identity is left for manual cleanup via the Slack alert.
+async function unlinkStaleGoogleIdentitiesOrAlert(userId: string, keycloakIdentifier: string, newEmail: string): Promise<{ loginMethods: LoginMethods | null }> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      return { loginMethods: await unlinkStaleGoogleIdentities(keycloakIdentifier, newEmail) };
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  await slackAlert(env, [
+    `[EmailChange] Email for user ${userId} changed successfully to ${newEmail}, but stale Google identity cleanup failed after 3 attempts: ${lastError instanceof Error ? lastError.message : String(lastError)}. The old Google account may still be able to sign in. Check the Keycloak user and remove the stale Google identity manually.`,
+  ]);
+  return { loginMethods: null };
+}
 
 export const usersRouter = router({
   getUser: protectedProcedure
@@ -128,5 +173,83 @@ export const usersRouter = router({
         id: user.id,
         name: input.name,
       });
+    }),
+
+  requestEmailChange: adminProcedure
+    .input(z.object({
+      userId: z.string().min(1),
+      newEmail: z.string().trim().toLowerCase().email(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const user = await db.getFirst(userTable, { filter: { id: input.userId } });
+      if (!user) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+      }
+
+      if (!user.keycloakIdentifier) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'User has no linked login account' });
+      }
+
+      if (normaliseEmail(user.email) === input.newEmail) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'New email is the same as the current email' });
+      }
+
+      if (await isEmailTaken(input.newEmail, user.id, user.keycloakIdentifier)) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'Another user already has this email' });
+      }
+
+      const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail: input.newEmail });
+      await sendEmailChangeVerification({ oldEmail: user.email, newEmail: input.newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
+
+      logger.info(`[EmailChange] admin ${impersonationRealIdentity(ctx).sub} requested email change for user ${user.id}: ${user.email} -> ${input.newEmail}`);
+
+      return { sentTo: input.newEmail };
+    }),
+
+  confirmEmailChange: publicProcedure
+    .input(z.object({ token: z.string().min(1) }))
+    .mutation(async ({ input }) => {
+      const payload = await verifyEmailChangeToken(input.token);
+
+      const user = await db.getFirst(userTable, { filter: { id: payload.userId } });
+      if (!user?.keycloakIdentifier) {
+        throw linkNoLongerValid();
+      }
+
+      const currentEmail = normaliseEmail(user.email);
+
+      // Already applied: a second click reports success without re-running anything.
+      if (currentEmail === payload.newEmail) {
+        return { newEmail: payload.newEmail, loginMethods: null };
+      }
+
+      if (currentEmail !== payload.oldEmail) {
+        throw linkNoLongerValid();
+      }
+
+      if (await isEmailTaken(payload.newEmail, user.id, user.keycloakIdentifier)) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'Another account already has this email' });
+      }
+
+      try {
+        await updateKeycloakEmail(user.keycloakIdentifier, payload.newEmail);
+      } catch (error) {
+        logger.error(`[EmailChange] Keycloak update failed for user ${user.id}`, error);
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'We could not update your email right now. Please try again later.', cause: error });
+      }
+
+      try {
+        await db.update(userTable, { id: user.id, email: payload.newEmail });
+      } catch (error) {
+        await slackAlert(env, [`[EmailChange] Keycloak now has ${payload.newEmail} for user ${user.id} but the user table update failed and still has ${payload.oldEmail}: ${error instanceof Error ? error.message : String(error)}`]);
+        throw error;
+      }
+
+      logger.info(`[EmailChange] confirmed for user ${user.id}: ${payload.oldEmail} -> ${payload.newEmail}`);
+
+      updateCustomerIoEmail({ userId: user.id, oldEmail: user.email, newEmail: payload.newEmail })
+        .catch((error: unknown) => slackAlert(env, [`[EmailChange] customer.io rename failed for user ${user.id}: ${error instanceof Error ? error.message : String(error)}`]));
+
+      return { newEmail: payload.newEmail, ...await unlinkStaleGoogleIdentitiesOrAlert(user.id, user.keycloakIdentifier, payload.newEmail) };
     }),
 });
