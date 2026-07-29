@@ -7,7 +7,7 @@ import {
   ProgressDots,
 } from '@bluedot/ui';
 import { TRPCClientError } from '@trpc/client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { trpc } from '../../utils/trpc';
 
@@ -23,7 +23,6 @@ type ChangeEmailModalProps = {
 const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
   const [newEmail, setNewEmail] = useState('');
   const [validationError, setValidationError] = useState('');
-  const newEmailRef = useRef<HTMLInputElement>(null);
 
   const requestEmailChange = trpc.users.requestOwnEmailChange.useMutation();
   const { reset: resetMutation } = requestEmailChange;
@@ -33,9 +32,6 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
       setNewEmail('');
       setValidationError('');
       resetMutation();
-      setTimeout(() => {
-        newEmailRef.current?.focus();
-      }, 100);
     }
   }, [isOpen, resetMutation]);
 
@@ -95,7 +91,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
             </P>
             <div>
               <Input
-                ref={newEmailRef}
+                autoFocus
                 type="email"
                 value={newEmail}
                 onChange={(e) => {
