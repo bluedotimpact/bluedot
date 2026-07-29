@@ -16,6 +16,7 @@ import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
 import '../lib/axios'; // Configure axios-hooks
 import { FOAI_COURSE_SLUG } from '../lib/constants';
 import { inter } from '../lib/fonts';
+import { useCancelQueriesOnLogout } from '../lib/hooks/useCancelQueriesOnLogout';
 import { useCourses } from '../lib/hooks/useCourses';
 import { reportClientError } from '../lib/reportClientError';
 import { trpc } from '../utils/trpc';
@@ -38,6 +39,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const { courses, loading } = useCourses();
   const { data: programs } = trpc.programs.getAll.useQuery();
   const { openBugReport } = useBugReport();
+  useCancelQueriesOnLogout();
 
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
