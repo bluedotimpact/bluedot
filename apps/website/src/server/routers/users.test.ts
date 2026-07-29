@@ -6,7 +6,7 @@ import db from '../../lib/api/db';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
+import { sendEmailChangeRequestedNotice, sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
 import { resetEmailChangeRateLimits } from './users';
 import { createEmailChangeToken, verifyEmailChangeToken } from '../../lib/api/emailChangeToken';
 import {
@@ -30,6 +30,7 @@ vi.mock('../../lib/api/keycloak', () => ({
 vi.mock('../../lib/api/customerio', () => ({
   updateCustomerIoEmail: vi.fn(),
   sendEmailChangeVerification: vi.fn(),
+  sendEmailChangeRequestedNotice: vi.fn(),
 }));
 
 vi.mock('@bluedot/utils/src/slackNotifications', () => ({
@@ -71,6 +72,7 @@ beforeEach(() => {
   vi.mocked(adminRequest).mockResolvedValue([]);
   vi.mocked(updateCustomerIoEmail).mockResolvedValue(undefined);
   vi.mocked(sendEmailChangeVerification).mockResolvedValue(undefined);
+  vi.mocked(sendEmailChangeRequestedNotice).mockResolvedValue(undefined);
   vi.mocked(unlinkStaleGoogleIdentities).mockResolvedValue({ hasPassword: true, hasGoogleLogin: false });
 });
 
@@ -654,6 +656,8 @@ describe('users.requestOwnEmailChange', () => {
     expect(call.oldEmail).toBe('test@example.com');
     expect(call.newEmail).toBe('new@example.com');
     expect(call.confirmUrl).toContain(`${ROUTES.confirmEmailChange.url}?token=`);
+
+    expect(sendEmailChangeRequestedNotice).toHaveBeenCalledWith({ oldEmail: 'test@example.com', newEmail: 'new@example.com' });
   });
 
   test('mints a token bound to the caller, never to another user who happens to be seeded', async () => {

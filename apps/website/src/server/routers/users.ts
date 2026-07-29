@@ -6,7 +6,7 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
-import { sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
+import { sendEmailChangeRequestedNotice, sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
 import { createEmailChangeToken, verifyEmailChangeToken } from '../../lib/api/emailChangeToken';
 import {
   adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
@@ -253,6 +253,9 @@ export const usersRouter = router({
       recordEmailChangeAttemptOrThrow(user.id);
 
       await sendEmailChangeConfirmation(user, input.newEmail);
+
+      sendEmailChangeRequestedNotice({ oldEmail: user.email, newEmail: input.newEmail })
+        .catch((error: unknown) => slackAlert(env, [`[EmailChange] courtesy notice to the old email failed for user ${user.id}: ${error instanceof Error ? error.message : String(error)}`]));
 
       logger.info(`[EmailChange] user ${user.id} requested their own email change: ${user.email} -> ${input.newEmail}`);
 

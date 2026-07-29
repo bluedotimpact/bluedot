@@ -152,3 +152,27 @@ export async function sendEmailChangeVerification({ oldEmail, newEmail, confirmU
     throw new Error(`customer.io verification email send failed: HTTP ${res.status}`);
   }
 }
+
+export async function sendEmailChangeRequestedNotice({ oldEmail, newEmail }: { oldEmail: string; newEmail: string }): Promise<void> {
+  const safeOldEmail = escapeHtml(normaliseEmail(oldEmail));
+  const safeNewEmail = escapeHtml(normaliseEmail(newEmail));
+  const res = await fetch(`${CIO_API_BASE}/send/email`, {
+    method: 'POST',
+    headers: { ...appHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      to: normaliseEmail(oldEmail),
+      identifiers: { email: normaliseEmail(oldEmail) },
+      send_to_unsubscribed: true,
+      from: 'BlueDot Impact <team@bluedot.org>',
+      subject: 'Email change requested on your account',
+      body: [
+        `<p>A request was made to change the email on your BlueDot Impact account from ${safeOldEmail} to ${safeNewEmail}.</p>`,
+        `<p>Nothing changes unless the link we sent to ${safeNewEmail} is confirmed.</p>`,
+        '<p>If this was not you, reply to this email so we can secure your account.</p>',
+      ].join('\n'),
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`customer.io email change notice send failed: HTTP ${res.status}`);
+  }
+}

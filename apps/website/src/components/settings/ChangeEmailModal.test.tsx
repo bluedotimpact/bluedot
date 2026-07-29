@@ -9,7 +9,7 @@ import {
 import {
   createCaller, createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
-import { sendEmailChangeVerification } from '../../lib/api/customerio';
+import { sendEmailChangeRequestedNotice, sendEmailChangeVerification } from '../../lib/api/customerio';
 import { adminRequest } from '../../lib/api/keycloak';
 import { resetEmailChangeRateLimits } from '../../server/routers/users';
 import env from '../../lib/api/env';
@@ -17,6 +17,7 @@ import ChangeEmailModal from './ChangeEmailModal';
 
 vi.mock('../../lib/api/customerio', () => ({
   sendEmailChangeVerification: vi.fn(),
+  sendEmailChangeRequestedNotice: vi.fn(),
   updateCustomerIoEmail: vi.fn(),
 }));
 
@@ -32,6 +33,7 @@ const mutableEnv = env as { EMAIL_CHANGE_TOKEN_SECRET?: string };
 beforeEach(async () => {
   vi.resetAllMocks();
   vi.mocked(adminRequest).mockResolvedValue([]);
+  vi.mocked(sendEmailChangeRequestedNotice).mockResolvedValue(undefined);
   resetEmailChangeRateLimits();
   mutableEnv.EMAIL_CHANGE_TOKEN_SECRET = 'test-secret';
   await seedLoggedInUser();
