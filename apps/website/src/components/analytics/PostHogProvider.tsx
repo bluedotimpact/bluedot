@@ -1,8 +1,13 @@
 import { Router } from 'next/router';
-import posthog from 'posthog-js';
+import posthog, { type Properties } from 'posthog-js';
 import { PostHogProvider as PostHogPostHogProvider } from 'posthog-js/react';
 import { useEffect } from 'react';
 import { useConsentStore } from './consent';
+
+const redactTokens = (properties: Properties): Properties => Object.fromEntries(Object.entries(properties).map(([key, value]) => [
+  key,
+  typeof value === 'string' ? value.replace(/([?&])token=[^&#]+/g, '$1token=redacted') : value,
+]));
 
 export const PostHogProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -27,10 +32,18 @@ const ActivePostHogProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         }
       },
       persistence: useConsentStore.getState().isConsented ? 'localStorage+cookie' : 'memory',
-      sanitize_properties: (properties) => Object.fromEntries(Object.entries(properties).map(([key, value]) => [
-        key,
-        typeof value === 'string' ? value.replace(/([?&])token=[^&#]+/g, '$1token=redacted') : value,
-      ])),
+      before_send: (event) => {
+        if (!event) {
+          return event;
+        }
+
+        return {
+          ...event,
+          properties: redactTokens(event.properties),
+          ...(event.$set && { $set: redactTokens(event.$set) }),
+          ...(event.$set_once && { $set_once: redactTokens(event.$set_once) }),
+        };
+      },
     });
 
     // Setup page view tracking
