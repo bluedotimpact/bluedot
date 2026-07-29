@@ -1,6 +1,8 @@
 import {
   afterEach, describe, expect, test, vi,
 } from 'vitest';
+import { createHash } from 'crypto';
+import { SignJWT } from 'jose';
 import { createEmailChangeToken, verifyEmailChangeToken } from './emailChangeToken';
 import env from './env';
 
@@ -24,20 +26,35 @@ describe('emailChangeToken', () => {
     expect(payload).toEqual({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' });
   });
 
-  test('rejects a tampered payload', async () => {
-    const [header, payload, signature] = (await mintToken()).split('.') as [string, string, string];
-    const tampered = JSON.parse(Buffer.from(payload, 'base64url').toString()) as Record<string, unknown>;
-    tampered.newEmail = 'attacker@example.com';
+  test('does not expose the payload in the token', async () => {
+    const token = await mintToken();
 
-    await expect(verifyEmailChangeToken(`${header}.${Buffer.from(JSON.stringify(tampered)).toString('base64url')}.${signature}`))
-      .rejects.toThrowError('This link is invalid');
+    for (const part of token.split('.')) {
+      expect(Buffer.from(part, 'base64url').toString()).not.toContain('example.com');
+    }
   });
 
-  test('rejects a tampered signature', async () => {
-    const [header, payload] = (await mintToken()).split('.') as [string, string];
+  test('rejects a tampered ciphertext', async () => {
+    const parts = (await mintToken()).split('.');
+    parts[3] = parts[3]!.startsWith('A') ? `B${parts[3]!.slice(1)}` : `A${parts[3]!.slice(1)}`;
 
-    await expect(verifyEmailChangeToken(`${header}.${payload}.${Buffer.from('bad-signature').toString('base64url')}`))
-      .rejects.toThrowError('This link is invalid');
+    await expect(verifyEmailChangeToken(parts.join('.'))).rejects.toThrowError('This link is invalid');
+  });
+
+  test('rejects a tampered auth tag', async () => {
+    const parts = (await mintToken()).split('.');
+    parts[4] = parts[4]!.startsWith('A') ? `B${parts[4]!.slice(1)}` : `A${parts[4]!.slice(1)}`;
+
+    await expect(verifyEmailChangeToken(parts.join('.'))).rejects.toThrowError('This link is invalid');
+  });
+
+  test('rejects a signed but unencrypted token', async () => {
+    const signed = await new SignJWT({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'attacker@example.com' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('48h')
+      .sign(createHash('sha256').update('test-secret').digest());
+
+    await expect(verifyEmailChangeToken(signed)).rejects.toThrowError('This link is invalid');
   });
 
   test('rejects malformed tokens', async () => {

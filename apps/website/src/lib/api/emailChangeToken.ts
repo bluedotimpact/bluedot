@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
-import { errors, jwtVerify, SignJWT } from 'jose';
+import { createHash } from 'crypto';
+import { EncryptJWT, errors, jwtDecrypt } from 'jose';
 import env from './env';
 import { normaliseEmail } from './utils';
 
@@ -14,19 +15,19 @@ const getSecret = (): Uint8Array => {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Email change is not configured' });
   }
 
-  return new TextEncoder().encode(env.EMAIL_CHANGE_TOKEN_SECRET);
+  return createHash('sha256').update(env.EMAIL_CHANGE_TOKEN_SECRET).digest();
 };
 
 export async function createEmailChangeToken({ userId, oldEmail, newEmail }: EmailChangePayload): Promise<string> {
-  return new SignJWT({ userId, oldEmail: normaliseEmail(oldEmail), newEmail: normaliseEmail(newEmail) })
-    .setProtectedHeader({ alg: 'HS256' })
+  return new EncryptJWT({ userId, oldEmail: normaliseEmail(oldEmail), newEmail: normaliseEmail(newEmail) })
+    .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
     .setExpirationTime('48h')
-    .sign(getSecret());
+    .encrypt(getSecret());
 }
 
 export async function verifyEmailChangeToken(token: string): Promise<EmailChangePayload> {
   try {
-    const { payload } = await jwtVerify<EmailChangePayload>(token, getSecret(), { algorithms: ['HS256'] });
+    const { payload } = await jwtDecrypt<EmailChangePayload>(token, getSecret(), { keyManagementAlgorithms: ['dir'], contentEncryptionAlgorithms: ['A256GCM'] });
 
     return { userId: payload.userId, oldEmail: payload.oldEmail, newEmail: payload.newEmail };
   } catch (error) {
