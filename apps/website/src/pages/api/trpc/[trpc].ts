@@ -10,7 +10,16 @@ export default trpcNext.createNextApiHandler({
   router: appRouter,
   createContext,
   onError(opts) {
-    const { error, type, path } = opts;
+    const { error, type, path, req } = opts;
+
+    // A request with no token hitting a protected procedure is routine
+    // client/server disagreement, not an anomaly: queries scheduled before a
+    // logout are dispatched after it, once the client has already dropped the
+    // token. A request that carries a token but fails verification still warns
+    // here, and createContext logs it separately.
+    if (error.code === 'UNAUTHORIZED' && !req.headers.authorization) {
+      return;
+    }
 
     const serverErrors = [
       'INTERNAL_SERVER_ERROR', // HTTP 500
