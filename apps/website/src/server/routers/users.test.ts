@@ -8,7 +8,7 @@ import {
 import { sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
 import { createEmailChangeToken, verifyEmailChangeToken } from '../../lib/api/emailChangeToken';
 import {
-  unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
+  adminRequest, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
 } from '../../lib/api/keycloak';
 import env from '../../lib/api/env';
 import { ROUTES } from '../../lib/routes';
@@ -20,6 +20,7 @@ vi.mock('../../lib/api/keycloak', () => ({
   verifyKeycloakPassword: vi.fn(),
   updateKeycloakPassword: vi.fn(),
   updateKeycloakEmail: vi.fn(),
+  adminRequest: vi.fn(),
   unlinkStaleGoogleIdentities: vi.fn(),
   registerPreviewRedirectUri: vi.fn(),
 }));
@@ -64,6 +65,7 @@ beforeEach(() => {
     email_verified: true,
   });
   vi.mocked(updateKeycloakEmail).mockResolvedValue(undefined);
+  vi.mocked(adminRequest).mockResolvedValue([]);
   vi.mocked(updateCustomerIoEmail).mockResolvedValue(undefined);
   vi.mocked(sendEmailChangeVerification).mockResolvedValue(undefined);
   vi.mocked(unlinkStaleGoogleIdentities).mockResolvedValue({ hasPassword: true, hasGoogleLogin: false });
@@ -520,6 +522,38 @@ describe('users.requestEmailChange', () => {
     expect(sendEmailChangeVerification).not.toHaveBeenCalled();
   });
 
+  test('allows a new email held only by a stub user with no login account', async () => {
+    await seedAdmin();
+    await seedTarget();
+    await testDb.insert(userTable, { id: 'stub-id', email: 'new@example.com', name: 'Stub' });
+
+    const result = await callerAs('admin-sub').users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' });
+
+    expect(result).toEqual({ sentTo: 'new@example.com' });
+    expect(sendEmailChangeVerification).toHaveBeenCalledTimes(1);
+  });
+
+  test('rejects a new email already held by a Keycloak account without a user row', async () => {
+    await seedAdmin();
+    await seedTarget();
+    vi.mocked(adminRequest).mockResolvedValue([{ id: 'squatter-sub' }]);
+
+    await expect(callerAs('admin-sub').users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(adminRequest).toHaveBeenCalledWith({ method: 'get', path: '/users?email=new%40example.com&exact=true' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('allows a new email when the only Keycloak match is the user themselves', async () => {
+    await seedAdmin();
+    await seedTarget();
+    vi.mocked(adminRequest).mockResolvedValue([{ id: 'target-sub' }]);
+
+    const result = await callerAs('admin-sub').users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' });
+
+    expect(result).toEqual({ sentTo: 'new@example.com' });
+  });
+
   test('sends a verification email keyed by the old address, and changes nothing', async () => {
     await seedAdmin();
     await seedTarget();
@@ -596,6 +630,28 @@ describe('users.confirmEmailChange', () => {
 
     await expect(anonCaller().users.confirmEmailChange({ token: await mintToken() }))
       .rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(updateKeycloakEmail).not.toHaveBeenCalled();
+  });
+
+  test('applies the change when the new email is held only by a stub user with no login account', async () => {
+    await seedTarget();
+    await testDb.insert(userTable, { id: 'stub-id', email: 'new@example.com', name: 'Stub' });
+
+    const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    expect(result.newEmail).toBe('new@example.com');
+    expect(updateKeycloakEmail).toHaveBeenCalledWith('target-sub', 'new@example.com');
+    expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('new@example.com');
+    expect((await testDb.get(userTable, { id: 'stub-id' })).email).toBe('new@example.com');
+  });
+
+  test('rejects when a Keycloak account without a user row claimed the new email since the request', async () => {
+    await seedTarget();
+    vi.mocked(adminRequest).mockResolvedValue([{ id: 'squatter-sub' }]);
+
+    await expect(anonCaller().users.confirmEmailChange({ token: await mintToken() }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(adminRequest).toHaveBeenCalledWith({ method: 'get', path: '/users?email=new%40example.com&exact=true' });
     expect(updateKeycloakEmail).not.toHaveBeenCalled();
   });
 

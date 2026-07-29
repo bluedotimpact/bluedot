@@ -9,7 +9,7 @@ import env from '../../lib/api/env';
 import { sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
 import { createEmailChangeToken, verifyEmailChangeToken } from '../../lib/api/emailChangeToken';
 import {
-  type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
+  adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
 } from '../../lib/api/keycloak';
 import { normaliseEmail } from '../../lib/api/utils';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
@@ -21,16 +21,19 @@ import {
 
 const linkNoLongerValid = () => new TRPCError({ code: 'BAD_REQUEST', message: 'This link is no longer valid' });
 
+async function isEmailTaken(email: string, excludeUserId: string, excludeUserSub: string): Promise<boolean> {
+  const [loginAccounts, keycloakAccounts] = await Promise.all([
+    db.pg.execute<{ id: string }>(sql`SELECT id FROM ${userTable.pg} WHERE LOWER(TRIM(email)) = ${email} AND id != ${excludeUserId} AND COALESCE(${userTable.pg.keycloakIdentifier}, '') != '' LIMIT 1`),
+    adminRequest<{ id: string }[]>({ method: 'get', path: `/users?email=${encodeURIComponent(email)}&exact=true` }),
+  ]);
+
+  return loginAccounts.rows.length > 0 || keycloakAccounts.some((account: { id: string }) => account.id !== excludeUserSub);
+}
+
 const getEmailChangeConfirmUrl = (token: string) => {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
   return `${siteUrl}${ROUTES.confirmEmailChange.url}?token=${encodeURIComponent(token)}`;
 };
-
-async function isEmailTakenByAnotherUser(email: string, excludeUserId: string): Promise<boolean> {
-  const existing = await db.pg.execute(sql`SELECT id FROM ${userTable.pg} WHERE LOWER(TRIM(email)) = ${email} AND id != ${excludeUserId} LIMIT 1`);
-
-  return existing.rows.length > 0;
-}
 
 // By the time this runs the email change has already been applied in Keycloak and the user table,
 // and rolling that back is hard. So on failure we accept partial success: the email change stands,
@@ -191,7 +194,7 @@ export const usersRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'New email is the same as the current email' });
       }
 
-      if (await isEmailTakenByAnotherUser(input.newEmail, user.id)) {
+      if (await isEmailTaken(input.newEmail, user.id, user.keycloakIdentifier)) {
         throw new TRPCError({ code: 'CONFLICT', message: 'Another user already has this email' });
       }
 
@@ -224,7 +227,7 @@ export const usersRouter = router({
         throw linkNoLongerValid();
       }
 
-      if (await isEmailTakenByAnotherUser(payload.newEmail, user.id)) {
+      if (await isEmailTaken(payload.newEmail, user.id, user.keycloakIdentifier)) {
         throw new TRPCError({ code: 'CONFLICT', message: 'Another account already has this email' });
       }
 

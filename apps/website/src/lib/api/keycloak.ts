@@ -117,7 +117,7 @@ type KeycloakFederatedIdentity = {
   userName: string;
 };
 
-async function adminRequest<T>(config: { method: 'get' | 'put' | 'delete'; path: string; data?: unknown }): Promise<T> {
+export async function adminRequest<T>(config: { method: 'get' | 'put' | 'delete'; path: string; data?: unknown }): Promise<T> {
   if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
     throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
   }
