@@ -28,7 +28,7 @@ const LoginAdvice = ({ loginMethods }: { loginMethods: LoginMethods }) => {
   return (
     <P>
       You used to sign in with Google, so there is no password set for this account. To log in, sign
-      with Google from your new email address and click "Add to existing account". Alternatively, choose
+      in with Google from your new email address and click "Add to existing account". Alternatively, choose
       &quot;Forgot password?&quot; on the login page and enter your new email address to set a password.
     </P>
   );
