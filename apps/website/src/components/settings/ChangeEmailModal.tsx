@@ -35,7 +35,9 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
     }
   }, [isOpen, resetMutation]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (requestEmailChange.isPending) {
       return;
     }
@@ -48,13 +50,6 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
 
     setValidationError('');
     requestEmailChange.mutate({ newEmail: result.data });
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !requestEmailChange.isPending) {
-      e.preventDefault();
-      handleSubmit();
-    }
   };
 
   const emailTaken = isEmailTakenError(requestEmailChange.error);
@@ -83,7 +78,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit} noValidate>
             {requestEmailChange.error && !emailTaken && <ErrorSection error={requestEmailChange.error} />}
             <P className="text-charcoal-mid">
               We'll send a confirmation link to your new email address.
@@ -104,7 +99,6 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
                     resetMutation();
                   }
                 }}
-                onKeyDown={handleKeyDown}
                 placeholder="Enter new email address"
                 label="New email*"
                 aria-label="New email address"
@@ -135,7 +129,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               </CTALinkOrButton>
               <CTALinkOrButton
                 variant="primary"
-                onClick={handleSubmit}
+                type="submit"
                 disabled={requestEmailChange.isPending}
                 aria-label="Send confirmation link"
               >
@@ -149,7 +143,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
                 )}
               </CTALinkOrButton>
             </div>
-          </div>
+          </form>
         )}
       </div>
     </Modal>
