@@ -522,15 +522,14 @@ describe('users.requestEmailChange', () => {
     expect(sendEmailChangeVerification).not.toHaveBeenCalled();
   });
 
-  test('allows a new email held only by a stub user with no login account', async () => {
+  test('rejects a new email held by a stub user with no login account, until #2831 adds adoption', async () => {
     await seedAdmin();
     await seedTarget();
     await testDb.insert(userTable, { id: 'stub-id', email: 'new@example.com', name: 'Stub' });
 
-    const result = await callerAs('admin-sub').users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' });
-
-    expect(result).toEqual({ sentTo: 'new@example.com' });
-    expect(sendEmailChangeVerification).toHaveBeenCalledTimes(1);
+    await expect(callerAs('admin-sub').users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
   });
 
   test('rejects a new email already held by a Keycloak account without a user row', async () => {
@@ -633,16 +632,13 @@ describe('users.confirmEmailChange', () => {
     expect(updateKeycloakEmail).not.toHaveBeenCalled();
   });
 
-  test('applies the change when the new email is held only by a stub user with no login account', async () => {
+  test('rejects when a stub user with no login account holds the new email, until #2831 adds adoption', async () => {
     await seedTarget();
     await testDb.insert(userTable, { id: 'stub-id', email: 'new@example.com', name: 'Stub' });
 
-    const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
-
-    expect(result.newEmail).toBe('new@example.com');
-    expect(updateKeycloakEmail).toHaveBeenCalledWith('target-sub', 'new@example.com');
-    expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('new@example.com');
-    expect((await testDb.get(userTable, { id: 'stub-id' })).email).toBe('new@example.com');
+    await expect(anonCaller().users.confirmEmailChange({ token: await mintToken() }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(updateKeycloakEmail).not.toHaveBeenCalled();
   });
 
   test('rejects when a Keycloak account without a user row claimed the new email since the request', async () => {

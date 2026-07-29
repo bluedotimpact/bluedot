@@ -23,7 +23,7 @@ const linkNoLongerValid = () => new TRPCError({ code: 'BAD_REQUEST', message: 'T
 
 async function isEmailTaken(email: string, excludeUserId: string, excludeUserSub: string): Promise<boolean> {
   const [loginAccounts, keycloakAccounts] = await Promise.all([
-    db.pg.execute<{ id: string }>(sql`SELECT id FROM ${userTable.pg} WHERE LOWER(TRIM(email)) = ${email} AND id != ${excludeUserId} AND COALESCE(${userTable.pg.keycloakIdentifier}, '') != '' LIMIT 1`),
+    db.pg.execute<{ id: string }>(sql`SELECT id FROM ${userTable.pg} WHERE LOWER(TRIM(email)) = ${email} AND id != ${excludeUserId} LIMIT 1`),
     adminRequest<{ id: string }[]>({ method: 'get', path: `/users?email=${encodeURIComponent(email)}&exact=true` }),
   ]);
 
