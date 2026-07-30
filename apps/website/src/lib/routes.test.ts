@@ -54,6 +54,11 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.profile.url).toBe('/profile');
     expect(ROUTES.profile.title).toBe('Profile');
   });
+
+  test('contact links use the consolidated company information page', () => {
+    expect(ROUTES.contact.url).toBe('/contact');
+    expect(ROUTES.contact.title).toBe('Contact & legal');
+  });
 });
 
 describe('shouldRedirectBackAfterLogout', () => {
