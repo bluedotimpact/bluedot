@@ -167,7 +167,6 @@ export async function sendEmailChangeRequestedNotice({ oldEmail, newEmail }: { o
       subject: 'Email change requested on your account',
       body: [
         `<p>A request was made to change the email on your BlueDot Impact account from ${safeOldEmail} to ${safeNewEmail}.</p>`,
-        `<p>Nothing changes unless the link we sent to ${safeNewEmail} is confirmed.</p>`,
         '<p>If this was not you, reply to this email so we can secure your account.</p>',
       ].join('\n'),
     }),
