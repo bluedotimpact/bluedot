@@ -4,7 +4,10 @@ import { Footer } from './Footer';
 
 describe('Footer', () => {
   test('renders default as expected', () => {
-    const { container } = render(<Footer />);
+    const { container, getAllByRole } = render(<Footer />);
+    expect(getAllByRole('link', { name: 'Contact & legal' })).toHaveLength(3);
+    expect(getAllByRole('link', { name: 'Contact & legal' })[0]?.getAttribute('href')).toBe('/contact');
+    expect(container.textContent).not.toContain('1680 Mission');
     expect(container).toMatchSnapshot();
   });
 

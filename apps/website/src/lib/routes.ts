@@ -46,8 +46,8 @@ const blog: BluedotRoute = {
 };
 
 const contact: BluedotRoute = {
-  title: 'Contact us',
-  url: 'mailto:team@bluedot.org',
+  title: 'Contact & legal',
+  url: '/contact',
   parentPages: [home],
 };
 

@@ -31,3 +31,4 @@ All cohort-based courses are free, run fully online, and pair 2–3 hours of wee
 - [Code of Conduct](https://bluedot.org/code-of-conduct): Participation standards for BlueDot courses and community
 - [Attendance Policy](https://bluedot.org/attendance-policy): Course attendance requirements and expectations
 - [Privacy Policy](https://bluedot.org/privacy-policy): How BlueDot Impact handles personal data
+- [Contact & Legal](https://bluedot.org/contact): How to contact BlueDot Impact, plus legal entities and registration details

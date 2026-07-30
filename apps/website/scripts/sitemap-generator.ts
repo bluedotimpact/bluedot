@@ -10,6 +10,7 @@ const INCLUDED_ROUTES = [
   ROUTES.home,
   ROUTES.about,
   ROUTES.courses,
+  ROUTES.contact,
   ROUTES.joinUs,
   ROUTES.missions,
   ROUTES.privacyPolicy,

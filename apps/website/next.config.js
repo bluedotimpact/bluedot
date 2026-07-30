@@ -4,6 +4,11 @@ module.exports = withDefaultBlueDotNextConfig({
   async redirects() {
     return [
       {
+        source: '/company-information',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
         source: '/running-versions-of-our-courses',
         destination: '/blog/running-versions-of-our-courses',
         permanent: true,
