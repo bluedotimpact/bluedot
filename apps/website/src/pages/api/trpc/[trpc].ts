@@ -4,6 +4,7 @@ import * as trpcNext from '@trpc/server/adapters/next';
 import env from '../../../lib/api/env';
 import { createContext } from '../../../server/context';
 import { appRouter } from '../../../server/routers/_app';
+import { AuthenticationRequiredError } from '../../../server/trpc';
 
 // @link https://trpc.io/docs/v11/server/adapters
 export default trpcNext.createNextApiHandler({
@@ -16,8 +17,10 @@ export default trpcNext.createNextApiHandler({
     // client/server disagreement, not an anomaly: queries scheduled before a
     // logout are dispatched after it, once the client has already dropped the
     // token. A request that carries a token but fails verification still warns
-    // here, and createContext logs it separately.
-    if (error.code === 'UNAUTHORIZED' && !req.headers.authorization) {
+    // here, and createContext logs it separately. UNAUTHORIZED from anything
+    // else (bad shared secret, tampered link) is real signal, so only the
+    // protected-procedure error is suppressed.
+    if (error instanceof AuthenticationRequiredError && !req.headers.authorization) {
       return;
     }
 

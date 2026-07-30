@@ -158,12 +158,23 @@ const overrideUndefinedResponse = t.middleware(async (opts) => {
   return result;
 });
 
+/**
+ * Thrown when a caller reaches a protected procedure without a usable session. Distinguishable from
+ * the other UNAUTHORIZED errors we raise (bad shared secret, tampered link, wrong password) so the
+ * API handler can decide which ones are worth logging.
+ */
+export class AuthenticationRequiredError extends TRPCError {
+  constructor() {
+    super({ code: 'UNAUTHORIZED', message: 'Authentication required' });
+  }
+}
+
 // Base router and procedure helpers
 export const { router } = t;
 export const publicProcedure = t.procedure.use(openTelemetryMiddleware).use(overrideUndefinedResponse);
 export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.auth) {
-    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authentication required' });
+    throw new AuthenticationRequiredError();
   }
 
   return next({ ctx });
