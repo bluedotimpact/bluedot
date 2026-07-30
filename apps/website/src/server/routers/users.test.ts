@@ -748,6 +748,18 @@ describe('users.requestOwnEmailChange rate limiting', () => {
     expect(await attemptOwnEmailChange('new@example.com')).toBe('TOO_MANY_REQUESTS');
   });
 
+  test('attempts that fail on our own infra are refunded and do not count toward the limit', async () => {
+    await seedLoggedInUser();
+    vi.mocked(sendEmailChangeVerification).mockRejectedValue(new Error('customer.io is down'));
+
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('INTERNAL_SERVER_ERROR');
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('INTERNAL_SERVER_ERROR');
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('INTERNAL_SERVER_ERROR');
+
+    vi.mocked(sendEmailChangeVerification).mockResolvedValue(undefined);
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('SENT');
+  });
+
   test('a blocked request is allowed again once the window has passed', async () => {
     await seedLoggedInUser();
 

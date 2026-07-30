@@ -63,9 +63,10 @@ const RATE_LIMIT_MAX_ATTEMPTS = 3;
 
 const emailChangeAttemptsByUserId = new Map<string, number[]>();
 
-const recordEmailChangeAttemptOrThrow = (userId: string): void => {
+const assertWithinEmailChangeRateLimit = (userId: string): void => {
   const now = Date.now();
   const recent = (emailChangeAttemptsByUserId.get(userId) ?? []).filter((at) => now - at < RATE_LIMIT_WINDOW_MS);
+  emailChangeAttemptsByUserId.set(userId, recent);
 
   if (recent.length >= RATE_LIMIT_MAX_ATTEMPTS) {
     const minutesLeft = Math.max(1, Math.ceil((Math.min(...recent) + RATE_LIMIT_WINDOW_MS - now) / ONE_MINUTE_MS));
@@ -74,8 +75,10 @@ const recordEmailChangeAttemptOrThrow = (userId: string): void => {
       message: `You've tried to change your email ${RATE_LIMIT_MAX_ATTEMPTS} times in the last ${RATE_LIMIT_WINDOW_MINUTES} minutes. If you're waiting for a confirmation email, check your spam folder, or try again in about ${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}.`,
     });
   }
+};
 
-  emailChangeAttemptsByUserId.set(userId, [...recent, now]);
+const recordEmailChangeAttempt = (userId: string): void => {
+  emailChangeAttemptsByUserId.set(userId, [...(emailChangeAttemptsByUserId.get(userId) ?? []), Date.now()]);
 };
 
 export const resetEmailChangeRateLimits = (): void => {
@@ -249,9 +252,18 @@ export const usersRouter = router({
 
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
-      recordEmailChangeAttemptOrThrow(user.id);
+      assertWithinEmailChangeRateLimit(user.id);
 
-      await sendEmailChangeConfirmation(user, input.newEmail);
+      try {
+        await sendEmailChangeConfirmation(user, input.newEmail);
+        recordEmailChangeAttempt(user.id);
+      } catch (error) {
+        if (error instanceof TRPCError) {
+          recordEmailChangeAttempt(user.id);
+        }
+
+        throw error;
+      }
 
       sendEmailChangeRequestedNotice({ oldEmail: user.email, newEmail: input.newEmail })
         .catch((error: unknown) => slackAlert(env, [`[EmailChange] courtesy notice to the old email failed for user ${user.id}: ${error instanceof Error ? error.message : String(error)}`]));
