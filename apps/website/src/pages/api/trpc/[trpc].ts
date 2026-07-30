@@ -4,13 +4,21 @@ import * as trpcNext from '@trpc/server/adapters/next';
 import env from '../../../lib/api/env';
 import { createContext } from '../../../server/context';
 import { appRouter } from '../../../server/routers/_app';
+import { AuthenticationRequiredError } from '../../../server/trpc';
 
 // @link https://trpc.io/docs/v11/server/adapters
 export default trpcNext.createNextApiHandler({
   router: appRouter,
   createContext,
   onError(opts) {
-    const { error, type, path } = opts;
+    const { error, type, path, req } = opts;
+
+    // Queries scheduled before a logout are dispatched after it, once the client has dropped its
+    // token: routine client/server disagreement. Requests that did send a token still warn, and
+    // createContext logs verification failures separately.
+    if (error instanceof AuthenticationRequiredError && !req.headers.authorization) {
+      return;
+    }
 
     const serverErrors = [
       'INTERNAL_SERVER_ERROR', // HTTP 500
