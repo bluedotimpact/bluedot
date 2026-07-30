@@ -13,13 +13,9 @@ export default trpcNext.createNextApiHandler({
   onError(opts) {
     const { error, type, path, req } = opts;
 
-    // A request with no token hitting a protected procedure is routine
-    // client/server disagreement, not an anomaly: queries scheduled before a
-    // logout are dispatched after it, once the client has already dropped the
-    // token. A request that carries a token but fails verification still warns
-    // here, and createContext logs it separately. UNAUTHORIZED from anything
-    // else (bad shared secret, tampered link) is real signal, so only the
-    // protected-procedure error is suppressed.
+    // Queries scheduled before a logout are dispatched after it, once the client has dropped its
+    // token: routine client/server disagreement. Requests that did send a token still warn, and
+    // createContext logs verification failures separately.
     if (error instanceof AuthenticationRequiredError && !req.headers.authorization) {
       return;
     }

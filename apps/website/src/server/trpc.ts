@@ -158,11 +158,7 @@ const overrideUndefinedResponse = t.middleware(async (opts) => {
   return result;
 });
 
-/**
- * Thrown when a caller reaches a protected procedure without a usable session. Distinguishable from
- * the other UNAUTHORIZED errors we raise (bad shared secret, tampered link, wrong password) so the
- * API handler can decide which ones are worth logging.
- */
+/** Its own class so the API handler can suppress these 401s without suppressing every UNAUTHORIZED. */
 export class AuthenticationRequiredError extends TRPCError {
   constructor() {
     super({ code: 'UNAUTHORIZED', message: 'Authentication required' });
