@@ -49,4 +49,7 @@ export const interDisplay = localFont({
   ],
   variable: '--font-inter-display',
   display: 'swap',
+  // Skip the generated Arial-based fallback so the swap falls through to preloaded
+  // Inter instead: same typeface, different optical size.
+  adjustFontFallback: false,
 });
