@@ -216,10 +216,27 @@ These are loaded by the shared UI library (`libraries/ui/src/default-config/tail
 - `frontend-example` — example app
 - `app-template` — template for new apps
 
-**Website-specific fonts (loaded via next/font):**
+**Inter fonts (next/font here, HTTPS for every other app):**
 - `Inter-*.woff2` - Body text (weights: 400, 500, 600, 700)
-- `InterDisplay-*.woff2` - Headlines (weights: 400, 500, 600, 700)
+- `InterDisplay-*.woff2` - Headlines (weights: 400, 500, 600, 700), subsetted
 - `Inter-OFL.txt` - SIL Open Font License for Inter fonts
+
+The shared UI library's `@font-face` rules point every other app at these same files, so replacing them changes typography monorepo-wide, not just on the website.
+
+`InterDisplay-*.woff2` is subsetted to latin + latin-ext (~106kB → ~42kB per weight). Glyphs outside that range fall back to Inter, which is full-coverage and sits next in the stack. If you upgrade the font, re-subset the new full-coverage originals:
+
+```bash
+python3 -m fontTools.subset InterDisplay-Regular.woff2 \
+  --output-file=InterDisplay-Regular.woff2 --flavor=woff2 \
+  --unicodes='U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD,U+0100-02AF,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF' \
+  --layout-features+=ss01,ss02,ss03,ss04,cv01,cv02,tnum,case,zero
+```
+
+`--layout-features+=` is load-bearing — `--layout-features='+ss04'` silently empties GSUB with no error, and the homepage/lander section headings set `fontFeatureSettings: "'ss04' on"`. Verify it survived:
+
+```bash
+python3 -c "from fontTools.ttLib import TTFont; f=TTFont('InterDisplay-Regular.woff2'); print('ss04' in {r.FeatureTag for r in f['GSUB'].table.FeatureList.FeatureRecord})"
+```
 
 For complete font licensing information, see `/public/fonts/README.md`
 
