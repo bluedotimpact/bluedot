@@ -15,7 +15,7 @@ import '../globals.css';
 import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
 import '../lib/axios'; // Configure axios-hooks
 import { FOAI_COURSE_SLUG } from '../lib/constants';
-import { inter } from '../lib/fonts';
+import { inter, interDisplay } from '../lib/fonts';
 import { useCourses } from '../lib/hooks/useCourses';
 import { reportClientError } from '../lib/reportClientError';
 import { trpc } from '../utils/trpc';
@@ -81,7 +81,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   };
 
   return (
-    <div className={inter.className}>
+    <div className={`${inter.className} ${interDisplay.variable}`}>
       <Head>
         <title>BlueDot Impact</title>
         <link rel="icon" href="/favicon.ico" />

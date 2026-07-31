@@ -173,10 +173,6 @@ const TestimonialCarousel = ({
     ? 'Our community'
     : 'Meet our alumni shaping AI\'s future';
 
-  const headerSizeClasses = variant === 'homepage'
-    ? 'text-size-xl bd-md:text-size-2xl'
-    : 'text-size-xl';
-
   return (
     <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container */}
@@ -187,10 +183,7 @@ const TestimonialCarousel = ({
           <div className="flex flex-col gap-8">
             {variant === 'homepage' ? (
               <h2
-                className={clsx(
-                  headerSizeClasses,
-                  'font-medium leading-snug text-bluedot-navy tracking-tighter',
-                )}
+                className="bluedot-h2 font-medium tracking-tighter"
                 style={{ fontFeatureSettings: '\'ss04\' on' }}
               >
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}

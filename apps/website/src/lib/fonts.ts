@@ -46,12 +46,10 @@ export const interDisplay = localFont({
       weight: '600',
       style: 'normal',
     },
-    {
-      path: '../../public/fonts/InterDisplay-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
   ],
   variable: '--font-inter-display',
   display: 'swap',
+  // Skip the generated Arial-based fallback so the swap falls through to preloaded
+  // Inter instead: same typeface, different optical size.
+  adjustFontFallback: false,
 });
