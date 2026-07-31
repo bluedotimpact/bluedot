@@ -1,11 +1,13 @@
 import { userTable } from '@bluedot/db';
+import type { TRPCError } from '@trpc/server';
 import { loginPresets } from '@bluedot/ui/src/Login';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import db from '../../lib/api/db';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
+import { sendEmailChangeRequestedNotice, sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
+import { resetEmailChangeRateLimits } from './users';
 import { createEmailChangeToken, verifyEmailChangeToken } from '../../lib/api/emailChangeToken';
 import {
   adminRequest, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
@@ -28,6 +30,7 @@ vi.mock('../../lib/api/keycloak', () => ({
 vi.mock('../../lib/api/customerio', () => ({
   updateCustomerIoEmail: vi.fn(),
   sendEmailChangeVerification: vi.fn(),
+  sendEmailChangeRequestedNotice: vi.fn(),
 }));
 
 vi.mock('@bluedot/utils/src/slackNotifications', () => ({
@@ -52,6 +55,7 @@ const mutableEnv = env as { EMAIL_CHANGE_TOKEN_SECRET?: string };
 
 beforeEach(() => {
   vi.clearAllMocks();
+  resetEmailChangeRateLimits();
   mutableEnv.EMAIL_CHANGE_TOKEN_SECRET = 'test-secret';
   vi.mocked(verifyKeycloakPassword).mockReset();
   vi.mocked(updateKeycloakPassword).mockReset();
@@ -68,6 +72,7 @@ beforeEach(() => {
   vi.mocked(adminRequest).mockResolvedValue([]);
   vi.mocked(updateCustomerIoEmail).mockResolvedValue(undefined);
   vi.mocked(sendEmailChangeVerification).mockResolvedValue(undefined);
+  vi.mocked(sendEmailChangeRequestedNotice).mockResolvedValue(undefined);
   vi.mocked(unlinkStaleGoogleIdentities).mockResolvedValue({ hasPassword: true, hasGoogleLogin: false });
 });
 
@@ -581,6 +586,222 @@ describe('users.requestEmailChange', () => {
 
     await expect(callerAs('admin-sub').users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' }))
       .rejects.toMatchObject({ message: expect.stringContaining('send failed') });
+  });
+});
+
+describe('users.requestOwnEmailChange', () => {
+  test('rejects unauthenticated callers', async () => {
+    await expect(anonCaller().users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects callers with no user row', async () => {
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('blocks the request while impersonating another user', async () => {
+    await seedLoggedInUser();
+
+    await expect(createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth! },
+      impersonation: { adminEmail: 'admin@example.com', adminSub: 'admin-sub', targetEmail: 'test@example.com' },
+    }).users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: expect.stringContaining('impersonating') });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects malformed emails', async () => {
+    await seedLoggedInUser();
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'not-an-email' }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects a new email equal to the current one, case-insensitively', async () => {
+    await seedLoggedInUser();
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: ' TEST@Example.com ' }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: expect.stringContaining('same as the current email') });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('rejects a new email already held by another user, case-insensitively', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(userTable, {
+      id: 'other-id', email: 'taken@example.com', name: 'Other', keycloakIdentifier: 'other-sub',
+    });
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'Taken@Example.com' }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('sends a verification email for the caller\'s own account, and changes nothing', async () => {
+    await seedLoggedInUser();
+
+    const result = await createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: ' New@Example.com ' });
+
+    expect(result).toEqual({ sentTo: 'new@example.com' });
+    expect(updateKeycloakEmail).not.toHaveBeenCalled();
+    expect(updateCustomerIoEmail).not.toHaveBeenCalled();
+    expect((await testDb.get(userTable, { id: 'test-user' })).email).toBe('test@example.com');
+
+    expect(sendEmailChangeVerification).toHaveBeenCalledTimes(1);
+    const call = vi.mocked(sendEmailChangeVerification).mock.calls[0]![0];
+    expect(call.oldEmail).toBe('test@example.com');
+    expect(call.newEmail).toBe('new@example.com');
+    expect(call.confirmUrl).toContain(`${ROUTES.confirmEmailChange.url}?token=`);
+
+    expect(sendEmailChangeRequestedNotice).toHaveBeenCalledWith({ oldEmail: 'test@example.com', newEmail: 'new@example.com' });
+  });
+
+  test('mints a token bound to the caller, never to another user who happens to be seeded', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(userTable, {
+      id: 'other-id', email: 'other@example.com', name: 'Other', keycloakIdentifier: 'other-sub',
+    });
+
+    await createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' });
+
+    const { confirmUrl } = vi.mocked(sendEmailChangeVerification).mock.calls[0]![0];
+    const payload = await verifyEmailChangeToken(decodeURIComponent(confirmUrl.split('token=')[1]!));
+    expect(payload).toMatchObject({ userId: 'test-user', oldEmail: 'test@example.com', newEmail: 'new@example.com' });
+  });
+
+  test('the token it mints is accepted by confirmEmailChange', async () => {
+    await seedLoggedInUser();
+
+    await createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' });
+    const { confirmUrl } = vi.mocked(sendEmailChangeVerification).mock.calls[0]![0];
+    const token = decodeURIComponent(confirmUrl.split('token=')[1]!);
+
+    const result = await anonCaller().users.confirmEmailChange({ token });
+
+    expect(result).toEqual({ newEmail: 'new@example.com', loginMethods: { hasPassword: true, hasGoogleLogin: false } });
+    expect(updateKeycloakEmail).toHaveBeenCalledWith('test-sub', 'new@example.com');
+    expect((await testDb.get(userTable, { id: 'test-user' })).email).toBe('new@example.com');
+  });
+
+  test('the flow works when the stored email is not normalised', async () => {
+    await testDb.insert(userTable, { id: 'test-user', email: '  MiXeD.Case@Example.COM ', keycloakIdentifier: 'test-sub' });
+
+    await createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' });
+    const { confirmUrl } = vi.mocked(sendEmailChangeVerification).mock.calls[0]![0];
+    const token = decodeURIComponent(confirmUrl.split('token=')[1]!);
+
+    const result = await anonCaller().users.confirmEmailChange({ token });
+
+    expect(result).toMatchObject({ newEmail: 'new@example.com' });
+    expect((await testDb.get(userTable, { id: 'test-user' })).email).toBe('new@example.com');
+  });
+
+  test('surfaces a send failure to the user', async () => {
+    await seedLoggedInUser();
+    vi.mocked(sendEmailChangeVerification).mockRejectedValue(new Error('send failed'));
+
+    await expect(createCaller(testAuthContextLoggedIn).users.requestOwnEmailChange({ newEmail: 'new@example.com' }))
+      .rejects.toMatchObject({ message: expect.stringContaining('send failed') });
+  });
+});
+
+describe('users.requestOwnEmailChange rate limiting', () => {
+  const ownCaller = () => createCaller(testAuthContextLoggedIn);
+
+  const attemptOwnEmailChange = (newEmail: string): Promise<string> => ownCaller()
+    .users.requestOwnEmailChange({ newEmail })
+    .then(() => 'SENT')
+    .catch((error: unknown) => (error as TRPCError).code);
+
+  test('allows three attempts per window, then rejects with the wait time and sends nothing', async () => {
+    await seedLoggedInUser();
+
+    expect(await attemptOwnEmailChange('one@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('two@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('three@example.com')).toBe('SENT');
+
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(Date.now() + 20 * 60 * 1000);
+    vi.mocked(sendEmailChangeVerification).mockClear();
+
+    await expect(ownCaller().users.requestOwnEmailChange({ newEmail: 'four@example.com' }))
+      .rejects.toMatchObject({
+        code: 'TOO_MANY_REQUESTS',
+        message: expect.stringContaining('You\'ve tried to change your email 3 times in the last 30 minutes. If you\'re waiting for a confirmation email, check your spam folder, or try again in about 10 minutes.'),
+      });
+    expect(sendEmailChangeVerification).not.toHaveBeenCalled();
+  });
+
+  test('failed attempts count toward the limit', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(userTable, {
+      id: 'holder-id', email: 'taken@example.com', name: 'Holder', keycloakIdentifier: 'holder-sub',
+    });
+
+    expect(await attemptOwnEmailChange('taken@example.com')).toBe('CONFLICT');
+    expect(await attemptOwnEmailChange('taken@example.com')).toBe('CONFLICT');
+    expect(await attemptOwnEmailChange('taken@example.com')).toBe('CONFLICT');
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('TOO_MANY_REQUESTS');
+  });
+
+  test('attempts that fail on our own infra are refunded and do not count toward the limit', async () => {
+    await seedLoggedInUser();
+    vi.mocked(sendEmailChangeVerification).mockRejectedValue(new Error('customer.io is down'));
+
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('INTERNAL_SERVER_ERROR');
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('INTERNAL_SERVER_ERROR');
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('INTERNAL_SERVER_ERROR');
+
+    vi.mocked(sendEmailChangeVerification).mockResolvedValue(undefined);
+    expect(await attemptOwnEmailChange('new@example.com')).toBe('SENT');
+  });
+
+  test('a blocked request is allowed again once the window has passed', async () => {
+    await seedLoggedInUser();
+
+    expect(await attemptOwnEmailChange('one@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('two@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('three@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('four@example.com')).toBe('TOO_MANY_REQUESTS');
+
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    vi.setSystemTime(Date.now() + 31 * 60 * 1000);
+
+    expect(await attemptOwnEmailChange('four@example.com')).toBe('SENT');
+  });
+
+  test('limits each user separately', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(userTable, {
+      id: 'other-id', email: 'other@example.com', name: 'Other', keycloakIdentifier: 'other-sub',
+    });
+
+    expect(await attemptOwnEmailChange('one@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('two@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('three@example.com')).toBe('SENT');
+    expect(await attemptOwnEmailChange('four@example.com')).toBe('TOO_MANY_REQUESTS');
+
+    await expect(callerAs('other-sub').users.requestOwnEmailChange({ newEmail: 'four@example.com' }))
+      .resolves.toEqual({ sentTo: 'four@example.com' });
+  });
+
+  test('does not limit the admin requestEmailChange procedure', async () => {
+    await seedAdmin();
+    await seedTarget();
+    const admin = callerAs('admin-sub');
+
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'one@example.com' });
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'two@example.com' });
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'three@example.com' });
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'four@example.com' });
+
+    await expect(admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'five@example.com' }))
+      .resolves.toEqual({ sentTo: 'five@example.com' });
+    expect(sendEmailChangeVerification).toHaveBeenCalledTimes(5);
   });
 });
 

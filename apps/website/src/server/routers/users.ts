@@ -6,12 +6,14 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
-import { sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
+import { sendEmailChangeRequestedNotice, sendEmailChangeVerification, updateCustomerIoEmail } from '../../lib/api/customerio';
 import { createEmailChangeToken, verifyEmailChangeToken } from '../../lib/api/emailChangeToken';
 import {
   adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
 } from '../../lib/api/keycloak';
 import { normaliseEmail } from '../../lib/api/utils';
+import { ONE_MINUTE_MS } from '../../lib/constants';
+import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { ROUTES } from '../../lib/routes';
@@ -33,6 +35,54 @@ async function isEmailTaken(email: string, excludeUserId: string, excludeUserSub
 const getEmailChangeConfirmUrl = (token: string) => {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
   return `${siteUrl}${ROUTES.confirmEmailChange.url}?token=${encodeURIComponent(token)}`;
+};
+
+async function sendEmailChangeConfirmation(
+  user: { id: string; email: string; keycloakIdentifier: string | null },
+  newEmail: string,
+): Promise<void> {
+  if (!user.keycloakIdentifier) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'User has no linked login account' });
+  }
+
+  if (normaliseEmail(user.email) === newEmail) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'New email is the same as the current email' });
+  }
+
+  if (await isEmailTaken(newEmail, user.id, user.keycloakIdentifier)) {
+    throw new TRPCError({ code: 'CONFLICT', message: 'Another user already has this email' });
+  }
+
+  const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail });
+  await sendEmailChangeVerification({ oldEmail: user.email, newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
+}
+
+const RATE_LIMIT_WINDOW_MINUTES = 30;
+const RATE_LIMIT_WINDOW_MS = RATE_LIMIT_WINDOW_MINUTES * ONE_MINUTE_MS;
+const RATE_LIMIT_MAX_ATTEMPTS = 3;
+
+const emailChangeAttemptsByUserId = new Map<string, number[]>();
+
+const assertWithinEmailChangeRateLimit = (userId: string): void => {
+  const now = Date.now();
+  const recent = (emailChangeAttemptsByUserId.get(userId) ?? []).filter((at) => now - at < RATE_LIMIT_WINDOW_MS);
+  emailChangeAttemptsByUserId.set(userId, recent);
+
+  if (recent.length >= RATE_LIMIT_MAX_ATTEMPTS) {
+    const minutesLeft = Math.max(1, Math.ceil((Math.min(...recent) + RATE_LIMIT_WINDOW_MS - now) / ONE_MINUTE_MS));
+    throw new TRPCError({
+      code: 'TOO_MANY_REQUESTS',
+      message: `You've tried to change your email ${RATE_LIMIT_MAX_ATTEMPTS} times in the last ${RATE_LIMIT_WINDOW_MINUTES} minutes. If you're waiting for a confirmation email, check your spam folder, or try again in about ${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}.`,
+    });
+  }
+};
+
+const recordEmailChangeAttempt = (userId: string): void => {
+  emailChangeAttemptsByUserId.set(userId, [...(emailChangeAttemptsByUserId.get(userId) ?? []), Date.now()]);
+};
+
+export const resetEmailChangeRateLimits = (): void => {
+  emailChangeAttemptsByUserId.clear();
 };
 
 // By the time this runs the email change has already been applied in Keycloak and the user table,
@@ -178,7 +228,7 @@ export const usersRouter = router({
   requestEmailChange: adminProcedure
     .input(z.object({
       userId: z.string().min(1),
-      newEmail: z.string().trim().toLowerCase().email(),
+      newEmail: newEmailSchema,
     }))
     .mutation(async ({ input, ctx }) => {
       const user = await db.getFirst(userTable, { filter: { id: input.userId } });
@@ -186,22 +236,39 @@ export const usersRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
       }
 
-      if (!user.keycloakIdentifier) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'User has no linked login account' });
-      }
-
-      if (normaliseEmail(user.email) === input.newEmail) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'New email is the same as the current email' });
-      }
-
-      if (await isEmailTaken(input.newEmail, user.id, user.keycloakIdentifier)) {
-        throw new TRPCError({ code: 'CONFLICT', message: 'Another user already has this email' });
-      }
-
-      const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail: input.newEmail });
-      await sendEmailChangeVerification({ oldEmail: user.email, newEmail: input.newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
+      await sendEmailChangeConfirmation(user, input.newEmail);
 
       logger.info(`[EmailChange] admin ${impersonationRealIdentity(ctx).sub} requested email change for user ${user.id}: ${user.email} -> ${input.newEmail}`);
+
+      return { sentTo: input.newEmail };
+    }),
+
+  requestOwnEmailChange: protectedProcedure
+    .input(z.object({ newEmail: newEmailSchema }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.impersonation) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change email when impersonating another user' });
+      }
+
+      const user = await getUserFromAuthOrThrow(ctx.auth);
+
+      assertWithinEmailChangeRateLimit(user.id);
+
+      try {
+        await sendEmailChangeConfirmation(user, input.newEmail);
+        recordEmailChangeAttempt(user.id);
+      } catch (error) {
+        if (error instanceof TRPCError) {
+          recordEmailChangeAttempt(user.id);
+        }
+
+        throw error;
+      }
+
+      sendEmailChangeRequestedNotice({ oldEmail: user.email, newEmail: input.newEmail })
+        .catch((error: unknown) => slackAlert(env, [`[EmailChange] courtesy notice to the old email failed for user ${user.id}: ${error instanceof Error ? error.message : String(error)}`]));
+
+      logger.info(`[EmailChange] user ${user.id} requested their own email change: ${user.email} -> ${input.newEmail}`);
 
       return { sentTo: input.newEmail };
     }),

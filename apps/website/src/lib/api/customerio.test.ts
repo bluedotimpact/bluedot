@@ -1,7 +1,7 @@
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { sendEmailChangeVerification, updateCustomerIoEmail } from './customerio';
+import { sendEmailChangeRequestedNotice, sendEmailChangeVerification, updateCustomerIoEmail } from './customerio';
 import env from './env';
 
 vi.mock('./env', () => ({
@@ -377,6 +377,68 @@ describe('sendEmailChangeVerification', () => {
 
     try {
       await expect(sendEmailChangeVerification({ oldEmail: 'old@example.com', newEmail: 'new@example.com', confirmUrl: 'https://bluedot.org/x' }))
+        .rejects.toThrow('not configured');
+    } finally {
+      mutableEnv.CIO_APP_API_KEY = 'fake-app-key';
+    }
+
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('sendEmailChangeRequestedNotice', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  test('sends an inline transactional email to the old address, keyed to the old-email profile', async () => {
+    const fetchMock = vi.fn(async () => jsonResponse(200, { delivery_id: 'd1' }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    await sendEmailChangeRequestedNotice({ oldEmail: '  Old@Example.COM ', newEmail: ' New@Example.com ' });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0]! as unknown as [string, { method: string; body: string }];
+    expect(url).toBe('https://api-eu.customer.io/v1/send/email');
+    expect(init.method).toBe('POST');
+    const body = JSON.parse(init.body) as { to: string; identifiers: { email: string }; send_to_unsubscribed: boolean; body: string; subject: string };
+    expect(body.to).toBe('old@example.com');
+    expect(body.identifiers).toEqual({ email: 'old@example.com' });
+    expect(body.send_to_unsubscribed).toBe(true);
+    expect(body.body).toContain('old@example.com');
+    expect(body.body).toContain('new@example.com');
+    expect(body.subject).toBeTruthy();
+  });
+
+  test('escapes the emails it interpolates into the body', async () => {
+    const fetchMock = vi.fn(async () => jsonResponse(200, { delivery_id: 'd1' }));
+    vi.stubGlobal('fetch', fetchMock);
+
+    await sendEmailChangeRequestedNotice({ oldEmail: '"<b>old</b>"@example.com', newEmail: '"<i>new</i>"@example.com' });
+
+    const [, init] = fetchMock.mock.calls[0]! as unknown as [string, { body: string }];
+    const body = JSON.parse(init.body) as { to: string; body: string };
+    expect(body.to).toBe('"<b>old</b>"@example.com');
+    expect(body.body).not.toContain('<b>');
+    expect(body.body).not.toContain('<i>');
+    expect(body.body).toContain('&#34;&#60;b&#62;old&#60;/b&#62;&#34;@example.com');
+  });
+
+  test('throws when the send fails', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse(400, { meta: { error: 'bad' } })));
+
+    await expect(sendEmailChangeRequestedNotice({ oldEmail: 'old@example.com', newEmail: 'new@example.com' }))
+      .rejects.toThrow('HTTP 400');
+  });
+
+  test('throws when the App API key is not configured', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    const mutableEnv = env as { CIO_APP_API_KEY?: string };
+    mutableEnv.CIO_APP_API_KEY = undefined;
+
+    try {
+      await expect(sendEmailChangeRequestedNotice({ oldEmail: 'old@example.com', newEmail: 'new@example.com' }))
         .rejects.toThrow('not configured');
     } finally {
       mutableEnv.CIO_APP_API_KEY = 'fake-app-key';

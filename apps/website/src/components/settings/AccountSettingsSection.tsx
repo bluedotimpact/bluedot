@@ -9,8 +9,10 @@ import { TRPCClientError } from '@trpc/client';
 import { useEffect, useRef, useState } from 'react';
 import { changePasswordWithConfirmSchema } from '../../lib/schemas/user/changePassword.schema';
 import { trpc } from '../../utils/trpc';
+import ChangeEmailModal from './ChangeEmailModal';
 
-const PasswordSection = () => {
+const AccountSettingsSection = () => {
+  const [showChangeEmailModal, setShowChangeEmailModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
 
@@ -26,16 +28,25 @@ const PasswordSection = () => {
 
   return (
     <>
-      {/* Password Section */}
+      {/* Account Settings Section */}
       <div className="mb-6">
-        <P className="font-semibold mb-2">Password</P>
-        <CTALinkOrButton
-          variant="secondary"
-          onClick={() => setShowChangePasswordModal(true)}
-          aria-label="Change password"
-        >
-          Change Password
-        </CTALinkOrButton>
+        <P className="font-semibold mb-2">Account settings</P>
+        <div className="flex flex-col items-start gap-3">
+          <CTALinkOrButton
+            variant="secondary"
+            onClick={() => setShowChangeEmailModal(true)}
+            aria-label="Change email"
+          >
+            Change email
+          </CTALinkOrButton>
+          <CTALinkOrButton
+            variant="secondary"
+            onClick={() => setShowChangePasswordModal(true)}
+            aria-label="Change password"
+          >
+            Change password
+          </CTALinkOrButton>
+        </div>
         {passwordUpdateSuccess && (
           <p
             className="text-size-sm text-green-600 mt-2"
@@ -46,6 +57,12 @@ const PasswordSection = () => {
           </p>
         )}
       </div>
+
+      {/* Change Email Modal */}
+      <ChangeEmailModal
+        isOpen={showChangeEmailModal}
+        setIsOpen={setShowChangeEmailModal}
+      />
 
       {/* Change Password Modal */}
       <ChangePasswordModal
@@ -171,8 +188,9 @@ const ChangePasswordModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Change Password">
-      <div className="space-y-4">
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Change password" bottomDrawerOnMobile>
+      <div className="w-full max-w-modal space-y-4">
+        <div className="h-0 w-[600px] max-w-full" />
         <div>
           <Input
             ref={currentPasswordRef}
@@ -186,7 +204,7 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter current password"
-            label="Current Password*"
+            label="Current password*"
             aria-label="Current password"
             aria-describedby={
               errors.current ? 'current-password-error' : undefined
@@ -218,7 +236,7 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter new password"
-            label="New Password*"
+            label="New password*"
             aria-label="New password"
             aria-describedby={
               errors.new ? 'new-password-error' : 'new-password-hint'
@@ -228,7 +246,7 @@ const ChangePasswordModal = ({
           />
           {!errors.new && (
             <p
-              className="text-gray-600 text-size-sm mt-1"
+              className="text-charcoal-mid text-size-sm mt-1"
               id="new-password-hint"
             >
               Password must be at least 8 characters
@@ -258,7 +276,7 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Confirm new password"
-            label="Confirm New Password*"
+            label="Confirm new password*"
             aria-label="Confirm new password"
             aria-describedby={
               errors.confirm ? 'confirm-password-error' : undefined
@@ -299,7 +317,7 @@ const ChangePasswordModal = ({
                 <span>Updating...</span>
               </span>
             ) : (
-              'Update Password'
+              'Update password'
             )}
           </CTALinkOrButton>
         </div>
@@ -308,4 +326,4 @@ const ChangePasswordModal = ({
   );
 };
 
-export default PasswordSection;
+export default AccountSettingsSection;

@@ -6,9 +6,9 @@ import { TRPCError } from '@trpc/server';
 import { describe, expect, test } from 'vitest';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import PasswordSection from './PasswordSection';
+import AccountSettingsSection from './AccountSettingsSection';
 
-describe('PasswordSection - User Journeys', () => {
+describe('AccountSettingsSection - User Journeys', () => {
   // Test data
   const validPasswords = {
     current: 'MyCurrentPassword123!',
@@ -41,7 +41,7 @@ describe('PasswordSection - User Journeys', () => {
   test('User can successfully change their password', async () => {
     server.use(trpcMsw.users.changePassword.mutation(() => ({ message: 'Password updated successfully' })));
 
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     // User clicks "Change Password" button
     openPasswordModal();
@@ -67,7 +67,7 @@ describe('PasswordSection - User Journeys', () => {
       throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Incorrect password' });
     }));
 
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
@@ -93,7 +93,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees validation errors for invalid inputs', async () => {
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -127,7 +127,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can cancel password change', async () => {
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -151,7 +151,7 @@ describe('PasswordSection - User Journeys', () => {
   test('User can submit form with Enter key', async () => {
     server.use(trpcMsw.users.changePassword.mutation(() => ({ message: 'Password updated successfully' })));
 
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
     fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
@@ -173,7 +173,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees helpful password hint', () => {
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -192,7 +192,7 @@ describe('PasswordSection - User Journeys', () => {
 
     server.use(trpcMsw.users.changePassword.mutation(() => promise));
 
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
     fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
@@ -217,7 +217,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can close modal with Escape key', async () => {
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -248,7 +248,7 @@ describe('PasswordSection - User Journeys', () => {
       });
     }));
 
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
@@ -273,7 +273,7 @@ describe('PasswordSection - User Journeys', () => {
       });
     }));
 
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
@@ -290,6 +290,15 @@ describe('PasswordSection - User Journeys', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
+  test('User can open the change email modal from the account settings section', () => {
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
+
+    fireEvent.click(screen.getByRole('button', { name: /change email/i }));
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Change email' })).toBeInTheDocument();
+    expect(screen.getByLabelText(/new email/i)).toBeInTheDocument();
+  });
+
   test('User sees fallback error message when backend error has no details', async () => {
     server.use(trpcMsw.users.changePassword.mutation(() => {
       throw new TRPCError({
@@ -298,7 +307,7 @@ describe('PasswordSection - User Journeys', () => {
       });
     }));
 
-    render(<PasswordSection />, { wrapper: TrpcProvider });
+    render(<AccountSettingsSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
