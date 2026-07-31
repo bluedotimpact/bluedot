@@ -1,10 +1,11 @@
 import {
-  PiBriefcase,
-  PiCompass,
+  PiCpu,
   PiFlask,
   PiHandCoins,
   PiRocketLaunch,
+  PiScales,
   PiUsersThree,
+  PiWrench,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
@@ -40,32 +41,43 @@ export const createBioSecurityContent = (
     imageAspectRatio: '1408/1122',
   },
 
-  whoIsThisFor: {
-    iconBackgroundColor: BIOSECURITY_COLORS.iconBackground,
+  personas: {
     title: 'Who this course is for',
-    targetAudiences: [
+    accentColor: BIOSECURITY_COLORS.iconBackground,
+    defaultExpandedIndex: -1,
+    footerText: 'Don\'t fit these perfectly? Apply anyway.',
+    personas: [
+      {
+        icon: PiCpu,
+        title: 'Computer scientists & AI researchers',
+        summary: 'You care about AI safety. Bioweapons are one of the main ways AGI could cause large-scale harm.',
+        description: 'You know how to manage massive codebases or have experience fine-tuning models. You take AI safety seriously. We think that biosecurity is crucial for AGI to go well. Our program assumes no biology background and will show you exactly where your skills apply.',
+      },
+      {
+        icon: PiWrench,
+        title: 'Builders & serial entrepreneurs',
+        summary: 'You previously thought "that should exist" and then made it happen. Biosecurity needs builders.',
+        description: 'You\'ve founded a company, run operations somewhere early-stage or just enjoy building things people like to use. Many of the countermeasures, tools and organizations that would prepare us for the next pandemic currently only exist as drafts in Google Docs. Our program assumes no biology background and gives you the context and community to start building.',
+      },
       {
         icon: PiFlask,
-        boldText: 'Engineers and scientists',
-        description: 'who want to defend against pandemics.',
+        title: 'Scientists & domain experts',
+        summary: 'You have deep expertise. Biosecurity needs it for building pandemic defenses.',
+        description: 'You\'ve spent years in academia or industry, going deep in fields like synthetic biology, aerosol science or immunology. That depth is critical to producing the insights that policy professionals and builders in biosecurity rely on. Our program gives you the context and connections so you can contribute your expertise to the highest-impact opportunities.',
       },
       {
-        icon: PiBriefcase,
-        boldText: 'Policy professionals',
-        description: 'who want to contribute to biosecurity policy.',
+        icon: PiScales,
+        title: 'Policy professionals',
+        summary: 'You have spent years building your network and know how to move policy. Biosecurity has serious unsolved policy problems.',
+        description: 'You\'ve worked in government or in advocacy and have the political instincts to get things done. Many parts of biosecurity policy are still unsolved: governing dual-use research, funding public goods, strengthening international agreements. What\'s usually missing are people who pair political skill with enough technical grounding to be credible. This program gives you that grounding, so you\'re effective where it counts.',
       },
       {
-        icon: PiCompass,
-        boldText: 'Entrepreneurs',
-        description: 'who want to build new pandemic defences.',
+        icon: PiRocketLaunch,
+        title: 'High-potential people, any field',
+        summary: 'You are exceptionally good at what you do. Biosecurity needs profiles we haven\'t thought to look for.',
+        description: 'We expect that biosecurity talent will come from fields that look nothing like it. If you care about the future going well and are great at what you do, we would be excited to see you apply. Our program gives you the context and connections so you can contribute your skills to the highest-impact opportunities.',
       },
     ],
-    bottomCta: {
-      boldText: 'Don\'t fit these perfectly? Apply anyway.',
-      text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
-      buttonText: 'Apply now',
-      buttonUrl: applicationUrlWithUtm,
-    },
   },
 
   courseBenefitsPlacement: 'beforePathways',
