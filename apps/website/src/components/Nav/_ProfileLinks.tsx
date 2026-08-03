@@ -25,6 +25,7 @@ export const ProfileLinks: React.FC<{
   const { openBugReport } = useBugReport();
 
   const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
+  const { data: isAdmin } = trpc.admin.isUserAdmin.useQuery();
   const { data: facilitatorData } = trpc.myBluedot.hasFacilitatorRegistrations.useQuery();
   const { data: applicationsData } = trpc.myBluedot.hasFacilitatorRegistrations.useQuery({ includeWithdrawn: true });
   const profileRef = useClickOutside(
@@ -116,6 +117,14 @@ export const ProfileLinks: React.FC<{
             >
               Impersonate a user
             </button>
+          )}
+          {isAdmin && (
+            <A
+              href={ROUTES.admin.url}
+              className={getNavLinkClasses()}
+              onClick={onToggleProfile}
+            >Admin tools
+            </A>
           )}
           <button
             type="button"
