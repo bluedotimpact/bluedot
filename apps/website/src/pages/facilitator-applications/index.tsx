@@ -1,9 +1,10 @@
 import {
-  CTALinkOrButton, ErrorSection, H2, ProgressDots,
+  CTALinkOrButton, ErrorSection, H2, ProgressDots, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import DropoutModal from '../../components/courses/DropoutModal';
 import ApplicationRow from '../../components/facilitator-applications/ApplicationRow';
 import {
   APPLICATION_TABS,
@@ -33,6 +34,24 @@ const sortByNewestFirst = (apps: FacilitatorApplicationListItem[]): FacilitatorA
     if (!bDate) return -1;
     return bDate.localeCompare(aDate);
   });
+};
+
+const buildMenuItems = (
+  app: FacilitatorApplicationListItem,
+  onWithdraw: () => void,
+): OverflowMenuItemProps[] => {
+  const items: OverflowMenuItemProps[] = [];
+
+  if (app.decision === 'Accept' && app.courseSlug) {
+    items.push({ id: 'go-to-course', label: 'Go to course', href: `/courses/${app.courseSlug}` });
+  }
+
+  // Note: Should match rule in `getFacilitatorActions` in `useCourseListRow.tsx`
+  if (app.decision === null && app.roundStatus === 'Future') {
+    items.push({ id: 'withdraw', label: 'Withdraw application', onAction: onWithdraw });
+  }
+
+  return items;
 };
 
 const EMPTY_BY_TAB: Record<ApplicationTab, { title: string; description: string }> = {
@@ -66,6 +85,7 @@ const FacilitatorApplicationsPage = () => {
   const { data, isLoading, error } = trpc.facilitatorApplications.list.useQuery();
 
   const [showAll, setShowAll] = useState(false);
+  const [withdrawingId, setWithdrawingId] = useState<string | null>(null);
 
   const visible = data ? sortByNewestFirst(filterByTab(data, activeTab)) : [];
   const paginate = activeTab === 'past';
@@ -100,31 +120,19 @@ const FacilitatorApplicationsPage = () => {
               ) : (
                 <>
                   <ul className="flex flex-col gap-3">
-                    {displayed.map((app) => {
-                      const menuItems
-                        = app.decision === 'Accept' && app.courseSlug
-                          ? [
-                            {
-                              id: 'go-to-course',
-                              label: 'Go to course',
-                              href: `/courses/${app.courseSlug}`,
-                            },
-                          ]
-                          : undefined;
-                      return (
-                        <ApplicationRow
-                          key={app.id}
-                          id={app.id}
-                          courseTitle={app.courseTitle}
-                          courseSlug={app.courseSlug}
-                          roundName={app.roundName}
-                          roundFirstDiscussionDate={app.roundFirstDiscussionDate}
-                          roundLastDiscussionDate={app.roundLastDiscussionDate}
-                          status={getApplicationStatus(app)}
-                          menuItems={menuItems}
-                        />
-                      );
-                    })}
+                    {displayed.map((app) => (
+                      <ApplicationRow
+                        key={app.id}
+                        id={app.id}
+                        courseTitle={app.courseTitle}
+                        courseSlug={app.courseSlug}
+                        roundName={app.roundName}
+                        roundFirstDiscussionDate={app.roundFirstDiscussionDate}
+                        roundLastDiscussionDate={app.roundLastDiscussionDate}
+                        status={getApplicationStatus(app)}
+                        menuItems={buildMenuItems(app, () => setWithdrawingId(app.id))}
+                      />
+                    ))}
                   </ul>
                   {hiddenCount > 0 && (
                     <div className="flex justify-center">
@@ -139,6 +147,13 @@ const FacilitatorApplicationsPage = () => {
           )}
         </div>
       </MyBlueDotLayout>
+      {withdrawingId && (
+        <DropoutModal
+          variant="withdraw"
+          applicantId={withdrawingId}
+          handleClose={() => setWithdrawingId(null)}
+        />
+      )}
     </div>
   );
 };

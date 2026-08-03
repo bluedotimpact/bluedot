@@ -24,6 +24,16 @@ export const Pending: Story = {
   args: { ...base, status: 'pending' },
 };
 
+export const PendingWithWithdraw: Story = {
+  args: {
+    ...base,
+    status: 'pending',
+    menuItems: [
+      { id: 'withdraw', label: 'Withdraw application', onAction: () => {} },
+    ],
+  },
+};
+
 export const AcceptedWithGoToCourse: Story = {
   args: {
     ...base,

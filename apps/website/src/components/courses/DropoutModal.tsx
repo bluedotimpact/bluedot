@@ -30,6 +30,14 @@ const MAX_ROUNDS_PER_INTENSITY = 3;
 
 type DropoutModalProps = {
   applicantId: string;
+  handleClose: () => void;
+} & (
+  | { variant: 'withdraw' }
+  | { variant?: 'dropOrDefer'; courseSlug: string; currentRoundId: string | null }
+);
+
+type DropOrDeferModalProps = {
+  applicantId: string;
   courseSlug: string;
   currentRoundId: string | null;
   handleClose: () => void;
@@ -52,7 +60,15 @@ const intensityOfRound = (
   return null;
 };
 
-const DropoutModal: React.FC<DropoutModalProps> = ({
+const DropoutModal: React.FC<DropoutModalProps> = (props) => {
+  if (props.variant === 'withdraw') {
+    return <WithdrawConfirm applicantId={props.applicantId} handleClose={props.handleClose} />;
+  }
+
+  return <DropOrDeferModal {...props} />;
+};
+
+const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
   applicantId, courseSlug, currentRoundId, handleClose,
 }) => {
   const [dropoutType, setDropoutType] = useState<DropoutType | undefined>();
@@ -294,6 +310,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
       void utils.courseRegistrations.getAll.invalidate();
       void utils.myBluedot.myCoursesPage.invalidate();
       void utils.myBluedot.facilitatedCoursesPage.invalidate();
+      void utils.facilitatorApplications.list.invalidate();
     }
 
     handleClose();
