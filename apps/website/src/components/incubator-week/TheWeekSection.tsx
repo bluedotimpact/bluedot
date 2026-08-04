@@ -1,4 +1,5 @@
 import { H3, H4, P } from '@bluedot/ui';
+import { Pill } from '../Pill';
 
 const SCHEDULE = [
   {
@@ -36,9 +37,7 @@ const TheWeekSection = () => {
               className="flex flex-col bd-md:flex-row bd-md:items-baseline gap-3 bd-md:gap-10 py-6"
             >
               <div className="bd-md:w-40 bd-md:shrink-0">
-                <span className="inline-flex items-center rounded-full bg-bluedot-navy/[0.06] px-3 py-1 text-size-xxs font-semibold uppercase tracking-[0.12em] text-bluedot-navy/70">
-                  {item.cadence}
-                </span>
+                <Pill>{item.cadence}</Pill>
               </div>
               <div className="flex flex-col gap-2">
                 <H4>
