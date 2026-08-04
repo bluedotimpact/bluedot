@@ -164,7 +164,7 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
                 {course.title}
               </span>
               {isNew && (
-                <span className="bg-bluedot-lightest text-bluedot-normal text-size-xxs font-bold leading-[24px] px-1.5 rounded-md">
+                <span className="bg-bluedot-lightest text-bluedot-normal text-size-xxs font-bold leading-6 px-1.5 rounded-md">
                   NEW
                 </span>
               )}
