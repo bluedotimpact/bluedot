@@ -90,7 +90,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   return (
     <div
       className={clsx(
-        'w-full border-b border-color-divider bg-bluedot-lighter text-bluedot-darker',
+        'w-full border-b border-charcoal-light bg-bluedot-lighter text-bluedot-darker',
         className,
       )}
     >
