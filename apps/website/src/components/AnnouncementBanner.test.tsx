@@ -17,18 +17,13 @@ describe('AnnouncementBanner', () => {
   test('renders the banner with content', () => {
     render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
 
-    const content = screen.getByText('Test Announcement');
-    expect(content).toBeDefined();
-
-    // Banner container should be rendered
-    const banner = document.querySelector('.announcement-banner');
-    expect(banner).toBeDefined();
+    expect(screen.getByText('Test Announcement')).toBeDefined();
   });
 
   test('renders with custom className', () => {
-    render(<AnnouncementBanner className="custom-class">Test Announcement</AnnouncementBanner>);
+    const { container } = render(<AnnouncementBanner className="custom-class">Test Announcement</AnnouncementBanner>);
 
-    const banner = document.querySelector('.announcement-banner');
+    const banner = container.firstElementChild;
     expect(banner?.className).toContain('custom-class');
   });
 
@@ -41,8 +36,7 @@ describe('AnnouncementBanner', () => {
   test('does not render CTA button when ctaUrl is not provided', () => {
     render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
 
-    const cta = document.querySelector('.announcement-banner__cta');
-    expect(cta).toBeNull();
+    expect(screen.queryByRole('link')).toBeNull();
   });
 
   test('renders CTA button when ctaUrl is provided', () => {
@@ -50,12 +44,7 @@ describe('AnnouncementBanner', () => {
       Test Announcement
     </AnnouncementBanner>);
 
-    const cta = document.querySelector('.announcement-banner__cta');
-    expect(cta).toBeDefined();
-
-    // Check if the CTALinkOrButton has the correct props
     const ctaLink = screen.getByRole('link');
-    expect(ctaLink).toBeDefined();
     expect(ctaLink.getAttribute('href')).toBe('https://example.com');
     expect(ctaLink.textContent).toBe('Learn more'); // Default text
   });
@@ -72,13 +61,11 @@ describe('AnnouncementBanner', () => {
   test('does not render when current date is before hideUntil date', () => {
     const futureDate = new Date(Date.now() + ONE_DAY_MS);
 
-    const { container } = render(<AnnouncementBanner hideUntil={futureDate}>
+    render(<AnnouncementBanner hideUntil={futureDate}>
       Test Announcement
     </AnnouncementBanner>);
 
-    // Banner should not be rendered
-    const banner = container.querySelector('.announcement-banner');
-    expect(banner).toBeNull();
+    expect(screen.queryByText('Test Announcement')).toBeNull();
   });
 
   test('renders when current date is after hideUntil date', () => {
@@ -88,21 +75,17 @@ describe('AnnouncementBanner', () => {
       Test Announcement
     </AnnouncementBanner>);
 
-    // Banner should be rendered
-    const banner = document.querySelector('.announcement-banner');
-    expect(banner).toBeDefined();
+    expect(screen.getByText('Test Announcement')).toBeDefined();
   });
 
   test('does not render when current date is after hideAfter date', () => {
     const pastDate = new Date(Date.now() - ONE_DAY_MS);
 
-    const { container } = render(<AnnouncementBanner hideAfter={pastDate}>
+    render(<AnnouncementBanner hideAfter={pastDate}>
       Test Announcement
     </AnnouncementBanner>);
 
-    // Banner should not be rendered
-    const banner = container.querySelector('.announcement-banner');
-    expect(banner).toBeNull();
+    expect(screen.queryByText('Test Announcement')).toBeNull();
   });
 
   test('renders when current date is before hideAfter date', () => {
@@ -112,9 +95,7 @@ describe('AnnouncementBanner', () => {
       Test Announcement
     </AnnouncementBanner>);
 
-    // Banner should be rendered
-    const banner = document.querySelector('.announcement-banner');
-    expect(banner).toBeDefined();
+    expect(screen.getByText('Test Announcement')).toBeDefined();
   });
 
   test('does not render when banner has been dismissed', () => {
@@ -124,13 +105,11 @@ describe('AnnouncementBanner', () => {
     // Set up dismissed banner state
     useAnnouncementBannerStore.setState({ dismissedBanners: { [bannerKey]: true } });
 
-    const { container } = render(<AnnouncementBanner>
+    render(<AnnouncementBanner>
       {textContent}
     </AnnouncementBanner>);
 
-    // Banner should not be rendered
-    const banner = container.querySelector('.announcement-banner');
-    expect(banner).toBeNull();
+    expect(screen.queryByText(textContent)).toBeNull();
   });
 
   test('renders when banner has not been dismissed', () => {
@@ -139,9 +118,7 @@ describe('AnnouncementBanner', () => {
       Test Announcement
     </AnnouncementBanner>);
 
-    // Banner should be rendered
-    const banner = document.querySelector('.announcement-banner');
-    expect(banner).toBeDefined();
+    expect(screen.getByText('Test Announcement')).toBeDefined();
   });
 
   test('calls dismissBanner when close button is clicked', () => {
@@ -153,18 +130,15 @@ describe('AnnouncementBanner', () => {
     </AnnouncementBanner>);
 
     // Banner is initially shown
-    const banner = document.querySelector('.announcement-banner');
-    expect(banner).toBeDefined();
+    expect(screen.getByText(textContent)).toBeDefined();
 
     const closeButton = screen.getByRole('button', { name: 'Close announcement' });
     fireEvent.click(closeButton);
 
     expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({ [bannerKey]: true });
 
-    // Re-query the banner after dismiss
-    const bannerAfterDismiss = document.querySelector('.announcement-banner');
     // Banner should be closed
-    expect(bannerAfterDismiss).toBeNull();
+    expect(screen.queryByText(textContent)).toBeNull();
   });
 
   test('does not render dismiss button when dismissible is false', () => {
@@ -172,8 +146,7 @@ describe('AnnouncementBanner', () => {
       Test Announcement
     </AnnouncementBanner>);
 
-    const banner = document.querySelector('.announcement-banner');
-    expect(banner).toBeDefined();
+    expect(screen.getByText('Test Announcement')).toBeDefined();
 
     const closeButton = screen.queryByRole('button', { name: 'Close announcement' });
     expect(closeButton).toBeNull();
@@ -189,8 +162,7 @@ describe('AnnouncementBanner', () => {
       {textContent}
     </AnnouncementBanner>);
 
-    const banner = document.querySelector('.announcement-banner');
-    expect(banner).not.toBeNull();
+    expect(screen.getByText(textContent)).toBeDefined();
   });
 
   test('getAnnouncementBannerKey produces consistent keys', () => {

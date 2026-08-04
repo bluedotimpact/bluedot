@@ -183,7 +183,7 @@ The production release workflow is defined in [.github/workflows/website_deploy_
 
 ## Fonts
 
-The website uses **Inter** for body text and **Inter Display** for headlines, while other apps in the monorepo continue to use the shared UI library fonts (Roobert and Reckless Neue).
+The website uses **Inter** for body text and **Inter Display** for headlines. The other apps in the monorepo use the same fonts, loaded over HTTPS from `https://bluedot.org/fonts/*` via the shared UI library's `@font-face` rules.
 
 ### Implementation Details
 
@@ -195,15 +195,23 @@ The website uses **Inter** for body text and **Inter Display** for headlines, wh
 **Do not delete any font files from `/public/fonts/`** - here's why:
 
 - The shared UI library (`/libraries/ui/`) defines font URLs pointing to `https://bluedot.org/fonts/*`
-- 8+ other apps (Storybook, Meet, Room, Editor, etc.) load Roobert/Reckless fonts from these URLs
+- 8+ other apps (Storybook, Meet, Room, Editor, etc.) load Inter/InterDisplay from these URLs
 - Deleting these fonts would break typography in all other apps
-- The website overrides fonts locally while serving them for other apps
+- The website loads fonts locally via `next/font` while serving the same files for other apps
+- Legacy Roobert/Reckless files are no longer referenced by the shared UI library, but external consumers still load them by URL
 
 ### Font Inventory
 
-**Legacy fonts (used by other apps via HTTPS):**
+**Legacy fonts (kept for external consumers):**
 - `Roobert-*.woff2` - Sans-serif (weights: 300, 400, 600, 700)
 - `RecklessNeue-*.woff2` - Serif (weights: 300, 300i, 700)
+
+No longer referenced anywhere in the monorepo (removed in the Inter migration), but kept because consumers outside this repo load them directly by URL.
+
+**Inter fonts (next/font here, HTTPS for every other app):**
+- `Inter-*.woff2` - Body text (weights: 400, 500, 600, 700)
+- `InterDisplay-*.woff2` - Headlines (weights: 400, 500, 600, 700), subsetted
+- `Inter-OFL.txt` - SIL Open Font License for Inter fonts
 
 These are loaded by the shared UI library (`libraries/ui/src/default-config/tailwind.css`) and consumed by the other apps in this monorepo:
 
@@ -215,11 +223,6 @@ These are loaded by the shared UI library (`libraries/ui/src/default-config/tail
 - `course-demos` — interactive course demos
 - `frontend-example` — example app
 - `app-template` — template for new apps
-
-**Inter fonts (next/font here, HTTPS for every other app):**
-- `Inter-*.woff2` - Body text (weights: 400, 500, 600, 700)
-- `InterDisplay-*.woff2` - Headlines (weights: 400, 500, 600, 700), subsetted
-- `Inter-OFL.txt` - SIL Open Font License for Inter fonts
 
 The shared UI library's `@font-face` rules point every other app at these same files, so replacing them changes typography monorepo-wide, not just on the website.
 

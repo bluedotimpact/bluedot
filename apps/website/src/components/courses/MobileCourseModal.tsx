@@ -85,7 +85,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
           <div className="flex items-center gap-4">
             <CourseIcon courseSlug={courseSlug} />
-            <ModalTitle className="leading-[40px]">
+            <ModalTitle>
               {courseTitle}
             </ModalTitle>
           </div>
