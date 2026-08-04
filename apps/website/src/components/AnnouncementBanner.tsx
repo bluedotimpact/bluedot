@@ -90,20 +90,20 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   return (
     <div
       className={clsx(
-        'announcement-banner w-full border-b border-color-divider bg-bluedot-lighter text-bluedot-darker',
+        'w-full border-b border-color-divider bg-bluedot-lighter text-bluedot-darker',
         className,
       )}
     >
-      <div className="announcement-banner__container section-base">
+      <div className="section-base">
         <div className="flex flex-col gap-3 py-3 sm:py-3.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
           <div className="min-w-0 flex-1">
             <div className="flex flex-col gap-1.5">
               {label && (
-                <span className="announcement-banner__label text-size-xxs font-semibold uppercase tracking-widest text-bluedot-normal">
+                <span className="text-size-xxs font-semibold uppercase tracking-widest text-bluedot-normal">
                   {label}
                 </span>
               )}
-              <P className="announcement-banner__content max-w-4xl text-pretty text-size-xs leading-6 text-bluedot-darker sm:text-size-sm">
+              <P className="max-w-4xl text-pretty text-size-xs leading-6 text-bluedot-darker sm:text-size-sm">
                 {children}
               </P>
             </div>
@@ -113,7 +113,6 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
             <div className="flex flex-wrap items-center gap-2">
               {ctaUrl && (
                 <CTALinkOrButton
-                  className="announcement-banner__cta"
                   size="small"
                   variant="black"
                   url={ctaUrl}
@@ -124,7 +123,6 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
               )}
               {dismissible && (
                 <CTALinkOrButton
-                  className="announcement-banner__close"
                   variant="outline-black"
                   size="small"
                   aria-label="Close announcement"
