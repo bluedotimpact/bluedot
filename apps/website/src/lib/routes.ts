@@ -159,6 +159,12 @@ const adminChangeEmail: BluedotRoute = {
   parentPages: [home, admin],
 };
 
+const adminDeletionRequests: BluedotRoute = {
+  title: 'Delete accounts',
+  url: '/admin/deletion-requests',
+  parentPages: [home, admin],
+};
+
 const confirmEmailChange: BluedotRoute = {
   title: 'Confirm email change',
   url: '/account/confirm-email-change',
@@ -169,6 +175,7 @@ export const ROUTES = {
   about,
   admin,
   adminChangeEmail,
+  adminDeletionRequests,
   adminSyncDashboard,
   adminUserExerciseResponses,
   confirmEmailChange,
