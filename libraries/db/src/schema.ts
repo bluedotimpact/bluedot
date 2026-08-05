@@ -696,45 +696,6 @@ export const facilitatorDiscussionSwitchingTable = pgAirtable('facilitator_discu
   },
 });
 
-export const blogTable = pgAirtable('blog', {
-  baseId: WEB_CONTENT_BASE_ID,
-  tableId: 'tblT8jgeG4QWX2Fj4',
-  columns: {
-    title: {
-      pgColumn: text(),
-      airtableId: 'fldB4uHuTqUd4JOsw',
-    },
-    slug: {
-      pgColumn: text(),
-      airtableId: 'fldSy5THCV7WOtYiN',
-    },
-    body: {
-      pgColumn: text(),
-      airtableId: 'fldesLVb1tJpsNkVl',
-    },
-    authorName: {
-      pgColumn: text(),
-      airtableId: 'fldBVD1meb54zRK8Q',
-    },
-    authorUrl: {
-      pgColumn: text(),
-      airtableId: 'fldEOlPQdbEmDxicJ',
-    },
-    publishedAt: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldjp3x46apAPAXo7',
-    },
-    publicationStatus: {
-      pgColumn: text(),
-      airtableId: 'fldiDvLbKKWNPeny4',
-    },
-    isFeatured: {
-      pgColumn: boolean(),
-      airtableId: 'fldBboUp1a7defS83',
-    },
-  },
-});
-
 export const jobPostingTable = pgAirtable('job_posting', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblGv8yisIfJMjT6K',
@@ -778,53 +739,6 @@ export const jobPostingTable = pgAirtable('job_posting', {
     priority: {
       pgColumn: text(),
       airtableId: 'fld819hEjDV1DI0je',
-    },
-  },
-});
-
-export const projectTable = pgAirtable('project', {
-  baseId: WEB_CONTENT_BASE_ID,
-  tableId: 'tblYCFWqPy29YIWe6',
-  columns: {
-    title: {
-      pgColumn: text(),
-      airtableId: 'fldGyQnG2U6q5p5ny',
-    },
-    slug: {
-      pgColumn: text(),
-      airtableId: 'fldX2rzTLpj9P9fdP',
-    },
-    body: {
-      pgColumn: text(),
-      airtableId: 'fldjW7BnaXVCttBQn',
-    },
-    authorName: {
-      pgColumn: text(),
-      airtableId: 'fldGpZHynFhhAx13S',
-    },
-    authorUrl: {
-      pgColumn: text(),
-      airtableId: 'fldJiHv2mFQzEdz7L',
-    },
-    coverImageSrc: {
-      pgColumn: text(),
-      airtableId: 'fldliLiVCys4rLX7S',
-    },
-    publishedAt: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldoTpdgfEBNQgej9',
-    },
-    publicationStatus: {
-      pgColumn: text(),
-      airtableId: 'fldn7RrnTe80QUEt6',
-    },
-    course: {
-      pgColumn: text(),
-      airtableId: 'fldNHNMuxmQjaokmY',
-    },
-    tag: {
-      pgColumn: text().array(),
-      airtableId: 'fldeTqWZOvybdopnK',
     },
   },
 });
@@ -1810,9 +1724,7 @@ export type Round = InferSelectModel<typeof roundTable.pg>;
 export type ProjectSubmission = InferSelectModel<typeof projectSubmissionTable.pg>;
 export type ApplicationsRound = InferSelectModel<typeof applicationsRoundTable.pg>;
 export type MeetCourse = InferSelectModel<typeof meetCourseTable.pg>;
-export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
-export type Project = InferSelectModel<typeof projectTable.pg>;
 export type Mission = InferSelectModel<typeof missionTable.pg>;
 export type Program = InferSelectModel<typeof programTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;

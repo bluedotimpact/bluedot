@@ -12,9 +12,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
     <div className="section-body gap-4 mt-6">
       <H1>BlueDot Editor</H1>
       <nav className="flex gap-2 mb-4">
-        <CTALinkOrButton variant={router.pathname.startsWith('/blogs') ? 'primary' : 'secondary'} url="/blogs">Blogs</CTALinkOrButton>
         <CTALinkOrButton variant={router.pathname.startsWith('/jobs') ? 'primary' : 'secondary'} url="/jobs">Job postings</CTALinkOrButton>
-        <CTALinkOrButton variant={router.pathname.startsWith('/projects') ? 'primary' : 'secondary'} url="/projects">Projects</CTALinkOrButton>
       </nav>
       {children}
     </div>
