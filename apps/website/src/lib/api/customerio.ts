@@ -174,7 +174,7 @@ export async function sendAccountDeletionRequestedNotice({ email }: { email: str
       subject: 'Account deletion requested',
       body: [
         '<p>A request was made to delete your BlueDot Impact account. Your account, including any course records, will be deleted shortly.</p>',
-        '<p>If this was not you, reply to this email so we can help.</p>',
+        '<p>If this was not intended, reply to this email so we can help.</p>',
       ].join('\n'),
     }),
   });

@@ -96,7 +96,7 @@ const AdminDeletionRequests = () => {
               <div key={request.id} className="container-lined p-4 flex flex-col gap-1">
                 <p className="font-semibold text-bluedot-navy break-words">{request.email}</p>
                 <p className="text-size-xs text-bluedot-navy/70">
-                  {request.status} &middot; requested {request.requestedAt} by {request.initiatedByRole}
+                  {request.status} &middot; requested {request.requestedAt}
                   {request.completedAt && ` · completed ${request.completedAt}`}
                 </p>
               </div>
