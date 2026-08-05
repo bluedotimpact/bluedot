@@ -112,6 +112,7 @@ export {
   getPgAirtableFromIds, PgAirtableTable, DeprecationSafePgTable, deprecationSafePgTable, isDeprecationSafeTable,
 } from './lib/db-core';
 export type { DeprecationSafeTable } from './lib/db-core';
+export type { PgAirtableColumnInput } from './lib/typeUtils';
 
 export { AirtableTsError, ErrorType } from 'airtable-ts/dist/AirtableTsError';
 

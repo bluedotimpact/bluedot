@@ -4,6 +4,7 @@ import { certificatesRouter } from './certificates';
 import { courseRegistrationsRouter } from './course-registrations';
 import { courseRoundsRouter } from './course-rounds';
 import { coursesRouter } from './courses';
+import { deletionRequestsRouter } from './deletion-requests';
 import { dropoutRouter } from './dropout';
 import { exercisesRouter } from './exercises';
 import { facilitatorApplicationsRouter } from './facilitator-applications';
@@ -31,6 +32,7 @@ export const appRouter = router({
   courseRegistrations: courseRegistrationsRouter,
   courseRounds: courseRoundsRouter,
   courses: coursesRouter,
+  deletionRequests: deletionRequestsRouter,
   dropout: dropoutRouter,
   exercises: exercisesRouter,
   facilitatorApplications: facilitatorApplicationsRouter,
