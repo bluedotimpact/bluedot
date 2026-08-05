@@ -1538,6 +1538,45 @@ export const userTable = pgAirtable('user', {
   },
 });
 
+export const deletionRequestTable = pgAirtable('deletion_request', {
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tbl0b9zoIUjBPsL84',
+  columns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldRboieO9P5yP4XD',
+    },
+    userId: {
+      pgColumn: text(),
+      airtableId: 'fldQxTXkPr7XyiybZ',
+    },
+    keycloakIdentifier: {
+      pgColumn: text(),
+      airtableId: 'fldFa9N5dkIDOK20o',
+    },
+    status: {
+      pgColumn: text(),
+      airtableId: 'fldWadK1W7sPJbfMs',
+    },
+    initiatedByRole: {
+      pgColumn: text(),
+      airtableId: 'fldDYCh12BV447jrk',
+    },
+    initiatedBy: {
+      pgColumn: text().array(),
+      airtableId: 'fldUDNkypLrRrMJco',
+    },
+    requestedAt: {
+      pgColumn: text(),
+      airtableId: 'fldC0boKcffU1C1dQ',
+    },
+    completedAt: {
+      pgColumn: text(),
+      airtableId: 'fldH6Idfk41M67KQ7',
+    },
+  },
+});
+
 // Resource feedback constants for better readability
 export const RESOURCE_FEEDBACK = {
   DISLIKE: -1,
@@ -1791,6 +1830,7 @@ export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 export type SelfServeCourseRegistration = InferSelectModel<typeof selfServeCourseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
+export type DeletionRequest = InferSelectModel<typeof deletionRequestTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
