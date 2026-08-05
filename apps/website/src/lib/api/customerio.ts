@@ -29,7 +29,7 @@ const trackHeaders = () => {
   };
 };
 
-async function getProfileById(userId: string): Promise<CioProfile | null> {
+export async function getProfileById(userId: string): Promise<CioProfile | null> {
   const res = await fetch(`${CIO_API_BASE}/customers/${encodeURIComponent(userId)}/attributes?id_type=id`, { headers: appHeaders() });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to fetch customer.io profile by id: HTTP ${res.status}`);
@@ -42,6 +42,15 @@ async function searchProfilesByEmail(email: string): Promise<CioProfileSummary[]
   if (!res.ok) throw new Error(`Failed to search customer.io profiles by email: HTTP ${res.status}`);
   const data = await res.json() as { results?: CioProfileSummary[] };
   return data.results ?? [];
+}
+
+export async function setSubscriptionTopics({ cioId, topics }: { cioId: string; topics: Record<string, boolean> }): Promise<void> {
+  const res = await fetch(`${CIO_TRACK_V1_BASE}/customers/cio_${cioId}`, {
+    method: 'PUT',
+    headers: trackHeaders(),
+    body: JSON.stringify({ cio_subscription_preferences: { topics } }),
+  });
+  if (!res.ok) throw new Error(`customer.io subscription topic update failed: HTTP ${res.status}`);
 }
 
 async function identify({ userId, email }: { userId: string; email: string }): Promise<void> {
@@ -150,6 +159,27 @@ export async function sendEmailChangeVerification({ oldEmail, newEmail, confirmU
   });
   if (!res.ok) {
     throw new Error(`customer.io verification email send failed: HTTP ${res.status}`);
+  }
+}
+
+export async function sendAccountDeletionRequestedNotice({ email }: { email: string }): Promise<void> {
+  const res = await fetch(`${CIO_API_BASE}/send/email`, {
+    method: 'POST',
+    headers: { ...appHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      to: normaliseEmail(email),
+      identifiers: { email: normaliseEmail(email) },
+      send_to_unsubscribed: true,
+      from: 'BlueDot Impact <team@bluedot.org>',
+      subject: 'Account deletion requested',
+      body: [
+        '<p>A request was made to delete your BlueDot Impact account. Your account, including any course records, will be deleted shortly.</p>',
+        '<p>If this was not you, reply to this email so we can help.</p>',
+      ].join('\n'),
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`customer.io account deletion notice send failed: HTTP ${res.status}`);
   }
 }
 

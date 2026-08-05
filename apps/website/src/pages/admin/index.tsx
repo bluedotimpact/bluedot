@@ -42,6 +42,11 @@ const AdminHome = () => {
                 {ROUTES.adminChangeEmail.title}
               </a>
             </li>
+            <li>
+              <a href={ROUTES.adminDeletionRequests.url} className="text-bluedot-normal underline hover:opacity-80">
+                {ROUTES.adminDeletionRequests.title}
+              </a>
+            </li>
           </ul>
         ) : (
           <ProgressDots className="py-8" />
