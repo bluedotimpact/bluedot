@@ -13,14 +13,14 @@ const EXPECTATIONS = [
     body: 'Short async updates to your BlueDot point of contact on what you did, who you talked to, what you learned, and how your thinking is evolving.',
   },
   {
-    cadence: 'Monthly',
-    title: 'Check-in',
-    body: 'Every month, a more structured conversation to review progress and discuss what support you need.',
+    cadence: 'Ongoing',
+    title: 'Check-ins',
+    body: 'Structured conversations throughout your grant to review progress and plan next steps.',
   },
   {
     cadence: 'At the end',
     title: 'Grant report',
-    body: 'A short (1-2 page) summary of what you achieved during the grant and what you will be doing next.',
+    body: 'A summary of what you achieved during the grant and what you will be doing next.',
   },
 ];
 
