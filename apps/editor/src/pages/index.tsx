@@ -5,7 +5,7 @@ import {
 
 const HomePage = withAuth(() => {
   return (
-    <Navigate url="/blogs" />
+    <Navigate url="/jobs" />
   );
 });
 

@@ -1,6 +1,6 @@
 # editor
 
-An app for BlueDot staff to edit content: blogs and job postings.
+An app for BlueDot staff to edit content: job postings.
 
 ## Developer setup
 
