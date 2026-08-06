@@ -10,10 +10,12 @@ import { useEffect, useRef, useState } from 'react';
 import { changePasswordWithConfirmSchema } from '../../lib/schemas/user/changePassword.schema';
 import { trpc } from '../../utils/trpc';
 import ChangeEmailModal from './ChangeEmailModal';
+import DeleteAccountModal from './DeleteAccountModal';
 
 const AccountSettingsSection = () => {
   const [showChangeEmailModal, setShowChangeEmailModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
   const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
 
   const handlePasswordChangeSuccess = () => {
@@ -46,6 +48,14 @@ const AccountSettingsSection = () => {
           >
             Change password
           </CTALinkOrButton>
+          <CTALinkOrButton
+            variant="secondary"
+            className="border-red-600 text-red-600 hover:bg-red-50"
+            onClick={() => setShowDeleteAccountModal(true)}
+            aria-label="Delete account"
+          >
+            Delete account
+          </CTALinkOrButton>
         </div>
         {passwordUpdateSuccess && (
           <p
@@ -69,6 +79,12 @@ const AccountSettingsSection = () => {
         isOpen={showChangePasswordModal}
         setIsOpen={setShowChangePasswordModal}
         onSuccess={handlePasswordChangeSuccess}
+      />
+
+      <DeleteAccountModal
+        isOpen={showDeleteAccountModal}
+        setIsOpen={setShowDeleteAccountModal}
+        initiatedBy="user"
       />
     </>
   );

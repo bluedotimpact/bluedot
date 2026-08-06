@@ -460,6 +460,131 @@ describe('deletionRequests.triggerAccountDeletion', () => {
   });
 });
 
+const seedCallerFacilitatorHistory = async (overrides: { role?: string; roundStatus?: string; isDuplicate?: boolean } = {}) => {
+  const { role = 'Facilitator', ...registrationOverrides } = overrides;
+  await testDb.insert(courseRegistrationTable, {
+    id: 'reg-caller', email: 'test@example.com', userId: 'test-user', courseId: 'course-1', ...registrationOverrides,
+  });
+  await testDb.insert(meetPersonTable, {
+    id: 'mp-caller', name: 'Test User', userId: 'test-user', applicationsBaseRecordId: 'reg-caller', role,
+  });
+};
+
+const requestOwnDeletion = (ctx = testAuthContextLoggedIn) => createCaller(ctx).deletionRequests.requestOwnAccountDeletion();
+
+describe('deletionRequests.requestOwnAccountDeletion', () => {
+  test('rejects unauthenticated callers', async () => {
+    await expect(requestOwnDeletion(testAuthContextLoggedOut)).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+
+    expect(await testDb.pg.select().from(deletionRequestTable.pg)).toEqual([]);
+  });
+
+  test('a user creates a pending request for their own account, and is recorded as the initiator', async () => {
+    const { request, isRetry } = await requestOwnDeletion();
+
+    expect(isRetry).toBe(false);
+    expect(request).toMatchObject({
+      email: 'test@example.com',
+      userId: 'test-user',
+      keycloakIdentifier: 'test-sub',
+      status: 'Pending',
+      initiatedByRole: 'User',
+      initiatedBy: ['test-user'],
+    });
+    await vi.waitFor(() => expect(cioEmailSends).toEqual([{ to: 'test@example.com', subject: 'Account deletion requested' }]));
+  });
+
+  test('records the real admin as the initiator when the request is made mid-impersonation', async () => {
+    const { request } = await requestOwnDeletion({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, email: SUBJECT.email, sub: SUBJECT.keycloakIdentifier },
+      impersonation: { adminEmail: 'test@example.com', adminSub: 'test-sub', targetEmail: SUBJECT.email },
+    });
+
+    expect(request).toMatchObject({
+      userId: SUBJECT.id,
+      status: 'Pending',
+      initiatedByRole: 'Admin',
+      initiatedBy: ['test-user'],
+    });
+  });
+
+  test('refuses anyone who has ever facilitated, however old the round', async () => {
+    await seedCallerFacilitatorHistory({ roundStatus: 'Inactive', isDuplicate: true });
+
+    await expect(requestOwnDeletion()).rejects.toMatchObject({ code: 'FORBIDDEN' });
+
+    expect(await testDb.pg.select().from(deletionRequestTable.pg)).toEqual([]);
+    expect(cioEmailSends).toEqual([]);
+  });
+
+  test.each(['Participant', 'TODO'])('allows a caller whose only course role is %s', async (role) => {
+    await seedCallerFacilitatorHistory({ role });
+
+    expect(await requestOwnDeletion()).toMatchObject({ request: { status: 'Pending', initiatedByRole: 'User' } });
+  });
+
+  test('creating a request deletes nothing on its own', async () => {
+    await seedSubjectData();
+
+    await requestOwnDeletion();
+
+    expect(await pgIdsIn(userTable)).toEqual(['test-user', SUBJECT.id]);
+    expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject', 'reg-subject-unlinked']);
+    expect(cioTopicWrites).toEqual([]);
+    expect(deleteKeycloakUser).not.toHaveBeenCalled();
+  });
+
+  test.each(['Pending', 'In progress', 'Completed'])('throws CONFLICT when a %s request already exists', async (status) => {
+    await seedRequest({ userId: 'test-user', email: 'test@example.com', status });
+
+    await expect(requestOwnDeletion()).rejects.toMatchObject({ code: 'CONFLICT' });
+
+    expect(await testDb.scan(deletionRequestTable, { userId: 'test-user' })).toHaveLength(1);
+    expect(cioEmailSends).toEqual([]);
+  });
+
+  test('revives the most recent failed request instead of creating another one', async () => {
+    await seedRequest({
+      id: 'req-old', userId: 'test-user', email: 'test@example.com', status: 'Failed', requestedAt: '2026-08-01T00:00:00.000Z',
+    });
+    await seedRequest({
+      id: 'req-recent', userId: 'test-user', email: 'test@example.com', status: 'Failed', requestedAt: '2026-08-04T00:00:00.000Z',
+    });
+
+    const { request, isRetry } = await requestOwnDeletion();
+
+    expect(isRetry).toBe(true);
+    expect(request).toMatchObject({ id: 'req-recent', status: 'Pending' });
+
+    const rows = await testDb.scan(deletionRequestTable, { userId: 'test-user' });
+    expect(rows).toHaveLength(2);
+    expect(rows.find((row) => row.id === 'req-old')?.status).toBe('Failed');
+    expect(cioEmailSends).toEqual([]);
+  });
+});
+
+describe('deletionRequests.selfDeletionEligibility', () => {
+  test('rejects unauthenticated callers', async () => {
+    await expect(createCaller(testAuthContextLoggedOut).deletionRequests.selfDeletionEligibility())
+      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+  });
+
+  test('reports a caller who has never facilitated as eligible', async () => {
+    await seedCallerFacilitatorHistory({ role: 'Participant' });
+
+    expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
+      .toEqual({ hasEverFacilitated: false });
+  });
+
+  test('reports a caller who has ever facilitated as blocked', async () => {
+    await seedCallerFacilitatorHistory({ roundStatus: 'Inactive' });
+
+    expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
+      .toEqual({ hasEverFacilitated: true });
+  });
+});
+
 describe('deletionRequests.list', () => {
   test('rejects non-admins', async () => {
     await expect(createCaller(testAuthContextLoggedIn).deletionRequests.list())

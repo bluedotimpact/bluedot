@@ -1,4 +1,5 @@
 import {
+  A,
   cn,
   CTALinkOrButton,
   ErrorSection,
@@ -7,46 +8,77 @@ import {
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
 import { CheckIcon } from '../icons';
+import { useBugReport } from '../../hooks/useBugReport';
+import { ONE_SECOND_MS } from '../../lib/constants';
+import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 
-const CONFIRMATION_PHRASE = 'delete account';
+const LOGOUT_COUNTDOWN_SECONDS = 10;
 
 type DeleteAccountModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  initiatedBy: 'user' | 'admin';
-  userId: string;
-};
+} & ({ initiatedBy: 'admin'; userId: string } | { initiatedBy: 'user'; userId?: never });
 
-const DeleteAccountModal = ({
-  isOpen, setIsOpen, initiatedBy, userId,
-}: DeleteAccountModalProps) => {
+const DeleteAccountModal = (props: DeleteAccountModalProps) => {
+  const { isOpen, setIsOpen, initiatedBy } = props;
+  const isUserInitiated = initiatedBy === 'user';
+  const confirmationPhrase = isUserInitiated ? 'delete my account' : 'delete account';
+
   const [confirmationText, setConfirmationText] = useState('');
+  const [secondsUntilLogout, setSecondsUntilLogout] = useState(LOGOUT_COUNTDOWN_SECONDS);
 
-  const requestDeletion = trpc.deletionRequests.triggerAccountDeletion.useMutation();
+  const { openBugReport } = useBugReport();
+
+  const eligibility = trpc.deletionRequests.selfDeletionEligibility.useQuery(undefined, {
+    enabled: isUserInitiated && isOpen,
+    retry: false,
+  });
+
+  const adminRequestDeletion = trpc.deletionRequests.triggerAccountDeletion.useMutation();
+  const userRequestDeletion = trpc.deletionRequests.requestOwnAccountDeletion.useMutation();
+  const requestDeletion = isUserInitiated ? userRequestDeletion : adminRequestDeletion;
   const { reset: resetMutation } = requestDeletion;
+
+  const blockedAsFacilitator = eligibility.data?.hasEverFacilitated === true;
+  const showsCountdown = isUserInitiated && requestDeletion.isSuccess;
 
   useEffect(() => {
     if (isOpen) {
       setConfirmationText('');
+      setSecondsUntilLogout(LOGOUT_COUNTDOWN_SECONDS);
       resetMutation();
     }
   }, [isOpen, resetMutation]);
 
-  if (initiatedBy === 'user') {
-    throw new Error('Not implemented');
-  }
+  useEffect(() => {
+    if (!showsCountdown) {
+      return undefined;
+    }
 
-  const confirmed = confirmationText.trim().toLowerCase() === CONFIRMATION_PHRASE;
+    if (secondsUntilLogout <= 0) {
+      window.location.assign(ROUTES.logout.url);
+      return undefined;
+    }
+
+    const timer = setTimeout(() => setSecondsUntilLogout((seconds) => seconds - 1), ONE_SECOND_MS);
+    return () => clearTimeout(timer);
+  }, [showsCountdown, secondsUntilLogout]);
+
+  const confirmed = confirmationText.trim().toLowerCase() === confirmationPhrase;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (requestDeletion.isPending || !confirmed) {
+    if (requestDeletion.isPending || !confirmed || blockedAsFacilitator) {
       return;
     }
 
-    requestDeletion.mutate({ userId });
+    if (props.initiatedBy === 'user') {
+      userRequestDeletion.mutate();
+    } else {
+      adminRequestDeletion.mutate({ userId: props.userId });
+    }
   };
 
   const renderRequestedView = () => (
@@ -55,11 +87,18 @@ const DeleteAccountModal = ({
         <CheckIcon className="text-bluedot-normal" />
       </div>
       <div className="flex w-full flex-col gap-4">
-        <P>
-          {requestDeletion.data?.isRetry
-            ? 'Retrying existing deletion request, the account should be deleted shortly. The user will not be re-notified (they should have received a notification on the initial attempt).'
-            : 'The account will be deleted shortly. The user will also receive an email confirming this request.'}
-        </P>
+        {isUserInitiated ? (
+          <>
+            <P>Your account will be deleted shortly. You will also receive an email confirming this request.</P>
+            <P>You will be logged out in {secondsUntilLogout}s.</P>
+          </>
+        ) : (
+          <P>
+            {requestDeletion.data?.isRetry
+              ? 'Retrying existing deletion request, the account should be deleted shortly. The user will not be re-notified (they should have received a notification on the initial attempt).'
+              : 'The account will be deleted shortly. The user will also receive an email confirming this request.'}
+          </P>
+        )}
       </div>
     </div>
   );
@@ -67,14 +106,37 @@ const DeleteAccountModal = ({
   const renderForm = () => (
     <form className="space-y-4" onSubmit={handleSubmit} noValidate>
       {requestDeletion.error && <ErrorSection error={requestDeletion.error} />}
-      <P className="text-pretty">
-        This closes the user&apos;s BlueDot Impact account. They will lose access to their courses,
-        progress, and any certificates they have earned. This action cannot be undone.
-      </P>
+      {isUserInitiated ? (
+        <P className="text-pretty">
+          This closes your BlueDot Impact account. You&apos;ll lose access to your courses, your progress
+          and any certificates you&apos;ve earned. This action cannot be undone.
+        </P>
+      ) : (
+        <P className="text-pretty">
+          This closes the user&apos;s BlueDot Impact account. They will lose access to their courses,
+          progress, and any certificates they have earned. This action cannot be undone.
+        </P>
+      )}
+
+      {blockedAsFacilitator && (
+        <P className="text-pretty">
+          Unfortunately, you cannot delete your account through this form because you have been a facilitator,
+          and this may affect other users. Please{' '}
+          <A
+            onClick={() => {
+              setIsOpen(false);
+              openBugReport();
+            }}
+          >
+            contact us
+          </A>{' '}
+          if you would like your account deleted, and an admin will review your request
+        </P>
+      )}
 
       <div className="flex flex-col gap-4">
         <label htmlFor="delete-confirmation" className="text-size-xs font-semibold text-bluedot-navy">
-          Type &quot;{CONFIRMATION_PHRASE}&quot; to confirm <span className="text-red-600">*</span>
+          Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-red-600">*</span>
         </label>
         <input
           id="delete-confirmation"
@@ -86,8 +148,8 @@ const DeleteAccountModal = ({
               resetMutation();
             }
           }}
-          placeholder={CONFIRMATION_PHRASE}
-          disabled={requestDeletion.isPending}
+          placeholder={confirmationPhrase}
+          disabled={requestDeletion.isPending || blockedAsFacilitator}
           className={cn(
             'w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400',
             requestDeletion.isPending && 'cursor-not-allowed',
@@ -109,26 +171,29 @@ const DeleteAccountModal = ({
           variant="primary"
           type="submit"
           className="bg-red-600 hover:bg-red-700"
-          disabled={requestDeletion.isPending || !confirmed}
-          aria-label="Delete account"
+          disabled={requestDeletion.isPending || !confirmed || blockedAsFacilitator || eligibility.isLoading}
+          aria-label={isUserInitiated ? 'Delete my account' : 'Delete account'}
         >
-          Delete account
+          {isUserInitiated ? 'Delete my account' : 'Delete account'}
         </CTALinkOrButton>
       </div>
     </form>
   );
 
+  const formTitle = isUserInitiated ? 'Delete your account' : 'Delete account';
+
   return (
     <Modal
       isOpen={isOpen}
       setIsOpen={(open) => {
-        if (requestDeletion.isPending) {
+        if (requestDeletion.isPending || showsCountdown) {
           return;
         }
 
         setIsOpen(open);
       }}
-      title={requestDeletion.isSuccess ? 'Deletion requested' : 'Delete account'}
+      noClickaway={showsCountdown}
+      title={requestDeletion.isSuccess ? 'Deletion requested' : formTitle}
       bottomDrawerOnMobile
     >
       <div className="w-full max-w-modal">

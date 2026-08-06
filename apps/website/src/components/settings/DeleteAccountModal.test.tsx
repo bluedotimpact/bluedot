@@ -2,7 +2,9 @@ import '@testing-library/jest-dom';
 import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
-import { deletionRequestTable, userTable } from '@bluedot/db';
+import {
+  courseRegistrationTable, deletionRequestTable, meetPersonTable, userTable,
+} from '@bluedot/db';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
@@ -35,11 +37,31 @@ const renderAsAdmin = () => {
   return { setIsOpen };
 };
 
+const renderAsUser = () => {
+  const setIsOpen = vi.fn();
+  render(
+    <DeleteAccountModal isOpen setIsOpen={setIsOpen} initiatedBy="user" />,
+    { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
+  );
+  return { setIsOpen };
+};
+
+const seedCallerFacilitatorHistory = async () => {
+  await testDb.insert(courseRegistrationTable, {
+    id: 'reg-caller', email: 'test@example.com', userId: 'test-user', courseId: 'course-1',
+  });
+  await testDb.insert(meetPersonTable, {
+    id: 'mp-caller', name: 'Test User', userId: 'test-user', applicationsBaseRecordId: 'reg-caller', role: 'Facilitator',
+  });
+};
+
 const typeConfirmation = (value: string) => {
   fireEvent.change(screen.getByLabelText(/to confirm/i), { target: { value } });
 };
 
 const deleteButton = () => screen.getByRole('button', { name: 'Delete account' });
+
+const deleteMyAccountButton = () => screen.getByRole('button', { name: 'Delete my account' });
 
 const requestsInDb = () => testDb.pg.select().from(deletionRequestTable.pg);
 
@@ -103,10 +125,59 @@ describe('DeleteAccountModal', () => {
     expect(await requestsInDb()).toEqual([]);
   });
 
-  test('the user-initiated flow is not built yet', () => {
-    expect(() => render(
-      <DeleteAccountModal isOpen setIsOpen={vi.fn()} initiatedBy="user" userId={SUBJECT.id} />,
-      { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
-    )).toThrow('Not implemented');
+  test('a user confirms with their own phrase, and a request is recorded against their account', async () => {
+    renderAsUser();
+
+    await waitFor(() => expect(deleteMyAccountButton()).toBeDisabled());
+
+    typeConfirmation('delete account');
+    expect(deleteMyAccountButton()).toBeDisabled();
+
+    typeConfirmation('  Delete My Account  ');
+    await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
+    fireEvent.click(deleteMyAccountButton());
+
+    await waitFor(() => expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument());
+    expect(screen.getByText(/You will be logged out in 10s\./)).toBeInTheDocument();
+    expect(await requestsInDb()).toMatchObject([{
+      email: 'test@example.com',
+      userId: 'test-user',
+      status: 'Pending',
+      initiatedByRole: 'User',
+    }]);
+  });
+
+  test('a user who has facilitated cannot use the form, and is pointed at us instead', async () => {
+    await seedCallerFacilitatorHistory();
+    renderAsUser();
+
+    await waitFor(() => expect(screen.getByText(/you have been a facilitator/)).toBeInTheDocument());
+    expect(screen.getByLabelText(/to confirm/i)).toBeDisabled();
+    expect(deleteMyAccountButton()).toBeDisabled();
+    expect(screen.getByText('contact us')).toBeInTheDocument();
+  });
+
+  test('a user who has facilitated can still close the modal', async () => {
+    await seedCallerFacilitatorHistory();
+    const { setIsOpen } = renderAsUser();
+
+    await waitFor(() => expect(screen.getByText(/you have been a facilitator/)).toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+
+    expect(setIsOpen).toHaveBeenCalledWith(false);
+  });
+
+  test('the countdown view ignores attempts to close it', async () => {
+    const { setIsOpen } = renderAsUser();
+
+    typeConfirmation('delete my account');
+    await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
+    fireEvent.click(deleteMyAccountButton());
+
+    await waitFor(() => expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument());
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+
+    expect(setIsOpen).not.toHaveBeenCalled();
   });
 });
