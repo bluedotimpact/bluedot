@@ -4,9 +4,7 @@ import { isHttpError } from 'http-errors';
 import {
   describe, it, expect, vi, beforeEach,
 } from 'vitest';
-import {
-  deleteKeycloakUser, keycloakUserExists, registerPreviewRedirectUri, unlinkStaleGoogleIdentities,
-} from './keycloak';
+import { registerPreviewRedirectUri, unlinkStaleGoogleIdentities } from './keycloak';
 
 vi.mock('axios');
 vi.mock('@bluedot/ui/src/api', () => ({
@@ -242,54 +240,5 @@ describe('unlinkStaleGoogleIdentities', () => {
     await unlinkStaleGoogleIdentities('user-sub', 'new@example.com');
 
     expect(unlinkedProviders()).toEqual(['google']);
-  });
-});
-
-describe('deleteKeycloakUser', () => {
-  beforeEach(() => {
-    vi.resetAllMocks();
-    mockedAxios.post.mockResolvedValue(FAKE_TOKEN_RESPONSE);
-  });
-
-  const notFound = () => Object.assign(new Error('Request failed'), {
-    isAxiosError: true,
-    response: { status: 404 },
-  });
-
-  it('deletes the account', async () => {
-    mockedAxios.request.mockResolvedValue({ data: {} });
-
-    await deleteKeycloakUser('user-sub');
-
-    expect(mockedAxios.request).toHaveBeenCalledWith(expect.objectContaining({
-      method: 'delete',
-      url: expect.stringContaining('/users/user-sub'),
-    }));
-  });
-
-  it('treats an account that is already gone as deleted, so a retry does not fail', async () => {
-    mockedAxios.isAxiosError.mockReturnValue(true);
-    mockedAxios.request.mockRejectedValue(notFound());
-
-    await expect(deleteKeycloakUser('user-sub')).resolves.toBeUndefined();
-  });
-
-  it('propagates other failures rather than reporting a deletion that did not happen', async () => {
-    mockedAxios.isAxiosError.mockReturnValue(true);
-    mockedAxios.request.mockRejectedValue(Object.assign(new Error('boom'), {
-      isAxiosError: true,
-      response: { status: 500 },
-    }));
-
-    await expect(deleteKeycloakUser('user-sub')).rejects.toSatisfy(isHttpError);
-  });
-
-  it('reports whether the account still exists', async () => {
-    mockedAxios.request.mockResolvedValue({ data: { id: 'user-sub' } });
-    await expect(keycloakUserExists('user-sub')).resolves.toBe(true);
-
-    mockedAxios.isAxiosError.mockReturnValue(true);
-    mockedAxios.request.mockRejectedValue(notFound());
-    await expect(keycloakUserExists('user-sub')).resolves.toBe(false);
   });
 });

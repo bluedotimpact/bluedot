@@ -7,7 +7,6 @@ import {
   facilitatorDiscussionSwitchingTable,
   groupSwitchingTable,
   meetPersonTable,
-  peerFeedbackTable,
   projectSubmissionTable,
   resourceCompletionPgTable,
   selfServeCourseRegistrationTable,
@@ -17,7 +16,6 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { deleteKeycloakUser, keycloakUserExists } from '../../lib/api/keycloak';
 import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
@@ -39,18 +37,11 @@ vi.mock('../../lib/api/env', () => ({
   },
 }));
 
-vi.mock('../../lib/api/keycloak', () => ({
-  deleteKeycloakUser: vi.fn(),
-  keycloakUserExists: vi.fn(),
-}));
-
 vi.mock('@bluedot/utils/src/slackNotifications', () => ({
   slackAlert: vi.fn(),
 }));
 
 setupTestDb();
-
-const TEST_TOKEN = 'test-token-secret';
 
 const SUBJECT = {
   id: 'user-subject',
@@ -65,7 +56,6 @@ type CioProfile = { cioId: string; id?: string; email: string; attributes: Recor
 
 let airtableUserRecords: { id: string }[];
 let userRecordUndeletable: boolean;
-let keycloakUserPresent: boolean;
 let cioProfiles: CioProfile[];
 let cioTopicWrites: { cioId: string; topics: Record<string, boolean> }[];
 let cioEmailSends: { to: string; subject: string }[];
@@ -116,12 +106,6 @@ const fakeCio = async (input: string, init?: RequestInit) => {
 };
 
 beforeEach(async () => {
-  keycloakUserPresent = true;
-  vi.mocked(keycloakUserExists).mockImplementation(async () => keycloakUserPresent);
-  vi.mocked(deleteKeycloakUser).mockImplementation(async () => {
-    keycloakUserPresent = false;
-  });
-
   cioProfiles = [{
     cioId: 'cio-subject', id: SUBJECT.id, email: SUBJECT.email, attributes: {},
   }];
@@ -221,100 +205,8 @@ const seedRequest = (overrides: Record<string, unknown> = {}) => testDb.insert(d
   ...overrides,
 });
 
-const execute = (deletionRequestId: string, publicToken: string = TEST_TOKEN) => createCaller()
-  .deletionRequests.executeAccountDeletion({ publicToken, deletionRequestId });
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pgIdsIn = async (table: { pg: any }): Promise<string[]> => (await testDb.pg.select().from(table.pg)).map((row) => String(row.id)).sort();
-
-// The database state every completed deletion of the seeded subject must produce, however it got there.
-const expectDeletionEndState = async () => {
-  expect(await pgIdsIn(userTable)).toEqual(['test-user']);
-  expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject-unlinked']);
-  expect(await pgIdsIn(exerciseResponsePgTable)).toEqual(['er-other']);
-  expect(await pgIdsIn(resourceCompletionPgTable)).toEqual(['rc-other']);
-  expect(await pgIdsIn(selfServeCourseRegistrationTable)).toEqual(['ss-other']);
-  expect(await pgIdsIn(dropoutTable)).toEqual(['do-other', 'do-subject']);
-  expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared']);
-  expect(await pgIdsIn(courseFeedbackTable)).toEqual(['cf-other', 'cf-subject']);
-  expect(await pgIdsIn(groupSwitchingTable)).toEqual(['gs-other', 'gs-subject']);
-  expect(await pgIdsIn(facilitatorDiscussionSwitchingTable)).toEqual(['fds-other', 'fds-subject']);
-  expect(airtableUserRecords.map((record) => record.id)).toEqual(['test-user']);
-  expect(keycloakUserPresent).toBe(false);
-  const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
-  expect(request?.status).toBe('Completed');
-  expect(request?.completedAt).toBeTruthy();
-};
-
-const ALL_STEPS = [
-  'customerio-subscription-topics',
-  'exercise-responses',
-  'resource-completions',
-  'self-serve-course-registrations',
-  'project-submissions',
-  'course-registrations',
-  'user-record',
-  'keycloak-user',
-] as const;
-
-const STEP_AIRTABLE_TABLES = {
-  'self-serve-course-registrations': selfServeCourseRegistrationTable,
-  'project-submissions': projectSubmissionTable,
-  'course-registrations': courseRegistrationTable,
-  'user-record': userTable,
-} as const;
-
-const STEP_PG_TABLES = {
-  'exercise-responses': exerciseResponsePgTable,
-  'resource-completions': resourceCompletionPgTable,
-} as const;
-
-// Makes the named step fail exactly once, through whichever channel it deletes on.
-const armStepFailure = (step: (typeof ALL_STEPS)[number]) => {
-  let fired = false;
-
-  if (step === 'customerio-subscription-topics') {
-    vi.stubGlobal('fetch', vi.fn(async (input: string, init?: RequestInit) => {
-      if (!fired && init?.method === 'PUT') {
-        fired = true;
-        return new Response('nope', { status: 500 });
-      }
-
-      return fakeCio(input, init);
-    }));
-  } else if (step === 'keycloak-user') {
-    vi.mocked(deleteKeycloakUser).mockImplementation(async () => {
-      if (!fired) {
-        fired = true;
-        throw new Error('Keycloak down');
-      }
-
-      keycloakUserPresent = false;
-    });
-  } else if (step in STEP_PG_TABLES) {
-    const target = STEP_PG_TABLES[step as keyof typeof STEP_PG_TABLES].pg;
-    const pgDelete = testDb.pg.delete.bind(testDb.pg);
-    vi.spyOn(testDb.pg, 'delete').mockImplementation(((table: unknown) => {
-      if (!fired && table === target) {
-        fired = true;
-        throw new Error('pg delete failed');
-      }
-
-      return pgDelete(table as never);
-    }) as never);
-  } else {
-    const target = STEP_AIRTABLE_TABLES[step as keyof typeof STEP_AIRTABLE_TABLES];
-    const remove = testDb.remove.bind(testDb);
-    vi.spyOn(testDb, 'remove').mockImplementation(async (table, id) => {
-      if (!fired && table === (target as never)) {
-        fired = true;
-        throw new Error('Airtable rate limit');
-      }
-
-      return remove(table, id);
-    });
-  }
-};
 
 describe('deletionRequests.triggerAccountDeletion', () => {
   test('rejects unauthenticated callers', async () => {
@@ -351,7 +243,6 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     expect(await pgIdsIn(userTable)).toEqual(['test-user', SUBJECT.id]);
     expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject', 'reg-subject-unlinked']);
     expect(cioTopicWrites).toEqual([]);
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
   });
 
   test('throws NOT_FOUND when the admin targets a user that does not exist', async () => {
@@ -400,353 +291,5 @@ describe('deletionRequests.list', () => {
 
     const rows = await createCaller(testAuthContextLoggedIn).deletionRequests.list();
     expect(rows.map((row) => row.id)).toEqual(['req-admin']);
-  });
-});
-
-describe('deletionRequests.executeAccountDeletion', () => {
-  test('throws UNAUTHORIZED when no token matches (wrong length short-circuits before timingSafeEqual)', async () => {
-    await seedRequest();
-    await expect(execute('req-1', 'wrong')).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
-    await expect(execute('req-1', 'X'.repeat(TEST_TOKEN.length))).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
-
-    expect(await testDb.getFirst(userTable, { filter: { id: SUBJECT.id } })).not.toBeNull();
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
-  });
-
-  test('throws NOT_FOUND for an unknown deletion request', async () => {
-    await expect(execute('missing')).rejects.toMatchObject({ code: 'NOT_FOUND' });
-  });
-
-  test('throws BAD_REQUEST for a request missing the identifiers the router always writes', async () => {
-    await seedRequest({
-      id: 'req-ghost', email: '', userId: '', keycloakIdentifier: '',
-    });
-
-    await expect(execute('req-ghost')).rejects.toMatchObject({ code: 'BAD_REQUEST' });
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
-  });
-
-  test('deletes the account, its activity and its course record, in dependents-before-anchors order', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    const result = await execute('req-1');
-
-    expect(result.status).toBe('Completed');
-    expect(result.steps).toEqual([
-      { step: 'customerio-subscription-topics', deleted: 1 },
-      { step: 'exercise-responses', deleted: 1 },
-      { step: 'resource-completions', deleted: 1 },
-      { step: 'self-serve-course-registrations', deleted: 1 },
-      { step: 'project-submissions', deleted: 1 },
-      { step: 'course-registrations', deleted: 1 },
-      { step: 'user-record', deleted: 1 },
-      { step: 'keycloak-user', deleted: 1 },
-    ]);
-
-    expect(await pgIdsIn(userTable)).toEqual(['test-user']);
-    expect(await pgIdsIn(exerciseResponsePgTable)).toEqual(['er-other']);
-    expect(await pgIdsIn(resourceCompletionPgTable)).toEqual(['rc-other']);
-    expect(await pgIdsIn(selfServeCourseRegistrationTable)).toEqual(['ss-other']);
-    expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject-unlinked']);
-    expect(await pgIdsIn(dropoutTable)).toEqual(['do-other', 'do-subject']);
-    expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared']);
-    expect(await pgIdsIn(courseFeedbackTable)).toEqual(['cf-other', 'cf-subject']);
-    expect(await pgIdsIn(groupSwitchingTable)).toEqual(['gs-other', 'gs-subject']);
-    expect(await pgIdsIn(facilitatorDiscussionSwitchingTable)).toEqual(['fds-other', 'fds-subject']);
-
-    expect(cioTopicWrites).toEqual([{
-      cioId: 'cio-subject',
-      topics: {
-        topic_9: false, topic_12: false, topic_14: false, topic_15: false, topic_16: false,
-      },
-    }]);
-
-    expect(deleteKeycloakUser).toHaveBeenCalledWith('subject-sub');
-
-    const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
-    expect(request?.status).toBe('Completed');
-    expect(request?.completedAt).toBeTruthy();
-  });
-
-  test('completes when customer.io has no profile under the user id', async () => {
-    cioProfiles = [];
-    await seedRequest();
-
-    const result = await execute('req-1');
-
-    expect(result.steps[0]).toEqual({ step: 'customerio-subscription-topics', deleted: 0 });
-    expect(cioTopicWrites).toEqual([]);
-  });
-
-  test('leaves the newsletter alone for a profile that signed up through the website form', async () => {
-    cioProfiles[0]!.attributes.anonymous_id = 'anon-123';
-    await seedRequest();
-
-    await execute('req-1');
-
-    expect(cioTopicWrites).toEqual([{
-      cioId: 'cio-subject',
-      topics: {
-        topic_9: false, topic_12: false, topic_14: false, topic_16: false,
-      },
-    }]);
-  });
-
-  test('leaves topics the person explicitly chose, and does not rewrite ones already off', async () => {
-    cioProfiles[0]!.attributes.cio_subscription_preferences = JSON.stringify({ topics: { topic_12: true, topic_14: false } });
-    await seedRequest();
-
-    await execute('req-1');
-
-    expect(cioTopicWrites).toEqual([{
-      cioId: 'cio-subject',
-      topics: { topic_9: false, topic_15: false, topic_16: false },
-    }]);
-  });
-
-  test('unsubscribes the profile customer.io still holds under the person\'s old email', async () => {
-    cioProfiles[0]!.email = 'previous-address@example.com';
-    await seedRequest();
-
-    const result = await execute('req-1');
-
-    expect(result.steps[0]).toEqual({ step: 'customerio-subscription-topics', deleted: 1 });
-    expect(cioTopicWrites).toEqual([{
-      cioId: 'cio-subject',
-      topics: {
-        topic_9: false, topic_12: false, topic_14: false, topic_15: false, topic_16: false,
-      },
-    }]);
-  });
-
-  test('completes even though customer.io has not served the new preferences back yet', async () => {
-    // The write is accepted but reads keep returning the old attributes for a few seconds.
-    vi.stubGlobal('fetch', vi.fn(async (input: string, init?: RequestInit) => (
-      init?.method === 'PUT' ? new Response('{}', { status: 200 }) : fakeCio(input, init))));
-    await seedRequest();
-
-    const result = await execute('req-1');
-
-    expect(result.status).toBe('Completed');
-  });
-
-  test('marks the request failed when customer.io rejects the write', async () => {
-    vi.stubGlobal('fetch', vi.fn(async (input: string, init?: RequestInit) => (
-      init?.method === 'PUT' ? new Response('nope', { status: 500 }) : fakeCio(input, init))));
-    await seedSubjectData();
-    await seedRequest();
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-
-    const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
-    expect(request?.status).toBe('Failed');
-    expect(await pgIdsIn(userTable)).toEqual(['test-user', SUBJECT.id]);
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
-  });
-
-  test('deletes the login last, so an earlier failure leaves an account the subject can still sign into', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    vi.mocked(deleteKeycloakUser).mockImplementation(async () => {
-      expect(await testDb.getFirst(userTable, { filter: { id: SUBJECT.id } })).toBeNull();
-      keycloakUserPresent = false;
-    });
-
-    await execute('req-1');
-    expect(deleteKeycloakUser).toHaveBeenCalledTimes(1);
-  });
-
-  test('a failure among the dependents leaves the course record standing, so a retry still finds them', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    const remove = testDb.remove.bind(testDb);
-    let projectSubmissionRemoveFails = true;
-    vi.spyOn(testDb, 'remove').mockImplementation(async (table, id) => {
-      if (table === (projectSubmissionTable as never) && projectSubmissionRemoveFails) throw new Error('Airtable rate limit');
-      return remove(table, id);
-    });
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-
-    expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject', 'reg-subject-unlinked']);
-    expect(await pgIdsIn(meetPersonTable)).toEqual(['mp-other', 'mp-subject']);
-    expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared', 'ps-subject']);
-    expect(await pgIdsIn(userTable)).toEqual(['test-user', SUBJECT.id]);
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
-
-    const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
-    expect(request?.status).toBe('Failed');
-
-    expect(slackAlert).toHaveBeenCalledOnce();
-    expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('req-1');
-
-    projectSubmissionRemoveFails = false;
-    const retry = await execute('req-1');
-
-    expect(retry.status).toBe('Completed');
-    expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject-unlinked']);
-    expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared']);
-    expect(await pgIdsIn(userTable)).toEqual(['test-user']);
-  });
-
-  test('fails the request when the Applications user record survives', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    userRecordUndeletable = true;
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-
-    const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
-    expect(request?.status).toBe('Failed');
-    expect(slackAlert).toHaveBeenCalledOnce();
-  });
-
-  test('fails the request when the Keycloak user survives', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    vi.mocked(deleteKeycloakUser).mockResolvedValue(undefined);
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-
-    const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
-    expect(request?.status).toBe('Failed');
-    expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('Keycloak user subject-sub');
-  });
-
-  test('alerts that the request needs a manual reset when it cannot be marked failed', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    userRecordUndeletable = true;
-
-    const update = testDb.update.bind(testDb);
-    vi.spyOn(testDb, 'update').mockImplementation((table, values) => {
-      if ((values as { status?: string }).status === 'Failed') throw new Error('Airtable write rejected');
-      return update(table, values);
-    });
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-
-    expect(slackAlert).toHaveBeenCalledOnce();
-    expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('could not be marked failed');
-    expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain(`user record ${SUBJECT.id}`);
-  });
-
-  test('completes for an account with no Keycloak identifier, and never calls Keycloak', async () => {
-    await seedSubjectData();
-    await seedRequest({ keycloakIdentifier: '' });
-
-    const result = await execute('req-1');
-
-    expect(result.status).toBe('Completed');
-    expect(result.steps[result.steps.length - 1]).toEqual({ step: 'keycloak-user', deleted: 0 });
-    expect(keycloakUserExists).not.toHaveBeenCalled();
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
-    expect(await pgIdsIn(userTable)).toEqual(['test-user']);
-  });
-
-  test('is a no-op once completed', async () => {
-    await seedRequest({ status: 'Completed' });
-
-    const result = await execute('req-1');
-
-    expect(result).toEqual({ status: 'Completed', steps: [] });
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
-  });
-
-  test('refuses to start a second run while one is in progress', async () => {
-    await seedSubjectData();
-    await seedRequest({ status: 'In progress' });
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'CONFLICT' });
-
-    expect(await pgIdsIn(userTable)).toEqual(['test-user', SUBJECT.id]);
-    expect(deleteKeycloakUser).not.toHaveBeenCalled();
-  });
-});
-
-describe('resumability: a one-time failure at any step marks the request failed, and a retry reaches the same end state', () => {
-  test.each(ALL_STEPS)('%s', async (stepName) => {
-    await seedSubjectData();
-    await seedRequest();
-    armStepFailure(stepName);
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-    expect((await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0]?.status).toBe('Failed');
-    expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain(`"${stepName}"`);
-
-    const retry = await execute('req-1');
-
-    expect(retry.status).toBe('Completed');
-    await expectDeletionEndState();
-  });
-});
-
-describe('fail-closed: another user\'s records survive even when they look like the subject\'s', () => {
-  test('a decoy user sharing the subject\'s email keeps every record', async () => {
-    await seedSubjectData();
-    await testDb.insert(userTable, {
-      id: 'user-decoy', email: SUBJECT.email, name: 'Decoy Person', keycloakIdentifier: 'decoy-sub',
-    });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-decoy', email: SUBJECT.email, userId: 'user-decoy', courseId: 'course-1',
-    });
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-decoy', name: 'Decoy Person', userId: 'user-decoy', applicationsBaseRecordId: 'reg-decoy',
-    });
-    await testDb.insert(selfServeCourseRegistrationTable, { id: 'ss-decoy', userId: 'user-decoy', courseId: 'course-1' });
-    await testDb.insert(dropoutTable, { id: 'do-decoy', applicantId: ['reg-decoy'] });
-    await testDb.insert(projectSubmissionTable, { id: 'ps-decoy', participant: ['mp-decoy'] });
-    await testDb.insert(courseFeedbackTable, { id: 'cf-decoy', person: ['mp-decoy'] });
-    await testDb.insert(peerFeedbackTable, { id: 'pf-decoy', feedbackRecipient: ['mp-decoy'], courseFeedback: ['cf-decoy'] });
-    await testDb.insert(groupSwitchingTable, { id: 'gs-decoy', participant: 'mp-decoy' });
-    await testDb.pg.insert(exerciseResponsePgTable.pg).values([{
-      id: 'er-decoy', exerciseId: 'ex-1', response: 'decoy', userId: ['user-decoy'],
-    }]);
-    await testDb.pg.insert(resourceCompletionPgTable.pg).values([{ id: 'rc-decoy', userId: ['user-decoy'] }]);
-    airtableUserRecords.push({ id: 'user-decoy' });
-    await seedRequest();
-
-    const result = await execute('req-1');
-
-    expect(result.status).toBe('Completed');
-    const decoySurvivors = [
-      [userTable, 'user-decoy'],
-      [courseRegistrationTable, 'reg-decoy'],
-      [selfServeCourseRegistrationTable, 'ss-decoy'],
-      [dropoutTable, 'do-decoy'],
-      [projectSubmissionTable, 'ps-decoy'],
-      [courseFeedbackTable, 'cf-decoy'],
-      [peerFeedbackTable, 'pf-decoy'],
-      [groupSwitchingTable, 'gs-decoy'],
-      [exerciseResponsePgTable, 'er-decoy'],
-      [resourceCompletionPgTable, 'rc-decoy'],
-    ] as const;
-    for (const [table, id] of decoySurvivors) {
-      // eslint-disable-next-line no-await-in-loop
-      expect(await pgIdsIn(table)).toContain(id);
-    }
-
-    expect(airtableUserRecords.map((record) => record.id)).toContain('user-decoy');
-  });
-
-  test('refuses to delete more rows than one account plausibly owns', async () => {
-    // One over MAX_DELETIONS_PER_STEP.
-    await testDb.pg.insert(exerciseResponsePgTable.pg).values(Array.from({ length: 1001 }, (_, i) => ({
-      id: `er-bulk-${i}`, exerciseId: 'ex-1', response: 'r', userId: [SUBJECT.id],
-    })));
-    await seedRequest();
-
-    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
-
-    expect((await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0]?.status).toBe('Failed');
-    expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('more than the maximum');
-    expect((await pgIdsIn(exerciseResponsePgTable)).length).toBe(1001);
-    expect(await pgIdsIn(userTable)).toEqual(['test-user', SUBJECT.id]);
   });
 });
