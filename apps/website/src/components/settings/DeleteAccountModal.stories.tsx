@@ -11,7 +11,6 @@ const meta = {
   args: {
     isOpen: true,
     setIsOpen() {},
-    onRequested() {},
   },
 } satisfies Meta<typeof DeleteAccountModal>;
 
