@@ -7,13 +7,10 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
-import { runAccountDeletion } from '../../lib/api/accountDeletion';
 import { sendAccountDeletionRequestedNotice } from '../../lib/api/customerio';
 import { DELETION_REQUEST_STATUS } from '../../lib/constants';
-import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
-import {
-  adminProcedure, getUserFromAuthOrThrow, publicProcedure, router,
-} from '../trpc';
+import { normaliseEmail } from '../../lib/api/utils';
+import { adminProcedure, getUserFromAuthOrThrow, router } from '../trpc';
 
 export const deletionRequestsRouter = router({
   triggerAccountDeletion: adminProcedure
@@ -50,15 +47,4 @@ export const deletionRequestsRouter = router({
     .where(eq(deletionRequestTable.pg.initiatedByRole, 'Admin'))
     .orderBy(desc(deletionRequestTable.pg.requestedAt))
     .limit(100)),
-
-  executeAccountDeletion: publicProcedure
-    .input(z.object({
-      publicToken: z.string().min(1),
-      deletionRequestId: z.string().min(1),
-    }))
-    .mutation(({ input }) => {
-      verifyPublicToken(input.publicToken);
-
-      return runAccountDeletion(input.deletionRequestId);
-    }),
 });
