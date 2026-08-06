@@ -39,7 +39,7 @@ const typeConfirmation = (value: string) => {
   fireEvent.change(screen.getByLabelText(/to confirm/i), { target: { value } });
 };
 
-const deleteButton = () => document.querySelector('button[type="submit"]')!;
+const deleteButton = () => screen.getByRole('button', { name: 'Delete account' });
 
 const requestsInDb = () => testDb.pg.select().from(deletionRequestTable.pg);
 
