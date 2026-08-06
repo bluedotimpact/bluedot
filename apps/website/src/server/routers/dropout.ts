@@ -1,5 +1,5 @@
 import {
-  arrayOverlaps, COURSE_ROLE, courseRegistrationTable, dropoutTable, eq,
+  applicationsRoundTable, arrayOverlaps, COURSE_ROLE, courseRegistrationTable, dropoutTable, eq,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -85,6 +85,26 @@ export const dropoutRouter = router({
       }
 
       const oldRoundId = courseRegistration.roundId ?? null;
+
+      // The registration's course link and its round's course are maintained independently in
+      // Airtable and can disagree (#2792). The round is the participant's actual enrolment, so
+      // validate the deferral target against the current round's course.
+      if (type === 'Deferral' && newRoundId) {
+        const [oldRound, newRound] = await Promise.all([
+          oldRoundId ? db.getFirst(applicationsRoundTable, { sortBy: 'id', filter: { id: oldRoundId } }) : null,
+          db.getFirst(applicationsRoundTable, { sortBy: 'id', filter: { id: newRoundId } }),
+        ]);
+        if (!newRound) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'The selected round was not found.' });
+        }
+
+        const expectedCourseId = oldRound?.courseId ?? courseRegistration.courseId;
+        // The falsy check also covers '': on the not-null registration column, an empty Airtable
+        // link syncs as '' rather than null.
+        if (!expectedCourseId || newRound.courseId !== expectedCourseId) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'The selected round belongs to a different course. Please refresh the page and try again.' });
+        }
+      }
 
       const dropout = await db.insert(dropoutTable, {
         applicantId: [applicantId],
