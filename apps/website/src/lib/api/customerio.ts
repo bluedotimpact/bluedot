@@ -29,7 +29,7 @@ const trackHeaders = () => {
   };
 };
 
-export async function getProfileById(userId: string): Promise<CioProfile | null> {
+async function getProfileById(userId: string): Promise<CioProfile | null> {
   const res = await fetch(`${CIO_API_BASE}/customers/${encodeURIComponent(userId)}/attributes?id_type=id`, { headers: appHeaders() });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`Failed to fetch customer.io profile by id: HTTP ${res.status}`);
@@ -42,15 +42,6 @@ async function searchProfilesByEmail(email: string): Promise<CioProfileSummary[]
   if (!res.ok) throw new Error(`Failed to search customer.io profiles by email: HTTP ${res.status}`);
   const data = await res.json() as { results?: CioProfileSummary[] };
   return data.results ?? [];
-}
-
-export async function setSubscriptionTopics({ cioId, topics }: { cioId: string; topics: Record<string, boolean> }): Promise<void> {
-  const res = await fetch(`${CIO_TRACK_V1_BASE}/customers/cio_${cioId}`, {
-    method: 'PUT',
-    headers: trackHeaders(),
-    body: JSON.stringify({ cio_subscription_preferences: { topics } }),
-  });
-  if (!res.ok) throw new Error(`customer.io subscription topic update failed: HTTP ${res.status}`);
 }
 
 async function identify({ userId, email }: { userId: string; email: string }): Promise<void> {
