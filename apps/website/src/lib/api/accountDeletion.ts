@@ -219,15 +219,28 @@ const deleteMatchingPgRecords = ({ name, table, sqlCondition }: { name: string; 
 const failDeletionRequest = async (id: string, detail: string, cause?: unknown): Promise<never> => {
   // If this write also fails the row is stuck "In progress"; the alert says how to unstick it.
   let markFailedError: Error | null = null;
+  let completedByAnotherRun = false;
   try {
-    await db.update(deletionRequestTable, { id, status: DELETION_REQUEST_STATUS.failed });
+    // Never downgrade Completed: a concurrent run may have finished the deletion while this one errored.
+    const [request] = await db.scan(deletionRequestTable, { id });
+    completedByAnotherRun = request?.status === DELETION_REQUEST_STATUS.completed;
+    if (!completedByAnotherRun) {
+      await db.update(deletionRequestTable, { id, status: DELETION_REQUEST_STATUS.failed });
+    }
   } catch (error) {
     markFailedError = error instanceof Error ? error : new Error(String(error));
   }
 
-  await slackAlert(env, [markFailedError === null
-    ? `[AccountDeletion] deletion request ${id} did not complete. ${detail} Re-firing the endpoint resumes it.`
-    : `[AccountDeletion] deletion request ${id} did not complete, and could not be marked failed (${markFailedError.message}). ${detail} It is stuck "In progress": set its status to "Failed" in Airtable before re-firing the endpoint.`]);
+  let message: string;
+  if (completedByAnotherRun) {
+    message = `[AccountDeletion] deletion request ${id} errored, but another run already completed it, so it stays "Completed". ${detail}`;
+  } else if (markFailedError === null) {
+    message = `[AccountDeletion] deletion request ${id} did not complete. ${detail} Re-firing the endpoint resumes it.`;
+  } else {
+    message = `[AccountDeletion] deletion request ${id} did not complete, and could not be marked failed (${markFailedError.message}). ${detail} It is stuck "In progress": set its status to "Failed" in Airtable before re-firing the endpoint.`;
+  }
+
+  await slackAlert(env, [message]);
 
   throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: detail, cause });
 };
