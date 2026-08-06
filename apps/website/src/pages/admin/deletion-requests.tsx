@@ -114,13 +114,15 @@ const AdminDeletionRequests = () => {
       {selectedUser && (
         <DeleteAccountModal
           isOpen={isConfirmDeleteModalOpen}
-          setIsOpen={setIsConfirmDeleteModalOpen}
+          setIsOpen={(isOpen) => {
+            setIsConfirmDeleteModalOpen(isOpen);
+            if (!isOpen) {
+              setSelectedUser(null);
+              refetchRequests();
+            }
+          }}
           initiatedBy="admin"
           userId={selectedUser.id}
-          onRequested={() => {
-            setSelectedUser(null);
-            refetchRequests();
-          }}
         />
       )}
     </div>

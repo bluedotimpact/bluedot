@@ -28,12 +28,11 @@ afterEach(() => {
 
 const renderAsAdmin = () => {
   const setIsOpen = vi.fn();
-  const onRequested = vi.fn();
   render(
-    <DeleteAccountModal isOpen setIsOpen={setIsOpen} onRequested={onRequested} initiatedBy="admin" userId={SUBJECT.id} />,
+    <DeleteAccountModal isOpen setIsOpen={setIsOpen} initiatedBy="admin" userId={SUBJECT.id} />,
     { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
   );
-  return { setIsOpen, onRequested };
+  return { setIsOpen };
 };
 
 const typeConfirmation = (value: string) => {
@@ -46,12 +45,12 @@ const requestsInDb = () => testDb.pg.select().from(deletionRequestTable.pg);
 
 describe('DeleteAccountModal', () => {
   test('an admin confirms by typing the phrase, and a request is recorded for the subject', async () => {
-    const { onRequested } = renderAsAdmin();
+    renderAsAdmin();
 
     typeConfirmation('delete account');
     fireEvent.click(deleteButton());
 
-    await waitFor(() => expect(onRequested).toHaveBeenCalledOnce());
+    await waitFor(() => expect(screen.getByText(/The account will be deleted shortly/)).toBeInTheDocument());
     expect(await requestsInDb()).toMatchObject([{
       email: SUBJECT.email,
       userId: SUBJECT.id,
@@ -76,19 +75,18 @@ describe('DeleteAccountModal', () => {
   });
 
   test('cancelling closes the modal without recording anything', async () => {
-    const { setIsOpen, onRequested } = renderAsAdmin();
+    const { setIsOpen } = renderAsAdmin();
 
     typeConfirmation('delete account');
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
 
     expect(setIsOpen).toHaveBeenCalledWith(false);
-    expect(onRequested).not.toHaveBeenCalled();
     expect(await requestsInDb()).toEqual([]);
   });
 
   test('the user-initiated flow is not built yet', () => {
     expect(() => render(
-      <DeleteAccountModal isOpen setIsOpen={vi.fn()} onRequested={vi.fn()} initiatedBy="user" userId={SUBJECT.id} />,
+      <DeleteAccountModal isOpen setIsOpen={vi.fn()} initiatedBy="user" userId={SUBJECT.id} />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     )).toThrow('Not implemented');
   });

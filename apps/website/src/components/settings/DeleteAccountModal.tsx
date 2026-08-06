@@ -13,17 +13,16 @@ const CONFIRMATION_PHRASE = 'delete account';
 type DeleteAccountModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  onRequested: () => void;
   initiatedBy: 'user' | 'admin';
   userId: string;
 };
 
 const DeleteAccountModal = ({
-  isOpen, setIsOpen, onRequested, initiatedBy, userId,
+  isOpen, setIsOpen, initiatedBy, userId,
 }: DeleteAccountModalProps) => {
   const [confirmationText, setConfirmationText] = useState('');
 
-  const requestDeletion = trpc.deletionRequests.triggerAccountDeletion.useMutation({ onSuccess: onRequested });
+  const requestDeletion = trpc.deletionRequests.triggerAccountDeletion.useMutation();
   const { reset: resetMutation } = requestDeletion;
 
   useEffect(() => {
