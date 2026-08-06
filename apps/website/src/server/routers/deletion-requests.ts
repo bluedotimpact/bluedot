@@ -9,9 +9,10 @@ import db from '../../lib/api/db';
 import env from '../../lib/api/env';
 import { sendAccountDeletionRequestedNotice } from '../../lib/api/customerio';
 import { DELETION_REQUEST_STATUS } from '../../lib/constants';
-import { normaliseEmail } from '../../lib/api/utils';
+import { runAccountDeletion } from '../../lib/api/accountDeletion';
+import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
 import {
-  adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, router,
+  adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, publicProcedure, router,
 } from '../trpc';
 
 export const deletionRequestsRouter = router({
@@ -69,4 +70,15 @@ export const deletionRequestsRouter = router({
     .where(eq(deletionRequestTable.pg.initiatedByRole, 'Admin'))
     .orderBy(desc(deletionRequestTable.pg.requestedAt))
     .limit(100)),
+
+  executeAccountDeletion: publicProcedure
+    .input(z.object({
+      publicToken: z.string().min(1),
+      deletionRequestId: z.string().min(1),
+    }))
+    .mutation(({ input }) => {
+      verifyPublicToken(input.publicToken);
+
+      return runAccountDeletion(input.deletionRequestId);
+    }),
 });
