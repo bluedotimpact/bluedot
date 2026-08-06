@@ -21,9 +21,6 @@ export type { DatePickerProps } from './DatePicker';
 export { ErrorSection } from './ErrorSection';
 export type { ErrorSectionProps } from './ErrorSection';
 
-export { FaceTiles } from './FaceTiles';
-export type { FaceTilesProps } from './FaceTiles';
-
 export { Footer } from './Footer';
 export type { FooterProps } from './Footer';
 
@@ -84,8 +81,8 @@ export {
 export { ToggleSwitch } from './ToggleSwitch';
 export type { ToggleSwitchProps } from './ToggleSwitch';
 
-export { Tooltip, HoverTooltip } from './Tooltip';
-export type { TooltipProps, HoverTooltipProps } from './Tooltip';
+export { Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';
 
 // Export text components directly
 export {
@@ -109,8 +106,6 @@ export {
 export * as constants from './constants';
 
 export { loggedOutStory, loggedInStory } from './utils/storybook';
-
-export * from './SocialShare';
 
 // Hooks
 
