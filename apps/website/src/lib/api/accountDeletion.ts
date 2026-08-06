@@ -157,8 +157,6 @@ const buildDeletionSteps = ({ userId, keycloakIdentifier, registrationIds, meetP
     deleteMatchingAirtableRecords({ name: 'self-serve-course-registrations', table: selfServeCourseRegistrationTable, sqlCondition: eq(selfServeCourseRegistrationTable.pg.userId, userId) }),
     // Leave project submissions that have co-authors
     deleteMatchingAirtableRecords({ name: 'project-submissions', table: projectSubmissionTable, sqlCondition: meetPersonIds.length === 0 ? 'skip' : arrayContained(projectSubmissionTable.pg.participant, meetPersonIds) }),
-    // The Course runner registration and the Course builder registration are syncs of this one, and follow it.
-    // TODO flag facilitator compensation risk in PR
     deleteMatchingAirtableRecords({ name: 'course-registrations', table: courseRegistrationTable, sqlCondition: registrationIds.length === 0 ? 'skip' : inArray(courseRegistrationTable.pg.id, registrationIds) }),
     deleteMatchingAirtableRecords({ name: 'user-record', table: userTable, sqlCondition: eq(userTable.pg.id, userId) }),
     {
