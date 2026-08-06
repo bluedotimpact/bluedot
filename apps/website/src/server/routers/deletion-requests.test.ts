@@ -8,7 +8,6 @@ import {
   groupSwitchingTable,
   meetPersonTable,
   peerFeedbackTable,
-  posthogEmittedEventsTable,
   projectSubmissionTable,
   resourceCompletionPgTable,
   selfServeCourseRegistrationTable,
@@ -60,9 +59,6 @@ const SUBJECT = {
   keycloakIdentifier: 'subject-sub',
 };
 
-// TODO why hardcode?
-const APPLICATIONS_USER = 'tblCgeKADNDSCXPpR';
-
 const ALL_TOPIC_IDS = [9, 12, 14, 15, 16];
 
 type CioProfile = { cioId: string; id?: string; email: string; attributes: Record<string, string> };
@@ -74,10 +70,6 @@ let cioProfiles: CioProfile[];
 let cioTopicWrites: { cioId: string; topics: Record<string, boolean> }[];
 let cioEmailSends: { to: string; subject: string }[];
 
-// TODO inline
-const parseTopics = (value: string | undefined) => (value ? JSON.parse(value).topics as Record<string, boolean> : {});
-
-// TODO do we have another instance of fake CIO that we can share?
 const fakeCio = async (input: string, init?: RequestInit) => {
   const url = new URL(input);
   const method = init?.method ?? 'GET';
@@ -96,7 +88,8 @@ const fakeCio = async (input: string, init?: RequestInit) => {
     const profile = cioProfiles.find((p) => p.cioId === decodeURIComponent(preferencesMatch[1]!));
     if (!profile) return new Response('{}', { status: 404 });
     // Every topic is subscribed-by-default: effective state is the default overridden by explicit choices.
-    const chosen = parseTopics(profile.attributes.cio_subscription_preferences);
+    const raw = profile.attributes.cio_subscription_preferences;
+    const chosen: Record<string, boolean> = raw ? JSON.parse(raw).topics : {};
     return ok({ customer: { topics: ALL_TOPIC_IDS.map((id) => ({ id, subscribed: chosen[`topic_${id}`] ?? true })) } });
   }
 
@@ -112,8 +105,9 @@ const fakeCio = async (input: string, init?: RequestInit) => {
     const profile = cioProfiles.find((p) => p.cioId === cioId)!;
     const { topics } = JSON.parse(init!.body as string).cio_subscription_preferences as { topics: Record<string, boolean> };
     cioTopicWrites.push({ cioId, topics });
+    const existing = profile.attributes.cio_subscription_preferences;
     profile.attributes.cio_subscription_preferences = JSON.stringify({
-      topics: { ...parseTopics(profile.attributes.cio_subscription_preferences), ...topics },
+      topics: { ...(existing ? JSON.parse(existing).topics : {}), ...topics },
     });
     return ok({});
   }
@@ -139,7 +133,7 @@ beforeEach(async () => {
   userRecordUndeletable = false;
 
   vi.spyOn(testDb.airtableClient, 'scan').mockImplementation(async (table, params) => {
-    if (table.tableId !== APPLICATIONS_USER) throw new Error(`Unexpected scan of ${table.tableId}`);
+    if (table.tableId !== userTable.airtable.tableId) throw new Error(`Unexpected scan of ${table.tableId}`);
     const formula = params?.filterByFormula;
     if (formula === undefined) return airtableUserRecords as never;
     return airtableUserRecords.filter((record) => formula.includes(`RECORD_ID()='${record.id}'`)) as never;
@@ -147,7 +141,7 @@ beforeEach(async () => {
 
   const removeFromAirtable = testDb.airtableClient.remove.bind(testDb.airtableClient);
   vi.spyOn(testDb.airtableClient, 'remove').mockImplementation(async (table, id) => {
-    if (table.tableId === APPLICATIONS_USER && !userRecordUndeletable) {
+    if (table.tableId === userTable.airtable.tableId && !userRecordUndeletable) {
       airtableUserRecords = airtableUserRecords.filter((record) => record.id !== id);
     }
 
@@ -190,8 +184,6 @@ const seedSubjectData = async () => {
   await testDb.insert(projectSubmissionTable, { id: 'ps-other', participant: ['mp-other'] });
   await testDb.insert(courseFeedbackTable, { id: 'cf-subject', person: ['mp-subject'] });
   await testDb.insert(courseFeedbackTable, { id: 'cf-other', person: ['mp-other'] });
-  await testDb.insert(peerFeedbackTable, { id: 'pf-about-subject', feedbackRecipient: ['mp-subject'], courseFeedback: ['cf-other'] });
-  await testDb.insert(peerFeedbackTable, { id: 'pf-by-subject', feedbackRecipient: ['mp-other'], courseFeedback: ['cf-subject'] });
   await testDb.insert(groupSwitchingTable, { id: 'gs-subject', participant: 'mp-subject' });
   await testDb.insert(groupSwitchingTable, { id: 'gs-other', participant: 'mp-other' });
   await testDb.insert(facilitatorDiscussionSwitchingTable, { id: 'fds-subject', facilitator: 'mp-subject' });
@@ -215,14 +207,6 @@ const seedSubjectData = async () => {
   await testDb.pg.insert(resourceCompletionPgTable.pg).values([
     { id: 'rc-subject', userId: [SUBJECT.id] },
     { id: 'rc-other', userId: ['test-user'] },
-  ]);
-  await testDb.pg.insert(posthogEmittedEventsTable).values([
-    {
-      id: 'ph-subject', event: 'e', internalUniqueKey: 'k1', externalUuid: 'u1', distinctId: SUBJECT.keycloakIdentifier, eventTimestamp: '2026-01-01T00:00:00.000Z',
-    },
-    {
-      id: 'ph-other', event: 'e', internalUniqueKey: 'k3', externalUuid: 'u3', distinctId: 'test-sub', eventTimestamp: '2026-01-01T00:00:00.000Z',
-    },
   ]);
 };
 
@@ -253,7 +237,6 @@ const expectDeletionEndState = async () => {
   expect(await pgIdsIn(dropoutTable)).toEqual(['do-other', 'do-subject']);
   expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared']);
   expect(await pgIdsIn(courseFeedbackTable)).toEqual(['cf-other', 'cf-subject']);
-  expect(await pgIdsIn(peerFeedbackTable)).toEqual(['pf-about-subject', 'pf-by-subject']);
   expect(await pgIdsIn(groupSwitchingTable)).toEqual(['gs-other', 'gs-subject']);
   expect(await pgIdsIn(facilitatorDiscussionSwitchingTable)).toEqual(['fds-other', 'fds-subject']);
   expect(airtableUserRecords.map((record) => record.id)).toEqual(['test-user']);
@@ -484,29 +467,6 @@ describe('deletionRequests.executeAccountDeletion', () => {
     const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
     expect(request?.status).toBe('Completed');
     expect(request?.completedAt).toBeTruthy();
-  });
-
-  // TODO cut peer feedback, no need to assert things we don't touch
-  test('keeps peer feedback in both directions, and co-authored project submissions', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    await execute('req-1');
-
-    expect(await pgIdsIn(peerFeedbackTable)).toEqual(['pf-about-subject', 'pf-by-subject']);
-    expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared']);
-  });
-
-  // TODO also cut, again no need until we introduce a path that might touch these
-  test('leaves the Course runner registration and the posthog ledger to look after themselves', async () => {
-    await seedSubjectData();
-    await seedRequest();
-
-    await execute('req-1');
-
-    // A sync of the Applications registration: Airtable removes it, we never touch it.
-    expect(await pgIdsIn(meetPersonTable)).toEqual(['mp-other', 'mp-subject']);
-    expect((await testDb.pg.select().from(posthogEmittedEventsTable)).map((row) => row.id).sort()).toEqual(['ph-other', 'ph-subject']);
   });
 
   test('completes when customer.io has no profile under the user id', async () => {
