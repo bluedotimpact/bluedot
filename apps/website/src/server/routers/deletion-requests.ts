@@ -10,7 +10,9 @@ import env from '../../lib/api/env';
 import { sendAccountDeletionRequestedNotice } from '../../lib/api/customerio';
 import { DELETION_REQUEST_STATUS } from '../../lib/constants';
 import { normaliseEmail } from '../../lib/api/utils';
-import { adminProcedure, getUserFromAuthOrThrow, router } from '../trpc';
+import {
+  adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, router,
+} from '../trpc';
 
 export const deletionRequestsRouter = router({
   triggerAccountDeletion: adminProcedure
@@ -21,7 +23,7 @@ export const deletionRequestsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
       }
 
-      const initiator = await getUserFromAuthOrThrow(ctx.auth);
+      const initiator = await getUserFromAuthOrThrow(impersonationRealIdentity(ctx));
 
       const request = await db.insert(deletionRequestTable, {
         email: normaliseEmail(subject.email),
@@ -36,7 +38,7 @@ export const deletionRequestsRouter = router({
       sendAccountDeletionRequestedNotice({ email: subject.email })
         .catch((error: unknown) => slackAlert(env, [`[AccountDeletion] confirmation notice for deletion request ${request.id} failed: ${error instanceof Error ? error.message : String(error)}`]));
 
-      logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by admin ${ctx.auth.email}`);
+      logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by admin ${initiator.email}`);
 
       return request;
     }),
