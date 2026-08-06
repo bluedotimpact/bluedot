@@ -99,6 +99,18 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     });
   });
 
+  test('records the real admin as the initiator when the request is made mid-impersonation', async () => {
+    await makeAdmin();
+
+    const request = await createCaller({
+      ...testAuthContextLoggedIn,
+      auth: { ...testAuthContextLoggedIn.auth!, email: SUBJECT.email, sub: SUBJECT.keycloakIdentifier },
+      impersonation: { adminEmail: 'test@example.com', adminSub: 'test-sub', targetEmail: SUBJECT.email },
+    }).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+
+    expect(request).toMatchObject({ initiatedByRole: 'Admin', initiatedBy: ['test-user'] });
+  });
+
   test('throws NOT_FOUND when the admin targets a user that does not exist', async () => {
     await makeAdmin();
 
