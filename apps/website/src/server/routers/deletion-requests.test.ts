@@ -136,6 +136,52 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await vi.waitFor(() => expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('confirmation notice'));
     expect(cioEmailSends).toEqual([]);
   });
+
+  test('throws CONFLICT when a pending request already exists', async () => {
+    await makeAdmin();
+    await seedRequest({ status: 'Pending' });
+
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+
+    expect(await testDb.scan(deletionRequestTable, { userId: SUBJECT.id })).toHaveLength(1);
+    expect(cioEmailSends).toEqual([]);
+  });
+
+  test('throws CONFLICT when a request is already in progress', async () => {
+    await makeAdmin();
+    await seedRequest({ status: 'In progress' });
+
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+
+    expect(await testDb.scan(deletionRequestTable, { userId: SUBJECT.id })).toHaveLength(1);
+  });
+
+  test('throws CONFLICT when the user has already been deleted', async () => {
+    await makeAdmin();
+    await seedRequest({ status: 'Completed' });
+
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+      .rejects.toMatchObject({ code: 'CONFLICT' });
+
+    expect(await testDb.scan(deletionRequestTable, { userId: SUBJECT.id })).toHaveLength(1);
+  });
+
+  test('revives the most recent failed request instead of creating another one', async () => {
+    await makeAdmin();
+    await seedRequest({ id: 'req-old', status: 'Failed', requestedAt: '2026-08-01T00:00:00.000Z' });
+    await seedRequest({ id: 'req-recent', status: 'Failed', requestedAt: '2026-08-04T00:00:00.000Z' });
+
+    const request = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+
+    expect(request).toMatchObject({ id: 'req-recent', status: 'Pending' });
+
+    const rows = await testDb.scan(deletionRequestTable, { userId: SUBJECT.id });
+    expect(rows).toHaveLength(2);
+    expect(rows.find((row) => row.id === 'req-old')?.status).toBe('Failed');
+    expect(cioEmailSends).toEqual([]);
+  });
 });
 
 describe('deletionRequests.list', () => {

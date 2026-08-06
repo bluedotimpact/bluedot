@@ -25,6 +25,28 @@ export const deletionRequestsRouter = router({
 
       const initiator = await getUserFromAuthOrThrow(impersonationRealIdentity(ctx));
 
+      const existingRequests = await db.scan(deletionRequestTable, { userId: subject.id });
+
+      if (existingRequests.some((existing) => existing.status === DELETION_REQUEST_STATUS.pending || existing.status === DELETION_REQUEST_STATUS.inProgress)) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'A deletion request for this user is already pending or in progress' });
+      }
+
+      const failedRequest = existingRequests
+        .filter((existing) => existing.status === DELETION_REQUEST_STATUS.failed)
+        .sort((a, b) => (b.requestedAt ?? '').localeCompare(a.requestedAt ?? ''))[0];
+
+      if (failedRequest) {
+        const revivedRequest = await db.update(deletionRequestTable, { id: failedRequest.id, status: DELETION_REQUEST_STATUS.pending });
+
+        logger.info(`[AccountDeletion] failed deletion request ${revivedRequest.id} for user ${subject.id} retried by admin ${initiator.email}`);
+
+        return revivedRequest;
+      }
+
+      if (existingRequests.length > 0) {
+        throw new TRPCError({ code: 'CONFLICT', message: 'This user has already been deleted' });
+      }
+
       const request = await db.insert(deletionRequestTable, {
         email: normaliseEmail(subject.email),
         userId: subject.id,
