@@ -710,6 +710,27 @@ describe('deletionRequests.executeAccountDeletion', () => {
     expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain(`user record ${SUBJECT.id}`);
   });
 
+  test('does not downgrade a request another run already completed, and says so in the alert', async () => {
+    await seedSubjectData();
+    await seedRequest();
+
+    const remove = testDb.remove.bind(testDb);
+    vi.spyOn(testDb, 'remove').mockImplementation(async (table, recordId) => {
+      if (table === (userTable as never)) {
+        await testDb.update(deletionRequestTable, { id: 'req-1', status: 'Completed' });
+        throw new Error('Airtable rate limit');
+      }
+
+      return remove(table, recordId);
+    });
+
+    await expect(execute('req-1')).rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
+
+    const request = (await testDb.scan(deletionRequestTable, { id: 'req-1' }))[0];
+    expect(request?.status).toBe('Completed');
+    expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('another run already completed it');
+  });
+
   test('completes for an account with no Keycloak identifier, and never calls Keycloak', async () => {
     await seedSubjectData();
     await seedRequest({ keycloakIdentifier: '' });
