@@ -63,7 +63,7 @@ const DeleteAccountModal = ({
     <form className="space-y-4" onSubmit={handleSubmit} noValidate>
       {requestDeletion.error && <ErrorSection error={requestDeletion.error} />}
       <P className="text-pretty">
-        This closes the user's BlueDot Impact account. They will lose access to their courses,
+        This closes the user&apos;s BlueDot Impact account. They will lose access to their courses,
         progress, and any certificates they have earned. This action cannot be undone.
       </P>
 
@@ -90,6 +90,7 @@ const DeleteAccountModal = ({
       <div className="flex gap-3 justify-end pt-4">
         <CTALinkOrButton
           variant="secondary"
+          type="button"
           onClick={() => setIsOpen(false)}
           disabled={requestDeletion.isPending}
           aria-label="Cancel"

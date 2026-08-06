@@ -27,10 +27,6 @@ export const deletionRequestsRouter = router({
 
       const existingRequests = await db.scan(deletionRequestTable, { userId: subject.id });
 
-      if (existingRequests.some((existing) => existing.status === DELETION_REQUEST_STATUS.pending || existing.status === DELETION_REQUEST_STATUS.inProgress)) {
-        throw new TRPCError({ code: 'CONFLICT', message: 'A deletion request for this user is already pending or in progress' });
-      }
-
       const failedRequest = existingRequests
         .filter((existing) => existing.status === DELETION_REQUEST_STATUS.failed)
         .sort((a, b) => (b.requestedAt ?? '').localeCompare(a.requestedAt ?? ''))[0];
@@ -44,7 +40,7 @@ export const deletionRequestsRouter = router({
       }
 
       if (existingRequests.length > 0) {
-        throw new TRPCError({ code: 'CONFLICT', message: 'This user has already been deleted' });
+        throw new TRPCError({ code: 'CONFLICT', message: `A deletion request for this user already exists (status: ${existingRequests[0]!.status})` });
       }
 
       const request = await db.insert(deletionRequestTable, {
