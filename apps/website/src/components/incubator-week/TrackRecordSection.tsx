@@ -45,6 +45,10 @@ const TrackRecordSection = () => {
                 <a href="https://safely.bio/" target="_blank" rel="noreferrer" className="underline hover:no-underline">safely.bio</a>
                 : runs know-your-customer checks on researchers placing synthetic DNA orders, records the evidence, and returns a clear recommendation so labs can distinguish legitimate researchers from bad actors before shipping
               </li>
+              <li>
+                <a href="https://www.almagrants.com/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Alma Grants</a>
+                : Alma is building AI tools to support and automate the work of AI safety grantmakers
+              </li>
             </ul>
           </div>
           <P>
