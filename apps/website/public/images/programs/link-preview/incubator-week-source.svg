@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      @font-face {
+        font-family: "Inter";
+        src: url("/fonts/Inter-Regular.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("/fonts/Inter-SemiBold.woff2") format("woff2");
+        font-weight: 600;
+      }
+      text { font-family: "Inter", Arial, sans-serif; }
+    </style>
+    <linearGradient id="background" x1="85" y1="52" x2="1120" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" />
+      <stop offset="0.42" stop-color="#f4f7ff" />
+      <stop offset="0.72" stop-color="#75a7ff" />
+      <stop offset="1" stop-color="#164ad9" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(855 386) rotate(135) scale(460 400)">
+      <stop stop-color="#1570ff" stop-opacity="0.74" />
+      <stop offset="1" stop-color="#07165f" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background)" />
+  <rect width="1200" height="630" fill="url(#glow)" />
+
+  <text x="64" y="188" fill="#111111" font-size="42" font-weight="400">Incubator Week v5</text>
+  <text x="64" y="260" fill="#111111" font-size="43" font-weight="600">5 days in San Francisco. All expenses paid.</text>
+  <text x="64" y="326" fill="#111111" font-size="43" font-weight="600">Up to $100k in funding if we back your pitch.</text>
+
+  <text x="64" y="568" fill="#111111" font-size="28" font-weight="400">August 24–28 · Apply by August 14</text>
+  <image href="/images/logo/BlueDot_Impact_Logo.svg" x="846" y="524" width="310" height="42" />
+</svg>

@@ -61,7 +61,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/programs/incubator-week',
     track: 'Launch',
     goal: 'Back graduates launching AI safety startups, with grant funding and an intensive week in San Francisco.',
-    scope: 'Cohort 5 runs in San Francisco, August 17–21. Apply by August 7 for a five-day sprint from idea to funded.',
+    scope: 'Cohort 5 runs in San Francisco, August 24–28. Apply by August 14 for a five-day sprint from idea to funded.',
     scopeLabel: 'Format',
     status: 'Active',
   },
