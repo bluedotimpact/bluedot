@@ -8,7 +8,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Three-step "What happens next" timeline rendered on the /career-transition-grant page. The steps are hard-coded — change copy in `NextStepsSection.tsx`.',
+        component: 'Five-step "What happens next" timeline rendered on the /career-transition-grant page. The steps are hard-coded — change copy in `NextStepsSection.tsx`.',
       },
     },
   },
