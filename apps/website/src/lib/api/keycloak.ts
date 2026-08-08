@@ -172,6 +172,29 @@ export async function updateKeycloakEmail(userSub: string, newEmail: string): Pr
   });
 }
 
+export async function keycloakUserExists(userSub: string): Promise<boolean> {
+  try {
+    await adminRequest({ method: 'get', path: `/users/${userSub}` });
+    return true;
+  } catch (error) {
+    if (createHttpError.isHttpError(error) && error.status === 404) {
+      return false;
+    }
+
+    throw error;
+  }
+}
+
+export async function deleteKeycloakUser(userSub: string): Promise<void> {
+  try {
+    await adminRequest({ method: 'delete', path: `/users/${userSub}` });
+  } catch (error) {
+    if (!createHttpError.isHttpError(error) || error.status !== 404) {
+      throw error;
+    }
+  }
+}
+
 export type LoginMethods = { hasPassword: boolean; hasGoogleLogin: boolean };
 
 export async function unlinkStaleGoogleIdentities(userSub: string, newEmail: string): Promise<LoginMethods> {
