@@ -1,4 +1,5 @@
 import { Breadcrumbs } from '@bluedot/ui';
+import { sendGAEvent } from '@next/third-parties/google';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
@@ -6,7 +7,10 @@ import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
 import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/career-transition-grant/WhatThisIsForSection';
+import WhatWeLookForSection from '../../components/career-transition-grant/WhatWeLookForSection';
+import WhatYouReceiveSection from '../../components/career-transition-grant/WhatYouReceiveSection';
 import ExpectationsSection from '../../components/career-transition-grant/ExpectationsSection';
+import ApplicationPreviewSection from '../../components/career-transition-grant/ApplicationPreviewSection';
 import NextStepsSection from '../../components/career-transition-grant/NextStepsSection';
 import GranteesSection from '../../components/career-transition-grant/GranteesSection';
 import { ROUTES } from '../../lib/routes';
@@ -51,9 +55,20 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
           { label: 'Funding awarded', value: fundingAwardedLabel },
           { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
+        secondaryAction={{
+          label: 'Learn about Rapid Grants',
+          url: '/programs/rapid-grants',
+          onClick: () => sendGAEvent('event', 'grant_route_click', {
+            from_program: 'career-transition-grant',
+            to_program: 'rapid-grants',
+          }),
+        }}
       />
       <WhatThisIsForSection />
+      <WhatWeLookForSection />
+      <WhatYouReceiveSection />
       <ExpectationsSection />
+      <ApplicationPreviewSection />
       <NextStepsSection />
       <GranteesSection />
       <GrantFaqSection program="career-transition-grant" />

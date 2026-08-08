@@ -1,26 +1,11 @@
-import { H3, H4, P } from '@bluedot/ui';
-import {
-  PiCompass,
-  PiHandshake,
-  PiUsersThree,
-} from 'react-icons/pi';
+import { H3, P } from '@bluedot/ui';
 
-const SUPPORT_CARDS = [
-  {
-    icon: PiHandshake,
-    title: 'Introductions',
-    description: 'Warm intros to relevant people in the field so you can talk to the right people faster.',
-  },
-  {
-    icon: PiCompass,
-    title: 'Advising',
-    description: 'Regular check-ins with your BlueDot point of contact to pressure-test your thinking and unblock you.',
-  },
-  {
-    icon: PiUsersThree,
-    title: 'Community',
-    description: 'Connection to others making similar transitions so you are not figuring this out alone.',
-  },
+const EXAMPLE_USES = [
+  'Produce research, policy work, technical work or another substantial output',
+  'Build evidence that you can contribute at a higher level',
+  'Test an uncertain but potentially high-impact career path',
+  'Address a specific skill or experience bottleneck',
+  'Move into a role or establish a sustained independent contribution',
 ];
 
 const WhatThisIsForSection = () => {
@@ -29,29 +14,20 @@ const WhatThisIsForSection = () => {
       <div className="w-full flex flex-col gap-6">
         <H3>What this is for</H3>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 max-w-4xl">
           <P>
-            BlueDot&apos;s career transition grant supports you to work full-time on impactful AI safety work. It enables you to fully focus on upskilling, exploring opportunities, building your network, and figuring out where you can have the most impact.
+            Career Transition Grants support people who are ready to spend a defined period working full-time on a transition into impactful AI safety or biosecurity work.
           </P>
-          <P>Alongside funding, you also get:</P>
-        </div>
-
-        <div className="pt-2 grid gap-8 grid-cols-1 bd-md:grid-cols-3">
-          {SUPPORT_CARDS.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="flex flex-col gap-5">
-              <div className="size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/40">
-                <Icon className="text-bluedot-navy" size={28} />
-              </div>
-              <div className="flex flex-col gap-2">
-                <H4>
-                  {title}
-                </H4>
-                <P className="text-bluedot-navy/80">
-                  {description}
-                </P>
-              </div>
-            </div>
-          ))}
+          <P>You might use the grant to:</P>
+          <ul className="flex flex-col gap-3 pl-6 list-disc text-size-sm leading-relaxed text-bluedot-navy/80">
+            {EXAMPLE_USES.map((item) => <li key={item}>{item}</li>)}
+          </ul>
+          <P>
+            We expect plans to change. What matters is that you can make progress, learn from evidence and produce something valuable even if your original path does not work.
+          </P>
+          <P>
+            This program is primarily for personal, full-time transitions. If your main request is to fund a discrete project, event or organisational activity, another BlueDot funding route may be a better fit. You can still apply if you are unsure—we will help route the request.
+          </P>
         </div>
       </div>
     </section>

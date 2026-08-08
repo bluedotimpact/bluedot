@@ -32,8 +32,8 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     title: 'Career Transition Grants',
     href: '/programs/career-transition-grant',
     track: 'Funding',
-    goal: 'Support BlueDot graduates to work full-time on impactful AI safety work.',
-    scope: 'Funding plus intros, advising, and community for people ready to go full-time on AI safety.',
+    goal: 'Support people making full-time transitions into work that reduces catastrophic risks from advanced AI or biological threats.',
+    scope: 'Funding, advising, targeted connections, and community for a defined period of evidence-producing personal transition.',
     status: 'Active',
   },
   {
@@ -121,21 +121,39 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
     faqItems: [
       {
         id: 'eligibility',
-        question: 'Who is eligible?',
+        question: 'Who should apply?',
         answer: (
           <>
-            Everyone who's ready to go full-time on AI safety and biosecurity.
-            <br />
-            <br />
-            You're more likely to receive a grant if you're a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.
+            <span className="block mb-3">Apply if you:</span>
+            <span className="block mb-2">• Are ready to work full-time on a personal transition</span>
+            <span className="block mb-2">• Can point to evidence of relevant ability or recent momentum</span>
+            <span className="block mb-2">• Have a plausible plan for producing work, testing a path or moving into a contribution</span>
+            <span className="block mb-2">• Can explain how success could contribute to reducing catastrophic risks from advanced AI or biological threats</span>
+            <span className="block mb-4">• Believe funding would meaningfully improve the transition</span>
+            <span className="block">Applications are open to everyone. Prior participation in a BlueDot course or community is not required.</span>
           </>
         ),
-        answerText: 'Everyone who\'s ready to go full-time on AI safety and biosecurity. You\'re more likely to receive a grant if you\'re a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.',
+        answerText: 'Apply if you are ready to work full-time on a personal transition, can point to evidence of relevant ability or recent momentum, have a plausible plan for producing work, testing a path or moving into a contribution, can explain how success could contribute to reducing catastrophic risks from advanced AI or biological threats, and believe funding would meaningfully improve the transition. Applications are open to everyone. Prior participation in a BlueDot course or community is not required.',
+      },
+      {
+        id: 'funding-need',
+        question: 'Do I need to be unable to transition without funding?',
+        answer: 'No. We do not require the transition to be literally impossible without BlueDot. We do want to understand what funding would change—for example, whether it lets you begin sooner, work full-time, take a more ambitious path or produce stronger evidence before making your next career decision.',
+      },
+      {
+        id: 'work-sample',
+        question: 'Do I need an AI safety work sample?',
+        answer: 'Relevant AI safety or biosecurity work is the most useful evidence, but strong analogous work can also be informative. If you do not yet have a work sample, you may still apply; explain what other evidence we should use to assess your ability.',
+      },
+      {
+        id: 'rapid-grants',
+        question: 'Should I apply to Rapid Grants instead?',
+        answer: 'Rapid Grants are usually a better fit when you have a concrete project with specific costs—such as research, an event, travel, compute or tooling—and need up to $10,000. Career Transition Grants are for a period of full-time personal transition. If you are unsure, apply to the route that seems closest and we can redirect you.',
       },
       {
         id: 'uncertain',
         question: 'Should I apply if I don\'t know exactly how to contribute to AI safety yet?',
-        answer: 'Yes. We do not expect you to have it all figured out. We would rather see a clear-eyed account of what you do not know and a plan for finding out.',
+        answer: 'Yes. We do not expect a fixed career plan or certainty about every step. We do expect a serious hypothesis, a way to test it and a plan that can produce useful work or information even if the original path does not work.',
       },
       {
         id: 'circumstances-change',
@@ -145,20 +163,20 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'masters-phd',
         question: 'Will you fund a Master\'s or PhD?',
-        answer: 'Generally, no. For most people, a Master\'s or PhD isn\'t the most direct route to impactful AI safety work. There are exceptions. Mention it in your application if you think yours is one.',
+        answer: 'Generally, no. For most people, a Master\'s or PhD isn\'t the most direct route to impactful AI safety or biosecurity work. There are exceptions. Mention it in your application if you think yours is one.',
       },
       {
         id: 'grant-structure',
         question: 'How is the grant structured?',
         answer: (
           <>
-            The grant is a fellowship grant in support of your AI safety work. It is not a salary or a contract for services. BlueDot is a UK entity, so we don't issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us.
+            The grant is a fellowship grant in support of your AI safety or biosecurity transition. It is not a salary or a contract for services. BlueDot is a UK entity, so we don't issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us.
             <br />
             <br />
             We can't give tax advice, so please check the tax implications with a qualified advisor in your country.
           </>
         ),
-        answerText: 'The grant is a fellowship grant in support of your AI safety work. It is not a salary or a contract for services. BlueDot is a UK entity, so we don\'t issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us. We can\'t give tax advice, so please check the tax implications with a qualified advisor in your country.',
+        answerText: 'The grant is a fellowship grant in support of your AI safety or biosecurity transition. It is not a salary or a contract for services. BlueDot is a UK entity, so we don\'t issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us. We can\'t give tax advice, so please check the tax implications with a qualified advisor in your country.',
       },
     ],
   },

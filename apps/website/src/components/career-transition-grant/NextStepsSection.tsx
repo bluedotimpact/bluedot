@@ -3,15 +3,23 @@ import { H3, H4, P } from '@bluedot/ui';
 const NEXT_STEPS = [
   {
     title: 'You apply',
-    body: 'Fill in the application form. It takes around 45 minutes.',
+    body: 'Complete the application form. It takes around 45 minutes and asks about your recent work, proposed transition, theory of change, milestones and funding request.',
   },
   {
-    title: 'We review and book a call',
-    body: 'If we want to talk or need more information, we schedule a call to discuss next steps.',
+    title: 'We determine the right route',
+    body: 'We first assess whether the request is a good fit for a Career Transition Grant or whether another funding route would be more appropriate.',
   },
   {
-    title: 'Grant starts',
-    body: 'Once approved, we set up the grant within a few days so you can start right away.',
+    title: 'We review the relevant evidence',
+    body: 'If the application is promising, we may review your work sample, ask a focused follow-up question, seek expert input or contact a reference. We only request additional information when it could materially affect our decision.',
+  },
+  {
+    title: 'We interview selected applicants',
+    body: 'Interviews focus on the most important remaining questions about your plan, reasoning and ability to execute.',
+  },
+  {
+    title: 'We decide and set up the grant',
+    body: 'If approved, we agree the amount, duration and any relevant milestones, then arrange payment so you can begin.',
   },
 ];
 
@@ -21,7 +29,7 @@ const NextStepsSection = () => {
       <div className="w-full flex flex-col gap-6">
         <H3>What happens next</H3>
 
-        <ol className="grid gap-8 bd-md:gap-6 grid-cols-1 bd-md:grid-cols-3">
+        <ol className="grid gap-8 bd-md:gap-6 grid-cols-1 bd-md:grid-cols-2 min-[1120px]:grid-cols-3">
           {NEXT_STEPS.map((step, index) => (
             <li key={step.title} className="flex flex-col gap-3">
               <span

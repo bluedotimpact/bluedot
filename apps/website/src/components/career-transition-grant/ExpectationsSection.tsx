@@ -9,18 +9,18 @@ const EXPECTATIONS = [
   },
   {
     cadence: 'Weekly',
-    title: 'Progress updates',
-    body: 'Short async updates to your BlueDot point of contact on what you did, who you talked to, what you learned, and how your thinking is evolving.',
+    title: 'Regular progress updates',
+    body: 'Brief updates on what you produced, what evidence you gathered, what changed in your thinking, progress against milestones and any decisions you need to make.',
   },
   {
     cadence: 'Ongoing',
-    title: 'Check-ins',
-    body: 'Structured conversations throughout your grant to review progress and plan next steps.',
+    title: 'Structured check-ins',
+    body: 'Conversations with your BlueDot point of contact to assess progress, revisit important assumptions and decide whether to continue, change or narrow the plan.',
   },
   {
     cadence: 'At the end',
-    title: 'Grant report',
-    body: 'A summary of what you achieved during the grant and what you will be doing next.',
+    title: 'Grant-end and follow-up reporting',
+    body: 'A short report covering what you produced, what you learned, how your plans changed and what you will do next. We may also ask for a brief follow-up after the grant so we can improve future funding decisions.',
   },
 ];
 
