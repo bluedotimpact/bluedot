@@ -1,5 +1,4 @@
 import { Breadcrumbs } from '@bluedot/ui';
-import { sendGAEvent } from '@next/third-parties/google';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
@@ -23,9 +22,9 @@ import {
 
 const PROGRAM_SLUG = 'career-transition-grant';
 const FALLBACK_NAME = 'Career Transition Grants';
-const FALLBACK_DESCRIPTION = 'Funding and support to help you go full-time on AI safety and biosecurity.';
+const HERO_DESCRIPTION = 'Funding and support for people ready to make a full-time transition into work that reduces catastrophic risks from advanced AI or biological threats.';
 
-const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
+const CareerTransitionGrantPage = ({ programName }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
   const grantsMadeLabel = stats ? String(stats.count) : '—';
   const fundingAwardedLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
@@ -35,11 +34,11 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
     <div>
       <Head>
         <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={programDescription} />
+        <meta name="description" content={HERO_DESCRIPTION} />
       </Head>
       <MarketingHero
         title={programName}
-        subtitle={programDescription}
+        subtitle={HERO_DESCRIPTION}
       />
       <Breadcrumbs
         route={{
@@ -55,14 +54,6 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
           { label: 'Funding awarded', value: fundingAwardedLabel },
           { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
-        secondaryAction={{
-          label: 'Learn about Rapid Grants',
-          url: '/programs/rapid-grants',
-          onClick: () => sendGAEvent('event', 'grant_route_click', {
-            from_program: 'career-transition-grant',
-            to_program: 'rapid-grants',
-          }),
-        }}
       />
       <WhatThisIsForSection />
       <WhatWeLookForSection />
@@ -79,7 +70,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
 
 export const getStaticProps: GetStaticProps<ProgramDetailPageProps> = () => getProgramDetailPageStaticProps(
   PROGRAM_SLUG,
-  { programName: FALLBACK_NAME, programDescription: FALLBACK_DESCRIPTION },
+  { programName: FALLBACK_NAME, programDescription: HERO_DESCRIPTION },
 );
 
 CareerTransitionGrantPage.pageRendersOwnNav = true;
