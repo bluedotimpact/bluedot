@@ -21,7 +21,8 @@ export type ModalProps = {
   desktopHeaderClassName?: string;
   /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
   ariaLabel?: string;
-  noClickaway?: boolean;
+  /** When false, the user can't dismiss the modal via the escape key, clicking outside it, or (on mobile) dragging it down. The close button and closing it programmatically still work. */
+  isDismissable?: boolean;
   centerTitle?: boolean;
 };
 
@@ -32,12 +33,14 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   children,
   desktopHeaderClassName,
   ariaLabel,
-  noClickaway,
+  isDismissable = true,
   centerTitle,
 }) => {
   return (
     <ModalOverlay
-      isDismissable={!noClickaway}
+      isDismissable={isDismissable}
+      // react-aria's isDismissable only covers outside interaction, not the escape key
+      isKeyboardDismissDisabled={!isDismissable}
       isOpen={isOpen}
       onOpenChange={setIsOpen}
       className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
@@ -68,7 +71,7 @@ export const Modal: React.FC<ModalProps> = ({
   bottomDrawerOnMobile = false,
   desktopHeaderClassName,
   ariaLabel,
-  noClickaway,
+  isDismissable,
   centerTitle,
 }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
@@ -82,14 +85,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} noClickaway={noClickaway} centerTitle={centerTitle}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} isDismissable={isDismissable} centerTitle={centerTitle}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName} noClickaway={noClickaway} centerTitle={centerTitle}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName} isDismissable={isDismissable} centerTitle={centerTitle}>
       {children}
     </DesktopModal>
   );

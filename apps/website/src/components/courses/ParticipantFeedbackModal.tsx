@@ -91,7 +91,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
       desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
-      noClickaway
+      isDismissable={false}
     >
       <div className="w-full max-w-modal pt-4">
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}

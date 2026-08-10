@@ -132,6 +132,40 @@ export const CustomTitle: Story = {
   },
 };
 
+export const NotDismissable: Story = {
+  render() {
+    const NotDismissableDemo = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <div>
+          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Non-dismissable Modal</CTALinkOrButton>
+          <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            title="Deleting your account"
+            bottomDrawerOnMobile
+            isDismissable={false}
+          >
+            <div className="max-w-[600px]">
+              <p className="mb-4">
+                With <code>isDismissable={'{false}'}</code>, clicking the backdrop, pressing escape
+                and (on mobile) dragging the drawer down won't close this modal.
+              </p>
+              <p className="mb-4">
+                It can still be closed with the close button, or programmatically by setting <code>isOpen</code> to false:
+              </p>
+              <CTALinkOrButton onClick={() => setIsOpen(false)}>Close programmatically</CTALinkOrButton>
+            </div>
+          </Modal>
+        </div>
+      );
+    };
+
+    return <NotDismissableDemo />;
+  },
+};
+
 export const BottomDrawerOnMobile: Story = {
   render() {
     const BottomDrawerOnMobileDemo = () => {
