@@ -189,6 +189,12 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                     handleClose();
                   }
                 }}
+                onDragTransitionEnd={() => {
+                  // Release momentum can glide the sheet below the open position after onDragEnd has run
+                  if (!isDismissable && y.get() > initialOpenY.current) {
+                    animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+                  }
+                }}
               >
                 <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
                   {/* Header Section with Drag Handle */}
