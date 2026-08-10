@@ -88,6 +88,13 @@ describe('Modal', () => {
       expect(screen.getByText('Content')).toBeInTheDocument();
     });
 
+    // Documented in the isDismissable JSDoc: consumers must render their own close control
+    test('has no built-in close control when isDismissable is false', () => {
+      render(<Modal isOpen setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
+
+      expect(screen.queryByRole('button', { name: /close|dismiss/i })).not.toBeInTheDocument();
+    });
+
     test('can still be closed programmatically when isDismissable is false', async () => {
       const { rerender } = render(<Modal isOpen setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
       rerender(<Modal isOpen={false} setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);

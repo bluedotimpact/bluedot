@@ -21,7 +21,11 @@ export type ModalProps = {
   desktopHeaderClassName?: string;
   /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
   ariaLabel?: string;
-  /** When false, the user can't dismiss the modal via the escape key, clicking outside it, or (on mobile) dragging it down. The close button and closing it programmatically still work. */
+  /**
+   * When false, the user can't dismiss the modal via the escape key, clicking outside it, or (on mobile) dragging it down.
+   * Closing it programmatically always works, as does the desktop header close button. The mobile bottom drawer has no
+   * built-in close button, so render your own close/cancel control in `children` when using it.
+   */
   isDismissable?: boolean;
   centerTitle?: boolean;
 };

@@ -176,12 +176,17 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                   const currentY = y.get();
                   const closeThreshold = closedY * CLOSE_POSITION_THRESHOLD;
 
-                  if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
-                    if (isDismissable) {
-                      handleClose();
-                    } else {
+                  if (!isDismissable) {
+                    // Any downward drag snaps back, otherwise the sheet can be parked off-screen with no way to recover
+                    if (currentY > openY.current) {
                       animate(y, openY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
                     }
+
+                    return;
+                  }
+
+                  if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
+                    handleClose();
                   }
                 }}
               >
