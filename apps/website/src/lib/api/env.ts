@@ -24,6 +24,7 @@ export default validateEnv({
     'EMAIL_CHANGE_TOKEN_SECRET',
     'NOTION_API_TOKEN',
     'SENTRY_DSN',
+    'SENTRY_ENVIRONMENT',
     'VITEST',
   ],
 });
