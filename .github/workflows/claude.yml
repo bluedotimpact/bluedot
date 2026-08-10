@@ -42,6 +42,10 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
+          # The action's default model (claude-sonnet-4-20250514) was retired and now
+          # 404s, making every @claude invocation fail. Pin a current model explicitly.
+          model: claude-sonnet-5
+
           # Allow Claude to read CI results on PRs
           additional_permissions: |
             actions: read
