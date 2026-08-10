@@ -8,7 +8,6 @@ import {
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
 import { CheckIcon } from '../icons';
-import { useBugReport } from '../../hooks/useBugReport';
 import { ONE_SECOND_MS } from '../../lib/constants';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
@@ -27,8 +26,6 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
 
   const [confirmationText, setConfirmationText] = useState('');
   const [secondsUntilLogout, setSecondsUntilLogout] = useState(LOGOUT_COUNTDOWN_SECONDS);
-
-  const { openBugReport } = useBugReport();
 
   const eligibility = trpc.deletionRequests.selfDeletionEligibility.useQuery(undefined, {
     enabled: isUserInitiated && isOpen,
@@ -122,14 +119,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
         <P className="text-pretty">
           Unfortunately, you cannot delete your account through this form because you have been a facilitator,
           and this may affect other users. Please{' '}
-          <A
-            onClick={() => {
-              setIsOpen(false);
-              openBugReport();
-            }}
-          >
-            contact us
-          </A>{' '}
+          <A href="mailto:team@bluedot.org">contact us</A>{' '}
           if you would like your account deleted, and an admin will review your request
         </P>
       )}

@@ -154,7 +154,7 @@ describe('DeleteAccountModal', () => {
     await waitFor(() => expect(screen.getByText(/you have been a facilitator/)).toBeInTheDocument());
     expect(screen.getByLabelText(/to confirm/i)).toBeDisabled();
     expect(deleteMyAccountButton()).toBeDisabled();
-    expect(screen.getByText('contact us')).toBeInTheDocument();
+    expect(screen.getByText('contact us')).toHaveAttribute('href', 'mailto:team@bluedot.org');
   });
 
   test('a user who has facilitated can still close the modal', async () => {
