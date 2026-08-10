@@ -27,20 +27,22 @@ export const deletionRequestsRouter = router({
 
       const existingRequests = await db.scan(deletionRequestTable, { userId: subject.id });
 
+      const activeRequest = existingRequests.find((existing) => existing.status === DELETION_REQUEST_STATUS.pending || existing.status === DELETION_REQUEST_STATUS.inProgress);
+
       const failedRequest = existingRequests
         .filter((existing) => existing.status === DELETION_REQUEST_STATUS.failed)
         .sort((a, b) => (b.requestedAt ?? '').localeCompare(a.requestedAt ?? ''))[0];
 
-      if (failedRequest) {
+      if (failedRequest && !activeRequest) {
         const revivedRequest = await db.update(deletionRequestTable, { id: failedRequest.id, status: DELETION_REQUEST_STATUS.pending });
 
         logger.info(`[AccountDeletion] failed deletion request ${revivedRequest.id} for user ${subject.id} retried by admin ${initiator.email}`);
 
-        return revivedRequest;
+        return { request: revivedRequest, isRetry: true };
       }
 
       if (existingRequests.length > 0) {
-        throw new TRPCError({ code: 'CONFLICT', message: `A deletion request for this user already exists (status: ${existingRequests[0]!.status})` });
+        throw new TRPCError({ code: 'CONFLICT', message: `A deletion request for this user already exists (status: ${(activeRequest ?? existingRequests[0]!).status})` });
       }
 
       const request = await db.insert(deletionRequestTable, {
@@ -58,7 +60,7 @@ export const deletionRequestsRouter = router({
 
       logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by admin ${initiator.email}`);
 
-      return request;
+      return { request, isRetry: false };
     }),
 
   list: adminProcedure.query(async () => db.pg

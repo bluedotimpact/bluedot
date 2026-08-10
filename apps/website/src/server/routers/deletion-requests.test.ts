@@ -87,8 +87,9 @@ describe('deletionRequests.triggerAccountDeletion', () => {
   test('an admin creates a pending request carrying the subject\'s identifiers', async () => {
     await makeAdmin();
 
-    const request = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    const { request, isRetry } = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
 
+    expect(isRetry).toBe(false);
     expect(request).toMatchObject({
       email: SUBJECT.email,
       userId: SUBJECT.id,
@@ -102,7 +103,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
   test('records the real admin as the initiator when the request is made mid-impersonation', async () => {
     await makeAdmin();
 
-    const request = await createCaller({
+    const { request } = await createCaller({
       ...testAuthContextLoggedIn,
       auth: { ...testAuthContextLoggedIn.auth!, email: SUBJECT.email, sub: SUBJECT.keycloakIdentifier },
       impersonation: { adminEmail: 'test@example.com', adminSub: 'test-sub', targetEmail: SUBJECT.email },
@@ -130,7 +131,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await makeAdmin();
     vi.stubGlobal('fetch', vi.fn(async () => new Response('nope', { status: 500 })));
 
-    const request = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    const { request } = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
 
     expect(request).toMatchObject({ userId: SUBJECT.id, status: 'Pending' });
     await vi.waitFor(() => expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('confirmation notice'));
@@ -173,14 +174,28 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await seedRequest({ id: 'req-old', status: 'Failed', requestedAt: '2026-08-01T00:00:00.000Z' });
     await seedRequest({ id: 'req-recent', status: 'Failed', requestedAt: '2026-08-04T00:00:00.000Z' });
 
-    const request = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    const { request, isRetry } = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
 
+    expect(isRetry).toBe(true);
     expect(request).toMatchObject({ id: 'req-recent', status: 'Pending' });
 
     const rows = await testDb.scan(deletionRequestTable, { userId: SUBJECT.id });
     expect(rows).toHaveLength(2);
     expect(rows.find((row) => row.id === 'req-old')?.status).toBe('Failed');
     expect(cioEmailSends).toEqual([]);
+  });
+
+  test('throws CONFLICT instead of reviving when the user also has an active request', async () => {
+    await makeAdmin();
+    await seedRequest({ id: 'req-failed', status: 'Failed', requestedAt: '2026-08-01T00:00:00.000Z' });
+    await seedRequest({ id: 'req-active', status: 'In progress', requestedAt: '2026-08-04T00:00:00.000Z' });
+
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+      .rejects.toMatchObject({ code: 'CONFLICT', message: expect.stringContaining('In progress') });
+
+    const rows = await testDb.scan(deletionRequestTable, { userId: SUBJECT.id });
+    expect(rows.find((row) => row.id === 'req-failed')?.status).toBe('Failed');
+    expect(rows).toHaveLength(2);
   });
 });
 
