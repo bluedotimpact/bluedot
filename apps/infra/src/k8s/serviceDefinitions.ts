@@ -31,6 +31,9 @@ const WEBSITE_HEALTH_CHECK = {
   failureThreshold: 3,
 };
 
+// Public DSNs exposed in browser bundle
+const WEBSITE_SENTRY_DSN = 'https://44dfe900ca304b3fb58fc92f719393c5@o4511885459652608.ingest.de.sentry.io/4511885468500049';
+
 const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
 const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
 const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
@@ -152,6 +155,8 @@ export const services: ServiceDefinition[] = [
           { name: 'KEYCLOAK_CLIENT_ID', valueFrom: envVarSources.keycloakClientId },
           { name: 'KEYCLOAK_CLIENT_SECRET', valueFrom: envVarSources.keycloakClientSecret },
           { name: 'NEXT_PUBLIC_SITE_URL', value: 'https://website-staging.k8s.bluedot.org' },
+          { name: 'SENTRY_DSN', value: WEBSITE_SENTRY_DSN },
+          { name: 'SENTRY_ENVIRONMENT', value: 'staging' },
           { name: 'AIRTABLE_AUTOMATION_TOKEN', valueFrom: envVarSources.airtableAutomationToken },
           { name: 'LUMA_API_KEY', valueFrom: envVarSources.lumaApiKey },
           { name: 'CIO_APP_API_KEY', valueFrom: envVarSources.cioAppApiKey },
@@ -185,6 +190,8 @@ export const services: ServiceDefinition[] = [
           { name: 'KEYCLOAK_PREVIEW_CLIENT_SECRET', valueFrom: envVarSources.keycloakPreviewClientSecret },
           { name: 'KEYCLOAK_PREVIEW_AUTH_TOKEN', valueFrom: envVarSources.keycloakPreviewAuthToken },
           { name: 'NEXT_PUBLIC_SITE_URL', value: 'https://bluedot.org' },
+          { name: 'SENTRY_DSN', value: WEBSITE_SENTRY_DSN },
+          { name: 'SENTRY_ENVIRONMENT', value: 'production' },
           { name: 'AIRTABLE_AUTOMATION_TOKEN', valueFrom: envVarSources.airtableAutomationToken },
           { name: 'LUMA_API_KEY', valueFrom: envVarSources.lumaApiKey },
           { name: 'CIO_APP_API_KEY', valueFrom: envVarSources.cioAppApiKey },
