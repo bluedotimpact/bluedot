@@ -99,8 +99,6 @@ export const dropoutRouter = router({
         }
 
         const expectedCourseId = oldRound?.courseId ?? courseRegistration.courseId;
-        // The falsy check also covers '': on the not-null registration column, an empty Airtable
-        // link syncs as '' rather than null.
         if (!expectedCourseId || newRound.courseId !== expectedCourseId) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'The selected round belongs to a different course. Please refresh the page and try again.' });
         }
