@@ -19,10 +19,15 @@ const PG_SYNC_SLACK_CHANNEL_ID = 'C0BFEG755PG'; // #update_pg-sync
 // (apps/website/.env.production.template). Not a secret: it's exposed in the browser bundle.
 const POSTHOG_PROJECT_API_KEY = 'phc_NVqRwH6xZ0MiP9I5a9tx3l9zsTWBvMI1YEbvbCOXDcI';
 
+// Shared with the Service's targetPort below so the probe can't silently drift from it.
+const WEBSITE_TARGET_PORT = 8080;
+
 // Hits a Next-handled route, so a build that boots but throws on every request fails the
 // rollout instead of "succeeding". A plain TCP check can't tell those apart.
-const WEBSITE_READINESS_PROBE = {
-  httpGet: { path: '/api/health', port: 8080 },
+// Readiness pulls a stalled pod out of rotation; liveness restarts it so single-replica
+// website doesn't stay stuck NotReady until the stall clears on its own.
+const WEBSITE_HEALTH_CHECK = {
+  httpGet: { path: '/api/health', port: WEBSITE_TARGET_PORT },
   periodSeconds: 10,
   failureThreshold: 3,
 };
@@ -156,10 +161,12 @@ export const services: ServiceDefinition[] = [
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
         ],
-        readinessProbe: WEBSITE_READINESS_PROBE,
+        readinessProbe: WEBSITE_HEALTH_CHECK,
+        livenessProbe: WEBSITE_HEALTH_CHECK,
       }],
     },
     hosts: ['website-staging.k8s.bluedot.org'],
+    targetPort: WEBSITE_TARGET_PORT,
   },
   {
     name: 'bluedot-website-production',
@@ -187,10 +194,12 @@ export const services: ServiceDefinition[] = [
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
         ],
-        readinessProbe: WEBSITE_READINESS_PROBE,
+        readinessProbe: WEBSITE_HEALTH_CHECK,
+        livenessProbe: WEBSITE_HEALTH_CHECK,
       }],
     },
     hosts: ['website-production.k8s.bluedot.org'],
+    targetPort: WEBSITE_TARGET_PORT,
   },
   {
     name: 'bluedot-storybook',
