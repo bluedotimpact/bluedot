@@ -18,7 +18,9 @@ const MarketingHero = ({ title, subtitle, cta }: MarketingHeroProps) => {
         className="absolute inset-0 size-full object-cover -scale-x-100"
         {...{ fetchpriority: 'high' }}
       />
-      <div className={`relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] ${cta ? 'pb-6' : 'pb-12'} pt-20 ${cta ? 'bd-md:pb-8' : 'bd-md:pb-16'}`}>
+      {/* Center the text between the nav's bottom border and the hero's bottom edge so the
+          gaps above and below stay equal whether the title wraps to one line or two */}
+      <div className="relative z-10 flex flex-col justify-center h-full min-h-[317px] bd-md:min-h-[366px] pt-[calc(var(--nav-height-mobile)+2rem)] lg:pt-[calc(var(--nav-height-desktop)+2rem)] pb-8">
         <div className="section-base">
           <div className="flex flex-col gap-6 max-w-[780px]">
             <HeroH1 className="text-left">

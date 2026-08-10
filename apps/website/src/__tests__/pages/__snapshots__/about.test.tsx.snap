@@ -543,7 +543,7 @@ exports[`AboutPage > should render correctly 1`] = `
         src="/images/homepage/hero.webp"
       />
       <div
-        class="relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] pb-12 pt-20 bd-md:pb-16"
+        class="relative z-10 flex flex-col justify-center h-full min-h-[317px] bd-md:min-h-[366px] pt-[calc(var(--nav-height-mobile)+2rem)] lg:pt-[calc(var(--nav-height-desktop)+2rem)] pb-8"
       >
         <div
           class="section-base"
