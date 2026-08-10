@@ -10,8 +10,8 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // Don't protect the login page or its API route
-  if (pathname === '/site-login' || pathname === '/api/site-login') {
+  // Don't protect the login page, its API route, or the k8s readiness probe
+  if (pathname === '/site-login' || pathname === '/api/site-login' || pathname === '/api/health') {
     return NextResponse.next();
   }
 

@@ -19,6 +19,14 @@ const PG_SYNC_SLACK_CHANNEL_ID = 'C0BFEG755PG'; // #update_pg-sync
 // (apps/website/.env.production.template). Not a secret: it's exposed in the browser bundle.
 const POSTHOG_PROJECT_API_KEY = 'phc_NVqRwH6xZ0MiP9I5a9tx3l9zsTWBvMI1YEbvbCOXDcI';
 
+// Hits a Next-handled route, so a build that boots but throws on every request fails the
+// rollout instead of "succeeding". A plain TCP check can't tell those apart.
+const WEBSITE_READINESS_PROBE = {
+  httpGet: { path: '/api/health', port: 8080 },
+  periodSeconds: 10,
+  failureThreshold: 3,
+};
+
 const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
 const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
 const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
@@ -148,6 +156,7 @@ export const services: ServiceDefinition[] = [
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
         ],
+        readinessProbe: WEBSITE_READINESS_PROBE,
       }],
     },
     hosts: ['website-staging.k8s.bluedot.org'],
@@ -178,6 +187,7 @@ export const services: ServiceDefinition[] = [
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
         ],
+        readinessProbe: WEBSITE_READINESS_PROBE,
       }],
     },
     hosts: ['website-production.k8s.bluedot.org'],
