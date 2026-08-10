@@ -1,4 +1,4 @@
-import { courseRegistrationTable, eq } from '@bluedot/db';
+import { applicationsRoundTable, courseRegistrationTable, eq } from '@bluedot/db';
 import {
   beforeEach, describe, expect, test,
 } from 'vitest';
@@ -9,8 +9,12 @@ import {
 setupTestDb();
 
 // The authenticated user's row is assumed to exist by the userId-scoped routes.
+// Deferral targets are validated against rounds, so seed the rounds referenced by tests.
 beforeEach(async () => {
   await seedLoggedInUser();
+  await testDb.insert(applicationsRoundTable, { id: 'round-1', courseId: 'course-1' });
+  await testDb.insert(applicationsRoundTable, { id: 'round-2', courseId: 'course-1' });
+  await testDb.insert(applicationsRoundTable, { id: 'round-other-course', courseId: 'course-2' });
 });
 
 const getDecision = async (id: string) => {
@@ -96,5 +100,87 @@ describe('dropout.dropoutOrDeferral', () => {
     await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
       applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
     })).rejects.toMatchObject({ code: 'FORBIDDEN' });
+  });
+
+  test('rejects a deferral to a round of a different course', async () => {
+    await insertRegistration({ role: 'Participant', decision: 'Accept' });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-other-course',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  test('rejects a deferral to a round that does not exist', async () => {
+    await insertRegistration({ role: 'Participant', decision: 'Accept' });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-nonexistent',
+    })).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  test('validates against the current round\'s course, not a stale registration course link', async () => {
+    // Registration's course link disagrees with its round: the round's course wins.
+    await insertRegistration({ role: 'Participant', decision: 'Accept', courseId: 'course-stale' });
+
+    // Same course as the current round: allowed despite the stale link.
+    const result = await createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
+    });
+    expect(result).toBeTruthy();
+
+    // Matching the stale link but not the round's course: rejected.
+    await testDb.insert(applicationsRoundTable, { id: 'round-stale-course', courseId: 'course-stale' });
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-stale-course',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  test('falls back to the registration course link when there is no current round', async () => {
+    await insertRegistration({ role: 'Participant', decision: 'Accept', roundId: null });
+
+    const result = await createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
+    });
+    expect(result).toBeTruthy();
+
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-2', email: 'test@example.com', userId: 'test-user', courseId: 'course-2', decision: 'Accept', roundId: null,
+    });
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-2', type: 'Deferral', newRoundId: 'round-2',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  test('fails closed when the current round cannot be resolved, instead of trusting the course link', async () => {
+    // Registration claims a round that has no row in pg (deleted / not synced). Falling back to
+    // the course link here would reopen the wrong-course hole for exactly the records where the
+    // link is least trustworthy.
+    await insertRegistration({ role: 'Participant', decision: 'Accept', roundId: 'round-missing' });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  test('fails closed when the current round has no course, instead of trusting the course link', async () => {
+    await testDb.insert(applicationsRoundTable, { id: 'round-no-course', courseId: null });
+    await testDb.insert(applicationsRoundTable, { id: 'round-stale-link-course', courseId: 'course-stale' });
+    await insertRegistration({
+      role: 'Participant', decision: 'Accept', courseId: 'course-stale', roundId: 'round-no-course',
+    });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-stale-link-course',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  test('rejects a deferral when the course cannot be determined', async () => {
+    await insertRegistration({
+      role: 'Participant', decision: 'Accept', courseId: '', roundId: null,
+    });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 });
