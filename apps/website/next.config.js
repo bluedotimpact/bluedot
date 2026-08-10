@@ -1,6 +1,7 @@
+const { withSentryConfig } = require('@sentry/nextjs');
 const { withDefaultBlueDotNextConfig } = require('@bluedot/ui/src/default-config/next');
 
-module.exports = withDefaultBlueDotNextConfig({
+const baseConfig = withDefaultBlueDotNextConfig({
   async redirects() {
     return [
       {
@@ -120,4 +121,19 @@ module.exports = withDefaultBlueDotNextConfig({
       ],
     },
   ],
+});
+
+// withDefaultBlueDotNextConfig is async; withSentryConfig needs the resolved object
+module.exports = async () => withSentryConfig(await baseConfig, {
+  org: 'bluedotimpact',
+  project: 'website',
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
+  tunnelRoute: true,
+  silent: !process.env.CI,
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
 });
