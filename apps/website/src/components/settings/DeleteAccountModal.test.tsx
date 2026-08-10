@@ -125,6 +125,14 @@ describe('DeleteAccountModal', () => {
     expect(await requestsInDb()).toEqual([]);
   });
 
+  test('the user form is not shown until the eligibility check resolves', async () => {
+    renderAsUser();
+
+    expect(screen.queryByLabelText(/to confirm/i)).not.toBeInTheDocument();
+
+    await waitFor(() => expect(screen.getByLabelText(/to confirm/i)).toBeInTheDocument());
+  });
+
   test('a user confirms with their own phrase, and a request is recorded against their account', async () => {
     renderAsUser();
 
@@ -170,6 +178,7 @@ describe('DeleteAccountModal', () => {
   test('the countdown view ignores attempts to close it', async () => {
     const { setIsOpen } = renderAsUser();
 
+    await waitFor(() => expect(screen.getByLabelText(/to confirm/i)).toBeInTheDocument());
     typeConfirmation('delete my account');
     await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
     fireEvent.click(deleteMyAccountButton());

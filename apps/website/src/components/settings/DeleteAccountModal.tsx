@@ -5,6 +5,7 @@ import {
   ErrorSection,
   Modal,
   P,
+  ProgressDots,
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
 import { CheckIcon } from '../icons';
@@ -27,8 +28,9 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
   const [confirmationText, setConfirmationText] = useState('');
   const [secondsUntilLogout, setSecondsUntilLogout] = useState(LOGOUT_COUNTDOWN_SECONDS);
 
+  // Fetched on mount rather than on open, so the blocked-facilitator state doesn't pop in after the form
   const eligibility = trpc.deletionRequests.selfDeletionEligibility.useQuery(undefined, {
-    enabled: isUserInitiated && isOpen,
+    enabled: isUserInitiated,
     retry: false,
   });
 
@@ -91,7 +93,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
           </>
         ) : (
           <P>
-            {requestDeletion.data?.isRetry
+            {adminRequestDeletion.data?.isRetry
               ? 'Retrying existing deletion request, the account should be deleted shortly. The user will not be re-notified (they should have received a notification on the initial attempt).'
               : 'The account will be deleted shortly. The user will also receive an email confirming this request.'}
           </P>
@@ -172,6 +174,18 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
 
   const formTitle = isUserInitiated ? 'Delete your account' : 'Delete account';
 
+  const renderBody = () => {
+    if (requestDeletion.isSuccess) {
+      return renderRequestedView();
+    }
+
+    if (isUserInitiated && eligibility.isLoading) {
+      return <ProgressDots className="py-8" />;
+    }
+
+    return renderForm();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -188,7 +202,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
     >
       <div className="w-full max-w-modal">
         <div className="h-0 w-[600px] max-w-full" />
-        {requestDeletion.isSuccess ? renderRequestedView() : renderForm()}
+        {renderBody()}
       </div>
     </Modal>
   );
