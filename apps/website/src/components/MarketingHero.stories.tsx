@@ -47,3 +47,10 @@ export const TitleOnly: Story = {
     title: 'Our community',
   },
 };
+
+export const TwoLineTitle: Story = {
+  args: {
+    title: 'US Public Support for Biodefense',
+    subtitle: 'Build an organization whose mission is to effectively raise US public support for biodefense.',
+  },
+};

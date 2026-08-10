@@ -18,7 +18,7 @@ const MarketingHero = ({ title, subtitle, cta }: MarketingHeroProps) => {
         className="absolute inset-0 size-full object-cover -scale-x-100"
         {...{ fetchpriority: 'high' }}
       />
-      <div className={`relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] ${cta ? 'pb-6' : 'pb-12'} pt-20 ${cta ? 'bd-md:pb-8' : 'bd-md:pb-16'}`}>
+      <div className={`relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] ${cta ? 'pb-6' : 'pb-12'} pt-24 bd-md:pt-32 ${cta ? 'bd-md:pb-8' : 'bd-md:pb-16'}`}>
         <div className="section-base">
           <div className="flex flex-col gap-6 max-w-[780px]">
             <HeroH1 className="text-left">
