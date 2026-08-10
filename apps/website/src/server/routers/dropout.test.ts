@@ -162,6 +162,18 @@ describe('dropout.dropoutOrDeferral', () => {
     })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
+  test('fails closed when the current round has no course, instead of trusting the course link', async () => {
+    await testDb.insert(applicationsRoundTable, { id: 'round-no-course', courseId: null });
+    await testDb.insert(applicationsRoundTable, { id: 'round-stale-link-course', courseId: 'course-stale' });
+    await insertRegistration({
+      role: 'Participant', decision: 'Accept', courseId: 'course-stale', roundId: 'round-no-course',
+    });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-stale-link-course',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
   test('rejects a deferral when the course cannot be determined', async () => {
     await insertRegistration({
       role: 'Participant', decision: 'Accept', courseId: '', roundId: null,
