@@ -6,5 +6,5 @@ Sentry.init({
 
   environment: env.SENTRY_ENVIRONMENT ?? 'development',
 
-  tracesSampleRate: process.env.NODE_ENV === 'development' ? 1.0 : 0.1
+  tracesSampleRate: process.env.NODE_ENV === 'development' ? 1.0 : 0.1,
 });
