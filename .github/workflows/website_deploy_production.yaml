@@ -138,5 +138,3 @@ jobs:
 
       - name: Deploy production
         run: npm run deploy:multistage:production --workspace apps/website
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}

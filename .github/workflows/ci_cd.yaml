@@ -291,5 +291,3 @@ jobs:
 
       - name: Deploy
         run: npm run deploy:cd --workspace ${{ matrix.app }}
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}

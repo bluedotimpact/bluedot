@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { type NextPageContext } from 'next';
 import Head from 'next/head';
-import * as Sentry from '@sentry/nextjs';
 import { ErrorSection, Section } from '@bluedot/ui';
 import { reportClientError } from '../lib/reportClientError';
 
@@ -34,10 +33,7 @@ const ErrorPage = ({ statusCode, message }: ErrorProps) => {
   );
 };
 
-ErrorPage.getInitialProps = async (ctx: NextPageContext) => {
-  const { res, err } = ctx;
-  await Sentry.captureUnderscoreErrorException(ctx);
-
+ErrorPage.getInitialProps = ({ res, err }: NextPageContext) => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const statusCode = res?.statusCode || err?.statusCode || 500;
   const message = err?.message;
