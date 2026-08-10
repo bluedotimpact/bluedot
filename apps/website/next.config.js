@@ -129,6 +129,7 @@ module.exports = async () => withSentryConfig(await baseConfig, {
   project: 'website',
   authToken: process.env.SENTRY_AUTH_TOKEN,
   widenClientFileUpload: true,
+  tunnelRoute: true,
   silent: !process.env.CI,
   webpack: {
     treeshake: {
