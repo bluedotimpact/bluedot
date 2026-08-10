@@ -33,7 +33,7 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
         <title>{`${mission.title || 'Mission'} | BlueDot Impact`}</title>
         <meta name="description" content={mission.subtitle ?? undefined} />
       </Head>
-      <MarketingHero title={currentRoute.title} subtitle={mission.subtitle ?? undefined} />
+      <MarketingHero title={currentRoute.title} subtitle={mission.subtitle ?? undefined} extraTopSpacing />
       <Breadcrumbs route={currentRoute} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>

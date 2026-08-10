@@ -22,7 +22,7 @@ const MissionsPage = () => {
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta name="description" content={MISSIONS_SUBTITLE} />
       </Head>
-      <MarketingHero title="Missions" subtitle={MISSIONS_SUBTITLE} />
+      <MarketingHero title="Missions" subtitle={MISSIONS_SUBTITLE} extraTopSpacing />
       <Breadcrumbs route={CURRENT_ROUTE} />
       {isLoading && (
         <section className="section section-body">

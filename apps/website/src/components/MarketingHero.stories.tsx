@@ -22,6 +22,10 @@ const meta = {
       description: 'Optional subtitle paragraph below the heading',
       control: 'text',
     },
+    extraTopSpacing: {
+      description: 'Reserve extra space below the nav for titles that wrap to two lines (e.g. missions)',
+      control: 'boolean',
+    },
   },
 } satisfies Meta<typeof MarketingHero>;
 
@@ -48,9 +52,11 @@ export const TitleOnly: Story = {
   },
 };
 
+// Mirrors a mission detail page, where titles routinely wrap to two lines.
 export const TwoLineTitle: Story = {
   args: {
     title: 'US Public Support for Biodefense',
     subtitle: 'Build an organization whose mission is to effectively raise US public support for biodefense.',
+    extraTopSpacing: true,
   },
 };
