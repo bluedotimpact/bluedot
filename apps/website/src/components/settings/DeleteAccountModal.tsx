@@ -1,4 +1,5 @@
 import {
+  cn,
   CTALinkOrButton,
   ErrorSection,
   Modal,
@@ -54,7 +55,11 @@ const DeleteAccountModal = ({
         <CheckIcon className="text-bluedot-normal" />
       </div>
       <div className="flex w-full flex-col gap-4">
-        <P>The account will be deleted shortly. The user will also receive an email confirming this request.</P>
+        <P>
+          {requestDeletion.data?.isRetry
+            ? 'Retrying existing deletion request, the account should be deleted shortly. The user will not be re-notified (they should have received a notification on the initial attempt).'
+            : 'The account will be deleted shortly. The user will also receive an email confirming this request.'}
+        </P>
       </div>
     </div>
   );
@@ -83,7 +88,10 @@ const DeleteAccountModal = ({
           }}
           placeholder={CONFIRMATION_PHRASE}
           disabled={requestDeletion.isPending}
-          className="w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400"
+          className={cn(
+            'w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400',
+            requestDeletion.isPending && 'cursor-not-allowed',
+          )}
         />
       </div>
 
@@ -113,7 +121,13 @@ const DeleteAccountModal = ({
   return (
     <Modal
       isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      setIsOpen={(open) => {
+        if (requestDeletion.isPending) {
+          return;
+        }
+
+        setIsOpen(open);
+      }}
       title={requestDeletion.isSuccess ? 'Deletion requested' : 'Delete account'}
       bottomDrawerOnMobile
     >

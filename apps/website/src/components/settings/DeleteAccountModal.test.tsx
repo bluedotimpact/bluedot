@@ -59,6 +59,25 @@ describe('DeleteAccountModal', () => {
     }]);
   });
 
+  test('retrying a failed request says the user will not be notified again', async () => {
+    await testDb.insert(deletionRequestTable, {
+      id: 'req-failed',
+      email: SUBJECT.email,
+      userId: SUBJECT.id,
+      status: 'Failed',
+      initiatedByRole: 'Admin',
+      requestedAt: '2026-08-01T00:00:00.000Z',
+    });
+    renderAsAdmin();
+
+    typeConfirmation('delete account');
+    fireEvent.click(deleteButton());
+
+    await waitFor(() => expect(screen.getByText(/Retrying existing deletion request/)).toBeInTheDocument());
+    expect(screen.queryByText(/will also receive an email/)).not.toBeInTheDocument();
+    expect(await requestsInDb()).toMatchObject([{ id: 'req-failed', status: 'Pending' }]);
+  });
+
   test('nothing happens until the phrase matches', async () => {
     renderAsAdmin();
 
