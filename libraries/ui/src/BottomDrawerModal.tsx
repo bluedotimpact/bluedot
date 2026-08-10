@@ -59,7 +59,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
 
   // Always start from closed position, the useEffect below will animate to an open position if needed
   const y = useMotionValue(closedY);
-  const openY = useRef(halfOpenY);
+  const initialOpenY = useRef(halfOpenY);
 
   // Reset on modal state changes
   const prevIsOpen = useRef<boolean | null>(null);
@@ -81,7 +81,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
         // Use the larger y value (less expansion) = min height
         const targetY = initialSize === 'fit-screen' ? halfOpenY : Math.max(halfOpenY, contentBasedY);
 
-        openY.current = targetY;
+        initialOpenY.current = targetY;
         animate(y, targetY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
       });
     } else {
@@ -178,8 +178,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
 
                   if (!isDismissable) {
                     // Any downward drag snaps back, otherwise the sheet can be parked off-screen with no way to recover
-                    if (currentY > openY.current) {
-                      animate(y, openY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+                    if (currentY > initialOpenY.current) {
+                      animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
                     }
 
                     return;
