@@ -31,6 +31,15 @@ const WEBSITE_HEALTH_CHECK = {
   failureThreshold: 3,
 };
 
+// startupProbe gates readiness/liveness until the app responds once, so a slow cold start
+// (seen in prod: pod took >30s to come up) doesn't get misread as a liveness failure and
+// killed before it ever gets a chance to pass. Same budget as bluedot-login's startupProbe.
+const WEBSITE_STARTUP_PROBE = {
+  httpGet: { path: '/api/health', port: WEBSITE_TARGET_PORT },
+  periodSeconds: 10,
+  failureThreshold: 18,
+};
+
 const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
 const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
 const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
@@ -160,6 +169,7 @@ export const services: ServiceDefinition[] = [
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
         ],
+        startupProbe: WEBSITE_STARTUP_PROBE,
         readinessProbe: WEBSITE_HEALTH_CHECK,
         livenessProbe: WEBSITE_HEALTH_CHECK,
       }],
@@ -193,6 +203,7 @@ export const services: ServiceDefinition[] = [
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
         ],
+        startupProbe: WEBSITE_STARTUP_PROBE,
         readinessProbe: WEBSITE_HEALTH_CHECK,
         livenessProbe: WEBSITE_HEALTH_CHECK,
       }],
