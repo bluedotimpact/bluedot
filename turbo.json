@@ -6,8 +6,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$"],
-      "outputs": ["dist/**", "!dist/cache/**"],
-      "env": ["SENTRY_AUTH_TOKEN"]
+      "outputs": ["dist/**", "!dist/cache/**"]
     },
     "lint": {
       "dependsOn": ["@bluedot/eslint-config#build"]
