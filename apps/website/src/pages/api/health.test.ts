@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { describe, it, expect, vi } from 'vitest';
+import {
+  describe, it, expect, vi,
+} from 'vitest';
 import handler from './health';
 
 describe('health', () => {
