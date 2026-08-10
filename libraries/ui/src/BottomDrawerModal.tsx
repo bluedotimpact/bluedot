@@ -39,7 +39,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   initialSize,
   children,
   ariaLabel,
-  noClickaway,
+  isDismissable = true,
   centerTitle,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -59,6 +59,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
 
   // Always start from closed position, the useEffect below will animate to an open position if needed
   const y = useMotionValue(closedY);
+  const initialOpenY = useRef(halfOpenY);
 
   // Reset on modal state changes
   const prevIsOpen = useRef<boolean | null>(null);
@@ -80,6 +81,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
         // Use the larger y value (less expansion) = min height
         const targetY = initialSize === 'fit-screen' ? halfOpenY : Math.max(halfOpenY, contentBasedY);
 
+        initialOpenY.current = targetY;
         animate(y, targetY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
       });
     } else {
@@ -102,7 +104,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   }, [y, isFullyExpanded]);
 
   const handleClose = () => {
-    if (!isClosing) {
+    if (isDismissable && !isClosing) {
       setIsClosing(true);
       animate(y, closedY, {
         duration: 0.3,
@@ -116,7 +118,9 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
 
   return (
     <ModalOverlay
-      isDismissable={!noClickaway}
+      isDismissable={isDismissable}
+      // react-aria's isDismissable only covers outside interaction, not the escape key
+      isKeyboardDismissDisabled={!isDismissable}
       isOpen={isOpen}
       onOpenChange={(open) => !open && handleClose()}
       className="fixed inset-0 z-60 flex min-h-full items-center justify-center"
@@ -131,7 +135,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                onClick={noClickaway ? undefined : handleClose}
+                onClick={isDismissable ? handleClose : undefined}
               />
               {/* Modal Container */}
               <motion.div
@@ -172,8 +176,23 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                   const currentY = y.get();
                   const closeThreshold = closedY * CLOSE_POSITION_THRESHOLD;
 
+                  if (!isDismissable) {
+                    // Any downward drag snaps back, otherwise the sheet can be parked off-screen with no way to recover
+                    if (currentY > initialOpenY.current) {
+                      animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+                    }
+
+                    return;
+                  }
+
                   if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
                     handleClose();
+                  }
+                }}
+                onDragTransitionEnd={() => {
+                  // Release momentum can glide the sheet below the open position after onDragEnd has run
+                  if (!isDismissable && y.get() > initialOpenY.current) {
+                    animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
                   }
                 }}
               >
