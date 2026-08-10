@@ -98,7 +98,9 @@ export const dropoutRouter = router({
           throw new TRPCError({ code: 'NOT_FOUND', message: 'The selected round was not found.' });
         }
 
-        const expectedCourseId = oldRound?.courseId ?? courseRegistration.courseId;
+        // Only round-less registrations fall back to the course link; an unresolvable round fails
+        // closed. The falsy check also covers '' (how an empty link syncs on not-null columns).
+        const expectedCourseId = oldRoundId ? oldRound?.courseId : courseRegistration.courseId;
         if (!expectedCourseId || newRound.courseId !== expectedCourseId) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'The selected round belongs to a different course. Please refresh the page and try again.' });
         }

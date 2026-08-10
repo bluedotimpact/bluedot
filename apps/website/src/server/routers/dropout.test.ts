@@ -151,6 +151,17 @@ describe('dropout.dropoutOrDeferral', () => {
     })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
+  test('fails closed when the current round cannot be resolved, instead of trusting the course link', async () => {
+    // Registration claims a round that has no row in pg (deleted / not synced). Falling back to
+    // the course link here would reopen the wrong-course hole for exactly the records where the
+    // link is least trustworthy.
+    await insertRegistration({ role: 'Participant', decision: 'Accept', roundId: 'round-missing' });
+
+    await expect(createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+      applicantId: 'reg-1', type: 'Deferral', newRoundId: 'round-2',
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
   test('rejects a deferral when the course cannot be determined', async () => {
     await insertRegistration({
       role: 'Participant', decision: 'Accept', courseId: '', roundId: null,
