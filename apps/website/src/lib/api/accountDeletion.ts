@@ -123,8 +123,7 @@ const buildDeletionSteps = ({ userId, keycloakIdentifier, registrationIds, meetP
     throw new Error('userId is null or empty');
   }
 
-  // Rows linked to these ids and nobody else. The overlap check is what keeps `<@` from also matching
-  // every row linked to nobody, which is how an empty Airtable cell syncs.
+  // Rows linked to these ids and nobody else. `arrayContained` on its own would otherwise match `[]` and delete rows with no owner
   const linkedSolelyTo = (column: SQLWrapper, ids: string[]): SQL | 'skip' => (
     ids.length === 0 ? 'skip' : and(arrayOverlaps(column, ids), arrayContained(column, ids))!
   );
