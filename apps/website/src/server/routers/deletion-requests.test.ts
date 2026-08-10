@@ -316,21 +316,21 @@ const armStepFailure = (step: (typeof ALL_STEPS)[number]) => {
   }
 };
 
-describe('deletionRequests.triggerAccountDeletion', () => {
+describe('deletionRequests.adminRequestAccountDeletion', () => {
   test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+    await expect(createCaller(testAuthContextLoggedOut).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id }))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('rejects non-admins', async () => {
-    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id }))
       .rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
   test('an admin creates a pending request carrying the subject\'s identifiers', async () => {
     await makeAdmin();
 
-    const { request, isRetry } = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    const { request, isRetry } = await createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
 
     expect(isRetry).toBe(false);
     expect(request).toMatchObject({
@@ -350,7 +350,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
       ...testAuthContextLoggedIn,
       auth: { ...testAuthContextLoggedIn.auth!, email: SUBJECT.email, sub: SUBJECT.keycloakIdentifier },
       impersonation: { adminEmail: 'test@example.com', adminSub: 'test-sub', targetEmail: SUBJECT.email },
-    }).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    }).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
 
     expect(request).toMatchObject({ initiatedByRole: 'Admin', initiatedBy: ['test-user'] });
   });
@@ -359,7 +359,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await seedSubjectData();
     await makeAdmin();
 
-    await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    await createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
 
     expect(await pgIdsIn(userTable)).toEqual(['test-user', SUBJECT.id]);
     expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject', 'reg-subject-unlinked']);
@@ -370,14 +370,14 @@ describe('deletionRequests.triggerAccountDeletion', () => {
   test('throws NOT_FOUND when the admin targets a user that does not exist', async () => {
     await makeAdmin();
 
-    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: 'nobody' }))
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: 'nobody' }))
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
   test('sends a confirmation email to the account being deleted', async () => {
     await makeAdmin();
 
-    await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    await createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
 
     await vi.waitFor(() => expect(cioEmailSends).toEqual([{ to: SUBJECT.email, subject: 'Account deletion requested' }]));
   });
@@ -392,7 +392,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
       return fakeCio(input, init);
     }));
 
-    const { request } = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    const { request } = await createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
 
     expect(request).toMatchObject({ userId: SUBJECT.id, status: 'Pending' });
     await vi.waitFor(() => expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('confirmation notice'));
@@ -403,7 +403,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await makeAdmin();
     await seedRequest({ status: 'Pending' });
 
-    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id }))
       .rejects.toMatchObject({ code: 'CONFLICT' });
 
     expect(await testDb.scan(deletionRequestTable, { userId: SUBJECT.id })).toHaveLength(1);
@@ -414,7 +414,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await makeAdmin();
     await seedRequest({ status: 'In progress' });
 
-    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id }))
       .rejects.toMatchObject({ code: 'CONFLICT' });
 
     expect(await testDb.scan(deletionRequestTable, { userId: SUBJECT.id })).toHaveLength(1);
@@ -424,7 +424,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await makeAdmin();
     await seedRequest({ status: 'Completed' });
 
-    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id }))
       .rejects.toMatchObject({ code: 'CONFLICT' });
 
     expect(await testDb.scan(deletionRequestTable, { userId: SUBJECT.id })).toHaveLength(1);
@@ -435,7 +435,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await seedRequest({ id: 'req-old', status: 'Failed', requestedAt: '2026-08-01T00:00:00.000Z' });
     await seedRequest({ id: 'req-recent', status: 'Failed', requestedAt: '2026-08-04T00:00:00.000Z' });
 
-    const { request, isRetry } = await createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id });
+    const { request, isRetry } = await createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
 
     expect(isRetry).toBe(true);
     expect(request).toMatchObject({ id: 'req-recent', status: 'Pending' });
@@ -451,7 +451,7 @@ describe('deletionRequests.triggerAccountDeletion', () => {
     await seedRequest({ id: 'req-failed', status: 'Failed', requestedAt: '2026-08-01T00:00:00.000Z' });
     await seedRequest({ id: 'req-active', status: 'In progress', requestedAt: '2026-08-04T00:00:00.000Z' });
 
-    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.triggerAccountDeletion({ userId: SUBJECT.id }))
+    await expect(createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id }))
       .rejects.toMatchObject({ code: 'CONFLICT', message: expect.stringContaining('In progress') });
 
     const rows = await testDb.scan(deletionRequestTable, { userId: SUBJECT.id });
@@ -470,9 +470,9 @@ const seedCallerFacilitatorHistory = async (overrides: { role?: string; roundSta
   });
 };
 
-const requestOwnDeletion = (ctx = testAuthContextLoggedIn) => createCaller(ctx).deletionRequests.requestOwnAccountDeletion();
+const requestOwnDeletion = (ctx = testAuthContextLoggedIn) => createCaller(ctx).deletionRequests.userRequestAccountDeletion();
 
-describe('deletionRequests.requestOwnAccountDeletion', () => {
+describe('deletionRequests.userRequestAccountDeletion', () => {
   test('rejects unauthenticated callers', async () => {
     await expect(requestOwnDeletion(testAuthContextLoggedOut)).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
 
@@ -493,19 +493,15 @@ describe('deletionRequests.requestOwnAccountDeletion', () => {
     await vi.waitFor(() => expect(cioEmailSends).toEqual([{ to: 'test@example.com', subject: 'Account deletion requested' }]));
   });
 
-  test('records the real admin as the initiator when the request is made mid-impersonation', async () => {
-    const request = await requestOwnDeletion({
+  test('blocks the request while impersonating another user', async () => {
+    await expect(requestOwnDeletion({
       ...testAuthContextLoggedIn,
       auth: { ...testAuthContextLoggedIn.auth!, email: SUBJECT.email, sub: SUBJECT.keycloakIdentifier },
       impersonation: { adminEmail: 'test@example.com', adminSub: 'test-sub', targetEmail: SUBJECT.email },
-    });
+    })).rejects.toMatchObject({ code: 'BAD_REQUEST', message: expect.stringContaining('impersonating') });
 
-    expect(request).toMatchObject({
-      userId: SUBJECT.id,
-      status: 'Pending',
-      initiatedByRole: 'Admin',
-      initiatedBy: ['test-user'],
-    });
+    expect(await testDb.pg.select().from(deletionRequestTable.pg)).toEqual([]);
+    expect(cioEmailSends).toEqual([]);
   });
 
   test('refuses anyone who has ever facilitated, however old the round', async () => {
@@ -566,21 +562,21 @@ describe('deletionRequests.selfDeletionEligibility', () => {
     await seedCallerFacilitatorHistory({ role: 'Participant' });
 
     expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
-      .toEqual({ hasEverFacilitated: false });
+      .toEqual({ hasEverFacilitated: false, hasExistingRequest: false });
   });
 
   test('reports a caller who has ever facilitated as blocked', async () => {
     await seedCallerFacilitatorHistory({ roundStatus: 'Inactive' });
 
     expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
-      .toEqual({ hasEverFacilitated: true });
+      .toEqual({ hasEverFacilitated: true, hasExistingRequest: false });
   });
 
   test('reports a caller whose course role was never assigned as blocked', async () => {
     await seedCallerFacilitatorHistory({ role: 'TODO' });
 
     expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
-      .toEqual({ hasEverFacilitated: true });
+      .toEqual({ hasEverFacilitated: true, hasExistingRequest: false });
   });
 
   test('reports a caller with no course role recorded as blocked', async () => {
@@ -592,7 +588,22 @@ describe('deletionRequests.selfDeletionEligibility', () => {
     });
 
     expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
-      .toEqual({ hasEverFacilitated: true });
+      .toEqual({ hasEverFacilitated: true, hasExistingRequest: false });
+  });
+
+  // A user can't retry a Failed request either, so any status counts as an existing request.
+  test.each(['Pending', 'In progress', 'Completed', 'Failed'])('reports an existing %s request for the caller', async (status) => {
+    await seedRequest({ userId: 'test-user', email: 'test@example.com', status });
+
+    expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
+      .toEqual({ hasEverFacilitated: false, hasExistingRequest: true });
+  });
+
+  test('ignores deletion requests belonging to other users', async () => {
+    await seedRequest();
+
+    expect(await createCaller(testAuthContextLoggedIn).deletionRequests.selfDeletionEligibility())
+      .toEqual({ hasEverFacilitated: false, hasExistingRequest: false });
   });
 });
 

@@ -28,18 +28,20 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
   const [confirmationText, setConfirmationText] = useState('');
   const [secondsUntilLogout, setSecondsUntilLogout] = useState(LOGOUT_COUNTDOWN_SECONDS);
 
-  // Fetched on mount rather than on open, so the blocked-facilitator state doesn't pop in after the form
+  // Fetched on mount, so that by the time the model is opened this will
+  // almost certainly have returned.
   const eligibility = trpc.deletionRequests.selfDeletionEligibility.useQuery(undefined, {
     enabled: isUserInitiated,
     retry: false,
   });
 
-  const adminRequestDeletion = trpc.deletionRequests.triggerAccountDeletion.useMutation();
-  const userRequestDeletion = trpc.deletionRequests.requestOwnAccountDeletion.useMutation();
+  const adminRequestDeletion = trpc.deletionRequests.adminRequestAccountDeletion.useMutation();
+  const userRequestDeletion = trpc.deletionRequests.userRequestAccountDeletion.useMutation();
   const requestDeletion = isUserInitiated ? userRequestDeletion : adminRequestDeletion;
   const { reset: resetMutation } = requestDeletion;
 
   const blockedAsFacilitator = eligibility.data?.hasEverFacilitated === true;
+  const alreadyRequested = !blockedAsFacilitator && eligibility.data?.hasExistingRequest === true;
   const showsCountdown = isUserInitiated && requestDeletion.isSuccess;
 
   useEffect(() => {
@@ -69,7 +71,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (requestDeletion.isPending || !confirmed || blockedAsFacilitator) {
+    if (!!requestDeletion.isPending || !confirmed || blockedAsFacilitator) {
       return;
     }
 
@@ -102,75 +104,81 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
     </div>
   );
 
-  const renderForm = () => (
-    <form className="space-y-4" onSubmit={handleSubmit} noValidate>
-      {requestDeletion.error && <ErrorSection error={requestDeletion.error} />}
-      {isUserInitiated ? (
-        <P className="text-pretty">
-          This closes your BlueDot Impact account. You&apos;ll lose access to your courses, your progress
-          and any certificates you&apos;ve earned. This action cannot be undone.
-        </P>
-      ) : (
-        <P className="text-pretty">
-          This closes the user&apos;s BlueDot Impact account. They will lose access to their courses,
-          progress, and any certificates they have earned. This action cannot be undone.
-        </P>
-      )}
+  const renderForm = () => {
+    const deleteLabel = isUserInitiated ? 'Delete my account' : 'Delete account';
+    const submitLabel = alreadyRequested ? 'Deletion requested' : deleteLabel;
 
-      {blockedAsFacilitator && (
-        <P className="text-pretty">
-          Unfortunately, you cannot delete your account through this form because you have been a facilitator,
-          and this may affect other users. Please{' '}
-          <A href="mailto:team@bluedot.org">contact us</A>{' '}
-          if you would like your account deleted, and an admin will review your request
-        </P>
-      )}
+    return (
+      <form className="space-y-4" onSubmit={handleSubmit} noValidate>
+        {requestDeletion.error && <ErrorSection error={requestDeletion.error} />}
+        {blockedAsFacilitator ? (
+          <P className="text-pretty">
+            Unfortunately, you cannot delete your account through this form because you have been a facilitator,
+            and this may affect other users. Please{' '}
+            <A href="mailto:team@bluedot.org">contact us</A>{' '}
+            if you would like your account deleted, and an admin will review your request.
+          </P>
+        ) : (
+          <>
+            {isUserInitiated ? (
+              <P className="text-pretty">
+                This closes your BlueDot Impact account. You&apos;ll lose access to your courses, your progress
+                and any certificates you&apos;ve earned. This action cannot be undone.
+              </P>
+            ) : (
+              <P className="text-pretty">
+                This closes the user&apos;s BlueDot Impact account. They will lose access to their courses,
+                progress, and any certificates they have earned. This action cannot be undone.
+              </P>
+            )}
 
-      <div className="flex flex-col gap-4">
-        <label htmlFor="delete-confirmation" className="text-size-xs font-semibold text-bluedot-navy">
-          Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-red-600">*</span>
-        </label>
-        <input
-          id="delete-confirmation"
-          autoFocus
-          value={confirmationText}
-          onChange={(e) => {
-            setConfirmationText(e.target.value);
-            if (requestDeletion.isError) {
-              resetMutation();
-            }
-          }}
-          placeholder={confirmationPhrase}
-          disabled={requestDeletion.isPending || blockedAsFacilitator}
-          className={cn(
-            'w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400',
-            requestDeletion.isPending && 'cursor-not-allowed',
-          )}
-        />
-      </div>
+            <div className="flex flex-col gap-4">
+              <label htmlFor="delete-confirmation" className="text-size-xs font-semibold text-bluedot-navy">
+                Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-red-600">*</span>
+              </label>
+              <input
+                id="delete-confirmation"
+                value={confirmationText}
+                onChange={(e) => {
+                  setConfirmationText(e.target.value);
+                  if (requestDeletion.isError) {
+                    resetMutation();
+                  }
+                }}
+                placeholder={confirmationPhrase}
+                disabled={requestDeletion.isPending || alreadyRequested}
+                className={cn(
+                  'w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400',
+                  requestDeletion.isPending && 'cursor-not-allowed',
+                )}
+              />
+            </div>
+          </>
+        )}
 
-      <div className="flex gap-3 justify-end pt-4">
-        <CTALinkOrButton
-          variant="secondary"
-          type="button"
-          onClick={() => setIsOpen(false)}
-          disabled={requestDeletion.isPending}
-          aria-label="Cancel"
-        >
-          Cancel
-        </CTALinkOrButton>
-        <CTALinkOrButton
-          variant="primary"
-          type="submit"
-          className="bg-red-600 hover:bg-red-700"
-          disabled={requestDeletion.isPending || !confirmed || blockedAsFacilitator || eligibility.isLoading}
-          aria-label={isUserInitiated ? 'Delete my account' : 'Delete account'}
-        >
-          {isUserInitiated ? 'Delete my account' : 'Delete account'}
-        </CTALinkOrButton>
-      </div>
-    </form>
-  );
+        <div className="flex gap-3 justify-end pt-4">
+          <CTALinkOrButton
+            variant="secondary"
+            type="button"
+            onClick={() => setIsOpen(false)}
+            disabled={requestDeletion.isPending}
+            aria-label="Cancel"
+          >
+            Cancel
+          </CTALinkOrButton>
+          <CTALinkOrButton
+            variant="primary"
+            type="submit"
+            className="bg-red-600 hover:bg-red-700"
+            disabled={requestDeletion.isPending || !confirmed || blockedAsFacilitator || alreadyRequested || eligibility.isLoading}
+            aria-label={submitLabel}
+          >
+            {submitLabel}
+          </CTALinkOrButton>
+        </div>
+      </form>
+    );
+  };
 
   const formTitle = isUserInitiated ? 'Delete your account' : 'Delete account';
 
@@ -196,7 +204,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
 
         setIsOpen(open);
       }}
-      noClickaway={showsCountdown}
+      isDismissable={!showsCountdown}
       title={requestDeletion.isSuccess ? 'Deletion requested' : formTitle}
       bottomDrawerOnMobile
     >

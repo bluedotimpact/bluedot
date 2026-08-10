@@ -32,7 +32,7 @@ export const UserDeletingTheirOwnAccount: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: false })),
+        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: false, hasExistingRequest: false })),
       ],
     },
   },
@@ -45,7 +45,20 @@ export const UserWhoHasFacilitated: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: true })),
+        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: true, hasExistingRequest: false })),
+      ],
+    },
+  },
+};
+
+export const UserWhoAlreadyRequestedDeletion: Story = {
+  args: {
+    initiatedBy: 'user',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: false, hasExistingRequest: true })),
       ],
     },
   },

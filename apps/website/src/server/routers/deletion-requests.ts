@@ -26,8 +26,6 @@ import {
   adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 
-// Only a purely participant history is eligible for self-deletion: any other role — including
-// 'TODO' (applied, not yet assigned) and unset — blocks.
 const hasEverFacilitated = async (userId: string) => {
   const registrations = await db.pg
     .select({ id: courseRegistrationTable.pg.id })
@@ -51,7 +49,7 @@ const hasEverFacilitated = async (userId: string) => {
 };
 
 export const deletionRequestsRouter = router({
-  triggerAccountDeletion: adminProcedure
+  adminRequestAccountDeletion: adminProcedure
     .input(z.object({ userId: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       const subject = await db.getFirst(userTable, { filter: { id: input.userId } });
@@ -102,23 +100,29 @@ export const deletionRequestsRouter = router({
   selfDeletionEligibility: protectedProcedure.query(async ({ ctx }) => {
     const user = await getUserFromAuthOrThrow(ctx.auth);
 
-    return { hasEverFacilitated: await hasEverFacilitated(user.id) };
+    const existingRequests = await db.scan(deletionRequestTable, { userId: user.id });
+
+    return {
+      hasEverFacilitated: await hasEverFacilitated(user.id),
+      hasExistingRequest: existingRequests.length > 0,
+    };
   }),
 
-  requestOwnAccountDeletion: protectedProcedure.mutation(async ({ ctx }) => {
+  userRequestAccountDeletion: protectedProcedure.mutation(async ({ ctx }) => {
+    if (ctx.impersonation) {
+      throw new TRPCError({ code: 'BAD_REQUEST', message: 'Account deletion can\'t be requested while impersonating. Use the admin deletion requests page instead.' });
+    }
+
     const subject = await getUserFromAuthOrThrow(ctx.auth);
 
     if (await hasEverFacilitated(subject.id)) {
       throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitators cannot delete their account through this form' });
     }
 
-    const initiator = ctx.impersonation ? await getUserFromAuthOrThrow(impersonationRealIdentity(ctx)) : subject;
-    const initiatedByRole = ctx.impersonation ? 'Admin' : 'User';
-
     // Only admins can retry a failed request.
     const existingRequests = await db.scan(deletionRequestTable, { userId: subject.id });
     if (existingRequests.length > 0) {
-      throw new TRPCError({ code: 'CONFLICT', message: 'TODO copy: a deletion request for this account already exists' });
+      throw new TRPCError({ code: 'CONFLICT', message: 'A deletion request for this account already exists' });
     }
 
     const request = await db.insert(deletionRequestTable, {
@@ -126,15 +130,15 @@ export const deletionRequestsRouter = router({
       userId: subject.id,
       keycloakIdentifier: subject.keycloakIdentifier,
       status: DELETION_REQUEST_STATUS.pending,
-      initiatedByRole,
-      initiatedBy: [initiator.id],
+      initiatedByRole: 'User',
+      initiatedBy: [subject.id],
       requestedAt: new Date().toISOString(),
     });
 
     sendAccountDeletionRequestedNotice({ email: subject.email })
       .catch((error: unknown) => slackAlert(env, [`[AccountDeletion] confirmation notice for deletion request ${request.id} failed: ${error instanceof Error ? error.message : String(error)}`]));
 
-    logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by ${initiator.email}`);
+    logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by ${subject.email}`);
 
     return request;
   }),

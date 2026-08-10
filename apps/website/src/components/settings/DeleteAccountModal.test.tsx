@@ -160,9 +160,26 @@ describe('DeleteAccountModal', () => {
     renderAsUser();
 
     await waitFor(() => expect(screen.getByText(/you have been a facilitator/)).toBeInTheDocument());
-    expect(screen.getByLabelText(/to confirm/i)).toBeDisabled();
+    expect(screen.queryByLabelText(/to confirm/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/This closes your BlueDot Impact account/)).not.toBeInTheDocument();
     expect(deleteMyAccountButton()).toBeDisabled();
     expect(screen.getByText('contact us')).toHaveAttribute('href', 'mailto:team@bluedot.org');
+  });
+
+  test('a user with a deletion request already on file cannot request another', async () => {
+    await testDb.insert(deletionRequestTable, {
+      id: 'req-existing',
+      email: 'test@example.com',
+      userId: 'test-user',
+      status: 'Failed',
+      initiatedByRole: 'User',
+      requestedAt: '2026-08-01T00:00:00.000Z',
+    });
+    renderAsUser();
+
+    const requestedButton = await screen.findByRole('button', { name: 'Deletion requested' });
+    expect(requestedButton).toBeDisabled();
+    expect(screen.getByLabelText(/to confirm/i)).toBeDisabled();
   });
 
   test('a user who has facilitated can still close the modal', async () => {
@@ -188,5 +205,21 @@ describe('DeleteAccountModal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
     expect(setIsOpen).not.toHaveBeenCalled();
+  });
+
+  test('the countdown view cannot be dismissed with the escape key', async () => {
+    const { setIsOpen } = renderAsUser();
+
+    await waitFor(() => expect(screen.getByLabelText(/to confirm/i)).toBeInTheDocument());
+    typeConfirmation('delete my account');
+    await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
+    fireEvent.click(deleteMyAccountButton());
+
+    await waitFor(() => expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument());
+
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape', code: 'Escape' });
+
+    expect(setIsOpen).not.toHaveBeenCalled();
+    expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument();
   });
 });
