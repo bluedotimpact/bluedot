@@ -829,6 +829,20 @@ describe('fail-closed: another user\'s records survive even when they look like 
     expect(airtableUserRecords.map((record) => record.id)).toContain('user-decoy');
   });
 
+  test('project submissions nobody is linked to survive', async () => {
+    await seedSubjectData();
+    // An empty Airtable linked-record cell syncs as an empty array, which is contained by every id list
+    await testDb.insert(projectSubmissionTable, { id: 'ps-unlinked', participant: [] });
+    await testDb.pg.insert(projectSubmissionTable.pg).values({ id: 'ps-unset' });
+    await seedRequest();
+
+    const result = await execute('req-1');
+
+    expect(result.status).toBe('Completed');
+    expect(result.steps).toContainEqual({ step: 'project-submissions', deleted: 1 });
+    expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared', 'ps-unlinked', 'ps-unset']);
+  });
+
   test('refuses to delete more rows than one account plausibly owns', async () => {
     // One over MAX_DELETIONS_PER_STEP.
     await testDb.pg.insert(exerciseResponsePgTable.pg).values(Array.from({ length: 1001 }, (_, i) => ({

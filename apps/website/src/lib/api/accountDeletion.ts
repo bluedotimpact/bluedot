@@ -1,6 +1,8 @@
 import {
+  and,
   arrayContained,
   arrayContains,
+  arrayOverlaps,
   courseRegistrationTable,
   deletionRequestTable,
   eq,
@@ -14,6 +16,7 @@ import {
   type PgAirtableColumnInput,
   type PgAirtableTable,
   type SQL,
+  type SQLWrapper,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { logger } from '@bluedot/ui/src/api';
@@ -120,6 +123,12 @@ const buildDeletionSteps = ({ userId, keycloakIdentifier, registrationIds, meetP
     throw new Error('userId is null or empty');
   }
 
+  // Rows linked to these ids and nobody else. The overlap check is what keeps `<@` from also matching
+  // every row linked to nobody, which is how an empty Airtable cell syncs.
+  const linkedSolelyTo = (column: SQLWrapper, ids: string[]): SQL | 'skip' => (
+    ids.length === 0 ? 'skip' : and(arrayOverlaps(column, ids), arrayContained(column, ids))!
+  );
+
   return [
     {
     // Keep the customer.io profile, this email may have subscribed to newsletters while logged out
@@ -156,7 +165,7 @@ const buildDeletionSteps = ({ userId, keycloakIdentifier, registrationIds, meetP
     deleteMatchingPgRecords({ name: 'resource-completions', table: resourceCompletionPgTable, sqlCondition: arrayContains(resourceCompletionPgTable.pg.userId, [userId]) }),
     deleteMatchingAirtableRecords({ name: 'self-serve-course-registrations', table: selfServeCourseRegistrationTable, sqlCondition: eq(selfServeCourseRegistrationTable.pg.userId, userId) }),
     // Leave project submissions that have co-authors
-    deleteMatchingAirtableRecords({ name: 'project-submissions', table: projectSubmissionTable, sqlCondition: meetPersonIds.length === 0 ? 'skip' : arrayContained(projectSubmissionTable.pg.participant, meetPersonIds) }),
+    deleteMatchingAirtableRecords({ name: 'project-submissions', table: projectSubmissionTable, sqlCondition: linkedSolelyTo(projectSubmissionTable.pg.participant, meetPersonIds) }),
     deleteMatchingAirtableRecords({ name: 'course-registrations', table: courseRegistrationTable, sqlCondition: registrationIds.length === 0 ? 'skip' : inArray(courseRegistrationTable.pg.id, registrationIds) }),
     deleteMatchingAirtableRecords({ name: 'user-record', table: userTable, sqlCondition: eq(userTable.pg.id, userId) }),
     {
