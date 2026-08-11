@@ -65,12 +65,21 @@ export type CourseProgress = inferRouterOutputs<typeof coursesRouter>['getCourse
  * Fetches course data and its associated units by course slug.
  * This function is shared between the tRPC procedure below and getStaticProps/getServerSideProps when needed.
  */
-export async function getCourseData(courseSlug: string) {
-  const course = await db.getFirst(courseTable, { filter: { slug: courseSlug }, sortBy: 'slug' });
+export async function getCourseBySlugOrThrow(courseSlug: string) {
+  const courses = await db.scan(courseTable, { slug: courseSlug });
 
-  if (!course) {
+  if (courses.length === 0) {
     throw new TRPCError({ code: 'NOT_FOUND', message: `Course with slug "${courseSlug}" not found.` });
   }
+  if (courses.length > 1) {
+    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: `Multiple courses found for slug "${courseSlug}"` });
+  }
+
+  return courses[0]!;
+}
+
+export async function getCourseData(courseSlug: string) {
+  const course = await getCourseBySlugOrThrow(courseSlug);
 
   // Get units for this course with active status, then sort by unit number
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
@@ -228,10 +237,7 @@ export const coursesRouter = router({
       courseSlug: z.string().min(1),
     }))
     .query(async ({ input: { courseSlug } }) => {
-      const course = await db.getFirst(courseTable, { filter: { slug: courseSlug }, sortBy: 'slug' });
-      if (!course) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: `Course "${courseSlug}" not found` });
-      }
+      await getCourseBySlugOrThrow(courseSlug);
 
       // 1. Fetch data
       const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
