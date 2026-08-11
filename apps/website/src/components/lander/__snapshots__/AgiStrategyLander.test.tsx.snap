@@ -37,14 +37,6 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:image:alt"
     />
     <meta
-      content="website"
-      property="og:type"
-    />
-    <meta
-      content="BlueDot Impact"
-      property="og:site_name"
-    />
-    <meta
       content="https://bluedot.org/courses/agi-strategy"
       property="og:url"
     />
