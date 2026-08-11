@@ -1,8 +1,7 @@
 import type { ReactElement } from 'react';
 
 /** 1200×630 brand image used when a page has no bespoke link preview */
-export const LINK_PREVIEW_FALLBACK_IMAGE_PATH = '/images/logo/link-preview-fallback.png';
-export const LINK_PREVIEW_FALLBACK_IMAGE_URL = `https://bluedot.org${LINK_PREVIEW_FALLBACK_IMAGE_PATH}`;
+export const LINK_PREVIEW_FALLBACK_IMAGE_URL = 'https://bluedot.org/images/logo/link-preview-fallback.png';
 
 type LinkPreviewMetaTagsProps = {
   /** Absolute URL — social scrapers don't resolve relative paths */
