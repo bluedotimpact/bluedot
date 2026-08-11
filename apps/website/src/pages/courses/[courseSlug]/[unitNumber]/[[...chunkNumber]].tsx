@@ -209,7 +209,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
   if (!unit) {
-    throw new Error('NOT_FOUND');
+    throw new TRPCError({ code: 'NOT_FOUND', message: `Unit ${unitNumber} not found for course "${courseSlug}".` });
   }
 
   const allUnitChunks = await getActiveChunksByUnit(units);
