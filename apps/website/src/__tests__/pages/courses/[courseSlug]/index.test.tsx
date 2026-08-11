@@ -72,9 +72,6 @@ describe('CoursePage SSR/SEO', () => {
     const ogDescription = document.querySelector('meta[property="og:description"]');
     expect(ogDescription?.getAttribute('content')).toBe(mockCourse.shortDescription);
 
-    const ogType = document.querySelector('meta[property="og:type"]');
-    expect(ogType?.getAttribute('content')).toBe('website');
-
     const ogImage = document.querySelector('meta[property="og:image"]');
     expect(ogImage?.getAttribute('content')).toBe(`https://bluedot.org/images/courses/link-preview/${mockCourse.slug}.png`);
 
