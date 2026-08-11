@@ -66,7 +66,7 @@ export type CourseProgress = inferRouterOutputs<typeof coursesRouter>['getCourse
  * This function is shared between the tRPC procedure below and getStaticProps/getServerSideProps when needed.
  */
 export async function getCourseData(courseSlug: string) {
-  const course = await db.get(courseTable, { slug: courseSlug });
+  const course = await db.getFirst(courseTable, { filter: { slug: courseSlug }, sortBy: 'slug' });
 
   if (!course) {
     throw new TRPCError({ code: 'NOT_FOUND', message: `Course with slug "${courseSlug}" not found.` });
@@ -228,7 +228,7 @@ export const coursesRouter = router({
       courseSlug: z.string().min(1),
     }))
     .query(async ({ input: { courseSlug } }) => {
-      const course = await db.get(courseTable, { slug: courseSlug });
+      const course = await db.getFirst(courseTable, { filter: { slug: courseSlug }, sortBy: 'slug' });
       if (!course) {
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course "${courseSlug}" not found` });
       }
