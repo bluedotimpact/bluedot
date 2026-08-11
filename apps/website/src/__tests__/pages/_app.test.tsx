@@ -19,8 +19,7 @@ vi.mock('next/head', () => ({
 }));
 
 describe('DefaultHeadTags', () => {
-  // Injected scripts (in-app browsers, share sheets) read these tags on every
-  // page and throw if they're missing — see issue #2881.
+  // Injected scripts (in-app browsers, share sheets) read these tags on every page and throw if they're missing
   test('sets default Open Graph tags', () => {
     renderWithHead(<DefaultHeadTags />);
 
