@@ -71,6 +71,7 @@ export async function getCourseBySlugOrThrow(courseSlug: string) {
   if (courses.length === 0) {
     throw new TRPCError({ code: 'NOT_FOUND', message: `Course with slug "${courseSlug}" not found.` });
   }
+
   if (courses.length > 1) {
     throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: `Multiple courses found for slug "${courseSlug}"` });
   }
