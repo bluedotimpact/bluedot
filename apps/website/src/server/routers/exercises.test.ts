@@ -343,7 +343,7 @@ describe('exercises.getGroupExerciseResponses', () => {
     await expect(caller.exercises.getGroupExerciseResponses({
       courseSlug: 'nonexistent-course',
       exerciseId: 'ex-1',
-    })).rejects.toThrow('Course not found');
+    })).rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
   test('returns null when registration has roundStatus "Past"', async () => {
