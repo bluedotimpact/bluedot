@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/nextjs';
+import { type Auth, useAuthStore } from '@bluedot/ui';
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
@@ -20,5 +21,13 @@ Sentry.init({
     /webkit-masked-url:\/\//,
   ],
 });
+
+// Sessions stored before #2755 have no sub until their first token refresh, so fall back to email - mirroring the PostHog identify call in @bluedot/ui's auth store.
+const syncSentryUser = (auth: Auth | null) => {
+  Sentry.setUser(auth ? { id: auth.sub ?? auth.email } : null);
+};
+
+syncSentryUser(useAuthStore.getState().auth);
+useAuthStore.subscribe((state) => syncSentryUser(state.auth));
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
