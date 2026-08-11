@@ -61,10 +61,6 @@ export type CourseAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug
 export type CurriculumMetadata = inferRouterOutputs<typeof coursesRouter>['getCurriculumMetadata'];
 export type CourseProgress = inferRouterOutputs<typeof coursesRouter>['getCourseProgress'];
 
-/**
- * Fetches course data and its associated units by course slug.
- * This function is shared between the tRPC procedure below and getStaticProps/getServerSideProps when needed.
- */
 export async function getCourseBySlugOrThrow(courseSlug: string) {
   const courses = await db.scan(courseTable, { slug: courseSlug });
 
@@ -79,6 +75,10 @@ export async function getCourseBySlugOrThrow(courseSlug: string) {
   return courses[0]!;
 }
 
+/**
+ * Fetches course data and its associated units by course slug.
+ * This function is shared between the tRPC procedure below and getStaticProps/getServerSideProps when needed.
+ */
 export async function getCourseData(courseSlug: string) {
   const course = await getCourseBySlugOrThrow(courseSlug);
 
