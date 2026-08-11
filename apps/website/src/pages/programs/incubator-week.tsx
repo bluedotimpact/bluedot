@@ -39,12 +39,12 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         <meta property="og:title" content={`${programName} | BlueDot Impact`} />
         <meta property="og:description" content={programDescription} />
         <meta property="og:url" content={`${SITE_URL}/programs/incubator-week`} />
-        <meta property="og:image" content={LINK_PREVIEW_IMAGE} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:alt" content={`Incubator Week v5. 5 days. All expenses paid. Up to $100k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta key="og:image" property="og:image" content={LINK_PREVIEW_IMAGE} />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="630" />
+        <meta key="og:image:type" property="og:image:type" content="image/png" />
+        <meta key="og:image:alt" property="og:image:alt" content={`Incubator Week v5. 5 days. All expenses paid. Up to $100k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.`} />
+        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
         <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />

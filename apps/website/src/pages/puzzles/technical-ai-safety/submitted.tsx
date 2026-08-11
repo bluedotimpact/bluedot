@@ -56,7 +56,7 @@ const PuzzleSubmittedPage = () => (
       <meta property="og:title" content={PAGE_META_TITLE} />
       <meta property="og:description" content={PAGE_DESCRIPTION} />
       <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
-      <meta property="og:image" content={OG_IMAGE_URL} />
+      <meta key="og:image" property="og:image" content={OG_IMAGE_URL} />
     </Head>
 
     <div className="relative bg-white">

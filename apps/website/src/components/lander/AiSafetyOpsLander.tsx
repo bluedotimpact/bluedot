@@ -39,10 +39,10 @@ const AiSafetyOpsLander = () => {
         <meta name="description" content="This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety." />
         <meta property="og:title" content={`${PAGE_TITLE} | BlueDot Impact`} />
         <meta property="og:description" content="This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety." />
-        <meta property="og:image" content="https://bluedot.org/images/courses/ops-bootcamp-og-image.png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={`${PAGE_TITLE} | BlueDot Impact`} />
+        <meta key="og:image" property="og:image" content="https://bluedot.org/images/courses/ops-bootcamp-og-image.png" />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="630" />
+        <meta key="og:image:alt" property="og:image:alt" content={`${PAGE_TITLE} | BlueDot Impact`} />
         <meta property="og:url" content="https://bluedot.org/courses/ops" />
       </Head>
 

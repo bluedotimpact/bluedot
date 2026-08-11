@@ -152,14 +152,14 @@ const CourseLander = ({
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={seoDescription} />
-        <meta property="og:image" content={courseOgImage} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={content.meta.title} />
+        <meta key="og:image" property="og:image" content={courseOgImage} />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="630" />
+        <meta key="og:image:alt" property="og:image:alt" content={content.meta.title} />
         <meta property="og:url" content={ogUrl} />
 
         {/* Twitter Card meta tags */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={courseOgImage} />

@@ -211,11 +211,11 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <meta property="og:title" content={PAGE_TITLE} />
         <meta property="og:description" content={PAGE_HOOK} />
         <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
-        <meta property="og:image" content={OG_IMAGE_URL} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={PAGE_TITLE} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta key="og:image" property="og:image" content={OG_IMAGE_URL} />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="630" />
+        <meta key="og:image:alt" property="og:image:alt" content={PAGE_TITLE} />
+        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={PAGE_TITLE} />
         <meta name="twitter:description" content={PAGE_HOOK} />
         <meta name="twitter:image" content={OG_IMAGE_URL} />

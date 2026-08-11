@@ -124,7 +124,7 @@ const CourseUnitChunkPage = ({
         <meta key="og:image:alt" property="og:image:alt" content={`${unit.courseTitle} course preview`} />
 
         {/* Twitter Card meta tags */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={courseOgImage} />
