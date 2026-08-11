@@ -31,9 +31,12 @@ describe('DefaultHeadTags', () => {
     renderWithHead(<DefaultHeadTags />);
 
     expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');
-    expect(document.querySelector('meta[property="og:image:width"]')?.getAttribute('content')).toBe('1200');
-    expect(document.querySelector('meta[property="og:image:height"]')?.getAttribute('content')).toBe('630');
-    expect(document.querySelector('meta[property="og:image:type"]')?.getAttribute('content')).toBe('image/png');
     expect(document.querySelector('meta[name="twitter:card"]')?.getAttribute('content')).toBe('summary_large_image');
+    expect(document.querySelector('meta[name="twitter:image"]')?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');
+    // No dimension/type claims: pages overriding og:image without dimensions
+    // would inherit them, and they can't be verified for every override
+    expect(document.querySelector('meta[property="og:image:width"]')).toBeNull();
+    expect(document.querySelector('meta[property="og:image:height"]')).toBeNull();
+    expect(document.querySelector('meta[property="og:image:type"]')).toBeNull();
   });
 });
