@@ -26,6 +26,11 @@ beforeEach(async () => {
 });
 
 describe('groupDiscussions.getByCourseSlug', () => {
+  test('throws NOT_FOUND for an unknown course slug', async () => {
+    await expect(caller.groupDiscussions.getByCourseSlug({ courseSlug: 'does-not-exist' }))
+      .rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
   test('uses expected facilitator discussion ids when indirect round linkage misses the upcoming session', async () => {
     const futureStartTimeSecs = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60);
     const futureEndTimeSecs = futureStartTimeSecs + (60 * 60);
