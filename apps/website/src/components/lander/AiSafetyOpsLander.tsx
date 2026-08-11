@@ -43,8 +43,6 @@ const AiSafetyOpsLander = () => {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={`${PAGE_TITLE} | BlueDot Impact`} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:url" content="https://bluedot.org/courses/ops" />
       </Head>
 

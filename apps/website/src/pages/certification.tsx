@@ -171,8 +171,7 @@ const CertificatePage = ({
 
         <meta property="og:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
         <meta property="og:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
-        <meta property="og:site_name" content="BlueDot Impact" />
-        <meta property="og:type" content="article" />
+        <meta key="og:type" property="og:type" content="article" />
         <meta property="og:url" content={`${siteUrl}/certification?id=${encodeURIComponent(certificateId)}`} />
         <meta property="og:image" content={linkPreviewAbsoluteUrl} />
         <meta property="og:image:width" content="1200" />

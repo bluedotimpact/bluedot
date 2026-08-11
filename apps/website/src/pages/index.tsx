@@ -26,8 +26,6 @@ const HomePage = () => {
         <meta name="description" content={META_DESCRIPTION} />
         <meta property="og:title" content={META_TITLE} />
         <meta property="og:description" content={META_DESCRIPTION} />
-        <meta property="og:site_name" content="BlueDot Impact" />
-        <meta property="og:type" content="website" />
         <meta property="og:url" content="https://bluedot.org" />
         <meta property="og:image" content={LINK_PREVIEW_IMAGE} />
         <meta property="og:image:width" content="1200" />
