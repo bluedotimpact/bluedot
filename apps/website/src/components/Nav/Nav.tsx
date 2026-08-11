@@ -38,7 +38,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
 
   // Handle viewport breakpoint changes to reset dropdown states on mobile/desktop transitions
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+    const mediaQuery = window.matchMedia('(min-width: 1280px)');
 
     const handleBreakpointChange = () => {
       setExpandedSections({

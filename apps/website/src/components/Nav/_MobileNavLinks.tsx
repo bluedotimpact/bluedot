@@ -54,7 +54,7 @@ export const MobileNavLinks: React.FC<{
   };
 
   return (
-    <div ref={mobileNavRef} className={`${MOBILE_NAV_CLASS} lg:hidden`}>
+    <div ref={mobileNavRef} className={`${MOBILE_NAV_CLASS} xl:hidden`}>
       <IconButton
         open={expandedSections.mobileNav}
         Icon={<HamburgerIcon />}
@@ -66,7 +66,7 @@ export const MobileNavLinks: React.FC<{
       />
       <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(expandedSections.mobileNav))}>
         <div
-          className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+          className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
           onClick={(e) => {
             // Close mobile nav when any link is clicked
             if ((e.target as HTMLElement).tagName === 'A') {

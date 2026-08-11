@@ -15,7 +15,7 @@ export const DesktopNavLinks: React.FC<{
       expandedSections={expandedSections}
       updateExpandedSections={updateExpandedSections}
       onColoredBackground={onColoredBackground}
-      className="hidden lg:flex"
+      className="hidden xl:flex"
     />
   );
 };
