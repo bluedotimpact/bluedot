@@ -63,7 +63,6 @@ describe('courses.getBySlug', () => {
     expect(result.units).toEqual([]);
   });
 
-  // db.get() throws on zero rows, which previously surfaced as a 500 instead of a 404 (gh-2882).
   test('throws NOT_FOUND for an unknown slug', async () => {
     const promise = caller.courses.getBySlug({ courseSlug: 'does-not-exist' });
 
