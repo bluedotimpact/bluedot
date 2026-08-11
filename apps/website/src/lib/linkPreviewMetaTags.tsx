@@ -40,8 +40,8 @@ export const linkPreviewMetaTags = ({
 }: LinkPreviewMetaTagsProps): ReactElement => (
   <>
     <meta key="og:image" property="og:image" content={imageUrl} />
-    {width !== undefined && <meta key="og:image:width" property="og:image:width" content={String(width)} />}
-    {height !== undefined && <meta key="og:image:height" property="og:image:height" content={String(height)} />}
+    {width && <meta key="og:image:width" property="og:image:width" content={String(width)} />}
+    {height && <meta key="og:image:height" property="og:image:height" content={String(height)} />}
     {imageType && <meta key="og:image:type" property="og:image:type" content={imageType} />}
     {alt && <meta key="og:image:alt" property="og:image:alt" content={alt} />}
     <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
