@@ -5,6 +5,7 @@ import {
   exerciseTable,
   unitTable,
 } from '@bluedot/db';
+import { TRPCError } from '@trpc/server';
 import { describe, expect, test } from 'vitest';
 import {
   createCaller,
@@ -51,6 +52,38 @@ const seedChunk = (id: string, unitId: string, opts: {
   });
 
 const seedExercise = (id: string, status = 'Core') => testDb.insert(exerciseTable, { id, status });
+
+describe('courses.getBySlug', () => {
+  test('returns the course for a known slug', async () => {
+    await seedCourse('known');
+
+    const result = await caller.courses.getBySlug({ courseSlug: 'known' });
+
+    expect(result.course.slug).toBe('known');
+    expect(result.units).toEqual([]);
+  });
+
+  test('throws NOT_FOUND for an unknown slug', async () => {
+    const promise = caller.courses.getBySlug({ courseSlug: 'does-not-exist' });
+
+    await expect(promise).rejects.toBeInstanceOf(TRPCError);
+    await expect(promise).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  // Slugs are hand-authored in Airtable with no uniqueness constraint; a collision must fail
+  // loudly rather than render an arbitrary one of the matching courses.
+  test('throws INTERNAL_SERVER_ERROR when two courses share a slug', async () => {
+    await testDb.insert(courseTable, {
+      id: 'course-dupe-1', slug: 'dupe', title: 'dupe 1', shortDescription: 'd', units: [], status: 'Active',
+    });
+    await testDb.insert(courseTable, {
+      id: 'course-dupe-2', slug: 'dupe', title: 'dupe 2', shortDescription: 'd', units: [], status: 'Active',
+    });
+
+    await expect(caller.courses.getBySlug({ courseSlug: 'dupe' }))
+      .rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
+  });
+});
 
 // Cases mirror real course-builder data shapes (see gh-2544 prod inspection): most chunks carry no
 // estimatedTime; some chunkExercises reference inactive exercises; alignment/pandemics use
@@ -120,6 +153,11 @@ describe('courses.getCurriculumMetadata', () => {
         unitId: 'e-empty', unitNumber: '3', duration: null, exerciseCount: 0,
       },
     ]);
+  });
+
+  test('throws NOT_FOUND for an unknown slug', async () => {
+    await expect(caller.courses.getCurriculumMetadata({ courseSlug: 'does-not-exist' }))
+      .rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
   test('a course with no active units returns an empty array', async () => {

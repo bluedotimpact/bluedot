@@ -1,7 +1,6 @@
 import {
   and,
   courseRegistrationTable,
-  courseTable,
   eq,
   groupDiscussionTable,
   groupTable,
@@ -20,6 +19,7 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { getCourseBySlugOrThrow } from './courses';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -91,10 +91,7 @@ export const groupDiscussionsRouter = router({
   getByCourseSlug: protectedProcedure
     .input(z.object({ courseSlug: z.string().min(1) }))
     .query(async ({ ctx, input: { courseSlug } }) => {
-      const course = await db.get(courseTable, { slug: courseSlug });
-      if (!course) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${courseSlug}` });
-      }
+      const course = await getCourseBySlugOrThrow(courseSlug);
 
       const user = await getUserFromAuthOrThrow(ctx.auth);
 

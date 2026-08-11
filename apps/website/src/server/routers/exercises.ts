@@ -5,7 +5,6 @@ import {
   asc,
   COURSE_ROLE,
   courseRegistrationTable,
-  courseTable,
   desc,
   eq,
   exerciseResponsePgTable,
@@ -26,6 +25,7 @@ import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 import { issueFoaiCertificateIfComplete } from './certificates';
+import { getCourseBySlugOrThrow } from './courses';
 
 export const exercisesRouter = router({
   getExercise: publicProcedure
@@ -121,13 +121,7 @@ export const exercisesRouter = router({
     }))
     .query(async ({ input, ctx }) => {
       // 1. Find course
-      const course = await db.getFirst(courseTable, {
-        filter: { slug: input.courseSlug },
-        sortBy: 'slug',
-      });
-      if (!course) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${input.courseSlug}` });
-      }
+      const course = await getCourseBySlugOrThrow(input.courseSlug);
 
       const user = await getUserFromAuthOrThrow(ctx.auth);
 

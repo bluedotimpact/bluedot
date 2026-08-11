@@ -1,6 +1,7 @@
 import { type Unit } from '@bluedot/db';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ProgressDots } from '@bluedot/ui';
+import { TRPCError } from '@trpc/server';
 import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import CourseCompletionSection from '../../../components/courses/CourseCompletionSection';
@@ -93,7 +94,7 @@ export const getServerSideProps: GetServerSideProps<CongratulationsPageProps> = 
       },
     };
   } catch (error) {
-    if (error instanceof Error && error.message.includes('NOT_FOUND')) {
+    if (error instanceof TRPCError && error.code === 'NOT_FOUND') {
       return { notFound: true };
     }
 

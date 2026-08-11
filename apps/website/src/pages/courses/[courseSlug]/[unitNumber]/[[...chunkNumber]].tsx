@@ -3,6 +3,7 @@ import {
   chunkTable, eq, type Exercise, exerciseTable, inArray, type UnitResource, unitResourceTable,
 } from '@bluedot/db';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
+import { TRPCError } from '@trpc/server';
 import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -168,7 +169,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
       },
     };
   } catch (error) {
-    if (error instanceof Error && error.message === 'NOT_FOUND') {
+    if (error instanceof TRPCError && error.code === 'NOT_FOUND') {
       return { notFound: true };
     }
 
@@ -206,7 +207,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
   if (!unit) {
-    throw new Error('NOT_FOUND');
+    throw new TRPCError({ code: 'NOT_FOUND', message: `Unit ${unitNumber} not found for course "${courseSlug}".` });
   }
 
   const allUnitChunks = await getActiveChunksByUnit(units);
