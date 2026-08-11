@@ -123,7 +123,6 @@ const CourseUnitChunkPage = ({
         {/* Twitter Card meta tags */}
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={courseOgImage} />
       </Head>
       <UnitLayout
         chunks={chunks}

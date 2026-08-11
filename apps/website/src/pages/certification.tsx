@@ -178,7 +178,6 @@ const CertificatePage = ({
 
         <meta name="twitter:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
         <meta name="twitter:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
-        <meta name="twitter:image" content={linkPreviewAbsoluteUrl} />
       </Head>
 
       {isOwner && (

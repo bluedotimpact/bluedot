@@ -43,7 +43,6 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         {linkPreviewImageTags({ imageUrl: LINK_PREVIEW_IMAGE, alt: `Incubator Week v5. 5 days. All expenses paid. Up to $100k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.` })}
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
-        <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />
       </Head>
       <MarketingHero
         title={programName}

@@ -31,7 +31,6 @@ const HomePage = () => {
         {linkPreviewImageTags({ imageUrl: LINK_PREVIEW_IMAGE, alt: 'BlueDot Impact logo' })}
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESCRIPTION} />
-        <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />
         <script
           type="application/ld+json"
 

@@ -40,7 +40,6 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
         {linkPreviewImageTags({ imageUrl: LINK_PREVIEW_IMAGE, alt: programDescription })}
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
-        <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />
       </Head>
       <MarketingHero
         title={programName}

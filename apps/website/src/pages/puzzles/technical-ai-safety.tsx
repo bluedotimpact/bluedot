@@ -215,7 +215,6 @@ const PuzzleTechnicalAiSafetyPage = () => {
         {linkPreviewImageTags({ imageUrl: OG_IMAGE_URL, alt: PAGE_TITLE })}
         <meta name="twitter:title" content={PAGE_TITLE} />
         <meta name="twitter:description" content={PAGE_HOOK} />
-        <meta name="twitter:image" content={OG_IMAGE_URL} />
       </Head>
 
       <div className="relative bg-white">
