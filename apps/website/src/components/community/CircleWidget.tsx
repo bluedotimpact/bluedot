@@ -15,6 +15,10 @@ export const CircleWidget = () => {
 
     script.onload = () => {
       // Initialize Front Chat after the script has loaded
+      if (typeof window.FrontChat !== 'function') {
+        return;
+      }
+
       window.FrontChat('init', {
         chatId: '9823fa57687fa42b5ccb5d8b8d2ff730',
         useDefaultLauncher: true,
