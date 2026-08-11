@@ -2,7 +2,9 @@ import '@testing-library/jest-dom';
 import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
-import { deletionRequestTable, userTable } from '@bluedot/db';
+import {
+  courseRegistrationTable, deletionRequestTable, meetPersonTable, userTable,
+} from '@bluedot/db';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
@@ -35,11 +37,31 @@ const renderAsAdmin = () => {
   return { setIsOpen };
 };
 
+const renderAsUser = () => {
+  const setIsOpen = vi.fn();
+  render(
+    <DeleteAccountModal isOpen setIsOpen={setIsOpen} initiatedBy="user" />,
+    { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
+  );
+  return { setIsOpen };
+};
+
+const seedCallerFacilitatorHistory = async () => {
+  await testDb.insert(courseRegistrationTable, {
+    id: 'reg-caller', email: 'test@example.com', userId: 'test-user', courseId: 'course-1',
+  });
+  await testDb.insert(meetPersonTable, {
+    id: 'mp-caller', name: 'Test User', userId: 'test-user', applicationsBaseRecordId: 'reg-caller', role: 'Facilitator',
+  });
+};
+
 const typeConfirmation = (value: string) => {
   fireEvent.change(screen.getByLabelText(/to confirm/i), { target: { value } });
 };
 
 const deleteButton = () => screen.getByRole('button', { name: 'Delete account' });
+
+const deleteMyAccountButton = () => screen.getByRole('button', { name: 'Delete my account' });
 
 const requestsInDb = () => testDb.pg.select().from(deletionRequestTable.pg);
 
@@ -103,10 +125,101 @@ describe('DeleteAccountModal', () => {
     expect(await requestsInDb()).toEqual([]);
   });
 
-  test('the user-initiated flow is not built yet', () => {
-    expect(() => render(
-      <DeleteAccountModal isOpen setIsOpen={vi.fn()} initiatedBy="user" userId={SUBJECT.id} />,
-      { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
-    )).toThrow('Not implemented');
+  test('the user form is not shown until the eligibility check resolves', async () => {
+    renderAsUser();
+
+    expect(screen.queryByLabelText(/to confirm/i)).not.toBeInTheDocument();
+
+    await waitFor(() => expect(screen.getByLabelText(/to confirm/i)).toBeInTheDocument());
+  });
+
+  test('a user confirms with their own phrase, and a request is recorded against their account', async () => {
+    renderAsUser();
+
+    await waitFor(() => expect(deleteMyAccountButton()).toBeDisabled());
+
+    typeConfirmation('delete account');
+    expect(deleteMyAccountButton()).toBeDisabled();
+
+    typeConfirmation('  Delete My Account  ');
+    await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
+    fireEvent.click(deleteMyAccountButton());
+
+    await waitFor(() => expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument());
+    expect(screen.getByText(/You will be logged out in 10s\./)).toBeInTheDocument();
+    expect(await requestsInDb()).toMatchObject([{
+      email: 'test@example.com',
+      userId: 'test-user',
+      status: 'Pending',
+      initiatedByRole: 'User',
+    }]);
+  });
+
+  test('a user who has facilitated cannot use the form, and is pointed at us instead', async () => {
+    await seedCallerFacilitatorHistory();
+    renderAsUser();
+
+    await waitFor(() => expect(screen.getByText(/you have been a facilitator/)).toBeInTheDocument());
+    expect(screen.queryByLabelText(/to confirm/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/This closes your BlueDot Impact account/)).not.toBeInTheDocument();
+    expect(deleteMyAccountButton()).toBeDisabled();
+    expect(screen.getByText('contact us')).toHaveAttribute('href', 'mailto:team@bluedot.org');
+  });
+
+  test('a user with a deletion request already on file cannot request another', async () => {
+    await testDb.insert(deletionRequestTable, {
+      id: 'req-existing',
+      email: 'test@example.com',
+      userId: 'test-user',
+      status: 'Failed',
+      initiatedByRole: 'User',
+      requestedAt: '2026-08-01T00:00:00.000Z',
+    });
+    renderAsUser();
+
+    const requestedButton = await screen.findByRole('button', { name: 'Deletion requested' });
+    expect(requestedButton).toBeDisabled();
+    expect(screen.getByLabelText(/to confirm/i)).toBeDisabled();
+  });
+
+  test('a user who has facilitated can still close the modal', async () => {
+    await seedCallerFacilitatorHistory();
+    const { setIsOpen } = renderAsUser();
+
+    await waitFor(() => expect(screen.getByText(/you have been a facilitator/)).toBeInTheDocument());
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+
+    expect(setIsOpen).toHaveBeenCalledWith(false);
+  });
+
+  test('the countdown view ignores attempts to close it', async () => {
+    const { setIsOpen } = renderAsUser();
+
+    await waitFor(() => expect(screen.getByLabelText(/to confirm/i)).toBeInTheDocument());
+    typeConfirmation('delete my account');
+    await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
+    fireEvent.click(deleteMyAccountButton());
+
+    await waitFor(() => expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument());
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+
+    expect(setIsOpen).not.toHaveBeenCalled();
+  });
+
+  test('the countdown view cannot be dismissed with the escape key', async () => {
+    const { setIsOpen } = renderAsUser();
+
+    await waitFor(() => expect(screen.getByLabelText(/to confirm/i)).toBeInTheDocument());
+    typeConfirmation('delete my account');
+    await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
+    fireEvent.click(deleteMyAccountButton());
+
+    await waitFor(() => expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument());
+
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape', code: 'Escape' });
+
+    expect(setIsOpen).not.toHaveBeenCalled();
+    expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument();
   });
 });

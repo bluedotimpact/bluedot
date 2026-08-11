@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import DeleteAccountModal from './DeleteAccountModal';
+import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta = {
   title: 'website/settings/DeleteAccountModal',
@@ -21,5 +22,44 @@ export const AdminDeletingSomeoneElse: Story = {
   args: {
     initiatedBy: 'admin',
     userId: 'rec123',
+  },
+};
+
+export const UserDeletingTheirOwnAccount: Story = {
+  args: {
+    initiatedBy: 'user',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: false, hasExistingRequest: false })),
+      ],
+    },
+  },
+};
+
+export const UserWhoHasFacilitated: Story = {
+  args: {
+    initiatedBy: 'user',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: true, hasExistingRequest: false })),
+      ],
+    },
+  },
+};
+
+export const UserWhoAlreadyRequestedDeletion: Story = {
+  args: {
+    initiatedBy: 'user',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.deletionRequests.selfDeletionEligibility.query(() => ({ hasEverFacilitated: false, hasExistingRequest: true })),
+      ],
+    },
   },
 };

@@ -1,5 +1,16 @@
 import {
-  deletionRequestTable, desc, eq, userTable,
+  and,
+  COURSE_ROLE,
+  courseRegistrationTable,
+  deletionRequestTable,
+  desc,
+  eq,
+  inArray,
+  isNull,
+  meetPersonTable,
+  ne,
+  or,
+  userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { logger } from '@bluedot/ui/src/api';
@@ -12,11 +23,33 @@ import { DELETION_REQUEST_STATUS } from '../../lib/constants';
 import { runAccountDeletion } from '../../lib/api/accountDeletion';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
 import {
-  adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, publicProcedure, router,
+  adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 
+const hasEverFacilitated = async (userId: string) => {
+  const registrations = await db.pg
+    .select({ id: courseRegistrationTable.pg.id })
+    .from(courseRegistrationTable.pg)
+    .where(eq(courseRegistrationTable.pg.userId, userId));
+
+  if (registrations.length === 0) {
+    return false;
+  }
+
+  const facilitatorRecords = await db.pg
+    .select({ id: meetPersonTable.pg.id })
+    .from(meetPersonTable.pg)
+    .where(and(
+      inArray(meetPersonTable.pg.applicationsBaseRecordId, registrations.map((registration) => registration.id)),
+      or(isNull(meetPersonTable.pg.role), ne(meetPersonTable.pg.role, COURSE_ROLE.PARTICIPANT)),
+    ))
+    .limit(1);
+
+  return facilitatorRecords.length > 0;
+};
+
 export const deletionRequestsRouter = router({
-  triggerAccountDeletion: adminProcedure
+  adminRequestAccountDeletion: adminProcedure
     .input(z.object({ userId: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       const subject = await db.getFirst(userTable, { filter: { id: input.userId } });
@@ -63,6 +96,52 @@ export const deletionRequestsRouter = router({
 
       return { request, isRetry: false };
     }),
+
+  selfDeletionEligibility: protectedProcedure.query(async ({ ctx }) => {
+    const user = await getUserFromAuthOrThrow(ctx.auth);
+
+    const existingRequests = await db.scan(deletionRequestTable, { userId: user.id });
+
+    return {
+      hasEverFacilitated: await hasEverFacilitated(user.id),
+      hasExistingRequest: existingRequests.length > 0,
+    };
+  }),
+
+  userRequestAccountDeletion: protectedProcedure.mutation(async ({ ctx }) => {
+    if (ctx.impersonation) {
+      throw new TRPCError({ code: 'BAD_REQUEST', message: 'Account deletion can\'t be requested while impersonating. Use the admin deletion requests page instead.' });
+    }
+
+    const subject = await getUserFromAuthOrThrow(ctx.auth);
+
+    if (await hasEverFacilitated(subject.id)) {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitators cannot delete their account through this form' });
+    }
+
+    // Only admins can retry a failed request.
+    const existingRequests = await db.scan(deletionRequestTable, { userId: subject.id });
+    if (existingRequests.length > 0) {
+      throw new TRPCError({ code: 'CONFLICT', message: 'A deletion request for this account already exists' });
+    }
+
+    const request = await db.insert(deletionRequestTable, {
+      email: normaliseEmail(subject.email),
+      userId: subject.id,
+      keycloakIdentifier: subject.keycloakIdentifier,
+      status: DELETION_REQUEST_STATUS.pending,
+      initiatedByRole: 'User',
+      initiatedBy: [subject.id],
+      requestedAt: new Date().toISOString(),
+    });
+
+    sendAccountDeletionRequestedNotice({ email: subject.email })
+      .catch((error: unknown) => slackAlert(env, [`[AccountDeletion] confirmation notice for deletion request ${request.id} failed: ${error instanceof Error ? error.message : String(error)}`]));
+
+    logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by ${subject.email}`);
+
+    return request;
+  }),
 
   list: adminProcedure.query(async () => db.pg
     .select()
