@@ -26,4 +26,13 @@ describe('DefaultHeadTags', () => {
     expect(document.querySelector('meta[property="og:type"]')?.getAttribute('content')).toBe('website');
     expect(document.querySelector('meta[property="og:site_name"]')?.getAttribute('content')).toBe('BlueDot Impact');
   });
+
+  test('sets default og:image and twitter:card tags', () => {
+    renderWithHead(<DefaultHeadTags />);
+
+    expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');
+    expect(document.querySelector('meta[property="og:image:width"]')?.getAttribute('content')).toBe('1200');
+    expect(document.querySelector('meta[property="og:image:height"]')?.getAttribute('content')).toBe('630');
+    expect(document.querySelector('meta[name="twitter:card"]')?.getAttribute('content')).toBe('summary_large_image');
+  });
 });
