@@ -9,6 +9,7 @@ import AboutYouSection from '../../components/incubator-week/AboutYouSection';
 import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
 import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
 import { ROUTES } from '../../lib/routes';
+import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
@@ -39,15 +40,11 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         <meta property="og:title" content={`${programName} | BlueDot Impact`} />
         <meta property="og:description" content={programDescription} />
         <meta property="og:url" content={`${SITE_URL}/programs/incubator-week`} />
-        <meta property="og:image" content={LINK_PREVIEW_IMAGE} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:image:alt" content={`Incubator Week v5. 5 days. All expenses paid. Up to $100k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.`} />
-        <meta name="twitter:card" content="summary_large_image" />
+        {linkPreviewMetaTags({
+          imageUrl: LINK_PREVIEW_IMAGE, alt: `Incubator Week v5. 5 days. All expenses paid. Up to $100k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.`, width: 1200, height: 630, imageType: 'image/png',
+        })}
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
-        <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />
       </Head>
       <MarketingHero
         title={programName}

@@ -16,6 +16,7 @@ import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
 import '../lib/axios'; // Configure axios-hooks
 import { FOAI_COURSE_SLUG } from '../lib/constants';
 import { inter, interDisplay } from '../lib/fonts';
+import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
 import { useCourses } from '../lib/hooks/useCourses';
 import { reportClientError } from '../lib/reportClientError';
 import { trpc } from '../utils/trpc';
@@ -37,6 +38,7 @@ export const DefaultHeadTags = () => (
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta key="og:type" property="og:type" content="website" />
     <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
+    {linkPreviewMetaTags({ imageUrl: LINK_PREVIEW_FALLBACK_IMAGE_URL })}
   </Head>
 );
 

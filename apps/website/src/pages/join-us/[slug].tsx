@@ -13,6 +13,7 @@ import { ROUTES } from '../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
+import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../../lib/linkPreviewMetaTags';
 import { fileExists } from '../../utils/fileExists';
 
 type JobPostingPageProps = {
@@ -37,8 +38,9 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:title" property="og:title" content={job.title ?? undefined} />
         <meta key="og:description" property="og:description" content={job.subtitle ?? undefined} />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
-        <meta key="og:image" property="og:image" content={jobOgImage} />
-        <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
+        {/* Dimensions/type omitted: custom Airtable uploads (proxied via
+            /api/og-image) aren't resized or validated, so no claim is safe */}
+        {linkPreviewMetaTags({ imageUrl: jobOgImage, alt: 'BlueDot Impact logo' })}
         <script
           type="application/ld+json"
 
@@ -134,7 +136,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
     } else if (await fileExists(path.join(process.cwd(), 'public', 'images', 'jobs', 'link-preview', `${job.slug}.png`))) {
       jobOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/jobs/link-preview/${job.slug}.png`;
     } else {
-      jobOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
+      jobOgImage = LINK_PREVIEW_FALLBACK_IMAGE_URL;
     }
 
     return {

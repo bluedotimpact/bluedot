@@ -14,6 +14,7 @@ import {
 import { BLUEDOT_LINKEDIN_ORG_ID, COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { getCertificateBadgePath } from '../../lib/certificateAssets';
 import { getCourseCtaColors } from '../../lib/courseCtaColors';
+import { LINK_PREVIEW_FALLBACK_IMAGE_PATH } from '../../lib/linkPreviewMetaTags';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
@@ -82,7 +83,7 @@ const PostPreviewPanel = ({
       alt=""
       className="w-full rounded-lg object-cover"
       onError={(e) => {
-        (e.target as HTMLImageElement).src = `${SITE_URL}/images/logo/link-preview-fallback.png`;
+        (e.target as HTMLImageElement).src = LINK_PREVIEW_FALLBACK_IMAGE_PATH;
       }}
     />
   </div>

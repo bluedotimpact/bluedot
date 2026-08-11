@@ -4,6 +4,7 @@ import {
 } from '@bluedot/ui';
 import { Nav } from '../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../lib/courseColors';
+import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const SITE_URL = 'https://bluedot.org';
 const PAGE_PATH = '/puzzles/technical-ai-safety';
@@ -211,14 +212,11 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <meta property="og:title" content={PAGE_TITLE} />
         <meta property="og:description" content={PAGE_HOOK} />
         <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
-        <meta property="og:image" content={OG_IMAGE_URL} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={PAGE_TITLE} />
-        <meta name="twitter:card" content="summary_large_image" />
+        {linkPreviewMetaTags({
+          imageUrl: OG_IMAGE_URL, alt: PAGE_TITLE, width: 1200, height: 630, imageType: 'image/png',
+        })}
         <meta name="twitter:title" content={PAGE_TITLE} />
         <meta name="twitter:description" content={PAGE_HOOK} />
-        <meta name="twitter:image" content={OG_IMAGE_URL} />
       </Head>
 
       <div className="relative bg-white">

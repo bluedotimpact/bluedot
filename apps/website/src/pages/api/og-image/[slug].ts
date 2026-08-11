@@ -1,15 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { jobPostingTable } from '@bluedot/db';
 import db from '../../../lib/api/db';
+import { LINK_PREVIEW_FALLBACK_IMAGE_PATH } from '../../../lib/linkPreviewMetaTags';
 
-const FALLBACK_PATH = '/images/logo/link-preview-fallback.png';
 const ALLOWED_UPSTREAM_HOSTNAMES = new Set(['web.miniextensions.com']);
 const MAX_BYTES = 10 * 1024 * 1024;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const slug = typeof req.query.slug === 'string' ? req.query.slug : '';
   if (!slug) {
-    res.redirect(302, FALLBACK_PATH);
+    res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
     return;
   }
 
@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (!imageUrl) {
-    res.redirect(302, FALLBACK_PATH);
+    res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
     return;
   }
 
@@ -33,12 +33,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     parsedUrl = new URL(imageUrl);
   } catch {
-    res.redirect(302, FALLBACK_PATH);
+    res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
     return;
   }
 
   if (!ALLOWED_UPSTREAM_HOSTNAMES.has(parsedUrl.hostname)) {
-    res.redirect(302, FALLBACK_PATH);
+    res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
     return;
   }
 
@@ -47,25 +47,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const upstream = await fetch(parsedUrl, { signal: AbortSignal.timeout(10_000) });
     if (!upstream.ok || !upstream.body) {
-      res.redirect(302, FALLBACK_PATH);
+      res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
       return;
     }
 
     const contentType = upstream.headers.get('content-type') ?? 'image/png';
     if (!contentType.startsWith('image/')) {
-      res.redirect(302, FALLBACK_PATH);
+      res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
       return;
     }
 
     const contentLength = Number(upstream.headers.get('content-length'));
     if (Number.isFinite(contentLength) && contentLength > MAX_BYTES) {
-      res.redirect(302, FALLBACK_PATH);
+      res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
       return;
     }
 
     const buffer = Buffer.from(await upstream.arrayBuffer());
     if (buffer.byteLength > MAX_BYTES) {
-      res.redirect(302, FALLBACK_PATH);
+      res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
       return;
     }
 
@@ -73,6 +73,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.setHeader('Cache-Control', 'public, max-age=300, s-maxage=86400');
     res.status(200).send(buffer);
   } catch {
-    res.redirect(302, FALLBACK_PATH);
+    res.redirect(302, LINK_PREVIEW_FALLBACK_IMAGE_PATH);
   }
 }

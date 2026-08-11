@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { H1, P } from '@bluedot/ui';
 import { Nav } from '../../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../../lib/courseColors';
+import { linkPreviewMetaTags } from '../../../lib/linkPreviewMetaTags';
 
 const SITE_URL = 'https://bluedot.org';
 const PAGE_PATH = '/puzzles/technical-ai-safety/submitted';
@@ -56,7 +57,9 @@ const PuzzleSubmittedPage = () => (
       <meta property="og:title" content={PAGE_META_TITLE} />
       <meta property="og:description" content={PAGE_DESCRIPTION} />
       <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
-      <meta property="og:image" content={OG_IMAGE_URL} />
+      {linkPreviewMetaTags({
+        imageUrl: OG_IMAGE_URL, alt: PAGE_META_TITLE, width: 1200, height: 630, imageType: 'image/png',
+      })}
     </Head>
 
     <div className="relative bg-white">
