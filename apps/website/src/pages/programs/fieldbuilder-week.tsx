@@ -10,7 +10,7 @@ import WhatCouldYouBuildSection from '../../components/fieldbuilder-week/WhatCou
 import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
 import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
 import { ROUTES } from '../../lib/routes';
-import { linkPreviewImageTags } from '../../lib/linkPreviewImageTags';
+import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
@@ -37,7 +37,9 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
         <meta property="og:title" content={`${programName} | BlueDot Impact`} />
         <meta property="og:description" content={programDescription} />
         <meta property="og:url" content={`${SITE_URL}/programs/fieldbuilder-week`} />
-        {linkPreviewImageTags({ imageUrl: LINK_PREVIEW_IMAGE, alt: programDescription })}
+        {linkPreviewMetaTags({
+          imageUrl: LINK_PREVIEW_IMAGE, alt: programDescription, width: 1200, height: 630, imageType: 'image/png',
+        })}
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
       </Head>

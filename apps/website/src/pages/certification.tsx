@@ -26,7 +26,7 @@ import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { getCourseCtaColors } from '../lib/courseCtaColors';
 import { getCertificateAssetSlug } from '../lib/certificateAssets';
-import { linkPreviewImageTags } from '../lib/linkPreviewImageTags';
+import { linkPreviewMetaTags } from '../lib/linkPreviewMetaTags';
 import { getCertificateData } from '../server/routers/certificates';
 
 type Certificate = Awaited<ReturnType<typeof getCertificateData>>;
@@ -174,7 +174,9 @@ const CertificatePage = ({
         <meta property="og:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta key="og:type" property="og:type" content="article" />
         <meta property="og:url" content={`${siteUrl}/certification?id=${encodeURIComponent(certificateId)}`} />
-        {linkPreviewImageTags({ imageUrl: linkPreviewAbsoluteUrl, alt: `${certificate.courseName} certification badge` })}
+        {linkPreviewMetaTags({
+          imageUrl: linkPreviewAbsoluteUrl, alt: `${certificate.courseName} certification badge`, width: 1200, height: 630, imageType: 'image/png',
+        })}
 
         <meta name="twitter:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
         <meta name="twitter:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />

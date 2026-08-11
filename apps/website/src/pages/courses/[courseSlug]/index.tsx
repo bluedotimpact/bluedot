@@ -14,7 +14,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { ROUTES } from '../../../lib/routes';
 import { COURSE_CONFIG, ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { getCourseOgImage } from '../../../lib/courseOgImage';
-import { linkPreviewImageTags } from '../../../lib/linkPreviewImageTags';
+import { linkPreviewMetaTags } from '../../../lib/linkPreviewMetaTags';
 import { buildApplicationUrl } from '../../../lib/utils';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
@@ -190,7 +190,8 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <meta key="og:title" property="og:title" content={course.title} />
         <meta key="og:description" property="og:description" content={course.shortDescription} />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
-        {linkPreviewImageTags({ imageUrl: courseOgImage, alt: `${course.title} course preview` })}
+        {/* Dimensions omitted: course link-preview images are mixed sizes */}
+        {linkPreviewMetaTags({ imageUrl: courseOgImage, alt: `${course.title} course preview` })}
       </Head>
 
       <Breadcrumbs
@@ -267,7 +268,8 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <meta key="og:title" property="og:title" content={course.title} />
         <meta key="og:description" property="og:description" content={course.shortDescription} />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
-        {linkPreviewImageTags({ imageUrl: courseOgImage, alt: 'BlueDot Impact logo' })}
+        {/* Dimensions omitted: course link-preview images are mixed sizes */}
+        {linkPreviewMetaTags({ imageUrl: courseOgImage, alt: 'BlueDot Impact logo' })}
       </Head>
 
       <MarketingHero title={course.title} subtitle={course.shortDescription} />

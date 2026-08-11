@@ -13,7 +13,7 @@ import {
   FOAI_COURSE_ID, FOAI_COURSE_SLUG, getNextStepsChunkTitle, NEXT_STEPS_CHUNK_ID,
 } from '../../../../lib/constants';
 import { getCourseOgImage } from '../../../../lib/courseOgImage';
-import { linkPreviewImageTags } from '../../../../lib/linkPreviewImageTags';
+import { linkPreviewMetaTags } from '../../../../lib/linkPreviewMetaTags';
 import { buildCourseUnitUrl } from '../../../../lib/utils';
 import { type BasicChunk, getActiveChunksByUnit, getCourseData } from '../../../../server/routers/courses';
 import { trpc } from '../../../../utils/trpc';
@@ -118,7 +118,8 @@ const CourseUnitChunkPage = ({
         <meta key="og:title" property="og:title" content={title} />
         <meta key="og:description" property="og:description" content={metaDescription} />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseSlug)}/${unitNumber}/${chunkIndex + 1}`} />
-        {linkPreviewImageTags({ imageUrl: courseOgImage, alt: `${unit.courseTitle} course preview` })}
+        {/* Dimensions omitted: course link-preview images are mixed sizes */}
+        {linkPreviewMetaTags({ imageUrl: courseOgImage, alt: `${unit.courseTitle} course preview` })}
 
         {/* Twitter Card meta tags */}
         <meta name="twitter:title" content={title} />

@@ -1,11 +1,12 @@
 import path from 'path';
 import { fileExists } from '../utils/fileExists';
+import { LINK_PREVIEW_FALLBACK_IMAGE_URL } from './linkPreviewMetaTags';
 
 const COURSE_OG_IMAGE_FILENAMES: Partial<Record<string, string>> = {
   'future-of-ai': 'future-of-ai-v2.png',
 };
 
-const COURSE_OG_IMAGE_FALLBACK = 'https://bluedot.org/images/logo/link-preview-fallback.png';
+const COURSE_OG_IMAGE_FALLBACK = LINK_PREVIEW_FALLBACK_IMAGE_URL;
 
 export const getCourseOgImage = async (courseSlug: string): Promise<string> => {
   const filename = COURSE_OG_IMAGE_FILENAMES[courseSlug] ?? `${courseSlug}.png`;
