@@ -82,7 +82,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex items-center"
           >
             <div
-              class="mobile-nav-links lg:hidden"
+              class="mobile-nav-links xl:hidden"
             >
               <button
                 class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn text-white [&_svg]:text-white"
@@ -119,7 +119,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
               >
                 <div
-                  class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+                  class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
                   role="presentation"
                 >
                   <div
@@ -339,7 +339,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex items-center gap-12"
           >
             <div
-              class="nav-links flex gap-9 [&>*]:w-fit hidden lg:flex"
+              class="nav-links flex gap-9 [&>*]:w-fit hidden xl:flex"
             >
               <div
                 class="nav-dropdown"
