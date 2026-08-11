@@ -41,7 +41,7 @@ const RecommendedReadingSection = () => {
         <H3>What our best advisees have in common</H3>
 
         <P>
-          They read these before applying and acted on the advice. The call then builds on what they&apos;ve already tried.
+          They read these and acted on the advice. The call then builds on what they&apos;ve already tried.
         </P>
 
         <ul className="list-disc pl-6 flex flex-col gap-2">
