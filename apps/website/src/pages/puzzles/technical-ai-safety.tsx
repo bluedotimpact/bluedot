@@ -210,8 +210,6 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
         <meta property="og:title" content={PAGE_TITLE} />
         <meta property="og:description" content={PAGE_HOOK} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
         <meta property="og:image" content={OG_IMAGE_URL} />
         <meta property="og:image:width" content="1200" />

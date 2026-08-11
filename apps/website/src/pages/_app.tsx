@@ -25,6 +25,21 @@ const FOAI_FOOTER_ENTRY = {
   title: 'Future of AI',
 };
 
+/**
+ * Site-wide <head> defaults. Keyed meta tags can be overridden per page by
+ * rendering a tag with the same `key` inside that page's <Head>.
+ */
+export const DefaultHeadTags = () => (
+  <Head>
+    <title>BlueDot Impact</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta key="og:type" property="og:type" content="website" />
+    <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
+  </Head>
+);
+
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
 const CustomerioAnalytics = dynamic(() => import('../components/analytics/CustomerioAnalytics'), { ssr: false });
@@ -82,12 +97,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <div className={`${inter.className} ${interDisplay.variable}`}>
-      <Head>
-        <title>BlueDot Impact</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-      </Head>
+      <DefaultHeadTags />
       {'rawLayout' in Component && Component.rawLayout ? (
         <ErrorBoundary key={router.asPath}>
           <Component {...pageProps} />

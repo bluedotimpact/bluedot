@@ -36,8 +36,6 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta name="description" content={job.subtitle ?? undefined} />
         <meta key="og:title" property="og:title" content={job.title ?? undefined} />
         <meta key="og:description" property="og:description" content={job.subtitle ?? undefined} />
-        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
-        <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
         <meta key="og:image" property="og:image" content={jobOgImage} />
         <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />

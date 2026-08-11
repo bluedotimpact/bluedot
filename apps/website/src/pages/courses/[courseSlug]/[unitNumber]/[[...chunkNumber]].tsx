@@ -116,8 +116,6 @@ const CourseUnitChunkPage = ({
         {/* Open Graph meta tags */}
         <meta key="og:title" property="og:title" content={title} />
         <meta key="og:description" property="og:description" content={metaDescription} />
-        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
-        <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseSlug)}/${unitNumber}/${chunkIndex + 1}`} />
         <meta key="og:image" property="og:image" content={courseOgImage} />
         <meta key="og:image:width" property="og:image:width" content="1200" />

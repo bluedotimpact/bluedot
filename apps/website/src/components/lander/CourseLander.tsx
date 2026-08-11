@@ -156,8 +156,6 @@ const CourseLander = ({
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={content.meta.title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:url" content={ogUrl} />
 
         {/* Twitter Card meta tags */}

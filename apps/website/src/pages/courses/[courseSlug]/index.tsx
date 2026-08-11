@@ -188,8 +188,6 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <meta name="description" content={course.shortDescription} />
         <meta key="og:title" property="og:title" content={course.title} />
         <meta key="og:description" property="og:description" content={course.shortDescription} />
-        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
-        <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
         <meta key="og:image" property="og:image" content={courseOgImage} />
         <meta key="og:image:width" property="og:image:width" content="1200" />
@@ -271,8 +269,6 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <meta name="description" content={course.shortDescription} />
         <meta key="og:title" property="og:title" content={course.title} />
         <meta key="og:description" property="og:description" content={course.shortDescription} />
-        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
-        <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
         <meta key="og:image" property="og:image" content={courseOgImage} />
         <meta key="og:image:width" property="og:image:width" content="1200" />

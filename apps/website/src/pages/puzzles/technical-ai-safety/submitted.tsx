@@ -55,8 +55,6 @@ const PuzzleSubmittedPage = () => (
       <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
       <meta property="og:title" content={PAGE_META_TITLE} />
       <meta property="og:description" content={PAGE_DESCRIPTION} />
-      <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="BlueDot Impact" />
       <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
       <meta property="og:image" content={OG_IMAGE_URL} />
     </Head>

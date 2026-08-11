@@ -46,8 +46,6 @@ const BiosecHackathonPage = () => {
         <link rel="canonical" href={`${SITE_URL}/biosechackathon`} />
         <meta property="og:title" content={PAGE_TITLE} />
         <meta property="og:description" content={PAGE_TITLE} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:url" content={`${SITE_URL}/biosechackathon`} />
       </Head>
 
