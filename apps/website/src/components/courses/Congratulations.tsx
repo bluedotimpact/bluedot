@@ -83,7 +83,7 @@ const PostPreviewPanel = ({
       alt=""
       className="w-full rounded-lg object-cover"
       onError={(e) => {
-        (e.target as HTMLImageElement).src = `${SITE_URL}${LINK_PREVIEW_FALLBACK_IMAGE_PATH}`;
+        (e.target as HTMLImageElement).src = LINK_PREVIEW_FALLBACK_IMAGE_PATH;
       }}
     />
   </div>
