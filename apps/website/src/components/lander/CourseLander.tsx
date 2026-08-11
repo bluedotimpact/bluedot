@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useLatestUtmParams } from '@bluedot/ui';
 import { buildApplicationUrl } from '../../lib/utils';
+import { linkPreviewImageTags } from '../../lib/linkPreviewImageTags';
 import { Nav } from '../Nav/Nav';
 import TestimonialCarousel, { type TestimonialMember } from './TestimonialCarousel';
 import GraduateSection from './components/GraduateSection';
@@ -152,14 +153,10 @@ const CourseLander = ({
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={seoDescription} />
-        <meta key="og:image" property="og:image" content={courseOgImage} />
-        <meta key="og:image:width" property="og:image:width" content="1200" />
-        <meta key="og:image:height" property="og:image:height" content="630" />
-        <meta key="og:image:alt" property="og:image:alt" content={content.meta.title} />
+        {linkPreviewImageTags({ imageUrl: courseOgImage, alt: content.meta.title })}
         <meta property="og:url" content={ogUrl} />
 
         {/* Twitter Card meta tags */}
-        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={courseOgImage} />

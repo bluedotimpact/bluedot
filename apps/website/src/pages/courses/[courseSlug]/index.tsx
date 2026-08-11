@@ -14,6 +14,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { ROUTES } from '../../../lib/routes';
 import { COURSE_CONFIG, ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { getCourseOgImage } from '../../../lib/courseOgImage';
+import { linkPreviewImageTags } from '../../../lib/linkPreviewImageTags';
 import { buildApplicationUrl } from '../../../lib/utils';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
@@ -189,11 +190,7 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <meta key="og:title" property="og:title" content={course.title} />
         <meta key="og:description" property="og:description" content={course.shortDescription} />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
-        <meta key="og:image" property="og:image" content={courseOgImage} />
-        <meta key="og:image:width" property="og:image:width" content="1200" />
-        <meta key="og:image:height" property="og:image:height" content="630" />
-        <meta key="og:image:type" property="og:image:type" content="image/png" />
-        <meta key="og:image:alt" property="og:image:alt" content={`${course.title} course preview`} />
+        {linkPreviewImageTags({ imageUrl: courseOgImage, alt: `${course.title} course preview` })}
       </Head>
 
       <Breadcrumbs
@@ -270,11 +267,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <meta key="og:title" property="og:title" content={course.title} />
         <meta key="og:description" property="og:description" content={course.shortDescription} />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
-        <meta key="og:image" property="og:image" content={courseOgImage} />
-        <meta key="og:image:width" property="og:image:width" content="1200" />
-        <meta key="og:image:height" property="og:image:height" content="630" />
-        <meta key="og:image:type" property="og:image:type" content="image/png" />
-        <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
+        {linkPreviewImageTags({ imageUrl: courseOgImage, alt: 'BlueDot Impact logo' })}
       </Head>
 
       <MarketingHero title={course.title} subtitle={course.shortDescription} />

@@ -13,6 +13,7 @@ import { ROUTES } from '../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
+import { linkPreviewImageTags } from '../../lib/linkPreviewImageTags';
 import { fileExists } from '../../utils/fileExists';
 
 type JobPostingPageProps = {
@@ -37,8 +38,11 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:title" property="og:title" content={job.title ?? undefined} />
         <meta key="og:description" property="og:description" content={job.subtitle ?? undefined} />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
-        <meta key="og:image" property="og:image" content={jobOgImage} />
-        <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
+        {/* The repo-hosted images are 1200×630 PNGs. Custom Airtable uploads
+            (proxied via /api/og-image) aren't resized or validated, so the
+            declared dimensions/type are only accurate if the upload follows
+            the 1200×630 PNG link-preview convention. */}
+        {linkPreviewImageTags({ imageUrl: jobOgImage, alt: 'BlueDot Impact logo' })}
         <script
           type="application/ld+json"
 

@@ -33,16 +33,20 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:image:height"
     />
     <meta
+      content="image/png"
+      property="og:image:type"
+    />
+    <meta
       content="AGI Strategy Course | BlueDot Impact"
       property="og:image:alt"
     />
     <meta
-      content="https://bluedot.org/courses/agi-strategy"
-      property="og:url"
-    />
-    <meta
       content="summary_large_image"
       name="twitter:card"
+    />
+    <meta
+      content="https://bluedot.org/courses/agi-strategy"
+      property="og:url"
     />
     <meta
       content="AGI Strategy Course | BlueDot Impact"

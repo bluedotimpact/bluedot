@@ -7,6 +7,7 @@ import TestimonialCarousel, { type TestimonialMember } from '../components/lande
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { trpc } from '../utils/trpc';
+import { linkPreviewImageTags } from '../lib/linkPreviewImageTags';
 
 const META_TITLE = 'BlueDot Impact | Have a positive impact on the trajectory of AI';
 const META_DESCRIPTION = 'Free courses, career support, and entrepreneur programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.';
@@ -27,12 +28,7 @@ const HomePage = () => {
         <meta property="og:title" content={META_TITLE} />
         <meta property="og:description" content={META_DESCRIPTION} />
         <meta property="og:url" content="https://bluedot.org" />
-        <meta key="og:image" property="og:image" content={LINK_PREVIEW_IMAGE} />
-        <meta key="og:image:width" property="og:image:width" content="1200" />
-        <meta key="og:image:height" property="og:image:height" content="630" />
-        <meta key="og:image:type" property="og:image:type" content="image/png" />
-        <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
-        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
+        {linkPreviewImageTags({ imageUrl: LINK_PREVIEW_IMAGE, alt: 'BlueDot Impact logo' })}
         <meta name="twitter:title" content={META_TITLE} />
         <meta name="twitter:description" content={META_DESCRIPTION} />
         <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />
