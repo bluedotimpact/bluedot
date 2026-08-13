@@ -81,7 +81,11 @@ export async function issueFoaiCertificateIfComplete(userId: string): Promise<bo
   const certificateCreatedAt = Math.floor(Date.now() / 1000);
   const certificateId = selfServeRegistration.id;
 
-  await db.update(selfServeCourseRegistrationTable, { id: selfServeRegistration.id, certificateId, certificateCreatedAt });
+  await db.update(selfServeCourseRegistrationTable, {
+    id: selfServeRegistration.id,
+    certificateId,
+    certificateCreatedAt,
+  });
 
   return true;
 }
@@ -89,7 +93,10 @@ export async function issueFoaiCertificateIfComplete(userId: string): Promise<bo
 export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
 
 export async function getCertificateData(certificateId: string) {
-  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
+  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
+    filter: { certificateId },
+    sortBy: 'createdAt',
+  });
   const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
 
   const registration = selfServeRegistration ?? facilitatedRegistration;
@@ -162,7 +169,10 @@ export const certificatesRouter = router({
     .query(async ({ ctx, input: { certificateId } }) => {
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
-      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
+      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
+        filter: { certificateId },
+        sortBy: 'createdAt',
+      });
       const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
 
       const registration = selfServeRegistration ?? facilitatedRegistration;
@@ -241,8 +251,7 @@ export const certificatesRouter = router({
         : null;
       const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
       const isLastDiscussionSoonOrPassed
-        = round?.lastDiscussionDate != null
-          && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
+        = round?.lastDiscussionDate != null && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
 
       if (!hasAttendedEnough) {
         return {
