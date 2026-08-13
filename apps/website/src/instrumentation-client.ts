@@ -8,10 +8,14 @@ Sentry.init({
 
   tracesSampleRate: process.env.NODE_ENV === 'development' ? 1.0 : 0.1,
 
-  // Noise from browser extensions, not our code.
+  // Noise from browser extensions and email-security scanners, not our code.
   ignoreErrors: [
     /Failed to connect to MetaMask/i,
     /Talisman extension has not been configured/i,
+    // Extension JSON.stringify-ing DOM nodes; __reactFiber marker avoids hiding our own bugs.
+    /Converting circular structure to JSON[\s\S]*__reactFiber\$/,
+    // Microsoft Outlook SafeLinks link-scanner artifact.
+    /Object Not Found Matching Id:\d+, MethodName:/,
   ],
   denyUrls: [
     /^chrome-extension:\/\//,
