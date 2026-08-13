@@ -43,15 +43,13 @@ async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
   const latestResponses = await db.pg
     .selectDistinctOn([exerciseResponsePgTable.pg.exerciseId])
     .from(exerciseResponsePgTable.pg)
-    .where(
-      and(
-        arrayContains(exerciseResponsePgTable.pg.userId, [userId]),
-        inArray(
-          exerciseResponsePgTable.pg.exerciseId,
-          requiredExercises.map((e) => e.id),
-        ),
+    .where(and(
+      arrayContains(exerciseResponsePgTable.pg.userId, [userId]),
+      inArray(
+        exerciseResponsePgTable.pg.exerciseId,
+        requiredExercises.map((e) => e.id),
       ),
-    )
+    ))
     .orderBy(exerciseResponsePgTable.pg.exerciseId, desc(exerciseResponsePgTable.pg.createdAt));
 
   const responseByExerciseId = new Map(latestResponses.map((resp) => [resp.exerciseId, resp]));
