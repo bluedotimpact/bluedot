@@ -25,7 +25,7 @@ import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
   const requiredExercises = await db.pg
-    .select({ id: exerciseTable.pg.id })
+    .select({ id: exerciseTable.pg.id, type: exerciseTable.pg.type })
     .from(exerciseTable.pg)
     .where(and(
       eq(exerciseTable.pg.courseId, FOAI_COURSE_ID),
@@ -45,8 +45,14 @@ async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
       inArray(exerciseResponsePgTable.pg.exerciseId, requiredExercises.map((e) => e.id)),
     ));
 
+  // Free-text answers autosave with completedAt null unless the learner clicks "Complete", so a
+  // typed answer counts for the certificate even without the explicit click.
+  const freeTextExerciseIds = new Set(requiredExercises
+    .filter((exercise) => exercise.type === 'Free text')
+    .map((exercise) => exercise.id));
   const completedExerciseIds = new Set(exerciseResponses
-    .filter((resp) => resp.completedAt != null)
+    .filter((resp) => resp.completedAt != null
+      || (freeTextExerciseIds.has(resp.exerciseId) && resp.response.trim().length > 0))
     .map((resp) => resp.exerciseId));
   return requiredExercises.every((exercise) => completedExerciseIds.has(exercise.id));
 }
