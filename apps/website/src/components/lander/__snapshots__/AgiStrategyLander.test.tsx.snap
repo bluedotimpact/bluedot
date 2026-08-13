@@ -167,12 +167,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="nav-dropdown"
                     >
                       <button
-                        aria-controls="programs-dropdown"
+                        aria-controls="grants-dropdown"
                         aria-expanded="false"
                         class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
-                        Programs
+                        Grants
                         <svg
                           class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                           fill="none"
@@ -190,9 +190,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         </svg>
                       </button>
                       <div
-                        aria-label="Programs menu"
+                        aria-label="Grants menu"
                         class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                        id="programs-dropdown"
+                        id="grants-dropdown"
                         role="region"
                       >
                         <div
@@ -221,12 +221,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="nav-dropdown"
                     >
                       <button
-                        aria-controls="projects-dropdown"
+                        aria-controls="programs-dropdown"
                         aria-expanded="false"
                         class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
-                        Projects
+                        Programs
                         <svg
                           class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                           fill="none"
@@ -244,9 +244,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         </svg>
                       </button>
                       <div
-                        aria-label="Projects menu"
+                        aria-label="Programs menu"
                         class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                        id="projects-dropdown"
+                        id="programs-dropdown"
                         role="region"
                       >
                         <div
@@ -383,12 +383,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="nav-dropdown"
               >
                 <button
-                  aria-controls="programs-dropdown"
+                  aria-controls="grants-dropdown"
                   aria-expanded="false"
                   class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
-                  Programs
+                  Grants
                   <svg
                     class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                     fill="none"
@@ -406,9 +406,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   </svg>
                 </button>
                 <div
-                  aria-label="Programs menu"
+                  aria-label="Grants menu"
                   class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                  id="programs-dropdown"
+                  id="grants-dropdown"
                   role="region"
                 >
                   <div
@@ -437,12 +437,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="nav-dropdown"
               >
                 <button
-                  aria-controls="projects-dropdown"
+                  aria-controls="programs-dropdown"
                   aria-expanded="false"
                   class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
-                  Projects
+                  Programs
                   <svg
                     class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                     fill="none"
@@ -460,9 +460,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   </svg>
                 </button>
                 <div
-                  aria-label="Projects menu"
+                  aria-label="Programs menu"
                   class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                  id="projects-dropdown"
+                  id="programs-dropdown"
                   role="region"
                 >
                   <div
@@ -951,7 +951,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <a
                   class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
-                  href="/programs/rapid-grants"
+                  href="/grants/rapid"
                 >
                   <div
                     class="flex items-stretch gap-4 min-w-0 flex-1"
@@ -980,7 +980,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
                     >
-                      Explore program
+                      Explore grant
                     </span>
                     <span
                       class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
@@ -995,7 +995,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <a
                   class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
-                  href="/programs/career-transition-grant"
+                  href="/grants/career-transition"
                 >
                   <div
                     class="flex items-stretch gap-4 min-w-0 flex-1"
@@ -1024,7 +1024,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
                     >
-                      Explore program
+                      Explore grant
                     </span>
                     <span
                       class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"

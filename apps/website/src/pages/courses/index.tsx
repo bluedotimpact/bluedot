@@ -23,8 +23,8 @@ const CoursesPage = () => {
   return (
     <div className="bd-md:pb-16 xl:pb-24">
       <Head>
-        <title>AI safety courses with certificates</title>
-        <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
+        <title>Online AI safety courses and project sprints</title>
+        <meta name="description" content="Online courses and project sprints that help you build the knowledge, community and experience needed to pursue a high-impact career." />
         {allDisplayed.length > 0 && (
           <script
             type="application/ld+json"
@@ -80,8 +80,8 @@ const CoursesPage = () => {
       </Head>
 
       <MarketingHero
-        title="Course Schedule"
-        subtitle="Learn how you can have a positive impact on the future of AI via one of our upcoming free courses and projects."
+        title="Online courses"
+        subtitle="From a two-hour introduction to multi-week courses and project sprints, all designed to help you contribute to a better future with AI."
       />
       <Breadcrumbs route={ROUTES.courses} />
 
@@ -95,7 +95,7 @@ const CoursesPage = () => {
             <CourseScheduleMenu
               sections={[
                 { label: 'Courses', items: displayedCourses },
-                { label: 'Projects', items: displayedProjects },
+                { label: 'Project sprints', items: displayedProjects },
               ]}
             />
 
@@ -113,7 +113,7 @@ const CoursesPage = () => {
                     <>
                       <div id="projects" className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
                       <h2 className="text-size-xxs leading-snug font-medium text-bluedot-normal uppercase tracking-wide mb-12 xl:hidden">
-                        Projects
+                        Project sprints
                       </h2>
                       <CourseScheduleList courses={displayedProjects} />
                     </>

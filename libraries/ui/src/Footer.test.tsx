@@ -12,7 +12,11 @@ describe('Footer', () => {
   });
 
   test('renders with optional args', () => {
-    const { container } = render(<Footer logo="https://www.bluedot.com/test-logo.jpg" />);
+    const { container, getAllByRole } = render(<Footer
+      logo="https://www.bluedot.com/test-logo.jpg"
+      grants={[{ path: '/grants/rapid', title: 'Rapid Grants' }]}
+    />);
+    expect(getAllByRole('link', { name: 'Rapid Grants' })).toHaveLength(3);
     expect(container).toMatchSnapshot();
   });
 

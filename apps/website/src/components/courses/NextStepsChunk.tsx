@@ -5,6 +5,7 @@ import type React from 'react';
 import { PageListGroup, PageListRow } from '../PageListRow';
 import { isDigitalMindsCourseSlug } from '../../lib/constants';
 import { formatAmountUsd } from '../../lib/utils';
+import { getGrantPath } from '../../lib/grantRoutes';
 import { trpc } from '../../utils/trpc';
 
 const pluralizeGrants = (count: number) => `${count} ${count === 1 ? 'grant' : 'grants'}`;
@@ -113,6 +114,19 @@ const BlueDotNextStepsChunk: React.FC = () => {
     return null;
   };
 
+  const getOpportunityHref = (program: { category: string | null; slug: string | null }) => {
+    if (program.category === 'Funding') return getGrantPath(program.slug);
+    if (!program.slug || ['advising', 'technical-ai-safety-project-sprint'].includes(program.slug)) return undefined;
+    return `/programs/${program.slug}`;
+  };
+
+  const opportunities = (programs ?? [])
+    .map((program) => ({
+      program,
+      href: getOpportunityHref(program),
+    }))
+    .filter((entry): entry is typeof entry & { href: string } => Boolean(entry.href));
+
   return (
     <div className="next-steps-chunk flex flex-col gap-6 mt-8 md:mt-6">
       <P>
@@ -121,16 +135,16 @@ const BlueDotNextStepsChunk: React.FC = () => {
 
       {error && <ErrorSection error={error} />}
       {isLoading && <ProgressDots />}
-      {!isLoading && !error && programs && (
+      {!isLoading && !error && (
         <PageListGroup>
-          {programs.map((program) => (
+          {opportunities.map(({ program, href }) => (
             <PageListRow
               key={program.id}
-              href={program.slug ? `/programs/${program.slug}` : (program.applicationForm ?? '#')}
+              href={href}
               title={program.name}
               summary={program.description}
               meta={getMeta(program.slug)}
-              ctaLabel="Explore program"
+              ctaLabel={program.category === 'Funding' ? 'Explore grant' : 'Explore program'}
             />
           ))}
         </PageListGroup>

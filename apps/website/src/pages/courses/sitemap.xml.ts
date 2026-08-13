@@ -8,6 +8,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const courses = await getAllActiveCourses();
 
   const urls = courses
+    // `false` should still fall through for the always-public Future of AI course.
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    .filter((course) => course.displayOnCourseHubIndex || course.slug === 'future-of-ai')
     .map((course) => {
       return `  <url>
     <loc>${BASE_URL}/${encodeURIComponent(course.slug)}</loc>

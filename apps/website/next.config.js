@@ -26,7 +26,7 @@ const baseConfig = withDefaultBlueDotNextConfig({
       },
       {
         source: '/projects',
-        destination: 'https://blog.bluedot.org/s/projects',
+        destination: '/courses#projects',
         permanent: true,
       },
       {
@@ -51,7 +51,32 @@ const baseConfig = withDefaultBlueDotNextConfig({
       },
       {
         source: '/programs/builder-week',
-        destination: '/programs/fieldbuilder-week',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
+        source: '/programs/fieldbuilder-week',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
+        source: '/programs/advising',
+        destination: '/grants/career-transition',
+        permanent: true,
+      },
+      {
+        source: '/programs/career-transition-grant',
+        destination: '/grants/career-transition',
+        permanent: true,
+      },
+      {
+        source: '/programs/rapid-grants',
+        destination: '/grants/rapid',
+        permanent: true,
+      },
+      {
+        source: '/programs/technical-ai-safety-project-sprint',
+        destination: '/courses/technical-ai-safety-project',
         permanent: true,
       },
       {
@@ -60,23 +85,13 @@ const baseConfig = withDefaultBlueDotNextConfig({
         permanent: true,
       },
       {
-        source: '/grants',
-        destination: '/programs',
-        permanent: true,
-      },
-      {
-        source: '/grants/rapid',
-        destination: '/programs/rapid-grants',
-        permanent: true,
-      },
-      {
         source: '/grants/agi-strategy-fund',
-        destination: '/programs',
+        destination: '/grants',
         permanent: true,
       },
       {
         source: '/grants/bridge',
-        destination: '/programs',
+        destination: '/grants',
         permanent: true,
       },
       {

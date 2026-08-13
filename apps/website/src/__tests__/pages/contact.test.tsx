@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import ContactPage from '../../pages/contact';
 import { TrpcProvider } from '../trpcProvider';
 import { server, trpcMsw } from '../trpcMswSetup';
-import { MOCK_NAV_PROGRAMS } from '../testUtils';
+import { MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS } from '../testUtils';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -27,7 +27,8 @@ describe('ContactPage', () => {
   test('renders both legal entities without publishing the US street address', async () => {
     server.use(
       trpcMsw.courses.getAll.query(() => []),
-      trpcMsw.programs.getAll.query(() => MOCK_NAV_PROGRAMS),
+      trpcMsw.programs.getInPerson.query(() => MOCK_NAV_IN_PERSON_PROGRAMS),
+      trpcMsw.programs.getGrants.query(() => MOCK_NAV_GRANTS),
     );
 
     const { container } = render(<ContactPage />, { wrapper: TrpcProvider });

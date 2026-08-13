@@ -75,14 +75,11 @@ export const createAiGovernanceContent = (
         <>
           FAIGC is one course in a wider BlueDot pipeline. During the course, we learn enough about participants to point them toward what makes sense next. Outside BlueDot, that often means introductions - to hiring managers at AI safety organisations or fellowship leads. Inside BlueDot, it means our other programs:
           {' '}
-          <a href="/programs/advising" className={externalLinkClassName}>1-1 advising</a>
-          ,
-          {' '}
-          <a href="/programs/rapid-grants" className={externalLinkClassName}>Rapid Grants</a>
+          <a href="/grants/rapid" className={externalLinkClassName}>Rapid Grants</a>
           {' '}
           for concrete projects,
           {' '}
-          <a href="/programs/career-transition-grant" className={externalLinkClassName}>Career Transition Grants</a>
+          <a href="/grants/career-transition" className={externalLinkClassName}>Career Transition Grants</a>
           {' '}
           for full-time pivots,
           {' '}

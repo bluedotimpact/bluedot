@@ -120,14 +120,14 @@ export const createBioSecurityContent = (
       {
         title: 'Rapid Grants',
         summary: 'Small, fast funding for concrete biosecurity work. Five-minute application, decisions in days, money upfront by default.',
-        href: '/programs/rapid-grants',
-        ctaLabel: 'Explore program',
+        href: '/grants/rapid',
+        ctaLabel: 'Explore grant',
       },
       {
         title: 'Career Transition Grants',
         summary: 'Funding to enable you to work full-time on impactful biosecurity work. Propose your plan and we\'ll back you.',
-        href: '/programs/career-transition-grant',
-        ctaLabel: 'Explore program',
+        href: '/grants/career-transition',
+        ctaLabel: 'Explore grant',
       },
     ],
   },

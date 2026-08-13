@@ -49,6 +49,12 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.programs.title).toBe('Programs');
   });
 
+  test('grants and programs are separate top-level routes', () => {
+    expect(ROUTES.grants.url).toBe('/grants');
+    expect(ROUTES.grants.title).toBe('Grants');
+    expect(ROUTES.grants).not.toBe(ROUTES.programs);
+  });
+
   test('profile route still exists for backward compatibility', () => {
     expect(ROUTES.profile).toBeDefined();
     expect(ROUTES.profile.url).toBe('/profile');

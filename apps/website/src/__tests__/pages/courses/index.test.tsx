@@ -55,6 +55,8 @@ describe('CoursesPage', () => {
     server.use(
       trpcMsw.courses.getAll.query(() => mockCourses),
       trpcMsw.courseRounds.getRoundsForCourse.query(() => mockRounds),
+      trpcMsw.programs.getInPerson.query(() => []),
+      trpcMsw.programs.getGrants.query(() => []),
     );
   });
 
@@ -62,7 +64,7 @@ describe('CoursesPage', () => {
     const { container } = render(<CoursesPage />, { wrapper: TrpcProvider });
 
     const heroTitle = container.querySelector('h1');
-    expect(heroTitle?.textContent).toBe('Course Schedule');
+    expect(heroTitle?.textContent).toBe('Online courses');
   });
 
   test('renders newsletter banner', async () => {

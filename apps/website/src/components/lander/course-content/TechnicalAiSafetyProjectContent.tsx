@@ -125,7 +125,7 @@ export const createTechnicalAiSafetyProjectContent = (
         question: 'Do you provide funding for compute?',
         answer: (
           <>
-            Yes. Once you're accepted onto the sprint, you can apply for <a href="/programs/rapid-grants" className="underline">Rapid Grants</a> if you need compute or other resources for your project.
+            Yes. Once you're accepted onto the sprint, you can apply for <a href="/grants/rapid" className="underline">Rapid Grants</a> if you need compute or other resources for your project.
           </>
         ),
         answerText: 'Yes. Once you\'re accepted onto the sprint, you can apply for Rapid Grants if you need compute or other resources for your project.',

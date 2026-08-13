@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import HomeHeroContent from './HomeHeroContent';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
-import { MOCK_NAV_PROGRAMS } from '../../__tests__/testUtils';
+import { MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS } from '../../__tests__/testUtils';
 
 vi.mock('next/router', () => ({
   useRouter: () => ({
@@ -15,7 +15,11 @@ vi.mock('next/router', () => ({
 }));
 
 beforeEach(() => {
-  server.use(trpcMsw.programs.getAll.query(() => MOCK_NAV_PROGRAMS));
+  server.use(
+    trpcMsw.programs.getInPerson.query(() => MOCK_NAV_IN_PERSON_PROGRAMS),
+    trpcMsw.programs.getGrants.query(() => MOCK_NAV_GRANTS),
+    trpcMsw.courses.getAll.query(() => []),
+  );
 });
 
 describe('HomeHeroContent', () => {

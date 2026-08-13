@@ -1,1 +1,1 @@
-export { default } from '../programs';
+export { default } from '../grants';

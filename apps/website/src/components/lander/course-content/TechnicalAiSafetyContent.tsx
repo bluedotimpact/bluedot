@@ -82,7 +82,7 @@ export const createTechnicalAiSafetyContent = (
           <p className="text-size-sm leading-relaxed text-bluedot-navy/80">
             BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run a
             {' '}
-            <a href="/programs/rapid-grants" className={externalLinkClassName}>Rapid Grants program</a>
+            <a href="/grants/rapid" className={externalLinkClassName}>Rapid Grants</a>
             {' '}
             to fund participants who come out ready to build something. Our community Slack is where job leads, collaboration opportunities, and technical debate happens daily.
           </p>

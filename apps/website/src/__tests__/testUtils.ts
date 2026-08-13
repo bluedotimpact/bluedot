@@ -111,6 +111,9 @@ export const MOCK_NAV_PROGRAMS: Program[] = [
   },
 ];
 
+export const MOCK_NAV_GRANTS = MOCK_NAV_PROGRAMS.filter((program) => program.category === 'Funding');
+export const MOCK_NAV_IN_PERSON_PROGRAMS = MOCK_NAV_PROGRAMS.filter((program) => program.slug === 'incubator-week');
+
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   applyUrl: null,
   averageRating: 4.5,

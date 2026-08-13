@@ -7,7 +7,7 @@ import CourseLander from './CourseLander';
 import { createAgiStrategyContent } from './course-content/AgiStrategyContent';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
-import { MOCK_NAV_PROGRAMS } from '../../__tests__/testUtils';
+import { MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS } from '../../__tests__/testUtils';
 
 // Test URL - in production this comes from the database
 const TEST_APPLICATION_URL = 'https://web.miniextensions.com/test';
@@ -57,7 +57,10 @@ describe('AgiStrategyLander', () => {
   beforeEach(() => {
     mockLatestUtmParams.utm_source = undefined;
 
-    server.use(trpcMsw.programs.getAll.query(() => MOCK_NAV_PROGRAMS));
+    server.use(
+      trpcMsw.programs.getInPerson.query(() => MOCK_NAV_IN_PERSON_PROGRAMS),
+      trpcMsw.programs.getGrants.query(() => MOCK_NAV_GRANTS),
+    );
 
     server.use(trpcMsw.testimonials.getCommunityMembersByCourseSlug.query(() => [
       {

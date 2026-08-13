@@ -69,7 +69,8 @@ describe('MergedLadder', () => {
   beforeEach(() => {
     server.use(
       trpcMsw.courses.getAll.query(() => mockCourses),
-      trpcMsw.programs.getAll.query(() => mockPrograms),
+      trpcMsw.programs.getInPerson.query(() => mockPrograms.filter((program) => program.slug === 'incubator-week')),
+      trpcMsw.programs.getGrants.query(() => mockPrograms.filter((program) => program.category === 'Funding')),
       trpcMsw.grants.getRapidGrantStats.query(() => ({
         totalAmountUsd: 0, count: 0, averageHoursToDecision: null, p90DaysToDecision: null,
       })),
@@ -82,7 +83,7 @@ describe('MergedLadder', () => {
 
     expect(getByText('See where AI is going')).toBeDefined();
     expect(getByText('Understand how you can help')).toBeDefined();
-    expect(getByText('Start contributing')).toBeDefined();
+    expect(getByText('Turn knowledge into action')).toBeDefined();
     expect(getByText('The Future of AI')).toBeDefined();
 
     await findByText('AGI Strategy');
@@ -93,7 +94,7 @@ describe('MergedLadder', () => {
     });
   });
 
-  test('rung 3 program links carry homepage UTM params', async () => {
+  test('rung 3 grant and program links carry homepage UTM params', async () => {
     const { container } = render(<MergedLadder />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
@@ -104,6 +105,15 @@ describe('MergedLadder', () => {
         const href = a.getAttribute('href') ?? '';
         expect(href).toContain('utm_source=website');
         expect(href).toContain('utm_campaign=homepage-programs');
+      });
+
+      const grantLinks = Array.from(container.querySelectorAll('a'))
+        .filter((a) => a.getAttribute('href')?.includes('utm_campaign=homepage-grants'));
+      expect(grantLinks.length).toBeGreaterThan(0);
+      grantLinks.forEach((a) => {
+        const href = a.getAttribute('href') ?? '';
+        expect(href).toContain('utm_source=website');
+        expect(href).toContain('utm_campaign=homepage-grants');
       });
     });
   });

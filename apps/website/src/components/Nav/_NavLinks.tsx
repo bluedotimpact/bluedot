@@ -8,6 +8,8 @@ import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
+import { AI_SECURITY_BOOTCAMP } from '../../lib/publicPrograms';
+import { getGrantPath } from '../../lib/grantRoutes';
 import { trpc } from '../../utils/trpc';
 import {
   DRAWER_CLASSES,
@@ -42,7 +44,8 @@ export const NavLinks: React.FC<{
 }) => {
   const { courses, loading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
-  const { data: programs, isLoading: programsLoading } = trpc.programs.getAll.useQuery();
+  const { data: programs, isLoading: programsLoading } = trpc.programs.getInPerson.useQuery();
+  const { data: grants, isLoading: grantsLoading } = trpc.programs.getGrants.useQuery();
 
   // Filter FoAI from the dynamic list at the slug level (not URL): getPrimaryCourseURL
   // returns deep-link URLs like /courses/future-of-ai/1/1 for enrolled users, so a URL-based
@@ -58,13 +61,19 @@ export const NavLinks: React.FC<{
 
   const navCourses = [
     FOAI_NAV_ENTRY,
-    ...allCourses.filter((course) => course.type !== 'Project'),
-    { title: 'See upcoming rounds', url: ROUTES.courses.url },
+    ...allCourses,
+    { title: 'See all courses', url: ROUTES.courses.url },
   ];
 
-  const navProjects = [
-    ...allCourses.filter((course) => course.type === 'Project'),
-    { title: 'See all projects', url: ROUTES.projects.url },
+  const navGrants = [
+    ...(grants ?? [])
+      .map((grant) => ({ grant, url: getGrantPath(grant.slug) }))
+      .filter((entry): entry is typeof entry & { url: string } => Boolean(entry.url))
+      .map(({ grant, url }) => ({
+        title: grant.name,
+        url,
+      })),
+    { title: 'See all grants', url: ROUTES.grants.url },
   ];
 
   const navPrograms = [
@@ -74,6 +83,7 @@ export const NavLinks: React.FC<{
         title: program.name,
         url: `/programs/${program.slug}`,
       })),
+    { title: AI_SECURITY_BOOTCAMP.title, url: AI_SECURITY_BOOTCAMP.url, external: true },
     { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav` },
   ];
 
@@ -101,7 +111,7 @@ export const NavLinks: React.FC<{
         links={navCourses}
         onToggle={() => updateExpandedSections({
           courses: !expandedSections.courses,
-          projects: false,
+          grants: false,
           programs: false,
           explore: false,
           mobileNav: expandedSections.mobileNav,
@@ -113,12 +123,29 @@ export const NavLinks: React.FC<{
       />
       <NavDropdown
         expandedSections={expandedSections}
+        isExpanded={expandedSections.grants}
+        onColoredBackground={onColoredBackground}
+        links={navGrants}
+        onToggle={() => updateExpandedSections({
+          courses: false,
+          grants: !expandedSections.grants,
+          programs: false,
+          explore: false,
+          mobileNav: expandedSections.mobileNav,
+          profile: false,
+        })}
+        onClose={() => updateExpandedSections({ grants: false })}
+        title="Grants"
+        loading={grantsLoading}
+      />
+      <NavDropdown
+        expandedSections={expandedSections}
         isExpanded={expandedSections.programs}
         onColoredBackground={onColoredBackground}
         links={navPrograms}
         onToggle={() => updateExpandedSections({
           courses: false,
-          projects: false,
+          grants: false,
           programs: !expandedSections.programs,
           explore: false,
           mobileNav: expandedSections.mobileNav,
@@ -127,23 +154,6 @@ export const NavLinks: React.FC<{
         onClose={() => updateExpandedSections({ programs: false })}
         title="Programs"
         loading={programsLoading}
-      />
-      <NavDropdown
-        expandedSections={expandedSections}
-        isExpanded={expandedSections.projects}
-        onColoredBackground={onColoredBackground}
-        links={navProjects}
-        onToggle={() => updateExpandedSections({
-          courses: false,
-          projects: !expandedSections.projects,
-          programs: false,
-          explore: false,
-          mobileNav: expandedSections.mobileNav,
-          profile: false,
-        })}
-        onClose={() => updateExpandedSections({ projects: false })}
-        title="Projects"
-        loading={loading}
       />
       <A
         href={ROUTES.alumni.url}
@@ -268,7 +278,7 @@ const NavDropdown: React.FC<{
               return (
                 <React.Fragment key={link.url}>
                   {/* Add separator before footer links */}
-                  {(link.title === 'See upcoming rounds' || link.title === 'See all programs' || link.title === 'See all projects') && (
+                  {(link.title === 'See all courses' || link.title === 'See all grants' || link.title === 'See all programs') && (
                     <div className="border-t border-gray-200 my-2" />
                   )}
                   <A

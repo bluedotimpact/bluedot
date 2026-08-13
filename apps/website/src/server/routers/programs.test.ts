@@ -43,3 +43,32 @@ describe('programs.getAll', () => {
     expect(result.map((p) => p.slug)).toEqual(['active-one']);
   });
 });
+
+describe('public program taxonomy', () => {
+  test('separates funding from full-time in-person programs', async () => {
+    await testDb.insert(programTable, {
+      name: 'Rapid Grants', slug: 'rapid-grants', status: 'Active', category: 'Funding', order: '1',
+    });
+    await testDb.insert(programTable, {
+      name: 'Incubator Week', slug: 'incubator-week', status: 'Active', category: 'Found', order: '2',
+    });
+    await testDb.insert(programTable, {
+      name: '1-1 advising', slug: 'advising', status: 'Active', category: null, order: '3',
+    });
+    await testDb.insert(programTable, {
+      name: 'Project Sprint', slug: 'technical-ai-safety-project-sprint', status: 'Active', category: 'Build', order: '4',
+    });
+    await testDb.insert(programTable, {
+      name: 'Fieldbuilder Week', slug: 'fieldbuilder-week', status: 'Draft', category: 'Build', order: '5',
+    });
+
+    const caller = createCaller();
+    const [programs, grants] = await Promise.all([
+      caller.programs.getInPerson(),
+      caller.programs.getGrants(),
+    ]);
+
+    expect(programs.map((program) => program.slug)).toEqual(['incubator-week']);
+    expect(grants.map((grant) => grant.slug)).toEqual(['rapid-grants']);
+  });
+});

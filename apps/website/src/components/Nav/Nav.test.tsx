@@ -9,7 +9,9 @@ import {
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { Nav } from './Nav';
-import { createMockCourse, MOCK_NAV_PROGRAMS } from '../../__tests__/testUtils';
+import {
+  createMockCourse, MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS,
+} from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
@@ -27,6 +29,12 @@ const mockCourses = [
     slug: 'ops',
     isFeatured: false,
     isNew: true,
+  }),
+  createMockCourse({
+    id: '3',
+    title: 'Project Sprint',
+    slug: 'project-sprint',
+    type: 'Project',
   }),
 ];
 
@@ -46,7 +54,8 @@ beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
     trpcMsw.courses.getAll.query(() => mockCourses),
-    trpcMsw.programs.getAll.query(() => MOCK_NAV_PROGRAMS),
+    trpcMsw.programs.getInPerson.query(() => MOCK_NAV_IN_PERSON_PROGRAMS),
+    trpcMsw.programs.getGrants.query(() => MOCK_NAV_GRANTS),
   );
 });
 
@@ -89,7 +98,8 @@ describe('Nav', () => {
       const foaiCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Future of AI'));
       const featuredCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Featured Course'));
       const newCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('New Course'));
-      const seeUpcomingRounds = Array.from(courseLinks).find((link) => link.textContent === 'See upcoming rounds');
+      const projectSprint = Array.from(courseLinks).find((link) => link.textContent?.includes('Project Sprint'));
+      const seeAllCourses = Array.from(courseLinks).find((link) => link.textContent === 'See all courses');
 
       // FoAI is hardcoded as the orient course at the top of the dropdown
       expect(foaiCourse).toBeDefined();
@@ -101,8 +111,11 @@ describe('Nav', () => {
       expect(newCourse).toBeDefined();
       expect(newCourse?.getAttribute('href')).toBe('/courses/ops');
 
-      expect(seeUpcomingRounds).toBeDefined();
-      expect(seeUpcomingRounds?.getAttribute('href')).toBe('/courses');
+      expect(projectSprint).toBeDefined();
+      expect(projectSprint?.getAttribute('href')).toBe('/courses/project-sprint');
+
+      expect(seeAllCourses).toBeDefined();
+      expect(seeAllCourses?.getAttribute('href')).toBe('/courses');
 
       // Verify tags: one "Start Here" on FoAI, one "New" on new course
       const tags = container.querySelectorAll(`${selector} .tag`);
@@ -136,6 +149,20 @@ describe('Nav', () => {
   test('renders course links in desktop dropdown', async () => {
     const { container } = render(<Nav />, { wrapper: TrpcProvider });
     await testDropdownLinks(container, 'desktop');
+  });
+
+  test('uses Grants and Programs as separate top-level menus', async () => {
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    expect(screen.queryByRole('button', { name: 'Projects' })).toBeNull();
+    expect(screen.getAllByRole('button', { name: 'Grants' }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('button', { name: 'Programs' }).length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'Grants' })[0]!);
+    expect((await screen.findAllByRole('link', { name: /Rapid Grants/i }))[0]?.getAttribute('href')).toBe('/grants/rapid');
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'Programs' })[0]!);
+    expect((await screen.findAllByRole('link', { name: /AI Security Bootcamp/i }))[0]?.getAttribute('href')).toBe('https://aisb.dev/');
   });
 
   test('clicking the hamburger button expands the mobile nav drawer', async () => {

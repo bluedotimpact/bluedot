@@ -46,7 +46,7 @@ export const MobileNavLinks: React.FC<{
     updateExpandedSections({
       mobileNav: !expandedSections.mobileNav,
       courses: false,
-      projects: false,
+      grants: false,
       programs: false,
       explore: false,
       profile: false,
@@ -72,7 +72,7 @@ export const MobileNavLinks: React.FC<{
             if ((e.target as HTMLElement).tagName === 'A') {
               updateExpandedSections({
                 courses: false,
-                projects: false,
+                grants: false,
                 programs: false,
                 explore: false,
                 mobileNav: false,
@@ -85,7 +85,7 @@ export const MobileNavLinks: React.FC<{
             if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'A') {
               updateExpandedSections({
                 courses: false,
-                projects: false,
+                grants: false,
                 programs: false,
                 explore: false,
                 mobileNav: false,
