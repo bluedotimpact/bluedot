@@ -8,6 +8,15 @@ Sentry.init({
 
   tracesSampleRate: process.env.NODE_ENV === 'development' ? 1.0 : 0.1,
 
+  integrations: [
+    // Drops errors whose stack is entirely third-party (extension-injected scripts report
+    // <anonymous> frames that denyUrls can't match). Relies on applicationKey in next.config.js.
+    Sentry.thirdPartyErrorFilterIntegration({
+      filterKeys: ['bluedot-website'],
+      behaviour: 'drop-error-if-exclusively-contains-third-party-frames',
+    }),
+  ],
+
   // Noise from browser extensions and email-security scanners, not our code.
   ignoreErrors: [
     /Failed to connect to MetaMask/i,

@@ -144,6 +144,9 @@ module.exports = async () => withSentryConfig(await baseConfig, {
   project: 'website',
   authToken: process.env.SENTRY_AUTH_TOKEN,
   widenClientFileUpload: true,
+  // Tags our bundled modules as first-party so thirdPartyErrorFilterIntegration
+  // (instrumentation-client.ts) can drop errors thrown solely by extension scripts.
+  applicationKey: 'bluedot-website',
   tunnelRoute: true,
   silent: !process.env.CI,
   webpack: {
