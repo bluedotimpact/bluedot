@@ -14,11 +14,16 @@ export const ProgramsList = ({ utmCampaign }: ProgramsListProps) => {
   if (isLoading) return <ProgressDots />;
   if (!programs) return null;
 
+  const appendUtmCampaign = (base: string) => {
+    if (!utmCampaign) return base;
+    const separator = base.includes('?') ? '&' : '?';
+    return `${base}${separator}utm_source=website&utm_campaign=${utmCampaign}`;
+  };
+
   const buildHref = (program: { slug: string | null; applicationForm: string | null }) => {
     const base = program.slug ? `/programs/${program.slug}` : (program.applicationForm ?? '#');
     if (!utmCampaign || base === '#') return base;
-    const separator = base.includes('?') ? '&' : '?';
-    return `${base}${separator}utm_source=website&utm_campaign=${utmCampaign}`;
+    return appendUtmCampaign(base);
   };
 
   return (
@@ -34,7 +39,7 @@ export const ProgramsList = ({ utmCampaign }: ProgramsListProps) => {
       ))}
       <PageListRow
         key={AI_SECURITY_BOOTCAMP.url}
-        href={AI_SECURITY_BOOTCAMP.url}
+        href={appendUtmCampaign(AI_SECURITY_BOOTCAMP.url)}
         title={AI_SECURITY_BOOTCAMP.title}
         summary={AI_SECURITY_BOOTCAMP.description}
         ctaLabel="Visit program website"

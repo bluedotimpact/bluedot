@@ -19,14 +19,20 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const mediaGrantArgs = {
+  title: 'Media Grants',
+  description: 'Funding for media that helps more people understand AI safety and biosecurity.',
+  path: '/grants/media',
+  supportCopy: 'Independent media projects that make important ideas clearer and reach audiences who would not otherwise encounter them.',
+  audienceCopy: 'Creators with a clear audience, a strong idea, and a credible plan to publish useful work.',
+};
+
+export const Default: Story = {
+  args: mediaGrantArgs,
+};
+
 export const MediaGrant: Story = {
-  args: {
-    title: 'Media Grants',
-    description: 'Funding for media that helps more people understand AI safety and biosecurity.',
-    path: '/grants/media',
-    supportCopy: 'Independent media projects that make important ideas clearer and reach audiences who would not otherwise encounter them.',
-    audienceCopy: 'Creators with a clear audience, a strong idea, and a credible plan to publish useful work.',
-  },
+  args: mediaGrantArgs,
 };
 
 export const SeedGrant: Story = {

@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, ErrorSection, ProgressDots,
+  Breadcrumbs, ErrorSection, H2, ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
@@ -112,9 +112,9 @@ const CoursesPage = () => {
                   {displayedProjects.length > 0 && (
                     <>
                       <div id="projects" className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
-                      <h2 className="text-size-xxs leading-snug font-medium text-bluedot-normal uppercase tracking-wide mb-12 xl:hidden">
+                      <H2 className="text-size-xxs leading-snug font-medium text-bluedot-normal uppercase tracking-wide mb-12 xl:hidden">
                         Project sprints
-                      </h2>
+                      </H2>
                       <CourseScheduleList courses={displayedProjects} />
                     </>
                   )}

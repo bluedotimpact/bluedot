@@ -6,7 +6,7 @@ export const GRANT_PATHS = {
 } as const;
 
 export const getGrantPath = (slug: string | null | undefined): string | undefined => (
-  slug && slug in GRANT_PATHS
+  slug && Object.hasOwn(GRANT_PATHS, slug)
     ? GRANT_PATHS[slug as keyof typeof GRANT_PATHS]
     : undefined
 );
