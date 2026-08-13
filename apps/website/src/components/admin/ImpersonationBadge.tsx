@@ -24,8 +24,6 @@ export const ImpersonationBadge = () => {
   //   `?impersonate=clear` removes any active impersonation.
   // The server enforces permissions; this is purely a UX shortcut over the UserSearchModal.
   useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
     const handle = () => {
       const target = new URLSearchParams(window.location.search).get(IMPERSONATE_QUERY_PARAM);
 
