@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { safeLocalStorage } from '../utils/safeStorage';
 
 export type AddedParticipant = { id: string; name: string };
 
@@ -25,21 +26,21 @@ export const useFacilitatorFeedbackStorage = (meetPersonId: string) => {
   const addedParticipantsRef = useRef<AddedParticipant[]>([]);
 
   useEffect(() => {
-    setNoStrongImpressionIdsState(safeParse(localStorage.getItem(noStrongImpressionKey), [] as string[]));
-    const initialAdded = safeParse(localStorage.getItem(addedKey), [] as AddedParticipant[]);
+    setNoStrongImpressionIdsState(safeParse(safeLocalStorage.getItem(noStrongImpressionKey), [] as string[]));
+    const initialAdded = safeParse(safeLocalStorage.getItem(addedKey), [] as AddedParticipant[]);
     addedParticipantsRef.current = initialAdded;
     setAddedParticipantsState(initialAdded);
   }, [noStrongImpressionKey, addedKey]);
 
   const setNoStrongImpressionIds = (next: string[]) => {
     setNoStrongImpressionIdsState(next);
-    localStorage.setItem(noStrongImpressionKey, JSON.stringify(next));
+    safeLocalStorage.setItem(noStrongImpressionKey, JSON.stringify(next));
   };
 
   const addParticipant = (person: AddedParticipant) => {
     const next = [...addedParticipantsRef.current, person];
     addedParticipantsRef.current = next;
-    localStorage.setItem(addedKey, JSON.stringify(next));
+    safeLocalStorage.setItem(addedKey, JSON.stringify(next));
     setAddedParticipantsState(next);
   };
 
