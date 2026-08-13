@@ -9,6 +9,7 @@ import {
 import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
+import { safeSessionStorage } from '../../utils/safeStorage';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import { useBugReport } from '../../hooks/useBugReport';
 
@@ -145,7 +146,7 @@ export const ProfileLinks: React.FC<{
           title="Impersonate a user"
           scope="impersonate"
           onSelectUser={(user) => {
-            sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, user.id);
+            safeSessionStorage.setItem(IMPERSONATION_STORAGE_KEY, user.id);
             window.location.reload();
           }}
         />

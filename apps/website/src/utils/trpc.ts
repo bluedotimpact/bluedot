@@ -3,6 +3,7 @@ import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '../server/routers/_app';
 import { ONE_SECOND_MS } from '../lib/constants';
+import { safeSessionStorage } from './safeStorage';
 
 const TEN_SECONDS_MS = 10 * ONE_SECOND_MS;
 
@@ -48,7 +49,7 @@ export async function getHeadersWithValidToken() {
     authorization: auth?.token ? `Bearer ${auth.token}` : '',
   };
 
-  const isImpersonating = typeof window !== 'undefined' ? sessionStorage.getItem(IMPERSONATION_STORAGE_KEY) : null;
+  const isImpersonating = safeSessionStorage.getItem(IMPERSONATION_STORAGE_KEY);
   if (isImpersonating) {
     headers['x-impersonate-user'] = isImpersonating;
   }

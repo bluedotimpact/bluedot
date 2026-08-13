@@ -16,20 +16,4 @@ export const useConsentStore = create<{
 }), {
   name: 'bluedot_consent',
   version: 20250513,
-
-  // For backwards compatibility with previous consent system
-  // TODO: remove this after 2025-07-01, when most people will have migrated over
-  onRehydrateStorage: () => (state) => {
-    if (state && state.isConsented === undefined) {
-      switch (localStorage.getItem('cookies')) {
-        case 'accepted':
-          state.accept();
-          break;
-        case 'rejected':
-          state.reject();
-          break;
-        default:
-      }
-    }
-  },
 }));

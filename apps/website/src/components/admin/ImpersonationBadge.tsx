@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { RiCloseLine } from 'react-icons/ri';
 import { maskEmail } from '../../lib/utils';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
+import { safeSessionStorage } from '../../utils/safeStorage';
 
 const IMPERSONATE_QUERY_PARAM = 'impersonate';
 
@@ -23,18 +24,16 @@ export const ImpersonationBadge = () => {
   //   `?impersonate=clear` removes any active impersonation.
   // The server enforces permissions; this is purely a UX shortcut over the UserSearchModal.
   useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-
     const handle = () => {
       const target = new URLSearchParams(window.location.search).get(IMPERSONATE_QUERY_PARAM);
 
       if (target === null) {
-        setUserId(sessionStorage.getItem(IMPERSONATION_STORAGE_KEY));
+        setUserId(safeSessionStorage.getItem(IMPERSONATION_STORAGE_KEY));
         return;
       }
 
       if (target === 'clear' || target === '') {
-        sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
+        safeSessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
         setUserId(null);
         // Cancel any in-flight email lookup
         setPendingEmail(null);
@@ -81,8 +80,8 @@ export const ImpersonationBadge = () => {
       return;
     }
 
-    sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, exact.id);
-    setUserId(exact.id);
+    safeSessionStorage.setItem(IMPERSONATION_STORAGE_KEY, exact.id);
+    setUserId(safeSessionStorage.getItem(IMPERSONATION_STORAGE_KEY));
     setPendingEmail(null);
     stripParamFromUrl();
     void utils.invalidate();
@@ -105,7 +104,7 @@ export const ImpersonationBadge = () => {
         <button
           type="button"
           onClick={() => {
-            sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
+            safeSessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
             window.location.reload();
           }}
           className="p-0.5 hover:bg-yellow-500 rounded"
@@ -117,4 +116,3 @@ export const ImpersonationBadge = () => {
     </div>
   );
 };
-
