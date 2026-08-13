@@ -42,7 +42,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
                   fontFeatureSettings: '"ss02" on',
                 }}
               >
-                BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies
+                BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run online courses, fund talented people, and bring ambitious teams together through intensive in-person programs.
               </p>
             </div>
           </div>

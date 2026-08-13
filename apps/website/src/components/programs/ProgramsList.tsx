@@ -1,42 +1,29 @@
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import { PageListGroup, PageListRow } from '../PageListRow';
 import { trpc } from '../../utils/trpc';
-import { formatAmountUsd } from '../../lib/utils';
-
-const pluralizeGrants = (count: number) => `${count} ${count === 1 ? 'grant' : 'grants'}`;
+import { AI_SECURITY_BOOTCAMP } from '../../lib/publicPrograms';
 
 type ProgramsListProps = {
   utmCampaign?: string;
 };
 
 export const ProgramsList = ({ utmCampaign }: ProgramsListProps) => {
-  const { data: programs, isLoading, error } = trpc.programs.getAll.useQuery();
-  const { data: rapidStats } = trpc.grants.getRapidGrantStats.useQuery();
-  const { data: ctStats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
-
-  // Per-slug stats overlay. Keeps the live "$50k+ across N grants" copy fresh
-  // without baking stale numbers into Airtable.
-  const getMeta = (slug: string | null): string | null => {
-    if (slug === 'rapid-grants' && rapidStats) {
-      return `${formatAmountUsd(rapidStats.totalAmountUsd)} deployed so far across ${pluralizeGrants(rapidStats.count)}.`;
-    }
-
-    if (slug === 'career-transition-grant' && ctStats) {
-      return `${formatAmountUsd(ctStats.totalAmountUsd)} awarded so far across ${pluralizeGrants(ctStats.count)}.`;
-    }
-
-    return null;
-  };
+  const { data: programs, isLoading, error } = trpc.programs.getInPerson.useQuery();
 
   if (error) return <ErrorSection error={error} />;
   if (isLoading) return <ProgressDots />;
   if (!programs) return null;
 
+  const appendUtmCampaign = (base: string) => {
+    if (!utmCampaign) return base;
+    const separator = base.includes('?') ? '&' : '?';
+    return `${base}${separator}utm_source=website&utm_campaign=${utmCampaign}`;
+  };
+
   const buildHref = (program: { slug: string | null; applicationForm: string | null }) => {
     const base = program.slug ? `/programs/${program.slug}` : (program.applicationForm ?? '#');
     if (!utmCampaign || base === '#') return base;
-    const separator = base.includes('?') ? '&' : '?';
-    return `${base}${separator}utm_source=website&utm_campaign=${utmCampaign}`;
+    return appendUtmCampaign(base);
   };
 
   return (
@@ -47,10 +34,17 @@ export const ProgramsList = ({ utmCampaign }: ProgramsListProps) => {
           href={buildHref(program)}
           title={program.name}
           summary={program.description}
-          meta={getMeta(program.slug)}
           ctaLabel="Explore program"
         />
       ))}
+      <PageListRow
+        key={AI_SECURITY_BOOTCAMP.url}
+        href={appendUtmCampaign(AI_SECURITY_BOOTCAMP.url)}
+        title={AI_SECURITY_BOOTCAMP.title}
+        summary={AI_SECURITY_BOOTCAMP.description}
+        ctaLabel="Visit program website"
+        external
+      />
     </PageListGroup>
   );
 };

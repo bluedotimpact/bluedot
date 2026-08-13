@@ -21,7 +21,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
     slug: 'rapid-grants',
     title: 'Rapid Grants',
-    href: '/programs/rapid-grants',
+    href: '/grants/rapid',
     track: 'Funding',
     goal: 'Fund talented people in the BlueDot community to do excellent work on AI safety - research, events, community building, and more.',
     scope: 'Grants up to $10,000 for project costs, events, travel, community building, and other costs that remove barriers. Fast decisions, lightweight process.',
@@ -30,7 +30,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
     slug: 'career-transition-grant',
     title: 'Career Transition Grants',
-    href: '/programs/career-transition-grant',
+    href: '/grants/career-transition',
     track: 'Funding',
     goal: 'Support people making full-time transitions into work that reduces catastrophic risks from advanced AI or biological threats.',
     scope: 'Funding, advising, targeted connections, and community for a defined period of evidence-producing personal transition.',
@@ -49,7 +49,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
     slug: 'advising',
     title: '1-1 advising',
-    href: '/programs/advising',
+    href: '/grants/career-transition',
     track: 'Build',
     goal: 'Help BlueDot community members figure out how to contribute their skills to AI safety.',
     scope: 'A 30-minute call with the BlueDot team. Leave with concrete next steps.',

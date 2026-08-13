@@ -31,18 +31,13 @@ const OFFERINGS = [
     description: 'Get your hands dirty and build portfolio pieces with expert mentorship to build your credibility and get hired.',
   },
   {
-    name: '1-1 advising calls',
-    url: 'https://bluedot.org/programs/advising?utm_source=puzzle%20submission',
-    description: 'Get personal advice on how to transition into full time technical AI safety work.',
-  },
-  {
     name: 'Rapid grants',
-    url: 'https://bluedot.org/programs/rapid-grants?utm_source=puzzle%20submission',
+    url: 'https://bluedot.org/grants/rapid?utm_source=puzzle%20submission',
     description: 'Small grants up to $10k for compute and other expenses so you can do awesome projects.',
   },
   {
     name: 'Career transition grants',
-    url: 'https://bluedot.org/programs/career-transition-grant?utm_source=puzzle%20submission',
+    url: 'https://bluedot.org/grants/career-transition?utm_source=puzzle%20submission',
     description: 'If you’re really good, we’ll even pay you a salary to quit your job and work full time on technical AI safety.',
   },
 ] as const;

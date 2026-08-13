@@ -26,7 +26,7 @@ const SCHEDULE: ScheduleItem[] = [
     title: 'Pitch',
     body: (
       <>
-        Pitch your program to us. Strong pitches get $5k on the spot, up to $45k more after two weeks of progress. We&apos;ll back the strongest programs to keep running with more funding and <A href="/programs/career-transition-grant">career transition grants</A>.
+        Pitch your program to us. Strong pitches get $5k on the spot, up to $45k more after two weeks of progress. We&apos;ll back the strongest programs to keep running with more funding and <A href="/grants/career-transition">career transition grants</A>.
       </>
     ),
   },

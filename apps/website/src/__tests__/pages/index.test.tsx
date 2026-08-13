@@ -35,6 +35,14 @@ describe('HomePage testimonials', () => {
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
     server.use(trpcMsw.luma.getUpcomingEvents.query(() => []));
+    server.use(trpcMsw.programs.getInPerson.query(() => []));
+    server.use(trpcMsw.programs.getGrants.query(() => []));
+    server.use(trpcMsw.grants.getRapidGrantStats.query(() => ({
+      count: 0, totalAmountUsd: 0, averageHoursToDecision: null, p90DaysToDecision: null,
+    })));
+    server.use(trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({
+      count: 0, totalAmountUsd: 0, averageDaysToDecision: null,
+    })));
   });
 
   test('shows database testimonials', async () => {
@@ -68,8 +76,8 @@ describe('HomePage testimonials', () => {
     </TrpcProvider>);
 
     expect(document.title).toBe('BlueDot Impact | Have a positive impact on the trajectory of AI');
-    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe('Free courses, career support, and entrepreneur programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
+    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe('Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
     expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe('BlueDot Impact | Have a positive impact on the trajectory of AI');
-    expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe('Free courses, career support, and entrepreneur programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
+    expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe('Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
   });
 });

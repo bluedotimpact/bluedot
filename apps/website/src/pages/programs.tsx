@@ -14,13 +14,13 @@ const ProgramsPage = () => {
         <title>Programs | BlueDot Impact</title>
         <meta
           name="description"
-          content="Explore BlueDot Impact programs, including Rapid Grants, Incubator Week, and 1-1 advising."
+          content="Explore BlueDot Impact's full-time, in-person programs, including Incubator Week and AI Security Bootcamp."
         />
       </Head>
 
       <MarketingHero
         title="Programs"
-        subtitle="Go beyond a course. Build, launch, get funded."
+        subtitle="Full-time, in-person experiences lasting a week or more."
       />
 
       <Breadcrumbs route={ROUTES.programs} />

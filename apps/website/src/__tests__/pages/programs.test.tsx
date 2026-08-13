@@ -70,23 +70,20 @@ const mockPrograms = [
 beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
-    trpcMsw.programs.getAll.query(() => mockPrograms),
-    trpcMsw.grants.getRapidGrantStats.query(() => ({
-      count: 104, totalAmountUsd: 105000, averageHoursToDecision: null, p90DaysToDecision: null,
-    })),
-    trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ count: 1, totalAmountUsd: 67500, averageDaysToDecision: null })),
+    trpcMsw.programs.getInPerson.query(() => mockPrograms.filter((program) => program.slug === 'incubator-week')),
+    trpcMsw.programs.getGrants.query(() => []),
+    trpcMsw.courses.getAll.query(() => []),
   );
 });
 
 describe('ProgramsPage', () => {
-  test('renders active programs from the Airtable router', async () => {
+  test('renders in-person programs without grants or advising', async () => {
     render(<ProgramsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('1-1 advising', { selector: 'p' })).toBeInTheDocument();
-      expect(screen.getByText('Rapid grant', { selector: 'p' })).toBeInTheDocument();
-      expect(screen.getByText('Career transition grant', { selector: 'p' })).toBeInTheDocument();
       expect(screen.getByText('Incubator week', { selector: 'p' })).toBeInTheDocument();
+      expect(screen.getByText('AI Security Bootcamp', { selector: 'p' })).toBeInTheDocument();
+      expect(screen.queryByText('Rapid grant', { selector: 'p' })).not.toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Explore courses instead' })).toBeInTheDocument();
       expect(screen.getByText('Subscribe to get AI safety news and course updates delivered directly to your inbox')).toBeInTheDocument();
     });

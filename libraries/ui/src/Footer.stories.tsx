@@ -25,5 +25,8 @@ export const Default: Story = {
 export const Customized: Story = {
   args: {
     logo: imgSrc,
+    courses: [{ path: '/courses/technical-ai-safety', title: 'Technical AI Safety' }],
+    grants: [{ path: '/grants/rapid', title: 'Rapid Grants' }],
+    programs: [{ path: '/programs/incubator-week', title: 'Incubator Week' }],
   },
 };

@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    href: '/programs/rapid-grants',
+    href: '/grants/rapid',
     title: 'Rapid Grants',
     summary: 'Fund talented people in the BlueDot community to do excellent work on AI safety — research, events, community building, and more.',
     ctaLabel: 'Learn more',
@@ -29,7 +29,7 @@ export const Default: Story = {
 
 export const WithMeta: Story = {
   args: {
-    href: '/programs/career-transition-grant',
+    href: '/grants/career-transition',
     title: 'Career Transition Grant',
     summary: 'Funding for people changing careers into AI safety, governance, or biosecurity.',
     meta: 'Funding · On hiatus',
@@ -48,7 +48,7 @@ export const External: Story = {
 
 export const NotFullyClickable: Story = {
   args: {
-    href: '/programs/rapid-grants',
+    href: '/grants/rapid',
     title: 'Row with interactive children',
     summary: 'Use this when the row contains other interactive elements so anchors do not nest.',
     fullyClickable: false,
@@ -57,7 +57,7 @@ export const NotFullyClickable: Story = {
 
 export const InGroup: Story = {
   args: {
-    href: '/programs/rapid-grants',
+    href: '/grants/rapid',
     title: 'Rapid Grants',
     summary: 'Fund talented people in the BlueDot community to do excellent work on AI safety.',
     meta: 'Funding · Active',
@@ -66,7 +66,7 @@ export const InGroup: Story = {
     <PageListGroup label="Funding programmes">
       <PageListRow {...args} />
       <PageListRow
-        href="/programs/career-transition-grant"
+        href="/grants/career-transition"
         title="Career Transition Grant"
         summary="Funding for people changing careers into AI safety, governance, or biosecurity."
         meta="Funding · On hiatus"

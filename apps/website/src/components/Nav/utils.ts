@@ -22,7 +22,7 @@ export const DRAWER_CLASSES = (isOpen: boolean, zIndex: typeof DRAWER_Z_DEFAULT 
 
 export type ExpandedSectionsState = {
   courses: boolean;
-  projects: boolean;
+  grants: boolean;
   programs: boolean;
   explore: boolean;
   mobileNav: boolean;

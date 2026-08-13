@@ -12,6 +12,7 @@ export type FooterProps = React.PropsWithChildren<{
   className?: string;
   logo?: string;
   courses?: { path: string; title: string }[];
+  grants?: { path: string; title: string }[];
   programs?: { path: string; title: string }[];
   loading?: boolean;
   onReportBug?: () => void;
@@ -83,7 +84,7 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 );
 
 export const Footer: React.FC<FooterProps> = ({
-  className, logo, courses = [], programs = [], loading, onReportBug,
+  className, logo, courses = [], grants = [], programs = [], loading, onReportBug,
 }) => {
   const bluedotLinks: FooterLinkItem[] = [
     { url: '/alumni', label: 'Alumni' },
@@ -98,6 +99,8 @@ export const Footer: React.FC<FooterProps> = ({
   ];
 
   const courseLinks: FooterLinkItem[] = courses.map((course) => ({ url: course.path, label: course.title }));
+
+  const grantLinks: FooterLinkItem[] = grants.map((grant) => ({ url: grant.path, label: grant.title }));
 
   const programLinks: FooterLinkItem[] = programs.map((program) => ({ url: program.path, label: program.title }));
 
@@ -133,13 +136,17 @@ export const Footer: React.FC<FooterProps> = ({
                 links={courseLinks}
               />
               <FooterLinksSection
+                title="Grants"
+                links={grantLinks}
+              />
+              <FooterLinksSection
                 title="Programs"
                 links={programLinks}
               />
             </div>
 
             {/* Tablet: 2x2 grid (680px-1023px) */}
-            <div className="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden">
+            <div className="hidden bd-md:grid bd-md:grid-cols-2 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden">
               <FooterLinksSection
                 title="BlueDot Impact"
                 links={bluedotLinks}
@@ -149,13 +156,17 @@ export const Footer: React.FC<FooterProps> = ({
                 links={courseLinks}
               />
               <FooterLinksSection
+                title="Grants"
+                links={grantLinks}
+              />
+              <FooterLinksSection
                 title="Programs"
                 links={programLinks}
               />
             </div>
 
-            {/* Desktop: 4 columns with logo+social on left (1024px+) */}
-            <div className="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start">
+            {/* Desktop: 5 columns with logo+social on left (1024px+) */}
+            <div className="hidden lg:grid lg:grid-cols-[minmax(190px,1.1fr)_repeat(4,minmax(0,1fr))] lg:gap-x-8 xl:gap-x-12 lg:items-start">
               {/* Logo + Social column */}
               <div className="flex flex-col gap-14 shrink-0">
                 <ClickTarget url="/">
@@ -176,6 +187,10 @@ export const Footer: React.FC<FooterProps> = ({
               <FooterLinksSection
                 title="Courses"
                 links={courseLinks}
+              />
+              <FooterLinksSection
+                title="Grants"
+                links={grantLinks}
               />
               <FooterLinksSection
                 title="Programs"

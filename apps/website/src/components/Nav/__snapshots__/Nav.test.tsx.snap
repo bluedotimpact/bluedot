@@ -129,6 +129,13 @@ exports[`Nav > renders with courses 1`] = `
                             New
                           </span>
                         </a>
+                        <a
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          href="/courses/project-sprint"
+                          tabindex="0"
+                        >
+                          Project Sprint
+                        </a>
                         <div
                           class="border-t border-gray-200 my-2"
                         />
@@ -137,7 +144,69 @@ exports[`Nav > renders with courses 1`] = `
                           href="/courses"
                           tabindex="0"
                         >
-                          See upcoming rounds
+                          See all courses
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="nav-dropdown"
+                  >
+                    <button
+                      aria-controls="grants-dropdown"
+                      aria-expanded="false"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                      type="button"
+                    >
+                      Grants
+                      <svg
+                        class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                        fill="none"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 24 24"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      aria-label="Grants menu"
+                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      id="grants-dropdown"
+                      role="region"
+                    >
+                      <div
+                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                      >
+                        <a
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          href="/grants/rapid"
+                          tabindex="0"
+                        >
+                          Rapid Grants
+                        </a>
+                        <a
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          href="/grants/career-transition"
+                          tabindex="0"
+                        >
+                          Career Transition Grants
+                        </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
+                        <a
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          href="/grants"
+                          tabindex="0"
+                        >
+                          See all grants
                         </a>
                       </div>
                     </div>
@@ -179,31 +248,19 @@ exports[`Nav > renders with courses 1`] = `
                       >
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                          href="/programs/advising"
-                          tabindex="0"
-                        >
-                          1-1 advising
-                        </a>
-                        <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                          href="/programs/rapid-grants"
-                          tabindex="0"
-                        >
-                          Rapid Grants
-                        </a>
-                        <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                          href="/programs/career-transition-grant"
-                          tabindex="0"
-                        >
-                          Career Transition Grants
-                        </a>
-                        <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/programs/incubator-week"
                           tabindex="0"
                         >
                           Incubator Week
+                        </a>
+                        <a
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          href="https://aisb.dev/"
+                          rel="noopener noreferrer"
+                          tabindex="0"
+                          target="_blank"
+                        >
+                          AI Security Bootcamp
                         </a>
                         <div
                           class="border-t border-gray-200 my-2"
@@ -214,54 +271,6 @@ exports[`Nav > renders with courses 1`] = `
                           tabindex="0"
                         >
                           See all programs
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="nav-dropdown"
-                  >
-                    <button
-                      aria-controls="projects-dropdown"
-                      aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
-                      type="button"
-                    >
-                      Projects
-                      <svg
-                        class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                        fill="none"
-                        height="1em"
-                        stroke="currentColor"
-                        stroke-width="0"
-                        viewBox="0 0 24 24"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </button>
-                    <div
-                      aria-label="Projects menu"
-                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                      id="projects-dropdown"
-                      role="region"
-                    >
-                      <div
-                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
-                      >
-                        <div
-                          class="border-t border-gray-200 my-2"
-                        />
-                        <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                          href="/projects"
-                          tabindex="0"
-                        >
-                          See all projects
                         </a>
                       </div>
                     </div>
@@ -391,6 +400,13 @@ exports[`Nav > renders with courses 1`] = `
                       New
                     </span>
                   </a>
+                  <a
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    href="/courses/project-sprint"
+                    tabindex="0"
+                  >
+                    Project Sprint
+                  </a>
                   <div
                     class="border-t border-gray-200 my-2"
                   />
@@ -399,7 +415,69 @@ exports[`Nav > renders with courses 1`] = `
                     href="/courses"
                     tabindex="0"
                   >
-                    See upcoming rounds
+                    See all courses
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="nav-dropdown"
+            >
+              <button
+                aria-controls="grants-dropdown"
+                aria-expanded="false"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                type="button"
+              >
+                Grants
+                <svg
+                  class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                  fill="none"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+              <div
+                aria-label="Grants menu"
+                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                id="grants-dropdown"
+                role="region"
+              >
+                <div
+                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                >
+                  <a
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    href="/grants/rapid"
+                    tabindex="0"
+                  >
+                    Rapid Grants
+                  </a>
+                  <a
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    href="/grants/career-transition"
+                    tabindex="0"
+                  >
+                    Career Transition Grants
+                  </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
+                  <a
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    href="/grants"
+                    tabindex="0"
+                  >
+                    See all grants
                   </a>
                 </div>
               </div>
@@ -441,31 +519,19 @@ exports[`Nav > renders with courses 1`] = `
                 >
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                    href="/programs/advising"
-                    tabindex="0"
-                  >
-                    1-1 advising
-                  </a>
-                  <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                    href="/programs/rapid-grants"
-                    tabindex="0"
-                  >
-                    Rapid Grants
-                  </a>
-                  <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                    href="/programs/career-transition-grant"
-                    tabindex="0"
-                  >
-                    Career Transition Grants
-                  </a>
-                  <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/programs/incubator-week"
                     tabindex="0"
                   >
                     Incubator Week
+                  </a>
+                  <a
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    href="https://aisb.dev/"
+                    rel="noopener noreferrer"
+                    tabindex="0"
+                    target="_blank"
+                  >
+                    AI Security Bootcamp
                   </a>
                   <div
                     class="border-t border-gray-200 my-2"
@@ -476,54 +542,6 @@ exports[`Nav > renders with courses 1`] = `
                     tabindex="0"
                   >
                     See all programs
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div
-              class="nav-dropdown"
-            >
-              <button
-                aria-controls="projects-dropdown"
-                aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
-                type="button"
-              >
-                Projects
-                <svg
-                  class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                  fill="none"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 24 24"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </button>
-              <div
-                aria-label="Projects menu"
-                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                id="projects-dropdown"
-                role="region"
-              >
-                <div
-                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
-                >
-                  <div
-                    class="border-t border-gray-200 my-2"
-                  />
-                  <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                    href="/projects"
-                    tabindex="0"
-                  >
-                    See all projects
                   </a>
                 </div>
               </div>

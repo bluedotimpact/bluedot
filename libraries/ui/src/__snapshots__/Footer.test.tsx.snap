@@ -200,6 +200,18 @@ exports[`Footer > renders default as expected 1`] = `
             <h3
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
+              Grants
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
               Programs
             </h3>
             <ul
@@ -208,7 +220,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
+          class="hidden bd-md:grid bd-md:grid-cols-2 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -315,6 +327,18 @@ exports[`Footer > renders default as expected 1`] = `
             <h3
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
+              Grants
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
               Programs
             </h3>
             <ul
@@ -323,7 +347,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start"
+          class="hidden lg:grid lg:grid-cols-[minmax(190px,1.1fr)_repeat(4,minmax(0,1fr))] lg:gap-x-8 xl:gap-x-12 lg:items-start"
         >
           <div
             class="flex flex-col gap-14 shrink-0"
@@ -500,6 +524,18 @@ exports[`Footer > renders default as expected 1`] = `
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
+              Grants
             </h3>
             <ul
               class="flex flex-col gap-4 list-none p-0"
@@ -776,6 +812,18 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             <h3
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
+              Grants
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
               Programs
             </h3>
             <ul
@@ -784,7 +832,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
+          class="hidden bd-md:grid bd-md:grid-cols-2 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -899,6 +947,18 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             <h3
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
+              Grants
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
               Programs
             </h3>
             <ul
@@ -907,7 +967,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start"
+          class="hidden lg:grid lg:grid-cols-[minmax(190px,1.1fr)_repeat(4,minmax(0,1fr))] lg:gap-x-8 xl:gap-x-12 lg:items-start"
         >
           <div
             class="flex flex-col gap-14 shrink-0"
@@ -1092,6 +1152,18 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
               Courses
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
+              Grants
             </h3>
             <ul
               class="flex flex-col gap-4 list-none p-0"
@@ -1360,6 +1432,28 @@ exports[`Footer > renders with optional args 1`] = `
             <h3
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
+              Grants
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/grants/rapid"
+                  tabindex="0"
+                >
+                  Rapid Grants
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
               Programs
             </h3>
             <ul
@@ -1368,7 +1462,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
+          class="hidden bd-md:grid bd-md:grid-cols-2 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -1475,6 +1569,28 @@ exports[`Footer > renders with optional args 1`] = `
             <h3
               class="bluedot-h3 not-prose text-white text-size-sm"
             >
+              Grants
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/grants/rapid"
+                  tabindex="0"
+                >
+                  Rapid Grants
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
               Programs
             </h3>
             <ul
@@ -1483,7 +1599,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start"
+          class="hidden lg:grid lg:grid-cols-[minmax(190px,1.1fr)_repeat(4,minmax(0,1fr))] lg:gap-x-8 xl:gap-x-12 lg:items-start"
         >
           <div
             class="flex flex-col gap-14 shrink-0"
@@ -1664,6 +1780,28 @@ exports[`Footer > renders with optional args 1`] = `
             <ul
               class="flex flex-col gap-4 list-none p-0"
             />
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <h3
+              class="bluedot-h3 not-prose text-white text-size-sm"
+            >
+              Grants
+            </h3>
+            <ul
+              class="flex flex-col gap-4 list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/grants/rapid"
+                  tabindex="0"
+                >
+                  Rapid Grants
+                </a>
+              </li>
+            </ul>
           </div>
           <div
             class="flex flex-col gap-4"

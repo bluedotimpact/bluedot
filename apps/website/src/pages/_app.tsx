@@ -16,8 +16,10 @@ import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
 import '../lib/axios'; // Configure axios-hooks
 import { FOAI_COURSE_SLUG } from '../lib/constants';
 import { inter, interDisplay } from '../lib/fonts';
+import { getGrantPath } from '../lib/grantRoutes';
 import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
 import { useCourses } from '../lib/hooks/useCourses';
+import { AI_SECURITY_BOOTCAMP } from '../lib/publicPrograms';
 import { reportClientError } from '../lib/reportClientError';
 import { trpc } from '../utils/trpc';
 
@@ -53,7 +55,8 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const hideFooter = 'hideFooter' in Component;
   const pageRendersOwnNav = 'pageRendersOwnNav' in Component && Boolean(Component.pageRendersOwnNav);
   const { courses, loading } = useCourses();
-  const { data: programs } = trpc.programs.getAll.useQuery();
+  const { data: programs, isLoading: programsLoading } = trpc.programs.getInPerson.useQuery();
+  const { data: grants, isLoading: grantsLoading } = trpc.programs.getGrants.useQuery();
   const { openBugReport } = useBugReport();
 
   useEffect(() => {
@@ -120,13 +123,18 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
                   .map((course) => ({ path: `/courses/${course.slug}`, title: course.title }))
                   .filter((c) => c.path !== FOAI_FOOTER_ENTRY.path),
               ]}
+              grants={(grants ?? [])
+                .map((grant) => ({ grant, path: getGrantPath(grant.slug) }))
+                .filter((entry): entry is typeof entry & { path: string } => Boolean(entry.path))
+                .map(({ grant, path }) => ({ path, title: grant.name }))}
               programs={(programs ?? [])
                 .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
                 .map((program) => ({
                   path: `/programs/${program.slug}`,
                   title: program.name,
-                }))}
-              loading={loading}
+                }))
+                .concat([{ path: AI_SECURITY_BOOTCAMP.url, title: AI_SECURITY_BOOTCAMP.title }])}
+              loading={loading || programsLoading || grantsLoading}
               logo="/images/logo/BlueDot_Impact_Logo_White.svg"
               onReportBug={openBugReport}
             />

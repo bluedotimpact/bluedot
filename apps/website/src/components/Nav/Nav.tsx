@@ -25,7 +25,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     courses: false,
-    projects: false,
+    grants: false,
     programs: false,
     explore: false,
     mobileNav: false,
@@ -43,7 +43,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
     const handleBreakpointChange = () => {
       setExpandedSections({
         courses: false,
-        projects: false,
+        grants: false,
         programs: false,
         explore: false,
         mobileNav: false,
