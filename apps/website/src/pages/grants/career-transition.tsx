@@ -26,7 +26,7 @@ const HERO_DESCRIPTION = 'Funding and support for people ready to make a full-ti
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const PAGE_PATH = '/grants/career-transition';
 
-const CareerTransitionGrantPage = ({ programName }: ProgramDetailPageProps) => {
+const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
   const grantsMadeLabel = stats ? String(stats.count) : '—';
   const fundingAwardedLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
@@ -36,12 +36,12 @@ const CareerTransitionGrantPage = ({ programName }: ProgramDetailPageProps) => {
     <div>
       <Head>
         <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={HERO_DESCRIPTION} />
+        <meta name="description" content={programDescription} />
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
       </Head>
       <MarketingHero
         title={programName}
-        subtitle={HERO_DESCRIPTION}
+        subtitle={programDescription}
       />
       <Breadcrumbs
         route={{
