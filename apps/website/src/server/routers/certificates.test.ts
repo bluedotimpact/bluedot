@@ -473,6 +473,25 @@ describe('issueFoaiCertificateIfComplete', () => {
     expect(await issueFoaiCertificateIfComplete(FOAI_USER_ID)).toBe(false);
   });
 
+  test('judges by the latest response row when duplicates exist: cleared latest answer blocks the certificate', async () => {
+    await testDb.insert(selfServeCourseRegistrationTable, {
+      id: 'ss-1', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-text', courseId: FOAI_COURSE_ID, status: 'Core', type: 'Free text', title: 'Text', exerciseNumber: '1',
+    });
+    // Older duplicate row: substantive answer, explicitly completed
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-old', userId: [FOAI_USER_ID], exerciseId: 'foai-ex-text', response: 'my typed answer', completedAt: '2026-01-01T00:00:00.000Z', createdAt: '2026-01-01T00:00:00.000Z',
+    });
+    // Latest row: answer cleared, not completed
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-new', userId: [FOAI_USER_ID], exerciseId: 'foai-ex-text', response: '', completedAt: null, createdAt: '2026-01-02T00:00:00.000Z',
+    });
+
+    expect(await issueFoaiCertificateIfComplete(FOAI_USER_ID)).toBe(false);
+  });
+
   test('does not count a multiple-choice response without completedAt (wrong answer)', async () => {
     await testDb.insert(selfServeCourseRegistrationTable, {
       id: 'ss-1', userId: FOAI_USER_ID, courseId: FOAI_COURSE_ID, createdAt: '2026-01-01T00:00:00.000Z',
