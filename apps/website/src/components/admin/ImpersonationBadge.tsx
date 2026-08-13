@@ -81,7 +81,7 @@ export const ImpersonationBadge = () => {
     }
 
     safeSessionStorage.setItem(IMPERSONATION_STORAGE_KEY, exact.id);
-    setUserId(exact.id);
+    setUserId(safeSessionStorage.getItem(IMPERSONATION_STORAGE_KEY));
     setPendingEmail(null);
     stripParamFromUrl();
     void utils.invalidate();
@@ -116,4 +116,3 @@ export const ImpersonationBadge = () => {
     </div>
   );
 };
-
