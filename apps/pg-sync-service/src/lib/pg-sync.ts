@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node';
 import {
   eq, inArray, and, getPgAirtableFromIds, metaTable,
 } from '@bluedot/db';
@@ -99,6 +100,7 @@ export async function initializeWebhooks(): Promise<void> {
 
     logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length}/${baseEntries.length} webhooks with field-level filtering`);
   } catch (error) {
+    Sentry.captureException(error);
     const initError = `[initializeWebhooks] Critical webhook initialization failure: ${error instanceof Error ? error.message : String(error)}`;
     logger.error(initError);
     slackAlert(env, [initError]);

@@ -1,3 +1,6 @@
+// Must be first so Sentry is initialised before anything can throw
+import './instrument';
+import * as Sentry from '@sentry/node';
 import { logger } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils';
 import { getInstance } from './app';
@@ -119,6 +122,7 @@ const start = async () => {
 
         logger.info('[main] Full sync completed successfully');
       } catch (error) {
+        Sentry.captureException(error);
         const errorMessage = error instanceof Error ? error.message : String(error);
         await syncManager.markSyncFailed(errorMessage);
 
@@ -132,6 +136,8 @@ const start = async () => {
     startAdminSyncCron();
   } catch (error) {
     logger.error('Failed to start server', error);
+    Sentry.captureException(error);
+    await Sentry.flush(2000).catch(() => {});
     process.exit(1);
   }
 };

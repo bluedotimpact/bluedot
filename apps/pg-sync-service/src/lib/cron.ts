@@ -1,4 +1,5 @@
 import cron from 'node-cron';
+import * as Sentry from '@sentry/node';
 import { logger } from '@bluedot/ui/src/api';
 import { getTableName } from '@bluedot/db';
 import {
@@ -36,6 +37,7 @@ const processQueueAndWebhooksCron = async () => {
     await pollForUpdates();
     await processUpdateQueue();
   } catch (error) {
+    Sentry.captureException(error);
     logger.error('[queue-processing] Error in queue processing cycle:', error);
   } finally {
     isProcessingQueue = false;
@@ -52,6 +54,7 @@ const checkAdminDashboardSyncRequestsCron = async () => {
   try {
     await processAdminDashboardSyncRequests();
   } catch (error) {
+    Sentry.captureException(error);
     logger.error('[admin-sync-check] Error checking admin sync requests:', error);
   } finally {
     isCheckingAdminSync = false;
