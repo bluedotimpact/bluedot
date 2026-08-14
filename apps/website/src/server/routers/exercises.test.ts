@@ -240,6 +240,7 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     });
 
     expect(result.certificateIssued).toBe(true);
+    expect(result.completedAt).toBeNull(); // Autosave stays incomplete
     const reg = await getSelfServeFoai();
     expect(reg?.certificateId).toBe('ss-foai');
   });
