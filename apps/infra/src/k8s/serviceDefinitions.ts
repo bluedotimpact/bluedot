@@ -33,6 +33,7 @@ const WEBSITE_HEALTH_CHECK = {
 
 // Public DSNs exposed in browser bundle
 const WEBSITE_SENTRY_DSN = 'https://44dfe900ca304b3fb58fc92f719393c5@o4511885459652608.ingest.de.sentry.io/4511885468500049';
+const PG_SYNC_SENTRY_DSN = 'https://7c7cafb92348184a97734c02b4fe018a@o4511885459652608.ingest.de.sentry.io/4511909379375184';
 
 const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
 const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
@@ -371,6 +372,8 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'PROD_ONLY_WEBHOOK_DELETION', valueFrom: envVarSources.prodOnlyWebhookDeletion },
           { name: 'POSTHOG_PROJECT_API_KEY', value: POSTHOG_PROJECT_API_KEY },
+          { name: 'SENTRY_DSN', value: PG_SYNC_SENTRY_DSN },
+          { name: 'SENTRY_ENVIRONMENT', value: 'production' },
         ],
       }],
     },
