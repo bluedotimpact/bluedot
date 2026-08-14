@@ -106,11 +106,12 @@ export const exercisesRouter = router({
           })
           .returning();
 
-      if (!exerciseResponse) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
+      if (!exerciseResponse) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save exercise response' });
+      }
 
-      const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
-        ? await issueFoaiCertificateIfComplete(user.id)
-        : false;
+      const certificateIssued
+        = exercise?.courseId === FOAI_COURSE_ID ? await issueFoaiCertificateIfComplete(user.id) : false;
 
       return { ...exerciseResponse, certificateIssued };
     }),
@@ -153,7 +154,10 @@ export const exercisesRouter = router({
         .select({ id: meetPersonTable.pg.id })
         .from(meetPersonTable.pg)
         .where(and(
-          inArray(meetPersonTable.pg.applicationsBaseRecordId, courseRegistrations.map((r) => r.id)),
+          inArray(
+            meetPersonTable.pg.applicationsBaseRecordId,
+            courseRegistrations.map((r) => r.id),
+          ),
           eq(meetPersonTable.pg.role, COURSE_ROLE.FACILITATOR),
         ));
       if (facilitatorMeetPersons.length === 0) {
@@ -182,17 +186,18 @@ export const exercisesRouter = router({
       }
 
       const roundIds = [...new Set(groups.map((g) => g.round).filter((r): r is string => r != null))];
-      const rounds = roundIds.length > 0
-        ? await db.pg
-          .select({ id: roundTable.pg.id, title: roundTable.pg.title, startDate: roundTable.pg.startDate })
-          .from(roundTable.pg)
-          .where(inArray(roundTable.pg.id, roundIds))
-        : [];
+      const rounds
+        = roundIds.length > 0
+          ? await db.pg
+            .select({ id: roundTable.pg.id, title: roundTable.pg.title, startDate: roundTable.pg.startDate })
+            .from(roundTable.pg)
+            .where(inArray(roundTable.pg.id, roundIds))
+          : [];
       const roundById = new Map(rounds.map((r) => [r.id, r]));
 
       // Newest round first (groups of the same round contiguous, even if two rounds share a start
       // date); the SQL groupNumber ordering is the stable within-round tiebreak
-      const startDateOf = (round: string | null) => (round ? roundById.get(round)?.startDate ?? '' : '');
+      const startDateOf = (round: string | null) => (round ? (roundById.get(round)?.startDate ?? '') : '');
       const sortedGroups = [...groups].sort((a, b) => {
         const byStartDate = startDateOf(b.round).localeCompare(startDateOf(a.round));
         if (byStartDate !== 0) return byStartDate;
@@ -255,7 +260,7 @@ export const exercisesRouter = router({
           id: g.id,
           // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           name: g.groupName || 'Unnamed group',
-          roundName: g.round ? roundById.get(g.round)?.title ?? null : null,
+          roundName: g.round ? (roundById.get(g.round)?.title ?? null) : null,
           groupNumber: g.groupNumber,
           totalParticipants: groupParticipantIds.length,
           responses,
