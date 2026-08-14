@@ -150,8 +150,22 @@ export const forwardAllEventsToPostHogCron = async () => {
   }
 };
 
+const sentryHeartbeatCron = () => {
+  Sentry.captureCheckIn(
+    { monitorSlug: 'pg-sync-heartbeat', status: 'ok' },
+    {
+      schedule: { type: 'interval', value: 1, unit: 'minute' },
+      checkinMargin: 2,
+      maxRuntime: 5,
+      failureIssueThreshold: 3,
+      recoveryThreshold: 1,
+    },
+  );
+};
+
 if (process.env.NODE_ENV !== 'test') {
   cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
+  cron.schedule('* * * * *', sentryHeartbeatCron);
   cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
   cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
   cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
