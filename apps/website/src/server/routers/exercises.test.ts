@@ -17,7 +17,8 @@ import {
   createCaller,
   seedLoggedInUser,
   setupTestDb,
-  testAuthContextLoggedIn, testDb,
+  testAuthContextLoggedIn,
+  testDb,
 } from '../../__tests__/dbTestUtils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
@@ -191,7 +192,9 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   }
 
   const getSelfServeFoai = async () => {
-    const [row] = await testDb.pg.select().from(selfServeCourseRegistrationTable.pg)
+    const [row] = await testDb.pg
+      .select()
+      .from(selfServeCourseRegistrationTable.pg)
       .where(eq(selfServeCourseRegistrationTable.pg.id, 'ss-foai'));
     return row;
   };
@@ -199,13 +202,25 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   test('auto-issues a certificate when the final FOAI exercise is completed', async () => {
     await seedFoaiRegistration();
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Reading reflection', exerciseNumber: '1',
+      id: 'foai-ex-1',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      title: 'Reading reflection',
+      exerciseNumber: '1',
     });
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Action plan', exerciseNumber: '2',
+      id: 'foai-ex-2',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      title: 'Action plan',
+      exerciseNumber: '2',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1',
+      userId: ['test-user'],
+      exerciseId: 'foai-ex-1',
+      response: 'done',
+      completedAt: '2026-01-01',
     });
 
     const before = Math.floor(Date.now() / 1000);
@@ -222,13 +237,57 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     expect(reg?.certificateCreatedAt).toBeGreaterThanOrEqual(before);
   });
 
+  test('auto-issues on an autosave (completed undefined) when the typed free-text answer is the last missing piece', async () => {
+    await seedFoaiRegistration();
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      title: 'Ex 1',
+      exerciseNumber: '1',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-2',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      type: 'Free text',
+      title: 'Ex 2',
+      exerciseNumber: '2',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-1',
+      userId: ['test-user'],
+      exerciseId: 'foai-ex-1',
+      response: 'done',
+      completedAt: '2026-01-01',
+    });
+
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'foai-ex-2',
+      response: 'typed but never marked complete',
+    });
+
+    expect(result.certificateIssued).toBe(true);
+    expect(result.completedAt).toBeNull(); // Autosave stays incomplete
+    const reg = await getSelfServeFoai();
+    expect(reg?.certificateId).toBe('ss-foai');
+  });
+
   test('does not auto-issue when other FOAI exercises remain incomplete', async () => {
     await seedFoaiRegistration();
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
+      id: 'foai-ex-1',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      title: 'Ex 1',
+      exerciseNumber: '1',
     });
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 2', exerciseNumber: '2',
+      id: 'foai-ex-2',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      title: 'Ex 2',
+      exerciseNumber: '2',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -244,10 +303,18 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
   test('does not auto-issue for non-FOAI courses', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-other', email: CALLER_EMAIL, userId: 'test-user', courseId: 'rec-other', decision: 'Accept',
+      id: 'reg-other',
+      email: CALLER_EMAIL,
+      userId: 'test-user',
+      courseId: 'rec-other',
+      decision: 'Accept',
     });
     await testDb.insert(exerciseTable, {
-      id: 'other-ex-1', courseId: 'rec-other', status: 'Core', title: 'Other', exerciseNumber: '1',
+      id: 'other-ex-1',
+      courseId: 'rec-other',
+      status: 'Core',
+      title: 'Other',
+      exerciseNumber: '1',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -270,7 +337,11 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       certificateCreatedAt: 1700000000,
     });
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
+      id: 'foai-ex-1',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      title: 'Ex 1',
+      exerciseNumber: '1',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -287,10 +358,18 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
   test('does not auto-issue when completed is false (un-marking)', async () => {
     await seedFoaiRegistration();
     await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
+      id: 'foai-ex-1',
+      courseId: FOAI_COURSE_ID,
+      status: 'Core',
+      title: 'Ex 1',
+      exerciseNumber: '1',
     });
     await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'resp-1', userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+      id: 'resp-1',
+      userId: ['test-user'],
+      exerciseId: 'foai-ex-1',
+      response: 'done',
+      completedAt: '2026-01-01',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
@@ -313,7 +392,10 @@ describe('exercises.getExerciseResponse', () => {
 
   test('returns response scoped to the current user', async () => {
     await testDb.insert(userTable, {
-      id: 'user-other', email: 'other@example.com', name: 'Other User', keycloakIdentifier: 'other-sub',
+      id: 'user-other',
+      email: 'other@example.com',
+      name: 'Other User',
+      keycloakIdentifier: 'other-sub',
     });
 
     await caller.exercises.saveExerciseResponse({
@@ -442,7 +524,9 @@ describe('exercises.getGroupExerciseResponses', () => {
       role: 'Facilitator',
     });
     await testDb.insert(meetPersonTable, {
-      id: 'meet-participant', userId: 'up-user', name: 'Alice',
+      id: 'meet-participant',
+      userId: 'up-user',
+      name: 'Alice',
     });
     await testDb.insert(groupTable, {
       id: 'group-1',
@@ -586,9 +670,15 @@ describe('exercises.getGroupExerciseResponses', () => {
   });
 
   // Registration + facilitator meetPerson + a one-participant group, suffixed so multiple rounds can coexist
-  async function seedFacilitatorRound(suffix: string, {
-    roundStatus = 'Active', roundTitle, roundStartDate, groupNumber = 1,
-  }: { roundStatus?: string; roundTitle?: string; roundStartDate?: string; groupNumber?: number } = {}) {
+  async function seedFacilitatorRound(
+    suffix: string,
+    {
+      roundStatus = 'Active',
+      roundTitle,
+      roundStartDate,
+      groupNumber = 1,
+    }: { roundStatus?: string; roundTitle?: string; roundStartDate?: string; groupNumber?: number } = {},
+  ) {
     await testDb.insert(courseRegistrationTable, {
       id: `reg-${suffix}`,
       email: CALLER_EMAIL,
@@ -609,7 +699,9 @@ describe('exercises.getGroupExerciseResponses', () => {
       round: `round-${suffix}`,
     });
     await testDb.insert(meetPersonTable, {
-      id: `meet-participant-${suffix}`, userId: `user-${suffix}`, name: `Participant ${suffix}`,
+      id: `meet-participant-${suffix}`,
+      userId: `user-${suffix}`,
+      name: `Participant ${suffix}`,
     });
     await testDb.insert(groupTable, {
       id: `group-${suffix}`,
@@ -623,8 +715,14 @@ describe('exercises.getGroupExerciseResponses', () => {
 
   test('returns groups from all active rounds, newest round first by start date', async () => {
     await seedCourse();
-    await seedFacilitatorRound('old', { roundTitle: 'Course (2026 Jun W23) - Part-time', roundStartDate: '2026-06-01T00:00:00.000Z' });
-    await seedFacilitatorRound('new', { roundTitle: 'Course (2026 Jul W28) - Part-time', roundStartDate: '2026-07-06T00:00:00.000Z' });
+    await seedFacilitatorRound('old', {
+      roundTitle: 'Course (2026 Jun W23) - Part-time',
+      roundStartDate: '2026-06-01T00:00:00.000Z',
+    });
+    await seedFacilitatorRound('new', {
+      roundTitle: 'Course (2026 Jul W28) - Part-time',
+      roundStartDate: '2026-07-06T00:00:00.000Z',
+    });
 
     const result = await caller.exercises.getGroupExerciseResponses({
       courseSlug: 'test-course',
@@ -632,7 +730,10 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
 
     expect(result!.groups.map((g) => g.id)).toEqual(['group-new', 'group-old']);
-    expect(result!.groups.map((g) => g.roundName)).toEqual(['Course (2026 Jul W28) - Part-time', 'Course (2026 Jun W23) - Part-time']);
+    expect(result!.groups.map((g) => g.roundName)).toEqual([
+      'Course (2026 Jul W28) - Part-time',
+      'Course (2026 Jun W23) - Part-time',
+    ]);
     expect(result!.groups.map((g) => g.groupNumber)).toEqual([1, 1]);
   });
 
@@ -654,10 +755,18 @@ describe('exercises.getGroupExerciseResponses', () => {
     await seedCourse();
     await seedFacilitatorRound('r1', { groupNumber: 2 });
     await testDb.insert(groupTable, {
-      id: 'group-b', round: 'round-r1', groupNumber: 10, facilitator: ['meet-facilitator-r1'], participants: ['meet-participant-r1'],
+      id: 'group-b',
+      round: 'round-r1',
+      groupNumber: 10,
+      facilitator: ['meet-facilitator-r1'],
+      participants: ['meet-participant-r1'],
     });
     await testDb.insert(groupTable, {
-      id: 'group-a', round: 'round-r1', groupNumber: 1, facilitator: ['meet-facilitator-r1'], participants: ['meet-participant-r1'],
+      id: 'group-a',
+      round: 'round-r1',
+      groupNumber: 1,
+      facilitator: ['meet-facilitator-r1'],
+      participants: ['meet-participant-r1'],
     });
 
     const result = await caller.exercises.getGroupExerciseResponses({

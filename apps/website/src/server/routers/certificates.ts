@@ -4,6 +4,7 @@ import {
   COURSE_ROLE,
   courseRegistrationTable,
   courseTable,
+  desc,
   eq,
   exerciseResponsePgTable,
   exerciseTable,
@@ -25,7 +26,7 @@ import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
   const requiredExercises = await db.pg
-    .select({ id: exerciseTable.pg.id })
+    .select({ id: exerciseTable.pg.id, type: exerciseTable.pg.type })
     .from(exerciseTable.pg)
     .where(and(
       eq(exerciseTable.pg.courseId, FOAI_COURSE_ID),
@@ -36,19 +37,31 @@ async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
   }
 
   // Scope the response scan to FoAI exercises so we don't pull every response this user has ever
-  // submitted (across all courses) just to check FoAI completion.
-  const exerciseResponses = await db.pg
-    .select()
+  // submitted (across all courses) just to check FoAI completion. Concurrent autosaves can leave
+  // duplicate rows per exercise, so take only the latest row per exercise — the one
+  // getExerciseResponse shows the learner.
+  const latestResponses = await db.pg
+    .selectDistinctOn([exerciseResponsePgTable.pg.exerciseId])
     .from(exerciseResponsePgTable.pg)
     .where(and(
       arrayContains(exerciseResponsePgTable.pg.userId, [userId]),
-      inArray(exerciseResponsePgTable.pg.exerciseId, requiredExercises.map((e) => e.id)),
-    ));
+      inArray(
+        exerciseResponsePgTable.pg.exerciseId,
+        requiredExercises.map((e) => e.id),
+      ),
+    ))
+    .orderBy(exerciseResponsePgTable.pg.exerciseId, desc(exerciseResponsePgTable.pg.createdAt));
 
-  const completedExerciseIds = new Set(exerciseResponses
-    .filter((resp) => resp.completedAt != null)
-    .map((resp) => resp.exerciseId));
-  return requiredExercises.every((exercise) => completedExerciseIds.has(exercise.id));
+  const responseByExerciseId = new Map(latestResponses.map((resp) => [resp.exerciseId, resp]));
+
+  // Free-text answers autosave with completedAt null unless the learner clicks "Complete", so a
+  // typed answer counts for the certificate even without the explicit click.
+  return requiredExercises.every((exercise) => {
+    const resp = responseByExerciseId.get(exercise.id);
+    return (
+      resp != null && (resp.completedAt != null || (exercise.type === 'Free text' && resp.response.trim().length > 0))
+    );
+  });
 }
 
 export async function issueFoaiCertificateIfComplete(userId: string): Promise<boolean> {
@@ -68,7 +81,11 @@ export async function issueFoaiCertificateIfComplete(userId: string): Promise<bo
   const certificateCreatedAt = Math.floor(Date.now() / 1000);
   const certificateId = selfServeRegistration.id;
 
-  await db.update(selfServeCourseRegistrationTable, { id: selfServeRegistration.id, certificateId, certificateCreatedAt });
+  await db.update(selfServeCourseRegistrationTable, {
+    id: selfServeRegistration.id,
+    certificateId,
+    certificateCreatedAt,
+  });
 
   return true;
 }
@@ -76,7 +93,10 @@ export async function issueFoaiCertificateIfComplete(userId: string): Promise<bo
 export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
 
 export async function getCertificateData(certificateId: string) {
-  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
+  const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
+    filter: { certificateId },
+    sortBy: 'createdAt',
+  });
   const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
 
   const registration = selfServeRegistration ?? facilitatedRegistration;
@@ -149,7 +169,10 @@ export const certificatesRouter = router({
     .query(async ({ ctx, input: { certificateId } }) => {
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
-      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, { filter: { certificateId }, sortBy: 'createdAt' });
+      const selfServeRegistration = await db.getFirst(selfServeCourseRegistrationTable, {
+        filter: { certificateId },
+        sortBy: 'createdAt',
+      });
       const facilitatedRegistration = await db.getFirst(courseRegistrationTable, { filter: { certificateId } });
 
       const registration = selfServeRegistration ?? facilitatedRegistration;
@@ -228,8 +251,7 @@ export const certificatesRouter = router({
         : null;
       const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
       const isLastDiscussionSoonOrPassed
-        = round?.lastDiscussionDate != null
-          && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
+        = round?.lastDiscussionDate != null && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
 
       if (!hasAttendedEnough) {
         return {
