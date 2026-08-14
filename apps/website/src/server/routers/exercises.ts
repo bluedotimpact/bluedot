@@ -66,10 +66,11 @@ export const exercisesRouter = router({
         completedAt = null;
       } // else undefined = "don't change"
 
+      // Fetch the exercise on every save, not just explicit completions: a typed free-text answer
+      // alone can satisfy FoAI certificate eligibility, so autosaves (completed undefined) must
+      // also attempt issuance.
       const [exercise, user] = await Promise.all([
-        input.completed === true
-          ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
-          : Promise.resolve(undefined),
+        db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' }),
         getUserFromAuthOrThrow(ctx.auth),
       ]);
 

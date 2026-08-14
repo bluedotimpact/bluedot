@@ -222,6 +222,28 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     expect(reg?.certificateCreatedAt).toBeGreaterThanOrEqual(before);
   });
 
+  test('auto-issues on an autosave (completed undefined) when the typed free-text answer is the last missing piece', async () => {
+    await seedFoaiRegistration();
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Core', title: 'Ex 1', exerciseNumber: '1',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Core', type: 'Free text', title: 'Ex 2', exerciseNumber: '2',
+    });
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'resp-1', userId: ['test-user'], exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+    });
+
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'foai-ex-2',
+      response: 'typed but never marked complete',
+    });
+
+    expect(result.certificateIssued).toBe(true);
+    const reg = await getSelfServeFoai();
+    expect(reg?.certificateId).toBe('ss-foai');
+  });
+
   test('does not auto-issue when other FOAI exercises remain incomplete', async () => {
     await seedFoaiRegistration();
     await testDb.insert(exerciseTable, {
