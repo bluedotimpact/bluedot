@@ -53,7 +53,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </svg>
                 </button>
                 <div
-                  class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 >
                   <div
                     class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
@@ -90,7 +90,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Courses menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="courses-dropdown"
                           role="region"
                         >
@@ -154,7 +154,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Grants menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="grants-dropdown"
                           role="region"
                         >
@@ -216,7 +216,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Programs menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="programs-dropdown"
                           role="region"
                         >
@@ -334,7 +334,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Courses menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="courses-dropdown"
                     role="region"
                   >
@@ -398,7 +398,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Grants menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="grants-dropdown"
                     role="region"
                   >
@@ -460,7 +460,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Programs menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="programs-dropdown"
                     role="region"
                   >
