@@ -31,7 +31,7 @@ const WEBSITE_HEALTH_CHECK = {
   failureThreshold: 3,
 };
 
-// Public DSNs exposed in browser bundle
+// Sentry DSNs are public identifiers, not secrets
 const WEBSITE_SENTRY_DSN = 'https://44dfe900ca304b3fb58fc92f719393c5@o4511885459652608.ingest.de.sentry.io/4511885468500049';
 const PG_SYNC_SENTRY_DSN = 'https://7c7cafb92348184a97734c02b4fe018a@o4511885459652608.ingest.de.sentry.io/4511909379375184';
 
