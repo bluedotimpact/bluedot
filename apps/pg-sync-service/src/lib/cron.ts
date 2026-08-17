@@ -20,6 +20,7 @@ const QUEUE_PROCESSING_INTERVAL_SECONDS = 5;
 const ADMIN_SYNC_CHECK_INTERVAL_SECONDS = 10;
 const COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE = '0 0 */2 * * *'; // every 2 hours
 const POSTHOG_EVENTS_SCHEDULE = '0 */30 * * * *'; // every 30 minutes
+const SENTRY_HEARTBEAT_INTERVAL_MINUTES = 1;
 
 let isProcessingQueue = false;
 let isCheckingAdminSync = false;
@@ -154,7 +155,7 @@ const sentryHeartbeatCron = () => {
   Sentry.captureCheckIn(
     { monitorSlug: 'pg-sync-heartbeat', status: 'ok' },
     {
-      schedule: { type: 'interval', value: 1, unit: 'minute' },
+      schedule: { type: 'interval', value: SENTRY_HEARTBEAT_INTERVAL_MINUTES, unit: 'minute' },
       checkinMargin: 2,
       maxRuntime: 5,
       failureIssueThreshold: 3,
@@ -165,7 +166,7 @@ const sentryHeartbeatCron = () => {
 
 if (process.env.NODE_ENV !== 'test') {
   cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
-  cron.schedule('* * * * *', sentryHeartbeatCron);
+  cron.schedule(`*/${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
   cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
   cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
   cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
