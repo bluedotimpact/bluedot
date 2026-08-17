@@ -156,37 +156,6 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
     ],
   },
 
-  'personal-theory-of-impact': {
-    title: 'Project information',
-    scheduleCtaText: 'Get started',
-    details: [
-      {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            You will spend <b>at least 20 hours</b> over 2 weeks. You will:
-            <ul className="list-disc pl-4 mt-1">
-              <li>Orient yourself to the existing literature about your chosen area</li>
-              <li>Talk to people who are already working on the problem</li>
-              <li>Quickly test what it means to contribute in this area</li>
-            </ul>
-          </>
-        ),
-      },
-      {
-        icon: PiChats,
-        label: 'Format',
-        description: 'This is currently a self-paced project. A guided version with coaching is planned — check back in June 2026.',
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available.',
-      },
-    ],
-  },
-
   'technical-ai-safety': {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
