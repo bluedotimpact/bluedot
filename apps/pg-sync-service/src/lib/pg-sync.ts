@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node';
 import {
   eq, inArray, and, getPgAirtableFromIds, metaTable,
 } from '@bluedot/db';
@@ -84,6 +85,9 @@ export async function initializeWebhooks(): Promise<void> {
       if (r.status === 'rejected') {
         const baseId = baseEntries[i]![0];
         failures.push({ baseId, reason: r.reason });
+        // Captured here because partial failures don't throw, so they never
+        // reach the startup catch in index.ts
+        Sentry.captureException(r.reason);
         const msg = r.reason instanceof Error ? r.reason.message : String(r.reason);
         logger.error(`[initializeWebhooks] Failed to initialize webhook for base ${baseId}: ${msg}`);
       }

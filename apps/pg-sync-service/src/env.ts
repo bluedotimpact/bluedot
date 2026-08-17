@@ -11,6 +11,8 @@ const env = validateEnv({
   ],
   optional: [
     'PORT',
+    'SENTRY_DSN',
+    'SENTRY_ENVIRONMENT',
     'PROD_ONLY_WEBHOOK_DELETION',
     'VITEST',
     // Must match the project website/ uses

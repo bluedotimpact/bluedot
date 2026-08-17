@@ -1,4 +1,5 @@
 import cron from 'node-cron';
+import * as Sentry from '@sentry/node';
 import { logger } from '@bluedot/ui/src/api';
 import { getTableName } from '@bluedot/db';
 import {
@@ -19,6 +20,7 @@ const QUEUE_PROCESSING_INTERVAL_SECONDS = 5;
 const ADMIN_SYNC_CHECK_INTERVAL_SECONDS = 10;
 const COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE = '0 0 */2 * * *'; // every 2 hours
 const POSTHOG_EVENTS_SCHEDULE = '0 */30 * * * *'; // every 30 minutes
+const SENTRY_HEARTBEAT_INTERVAL_MINUTES = 1;
 
 let isProcessingQueue = false;
 let isCheckingAdminSync = false;
@@ -36,6 +38,7 @@ const processQueueAndWebhooksCron = async () => {
     await pollForUpdates();
     await processUpdateQueue();
   } catch (error) {
+    Sentry.captureException(error);
     logger.error('[queue-processing] Error in queue processing cycle:', error);
   } finally {
     isProcessingQueue = false;
@@ -147,8 +150,22 @@ export const forwardAllEventsToPostHogCron = async () => {
   }
 };
 
+const sentryHeartbeatCron = () => {
+  Sentry.captureCheckIn(
+    { monitorSlug: 'pg-sync-heartbeat', status: 'ok' },
+    {
+      schedule: { type: 'interval', value: SENTRY_HEARTBEAT_INTERVAL_MINUTES, unit: 'minute' },
+      checkinMargin: 2,
+      maxRuntime: 5,
+      failureIssueThreshold: 3,
+      recoveryThreshold: 1,
+    },
+  );
+};
+
 if (process.env.NODE_ENV !== 'test') {
   cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
+  cron.schedule(`0 */${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
   cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
   cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
   cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);

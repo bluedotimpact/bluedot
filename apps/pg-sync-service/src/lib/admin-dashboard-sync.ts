@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node';
 import { logger } from '@bluedot/ui/src/api';
 import {
   syncRequestsTable, eq, inArray, asc,
@@ -49,6 +50,7 @@ export async function processAdminDashboardSyncRequests(): Promise<void> {
 
       logger.info(`[admin-dashboard] Successfully completed ${queuedRequests.length} admin dashboard sync requests`);
     } catch (error) {
+      Sentry.captureException(error);
       const errorMessage = error instanceof Error ? error.message : String(error);
       await syncManager.markSyncFailed(errorMessage);
 
@@ -57,6 +59,7 @@ export async function processAdminDashboardSyncRequests(): Promise<void> {
       logger.error('[admin-dashboard] Failed to complete admin dashboard sync requests:', error);
     }
   } catch (error) {
+    Sentry.captureException(error);
     logger.error('[admin-dashboard] Error processing admin dashboard sync requests:', error);
   }
 }
