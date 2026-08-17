@@ -165,7 +165,7 @@ const sentryHeartbeatCron = () => {
 
 if (process.env.NODE_ENV !== 'test') {
   cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
-  cron.schedule(`*/${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
+  cron.schedule(`0 */${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
   cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
   cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
   cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
