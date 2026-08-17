@@ -55,7 +55,6 @@ const checkAdminDashboardSyncRequestsCron = async () => {
   try {
     await processAdminDashboardSyncRequests();
   } catch (error) {
-    Sentry.captureException(error);
     logger.error('[admin-sync-check] Error checking admin sync requests:', error);
   } finally {
     isCheckingAdminSync = false;

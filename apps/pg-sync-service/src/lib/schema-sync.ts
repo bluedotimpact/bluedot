@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/node';
 import { logger } from '@bluedot/ui/src/api';
 import {
   getTableName, metaTable, sql, PgAirtableTable,
@@ -179,7 +178,6 @@ export async function ensureSchemaUpToDate(): Promise<boolean> {
     logger.info(`[schema-sync] ✅ Schema is now up to date. ${schemaChangesDetected ? 'Changes applied.' : 'No changes needed.'}`);
     return schemaChangesDetected;
   } catch (error) {
-    Sentry.captureException(error);
     const schemaError = `[schema-sync] ❌ Failed to update database schema: ${error instanceof Error ? error.message : String(error)}`;
     logger.error(schemaError);
     slackAlert(env, [schemaError]);
