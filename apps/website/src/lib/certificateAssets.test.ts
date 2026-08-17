@@ -16,8 +16,8 @@ describe('certificateAssets', () => {
   });
 
   test('falls back when a course has no certificate artwork', () => {
-    expect(getCertificateAssetSlug('personal-theory-of-impact')).toBeNull();
-    expect(getCertificateBadgePath('personal-theory-of-impact')).toBe(DEFAULT_CERTIFICATE_BADGE_PATH);
-    expect(getCertificateIconPath('personal-theory-of-impact')).toBeNull();
+    expect(getCertificateAssetSlug('ops')).toBeNull();
+    expect(getCertificateBadgePath('ops')).toBe(DEFAULT_CERTIFICATE_BADGE_PATH);
+    expect(getCertificateIconPath('ops')).toBeNull();
   });
 });
