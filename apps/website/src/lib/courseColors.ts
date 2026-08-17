@@ -93,15 +93,6 @@ export const COURSE_COLORS = {
     bright: '#faf6e1',
     full: '#8c8146',
   },
-  'personal-theory-of-impact': {
-    /* Dusty rose → mauve → deep plum */
-    gradient: 'linear-gradient(to right, rgba(42, 21, 32, 0.9) 0%, rgba(42, 21, 32, 0.4) 5%, rgba(42, 21, 32, 0.15) 15%, rgba(42, 21, 32, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(212, 160, 176, 0.55) 0%, rgba(180, 130, 155, 0.40) 25%, rgba(80, 40, 65, 0.65) 60%, rgba(42, 21, 32, 0.60) 100%), #2A1520',
-    accent: '#D4A0B0',
-    iconBackground: '#6B3A50',
-    bright: '#F5E4EA',
-    mid: '#B87A90',
-    full: '#A06878',
-  },
   'digital-minds': DIGITAL_MINDS_COLORS,
   'introduction-to-digital-minds': DIGITAL_MINDS_COLORS,
   'cambridge-digital-minds': DIGITAL_MINDS_COLORS,

@@ -125,11 +125,6 @@ export const COURSE_CONFIG: Record<string, CourseConfigItem> = {
     accentColor: COURSE_COLORS['technical-ai-safety'].full,
     badge: 'P',
   },
-  'personal-theory-of-impact': {
-    icon: '/images/courses/personal-theory-of-impact-icon.svg',
-    iconBackground: COURSE_COLORS['personal-theory-of-impact'].iconBackground,
-    accentColor: COURSE_COLORS['personal-theory-of-impact'].full,
-  },
   'digital-minds': DIGITAL_MINDS_COURSE_CONFIG,
   'introduction-to-digital-minds': DIGITAL_MINDS_COURSE_CONFIG,
   'cambridge-digital-minds': DIGITAL_MINDS_COURSE_CONFIG,
