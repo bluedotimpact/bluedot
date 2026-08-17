@@ -25,6 +25,9 @@ Sentry.init({
     /Converting circular structure to JSON[\s\S]*__reactFiber\$/,
     // Microsoft Outlook SafeLinks link-scanner artifact.
     /Object Not Found Matching Id:\d+, MethodName:/,
+    // Extension-injected fetch wrappers append "(hostname)" to the message; native
+    // "Failed to fetch" never has parens, so this only matches wrapped third-party failures.
+    /^Failed to fetch \(.+\)$/,
   ],
   denyUrls: [
     /^chrome-extension:\/\//,
