@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Children } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { CTALinkOrButton, H3 } from '@bluedot/ui';
@@ -146,12 +147,12 @@ export const PageListRow: React.FC<PageListRowProps> = ({
 
 export type PageListGroupProps = {
   label?: string;
-  children: React.ReactNode[];
+  children: React.ReactNode;
   className?: string;
 };
 
 export const PageListGroup: React.FC<PageListGroupProps> = ({ label, children, className }) => {
-  const items = children.filter(Boolean);
+  const items = Children.toArray(children);
 
   if (items.length === 0) {
     return null;
