@@ -39,7 +39,7 @@ const TheWeekSection = () => {
               <div className="bd-md:w-40 bd-md:shrink-0">
                 <Pill>{item.cadence}</Pill>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="max-w-prose flex flex-col gap-2">
                 <H4>
                   {item.title}
                 </H4>
