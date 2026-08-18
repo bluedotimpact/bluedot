@@ -15,6 +15,7 @@ const INCLUDED_ROUTES = [
   { title: 'Rapid Grants', url: '/grants/rapid' },
   ROUTES.programs,
   { title: 'Incubator Week', url: '/programs/incubator-week' },
+  { title: 'Context Week', url: '/programs/context-week' },
   ROUTES.contact,
   ROUTES.joinUs,
   ROUTES.missions,
