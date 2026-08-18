@@ -18,10 +18,10 @@ import { ROUTES } from '../../lib/routes';
 
 const PROGRAM_SLUG = 'context-week';
 const FALLBACK_NAME = 'Context Week';
-const PROGRAM_DESCRIPTION = 'A four-day residential programme for people making important AI-safety career or project decisions.';
+const PROGRAM_DESCRIPTION = 'A four-day residential programme for people who want to understand the AI safety field and decide where they could contribute.';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/context-week.png`;
-const LINK_PREVIEW_ALT = 'Context Week v1. Four-day residential programme for AI-safety career and project decisions. Lighthaven, Berkeley, August 30 to September 4, 2026. Travel, accommodation, and meals covered.';
+const LINK_PREVIEW_ALT = 'Context Week v1. A residential programme about the AI safety field and where participants could contribute. Berkeley, August 30 to September 4, 2026. Travel, accommodation, and meals covered.';
 
 const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const applicationUrl = useGrantApplicationUrl('context-week');
@@ -61,7 +61,7 @@ const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDeta
         stats={[
           { label: 'Cohort', value: 'Around 20 people' },
           { label: 'Dates', value: 'Aug 30–Sept 4, 2026' },
-          { label: 'Location', value: 'Lighthaven, Berkeley' },
+          { label: 'Location', value: 'Berkeley' },
           { label: 'Covered', value: 'Travel, accommodation, meals' },
         ]}
       />
