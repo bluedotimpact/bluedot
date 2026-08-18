@@ -24,7 +24,7 @@ vi.mock('next/router', () => ({
   }),
 }));
 
-const programDescription = 'A four-day residential programme for people making important AI-safety career or project decisions.';
+const programDescription = 'A four-day residential programme for people who want to understand the AI safety field and decide where they could contribute.';
 
 beforeEach(() => {
   document.head.innerHTML = '';
@@ -46,7 +46,7 @@ beforeEach(() => {
 });
 
 describe('ContextWeekProgramPage', () => {
-  test('describes the programme, fit, schedule, and participant outputs', async () => {
+  test('describes the programme, participants, and intended outcomes', async () => {
     renderWithHead(<TrpcProvider>
       <LatestUtmParamsProvider>
         <ContextWeekProgramPage
@@ -58,15 +58,14 @@ describe('ContextWeekProgramPage', () => {
 
     expect(screen.getByRole('heading', { name: 'Context Week', level: 1 })).toBeInTheDocument();
     expect(screen.getByText('Aug 30–Sept 4, 2026')).toBeInTheDocument();
-    expect(screen.getByText('Lighthaven, Berkeley')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Who it is for' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Context Week or Incubator Week?' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'The four-day programme' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Build the map' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Make the decision testable' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'A revised decision memo' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'A 30-day action' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'A 90-day plan' })).toBeInTheDocument();
+    expect(screen.getByText('Berkeley')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'About Context Week' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Participants' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Context Week and Incubator Week' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Programme' })).toBeInTheDocument();
+    expect(screen.getByText(/The detailed schedule is still being developed/)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'After Context Week' })).toBeInTheDocument();
+    expect(screen.getByText(/about ten hours of reading/)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getAllByRole('link', { name: 'Apply to Context Week' })).toHaveLength(2);

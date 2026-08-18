@@ -19,10 +19,10 @@
   <rect width="1200" height="630" fill="url(#glow)" />
 
   <text x="64" y="170" fill="#111111" font-size="42" font-weight="400">Context Week v1</text>
-  <text x="64" y="248" fill="#111111" font-size="43" font-weight="600">Four-day residential programme for AI-safety</text>
-  <text x="64" y="314" fill="#111111" font-size="43" font-weight="600">career and project decisions.</text>
+  <text x="64" y="248" fill="#111111" font-size="43" font-weight="600">A residential programme about the AI safety field</text>
+  <text x="64" y="314" fill="#111111" font-size="43" font-weight="600">and where participants could contribute.</text>
 
-  <text x="64" y="520" fill="#111111" font-size="28" font-weight="400">Lighthaven, Berkeley · August 30–September 4, 2026</text>
+  <text x="64" y="520" fill="#111111" font-size="28" font-weight="400">Berkeley · August 30–September 4, 2026</text>
   <text x="64" y="568" fill="#111111" font-size="28" font-weight="400">Travel, accommodation, and meals covered</text>
   <text x="1144" y="568" text-anchor="end" fill="#111111" font-size="34" font-weight="600">BlueDot Impact</text>
 </svg>
