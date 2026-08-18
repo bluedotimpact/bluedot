@@ -1,7 +1,7 @@
 import type { FAQItem } from '../lander/components/FAQSection';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
-export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | 'fieldbuilder-week' | 'advising';
+export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | 'fieldbuilder-week' | 'context-week' | 'advising';
 
 export type GrantProgramTrack = 'Funding' | 'Build' | 'Launch';
 
@@ -68,7 +68,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
 ];
 
 /** Slugs that have a marketing page assembled from the shared section components. */
-export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising' | 'incubator-week' | 'fieldbuilder-week';
+export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising' | 'incubator-week' | 'fieldbuilder-week' | 'context-week';
 
 export type GrantProgramSectionConfig = {
   faqItems: FAQItem[];
@@ -217,6 +217,9 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
     ],
   },
   'fieldbuilder-week': {
+    faqItems: [],
+  },
+  'context-week': {
     faqItems: [],
   },
   advising: {
