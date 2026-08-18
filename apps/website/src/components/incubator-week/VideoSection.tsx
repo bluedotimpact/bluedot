@@ -1,4 +1,4 @@
-import { Eyebrow, H2, P } from '@bluedot/ui';
+import TrackRecordSection from './TrackRecordSection';
 
 const VIDEO_EMBED_URL = 'https://www.youtube-nocookie.com/embed/C3yDinK0ic0?rel=0';
 const VIDEO_TITLE = 'Can You Build an AI Safety Startup in Five Days?';
@@ -6,16 +6,12 @@ const VIDEO_TITLE = 'Can You Build an AI Safety Startup in Five Days?';
 const VideoSection = () => {
   return (
     <section className="section section-body incubator-week-video-section">
-      <div className="w-full flex flex-col gap-6">
-        <div className="max-w-prose flex flex-col gap-3">
-          <Eyebrow className="text-bluedot-navy/80">Inside the week</Eyebrow>
-          <H2>Can you build an AI safety startup in five days?</H2>
-          <P className="text-bluedot-navy/80">
-            Watch the latest cohort find out.
-          </P>
+      <div className="grid w-full grid-cols-1 gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start lg:gap-12">
+        <div className="order-2 lg:order-1">
+          <TrackRecordSection />
         </div>
 
-        <div className="overflow-hidden rounded-xl bg-bluedot-navy p-1.5 shadow-xl bd-md:p-2">
+        <div className="order-1 overflow-hidden rounded-xl bg-bluedot-navy p-1.5 shadow-xl bd-md:p-2 lg:order-2">
           <iframe
             src={VIDEO_EMBED_URL}
             title={VIDEO_TITLE}

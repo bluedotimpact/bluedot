@@ -3,7 +3,6 @@ import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
-import TrackRecordSection from '../../components/incubator-week/TrackRecordSection';
 import TheWeekSection from '../../components/incubator-week/TheWeekSection';
 import AboutYouSection from '../../components/incubator-week/AboutYouSection';
 import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
@@ -67,7 +66,6 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         ]}
       />
       <VideoSection />
-      <TrackRecordSection />
       <TheWeekSection />
       <AboutYouSection />
       <AboutBlueDotSection
