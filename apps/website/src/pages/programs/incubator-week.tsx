@@ -3,10 +3,10 @@ import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
-import TrackRecordSection from '../../components/incubator-week/TrackRecordSection';
 import TheWeekSection from '../../components/incubator-week/TheWeekSection';
 import AboutYouSection from '../../components/incubator-week/AboutYouSection';
 import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
+import VideoSection from '../../components/incubator-week/VideoSection';
 import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
 import { ROUTES } from '../../lib/routes';
 import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
@@ -65,7 +65,7 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
           { label: 'Covered', value: 'All expenses paid' },
         ]}
       />
-      <TrackRecordSection />
+      <VideoSection />
       <TheWeekSection />
       <AboutYouSection />
       <AboutBlueDotSection

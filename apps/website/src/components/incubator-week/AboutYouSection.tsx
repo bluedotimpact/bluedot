@@ -5,7 +5,7 @@ const REFERRAL_FORM_URL = 'https://airtable.com/appnJbsG1eWbAdEvf/pagzDBxQxLCuU2
 const AboutYouSection = () => {
   return (
     <section className="section section-body incubator-week-about-you-section">
-      <div className="w-full flex flex-col gap-6">
+      <div className="w-full max-w-prose flex flex-col gap-6">
         <H3>About you</H3>
         <ul className="list-disc pl-6 flex flex-col gap-2">
           <li>Technically serious</li>
