@@ -11,14 +11,21 @@ type CodeRendererProps = {
   hidePreview?: boolean;
 };
 
-// The model is instructed not to wrap output in markdown code fences, but it
-// sometimes ignores that. Strip them so the fenced text doesn't break the render.
-// Written to also handle partial output while the response is still streaming.
-const stripCodeFences = (raw: string): string => {
-  return raw
+export const sanitiseCode = (raw: string): string => {
+  // The model is instructed not to wrap output in markdown code fences, but it
+  // sometimes ignores that. Strip them so the fenced text doesn't break the render.
+  // Written to also handle partial output while the response is still streaming.
+  const stripCodeFences = (code: string) => code
     .trim()
     .replace(/^```\w*\n?/, '')
     .replace(/\n?```\s*$/, '');
+
+  const stripDefaultExport = (code: string) => code
+    .replace(/^\s*export default \w*;?\s*$/gm, '')
+    .replace(/^(\s*)export default /gm, '$1')
+    .trim();
+
+  return stripDefaultExport(stripCodeFences(raw));
 };
 
 export const CodeRenderer: React.FC<CodeRendererProps> = ({ code, height, hidePreview = false }) => {
@@ -27,7 +34,7 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({ code, height, hidePr
     '/App.js': {
       code: `import React from 'react';
 
-${stripCodeFences(code)}
+${sanitiseCode(code)}
 
 export default function App() {
   return (
