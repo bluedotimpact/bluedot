@@ -56,6 +56,16 @@ const mockPrograms = [
     order: '3',
   },
   {
+    id: 'rec-context-week',
+    name: 'Context Week',
+    status: 'Active',
+    description: 'A four-day residential programme for people who want to understand the AI safety field and decide where they could contribute.',
+    applicationForm: 'https://example.com/context-week',
+    category: 'Explore',
+    slug: 'context-week',
+    order: '4',
+  },
+  {
     id: 'rec-incubator',
     name: 'Incubator week',
     status: 'Active',
@@ -63,14 +73,14 @@ const mockPrograms = [
     applicationForm: 'https://example.com/incubator',
     category: 'Found',
     slug: 'incubator-week',
-    order: '4',
+    order: '5',
   },
 ];
 
 beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
-    trpcMsw.programs.getInPerson.query(() => mockPrograms.filter((program) => program.slug === 'incubator-week')),
+    trpcMsw.programs.getInPerson.query(() => mockPrograms.filter((program) => ['context-week', 'incubator-week'].includes(program.slug))),
     trpcMsw.programs.getGrants.query(() => []),
     trpcMsw.courses.getAll.query(() => []),
   );
@@ -81,7 +91,11 @@ describe('ProgramsPage', () => {
     render(<ProgramsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('Incubator week', { selector: 'p' })).toBeInTheDocument();
+      const contextWeekTitle = screen.getByText('Context Week', { selector: 'p' });
+      const incubatorWeekTitle = screen.getByText('Incubator week', { selector: 'p' });
+
+      expect(screen.getByText('A four-day residential programme for people who want to understand the AI safety field and decide where they could contribute.')).toBeInTheDocument();
+      expect(contextWeekTitle.closest('li')).not.toBe(incubatorWeekTitle.closest('li'));
       expect(screen.getByText('AI Security Bootcamp', { selector: 'p' })).toBeInTheDocument();
       expect(screen.queryByText('Rapid grant', { selector: 'p' })).not.toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Explore courses instead' })).toBeInTheDocument();
