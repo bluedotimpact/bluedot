@@ -19,8 +19,7 @@ const OverviewSection = () => {
         </P>
         <P className="text-bluedot-navy/80">
           Participants arrive on August 30. Programming runs from August 31 to September 3,
-          and participants depart on September 4. Before arriving, participants complete
-          about ten hours of reading selected by the programme team.
+          and participants depart on September 4.
         </P>
       </div>
     </section>

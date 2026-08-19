@@ -65,7 +65,6 @@ describe('ContextWeekProgramPage', () => {
     expect(screen.getByRole('heading', { name: 'Programme' })).toBeInTheDocument();
     expect(screen.getByText(/The detailed schedule is still being developed/)).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'After Context Week' })).toBeInTheDocument();
-    expect(screen.getByText(/about ten hours of reading/)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getAllByRole('link', { name: 'Apply to Context Week' })).toHaveLength(2);
