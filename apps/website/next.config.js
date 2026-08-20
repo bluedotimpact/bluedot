@@ -1,9 +1,43 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 const { withDefaultBlueDotNextConfig } = require('@bluedot/ui/src/default-config/next');
 
+// Shortlinks previously handled by apps/website-proxy nginx, ported here so the
+// image is self-sufficient on Render (no nginx in front of bluedot.org).
+// nginx returned 301s, so these use statusCode: 301 rather than permanent (308).
+const proxyPortedRedirects = [
+  {
+    source: '/:path*',
+    has: [{ type: 'host', value: 'www.bluedot.org' }],
+    destination: 'https://bluedot.org/:path*',
+    statusCode: 301,
+  },
+  ...[
+    ['/intro-to-tai', '/courses/intro-to-tai'],
+    ['/writing', '/courses/writing'],
+    ['/alignment', '/courses/alignment'],
+    ['/alignment-fast-track', '/courses/alignment'],
+    ['/governance', '/courses/governance'],
+    ['/governance-fast-track', '/courses/governance'],
+    ['/economics-of-tai', '/courses/economics-of-tai'],
+    ['/economics-of-tai-fast-track', '/courses/economics-of-tai'],
+    ['/pandemics', '/courses/biosecurity'],
+    ['/courses/pandemics', '/courses/biosecurity'],
+    ['/careers', '/join-us'],
+    ['/careers/swe-contractor', '/join-us/swe-contractor'],
+    ['/careers/ai-safety-teaching-fellow', '/join-us/ai-safety-teaching-fellow'],
+    ['/ai-alignment-curriculum', '/courses/alignment'],
+    ['/ai-governance-curriculum', '/courses/governance'],
+    ['/alignment-course-details', '/courses/alignment'],
+    ['/governance-course-details', '/courses/governance'],
+    ['/alignment-insession-readings', '/courses/alignment'],
+    ['/alignment-201-curriculum', '/courses/alignment-201'],
+  ].map(([source, destination]) => ({ source, destination, statusCode: 301 })),
+];
+
 const baseConfig = withDefaultBlueDotNextConfig({
   async redirects() {
     return [
+      ...proxyPortedRedirects,
       {
         source: '/company-information',
         destination: '/contact',
@@ -118,6 +152,19 @@ const baseConfig = withDefaultBlueDotNextConfig({
         source: '/settings/account',
         destination: '/account',
         statusCode: 301,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      // Legacy uploads server (old bluedot.org box), still referenced by the AISF/BSF
+      // sites; also ported from the website-proxy nginx config. nginx sent
+      // `Host: bluedot.org` and SNI `bluedot.org` to this upstream; Next.js's rewrite
+      // proxy instead sends Host/SNI for the bare IP, which may break the upstream's
+      // TLS cert validation or vhost matching — verify /u/ paths after deploy.
+      {
+        source: '/u/:path*',
+        destination: 'https://45.76.132.116/u/:path*',
       },
     ];
   },
