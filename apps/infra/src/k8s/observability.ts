@@ -326,6 +326,16 @@ new k8s.helm.v3.Release('loki', {
         },
       },
     },
+    // The chart defaults allocate 8GiB to the chunks cache and 1GiB to the results cache
+    // (memcached requests/limits are set to 1.2x these values), which committed ~11GiB of a
+    // 16GiB node to log caches alone. Cap them at sizes that leave headroom for everything
+    // else; these are pure read-through caches, so the only cost is slower Loki queries.
+    chunksCache: {
+      allocatedMemory: 1024,
+    },
+    resultsCache: {
+      allocatedMemory: 256,
+    },
     // Disable things we don't need
     selfMonitoring: {
       enabled: false,
