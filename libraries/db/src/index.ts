@@ -116,5 +116,8 @@ export type { PgAirtableColumnInput } from './lib/typeUtils';
 
 export { AirtableTsError, ErrorType } from 'airtable-ts/dist/AirtableTsError';
 
+export { formatAirtableWarning } from './lib/formatAirtableWarning';
+export type { FormattedAirtableWarning } from './lib/formatAirtableWarning';
+
 // TODO: restrict what's exported
 export * from 'drizzle-orm';
