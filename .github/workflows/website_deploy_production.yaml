@@ -91,7 +91,7 @@ jobs:
             echo "no Render deploy hook configured, skipping"
             exit 0
           fi
-          curl -fsS "${HOOK}&ref=${{ github.sha }}"
+          curl -fsS --connect-timeout 10 --max-time 60 "${HOOK}&ref=${{ github.sha }}"
 
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v5

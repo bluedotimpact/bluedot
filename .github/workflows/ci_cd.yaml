@@ -300,9 +300,10 @@ jobs:
     # Deliberately independent of `cd`: Render should succeed independently of
     # whether the k8s deployment succeeds. Remove if we move traffic back to k8s.
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && contains(needs.ci.outputs.affected_deployable_apps, '@bluedot/meet') }}
+    if: ${{ github.ref == 'refs/heads/master' && contains(fromJson(needs.ci.outputs.affected_deployable_apps || '[]'), '@bluedot/meet') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions: {}
     steps:
       - name: Trigger Render deploy
         env:
@@ -312,4 +313,4 @@ jobs:
             echo "no Render deploy hook configured, skipping"
             exit 0
           fi
-          curl -fsS "${HOOK}&ref=${{ github.sha }}"
+          curl -fsS --connect-timeout 10 --max-time 60 "${HOOK}&ref=${{ github.sha }}"
