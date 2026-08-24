@@ -294,18 +294,13 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
-  render:
-    # meet.bluedot.org is temporarily served from Render after the Aug 2026 Vultr
-    # node outage (#2917, #2918), so master deploys must also trigger Render.
-    # Deliberately independent of `cd`: Render should succeed independently of
-    # whether the k8s deployment succeeds. Remove if we move traffic back to k8s.
-    needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && contains(fromJson(needs.ci.outputs.affected_deployable_apps || '[]'), '@bluedot/meet') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions: {}
-    steps:
+      # meet.bluedot.org is temporarily served from Render after the Aug 2026 Vultr
+      # node outage (#2917, #2918), so master deploys must also trigger Render.
+      # Deliberately independent of the cluster deployment: Render should succeed
+      # independently of whether the k8s deployment succeeds. Remove if we move
+      # traffic back to k8s.
       - name: Trigger Render deploy
+        if: ${{ always() && matrix.app == '@bluedot/meet' }}
         env:
           HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL_MEET }}
         run: |
@@ -313,4 +308,5 @@ jobs:
             echo "no Render deploy hook configured, skipping"
             exit 0
           fi
-          curl -fsS --connect-timeout 10 --max-time 60 "${HOOK}&ref=${{ github.sha }}"
+          curl -fsS --connect-timeout 10 --max-time 60 "$HOOK"
+
