@@ -4,5 +4,6 @@ import './postgres';
 import './certManager';
 import './observability';
 import './pvc';
+import './inotifyPatch';
 import './services';
 import './backups';
