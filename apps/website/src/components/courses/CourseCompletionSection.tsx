@@ -118,7 +118,7 @@ export default function CourseCompletionSection({
   }
 
   if (showEnrollmentCTA) {
-    const applicationUrlWithUtm = buildApplicationUrl(application.applicationUrl, latestUtmParams.utm_source);
+    const applicationUrlWithUtm = buildApplicationUrl(application.applicationUrl, latestUtmParams);
 
     const info = COURSE_INFORMATION_DETAILS[courseSlug];
     const accentColor = COURSE_CONFIG[courseSlug]?.accentColor;

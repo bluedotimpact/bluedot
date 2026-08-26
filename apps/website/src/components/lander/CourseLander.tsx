@@ -107,7 +107,7 @@ const CourseLander = ({
 }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
 
-  const applicationUrlWithUtm = buildApplicationUrl(baseApplicationUrl, latestUtmParams.utm_source);
+  const applicationUrlWithUtm = buildApplicationUrl(baseApplicationUrl, latestUtmParams);
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

@@ -151,7 +151,7 @@ export type UseCourseActionsResult = {
 
 export const useCourseListRow = (row: CourseListRowProps): UseCourseActionsResult => {
   const { latestUtmParams } = useLatestUtmParams();
-  const derived = deriveCourseRowState(row, latestUtmParams.utm_source);
+  const derived = deriveCourseRowState(row, latestUtmParams);
   const modals = useCourseModals({
     courseSlug: row.course.slug,
     courseRegistrationId: row.courseRegistration.id,
@@ -201,7 +201,7 @@ type CourseRowDerivedState = {
   slackUrl: string | null;
 };
 
-const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undefined): CourseRowDerivedState => {
+const deriveCourseRowState = (row: CourseListRowProps, latestUtmParams: Record<string, string>): CourseRowDerivedState => {
   const {
     course, courseRegistration, group, meetPersonId, attendedDiscussionIds,
     hasSubmittedFeedback, isDroppedOut, isDeferred,
@@ -215,7 +215,7 @@ const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undef
   const certificateUrl = courseRegistration.certificateId
     ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
     : `/courses/${course.slug}`;
-  const applyAgainUrl = buildApplicationUrl(course.applyUrl, utmSource) || `/courses/${course.slug}`;
+  const applyAgainUrl = buildApplicationUrl(course.applyUrl, latestUtmParams) || `/courses/${course.slug}`;
   const slackUrl = group?.slackChannelId ? buildGroupSlackChannelUrl(group.slackChannelId) : null;
   const docUrl = group?.discussionDoc ?? null;
 

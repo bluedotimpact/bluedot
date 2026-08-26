@@ -10,5 +10,5 @@ export const useGrantApplicationUrl = (program: ConfigurableGrantProgramSlug): s
   const applicationUrl = data?.applicationForm;
   if (!applicationUrl) return undefined;
 
-  return buildApplicationUrl(applicationUrl, latestUtmParams.utm_source);
+  return buildApplicationUrl(applicationUrl, latestUtmParams);
 };
