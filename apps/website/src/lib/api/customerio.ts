@@ -162,27 +162,6 @@ export async function sendEmailChangeVerification({ oldEmail, newEmail, confirmU
   }
 }
 
-export async function sendAccountDeletionRequestedNotice({ email }: { email: string }): Promise<void> {
-  const res = await fetch(`${CIO_API_BASE}/send/email`, {
-    method: 'POST',
-    headers: { ...appHeaders(), 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      to: normaliseEmail(email),
-      identifiers: { email: normaliseEmail(email) },
-      send_to_unsubscribed: true,
-      from: 'BlueDot Impact <team@bluedot.org>',
-      subject: 'Account deletion requested',
-      body: [
-        '<p>A request was made to delete your BlueDot Impact account. Your account, including any course records, will be deleted shortly.</p>',
-        '<p>If this was not intended, reply to this email so we can help.</p>',
-      ].join('\n'),
-    }),
-  });
-  if (!res.ok) {
-    throw new Error(`customer.io account deletion notice send failed: HTTP ${res.status}`);
-  }
-}
-
 export async function sendEmailChangeRequestedNotice({ oldEmail, newEmail }: { oldEmail: string; newEmail: string }): Promise<void> {
   const safeOldEmail = escapeHtml(normaliseEmail(oldEmail));
   const safeNewEmail = escapeHtml(normaliseEmail(newEmail));

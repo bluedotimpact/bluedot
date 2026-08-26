@@ -374,28 +374,11 @@ describe('deletionRequests.adminRequestAccountDeletion', () => {
       .rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
 
-  test('sends a confirmation email to the account being deleted', async () => {
+  test('does not email the account through customer.io', async () => {
     await makeAdmin();
 
     await createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
 
-    await vi.waitFor(() => expect(cioEmailSends).toEqual([{ to: SUBJECT.email, subject: 'Account deletion requested' }]));
-  });
-
-  test('still creates the request when the confirmation email fails, and alerts', async () => {
-    await makeAdmin();
-    vi.stubGlobal('fetch', vi.fn(async (input: string, init?: RequestInit) => {
-      if (init?.method === 'POST' && new URL(input).pathname === '/v1/send/email') {
-        return new Response('nope', { status: 500 });
-      }
-
-      return fakeCio(input, init);
-    }));
-
-    const { request } = await createCaller(testAuthContextLoggedIn).deletionRequests.adminRequestAccountDeletion({ userId: SUBJECT.id });
-
-    expect(request).toMatchObject({ userId: SUBJECT.id, status: 'Pending' });
-    await vi.waitFor(() => expect(vi.mocked(slackAlert).mock.calls[0]?.[1]?.[0]).toContain('confirmation notice'));
     expect(cioEmailSends).toEqual([]);
   });
 
@@ -490,7 +473,7 @@ describe('deletionRequests.userRequestAccountDeletion', () => {
       initiatedByRole: 'User',
       initiatedBy: ['test-user'],
     });
-    await vi.waitFor(() => expect(cioEmailSends).toEqual([{ to: 'test@example.com', subject: 'Account deletion requested' }]));
+    expect(cioEmailSends).toEqual([]);
   });
 
   test('blocks the request while impersonating another user', async () => {
