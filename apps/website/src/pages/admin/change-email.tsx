@@ -1,9 +1,9 @@
 import {
-  Breadcrumbs, CTALinkOrButton, Input, P, ProgressDots, Section,
+  Breadcrumbs, CTALinkOrButton, Input, P, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { withAdminGuard } from '../../components/admin/withAdminGuard';
 import { UserSearchModal } from '../../components/admin/UserSearchModal';
 import { ROUTES } from '../../lib/routes';
 import type { UserSearchResult } from '../../server/routers/admin';
@@ -11,15 +11,7 @@ import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.adminChangeEmail;
 
-const AdminChangeEmail = () => {
-  const router = useRouter();
-  const accessQuery = trpc.admin.isUserAdmin.useQuery(undefined, { retry: false });
-  const isAdmin = accessQuery.data === true;
-  const shouldShow404 = accessQuery.data === false;
-  useEffect(() => {
-    if (shouldShow404) router.replace('/404');
-  }, [shouldShow404, router]);
-
+const AdminChangeEmail = withAdminGuard(() => {
   const [isSelectUserModalOpen, setIsSelectUserModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserSearchResult | null>(null);
   const [newEmail, setNewEmail] = useState('');
@@ -38,30 +30,13 @@ const AdminChangeEmail = () => {
     requestMutation.mutate({ userId: selectedUser.id, newEmail: newEmail.trim() });
   };
 
-  const header = (
-    <>
+  return (
+    <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta name="robots" content="noindex" />
       </Head>
       <Breadcrumbs route={CURRENT_ROUTE} />
-    </>
-  );
-
-  if (!isAdmin) {
-    return (
-      <div>
-        {header}
-        <Section className="min-h-[50vh]">
-          <ProgressDots className="py-8" />
-        </Section>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      {header}
       <Section className="min-h-[50vh]">
         <div className="flex flex-col gap-6 max-w-prose">
           <P>
@@ -138,6 +113,6 @@ const AdminChangeEmail = () => {
       />
     </div>
   );
-};
+});
 
 export default AdminChangeEmail;

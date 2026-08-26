@@ -7,6 +7,7 @@ import {
   useEffect, useMemo, useRef, useState,
 } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
+import { withAdminGuard } from '../../components/admin/withAdminGuard';
 import { UserSearchModal } from '../../components/admin/UserSearchModal';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import { ROUTES } from '../../lib/routes';
@@ -37,17 +38,9 @@ const writeUrlParams = (changes: Record<string, string | undefined>) => {
   window.history.replaceState(window.history.state, '', url);
 };
 
-const AdminUserExerciseResponses = () => {
+const AdminUserExerciseResponses = withAdminGuard(() => {
   const router = useRouter();
   const userId = typeof router.query.userId === 'string' ? router.query.userId : undefined;
-
-  // Page-level admin gate. Until this resolves we render ProgressDots; on `false` we redirect to /404.
-  const accessQuery = trpc.admin.isUserAdmin.useQuery(undefined, { retry: false });
-  const isAdmin = accessQuery.data === true;
-  const shouldShow404 = accessQuery.data === false;
-  useEffect(() => {
-    if (shouldShow404) router.replace('/404');
-  }, [shouldShow404, router]);
 
   const [courseId, setCourseIdState] = useState<string | undefined>(undefined);
   const [includeInProgress, setIncludeInProgressState] = useState<boolean>(false);
@@ -75,7 +68,7 @@ const AdminUserExerciseResponses = () => {
 
   const metaQuery = trpc.admin.getUserExerciseResponsesMetaInfo.useQuery(
     { userId: userId ?? '' },
-    { enabled: !!userId && isAdmin, retry: false },
+    { enabled: !!userId, retry: false },
   );
 
   const exerciseResponseQuery = trpc.admin.getUserExerciseResponses.useInfiniteQuery(
@@ -83,7 +76,7 @@ const AdminUserExerciseResponses = () => {
       userId: userId ?? '', courseId, includeInProgress, search: search || undefined, limit: PAGE_SIZE,
     },
     {
-      enabled: !!userId && isAdmin,
+      enabled: !!userId,
       getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
       initialCursor: 0,
       retry: false,
@@ -128,30 +121,13 @@ const AdminUserExerciseResponses = () => {
     );
   };
 
-  const renderHeader = () => (
-    <>
+  return (
+    <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta name="robots" content="noindex" />
       </Head>
       <Breadcrumbs route={CURRENT_ROUTE} />
-    </>
-  );
-
-  if (!isAdmin) {
-    return (
-      <div>
-        {renderHeader()}
-        <Section>
-          <ProgressDots className="py-8" />
-        </Section>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      {renderHeader()}
       <Section>
         {metaQuery.error && <ErrorSection error={metaQuery.error} />}
         <div className="flex flex-col md:flex-row gap-6">
@@ -255,7 +231,7 @@ const AdminUserExerciseResponses = () => {
       />
     </div>
   );
-};
+});
 
 const ResponseCard = ({
   response, exercise, unit, chunkPosition, exercisePosition,
