@@ -13,6 +13,10 @@ const baseApp = (overrides: Partial<FacilitatorApplicationListItem>): Facilitato
   roundLastDiscussionDate: null,
   decision: null,
   roundStatus: 'Future',
+  email: 'test@example.com',
+  availabilityIntervalsUTC: null,
+  availabilityTimezone: null,
+  availabilityComments: null,
   ...overrides,
 });
 

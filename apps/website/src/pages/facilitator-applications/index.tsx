@@ -1,10 +1,11 @@
 import {
-  CTALinkOrButton, ErrorSection, H2, ProgressDots, type OverflowMenuItemProps,
+  CTALinkOrButton, ErrorSection, H2, ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import DropoutModal from '../../components/courses/DropoutModal';
+import { buildAvailabilityFormUrl } from '../../components/courses/GroupSwitchModal';
 import ApplicationRow from '../../components/facilitator-applications/ApplicationRow';
 import {
   APPLICATION_TABS,
@@ -15,7 +16,7 @@ import {
 } from '../../components/facilitator-applications/applicationTabs';
 import QuickApplyPanel from '../../components/facilitator-applications/QuickApplyPanel';
 import MyBlueDotLayout from '../../components/my-bluedot/MyBlueDotLayout';
-import type { CourseAction } from '../../components/my-courses/DiscussionListRow';
+import { type CourseAction, splitCourseActions } from '../../components/my-courses/DiscussionListRow';
 import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
 import TabPills from '../../components/my-courses/TabPills';
 import { ROUTES } from '../../lib/routes';
@@ -40,22 +41,45 @@ const sortByNewestFirst = (apps: FacilitatorApplicationListItem[]): FacilitatorA
 const getApplicationActions = (
   app: FacilitatorApplicationListItem,
   triggers: { onWithdraw: () => void },
-): (CourseAction & { variant: 'overflow'; overflow: OverflowMenuItemProps })[] => [
-  // Only overflow actions: inline action slot is not implemented
-  {
-    id: 'go-to-course',
-    isVisible: app.decision === 'Accept' && Boolean(app.courseSlug),
-    variant: 'overflow',
-    overflow: { id: 'go-to-course', label: 'Go to course', href: `/courses/${app.courseSlug}` },
-  },
-  {
-    id: 'withdraw',
-    // Should match the `withdraw` rule in `getFacilitatorActions` in `useCourseListRow.tsx`
-    isVisible: app.decision === null && app.roundStatus === 'Future',
-    variant: 'overflow',
-    overflow: { id: 'withdraw', label: 'Withdraw application', onAction: triggers.onWithdraw },
-  },
-];
+): CourseAction[] => {
+  const isPending = getApplicationStatus(app) === 'pending';
+
+  return [
+    {
+      id: 'go-to-course',
+      isVisible: app.decision === 'Accept' && Boolean(app.courseSlug),
+      variant: 'overflow',
+      overflow: { id: 'go-to-course', label: 'Go to course', href: `/courses/${app.courseSlug}` },
+    },
+    {
+      id: 'availability',
+      isVisible: isPending && Boolean(app.email),
+      variant: 'inline',
+      inline: (
+        <CTALinkOrButton
+          variant="primary"
+          size="small"
+          url={buildAvailabilityFormUrl({
+            email: app.email,
+            utmSource: 'bluedot-facilitator-applications',
+            courseRegistration: app,
+            roundId: app.roundId ?? '',
+          })}
+          target="_blank"
+          className="text-size-xxs"
+        >
+          {app.availabilityIntervalsUTC ? 'Edit availability' : 'Share availability'}
+        </CTALinkOrButton>
+      ),
+    },
+    {
+      id: 'withdraw',
+      isVisible: isPending,
+      variant: 'overflow',
+      overflow: { id: 'withdraw', label: 'Withdraw application', onAction: triggers.onWithdraw },
+    },
+  ];
+};
 
 const EMPTY_BY_TAB: Record<ApplicationTab, { title: string; description: string }> = {
   active: {
@@ -133,9 +157,7 @@ const FacilitatorApplicationsPage = () => {
                         roundFirstDiscussionDate={app.roundFirstDiscussionDate}
                         roundLastDiscussionDate={app.roundLastDiscussionDate}
                         status={getApplicationStatus(app)}
-                        menuItems={getApplicationActions(app, { onWithdraw: () => setWithdrawingId(app.id) })
-                          .filter((a) => a.isVisible)
-                          .map((a) => a.overflow)}
+                        {...splitCourseActions(getApplicationActions(app, { onWithdraw: () => setWithdrawingId(app.id) }))}
                       />
                     ))}
                   </ul>

@@ -126,12 +126,15 @@ describe('facilitatorApplications.list', () => {
       roundId: 'round-1',
       roundName: 'Week 19 Intensive',
       availabilityIntervalsUTC: 'M16:00 M18:00',
+      availabilityTimezone: 'Europe/London',
+      availabilityComments: 'Prefer evenings',
     });
 
     const result = await caller.facilitatorApplications.list();
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject({
       id: 'reg-1',
+      email: CALLER_EMAIL,
       courseId: 'course-1',
       courseTitle: 'Technical AI Safety',
       courseSlug: 'tai-safety',
@@ -141,6 +144,9 @@ describe('facilitatorApplications.list', () => {
       roundLastDiscussionDate: '2026-03-17',
       decision: 'Accept',
       roundStatus: 'Future',
+      availabilityIntervalsUTC: 'M16:00 M18:00',
+      availabilityTimezone: 'Europe/London',
+      availabilityComments: 'Prefer evenings',
     });
   });
 

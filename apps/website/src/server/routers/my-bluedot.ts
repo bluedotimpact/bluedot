@@ -103,6 +103,7 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
 };
 
 export const myBluedotRouter = router({
+  // TODO: remove once no production bundles call it (superseded by hasFacilitatorNavItems)
   hasFacilitatorRegistrations: protectedProcedure
     .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
     .query(async ({ ctx, input }) => {
@@ -125,6 +126,43 @@ export const myBluedotRouter = router({
         .limit(1);
       return { hasFacilitatorRegistrations: rows.length > 0 };
     }),
+
+  hasFacilitatorNavItems: protectedProcedure.query(async ({ ctx }) => {
+    const user = await getUserFromAuthOrThrow(ctx.auth);
+
+    const facilitatorRegs = and(
+      eq(courseRegistrationTable.pg.userId, user.id),
+      eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
+    );
+
+    // Mirrors the rows facilitatedCoursesPage can emit: a non-withdrawn facilitator reg with a meetPerson.
+    const [facilitatedCourses, applications] = await Promise.all([
+      db.pg
+        .select({ id: courseRegistrationTable.pg.id })
+        .from(courseRegistrationTable.pg)
+        .innerJoin(meetPersonTable.pg, and(
+          eq(meetPersonTable.pg.applicationsBaseRecordId, courseRegistrationTable.pg.id),
+          eq(meetPersonTable.pg.userId, courseRegistrationTable.pg.userId),
+        ))
+        .where(and(
+          facilitatorRegs,
+          or(
+            ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+            isNull(courseRegistrationTable.pg.decision),
+          ),
+        ))
+        .limit(1),
+      db.pg
+        .select({ id: courseRegistrationTable.pg.id })
+        .from(courseRegistrationTable.pg)
+        .where(facilitatorRegs)
+        .limit(1),
+    ]);
+    return {
+      hasFacilitatedCourses: facilitatedCourses.length > 0,
+      hasFacilitatorApplications: applications.length > 0,
+    };
+  }),
 
   myCoursesPage: protectedProcedure.query(async ({ ctx }) => {
     const user = await getUserFromAuthOrThrow(ctx.auth);
@@ -421,18 +459,21 @@ export const myBluedotRouter = router({
       const course = courses.find((c) => c.id === cr.courseId);
       if (!course) return [];
       const meetPerson = meetPersons.find((mp) => mp.applicationsBaseRecordId === cr.id);
+      // Until a meetPerson exists the registration is just an application; it lives on the facilitator applications page.
+      if (!meetPerson) return [];
+
       const round = cr.roundId ? roundById.get(cr.roundId) : null;
       const status = dropoutStatusByRegId.get(cr.id) ?? { isDroppedOut: false, isDeferred: false };
       const baseRow = {
         mode: 'facilitator' as const,
         courseRegistration: cr,
         course,
-        meetPersonId: meetPerson?.id ?? null,
-        roundId: meetPerson?.round ?? cr.roundId ?? null,
+        meetPersonId: meetPerson.id,
+        roundId: meetPerson.round ?? cr.roundId ?? null,
         roundStartDate: round?.firstDiscussionDate ?? null,
         roundEndDate: round?.lastDiscussionDate ?? null,
         roundIntensity: round?.intensity ?? null,
-        hasSubmittedFeedback: (meetPerson?.courseFeedback?.length ?? 0) > 0,
+        hasSubmittedFeedback: (meetPerson.courseFeedback?.length ?? 0) > 0,
         isDroppedOut: status.isDroppedOut,
         isDeferred: status.isDeferred,
       };
@@ -440,13 +481,6 @@ export const myBluedotRouter = router({
       const emptyRow: FacilitatorRowProps = {
         ...baseRow, group: null, discussions: [], attendedDiscussionIds: [], units: {},
       };
-
-      // meetPerson rows aren't created until a Future application is processed. Surface accepted/in-review
-      // Future regs as pending rows so the user sees them in the Upcoming tab.
-      if (!meetPerson) {
-        if (cr.roundStatus !== 'Future' || cr.decision === 'Reject') return [];
-        return [emptyRow];
-      }
 
       const groupsForCr = facilitatedGroups.filter((g) => g.round === meetPerson.round && (g.facilitator ?? []).includes(meetPerson.id));
 

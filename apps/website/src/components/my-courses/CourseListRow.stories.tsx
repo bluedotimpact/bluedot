@@ -275,12 +275,12 @@ const facilitatorUpcomingArgs = stubFacilitator({
   meetPersonId: 'mp-fac-3',
 });
 
-const facilitatorPendingArgs = stubFacilitator({
+const facilitatorAwaitingGroupArgs = stubFacilitator({
   courseRegistration: {
-    id: 'reg-fac-pending',
+    id: 'reg-fac-awaiting-group',
     roundStatus: 'Future',
     decision: 'Accept',
-    roundId: 'round-fac-pending',
+    roundId: 'round-fac-awaiting-group',
     roundName: 'Technical AI Safety (2026 May W20) - Intensive',
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
@@ -288,24 +288,7 @@ const facilitatorPendingArgs = stubFacilitator({
   roundStartDate: '2026-05-11',
   roundEndDate: '2026-05-18',
   roundIntensity: 'Intensive',
-  meetPersonId: 'mp-fac-pending',
-});
-
-// Facilitator application still in review (Future + decision: null). Overflow should offer "Withdraw application".
-const facilitatorInReviewArgs = stubFacilitator({
-  courseRegistration: {
-    id: 'reg-fac-in-review',
-    roundStatus: 'Future',
-    decision: null,
-    roundId: 'round-fac-in-review',
-    roundName: 'Technical AI Safety (2026 May W21) - Intensive',
-  } as FacilitatorRowProps['courseRegistration'],
-  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
-  group: null,
-  roundStartDate: '2026-05-18',
-  roundEndDate: '2026-05-25',
-  roundIntensity: 'Intensive',
-  meetPersonId: 'mp-fac-in-review',
+  meetPersonId: 'mp-fac-awaiting-group',
 });
 
 const facilitatorPastNeedFeedbackArgs = stubFacilitator({
@@ -367,8 +350,7 @@ const ALL_FACILITATOR = [
   { id: 'fac-in-progress-intensive', args: facilitatorInProgressIntensiveArgs },
   { id: 'fac-in-progress-parttime', args: facilitatorInProgressPartTimeArgs },
   { id: 'fac-upcoming', args: facilitatorUpcomingArgs },
-  { id: 'fac-pending', args: facilitatorPendingArgs },
-  { id: 'fac-in-review', args: facilitatorInReviewArgs },
+  { id: 'fac-awaiting-group', args: facilitatorAwaitingGroupArgs },
   { id: 'fac-past-need-feedback', args: facilitatorPastNeedFeedbackArgs },
   { id: 'fac-past-feedback-submitted', args: facilitatorPastFeedbackSubmittedArgs },
 ];
@@ -409,7 +391,6 @@ export const DroppedNoAttendance: Story = { args: droppedNoAttendanceArgs };
 export const FacilitatorInProgressIntensive: Story = { args: facilitatorInProgressIntensiveArgs };
 export const FacilitatorInProgressPartTime: Story = { args: facilitatorInProgressPartTimeArgs };
 export const FacilitatorUpcoming: Story = { args: facilitatorUpcomingArgs };
-export const FacilitatorPending: Story = { args: facilitatorPendingArgs };
-export const FacilitatorInReview: Story = { args: facilitatorInReviewArgs };
+export const FacilitatorAwaitingGroup: Story = { args: facilitatorAwaitingGroupArgs };
 export const FacilitatorPastNeedFeedback: Story = { args: facilitatorPastNeedFeedbackArgs };
 export const FacilitatorPastFeedbackSubmitted: Story = { args: facilitatorPastFeedbackSubmittedArgs };

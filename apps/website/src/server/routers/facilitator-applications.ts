@@ -279,6 +279,7 @@ export const facilitatorApplicationsRouter = router({
       const round = r.roundId ? (roundById.get(r.roundId) ?? null) : null;
       return {
         id: r.id,
+        email: r.email,
         courseId: r.courseId,
         courseTitle: course?.title ?? null,
         courseSlug: course?.slug ?? null,
@@ -288,6 +289,9 @@ export const facilitatorApplicationsRouter = router({
         roundLastDiscussionDate: round?.lastDiscussionDate ?? null,
         decision: toDecision(r.decision),
         roundStatus: toRoundStatus(r.roundStatus),
+        availabilityIntervalsUTC: r.availabilityIntervalsUTC ?? null,
+        availabilityTimezone: r.availabilityTimezone ?? null,
+        availabilityComments: r.availabilityComments ?? null,
       };
     });
   }),
