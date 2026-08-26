@@ -28,8 +28,6 @@ body:
       label: 🔮 Pre-mortem
       description: Imagine this shipped and caused a problem. What are the biggest things that could go wrong?
       placeholder: e.g. downstream automations or systems that depend on what you're changing, users mid-flow when the change lands, data that becomes stale.
-    validations:
-      required: true
 
   - type: textarea
     id: notes
