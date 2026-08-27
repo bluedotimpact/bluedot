@@ -103,7 +103,7 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
 };
 
 export const myBluedotRouter = router({
-  // TODO: remove once no production bundles call it (superseded by hasFacilitatorNavItems)
+  // TODO: Superseded by hasFacilitatorNavItems, remove once old bundles no longer call it (after ~2026-09-07)
   hasFacilitatorRegistrations: protectedProcedure
     .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
     .query(async ({ ctx, input }) => {
