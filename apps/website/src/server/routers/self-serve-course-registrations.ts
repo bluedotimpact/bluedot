@@ -8,9 +8,17 @@ import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 
 export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
-  .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
+  .input(z.object({
+    courseId: z.string(),
+    // `source` is "UTM source", just like utmContent/utmCampaign; name format is different for backwards compatibility
+    source: z.string().trim().max(255).optional(),
+    utmCampaign: z.string().trim().max(255).optional(),
+    utmContent: z.string().trim().max(255).optional(),
+  }))
   .mutation(async ({ ctx, input }) => {
-    const { courseId, source } = input;
+    const {
+      courseId, source, utmCampaign, utmContent,
+    } = input;
 
     if (courseId !== FOAI_COURSE_ID) {
       throw new TRPCError({ code: 'BAD_REQUEST', message: 'Only the Future of AI course supports self-serve registration' });
@@ -39,6 +47,8 @@ export const ensureSelfServeRegistrationExistsProcedure = protectedProcedure
       userId: user.id,
       courseApplicationsBaseId: applicationsCourse.id,
       source: source ?? null,
+      utmCampaign: utmCampaign ?? null,
+      utmContent: utmContent ?? null,
       createdAt: new Date().toISOString(),
     });
   });

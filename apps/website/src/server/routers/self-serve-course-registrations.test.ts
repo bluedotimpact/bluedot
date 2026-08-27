@@ -1,5 +1,8 @@
-import { selfServeCourseRegistrationTable } from '@bluedot/db';
-import { describe, expect, test } from 'vitest';
+import { applicationsCourseTable, selfServeCourseRegistrationTable } from '@bluedot/db';
+import {
+  describe, expect, test, vi,
+} from 'vitest';
+import db from '../../lib/api/db';
 import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
@@ -46,6 +49,39 @@ describe('selfServeCourseRegistrations.ensureExists', () => {
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  // The full "creates a new FOAI registration" path isn't unit-testable: the insert omits `courseId`
-  // (a notNull lookup column the pg test schema rejects, populated by Airtable in prod).
+  test('writes the UTM params onto a new registration', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(applicationsCourseTable, { id: 'app-course-foai', courseBuilderId: FOAI_COURSE_ID });
+    // The real insert can't run here: it omits `courseId`, a notNull lookup column populated by Airtable in prod
+    const insertSpy = vi.spyOn(db, 'insert').mockResolvedValue({ id: 'ss-new' } as never);
+
+    await createCaller(testAuthContextLoggedIn).selfServeCourseRegistrations.ensureExists({
+      courseId: FOAI_COURSE_ID,
+      source: 'newsletter',
+      utmCampaign: 'spring-launch',
+      utmContent: 'hero-cta',
+    });
+
+    expect(insertSpy).toHaveBeenCalledWith(selfServeCourseRegistrationTable, expect.objectContaining({
+      source: 'newsletter',
+      utmCampaign: 'spring-launch',
+      utmContent: 'hero-cta',
+    }));
+    insertSpy.mockRestore();
+  });
+
+  test('writes nulls when no UTM params are supplied', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(applicationsCourseTable, { id: 'app-course-foai', courseBuilderId: FOAI_COURSE_ID });
+    const insertSpy = vi.spyOn(db, 'insert').mockResolvedValue({ id: 'ss-new' } as never);
+
+    await createCaller(testAuthContextLoggedIn).selfServeCourseRegistrations.ensureExists({ courseId: FOAI_COURSE_ID });
+
+    expect(insertSpy).toHaveBeenCalledWith(selfServeCourseRegistrationTable, expect.objectContaining({
+      source: null,
+      utmCampaign: null,
+      utmContent: null,
+    }));
+    insertSpy.mockRestore();
+  });
 });
