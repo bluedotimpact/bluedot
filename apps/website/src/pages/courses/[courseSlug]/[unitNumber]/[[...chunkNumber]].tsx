@@ -85,10 +85,15 @@ const CourseUnitChunkPage = ({
     // FoAI course only: If we're logged in, ensures a course registration is recorded
     const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
     if (shouldRecordCourseRegistration && !isUtmLoading && !isEnsureExistsPending) {
-      createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
+      createCourseRegistrationMutation({
+        courseId: unit.courseId,
+        source: latestUtmParams.utm_source,
+        utmCampaign: latestUtmParams.utm_campaign,
+        utmContent: latestUtmParams.utm_content,
+      });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps -- isEnsureExistsPending intentionally excluded to avoid re-fire loop
-  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation, isUtmLoading]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source, latestUtmParams.utm_campaign, latestUtmParams.utm_content, createCourseRegistrationMutation, isUtmLoading]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
