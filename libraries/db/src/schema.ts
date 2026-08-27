@@ -1382,6 +1382,14 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
       pgColumn: text(),
       airtableId: 'fldMCr1ReFdYRj9NP',
     },
+    utmCampaign: {
+      pgColumn: text(),
+      airtableId: 'flduva81z6bP5lkJU',
+    },
+    utmContent: {
+      pgColumn: text(),
+      airtableId: 'flddYe9YzHyjBMe5g',
+    },
     createdAt: {
       pgColumn: text(),
       airtableId: 'fldRiPmXA2UB9M9j5',
