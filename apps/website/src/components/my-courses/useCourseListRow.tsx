@@ -2,7 +2,7 @@ import {
   CTALinkOrButton, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import type { GroupDiscussion } from '@bluedot/db';
-import { type ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { IoBan } from 'react-icons/io5';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
@@ -12,7 +12,7 @@ import { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitc
 import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
-import { type CourseAction, splitCourseActions } from './DiscussionListRow';
+import type { CourseAction } from './DiscussionListRow';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';
@@ -164,8 +164,12 @@ export const useCourseListRow = (row: CourseListRowProps): UseCourseActionsResul
     ? getFacilitatorActions(row, derived, modals)
     : getParticipantActions(row, derived, modals);
 
+  const visible = built.filter((a) => a.isVisible);
   return {
-    ...splitCourseActions(built),
+    inlineActions: visible
+      .filter((a) => a.variant === 'inline')
+      .map((a) => <Fragment key={a.id}>{a.inline}</Fragment>),
+    overflowItems: visible.filter((a) => a.variant === 'overflow' && a.overflow).map((a) => a.overflow!),
     state: derived.state,
     canExpand: derived.canExpand,
     certEligibilityReason: derived.certEligibilityReason,

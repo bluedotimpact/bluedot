@@ -3,7 +3,7 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import DropoutModal from '../../components/courses/DropoutModal';
 import { buildAvailabilityFormUrl } from '../../components/courses/GroupSwitchModal';
 import ApplicationRow from '../../components/facilitator-applications/ApplicationRow';
@@ -16,7 +16,7 @@ import {
 } from '../../components/facilitator-applications/applicationTabs';
 import QuickApplyPanel from '../../components/facilitator-applications/QuickApplyPanel';
 import MyBlueDotLayout from '../../components/my-bluedot/MyBlueDotLayout';
-import { type CourseAction, splitCourseActions } from '../../components/my-courses/DiscussionListRow';
+import type { CourseAction } from '../../components/my-courses/DiscussionListRow';
 import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
 import TabPills from '../../components/my-courses/TabPills';
 import { ROUTES } from '../../lib/routes';
@@ -147,19 +147,24 @@ const FacilitatorApplicationsPage = () => {
               ) : (
                 <>
                   <ul className="flex flex-col gap-3">
-                    {displayed.map((app) => (
-                      <ApplicationRow
-                        key={app.id}
-                        id={app.id}
-                        courseTitle={app.courseTitle}
-                        courseSlug={app.courseSlug}
-                        roundName={app.roundName}
-                        roundFirstDiscussionDate={app.roundFirstDiscussionDate}
-                        roundLastDiscussionDate={app.roundLastDiscussionDate}
-                        status={getApplicationStatus(app)}
-                        {...splitCourseActions(getApplicationActions(app, { onWithdraw: () => setWithdrawingId(app.id) }))}
-                      />
-                    ))}
+                    {displayed.map((app) => {
+                      const actions = getApplicationActions(app, { onWithdraw: () => setWithdrawingId(app.id) })
+                        .filter((a) => a.isVisible);
+                      return (
+                        <ApplicationRow
+                          key={app.id}
+                          id={app.id}
+                          courseTitle={app.courseTitle}
+                          courseSlug={app.courseSlug}
+                          roundName={app.roundName}
+                          roundFirstDiscussionDate={app.roundFirstDiscussionDate}
+                          roundLastDiscussionDate={app.roundLastDiscussionDate}
+                          status={getApplicationStatus(app)}
+                          inlineActions={actions.filter((a) => a.variant === 'inline').map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+                          overflowItems={actions.filter((a) => a.variant === 'overflow').map((a) => a.overflow!)}
+                        />
+                      );
+                    })}
                   </ul>
                   {hiddenCount > 0 && (
                     <div className="flex justify-center">

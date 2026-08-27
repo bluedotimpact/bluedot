@@ -1,6 +1,6 @@
 import { OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
-import { Fragment, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import LiveBadge from './LiveBadge';
 import { useDiscussionActions } from './useDiscussionActions';
@@ -19,16 +19,6 @@ export type CourseAction = {
   variant: 'inline' | 'overflow';
   inline?: ReactNode;
   overflow?: OverflowMenuItemProps;
-};
-
-export const splitCourseActions = (actions: CourseAction[]): { inlineActions: ReactNode[]; overflowItems: OverflowMenuItemProps[] } => {
-  const visible = actions.filter((a) => a.isVisible);
-  return {
-    inlineActions: visible
-      .filter((a) => a.variant === 'inline')
-      .map((a) => <Fragment key={a.id}>{a.inline}</Fragment>),
-    overflowItems: visible.filter((a) => a.variant === 'overflow' && a.overflow).map((a) => a.overflow!),
-  };
 };
 
 export type DiscussionListRowProps = {
