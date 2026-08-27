@@ -328,17 +328,35 @@ describe('buildApplicationUrl', () => {
   });
 
   it('returns empty string for null / undefined / empty base URL', () => {
-    expect(buildApplicationUrl(null, 'twitter')).toBe('');
-    expect(buildApplicationUrl(undefined, 'twitter')).toBe('');
-    expect(buildApplicationUrl('', 'twitter')).toBe('');
+    expect(buildApplicationUrl(null, { utm_source: 'twitter' })).toBe('');
+    expect(buildApplicationUrl(undefined, { utm_source: 'twitter' })).toBe('');
+    expect(buildApplicationUrl('', { utm_source: 'twitter' })).toBe('');
   });
 
-  it('returns base URL unchanged when neither UTM source nor session ID is available', () => {
+  it('returns base URL unchanged when neither UTM params nor session ID are available', () => {
     expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
+    expect(buildApplicationUrl('https://example.com/apply', {})).toBe('https://example.com/apply');
   });
 
-  it('appends prefill_Source when UTM source is provided', () => {
-    expect(buildApplicationUrl('https://example.com/apply', 'twitter')).toBe('https://example.com/apply?prefill_Source=twitter');
+  it('appends prefill_Source when only utm_source is provided', () => {
+    expect(buildApplicationUrl('https://example.com/apply', { utm_source: 'twitter' })).toBe('https://example.com/apply?prefill_Source=twitter');
+  });
+
+  it('appends prefill_Campaign and prefill_Content when utm_campaign and utm_content are provided', () => {
+    expect(buildApplicationUrl('https://example.com/apply', { utm_source: 'twitter', utm_campaign: 'spring-launch', utm_content: 'video-ad' }))
+      .toBe('https://example.com/apply?prefill_Source=twitter&prefill_Campaign=spring-launch&prefill_Content=video-ad');
+  });
+
+  it('omits prefill params for absent or empty UTM params', () => {
+    expect(buildApplicationUrl('https://example.com/apply', { utm_campaign: 'spring-launch' }))
+      .toBe('https://example.com/apply?prefill_Campaign=spring-launch');
+    expect(buildApplicationUrl('https://example.com/apply', { utm_source: 'twitter', utm_campaign: '' }))
+      .toBe('https://example.com/apply?prefill_Source=twitter');
+  });
+
+  it('does not forward UTM params without a prefill field (e.g. utm_medium, utm_term)', () => {
+    expect(buildApplicationUrl('https://example.com/apply', { utm_medium: 'cpc', utm_term: 'ai+safety' }))
+      .toBe('https://example.com/apply');
   });
 
   it('appends prefill_PostHog Session ID (URL-encoded) when session is available', () => {
@@ -349,12 +367,12 @@ describe('buildApplicationUrl', () => {
 
   it('appends both UTM source and PostHog session ID when both are present', () => {
     mockGetSessionId.mockReturnValue('sess-123');
-    expect(buildApplicationUrl('https://example.com/apply', 'twitter'))
+    expect(buildApplicationUrl('https://example.com/apply', { utm_source: 'twitter' }))
       .toBe('https://example.com/apply?prefill_Source=twitter&prefill_PostHog%20Session%20ID=sess-123');
   });
 
   it('preserves existing query params', () => {
-    expect(buildApplicationUrl('https://example.com/apply?foo=bar', 'twitter'))
+    expect(buildApplicationUrl('https://example.com/apply?foo=bar', { utm_source: 'twitter' }))
       .toBe('https://example.com/apply?foo=bar&prefill_Source=twitter');
   });
 

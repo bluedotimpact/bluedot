@@ -188,15 +188,28 @@ export function getInitials(name: string): string {
   return chars.join('').toUpperCase();
 }
 
+/** Which UTM params get forwarded to the application form, and as which prefill fields. */
+const UTM_PARAM_TO_PREFILL_FIELD: [utmParam: string, prefillField: string][] = [
+  ['utm_source', 'prefill_Source'],
+  ['utm_campaign', 'prefill_Campaign'],
+  ['utm_content', 'prefill_Content'],
+];
+
 /**
- * Build an application form URL with PostHog session id, anonymous distinct id, and UTM source prefill params.
+ * Build an application form URL with PostHog session id, anonymous distinct id, and UTM prefill
+ * params (utm_source → prefill_Source, utm_campaign → prefill_Campaign, utm_content → prefill_Content).
  */
 export const buildApplicationUrl = (
   baseUrl: string | null | undefined,
-  utmSource: string | null | undefined,
+  utmParams: Record<string, string> | null | undefined,
 ): string => {
   if (!baseUrl) return '';
-  const urlWithUtm = utmSource ? addQueryParam(baseUrl, 'prefill_Source', utmSource) : baseUrl;
+
+  let urlWithUtm = baseUrl;
+  UTM_PARAM_TO_PREFILL_FIELD.forEach(([utmParam, prefillField]) => {
+    const value = utmParams?.[utmParam];
+    if (value) urlWithUtm = addQueryParam(urlWithUtm, prefillField, value);
+  });
 
   // new URL() requires an absolute URL; skip relative paths (e.g. internal nav links)
   if (!urlWithUtm.startsWith('http://') && !urlWithUtm.startsWith('https://')) return urlWithUtm;

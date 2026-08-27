@@ -234,7 +234,7 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
 
 const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage: string }) => {
   const { latestUtmParams } = useLatestUtmParams();
-  const registerInterestUrlWithUtm = buildApplicationUrl(registerInterestUrl, latestUtmParams.utm_source);
+  const registerInterestUrlWithUtm = buildApplicationUrl(registerInterestUrl, latestUtmParams);
 
   if (!courseData.course) {
     return null;

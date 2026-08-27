@@ -218,7 +218,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
   const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug });
   const { latestUtmParams } = useLatestUtmParams();
 
-  const applicationUrlWithUtm = buildApplicationUrl(course.applyUrl, latestUtmParams.utm_source);
+  const applicationUrlWithUtm = buildApplicationUrl(course.applyUrl, latestUtmParams);
 
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
   const hasPartTime = rounds?.partTime && rounds.partTime.length > 0;
