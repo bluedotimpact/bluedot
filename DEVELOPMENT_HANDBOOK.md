@@ -11,7 +11,7 @@ This handbook consolidates development patterns and helps new team members trans
 
 ### Quick Start Checklist
 - [ ] Request Airtable access and create personal access token
-- [ ] Get production PG_URL from a Bluedot team member (if needed — template has a localhost default)
+- [ ] Get production PG_URL from the 1Pass engineering vault (if needed — template has a localhost default)
 - [ ] Set up local development environment
 - [ ] Be aware of Component Library in `libraries/ui` - reuse these components whenever possible
 - [ ] Read Section 4: Development Standards
