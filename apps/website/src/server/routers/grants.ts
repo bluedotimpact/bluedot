@@ -201,7 +201,7 @@ export const grantsRouter = router({
   // [*] Time to decision formula has resolved to a number, same-day 0s included).
   getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<CareerTransitionGrantStats> => {
     const all = await db.scan(careerTransitionGrantApplicationTable);
-    const granted = all.filter((g) => g.status === 'Approved' || g.status === 'Agreement signed');
+    const granted = all.filter((g) => g.status === 'Approve');
     return {
       count: granted.length,
       totalAmountUsd: granted.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
