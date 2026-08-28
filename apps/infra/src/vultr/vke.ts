@@ -27,7 +27,7 @@ export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
 new vultr.KubernetesNodePools('vke-node-pool-main', {
   clusterId: k8sCluster.id,
   label: 'main-node-pool',
-  nodeQuantity: 2,
+  nodeQuantity: 1,
   // https://api.vultr.com/v2/plans
   plan: 'vhf-4c-16gb',
   autoScaler: false,
