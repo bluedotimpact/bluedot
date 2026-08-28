@@ -273,10 +273,10 @@ describe('grants.getRapidGrantStats', () => {
 });
 
 describe('grants.getCareerTransitionGrantStats', () => {
-  test('counts and sums only Approved + Agreement signed; averages every decided row including same-day (0) decisions', async () => {
-    // Granted (Approved + Agreement signed) — counted in count + totalAmountUsd.
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 80000, status: 'Agreement signed', timeToDecisionDays: 10 });
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 60000, status: 'Approved', timeToDecisionDays: 20 });
+  test('counts and sums only approved grants; averages every decided row including same-day (0) decisions', async () => {
+    // "Approve" is the granted status from the applications table.
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 80000, status: 'Approve', timeToDecisionDays: 10 });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 60000, status: 'Approve', timeToDecisionDays: 20 });
     // Rejected — excluded from count/total, but its decision time still feeds avg.
     await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 0, status: 'Rejected', timeToDecisionDays: 6 });
     // Same-day decision (0 days) — a real decided row, included in the avg.
@@ -292,7 +292,7 @@ describe('grants.getCareerTransitionGrantStats', () => {
   });
 
   test('returns null avg when no rows have been decided', async () => {
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 50000, status: 'Agreement signed', timeToDecisionDays: null });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 50000, status: 'Approve', timeToDecisionDays: null });
     await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null, status: 'TODO', timeToDecisionDays: null });
 
     const caller = createCaller();
