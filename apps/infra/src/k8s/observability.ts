@@ -196,6 +196,9 @@ new k8s.helm.v3.Release('opentelemetry-collector', {
         // Expose metrics for Prometheus
         prometheus: {
           endpoint: '0.0.0.0:8889',
+          // Without this, resource attributes (k8s.pod.name etc.) are dropped and every pod's
+          // kubeletstats series collapses into one
+          resource_to_telemetry_conversion: { enabled: true },
         },
         // Send logs to Loki
         'otlphttp/loki': {
