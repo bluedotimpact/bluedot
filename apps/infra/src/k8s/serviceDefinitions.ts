@@ -111,6 +111,14 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
+        resources: {
+          requests: {
+            memory: '128Mi',
+          },
+          limits: {
+            memory: '512Mi',
+          },
+        },
       }],
     },
     hosts: ['app-template.k8s.bluedot.org'],
@@ -127,6 +135,14 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
+        resources: {
+          requests: {
+            memory: '128Mi',
+          },
+          limits: {
+            memory: '512Mi',
+          },
+        },
       }],
     },
     hosts: ['frontend-example.k8s.bluedot.org'],
@@ -214,6 +230,14 @@ export const services: ServiceDefinition[] = [
       containers: [{
         name: 'bluedot-storybook',
         image: 'ghcr.io/bluedotimpact/bluedot-storybook:latest',
+        resources: {
+          requests: {
+            memory: '32Mi',
+          },
+          limits: {
+            memory: '128Mi',
+          },
+        },
       }],
     },
     hosts: ['storybook.k8s.bluedot.org'],
@@ -568,6 +592,14 @@ export const services: ServiceDefinition[] = [
           name: 'mcp-data-volume',
           mountPath: '/app/data',
         }],
+        resources: {
+          requests: {
+            memory: '64Mi',
+          },
+          limits: {
+            memory: '256Mi',
+          },
+        },
       }],
       volumes: [{
         name: 'mcp-data-volume',
