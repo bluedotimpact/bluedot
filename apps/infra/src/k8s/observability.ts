@@ -83,7 +83,35 @@ const kubePrometheus = new k8s.helm.v3.Release('kube-prometheus', {
     alertmanager: {
       enabled: false,
     },
+    prometheusOperator: {
+      resources: {
+        requests: {
+          memory: '64Mi',
+        },
+        limits: {
+          memory: '192Mi',
+        },
+      },
+    },
+    'kube-state-metrics': {
+      resources: {
+        requests: {
+          memory: '64Mi',
+        },
+        limits: {
+          memory: '256Mi',
+        },
+      },
+    },
     grafana: {
+      resources: {
+        requests: {
+          memory: '256Mi',
+        },
+        limits: {
+          memory: '1Gi',
+        },
+      },
       env: {
         GF_DATABASE_TYPE: 'postgres',
         GF_DATABASE_HOST: getConnectionDetails(grafanaPg).host,
@@ -164,6 +192,14 @@ new k8s.helm.v3.Release('opentelemetry-collector', {
     },
     command: {
       name: 'otelcol-contrib',
+    },
+    resources: {
+      requests: {
+        memory: '128Mi',
+      },
+      limits: {
+        memory: '512Mi',
+      },
     },
     presets: {
       // Collect logs from Kubernetes containers
@@ -309,8 +345,24 @@ new k8s.helm.v3.Release('loki', {
     deploymentMode: 'SingleBinary',
     singleBinary: {
       replicas: 1,
+      resources: {
+        requests: {
+          memory: '512Mi',
+        },
+        limits: {
+          memory: '1500Mi',
+        },
+      },
     },
     gateway: {
+      resources: {
+        requests: {
+          memory: '24Mi',
+        },
+        limits: {
+          memory: '96Mi',
+        },
+      },
       // Partial fix for https://github.com/bluedotimpact/bluedot/issues/1170 , the default anti-affinity
       // rules were preventing deployment on our single node cluster (because pods can't be scheduled on
       // separate nodes)

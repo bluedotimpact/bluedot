@@ -47,6 +47,14 @@ export const grafanaPg = new k8s.apiextensions.CustomResource('grafana-pg', {
     storage: {
       size: '5Gi',
     },
+    resources: {
+      requests: {
+        memory: '128Mi',
+      },
+      limits: {
+        memory: '1Gi',
+      },
+    },
   },
 }, { provider, dependsOn: [cloudNativePg] });
 
