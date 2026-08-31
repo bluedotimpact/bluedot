@@ -184,6 +184,14 @@ export const services: ServiceDefinition[] = [
         ],
         readinessProbe: WEBSITE_HEALTH_CHECK,
         livenessProbe: WEBSITE_HEALTH_CHECK,
+        resources: {
+          requests: {
+            memory: '256Mi',
+          },
+          limits: {
+            memory: '1500Mi',
+          },
+        },
       }],
     },
     hosts: ['website-staging.k8s.bluedot.org'],
@@ -256,6 +264,14 @@ export const services: ServiceDefinition[] = [
           { name: 'WEBSITE_ASSETS_BUCKET_ACCESS_KEY_ID', value: websiteAssetsBucket.readWriteUser.name },
           { name: 'WEBSITE_ASSETS_BUCKET_SECRET_ACCESS_KEY', value: websiteAssetsBucket.readWriteUser.secret },
         ],
+        resources: {
+          requests: {
+            memory: '256Mi',
+          },
+          limits: {
+            memory: '512Mi',
+          },
+        },
       }],
     },
     hosts: ['editor.k8s.bluedot.org'],
@@ -266,6 +282,14 @@ export const services: ServiceDefinition[] = [
       containers: [{
         name: 'bluedot-posthog-proxy',
         image: 'ghcr.io/bluedotimpact/bluedot-posthog-proxy:latest',
+        resources: {
+          requests: {
+            memory: '16Mi',
+          },
+          limits: {
+            memory: '128Mi',
+          },
+        },
       }],
     },
     hosts: ['analytics.k8s.bluedot.org'],
@@ -315,6 +339,14 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
+        resources: {
+          requests: {
+            memory: '128Mi',
+          },
+          limits: {
+            memory: '512Mi',
+          },
+        },
       }],
     },
     hosts: ['room.bluedot.org'],
@@ -333,6 +365,14 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
+        resources: {
+          requests: {
+            memory: '256Mi',
+          },
+          limits: {
+            memory: '1Gi',
+          },
+        },
       }],
     },
     hosts: ['course-demos.k8s.bluedot.org'],
@@ -349,6 +389,14 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
+        resources: {
+          requests: {
+            memory: '256Mi',
+          },
+          limits: {
+            memory: '512Mi',
+          },
+        },
       }],
     },
     hosts: ['speed-review.k8s.bluedot.org'],
@@ -504,6 +552,14 @@ export const services: ServiceDefinition[] = [
           name: 'mcp-data-volume',
           mountPath: '/app/data',
         }],
+        resources: {
+          requests: {
+            memory: '128Mi',
+          },
+          limits: {
+            memory: '1Gi',
+          },
+        },
       }],
       volumes: [{
         name: 'mcp-data-volume',
@@ -542,6 +598,14 @@ export const services: ServiceDefinition[] = [
           name: 'mcp-data-volume',
           mountPath: '/app/data',
         }],
+        resources: {
+          requests: {
+            memory: '64Mi',
+          },
+          limits: {
+            memory: '1Gi',
+          },
+        },
       }],
       volumes: [{
         name: 'mcp-data-volume',
