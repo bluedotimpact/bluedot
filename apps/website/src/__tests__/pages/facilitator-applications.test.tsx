@@ -42,8 +42,8 @@ const application = (overrides: Partial<FacilitatorApplicationListItem>): Facili
   ...overrides,
 });
 
-const renderPage = async (apps: FacilitatorApplicationListItem[], tab = 'active') => {
-  routerQuery = { tab };
+const renderPage = async (apps: FacilitatorApplicationListItem[], tab?: string) => {
+  routerQuery = tab ? { tab } : {};
   server.use(trpcMsw.facilitatorApplications.list.query(() => apps));
   render(<FacilitatorApplicationsPage />, { wrapper: TrpcProvider });
   await screen.findByText(apps[0]!.roundName!);
@@ -109,5 +109,13 @@ describe('FacilitatorApplicationsPage', () => {
     await renderPage([application({ decision: 'Reject', roundStatus: 'Past' })], 'past');
 
     expect(openMenuItems()).toEqual([]);
+  });
+
+  test('without a tab param, defaults to the first non-empty tab', async () => {
+    await renderPage([application({ decision: 'Withdrawn', roundStatus: 'Future' })]);
+
+    expect(screen.queryByRole('button', { name: 'Active' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Past' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Accepted' })).toHaveAttribute('aria-pressed', 'false');
   });
 });

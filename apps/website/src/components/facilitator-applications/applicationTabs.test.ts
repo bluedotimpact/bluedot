@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
-import { filterByTab, getApplicationStatus, isApplicationTab } from './applicationTabs';
+import {
+  filterByTab, getApplicationStatus, getDefaultTab, isApplicationTab,
+} from './applicationTabs';
 
 const baseApp = (overrides: Partial<FacilitatorApplicationListItem>): FacilitatorApplicationListItem => ({
   id: 'reg-1',
@@ -22,11 +24,12 @@ const baseApp = (overrides: Partial<FacilitatorApplicationListItem>): Facilitato
 
 describe('isApplicationTab', () => {
   test('accepts known tab ids', () => {
-    expect(isApplicationTab('active')).toBe(true);
+    expect(isApplicationTab('accepted')).toBe(true);
     expect(isApplicationTab('past')).toBe(true);
   });
   test('rejects unknown values', () => {
     expect(isApplicationTab('foo')).toBe(false);
+    expect(isApplicationTab('active')).toBe(false);
     expect(isApplicationTab(undefined)).toBe(false);
   });
 });
@@ -65,12 +68,6 @@ describe('filterByTab', () => {
 
   const all = [accepted, pending, activeAccepted, inFlightRejected, pastAccepted, pastRejected, withdrawnFuture];
 
-  test('active excludes withdrawn and rejected (terminal decisions)', () => {
-    expect(filterByTab(all, 'active')
-      .map((a) => a.id)
-      .sort()).toEqual(['a', 'aa', 'p'].sort());
-  });
-
   test('accepted includes only in-flight accepted', () => {
     expect(filterByTab(all, 'accepted')
       .map((a) => a.id)
@@ -85,5 +82,23 @@ describe('filterByTab', () => {
     expect(filterByTab(all, 'past')
       .map((a) => a.id)
       .sort()).toEqual(['ir', 'pa', 'pr', 'wf'].sort());
+  });
+});
+
+describe('getDefaultTab', () => {
+  test('picks the first tab with content, in tab order', () => {
+    expect(getDefaultTab([
+      baseApp({ decision: 'Accept', roundStatus: 'Active' }),
+      baseApp({ decision: null, roundStatus: 'Future' }),
+    ])).toBe('accepted');
+    expect(getDefaultTab([
+      baseApp({ decision: null, roundStatus: 'Future' }),
+      baseApp({ decision: 'Reject', roundStatus: 'Past' }),
+    ])).toBe('pending');
+    expect(getDefaultTab([baseApp({ decision: 'Withdrawn' })])).toBe('past');
+  });
+
+  test('falls back to the first tab when there are no applications', () => {
+    expect(getDefaultTab([])).toBe('accepted');
   });
 });

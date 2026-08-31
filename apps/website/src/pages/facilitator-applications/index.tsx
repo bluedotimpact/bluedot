@@ -11,6 +11,7 @@ import {
   APPLICATION_TABS,
   filterByTab,
   getApplicationStatus,
+  getDefaultTab,
   isApplicationTab,
   type ApplicationTab,
 } from '../../components/facilitator-applications/applicationTabs';
@@ -82,10 +83,6 @@ const getApplicationActions = (
 };
 
 const EMPTY_BY_TAB: Record<ApplicationTab, { title: string; description: string }> = {
-  active: {
-    title: 'No active applications',
-    description: 'Applications you submit will appear here.',
-  },
   accepted: {
     title: 'No accepted applications',
     description: 'Accepted applications for upcoming rounds will appear here.',
@@ -103,13 +100,14 @@ const EMPTY_BY_TAB: Record<ApplicationTab, { title: string; description: string 
 const FacilitatorApplicationsPage = () => {
   const router = useRouter();
   const queryTab = router.query.tab;
-  const activeTab: ApplicationTab = isApplicationTab(queryTab) ? queryTab : 'active';
 
   const setActiveTab = (id: ApplicationTab) => {
     router.replace({ pathname: router.pathname, query: { ...router.query, tab: id } }, undefined, { shallow: true });
   };
 
   const { data, isLoading, error } = trpc.facilitatorApplications.list.useQuery();
+
+  const activeTab: ApplicationTab = isApplicationTab(queryTab) ? queryTab : getDefaultTab(data ?? []);
 
   const [showAll, setShowAll] = useState(false);
   const [withdrawingId, setWithdrawingId] = useState<string | null>(null);

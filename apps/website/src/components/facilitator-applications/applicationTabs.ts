@@ -1,7 +1,6 @@
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
 
 export const APPLICATION_TABS = [
-  { id: 'active', label: 'Active' },
   { id: 'accepted', label: 'Accepted' },
   { id: 'pending', label: 'Pending' },
   { id: 'past', label: 'Past' },
@@ -41,8 +40,6 @@ const isInFlight = (a: FacilitatorApplicationListItem): boolean =>
   a.roundStatus === 'Active' || a.roundStatus === 'Future';
 
 const TAB_PREDICATES: Record<ApplicationTab, (a: FacilitatorApplicationListItem) => boolean> = {
-  // In-flight applications still in play (not withdrawn, not rejected — those are terminal).
-  active: (a) => isInFlight(a) && a.decision !== 'Withdrawn' && a.decision !== 'Reject',
   accepted: (a) => isInFlight(a) && a.decision === 'Accept',
   pending: (a) => isInFlight(a) && a.decision == null,
   // Past rounds OR any terminal decision (withdrawn / rejected) regardless of round status.
@@ -53,3 +50,8 @@ export const filterByTab = (
   applications: FacilitatorApplicationListItem[],
   tab: ApplicationTab,
 ): FacilitatorApplicationListItem[] => applications.filter(TAB_PREDICATES[tab]);
+
+export const getDefaultTab = (applications: FacilitatorApplicationListItem[]): ApplicationTab => {
+  const firstNonEmpty = APPLICATION_TABS.find((tab) => applications.some(TAB_PREDICATES[tab.id]));
+  return (firstNonEmpty ?? APPLICATION_TABS[0]).id;
+};
