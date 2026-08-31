@@ -1,4 +1,6 @@
-import { applicationsRoundTable, courseRegistrationTable, eq } from '@bluedot/db';
+import {
+  applicationsRoundTable, courseRegistrationTable, dropoutTable, eq,
+} from '@bluedot/db';
 import {
   beforeEach, describe, expect, test,
 } from 'vitest';
@@ -16,6 +18,8 @@ beforeEach(async () => {
   await testDb.insert(applicationsRoundTable, { id: 'round-2', courseId: 'course-1' });
   await testDb.insert(applicationsRoundTable, { id: 'round-other-course', courseId: 'course-2' });
 });
+
+const getDropouts = async () => testDb.pg.select().from(dropoutTable.pg);
 
 const getDecision = async (id: string) => {
   const [reg] = await testDb.pg
@@ -56,32 +60,38 @@ describe('dropout.dropoutOrDeferral', () => {
     })).rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
-  test('lets a facilitator withdraw before acceptance (decision = null) and sets decision to Withdrawn', async () => {
+  test('lets a facilitator withdraw before acceptance (decision = null) without creating a Drop out record', async () => {
     await insertRegistration({ role: 'Facilitator', decision: null });
 
     const result = await createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
       applicantId: 'reg-1', type: 'Drop out',
     });
-    expect(result).toBeTruthy();
+    expect(result).toBeNull();
     expect(await getDecision('reg-1')).toBe('Withdrawn');
+    expect(await getDropouts()).toHaveLength(0);
   });
 
-  test('sets decision to Withdrawn when a participant withdraws a pre-decision application', async () => {
+  test('withdraws a pre-decision participant application without creating a Drop out record', async () => {
     await insertRegistration({ role: 'Participant', decision: null });
 
-    await createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
+    const result = await createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
       applicantId: 'reg-1', type: 'Drop out',
     });
+    expect(result).toBeNull();
     expect(await getDecision('reg-1')).toBe('Withdrawn');
+    expect(await getDropouts()).toHaveLength(0);
   });
 
-  test('leaves the decision untouched when dropping out post-decision', async () => {
+  test('creates a Drop out record and leaves the decision untouched when dropping out post-decision', async () => {
     await insertRegistration({ role: 'Participant', decision: 'Accept' });
 
     await createCaller(testAuthContextLoggedIn).dropout.dropoutOrDeferral({
       applicantId: 'reg-1', type: 'Drop out',
     });
     expect(await getDecision('reg-1')).toBe('Accept');
+    const dropouts = await getDropouts();
+    expect(dropouts).toHaveLength(1);
+    expect(dropouts[0]).toMatchObject({ applicantId: ['reg-1'], type: 'Drop out' });
   });
 
   test('lets a participant defer once accepted', async () => {
