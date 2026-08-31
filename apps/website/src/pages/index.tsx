@@ -10,7 +10,7 @@ import { trpc } from '../utils/trpc';
 import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
 
 const META_TITLE = 'BlueDot Impact | Have a positive impact on the trajectory of AI';
-const META_DESCRIPTION = 'Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.';
+const META_DESCRIPTION = 'Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 10,000+ alumni and start today.';
 
 const HomePage = () => {
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();

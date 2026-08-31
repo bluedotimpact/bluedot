@@ -76,8 +76,8 @@ describe('HomePage testimonials', () => {
     </TrpcProvider>);
 
     expect(document.title).toBe('BlueDot Impact | Have a positive impact on the trajectory of AI');
-    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe('Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
+    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe('Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 10,000+ alumni and start today.');
     expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe('BlueDot Impact | Have a positive impact on the trajectory of AI');
-    expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe('Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
+    expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe('Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 10,000+ alumni and start today.');
   });
 });

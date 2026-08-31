@@ -16,7 +16,7 @@ const StorySection = () => {
             </P>
 
             <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 mb-0">
-              Since 2022, we've trained over 7,000 professionals worldwide, from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M to date.
+              Since 2022, we've trained over 10,000 professionals worldwide, from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M to date.
             </P>
           </div>
 

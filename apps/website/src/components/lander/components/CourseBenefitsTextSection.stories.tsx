@@ -50,7 +50,7 @@ export const Default: Story = {
       },
       {
         heading: 'A community of builders',
-        body: 'BlueDot has 7,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
+        body: 'BlueDot has 10,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
       },
     ],
   },
