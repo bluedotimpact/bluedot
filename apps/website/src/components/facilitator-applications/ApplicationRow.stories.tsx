@@ -1,5 +1,12 @@
+import { CTALinkOrButton } from '@bluedot/ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import ApplicationRow from './ApplicationRow';
+
+const availabilityButton = (label: string) => (
+  <CTALinkOrButton key="availability" variant="primary" size="small" url="https://availability.bluedot.org/form/bluedot-course" target="_blank" className="text-size-xxs">
+    {label}
+  </CTALinkOrButton>
+);
 
 const meta = {
   title: 'website/facilitator-applications/ApplicationRow',
@@ -24,13 +31,21 @@ export const Pending: Story = {
   args: { ...base, status: 'pending' },
 };
 
-export const PendingWithWithdraw: Story = {
+export const PendingWithMenu: Story = {
   args: {
     ...base,
     status: 'pending',
-    menuItems: [
-      { id: 'withdraw', label: 'Withdraw application', onAction: () => {} },
-    ],
+    inlineActions: [availabilityButton('Share availability')],
+    overflowItems: [{ id: 'withdraw', label: 'Withdraw application', onAction: () => {} }],
+  },
+};
+
+export const PendingWithAvailabilitySubmitted: Story = {
+  args: {
+    ...base,
+    status: 'pending',
+    inlineActions: [availabilityButton('Edit availability')],
+    overflowItems: [{ id: 'withdraw', label: 'Withdraw application', onAction: () => {} }],
   },
 };
 
@@ -38,7 +53,7 @@ export const AcceptedWithGoToCourse: Story = {
   args: {
     ...base,
     status: 'accepted',
-    menuItems: [
+    overflowItems: [
       { id: 'go-to-course', label: 'Go to course', href: '/courses/technical-ai-safety' },
     ],
   },

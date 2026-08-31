@@ -1,10 +1,11 @@
 import {
-  CTALinkOrButton, ErrorSection, H2, ProgressDots, type OverflowMenuItemProps,
+  CTALinkOrButton, ErrorSection, H2, ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import DropoutModal from '../../components/courses/DropoutModal';
+import { buildAvailabilityFormUrl } from '../../components/courses/GroupSwitchModal';
 import ApplicationRow from '../../components/facilitator-applications/ApplicationRow';
 import {
   APPLICATION_TABS,
@@ -40,22 +41,45 @@ const sortByNewestFirst = (apps: FacilitatorApplicationListItem[]): FacilitatorA
 const getApplicationActions = (
   app: FacilitatorApplicationListItem,
   triggers: { onWithdraw: () => void },
-): (CourseAction & { variant: 'overflow'; overflow: OverflowMenuItemProps })[] => [
-  // Only overflow actions: inline action slot is not implemented
-  {
-    id: 'go-to-course',
-    isVisible: app.decision === 'Accept' && Boolean(app.courseSlug),
-    variant: 'overflow',
-    overflow: { id: 'go-to-course', label: 'Go to course', href: `/courses/${app.courseSlug}` },
-  },
-  {
-    id: 'withdraw',
-    // Should match the `withdraw` rule in `getFacilitatorActions` in `useCourseListRow.tsx`
-    isVisible: app.decision === null && app.roundStatus === 'Future',
-    variant: 'overflow',
-    overflow: { id: 'withdraw', label: 'Withdraw application', onAction: triggers.onWithdraw },
-  },
-];
+): CourseAction[] => {
+  const isPending = getApplicationStatus(app) === 'pending';
+
+  return [
+    {
+      id: 'go-to-course',
+      isVisible: app.decision === 'Accept' && Boolean(app.courseSlug),
+      variant: 'overflow',
+      overflow: { id: 'go-to-course', label: 'Go to course', href: `/courses/${app.courseSlug}` },
+    },
+    {
+      id: 'availability',
+      isVisible: isPending && Boolean(app.email),
+      variant: 'inline',
+      inline: (
+        <CTALinkOrButton
+          variant="primary"
+          size="small"
+          url={buildAvailabilityFormUrl({
+            email: app.email,
+            utmSource: 'bluedot-facilitator-applications',
+            courseRegistration: app,
+            roundId: app.roundId ?? '',
+          })}
+          target="_blank"
+          className="text-size-xxs"
+        >
+          {app.availabilityIntervalsUTC ? 'Edit availability' : 'Share availability'}
+        </CTALinkOrButton>
+      ),
+    },
+    {
+      id: 'withdraw',
+      isVisible: isPending,
+      variant: 'overflow',
+      overflow: { id: 'withdraw', label: 'Withdraw application', onAction: triggers.onWithdraw },
+    },
+  ];
+};
 
 const EMPTY_BY_TAB: Record<ApplicationTab, { title: string; description: string }> = {
   active: {
@@ -123,21 +147,24 @@ const FacilitatorApplicationsPage = () => {
               ) : (
                 <>
                   <ul className="flex flex-col gap-3">
-                    {displayed.map((app) => (
-                      <ApplicationRow
-                        key={app.id}
-                        id={app.id}
-                        courseTitle={app.courseTitle}
-                        courseSlug={app.courseSlug}
-                        roundName={app.roundName}
-                        roundFirstDiscussionDate={app.roundFirstDiscussionDate}
-                        roundLastDiscussionDate={app.roundLastDiscussionDate}
-                        status={getApplicationStatus(app)}
-                        menuItems={getApplicationActions(app, { onWithdraw: () => setWithdrawingId(app.id) })
-                          .filter((a) => a.isVisible)
-                          .map((a) => a.overflow)}
-                      />
-                    ))}
+                    {displayed.map((app) => {
+                      const actions = getApplicationActions(app, { onWithdraw: () => setWithdrawingId(app.id) })
+                        .filter((a) => a.isVisible);
+                      return (
+                        <ApplicationRow
+                          key={app.id}
+                          id={app.id}
+                          courseTitle={app.courseTitle}
+                          courseSlug={app.courseSlug}
+                          roundName={app.roundName}
+                          roundFirstDiscussionDate={app.roundFirstDiscussionDate}
+                          roundLastDiscussionDate={app.roundLastDiscussionDate}
+                          status={getApplicationStatus(app)}
+                          inlineActions={actions.filter((a) => a.variant === 'inline').map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+                          overflowItems={actions.filter((a) => a.variant === 'overflow').map((a) => a.overflow!)}
+                        />
+                      );
+                    })}
                   </ul>
                   {hiddenCount > 0 && (
                     <div className="flex justify-center">

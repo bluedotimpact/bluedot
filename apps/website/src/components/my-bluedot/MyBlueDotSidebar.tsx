@@ -11,12 +11,11 @@ const ITEM_HEIGHT_PX = 44;
 
 const MyBlueDotSidebar = () => {
   const router = useRouter();
-  const { data: registrationsData } = trpc.myBluedot.hasFacilitatorRegistrations.useQuery();
-  const { data: applicationsData } = trpc.myBluedot.hasFacilitatorRegistrations.useQuery({ includeWithdrawn: true });
+  const { data: facilitatorNavItems } = trpc.myBluedot.hasFacilitatorNavItems.useQuery();
   // Render unconditionally on facilitator routes so direct visits don't blank the active item until the query resolves
-  const showFacilitatedCourses = registrationsData?.hasFacilitatorRegistrations === true
+  const showFacilitatedCourses = facilitatorNavItems?.hasFacilitatedCourses === true
     || router.pathname === FACILITATOR_NAV_ITEM.href;
-  const showFacilitatorApplications = applicationsData?.hasFacilitatorRegistrations === true
+  const showFacilitatorApplications = facilitatorNavItems?.hasFacilitatorApplications === true
     || router.pathname === FACILITATOR_APPLICATIONS_ITEM.href;
   const navItems = [
     MY_COURSES_ITEM,

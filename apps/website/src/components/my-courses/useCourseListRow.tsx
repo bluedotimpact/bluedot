@@ -420,11 +420,10 @@ const getFacilitatorActions = (
   triggers: CourseModalTriggers,
 ): CourseAction[] => {
   const {
-    courseRegistration, group, meetPersonId, hasSubmittedFeedback,
+    group, meetPersonId, hasSubmittedFeedback,
   } = row;
   const { state, docUrl, slackUrl } = derived;
-  const isPending = state === 'upcoming' && !group;
-  const isActive = state === 'in-progress' || (state === 'upcoming' && Boolean(group));
+  const isActive = state === 'in-progress' || state === 'upcoming';
   const isPast = state === 'completed';
 
   return [
@@ -437,37 +436,6 @@ const getFacilitatorActions = (
           <IoBan aria-hidden size={14} />
           Dropped
         </span>
-      ),
-    },
-    {
-      id: 'application-pending-pill',
-      isVisible: isPending,
-      variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          Application pending
-        </span>
-      ),
-    },
-    {
-      id: 'availability-facilitator',
-      isVisible: isPending && courseRegistration.decision !== 'Reject' && !!courseRegistration.email,
-      variant: 'inline',
-      inline: (
-        <CTALinkOrButton
-          variant="primary"
-          size="small"
-          url={buildAvailabilityFormUrl({
-            email: courseRegistration.email,
-            utmSource: 'bluedot-facilitated-upcoming',
-            courseRegistration,
-            roundId: courseRegistration.roundId ?? '',
-          })}
-          target="_blank"
-          className="text-size-xxs"
-        >
-          {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Share availability'}
-        </CTALinkOrButton>
       ),
     },
     {
@@ -518,14 +486,6 @@ const getFacilitatorActions = (
         id: 'reschedule-recurring',
         label: 'Update discussion time',
         onAction: triggers.openFacilitatorRescheduleRecurring,
-      },
-    },
-    {
-      id: 'withdraw',
-      isVisible: state === 'upcoming' && courseRegistration.decision === null,
-      variant: 'overflow',
-      overflow: {
-        id: 'withdraw', label: getApplicationActionLabel(courseRegistration, state), onAction: triggers.openDropout,
       },
     },
   ];
