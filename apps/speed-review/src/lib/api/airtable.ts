@@ -317,7 +317,7 @@ export const fetchRoundStats = async (roundId: string): Promise<RoundStats> => {
       filterByFormula: `RECORD_ID() = "${roundId}"`,
       returnFieldsByFieldId: 'true',
     },
-    ['fldc3Uc7v3OlWYgzJ', 'fld8fYfDVJHfjbqRj', 'fldF4ORgkl7Fjgs2A'],
+    ['fldc3Uc7v3OlWYgzJ', 'fld8fYfDVJHfjbqRj', 'fldr4KqdjVGrePi6W'],
   );
 
   const fields = records[0]?.fields ?? {};
@@ -326,7 +326,7 @@ export const fetchRoundStats = async (roundId: string): Promise<RoundStats> => {
   return {
     total: n('fldc3Uc7v3OlWYgzJ'),
     evaluated: n('fld8fYfDVJHfjbqRj'),
-    accepted: n('fldF4ORgkl7Fjgs2A'),
+    accepted: n('fldr4KqdjVGrePi6W'),
   };
 };
 
