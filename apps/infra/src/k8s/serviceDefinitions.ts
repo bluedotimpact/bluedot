@@ -461,6 +461,7 @@ export const services: ServiceDefinition[] = [
           { name: 'MINIO_ROOT_USER', value: 'root' },
           { name: 'MINIO_ROOT_PASSWORD', valueFrom: envVarSources.minioRootPassword },
           { name: 'MINIO_BROWSER', value: 'false' },
+          { name: 'GOMEMLIMIT', value: '1200MiB' },
         ],
         volumeMounts: [
           {
@@ -472,6 +473,14 @@ export const services: ServiceDefinition[] = [
           httpGet: {
             path: '/minio/health/ready',
             port: 8080,
+          },
+        },
+        resources: {
+          requests: {
+            memory: '512Mi',
+          },
+          limits: {
+            memory: '1500Mi',
           },
         },
       }],
