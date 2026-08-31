@@ -98,7 +98,7 @@ export const createAiGovernanceContent = (
           {' '}
           <a href="/courses/agi-strategy" className={externalLinkClassName}>AGI Strategy Course</a>
           {' '}
-          is the upstream prerequisite; jurisdiction- and domain-specific courses are in development. About 8,000 alumni are in our Slack - job openings and policy debates come through daily.
+          is the upstream prerequisite; jurisdiction- and domain-specific courses are in development. About 10,000 alumni are in our Slack - job openings and policy debates come through daily.
         </>
       ),
     ],

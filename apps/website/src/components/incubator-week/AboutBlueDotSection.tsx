@@ -19,7 +19,7 @@ const AboutBlueDotSection = ({
       <div className="w-full max-w-prose flex flex-col gap-6">
         <H3>About BlueDot</H3>
         <P>
-          BlueDot Impact is a nonprofit building the workforce and organisations needed to safely navigate AGI. We&apos;ve raised over $35M and trained over 8,000 people since 2022.
+          BlueDot Impact is a nonprofit building the workforce and organisations needed to safely navigate AGI. We&apos;ve raised over $35M and trained over 10,000 people since 2022.
         </P>
         {contactEmail && (
           <P className="text-bluedot-navy/80">
