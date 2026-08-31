@@ -106,6 +106,16 @@ export const dropoutRouter = router({
         }
       }
 
+      // A pre-decision "Drop out" is an application withdrawal, not a course drop-out: the
+      // registration moves to "Withdrawn" so it's no longer evaluated (and potentially accepted)
+      // in review, and no Drop out record is created. Drop out records drive the drop-out
+      // confirmation email and Slack alert automations, and would keep marking the person as
+      // dropped out if the application is later re-accepted.
+      if (type === 'Drop out' && courseRegistration.decision === null) {
+        await db.update(courseRegistrationTable, { id: applicantId, decision: 'Withdrawn' });
+        return null;
+      }
+
       const dropout = await db.insert(dropoutTable, {
         applicantId: [applicantId],
         reason: reason ?? null,
@@ -113,11 +123,6 @@ export const dropoutRouter = router({
         newRoundId: type === 'Deferral' && newRoundId ? [newRoundId] : null,
         oldRoundId: type === 'Deferral' && oldRoundId ? [oldRoundId] : null,
       });
-
-      // A pre-decision application moves to "Withdrawn" so it's no longer evaluated (and potentially accepted) in review.
-      if (type === 'Drop out' && courseRegistration.decision === null) {
-        await db.update(courseRegistrationTable, { id: applicantId, decision: 'Withdrawn' });
-      }
 
       return dropout;
     }),
