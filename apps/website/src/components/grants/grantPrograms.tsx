@@ -207,12 +207,12 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         question: 'Who is BlueDot Impact?',
         answer: (
           <>
-            We&apos;re a nonprofit based in San Francisco. Since 2022, we&apos;ve trained over 8,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more.
+            We&apos;re a nonprofit based in San Francisco. Since 2022, we&apos;ve trained over 10,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more.
             <br /><br />
             Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the startups the world needs.
           </>
         ),
-        answerText: 'We\'re a nonprofit based in San Francisco. Since 2022, we\'ve trained over 8,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more. Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the startups the world needs.',
+        answerText: 'We\'re a nonprofit based in San Francisco. Since 2022, we\'ve trained over 10,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more. Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the startups the world needs.',
       },
     ],
   },

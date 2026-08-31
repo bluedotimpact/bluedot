@@ -145,14 +145,14 @@ export const createTechnicalAiSafetyProjectContent = (
         question: 'Who is BlueDot Impact?',
         answer: (
           <>
-            We're a London-based startup. Since 2022, we've trained 7,000+ people, with 100s now working on making AI go well.
+            We're a London-based startup. Since 2022, we've trained 10,000+ people, with 100s now working on making AI go well.
             <br /><br />
             Our courses are the main entry point into the AI safety field.
             <br /><br />
             We're an intense 7-person team. We've raised $35M in total, including $25M in 2025.
           </>
         ),
-        answerText: 'We\'re a London-based startup. Since 2022, we\'ve trained 7,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re an intense 7-person team. We\'ve raised $35M in total, including $25M in 2025.',
+        answerText: 'We\'re a London-based startup. Since 2022, we\'ve trained 10,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re an intense 7-person team. We\'ve raised $35M in total, including $25M in 2025.',
       },
     ],
   },

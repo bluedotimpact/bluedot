@@ -50,7 +50,7 @@ export const Default: Story = {
       },
       {
         heading: 'A community of builders',
-        body: 'BlueDot has 7,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
+        body: 'BlueDot has 10,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
       },
     ],
   },
@@ -62,7 +62,7 @@ export const WithParagraphs: Story = {
     title: 'How BlueDot supports you beyond the course',
     paragraphs: [
       'FAIGC is one course in a wider BlueDot pipeline. During the course, we learn enough about participants to point them toward what makes sense next. Outside BlueDot, that often means introductions to hiring managers at AI safety organisations or fellowship leads.',
-      'The AGI Strategy Course is the upstream prerequisite; jurisdiction- and domain-specific courses are in development. About 8,000 alumni are in our Slack — job openings and policy debates come through daily.',
+      'The AGI Strategy Course is the upstream prerequisite; jurisdiction- and domain-specific courses are in development. About 10,000 alumni are in our Slack — job openings and policy debates come through daily.',
     ],
   },
 };

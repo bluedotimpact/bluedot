@@ -17,7 +17,7 @@ type CourseCompletionSectionProps = {
   className?: string;
 };
 
-const COMMUNITY_SIZE_LABEL = '8,000+ professionals';
+const COMMUNITY_SIZE_LABEL = '10,000+ professionals';
 
 const AVATAR_IMAGES = [
   '/images/graduates/adam.webp',

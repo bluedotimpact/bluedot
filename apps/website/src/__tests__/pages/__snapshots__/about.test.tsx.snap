@@ -628,7 +628,7 @@ exports[`AboutPage > should render correctly 1`] = `
         <p
           class="bluedot-p not-prose"
         >
-          Those reading groups evolved into the BlueDot courses. We've trained over 7,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.
+          Those reading groups evolved into the BlueDot courses. We've trained over 10,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.
         </p>
         <p
           class="bluedot-p not-prose"
