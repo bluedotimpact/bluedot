@@ -103,6 +103,18 @@ const kubePrometheus = new k8s.helm.v3.Release('kube-prometheus', {
         },
       },
     },
+    prometheus: {
+      prometheusSpec: {
+        resources: {
+          requests: {
+            memory: '400Mi',
+          },
+          limits: {
+            memory: '1500Mi',
+          },
+        },
+      },
+    },
     grafana: {
       resources: {
         requests: {
