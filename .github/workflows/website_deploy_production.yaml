@@ -140,19 +140,3 @@ jobs:
         run: npm run deploy:multistage:production --workspace apps/website
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-      # bluedot.org is temporarily served from Render after the Aug 2026 Vultr
-      # node outage (#2917, #2918), so releases must also trigger Render.
-      # Deliberately independent of the cluster deployment: Render should succeed
-      # independently of whether the k8s deployment succeeds. Remove if we move
-      # traffic back to k8s.
-      - name: Trigger Render deploy
-        if: ${{ always() }}
-        env:
-          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL_WEBSITE }}
-        run: |
-          if [[ -z "$HOOK" ]]; then
-            echo "no Render deploy hook configured, skipping"
-            exit 0
-          fi
-          curl -fsS --connect-timeout 10 --max-time 60 "$HOOK"
