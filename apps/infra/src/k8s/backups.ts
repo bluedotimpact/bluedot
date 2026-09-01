@@ -144,6 +144,12 @@ NAMESPACES_TO_BACKUP.forEach((namespace) => {
       podConfigRef: {
         name: 'podconfig',
       },
+      // No limit: nothing alerts on a failed backup, so a silent OOM is worse than the overuse.
+      resourceRequirementsTemplate: {
+        requests: {
+          memory: '256Mi',
+        },
+      },
     },
   }, { provider, dependsOn: [gcsSecret, resticPasswordSecret, podConfig, k8upOperator] });
 });
