@@ -470,6 +470,14 @@ export const services: ServiceDefinition[] = [
           { name: 'SENTRY_DSN', value: PG_SYNC_SENTRY_DSN },
           { name: 'SENTRY_ENVIRONMENT', value: 'production' },
         ],
+        resources: {
+          requests: {
+            memory: '400Mi',
+          },
+          limits: {
+            memory: '2000Mi',
+          },
+        },
       }],
     },
   },
