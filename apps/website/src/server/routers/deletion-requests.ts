@@ -14,11 +14,8 @@ import {
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { logger } from '@bluedot/ui/src/api';
-import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
-import env from '../../lib/api/env';
-import { sendAccountDeletionRequestedNotice } from '../../lib/api/customerio';
 import { DELETION_REQUEST_STATUS } from '../../lib/constants';
 import { runAccountDeletion } from '../../lib/api/accountDeletion';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
@@ -89,9 +86,6 @@ export const deletionRequestsRouter = router({
         requestedAt: new Date().toISOString(),
       });
 
-      sendAccountDeletionRequestedNotice({ email: subject.email })
-        .catch((error: unknown) => slackAlert(env, [`[AccountDeletion] confirmation notice for deletion request ${request.id} failed: ${error instanceof Error ? error.message : String(error)}`]));
-
       logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by admin ${initiator.email}`);
 
       return { request, isRetry: false };
@@ -134,9 +128,6 @@ export const deletionRequestsRouter = router({
       initiatedBy: [subject.id],
       requestedAt: new Date().toISOString(),
     });
-
-    sendAccountDeletionRequestedNotice({ email: subject.email })
-      .catch((error: unknown) => slackAlert(env, [`[AccountDeletion] confirmation notice for deletion request ${request.id} failed: ${error instanceof Error ? error.message : String(error)}`]));
 
     logger.info(`[AccountDeletion] deletion request ${request.id} created for user ${subject.id} by ${subject.email}`);
 
