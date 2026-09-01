@@ -1,7 +1,8 @@
-import { ErrorSection, Modal, ModalTitle } from '@bluedot/ui';
+import {
+  Avatar, ErrorSection, Modal, ModalTitle,
+} from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
-import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 export type ParticipantFeedbackData = {
@@ -74,9 +75,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
       }}
       title={(
         <div className="flex-1 flex items-center gap-3 pr-3">
-          <div className="size-10 rounded-full bg-bluedot-normal flex items-center justify-center text-white text-size-xs font-bold shrink-0">
-            {getInitials(participant.name)}
-          </div>
+          <Avatar name={participant.name} />
           <ModalTitle>{participant.name}</ModalTitle>
           <button
             type="button"

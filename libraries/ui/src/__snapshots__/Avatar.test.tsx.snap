@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Avatar > renders to snapshot 1`] = `
+<div>
+  <div
+    aria-hidden="true"
+    class="bg-bluedot-normal flex shrink-0 items-center justify-center rounded-full font-bold text-white size-11 text-size-md"
+  >
+    CN
+  </div>
+</div>
+`;

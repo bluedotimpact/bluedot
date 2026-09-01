@@ -1,9 +1,8 @@
 import {
-  CTALinkOrButton, H3, H4, P,
+  Avatar, CTALinkOrButton, H3, H4, P,
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import AlumniAvatar from '../alumni/AlumniAvatar';
 import { trpc } from '../../utils/trpc';
 
 const COLLAPSED_ROWS = 3;
@@ -22,7 +21,7 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
   const cardContent = (
     <>
       <div className="flex items-center gap-4">
-        <AlumniAvatar name={name} imageSrc={imageUrl} className="size-14 text-size-md" />
+        <Avatar name={name} imageSrc={imageUrl} size="medium" />
         <div className="flex min-w-0 flex-col">
           <H4 className="text-size-sm">
             {name}

@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import {
-  CTALinkOrButton, Eyebrow, H2, P,
+  Avatar, CTALinkOrButton, Eyebrow, H2, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { trpc } from '../../utils/trpc';
 import type { TransformedTestimonial } from '../../server/routers/testimonials';
-import AlumniAvatar from './AlumniAvatar';
 
 const COLLAPSED_ROWS = 3;
 const COLS_LG = 3;
@@ -62,11 +61,7 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
 
   const content = (
     <div className="flex items-center gap-3 py-3.5 border-b border-bluedot-navy/10">
-      <AlumniAvatar
-        name={alum.name}
-        imageSrc={alum.imageSrc}
-        className="size-11 text-size-xs"
-      />
+      <Avatar name={alum.name} imageSrc={alum.imageSrc} />
       <div className="flex-1 min-w-0">
         <P className="font-semibold leading-tight truncate">{alum.name}</P>
         <P className="text-size-xs text-bluedot-navy/80 truncate">{alum.jobTitle}</P>

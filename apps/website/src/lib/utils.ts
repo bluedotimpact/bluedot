@@ -181,13 +181,6 @@ export const formatAmountUsd = (amount: number): string => {
   }).format(amount);
 };
 
-/** Extract up to two uppercase initials from a person's name. Examples: 'Clara Ndubuisi' → 'CN', 'cher' → 'C'. */
-export function getInitials(name: string): string {
-  const parts = name.split(/\s+/).filter(Boolean).slice(0, 2);
-  const chars = parts.map((part) => Array.from(part)[0] ?? '');
-  return chars.join('').toUpperCase();
-}
-
 /** Which UTM params get forwarded to the application form, and as which prefill fields. */
 const UTM_PARAM_TO_PREFILL_FIELD: [utmParam: string, prefillField: string][] = [
   ['utm_source', 'prefill_Source'],

@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
-  ErrorSection, Eyebrow, H1, H2, ProgressDots,
+  ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots,
 } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -12,7 +12,6 @@ import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../co
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
 import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
-import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
