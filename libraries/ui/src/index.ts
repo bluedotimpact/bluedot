@@ -1,5 +1,8 @@
 // Components, sorted alphabetically
 
+export { Avatar, getInitials } from './Avatar';
+export type { AvatarProps } from './Avatar';
+
 export { Breadcrumbs, type BluedotRoute } from './Breadcrumbs';
 export type { BreadcrumbsProps } from './Breadcrumbs';
 

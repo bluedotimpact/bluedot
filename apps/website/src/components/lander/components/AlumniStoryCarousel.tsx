@@ -6,9 +6,8 @@ import {
   type ReactNode,
 } from 'react';
 import Link from 'next/link';
-import { H2, P } from '@bluedot/ui';
+import { Avatar, H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
-import AlumniAvatar from '../../alumni/AlumniAvatar';
 
 export type AlumniStory = {
   name: string;
@@ -308,9 +307,12 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
     {/* Top section with image and info */}
     <div className="flex items-start gap-4 p-5 bd-md:p-6 border-b border-bluedot-navy/6">
-      <AlumniAvatar
+      {/* One-off: the static size ramp can't express 64px → 80px at bd-md, so
+          className preserves the exact pre-Avatar responsive rendering. */}
+      <Avatar
         name={story.name}
         imageSrc={story.imageSrc}
+        size="medium"
         className="size-16 bd-md:size-20 text-size-md bd-md:text-size-lg"
       />
       <div className="flex flex-col gap-1 min-w-0 pt-1">
