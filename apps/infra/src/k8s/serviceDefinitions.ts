@@ -153,6 +153,11 @@ export const services: ServiceDefinition[] = [
       containers: [{
         name: 'bluedot-website-proxy',
         image: 'ghcr.io/bluedotimpact/bluedot-website-proxy:latest',
+        resources: {
+          requests: {
+            memory: '16Mi',
+          },
+        },
       }],
     },
     hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org', 'www.aisafetyfundamentals.com', 'aisafetyfundamentals.com', 'www.biosecurityfundamentals.com', 'biosecurityfundamentals.com', 'course.bluedot.org', 'course.aisafetyfundamentals.com', 'course.biosecurityfundamentals.com'],
@@ -227,6 +232,11 @@ export const services: ServiceDefinition[] = [
         ],
         readinessProbe: WEBSITE_HEALTH_CHECK,
         livenessProbe: WEBSITE_HEALTH_CHECK,
+        resources: {
+          requests: {
+            memory: '1Gi',
+          },
+        },
       }],
     },
     hosts: ['website-production.k8s.bluedot.org'],
@@ -308,6 +318,11 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
+        resources: {
+          requests: {
+            memory: '128Mi',
+          },
+        },
       }],
     },
     hosts: ['meet.bluedot.org'],
@@ -324,6 +339,14 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
+        resources: {
+          requests: {
+            memory: '128Mi',
+          },
+          limits: {
+            memory: '1Gi',
+          },
+        },
       }],
     },
     hosts: ['availability.bluedot.org'],
