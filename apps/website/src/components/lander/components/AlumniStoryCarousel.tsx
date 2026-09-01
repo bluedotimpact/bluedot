@@ -312,7 +312,6 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
       <Avatar
         name={story.name}
         imageSrc={story.imageSrc}
-        size="medium"
         className="size-16 bd-md:size-20 text-size-md bd-md:text-size-lg"
       />
       <div className="flex flex-col gap-1 min-w-0 pt-1">
