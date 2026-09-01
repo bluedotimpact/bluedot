@@ -12,8 +12,6 @@ This app is deployed onto the K8s cluster as a standard Next.js app in docker. I
 
 To deploy a new version, simply commit to the master branch. GitHub Actions automatically handles CD.
 
-As of August 2026 the app is temporarily being served from Render while we sort out problems with the k8s cluster (see #2919). Deploying works the same way: merging to master deploys to both k8s and Render.
-
 ## How it works
 
 The app presents a user interface where people can join via links like:
