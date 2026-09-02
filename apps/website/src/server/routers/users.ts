@@ -107,12 +107,21 @@ async function unlinkStaleGoogleIdentitiesOrAlert(userId: string, keycloakIdenti
 
 async function propagateEmailToCourseRegistrations(userId: string, newEmail: string): Promise<void> {
   const registrations = await db.scan(courseRegistrationTable, { userId });
+  const errors: unknown[] = [];
   for (const registration of registrations) {
     // Registrations with an empty email are left empty: filling them could wake dormant Airtable automation triggers
     if (registration.email && normaliseEmail(registration.email) !== newEmail) {
-      // eslint-disable-next-line no-await-in-loop
-      await db.update(courseRegistrationTable, { id: registration.id, email: newEmail });
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await db.update(courseRegistrationTable, { id: registration.id, email: newEmail });
+      } catch (error) {
+        errors.push(error);
+      }
     }
+  }
+
+  if (errors.length > 0) {
+    throw new AggregateError(errors, `Failed to update ${errors.length} registration(s): ${errors.map((e) => (e instanceof Error ? e.message : String(e))).join('; ')}`);
   }
 }
 

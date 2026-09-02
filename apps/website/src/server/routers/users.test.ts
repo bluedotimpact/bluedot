@@ -1043,6 +1043,34 @@ describe('users.confirmEmailChange', () => {
     scanSpy.mockRestore();
   });
 
+  test('still updates the remaining registrations and alerts when one update fails', async () => {
+    await seedTarget();
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-a', userId: 'target-id', email: 'old@example.com', courseId: 'course-1',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-b', userId: 'target-id', email: 'old@example.com', courseId: 'course-2',
+    });
+    const realUpdate = db.update.bind(db);
+    const updateSpy = vi.spyOn(db, 'update').mockImplementation((table, data) => {
+      if ((table as unknown) === courseRegistrationTable && (data as { id?: string }).id === 'reg-a') {
+        return Promise.reject(new Error('airtable blip'));
+      }
+
+      return realUpdate(table, data);
+    });
+
+    const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    expect(result.newEmail).toBe('new@example.com');
+    await vi.waitFor(async () => {
+      expect((await testDb.get(courseRegistrationTable, { id: 'reg-b' })).email).toBe('new@example.com');
+      expect(slackAlert).toHaveBeenCalledWith(expect.anything(), [expect.stringContaining('Failed to update 1 registration(s): airtable blip')]);
+    });
+    expect((await testDb.get(courseRegistrationTable, { id: 'reg-a' })).email).toBe('old@example.com');
+    updateSpy.mockRestore();
+  });
+
   test('retries the identity cleanup once and does not alert if the retry succeeds', async () => {
     await seedTarget();
     vi.mocked(unlinkStaleGoogleIdentities)
