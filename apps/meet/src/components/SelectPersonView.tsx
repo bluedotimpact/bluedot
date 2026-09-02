@@ -1,5 +1,4 @@
 import useAxios from 'axios-hooks';
-import axios, { type AxiosResponse } from 'axios';
 import {
   ClickTarget,
   CTALinkOrButton, ErrorSection, H1,
@@ -23,6 +22,10 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
     url: '/api/public/meeting-participants',
     data: { groupId },
   });
+  const [{ loading: recordingAttendance, error: recordAttendanceError }, recordAttendance] = useAxios<RecordAttendanceResponse, RecordAttendanceRequest>({
+    method: 'post',
+    url: '/api/public/record-attendance',
+  }, { manual: true });
 
   if (loading) {
     return (
@@ -69,18 +72,23 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
           Open Discussion Doc
         </CTALinkOrButton>
       )}
+      {recordAttendanceError && <ErrorSection error={recordAttendanceError} />}
       <div className="grid gap-2 sm:w-1/2">
         {data.participants.map((participant) => (
           <CTALinkOrButton
             key={participant.id}
             variant="secondary"
             withChevron
+            disabled={recordingAttendance}
             onClick={async () => {
-              await axios<RecordAttendanceResponse, AxiosResponse<MeetingParticipantsResponse>, RecordAttendanceRequest>({
-                method: 'POST',
-                url: '/api/public/record-attendance',
-                data: { groupDiscussionId: data.groupDiscussionId, participantId: participant.id },
-              });
+              try {
+                await recordAttendance({
+                  data: { groupDiscussionId: data.groupDiscussionId, participantId: participant.id },
+                });
+              } catch {
+                return;
+              }
+
               setPage({
                 name: 'appJoin',
                 meetingNumber: data.meetingNumber,
