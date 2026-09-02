@@ -22,7 +22,7 @@ meet.bluedot.org/?groupId=rec1234
 
 Behind the scenes, we make API calls to Airtable to get information regarding that group, its discussions and the participants in those discussions. Once we find the nearest (in time) group discussion, we present the participants in it so people can choose to login as that participant. In case someone else is joining, we give users an escape hatch to enter a custom name.
 
-We then render the Zoom meeting with the [Zoom Meeting SDK](https://developers.zoom.us/docs/meeting-sdk/web/).
+We then open the meeting in the native Zoom app via a deep link.
 
 Once in the meeting, the facilitator can claim host with the host key.
 
