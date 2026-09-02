@@ -26,14 +26,18 @@ const RecordAttendance: React.FC = () => {
 };
 
 const RecordAttendancePage: React.FC<{ groupDiscussionId: string; participantId: string }> = ({ groupDiscussionId, participantId }) => {
-  const [{ data, loading }, _recordAttendance] = useAxios<RecordAttendanceResponse, RecordAttendanceRequest>({
+  const [{ data, loading, error }, _recordAttendance] = useAxios<RecordAttendanceResponse, RecordAttendanceRequest>({
     method: 'post',
     url: '/api/public/record-attendance',
     data: { groupDiscussionId, participantId },
   }, { manual: true });
-  const recordAttendance = ({ reason }: { reason: string }) => _recordAttendance({
-    data: { groupDiscussionId, participantId, reason },
-  });
+  const recordAttendance = ({ reason }: { reason: string }) => {
+    _recordAttendance({
+      data: { groupDiscussionId, participantId, reason },
+    })
+      // Errors are displayed below, not handled here
+      .catch(() => null);
+  };
 
   const [otherReason, setOtherReason] = useState('');
 
@@ -56,6 +60,7 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string; participantId:
   return (
     <Page>
       <H1 className="mb-4">Manual attendance update</H1>
+      {error && <ErrorSection error={error} />}
       <p className="mb-2">Why do you need to update your attendance?</p>
       <div className="grid gap-2 md:w-1/2">
         {[
