@@ -34,7 +34,9 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string; participantId:
   const recordAttendance = ({ reason }: { reason: string }) => {
     _recordAttendance({
       data: { groupDiscussionId, participantId, reason },
-    }).catch(() => null);
+    })
+      // Errors are displayed below, not handled here
+      .catch(() => null);
   };
 
   const [otherReason, setOtherReason] = useState('');

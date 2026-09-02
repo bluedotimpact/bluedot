@@ -86,6 +86,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
                   data: { groupDiscussionId: data.groupDiscussionId, participantId: participant.id },
                 });
               } catch {
+                // Errors are handled above (at hook invocation)
                 return;
               }
 
