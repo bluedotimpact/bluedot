@@ -3,8 +3,8 @@ import {
   describe, expect, test, vi,
 } from 'vitest';
 import { AxiosError } from 'axios';
-import { mockApi } from '../__tests__/testUtils';
-import RecordAttendance from './record-attendance';
+import { mockApi } from '../testUtils';
+import RecordAttendance from '../../pages/record-attendance';
 
 vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams('groupDiscussionId=recDiscussion&participantId=recParticipant'),
