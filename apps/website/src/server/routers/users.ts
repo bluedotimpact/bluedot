@@ -1,4 +1,4 @@
-import { sql, userTable } from '@bluedot/db';
+import { courseRegistrationTable, sql, userTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { logger } from '@bluedot/ui/src/api';
 import { loginPresets } from '@bluedot/ui/src/Login';
@@ -103,6 +103,17 @@ async function unlinkStaleGoogleIdentitiesOrAlert(userId: string, keycloakIdenti
     `[EmailChange] Email for user ${userId} changed successfully to ${newEmail}, but stale Google identity cleanup failed after 3 attempts: ${lastError instanceof Error ? lastError.message : String(lastError)}. The old Google account may still be able to sign in. Check the Keycloak user and remove the stale Google identity manually.`,
   ]);
   return { loginMethods: null };
+}
+
+async function propagateEmailToCourseRegistrations(userId: string, newEmail: string): Promise<void> {
+  const registrations = await db.scan(courseRegistrationTable, { userId });
+  for (const registration of registrations) {
+    // Registrations with an empty email are left empty: filling them could wake dormant Airtable automation triggers
+    if (registration.email && normaliseEmail(registration.email) !== newEmail) {
+      // eslint-disable-next-line no-await-in-loop
+      await db.update(courseRegistrationTable, { id: registration.id, email: newEmail });
+    }
+  }
 }
 
 export const usersRouter = router({
@@ -316,6 +327,9 @@ export const usersRouter = router({
 
       updateCustomerIoEmail({ userId: user.id, oldEmail: user.email, newEmail: payload.newEmail })
         .catch((error: unknown) => slackAlert(env, [`[EmailChange] customer.io rename failed for user ${user.id}: ${error instanceof Error ? error.message : String(error)}`]));
+
+      propagateEmailToCourseRegistrations(user.id, payload.newEmail)
+        .catch((error: unknown) => slackAlert(env, [`[EmailChange] course registration email propagation failed for user ${user.id}: ${error instanceof Error ? error.message : String(error)}`]));
 
       return { newEmail: payload.newEmail, ...await unlinkStaleGoogleIdentitiesOrAlert(user.id, user.keycloakIdentifier, payload.newEmail) };
     }),

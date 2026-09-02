@@ -1,4 +1,4 @@
-import { userTable } from '@bluedot/db';
+import { courseRegistrationTable, userTable } from '@bluedot/db';
 import type { TRPCError } from '@trpc/server';
 import { loginPresets } from '@bluedot/ui/src/Login';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
@@ -956,6 +956,91 @@ describe('users.confirmEmailChange', () => {
     expect(unlinkStaleGoogleIdentities).toHaveBeenCalledTimes(3);
     expect(slackAlert).toHaveBeenCalledWith(expect.anything(), [expect.stringContaining('Email for user target-id changed successfully to new@example.com, but stale Google identity cleanup failed')]);
     expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('new@example.com');
+  });
+
+  test('propagates the new email to the user\'s course registrations', async () => {
+    await seedTarget();
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1', userId: 'target-id', email: 'old@example.com', courseId: 'course-1',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-2', userId: 'target-id', email: 'personal@example.com', courseId: 'course-2',
+    });
+
+    const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    expect(result.newEmail).toBe('new@example.com');
+    await vi.waitFor(async () => {
+      expect((await testDb.get(courseRegistrationTable, { id: 'reg-1' })).email).toBe('new@example.com');
+      expect((await testDb.get(courseRegistrationTable, { id: 'reg-2' })).email).toBe('new@example.com');
+    });
+  });
+
+  test('leaves registrations with an empty email untouched', async () => {
+    await seedTarget();
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-empty', userId: 'target-id', email: '', courseId: 'course-1',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-stale', userId: 'target-id', email: 'old@example.com', courseId: 'course-2',
+    });
+
+    await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    await vi.waitFor(async () => {
+      expect((await testDb.get(courseRegistrationTable, { id: 'reg-stale' })).email).toBe('new@example.com');
+    });
+    expect((await testDb.get(courseRegistrationTable, { id: 'reg-empty' })).email).toBe('');
+  });
+
+  test('leaves other users\' registrations untouched', async () => {
+    await seedTarget();
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-mine', userId: 'target-id', email: 'old@example.com', courseId: 'course-1',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-other', userId: 'other-id', email: 'old@example.com', courseId: 'course-1',
+    });
+
+    await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    await vi.waitFor(async () => {
+      expect((await testDb.get(courseRegistrationTable, { id: 'reg-mine' })).email).toBe('new@example.com');
+    });
+    expect((await testDb.get(courseRegistrationTable, { id: 'reg-other' })).email).toBe('old@example.com');
+  });
+
+  test('does not write to registrations already at the new email', async () => {
+    await seedTarget();
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-current', userId: 'target-id', email: 'new@example.com', courseId: 'course-1',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-stale', userId: 'target-id', email: 'old@example.com', courseId: 'course-2',
+    });
+    const updateSpy = vi.spyOn(db, 'update');
+
+    await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    await vi.waitFor(async () => {
+      expect((await testDb.get(courseRegistrationTable, { id: 'reg-stale' })).email).toBe('new@example.com');
+    });
+    const registrationUpdates = updateSpy.mock.calls.filter(([table]) => (table as unknown) === courseRegistrationTable);
+    expect(registrationUpdates).toEqual([[courseRegistrationTable, { id: 'reg-stale', email: 'new@example.com' }]]);
+    updateSpy.mockRestore();
+  });
+
+  test('succeeds and alerts when the registration propagation fails', async () => {
+    await seedTarget();
+    const scanSpy = vi.spyOn(db, 'scan').mockRejectedValue(new Error('pg down'));
+
+    const result = await anonCaller().users.confirmEmailChange({ token: await mintToken() });
+
+    expect(result.newEmail).toBe('new@example.com');
+    await vi.waitFor(() => {
+      expect(slackAlert).toHaveBeenCalledWith(expect.anything(), [expect.stringContaining('course registration email propagation failed for user target-id: pg down')]);
+    });
+    scanSpy.mockRestore();
   });
 
   test('retries the identity cleanup once and does not alert if the retry succeeds', async () => {
