@@ -2,7 +2,7 @@
 
 Guidance for Claude Code (and other LLM assistants) working in this repo. Humans should start with `README.md` and `DEVELOPMENT_HANDBOOK.md`; this file captures the non-obvious rules an assistant needs.
 
-## Read these first
+## Read these first!!
 
 - [`README.md`](./README.md) — repo overview, package structure, dev-container setup
 - [`DEVELOPMENT_HANDBOOK.md`](./DEVELOPMENT_HANDBOOK.md) — patterns, tRPC, testing, db migrations
