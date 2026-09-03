@@ -63,7 +63,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </span>
         </li>
         <li
-          class="min-w-0 items-center gap-2 bd-md:flex hidden"
+          class="min-w-0 items-center gap-2 hidden bd-md:flex"
         >
           <a
             class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
@@ -91,7 +91,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </svg>
         </li>
         <li
-          class="min-w-0 items-center gap-2 bd-md:flex hidden"
+          class="min-w-0 items-center gap-2 hidden bd-md:flex"
         >
           <a
             class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
