@@ -30,20 +30,26 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
   const items = [...(route.parentPages ?? []), route];
 
   return (
-    <div className={clsx('bg-color-canvas border-b border-color-divider w-full py-space-between', className)}>
-      <nav
-        className="section-base flex flex-row justify-between"
-        aria-label="Breadcrumbs"
-      >
+    <div className={clsx('bg-color-canvas border-color-divider py-space-between w-full border-b', className)}>
+      <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
         <ol className="flex">
-          {items.map((item, index) => (
-            <li key={item.url} className="flex items-center">
-              <A className="no-underline text-bluedot-darker hover:text-bluedot-normal" href={item.url}>{item.title}</A>
-              {index < items.length - 1 && (
-                <span className="mx-2">{'>'}</span>
-              )}
-            </li>
-          ))}
+          {items.map((item, index) => {
+            const isLast = index === items.length - 1;
+            return (
+              <li key={item.url} className="flex items-center">
+                {isLast ? (
+                  <span aria-current="page" className="text-bluedot-navy">
+                    {item.title}
+                  </span>
+                ) : (
+                  <A className="text-bluedot-navy/70 hover:text-bluedot-navy no-underline" href={item.url}>
+                    {item.title}
+                  </A>
+                )}
+                {index < items.length - 1 && <span className="mx-2">{'>'}</span>}
+              </li>
+            );
+          })}
         </ol>
         {children}
       </nav>
