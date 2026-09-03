@@ -3,70 +3,55 @@
 exports[`TeamSection > renders as expected 1`] = `
 <div>
   <section
-    class="team-section section section-body !border-b-0"
+    aria-label="Our team"
+    class="section section-body !border-b-0"
   >
     <h3
       class="bluedot-h3 not-prose mb-6"
     >
       Our team
     </h3>
-    <div
-      class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 team-section__team"
+    <ul
+      aria-label="Team members"
+      class="grid grid-cols-1 gap-x-space-between gap-y-spacing-y min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
     >
-      <div
-        class="slide-list__gradient-wrapper relative flex-1"
-      >
+      <li>
         <div
-          class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory flex-wrap"
-          style="scroll-padding-inline: 0px;"
+          class="flex flex-col items-start transition-transform duration-200"
         >
           <div
-            class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-            data-width="calc((100% - var(--space-between) * 0) * 1)"
-            style="scroll-margin-left: -0px;"
+            class="w-full"
           >
-            <div
-              class="team-section__card"
+            <a
+              class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+              href="https://linkedin.com/in/test"
+              rel="noopener noreferrer"
+              target="_blank"
             >
-              <div
-                class="card flex items-start flex-col transition-transform duration-200"
-              >
-                <div
-                  class="card__image-container w-full"
-                >
-                  <a
-                    class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                    href="https://linkedin.com/in/test"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <img
-                      alt="Test Person - CEO"
-                      class="team-section__card-image size-[300px] object-cover"
-                      src="https://example.com/photo.jpg"
-                    />
-                  </a>
-                </div>
-                <div
-                  class="card__content w-full p-4"
-                >
-                  <h4
-                    class="bluedot-h4 not-prose text-size-lg mb-1"
-                  >
-                    Test Person
-                  </h4>
-                  <p
-                    class="card__subtitle text-gray-600"
-                  >
-                    CEO
-                  </p>
-                </div>
-              </div>
-            </div>
+              <img
+                alt="Test Person - CEO"
+                class="aspect-square w-full object-cover"
+                src="https://example.com/photo.jpg"
+              />
+            </a>
+          </div>
+          <div
+            class="w-full p-4"
+          >
+            <h4
+              class="bluedot-h4 not-prose text-size-lg mb-1"
+            >
+              Test Person
+            </h4>
+            <p
+              class="text-gray-600"
+            >
+              CEO
+            </p>
           </div>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </section>
 </div>
 `;

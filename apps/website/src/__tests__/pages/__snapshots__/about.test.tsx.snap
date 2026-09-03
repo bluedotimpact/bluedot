@@ -879,25 +879,18 @@ exports[`AboutPage > should render correctly 1`] = `
       </div>
     </section>
     <section
-      class="team-section section section-body !border-b-0"
+      aria-label="Our team"
+      class="section section-body !border-b-0"
     >
       <h3
         class="bluedot-h3 not-prose mb-6"
       >
         Our team
       </h3>
-      <div
-        class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 team-section__team"
-      >
-        <div
-          class="slide-list__gradient-wrapper relative flex-1"
-        >
-          <div
-            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory flex-wrap"
-            style="scroll-padding-inline: 0px;"
-          />
-        </div>
-      </div>
+      <ul
+        aria-label="Team members"
+        class="grid grid-cols-1 gap-x-space-between gap-y-spacing-y min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+      />
     </section>
     <div
       class="join-us-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center"
