@@ -35,7 +35,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
   return (
     <div className={cn('border-bluedot-navy/10 w-full border-b bg-white py-2', className)}>
       <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
-        <ol className="flex items-center gap-2 text-size-xs font-medium">
+        <ol className="text-size-xs flex items-center gap-2 font-medium">
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
             const isMiddle = index > 0 && !isLast;
@@ -47,10 +47,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
                     {item.title}
                   </span>
                 ) : (
-                  <A
-                    className="text-bluedot-navy/70 hover:text-bluedot-navy no-underline"
-                    href={item.url}
-                  >
+                  <A className="text-bluedot-navy/70 hover:text-bluedot-navy no-underline" href={item.url}>
                     {item.title}
                   </A>
                 )}
