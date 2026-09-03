@@ -40,7 +40,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
 }) => (
   <div
     className={cn(
-      'mobile-unit-header bg-canvas border-default flex h-[76px] w-full items-center border-b px-3',
+      'mobile-unit-header bg-color-canvas border-color-divider flex h-[76px] w-full items-center border-b px-3',
       className,
     )}
   >
@@ -67,7 +67,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         <div className="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0">
           <button
             type="button"
-            className="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            className="mobile-unit-header__prev-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             disabled={mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit}
             onClick={mobileNavigation.onPrevClick}
             aria-label={mobileNavigation.isFirstChunk && mobileNavigation.prevUnit ? 'Previous unit' : 'Previous section'}
@@ -79,7 +79,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           </button>
           <button
             type="button"
-            className="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            className="mobile-unit-header__next-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             disabled={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit}
             onClick={mobileNavigation.onNextClick}
             aria-label={mobileNavigation.isLastChunk && mobileNavigation.nextUnit ? 'Next unit' : 'Next section'}
@@ -237,7 +237,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
         <div className="md:min-w-0 md:flex-1">
           {/* Breadcrumbs bar */}
-          <div className="border-bluedot-navy/20 bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
+          <div className="border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
             <div className="flex size-full flex-row items-center justify-between gap-2 px-6">
               {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-2">
