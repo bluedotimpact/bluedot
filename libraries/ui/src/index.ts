@@ -3,8 +3,8 @@
 export { Avatar, getInitials } from './Avatar';
 export type { AvatarProps } from './Avatar';
 
-export { Breadcrumbs, type BluedotRoute } from './Breadcrumbs';
-export type { BreadcrumbsProps } from './Breadcrumbs';
+export { Breadcrumbs, BreadcrumbTrail, type BluedotRoute } from './Breadcrumbs';
+export type { BreadcrumbsProps, BreadcrumbTrailProps } from './Breadcrumbs';
 
 export { Card } from './Card';
 export type { CardProps } from './Card';
