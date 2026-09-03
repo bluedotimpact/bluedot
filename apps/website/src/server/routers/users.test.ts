@@ -201,6 +201,8 @@ describe('users.ensureExists', () => {
 
     expect(insertSpy).toHaveBeenCalledTimes(1);
     expect(insertSpy.mock.calls[0]?.[1]).not.toHaveProperty('name');
+    expect(insertSpy.mock.calls[0]?.[1]).not.toHaveProperty('firstName');
+    expect(insertSpy.mock.calls[0]?.[1]).not.toHaveProperty('lastName');
     insertSpy.mockRestore();
   });
 
@@ -278,6 +280,72 @@ describe('users.ensureExists', () => {
 
     const user = await testDb.get(userTable, { email: 'test@example.com' });
     expect(user.name).toBe('Manual Name');
+  });
+
+  describe('first and last name from the token', () => {
+    const johnDoeToken = {
+      sub: 'test-sub',
+      email: 'test@example.com',
+      name: 'John Doe',
+      firstName: 'John',
+      lastName: 'Doe',
+      iss: 'test-issuer',
+      aud: 'test-audience',
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      email_verified: true,
+    };
+
+    beforeEach(() => {
+      vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(johnDoeToken);
+    });
+
+    test('writes first and last name when creating a new user', async () => {
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
+    });
+
+    test('backfills empty first and last name on a user matched by email (no keycloakIdentifier yet)', async () => {
+      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', name: 'Existing Name' });
+
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'Existing Name' });
+    });
+
+    test('backfills empty first and last name on a returning user matched by keycloakIdentifier', async () => {
+      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub' });
+
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
+    });
+
+    test('only fills the empty part and never overwrites a first or last name the user already has', async () => {
+      await testDb.insert(userTable, {
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', name: 'Manual Name',
+      });
+
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: 'Manual', lastName: 'Doe', name: 'Manual Name' });
+    });
+
+    test('leaves first and last name untouched when the token has no such claims', async () => {
+      vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({ ...johnDoeToken, firstName: undefined, lastName: undefined });
+      await testDb.insert(userTable, {
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', lastName: 'Person',
+      });
+
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: 'Manual', lastName: 'Person' });
+    });
   });
 
   test('is idempotent: a second call reports isNewUser false and creates no extra row', async () => {
@@ -419,35 +487,39 @@ describe('users.ensureExists', () => {
 });
 
 describe('users.updateName', () => {
+  const janeDoe = { firstName: 'Jane', lastName: 'Doe' };
+
   test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).users.updateName({ name: 'New' }))
+    await expect(createCaller(testAuthContextLoggedOut).users.updateName(janeDoe))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('rejects with UNAUTHORIZED when the authed user has no row (ensureExists not run)', async () => {
-    await expect(createCaller(testAuthContextLoggedIn).users.updateName({ name: 'New' }))
+    await expect(createCaller(testAuthContextLoggedIn).users.updateName(janeDoe))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
-  test('updates name on an existing user', async () => {
+  test('updates first, last and combined name on an existing user', async () => {
     await testDb.insert(userTable, {
       id: 'u1', email: 'test@example.com', name: 'Old Name', keycloakIdentifier: 'test-sub',
     });
 
-    const result = await createCaller(testAuthContextLoggedIn).users.updateName({ name: 'New Name' });
-    expect(result.name).toBe('New Name');
+    const result = await createCaller(testAuthContextLoggedIn).users.updateName({ firstName: ' Jane ', lastName: 'Doe' });
+    expect(result).toMatchObject({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
   });
 
   test('rejects empty names at the schema layer', async () => {
     await seedLoggedInUser();
-    await expect(createCaller(testAuthContextLoggedIn).users.updateName({ name: '   ' }))
+    await expect(createCaller(testAuthContextLoggedIn).users.updateName({ firstName: '   ', lastName: 'Doe' }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    await expect(createCaller(testAuthContextLoggedIn).users.updateName({ firstName: 'Jane', lastName: '' }))
       .rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 
   test('rejects names longer than 50 characters at the schema layer', async () => {
     await seedLoggedInUser();
     await expect(createCaller(testAuthContextLoggedIn).users.updateName({
-      name: 'x'.repeat(51),
+      firstName: 'x'.repeat(51), lastName: 'Doe',
     })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
   });
 });

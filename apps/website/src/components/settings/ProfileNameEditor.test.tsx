@@ -1,9 +1,11 @@
 import '@testing-library/jest-dom';
 import {
-  fireEvent, render, waitFor,
+  act, fireEvent, render, waitFor,
 } from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
-import { describe, expect, test } from 'vitest';
+import {
+  describe, expect, test, vi,
+} from 'vitest';
 import { userTable } from '@bluedot/db';
 import db from '../../lib/api/db';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
@@ -19,8 +21,8 @@ const mockUser = {
   id: 'test-user-id',
   email: 'test@example.com',
   name: 'Jane Doe',
-  firstName: null,
-  lastName: null,
+  firstName: 'Jane',
+  lastName: 'Doe',
   createdAt: null,
   lastSeenAt: null,
   firstLoggedInAt: null,
@@ -33,14 +35,14 @@ const mockUser = {
   allowedImpersonationTargets: [],
 };
 
-// Test helper function for selecting elements
-const getNameInput = (container: HTMLElement): HTMLInputElement => {
-  const input = container.querySelector<HTMLInputElement>('input[aria-label="Profile name"]')!;
+const johnDoe = { firstName: 'John', lastName: 'Doe', name: 'John Doe' };
+
+const getInput = (container: HTMLElement, label: 'First name' | 'Last name'): HTMLInputElement => {
+  const input = container.querySelector<HTMLInputElement>(`input[aria-label="${label}"]`)!;
   expect(input).toBeInTheDocument();
   return input;
 };
 
-// Helper functions for buttons
 const getNameSaveButton = (container: HTMLElement): HTMLElement | null => {
   return container.querySelector('button[aria-label="Save profile name changes"]');
 };
@@ -49,129 +51,160 @@ const getNameCancelButton = (container: HTMLElement): HTMLElement | null => {
   return container.querySelector('button[aria-label="Cancel profile name changes"]');
 };
 
-// Helper function for error messages
+// Save/Cancel are always rendered; this row is hidden (keeping its width on wide screens) until something changes
+const getButtonsRow = (container: HTMLElement): HTMLElement => getNameSaveButton(container)!.parentElement!;
+
 const getErrorMessage = (container: HTMLElement): HTMLElement | null => {
   return container.querySelector('[role="alert"]');
 };
 
 describe('ProfileNameEditor', () => {
-  test('should render with initial name correctly', async () => {
+  test('should render stored first and last name', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" />,
+      <ProfileNameEditor user={johnDoe} />,
       { wrapper: TrpcProvider },
     );
 
-    const nameInput = getNameInput(container);
-    expect(nameInput.value).toBe('John Doe');
+    expect(getInput(container, 'First name').value).toBe('John');
+    expect(getInput(container, 'Last name').value).toBe('Doe');
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
+  });
 
-    // Initially no buttons should be shown
-    expect(getNameSaveButton(container)).not.toBeInTheDocument();
-    expect(getNameCancelButton(container)).not.toBeInTheDocument();
+  test('should prefill by splitting the combined name when first/last are not stored', async () => {
+    const { container } = render(
+      <ProfileNameEditor user={{ firstName: null, lastName: null, name: 'Maria de la Cruz' }} />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(getInput(container, 'First name').value).toBe('Maria de la');
+    expect(getInput(container, 'Last name').value).toBe('Cruz');
+    // The prefill is a suggestion, so it isn't treated as an unsaved change
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });
 
   test('should allow user to successfully change their name', async () => {
     server.use(trpcMsw.users.updateName.mutation(() => mockUser));
+    const onSave = vi.fn();
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" />,
+      <ProfileNameEditor user={johnDoe} onSave={onSave} />,
       { wrapper: TrpcProvider },
     );
 
-    const input = getNameInput(container);
+    const firstNameInput = getInput(container, 'First name');
+    fireEvent.change(firstNameInput, { target: { value: 'Jane' } });
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
 
-    // Change the name
-    fireEvent.change(input, { target: { value: 'Jane Doe' } });
+    fireEvent.click(getNameSaveButton(container)!);
 
-    // Buttons should appear
     await waitFor(() => {
-      expect(getNameSaveButton(container)).toBeInTheDocument();
-      expect(getNameCancelButton(container)).toBeInTheDocument();
+      expect(onSave).toHaveBeenCalled();
     });
 
-    // Save the changes
-    const saveButton = getNameSaveButton(container);
-    fireEvent.click(saveButton!);
+    expect(firstNameInput.value).toBe('Jane');
+    expect(getInput(container, 'Last name').value).toBe('Doe');
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
+  });
 
-    // Verify buttons disappear after successful save
-    await waitFor(() => {
-      expect(getNameSaveButton(container)).not.toBeInTheDocument();
-      expect(getNameCancelButton(container)).not.toBeInTheDocument();
+  test('hides the buttons again when the names are changed back', async () => {
+    const { container } = render(
+      <ProfileNameEditor user={johnDoe} />,
+      { wrapper: TrpcProvider },
+    );
+
+    const input = getInput(container, 'First name');
+    fireEvent.change(input, { target: { value: 'Jane' } });
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
+
+    fireEvent.change(input, { target: { value: 'John' } });
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
+  });
+
+  test('alwaysShowButtons keeps save and cancel visible without changes', async () => {
+    const { container } = render(
+      <ProfileNameEditor user={johnDoe} alwaysShowButtons />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
+    expect(getButtonsRow(container)).not.toHaveClass('max-sm:hidden');
+  });
+
+  test('keeps local edits when the user prop is refetched', async () => {
+    const { container, rerender } = render(
+      <ProfileNameEditor user={johnDoe} />,
+      { wrapper: TrpcProvider },
+    );
+
+    fireEvent.change(getInput(container, 'First name'), { target: { value: 'Johnny' } });
+
+    await act(async () => {
+      rerender(<ProfileNameEditor user={{ ...johnDoe }} />);
     });
 
-    // Verify input still shows the new name
-    expect(input.value).toBe('Jane Doe');
+    expect(getInput(container, 'First name').value).toBe('Johnny');
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
+  });
+
+  test('should show validation error for an empty last name', async () => {
+    const { container } = render(
+      <ProfileNameEditor user={johnDoe} />,
+      { wrapper: TrpcProvider },
+    );
+
+    fireEvent.change(getInput(container, 'Last name'), { target: { value: '  ' } });
+    fireEvent.click(getNameSaveButton(container)!);
+
+    await waitFor(() => {
+      expect(getErrorMessage(container)?.textContent).toBe('Last name is required');
+    });
   });
 
   test('should show validation error for names exceeding maximum length', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" />,
+      <ProfileNameEditor user={johnDoe} />,
       { wrapper: TrpcProvider },
     );
 
-    const input = getNameInput(container);
+    fireEvent.change(getInput(container, 'First name'), { target: { value: 'a'.repeat(51) } });
+    fireEvent.click(getNameSaveButton(container)!);
 
-    // Test length validation - should be handled by zod schema
-    const longName = 'a'.repeat(51);
-    fireEvent.change(input, { target: { value: longName } });
-
-    const saveButton = getNameSaveButton(container);
-    fireEvent.click(saveButton!);
-
-    // Client-side validation should show error immediately
     await waitFor(() => {
-      const errorMessage = getErrorMessage(container);
-      expect(errorMessage).toBeInTheDocument();
-      expect(errorMessage?.textContent).toContain('Name must be under 50 characters');
+      expect(getErrorMessage(container)?.textContent).toBe('First name must be under 50 characters');
     });
   });
 
-  test('should not show buttons when name matches original', async () => {
+  test('cancel restores both fields', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" />,
+      <ProfileNameEditor user={johnDoe} />,
       { wrapper: TrpcProvider },
     );
 
-    const input = getNameInput(container);
+    fireEvent.change(getInput(container, 'First name'), { target: { value: 'Jane' } });
+    fireEvent.change(getInput(container, 'Last name'), { target: { value: 'Smith' } });
+    fireEvent.click(getNameCancelButton(container)!);
 
-    // Change to different value first
-    fireEvent.change(input, { target: { value: 'Jane Doe' } });
-
-    // Buttons should appear
-    await waitFor(() => {
-      expect(getNameSaveButton(container)).toBeInTheDocument();
-    });
-
-    // Change back to original value
-    fireEvent.change(input, { target: { value: 'John Doe' } });
-
-    // Buttons should disappear
-    await waitFor(() => {
-      expect(getNameSaveButton(container)).not.toBeInTheDocument();
-      expect(getNameCancelButton(container)).not.toBeInTheDocument();
-    });
+    expect(getInput(container, 'First name').value).toBe('John');
+    expect(getInput(container, 'Last name').value).toBe('Doe');
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });
 
   test('should handle API errors gracefully', async () => {
-    // Test session expired error (401)
     server.use(trpcMsw.users.updateName.mutation(() => {
       throw new TRPCError({ code: 'UNAUTHORIZED' });
     }));
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" />,
+      <ProfileNameEditor user={johnDoe} />,
       { wrapper: TrpcProvider },
     );
 
-    const input = getNameInput(container);
-
-    fireEvent.change(input, { target: { value: 'Jane Doe' } });
-    const saveButton = getNameSaveButton(container);
-    fireEvent.click(saveButton!);
+    const input = getInput(container, 'First name');
+    fireEvent.change(input, { target: { value: 'Jane' } });
+    fireEvent.click(getNameSaveButton(container)!);
 
     await waitFor(() => {
-      const errorMessage = getErrorMessage(container);
-      expect(errorMessage).toBeInTheDocument();
-      expect(errorMessage?.textContent).toBe('Session expired. Please refresh the page and try again.');
+      expect(getErrorMessage(container)?.textContent).toBe('Session expired. Please refresh the page and try again.');
     });
 
     // Clear the error by focusing on the input
@@ -180,24 +213,19 @@ describe('ProfileNameEditor', () => {
       expect(getErrorMessage(container)).not.toBeInTheDocument();
     });
 
-    // Test generic error
     server.use(trpcMsw.users.updateName.mutation(() => {
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
     }));
 
-    fireEvent.change(input, { target: { value: 'Jane Smith' } });
-    const saveButton2 = getNameSaveButton(container);
-    fireEvent.click(saveButton2!);
+    fireEvent.change(input, { target: { value: 'Janet' } });
+    fireEvent.click(getNameSaveButton(container)!);
 
     await waitFor(() => {
-      const errorMessage = getErrorMessage(container);
-      expect(errorMessage).toBeInTheDocument();
-      expect(errorMessage?.textContent).toBe('Failed to update name. Please try again.');
+      expect(getErrorMessage(container)?.textContent).toBe('Failed to update name. Please try again.');
     });
   });
 
   test('should show loading state while saving', async () => {
-    // Mock a delayed response
     let resolvePromise: (value: typeof mockUser) => void;
     const promise = new Promise<typeof mockUser>((resolve) => {
       resolvePromise = resolve;
@@ -206,77 +234,65 @@ describe('ProfileNameEditor', () => {
     server.use(trpcMsw.users.updateName.mutation(() => promise));
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" />,
+      <ProfileNameEditor user={johnDoe} />,
       { wrapper: TrpcProvider },
     );
 
-    const input = getNameInput(container);
-    fireEvent.change(input, { target: { value: 'Jane Doe' } });
+    fireEvent.change(getInput(container, 'First name'), { target: { value: 'Jane' } });
 
     const saveButton = getNameSaveButton(container);
     fireEvent.click(saveButton!);
 
-    // Should show "Saving..." text
     await waitFor(() => {
-      expect(saveButton?.textContent).toBe('Saving...');
+      expect(saveButton?.querySelector('[aria-hidden="false"]')?.textContent).toBe('Saving...');
     });
 
-    // Should be disabled while saving
     expect(saveButton).toBeDisabled();
     expect(getNameCancelButton(container)).toBeDisabled();
 
-    // Resolve the promise and wait for the component to update
     resolvePromise!(mockUser);
     await waitFor(() => {
-      expect(getNameSaveButton(container)).not.toBeInTheDocument();
+      expect(saveButton).not.toBeDisabled();
     });
   });
 });
 
 describe('ProfileNameEditor (with DB)', () => {
-  test('saves name change to the database', async () => {
+  test('saves first, last and combined name to the database', async () => {
     await seedLoggedInUser();
+    const onSave = vi.fn();
 
     const { container } = render(
-      <ProfileNameEditor initialName="Test User" />,
+      <ProfileNameEditor user={{ firstName: null, lastName: null, name: 'Test User' }} onSave={onSave} />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
-    const input = container.querySelector<HTMLInputElement>('input[aria-label="Profile name"]')!;
-    expect(input.value).toBe('Test User');
+    expect(getInput(container, 'First name').value).toBe('Test');
+    expect(getInput(container, 'Last name').value).toBe('User');
 
-    // Change the name and click Save
-    fireEvent.change(input, { target: { value: 'Jane Doe' } });
-    const saveButton = container.querySelector('button[aria-label="Save profile name changes"]')!;
-    fireEvent.click(saveButton);
+    fireEvent.change(getInput(container, 'First name'), { target: { value: 'Jane' } });
+    fireEvent.change(getInput(container, 'Last name'), { target: { value: 'Doe' } });
+    fireEvent.click(getNameSaveButton(container)!);
 
-    // Wait for success (Save/Cancel buttons disappear)
     await waitFor(() => {
-      expect(container.querySelector('button[aria-label="Save profile name changes"]')).not.toBeInTheDocument();
+      expect(onSave).toHaveBeenCalled();
     });
 
-    expect(input.value).toBe('Jane Doe');
-
-    // Verify the name was persisted in the database
     const user = await db.get(userTable, { email: 'test@example.com' });
-    expect(user.name).toBe('Jane Doe');
+    expect(user).toMatchObject({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
   });
 
   test('shows error when user does not exist in DB', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="Ghost User" />,
+      <ProfileNameEditor user={{ firstName: 'Ghost', lastName: 'User', name: 'Ghost User' }} />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
-    const input = container.querySelector<HTMLInputElement>('input[aria-label="Profile name"]')!;
-    fireEvent.change(input, { target: { value: 'New Name' } });
-
-    const saveButton = container.querySelector('button[aria-label="Save profile name changes"]')!;
-    fireEvent.click(saveButton);
+    fireEvent.change(getInput(container, 'First name'), { target: { value: 'New' } });
+    fireEvent.click(getNameSaveButton(container)!);
 
     await waitFor(() => {
-      const error = container.querySelector('[role="alert"]');
-      expect(error).toBeInTheDocument();
+      expect(getErrorMessage(container)).toBeInTheDocument();
     });
   });
 });
