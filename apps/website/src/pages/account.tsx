@@ -37,8 +37,10 @@ const AccountSettingsPage = () => {
       {user && (
         <>
           <MyBlueDotLayout route={CURRENT_ROUTE}>
+            {/* Remount when the stored name changes (e.g. saved via the welcome modal) so the editor picks it up */}
             <ProfileNameEditor
-              initialName={user.name}
+              key={`${user.firstName}|${user.lastName}|${user.name}`}
+              user={user}
               onSave={() => utils.users.getUser.invalidate()}
             />
 
@@ -66,7 +68,8 @@ const AccountSettingsPage = () => {
                 This name will be used across our platform and in your course interactions.
               </P>
               <ProfileNameEditor
-                initialName={user.name}
+                user={user}
+                alwaysShowButtons
                 onSave={() => {
                   setShowWelcomeModal(false);
                   utils.users.getUser.invalidate();

@@ -507,7 +507,10 @@ describe('resolveApplicantName', () => {
     await testDb.pg.delete(userTable.pg);
   });
 
-  const seedUser = (id: string, name: string) => testDb.insert(userTable, { id, email: `${id}@example.com`, name });
+  const seedUser = (id: string, name: string, names: { firstName?: string; lastName?: string } = {}) =>
+    testDb.insert(userTable, {
+      id, email: `${id}@example.com`, name, ...names,
+    });
 
   test('returns null names when neither a prior application nor a user account has a name', async () => {
     expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
@@ -581,8 +584,33 @@ describe('resolveApplicantName', () => {
     expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
   });
 
-  test('falls back to the user account name (split on first space) when no prior application has a name', async () => {
-    await seedUser('test-user', 'Caroline Shamiso Chitongo');
+  test('prefers a prior application\'s split name over the user account\'s stored first/last name', async () => {
+    await seedUser('test-user', 'Account Name', { firstName: 'Account', lastName: 'Name' });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      userId: 'test-user',
+      courseId: 'course-1',
+      role: 'Participant',
+      firstName: 'Ada',
+      lastName: 'Lovelace',
+      autoNumberId: 1,
+    });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Ada', lastName: 'Lovelace' });
+  });
+
+  test('uses the user account\'s stored first/last name over splitting its combined name', async () => {
+    await seedUser('test-user', 'Something Else Entirely', { firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
+  });
+
+  test('uses a partial stored first/last name as-is rather than splitting the combined name', async () => {
+    await seedUser('test-user', 'Ada Lovelace', { lastName: ' Lovelace ' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: 'Lovelace' });
+  });
+
+  test('falls back to the user account name (split on last space) when no prior application has a name', async () => {
+    await seedUser('test-user', 'Caroline Shamiso Chitongo', { firstName: '  ', lastName: '' });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-blank',
       email: CALLER_EMAIL,
@@ -591,7 +619,7 @@ describe('resolveApplicantName', () => {
       role: 'Facilitator',
       autoNumberId: 2,
     });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline', lastName: 'Shamiso Chitongo' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
   });
 
   test('splits a single-word user account name into a null last name', async () => {

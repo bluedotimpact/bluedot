@@ -6,6 +6,7 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
+import { joinName } from '../../lib/name';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -87,15 +88,33 @@ export const courseRegistrationsRouter = router({
           return { action: 'skipped-no-email' } as const;
         }
 
+        const firstName = courseRegistration.firstName?.trim() ?? '';
+        const lastName = courseRegistration.lastName?.trim() ?? '';
+
         const existingUser = await db.getFirst(userTable, { filter: { email } });
         if (existingUser) {
           await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
+
+          // Only backfill empty name fields; never overwrite a name the user set themselves
+          const nameBackfill = {
+            ...(!existingUser.firstName && firstName && { firstName }),
+            ...(!existingUser.lastName && lastName && { lastName }),
+          };
+          const joinedName = joinName(nameBackfill.firstName ?? existingUser.firstName ?? '', nameBackfill.lastName ?? existingUser.lastName ?? '');
+          const userUpdate = { ...nameBackfill, ...(!existingUser.name && joinedName && { name: joinedName }) };
+
+          if (Object.keys(userUpdate).length > 0) {
+            await db.update(userTable, { id: existingUser.id, ...userUpdate });
+          }
+
           return { action: 'linked', userId: existingUser.id } as const;
         }
 
-        const name = [courseRegistration.firstName, courseRegistration.lastName].filter(Boolean).join(' ').trim();
+        const name = joinName(firstName, lastName);
         const newUser = await db.insert(userTable, {
           email,
+          ...(firstName && { firstName }),
+          ...(lastName && { lastName }),
           ...(name && { name }),
         });
         await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });

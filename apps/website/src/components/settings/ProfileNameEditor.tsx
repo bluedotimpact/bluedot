@@ -1,31 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import clsx from 'clsx';
 import {
   CTALinkOrButton,
   Input,
-  P,
 } from '@bluedot/ui';
+import type { User } from '@bluedot/db';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
+import { splitName } from '../../lib/name';
 import { trpc } from '../../utils/trpc';
 
+type NameParts = { firstName: string; lastName: string };
+
 type ProfileNameEditorProps = {
-  initialName: string;
+  user: Pick<User, 'firstName' | 'lastName' | 'name'>;
   onSave?: () => void;
+  alwaysShowButtons?: boolean;
 };
 
-const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
-  const [tempName, setTempName] = useState(initialName);
-  const [nameError, setNameError] = useState('');
-  const [currentSavedName, setCurrentSavedName] = useState(initialName);
+// Users from before first/last were stored only have `name`; split it as a suggestion they confirm by saving
+const getInitialNames = (user: ProfileNameEditorProps['user']): NameParts => {
+  const hasStoredNames = Boolean(user.firstName) || Boolean(user.lastName);
+  return hasStoredNames
+    ? { firstName: user.firstName ?? '', lastName: user.lastName ?? '' }
+    : splitName(user.name);
+};
 
-  const trimmedName = tempName.trim();
+const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileNameEditorProps) => {
+  const [names, setNames] = useState<NameParts>(() => getInitialNames(user));
+  const [savedNames, setSavedNames] = useState<NameParts>(names);
+  const [nameError, setNameError] = useState('');
+
+  const trimmed: NameParts = { firstName: names.firstName.trim(), lastName: names.lastName.trim() };
 
   const updateNameMutation = trpc.users.updateName.useMutation({
     onMutate() {
       setNameError('');
     },
     onSuccess(result) {
-      setCurrentSavedName(result.name);
-      setTempName(result.name);
+      const saved = { firstName: result.firstName ?? '', lastName: result.lastName ?? '' };
+      setSavedNames(saved);
+      setNames(saved);
       onSave?.();
     },
     onError(error) {
@@ -41,14 +55,8 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
 
   const isSaving = updateNameMutation.isPending;
 
-  // Update when initial name changes
-  useEffect(() => {
-    setTempName(initialName);
-    setCurrentSavedName(initialName);
-  }, [initialName]);
-
   const handleSave = () => {
-    const validationResult = updateNameSchema.safeParse({ name: trimmedName });
+    const validationResult = updateNameSchema.safeParse(trimmed);
     if (!validationResult.success) {
       const firstError = validationResult.error.issues[0];
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -56,11 +64,11 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
       return;
     }
 
-    updateNameMutation.mutate({ name: trimmedName });
+    updateNameMutation.mutate(validationResult.data);
   };
 
   const handleCancel = () => {
-    setTempName(currentSavedName);
+    setNames(savedNames);
     setNameError('');
   };
 
@@ -68,60 +76,77 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
     setNameError('');
   };
 
-  const showButtons = trimmedName !== currentSavedName.trim();
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    }
+
+    if (e.key === 'Escape') {
+      handleCancel();
+    }
+  };
+
+  const hasChanges = trimmed.firstName !== savedNames.firstName.trim() || trimmed.lastName !== savedNames.lastName.trim();
+  const showButtons = alwaysShowButtons || hasChanges;
 
   return (
     <div className="mb-6">
-      <div className="flex flex-col gap-2">
-        <div id="profile-name-label">
-          <P className="font-semibold">Profile Name*</P>
-        </div>
-        <div className="flex gap-2 items-center">
+      <div className="flex flex-col gap-4">
+        <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
           <Input
-            inputClassName="flex-1"
-            labelClassName="flex-1 min-w-0"
-            value={tempName}
-            onChange={(e) => setTempName(e.target.value)}
+            label="First name*"
+            labelClassName="font-semibold"
+            inputClassName="font-normal"
+            value={names.firstName}
+            onChange={(e) => setNames({ ...names, firstName: e.target.value })}
             onFocus={handleFocus}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleSave();
-              }
-
-              if (e.key === 'Escape') {
-                handleCancel();
-              }
-            }}
-            placeholder="Enter your name"
-            aria-label="Profile name"
-            aria-describedby={nameError ? 'profile-name-error' : 'profile-name-label'}
+            onKeyDown={handleKeyDown}
+            placeholder="Enter your first name"
+            aria-label="First name"
+            aria-describedby={nameError ? 'profile-name-error' : undefined}
             aria-invalid={!!nameError}
           />
-          {showButtons && (
-            <div className="flex gap-2 flex-shrink-0">
-              <CTALinkOrButton
-                variant="primary"
-                onClick={handleSave}
-                disabled={isSaving}
-                className="whitespace-nowrap"
-                aria-label="Save profile name changes"
-              >
-                {isSaving ? 'Saving...' : 'Save'}
-              </CTALinkOrButton>
-              <CTALinkOrButton
-                variant="secondary"
-                onClick={handleCancel}
-                disabled={isSaving}
-                aria-label="Cancel profile name changes"
-              >
-                Cancel
-              </CTALinkOrButton>
-            </div>
-          )}
+          <Input
+            label="Last name*"
+            labelClassName="font-semibold"
+            inputClassName="font-normal"
+            value={names.lastName}
+            onChange={(e) => setNames({ ...names, lastName: e.target.value })}
+            onFocus={handleFocus}
+            onKeyDown={handleKeyDown}
+            placeholder="Enter your last name"
+            aria-label="Last name"
+            aria-describedby={nameError ? 'profile-name-error' : undefined}
+            aria-invalid={!!nameError}
+          />
+          {/* Always rendered so the column keeps its width; the top margin centres the buttons on the inputs rather than on label + input */}
+          <div className={clsx('flex gap-2 sm:mt-8', !showButtons && 'max-sm:hidden sm:invisible')}>
+            <CTALinkOrButton
+              variant="primary"
+              onClick={handleSave}
+              disabled={isSaving}
+              className="whitespace-nowrap"
+              aria-label="Save profile name changes"
+            >
+              {/* Both labels are laid out so the button is already wide enough for "Saving..." */}
+              <span className="grid">
+                <span className={clsx('col-start-1 row-start-1', isSaving && 'invisible')} aria-hidden={isSaving}>Save</span>
+                <span className={clsx('col-start-1 row-start-1', !isSaving && 'invisible')} aria-hidden={!isSaving}>Saving...</span>
+              </span>
+            </CTALinkOrButton>
+            <CTALinkOrButton
+              variant="secondary"
+              onClick={handleCancel}
+              disabled={isSaving}
+              aria-label="Cancel profile name changes"
+            >
+              Cancel
+            </CTALinkOrButton>
+          </div>
         </div>
         {nameError && (
           <p
-            className="text-red-600 text-size-sm mt-1"
+            className="text-red-600 text-size-sm"
             id="profile-name-error"
             role="alert"
             aria-live="polite"

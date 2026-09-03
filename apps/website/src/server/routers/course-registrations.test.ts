@@ -249,8 +249,81 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
 
     expect(result.action).toBe('created-user-and-linked');
     const user = await testDb.getFirst(userTable, { filter: { email: 'new@example.com' } });
-    expect(user).toMatchObject({ name: 'Ada Lovelace' });
+    expect(user).toMatchObject({ firstName: 'Ada', lastName: 'Lovelace', name: 'Ada Lovelace' });
     expect((await getRegistration('reg1'))?.userId).toBe(user?.id);
+  });
+
+  test('creates a user with only the trimmed name parts the registration has', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'new@example.com', courseId: 'c1', firstName: ' Ada ', lastName: '  ',
+    });
+    const insertSpy = vi.spyOn(testDb.airtableClient, 'insert');
+
+    await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(insertSpy).toHaveBeenCalledTimes(1);
+    expect(insertSpy.mock.calls[0]?.[1]).toEqual({ email: 'new@example.com', firstName: 'Ada', name: 'Ada' });
+    insertSpy.mockRestore();
+  });
+
+  test('backfills empty first, last and combined name on the existing user it links to', async () => {
+    await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com' });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
+    });
+
+    const result = await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(result).toEqual({ action: 'linked', userId: 'user1' });
+    expect((await getRegistration('reg1'))?.userId).toBe('user1');
+    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
+    expect(user).toMatchObject({ firstName: 'Ada', lastName: 'Lovelace', name: 'Ada Lovelace' });
+  });
+
+  test('only fills the empty name fields of the existing user, joining the combined name from the merged parts', async () => {
+    await testDb.insert(userTable, {
+      id: 'user1', email: 'someone@example.com', firstName: 'Augusta', name: '',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
+    });
+
+    await linkToUser({ courseRegistrationId: 'reg1' });
+
+    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
+    expect(user).toMatchObject({ firstName: 'Augusta', lastName: 'Lovelace', name: 'Augusta Lovelace' });
+  });
+
+  test('never overwrites names the existing user already has', async () => {
+    await testDb.insert(userTable, {
+      id: 'user1', email: 'someone@example.com', firstName: 'Grace', lastName: 'Hopper', name: 'Grace Hopper',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
+    });
+    const updateSpy = vi.spyOn(testDb.airtableClient, 'update');
+
+    await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(updateSpy).not.toHaveBeenCalledWith(userTable.airtable, expect.anything());
+    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
+    expect(user).toMatchObject({ firstName: 'Grace', lastName: 'Hopper', name: 'Grace Hopper' });
+    updateSpy.mockRestore();
+  });
+
+  test('does not update the existing user when the registration has no name to fill', async () => {
+    await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com' });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: '  ',
+    });
+    const updateSpy = vi.spyOn(testDb.airtableClient, 'update');
+
+    const result = await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(result).toEqual({ action: 'linked', userId: 'user1' });
+    expect(updateSpy).toHaveBeenCalledTimes(1);
+    expect(updateSpy).toHaveBeenCalledWith(courseRegistrationTable.airtable, { id: 'reg1', userId: 'user1' });
+    updateSpy.mockRestore();
   });
 
   test('creates a user with a lowercased email so website lookups can resolve it', async () => {
@@ -271,7 +344,7 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
 
     expect(result.action).toBe('created-user-and-linked');
     const user = await testDb.getFirst(userTable, { filter: { email: 'new@example.com' } });
-    expect(user?.name).toBe('');
+    expect(user).toMatchObject({ firstName: null, lastName: null, name: '' });
     expect((await getRegistration('reg1'))?.userId).toBe(user?.id);
   });
 });

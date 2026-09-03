@@ -12,6 +12,7 @@ import {
   adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
 } from '../../lib/api/keycloak';
 import { normaliseEmail } from '../../lib/api/utils';
+import { joinName } from '../../lib/name';
 import { ONE_MINUTE_MS } from '../../lib/constants';
 import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
@@ -178,7 +179,9 @@ export const usersRouter = router({
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid login token' });
       }
 
-      const { sub, name } = auth;
+      const {
+        sub, name, firstName, lastName,
+      } = auth;
 
       const [existingUserByEmail, existingUserByKeycloakIdentifier] = await Promise.all([
         db.getFirst(userTable, {
@@ -196,12 +199,18 @@ export const usersRouter = router({
         ...(input.initialUtmContent && !existingUser?.utmContent && { utmContent: input.initialUtmContent }),
       });
 
+      // Don't clobber names the user set themselves; only backfill empty ones
+      const getNameFields = (existingUser?: typeof existingUserByEmail) => ({
+        ...(name && !existingUser?.name && { name }),
+        ...(firstName && !existingUser?.firstName && { firstName }),
+        ...(lastName && !existingUser?.lastName && { lastName }),
+      });
+
       if (existingUserByKeycloakIdentifier) {
         // Update last seen timestamp if already exists
         await db.update(userTable, {
           id: existingUserByKeycloakIdentifier.id,
-          // Don't clobber a name the user set themselves; only backfill an empty one
-          ...(name && !existingUserByKeycloakIdentifier.name && { name }),
+          ...getNameFields(existingUserByKeycloakIdentifier),
           lastSeenAt: new Date().toISOString(),
         });
       } else if (existingUserByEmail) {
@@ -212,8 +221,7 @@ export const usersRouter = router({
         await db.update(userTable, {
           id: existingUserByEmail.id,
           ...(sub && { keycloakIdentifier: sub }),
-          // Don't clobber a name the user set themselves; only backfill an empty one
-          ...(name && !existingUserByEmail.name && { name }),
+          ...getNameFields(existingUserByEmail),
           lastSeenAt: new Date().toISOString(),
           firstLoggedInAt: new Date().toISOString(),
           ...(isFirstLogin && getInitialUtmFields(existingUserByEmail)),
@@ -223,7 +231,7 @@ export const usersRouter = router({
         await db.insert(userTable, {
           email: auth.email,
           ...(sub && { keycloakIdentifier: sub }),
-          ...(name && { name }),
+          ...getNameFields(),
           lastSeenAt: new Date().toISOString(),
           firstLoggedInAt: new Date().toISOString(),
           ...getInitialUtmFields(),
@@ -241,7 +249,9 @@ export const usersRouter = router({
       const user = await getUserFromAuthOrThrow(ctx.auth);
       return db.update(userTable, {
         id: user.id,
-        name: input.name,
+        firstName: input.firstName,
+        lastName: input.lastName,
+        name: joinName(input.firstName, input.lastName),
       });
     }),
 
