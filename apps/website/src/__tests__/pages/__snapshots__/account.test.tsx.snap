@@ -7,41 +7,53 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
       Account | BlueDot Impact
     </title>
     <div
-      class="bg-canvas border-b border-default w-full py-space-between"
+      class="border-bluedot-navy/10 w-full border-b bg-white py-2"
     >
       <nav
         aria-label="Breadcrumbs"
         class="section-base flex flex-row justify-between"
       >
         <ol
-          class="flex"
+          class="text-size-xs flex min-w-0 items-center gap-2 font-medium"
         >
           <li
-            class="flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
             <a
-              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
+              class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
               href="/"
               tabindex="0"
             >
               Home
             </a>
-            <span
-              class="mx-2"
+            <svg
+              aria-hidden="true"
+              class="text-bluedot-navy/70 shrink-0"
+              fill="none"
+              height="16"
+              viewBox="0 0 20 20"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              &gt;
-            </span>
+              <path
+                d="M7.5 5L12.5 10L7.5 15"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
           </li>
           <li
-            class="flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
-            <a
-              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
-              href="/account"
-              tabindex="0"
+            <span
+              aria-current="page"
+              class="text-bluedot-navy truncate"
+              title="Account"
             >
               Account
-            </a>
+            </span>
           </li>
         </ol>
       </nav>
@@ -67,7 +79,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
           >
             <div
               aria-hidden="true"
-              class="absolute bottom-0 left-0 top-0 w-1 bg-default"
+              class="absolute bottom-0 left-0 top-0 w-1 bg-color-divider"
             />
             <span
               aria-hidden="true"
@@ -114,85 +126,41 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             class="mb-6"
           >
             <div
-              class="flex flex-col gap-4"
+              class="flex flex-col gap-2"
             >
               <div
-                class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center"
+                id="profile-name-label"
+              >
+                <p
+                  class="bluedot-p not-prose font-semibold"
+                >
+                  Profile Name*
+                </p>
+              </div>
+              <div
+                class="flex gap-2 items-center"
               >
                 <label
-                  class="input flex gap-2 has-[:disabled]:cursor-not-allowed flex-col font-semibold"
+                  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col flex-1 min-w-0"
                 >
                   <span
                     class="input__label"
-                  >
-                    First name*
-                  </span>
+                  />
                   <input
+                    aria-describedby="profile-name-label"
                     aria-invalid="false"
-                    aria-label="First name"
-                    class="border border-default rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
-                    label="First name*"
-                    placeholder="Enter your first name"
+                    aria-label="Profile name"
+                    class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 flex-1"
+                    placeholder="Enter your name"
                     type="text"
-                    value="John"
+                    value="John Doe"
                   />
                 </label>
-                <label
-                  class="input flex gap-2 has-[:disabled]:cursor-not-allowed flex-col font-semibold"
-                >
-                  <span
-                    class="input__label"
-                  >
-                    Last name*
-                  </span>
-                  <input
-                    aria-invalid="false"
-                    aria-label="Last name"
-                    class="border border-default rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
-                    label="Last name*"
-                    placeholder="Enter your last name"
-                    type="text"
-                    value="Doe"
-                  />
-                </label>
-                <div
-                  class="flex gap-2 sm:mt-8 max-sm:hidden sm:invisible"
-                >
-                  <button
-                    aria-label="Save profile name changes"
-                    class="cta-button flex items-center justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark whitespace-nowrap"
-                    type="button"
-                  >
-                    <span
-                      class="grid"
-                    >
-                      <span
-                        aria-hidden="false"
-                        class="col-start-1 row-start-1"
-                      >
-                        Save
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        class="col-start-1 row-start-1 invisible"
-                      >
-                        Saving...
-                      </span>
-                    </span>
-                  </button>
-                  <button
-                    aria-label="Cancel profile name changes"
-                    class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                </div>
               </div>
             </div>
           </div>
           <div
-            class="border-t border-default my-6"
+            class="border-t border-color-divider my-6"
           />
           <div
             class="mb-6"
@@ -209,7 +177,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             </p>
           </div>
           <div
-            class="border-t border-default my-6"
+            class="border-t border-color-divider my-6"
           />
           <div
             class="mb-6"

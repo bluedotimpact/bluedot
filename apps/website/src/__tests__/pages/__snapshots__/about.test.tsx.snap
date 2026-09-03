@@ -275,7 +275,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       </a>
                     </div>
                     <div
-                      class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
+                      class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
                     >
                       <a
                         class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
@@ -570,41 +570,53 @@ exports[`AboutPage > should render correctly 1`] = `
       </div>
     </section>
     <div
-      class="bg-canvas border-b border-default w-full py-space-between"
+      class="border-bluedot-navy/10 w-full border-b bg-white py-2"
     >
       <nav
         aria-label="Breadcrumbs"
         class="section-base flex flex-row justify-between"
       >
         <ol
-          class="flex"
+          class="text-size-xs flex min-w-0 items-center gap-2 font-medium"
         >
           <li
-            class="flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
             <a
-              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
+              class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
               href="/"
               tabindex="0"
             >
               Home
             </a>
-            <span
-              class="mx-2"
+            <svg
+              aria-hidden="true"
+              class="text-bluedot-navy/70 shrink-0"
+              fill="none"
+              height="16"
+              viewBox="0 0 20 20"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              &gt;
-            </span>
+              <path
+                d="M7.5 5L12.5 10L7.5 15"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
           </li>
           <li
-            class="flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
-            <a
-              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
-              href="/about"
-              tabindex="0"
+            <span
+              aria-current="page"
+              class="text-bluedot-navy truncate"
+              title="About us"
             >
               About us
-            </a>
+            </span>
           </li>
         </ol>
       </nav>
@@ -761,7 +773,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2021
               </p>
@@ -786,7 +798,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2022
               </p>
@@ -811,7 +823,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2023
               </p>
@@ -836,7 +848,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2024
               </p>
@@ -861,7 +873,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2025
               </p>
