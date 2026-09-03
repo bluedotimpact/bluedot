@@ -69,7 +69,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
 };
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, className }) => (
-  <div className={cn('border-bluedot-navy/10 w-full border-b bg-white py-2', className)}>
+  <div className={cn('border-bluedot-navy/10 w-full border-b bg-white py-3', className)}>
     <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
       <BreadcrumbTrail route={route} />
       {children}
