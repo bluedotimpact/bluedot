@@ -23,7 +23,6 @@ export type BreadcrumbsProps = {
   // Required
   route: BluedotRoute;
   // Optional
-  children?: React.ReactNode;
   className?: string;
 };
 
@@ -68,11 +67,10 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
   );
 };
 
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, className }) => (
+export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => (
   <div className={cn('border-bluedot-navy/10 w-full border-b bg-white py-3', className)}>
-    <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
+    <nav className="section-base" aria-label="Breadcrumbs">
       <BreadcrumbTrail route={route} />
-      {children}
     </nav>
   </div>
 );
