@@ -35,7 +35,6 @@ export type BreadcrumbTrailProps = {
 /** The crumbs alone, for embedding in an existing bar. Use `Breadcrumbs` for the standalone full-width bar. */
 export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, className }) => {
   const items = [...(route.parentPages ?? []), route];
-  // Below bd-md only the first and current crumb are shown; middle crumbs collapse to "⋯"
   const collapsible = items.length > 2;
 
   return (
