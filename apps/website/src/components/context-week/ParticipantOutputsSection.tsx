@@ -16,11 +16,6 @@ const ParticipantOutputsSection = () => {
           applications, conversations, further reading, or project work. They may make a
           decision during the week or leave knowing what they still need to learn.
         </P>
-        <P className="text-bluedot-navy/80">
-          BlueDot will assess participants&apos; knowledge before and after the programme and
-          contact them 90 days later to ask what they did next. The evaluation will also look
-          for overconfidence and pressure to agree with the group.
-        </P>
       </div>
     </section>
   );
