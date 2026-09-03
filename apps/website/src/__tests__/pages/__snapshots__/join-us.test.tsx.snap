@@ -574,7 +574,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
     >
       <nav
         aria-label="Breadcrumbs"
-        class="section-base flex flex-row justify-between"
+        class="section-base"
       >
         <ol
           class="text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium"
