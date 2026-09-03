@@ -39,11 +39,14 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
             return (
               <li key={item.url} className="flex items-center gap-2">
                 {isLast ? (
-                  <span aria-current="page" className="text-bluedot-navy">
+                  <span aria-current="page" className="text-bluedot-navy text-size-xs font-medium">
                     {item.title}
                   </span>
                 ) : (
-                  <A className="text-bluedot-navy/70 hover:text-bluedot-navy no-underline" href={item.url}>
+                  <A
+                    className="text-bluedot-navy/70 hover:text-bluedot-navy text-size-xs font-medium no-underline"
+                    href={item.url}
+                  >
                     {item.title}
                   </A>
                 )}
