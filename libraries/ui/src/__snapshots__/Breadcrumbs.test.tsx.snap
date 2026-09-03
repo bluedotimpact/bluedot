@@ -10,7 +10,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
       class="section-base flex flex-row justify-between"
     >
       <ol
-        class="text-size-xs flex min-w-0 items-center gap-2 font-medium"
+        class="text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium"
       >
         <li
           class="flex min-w-0 items-center gap-2"

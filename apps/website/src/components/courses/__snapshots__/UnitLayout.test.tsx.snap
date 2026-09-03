@@ -753,7 +753,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex min-h-[18px] min-w-0 flex-1 items-center"
             >
               <ol
-                class="text-size-xs flex min-w-0 items-center gap-2 font-medium"
+                class="text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium"
               >
                 <li
                   class="flex min-w-0 items-center gap-2"
