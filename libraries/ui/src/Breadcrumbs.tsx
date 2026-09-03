@@ -1,6 +1,7 @@
 import type React from 'react';
 import clsx from 'clsx';
 import { A } from './Text';
+import { ChevronRightIcon } from './icons/ChevronRightIcon';
 
 export type BluedotRoute = {
   /**
@@ -46,7 +47,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
                     {item.title}
                   </A>
                 )}
-                {!isLast && <span className="mx-2">{'>'}</span>}
+                {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-bluedot-navy/70 shrink-0" />}
               </li>
             );
           })}
