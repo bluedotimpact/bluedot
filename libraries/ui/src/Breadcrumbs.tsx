@@ -1,5 +1,4 @@
 import type React from 'react';
-import clsx from 'clsx';
 import { A } from './Text';
 import { ChevronRightIcon } from './icons/ChevronRightIcon';
 import { cn } from './utils';
@@ -32,8 +31,8 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
   const items = [...(route.parentPages ?? []), route];
 
   return (
-    <div className={clsx('border-bluedot-navy/10 w-full border-b bg-white py-2', className)}>
       <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
+    <div className={cn('border-bluedot-navy/10 w-full border-b bg-white py-2', className)}>
         <ol className="flex items-center gap-2 text-size-xs font-medium">
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
