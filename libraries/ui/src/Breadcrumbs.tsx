@@ -2,6 +2,7 @@ import type React from 'react';
 import clsx from 'clsx';
 import { A } from './Text';
 import { ChevronRightIcon } from './icons/ChevronRightIcon';
+import { cn } from './utils';
 
 export type BluedotRoute = {
   /**
@@ -36,8 +37,11 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
         <ol className="flex items-center gap-2">
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
+            const isMiddle = index > 0 && !isLast;
+            const collapsible = items.length > 2;
+
             return (
-              <li key={item.url} className="flex items-center gap-2">
+              <li key={item.url} className={cn('flex items-center gap-2', isMiddle && 'bd-md:flex hidden')}>
                 {isLast ? (
                   <span aria-current="page" className="text-bluedot-navy text-size-xs font-medium">
                     {item.title}
@@ -51,6 +55,12 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
                   </A>
                 )}
                 {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-bluedot-navy/70 shrink-0" />}
+                {index === 0 && collapsible && (
+                  <span aria-hidden="true" className="bd-md:hidden text-bluedot-navy/70 flex items-center gap-2">
+                    ...
+                    <ChevronRightIcon size={16} className="text-bluedot-navy/70 shrink-0" />
+                  </span>
+                )}
               </li>
             );
           })}
