@@ -30,17 +30,17 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
   const items = [...(route.parentPages ?? []), route];
 
   return (
-    <div className={clsx('breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between', className)}>
+    <div className={clsx('bg-color-canvas border-b border-color-divider w-full py-space-between', className)}>
       <nav
-        className="breadcrumbs__nav section-base flex flex-row justify-between"
+        className="section-base flex flex-row justify-between"
         aria-label="Breadcrumbs"
       >
-        <ol className="breadcrumbs__list flex">
+        <ol className="flex">
           {items.map((item, index) => (
-            <li key={item.url} className="breadcrumbs__item flex items-center">
-              <A className="breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal" href={item.url}>{item.title}</A>
+            <li key={item.url} className="flex items-center">
+              <A className="no-underline text-bluedot-darker hover:text-bluedot-normal" href={item.url}>{item.title}</A>
               {index < items.length - 1 && (
-                <span className="breadcrumbs__separator mx-2">{'>'}</span>
+                <span className="mx-2">{'>'}</span>
               )}
             </li>
           ))}
