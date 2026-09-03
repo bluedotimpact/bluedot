@@ -57,7 +57,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
                 {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-bluedot-navy/70 shrink-0" />}
                 {index === 0 && collapsible && (
                   <span aria-hidden="true" className="bd-md:hidden text-bluedot-navy/70 flex items-center gap-2">
-                    ...
+                    …
                     <ChevronRightIcon size={16} className="text-bluedot-navy/70 shrink-0" />
                   </span>
                 )}
