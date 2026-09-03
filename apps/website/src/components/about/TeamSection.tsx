@@ -33,11 +33,11 @@ const TeamSection = () => {
     <TeamSectionShell>
       <ul
         aria-label="Team members"
-        className="grid grid-cols-1 gap-x-space-between gap-y-spacing-y min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+        className="grid grid-cols-2 gap-x-3 gap-y-7 min-[360px]:grid-cols-3 md:gap-x-space-between md:gap-y-spacing-y xl:grid-cols-4"
       >
         {teamMembers.map((member) => (
           <li key={member.name}>
-            <div className="flex flex-col items-start transition-transform duration-200">
+            <div className="flex flex-col items-center transition-transform duration-200 md:items-start">
               <div className="w-full">
                 {member.url ? (
                   <a
@@ -47,22 +47,22 @@ const TeamSection = () => {
                     className="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                   >
                     <img
-                      className="aspect-square w-full object-cover"
+                      className="aspect-square w-full rounded-full object-cover md:rounded-none"
                       src={member.imageUrl}
                       alt={`${member.name} - ${member.jobTitle}`}
                     />
                   </a>
                 ) : (
                   <img
-                    className="aspect-square w-full object-cover"
+                    className="aspect-square w-full rounded-full object-cover md:rounded-none"
                     src={member.imageUrl}
                     alt={`${member.name} - ${member.jobTitle}`}
                   />
                 )}
               </div>
-              <div className="w-full p-4">
-                <H4 className="text-size-lg mb-1">{member.name}</H4>
-                <p className="text-gray-600">{member.jobTitle}</p>
+              <div className="w-full pt-2 text-center md:p-4 md:text-left">
+                <H4 className="text-size-xs mb-1 md:text-size-lg">{member.name}</H4>
+                <p className="text-size-xxs text-gray-600 md:text-size-sm">{member.jobTitle}</p>
               </div>
             </div>
           </li>

@@ -889,7 +889,7 @@ exports[`AboutPage > should render correctly 1`] = `
       </h3>
       <ul
         aria-label="Team members"
-        class="grid grid-cols-1 gap-x-space-between gap-y-spacing-y min-[480px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+        class="grid grid-cols-2 gap-x-3 gap-y-7 min-[360px]:grid-cols-3 md:gap-x-space-between md:gap-y-spacing-y xl:grid-cols-4"
       />
     </section>
     <div
