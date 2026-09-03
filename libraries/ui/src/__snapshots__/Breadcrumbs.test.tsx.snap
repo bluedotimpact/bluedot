@@ -7,7 +7,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
   >
     <nav
       aria-label="Breadcrumbs"
-      class="section-base flex flex-row items-center justify-between"
+      class="section-base flex flex-row justify-between"
     >
       <ol
         class="flex items-center gap-2 text-size-xs font-medium"
@@ -43,7 +43,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
             aria-hidden="true"
             class="bd-md:hidden text-bluedot-navy/70 flex items-center gap-2"
           >
-            …
+            ⋯
             <svg
               class="text-bluedot-navy/70 shrink-0"
               fill="none"
