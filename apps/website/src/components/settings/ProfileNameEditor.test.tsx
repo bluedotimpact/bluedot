@@ -19,6 +19,8 @@ const mockUser = {
   id: 'test-user-id',
   email: 'test@example.com',
   name: 'Jane Doe',
+  firstName: null,
+  lastName: null,
   createdAt: null,
   lastSeenAt: null,
   firstLoggedInAt: null,
