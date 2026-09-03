@@ -46,7 +46,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
                     {item.title}
                   </A>
                 )}
-                {index < items.length - 1 && <span className="mx-2">{'>'}</span>}
+                {!isLast && <span className="mx-2">{'>'}</span>}
               </li>
             );
           })}
