@@ -31,7 +31,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
   const items = [...(route.parentPages ?? []), route];
 
   return (
-    <div className={clsx('bg-color-canvas border-color-divider py-space-between w-full border-b', className)}>
+    <div className={clsx('bg-white border-bluedot-navy/10 py-2 w-full border-b', className)}>
       <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
         <ol className="flex items-center gap-2">
           {items.map((item, index) => {
