@@ -29,6 +29,8 @@ export type BreadcrumbsProps = {
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, className }) => {
   const items = [...(route.parentPages ?? []), route];
+  // Below bd-md only the first and current crumb are shown; middle crumbs collapse to "…"
+  const collapsible = items.length > 2;
 
   return (
       <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
@@ -37,7 +39,6 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
             const isMiddle = index > 0 && !isLast;
-            const collapsible = items.length > 2;
 
             return (
               <li key={item.url} className={cn('flex items-center gap-2', isMiddle && 'bd-md:flex hidden')}>
