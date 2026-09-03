@@ -36,7 +36,7 @@ describe('Breadcrumbs', () => {
     });
     expect(screen.getByText('Home').closest('li')?.classList.contains('hidden')).toBe(false);
 
-    const ellipsis = screen.getByText('…');
+    const ellipsis = screen.getByText('⋯');
     expect(ellipsis.getAttribute('aria-hidden')).toBe('true');
     expect(ellipsis.closest('li')).toBe(screen.getByText('Home').closest('li'));
   });
@@ -44,6 +44,6 @@ describe('Breadcrumbs', () => {
   test('does not render an ellipsis for two-level trails', () => {
     render(<Breadcrumbs route={{ title: 'About', url: '/about', parentPages: [{ title: 'Home', url: '/' }] }} />);
 
-    expect(screen.queryByText('…')).toBeNull();
+    expect(screen.queryByText('⋯')).toBeNull();
   });
 });
