@@ -3,11 +3,11 @@
 exports[`Breadcrumbs > renders parent pages as links and the current page as plain text 1`] = `
 <div>
   <div
-    class="border-bluedot-navy/10 w-full border-b bg-white py-2"
+    class="border-bluedot-navy/10 w-full border-b bg-white py-3"
   >
     <nav
       aria-label="Breadcrumbs"
-      class="section-base flex flex-row justify-between"
+      class="section-base"
     >
       <ol
         class="text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium"
