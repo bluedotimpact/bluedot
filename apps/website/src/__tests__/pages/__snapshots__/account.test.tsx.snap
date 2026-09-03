@@ -7,7 +7,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
       Account | BlueDot Impact
     </title>
     <div
-      class="border-bluedot-navy/10 w-full border-b bg-white py-2"
+      class="border-bluedot-navy/10 w-full border-b bg-white py-3"
     >
       <nav
         aria-label="Breadcrumbs"

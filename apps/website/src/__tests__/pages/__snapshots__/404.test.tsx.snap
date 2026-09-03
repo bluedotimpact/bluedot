@@ -51,7 +51,7 @@ exports[`Error404Page > should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="border-bluedot-navy/10 w-full border-b bg-white py-2"
+      class="border-bluedot-navy/10 w-full border-b bg-white py-3"
     >
       <nav
         aria-label="Breadcrumbs"

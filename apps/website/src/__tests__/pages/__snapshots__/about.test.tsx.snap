@@ -570,7 +570,7 @@ exports[`AboutPage > should render correctly 1`] = `
       </div>
     </section>
     <div
-      class="border-bluedot-navy/10 w-full border-b bg-white py-2"
+      class="border-bluedot-navy/10 w-full border-b bg-white py-3"
     >
       <nav
         aria-label="Breadcrumbs"
