@@ -38,7 +38,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
   const collapsible = items.length > 2;
 
   return (
-    <ol className={cn('text-size-xs flex min-w-0 items-center gap-2 font-medium', className)}>
+    <ol className={cn('text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium', className)}>
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         const isMiddle = index > 0 && !isLast;
