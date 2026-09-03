@@ -33,11 +33,11 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, class
   return (
     <div className={clsx('bg-color-canvas border-color-divider py-space-between w-full border-b', className)}>
       <nav className="section-base flex flex-row justify-between" aria-label="Breadcrumbs">
-        <ol className="flex">
+        <ol className="flex items-center gap-2">
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
             return (
-              <li key={item.url} className="flex items-center">
+              <li key={item.url} className="flex items-center gap-2">
                 {isLast ? (
                   <span aria-current="page" className="text-bluedot-navy">
                     {item.title}
