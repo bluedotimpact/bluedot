@@ -1,9 +1,9 @@
 import type { Unit } from '@bluedot/db';
-import { A, cn } from '@bluedot/ui';
+import { BreadcrumbTrail, cn } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import type React from 'react';
 import { type ReactNode, useEffect, useState } from 'react';
-import { FaBars, FaChevronDown, FaChevronRight } from 'react-icons/fa6';
+import { FaBars, FaChevronDown } from 'react-icons/fa6';
 import { ROUTES } from '../../lib/routes';
 import type { CertificateData } from '../../server/routers/certificates';
 import type { BasicChunk, CourseProgress } from '../../server/routers/courses';
@@ -114,7 +114,7 @@ export type CourseShellProps = {
   currentChunkIndex?: number;
   onChunkSelect?: (index: number) => void;
   courseProgressData?: CourseProgress;
-  breadcrumb: ReactNode;
+  breadcrumb: string;
   navigationControls?: ReactNode;
   mobileNavigation?: MobileNavigation;
   onNavigate?: (msg: string) => void;
@@ -253,28 +253,17 @@ const CourseShell: React.FC<CourseShellProps> = ({
                 <span className="h-[18px] w-px bg-charcoal-mid opacity-50" />
               </div>
 
-              {/* Breadcrumbs - left aligned after hide */}
-              <nav className="flex min-h-[18px] min-w-0 flex-1 items-center gap-2">
-                <A
-                  href={ROUTES.courses.url}
-                  className="text-size-xs hover:text-bluedot-navy leading-snug font-medium text-charcoal-mid no-underline transition-colors"
-                >
-                  Courses
-                </A>
-                <FaChevronRight className="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50" />
-                <A
-                  href={`/courses/${courseSlug}`}
-                  className="text-size-xs hover:text-bluedot-navy truncate leading-snug font-medium text-charcoal-mid no-underline transition-colors"
-                >
-                  {courseTitle}
-                </A>
-                <FaChevronRight className="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50" />
-                <span
-                  className="text-size-xs text-bluedot-navy truncate leading-snug font-medium"
-                  title={typeof breadcrumb === 'string' ? breadcrumb : undefined}
-                >
-                  {breadcrumb}
-                </span>
+              <nav className="flex min-h-[18px] min-w-0 flex-1 items-center" aria-label="Breadcrumbs">
+                <BreadcrumbTrail
+                  route={{
+                    title: breadcrumb,
+                    url: router.asPath,
+                    parentPages: [
+                      { title: 'Courses', url: ROUTES.courses.url },
+                      { title: courseTitle, url: `/courses/${courseSlug}` },
+                    ],
+                  }}
+                />
               </nav>
 
               {/* Right section: Navigation */}
