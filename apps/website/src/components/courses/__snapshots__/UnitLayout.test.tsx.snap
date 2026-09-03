@@ -711,7 +711,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="md:min-w-0 md:flex-1"
       >
         <div
-          class="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
+          class="border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
         >
           <div
             class="flex size-full flex-row items-center justify-between gap-2 px-6"

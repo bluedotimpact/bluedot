@@ -237,7 +237,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
         <div className="md:min-w-0 md:flex-1">
           {/* Breadcrumbs bar */}
-          <div className="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
+          <div className="border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
             <div className="flex size-full flex-row items-center justify-between gap-2 px-6">
               {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-2">
