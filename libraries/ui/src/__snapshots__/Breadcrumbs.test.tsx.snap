@@ -10,13 +10,13 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
       class="section-base flex flex-row justify-between"
     >
       <ol
-        class="flex items-center gap-2 text-size-xs font-medium"
+        class="text-size-xs flex min-w-0 items-center gap-2 font-medium"
       >
         <li
-          class="flex items-center gap-2"
+          class="flex min-w-0 items-center gap-2"
         >
           <a
-            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy no-underline"
+            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
             href="/"
             tabindex="0"
           >
@@ -63,10 +63,10 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </span>
         </li>
         <li
-          class="items-center gap-2 bd-md:flex hidden"
+          class="min-w-0 items-center gap-2 bd-md:flex hidden"
         >
           <a
-            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy no-underline"
+            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
             href="/courses"
             tabindex="0"
           >
@@ -91,10 +91,10 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </svg>
         </li>
         <li
-          class="items-center gap-2 bd-md:flex hidden"
+          class="min-w-0 items-center gap-2 bd-md:flex hidden"
         >
           <a
-            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy no-underline"
+            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
             href="/courses/future-of-ai"
             tabindex="0"
           >
@@ -119,11 +119,12 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </svg>
         </li>
         <li
-          class="flex items-center gap-2"
+          class="flex min-w-0 items-center gap-2"
         >
           <span
             aria-current="page"
-            class="text-bluedot-navy"
+            class="text-bluedot-navy truncate"
+            title="Unit 1"
           >
             Unit 1
           </span>
