@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import {
   beforeEach, describe, expect, type Mock, test, vi,
 } from 'vitest';
@@ -33,9 +33,7 @@ describe('AboutPage', () => {
     );
     const { container } = render(<AboutPage />, { wrapper: TrpcProvider });
 
-    await waitFor(() => {
-      expect(container.querySelector('.team-section .slide-list')).toBeInTheDocument();
-    }, { timeout: 5000 });
+    expect(await screen.findByRole('list', { name: 'Team members' })).toBeInTheDocument();
 
     expect(container).toMatchSnapshot();
   });

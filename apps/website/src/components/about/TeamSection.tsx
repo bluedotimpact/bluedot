@@ -1,9 +1,9 @@
-import { H3, H4, SlideList } from '@bluedot/ui';
+import { H3, H4 } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
 const TeamSectionShell: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <section className="team-section section section-body !border-b-0">
+    <section aria-label="Our team" className="section section-body !border-b-0">
       <H3 className="mb-6">Our team</H3>
       {children}
     </section>
@@ -31,15 +31,14 @@ const TeamSection = () => {
 
   return (
     <TeamSectionShell>
-      <SlideList
-        maxItemsPerSlide={4}
-        maxRows={3}
-        className="team-section__team"
+      <ul
+        aria-label="Team members"
+        className="grid grid-cols-2 gap-x-3 gap-y-7 min-[360px]:grid-cols-3 md:gap-x-space-between md:gap-y-spacing-y xl:grid-cols-4"
       >
         {teamMembers.map((member) => (
-          <div key={member.name} className="team-section__card">
-            <div className="card flex items-start flex-col transition-transform duration-200">
-              <div className="card__image-container w-full">
+          <li key={member.name}>
+            <div className="flex flex-col items-center transition-transform duration-200 md:items-start">
+              <div className="w-full">
                 {member.url ? (
                   <a
                     href={member.url}
@@ -48,27 +47,27 @@ const TeamSection = () => {
                     className="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                   >
                     <img
-                      className="team-section__card-image size-[300px] object-cover"
+                      className="aspect-square w-full rounded-full object-cover md:rounded-none"
                       src={member.imageUrl}
                       alt={`${member.name} - ${member.jobTitle}`}
                     />
                   </a>
                 ) : (
                   <img
-                    className="team-section__card-image size-[300px] object-cover"
+                    className="aspect-square w-full rounded-full object-cover md:rounded-none"
                     src={member.imageUrl}
                     alt={`${member.name} - ${member.jobTitle}`}
                   />
                 )}
               </div>
-              <div className="card__content w-full p-4">
-                <H4 className="text-size-lg mb-1">{member.name}</H4>
-                <p className="card__subtitle text-gray-600">{member.jobTitle}</p>
+              <div className="w-full pt-2 text-center md:p-4 md:text-left">
+                <H4 className="text-size-xs mb-1 md:text-size-lg">{member.name}</H4>
+                <p className="text-size-xxs text-gray-600 md:text-size-sm">{member.jobTitle}</p>
               </div>
             </div>
-          </div>
+          </li>
         ))}
-      </SlideList>
+      </ul>
     </TeamSectionShell>
   );
 };
