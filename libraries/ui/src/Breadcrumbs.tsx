@@ -44,7 +44,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
         const isMiddle = index > 0 && !isLast;
 
         return (
-          <li key={item.url} className={cn('flex min-w-0 items-center gap-2', isMiddle && 'bd-md:flex hidden')}>
+          <li key={item.url} className={cn('flex min-w-0 items-center gap-2', isMiddle && 'hidden bd-md:flex')}>
             {isLast ? (
               <span aria-current="page" title={item.title} className="text-bluedot-navy truncate">
                 {item.title}
