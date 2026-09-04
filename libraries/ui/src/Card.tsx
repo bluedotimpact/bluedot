@@ -5,12 +5,17 @@ import { Tag } from './Tag';
 
 export type CardProps = {
   title: string;
+  /** The whole card is a single link to this destination */
+  url: string;
+  /**
+   * Body slot. Rendered inside the card link — must not contain interactive
+   * elements (links, buttons); use `ctaText` for the action affordance.
+   */
   children?: React.ReactNode;
   className?: string;
+  /** Presentational primary-button affordance; navigates to `url` like the rest of the card */
   ctaText?: string;
-  ctaUrl?: string;
   imageSrc?: string;
-  isEntireCardClickable?: boolean;
   isFullWidth?: boolean;
   subtitle?: string;
   subtitleBadge?: string;
