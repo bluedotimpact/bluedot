@@ -11,12 +11,10 @@ export type CardProps = {
   className?: string;
   ctaText?: string;
   ctaUrl?: string;
-  imageClassName?: string;
   imageSrc?: string;
   isEntireCardClickable?: boolean;
   isFullWidth?: boolean;
   subtitle?: string;
-  subtitleClassName?: string;
   subtitleBadge?: string;
 };
 
