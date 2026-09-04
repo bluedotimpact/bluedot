@@ -54,9 +54,7 @@ const PeopleListView: React.FC = withAuth(({ auth }) => {
   return (
     <div className="grid md:grid-cols-4 gap-4">
       {data?.map((person) => (
-        <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
-          <P><A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</A></P>
-        </Card>
+        <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="p-4" ctaText="View in Airtable" url={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`} />
       ))}
     </div>
   );

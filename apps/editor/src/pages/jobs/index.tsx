@@ -35,10 +35,9 @@ const JobsPage = withAuth(({ auth }) => {
       {data.jobs.map((job) => (
         <Card
           key={job.id}
-          className="job-list__card container-lined hover:container-elevated p-8"
+          className="p-8"
           ctaText="Edit"
-          ctaUrl={`/jobs/${job.slug}`}
-          isEntireCardClickable
+          url={`/jobs/${job.slug}`}
           isFullWidth
           subtitle={`${job.subtitle} • ${job.publicationStatus}`}
           // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

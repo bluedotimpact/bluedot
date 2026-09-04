@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  H1, H2, P, A, Input, Card, CTALinkOrButton,
+  H1, H2, P, Input, Card, CTALinkOrButton,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { type GetPeopleResponse } from './api/public/people';
@@ -37,9 +37,7 @@ const HomePage = () => {
         : (
           <div className="grid grid-cols-2 gap-2">
             {data?.persons.map((person) => (
-              <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
-                <P><A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</A></P>
-              </Card>
+              <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="p-4" ctaText="View in Airtable" url={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`} />
             ))}
           </div>
         )}
