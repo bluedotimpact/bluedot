@@ -114,36 +114,80 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             class="mb-6"
           >
             <div
-              class="flex flex-col gap-2"
+              class="flex flex-col gap-4"
             >
               <div
-                id="profile-name-label"
-              >
-                <p
-                  class="bluedot-p not-prose font-semibold"
-                >
-                  Profile Name*
-                </p>
-              </div>
-              <div
-                class="flex gap-2 items-center"
+                class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center"
               >
                 <label
-                  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col flex-1 min-w-0"
+                  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col font-semibold"
                 >
                   <span
                     class="input__label"
-                  />
+                  >
+                    First name*
+                  </span>
                   <input
-                    aria-describedby="profile-name-label"
                     aria-invalid="false"
-                    aria-label="Profile name"
-                    class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 flex-1"
-                    placeholder="Enter your name"
+                    aria-label="First name"
+                    class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
+                    label="First name*"
+                    placeholder="Enter your first name"
                     type="text"
-                    value="John Doe"
+                    value="John"
                   />
                 </label>
+                <label
+                  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col font-semibold"
+                >
+                  <span
+                    class="input__label"
+                  >
+                    Last name*
+                  </span>
+                  <input
+                    aria-invalid="false"
+                    aria-label="Last name"
+                    class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
+                    label="Last name*"
+                    placeholder="Enter your last name"
+                    type="text"
+                    value="Doe"
+                  />
+                </label>
+                <div
+                  class="flex gap-2 sm:mt-8 max-sm:hidden sm:invisible"
+                >
+                  <button
+                    aria-label="Save profile name changes"
+                    class="cta-button flex items-center justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark whitespace-nowrap"
+                    type="button"
+                  >
+                    <span
+                      class="grid"
+                    >
+                      <span
+                        aria-hidden="false"
+                        class="col-start-1 row-start-1"
+                      >
+                        Save
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        class="col-start-1 row-start-1 invisible"
+                      >
+                        Saving...
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    aria-label="Cancel profile name changes"
+                    class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
           </div>

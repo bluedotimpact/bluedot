@@ -15,6 +15,7 @@ import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
+import { splitName } from '../../lib/name';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
@@ -174,20 +175,10 @@ const cleanNamePart = (value: string | null | undefined): string | null => {
   return trimmed;
 };
 
-// Best-effort split of a single full-name string on the first space. The last name captures
-// everything after the first word, which is imperfect for multi-word given names but keeps the
-// first name (used in greetings) correct.
-const splitName = (name: string): { firstName: string; lastName: string | null } => {
-  const normalised = name.trim().replace(/\s+/g, ' ');
-  const spaceIndex = normalised.indexOf(' ');
-  if (spaceIndex === -1) return { firstName: normalised, lastName: null };
-  return { firstName: normalised.slice(0, spaceIndex), lastName: normalised.slice(spaceIndex + 1) };
-};
-
 // The quick-apply form doesn't capture the applicant's name. Prefer the split first/last from
 // their most recent prior application (any course/role) that recorded one — human-entered, so the
-// most accurate split. Otherwise fall back to the user account's single name field (always present
-// for a logged-in user), split on the first space. Leaves both null only if neither has a name.
+// most accurate split. Then the user account's stored first/last name. Otherwise fall back to the
+// account's single name field, best-effort split on the last space. Leaves both null only if none has a name.
 export const resolveApplicantName = async (userId: string): Promise<{ firstName: string | null; lastName: string | null }> => {
   const regs = await db.pg
     .select({
@@ -205,12 +196,19 @@ export const resolveApplicantName = async (userId: string): Promise<{ firstName:
   if (named) return named;
 
   const [user] = await db.pg
-    .select({ name: userTable.pg.name })
+    .select({ name: userTable.pg.name, firstName: userTable.pg.firstName, lastName: userTable.pg.lastName })
     .from(userTable.pg)
     .where(eq(userTable.pg.id, userId))
     .limit(1);
+  const accountFirstName = cleanNamePart(user?.firstName);
+  const accountLastName = cleanNamePart(user?.lastName);
+  if (accountFirstName !== null || accountLastName !== null) return { firstName: accountFirstName, lastName: accountLastName };
+
   const accountName = cleanNamePart(user?.name);
-  if (accountName) return splitName(accountName);
+  if (accountName) {
+    const split = splitName(accountName);
+    return { firstName: split.firstName, lastName: cleanNamePart(split.lastName) };
+  }
 
   return { firstName: null, lastName: null };
 };

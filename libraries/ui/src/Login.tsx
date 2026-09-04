@@ -99,6 +99,11 @@ const verifyJwt = async (
   return payload;
 };
 
+const optionalStringClaim = (value: unknown): string | undefined => {
+  const trimmed = typeof value === 'string' ? value.trim() : '';
+  return trimmed || undefined;
+};
+
 export type LoginPreset = {
   oidcSettings: OidcClientSettings;
   verifyAndDecodeToken: (token: string) => Promise<{ sub: string; email: string }>;
@@ -120,8 +125,12 @@ export const loginPresets = {
         iss: 'https://login.bluedot.org/realms/customers',
         jwksUrl: 'https://login.bluedot.org/realms/customers/protocol/openid-connect/certs',
       });
-      const name = typeof payload.name === 'string' ? payload.name.trim() : undefined;
-      return { ...payload, ...(name && { name }) };
+      const name = optionalStringClaim(payload.name);
+      const firstName = optionalStringClaim(payload.given_name);
+      const lastName = optionalStringClaim(payload.family_name);
+      return {
+        ...payload, ...(name && { name }), ...(firstName && { firstName }), ...(lastName && { lastName }),
+      };
     },
     getRegistrationUrl(authUrl: string) {
       const url = new URL(authUrl);
