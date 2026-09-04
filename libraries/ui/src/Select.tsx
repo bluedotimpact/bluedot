@@ -73,7 +73,7 @@ export const Select = ({
         isDisabled={disabled}
         aria-label={ariaLabel}
         className={cn(
-          'w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm',
+          'w-full flex flex-col bg-white border border-color-divider rounded-surface transition-all text-size-sm',
           disabled && 'opacity-50 cursor-not-allowed bg-gray-50',
           className,
         )}
@@ -95,7 +95,7 @@ export const Select = ({
           placement="bottom"
           offset={8}
           maxHeight={400}
-          className="w-(--trigger-width) bg-white rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-color-divider overflow-hidden max-h-[400px] overflow-y-auto"
+          className="w-(--trigger-width) bg-white rounded-surface shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-color-divider overflow-hidden max-h-[400px] overflow-y-auto"
         >
           {listContent}
         </Popover>

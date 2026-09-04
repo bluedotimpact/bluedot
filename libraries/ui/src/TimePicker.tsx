@@ -48,7 +48,7 @@ export const TimePicker = ({
       {label && <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>}
       <DateInput
         className={cn(
-          'flex rounded-lg border border-gray-200 bg-white/90 px-3 py-2 text-gray-700 ring-black transition focus-within:bg-white focus-visible:ring-2',
+          'flex rounded-surface border border-gray-200 bg-white/90 px-3 py-2 text-gray-700 ring-black transition focus-within:bg-white focus-visible:ring-2',
           inputClassName,
         )}
       >

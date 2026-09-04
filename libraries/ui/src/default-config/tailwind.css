@@ -40,6 +40,10 @@
     --color-cream-normal: var(--bluedot-cream-normal);
     --color-cream-dark: var(--bluedot-cream-dark);
 
+    /* surface = cards, inputs, buttons
+       overlay = modals, dialogs. */
+    --radius-surface: 0.5rem;
+
     --font-sans:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
         'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
@@ -141,11 +145,11 @@
 }
 
 @utility container-lined {
-    @apply border border-color-divider rounded-lg;
+    @apply border border-color-divider rounded-surface;
 }
 
 @utility container-active {
-    @apply border-2 border-color-primary rounded-lg;
+    @apply border-2 border-color-primary rounded-surface;
 }
 
 @utility container-elevated {
@@ -154,7 +158,7 @@
 }
 
 @utility container-dialog {
-    @apply border border-color-primary rounded-lg;
+    @apply border border-color-primary rounded-surface;
     box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.25);
 }
 

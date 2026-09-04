@@ -127,7 +127,7 @@ export const DatePicker = ({
           {label}
         </label>
       ) : null}
-      <div className="relative rounded-lg border border-gray-200 bg-white/90 text-gray-700 transition focus-within:bg-white">
+      <div className="relative rounded-surface border border-gray-200 bg-white/90 text-gray-700 transition focus-within:bg-white">
         <input
           id={inputId}
           type="text"
@@ -145,7 +145,7 @@ export const DatePicker = ({
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
           className={cn(
-            'w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic',
+            'w-full rounded-surface bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic',
             classNames?.input,
           )}
         />
@@ -172,7 +172,7 @@ export const DatePicker = ({
             transform: 'translateX(-50%)',
           } as React.CSSProperties
         }
-        className={cn('overflow-auto rounded-lg bg-white p-4 ring-1 ring-black/10 drop-shadow-sm', classNames?.popover)}
+        className={cn('overflow-auto rounded-surface bg-white p-4 ring-1 ring-black/10 drop-shadow-sm', classNames?.popover)}
       >
         <DayPicker
           mode="single"
