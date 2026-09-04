@@ -22,19 +22,14 @@ export type CardProps = {
 };
 
 export const Card: React.FC<CardProps> = ({
-  // Required
   title,
-  // Optional
+  url,
   children,
-  className = '',
+  className,
   ctaText,
-  ctaUrl,
-  imageClassName = '',
   imageSrc,
-  isEntireCardClickable = false,
   isFullWidth = false,
   subtitle,
-  subtitleClassName = '',
   subtitleBadge,
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
