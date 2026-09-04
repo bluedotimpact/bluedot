@@ -31,6 +31,8 @@ const mockUser = {
   createdAt: null,
   email: 'facilitator@example.com',
   name: 'Test Facilitator',
+  firstName: null,
+  lastName: null,
   autoNumberId: null,
   lastSeenAt: null,
   firstLoggedInAt: null,

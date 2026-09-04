@@ -1433,6 +1433,14 @@ export const userTable = pgAirtable('user', {
       pgColumn: text().notNull(),
       airtableId: 'fldULI4CXDWAUmRM2',
     },
+    firstName: {
+      pgColumn: text(),
+      airtableId: 'fldP9OEa1kOB0KARl',
+    },
+    lastName: {
+      pgColumn: text(),
+      airtableId: 'fldoRXbhzHp3c8hRb',
+    },
     utmSource: {
       pgColumn: text(),
       airtableId: 'fldl1gTMXI44BvCUS',

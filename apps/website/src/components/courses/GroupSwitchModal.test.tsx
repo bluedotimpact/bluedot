@@ -40,6 +40,8 @@ const mockUser = {
   id: 'user-1',
   email: 'test@bluedot.org',
   name: 'Test User',
+  firstName: null,
+  lastName: null,
   lastSeenAt: new Date().toISOString(),
   firstLoggedInAt: null,
   autoNumberId: null,
