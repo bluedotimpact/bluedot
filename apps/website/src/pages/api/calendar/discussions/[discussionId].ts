@@ -87,6 +87,10 @@ export default makeApiRoute({
     throw new createHttpError.Forbidden('You do not have access to this discussion');
   }
 
+  if (discussion.endDateTime === null) {
+    throw new createHttpError.Conflict('Discussion does not have an end time yet');
+  }
+
   const unit = discussion.courseBuilderUnitRecordId
     ? await db.get(unitTable, { id: discussion.courseBuilderUnitRecordId })
     : null;
@@ -104,7 +108,7 @@ export default makeApiRoute({
     unitTitle: unit?.title,
     unitFallback: discussion.unitFallback,
     startDateTime: discussion.startDateTime,
-    endDateTime: discussion.endDateTime ?? discussion.startDateTime + 60 * 60,
+    endDateTime: discussion.endDateTime,
     zoomLink: discussion.zoomLink,
     activityDoc: discussion.activityDoc,
   });
