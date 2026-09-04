@@ -34,87 +34,41 @@ export const Card: React.FC<CardProps> = ({
   subtitle,
   subtitleBadge,
 }) => {
-  const Wrapper = isEntireCardClickable ? 'a' : 'div';
-  const wrapperClassName = clsx(
-    'card flex items-start transition-transform duration-200',
-    // Mobile: column layout, Desktop (md and up): row layout when isFullWidth is true
-    isFullWidth ? 'flex-col md:flex-row w-full' : 'flex-col',
-    isEntireCardClickable && 'hover:scale-[1.01]',
-    className,
-  );
-
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const showCTA = ctaText || (!isEntireCardClickable && ctaUrl);
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const showBottomSection = !!(showCTA || children);
-
   return (
-    <Wrapper
-      href={isEntireCardClickable ? ctaUrl : undefined}
-      className={wrapperClassName}
-    >
-      {imageSrc && (
-        <div className="card__image-container w-full mb-4">
-          <img
-            className={`card__image max-w-full max-h-full object-cover rounded-lg ${imageClassName}`}
-            src={imageSrc}
-            alt={`${title}`}
-          />
-        </div>
+    <ClickTarget
+      url={url}
+      className={cn(
+        CARD_SHELL_STYLES,
+        'flex transition-shadow duration-200 hover:shadow-sm',
+        'focus-visible:outline-bluedot-normal focus-visible:outline-2 focus-visible:outline-offset-2',
+        isFullWidth ? 'w-full flex-col md:flex-row md:items-center md:justify-between md:gap-6' : 'flex-col',
+        className,
       )}
-      <div
-        className={clsx(
-          'card__content flex gap-6 w-full flex-1',
-          // Mobile: column layout, Desktop (md and up): row layout when isFullWidth is true
-          isFullWidth ? 'flex-col md:flex-row md:justify-between' : 'flex-col',
+    >
+      <div className={cn('flex flex-col gap-4', isFullWidth && 'md:flex-1')}>
+        {imageSrc && (
+          // Decorative: the card's accessible name is the title text
+          <img className="w-full rounded-lg object-cover" src={imageSrc} alt="" />
         )}
-      >
-        <div className="card__text">
-          <div className="flex flex-row gap-4 items-center mb-2">
-            <p className="bluedot-h4">{title}</p>
+        <div className="text-size-sm text-bluedot-navy/70 flex flex-col gap-3 leading-normal">
+          <div className="flex flex-row items-center gap-2">
+            <p className="text-size-md text-bluedot-navy leading-[1.3] font-semibold">{title}</p>
             {subtitleBadge && <Tag variant="secondary">{subtitleBadge}</Tag>}
           </div>
-          {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
-          {/* For non-fullWidth cards, show CTA and children inline */}
-          {!isFullWidth && showCTA && (
-            <CTALinkOrButton
-              className="card__cta mt-4"
-              url={isEntireCardClickable ? undefined : ctaUrl}
-              variant="secondary"
-              withChevron
-            >
-              {ctaText}
-            </CTALinkOrButton>
-          )}
-          {!isFullWidth && children && (
-            <div className="card__footer flex items-center justify-between w-full mt-4">
-              {children}
-            </div>
-          )}
+          {subtitle && <p>{subtitle}</p>}
+          {children}
         </div>
-        {/* For isFullWidth cards, show CTA and children in a separate section */}
-        {isFullWidth && showBottomSection && (
-          <div className="card__bottom-section flex flex-col gap-space-between justify-center">
-            {showCTA && (
-              <CTALinkOrButton
-                className="card__cta"
-                url={isEntireCardClickable ? undefined : ctaUrl}
-                variant="secondary"
-                withChevron
-              >
-                {ctaText}
-              </CTALinkOrButton>
-            )}
-            {children && (
-              <div className="card__footer flex items-center justify-between w-full mt-4 md:mt-0">
-                {children}
-              </div>
-            )}
-          </div>
-        )}
       </div>
-    </Wrapper>
+      {ctaText && (
+        <span
+          className={cn(
+            'bg-bluedot-normal text-size-sm bd-md:text-size-xs mt-4 flex w-fit items-center justify-center rounded-sm px-4 py-3 font-semibold whitespace-nowrap text-white',
+            isFullWidth && 'md:mt-0 md:shrink-0',
+          )}
+        >
+          {ctaText}
+        </span>
+      )}
+    </ClickTarget>
   );
 };
-
-export default Card;
