@@ -1,3 +1,5 @@
+import { shouldIgnoreClientError } from './clientErrorIgnoreList';
+
 const reported = new Set<string>();
 
 export function reportClientError(
@@ -6,6 +8,7 @@ export function reportClientError(
 ) {
   try {
     if (typeof window === 'undefined') return;
+    if (shouldIgnoreClientError(error.message)) return;
 
     const key = `${source}:${error.message}`;
     if (reported.has(key)) return;
