@@ -319,7 +319,7 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       airtableId: 'flduTqIxS6OEHNr4H',
     },
     endDateTime: {
-      pgColumn: numeric({ mode: 'number' }).notNull(),
+      pgColumn: numeric({ mode: 'number' }),
       airtableId: 'flda1ONwG37ROVo8e',
     },
     group: {

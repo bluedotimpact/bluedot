@@ -2,6 +2,7 @@ import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
   groupTable, groupDiscussionTable, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, zoomAccountTable,
+  type GroupDiscussion,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
@@ -57,7 +58,7 @@ export default makeApiRoute({
   const groupDiscussions = await db.scan(groupDiscussionTable, { group: body.groupId });
 
   const groupDiscussionsWithDistance = groupDiscussions
-    .filter((groupDiscussion) => !!groupDiscussion.startDateTime && !!groupDiscussion.endDateTime)
+    .filter((groupDiscussion): groupDiscussion is GroupDiscussion & { endDateTime: number } => !!groupDiscussion.startDateTime && !!groupDiscussion.endDateTime)
     .map((groupDiscussion) => ({
       groupDiscussion,
       distance: Math.abs((Date.now() / 1000) - (groupDiscussion.startDateTime)),

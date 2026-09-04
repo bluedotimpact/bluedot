@@ -17,9 +17,8 @@ export function getDiscussionTimeState({
   currentTimeMs: number;
 }) {
   const startMs = discussion.startDateTime * 1000;
-  const endMs = discussion.endDateTime * 1000;
 
-  if (currentTimeMs > endMs) {
+  if (discussion.endDateTime === null || currentTimeMs > discussion.endDateTime * 1000) {
     return 'ended';
   }
 

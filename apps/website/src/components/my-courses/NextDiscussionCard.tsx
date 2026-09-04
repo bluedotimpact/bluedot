@@ -17,8 +17,8 @@ const formatEyebrow = (prefix: string, unitNumber: string | undefined): string =
   return `${prefix.toUpperCase()}: ${unitText}`;
 };
 
-const formatDatetimeLabel = (startSec: number, endSec: number) =>
-  `${formatDateMonthAndDay(startSec)}, ${formatTime12HourClock(startSec)} - ${formatTime12HourClock(endSec)}`;
+const formatDatetimeLabel = (startSec: number, endSec: number | null) =>
+  `${formatDateMonthAndDay(startSec)}, ${formatTime12HourClock(startSec)}${endSec !== null ? ` - ${formatTime12HourClock(endSec)}` : ''}`;
 
 // Fixed square badge slot: shows the calendar date, or the LIVE indicator (same dimensions) when live.
 const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isLive: boolean }) => (

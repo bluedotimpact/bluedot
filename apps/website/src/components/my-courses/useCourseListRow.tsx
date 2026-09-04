@@ -62,7 +62,7 @@ const sortByFinalDiscussionDesc = (courses: CourseListRowProps[]): CourseListRow
     const attendedSet = new Set(c.attendedDiscussionIds);
 
     const openTimes = c.discussions
-      .filter((d) => !attendedSet.has(d.id) && d.endDateTime >= nowSec)
+      .filter((d) => !attendedSet.has(d.id) && d.endDateTime !== null && d.endDateTime >= nowSec)
       .map((d) => d.startDateTime);
 
     if (openTimes.length > 0) {

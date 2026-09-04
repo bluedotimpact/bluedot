@@ -104,7 +104,7 @@ export default makeApiRoute({
     unitTitle: unit?.title,
     unitFallback: discussion.unitFallback,
     startDateTime: discussion.startDateTime,
-    endDateTime: discussion.endDateTime,
+    endDateTime: discussion.endDateTime ?? discussion.startDateTime + 60 * 60,
     zoomLink: discussion.zoomLink,
     activityDoc: discussion.activityDoc,
   });

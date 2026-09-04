@@ -377,7 +377,7 @@ export const myBluedotRouter = router({
     // "Next" includes a discussion that's started but not yet ended (i.e. live now)
     const nowSec = Math.floor(Date.now() / 1000);
     const soonest = discussions
-      .filter((d) => d.endDateTime > nowSec)
+      .filter((d) => d.endDateTime !== null && d.endDateTime > nowSec)
       .sort((a, b) => a.startDateTime - b.startDateTime)
       .find((d) => courseByDiscussionId.has(d.id));
 
@@ -516,7 +516,7 @@ export const myBluedotRouter = router({
       .flatMap((row) => {
         if (!row.group) return [];
         if (row.isDroppedOut && !row.isDeferred) return [];
-        const soonest = row.discussions.find((d) => d.endDateTime > nowSec);
+        const soonest = row.discussions.find((d) => d.endDateTime !== null && d.endDateTime > nowSec);
         if (!soonest) return [];
 
         const unit = soonest.courseBuilderUnitRecordId ? unitById.get(soonest.courseBuilderUnitRecordId) ?? null : null;
