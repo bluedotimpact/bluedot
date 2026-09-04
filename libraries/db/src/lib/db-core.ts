@@ -224,6 +224,15 @@ export function getPgAirtableFromIds({ baseId, tableId }: { baseId: string; tabl
   return pgAirtableTableRegistry[key];
 }
 
+/**
+ * Airtable table ids are unique across bases, so a table id alone is enough to recover
+ * its base id. Useful when all we have is an error message from airtable-ts, which
+ * mentions the table id but not the base.
+ */
+export function getPgAirtableFromTableId(tableId: string) {
+  return Object.values(pgAirtableTableRegistry).find((table) => table.airtable.tableId === tableId);
+}
+
 export function pgAirtable<
   TTableName extends string,
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
