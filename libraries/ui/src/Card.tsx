@@ -3,6 +3,8 @@ import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { Tag } from './Tag';
 
+const CARD_SHELL_STYLES = 'rounded-lg border border-bluedot-navy/10 bg-white p-6';
+
 export type CardProps = {
   title: string;
   /** The whole card is a single link to this destination */
