@@ -1,11 +1,11 @@
 import {
   CTALinkOrButton, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
-import type { GroupDiscussion } from '@bluedot/db';
 import { Fragment, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { IoBan } from 'react-icons/io5';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
+import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
 import { buildApplicationUrl, buildGroupSlackChannelUrl, getActionPlanUrl } from '../../lib/utils';
 import { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
@@ -133,8 +133,8 @@ export const bucketCoursesByTab = (
 
 export type ModalCallbacks = {
   onClickReschedule: (input: { unitNumber: string | null; switchType: SwitchType }) => void;
-  onClickFacilitatorReschedule: (discussion: GroupDiscussion) => void;
-  onClickFacilitatorAssignSubstitute: (discussion: GroupDiscussion) => void;
+  onClickFacilitatorReschedule: (discussion: GroupDiscussionWithEnd) => void;
+  onClickFacilitatorAssignSubstitute: (discussion: GroupDiscussionWithEnd) => void;
   onClickViewAttendees: (() => void) | undefined;
 };
 

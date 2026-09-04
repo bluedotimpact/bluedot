@@ -1,4 +1,5 @@
-import type { GroupDiscussion, Unit } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
+import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import DiscussionListRow from './DiscussionListRow';
 
@@ -7,15 +8,15 @@ import DiscussionListRow from './DiscussionListRow';
 const nowSec = Math.floor(Date.now() / 1000);
 const HOUR = 60 * 60;
 
-const baseDiscussion: GroupDiscussion = {
+const baseDiscussion: GroupDiscussionWithEnd = {
   id: 'disc-1',
   startDateTime: nowSec + 2 * HOUR,
   endDateTime: nowSec + 3 * HOUR,
   unitNumber: 4,
   zoomLink: 'https://zoom.us/j/000',
-} as unknown as GroupDiscussion;
+} as unknown as GroupDiscussionWithEnd;
 
-const at = (offsets: { start: number; end: number }): GroupDiscussion => ({
+const at = (offsets: { start: number; end: number }): GroupDiscussionWithEnd => ({
   ...baseDiscussion,
   startDateTime: nowSec + offsets.start,
   endDateTime: nowSec + offsets.end,
@@ -54,10 +55,10 @@ const soon = at({ start: 10 * 60, end: 70 * 60 });
 const live = at({ start: -10 * 60, end: 50 * 60 });
 const past = at({ start: -2 * HOUR, end: -HOUR });
 
-const upcomingFac = { ...upcoming, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussion;
-const soonFac = { ...soon, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussion;
-const liveFac = { ...live, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussion;
-const pastFac = { ...past, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussion;
+const upcomingFac = { ...upcoming, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussionWithEnd;
+const soonFac = { ...soon, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussionWithEnd;
+const liveFac = { ...live, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussionWithEnd;
+const pastFac = { ...past, participantsExpected: ['mp-a', 'mp-b', 'mp-c', 'mp-d', 'mp-e', 'mp-f', 'mp-g', 'mp-h'] } as GroupDiscussionWithEnd;
 
 const facBaseArgs = {
   ...baseArgs,

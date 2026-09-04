@@ -24,6 +24,7 @@ import {
 import z from 'zod';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
+import { hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
@@ -234,7 +235,8 @@ export const myBluedotRouter = router({
           .select()
           .from(groupDiscussionTable.pg)
           .where(inArray(groupDiscussionTable.pg.id, allExpectedDiscussionIds))
-        : Promise.resolve([] as GroupDiscussion[]),
+          .then((rows) => rows.filter(hasEndDateTime))
+        : Promise.resolve([] as GroupDiscussionWithEnd[]),
       fetchApplicationsRoundsByIds(allRoundIds),
     ]);
 
@@ -246,8 +248,9 @@ export const myBluedotRouter = router({
         ? db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.round, meetPersonRoundIds)) as Promise<Group[]>
         : Promise.resolve([] as Group[]),
       meetPersonRoundIds.length > 0
-        ? db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.round, meetPersonRoundIds)) as Promise<GroupDiscussion[]>
-        : Promise.resolve([] as GroupDiscussion[]),
+        ? (db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.round, meetPersonRoundIds)) as Promise<GroupDiscussion[]>)
+          .then((rows) => rows.filter(hasEndDateTime))
+        : Promise.resolve([] as GroupDiscussionWithEnd[]),
       meetPersonRoundIds.length > 0
         ? db.pg
           .select({ id: roundTable.pg.id, maxParticipantsPerGroup: roundTable.pg.maxParticipantsPerGroup })
@@ -298,7 +301,7 @@ export const myBluedotRouter = router({
       const expectedIds = meetPerson?.expectedDiscussionsParticipant ?? [];
       const courseDiscussions = expectedIds
         .map((id) => discussionById.get(id))
-        .filter((d): d is GroupDiscussion => !!d)
+        .filter((d): d is GroupDiscussionWithEnd => !!d)
         .sort((a, b) => a.startDateTime - b.startDateTime);
 
       const courseUnits: Record<string, Unit> = {};
@@ -384,7 +387,7 @@ export const myBluedotRouter = router({
     let nextDiscussion: {
       courseSlug: string;
       courseTitle: string;
-      discussion: GroupDiscussion;
+      discussion: GroupDiscussionWithEnd;
       unit: Unit | null;
       group: Group | null;
     } | null = null;
@@ -439,8 +442,9 @@ export const myBluedotRouter = router({
         ? db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.round, meetPersonRoundIds)) as Promise<Group[]>
         : Promise.resolve([] as Group[]),
       expectedDiscussionIds.length > 0
-        ? db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds)) as Promise<GroupDiscussion[]>
-        : Promise.resolve([] as GroupDiscussion[]),
+        ? (db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds)) as Promise<GroupDiscussion[]>)
+          .then((rows) => rows.filter(hasEndDateTime))
+        : Promise.resolve([] as GroupDiscussionWithEnd[]),
       fetchApplicationsRoundsByIds(unique(courseRegistrations.map((cr) => cr.roundId))),
     ]);
 
@@ -491,7 +495,7 @@ export const myBluedotRouter = router({
       return groupsForCr.map((group): FacilitatorRowProps => {
         const groupDiscussions = (meetPerson.expectedDiscussionsFacilitator ?? [])
           .map((id) => discussionById.get(id))
-          .filter((d): d is GroupDiscussion => !!d && d.group === group.id)
+          .filter((d): d is GroupDiscussionWithEnd => !!d && d.group === group.id)
           .sort((a, b) => a.startDateTime - b.startDateTime);
 
         const courseUnits: Record<string, Unit> = {};

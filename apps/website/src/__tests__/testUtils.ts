@@ -4,7 +4,6 @@ import type {
   CourseRegistration,
   Exercise,
   Group,
-  GroupDiscussion,
   MeetPerson,
   Program,
   ResourceCompletion,
@@ -13,6 +12,7 @@ import type {
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { render, type RenderResult } from '@testing-library/react';
+import type { GroupDiscussionWithEnd } from '../lib/group-discussions/utils';
 import type { CourseRound } from '../server/routers/course-rounds';
 
 // Re-export from libraries/ui for convenience
@@ -221,7 +221,7 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
   ...overrides,
 });
 
-export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = {}): GroupDiscussion => ({
+export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussionWithEnd> = {}): GroupDiscussionWithEnd => ({
   activityDoc: null,
   attendees: [],
   autoNumberId: 1,

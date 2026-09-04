@@ -144,6 +144,66 @@ describe('myCoursesPage.getOverview', () => {
     expect(result.courses.map((c) => c.course.slug)).toEqual(['participant-course']);
   });
 
+  test('discussions without an end time are excluded from the response', async () => {
+    await testDb.insert(courseTable, {
+      id: 'course-1',
+      slug: 'course-1',
+      title: 'Course 1',
+      shortDescription: 'c',
+      units: [],
+      status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      userId: 'test-user',
+      courseId: 'course-1',
+      decision: 'Accept',
+      role: 'Participant',
+      roundStatus: 'Active',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-1',
+      userId: 'test-user',
+      applicationsBaseRecordId: 'reg-1',
+      round: 'round-1',
+      role: 'Participant',
+      groupsAsParticipant: ['group-1'],
+      expectedDiscussionsParticipant: ['disc-no-end', 'disc-scheduled'],
+    });
+    await testDb.insert(groupTable, {
+      id: 'group-1',
+      groupName: 'Group 1',
+      round: 'round-1',
+      participants: ['mp-1'],
+    });
+
+    // Sooner, but bulk-created without an end time — must not surface anywhere.
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-no-end',
+      group: 'group-1',
+      round: 'round-1',
+      startDateTime: inOneWeek,
+      endDateTime: null,
+      facilitators: [],
+      participantsExpected: ['mp-1'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-scheduled',
+      group: 'group-1',
+      round: 'round-1',
+      startDateTime: inOneMonth,
+      endDateTime: inOneMonth + 60 * 60,
+      facilitators: [],
+      participantsExpected: ['mp-1'],
+    });
+
+    const result = await caller.myBluedot.myCoursesPage();
+
+    expect(result.courses[0]?.discussions.map((d) => d.id)).toEqual(['disc-scheduled']);
+    expect(result.nextDiscussion?.discussion.id).toBe('disc-scheduled');
+  });
+
   test('dropped-out registrations do not contribute discussions to nextDiscussion', async () => {
     // User is dropped from course-dropped (dropoutTable entry, decision still 'Accept').
     // The Airtable lookup field expectedDiscussionsParticipant still references their

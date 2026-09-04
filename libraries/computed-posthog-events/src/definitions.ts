@@ -84,7 +84,7 @@ const calculateDiscussionAttendanceEvents = async (
   const events: Event[] = [];
   for (const d of discussions) {
     // absent only materialises once a discussion has comfortably ended; attended emits as soon as recorded.
-    const hasEnded = d.endDateTime * 1000 <= nowMs - FIFTEEN_MINUTES_MS;
+    const hasEnded = d.endDateTime !== null && d.endDateTime * 1000 <= nowMs - FIFTEEN_MINUTES_MS;
     if (kind === 'absent' && !hasEnded) continue;
 
     const attendedSet = new Set(d.attendees ?? []);

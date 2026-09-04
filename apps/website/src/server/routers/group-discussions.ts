@@ -18,7 +18,7 @@ import { logger } from '@bluedot/ui/src/api';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { getDiscussionTimeState, hasEndDateTime } from '../../lib/group-discussions/utils';
 import { getCourseBySlugOrThrow } from './courses';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
@@ -36,12 +36,12 @@ export const groupDiscussionsRouter = router({
         return { discussions: [] };
       }
 
-      const discussions = await db.scan(groupDiscussionTable, {
+      const allDiscussions = await db.scan(groupDiscussionTable, {
         OR: discussionIds.map((id) => ({ id })),
       });
 
-      if (discussions.length !== discussionIds.length) {
-        const foundIds = new Set(discussions.map((d) => d.id));
+      if (allDiscussions.length !== discussionIds.length) {
+        const foundIds = new Set(allDiscussions.map((d) => d.id));
         const missingIds = discussionIds.filter((id) => !foundIds.has(id));
         logger.error(`Some group discussions not found for the provided IDs: ${missingIds.join(', ')}`);
         throw new TRPCError({
@@ -50,6 +50,7 @@ export const groupDiscussionsRouter = router({
         });
       }
 
+      const discussions = allDiscussions.filter(hasEndDateTime);
       const groupIds = [...new Set(discussions.map((d) => d.group))];
       const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter((id): id is string => !!id))];
 
@@ -156,11 +157,12 @@ export const groupDiscussionsRouter = router({
 
       // Query discussions through both the direct expected-discussion linkage and the
       // round-based fallback so the course hub stays aligned with the settings page.
-      const groupDiscussions = await db.pg
+      const groupDiscussions = (await db.pg
         .select()
         .from(groupDiscussionTable.pg)
         .where(discussionConditions.length === 1 ? discussionConditions[0]! : or(...discussionConditions))
-        .orderBy(groupDiscussionTable.pg.startDateTime);
+        .orderBy(groupDiscussionTable.pg.startDateTime))
+        .filter(hasEndDateTime);
 
       const dedupedDiscussions = groupDiscussions.filter((discussion, index, discussions) => discussions.findIndex((d) => d.id === discussion.id) === index);
 

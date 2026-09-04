@@ -6,18 +6,17 @@ import {
   groupSwitchingTable,
   groupTable, inArray, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, roundTable,
   type Group,
-  type GroupDiscussion,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { getDiscussionTimeState, hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 
 export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
 
 type DiscussionsByUnit = Record<string, {
-  discussion: GroupDiscussion;
+  discussion: GroupDiscussionWithEnd;
   spotsLeftIfKnown: number | null;
   userIsParticipant: boolean;
   groupName: string;
@@ -29,7 +28,7 @@ export function calculateGroupAvailability({
   maxParticipants,
   participantId,
 }: {
-  groupDiscussions: GroupDiscussion[];
+  groupDiscussions: GroupDiscussionWithEnd[];
   groups: Group[];
   maxParticipants: number | null | undefined;
   participantId: string;
@@ -157,7 +156,7 @@ export function getAvailableGroupsAndDiscussions({
   maxParticipants,
 }: {
   allGroupsInRound: Group[];
-  allGroupDiscussionsInRound: GroupDiscussion[];
+  allGroupDiscussionsInRound: GroupDiscussionWithEnd[];
   participantId: string;
   participantHumanOpinion: string | null;
   maxParticipants: number | null | undefined;
@@ -199,7 +198,7 @@ export const groupSwitchingRouter = router({
 
       const [allGroupsInRound, allGroupDiscussionsInRound] = await Promise.all([
         db.scan(groupTable, { round: roundId }),
-        db.scan(groupDiscussionTable, { round: roundId }),
+        db.scan(groupDiscussionTable, { round: roundId }).then((rows) => rows.filter(hasEndDateTime)),
       ]);
 
       const result = getAvailableGroupsAndDiscussions({
@@ -374,7 +373,7 @@ export const groupSwitchingRouter = router({
         if (newGroup && !isManualRequest && typeof maxParticipants === 'number') {
           // Calculate spots left based on the minimum spots across all discussions in the group
           // This matches the logic in available.ts
-          const groupDiscussions = await db.scan(groupDiscussionTable, { group: newGroup.id });
+          const groupDiscussions = (await db.scan(groupDiscussionTable, { group: newGroup.id })).filter(hasEndDateTime);
           const spotsLeftIfKnownValues = groupDiscussions
             .map((d) => Math.max(0, maxParticipants - d.participantsExpected.filter((pId) => pId !== participantId).length))
             .filter((v) => typeof v === 'number');
