@@ -1,5 +1,5 @@
 import {
-  Avatar, CTALinkOrButton, H3, H4, P,
+  Avatar, CardShell, CTALinkOrButton, H3, H4, P,
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -14,8 +14,6 @@ type GranteeCardProps = {
   imageUrl?: string;
   profileUrl?: string | null;
 };
-
-const cardClass = 'group flex h-full flex-col rounded-lg border border-bluedot-navy/10 bg-white p-5 transition-colors hover:border-bluedot-navy/20';
 
 const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps) => {
   const cardContent = (
@@ -47,10 +45,16 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
   );
 
   if (profileUrl) {
-    return <Link href={profileUrl} className={cardClass}>{cardContent}</Link>;
+    return (
+      <Link href={profileUrl} className="group block h-full">
+        <CardShell className="flex h-full flex-col transition-colors hover:border-bluedot-navy/20">
+          {cardContent}
+        </CardShell>
+      </Link>
+    );
   }
 
-  return <div className={cardClass}>{cardContent}</div>;
+  return <CardShell className="flex h-full flex-col">{cardContent}</CardShell>;
 };
 
 // Column count for the current viewport, matching the grid classes below
