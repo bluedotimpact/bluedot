@@ -1,4 +1,6 @@
-import { CTALinkOrButton, H2, P } from '@bluedot/ui';
+import {
+  CardShell, CTALinkOrButton, H2, P,
+} from '@bluedot/ui';
 import { type IconType } from 'react-icons';
 
 export type TargetAudience = {
@@ -35,9 +37,9 @@ const WhoIsThisForSection = ({
         </H2>
         <div className="grid grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {targetAudiences.map(({ icon: IconComponent, boldText, description }) => (
-            <div
+            <CardShell
               key={boldText}
-              className="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+              className="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
             >
               <div
                 className={`size-14 rounded-lg flex items-center justify-center flex-shrink-0 ${!iconBackgroundColor ? 'bg-bluedot-normal' : ''}`}
@@ -49,7 +51,7 @@ const WhoIsThisForSection = ({
                 <span className="font-semibold">{boldText}</span>
                 <span> {description}</span>
               </P>
-            </div>
+            </CardShell>
           ))}
         </div>
 

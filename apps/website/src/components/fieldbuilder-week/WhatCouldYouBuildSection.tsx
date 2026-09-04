@@ -1,4 +1,6 @@
-import { H3, H4, P } from '@bluedot/ui';
+import {
+  CardShell, H3, H4, P,
+} from '@bluedot/ui';
 import {
   PiFlask,
   PiGearSix,
@@ -43,9 +45,9 @@ const WhatCouldYouBuildSection = () => {
         <H3>What could you build?</H3>
         <div className="grid gap-5 grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3">
           {EXAMPLES.map(({ icon: Icon, title, description }) => (
-            <div
+            <CardShell
               key={title}
-              className="flex flex-col gap-4 rounded-xl border border-bluedot-navy/10 bg-white p-6"
+              className="flex flex-col gap-4"
             >
               <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/50">
                 <Icon className="text-bluedot-navy" size={24} />
@@ -58,7 +60,7 @@ const WhatCouldYouBuildSection = () => {
                   {description}
                 </P>
               </div>
-            </div>
+            </CardShell>
           ))}
           <div className="flex flex-col gap-4 rounded-xl border-2 border-dashed border-bluedot-navy/20 bg-bluedot-lighter/20 p-6">
             <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/60">
