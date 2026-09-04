@@ -20,6 +20,7 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
+import { hasEndDateTime } from '../../lib/group-discussions/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
@@ -160,11 +161,12 @@ export const facilitatorRouter = router({
       const user = await getUserFromAuthOrThrow(ctx.auth);
       const facilitator = await getFacilitator(roundId, user.id);
 
-      const groupDiscussions = await db.pg
+      const groupDiscussions = (await db.pg
         .select()
         .from(groupDiscussionTable.pg)
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        .where(and(inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || [])));
+        .where(and(inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []))))
+        .filter(hasEndDateTime);
 
       const groups = await db.pg
         .select()

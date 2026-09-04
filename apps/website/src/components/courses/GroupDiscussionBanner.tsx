@@ -1,4 +1,4 @@
-import type { GroupDiscussion, Unit } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import {
   CTALinkOrButton, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
@@ -9,7 +9,7 @@ import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { FaCopy } from 'react-icons/fa6';
 import { IoAdd } from 'react-icons/io5';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import {
@@ -47,7 +47,7 @@ export type ButtonOrMenuItem = {
 
 type GroupDiscussionBannerProps = {
   unit: Unit;
-  groupDiscussion: GroupDiscussion;
+  groupDiscussion: GroupDiscussionWithEnd;
   userRole?: 'participant' | 'facilitator';
   hostKeyForFacilitators?: string;
 };

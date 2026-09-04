@@ -1,5 +1,10 @@
 import { type GroupDiscussion } from '@bluedot/db';
 
+// Discussions can be bulk-created without an end time; server boundaries filter those out so the UI only sees scheduled ones.
+export type GroupDiscussionWithEnd = GroupDiscussion & { endDateTime: number };
+
+export const hasEndDateTime = (d: GroupDiscussion): d is GroupDiscussionWithEnd => d.endDateTime !== null;
+
 const ONE_HOUR_MS = 3_600_000;
 
 /**
@@ -13,12 +18,13 @@ export function getDiscussionTimeState({
   discussion,
   currentTimeMs,
 }: {
-  discussion: Pick<GroupDiscussion, 'startDateTime' | 'endDateTime'>;
+  discussion: Pick<GroupDiscussionWithEnd, 'startDateTime' | 'endDateTime'>;
   currentTimeMs: number;
 }) {
   const startMs = discussion.startDateTime * 1000;
+  const endMs = discussion.endDateTime * 1000;
 
-  if (discussion.endDateTime === null || currentTimeMs > discussion.endDateTime * 1000) {
+  if (currentTimeMs > endMs) {
     return 'ended';
   }
 

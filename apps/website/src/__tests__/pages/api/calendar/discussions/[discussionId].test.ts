@@ -134,6 +134,35 @@ describe('calendar discussion download api', () => {
     expect(res.json).toHaveBeenCalledWith({ error: 'You do not have access to this discussion' });
   });
 
+  it('returns 409 when the discussion has no end time', async () => {
+    const { req, res } = createMockReqRes();
+
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(db.getFirst).mockResolvedValue({ id: 'user-ash', email: 'ash@example.com' } as never);
+    vi.mocked(db.get).mockResolvedValueOnce({
+      ...createMockGroupDiscussion({
+        id: 'discussion-1',
+        participantsExpected: ['meet-person-1'],
+      }),
+      endDateTime: null,
+    } as never);
+    vi.mocked(db.scan)
+      .mockResolvedValueOnce([createMockMeetPerson({
+        id: 'meet-person-1',
+        userId: 'user-ash',
+        applicationsBaseRecordId: 'course-registration-1',
+      })])
+      .mockResolvedValueOnce([createMockCourseRegistration({
+        id: 'course-registration-1',
+        userId: 'user-ash',
+      })]);
+
+    await handler(req, res);
+
+    expect(res.status).toHaveBeenCalledWith(409);
+    expect(res.json).toHaveBeenCalledWith({ error: 'Discussion does not have an end time yet' });
+  });
+
   it('returns a calendar file for an attached user', async () => {
     const { req, res } = createMockReqRes();
 

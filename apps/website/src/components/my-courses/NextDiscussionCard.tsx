@@ -1,7 +1,7 @@
-import type { Group, GroupDiscussion, Unit } from '@bluedot/db';
+import type { Group, Unit } from '@bluedot/db';
 import { CTALinkOrButton, H3, useCurrentTimeMs } from '@bluedot/ui';
 import { useState, type ReactNode } from 'react';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
@@ -17,8 +17,8 @@ const formatEyebrow = (prefix: string, unitNumber: string | undefined): string =
   return `${prefix.toUpperCase()}: ${unitText}`;
 };
 
-const formatDatetimeLabel = (startSec: number, endSec: number | null) =>
-  `${formatDateMonthAndDay(startSec)}, ${formatTime12HourClock(startSec)}${endSec !== null ? ` - ${formatTime12HourClock(endSec)}` : ''}`;
+const formatDatetimeLabel = (startSec: number, endSec: number) =>
+  `${formatDateMonthAndDay(startSec)}, ${formatTime12HourClock(startSec)} - ${formatTime12HourClock(endSec)}`;
 
 // Fixed square badge slot: shows the calendar date, or the LIVE indicator (same dimensions) when live.
 const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isLive: boolean }) => (
@@ -44,7 +44,7 @@ export type NextDiscussionCardProps = {
   mode?: NextDiscussionCardMode;
   courseSlug: string;
   courseTitle: string;
-  discussion: GroupDiscussion;
+  discussion: GroupDiscussionWithEnd;
   unit: Unit | null;
   group?: Group | null;
   facilitatorSubtitle?: string | null;

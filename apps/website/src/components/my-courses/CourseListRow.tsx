@@ -1,5 +1,5 @@
 import type {
-  Course, CourseRegistration, Group, GroupDiscussion, Unit,
+  Course, CourseRegistration, Group, Unit,
 } from '@bluedot/db';
 import {
   Eyebrow, H3, OverflowMenu, Tooltip,
@@ -8,6 +8,7 @@ import { Fragment, type ReactNode } from 'react';
 import { ChevronRightIcon } from '../icons';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
+import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { formatMonthAndDay, parseWeekFromRoundName } from '../../lib/utils';
 import DiscussionList from './DiscussionList';
 import { classifyCourseRegistration, useCourseListRow } from './useCourseListRow';
@@ -34,7 +35,7 @@ type CommonRowProps = {
   group: Group | null;
   meetPersonId: string | null;
   roundId: string | null;
-  discussions: GroupDiscussion[];
+  discussions: GroupDiscussionWithEnd[];
   attendedDiscussionIds: string[];
   units: Record<string, Unit>;
   roundStartDate: string | null;

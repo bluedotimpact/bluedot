@@ -1,12 +1,11 @@
 import {
   CTALinkOrButton, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
-import type { GroupDiscussion } from '@bluedot/db';
 import { Fragment, useState, type ReactNode } from 'react';
 import { FaCheck } from 'react-icons/fa6';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
@@ -62,7 +61,7 @@ export const useDiscussionActions = (input: DiscussionListRowProps): UseDiscussi
   };
 };
 
-const deriveStatus = (discussion: GroupDiscussion, isAttended: boolean, currentTimeMs: number): DiscussionStatus => {
+const deriveStatus = (discussion: GroupDiscussionWithEnd, isAttended: boolean, currentTimeMs: number): DiscussionStatus => {
   const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
   // Live wins over attended: suppress the Attended pill while a discussion is in progress so
   // users can't read off "you're counted as attended" the moment they click Join.

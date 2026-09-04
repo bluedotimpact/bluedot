@@ -5,8 +5,9 @@ import {
   render, screen, fireEvent, waitFor,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import type { GroupDiscussion, Unit } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import { createMockGroupDiscussion } from '../../__tests__/testUtils';
+import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import DiscussionListRow from './DiscussionListRow';
 import * as downloadModule from '../../lib/downloadCalendarFile';
 
@@ -34,8 +35,8 @@ const unit = {
  */
 const propsForStatus = (
   status: DisplayStatus,
-  discussion: GroupDiscussion = baseDiscussion,
-): { discussion: GroupDiscussion; isAttended: boolean } => {
+  discussion: GroupDiscussionWithEnd = baseDiscussion,
+): { discussion: GroupDiscussionWithEnd; isAttended: boolean } => {
   switch (status) {
     case 'upcoming':
       return { discussion: { ...discussion, startDateTime: NOW_SEC + 2 * HOUR, endDateTime: NOW_SEC + 3 * HOUR }, isAttended: false };
@@ -57,7 +58,7 @@ const renderRow = ({
   ...overrides
 }: {
   status?: DisplayStatus;
-  discussion?: GroupDiscussion;
+  discussion?: GroupDiscussionWithEnd;
   unit?: Unit | null;
   canReschedule?: boolean;
   onReschedule?: () => void;
@@ -161,14 +162,14 @@ describe('DiscussionListRow', () => {
     });
 
     test('hidden on live without zoomLink', () => {
-      const noZoom = { ...baseDiscussion, zoomLink: null } as GroupDiscussion;
+      const noZoom = { ...baseDiscussion, zoomLink: null } as GroupDiscussionWithEnd;
       renderRow({ status: 'live', discussion: noZoom });
       expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
     });
   });
 
   test('title falls back to "Discussion" plain text when unit and unitNumber are missing', () => {
-    const noUnitDiscussion = { ...baseDiscussion, unitNumber: null } as GroupDiscussion;
+    const noUnitDiscussion = { ...baseDiscussion, unitNumber: null } as GroupDiscussionWithEnd;
     const { container } = renderRow({ unit: null, discussion: noUnitDiscussion });
     // Title is rendered as text, not as a link, when there's no unit number to link to.
     expect(screen.getByText('Discussion').tagName).toBe('P');
@@ -211,7 +212,7 @@ describe('DiscussionListRow', () => {
   });
 
   describe('facilitator mode', () => {
-    const withAttendees = (n: number): GroupDiscussion => ({
+    const withAttendees = (n: number): GroupDiscussionWithEnd => ({
       ...baseDiscussion,
       participantsExpected: Array.from({ length: n }, (_, i) => `p-${i}`),
     });
@@ -224,9 +225,9 @@ describe('DiscussionListRow', () => {
       onClickViewAttendees = () => {},
     }: {
       status?: DisplayStatus;
-      discussion?: GroupDiscussion;
-      onClickFacilitatorReschedule?: (d: GroupDiscussion) => void;
-      onClickFacilitatorAssignSubstitute?: (d: GroupDiscussion) => void;
+      discussion?: GroupDiscussionWithEnd;
+      onClickFacilitatorReschedule?: (d: GroupDiscussionWithEnd) => void;
+      onClickFacilitatorAssignSubstitute?: (d: GroupDiscussionWithEnd) => void;
       onClickViewAttendees?: () => void;
     } = {}) => {
       const statusProps = propsForStatus(status, discussion);
@@ -268,7 +269,7 @@ describe('DiscussionListRow', () => {
     });
 
     test('live without a zoom link: no "Join now" link', () => {
-      const noZoom = { ...baseDiscussion, zoomLink: null } as GroupDiscussion;
+      const noZoom = { ...baseDiscussion, zoomLink: null } as GroupDiscussionWithEnd;
       renderFacRow({ status: 'live', discussion: noZoom });
       expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
     });

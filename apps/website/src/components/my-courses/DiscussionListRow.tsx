@@ -1,6 +1,7 @@
 import { OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
-import type { GroupDiscussion, Unit } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import { type ReactNode } from 'react';
+import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import LiveBadge from './LiveBadge';
 import { useDiscussionActions } from './useDiscussionActions';
@@ -23,14 +24,14 @@ export type CourseAction = {
 
 export type DiscussionListRowProps = {
   mode?: DiscussionListRowMode;
-  discussion: GroupDiscussion;
+  discussion: GroupDiscussionWithEnd;
   unit: Unit | null;
   courseSlug: string;
   isAttended: boolean;
   canReschedule: boolean;
   onReschedule: () => void;
-  onClickFacilitatorReschedule?: (discussion: GroupDiscussion) => void;
-  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussion) => void;
+  onClickFacilitatorReschedule?: (discussion: GroupDiscussionWithEnd) => void;
+  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussionWithEnd) => void;
   onClickViewAttendees?: () => void;
 };
 

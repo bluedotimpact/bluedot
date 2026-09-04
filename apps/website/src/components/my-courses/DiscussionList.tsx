@@ -1,18 +1,19 @@
-import type { GroupDiscussion, Unit } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
+import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { SwitchType } from '../courses/GroupSwitchModal';
 import DiscussionListRow, { type DiscussionListRowMode } from './DiscussionListRow';
 
 type DiscussionListProps = {
   mode?: DiscussionListRowMode;
-  discussions: GroupDiscussion[];
+  discussions: GroupDiscussionWithEnd[];
   units: Record<string, Unit>;
   attendedDiscussionIds: string[];
   courseSlug: string;
   canReschedule: boolean;
   rescheduleEligibleUnits: string[];
   onClickReschedule: (props: { unitNumber: string | null; switchType: SwitchType }) => void;
-  onClickFacilitatorReschedule?: (discussion: GroupDiscussion) => void;
-  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussion) => void;
+  onClickFacilitatorReschedule?: (discussion: GroupDiscussionWithEnd) => void;
+  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussionWithEnd) => void;
   onClickViewAttendees?: () => void;
 };
 
