@@ -5,6 +5,14 @@ import { cn } from './utils';
 
 const CARD_SHELL_STYLES = 'rounded-lg border border-bluedot-navy/10 bg-white p-6';
 
+export type CardShellProps = React.PropsWithChildren<{
+  className?: string;
+}>;
+
+export const CardShell: React.FC<CardShellProps> = ({ className, children }) => (
+  <div className={cn(CARD_SHELL_STYLES, className)}>{children}</div>
+);
+
 export type CardProps = {
   title: string;
   /** The whole card is a single link to this destination */
