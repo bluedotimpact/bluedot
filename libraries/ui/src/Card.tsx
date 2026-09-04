@@ -4,9 +4,7 @@ import { CTALinkOrButton } from './CTALinkOrButton';
 import { Tag } from './Tag';
 
 export type CardProps = {
-  // Required
   title: string;
-  // Optional
   children?: React.ReactNode;
   className?: string;
   ctaText?: string;
