@@ -1,7 +1,7 @@
 import type React from 'react';
-import clsx from 'clsx';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { ClickTarget } from './ClickTarget';
 import { Tag } from './Tag';
+import { cn } from './utils';
 
 const CARD_SHELL_STYLES = 'rounded-lg border border-bluedot-navy/10 bg-white p-6';
 
