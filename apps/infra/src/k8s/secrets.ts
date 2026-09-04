@@ -10,7 +10,6 @@ const toK8s = [
   'alertsSlackBotToken',
   'anthropicApiKey',
   'openaiApiKey',
-  'meetZoomClientSecret',
   'loginProxySharedSecret',
   'loginProxyKeycloakClientSecret',
   'roomDisplayBearerToken',

@@ -114,7 +114,7 @@ If a bot is wrong — they sometimes are — push back politely in a PR reply ex
 ## Repo map (quick reference)
 
 - `apps/website` — bluedot.org (Next.js pages router)
-- `apps/meet` — meeting attendance + Zoom Web SDK
+- `apps/meet` — meeting attendance + Zoom join flow
 - `apps/availability` — time-availability forms
 - `apps/course-demos` — interactive demos embedded in courses
 - `apps/login` — custom Keycloak build
