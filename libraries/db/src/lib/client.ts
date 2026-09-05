@@ -6,6 +6,7 @@ import {
 } from 'airtable-ts';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
 import { type PgAirtableTable } from './db-core';
+import { withAirtableRetry } from './retry';
 import { type AirtableItemFromColumnsMap, type BasePgTableType, type PgAirtableColumnInput } from './typeUtils';
 import {
   buildWhereClause, getFirstFromPg, type Filter, type PgDatabase,
@@ -211,7 +212,7 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<Omit<AirtableItemFromColumnsMap<TColumnsMap>, 'id'>>,
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.insert(table.airtable, data);
+    const fullData = await withAirtableRetry(() => this.airtableClient.insert(table.airtable, data));
 
     // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
@@ -230,7 +231,7 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<AirtableItemFromColumnsMap<TColumnsMap>> & { id: string },
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.update(table.airtable, data);
+    const fullData = await withAirtableRetry(() => this.airtableClient.update(table.airtable, data), { idempotent: true });
 
     // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
@@ -249,7 +250,7 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     id: string,
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
-    const { id: resultId } = await this.airtableClient.remove(table.airtable, id);
+    const { id: resultId } = await withAirtableRetry(() => this.airtableClient.remove(table.airtable, id), { idempotent: true });
 
     const pgResult = await this.ensureReplicated({ table, id: resultId, isDelete: true });
 
@@ -286,7 +287,7 @@ export class PgAirtableDb {
       return deletedResult;
     }
 
-    const data = fullData ?? await this.airtableClient.get(table.airtable, id);
+    const data = fullData ?? await withAirtableRetry(() => this.airtableClient.get(table.airtable, id), { idempotent: true });
 
     if (!data) {
       throw new Error('No data found for upsert operation');

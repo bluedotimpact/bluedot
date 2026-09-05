@@ -1,5 +1,6 @@
 export { PgAirtableDb } from './lib/client';
 export type { PgDatabase } from './lib/client';
+export { isRetryableAirtableError, withAirtableRetry } from './lib/retry';
 export { getFirstFromPg } from './lib/pg-query';
 export type { GetFirstFromPgOptions } from './lib/pg-query';
 export {
