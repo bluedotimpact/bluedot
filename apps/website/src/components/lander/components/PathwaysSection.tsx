@@ -1,4 +1,6 @@
-import { H2, H3, P } from '@bluedot/ui';
+import {
+  CardShell, H2, H3, P,
+} from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
 import Link from 'next/link';
@@ -51,9 +53,9 @@ const PathwaysSection = ({
             {pathways.map((pathway) => {
               const IconComponent = pathway.icon;
               return (
-                <div
+                <CardShell
                   key={pathway.title}
-                  className="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-bluedot-navy/8 hover:border-bluedot-navy/15 hover:shadow-sm transition-all duration-200"
+                  className="group flex flex-col gap-4 hover:border-bluedot-navy/15 hover:shadow-sm transition-all duration-200"
                 >
                   <div
                     className="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
@@ -78,17 +80,17 @@ const PathwaysSection = ({
                       </Link>
                     )}
                   </div>
-                </div>
+                </CardShell>
               );
             })}
           </div>
 
           {callout && (
-            <div className="mt-10 md:mt-12 p-6 md:p-8 rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03]">
+            <CardShell className="mt-10 md:mt-12 md:p-8 bg-bluedot-navy/[0.03]">
               <div className="text-size-sm leading-relaxed text-bluedot-navy/80">
                 {callout}
               </div>
-            </div>
+            </CardShell>
           )}
         </div>
       </div>

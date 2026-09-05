@@ -1,4 +1,6 @@
-import { H3, H4, P } from '@bluedot/ui';
+import {
+  CardShell, H3, H4, P,
+} from '@bluedot/ui';
 
 const CRITERIA = [
   {
@@ -31,12 +33,12 @@ const WhatWeLookForSection = () => {
         <H3>What we look for</H3>
         <div className="grid grid-cols-1 gap-5 bd-md:grid-cols-2">
           {CRITERIA.map((criterion) => (
-            <article key={criterion.title} className="flex flex-col gap-3 rounded-xl border border-bluedot-navy/10 bg-white p-6">
+            <CardShell key={criterion.title} className="flex flex-col gap-3">
               <H4>{criterion.title}</H4>
               <div className="flex flex-col gap-3 text-bluedot-navy/80">
                 {criterion.body}
               </div>
-            </article>
+            </CardShell>
           ))}
         </div>
       </div>

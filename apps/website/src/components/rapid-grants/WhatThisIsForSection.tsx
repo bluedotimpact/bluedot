@@ -1,4 +1,6 @@
-import { H3, H4, P } from '@bluedot/ui';
+import {
+  CardShell, H3, H4, P,
+} from '@bluedot/ui';
 import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 
 const DECISION_CARDS = [
@@ -40,9 +42,9 @@ const WhatThisIsForSection = () => {
 
         <div className="pt-2 grid gap-4 bd-md:grid-cols-2">
           {DECISION_CARDS.map((card) => (
-            <div
+            <CardShell
               key={card.title}
-              className="rounded-2xl border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
+              className="lg:p-8 flex flex-col gap-3"
             >
               <H4>
                 {card.title}
@@ -50,7 +52,7 @@ const WhatThisIsForSection = () => {
               <P className="text-bluedot-navy/80">
                 {card.body}
               </P>
-            </div>
+            </CardShell>
           ))}
         </div>
       </div>
