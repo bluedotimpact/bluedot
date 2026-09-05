@@ -182,14 +182,7 @@ const CertificatePage = ({
         <meta name="twitter:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
       </Head>
 
-      {isOwner && (
-        <div className="hidden md:block">
-          <Breadcrumbs
-            route={certificateRoute}
-            className="text-size-xs leading-normal"
-          />
-        </div>
-      )}
+      {isOwner && <Breadcrumbs route={certificateRoute} />}
 
       {isMounted && (
         <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[850px] h-[600px] overflow-hidden pointer-events-none z-50">

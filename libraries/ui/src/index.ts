@@ -3,8 +3,8 @@
 export { Avatar, getInitials } from './Avatar';
 export type { AvatarProps } from './Avatar';
 
-export { Breadcrumbs, type BluedotRoute } from './Breadcrumbs';
-export type { BreadcrumbsProps } from './Breadcrumbs';
+export { Breadcrumbs, BreadcrumbTrail, type BluedotRoute } from './Breadcrumbs';
+export type { BreadcrumbsProps, BreadcrumbTrailProps } from './Breadcrumbs';
 
 export { Card } from './Card';
 export type { CardProps } from './Card';
@@ -34,6 +34,8 @@ export type { HeroSectionProps, HeroCTAContainerProps } from './HeroSection';
 
 export { IconButton } from './IconButton';
 export type { IconButtonProps } from './IconButton';
+
+export { ChevronRightIcon } from './icons/ChevronRightIcon';
 
 export { Input } from './Input';
 export type { InputProps } from './Input';

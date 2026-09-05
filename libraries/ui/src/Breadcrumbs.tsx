@@ -1,6 +1,7 @@
 import type React from 'react';
-import clsx from 'clsx';
 import { A } from './Text';
+import { ChevronRightIcon } from './icons/ChevronRightIcon';
+import { cn } from './utils';
 
 export type BluedotRoute = {
   /**
@@ -22,33 +23,56 @@ export type BreadcrumbsProps = {
   // Required
   route: BluedotRoute;
   // Optional
-  children?: React.ReactNode;
   className?: string;
 };
 
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, className }) => {
+export type BreadcrumbTrailProps = {
+  route: BluedotRoute;
+  className?: string;
+};
+
+/** The crumbs alone, for embedding in an existing bar. Use `Breadcrumbs` for the standalone full-width bar. */
+export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, className }) => {
   const items = [...(route.parentPages ?? []), route];
+  const collapsible = items.length > 2;
 
   return (
-    <div className={clsx('breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between', className)}>
-      <nav
-        className="breadcrumbs__nav section-base flex flex-row justify-between"
-        aria-label="Breadcrumbs"
-      >
-        <ol className="breadcrumbs__list flex">
-          {items.map((item, index) => (
-            <li key={item.url} className="breadcrumbs__item flex items-center">
-              <A className="breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal" href={item.url}>{item.title}</A>
-              {index < items.length - 1 && (
-                <span className="breadcrumbs__separator mx-2">{'>'}</span>
-              )}
-            </li>
-          ))}
-        </ol>
-        {children}
-      </nav>
-    </div>
+    <ol className={cn('text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium', className)}>
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        const isMiddle = index > 0 && !isLast;
+
+        return (
+          <li key={item.url} className={cn('flex min-w-0 items-center gap-2', isMiddle && 'hidden bd-md:flex')}>
+            {isLast ? (
+              <span aria-current="page" title={item.title} className="text-bluedot-navy truncate">
+                {item.title}
+              </span>
+            ) : (
+              <A className="text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline" href={item.url}>
+                {item.title}
+              </A>
+            )}
+            {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-bluedot-navy/70 shrink-0" />}
+            {index === 0 && collapsible && (
+              <span aria-hidden="true" className="bd-md:hidden text-bluedot-navy/70 flex items-center gap-2">
+                ⋯
+                <ChevronRightIcon size={16} className="text-bluedot-navy/70 shrink-0" />
+              </span>
+            )}
+          </li>
+        );
+      })}
+    </ol>
   );
 };
+
+export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => (
+  <div className={cn('border-bluedot-navy/10 w-full border-b bg-white py-3', className)}>
+    <nav className="section-base" aria-label="Breadcrumbs">
+      <BreadcrumbTrail route={route} />
+    </nav>
+  </div>
+);
 
 export default Breadcrumbs;

@@ -570,41 +570,53 @@ exports[`JoinUsPage > should render correctly 1`] = `
       </div>
     </section>
     <div
-      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between"
+      class="border-bluedot-navy/10 w-full border-b bg-white py-3"
     >
       <nav
         aria-label="Breadcrumbs"
-        class="breadcrumbs__nav section-base flex flex-row justify-between"
+        class="section-base"
       >
         <ol
-          class="breadcrumbs__list flex"
+          class="text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium"
         >
           <li
-            class="breadcrumbs__item flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
             <a
-              class="bluedot-a not-prose breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal"
+              class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
               href="/"
               tabindex="0"
             >
               Home
             </a>
-            <span
-              class="breadcrumbs__separator mx-2"
+            <svg
+              aria-hidden="true"
+              class="text-bluedot-navy/70 shrink-0"
+              fill="none"
+              height="16"
+              viewBox="0 0 20 20"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              &gt;
-            </span>
+              <path
+                d="M7.5 5L12.5 10L7.5 15"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
           </li>
           <li
-            class="breadcrumbs__item flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
-            <a
-              class="bluedot-a not-prose breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal"
-              href="/join-us"
-              tabindex="0"
+            <span
+              aria-current="page"
+              class="text-bluedot-navy truncate"
+              title="Work with us"
             >
               Work with us
-            </a>
+            </span>
           </li>
         </ol>
       </nav>
