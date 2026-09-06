@@ -1,3 +1,4 @@
+const path = require('path');
 const { withSentryConfig } = require('@sentry/nextjs');
 const { withDefaultBlueDotNextConfig } = require('@bluedot/ui/src/default-config/next');
 
@@ -186,19 +187,35 @@ const baseConfig = withDefaultBlueDotNextConfig({
 });
 
 // withDefaultBlueDotNextConfig is async; withSentryConfig needs the resolved object
-module.exports = async () => withSentryConfig(await baseConfig, {
-  org: 'bluedotimpact',
-  project: 'website',
-  authToken: process.env.SENTRY_AUTH_TOKEN,
-  widenClientFileUpload: true,
-  // Tags our bundled modules as first-party so thirdPartyErrorFilterIntegration
-  // (instrumentation-client.ts) can drop errors thrown solely by extension scripts.
-  applicationKey: 'bluedot-website',
-  tunnelRoute: true,
-  silent: !process.env.CI,
-  webpack: {
-    treeshake: {
-      removeDebugLogging: true,
+module.exports = async () => {
+  const resolved = await baseConfig;
+  const previousWebpack = resolved.webpack;
+  // Old Safari can't parse one regex in our Markdown package (CE-14).
+  // Use our copy without it.
+  resolved.webpack = (webpackConfig, context, ...args) => {
+    webpackConfig.resolve.alias = {
+      ...(webpackConfig.resolve.alias ?? {}),
+      'mdast-util-gfm-autolink-literal': path.resolve(__dirname, 'src/vendor/mdast-util-gfm-autolink-literal.js'),
+    };
+    return previousWebpack
+      ? previousWebpack(webpackConfig, context, ...args)
+      : webpackConfig;
+  };
+
+  return withSentryConfig(resolved, {
+    org: 'bluedotimpact',
+    project: 'website',
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    widenClientFileUpload: true,
+    // Tags our bundled modules as first-party so thirdPartyErrorFilterIntegration
+    // (instrumentation-client.ts) can drop errors thrown solely by extension scripts.
+    applicationKey: 'bluedot-website',
+    tunnelRoute: true,
+    silent: !process.env.CI,
+    webpack: {
+      treeshake: {
+        removeDebugLogging: true,
+      },
     },
-  },
-});
+  });
+};
