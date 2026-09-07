@@ -9,6 +9,7 @@ const APPLY = process.argv.includes('--apply');
 
 const KEYCLOAK_BASE_URL = 'https://login.bluedot.org';
 const AIRTABLE_BATCH_SIZE = 10; // max records per PATCH
+const AIRTABLE_READ_CHUNK = 100; // max records per GET
 const AIRTABLE_REQUEST_INTERVAL_MS = 400; // 2.5 req/s, half the base limit, leaves room for other services
 
 const sleep = (ms: number) => new Promise((resolve) => {
@@ -140,34 +141,62 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
   return plan;
 };
 
+const airtableRequest = async (url: string, init: RequestInit): Promise<unknown> => {
+  const startedAt = Date.now();
+  const response = await fetch(url, {
+    ...init,
+    headers: { Authorization: `Bearer ${process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN}`, 'Content-Type': 'application/json' },
+  });
+  if (!response.ok) throw new Error(`Airtable ${init.method ?? 'GET'} failed: ${response.status} ${await response.text()}`);
+  const body: unknown = await response.json();
+  await sleep(Math.max(0, AIRTABLE_REQUEST_INTERVAL_MS - (Date.now() - startedAt)));
+  return body;
+};
+
+type AirtableUserRecord = { id: string; fields: Record<string, string | undefined> };
+
 // The db client only writes one record at a time, which would take hours for tens of thousands of users,
 // so this PATCHes Airtable directly in batches of 10. pg-sync-service replicates the changes to Postgres.
 const applyPlan = async (plan: PlanRow[]) => {
   const { baseId, tableId } = userTable.airtable;
   const mappings = userTable.airtable.mappings!;
-  const records = plan.map((row) => {
-    const fields: Record<string, string> = {
-      [mappings.firstName]: row.parts.firstName,
-      [mappings.lastName]: row.parts.lastName,
-    };
-    if (row.name !== joinName(row.parts)) fields[mappings.name] = joinName(row.parts);
-    return { id: row.userId, fields };
-  });
-  console.log(`Applying ${records.length} rows`);
+  const url = `https://api.airtable.com/v0/${baseId}/${tableId}`;
+  const changed: string[] = [];
+  let written = 0;
+  console.log(`Applying ${plan.length} rows`);
 
-  for (let i = 0; i < records.length; i += AIRTABLE_BATCH_SIZE) {
-    const startedAt = Date.now();
-    const response = await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}`, {
-      method: 'PATCH',
-      headers: { Authorization: `Bearer ${process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ records: records.slice(i, i + AIRTABLE_BATCH_SIZE) }),
+  for (let i = 0; i < plan.length; i += AIRTABLE_READ_CHUNK) {
+    const chunk = plan.slice(i, i + AIRTABLE_READ_CHUNK);
+
+    // Re-read right before writing so edits made since the plan was built are skipped, not overwritten
+    const params = new URLSearchParams({ filterByFormula: `OR(${chunk.map((row) => `RECORD_ID()='${row.userId}'`).join(',')})`, pageSize: String(AIRTABLE_READ_CHUNK), returnFieldsByFieldId: 'true' });
+    for (const field of [mappings.name, mappings.firstName, mappings.lastName]) params.append('fields[]', field);
+    const { records: current } = (await airtableRequest(`${url}?${params}`, { method: 'GET' })) as { records: AirtableUserRecord[] };
+    const currentById = new Map(current.map((record) => [record.id, record.fields]));
+
+    const records = chunk.flatMap((row) => {
+      const fields = currentById.get(row.userId);
+      const unchanged = fields && (fields[mappings.name] ?? '') === row.name && !(normalise(fields[mappings.firstName]) && normalise(fields[mappings.lastName]));
+      if (!unchanged) {
+        changed.push(row.userId);
+        return [];
+      }
+
+      const update: Record<string, string> = { [mappings.firstName]: row.parts.firstName, [mappings.lastName]: row.parts.lastName };
+      if (row.name !== joinName(row.parts)) update[mappings.name] = joinName(row.parts);
+      return [{ id: row.userId, fields: update }];
     });
-    if (!response.ok) throw new Error(`Airtable PATCH failed at row ${i}: ${response.status} ${await response.text()}`);
-    await sleep(Math.max(0, AIRTABLE_REQUEST_INTERVAL_MS - (Date.now() - startedAt)));
-    if ((i / AIRTABLE_BATCH_SIZE) % 100 === 0) console.log(`Written ${i + AIRTABLE_BATCH_SIZE}/${records.length}`);
+
+    for (let j = 0; j < records.length; j += AIRTABLE_BATCH_SIZE) {
+      await airtableRequest(url, { method: 'PATCH', body: JSON.stringify({ records: records.slice(j, j + AIRTABLE_BATCH_SIZE) }) });
+    }
+
+    written += records.length;
+    if ((i / AIRTABLE_READ_CHUNK) % 10 === 0) console.log(`Written ${written}, checked ${i + chunk.length}/${plan.length}`);
   }
 
-  console.log('Done');
+  console.log(`Done: ${written} written, ${changed.length} changed since the plan was built and skipped (rerun to reconsider them)`);
+  if (changed.length > 0) console.log(changed.join('\n'));
 };
 
 const main = async () => {
