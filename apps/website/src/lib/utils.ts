@@ -275,10 +275,11 @@ export const nameFieldsFromSource = (
   };
 };
 
-// Best-effort split on the last space. Only for prefilling a form the user confirms; wrong for many names, so never bulk-apply.
+// Best-effort split on the first space, so the first name (used in greetings) is right even when the surname is multi-word.
+// Only for prefilling a form the user confirms; never bulk-apply.
 export const splitName = (name: string): { firstName: string; lastName: string } => {
   const normalised = name.trim().replace(/\s+/g, ' ');
-  const spaceIndex = normalised.lastIndexOf(' ');
+  const spaceIndex = normalised.indexOf(' ');
   if (spaceIndex === -1) return { firstName: normalised, lastName: '' };
   return { firstName: normalised.slice(0, spaceIndex), lastName: normalised.slice(spaceIndex + 1) };
 };

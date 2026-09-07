@@ -76,8 +76,8 @@ describe('ProfileNameEditor', () => {
       { wrapper: TrpcProvider },
     );
 
-    expect(getInput(container, 'First name').value).toBe('Maria de la');
-    expect(getInput(container, 'Last name').value).toBe('Cruz');
+    expect(getInput(container, 'First name').value).toBe('Maria');
+    expect(getInput(container, 'Last name').value).toBe('de la Cruz');
     // The prefill is a suggestion, so it isn't treated as an unsaved change
     expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });

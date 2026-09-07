@@ -177,7 +177,7 @@ const cleanNamePart = (value: string | null | undefined): string | null => {
 // The quick-apply form doesn't capture the applicant's name. Prefer the split first/last from
 // their most recent prior application (any course/role) that recorded one — human-entered, so the
 // most accurate split. Then the user account's stored first/last name. Otherwise fall back to the
-// account's single name field, best-effort split on the last space. Leaves both null only if none has a name.
+// account's single name field, best-effort split on the first space. Leaves both null only if none has a name.
 export const resolveApplicantName = async (userId: string): Promise<{ firstName: string | null; lastName: string | null }> => {
   const regs = await db.pg
     .select({

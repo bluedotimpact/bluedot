@@ -609,7 +609,7 @@ describe('resolveApplicantName', () => {
     expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: 'Lovelace' });
   });
 
-  test('falls back to the user account name (split on last space) when no prior application has a name', async () => {
+  test('falls back to the user account name (split on first space) when no prior application has a name', async () => {
     await seedUser('test-user', 'Caroline Shamiso Chitongo', { firstName: '  ', lastName: '' });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-blank',
@@ -619,7 +619,7 @@ describe('resolveApplicantName', () => {
       role: 'Facilitator',
       autoNumberId: 2,
     });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline', lastName: 'Shamiso Chitongo' });
   });
 
   test('splits a single-word user account name into a null last name', async () => {

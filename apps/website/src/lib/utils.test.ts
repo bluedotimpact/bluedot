@@ -427,9 +427,9 @@ describe('nameFieldsFromSource', () => {
 });
 
 describe('splitName', () => {
-  it('splits on the last space', () => {
+  it('splits on the first space', () => {
     expect(splitName('Jane Doe')).toEqual({ firstName: 'Jane', lastName: 'Doe' });
-    expect(splitName('Jean Pierre  Dupont ')).toEqual({ firstName: 'Jean Pierre', lastName: 'Dupont' });
+    expect(splitName(' Ada  King Lovelace ')).toEqual({ firstName: 'Ada', lastName: 'King Lovelace' });
   });
 
   it('single word becomes the first name', () => {
