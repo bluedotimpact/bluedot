@@ -42,6 +42,8 @@ const BEYOND_SENTRY_PATTERNS: RegExp[] = [
   /evaluating 'n\.standardselectors/i, // Minified extension code
   /webkit\.messagehandlers/i, // iOS webview bridge
   /can't access property "includes", args\.site\.enabledfeatures is undefined/i, // Privacy-extension read
+  // Next.js guard for same-page clicks. The user is already there.
+  /attempted to hard navigate to the same url/i,
 ];
 
 const IGNORED_MESSAGE_PATTERNS: RegExp[] = [...SENTRY_MIRRORED_PATTERNS, ...BEYOND_SENTRY_PATTERNS];
