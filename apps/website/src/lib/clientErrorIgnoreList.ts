@@ -37,7 +37,6 @@ const BEYOND_SENTRY_PATTERNS: RegExp[] = [
   /detectlanguage is not a function/i, // Translation extension
   /func sseerror not found/i, // Missing marketing-tag callback
   /enabledfeatures.*undefined/i, // Extension config object
-  /args\.site/i, // Extension config object
   /^window message ".+" timed out\.?$/i, // Timed-out extension call
   /evaluating 'window\.ethereum/i, // Wallet selectedAddress fight
   /evaluating 'n\.standardselectors/i, // Minified extension code

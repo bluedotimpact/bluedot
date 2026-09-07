@@ -39,8 +39,6 @@ describe('shouldIgnoreClientError', () => {
     'No Listener: tabs:outgoing.message.ready',
     'detectLanguage is not a function. (In \'r().i18n.detectLanguage(o)\', \'r().i18n.detectLanguage\' is undefined)',
     'func sseError not found',
-    'TypeError: undefined is not an object (evaluating \'args.site.enabledFeatures\')',
-    'args.site is undefined',
     'can\'t access property "includes", args.site.enabledFeatures is undefined',
   ])('ignores noise beyond Sentry (verified third-party/benign): %s', (message) => {
     expect(shouldIgnoreClientError(message)).toBe(true);
@@ -57,6 +55,8 @@ describe('shouldIgnoreClientError', () => {
     'Invariant: attempted to hard navigate to the same URL /courses/agi-strategy',
     'Failed to fetch',
     'NetworkError when attempting to fetch resource.',
+    'TypeError: undefined is not an object (evaluating \'args.site.enabledFeatures\')',
+    'args.site is undefined',
     'SyntaxError: Invalid regular expression: invalid group specifier name',
     'Failed to get base schema: Status: 429. Data: {}',
     'The service is temporarily unavailable. Please retry shortly.',
