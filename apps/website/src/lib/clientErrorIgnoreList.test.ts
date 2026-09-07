@@ -43,6 +43,7 @@ describe('shouldIgnoreClientError', () => {
     'Invariant: attempted to hard navigate to the same URL /',
     'Invariant: attempted to hard navigate to the same URL /some/random/page-123',
     'Invariant: attempted to hard navigate to the same URL /courses/anything/1/1',
+    'SyntaxError: Invalid regular expression: invalid group specifier name',
   ])('ignores noise beyond Sentry (verified third-party/benign): %s', (message) => {
     expect(shouldIgnoreClientError(message)).toBe(true);
   });
@@ -60,7 +61,7 @@ describe('shouldIgnoreClientError', () => {
     'NetworkError when attempting to fetch resource.',
     'TypeError: undefined is not an object (evaluating \'args.site.enabledFeatures\')',
     'args.site is undefined',
-    'SyntaxError: Invalid regular expression: invalid group specifier name',
+    'Invalid regular expression: missing /',
     'Failed to get base schema: Status: 429. Data: {}',
     'The service is temporarily unavailable. Please retry shortly.',
   ])('keeps real errors: %s', (message) => {

@@ -44,6 +44,9 @@ const BEYOND_SENTRY_PATTERNS: RegExp[] = [
   /can't access property "includes", args\.site\.enabledfeatures is undefined/i, // Privacy-extension read
   // Next.js guard for same-page clicks. The user is already there.
   /attempted to hard navigate to the same url/i,
+  // Old Safari regex failure. Our case is fixed on the GFM branch;
+  // the rest is third-party.
+  /invalid group specifier name/i,
 ];
 
 const IGNORED_MESSAGE_PATTERNS: RegExp[] = [...SENTRY_MIRRORED_PATTERNS, ...BEYOND_SENTRY_PATTERNS];
