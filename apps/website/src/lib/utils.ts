@@ -253,3 +253,11 @@ export const nameFieldsFromParts = (parts: { firstName?: string | null; lastName
   const lastName = parts.lastName?.trim() ?? '';
   return firstName || lastName ? { firstName, lastName, name: joinName(firstName, lastName) } : {};
 };
+
+// Users from before first/last name were stored only have `name`: split it on the first space
+export const getNameParts = (user: { name: string; firstName?: string | null; lastName?: string | null }): { firstName: string; lastName: string } => {
+  if (Boolean(user.firstName) || Boolean(user.lastName)) return { firstName: user.firstName ?? '', lastName: user.lastName ?? '' };
+  const name = user.name.trim().replace(/\s+/g, ' ');
+  const spaceIndex = name.indexOf(' ');
+  return spaceIndex === -1 ? { firstName: name, lastName: '' } : { firstName: name.slice(0, spaceIndex), lastName: name.slice(spaceIndex + 1) };
+};

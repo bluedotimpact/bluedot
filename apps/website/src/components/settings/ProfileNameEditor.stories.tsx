@@ -40,12 +40,18 @@ type Story = StoryObj<typeof meta>;
 
 export const StoredFirstAndLastName: Story = {
   args: {
-    user: { firstName: 'Jane', lastName: 'Doe' },
+    user: { firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' },
   },
 };
 
 export const NewUserWithNoName: Story = {
   args: {
-    user: { firstName: null, lastName: null },
+    user: { firstName: null, lastName: null, name: '' },
+  },
+};
+
+export const UserWithOnlyCombinedName: Story = {
+  args: {
+    user: { firstName: null, lastName: null, name: 'Jane Doe' },
   },
 };

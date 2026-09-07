@@ -14,7 +14,7 @@ import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { parseWeekFromRoundName, unique } from '../../lib/utils';
+import { getNameParts, parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
 
@@ -370,8 +370,7 @@ export const facilitatorApplicationsRouter = router({
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
         userId: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        ...getNameParts(user),
         courseApplicationsBaseId: applicationsCourse.id,
         roundId: input.roundId,
         role: COURSE_ROLE.FACILITATOR,

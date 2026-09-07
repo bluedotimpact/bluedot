@@ -21,6 +21,7 @@ const {
   formatDateDayOfWeek,
   formatDateTimeRelative,
   buildApplicationUrl,
+  getNameParts,
   joinName,
   nameFieldsFromParts,
 } = await import('./utils');
@@ -397,5 +398,18 @@ describe('nameFieldsFromParts', () => {
 
   it('returns nothing when both parts are blank', () => {
     expect(nameFieldsFromParts({ firstName: ' ', lastName: undefined })).toEqual({});
+  });
+});
+
+describe('getNameParts', () => {
+  it('uses stored first/last name when present', () => {
+    expect(getNameParts({ name: 'Jane Doe', firstName: 'Jane', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe' });
+    expect(getNameParts({ name: 'Jane Doe', firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '' });
+  });
+
+  it('splits name on the first space when first/last name are not stored', () => {
+    expect(getNameParts({ name: ' Mary  Jane Smith ', firstName: null, lastName: null })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith' });
+    expect(getNameParts({ name: 'Jane' })).toEqual({ firstName: 'Jane', lastName: '' });
+    expect(getNameParts({ name: '' })).toEqual({ firstName: '', lastName: '' });
   });
 });
