@@ -17,17 +17,22 @@ const sleep = (ms: number) => new Promise((resolve) => {
 });
 
 type NameParts = { firstName: string; lastName: string };
-type Method = 'registration' | 'keycloak';
+type NameFields = NameParts & { name: string };
+type Method = 'registration' | 'keycloak' | 'split' | 'parts';
 type PlanRow = {
   userId: string;
   email: string;
-  name: string;
   method: Method;
-  parts: NameParts;
+  before: NameFields;
+  update: Partial<NameFields>;
 };
 
 const normalise = (value: string | null | undefined): string => (value ?? '').trim().replace(/\s+/g, ' ');
 const joinName = (parts: NameParts): string => [parts.firstName, parts.lastName].map(normalise).filter(Boolean).join(' ');
+const splitName = (name: string): NameParts => {
+  const space = name.indexOf(' ');
+  return space === -1 ? { firstName: name, lastName: '' } : { firstName: name.slice(0, space), lastName: name.slice(space + 1) };
+};
 
 const bothPresent = (parts: { firstName: string | null; lastName: string | null }): NameParts | undefined => {
   const firstName = normalise(parts.firstName);
@@ -101,13 +106,8 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
   };
 
   for (const user of users) {
-    if (normalise(user.firstName) && normalise(user.lastName)) {
-      count('already complete');
-      continue;
-    }
-
     const name = normalise(user.name);
-    const storedName = user.name ?? '';
+    const stored = { firstName: normalise(user.firstName), lastName: normalise(user.lastName) };
     const registration = registrationByUser.get(user.id);
     const keycloak = (user.keycloakIdentifier ? keycloakBySub.get(user.keycloakIdentifier) : undefined) ?? keycloakByEmail.get(user.email.toLowerCase());
     // Registration first: it's what they asked to be called on the course
@@ -115,23 +115,33 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
     if (registration) candidates.push(['registration', registration]);
     if (keycloak) candidates.push(['keycloak', keycloak]);
 
-    if (candidates.length === 0) {
-      count(name ? 'skipped: name only, no source' : 'skipped: no name and no source');
+    // Case-sensitive match: users may have deliberately edited casing (e.g. McKenzie)
+    let chosen: [Method, NameParts] | undefined;
+    if (name) chosen = candidates.find(([, parts]) => joinName(parts) === name) ?? ['split', splitName(name)];
+    else if (candidates.length > 0) [chosen] = candidates;
+    else if (joinName(stored)) chosen = ['parts', stored];
+    if (!chosen) {
+      count('skipped: no name and no source');
       continue;
     }
 
-    // A stored name that doesn't match any source is left alone rather than guessed at.
-    // Case-sensitive: users may have deliberately edited casing (e.g. McKenzie).
-    const usable = name ? candidates.find(([, parts]) => joinName(parts) === name) : candidates[0];
-    if (!usable) {
-      count('skipped: stored name differs from source');
+    const [method, parts] = chosen;
+    const before: NameFields = { name: user.name ?? '', firstName: user.firstName ?? '', lastName: user.lastName ?? '' };
+    const target: NameFields = { ...parts, name: joinName(parts) };
+    const update: Partial<NameFields> = {};
+    for (const field of ['name', 'firstName', 'lastName'] as const) {
+      if (before[field] !== target[field]) update[field] = target[field];
+    }
+
+    if (Object.keys(update).length === 0) {
+      count('already in sync');
       continue;
     }
 
-    const [method, parts] = usable;
     count(`method: ${method}`);
+    if ((stored.firstName && update.firstName !== undefined) || (stored.lastName && update.lastName !== undefined)) count('replaces an existing first/last name');
     plan.push({
-      userId: user.id, email: user.email, name: storedName, method, parts,
+      userId: user.id, email: user.email, method, before, update,
     });
   }
 
@@ -176,15 +186,13 @@ const applyPlan = async (plan: PlanRow[]) => {
 
     const records = chunk.flatMap((row) => {
       const fields = currentById.get(row.userId);
-      const unchanged = fields && (fields[mappings.name] ?? '') === row.name && !(normalise(fields[mappings.firstName]) && normalise(fields[mappings.lastName]));
+      const unchanged = fields && (['name', 'firstName', 'lastName'] as const).every((field) => (fields[mappings[field]] ?? '') === row.before[field]);
       if (!unchanged) {
         changed.push(row.userId);
         return [];
       }
 
-      const update: Record<string, string> = { [mappings.firstName]: row.parts.firstName, [mappings.lastName]: row.parts.lastName };
-      if (row.name !== joinName(row.parts)) update[mappings.name] = joinName(row.parts);
-      return [{ id: row.userId, fields: update }];
+      return [{ id: row.userId, fields: Object.fromEntries(Object.entries(row.update).map(([field, value]) => [mappings[field as keyof NameFields], value])) }];
     });
 
     for (let j = 0; j < records.length; j += AIRTABLE_BATCH_SIZE) {

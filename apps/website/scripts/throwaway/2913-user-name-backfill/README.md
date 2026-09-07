@@ -4,11 +4,11 @@ One-off script to fill the `First name` / `Last name` fields on the Airtable Use
 
 ## Rules
 
-For each user missing first or last name:
+For each user, the target is a first and last name that join to `name` exactly. Users whose stored fields already match are skipped; otherwise whichever of the three fields differ are written.
 
-1. Source: the most recent course registration with both names, else Keycloak (`given_name` / `family_name`), matched by Keycloak sub and then by email. Registration wins ties because it's what they asked to be called on the course.
-2. If the user has a stored `name`, the source must join to it exactly, ignoring only surrounding and repeated whitespace. Users with no source, or whose stored `name` matches no source, are skipped rather than guessed.
-3. First and last name are written from the source. This supersedes the first name that is already in Airtable: `First name` was unused previously and is only set for 45 users (unsure where these come from).
+1. If `name` is set: take the first/last name from the most recent course registration with both names, else from Keycloak (`given_name` / `family_name`, matched by Keycloak sub and then by email), provided it joins to `name` ignoring only surrounding and repeated whitespace. Registration wins ties because it's what they asked to be called on the course. If no source matches, split `name` on the first space (a single word becomes the first name with an empty last name). This is the same split the facilitator application form has always used to pre-fill its fields.
+2. If `name` is blank: take the first source available, else the existing first/last name, and write `name` as its join. Users with none of these are skipped.
+3. An existing first/last name that doesn't match the target is overwritten. `First name` was unused previously and is only set for 45 users (unsure where these come from).
 
 ## Running
 
