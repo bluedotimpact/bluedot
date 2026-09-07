@@ -70,12 +70,23 @@ describe('withAirtableRetry', () => {
       .mockRejectedValueOnce(apiError('Failed to get base schema: Status: 429. Data: {}'))
       .mockResolvedValue('recovered');
 
-    const result = await withAirtableRetry(operation, { sleep, baseDelayMs: 250 });
+    const result = await withAirtableRetry(operation, { sleep, baseDelayMs: 250, random: () => 0 });
 
     expect(result).toBe('recovered');
     expect(operation).toHaveBeenCalledTimes(2);
     expect(sleep).toHaveBeenCalledTimes(1);
     expect(sleep).toHaveBeenCalledWith(250);
+  });
+
+  test('adds a small random jitter to the backoff', async () => {
+    const sleep = vi.fn(async () => {});
+    const operation = vi.fn()
+      .mockRejectedValueOnce(apiError('Failed to get base schema: Status: 429. Data: {}'))
+      .mockResolvedValue('recovered');
+
+    await withAirtableRetry(operation, { sleep, baseDelayMs: 250, random: () => 0.5 });
+
+    expect(sleep).toHaveBeenCalledWith(250 + 125);
   });
 
   test('does not retry non-retryable errors', async () => {

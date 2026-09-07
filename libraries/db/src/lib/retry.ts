@@ -3,6 +3,7 @@ import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
 
 export const MAX_ATTEMPTS = 3;
 export const BASE_DELAY_MS = 1000;
+export const JITTER_MAX_MS = 250;
 
 const defaultSleep = (ms: number): Promise<void> => new Promise((resolve) => {
   setTimeout(resolve, ms);
@@ -16,7 +17,8 @@ const defaultSleep = (ms: number): Promise<void> => new Promise((resolve) => {
  *
  * Two error shapes reach us: AirtableTsError (schema fetch, status in
  * the message) and airtable.js errors (CRUD calls, status on the
- * statusCode prop).
+ * statusCode prop). A small random jitter spreads concurrent retries
+ * so they don't re-hit the rate limit in lockstep.
  */
 function airtableStatus(error: unknown): number | undefined {
   if (error instanceof AirtableTsError) {
@@ -48,19 +50,21 @@ export async function withAirtableRetry<T>(
     baseDelayMs?: number;
     sleep?: (ms: number) => Promise<void>;
     idempotent?: boolean;
+    random?: () => number;
   },
 ): Promise<T> {
   const maxAttempts = options?.maxAttempts ?? MAX_ATTEMPTS;
   const baseDelayMs = options?.baseDelayMs ?? BASE_DELAY_MS;
   const sleep = options?.sleep ?? defaultSleep;
   const idempotent = options?.idempotent ?? false;
+  const random = options?.random ?? Math.random;
 
   const attempt = async (attemptNumber: number): Promise<T> => {
     try {
       return await operation();
     } catch (error) {
       if (attemptNumber >= maxAttempts || !isRetryableAirtableError(error, idempotent)) throw error;
-      await sleep(retryDelayMs(attemptNumber, baseDelayMs));
+      await sleep(retryDelayMs(attemptNumber, baseDelayMs) + Math.floor(random() * JITTER_MAX_MS));
       return attempt(attemptNumber + 1);
     }
   };
