@@ -12,7 +12,8 @@ const defaultSleep = (ms: number): Promise<void> => new Promise((resolve) => {
 /**
  * Airtable asks clients to retry 429s and 5xx with backoff.
  * A 429 means rejected, never applied, so it always retries. A 5xx may
- * have applied, so it retries only idempotent reads and writes by id.
+ * have applied, so it retries only idempotent reads and writes by id
+ * (callers must set absolute values, never deltas).
  * It never retries inserts, which would double-create.
  *
  * Two error shapes reach us: AirtableTsError (schema fetch, status in

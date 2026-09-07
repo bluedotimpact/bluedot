@@ -4,7 +4,6 @@ import {
 import { AirtableTsError } from 'airtable-ts/dist/AirtableTsError';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
 import { WrappedAirtableError } from 'airtable-ts/dist/wrapToCatchAirtableErrors';
-// eslint-disable-next-line import/no-extraneous-dependencies -- real airtable.js error class for faithful retry tests
 import AirtableError from 'airtable/lib/airtable_error';
 import { isRetryableAirtableError, retryDelayMs, withAirtableRetry } from './retry';
 import { PgAirtableDb } from '../index';
