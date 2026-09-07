@@ -206,83 +206,7 @@ describe('users.ensureExists', () => {
     insertSpy.mockRestore();
   });
 
-  test('writes the name from the token when creating a new user', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
-      sub: 'test-sub',
-      email: 'test@example.com',
-      name: 'John Doe',
-      iss: 'test-issuer',
-      aud: 'test-audience',
-      exp: Math.floor(Date.now() / 1000) + 3600,
-      email_verified: true,
-    });
-
-    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-    const user = await testDb.get(userTable, { email: 'test@example.com' });
-    expect(user.name).toBe('John Doe');
-  });
-
-  test('backfills an empty name from the token on a user matched by email (no keycloakIdentifier yet)', async () => {
-    await testDb.insert(userTable, { id: 'u1', email: 'test@example.com' });
-
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
-      sub: 'test-sub',
-      email: 'test@example.com',
-      name: 'John Doe',
-      iss: 'test-issuer',
-      aud: 'test-audience',
-      exp: Math.floor(Date.now() / 1000) + 3600,
-      email_verified: true,
-    });
-
-    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-    const user = await testDb.get(userTable, { email: 'test@example.com' });
-    expect(user.name).toBe('John Doe');
-  });
-
-  test('backfills an empty name from the token on a returning user matched by keycloakIdentifier', async () => {
-    await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub' });
-
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
-      sub: 'test-sub',
-      email: 'test@example.com',
-      name: 'John Doe',
-      iss: 'test-issuer',
-      aud: 'test-audience',
-      exp: Math.floor(Date.now() / 1000) + 3600,
-      email_verified: true,
-    });
-
-    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-    const user = await testDb.get(userTable, { email: 'test@example.com' });
-    expect(user.name).toBe('John Doe');
-  });
-
-  test('does not overwrite a name the user already has', async () => {
-    await testDb.insert(userTable, {
-      id: 'u1', email: 'test@example.com', name: 'Manual Name', keycloakIdentifier: 'test-sub',
-    });
-
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
-      sub: 'test-sub',
-      email: 'test@example.com',
-      name: 'Google Name',
-      iss: 'test-issuer',
-      aud: 'test-audience',
-      exp: Math.floor(Date.now() / 1000) + 3600,
-      email_verified: true,
-    });
-
-    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-    const user = await testDb.get(userTable, { email: 'test@example.com' });
-    expect(user.name).toBe('Manual Name');
-  });
-
-  describe('first and last name from the token', () => {
+  describe('name from the token', () => {
     beforeEach(() => {
       vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
         sub: 'test-sub',
@@ -304,10 +228,8 @@ describe('users.ensureExists', () => {
       expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
-    test('fills empty first and last name on a returning user from the token when it matches the stored name', async () => {
-      await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'John Doe',
-      });
+    test('backfills an empty name on a user matched by email (no keycloakIdentifier yet)', async () => {
+      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com' });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
@@ -315,26 +237,24 @@ describe('users.ensureExists', () => {
       expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
-    test('splits the stored name instead when it differs from the token', async () => {
-      await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'Johnny Doe-Smith',
-      });
+    test('backfills an empty name on a returning user matched by keycloakIdentifier', async () => {
+      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub' });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
       const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'Johnny', lastName: 'Doe-Smith', name: 'Johnny Doe-Smith' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
-    test('never overwrites a stored first or last name', async () => {
+    test('does not overwrite a name the user already has', async () => {
       await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', lastName: 'Person', name: 'Manual Person',
+        id: 'u1', email: 'test@example.com', name: 'Manual Name', keycloakIdentifier: 'test-sub',
       });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
       const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'Manual', lastName: 'Person', name: 'Manual Person' });
+      expect(user).toMatchObject({ firstName: null, lastName: null, name: 'Manual Name' });
     });
   });
 

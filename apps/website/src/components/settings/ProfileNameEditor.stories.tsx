@@ -40,19 +40,12 @@ type Story = StoryObj<typeof meta>;
 
 export const StoredFirstAndLastName: Story = {
   args: {
-    user: { firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' },
-  },
-};
-
-/** Existing users only have a combined name: it's split on the first space as a prefill for them to confirm */
-export const PrefilledFromCombinedName: Story = {
-  args: {
-    user: { firstName: null, lastName: null, name: 'Maria de la Cruz' },
+    user: { firstName: 'Jane', lastName: 'Doe' },
   },
 };
 
 export const NewUserWithNoName: Story = {
   args: {
-    user: { firstName: null, lastName: null, name: '' },
+    user: { firstName: null, lastName: null },
   },
 };

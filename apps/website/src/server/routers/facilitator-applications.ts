@@ -15,7 +15,7 @@ import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { parseWeekFromRoundName, splitName, unique } from '../../lib/utils';
+import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
 
@@ -176,8 +176,8 @@ const cleanNamePart = (value: string | null | undefined): string | null => {
 
 // The quick-apply form doesn't capture the applicant's name. Prefer the split first/last from
 // their most recent prior application (any course/role) that recorded one — human-entered, so the
-// most accurate split. Otherwise fall back to the user account's first/last name, or its combined
-// name split on the first space. Leaves both null only if none has a name.
+// most accurate split. Otherwise fall back to the user account's first/last name. Leaves both null
+// only if neither has a name.
 export const resolveApplicantName = async (userId: string): Promise<{ firstName: string | null; lastName: string | null }> => {
   const regs = await db.pg
     .select({
@@ -195,12 +195,11 @@ export const resolveApplicantName = async (userId: string): Promise<{ firstName:
   if (named) return named;
 
   const [user] = await db.pg
-    .select({ name: userTable.pg.name, firstName: userTable.pg.firstName, lastName: userTable.pg.lastName })
+    .select({ firstName: userTable.pg.firstName, lastName: userTable.pg.lastName })
     .from(userTable.pg)
     .where(eq(userTable.pg.id, userId))
     .limit(1);
-  const account = user?.firstName?.trim() ? user : splitName(user?.name ?? '');
-  return { firstName: cleanNamePart(account.firstName), lastName: cleanNamePart(account.lastName) };
+  return { firstName: cleanNamePart(user?.firstName), lastName: cleanNamePart(user?.lastName) };
 };
 
 // The resolved form of a prior application's answers: every field present (optional strings

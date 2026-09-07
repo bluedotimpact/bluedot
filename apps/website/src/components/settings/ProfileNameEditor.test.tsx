@@ -35,7 +35,7 @@ const mockUser = {
   allowedImpersonationTargets: [],
 };
 
-const johnDoe = { firstName: 'John', lastName: 'Doe', name: 'John Doe' };
+const johnDoe = { firstName: 'John', lastName: 'Doe' };
 
 const getInput = (container: HTMLElement, label: 'First name' | 'Last name'): HTMLInputElement => {
   const input = container.querySelector<HTMLInputElement>(`input[aria-label="${label}"]`)!;
@@ -67,18 +67,6 @@ describe('ProfileNameEditor', () => {
 
     expect(getInput(container, 'First name').value).toBe('John');
     expect(getInput(container, 'Last name').value).toBe('Doe');
-    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
-  });
-
-  test('should prefill by splitting the combined name when first/last are not stored', async () => {
-    const { container } = render(
-      <ProfileNameEditor user={{ firstName: null, lastName: null, name: 'Maria de la Cruz' }} />,
-      { wrapper: TrpcProvider },
-    );
-
-    expect(getInput(container, 'First name').value).toBe('Maria');
-    expect(getInput(container, 'Last name').value).toBe('de la Cruz');
-    // The prefill is a suggestion, so it isn't treated as an unsaved change
     expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });
 
@@ -263,7 +251,7 @@ describe('ProfileNameEditor (with DB)', () => {
     const onSave = vi.fn();
 
     const { container } = render(
-      <ProfileNameEditor user={{ firstName: null, lastName: null, name: 'Test User' }} onSave={onSave} />,
+      <ProfileNameEditor user={{ firstName: 'Test', lastName: 'User' }} onSave={onSave} />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
@@ -284,7 +272,7 @@ describe('ProfileNameEditor (with DB)', () => {
 
   test('shows error when user does not exist in DB', async () => {
     const { container } = render(
-      <ProfileNameEditor user={{ firstName: 'Ghost', lastName: 'User', name: 'Ghost User' }} />,
+      <ProfileNameEditor user={{ firstName: 'Ghost', lastName: 'User' }} />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 

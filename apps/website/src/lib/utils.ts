@@ -247,24 +247,9 @@ export const maskEmail = (email: string): string => {
 
 export const joinName = (firstName: string, lastName: string): string => [firstName.trim(), lastName.trim()].filter(Boolean).join(' ');
 
-export const splitName = (name: string): { firstName: string; lastName: string } => {
-  const normalised = name.trim().replace(/\s+/g, ' ');
-  const spaceIndex = normalised.indexOf(' ');
-  if (spaceIndex === -1) return { firstName: normalised, lastName: '' };
-  return { firstName: normalised.slice(0, spaceIndex), lastName: normalised.slice(spaceIndex + 1) };
-};
-
-type StoredName = { name?: string | null; firstName?: string | null; lastName?: string | null };
-
-// Fills empty first/last name so they always join to `name`: from the source when it agrees with the stored name, else by splitting it
-export const fillNameFields = (
-  stored: StoredName,
-  source: { firstName: string; lastName: string },
-): { name?: string; firstName?: string; lastName?: string } => {
-  if (Boolean(stored.firstName) || Boolean(stored.lastName)) return {};
-  const storedName = stored.name?.trim().replace(/\s+/g, ' ') ?? '';
-  const sourceName = joinName(source.firstName, source.lastName);
-  const sourceParts = { firstName: source.firstName.trim(), lastName: source.lastName.trim() };
-  if (!storedName) return sourceName ? { ...sourceParts, name: sourceName } : {};
-  return storedName === sourceName ? sourceParts : splitName(storedName);
+// Name fields for a user record that has no name yet
+export const nameFieldsFromParts = (parts: { firstName?: string | null; lastName?: string | null }): { firstName?: string; lastName?: string; name?: string } => {
+  const firstName = parts.firstName?.trim() ?? '';
+  const lastName = parts.lastName?.trim() ?? '';
+  return firstName || lastName ? { firstName, lastName, name: joinName(firstName, lastName) } : {};
 };

@@ -21,9 +21,8 @@ const {
   formatDateDayOfWeek,
   formatDateTimeRelative,
   buildApplicationUrl,
-  fillNameFields,
   joinName,
-  splitName,
+  nameFieldsFromParts,
 } = await import('./utils');
 
 // Test constants
@@ -390,37 +389,13 @@ describe('joinName', () => {
   });
 });
 
-describe('fillNameFields', () => {
-  const source = { firstName: 'Jane', lastName: 'Doe' };
-
-  it('fills all three fields when nothing is stored', () => {
-    expect(fillNameFields({}, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
-    expect(fillNameFields({ name: '' }, { firstName: ' Jane ', lastName: '' })).toEqual({ firstName: 'Jane', lastName: '', name: 'Jane' });
+describe('nameFieldsFromParts', () => {
+  it('trims the parts and joins them into name', () => {
+    expect(nameFieldsFromParts({ firstName: ' Jane ', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+    expect(nameFieldsFromParts({ firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '', name: 'Jane' });
   });
 
-  it('fills the parts from the source when it joins to the stored name', () => {
-    expect(fillNameFields({ name: ' Jane  Doe ' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe' });
-  });
-
-  it('splits the stored name when the source differs from it or is missing', () => {
-    expect(fillNameFields({ name: 'jane doe' }, source)).toEqual({ firstName: 'jane', lastName: 'doe' });
-    expect(fillNameFields({ name: 'Maria de la Cruz' }, { firstName: '', lastName: '' })).toEqual({ firstName: 'Maria', lastName: 'de la Cruz' });
-  });
-
-  it('writes nothing when a part is already stored, or there is nothing to fill from', () => {
-    expect(fillNameFields({ name: 'Janet Doe', firstName: 'Janet' }, source)).toEqual({});
-    expect(fillNameFields({ name: '' }, { firstName: '', lastName: '' })).toEqual({});
-  });
-});
-
-describe('splitName', () => {
-  it('splits on the first space', () => {
-    expect(splitName('Jane Doe')).toEqual({ firstName: 'Jane', lastName: 'Doe' });
-    expect(splitName(' Ada  King Lovelace ')).toEqual({ firstName: 'Ada', lastName: 'King Lovelace' });
-  });
-
-  it('single word becomes the first name', () => {
-    expect(splitName('Jane')).toEqual({ firstName: 'Jane', lastName: '' });
-    expect(splitName('')).toEqual({ firstName: '', lastName: '' });
+  it('returns nothing when both parts are blank', () => {
+    expect(nameFieldsFromParts({ firstName: ' ', lastName: undefined })).toEqual({});
   });
 });

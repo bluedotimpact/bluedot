@@ -282,22 +282,8 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     expect(user).toMatchObject({ firstName: 'Ada', lastName: 'Lovelace', name: 'Ada Lovelace' });
   });
 
-  test('splits the stored name instead when it differs from the registration', async () => {
+  test('leaves an existing user\'s name alone', async () => {
     await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com', name: 'A. Lovelace' });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
-    });
-
-    await linkToUser({ courseRegistrationId: 'reg1' });
-
-    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
-    expect(user).toMatchObject({ firstName: 'A.', lastName: 'Lovelace', name: 'A. Lovelace' });
-  });
-
-  test('does not update the existing user when there is nothing to fill', async () => {
-    await testDb.insert(userTable, {
-      id: 'user1', email: 'someone@example.com', firstName: 'Grace', lastName: 'Hopper', name: 'Grace Hopper',
-    });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
     });
@@ -308,7 +294,7 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith(courseRegistrationTable.airtable, { id: 'reg1', userId: 'user1' });
     const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
-    expect(user).toMatchObject({ firstName: 'Grace', lastName: 'Hopper', name: 'Grace Hopper' });
+    expect(user).toMatchObject({ firstName: null, lastName: null, name: 'A. Lovelace' });
     updateSpy.mockRestore();
   });
 

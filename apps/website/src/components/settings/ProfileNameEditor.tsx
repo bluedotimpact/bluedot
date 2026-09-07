@@ -6,27 +6,18 @@ import {
 } from '@bluedot/ui';
 import type { User } from '@bluedot/db';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
-import { splitName } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 type NameParts = { firstName: string; lastName: string };
 
 type ProfileNameEditorProps = {
-  user: Pick<User, 'firstName' | 'lastName' | 'name'>;
+  user: Pick<User, 'firstName' | 'lastName'>;
   onSave?: () => void;
   alwaysShowButtons?: boolean;
 };
 
-// Users from before first/last were stored only have `name`; split it as a suggestion they confirm by saving
-const getInitialNames = (user: ProfileNameEditorProps['user']): NameParts => {
-  const hasStoredNames = Boolean(user.firstName) || Boolean(user.lastName);
-  return hasStoredNames
-    ? { firstName: user.firstName ?? '', lastName: user.lastName ?? '' }
-    : splitName(user.name);
-};
-
 const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileNameEditorProps) => {
-  const [names, setNames] = useState<NameParts>(() => getInitialNames(user));
+  const [names, setNames] = useState<NameParts>({ firstName: user.firstName ?? '', lastName: user.lastName ?? '' });
   const [savedNames, setSavedNames] = useState<NameParts>(names);
   const [nameError, setNameError] = useState('');
 

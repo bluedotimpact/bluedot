@@ -570,7 +570,7 @@ describe('resolveApplicantName', () => {
   });
 
   test('ignores a prior application whose name is only whitespace and falls back to the user account', async () => {
-    await seedUser('test-user', 'Grace Hopper');
+    await seedUser('test-user', 'Grace Hopper', { firstName: 'Grace', lastName: 'Hopper' });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-ws',
       email: CALLER_EMAIL,
@@ -599,13 +599,8 @@ describe('resolveApplicantName', () => {
     expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Ada', lastName: 'Lovelace' });
   });
 
-  test('uses the user account\'s stored first/last name over splitting its combined name', async () => {
-    await seedUser('test-user', 'Something Else Entirely', { firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
-  });
-
-  test('falls back to the user account name (split on first space) when no prior application has a name', async () => {
-    await seedUser('test-user', 'Caroline Shamiso Chitongo', { firstName: '  ', lastName: '' });
+  test('falls back to the user account\'s first/last name when no prior application has a name', async () => {
+    await seedUser('test-user', 'Caroline Shamiso Chitongo', { firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-blank',
       email: CALLER_EMAIL,
@@ -614,16 +609,11 @@ describe('resolveApplicantName', () => {
       role: 'Facilitator',
       autoNumberId: 2,
     });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline', lastName: 'Shamiso Chitongo' });
-  });
-
-  test('splits a single-word user account name into a null last name', async () => {
-    await seedUser('test-user', 'Cher');
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Cher', lastName: null });
+    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
   });
 
   test('treats a whitespace-only user account name as missing', async () => {
-    await seedUser('test-user', '   ');
+    await seedUser('test-user', '   ', { firstName: ' ', lastName: '' });
     expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
   });
 

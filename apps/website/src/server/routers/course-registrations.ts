@@ -6,7 +6,7 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
-import { fillNameFields } from '../../lib/utils';
+import { nameFieldsFromParts } from '../../lib/utils';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -88,20 +88,18 @@ export const courseRegistrationsRouter = router({
           return { action: 'skipped-no-email' } as const;
         }
 
-        const nameSource = { firstName: courseRegistration.firstName ?? '', lastName: courseRegistration.lastName ?? '' };
+        const nameFields = nameFieldsFromParts(courseRegistration);
         const existingUser = await db.getFirst(userTable, { filter: { email } });
         if (existingUser) {
           await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
-
-          const nameFields = fillNameFields(existingUser, nameSource);
-          if (Object.keys(nameFields).length > 0) {
+          if (!existingUser.name && nameFields.name) {
             await db.update(userTable, { id: existingUser.id, ...nameFields });
           }
 
           return { action: 'linked', userId: existingUser.id } as const;
         }
 
-        const newUser = await db.insert(userTable, { email, ...fillNameFields({}, nameSource) });
+        const newUser = await db.insert(userTable, { email, ...nameFields });
         await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });
         return { action: 'created-user-and-linked', userId: newUser.id } as const;
       }
