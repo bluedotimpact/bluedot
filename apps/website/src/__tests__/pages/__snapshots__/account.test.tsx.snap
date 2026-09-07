@@ -117,7 +117,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               class="flex flex-col gap-4"
             >
               <div
-                class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center"
+                class="grid gap-4 sm:grid-cols-2"
               >
                 <label
                   class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col font-semibold"
@@ -155,39 +155,6 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                     value="Doe"
                   />
                 </label>
-                <div
-                  class="flex gap-2 sm:mt-8 max-sm:hidden sm:invisible"
-                >
-                  <button
-                    aria-label="Save profile name changes"
-                    class="cta-button flex items-center justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark whitespace-nowrap"
-                    type="button"
-                  >
-                    <span
-                      class="grid"
-                    >
-                      <span
-                        aria-hidden="false"
-                        class="col-start-1 row-start-1"
-                      >
-                        Save
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        class="col-start-1 row-start-1 invisible"
-                      >
-                        Saving...
-                      </span>
-                    </span>
-                  </button>
-                  <button
-                    aria-label="Cancel profile name changes"
-                    class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                </div>
               </div>
             </div>
           </div>

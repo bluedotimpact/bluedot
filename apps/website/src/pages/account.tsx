@@ -69,7 +69,6 @@ const AccountSettingsPage = () => {
               </P>
               <ProfileNameEditor
                 user={user}
-                alwaysShowButtons
                 onSave={() => {
                   setShowWelcomeModal(false);
                   utils.users.getUser.invalidate();
