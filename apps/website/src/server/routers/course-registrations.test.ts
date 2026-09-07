@@ -262,11 +262,13 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     await linkToUser({ courseRegistrationId: 'reg1' });
 
     expect(insertSpy).toHaveBeenCalledTimes(1);
-    expect(insertSpy.mock.calls[0]?.[1]).toEqual({ email: 'new@example.com', firstName: 'Ada', name: 'Ada' });
+    expect(insertSpy.mock.calls[0]?.[1]).toEqual({
+      email: 'new@example.com', firstName: 'Ada', lastName: '', name: 'Ada',
+    });
     insertSpy.mockRestore();
   });
 
-  test('backfills empty first, last and combined name on the existing user it links to', async () => {
+  test('fills empty first, last and combined name on the existing user it links to', async () => {
     await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com' });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
@@ -280,48 +282,19 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     expect(user).toMatchObject({ firstName: 'Ada', lastName: 'Lovelace', name: 'Ada Lovelace' });
   });
 
-  test('fills the parts of an existing user whose stored name matches the registration', async () => {
-    await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com', name: 'Ada Lovelace' });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
-    });
-
-    await linkToUser({ courseRegistrationId: 'reg1' });
-
-    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
-    expect(user).toMatchObject({ firstName: 'Ada', lastName: 'Lovelace', name: 'Ada Lovelace' });
-  });
-
-  test('leaves the parts empty when the stored name differs from the registration', async () => {
+  test('splits the stored name instead when it differs from the registration', async () => {
     await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com', name: 'A. Lovelace' });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
     });
-    const updateSpy = vi.spyOn(testDb.airtableClient, 'update');
-
-    await linkToUser({ courseRegistrationId: 'reg1' });
-
-    expect(updateSpy).not.toHaveBeenCalledWith(userTable.airtable, expect.anything());
-    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
-    expect(user).toMatchObject({ firstName: null, lastName: null, name: 'A. Lovelace' });
-    updateSpy.mockRestore();
-  });
-
-  test('leaves the parts empty when a stored part conflicts with the registration', async () => {
-    await testDb.insert(userTable, {
-      id: 'user1', email: 'someone@example.com', firstName: 'Augusta', name: '',
-    });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
-    });
 
     await linkToUser({ courseRegistrationId: 'reg1' });
 
     const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
-    expect(user).toMatchObject({ firstName: 'Augusta', lastName: null, name: '' });
+    expect(user).toMatchObject({ firstName: 'A.', lastName: 'Lovelace', name: 'A. Lovelace' });
   });
 
-  test('never overwrites names the existing user already has', async () => {
+  test('does not update the existing user when there is nothing to fill', async () => {
     await testDb.insert(userTable, {
       id: 'user1', email: 'someone@example.com', firstName: 'Grace', lastName: 'Hopper', name: 'Grace Hopper',
     });
@@ -332,24 +305,10 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
 
     await linkToUser({ courseRegistrationId: 'reg1' });
 
-    expect(updateSpy).not.toHaveBeenCalledWith(userTable.airtable, expect.anything());
-    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
-    expect(user).toMatchObject({ firstName: 'Grace', lastName: 'Hopper', name: 'Grace Hopper' });
-    updateSpy.mockRestore();
-  });
-
-  test('does not update the existing user when the registration has no name to fill', async () => {
-    await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com' });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: '  ',
-    });
-    const updateSpy = vi.spyOn(testDb.airtableClient, 'update');
-
-    const result = await linkToUser({ courseRegistrationId: 'reg1' });
-
-    expect(result).toEqual({ action: 'linked', userId: 'user1' });
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(updateSpy).toHaveBeenCalledWith(courseRegistrationTable.airtable, { id: 'reg1', userId: 'user1' });
+    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
+    expect(user).toMatchObject({ firstName: 'Grace', lastName: 'Hopper', name: 'Grace Hopper' });
     updateSpy.mockRestore();
   });
 

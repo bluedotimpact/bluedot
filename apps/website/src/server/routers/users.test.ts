@@ -283,52 +283,30 @@ describe('users.ensureExists', () => {
   });
 
   describe('first and last name from the token', () => {
-    const johnDoeToken = {
-      sub: 'test-sub',
-      email: 'test@example.com',
-      name: 'John Doe',
-      firstName: 'John',
-      lastName: 'Doe',
-      iss: 'test-issuer',
-      aud: 'test-audience',
-      exp: Math.floor(Date.now() / 1000) + 3600,
-      email_verified: true,
-    };
-
     beforeEach(() => {
-      vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(johnDoeToken);
-    });
-
-    test('writes first and last name when creating a new user', async () => {
-      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-      const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
-    });
-
-    test('backfills empty first and last name on a user matched by email (no keycloakIdentifier yet) when they match the stored name', async () => {
-      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', name: 'John Doe' });
-
-      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-      const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
-    });
-
-    test('leaves first and last name empty when the stored name differs from the token, including by case', async () => {
-      await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'john doe',
+      vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+        sub: 'test-sub',
+        email: 'test@example.com',
+        name: 'John Doe',
+        firstName: 'John',
+        lastName: 'Doe',
+        iss: 'test-issuer',
+        aud: 'test-audience',
+        exp: Math.floor(Date.now() / 1000) + 3600,
+        email_verified: true,
       });
+    });
 
+    test('writes first, last and combined name when creating a new user', async () => {
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
       const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: null, lastName: null, name: 'john doe' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
-    test('resyncs a stored name that differs from the token only in whitespace', async () => {
+    test('fills empty first and last name on a returning user from the token when it matches the stored name', async () => {
       await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'John  Doe',
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'John Doe',
       });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
@@ -337,47 +315,26 @@ describe('users.ensureExists', () => {
       expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
-    test('backfills empty first and last name on a returning user matched by keycloakIdentifier', async () => {
-      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub' });
-
-      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-      const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
-    });
-
-    test('fills only the missing part when the stored part and name agree with the token', async () => {
+    test('splits the stored name instead when it differs from the token', async () => {
       await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'John', name: 'John Doe',
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'Johnny Doe-Smith',
       });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
       const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
+      expect(user).toMatchObject({ firstName: 'Johnny', lastName: 'Doe-Smith', name: 'Johnny Doe-Smith' });
     });
 
-    test('writes nothing when a stored first or last name conflicts with the token', async () => {
+    test('never overwrites a stored first or last name', async () => {
       await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', name: 'Manual Doe',
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', lastName: 'Person', name: 'Manual Person',
       });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
       const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'Manual', lastName: null, name: 'Manual Doe' });
-    });
-
-    test('leaves first and last name untouched when the token has no such claims', async () => {
-      vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({ ...johnDoeToken, firstName: undefined, lastName: undefined });
-      await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', lastName: 'Person',
-      });
-
-      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
-
-      const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'Manual', lastName: 'Person' });
+      expect(user).toMatchObject({ firstName: 'Manual', lastName: 'Person', name: 'Manual Person' });
     });
   });
 

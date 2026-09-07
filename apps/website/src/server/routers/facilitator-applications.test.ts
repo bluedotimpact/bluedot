@@ -604,11 +604,6 @@ describe('resolveApplicantName', () => {
     expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline Shamiso', lastName: 'Chitongo' });
   });
 
-  test('uses a partial stored first/last name as-is rather than splitting the combined name', async () => {
-    await seedUser('test-user', 'Ada Lovelace', { lastName: ' Lovelace ' });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: 'Lovelace' });
-  });
-
   test('falls back to the user account name (split on first space) when no prior application has a name', async () => {
     await seedUser('test-user', 'Caroline Shamiso Chitongo', { firstName: '  ', lastName: '' });
     await testDb.insert(courseRegistrationTable, {

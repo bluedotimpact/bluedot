@@ -44,7 +44,7 @@ export const StoredFirstAndLastName: Story = {
   },
 };
 
-/** Existing users only have a combined name: it's split on the last space as a prefill for them to confirm */
+/** Existing users only have a combined name: it's split on the first space as a prefill for them to confirm */
 export const PrefilledFromCombinedName: Story = {
   args: {
     user: { firstName: null, lastName: null, name: 'Maria de la Cruz' },

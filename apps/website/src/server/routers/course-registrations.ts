@@ -6,7 +6,7 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
-import { joinName, nameFieldsFromSource } from '../../lib/utils';
+import { fillNameFields } from '../../lib/utils';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -88,28 +88,20 @@ export const courseRegistrationsRouter = router({
           return { action: 'skipped-no-email' } as const;
         }
 
-        const firstName = courseRegistration.firstName?.trim() ?? '';
-        const lastName = courseRegistration.lastName?.trim() ?? '';
-
+        const nameSource = { firstName: courseRegistration.firstName ?? '', lastName: courseRegistration.lastName ?? '' };
         const existingUser = await db.getFirst(userTable, { filter: { email } });
         if (existingUser) {
           await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
 
-          const userUpdate = nameFieldsFromSource(existingUser, { firstName, lastName });
-          if (Object.keys(userUpdate).length > 0) {
-            await db.update(userTable, { id: existingUser.id, ...userUpdate });
+          const nameFields = fillNameFields(existingUser, nameSource);
+          if (Object.keys(nameFields).length > 0) {
+            await db.update(userTable, { id: existingUser.id, ...nameFields });
           }
 
           return { action: 'linked', userId: existingUser.id } as const;
         }
 
-        const name = joinName(firstName, lastName);
-        const newUser = await db.insert(userTable, {
-          email,
-          ...(firstName && { firstName }),
-          ...(lastName && { lastName }),
-          ...(name && { name }),
-        });
+        const newUser = await db.insert(userTable, { email, ...fillNameFields({}, nameSource) });
         await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });
         return { action: 'created-user-and-linked', userId: newUser.id } as const;
       }

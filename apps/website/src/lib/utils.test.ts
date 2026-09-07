@@ -21,8 +21,8 @@ const {
   formatDateDayOfWeek,
   formatDateTimeRelative,
   buildApplicationUrl,
+  fillNameFields,
   joinName,
-  nameFieldsFromSource,
   splitName,
 } = await import('./utils');
 
@@ -390,39 +390,26 @@ describe('joinName', () => {
   });
 });
 
-describe('nameFieldsFromSource', () => {
-  const empty = { name: null, firstName: null, lastName: null };
+describe('fillNameFields', () => {
   const source = { firstName: 'Jane', lastName: 'Doe' };
 
-  it('fills all three when nothing is stored', () => {
-    expect(nameFieldsFromSource(empty, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
-    expect(nameFieldsFromSource({ ...empty, name: '' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+  it('fills all three fields when nothing is stored', () => {
+    expect(fillNameFields({}, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+    expect(fillNameFields({ name: '' }, { firstName: ' Jane ', lastName: '' })).toEqual({ firstName: 'Jane', lastName: '', name: 'Jane' });
   });
 
-  it('fills the parts when the stored name matches their join', () => {
-    expect(nameFieldsFromSource({ ...empty, name: 'Jane Doe' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe' });
+  it('fills the parts from the source when it joins to the stored name', () => {
+    expect(fillNameFields({ name: ' Jane  Doe ' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe' });
   });
 
-  it('resyncs a stored name that differs only in whitespace', () => {
-    expect(nameFieldsFromSource({ ...empty, name: ' Jane  Doe ' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+  it('splits the stored name when the source differs from it or is missing', () => {
+    expect(fillNameFields({ name: 'jane doe' }, source)).toEqual({ firstName: 'jane', lastName: 'doe' });
+    expect(fillNameFields({ name: 'Maria de la Cruz' }, { firstName: '', lastName: '' })).toEqual({ firstName: 'Maria', lastName: 'de la Cruz' });
   });
 
-  it('writes nothing when the stored name differs, including by case', () => {
-    expect(nameFieldsFromSource({ ...empty, name: 'Janet Doe' }, source)).toEqual({});
-    expect(nameFieldsFromSource({ ...empty, name: 'jane doe' }, source)).toEqual({});
-  });
-
-  it('fills only the missing part when the other already matches', () => {
-    expect(nameFieldsFromSource({ name: 'Jane Doe', firstName: 'Jane', lastName: null }, source)).toEqual({ lastName: 'Doe' });
-    expect(nameFieldsFromSource({ name: 'Jane Doe', firstName: 'Jane', lastName: 'Doe' }, source)).toEqual({});
-  });
-
-  it('writes nothing when a stored part conflicts with the source', () => {
-    expect(nameFieldsFromSource({ name: '', firstName: 'Janet', lastName: null }, source)).toEqual({});
-  });
-
-  it('writes nothing when the source is missing a part', () => {
-    expect(nameFieldsFromSource(empty, { firstName: 'Jane', lastName: ' ' })).toEqual({});
+  it('writes nothing when a part is already stored, or there is nothing to fill from', () => {
+    expect(fillNameFields({ name: 'Janet Doe', firstName: 'Janet' }, source)).toEqual({});
+    expect(fillNameFields({ name: '' }, { firstName: '', lastName: '' })).toEqual({});
   });
 });
 
