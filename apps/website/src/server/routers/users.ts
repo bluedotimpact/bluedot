@@ -12,7 +12,7 @@ import {
   adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
 } from '../../lib/api/keycloak';
 import { normaliseEmail } from '../../lib/api/utils';
-import { joinName } from '../../lib/name';
+import { joinName, nameFieldsFromSource } from '../../lib/utils';
 import { ONE_MINUTE_MS } from '../../lib/constants';
 import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
@@ -199,12 +199,14 @@ export const usersRouter = router({
         ...(input.initialUtmContent && !existingUser?.utmContent && { utmContent: input.initialUtmContent }),
       });
 
-      // Don't clobber names the user set themselves; only backfill empty ones
-      const getNameFields = (existingUser?: typeof existingUserByEmail) => ({
-        ...(name && !existingUser?.name && { name }),
-        ...(firstName && !existingUser?.firstName && { firstName }),
-        ...(lastName && !existingUser?.lastName && { lastName }),
-      });
+      // Only fill empty names, and only when the token agrees with what the user already has
+      const getNameFields = (existingUser?: typeof existingUserByEmail) => {
+        if (firstName && lastName) {
+          return nameFieldsFromSource(existingUser ?? { name: null, firstName: null, lastName: null }, { firstName, lastName });
+        }
+
+        return { ...(name && !existingUser?.name && { name }) };
+      };
 
       if (existingUserByKeycloakIdentifier) {
         // Update last seen timestamp if already exists

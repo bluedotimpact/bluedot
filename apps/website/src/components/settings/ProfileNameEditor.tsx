@@ -5,7 +5,7 @@ import {
 } from '@bluedot/ui';
 import type { User } from '@bluedot/db';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
-import { splitName } from '../../lib/name';
+import { splitName } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 type NameParts = { firstName: string; lastName: string };

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { User } from '@bluedot/db';
 import AccountSettingsPage from '../../pages/account';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import { joinName } from '../../lib/name';
+import { joinName } from '../../lib/utils';
 
 const baseUser: User = {
   id: 'rec123',

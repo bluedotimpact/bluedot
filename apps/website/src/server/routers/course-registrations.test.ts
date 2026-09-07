@@ -280,7 +280,34 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     expect(user).toMatchObject({ firstName: 'Ada', lastName: 'Lovelace', name: 'Ada Lovelace' });
   });
 
-  test('only fills the empty name fields of the existing user, joining the combined name from the merged parts', async () => {
+  test('fills the parts of an existing user whose stored name matches the registration', async () => {
+    await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com', name: 'Ada Lovelace' });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
+    });
+
+    await linkToUser({ courseRegistrationId: 'reg1' });
+
+    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
+    expect(user).toMatchObject({ firstName: 'Ada', lastName: 'Lovelace', name: 'Ada Lovelace' });
+  });
+
+  test('leaves the parts empty when the stored name differs from the registration', async () => {
+    await testDb.insert(userTable, { id: 'user1', email: 'someone@example.com', name: 'A. Lovelace' });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Ada', lastName: 'Lovelace',
+    });
+    const updateSpy = vi.spyOn(testDb.airtableClient, 'update');
+
+    await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(updateSpy).not.toHaveBeenCalledWith(userTable.airtable, expect.anything());
+    const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
+    expect(user).toMatchObject({ firstName: null, lastName: null, name: 'A. Lovelace' });
+    updateSpy.mockRestore();
+  });
+
+  test('leaves the parts empty when a stored part conflicts with the registration', async () => {
     await testDb.insert(userTable, {
       id: 'user1', email: 'someone@example.com', firstName: 'Augusta', name: '',
     });
@@ -291,7 +318,7 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     await linkToUser({ courseRegistrationId: 'reg1' });
 
     const user = await testDb.getFirst(userTable, { filter: { id: 'user1' } });
-    expect(user).toMatchObject({ firstName: 'Augusta', lastName: 'Lovelace', name: 'Augusta Lovelace' });
+    expect(user).toMatchObject({ firstName: 'Augusta', lastName: null, name: '' });
   });
 
   test('never overwrites names the existing user already has', async () => {

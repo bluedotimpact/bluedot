@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ProfileNameEditor from './ProfileNameEditor';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import { joinName } from '../../lib/name';
+import { joinName } from '../../lib/utils';
 
 const mockUser = {
   id: 'rec123',

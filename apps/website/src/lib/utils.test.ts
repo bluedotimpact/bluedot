@@ -21,6 +21,9 @@ const {
   formatDateDayOfWeek,
   formatDateTimeRelative,
   buildApplicationUrl,
+  joinName,
+  nameFieldsFromSource,
+  splitName,
 } = await import('./utils');
 
 // Test constants
@@ -376,5 +379,61 @@ describe('buildApplicationUrl', () => {
     mockGetDistinctId.mockReturnValue('anon-abc');
     expect(buildApplicationUrl('https://example.com/apply', null))
       .toBe('https://example.com/apply?prefill_PostHog%20Session%20ID=sess-123&prefill_PostHog%20Distinct%20ID=anon-abc');
+  });
+});
+
+describe('joinName', () => {
+  it('joins and trims, dropping empty parts', () => {
+    expect(joinName(' Jane ', 'Doe')).toBe('Jane Doe');
+    expect(joinName('Jane', '')).toBe('Jane');
+    expect(joinName('', '')).toBe('');
+  });
+});
+
+describe('nameFieldsFromSource', () => {
+  const empty = { name: null, firstName: null, lastName: null };
+  const source = { firstName: 'Jane', lastName: 'Doe' };
+
+  it('fills all three when nothing is stored', () => {
+    expect(nameFieldsFromSource(empty, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+    expect(nameFieldsFromSource({ ...empty, name: '' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+  });
+
+  it('fills the parts when the stored name matches their join', () => {
+    expect(nameFieldsFromSource({ ...empty, name: 'Jane Doe' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe' });
+  });
+
+  it('resyncs a stored name that differs only in whitespace', () => {
+    expect(nameFieldsFromSource({ ...empty, name: ' Jane  Doe ' }, source)).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+  });
+
+  it('writes nothing when the stored name differs, including by case', () => {
+    expect(nameFieldsFromSource({ ...empty, name: 'Janet Doe' }, source)).toEqual({});
+    expect(nameFieldsFromSource({ ...empty, name: 'jane doe' }, source)).toEqual({});
+  });
+
+  it('fills only the missing part when the other already matches', () => {
+    expect(nameFieldsFromSource({ name: 'Jane Doe', firstName: 'Jane', lastName: null }, source)).toEqual({ lastName: 'Doe' });
+    expect(nameFieldsFromSource({ name: 'Jane Doe', firstName: 'Jane', lastName: 'Doe' }, source)).toEqual({});
+  });
+
+  it('writes nothing when a stored part conflicts with the source', () => {
+    expect(nameFieldsFromSource({ name: '', firstName: 'Janet', lastName: null }, source)).toEqual({});
+  });
+
+  it('writes nothing when the source is missing a part', () => {
+    expect(nameFieldsFromSource(empty, { firstName: 'Jane', lastName: ' ' })).toEqual({});
+  });
+});
+
+describe('splitName', () => {
+  it('splits on the last space', () => {
+    expect(splitName('Jane Doe')).toEqual({ firstName: 'Jane', lastName: 'Doe' });
+    expect(splitName('Jean Pierre  Dupont ')).toEqual({ firstName: 'Jean Pierre', lastName: 'Dupont' });
+  });
+
+  it('single word becomes the first name', () => {
+    expect(splitName('Jane')).toEqual({ firstName: 'Jane', lastName: '' });
+    expect(splitName('')).toEqual({ firstName: '', lastName: '' });
   });
 });

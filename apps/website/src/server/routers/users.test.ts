@@ -306,13 +306,35 @@ describe('users.ensureExists', () => {
       expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
-    test('backfills empty first and last name on a user matched by email (no keycloakIdentifier yet)', async () => {
-      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', name: 'Existing Name' });
+    test('backfills empty first and last name on a user matched by email (no keycloakIdentifier yet) when they match the stored name', async () => {
+      await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', name: 'John Doe' });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
       const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'Existing Name' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
+    });
+
+    test('leaves first and last name empty when the stored name differs from the token, including by case', async () => {
+      await testDb.insert(userTable, {
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'john doe',
+      });
+
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: null, lastName: null, name: 'john doe' });
+    });
+
+    test('resyncs a stored name that differs from the token only in whitespace', async () => {
+      await testDb.insert(userTable, {
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', name: 'John  Doe',
+      });
+
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
     test('backfills empty first and last name on a returning user matched by keycloakIdentifier', async () => {
@@ -324,15 +346,26 @@ describe('users.ensureExists', () => {
       expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
     });
 
-    test('only fills the empty part and never overwrites a first or last name the user already has', async () => {
+    test('fills only the missing part when the stored part and name agree with the token', async () => {
       await testDb.insert(userTable, {
-        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', name: 'Manual Name',
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'John', name: 'John Doe',
       });
 
       await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
 
       const user = await testDb.get(userTable, { email: 'test@example.com' });
-      expect(user).toMatchObject({ firstName: 'Manual', lastName: 'Doe', name: 'Manual Name' });
+      expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
+    });
+
+    test('writes nothing when a stored first or last name conflicts with the token', async () => {
+      await testDb.insert(userTable, {
+        id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub', firstName: 'Manual', name: 'Manual Doe',
+      });
+
+      await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      const user = await testDb.get(userTable, { email: 'test@example.com' });
+      expect(user).toMatchObject({ firstName: 'Manual', lastName: null, name: 'Manual Doe' });
     });
 
     test('leaves first and last name untouched when the token has no such claims', async () => {

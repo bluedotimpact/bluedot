@@ -15,8 +15,7 @@ import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { splitName } from '../../lib/name';
-import { parseWeekFromRoundName, unique } from '../../lib/utils';
+import { parseWeekFromRoundName, splitName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
 
