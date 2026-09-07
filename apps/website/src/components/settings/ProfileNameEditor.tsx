@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import clsx from 'clsx';
 import {
   CTALinkOrButton,
   Input,
@@ -13,6 +14,7 @@ type NameParts = { firstName: string; lastName: string };
 type ProfileNameEditorProps = {
   user: Pick<User, 'firstName' | 'lastName' | 'name'>;
   onSave?: () => void;
+  alwaysShowButtons?: boolean;
 };
 
 // Users from before first/last were stored only have `name`; split it as a suggestion they confirm by saving
@@ -23,7 +25,7 @@ const getInitialNames = (user: ProfileNameEditorProps['user']): NameParts => {
     : splitName(user.name);
 };
 
-const ProfileNameEditor = ({ user, onSave }: ProfileNameEditorProps) => {
+const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileNameEditorProps) => {
   const [names, setNames] = useState<NameParts>(() => getInitialNames(user));
   const [savedNames, setSavedNames] = useState<NameParts>(names);
   const [nameError, setNameError] = useState('');
@@ -84,12 +86,13 @@ const ProfileNameEditor = ({ user, onSave }: ProfileNameEditorProps) => {
     }
   };
 
-  const showButtons = trimmed.firstName !== savedNames.firstName.trim() || trimmed.lastName !== savedNames.lastName.trim();
+  const hasChanges = trimmed.firstName !== savedNames.firstName.trim() || trimmed.lastName !== savedNames.lastName.trim();
+  const showButtons = alwaysShowButtons || hasChanges;
 
   return (
     <div className="mb-6">
       <div className="flex flex-col gap-4">
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
           <Input
             label="First name*"
             labelClassName="font-semibold"
@@ -116,9 +119,8 @@ const ProfileNameEditor = ({ user, onSave }: ProfileNameEditorProps) => {
             aria-describedby={nameError ? 'profile-name-error' : undefined}
             aria-invalid={!!nameError}
           />
-        </div>
-        {showButtons && (
-          <div className="flex gap-2">
+          {/* Always rendered so the column keeps its width; the top margin centres the buttons on the inputs rather than on label + input */}
+          <div className={clsx('flex gap-2 sm:mt-8', !showButtons && 'max-sm:hidden sm:invisible')}>
             <CTALinkOrButton
               variant="primary"
               onClick={handleSave}
@@ -126,7 +128,11 @@ const ProfileNameEditor = ({ user, onSave }: ProfileNameEditorProps) => {
               className="whitespace-nowrap"
               aria-label="Save profile name changes"
             >
-              {isSaving ? 'Saving...' : 'Save'}
+              {/* Both labels are laid out so the button is already wide enough for "Saving..." */}
+              <span className="grid">
+                <span className={clsx('col-start-1 row-start-1', isSaving && 'invisible')} aria-hidden={isSaving}>Save</span>
+                <span className={clsx('col-start-1 row-start-1', !isSaving && 'invisible')} aria-hidden={!isSaving}>Saving...</span>
+              </span>
             </CTALinkOrButton>
             <CTALinkOrButton
               variant="secondary"
@@ -137,7 +143,7 @@ const ProfileNameEditor = ({ user, onSave }: ProfileNameEditorProps) => {
               Cancel
             </CTALinkOrButton>
           </div>
-        )}
+        </div>
         {nameError && (
           <p
             className="text-red-600 text-size-sm"

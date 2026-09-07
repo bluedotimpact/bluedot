@@ -51,6 +51,9 @@ const getNameCancelButton = (container: HTMLElement): HTMLElement | null => {
   return container.querySelector('button[aria-label="Cancel profile name changes"]');
 };
 
+// Save/Cancel are always rendered; this row is hidden (keeping its width on wide screens) until something changes
+const getButtonsRow = (container: HTMLElement): HTMLElement => getNameSaveButton(container)!.parentElement!;
+
 const getErrorMessage = (container: HTMLElement): HTMLElement | null => {
   return container.querySelector('[role="alert"]');
 };
@@ -64,7 +67,7 @@ describe('ProfileNameEditor', () => {
 
     expect(getInput(container, 'First name').value).toBe('John');
     expect(getInput(container, 'Last name').value).toBe('Doe');
-    expect(getNameSaveButton(container)).not.toBeInTheDocument();
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });
 
   test('should prefill by splitting the combined name when first/last are not stored', async () => {
@@ -76,7 +79,7 @@ describe('ProfileNameEditor', () => {
     expect(getInput(container, 'First name').value).toBe('Maria de la');
     expect(getInput(container, 'Last name').value).toBe('Cruz');
     // The prefill is a suggestion, so it isn't treated as an unsaved change
-    expect(getNameSaveButton(container)).not.toBeInTheDocument();
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });
 
   test('should allow user to successfully change their name', async () => {
@@ -90,6 +93,8 @@ describe('ProfileNameEditor', () => {
 
     const firstNameInput = getInput(container, 'First name');
     fireEvent.change(firstNameInput, { target: { value: 'Jane' } });
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
+
     fireEvent.click(getNameSaveButton(container)!);
 
     await waitFor(() => {
@@ -98,7 +103,7 @@ describe('ProfileNameEditor', () => {
 
     expect(firstNameInput.value).toBe('Jane');
     expect(getInput(container, 'Last name').value).toBe('Doe');
-    expect(getNameSaveButton(container)).not.toBeInTheDocument();
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });
 
   test('hides the buttons again when the names are changed back', async () => {
@@ -109,12 +114,20 @@ describe('ProfileNameEditor', () => {
 
     const input = getInput(container, 'First name');
     fireEvent.change(input, { target: { value: 'Jane' } });
-    expect(getNameSaveButton(container)).toBeInTheDocument();
-    expect(getNameCancelButton(container)).toBeInTheDocument();
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
 
     fireEvent.change(input, { target: { value: 'John' } });
-    expect(getNameSaveButton(container)).not.toBeInTheDocument();
-    expect(getNameCancelButton(container)).not.toBeInTheDocument();
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
+  });
+
+  test('alwaysShowButtons keeps save and cancel visible without changes', async () => {
+    const { container } = render(
+      <ProfileNameEditor user={johnDoe} alwaysShowButtons />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
+    expect(getButtonsRow(container)).not.toHaveClass('max-sm:hidden');
   });
 
   test('keeps local edits when the user prop is refetched', async () => {
@@ -130,7 +143,7 @@ describe('ProfileNameEditor', () => {
     });
 
     expect(getInput(container, 'First name').value).toBe('Johnny');
-    expect(getNameSaveButton(container)).toBeInTheDocument();
+    expect(getButtonsRow(container)).not.toHaveClass('sm:invisible');
   });
 
   test('should show validation error for an empty last name', async () => {
@@ -173,7 +186,7 @@ describe('ProfileNameEditor', () => {
 
     expect(getInput(container, 'First name').value).toBe('John');
     expect(getInput(container, 'Last name').value).toBe('Doe');
-    expect(getNameSaveButton(container)).not.toBeInTheDocument();
+    expect(getButtonsRow(container)).toHaveClass('sm:invisible');
   });
 
   test('should handle API errors gracefully', async () => {
@@ -231,7 +244,7 @@ describe('ProfileNameEditor', () => {
     fireEvent.click(saveButton!);
 
     await waitFor(() => {
-      expect(saveButton?.textContent).toBe('Saving...');
+      expect(saveButton?.querySelector('[aria-hidden="false"]')?.textContent).toBe('Saving...');
     });
 
     expect(saveButton).toBeDisabled();
@@ -239,7 +252,7 @@ describe('ProfileNameEditor', () => {
 
     resolvePromise!(mockUser);
     await waitFor(() => {
-      expect(getNameSaveButton(container)).not.toBeInTheDocument();
+      expect(saveButton).not.toBeDisabled();
     });
   });
 });
