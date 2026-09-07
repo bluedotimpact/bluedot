@@ -56,6 +56,7 @@ describe('shouldIgnoreClientError', () => {
     'The request is not allowed by the user agent or the platform in the current context, possibly because the user denied permission.',
     'Invariant: attempted to hard navigate to the same URL /courses/agi-strategy',
     'Failed to fetch',
+    'NetworkError when attempting to fetch resource.',
     'SyntaxError: Invalid regular expression: invalid group specifier name',
     'Failed to get base schema: Status: 429. Data: {}',
     'The service is temporarily unavailable. Please retry shortly.',

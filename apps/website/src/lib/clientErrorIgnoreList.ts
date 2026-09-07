@@ -1,6 +1,7 @@
 /**
  * Messages too noisy for the #update_client-errors Slack channel.
- * Checked before reporting; matching messages stay in Sentry only.
+ * Checked before reporting. Mirrored patterns are dropped by Sentry too.
+ * The rest stay in Sentry, just out of Slack.
  */
 
 export const SENTRY_MIRRORED_PATTERNS: RegExp[] = [
@@ -26,7 +27,7 @@ const BEYOND_SENTRY_PATTERNS: RegExp[] = [
   /no listener: tabs:/i, // Extension tabs API
   /reading 'm_id'/i, // Email scanner artifact
   /load failed \(.+\)$/i, // Safari's phrasing of the fetch rule
-  /networkerror when attempting to fetch resource/i, // Firefox's phrasing of the fetch rule
+  /networkerror when attempting to fetch resource\. \(.+\)$/i, // Firefox's phrasing of the fetch rule, wrapped form only
   /zotero connector/i, // Zotero extension
   /wkwebview api client/i, // In-app browsers
   /java object is gone/i, // Old Android webview

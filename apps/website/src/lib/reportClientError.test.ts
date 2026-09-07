@@ -27,7 +27,8 @@ describe('Sentry parity', () => {
   test('every mirrored pattern exists in instrumentation-client.ts ignoreErrors', () => {
     const dirname = path.dirname(fileURLToPath(import.meta.url));
     const src = fs.readFileSync(path.resolve(dirname, '..', 'instrumentation-client.ts'), 'utf8');
-    const block = src.slice(src.indexOf('ignoreErrors'));
+    const start = src.indexOf('ignoreErrors');
+    const block = src.slice(start, src.indexOf('denyUrls', start));
     for (const pattern of SENTRY_MIRRORED_PATTERNS) {
       expect(block.toLowerCase()).toContain(pattern.source.toLowerCase());
     }
