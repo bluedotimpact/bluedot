@@ -37,7 +37,6 @@ const AccountSettingsPage = () => {
       {user && (
         <>
           <MyBlueDotLayout route={CURRENT_ROUTE}>
-            {/* Remount when the stored name changes (e.g. saved via the welcome modal) so the editor picks it up */}
             <ProfileNameEditor
               key={`${user.firstName}|${user.lastName}|${user.name}`}
               user={user}

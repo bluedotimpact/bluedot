@@ -9,7 +9,6 @@ import {
   groupDiscussionTable,
   inArray,
   meetPersonTable,
-  userTable,
 } from '@bluedot/db';
 import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
@@ -165,41 +164,6 @@ const getEligiblePriorFacilitatorRegs = async (userId: string, courseId: string,
   }
 
   return priorRegs;
-};
-
-// Trims a name part, treating null/undefined/blank/whitespace-only as "no value".
-const cleanNamePart = (value: string | null | undefined): string | null => {
-  const trimmed = value?.trim();
-  if (!trimmed) return null;
-  return trimmed;
-};
-
-// The quick-apply form doesn't capture the applicant's name. Prefer the split first/last from
-// their most recent prior application (any course/role) that recorded one — human-entered, so the
-// most accurate split. Otherwise fall back to the user account's first/last name. Leaves both null
-// only if neither has a name.
-export const resolveApplicantName = async (userId: string): Promise<{ firstName: string | null; lastName: string | null }> => {
-  const regs = await db.pg
-    .select({
-      firstName: courseRegistrationTable.pg.firstName,
-      lastName: courseRegistrationTable.pg.lastName,
-      autoNumberId: courseRegistrationTable.pg.autoNumberId,
-    })
-    .from(courseRegistrationTable.pg)
-    .where(eq(courseRegistrationTable.pg.userId, userId));
-
-  const named = [...regs]
-    .sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0))
-    .map((r) => ({ firstName: cleanNamePart(r.firstName), lastName: cleanNamePart(r.lastName) }))
-    .find((r) => r.firstName !== null || r.lastName !== null);
-  if (named) return named;
-
-  const [user] = await db.pg
-    .select({ firstName: userTable.pg.firstName, lastName: userTable.pg.lastName })
-    .from(userTable.pg)
-    .where(eq(userTable.pg.id, userId))
-    .limit(1);
-  return { firstName: cleanNamePart(user?.firstName), lastName: cleanNamePart(user?.lastName) };
 };
 
 // The resolved form of a prior application's answers: every field present (optional strings
@@ -403,13 +367,11 @@ export const facilitatorApplicationsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
       }
 
-      const { firstName, lastName } = await resolveApplicantName(user.id);
-
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
         userId: user.id,
-        firstName,
-        lastName,
+        firstName: user.firstName,
+        lastName: user.lastName,
         courseApplicationsBaseId: applicationsCourse.id,
         roundId: input.roundId,
         role: COURSE_ROLE.FACILITATOR,
