@@ -61,10 +61,10 @@ describe('ErrorBoundary', () => {
       <Boom />
     </ErrorBoundary>);
 
-    const sentryCall = vi.mocked(Sentry.captureException).mock.calls[0];
+    const sentryCall = vi.mocked(Sentry.captureException).mock.calls[0]!;
     expect(sentryCall[0]).toBeInstanceOf(Error);
-    expect(sentryCall[0].message).toBe('Cannot read properties of undefined (reading \'title\')');
-    const contexts = sentryCall[1]?.contexts as { react?: { componentStack?: unknown } } | undefined;
+    expect((sentryCall[0] as Error).message).toBe('Cannot read properties of undefined (reading \'title\')');
+    const contexts = (sentryCall[1] as { contexts?: { react?: { componentStack?: unknown } } } | undefined)?.contexts;
     expect(typeof contexts?.react?.componentStack).toBe('string');
     expect(contexts?.react?.componentStack as string).toContain('Boom');
   });
