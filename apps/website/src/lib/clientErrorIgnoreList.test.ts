@@ -40,6 +40,9 @@ describe('shouldIgnoreClientError', () => {
     'detectLanguage is not a function. (In \'r().i18n.detectLanguage(o)\', \'r().i18n.detectLanguage\' is undefined)',
     'func sseError not found',
     'can\'t access property "includes", args.site.enabledFeatures is undefined',
+    'Invariant: attempted to hard navigate to the same URL /',
+    'Invariant: attempted to hard navigate to the same URL /some/random/page-123',
+    'Invariant: attempted to hard navigate to the same URL /courses/anything/1/1',
   ])('ignores noise beyond Sentry (verified third-party/benign): %s', (message) => {
     expect(shouldIgnoreClientError(message)).toBe(true);
   });
@@ -52,7 +55,7 @@ describe('shouldIgnoreClientError', () => {
     'TypeError: Cannot call a class as a function',
     'TimeoutError: operation timed out',
     'The request is not allowed by the user agent or the platform in the current context, possibly because the user denied permission.',
-    'Invariant: attempted to hard navigate to the same URL /courses/agi-strategy',
+    'Invariant: attempted to hard navigate to /other-page',
     'Failed to fetch',
     'NetworkError when attempting to fetch resource.',
     'TypeError: undefined is not an object (evaluating \'args.site.enabledFeatures\')',
