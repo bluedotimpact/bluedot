@@ -32,9 +32,12 @@ export type CardProps = {
   title: string;
   /** Destination of the CTA. Its hit area is stretched over the whole card (stretched-link pattern) */
   url: string;
-  /** The card's only real link; its label is the card's accessible name */
+  /** The card's only real link. Accessible name is "<ctaText>: <title>" */
   ctaText: string;
-  /** Body slot. Sits under the stretched CTA, so keep it non-interactive */
+  /**
+   * Body slot. Rendered above the stretched CTA, so its content behaves like normal
+   * content (selectable text, working form fields) instead of clicking through to `url`.
+   */
   children?: React.ReactNode;
   className?: string;
   imageSrc?: string;
@@ -55,17 +58,18 @@ export const Card: React.FC<CardProps> = ({
   subtitleBadge,
 }) => {
   return (
-    <CardShell
+    <div
       className={cn(
-        'relative flex',
+        CARD_SHELL_STYLES,
         CARD_HOVER_STYLES,
-        isFullWidth ? 'w-full flex-col md:flex-row md:items-center md:justify-between md:gap-6' : 'flex-col',
+        'relative flex flex-col gap-4',
+        isFullWidth && 'md:flex-row md:items-center md:justify-between md:gap-6',
         className,
       )}
     >
       <div className={cn('flex flex-col gap-4', isFullWidth && 'md:flex-1')}>
         {imageSrc && (
-          // Decorative: the card's accessible name is the CTA text
+          // Decorative: the title already names the card
           <img className="w-full rounded-surface object-cover" src={imageSrc} alt="" />
         )}
         <div className="text-size-sm text-secondary flex flex-col gap-3 leading-normal">
@@ -74,15 +78,16 @@ export const Card: React.FC<CardProps> = ({
             {subtitleBadge && <Tag variant="secondary">{subtitleBadge}</Tag>}
           </div>
           {subtitle && <p>{subtitle}</p>}
-          {children}
+          {children && <div className="relative z-10">{children}</div>}
         </div>
       </div>
       <CTALinkOrButton
         url={url}
-        className={cn('mt-4 after:absolute after:inset-0', isFullWidth && 'md:mt-0 md:shrink-0')}
+        aria-label={`${ctaText}: ${title}`}
+        className={cn('after:absolute after:inset-0', isFullWidth && 'md:shrink-0')}
       >
         {ctaText}
       </CTALinkOrButton>
-    </CardShell>
+    </div>
   );
 };
