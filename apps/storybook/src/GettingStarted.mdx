@@ -60,14 +60,6 @@ Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role
       }
     },
     {
-      title: "Text on dark",
-      subtitle: "",
-      colors: {
-        "on-dark": 'var(--color-on-dark)',
-        "on-dark-secondary": 'var(--color-on-dark-secondary)'
-      }
-    },
-    {
       title: "Surface",
       subtitle: "canvas · raised · tint · active · dark",
       colors: {
@@ -79,21 +71,12 @@ Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role
       }
     },
     {
-      title: "Surface on dark",
-      subtitle: "",
-      colors: {
-        "surface-on-dark": 'var(--color-surface-on-dark)',
-        "surface-on-dark-subtle": 'var(--color-surface-on-dark-subtle)'
-      }
-    },
-    {
       title: "Border",
-      subtitle: "subtle · default · strong · on-dark",
+      subtitle: "subtle · default · strong",
       colors: {
         "subtle": 'var(--color-subtle)',
         "default": 'var(--color-default)',
-        "strong": 'var(--color-strong)',
-        "border-on-dark": 'var(--color-border-on-dark)'
+        "strong": 'var(--color-strong)'
       }
     },
     {
@@ -167,6 +150,34 @@ Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role
     </ColorPalette>
   );
 })()}
+
+#### On dark surfaces
+
+The `on-dark` tokens are white at reduced alpha and only make sense over `bg-dark`, so they are previewed here on navy rather than in the palette above.
+
+<Unstyled>
+  <div className="bg-dark rounded-surface p-6 flex flex-wrap gap-6 font-mono text-size-xxs">
+    {[
+      ['text-on-dark', 'on-dark'],
+      ['text-on-dark-secondary', 'on-dark-secondary'],
+    ].map(([cls, name]) => (
+      <div key={name} className="flex flex-col gap-2 min-w-40">
+        <span className={`${cls} text-size-md font-sans`}>Aa</span>
+        <span className="text-on-dark-secondary">{name}</span>
+      </div>
+    ))}
+    {[
+      ['bg-surface-on-dark', 'surface-on-dark'],
+      ['bg-surface-on-dark-subtle', 'surface-on-dark-subtle'],
+      ['border-border-on-dark', 'border-on-dark'],
+    ].map(([cls, name]) => (
+      <div key={name} className="flex flex-col gap-2 min-w-40">
+        <div className={`${cls} h-10 w-full rounded-surface ${cls.startsWith('border') ? 'border-2' : ''}`} />
+        <span className="text-on-dark-secondary">{name}</span>
+      </div>
+    ))}
+  </div>
+</Unstyled>
 
 ### Typography
 
