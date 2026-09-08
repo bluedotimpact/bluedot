@@ -66,11 +66,11 @@ export const Card: React.FC<CardProps> = ({
       <div className={cn('flex flex-col gap-4', isFullWidth && 'md:flex-1')}>
         {imageSrc && (
           // Decorative: the card's accessible name is the title text
-          <img className="w-full rounded-lg object-cover" src={imageSrc} alt="" />
+          <img className="w-full rounded-surface object-cover" src={imageSrc} alt="" />
         )}
-        <div className="text-size-sm text-bluedot-navy/70 flex flex-col gap-3 leading-normal">
+        <div className="text-size-sm text-secondary flex flex-col gap-3 leading-normal">
           <div className="flex flex-row items-center gap-2">
-            <p className="text-size-md text-bluedot-navy leading-[1.3] font-semibold">{title}</p>
+            <p className="text-size-md text-primary leading-snug font-semibold">{title}</p>
             {subtitleBadge && <Tag variant="secondary">{subtitleBadge}</Tag>}
           </div>
           {subtitle && <p>{subtitle}</p>}
