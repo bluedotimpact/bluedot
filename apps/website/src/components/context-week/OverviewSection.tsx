@@ -6,21 +6,20 @@ const OverviewSection = () => {
       <div className="w-full max-w-prose flex flex-col gap-6">
         <H3>About Context Week</H3>
         <P>
-          Context Week brings together around 20 people who are considering work in AI safety.
-          Participants study how the field developed, the risks people are concerned about,
-          and the work being done in response. They also compare different theories of change
-          and meet people working in several parts of the field.
+          Context Week was a four-day residential experiment designed for around 20 people
+          considering work in AI safety. It aimed to help participants understand how the
+          field developed, the risks people are concerned about, and the work being done in
+          response, compare different theories of change, and meet people working in the field.
         </P>
         <P>
-          The programme includes seminars, 1:1 conversations, sessions with guests, and time
-          with other participants. Sessions examine the evidence and assumptions behind
-          different views. Participants can use this material when applying for roles or
-          programmes and when choosing between jobs, training, or projects.
+          The programme was designed around seminars, 1:1 conversations, sessions with guests,
+          and time with other participants. The aim was to examine the evidence and assumptions
+          behind different views and help participants choose between jobs, training, or projects.
         </P>
         <P className="text-bluedot-navy/80">
-          Participants arrive on August 30. Programming runs from August 31 to September 3,
-          and participants depart on September 4. Before arriving, participants complete
-          about ten hours of reading selected by the programme team.
+          The experiment was scheduled for August 30 to September 4, 2026, with programming
+          from August 31 to September 3. Preparation included about ten hours of reading
+          selected by the programme team.
         </P>
       </div>
     </section>

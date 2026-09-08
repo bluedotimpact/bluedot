@@ -46,7 +46,7 @@ beforeEach(() => {
 });
 
 describe('ContextWeekProgramPage', () => {
-  test('describes the programme, participants, and intended outcomes', async () => {
+  test('describes the concluded experiment and keeps the form open for expressions of interest', async () => {
     renderWithHead(<TrpcProvider>
       <LatestUtmParamsProvider>
         <ContextWeekProgramPage
@@ -63,16 +63,24 @@ describe('ContextWeekProgramPage', () => {
     expect(screen.getByRole('heading', { name: 'Participants' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Context Week and Incubator Week' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Programme' })).toBeInTheDocument();
-    expect(screen.getByText(/The detailed schedule is still being developed/)).toBeInTheDocument();
+    expect(screen.getByText('Experiment concluded')).toBeInTheDocument();
+    expect(screen.getByText('The Context Week experiment has concluded. You can still fill out the application form as an expression of interest, but you may not hear back.')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'After Context Week' })).toBeInTheDocument();
     expect(screen.getByText(/about ten hours of reading/)).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getAllByRole('link', { name: 'Apply to Context Week' })).toHaveLength(2);
+      const interestLinks = screen.getAllByRole('link', { name: 'Express interest' });
+      expect(interestLinks).toHaveLength(2);
+      interestLinks.forEach((link) => {
+        expect(link).toHaveAttribute('href', 'https://example.com/context-week-application');
+      });
     });
 
     expect(document.title).toBe('Context Week | BlueDot Impact');
-    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe(programDescription);
+    const expectedDescription = `The Context Week experiment has concluded. You can still fill out the application form as an expression of interest, but you may not hear back. ${programDescription}`;
+    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe(expectedDescription);
+    expect(document.querySelector('meta[property="og:description"]')?.getAttribute('content')).toBe(expectedDescription);
+    expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe(expectedDescription);
     expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://bluedot.org/images/programs/link-preview/context-week.png');
   });
 });

@@ -18,13 +18,15 @@ import { ROUTES } from '../../lib/routes';
 
 const PROGRAM_SLUG = 'context-week';
 const FALLBACK_NAME = 'Context Week';
-const PROGRAM_DESCRIPTION = 'A four-day residential programme for people who want to understand the AI safety field and decide where they could contribute.';
+const PROGRAM_DESCRIPTION = 'A four-day residential experiment designed to help people understand the AI safety field and decide where they could contribute.';
+const APPLICATION_NOTICE = 'The Context Week experiment has concluded. You can still fill out the application form as an expression of interest, but you may not hear back.';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/context-week.png`;
 const LINK_PREVIEW_ALT = 'Context Week v1. A residential programme about the AI safety field and where participants could contribute. Berkeley, August 30 to September 4, 2026. Travel, accommodation, and meals covered.';
 
 const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const applicationUrl = useGrantApplicationUrl('context-week');
+  const description = `${APPLICATION_NOTICE} ${programDescription}`;
   const currentRoute: BluedotRoute = {
     title: programName,
     url: '/programs/context-week',
@@ -35,9 +37,9 @@ const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDeta
     <div>
       <Head>
         <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={programDescription} />
+        <meta name="description" content={description} />
         <meta property="og:title" content={`${programName} | BlueDot Impact`} />
-        <meta property="og:description" content={programDescription} />
+        <meta property="og:description" content={description} />
         <meta property="og:url" content={`${SITE_URL}/programs/context-week`} />
         {linkPreviewMetaTags({
           imageUrl: LINK_PREVIEW_IMAGE,
@@ -47,20 +49,20 @@ const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDeta
           imageType: 'image/png',
         })}
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
-        <meta name="twitter:description" content={programDescription} />
+        <meta name="twitter:description" content={description} />
       </Head>
-      <MarketingHero title={programName} subtitle={programDescription} />
+      <MarketingHero title={programName} subtitle={APPLICATION_NOTICE} />
       <Breadcrumbs route={currentRoute} />
       <GrantStatsStrip
         program="context-week"
         compact
         primaryAction={{
-          label: 'Apply to Context Week',
+          label: 'Express interest',
           url: applicationUrl,
         }}
         stats={[
-          { label: 'Cohort', value: 'Around 20 people' },
-          { label: 'Dates', value: 'Aug 30–Sept 4, 2026' },
+          { label: 'Status', value: 'Experiment concluded' },
+          { label: 'Past dates', value: 'Aug 30–Sept 4, 2026' },
           { label: 'Location', value: 'Berkeley' },
           { label: 'Covered', value: 'Travel, accommodation, meals' },
         ]}
@@ -71,7 +73,7 @@ const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDeta
       <ParticipantOutputsSection />
       <AboutBlueDotSection
         applicationUrl={applicationUrl}
-        ctaLabel="Apply to Context Week"
+        ctaLabel="Express interest"
       />
     </div>
   );

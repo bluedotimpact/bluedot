@@ -6,20 +6,20 @@ const ParticipantOutputsSection = () => {
       <div className="w-full max-w-prose flex flex-col gap-4">
         <H3>After Context Week</H3>
         <P>
-          By the end of the programme, participants should be able to explain the main
-          concerns about AI risk, the work being done in response, and why people support
-          different approaches. They will have considered which roles or projects suit their
-          skills and how to explain their interests and reasoning in applications or interviews.
+          The programme aimed to help participants explain the main concerns about AI risk,
+          the work being done in response, and why people support different approaches.
+          It was also designed to help them consider which roles or projects suited their
+          skills and explain their interests and reasoning in applications or interviews.
         </P>
         <P className="text-bluedot-navy/80">
-          Each person will record what they plan to do next. Their next steps may include
-          applications, conversations, further reading, or project work. They may make a
-          decision during the week or leave knowing what they still need to learn.
+          The intended output was a record of each participant&apos;s next steps, such as
+          applications, conversations, further reading, or project work, and what they still
+          needed to learn before making a decision.
         </P>
         <P className="text-bluedot-navy/80">
-          BlueDot will assess participants&apos; knowledge before and after the programme and
-          contact them 90 days later to ask what they did next. The evaluation will also look
-          for overconfidence and pressure to agree with the group.
+          The evaluation plan included assessing participants&apos; knowledge before and after
+          the programme and contacting them 90 days later to ask what they did next. It also
+          included looking for overconfidence and pressure to agree with the group.
         </P>
       </div>
     </section>
