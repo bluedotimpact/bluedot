@@ -29,9 +29,10 @@ type PlanRow = {
 
 const normalise = (value: string | null | undefined): string => (value ?? '').trim().replace(/\s+/g, ' ');
 const joinName = (parts: NameParts): string => [parts.firstName, parts.lastName].map(normalise).filter(Boolean).join(' ');
-const splitName = (name: string): NameParts => {
-  const space = name.indexOf(' ');
-  return space === -1 ? { firstName: name, lastName: '' } : { firstName: name.slice(0, space), lastName: name.slice(space + 1) };
+// Split at the stored first name when it begins the name (keeps "Mary Jane" for "Mary Jane Smith"), else at the first space
+const splitName = (name: string, storedFirstName: string): NameParts => {
+  const at = storedFirstName && name.startsWith(`${storedFirstName} `) ? storedFirstName.length : name.indexOf(' ');
+  return at === -1 ? { firstName: name, lastName: '' } : { firstName: name.slice(0, at), lastName: name.slice(at + 1) };
 };
 
 const bothPresent = (parts: { firstName: string | null; lastName: string | null }): NameParts | undefined => {
@@ -100,6 +101,7 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
   }
 
   const plan: PlanRow[] = [];
+  const conflicts: string[] = [];
   const counts: Record<string, number> = {};
   const count = (k: string) => {
     counts[k] = (counts[k] ?? 0) + 1;
@@ -117,7 +119,7 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
 
     // Case-sensitive match: users may have deliberately edited casing (e.g. McKenzie)
     let chosen: [Method, NameParts] | undefined;
-    if (name) chosen = candidates.find(([, parts]) => joinName(parts) === name) ?? ['split', splitName(name)];
+    if (name) chosen = candidates.find(([, parts]) => joinName(parts) === name) ?? ['split', splitName(name, stored.firstName)];
     else if (candidates.length > 0) [chosen] = candidates;
     else if (joinName(stored)) chosen = ['parts', stored];
     if (!chosen) {
@@ -126,6 +128,13 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
     }
 
     const [method, parts] = chosen;
+    // Leave users whose existing first/last name disagrees with the target for manual review
+    if ((['firstName', 'lastName'] as const).some((field) => stored[field] && stored[field] !== parts[field])) {
+      count('skipped: existing first/last name conflicts with target');
+      conflicts.push(`${user.id} ${user.email}`);
+      continue;
+    }
+
     const before: NameFields = { name: user.name ?? '', firstName: user.firstName ?? '', lastName: user.lastName ?? '' };
     const target: NameFields = { ...parts, name: joinName(parts) };
     const update: Partial<NameFields> = {};
@@ -139,7 +148,6 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
     }
 
     count(`method: ${method}`);
-    if ((stored.firstName && update.firstName !== undefined) || (stored.lastName && update.lastName !== undefined)) count('replaces an existing first/last name');
     plan.push({
       userId: user.id, email: user.email, method, before, update,
     });
@@ -148,6 +156,7 @@ const buildPlan = async (db: PgAirtableDb, keycloakUsers: KeycloakUser[]): Promi
   console.log(`Users: ${users.length}`);
   console.table(counts);
   console.log(`Plan: ${plan.length} rows`);
+  if (conflicts.length > 0) console.log(`Conflicts (not touched):\n${conflicts.join('\n')}`);
   return plan;
 };
 
