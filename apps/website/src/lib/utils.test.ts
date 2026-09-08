@@ -22,7 +22,7 @@ const {
   formatDateTimeRelative,
   buildApplicationUrl,
   userNameFields,
-  normalisedFirstAndLastName: nameParts,
+  normalisedFirstAndLastName,
   legacyUserNameFields,
 } = await import('./utils');
 
@@ -390,20 +390,20 @@ describe('userNameFields', () => {
   });
 });
 
-describe('nameParts', () => {
+describe('normalisedFirstAndLastName', () => {
   it('uses first/last when the source has them, trimmed', () => {
-    expect(nameParts({ name: 'Ignored', firstName: ' Jane ', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe' });
-    expect(nameParts({ firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '' });
+    expect(normalisedFirstAndLastName({ name: 'Ignored', firstName: ' Jane ', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe' });
+    expect(normalisedFirstAndLastName({ firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '' });
   });
 
   it('splits a combined name on the first space when that is all the source has', () => {
-    expect(nameParts({ name: ' Mary  Jane Smith ', firstName: null, lastName: '' })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith' });
-    expect(nameParts({ name: 'Jane' })).toEqual({ firstName: 'Jane', lastName: '' });
+    expect(normalisedFirstAndLastName({ name: ' Mary  Jane Smith ', firstName: null, lastName: '' })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith' });
+    expect(normalisedFirstAndLastName({ name: 'Jane' })).toEqual({ firstName: 'Jane', lastName: '' });
   });
 
   it('returns null when the source has no name at all', () => {
-    expect(nameParts({ name: ' ', firstName: '', lastName: null })).toBeNull();
-    expect(nameParts({})).toBeNull();
+    expect(normalisedFirstAndLastName({ name: ' ', firstName: '', lastName: null })).toBeNull();
+    expect(normalisedFirstAndLastName({})).toBeNull();
   });
 });
 
