@@ -7,36 +7,36 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
       Account | BlueDot Impact
     </title>
     <div
-      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between"
+      class="bg-canvas border-b border-default w-full py-space-between"
     >
       <nav
         aria-label="Breadcrumbs"
-        class="breadcrumbs__nav section-base flex flex-row justify-between"
+        class="section-base flex flex-row justify-between"
       >
         <ol
-          class="breadcrumbs__list flex"
+          class="flex"
         >
           <li
-            class="breadcrumbs__item flex items-center"
+            class="flex items-center"
           >
             <a
-              class="bluedot-a not-prose breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal"
+              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
               href="/"
               tabindex="0"
             >
               Home
             </a>
             <span
-              class="breadcrumbs__separator mx-2"
+              class="mx-2"
             >
               &gt;
             </span>
           </li>
           <li
-            class="breadcrumbs__item flex items-center"
+            class="flex items-center"
           >
             <a
-              class="bluedot-a not-prose breadcrumbs__link no-underline text-bluedot-darker hover:text-bluedot-normal"
+              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
               href="/account"
               tabindex="0"
             >
@@ -67,7 +67,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
           >
             <div
               aria-hidden="true"
-              class="absolute bottom-0 left-0 top-0 w-1 bg-color-divider"
+              class="absolute bottom-0 left-0 top-0 w-1 bg-default"
             />
             <span
               aria-hidden="true"
@@ -130,7 +130,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   <input
                     aria-invalid="false"
                     aria-label="First name"
-                    class="input--text border border-color-divider rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
+                    class="border border-default rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
                     label="First name*"
                     placeholder="Enter your first name"
                     type="text"
@@ -148,7 +148,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   <input
                     aria-invalid="false"
                     aria-label="Last name"
-                    class="input--text border border-color-divider rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
+                    class="border border-default rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
                     label="Last name*"
                     placeholder="Enter your last name"
                     type="text"
@@ -192,7 +192,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             </div>
           </div>
           <div
-            class="border-t border-color-divider my-6"
+            class="border-t border-default my-6"
           />
           <div
             class="mb-6"
@@ -209,7 +209,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             </p>
           </div>
           <div
-            class="border-t border-color-divider my-6"
+            class="border-t border-default my-6"
           />
           <div
             class="mb-6"
