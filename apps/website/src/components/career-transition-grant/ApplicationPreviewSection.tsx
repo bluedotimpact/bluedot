@@ -26,7 +26,7 @@ const PREPARATION_ITEMS = [
 
 const ApplicationPreviewSection = () => {
   return (
-    <section className="section section-body career-transition-grant-application-preview-section bg-color-canvas">
+    <section className="section section-body career-transition-grant-application-preview-section bg-canvas">
       <div className="w-full flex flex-col gap-6">
         <H3>Application preview</H3>
         <P className="max-w-3xl">The application takes around 45 minutes. You can prepare the main evidence before you begin.</P>

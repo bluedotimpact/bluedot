@@ -104,7 +104,7 @@ export const MobileNavLinks: React.FC<{
 
           {/* CTA Buttons for mobile - prevent duplication with navbar buttons */}
           {!isLoggedIn && (
-            <div className="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider">
+            <div className="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-default">
               {/* Start for free button: Show when screen < 680px */}
               <CTALinkOrButton
                 className={clsx('mobile-nav-cta__join hidden max-[679px]:flex', getPrimaryButtonClasses())}

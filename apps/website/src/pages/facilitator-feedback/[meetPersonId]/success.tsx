@@ -123,7 +123,7 @@ const FacilitatorFeedbackSuccessPage = () => {
       )}
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
-        <section className="bg-white rounded-lg border border-color-divider p-6 sm:p-12 flex flex-col gap-7">
+        <section className="bg-white rounded-lg border border-default p-6 sm:p-12 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
             <div className="size-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
               {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- icon glyph size, not body text; 28px fits the 60px container */}
@@ -154,7 +154,7 @@ const FacilitatorFeedbackSuccessPage = () => {
           </Link>
 
           {showInvoiceCard && invoiceUrl && (
-            <div className="bg-[#f8f9fb] border border-color-divider rounded-md p-6 flex flex-col gap-2">
+            <div className="bg-[#f8f9fb] border border-default rounded-md p-6 flex flex-col gap-2">
               <div className="flex items-center gap-2.5">
                 <div className="size-8 rounded-md bg-bluedot-normal/10 flex items-center justify-center shrink-0">
                   <PiCreditCard className="text-bluedot-normal" aria-hidden />

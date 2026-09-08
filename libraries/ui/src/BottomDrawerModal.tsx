@@ -139,7 +139,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
               />
               {/* Modal Container */}
               <motion.div
-                className="bg-color-canvas fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
+                className="bg-canvas fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
                 transition={{
                   duration: 0.3,
                   ease: [0.32, 0.72, 0, 1],

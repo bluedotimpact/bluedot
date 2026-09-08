@@ -177,7 +177,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         {navigationAnnouncement}
       </div>
 
-      <div className="bg-color-canvas">
+      <div className="bg-canvas">
         {groupDiscussionError && (
           <ErrorSection error={groupDiscussionError} />
         )}

@@ -73,7 +73,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
             ref={ref}
             type={type}
             className={clsx(
-              'input--text border border-color-divider rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400',
+              'input--text border border-default rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400',
               inputClassName,
             )}
           />

@@ -22,7 +22,7 @@ const TabPill = <T extends string>({
     className={`h-10 px-4 rounded-full border text-size-xs font-medium cursor-pointer transition-colors ${
       isActive
         ? 'bg-bluedot-navy text-white border-bluedot-navy'
-        : 'bg-white text-bluedot-navy border-color-divider hover:bg-bluedot-navy/5'
+        : 'bg-white text-bluedot-navy border-default hover:bg-bluedot-navy/5'
     }`}
   >
     {tab.label}

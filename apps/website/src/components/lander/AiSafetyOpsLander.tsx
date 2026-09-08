@@ -51,13 +51,13 @@ const AiSafetyOpsLander = () => {
       <Section>
         <div className="ai-safety-ops-lander__intro flex flex-col gap-6 items-center text-center mx-auto max-w-3xl">
           <div className="flex flex-row flex-wrap justify-center gap-2 items-center">
-            <div className="flex gap-2 items-center border border-color-border rounded-lg px-4 py-3 text-color-text">
+            <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
               <FaCalendarAlt /> 6 hours total
             </div>
-            <div className="flex gap-2 items-center border border-color-border rounded-lg px-4 py-3 text-color-text">
+            <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
               <FaUserFriends /> Group discussions
             </div>
-            <div className="flex gap-2 items-center border border-color-border rounded-lg px-4 py-3 text-color-text">
+            <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
               <FaLaptop /> Online
             </div>
           </div>

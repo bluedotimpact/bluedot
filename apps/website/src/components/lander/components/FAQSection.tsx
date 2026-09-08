@@ -70,7 +70,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
             .replace(/\u2029/g, '\\u2029'),
         }}
       />
-      <section id={id} className={clsx('w-full', background === 'canvas' ? 'bg-color-canvas' : 'bg-white')}>
+      <section id={id} className={clsx('w-full', background === 'canvas' ? 'bg-canvas' : 'bg-white')}>
         <div className="max-w-max-width bd-md:px-8 lg:px-spacing-x bd-md:pt-16 bd-md:pb-12 mx-auto px-5 py-12 lg:py-16 xl:py-24">
           <div className="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16">
             <H2 className="text-center">

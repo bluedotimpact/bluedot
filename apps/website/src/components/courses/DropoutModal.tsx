@@ -183,7 +183,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       : [];
 
     return (
-      <div className="border-l-2 border-color-divider pl-4 ml-2 mt-3 flex flex-col gap-3">
+      <div className="border-l-2 border-default pl-4 ml-2 mt-3 flex flex-col gap-3">
         <div className="flex flex-col gap-1">
           <span className="text-size-sm font-medium text-bluedot-navy/80">Intensity</span>
           <Select

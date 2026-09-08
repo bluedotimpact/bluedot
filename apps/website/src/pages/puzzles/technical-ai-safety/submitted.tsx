@@ -117,7 +117,7 @@ const PuzzleSubmittedPage = () => (
       </section>
 
       {/* What we offer */}
-      <section className="bg-color-canvas">
+      <section className="bg-canvas">
         <div className={SECTION_PADDING_CLASS}>
           <div className="max-w-text mx-auto">
             <h2 className={EYEBROW_CLASS}>What we offer (all for free)</h2>

@@ -319,7 +319,7 @@ export default function GroupSwitchModal({
           placeholder="Share your reason here..."
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="border border-color-divider rounded-lg px-3 py-2 min-h-20 bg-white"
+          className="border border-default rounded-lg px-3 py-2 min-h-20 bg-white"
           required
           aria-label="Reason for group switch request"
         />
@@ -434,7 +434,7 @@ export default function GroupSwitchModal({
           </form>
         )}
         {!isLoading && !showSuccess && !isManualRequest && (
-          <div className="border-t border-color-divider pt-8 mt-8 mb-2">
+          <div className="border-t border-default pt-8 mt-8 mb-2">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
                 <H3 className="text-size-sm">Don't see a group that works?</H3>

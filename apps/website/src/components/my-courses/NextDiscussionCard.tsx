@@ -22,7 +22,7 @@ const formatDatetimeLabel = (startSec: number, endSec: number) =>
 
 // Fixed square badge slot: shows the calendar date, or the LIVE indicator (same dimensions) when live.
 const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isLive: boolean }) => (
-  <div aria-hidden={!isLive} className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border border-color-divider bg-white sm:size-16 sm:rounded-2xl">
+  <div aria-hidden={!isLive} className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border border-default bg-white sm:size-16 sm:rounded-2xl">
     {isLive ? <LiveBadge /> : (
       <>
         <div className="flex h-4 items-center justify-center bg-bluedot-normal sm:h-6">
@@ -87,7 +87,7 @@ const NextDiscussionCard = ({
 
   return (
     <>
-      <div className="flex flex-col gap-4 rounded-xl border border-color-divider bg-white p-5 sm:flex-row sm:items-center sm:gap-5 sm:p-6">
+      <div className="flex flex-col gap-4 rounded-xl border border-default bg-white p-5 sm:flex-row sm:items-center sm:gap-5 sm:p-6">
         <div className="flex w-full items-start gap-4 sm:flex-1 sm:items-center sm:gap-5">
           {mode === 'facilitator'
             ? <TimeWidget isLive={isLive} dateTimeSeconds={discussion.startDateTime} />
