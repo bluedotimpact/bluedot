@@ -3,7 +3,7 @@
 exports[`SideBar > renders default as expected 1`] = `
 <div>
   <div
-    class="sidebar flex flex-col bg-color-canvas size-full md:w-[360px] border-r-[0.5px] border-color-divider"
+    class="sidebar flex flex-col bg-canvas size-full md:w-[360px] border-r-[0.5px] border-default"
   >
     <div
       class="p-6 flex flex-col gap-5"

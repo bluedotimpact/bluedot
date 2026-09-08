@@ -75,7 +75,7 @@ exports[`SlideList > renders correctly 1`] = `
         class="slide-list__progress w-full relative h-1"
       >
         <div
-          class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
+          class="slide-list__progress-track absolute h-px top-px w-full bg-default"
         />
         <div
           class="slide-list__progress-track absolute h-full bg-bluedot-normal"
