@@ -44,11 +44,11 @@ const PrerequisitesSection = ({
               return (
                 <CardShell
                   key={prereq.title}
-                  className="group flex flex-col gap-4"
+                  className="flex flex-col gap-4"
                 >
                   {IconComponent && (
                     <div
-                      className="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                      className="size-12 rounded-xl flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: `${accentColor}15` }}
                     >
                       <IconComponent

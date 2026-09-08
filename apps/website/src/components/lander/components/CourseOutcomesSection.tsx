@@ -54,10 +54,10 @@ const CourseOutcomesSection = ({
               return (
                 <CardShell
                   key={outcome.title}
-                  className="group flex flex-col gap-4 w-full bd-md:w-[calc(50%-12px)] lg:w-[calc(33.333%-22px)]"
+                  className="flex flex-col gap-4 w-full bd-md:w-[calc(50%-12px)] lg:w-[calc(33.333%-22px)]"
                 >
                   <div
-                    className="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                    className="size-12 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: `${accentColor}15` }}
                   >
                     <IconComponent

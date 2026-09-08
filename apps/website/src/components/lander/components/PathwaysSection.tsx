@@ -55,10 +55,10 @@ const PathwaysSection = ({
               return (
                 <CardShell
                   key={pathway.title}
-                  className="group flex flex-col gap-4"
+                  className="flex flex-col gap-4"
                 >
                   <div
-                    className="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                    className="size-12 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: pathway.accentColor }}
                   >
                     <IconComponent className="text-white" size={24} />
@@ -73,10 +73,10 @@ const PathwaysSection = ({
                     {pathway.linkUrl && pathway.linkText && (
                       <Link
                         href={pathway.linkUrl}
-                        className="text-size-sm font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                        className="text-size-sm font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1"
                       >
                         {pathway.linkText}
-                        <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                        <span>→</span>
                       </Link>
                     )}
                   </div>
