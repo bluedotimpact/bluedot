@@ -1,3 +1,4 @@
+import { CardShell } from '@bluedot/ui';
 import {
   PiBank,
   PiBookOpen,
@@ -77,7 +78,7 @@ export const createTechnicalAiSafetyContent = (
     intro: (
       <>
         <p className="mb-5">This course doesn&apos;t end at Unit 6. Here&apos;s where our alumni go - and how we help them get there.</p>
-        <div className="rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03] p-6 md:p-8 text-left">
+        <CardShell className="bg-bluedot-navy/[0.03] md:p-8 text-left">
           <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">We don&apos;t just teach</p>
           <p className="text-size-sm leading-relaxed text-bluedot-navy/80">
             BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run a
@@ -86,7 +87,7 @@ export const createTechnicalAiSafetyContent = (
             {' '}
             to fund participants who come out ready to build something. Our community Slack is where job leads, collaboration opportunities, and technical debate happens daily.
           </p>
-        </div>
+        </CardShell>
       </>
     ),
     pathways: [

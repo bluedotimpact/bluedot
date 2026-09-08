@@ -1,5 +1,6 @@
 import {
   CTALinkOrButton, H2, H3, P,
+  CardShell,
 } from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
@@ -51,9 +52,9 @@ const CourseOutcomesSection = ({
               const IconComponent = outcome.icon;
 
               return (
-                <div
+                <CardShell
                   key={outcome.title}
-                  className="group flex flex-col gap-4 p-6 rounded-xl border border-bluedot-navy/8 bg-white hover:border-bluedot-navy/15 hover:shadow-sm transition-all duration-200 w-full bd-md:w-[calc(50%-12px)] lg:w-[calc(33.333%-22px)]"
+                  className="group flex flex-col gap-4 w-full bd-md:w-[calc(50%-12px)] lg:w-[calc(33.333%-22px)]"
                 >
                   <div
                     className="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
@@ -81,7 +82,7 @@ const CourseOutcomesSection = ({
                       </Link>
                     )}
                   </div>
-                </div>
+                </CardShell>
               );
             })}
           </div>
