@@ -60,6 +60,7 @@ describe('bucketCoursesByTab', () => {
     courseRegistration: { id, roundStatus: o.roundStatus ?? 'Future', certificateCreatedAt: null },
     isDroppedOut: o.isDroppedOut ?? false,
     isDeferred: o.isDeferred ?? false,
+    isDeferredToAnotherRound: false,
   } as unknown as CourseListRowProps);
 
   const tabOf = (buckets: Record<string, CourseListRowProps[]>, id: string) =>

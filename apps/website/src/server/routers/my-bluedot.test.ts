@@ -437,6 +437,58 @@ describe('myCoursesPage.getOverview', () => {
       expect(result.courses.map((c) => c.courseRegistration.id).sort()).toEqual(['reg-deferred', 'reg-successor']);
     });
 
+    test('an in-place deferral onto this round does not count as deferred away (repeat deferrals included)', async () => {
+      await seedCourse('course-tais');
+      await seedReg('reg-moved', { courseId: 'course-tais', roundStatus: 'Past', roundId: 'round-new' });
+      await testDb.insert(dropoutTable, {
+        id: 'defer-old', applicantId: ['reg-moved'], type: 'Deferral', newRoundId: ['round-middle'],
+      });
+      await testDb.insert(dropoutTable, {
+        id: 'defer-new', applicantId: ['reg-moved'], type: 'Deferral', newRoundId: ['round-new'],
+      });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      const row = result.courses.find((c) => c.courseRegistration.id === 'reg-moved');
+      expect(row?.isDeferred).toBe(true);
+      expect(row?.isDeferredToAnotherRound).toBe(false);
+    });
+
+    test('a deferral onto some other round counts as deferred away', async () => {
+      await seedCourse('course-tais');
+      await seedReg('reg-left-behind', { courseId: 'course-tais', roundStatus: 'Past', roundId: 'round-abandoned' });
+      await testDb.insert(dropoutTable, {
+        id: 'defer-away', applicantId: ['reg-left-behind'], type: 'Deferral', newRoundId: ['round-successor'],
+      });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      const row = result.courses.find((c) => c.courseRegistration.id === 'reg-left-behind');
+      expect(row?.isDeferredToAnotherRound).toBe(true);
+    });
+
+    test('a deferral with no new round recorded counts as deferred away', async () => {
+      await seedCourse('course-tais');
+      await seedReg('reg-legacy', { courseId: 'course-tais', roundStatus: 'Past', roundId: 'round-abandoned' });
+      await testDb.insert(dropoutTable, { id: 'defer-legacy', applicantId: ['reg-legacy'], type: 'Deferral' });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      const row = result.courses.find((c) => c.courseRegistration.id === 'reg-legacy');
+      expect(row?.isDeferred).toBe(true);
+      expect(row?.isDeferredToAnotherRound).toBe(true);
+    });
+
+    test('a deferred registration with no round at all does not count as deferred away', async () => {
+      // Shouldn't occur, but a hidden course blocks the action plan and certificate, so when we
+      // can't tell which round the row is on we show it rather than hide it.
+      await seedCourse('course-tais');
+      await seedReg('reg-no-round', { courseId: 'course-tais', roundStatus: 'Past', roundId: null });
+      await testDb.insert(dropoutTable, { id: 'defer-no-round', applicantId: ['reg-no-round'], type: 'Deferral' });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      const row = result.courses.find((c) => c.courseRegistration.id === 'reg-no-round');
+      expect(row?.isDeferred).toBe(true);
+      expect(row?.isDeferredToAnotherRound).toBe(false);
+    });
+
     test('facilitatorNames: assembles first+last, drops entries with both names blank', async () => {
       await seedCourse('course-tais');
       await seedReg('reg-1', { courseId: 'course-tais' });
