@@ -39,6 +39,7 @@ export const WithBadge: Story = {
     title: 'Card header',
     subtitleBadge: 'New',
     subtitle: 'A status-labelled item where a small tag sits next to the title.',
+    ctaText: 'Primary action',
     url: 'https://example.com',
     className: 'max-w-[360px]',
   },
