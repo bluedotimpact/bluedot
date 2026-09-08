@@ -245,20 +245,35 @@ export const maskEmail = (email: string): string => {
   }
 };
 
-export const joinName = (firstName: string, lastName: string): string => [firstName.trim(), lastName.trim()].filter(Boolean).join(' ');
+type UserNameFields = { name: string; firstName: string; lastName: string };
 
-// Name fields for a user record that has no name yet
-export const nameFieldsFromParts = (parts: { firstName?: string | null; lastName?: string | null }): { firstName?: string; lastName?: string; name?: string } => {
-  const firstName = parts.firstName?.trim() ?? '';
-  const lastName = parts.lastName?.trim() ?? '';
-  return firstName || lastName ? { firstName, lastName, name: joinName(firstName, lastName) } : {};
-};
+/** Name fields to store on a user: `name` is always the join of `firstName` and `lastName` */
+export const userNameFields = ({ firstName, lastName }: { firstName: string; lastName: string }): UserNameFields => ({
+  firstName,
+  lastName,
+  name: [firstName, lastName].filter(Boolean).join(' '),
+});
 
-// Users from before first/last name were stored only have `name`: split it on the first space
-export const getNameParts = (user: { name: string; firstName?: string | null; lastName?: string | null }): { firstName: string; lastName: string } => {
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- empty strings and nulls are both "not set"
-  if (user.firstName || user.lastName) return { firstName: user.firstName ?? '', lastName: user.lastName ?? '' };
-  const name = user.name.trim().replace(/\s+/g, ' ');
+const splitNameOnFirstSpace = (combinedName: string): { firstName: string; lastName: string } => {
+  const name = combinedName.trim().replace(/\s+/g, ' ');
   const spaceIndex = name.indexOf(' ');
   return spaceIndex === -1 ? { firstName: name, lastName: '' } : { firstName: name.slice(0, spaceIndex), lastName: name.slice(spaceIndex + 1) };
+};
+
+/** First/last name from a token or registration, which may only carry a combined name; null when it has neither */
+export const normalisedFirstAndLastName = (source: { name?: string | null; firstName?: string | null; lastName?: string | null }): { firstName: string; lastName: string } | null => {
+  const firstName = source.firstName?.trim() ?? '';
+  const lastName = source.lastName?.trim() ?? '';
+  if (firstName || lastName) return { firstName, lastName };
+  return source.name?.trim() ? splitNameOnFirstSpace(source.name) : null;
+};
+
+/**
+ * Temporary (#2913): if there is no `firstName` or `lastName`, estimate them by splitting `name`. This can be removed
+ * once all `firstName`/`lastName`s are backfilled.
+ */
+export const legacyUserNameFields = (user: { name: string | null; firstName: string | null; lastName: string | null }): Partial<UserNameFields> => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- empty strings and nulls are both "not set"
+  if (!user.name || user.firstName || user.lastName) return {};
+  return userNameFields(splitNameOnFirstSpace(user.name));
 };

@@ -1,4 +1,5 @@
 import {
+  applicationsCourseTable,
   applicationsRoundTable,
   courseRegistrationTable,
   courseTable,
@@ -7,8 +8,9 @@ import {
   userTable,
 } from '@bluedot/db';
 import {
-  beforeEach, describe, expect, test,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
+import db from '../../lib/api/db';
 import {
   createCaller,
   seedLoggedInUser,
@@ -495,5 +497,40 @@ describe('facilitatorApplications.quickApply', () => {
     });
     await seedRound('round-next', 'course-1', null);
     await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'NOT_FOUND' });
+  });
+
+  describe('applicant name', () => {
+    // The real insert can't run here (see above), so capture what it would write
+    const quickApplyInsert = async (priorReg: { firstName?: string; lastName?: string } = {}) => {
+      await seedCourse('course-1', 'tai', 'Technical AI Safety');
+      await testDb.insert(courseRegistrationTable, {
+        id: 'reg-1', email: CALLER_EMAIL, userId: 'test-user', courseId: 'course-1', role: 'Facilitator', roundId: 'round-a', ...priorReg,
+      });
+      await seedRound('round-next', 'course-1', null);
+      await testDb.insert(applicationsCourseTable, { id: 'app-course-1', courseBuilderId: 'course-1' });
+      const insertSpy = vi.spyOn(db, 'insert').mockResolvedValue({ id: 'reg-new' } as never);
+      await caller.facilitatorApplications.quickApply(validInput);
+      const inserted = insertSpy.mock.calls[0]![1] as { firstName: string; lastName: string };
+      insertSpy.mockRestore();
+      return inserted;
+    };
+
+    test('uses the first/last name stored on the user as-is', async () => {
+      await testDb.update(userTable, {
+        id: 'test-user', name: 'Mary Jane Smith', firstName: 'Mary Jane', lastName: 'Smith',
+      });
+      expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Mary Jane', lastName: 'Smith' });
+    });
+
+    // Temporary (#2913): users named before first/last existed
+    test('splits the combined name of a user with no first/last name stored', async () => {
+      await testDb.update(userTable, { id: 'test-user', name: 'Mary Jane Smith' });
+      expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Mary', lastName: 'Jane Smith' });
+    });
+
+    test('falls back to the latest prior application when the user has no name', async () => {
+      await testDb.update(userTable, { id: 'test-user', name: '' });
+      expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Prior', lastName: 'Applicant' });
+    });
   });
 });

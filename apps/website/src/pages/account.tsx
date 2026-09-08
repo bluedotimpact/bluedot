@@ -38,7 +38,7 @@ const AccountSettingsPage = () => {
         <>
           <MyBlueDotLayout route={CURRENT_ROUTE}>
             <ProfileNameEditor
-              key={`${user.firstName}|${user.lastName}|${user.name}`}
+              key={`${user.firstName}|${user.lastName}`}
               user={user}
               onSave={() => utils.users.getUser.invalidate()}
             />

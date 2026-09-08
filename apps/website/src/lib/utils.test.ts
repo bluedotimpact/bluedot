@@ -21,9 +21,9 @@ const {
   formatDateDayOfWeek,
   formatDateTimeRelative,
   buildApplicationUrl,
-  getNameParts,
-  joinName,
-  nameFieldsFromParts,
+  userNameFields,
+  normalisedFirstAndLastName: nameParts,
+  legacyUserNameFields,
 } = await import('./utils');
 
 // Test constants
@@ -382,34 +382,43 @@ describe('buildApplicationUrl', () => {
   });
 });
 
-describe('joinName', () => {
-  it('joins and trims, dropping empty parts', () => {
-    expect(joinName(' Jane ', 'Doe')).toBe('Jane Doe');
-    expect(joinName('Jane', '')).toBe('Jane');
-    expect(joinName('', '')).toBe('');
+describe('userNameFields', () => {
+  it('always stores name as the join of first and last', () => {
+    expect(userNameFields({ firstName: 'Jane', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+    expect(userNameFields({ firstName: 'Jane', lastName: '' })).toEqual({ firstName: 'Jane', lastName: '', name: 'Jane' });
+    expect(userNameFields({ firstName: 'Mary Jane', lastName: 'Smith' })).toEqual({ firstName: 'Mary Jane', lastName: 'Smith', name: 'Mary Jane Smith' });
   });
 });
 
-describe('nameFieldsFromParts', () => {
-  it('trims the parts and joins them into name', () => {
-    expect(nameFieldsFromParts({ firstName: ' Jane ', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
-    expect(nameFieldsFromParts({ firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '', name: 'Jane' });
+describe('nameParts', () => {
+  it('uses first/last when the source has them, trimmed', () => {
+    expect(nameParts({ name: 'Ignored', firstName: ' Jane ', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe' });
+    expect(nameParts({ firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '' });
   });
 
-  it('returns nothing when both parts are blank', () => {
-    expect(nameFieldsFromParts({ firstName: ' ', lastName: undefined })).toEqual({});
+  it('splits a combined name on the first space when that is all the source has', () => {
+    expect(nameParts({ name: ' Mary  Jane Smith ', firstName: null, lastName: '' })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith' });
+    expect(nameParts({ name: 'Jane' })).toEqual({ firstName: 'Jane', lastName: '' });
+  });
+
+  it('returns null when the source has no name at all', () => {
+    expect(nameParts({ name: ' ', firstName: '', lastName: null })).toBeNull();
+    expect(nameParts({})).toBeNull();
   });
 });
 
-describe('getNameParts', () => {
-  it('uses stored first/last name when present', () => {
-    expect(getNameParts({ name: 'Jane Doe', firstName: 'Jane', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe' });
-    expect(getNameParts({ name: 'Jane Doe', firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '' });
+describe('legacyUserNameFields', () => {
+  it('fills first/last for a user that only has a combined name, keeping the name', () => {
+    expect(legacyUserNameFields({ name: 'Mary Jane Smith', firstName: null, lastName: '' })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith', name: 'Mary Jane Smith' });
   });
 
-  it('splits name on the first space when first/last name are not stored', () => {
-    expect(getNameParts({ name: ' Mary  Jane Smith ', firstName: null, lastName: null })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith' });
-    expect(getNameParts({ name: 'Jane' })).toEqual({ firstName: 'Jane', lastName: '' });
-    expect(getNameParts({ name: '' })).toEqual({ firstName: '', lastName: '' });
+  it('changes nothing for a user whose fields are already stored together', () => {
+    expect(legacyUserNameFields({ name: 'Jane Doe', firstName: 'Jane', lastName: 'Doe' })).toEqual({});
+    expect(legacyUserNameFields({ name: 'Jane', firstName: 'Jane', lastName: null })).toEqual({});
+  });
+
+  it('changes nothing for a user with no name', () => {
+    expect(legacyUserNameFields({ name: null, firstName: null, lastName: null })).toEqual({});
+    expect(legacyUserNameFields({ name: '', firstName: '', lastName: '' })).toEqual({});
   });
 });

@@ -6,19 +6,18 @@ import {
 } from '@bluedot/ui';
 import type { User } from '@bluedot/db';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
-import { getNameParts } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 type NameParts = { firstName: string; lastName: string };
 
 type ProfileNameEditorProps = {
-  user: Pick<User, 'firstName' | 'lastName' | 'name'>;
+  user: Pick<User, 'firstName' | 'lastName'>;
   onSave?: () => void;
   alwaysShowButtons?: boolean;
 };
 
 const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileNameEditorProps) => {
-  const [names, setNames] = useState<NameParts>(() => getNameParts(user));
+  const [names, setNames] = useState<NameParts>({ firstName: user.firstName ?? '', lastName: user.lastName ?? '' });
   const [savedNames, setSavedNames] = useState<NameParts>(names);
   const [nameError, setNameError] = useState('');
 

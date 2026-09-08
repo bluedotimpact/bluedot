@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import ProfileNameEditor from './ProfileNameEditor';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import { joinName } from '../../lib/utils';
+import { userNameFields } from '../../lib/utils';
 
 const mockUser = {
   id: 'rec123',
@@ -29,7 +29,7 @@ const meta: Meta<typeof ProfileNameEditor> = {
     layout: 'padded',
     msw: {
       handlers: [
-        trpcStorybookMsw.users.updateName.mutation(({ input }) => ({ ...mockUser, ...input, name: joinName(input.firstName, input.lastName) })),
+        trpcStorybookMsw.users.updateName.mutation(({ input }) => ({ ...mockUser, ...userNameFields(input) })),
       ],
     },
   },
@@ -38,20 +38,15 @@ const meta: Meta<typeof ProfileNameEditor> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const StoredFirstAndLastName: Story = {
+export const Default: Story = {
   args: {
-    user: { firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' },
+    user: { firstName: 'Jane', lastName: 'Doe' },
   },
 };
 
 export const NewUserWithNoName: Story = {
   args: {
-    user: { firstName: null, lastName: null, name: '' },
+    user: { firstName: null, lastName: null },
   },
 };
 
-export const UserWithOnlyCombinedName: Story = {
-  args: {
-    user: { firstName: null, lastName: null, name: 'Jane Doe' },
-  },
-};

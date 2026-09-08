@@ -33,7 +33,7 @@ const mockUser = {
   allowedImpersonationTargets: [],
 };
 
-const johnDoe = { firstName: 'John', lastName: 'Doe', name: 'John Doe' };
+const johnDoe = { firstName: 'John', lastName: 'Doe' };
 
 // Test helper function for selecting elements
 const getInput = (container: HTMLElement, label: 'First name' | 'Last name'): HTMLInputElement => {
@@ -71,16 +71,6 @@ describe('ProfileNameEditor', () => {
 
     // Initially no buttons should be shown
     expect(getButtonsRow(container)).toHaveClass('sm:invisible');
-  });
-
-  test('should split the combined name when first/last name are not stored', () => {
-    const { container } = render(
-      <ProfileNameEditor user={{ firstName: null, lastName: null, name: 'Mary Jane Smith' }} />,
-      { wrapper: TrpcProvider },
-    );
-
-    expect(getInput(container, 'First name').value).toBe('Mary');
-    expect(getInput(container, 'Last name').value).toBe('Jane Smith');
   });
 
   test('should allow user to successfully change their name', async () => {
@@ -303,7 +293,7 @@ describe('ProfileNameEditor (with DB)', () => {
     await seedLoggedInUser();
 
     const { container } = render(
-      <ProfileNameEditor user={{ firstName: 'Test', lastName: 'User', name: 'Test User' }} />,
+      <ProfileNameEditor user={{ firstName: 'Test', lastName: 'User' }} />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
@@ -333,7 +323,7 @@ describe('ProfileNameEditor (with DB)', () => {
 
   test('shows error when user does not exist in DB', async () => {
     const { container } = render(
-      <ProfileNameEditor user={{ firstName: 'Ghost', lastName: 'User', name: 'Ghost User' }} />,
+      <ProfileNameEditor user={{ firstName: 'Ghost', lastName: 'User' }} />,
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 

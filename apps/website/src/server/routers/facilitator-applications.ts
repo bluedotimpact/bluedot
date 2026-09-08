@@ -14,7 +14,7 @@ import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { getNameParts, parseWeekFromRoundName, unique } from '../../lib/utils';
+import { legacyUserNameFields, parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
 
@@ -355,7 +355,11 @@ export const facilitatorApplicationsRouter = router({
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const { courseId } = await getOpenRound(input.roundId);
-      await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
+      const priorRegs = await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
+
+      // Users with no name on their record yet fall back to their latest application for this course
+      const userWithNameParts = { ...user, ...legacyUserNameFields(user) };
+      const applicant = userWithNameParts.name ? userWithNameParts : priorRegs[0];
 
       // Link the application to its course via the Applications-base course record (courseId,
       // roundName and roundStatus are computed in Airtable from the linked round/course).
@@ -370,7 +374,8 @@ export const facilitatorApplicationsRouter = router({
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
         userId: user.id,
-        ...getNameParts(user),
+        firstName: applicant?.firstName ?? null,
+        lastName: applicant?.lastName ?? null,
         courseApplicationsBaseId: applicationsCourse.id,
         roundId: input.roundId,
         role: COURSE_ROLE.FACILITATOR,

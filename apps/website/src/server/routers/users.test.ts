@@ -107,6 +107,31 @@ describe('users.getUser', () => {
     expect(result.name).toBe('Test User');
     expect(new Date(result.lastSeenAt!).getTime()).toBeGreaterThanOrEqual(before);
   });
+
+  // Temporary (#2913): users named before first/last existed are brought into line on their next visit
+  test('fills first/last for a user that only has a combined name, keeping the name', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1', email: 'test@example.com', name: 'Mary Jane Smith', keycloakIdentifier: 'test-sub',
+    });
+
+    await createCaller(testAuthContextLoggedIn).users.getUser();
+
+    const user = await testDb.get(userTable, { id: 'u1' });
+    expect(user).toMatchObject({ firstName: 'Mary', lastName: 'Jane Smith', name: 'Mary Jane Smith' });
+  });
+
+  test('does not write name fields for a user whose fields are already stored together', async () => {
+    await testDb.insert(userTable, {
+      id: 'u1', email: 'test@example.com', name: 'Mary Jane Smith', firstName: 'Mary Jane', lastName: 'Smith', keycloakIdentifier: 'test-sub',
+    });
+    const updateSpy = vi.spyOn(db, 'update');
+
+    await createCaller(testAuthContextLoggedIn).users.getUser();
+
+    expect(updateSpy).toHaveBeenCalledTimes(1);
+    expect(Object.keys(updateSpy.mock.calls[0]![1])).toEqual(['id', 'lastSeenAt']);
+    updateSpy.mockRestore();
+  });
 });
 
 describe('users.changePassword', () => {
@@ -223,6 +248,23 @@ describe('users.ensureExists', () => {
 
     const user = await testDb.get(userTable, { email: 'test@example.com' });
     expect(user).toMatchObject({ firstName: 'John', lastName: 'Doe', name: 'John Doe' });
+  });
+
+  test('splits the name claim when the token has no given/family name', async () => {
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+      sub: 'test-sub',
+      email: 'test@example.com',
+      name: 'Mary Jane Smith',
+      iss: 'test-issuer',
+      aud: 'test-audience',
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      email_verified: true,
+    });
+
+    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+    const user = await testDb.get(userTable, { email: 'test@example.com' });
+    expect(user).toMatchObject({ firstName: 'Mary', lastName: 'Jane Smith', name: 'Mary Jane Smith' });
   });
 
   test('backfills an empty name from the token on a user matched by email (no keycloakIdentifier yet)', async () => {
