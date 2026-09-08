@@ -16,15 +16,16 @@ export type CardShellProps = React.PropsWithChildren<{
 }>;
 
 export const CardShell: React.FC<CardShellProps> = ({ className, url, children }) => {
+  const shellClassName = cn(CARD_SHELL_STYLES, className);
   if (url) {
     return (
-      <ClickTarget url={url} className={cn(CARD_SHELL_STYLES, CARD_HOVER_STYLES, CARD_FOCUS_STYLES, className)}>
+      <ClickTarget url={url} className={cn(shellClassName, CARD_HOVER_STYLES, CARD_FOCUS_STYLES)}>
         {children}
       </ClickTarget>
     );
   }
 
-  return <div className={cn(CARD_SHELL_STYLES, className)}>{children}</div>;
+  return <div className={shellClassName}>{children}</div>;
 };
 
 export type CardProps = {
