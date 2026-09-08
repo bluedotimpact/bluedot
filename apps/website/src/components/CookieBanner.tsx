@@ -15,26 +15,24 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
   }
 
   const rootClassName = clsx(
-    'cookie-banner container-dialog fixed bottom-6 right-0 mx-4 sm:mx-6 flex flex-col gap-5 p-6 bg-cream-normal w-fit max-w-[420px] z-100',
+    'container-dialog fixed bottom-6 right-0 mx-4 sm:mx-6 flex flex-col gap-5 p-6 bg-cream-normal w-fit max-w-[420px] z-100',
     className,
   );
 
   return (
     <div className={rootClassName}>
-      <P className="cookie-banner__text text-pretty">
+      <P className="text-pretty">
         Analytics cookies help us improve our website and measure ad performance.{' '}
         <A href="https://bluedot.org/privacy-policy">Privacy Policy</A>.
       </P>
-      <div className="cookie-banner__buttons flex flex-wrap gap-space-between justify-center">
+      <div className="flex flex-wrap gap-space-between justify-center">
         <CTALinkOrButton
-          className="cookie-banner__button--accept"
           variant="primary"
           onClick={() => useConsentStore.getState().accept()}
         >
           Accept all
         </CTALinkOrButton>
         <CTALinkOrButton
-          className="cookie-banner__button--reject"
           variant="primary"
           onClick={() => useConsentStore.getState().reject()}
         >
