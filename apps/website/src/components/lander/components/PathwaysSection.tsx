@@ -55,7 +55,7 @@ const PathwaysSection = ({
               return (
                 <CardShell
                   key={pathway.title}
-                  className="group flex flex-col gap-4 hover:border-bluedot-navy/15 hover:shadow-sm transition-all duration-200"
+                  className="group flex flex-col gap-4"
                 >
                   <div
                     className="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"

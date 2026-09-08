@@ -2,7 +2,6 @@ import {
   Avatar, CardShell, CTALinkOrButton, H3, H4, P,
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { trpc } from '../../utils/trpc';
 
 const COLLAPSED_ROWS = 3;
@@ -44,17 +43,11 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
     </>
   );
 
-  if (profileUrl) {
-    return (
-      <Link href={profileUrl} className="group block h-full">
-        <CardShell className="flex h-full flex-col transition-colors hover:border-bluedot-navy/20">
-          {cardContent}
-        </CardShell>
-      </Link>
-    );
-  }
-
-  return <CardShell className="flex h-full flex-col">{cardContent}</CardShell>;
+  return (
+    <CardShell url={profileUrl ?? undefined} className="group flex h-full flex-col">
+      {cardContent}
+    </CardShell>
+  );
 };
 
 // Column count for the current viewport, matching the grid classes below

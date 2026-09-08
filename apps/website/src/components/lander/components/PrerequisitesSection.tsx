@@ -44,7 +44,7 @@ const PrerequisitesSection = ({
               return (
                 <CardShell
                   key={prereq.title}
-                  className="group flex flex-col gap-4 hover:border-bluedot-navy/15 hover:shadow-sm transition-all duration-200"
+                  className="group flex flex-col gap-4"
                 >
                   {IconComponent && (
                     <div
