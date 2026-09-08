@@ -109,7 +109,7 @@ The token system is documented in `apps/storybook/src/GettingStarted.mdx` (brows
 | `bg-color-primary-accent`, `border-color-divider` (semantic tokens) | the palette utility it aliases: `bg-bluedot-normal`, `border-charcoal-light`, `text-bluedot-darker` |
 | `text-[16px]`, `text-[18px]`, `text-[24px]` | `text-size-sm`, `text-size-md`, `text-size-lg` |
 
-Prefer the named `bluedot-*` palette utilities (`text-bluedot-navy`, including opacity like `text-bluedot-navy/60`) over the semantic `color-*` tokens. Size tokens (`text-size-*`) are still preferred over raw px, though exact pixel values for spacing (e.g. `gap-[3px]`) are sometimes OK.
+Prefer the semantic role tokens (`text-primary`, `text-secondary`, `bg-canvas`, `border-default`, `bg-accent`; names mirror the Figma variables) and fall back to the `bluedot-*` palette (`text-bluedot-navy/60`) only when no role fits. Size tokens (`text-size-*`) are still preferred over raw px, though exact pixel values for spacing (e.g. `gap-[3px]`) are sometimes OK.
 
 ### Creating a New Component
 
