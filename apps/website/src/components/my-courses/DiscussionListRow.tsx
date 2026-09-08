@@ -84,7 +84,7 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
 };
 
 export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateTimeSeconds: number }) => (
-  <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-[5px] border border-color-divider">
+  <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-md border border-color-divider">
     {isLive ? <LiveBadge /> : (
       <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
         <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>
