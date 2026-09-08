@@ -36,7 +36,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         placement={placement}
         offset={8}
         className={cn(
-          'bg-bluedot-darker text-pretty text-white text-size-xs px-3 py-2 rounded-lg shadow-md max-w-2xs',
+          'bg-bluedot-darker text-pretty text-white text-size-xs px-3 py-2 rounded-surface shadow-md max-w-2xs',
           className,
         )}
       >

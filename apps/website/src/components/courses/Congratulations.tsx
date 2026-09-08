@@ -381,7 +381,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {/* Sharing section with course-colored gradient (inset rounded card) */}
       <div className="w-full pb-12">
         <div
-          className="flex flex-col items-center gap-12 overflow-hidden rounded-[17px] px-5 py-16 md:px-[54px]"
+          className="flex flex-col items-center gap-12 overflow-hidden rounded-2xl px-5 py-16 md:px-[54px]"
           style={{ background: courseColors.gradient }}
         >
           <div className="flex max-w-[653px] flex-col items-center gap-4 text-center">

@@ -45,7 +45,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
     >
       <AriaModal>
-        <Dialog className="bg-white rounded-xl shadow-xl w-full pb-8 outline-none" aria-label={ariaLabel}>
+        <Dialog className="bg-white rounded-overlay shadow-xl w-full pb-8 outline-none" aria-label={ariaLabel}>
           <div className={cn('flex justify-between items-center mb-4 pt-10 pl-8 pr-6', desktopHeaderClassName)}>
             {title && typeof title === 'string' ? <ModalTitle className={centerTitle ? 'mx-auto' : undefined}>{title}</ModalTitle> : title}
             <ClickTarget onClick={() => setIsOpen(false)} aria-label="Close" className="text-black rounded-full p-1 hover:bg-gray-100 cursor-pointer">

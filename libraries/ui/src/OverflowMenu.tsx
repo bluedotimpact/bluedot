@@ -76,7 +76,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         placement="bottom end"
-        className="bg-white rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-charcoal-light overflow-hidden min-w-[200px]"
+        className="bg-white rounded-surface shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-charcoal-light overflow-hidden min-w-[200px]"
       >
         {menuContent}
       </Popover>

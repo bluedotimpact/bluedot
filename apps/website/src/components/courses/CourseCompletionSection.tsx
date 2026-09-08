@@ -63,7 +63,7 @@ const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor
 
 const SocialProof = ({ accentColor }: { accentColor?: string }) => (
   <div
-    className="inline-flex flex-col items-center gap-3 rounded-[24px] px-4 py-3 max-w-full sm:flex-row sm:rounded-full sm:py-2"
+    className="inline-flex flex-col items-center gap-3 rounded-3xl px-4 py-3 max-w-full sm:flex-row sm:rounded-full sm:py-2"
     // 8-digit hex (#RRGGBBAA) — `1F` ≈ 12% opacity tint of the course accent.
     style={{ backgroundColor: accentColor ? `${accentColor}1F` : undefined }}
   >

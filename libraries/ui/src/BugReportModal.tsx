@@ -236,7 +236,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
               <div
                 className={cn(
-                  'flex flex-col gap-3 rounded-lg border p-3 transition-colors',
+                  'flex flex-col gap-3 rounded-surface border p-3 transition-colors',
                   isDragging
                     ? 'border-bluedot-normal bg-bluedot-normal/[8%] border-dashed'
                     : 'border-color-divider focus-within:border-bluedot-normal bg-white',
@@ -336,7 +336,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="border-color-divider text-bluedot-navy/60 rounded-lg border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
+                      className="border-color-divider text-bluedot-navy/60 rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -365,7 +365,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 type="email"
                 value={email}
                 className={cn(
-                  'border-color-divider rounded-lg border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
+                  'border-color-divider rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
                   emailError && 'border-red-500',
                 )}
                 placeholder="Email"

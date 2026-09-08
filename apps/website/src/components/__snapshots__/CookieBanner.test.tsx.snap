@@ -3,10 +3,10 @@
 exports[`CookieBanner > renders as expected 1`] = `
 <div>
   <div
-    class="cookie-banner container-dialog fixed bottom-6 right-0 mx-4 sm:mx-6 flex flex-col gap-5 p-6 bg-cream-normal w-fit max-w-[420px] z-100"
+    class="container-dialog fixed bottom-6 right-0 mx-4 sm:mx-6 flex flex-col gap-5 p-6 bg-cream-normal w-fit max-w-[420px] z-100"
   >
     <p
-      class="bluedot-p not-prose cookie-banner__text text-pretty"
+      class="bluedot-p not-prose text-pretty"
     >
       Analytics cookies help us improve our website and measure ad performance.
        
@@ -20,16 +20,16 @@ exports[`CookieBanner > renders as expected 1`] = `
       .
     </p>
     <div
-      class="cookie-banner__buttons flex flex-wrap gap-space-between justify-center"
+      class="flex flex-wrap gap-space-between justify-center"
     >
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark"
         type="button"
       >
         Accept all
       </button>
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark"
         type="button"
       >
         Reject all
