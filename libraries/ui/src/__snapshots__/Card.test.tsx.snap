@@ -3,7 +3,7 @@
 exports[`Card > isFullWidth switches to a row layout on desktop with the CTA alongside 1`] = `
 <div>
   <div
-    class="rounded-surface border border-subtle bg-raised p-6 relative flex transition-all duration-200 hover:border-strong hover:shadow-sm w-full flex-col md:flex-row md:items-center md:justify-between md:gap-6"
+    class="rounded-surface border border-subtle bg-raised p-6 transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6"
   >
     <div
       class="flex flex-col gap-4 md:flex-1"
@@ -31,7 +31,8 @@ exports[`Card > isFullWidth switches to a row layout on desktop with the CTA alo
       </div>
     </div>
     <a
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark mt-4 after:absolute after:inset-0 md:mt-0 md:shrink-0"
+      aria-label="LinkedIn: John Doe"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark after:absolute after:inset-0 md:shrink-0"
       href="https://linkedin.com/in/johndoe"
       tabindex="0"
     >
@@ -44,7 +45,7 @@ exports[`Card > isFullWidth switches to a row layout on desktop with the CTA alo
 exports[`Card > renders the CTA as the single real link, stretched over the card 1`] = `
 <div>
   <div
-    class="rounded-surface border border-subtle bg-raised p-6 relative flex transition-all duration-200 hover:border-strong hover:shadow-sm flex-col"
+    class="rounded-surface border border-subtle bg-raised p-6 transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm relative flex flex-col gap-4"
   >
     <div
       class="flex flex-col gap-4"
@@ -72,7 +73,8 @@ exports[`Card > renders the CTA as the single real link, stretched over the card
       </div>
     </div>
     <a
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark mt-4 after:absolute after:inset-0"
+      aria-label="LinkedIn: John Doe"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark after:absolute after:inset-0"
       href="https://linkedin.com/in/johndoe"
       tabindex="0"
     >
