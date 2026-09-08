@@ -6,7 +6,7 @@ import { cn } from './utils';
 
 const CARD_SHELL_STYLES = 'rounded-surface border border-subtle bg-raised p-6';
 // Only clickable shells get hover/focus affordances
-const CARD_HOVER_STYLES = 'transition-all duration-200 hover:border-strong hover:shadow-sm';
+const CARD_HOVER_STYLES = 'transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm';
 const CARD_FOCUS_STYLES = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
 
 export type CardShellProps = React.PropsWithChildren<{
