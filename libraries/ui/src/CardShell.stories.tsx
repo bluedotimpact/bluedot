@@ -28,9 +28,9 @@ export const Linked: Story = {
   },
 };
 
-export const CustomPadding: Story = {
+export const NoPadding: Story = {
   args: {
     className: 'max-w-[360px] p-0 overflow-hidden',
-    children: 'Padding overridden to 0 (e.g. an accordion whose inner button carries the padding).',
+    children: 'className="p-0" for shells whose inner element carries the padding (accordion rows).',
   },
 };
