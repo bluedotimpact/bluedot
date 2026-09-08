@@ -7,11 +7,21 @@ const CARD_SHELL_STYLES = 'rounded-lg border border-bluedot-navy/10 bg-white p-6
 
 export type CardShellProps = React.PropsWithChildren<{
   className?: string;
+  /** When set, the whole shell is a single link and gains hover/focus affordances */
+  url?: string;
 }>;
 
-export const CardShell: React.FC<CardShellProps> = ({ className, children }) => (
-  <div className={cn(CARD_SHELL_STYLES, className)}>{children}</div>
-);
+export const CardShell: React.FC<CardShellProps> = ({ className, url, children }) => {
+  if (url) {
+    return (
+      <ClickTarget url={url} className={cn(CARD_SHELL_STYLES, CARD_LINK_STYLES, className)}>
+        {children}
+      </ClickTarget>
+    );
+  }
+
+  return <div className={cn(CARD_SHELL_STYLES, className)}>{children}</div>;
+};
 
 export type CardProps = {
   title: string;
