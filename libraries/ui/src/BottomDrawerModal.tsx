@@ -139,7 +139,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
               />
               {/* Modal Container */}
               <motion.div
-                className="bg-color-canvas fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col"
+                className="bg-color-canvas fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
                 transition={{
                   duration: 0.3,
                   ease: [0.32, 0.72, 0, 1],
@@ -196,10 +196,10 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                   }
                 }}
               >
-                <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
+                <div className="h-full flex flex-col rounded-t-sheet overflow-hidden">
                   {/* Header Section with Drag Handle */}
                   <div className={clsx(
-                    'flex flex-col bg-[#FCFAF7] border-b-hairline border-bluedot-navy/20 rounded-t-[24px] transition-shadow duration-300',
+                    'flex flex-col bg-[#FCFAF7] border-b-hairline border-bluedot-navy/20 rounded-t-sheet transition-shadow duration-300',
                     isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
                   )}
                   >
