@@ -23,7 +23,6 @@ const {
   buildApplicationUrl,
   userNameFields,
   normalisedFirstAndLastName,
-  legacyUserNameFields,
 } = await import('./utils');
 
 // Test constants
@@ -404,21 +403,5 @@ describe('normalisedFirstAndLastName', () => {
   it('returns null when the source has no name at all', () => {
     expect(normalisedFirstAndLastName({ name: ' ', firstName: '', lastName: null })).toBeNull();
     expect(normalisedFirstAndLastName({})).toBeNull();
-  });
-});
-
-describe('legacyUserNameFields', () => {
-  it('fills first/last for a user that only has a combined name, keeping the name', () => {
-    expect(legacyUserNameFields({ name: 'Mary Jane Smith', firstName: null, lastName: '' })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith', name: 'Mary Jane Smith' });
-  });
-
-  it('changes nothing for a user whose fields are already stored together', () => {
-    expect(legacyUserNameFields({ name: 'Jane Doe', firstName: 'Jane', lastName: 'Doe' })).toEqual({});
-    expect(legacyUserNameFields({ name: 'Jane', firstName: 'Jane', lastName: null })).toEqual({});
-  });
-
-  it('changes nothing for a user with no name', () => {
-    expect(legacyUserNameFields({ name: null, firstName: null, lastName: null })).toEqual({});
-    expect(legacyUserNameFields({ name: '', firstName: '', lastName: '' })).toEqual({});
   });
 });

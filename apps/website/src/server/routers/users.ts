@@ -12,7 +12,7 @@ import {
   adminRequest, type LoginMethods, unlinkStaleGoogleIdentities, updateKeycloakEmail, updateKeycloakPassword, verifyKeycloakPassword,
 } from '../../lib/api/keycloak';
 import { normaliseEmail } from '../../lib/api/utils';
-import { legacyUserNameFields, normalisedFirstAndLastName, userNameFields } from '../../lib/utils';
+import { normalisedFirstAndLastName, userNameFields } from '../../lib/utils';
 import { ONE_MINUTE_MS } from '../../lib/constants';
 import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
@@ -134,7 +134,6 @@ export const usersRouter = router({
       return db.update(userTable, {
         id: user.id,
         lastSeenAt: new Date().toISOString(),
-        ...legacyUserNameFields(user),
       });
     }),
 
