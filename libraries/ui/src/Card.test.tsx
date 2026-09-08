@@ -11,20 +11,27 @@ describe('Card', () => {
     ctaText: 'LinkedIn',
   };
 
-  test('renders as a single link wrapping the whole card', () => {
+  test('renders the CTA as the single real link, stretched over the card', () => {
     const { container } = render(<Card {...defaultProps} />);
     expect(container).toMatchSnapshot();
 
     const anchors = container.querySelectorAll('a');
     expect(anchors).toHaveLength(1);
     expect(anchors[0]?.getAttribute('href')).toBe(defaultProps.url);
+    expect(anchors[0]?.textContent).toBe(defaultProps.ctaText);
+    expect(anchors[0]?.className).toContain('after:inset-0');
+    expect(container.firstElementChild?.className).toContain('relative');
   });
 
-  test('CTA is presentational — no nested interactive elements', () => {
-    const { container } = render(<Card {...defaultProps} />);
+  test('title and body sit outside the link, so the accessible name is the CTA text', () => {
+    const { container } = render(<Card {...defaultProps}>
+      <span>Body <em>copy</em></span>
+    </Card>);
     const anchor = container.querySelector('a');
-    expect(anchor?.querySelectorAll('a, button')).toHaveLength(0);
-    expect(anchor?.textContent).toContain('LinkedIn');
+    expect(anchor?.textContent).not.toContain('John Doe');
+    expect(anchor?.textContent).not.toContain('Body copy');
+    expect(container.textContent).toContain('Body copy');
+    expect(container.querySelectorAll('a, button')).toHaveLength(1);
   });
 
   test('image is decorative (empty alt)', () => {
@@ -42,9 +49,11 @@ describe('Card', () => {
     expect(container.querySelector('.custom-class')).not.toBeNull();
   });
 
-  test('renders children in the body slot', () => {
-    const { container } = render(<Card {...defaultProps}>Body copy</Card>);
-    expect(container.textContent).toContain('Body copy');
+  test('isFullWidth switches to a row layout on desktop with the CTA alongside', () => {
+    const { container } = render(<Card {...defaultProps} isFullWidth />);
+    expect(container.firstElementChild?.className).toContain('md:flex-row');
+    expect(container.querySelector('a')?.textContent).toBe('LinkedIn');
+    expect(container).toMatchSnapshot();
   });
 });
 
@@ -52,8 +61,22 @@ describe('CardShell', () => {
   test('renders the container styles around children', () => {
     const { container } = render(<CardShell className="custom-class">Content</CardShell>);
     const shell = container.firstElementChild;
-    expect(shell?.className).toContain('rounded-lg');
+    expect(shell?.className).toContain('rounded-surface');
     expect(shell?.className).toContain('custom-class');
     expect(shell?.textContent).toBe('Content');
+  });
+
+  test('url renders the shell as a single link with hover affordance', () => {
+    const { container } = render(<CardShell url="/somewhere">Content</CardShell>);
+    const anchor = container.querySelector('a');
+    expect(anchor?.getAttribute('href')).toBe('/somewhere');
+    expect(anchor?.className).toContain('hover:shadow-sm');
+    expect(container.querySelectorAll('a')).toHaveLength(1);
+  });
+
+  test('without url renders a plain div with no hover affordance', () => {
+    const { container } = render(<CardShell>Content</CardShell>);
+    expect(container.querySelector('a')).toBeNull();
+    expect(container.firstElementChild?.className).not.toContain('hover:shadow-sm');
   });
 });
