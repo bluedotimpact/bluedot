@@ -29,6 +29,7 @@ const makeRow = (
   hasSubmittedFeedback: false,
   isDroppedOut: false,
   isDeferred: false,
+  isDeferredToAnotherRound: false,
   ...rowOverrides,
 });
 
@@ -45,7 +46,7 @@ describe('bucketCoursesByTab', () => {
       rs: CourseRegistration['roundStatus'];
       d: CourseRegistration['decision'];
       drop: boolean;
-      defer: boolean;
+      deferral: 'none' | 'toThisRound' | 'toAnotherRound';
       cert: boolean;
       tab: Tab | null;
       why?: string;
@@ -54,77 +55,91 @@ describe('bucketCoursesByTab', () => {
     test.each<Case>([
       // Active
       {
-        rs: 'Active', d: 'Accept', drop: false, defer: false, cert: false, tab: 'inProgress',
+        rs: 'Active', d: 'Accept', drop: false, deferral: 'none', cert: false, tab: 'inProgress',
       },
       {
-        rs: 'Active', d: 'Accept', drop: true, defer: false, cert: false, tab: 'pastCourses', why: 'dropped overrides Active',
+        rs: 'Active', d: 'Accept', drop: true, deferral: 'none', cert: false, tab: 'pastCourses', why: 'dropped overrides Active',
       },
       {
-        rs: 'Active', d: 'Accept', drop: true, defer: true, cert: false, tab: 'inProgress', why: 'deferred overrides dropped',
+        rs: 'Active', d: 'Accept', drop: true, deferral: 'toAnotherRound', cert: false, tab: 'inProgress', why: 'deferred overrides dropped',
       },
       {
-        rs: 'Active', d: 'Reject', drop: false, defer: false, cert: false, tab: null, why: 'rejection only visible while Future',
+        rs: 'Active', d: 'Accept', drop: false, deferral: 'toThisRound', cert: false, tab: 'inProgress',
+      },
+      {
+        rs: 'Active', d: 'Reject', drop: false, deferral: 'none', cert: false, tab: null, why: 'rejection only visible while Future',
       },
 
       // Future
       {
-        rs: 'Future', d: 'Accept', drop: false, defer: false, cert: false, tab: 'upcoming',
+        rs: 'Future', d: 'Accept', drop: false, deferral: 'none', cert: false, tab: 'upcoming',
       },
       {
-        rs: 'Future', d: 'Reject', drop: false, defer: false, cert: false, tab: 'upcoming', why: 'rejection visible while Future',
+        rs: 'Future', d: 'Reject', drop: false, deferral: 'none', cert: false, tab: 'upcoming', why: 'rejection visible while Future',
       },
       {
-        rs: 'Future', d: null, drop: false, defer: false, cert: false, tab: 'upcoming',
+        rs: 'Future', d: null, drop: false, deferral: 'none', cert: false, tab: 'upcoming',
       },
       {
-        rs: 'Future', d: 'Accept', drop: true, defer: false, cert: false, tab: 'pastCourses', why: 'dropped overrides Future',
+        rs: 'Future', d: 'Accept', drop: true, deferral: 'none', cert: false, tab: 'pastCourses', why: 'dropped overrides Future',
       },
       {
-        rs: 'Future', d: 'Accept', drop: true, defer: true, cert: false, tab: 'upcoming', why: 'deferred overrides dropped',
+        rs: 'Future', d: 'Accept', drop: true, deferral: 'toAnotherRound', cert: false, tab: 'upcoming', why: 'deferred overrides dropped',
+      },
+      {
+        rs: 'Future', d: 'Accept', drop: false, deferral: 'toThisRound', cert: false, tab: 'upcoming',
       },
 
       // Past
       {
-        rs: 'Past', d: 'Accept', drop: false, defer: false, cert: false, tab: 'pastCourses',
+        rs: 'Past', d: 'Accept', drop: false, deferral: 'none', cert: false, tab: 'pastCourses',
       },
       {
-        rs: 'Past', d: 'Accept', drop: false, defer: false, cert: true, tab: 'pastCourses',
+        rs: 'Past', d: 'Accept', drop: false, deferral: 'none', cert: true, tab: 'pastCourses',
       },
       {
-        rs: 'Past', d: 'Accept', drop: false, defer: true, cert: true, tab: 'pastCourses', why: 'certificate outranks a stale deferral',
+        rs: 'Past', d: 'Accept', drop: false, deferral: 'toAnotherRound', cert: true, tab: 'pastCourses', why: 'a certificate means they finished this round, wherever the deferral sent them',
       },
       {
-        rs: 'Past', d: 'Accept', drop: false, defer: true, cert: false, tab: null, why: 'deferred away without cert stays hidden (superseded by successor)',
+        rs: 'Past', d: 'Accept', drop: false, deferral: 'toAnotherRound', cert: false, tab: null, why: 'the duplicate registration on the round they moved to carries the course',
       },
       {
-        rs: 'Past', d: 'Reject', drop: false, defer: false, cert: false, tab: null, why: 'rejection only visible while Future',
+        rs: 'Past', d: 'Accept', drop: false, deferral: 'toThisRound', cert: false, tab: 'pastCourses', why: 'this is the round they actually took — they still need to submit an action plan',
+      },
+      {
+        rs: 'Past', d: 'Accept', drop: false, deferral: 'toThisRound', cert: true, tab: 'pastCourses',
+      },
+      {
+        rs: 'Past', d: 'Reject', drop: false, deferral: 'none', cert: false, tab: null, why: 'rejection only visible while Future',
       },
 
       // Null roundStatus
       {
-        rs: null, d: 'Accept', drop: false, defer: false, cert: true, tab: 'pastCourses', why: 'cert keeps null-roundStatus eligible',
+        rs: null, d: 'Accept', drop: false, deferral: 'none', cert: true, tab: 'pastCourses', why: 'cert keeps null-roundStatus eligible',
       },
       {
-        rs: null, d: 'Accept', drop: false, defer: false, cert: false, tab: null, why: 'no roundStatus + no cert is filtered out (FOAI bug — update when fixed)',
+        rs: null, d: 'Accept', drop: false, deferral: 'none', cert: false, tab: null, why: 'no roundStatus + no cert is filtered out (FOAI bug — update when fixed)',
       },
       {
-        rs: null, d: 'Accept', drop: false, defer: true, cert: true, tab: 'pastCourses', why: 'deferred + null roundStatus falls to the cert branch → certificate outranks the stale deferral',
+        rs: null, d: 'Accept', drop: false, deferral: 'toAnotherRound', cert: true, tab: 'pastCourses', why: 'a certificate keeps it visible and eligible even with no round status',
       },
       {
-        rs: null, d: 'Accept', drop: false, defer: true, cert: false, tab: null, why: 'deferred + null roundStatus + no cert stays hidden',
+        rs: null, d: 'Accept', drop: false, deferral: 'toAnotherRound', cert: false, tab: null, why: 'filtered out for having no bucketable round status, deferral irrelevant',
       },
-    ])('rs=$rs, d=$d, drop=$drop, defer=$defer, cert=$cert → $tab', ({
-      rs, d, drop, defer, cert, tab,
+      {
+        rs: null, d: 'Accept', drop: false, deferral: 'toThisRound', cert: false, tab: null, why: 'filtered out for having no bucketable round status, deferral irrelevant',
+      },
+    ])('rs=$rs, d=$d, drop=$drop, deferral=$deferral, cert=$cert → $tab', ({
+      rs, d, drop, deferral, cert, tab,
     }) => {
       const row = makeRow({
         roundStatus: rs,
         decision: d,
         certificateCreatedAt: cert ? 1234 : null,
       }, {
-        // The aggregator now sources these from the dropout table, but for the bucketing logic
-        // we just need the resolved flags. Mirror the old "deferral wins" precedence.
-        isDroppedOut: drop && !defer,
-        isDeferred: defer,
+        isDroppedOut: drop,
+        isDeferred: deferral !== 'none',
+        isDeferredToAnotherRound: deferral === 'toAnotherRound',
       });
       const buckets = bucketCoursesByTab([row]);
       const allRows = [...buckets.inProgress, ...buckets.upcoming, ...buckets.pastCourses];

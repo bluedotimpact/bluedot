@@ -43,6 +43,7 @@ type CommonRowProps = {
   hasSubmittedFeedback: boolean;
   isDroppedOut: boolean;
   isDeferred: boolean;
+  isDeferredToAnotherRound: boolean;
   isExpanded?: boolean;
   onToggleExpand?: () => void;
 };

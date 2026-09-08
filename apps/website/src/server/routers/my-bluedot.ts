@@ -50,6 +50,7 @@ const EMPTY_PARTICIPANT_ROW = {
   hasSubmittedFeedback: false,
   isDroppedOut: false,
   isDeferred: false,
+  isDeferredToAnotherRound: false,
 } satisfies Omit<ParticipantRowProps, 'mode' | 'course' | 'courseRegistration'>;
 
 const fetchActiveCoursesByIds = async (ids: string[]) => {
@@ -78,20 +79,25 @@ const fetchUnitsByIds = async (ids: string[]): Promise<Unit[]> => {
   return db.pg.select().from(unitTable.pg).where(inArray(unitTable.pg.id, ids)) as Promise<Unit[]>;
 };
 
-const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, { isDroppedOut: boolean; isDeferred: boolean }>> => {
-  const status = new Map<string, { isDroppedOut: boolean; isDeferred: boolean }>();
+type RegistrationDropoutStatus = { isDroppedOut: boolean; isDeferred: boolean; deferredIntoRoundIds: string[] };
+
+const noDropouts = (): RegistrationDropoutStatus => ({ isDroppedOut: false, isDeferred: false, deferredIntoRoundIds: [] });
+
+const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, RegistrationDropoutStatus>> => {
+  const status = new Map<string, RegistrationDropoutStatus>();
   if (regIds.length === 0) return status;
   const dropouts = await db.pg
-    .select({ applicantId: dropoutTable.pg.applicantId, type: dropoutTable.pg.type })
+    .select({ applicantId: dropoutTable.pg.applicantId, type: dropoutTable.pg.type, newRoundId: dropoutTable.pg.newRoundId })
     .from(dropoutTable.pg)
     .where(arrayOverlaps(dropoutTable.pg.applicantId, regIds));
   for (const d of dropouts) {
     for (const regId of d.applicantId ?? []) {
       if (!regIds.includes(regId)) continue;
-      const cur = status.get(regId) ?? { isDroppedOut: false, isDeferred: false };
+      const cur = status.get(regId) ?? noDropouts();
       if (d.type === 'Deferral') {
         cur.isDeferred = true;
         cur.isDroppedOut = false;
+        cur.deferredIntoRoundIds = unique([...cur.deferredIntoRoundIds, ...(d.newRoundId ?? [])]);
       } else if (!cur.isDeferred) {
         cur.isDroppedOut = true;
       }
@@ -102,6 +108,11 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
 
   return status;
 };
+
+// Deferrals used to create a duplicate registration on the new round and leave this one behind;
+// since 2026-04-29 they move the round in place, so a Deferral record no longer implies the person left.
+const isDeferredToAnotherRound = (status: RegistrationDropoutStatus, roundId: string | null): boolean =>
+  status.isDeferred && !!roundId && !status.deferredIntoRoundIds.includes(roundId);
 
 export const myBluedotRouter = router({
   // TODO: Superseded by hasFacilitatorNavItems, remove once old bundles no longer call it (after ~2026-09-07)
@@ -313,7 +324,7 @@ export const myBluedotRouter = router({
       const rescheduleEligibleUnits = meetPerson
         ? Array.from(unitsEligibleToRescheduleByMeetPersonId.get(meetPerson.id) ?? [])
         : [];
-      const status = dropoutStatusByRegId.get(cr.id) ?? { isDroppedOut: false, isDeferred: false };
+      const status = dropoutStatusByRegId.get(cr.id) ?? noDropouts();
 
       return [{
         mode: 'participant',
@@ -337,6 +348,7 @@ export const myBluedotRouter = router({
         hasSubmittedFeedback: (meetPerson?.courseFeedback?.length ?? 0) > 0,
         isDroppedOut: status.isDroppedOut,
         isDeferred: status.isDeferred,
+        isDeferredToAnotherRound: isDeferredToAnotherRound(status, cr.roundId),
       }];
     });
 
@@ -467,7 +479,7 @@ export const myBluedotRouter = router({
       if (!meetPerson) return [];
 
       const round = cr.roundId ? roundById.get(cr.roundId) : null;
-      const status = dropoutStatusByRegId.get(cr.id) ?? { isDroppedOut: false, isDeferred: false };
+      const status = dropoutStatusByRegId.get(cr.id) ?? noDropouts();
       const baseRow = {
         mode: 'facilitator' as const,
         courseRegistration: cr,
@@ -480,6 +492,7 @@ export const myBluedotRouter = router({
         hasSubmittedFeedback: (meetPerson.courseFeedback?.length ?? 0) > 0,
         isDroppedOut: status.isDroppedOut,
         isDeferred: status.isDeferred,
+        isDeferredToAnotherRound: isDeferredToAnotherRound(status, cr.roundId),
       };
 
       const emptyRow: FacilitatorRowProps = {
