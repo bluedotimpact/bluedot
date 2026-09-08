@@ -25,55 +25,131 @@ Our design system aims to be the single source of truth for designing BlueDot Im
 
 ### Colors
 
-Our color tokens are built to be used with Tailwind CSS utility classes. Here are some common patterns:
+Colour tokens mirror the Figma design-system variables and are used through Tailwind utilities. Pick the **role**, not the hue: the Figma leaf name is the token name (`text/secondary` → `text-secondary`, `accent/primary` → `bg-accent`). Where a surface or border leaf collides with a text leaf, the role prefix stays (`bg-surface-on-dark`, `border-border-on-dark`).
 
-- Text colors: `text-color-text`, `text-color-secondary-text`, `text-color-text-on-dark`
-- Background colors: `bg-color-canvas`, `bg-color-canvas-dark`
-- Border colors: `border-color-divider`
-- Accent colors (for interactive elements):
-  - Primary: `text-color-primary-accent`, `bg-color-primary-accent`
-  - Secondary: `text-color-secondary-accent`, `bg-color-secondary-accent`
+- Text: `text-primary`, `text-secondary`, `text-placeholder`, `text-disabled`, `text-link` (+ `-hover`, `-active`), `text-on-dark`, `text-on-dark-secondary`
+- Surface: `bg-canvas` (cream by default, white on bluedot.org), `bg-raised`, `bg-tint` (hover wash), `bg-active` (pressed / selected), `bg-dark`, `bg-surface-on-dark`, `bg-surface-on-dark-subtle`
+- Border: `border-subtle`, `border-default`, `border-strong`, `border-border-on-dark`
+- Accent (interactive): `bg-accent`, `hover:bg-accent-hover`, `active:bg-accent-active`, `bg-accent-subtle`
+- Status: `text-{info|success|warning|error}-fg`, `bg-…-bg`, `border-…-border`, plus `hover:bg-error-fg-hover` for destructive buttons. Never hand-pick a red or green.
+- Focus & overlay: `ring-focus`, `bg-scrim`, `bg-overlay-image`
+
+Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role fits.
 
 #### Color Palette
-  
+
 {(() => {
   const colorItems = [
     {
-      title: "Primary text",
+      title: "Text",
+      subtitle: "primary · secondary · placeholder · disabled",
+      colors: {
+        "primary": 'var(--color-primary)',
+        "secondary": 'var(--color-secondary)',
+        "placeholder": 'var(--color-placeholder)',
+        "disabled": 'var(--color-disabled)'
+      }
+    },
+    {
+      title: "Link",
+      subtitle: "default · hover · active",
+      colors: {
+        "link": 'var(--color-link)',
+        "link-hover": 'var(--color-link-hover)',
+        "link-active": 'var(--color-link-active)'
+      }
+    },
+    {
+      title: "Text on dark",
       subtitle: "",
       colors: {
-        "color-text": 'var(--color-color-text)',
-        "color-text-on-dark": 'var(--color-color-text-on-dark)'
+        "on-dark": 'var(--color-on-dark)',
+        "on-dark-secondary": 'var(--color-on-dark-secondary)'
       }
     },
     {
-      title: "Secondary text",
-      subtitle: "For titles",
+      title: "Surface",
+      subtitle: "canvas · raised · tint · active · dark",
       colors: {
-        "color-secondary-text": 'var(--color-color-secondary-text)'
+        "canvas": 'var(--color-canvas)',
+        "raised": 'var(--color-raised)',
+        "tint": 'var(--color-tint)',
+        "active": 'var(--color-active)',
+        "dark": 'var(--color-dark)'
       }
     },
     {
-      title: "Background",
+      title: "Surface on dark",
       subtitle: "",
       colors: {
-        "color-canvas": 'var(--color-color-canvas)',
-        "color-canvas-dark": 'var(--color-color-canvas-dark)'
+        "surface-on-dark": 'var(--color-surface-on-dark)',
+        "surface-on-dark-subtle": 'var(--color-surface-on-dark-subtle)'
       }
     },
     {
-      title: "Accent", 
-      subtitle: "For buttons & links",
+      title: "Border",
+      subtitle: "subtle · default · strong · on-dark",
       colors: {
-        "color-primary-accent": 'var(--color-color-primary-accent)',
-        "color-secondary-accent": 'var(--color-color-secondary-accent)'
+        "subtle": 'var(--color-subtle)',
+        "default": 'var(--color-default)',
+        "strong": 'var(--color-strong)',
+        "border-on-dark": 'var(--color-border-on-dark)'
       }
     },
     {
-      title: "Divider",
-      subtitle: "For borders & dividers", 
+      title: "Accent",
+      subtitle: "For buttons & interactive elements",
       colors: {
-        "color-divider": 'var(--color-color-divider)'
+        "accent": 'var(--color-accent)',
+        "accent-hover": 'var(--color-accent-hover)',
+        "accent-active": 'var(--color-accent-active)',
+        "accent-subtle": 'var(--color-accent-subtle)'
+      }
+    },
+    {
+      title: "Info",
+      subtitle: "fg · bg · border",
+      colors: {
+        "info-fg": 'var(--color-info-fg)',
+        "info-bg": 'var(--color-info-bg)',
+        "info-border": 'var(--color-info-border)'
+      }
+    },
+    {
+      title: "Success",
+      subtitle: "fg · bg · border",
+      colors: {
+        "success-fg": 'var(--color-success-fg)',
+        "success-bg": 'var(--color-success-bg)',
+        "success-border": 'var(--color-success-border)'
+      }
+    },
+    {
+      title: "Warning",
+      subtitle: "fg · bg · border",
+      colors: {
+        "warning-fg": 'var(--color-warning-fg)',
+        "warning-bg": 'var(--color-warning-bg)',
+        "warning-border": 'var(--color-warning-border)'
+      }
+    },
+    {
+      title: "Error",
+      subtitle: "fg · fg-hover · bg · border",
+      colors: {
+        "error-fg": 'var(--color-error-fg)',
+        "error-fg-hover": 'var(--color-error-fg-hover)',
+        "error-bg": 'var(--color-error-bg)',
+        "error-border": 'var(--color-error-border)'
+      }
+    },
+    {
+      title: "Focus & overlay",
+      subtitle: "",
+      colors: {
+        "focus": 'var(--color-focus)',
+        "scrim": 'var(--color-scrim)',
+        "overlay-image": 'var(--color-overlay-image)'
       }
     }
   ];
@@ -180,10 +256,10 @@ We prefer two border radius tokens: `rounded-sm` and `rounded-lg`.
 You can use `rounded-` Tailwind CSS utility classes to create rounded corners on your components.
 
 <Unstyled>
-  <p className="p-8 max-w-64 bg-color-canvas rounded-lg border-color-divider border-1">
-    <p className="mb-4 text-color-text">rounded-lg</p>
-    <p className="p-4 max-w-48 bg-color-canvas-dark text-color-text-on-dark rounded-sm border-color-divider border-1">
-      <p className="text-color-text-on-dark">rounded-sm</p>
+  <p className="p-8 max-w-64 bg-canvas rounded-lg border-default border-1">
+    <p className="mb-4 text-primary">rounded-lg</p>
+    <p className="p-4 max-w-48 bg-dark text-on-dark rounded-sm border-default border-1">
+      <p className="text-on-dark">rounded-sm</p>
     </p>
   </p>
 </Unstyled>
@@ -193,17 +269,17 @@ You can use `rounded-` Tailwind CSS utility classes to create rounded corners on
 Use `container-lined`, `container-elevated`, `container-dialog`, `container-active` classes to create containers with different elevations.
 
 <Unstyled>
-  <div className="bg-color-canvas m-10 min-h-24 container-lined flex justify-center items-center max-w-64">
-    <p className="text-color-text text-center">container-lined</p>
+  <div className="bg-canvas m-10 min-h-24 container-lined flex justify-center items-center max-w-64">
+    <p className="text-primary text-center">container-lined</p>
   </div>
-  <div className="bg-color-canvas m-10 min-h-24 container-elevated flex justify-center items-center max-w-64">
-    <p className="text-color-text text-center">container-elevated</p>
+  <div className="bg-canvas m-10 min-h-24 container-elevated flex justify-center items-center max-w-64">
+    <p className="text-primary text-center">container-elevated</p>
   </div>
-  <div className="bg-color-canvas m-10 min-h-24 container-dialog flex justify-center items-center max-w-64">
-    <p className="text-color-text">container-dialog</p>
+  <div className="bg-canvas m-10 min-h-24 container-dialog flex justify-center items-center max-w-64">
+    <p className="text-primary">container-dialog</p>
   </div>
-  <div className="bg-color-canvas m-10 min-h-24 container-active flex justify-center items-center max-w-64">
-    <p className="text-color-text">container-active</p>
+  <div className="bg-canvas m-10 min-h-24 container-active flex justify-center items-center max-w-64">
+    <p className="text-primary">container-active</p>
   </div>
 </Unstyled>
 
