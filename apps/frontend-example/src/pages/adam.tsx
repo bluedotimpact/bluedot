@@ -37,7 +37,7 @@ const HomePage = () => {
         : (
           <div className="grid grid-cols-2 gap-2">
             {data?.persons.map((person) => (
-              <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="p-4" ctaText="View in Airtable" url={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`} />
+              <Card key={person.id} title={`${person.firstName} ${person.lastName}`} ctaText="View in Airtable" url={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`} />
             ))}
           </div>
         )}

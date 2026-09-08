@@ -217,7 +217,7 @@ const MergedLadder = () => {
         <div className="flex flex-col gap-6 lg:gap-8 w-full">
           <RungHeader rung={RUNGS[2]!} />
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
-            <CardShell className="bd-md:p-8">
+            <CardShell>
               <div className="mb-6 flex max-w-prose flex-col gap-2">
                 <H3>Get funding</H3>
                 <P className="text-bluedot-navy/70">
@@ -226,7 +226,7 @@ const MergedLadder = () => {
               </div>
               <GrantsList utmCampaign="homepage-grants" />
             </CardShell>
-            <CardShell className="bd-md:p-8">
+            <CardShell>
               <div className="mb-6 flex max-w-prose flex-col gap-2">
                 <H3>Join an in-person program</H3>
                 <P className="text-bluedot-navy/70">

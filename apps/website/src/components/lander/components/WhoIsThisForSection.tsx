@@ -39,7 +39,7 @@ const WhoIsThisForSection = ({
           {targetAudiences.map(({ icon: IconComponent, boldText, description }) => (
             <CardShell
               key={boldText}
-              className="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+              className="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
             >
               <div
                 className={`size-14 rounded-lg flex items-center justify-center flex-shrink-0 ${!iconBackgroundColor ? 'bg-bluedot-normal' : ''}`}

@@ -35,7 +35,6 @@ const JobsPage = withAuth(({ auth }) => {
       {data.jobs.map((job) => (
         <Card
           key={job.id}
-          className="p-8"
           ctaText="Edit"
           url={`/jobs/${job.slug}`}
           isFullWidth
