@@ -90,7 +90,7 @@ export const NavLinks: React.FC<{
   const getLinkClasses = (isCurrentPathValue?: boolean) => {
     // Mobile drawer always has white background, so always use dark text
     // Desktop navbar uses white text on colored background, dark text elsewhere
-    let textColor = 'text-color-text hover:text-color-text';
+    let textColor = 'text-primary hover:text-primary';
     if (!expandedSections.mobileNav && onColoredBackground) {
       textColor = 'text-white hover:text-white nav-link-animation-dark';
     }
@@ -210,14 +210,14 @@ const NavDropdown: React.FC<{
     // Mobile drawer always has white background, so always use dark text
     // Desktop navbar uses white text on colored background, dark text elsewhere
     if (expandedSections.mobileNav) {
-      return 'text-color-text hover:text-color-text';
+      return 'text-primary hover:text-primary';
     }
 
     if (onColoredBackground) {
       return 'text-white hover:text-white nav-link-animation-dark';
     }
 
-    return 'text-color-text hover:text-color-text';
+    return 'text-primary hover:text-primary';
   };
 
   const getDropdownContentClasses = () => {
