@@ -120,7 +120,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                 class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center"
               >
                 <label
-                  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col font-semibold"
+                  class="input flex gap-2 has-[:disabled]:cursor-not-allowed flex-col font-semibold"
                 >
                   <span
                     class="input__label"
@@ -138,7 +138,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   />
                 </label>
                 <label
-                  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col font-semibold"
+                  class="input flex gap-2 has-[:disabled]:cursor-not-allowed flex-col font-semibold"
                 >
                   <span
                     class="input__label"

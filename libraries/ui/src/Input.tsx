@@ -11,7 +11,7 @@ export type InputProps = {
 > &
 React.RefAttributes<HTMLInputElement>;
 
-const BASE_LABEL_STYLES = 'input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed';
+const BASE_LABEL_STYLES = 'input flex gap-2 has-[:disabled]:cursor-not-allowed';
 
 export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
   {
@@ -25,7 +25,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
         <label
           className={clsx(
             BASE_LABEL_STYLES,
-            'items-center',
+            'items-center cursor-pointer',
             labelClassName,
           )}
         >
@@ -47,7 +47,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
         <label
           className={clsx(
             BASE_LABEL_STYLES,
-            'items-center',
+            'items-center cursor-pointer',
             labelClassName,
           )}
         >
