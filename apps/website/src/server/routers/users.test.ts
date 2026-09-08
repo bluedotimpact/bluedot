@@ -108,18 +108,6 @@ describe('users.getUser', () => {
     expect(new Date(result.lastSeenAt!).getTime()).toBeGreaterThanOrEqual(before);
   });
 
-  // Temporary (#2913): users named before first/last existed are brought into line on their next visit
-  test('fills first/last for a user that only has a combined name, keeping the name', async () => {
-    await testDb.insert(userTable, {
-      id: 'u1', email: 'test@example.com', name: 'Mary Jane Smith', keycloakIdentifier: 'test-sub',
-    });
-
-    await createCaller(testAuthContextLoggedIn).users.getUser();
-
-    const user = await testDb.get(userTable, { id: 'u1' });
-    expect(user).toMatchObject({ firstName: 'Mary', lastName: 'Jane Smith', name: 'Mary Jane Smith' });
-  });
-
   test('does not write name fields for a user whose fields are already stored together', async () => {
     await testDb.insert(userTable, {
       id: 'u1', email: 'test@example.com', name: 'Mary Jane Smith', firstName: 'Mary Jane', lastName: 'Smith', keycloakIdentifier: 'test-sub',

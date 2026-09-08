@@ -267,13 +267,3 @@ export const normalisedFirstAndLastName = (source: { name?: string | null; first
   if (firstName || lastName) return { firstName, lastName };
   return source.name?.trim() ? splitNameOnFirstSpace(source.name) : null;
 };
-
-/**
- * Temporary (#2913): if there is no `firstName` or `lastName`, estimate them by splitting `name`. This can be removed
- * once all `firstName`/`lastName`s are backfilled.
- */
-export const legacyUserNameFields = (user: { name: string | null; firstName: string | null; lastName: string | null }): Partial<UserNameFields> => {
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- empty strings and nulls are both "not set"
-  if (!user.name || user.firstName || user.lastName) return {};
-  return userNameFields(splitNameOnFirstSpace(user.name));
-};

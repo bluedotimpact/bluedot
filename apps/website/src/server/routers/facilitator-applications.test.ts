@@ -522,12 +522,6 @@ describe('facilitatorApplications.quickApply', () => {
       expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Mary Jane', lastName: 'Smith' });
     });
 
-    // Temporary (#2913): users named before first/last existed
-    test('splits the combined name of a user with no first/last name stored', async () => {
-      await testDb.update(userTable, { id: 'test-user', name: 'Mary Jane Smith' });
-      expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Mary', lastName: 'Jane Smith' });
-    });
-
     test('falls back to the latest prior application when the user has no name', async () => {
       await testDb.update(userTable, { id: 'test-user', name: '' });
       expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Prior', lastName: 'Applicant' });
