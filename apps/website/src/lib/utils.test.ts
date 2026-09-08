@@ -21,6 +21,9 @@ const {
   formatDateDayOfWeek,
   formatDateTimeRelative,
   buildApplicationUrl,
+  userNameFields,
+  normalisedFirstAndLastName,
+  legacyUserNameFields,
 } = await import('./utils');
 
 // Test constants
@@ -376,5 +379,46 @@ describe('buildApplicationUrl', () => {
     mockGetDistinctId.mockReturnValue('anon-abc');
     expect(buildApplicationUrl('https://example.com/apply', null))
       .toBe('https://example.com/apply?prefill_PostHog%20Session%20ID=sess-123&prefill_PostHog%20Distinct%20ID=anon-abc');
+  });
+});
+
+describe('userNameFields', () => {
+  it('always stores name as the join of first and last', () => {
+    expect(userNameFields({ firstName: 'Jane', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe', name: 'Jane Doe' });
+    expect(userNameFields({ firstName: 'Jane', lastName: '' })).toEqual({ firstName: 'Jane', lastName: '', name: 'Jane' });
+    expect(userNameFields({ firstName: 'Mary Jane', lastName: 'Smith' })).toEqual({ firstName: 'Mary Jane', lastName: 'Smith', name: 'Mary Jane Smith' });
+  });
+});
+
+describe('normalisedFirstAndLastName', () => {
+  it('uses first/last when the source has them, trimmed', () => {
+    expect(normalisedFirstAndLastName({ name: 'Ignored', firstName: ' Jane ', lastName: 'Doe' })).toEqual({ firstName: 'Jane', lastName: 'Doe' });
+    expect(normalisedFirstAndLastName({ firstName: 'Jane', lastName: null })).toEqual({ firstName: 'Jane', lastName: '' });
+  });
+
+  it('splits a combined name on the first space when that is all the source has', () => {
+    expect(normalisedFirstAndLastName({ name: ' Mary  Jane Smith ', firstName: null, lastName: '' })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith' });
+    expect(normalisedFirstAndLastName({ name: 'Jane' })).toEqual({ firstName: 'Jane', lastName: '' });
+  });
+
+  it('returns null when the source has no name at all', () => {
+    expect(normalisedFirstAndLastName({ name: ' ', firstName: '', lastName: null })).toBeNull();
+    expect(normalisedFirstAndLastName({})).toBeNull();
+  });
+});
+
+describe('legacyUserNameFields', () => {
+  it('fills first/last for a user that only has a combined name, keeping the name', () => {
+    expect(legacyUserNameFields({ name: 'Mary Jane Smith', firstName: null, lastName: '' })).toEqual({ firstName: 'Mary', lastName: 'Jane Smith', name: 'Mary Jane Smith' });
+  });
+
+  it('changes nothing for a user whose fields are already stored together', () => {
+    expect(legacyUserNameFields({ name: 'Jane Doe', firstName: 'Jane', lastName: 'Doe' })).toEqual({});
+    expect(legacyUserNameFields({ name: 'Jane', firstName: 'Jane', lastName: null })).toEqual({});
+  });
+
+  it('changes nothing for a user with no name', () => {
+    expect(legacyUserNameFields({ name: null, firstName: null, lastName: null })).toEqual({});
+    expect(legacyUserNameFields({ name: '', firstName: '', lastName: '' })).toEqual({});
   });
 });

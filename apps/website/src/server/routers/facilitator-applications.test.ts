@@ -1,4 +1,5 @@
 import {
+  applicationsCourseTable,
   applicationsRoundTable,
   courseRegistrationTable,
   courseTable,
@@ -7,8 +8,9 @@ import {
   userTable,
 } from '@bluedot/db';
 import {
-  beforeEach, describe, expect, test,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
+import db from '../../lib/api/db';
 import {
   createCaller,
   seedLoggedInUser,
@@ -17,7 +19,6 @@ import {
   testAuthContextLoggedOut,
   testDb,
 } from '../../__tests__/dbTestUtils';
-import { resolveApplicantName } from './facilitator-applications';
 
 setupTestDb();
 
@@ -497,125 +498,39 @@ describe('facilitatorApplications.quickApply', () => {
     await seedRound('round-next', 'course-1', null);
     await expect(caller.facilitatorApplications.quickApply(validInput)).rejects.toMatchObject({ code: 'NOT_FOUND' });
   });
-});
 
-describe('resolveApplicantName', () => {
-  // These tests exercise the user-account name fallback directly and manage their own user rows,
-  // so clear the default users seeded by the file-level beforeEach (which have names that would
-  // otherwise satisfy the fallback).
-  beforeEach(async () => {
-    await testDb.pg.delete(userTable.pg);
-  });
+  describe('applicant name', () => {
+    // The real insert can't run here (see above), so capture what it would write
+    const quickApplyInsert = async (priorReg: { firstName?: string; lastName?: string } = {}) => {
+      await seedCourse('course-1', 'tai', 'Technical AI Safety');
+      await testDb.insert(courseRegistrationTable, {
+        id: 'reg-1', email: CALLER_EMAIL, userId: 'test-user', courseId: 'course-1', role: 'Facilitator', roundId: 'round-a', ...priorReg,
+      });
+      await seedRound('round-next', 'course-1', null);
+      await testDb.insert(applicationsCourseTable, { id: 'app-course-1', courseBuilderId: 'course-1' });
+      const insertSpy = vi.spyOn(db, 'insert').mockResolvedValue({ id: 'reg-new' } as never);
+      await caller.facilitatorApplications.quickApply(validInput);
+      const inserted = insertSpy.mock.calls[0]![1] as { firstName: string; lastName: string };
+      insertSpy.mockRestore();
+      return inserted;
+    };
 
-  const seedUser = (id: string, name: string) => testDb.insert(userTable, { id, email: `${id}@example.com`, name });
-
-  test('returns null names when neither a prior application nor a user account has a name', async () => {
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
-  });
-
-  test('prefers a prior application\'s split name over the user account', async () => {
-    await seedUser('test-user', 'Account Name');
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-1',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Participant',
-      firstName: 'Ada',
-      lastName: 'Lovelace',
-      autoNumberId: 1,
+    test('uses the first/last name stored on the user as-is', async () => {
+      await testDb.update(userTable, {
+        id: 'test-user', name: 'Mary Jane Smith', firstName: 'Mary Jane', lastName: 'Smith',
+      });
+      expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Mary Jane', lastName: 'Smith' });
     });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Ada', lastName: 'Lovelace' });
-  });
 
-  test('prefers the most recent prior application that has a name', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-old',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Participant',
-      firstName: 'Ada',
-      lastName: 'Lovelace',
-      autoNumberId: 1,
+    // Temporary (#2913): users named before first/last existed
+    test('splits the combined name of a user with no first/last name stored', async () => {
+      await testDb.update(userTable, { id: 'test-user', name: 'Mary Jane Smith' });
+      expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Mary', lastName: 'Jane Smith' });
     });
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-new',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      firstName: 'Grace',
-      lastName: 'Hopper',
-      autoNumberId: 2,
+
+    test('falls back to the latest prior application when the user has no name', async () => {
+      await testDb.update(userTable, { id: 'test-user', name: '' });
+      expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Prior', lastName: 'Applicant' });
     });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
-  });
-
-  test('trims surrounding whitespace on a prior application name', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-1',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Participant',
-      firstName: 'Caroline ',
-      lastName: ' Chitongo',
-      autoNumberId: 1,
-    });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline', lastName: 'Chitongo' });
-  });
-
-  test('ignores a prior application whose name is only whitespace and falls back to the user account', async () => {
-    await seedUser('test-user', 'Grace Hopper');
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-ws',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      firstName: '   ',
-      lastName: '',
-      autoNumberId: 5,
-    });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Grace', lastName: 'Hopper' });
-  });
-
-  test('falls back to the user account name (split on first space) when no prior application has a name', async () => {
-    await seedUser('test-user', 'Caroline Shamiso Chitongo');
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-blank',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      autoNumberId: 2,
-    });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Caroline', lastName: 'Shamiso Chitongo' });
-  });
-
-  test('splits a single-word user account name into a null last name', async () => {
-    await seedUser('test-user', 'Cher');
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: 'Cher', lastName: null });
-  });
-
-  test('treats a whitespace-only user account name as missing', async () => {
-    await seedUser('test-user', '   ');
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
-  });
-
-  test('does not read another user\'s name from either source, even with a matching email', async () => {
-    await seedUser('user-other', 'Someone Else');
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-other',
-      email: CALLER_EMAIL,
-      userId: 'user-other',
-      courseId: 'course-1',
-      role: 'Participant',
-      firstName: 'Someone',
-      lastName: 'Else',
-      autoNumberId: 1,
-    });
-    expect(await resolveApplicantName('test-user')).toEqual({ firstName: null, lastName: null });
   });
 });

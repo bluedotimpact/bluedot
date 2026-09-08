@@ -121,7 +121,11 @@ export const loginPresets = {
         jwksUrl: 'https://login.bluedot.org/realms/customers/protocol/openid-connect/certs',
       });
       const name = typeof payload.name === 'string' ? payload.name.trim() : undefined;
-      return { ...payload, ...(name && { name }) };
+      const firstName = typeof payload.given_name === 'string' ? payload.given_name.trim() : undefined;
+      const lastName = typeof payload.family_name === 'string' ? payload.family_name.trim() : undefined;
+      return {
+        ...payload, ...(name && { name }), ...(firstName && { firstName }), ...(lastName && { lastName }),
+      };
     },
     getRegistrationUrl(authUrl: string) {
       const url = new URL(authUrl);

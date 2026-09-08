@@ -6,6 +6,7 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
+import { normalisedFirstAndLastName, userNameFields } from '../../lib/utils';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -87,17 +88,19 @@ export const courseRegistrationsRouter = router({
           return { action: 'skipped-no-email' } as const;
         }
 
+        const nameParts = normalisedFirstAndLastName(courseRegistration);
         const existingUser = await db.getFirst(userTable, { filter: { email } });
         if (existingUser) {
+          if (!existingUser.name && nameParts) {
+            await db.update(userTable, { id: existingUser.id, ...userNameFields(nameParts) });
+          }
+
           await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
+
           return { action: 'linked', userId: existingUser.id } as const;
         }
 
-        const name = [courseRegistration.firstName, courseRegistration.lastName].filter(Boolean).join(' ').trim();
-        const newUser = await db.insert(userTable, {
-          email,
-          ...(name && { name }),
-        });
+        const newUser = await db.insert(userTable, { email, ...(nameParts && userNameFields(nameParts)) });
         await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: newUser.id });
         return { action: 'created-user-and-linked', userId: newUser.id } as const;
       }

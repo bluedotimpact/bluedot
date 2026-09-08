@@ -244,3 +244,36 @@ export const maskEmail = (email: string): string => {
     return '***';
   }
 };
+
+type UserNameFields = { name: string; firstName: string; lastName: string };
+
+/** Name fields to store on a user: `name` is always the join of `firstName` and `lastName` */
+export const userNameFields = ({ firstName, lastName }: { firstName: string; lastName: string }): UserNameFields => ({
+  firstName,
+  lastName,
+  name: [firstName, lastName].filter(Boolean).join(' '),
+});
+
+const splitNameOnFirstSpace = (combinedName: string): { firstName: string; lastName: string } => {
+  const name = combinedName.trim().replace(/\s+/g, ' ');
+  const spaceIndex = name.indexOf(' ');
+  return spaceIndex === -1 ? { firstName: name, lastName: '' } : { firstName: name.slice(0, spaceIndex), lastName: name.slice(spaceIndex + 1) };
+};
+
+/** First/last name from a token or registration, which may only carry a combined name; null when it has neither */
+export const normalisedFirstAndLastName = (source: { name?: string | null; firstName?: string | null; lastName?: string | null }): { firstName: string; lastName: string } | null => {
+  const firstName = source.firstName?.trim() ?? '';
+  const lastName = source.lastName?.trim() ?? '';
+  if (firstName || lastName) return { firstName, lastName };
+  return source.name?.trim() ? splitNameOnFirstSpace(source.name) : null;
+};
+
+/**
+ * Temporary (#2913): if there is no `firstName` or `lastName`, estimate them by splitting `name`. This can be removed
+ * once all `firstName`/`lastName`s are backfilled.
+ */
+export const legacyUserNameFields = (user: { name: string | null; firstName: string | null; lastName: string | null }): Partial<UserNameFields> => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- empty strings and nulls are both "not set"
+  if (!user.name || user.firstName || user.lastName) return {};
+  return userNameFields(splitNameOnFirstSpace(user.name));
+};

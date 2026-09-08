@@ -3,7 +3,7 @@
 exports[`Input > renders checkbox as expected 1`] = `
 <div>
   <label
-    class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center"
+    class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer"
   >
     <input
       class="input--checkbox size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
@@ -23,7 +23,7 @@ exports[`Input > renders checkbox as expected 1`] = `
 exports[`Input > renders default as expected 1`] = `
 <div>
   <label
-    class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col"
+    class="input flex gap-2 has-[:disabled]:cursor-not-allowed flex-col"
   >
     <span
       class="input__label"
@@ -43,7 +43,7 @@ exports[`Input > renders default as expected 1`] = `
 exports[`Input > renders radio as expected 1`] = `
 <div>
   <label
-    class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center"
+    class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer"
   >
     <input
       class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"

@@ -9,13 +9,12 @@ import {
   groupDiscussionTable,
   inArray,
   meetPersonTable,
-  userTable,
 } from '@bluedot/db';
 import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { parseWeekFromRoundName, unique } from '../../lib/utils';
+import { legacyUserNameFields, parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
 
@@ -165,54 +164,6 @@ const getEligiblePriorFacilitatorRegs = async (userId: string, courseId: string,
   }
 
   return priorRegs;
-};
-
-// Trims a name part, treating null/undefined/blank/whitespace-only as "no value".
-const cleanNamePart = (value: string | null | undefined): string | null => {
-  const trimmed = value?.trim();
-  if (!trimmed) return null;
-  return trimmed;
-};
-
-// Best-effort split of a single full-name string on the first space. The last name captures
-// everything after the first word, which is imperfect for multi-word given names but keeps the
-// first name (used in greetings) correct.
-const splitName = (name: string): { firstName: string; lastName: string | null } => {
-  const normalised = name.trim().replace(/\s+/g, ' ');
-  const spaceIndex = normalised.indexOf(' ');
-  if (spaceIndex === -1) return { firstName: normalised, lastName: null };
-  return { firstName: normalised.slice(0, spaceIndex), lastName: normalised.slice(spaceIndex + 1) };
-};
-
-// The quick-apply form doesn't capture the applicant's name. Prefer the split first/last from
-// their most recent prior application (any course/role) that recorded one — human-entered, so the
-// most accurate split. Otherwise fall back to the user account's single name field (always present
-// for a logged-in user), split on the first space. Leaves both null only if neither has a name.
-export const resolveApplicantName = async (userId: string): Promise<{ firstName: string | null; lastName: string | null }> => {
-  const regs = await db.pg
-    .select({
-      firstName: courseRegistrationTable.pg.firstName,
-      lastName: courseRegistrationTable.pg.lastName,
-      autoNumberId: courseRegistrationTable.pg.autoNumberId,
-    })
-    .from(courseRegistrationTable.pg)
-    .where(eq(courseRegistrationTable.pg.userId, userId));
-
-  const named = [...regs]
-    .sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0))
-    .map((r) => ({ firstName: cleanNamePart(r.firstName), lastName: cleanNamePart(r.lastName) }))
-    .find((r) => r.firstName !== null || r.lastName !== null);
-  if (named) return named;
-
-  const [user] = await db.pg
-    .select({ name: userTable.pg.name })
-    .from(userTable.pg)
-    .where(eq(userTable.pg.id, userId))
-    .limit(1);
-  const accountName = cleanNamePart(user?.name);
-  if (accountName) return splitName(accountName);
-
-  return { firstName: null, lastName: null };
 };
 
 // The resolved form of a prior application's answers: every field present (optional strings
@@ -404,7 +355,11 @@ export const facilitatorApplicationsRouter = router({
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
       const { courseId } = await getOpenRound(input.roundId);
-      await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
+      const priorRegs = await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
+
+      // Users with no name on their record yet fall back to their latest application for this course
+      const userWithNameParts = { ...user, ...legacyUserNameFields(user) };
+      const applicant = userWithNameParts.name ? userWithNameParts : priorRegs[0];
 
       // Link the application to its course via the Applications-base course record (courseId,
       // roundName and roundStatus are computed in Airtable from the linked round/course).
@@ -416,13 +371,11 @@ export const facilitatorApplicationsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
       }
 
-      const { firstName, lastName } = await resolveApplicantName(user.id);
-
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
         userId: user.id,
-        firstName,
-        lastName,
+        firstName: applicant?.firstName ?? null,
+        lastName: applicant?.lastName ?? null,
         courseApplicationsBaseId: applicationsCourse.id,
         roundId: input.roundId,
         role: COURSE_ROLE.FACILITATOR,
