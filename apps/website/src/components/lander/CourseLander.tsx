@@ -121,7 +121,7 @@ const CourseLander = ({
   const shouldShowTestimonials = Boolean(testimonials && testimonials.length > 0 && !content.hideTestimonials);
   const testimonialsSection = shouldShowTestimonials ? (
     <>
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
       <TestimonialCarousel
         testimonials={testimonials ?? []}
         title={content.testimonialsTitle}
@@ -194,7 +194,7 @@ const CourseLander = ({
       <Nav variant={heroProps.gradient ? 'transparent' : 'default'} />
       <HeroSection {...heroProps} />
 
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
 
       {/* Alumni logos section OR default graduate section */}
       {content.alumniLogos ? (
@@ -203,7 +203,7 @@ const CourseLander = ({
         <GraduateSection />
       )}
 
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
 
       {/* Personas / editorial "Who is this for" / standard icon-card "Who is this for" */}
       {content.personas && <PersonasSection id="personas" {...content.personas} />}
@@ -215,7 +215,7 @@ const CourseLander = ({
       {/* Course outcomes OR course benefits section */}
       {content.courseOutcomes && content.courseOutcomesPlacement !== 'beforeStructure' && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <CourseOutcomesSection id="outcomes" {...content.courseOutcomes} />
         </>
       )}
@@ -227,14 +227,14 @@ const CourseLander = ({
           then-next-steps order via `courseBenefitsPlacement: 'beforePathways'`. */}
       {content.courseBenefitsText && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <CourseBenefitsTextSection {...content.courseBenefitsText} />
         </>
       )}
 
       {!content.courseBenefitsText && content.courseBenefits && content.courseBenefitsPlacement === 'beforePathways' && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <CourseBenefitsSection {...content.courseBenefits} />
         </>
       )}
@@ -242,20 +242,20 @@ const CourseLander = ({
       {/* Pathways - what happens after */}
       {content.pathwaysList && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <PathwaysListSection id="pathways" {...content.pathwaysList} />
         </>
       )}
       {!content.pathwaysList && content.pathways && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <PathwaysSection id="pathways" {...content.pathways} />
         </>
       )}
 
       {!content.courseBenefitsText && content.courseBenefits && content.courseBenefitsPlacement !== 'beforePathways' && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <CourseBenefitsSection {...content.courseBenefits} />
         </>
       )}
@@ -263,7 +263,7 @@ const CourseLander = ({
       {/* Prerequisites section */}
       {content.prerequisites && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <PrerequisitesSection id="prerequisites" {...content.prerequisites} />
         </>
       )}
@@ -271,14 +271,14 @@ const CourseLander = ({
       {/* Alumni story carousel */}
       {content.alumniStories && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <AlumniStoryCarousel {...content.alumniStories} />
         </>
       )}
 
       {content.courseOutcomes && content.courseOutcomesPlacement === 'beforeStructure' && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <CourseOutcomesSection id="outcomes" {...content.courseOutcomes} />
         </>
       )}
@@ -288,13 +288,13 @@ const CourseLander = ({
           a standalone `scheduleList` rendered immediately below. */}
       {content.howTheCourseWorks && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <HowTheCourseWorksSection id="structure" {...content.howTheCourseWorks} />
         </>
       )}
       {!content.howTheCourseWorks && COURSE_INFORMATION_DETAILS[courseSlug] && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <CourseInformationSection
             id="structure"
             {...COURSE_INFORMATION_DETAILS[courseSlug]}
@@ -307,7 +307,7 @@ const CourseLander = ({
       )}
       {content.scheduleList && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <ScheduleListSection id="schedule" {...content.scheduleList} />
         </>
       )}
@@ -316,21 +316,21 @@ const CourseLander = ({
 
       {content.quotes && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <QuoteSection {...content.quotes} />
         </>
       )}
 
       {content.fieldBuilding && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <FieldBuildingSection id="help-build-field" {...content.fieldBuilding} />
         </>
       )}
 
       {content.faq && (
         <>
-          <div className="border-t-hairline border-color-divider" />
+          <div className="border-t-hairline border-default" />
           <FAQSection id="faq" {...content.faq} />
         </>
       )}

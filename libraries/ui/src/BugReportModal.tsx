@@ -48,7 +48,7 @@ const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => vo
           <img src={objectUrl} alt={file.name} className="size-full object-cover" />
         </div>
       ) : (
-        <div className="border-color-divider text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-gray-50 px-2">
+        <div className="border-default text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-gray-50 px-2">
           {file.name}
         </div>
       )}
@@ -239,7 +239,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   'flex flex-col gap-3 rounded-surface border p-3 transition-colors',
                   isDragging
                     ? 'border-bluedot-normal bg-bluedot-normal/[8%] border-dashed'
-                    : 'border-color-divider focus-within:border-bluedot-normal bg-white',
+                    : 'border-default focus-within:border-bluedot-normal bg-white',
                 )}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -336,7 +336,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="border-color-divider text-bluedot-navy/60 rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
+                      className="border-default text-bluedot-navy/60 rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -365,7 +365,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 type="email"
                 value={email}
                 className={cn(
-                  'border-color-divider rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
+                  'border-default rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
                   emailError && 'border-red-500',
                 )}
                 placeholder="Email"

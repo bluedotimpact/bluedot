@@ -3,7 +3,7 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-color-divider"
+    class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-default"
   >
     <div
       class="nav__container section-base"
@@ -64,7 +64,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="courses-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Courses
@@ -155,7 +155,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="grants-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Grants
@@ -217,7 +217,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="programs-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Programs
@@ -276,21 +276,21 @@ exports[`Nav > renders with courses 1`] = `
                     </div>
                   </div>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/alumni"
                     tabindex="0"
                   >
                     Alumni
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/about"
                     tabindex="0"
                   >
                     About
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/join-us"
                     tabindex="0"
                   >
@@ -298,7 +298,7 @@ exports[`Nav > renders with courses 1`] = `
                   </a>
                 </div>
                 <div
-                  class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
+                  class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
                 >
                   <a
                     class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
@@ -335,7 +335,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="courses-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Courses
@@ -426,7 +426,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="grants-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Grants
@@ -488,7 +488,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="programs-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Programs
@@ -547,21 +547,21 @@ exports[`Nav > renders with courses 1`] = `
               </div>
             </div>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/alumni"
               tabindex="0"
             >
               Alumni
             </a>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/about"
               tabindex="0"
             >
               About
             </a>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-color-text hover:text-color-text"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/join-us"
               tabindex="0"
             >
@@ -572,7 +572,7 @@ exports[`Nav > renders with courses 1`] = `
             class="nav-cta flex flex-row items-center gap-4"
           >
             <a
-              class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--secondary bg-transparent nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center border border-color-divider text-color-text hover:text-color-text hover:bg-gray-50"
+              class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--secondary bg-transparent nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center border border-default text-primary hover:text-primary hover:bg-gray-50"
               href="/login?redirect_to=%2Ftest-page"
               tabindex="0"
             >

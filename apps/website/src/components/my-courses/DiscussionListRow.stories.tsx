@@ -28,7 +28,7 @@ const unit = {
 } as unknown as Unit;
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <ul className="max-w-[720px] divide-y divide-color-divider">{children}</ul>
+  <ul className="max-w-[720px] divide-y divide-default">{children}</ul>
 );
 
 const meta = {

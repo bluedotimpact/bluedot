@@ -209,7 +209,7 @@ const SyncDashboard = () => {
             <div className="container-lined overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-color-canvas border-b border-color-divider">
+                  <tr className="bg-canvas border-b border-default">
                     <th className="p-3 text-left">Status</th>
                     <th className="p-3 text-left">Requested By</th>
                     <th className="p-3 text-left">Requested</th>
@@ -218,7 +218,7 @@ const SyncDashboard = () => {
                 </thead>
                 <tbody>
                   {syncData?.map((req) => (
-                    <tr key={req.id} className="border-b border-color-divider last:border-b-0 hover:bg-color-canvas">
+                    <tr key={req.id} className="border-b border-default last:border-b-0 hover:bg-canvas">
                       <td className="p-3">
                         <StatusBadge status={req.status} />
                       </td>

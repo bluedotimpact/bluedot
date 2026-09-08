@@ -179,9 +179,9 @@ const SideBar: React.FC<SideBarProps> = ({
 
   return (
     <div className={clsx(
-      'sidebar flex flex-col bg-color-canvas',
+      'sidebar flex flex-col bg-canvas',
       'size-full md:w-[360px]',
-      'border-r-[0.5px] border-color-divider',
+      'border-r-[0.5px] border-default',
       className,
     )}
     >

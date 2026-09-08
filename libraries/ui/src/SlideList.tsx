@@ -123,9 +123,9 @@ export const SlideList: React.FC<SlideListProps> = ({
 
   const ScrollBar = (
     <div className="slide-list__progress w-full relative h-1">
-      <div className="slide-list__progress-track absolute h-px top-px w-full bg-color-divider" />
+      <div className="absolute h-px top-px w-full bg-default" />
       <div
-        className="slide-list__progress-track absolute h-full bg-bluedot-normal"
+        className="absolute h-full bg-bluedot-normal"
         style={{
           width: scrollBarWidth,
           left: scrollBarLeft,

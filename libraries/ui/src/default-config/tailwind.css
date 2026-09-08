@@ -1,16 +1,57 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @theme {
-    --color-color-text: var(--bluedot-black);
-    --color-color-text-on-dark: var(--bluedot-cream-normal);
-    --color-color-secondary-text: var(--bluedot-darker);
-    --color-color-canvas: var(--bluedot-cream-normal);
-    --color-color-canvas-dark: var(--bluedot-darker);
-    --color-color-primary: var(--bluedot-normal);
-    --color-color-secondary: var(--bluedot-lighter);
-    --color-color-primary-accent: var(--bluedot-normal);
-    --color-color-secondary-accent: var(--bluedot-lighter);
-    --color-color-divider: var(--bluedot-charcoal-light);
+    /* text/* */
+    --color-primary: var(--bluedot-navy);
+    --color-secondary: #13132eb2; /* navy 70% */
+    --color-placeholder: #13132e99; /* navy 60% */
+    --color-disabled: #13132e66; /* navy 40% */
+    --color-link: var(--bluedot-normal);
+    --color-link-hover: var(--bluedot-dark);
+    --color-link-active: var(--bluedot-darker);
+    --color-on-dark: #ffffff;
+    --color-on-dark-secondary: #ffffffb2; /* white 70% */
+
+    /* surface/* — canvas resolves per app: cream by default, white on bluedot.org */
+    --color-canvas: var(--bluedot-cream-normal);
+    --color-raised: #ffffff;
+    --color-tint: #13132e0f; /* navy 6%: hover wash */
+    --color-active: #13132e1a; /* navy 10%: pressed / selected */
+    --color-dark: var(--bluedot-navy);
+    --color-surface-on-dark: #ffffff26; /* white 15% */
+    --color-surface-on-dark-subtle: #ffffff14; /* white 8% */
+
+    /* border/* */
+    --color-subtle: #13132e1a; /* navy 10% */
+    --color-default: var(--bluedot-charcoal-light);
+    --color-strong: #13132e33; /* navy 20% */
+    --color-border-on-dark: #ffffff33; /* white 20% */
+
+    /* accent/* */
+    --color-accent: var(--bluedot-normal);
+    --color-accent-hover: var(--bluedot-dark);
+    --color-accent-active: var(--bluedot-darker);
+    --color-accent-subtle: var(--bluedot-lighter);
+
+    /* system/<tone>/* — fg doubles as the solid fill for tone buttons */
+    --color-info-fg: var(--bluedot-normal);
+    --color-info-bg: #e5edfe;
+    --color-info-border: #b5c3ec;
+    --color-success-fg: #1a7a52;
+    --color-success-bg: #f2fff8;
+    --color-success-border: #a7e3c6;
+    --color-warning-fg: #a85708;
+    --color-warning-bg: #fff8eb;
+    --color-warning-border: #f2c879;
+    --color-error-fg: #c81e1e;
+    --color-error-fg-hover: #9c1717;
+    --color-error-bg: #fef2f2;
+    --color-error-border: #f5b5b5;
+
+    /* focus/* and overlay/* */
+    --color-focus: var(--bluedot-normal);
+    --color-scrim: #00000080; /* black 50% */
+    --color-overlay-image: #0000004d; /* black 30% */
 
     --color-bluedot-lightest: var(--bluedot-lightest);
     --color-bluedot-lighter: var(--bluedot-lighter);
@@ -143,15 +184,15 @@
 }
 
 @utility bluedot-base {
-    @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
+    @apply min-h-screen flow-root bg-canvas text-primary antialiased
 }
 
 @utility container-lined {
-    @apply border border-color-divider rounded-surface;
+    @apply border border-default rounded-surface;
 }
 
 @utility container-active {
-    @apply border-2 border-color-primary rounded-surface;
+    @apply border-2 border-accent rounded-surface;
 }
 
 @utility container-elevated {
@@ -160,7 +201,7 @@
 }
 
 @utility container-dialog {
-    @apply border border-color-primary rounded-overlay;
+    @apply border border-accent rounded-overlay;
     box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -197,7 +238,7 @@
 }
 
 @utility link-on-dark {
-    @apply text-color-text-on-dark hover:text-color-secondary-accent cursor-pointer;
+    @apply text-on-dark hover:text-accent-subtle cursor-pointer;
 }
 
 
@@ -233,7 +274,7 @@
 
         /* Hovering link color */
         &:where(a) {
-            @apply hover:text-color-primary-accent
+            @apply hover:text-accent
         }
 
         /* Links in headings should be the same font weight

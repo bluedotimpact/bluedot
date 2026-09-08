@@ -34,7 +34,7 @@ const MyBlueDotSidebar = () => {
         My BlueDot
       </Eyebrow>
       <div className="relative">
-        <div aria-hidden className="absolute bottom-0 left-0 top-0 w-1 bg-color-divider" />
+        <div aria-hidden className="absolute bottom-0 left-0 top-0 w-1 bg-default" />
         {activeIndex >= 0 && (
           <span
             aria-hidden

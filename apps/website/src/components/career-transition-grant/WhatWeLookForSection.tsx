@@ -26,7 +26,7 @@ const CRITERIA = [
 
 const WhatWeLookForSection = () => {
   return (
-    <section className="section section-body career-transition-grant-criteria-section bg-color-canvas">
+    <section className="section section-body bg-canvas">
       <div className="w-full flex flex-col gap-8">
         <H3>What we look for</H3>
         <div className="grid grid-cols-1 gap-5 bd-md:grid-cols-2">

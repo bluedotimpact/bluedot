@@ -58,13 +58,13 @@ const HomePage = () => {
       </Head>
       <HomeHeroContent />
       {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
       <CourseValueProps />
       {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
       <MergedLadder />
       {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
       <TestimonialCarousel
         testimonials={testimonials}
         subtitle="Learn more about the incredible work our community is doing."
@@ -73,13 +73,13 @@ const HomePage = () => {
         cta={{ label: 'Read alumni stories', url: '/alumni' }}
       />
       {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
       <EventsSection />
       {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
       <StorySection />
       {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
+      <div className="border-t-hairline border-default" />
       {/* Newsletter Section */}
       <section className="w-full bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20">
         <div className="mx-auto max-w-screen-xl">

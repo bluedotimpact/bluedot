@@ -4,7 +4,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 <div>
   <div>
     <div
-      class="mobile-unit-header bg-color-canvas border-color-divider flex h-[76px] w-full items-center border-b px-3 unit__mobile-header sticky top-(--nav-height-mobile) z-10 md:hidden"
+      class="mobile-unit-header bg-canvas border-default flex h-[76px] w-full items-center border-b px-3 unit__mobile-header sticky top-(--nav-height-mobile) z-10 md:hidden"
     >
       <nav
         class="mobile-unit-header__nav flex w-full flex-row items-center justify-between"
@@ -69,7 +69,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Previous section"
-            class="mobile-unit-header__prev-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            class="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             disabled=""
             type="button"
           >
@@ -90,7 +90,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next section"
-            class="mobile-unit-header__next-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            class="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             type="button"
           >
             <svg
@@ -115,7 +115,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       class="md:flex"
     >
       <div
-        class="sidebar flex flex-col bg-color-canvas size-full md:w-[360px] border-r-[0.5px] border-color-divider hidden md:sticky md:top-(--nav-height-mobile) md:block md:h-[calc(100vh-var(--nav-height-mobile))] md:shrink-0 md:overflow-y-auto lg:top-(--nav-height-desktop) lg:h-[calc(100vh-var(--nav-height-desktop))]"
+        class="sidebar flex flex-col bg-canvas size-full md:w-[360px] border-r-[0.5px] border-default hidden md:sticky md:top-(--nav-height-mobile) md:block md:h-[calc(100vh-var(--nav-height-mobile))] md:shrink-0 md:overflow-y-auto lg:top-(--nav-height-desktop) lg:h-[calc(100vh-var(--nav-height-desktop))]"
       >
         <div
           class="p-6 flex flex-col gap-5"
@@ -711,7 +711,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="md:min-w-0 md:flex-1"
       >
         <div
-          class="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
+          class="border-bluedot-navy/20 bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
         >
           <div
             class="flex size-full flex-row items-center justify-between gap-2 px-6"
@@ -830,7 +830,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           role="status"
         />
         <div
-          class="bg-color-canvas"
+          class="bg-canvas"
         />
         <section
           class="section section-body unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0"

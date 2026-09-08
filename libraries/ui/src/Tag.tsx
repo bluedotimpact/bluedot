@@ -19,7 +19,7 @@ export const Tag: React.FC<TagProps> = ({
       role="status"
       className={clsx(
         'tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit',
-        variant === 'default' && 'text-color-secondary-text container-lined',
+        variant === 'default' && 'text-secondary container-lined',
         variant === 'secondary' && '!text-bluedot-normal bg-[#E5EDFE] rounded-sm',
         className,
       )}

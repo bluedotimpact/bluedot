@@ -42,14 +42,14 @@ const AccountSettingsPage = () => {
               onSave={() => utils.users.getUser.invalidate()}
             />
 
-            <div className="border-t border-color-divider my-6" />
+            <div className="border-t border-default my-6" />
 
             <div className="mb-6">
               <P className="font-semibold mb-2">Email*</P>
               <P className="text-gray-600">{user.email}</P>
             </div>
 
-            <div className="border-t border-color-divider my-6" />
+            <div className="border-t border-default my-6" />
 
             <AccountSettingsSection />
           </MyBlueDotLayout>

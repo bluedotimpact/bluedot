@@ -294,7 +294,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     </a>
                   </div>
                   <div
-                    class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
+                    class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
                   >
                     <a
                       class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
@@ -664,7 +664,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <div
       data-testid="graduate-section"
@@ -672,7 +672,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       Graduate Section
     </div>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <section
       class="w-full bg-white"
@@ -716,7 +716,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <section
       class="w-full bg-white"
@@ -782,7 +782,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <section
       class="w-full bg-white"
@@ -1040,7 +1040,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <section
       class="w-full bg-white"
@@ -1183,7 +1183,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <section
       class="w-full bg-white"
@@ -1218,7 +1218,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <section
       aria-atomic="true"
@@ -1450,7 +1450,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-color-divider"
+      class="border-t-hairline border-default"
     />
     <script
       type="application/ld+json"

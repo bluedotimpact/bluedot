@@ -39,7 +39,7 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
         <MarkdownExtendedRenderer>
           {mission.description ?? undefined}
         </MarkdownExtendedRenderer>
-        <div className="my-8 border-t border-color-divider pt-8">
+        <div className="my-8 border-t border-default pt-8">
           <CTALinkOrButton url={ROUTES.missions.url} variant="secondary" withBackChevron>
             See other missions
           </CTALinkOrButton>
