@@ -69,7 +69,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Previous section"
-            class="mobile-unit-header__prev-unit-cta focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            class="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             disabled=""
             type="button"
           >
@@ -90,7 +90,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next section"
-            class="mobile-unit-header__next-unit-cta focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            class="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             type="button"
           >
             <svg
@@ -711,7 +711,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="md:min-w-0 md:flex-1"
       >
         <div
-          class="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
+          class="border-bluedot-navy/20 bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
         >
           <div
             class="flex size-full flex-row items-center justify-between gap-2 px-6"
