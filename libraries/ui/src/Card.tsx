@@ -12,7 +12,7 @@ const CARD_FOCUS_STYLES = 'focus-visible:outline-2 focus-visible:outline-offset-
 export type CardShellProps = React.PropsWithChildren<{
   className?: string;
   /** When set, the whole shell is a single link and gains hover/focus affordances */
-  url?: string;
+  url?: string | null;
 }>;
 
 export const CardShell: React.FC<CardShellProps> = ({ className, url, children }) => {

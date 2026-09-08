@@ -44,7 +44,7 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
   );
 
   return (
-    <CardShell url={profileUrl ?? undefined} className="group flex h-full flex-col">
+    <CardShell url={profileUrl} className="group flex h-full flex-col">
       {cardContent}
     </CardShell>
   );
