@@ -137,7 +137,7 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
         </div>
         {nameError && (
           <p
-            className="text-red-600 text-size-sm"
+            className="text-error-fg text-size-sm"
             id="profile-name-error"
             role="alert"
             aria-live="polite"

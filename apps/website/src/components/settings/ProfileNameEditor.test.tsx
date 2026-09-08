@@ -98,7 +98,6 @@ describe('ProfileNameEditor', () => {
       expect(getButtonsRow(container)).toHaveClass('sm:invisible');
     });
 
-    // Verify inputs still show the new name
     expect(input.value).toBe('Jane');
     expect(getInput(container, 'Last name').value).toBe('Doe');
   });

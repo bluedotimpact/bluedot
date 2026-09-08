@@ -47,6 +47,7 @@ export const Default: Story = {
 export const NewUserWithNoName: Story = {
   args: {
     user: { firstName: null, lastName: null },
+    alwaysShowButtons: true,
   },
 };
 

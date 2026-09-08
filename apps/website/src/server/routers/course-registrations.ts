@@ -91,10 +91,11 @@ export const courseRegistrationsRouter = router({
         const nameParts = normalisedFirstAndLastName(courseRegistration);
         const existingUser = await db.getFirst(userTable, { filter: { email } });
         if (existingUser) {
-          await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
           if (!existingUser.name && nameParts) {
             await db.update(userTable, { id: existingUser.id, ...userNameFields(nameParts) });
           }
+
+          await db.update(courseRegistrationTable, { id: courseRegistration.id, userId: existingUser.id });
 
           return { action: 'linked', userId: existingUser.id } as const;
         }
