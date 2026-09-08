@@ -1,9 +1,13 @@
 import type React from 'react';
 import { ClickTarget } from './ClickTarget';
+import { CTALinkOrButton } from './CTALinkOrButton';
 import { Tag } from './Tag';
 import { cn } from './utils';
 
-const CARD_SHELL_STYLES = 'rounded-lg border border-bluedot-navy/10 bg-white p-6';
+const CARD_SHELL_STYLES = 'rounded-surface border border-subtle bg-raised p-6';
+// Only clickable shells get hover/focus affordances
+const CARD_HOVER_STYLES = 'transition-all duration-200 hover:border-strong hover:shadow-sm';
+const CARD_FOCUS_STYLES = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
 
 export type CardShellProps = React.PropsWithChildren<{
   className?: string;
@@ -14,7 +18,7 @@ export type CardShellProps = React.PropsWithChildren<{
 export const CardShell: React.FC<CardShellProps> = ({ className, url, children }) => {
   if (url) {
     return (
-      <ClickTarget url={url} className={cn(CARD_SHELL_STYLES, CARD_LINK_STYLES, className)}>
+      <ClickTarget url={url} className={cn(CARD_SHELL_STYLES, CARD_HOVER_STYLES, CARD_FOCUS_STYLES, className)}>
         {children}
       </ClickTarget>
     );
@@ -25,16 +29,13 @@ export const CardShell: React.FC<CardShellProps> = ({ className, url, children }
 
 export type CardProps = {
   title: string;
-  /** The whole card is a single link to this destination */
+  /** Destination of the CTA. Its hit area is stretched over the whole card (stretched-link pattern) */
   url: string;
-  /**
-   * Body slot. Rendered inside the card link — must not contain interactive
-   * elements (links, buttons); use `ctaText` for the action affordance.
-   */
+  /** The card's only real link; its label is the card's accessible name */
+  ctaText: string;
+  /** Body slot. Sits under the stretched CTA, so keep it non-interactive */
   children?: React.ReactNode;
   className?: string;
-  /** Presentational primary-button affordance; navigates to `url` like the rest of the card */
-  ctaText?: string;
   imageSrc?: string;
   isFullWidth?: boolean;
   subtitle?: string;
@@ -44,28 +45,26 @@ export type CardProps = {
 export const Card: React.FC<CardProps> = ({
   title,
   url,
+  ctaText,
   children,
   className,
-  ctaText,
   imageSrc,
   isFullWidth = false,
   subtitle,
   subtitleBadge,
 }) => {
   return (
-    <ClickTarget
-      url={url}
+    <CardShell
       className={cn(
-        CARD_SHELL_STYLES,
-        'flex transition-shadow duration-200 hover:shadow-sm',
-        'focus-visible:outline-bluedot-normal focus-visible:outline-2 focus-visible:outline-offset-2',
+        'relative flex',
+        CARD_HOVER_STYLES,
         isFullWidth ? 'w-full flex-col md:flex-row md:items-center md:justify-between md:gap-6' : 'flex-col',
         className,
       )}
     >
       <div className={cn('flex flex-col gap-4', isFullWidth && 'md:flex-1')}>
         {imageSrc && (
-          // Decorative: the card's accessible name is the title text
+          // Decorative: the card's accessible name is the CTA text
           <img className="w-full rounded-surface object-cover" src={imageSrc} alt="" />
         )}
         <div className="text-size-sm text-secondary flex flex-col gap-3 leading-normal">
@@ -77,16 +76,12 @@ export const Card: React.FC<CardProps> = ({
           {children}
         </div>
       </div>
-      {ctaText && (
-        <span
-          className={cn(
-            'bg-bluedot-normal text-size-sm bd-md:text-size-xs mt-4 flex w-fit items-center justify-center rounded-sm px-4 py-3 font-semibold whitespace-nowrap text-white',
-            isFullWidth && 'md:mt-0 md:shrink-0',
-          )}
-        >
-          {ctaText}
-        </span>
-      )}
-    </ClickTarget>
+      <CTALinkOrButton
+        url={url}
+        className={cn('mt-4 after:absolute after:inset-0', isFullWidth && 'md:mt-0 md:shrink-0')}
+      >
+        {ctaText}
+      </CTALinkOrButton>
+    </CardShell>
   );
 };
