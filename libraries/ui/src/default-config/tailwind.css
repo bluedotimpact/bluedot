@@ -41,9 +41,10 @@
     --color-cream-dark: var(--bluedot-cream-dark);
 
     /* surface = cards, inputs, buttons
-       overlay = modals, dialogs. */
+       overlay = modals, dialogs; sheet = bottom drawers (top corners). */
     --radius-surface: 0.5rem;
     --radius-overlay: 0.75rem;
+    --radius-sheet: 1.5rem;
 
     --font-sans:
         Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
