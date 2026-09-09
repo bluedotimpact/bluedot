@@ -21,6 +21,7 @@ const webhookInstances: Record<string, AirtableWebhook> = {};
 
 const retryCountMap = new Map<string, number>();
 let queueEmptyCallback: (() => void) | null = null;
+let queueEmptyPromise: Promise<void> | null = null;
 
 function getRetryKey(update: AirtableAction): string {
   return `${update.baseId}::${update.tableId}::${update.recordId}`;
@@ -39,10 +40,12 @@ export async function waitForQueueToEmpty(): Promise<void> {
     return Promise.resolve();
   }
 
-  // Wait for queue to drain
-  return new Promise((resolve) => {
+  // Wait for queue to drain; concurrent waiters share the same promise
+  queueEmptyPromise ??= new Promise((resolve) => {
     queueEmptyCallback = resolve;
   });
+
+  return queueEmptyPromise;
 }
 
 /**
@@ -389,6 +392,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
     if (queueEmptyCallback) {
       queueEmptyCallback();
       queueEmptyCallback = null;
+      queueEmptyPromise = null;
     }
   }
 

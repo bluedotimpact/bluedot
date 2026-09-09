@@ -263,6 +263,7 @@ const StatusBadge = ({ status }: { status: SyncStatus }) => {
     queued: 'bg-gray-500',
     running: 'bg-yellow-500',
     completed: 'bg-green-500',
+    failed: 'bg-red-500',
   };
 
   return (

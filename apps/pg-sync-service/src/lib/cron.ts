@@ -12,7 +12,7 @@ import {
 import {
   initializeWebhooks, pollForUpdates, processUpdateQueue, rateLimiter,
 } from './pg-sync';
-import { processAdminDashboardSyncRequests } from './admin-dashboard-sync';
+import { isFullSyncRequired, runFullSync } from './full-sync';
 import { db } from './db';
 import env from '../env';
 
@@ -53,7 +53,11 @@ const checkAdminDashboardSyncRequestsCron = async () => {
 
   isCheckingAdminSync = true;
   try {
-    await processAdminDashboardSyncRequests();
+    const { isRequired, reason } = await isFullSyncRequired({ trigger: 'cron' });
+    if (isRequired) {
+      logger.info(`[admin-sync-check] Starting full sync: ${reason}`);
+      await runFullSync();
+    }
   } catch (error) {
     logger.error('[admin-sync-check] Error checking admin sync requests:', error);
   } finally {
