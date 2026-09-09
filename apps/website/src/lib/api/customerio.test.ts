@@ -1,6 +1,8 @@
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
+import { userTable } from '@bluedot/db';
+import { setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 import { sendEmailChangeRequestedNotice, sendEmailChangeVerification, updateCustomerIoEmail } from './customerio';
 import env from './env';
 
@@ -11,6 +13,7 @@ vi.mock('./env', () => ({
     ALERTS_SLACK_CHANNEL_ID: 'fake-channel',
     CIO_APP_API_KEY: 'fake-app-key',
     CIO_TRACK_API_KEY: 'fake-track-key',
+    VITEST: 'true',
   },
 }));
 
@@ -22,7 +25,8 @@ vi.mock('./env', () => ({
  *    in place (same cio_id, id attached) rather than creating a duplicate;
  *  - an identify whose email is owned by a DIFFERENT profile silently drops the email update
  *    (no error, other attributes still apply) — which is why verify-after-write is mandatory;
- *  - there is no merge API on api-eu; conflicts are surfaced as errors for manual resolution.
+ *  - merge_customers (track-eu) removes the secondary and keeps the primary's id, cio_id and
+ *    preferences wholesale; merging an already-gone secondary is a no-op.
  *
  * These semantics were validated against the real production workspace with a live-fire
  * model-based test, which is preserved on the `wh-2810-cio-livetest-2026-07-archive` git branch,
@@ -34,12 +38,14 @@ type FakeCio = {
   profiles: FakeProfile[];
   applyWrites: boolean;
   identifyCalls: { id: string; email: string }[];
+  mergeCalls: { primary: string; secondary: string }[];
 };
 
 const makeFakeCio = (profiles: FakeProfile[], { applyWrites = true }: { applyWrites?: boolean } = {}): FakeCio => ({
   profiles,
   applyWrites,
   identifyCalls: [],
+  mergeCalls: [],
 });
 
 const sameEmail = (a: string | null, b: string | null) => a !== null && b !== null && a.toLowerCase() === b.toLowerCase();
@@ -107,6 +113,13 @@ const installFakeCio = (cio: FakeCio) => {
         if (cio.applyWrites) applyIdentify(cio, entry.identifiers.id, entry.attributes.email);
         return jsonResponse(200, {});
       }
+
+      if (url.pathname === '/api/v1/merge_customers' && method === 'POST') {
+        const body = JSON.parse(init?.body ?? '{}') as { primary: { cio_id: string }; secondary: { cio_id: string } };
+        cio.mergeCalls.push({ primary: body.primary.cio_id, secondary: body.secondary.cio_id });
+        if (cio.applyWrites) cio.profiles = cio.profiles.filter((p) => p.cio_id !== body.secondary.cio_id);
+        return jsonResponse(200, {});
+      }
     }
 
     return jsonResponse(500, { error: `unexpected request: ${method} ${url.href}` });
@@ -136,6 +149,8 @@ const runToCompletion = async (promise: Promise<void>) => {
 };
 
 describe('updateCustomerIoEmail', () => {
+  setupTestDb();
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
@@ -258,32 +273,91 @@ describe('updateCustomerIoEmail', () => {
     expect(cio.identifyCalls).toEqual([{ id: 'u1', email: 'old@example.com' }]);
   });
 
-  test('throws without deleting anything when another profile owns the new email', async () => {
-    const cio = makeFakeCio([
-      { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
-      { cio_id: 'c2', email: 'new@example.com' },
-    ]);
-    installFakeCio(cio);
+  describe('when other profiles own the new email', () => {
+    const run = () => runToCompletion(updateCustomerIoEmail({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' }));
 
-    await expect(runToCompletion(updateCustomerIoEmail({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' })))
-      .rejects.toThrow('already owned by cio_c2');
+    test('merges an email-only orphan into the user profile, then renames', async () => {
+      const cio = makeFakeCio([
+        { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
+        { cio_id: 'c2', email: 'new@example.com' },
+      ]);
+      installFakeCio(cio);
 
-    expect(cio.identifyCalls).toEqual([{ id: 'u1', email: 'new@example.com' }]);
-    expect(cio.profiles.find((p) => p.cio_id === 'c1')!.email).toBe('old@example.com');
-    expect(cio.profiles).toHaveLength(2);
-  });
+      await run();
 
-  test('names the owning user id when the conflicting profile carries one', async () => {
-    const cio = makeFakeCio([
-      { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
-      { cio_id: 'c2', id: 'u2', email: 'new@example.com' },
-    ]);
-    installFakeCio(cio);
+      expect(cio.mergeCalls).toEqual([{ primary: 'c1', secondary: 'c2' }]);
+      expect(cio.identifyCalls).toEqual([{ id: 'u1', email: 'new@example.com' }]);
+      expect(cio.profiles).toEqual([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
+    });
 
-    await expect(runToCompletion(updateCustomerIoEmail({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' })))
-      .rejects.toThrow('already owned by cio_c2 (user id u2)');
+    test('merges an orphan whose user id no longer exists in the user table', async () => {
+      const cio = makeFakeCio([
+        { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
+        { cio_id: 'c2', id: 'u-deleted', email: 'new@example.com' },
+      ]);
+      installFakeCio(cio);
 
-    expect(cio.profiles).toHaveLength(2);
+      await run();
+
+      expect(cio.mergeCalls).toEqual([{ primary: 'c1', secondary: 'c2' }]);
+      expect(cio.profiles).toEqual([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
+    });
+
+    test('merges into a claimed old-email profile', async () => {
+      const cio = makeFakeCio([
+        { cio_id: 'c1', email: 'old@example.com' },
+        { cio_id: 'c2', email: 'new@example.com' },
+      ]);
+      installFakeCio(cio);
+
+      await run();
+
+      expect(cio.mergeCalls).toEqual([{ primary: 'c1', secondary: 'c2' }]);
+      expect(cio.profiles).toEqual([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
+    });
+
+    test('refuses to touch anything when the new email is owned by another existing user', async () => {
+      await testDb.insert(userTable, { id: 'u2', email: 'new@example.com', name: 'Other User' });
+      const cio = makeFakeCio([
+        { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
+        { cio_id: 'c2', id: 'u2', email: 'new@example.com' },
+      ]);
+      installFakeCio(cio);
+
+      await expect(run()).rejects.toThrow('already owned by cio_c2 (user id u2)');
+
+      expect(cio.mergeCalls).toEqual([]);
+      expect(cio.identifyCalls).toEqual([]);
+      expect(cio.profiles).toHaveLength(2);
+    });
+
+    test('refuses to merge eligible orphans when any conflicting profile belongs to an existing user', async () => {
+      await testDb.insert(userTable, { id: 'u2', email: 'new@example.com', name: 'Other User' });
+      const cio = makeFakeCio([
+        { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
+        { cio_id: 'c2', email: 'new@example.com' },
+        { cio_id: 'c3', id: 'u2', email: 'new@example.com' },
+      ]);
+      installFakeCio(cio);
+
+      await expect(run()).rejects.toThrow('already owned by cio_c3 (user id u2)');
+
+      expect(cio.mergeCalls).toEqual([]);
+      expect(cio.profiles).toHaveLength(3);
+    });
+
+    test('throws naming the profiles when the merge never becomes visible', async () => {
+      const cio = makeFakeCio([
+        { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
+        { cio_id: 'c2', email: 'new@example.com' },
+      ], { applyWrites: false });
+      installFakeCio(cio);
+
+      await expect(run()).rejects.toThrow('merging cio_c2 into cio_c1 did not complete');
+
+      expect(cio.mergeCalls).toEqual([{ primary: 'c1', secondary: 'c2' }]);
+      expect(cio.identifyCalls).toEqual([]);
+    });
   });
 
   test('throws when the rename never verifies and no conflicting profile exists', async () => {
