@@ -108,11 +108,11 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
         {' '}
         <ClickTarget
           onClick={() => {
+            // No host key here: for security-through-obscurity reasons, only show the key if the user clicks the facilitator's name
             setPage({
               name: 'appJoin',
               meetingNumber: data.meetingNumber,
               meetingPassword: data.meetingPassword,
-              meetingHostKey: data.meetingHostKey,
               activityDoc: data.activityDoc,
             });
           }}
