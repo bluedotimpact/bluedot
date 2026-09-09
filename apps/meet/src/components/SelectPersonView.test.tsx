@@ -59,4 +59,35 @@ describe('SelectPersonView', () => {
       activityDoc: undefined,
     });
   });
+
+  test('passes the host key when a host records attendance', async () => {
+    mockApi((url) => (url.endsWith('meeting-participants')
+      ? { status: 200, data: { ...meetingParticipants, participants: [{ id: 'recHost', name: 'Grace Hopper', role: 'host' }] } }
+      : { status: 200, data: { type: 'success' } }));
+    const setPage = vi.fn();
+    render(<SelectPersonView page={{ name: 'select', groupId: 'recGroup' }} setPage={setPage} />);
+
+    const host = await screen.findByText('Grace Hopper');
+    await act(async () => {
+      fireEvent.click(host);
+    });
+
+    expect(setPage).toHaveBeenCalledWith(expect.objectContaining({ name: 'appJoin', meetingHostKey: '654321' }));
+  });
+
+  test('does not pass the host key when joining without registering attendance', async () => {
+    mockApi(() => ({ status: 200, data: meetingParticipants }));
+    const setPage = vi.fn();
+    render(<SelectPersonView page={{ name: 'select', groupId: 'recGroup' }} setPage={setPage} />);
+
+    fireEvent.click(await screen.findByText('Join without registering attendance.'));
+
+    expect(setPage).toHaveBeenCalledWith({
+      name: 'appJoin',
+      meetingNumber: '123456789',
+      meetingPassword: 'abc123',
+      activityDoc: undefined,
+    });
+    expect(setPage.mock.calls[0]?.[0]).not.toHaveProperty('meetingHostKey');
+  });
 });
