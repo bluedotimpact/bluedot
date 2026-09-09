@@ -41,8 +41,9 @@ vi.mock('./pg-sync', () => ({
   processUpdateQueue: vi.fn(),
 }));
 
-vi.mock('./admin-dashboard-sync', () => ({
-  processAdminDashboardSyncRequests: vi.fn(),
+vi.mock('./full-sync', () => ({
+  isFullSyncRequired: vi.fn(),
+  runFullSync: vi.fn(),
 }));
 
 vi.mock('./db', () => ({ db: {} }));
