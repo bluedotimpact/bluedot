@@ -32,13 +32,14 @@ vi.mock('./env', () => ({
  * model-based test, which is preserved on the `wh-2810-cio-livetest-2026-07-archive` git branch,
  * file `apps/website/src/lib/api/customerio.prod.test.ts`.
  */
-type FakeProfile = { cio_id: string; id?: string; email: string };
+type FakeProfile = { cio_id: string; id?: string; email: string; prefs?: Record<string, boolean> };
 
 type FakeCio = {
   profiles: FakeProfile[];
   applyWrites: boolean;
   identifyCalls: { id: string; email: string }[];
   mergeCalls: { primary: string; secondary: string }[];
+  prefsCalls: { cio_id: string; topics: Record<string, boolean> }[];
 };
 
 const makeFakeCio = (profiles: FakeProfile[], { applyWrites = true }: { applyWrites?: boolean } = {}): FakeCio => ({
@@ -46,6 +47,7 @@ const makeFakeCio = (profiles: FakeProfile[], { applyWrites = true }: { applyWri
   applyWrites,
   identifyCalls: [],
   mergeCalls: [],
+  prefsCalls: [],
 });
 
 const sameEmail = (a: string | null, b: string | null) => a !== null && b !== null && a.toLowerCase() === b.toLowerCase();
@@ -99,7 +101,7 @@ const installFakeCio = (cio: FakeCio) => {
         return jsonResponse(200, {
           customer: {
             identifiers: { cio_id: profile.cio_id, id: profile.id, email: profile.email },
-            attributes: { email: profile.email },
+            attributes: { email: profile.email, ...(profile.prefs && { cio_subscription_preferences: JSON.stringify({ topics: profile.prefs }) }) },
           },
         });
       }
@@ -114,10 +116,26 @@ const installFakeCio = (cio: FakeCio) => {
         return jsonResponse(200, {});
       }
 
+      const prefsMatch = /^\/api\/v1\/customers\/cio_([^/]+)$/.exec(url.pathname);
+      if (prefsMatch && method === 'PUT') {
+        const body = JSON.parse(init?.body ?? '{}') as { cio_subscription_preferences: { topics: Record<string, boolean> } };
+        cio.prefsCalls.push({ cio_id: prefsMatch[1]!, topics: body.cio_subscription_preferences.topics });
+        const profile = cio.profiles.find((p) => p.cio_id === prefsMatch[1]);
+        if (cio.applyWrites && profile) profile.prefs = body.cio_subscription_preferences.topics;
+        return jsonResponse(200, {});
+      }
+
+      // Like customer.io, keep the primary's attributes and copy over any it lacks
       if (url.pathname === '/api/v1/merge_customers' && method === 'POST') {
         const body = JSON.parse(init?.body ?? '{}') as { primary: { cio_id: string }; secondary: { cio_id: string } };
         cio.mergeCalls.push({ primary: body.primary.cio_id, secondary: body.secondary.cio_id });
-        if (cio.applyWrites) cio.profiles = cio.profiles.filter((p) => p.cio_id !== body.secondary.cio_id);
+        const primary = cio.profiles.find((p) => p.cio_id === body.primary.cio_id);
+        const secondary = cio.profiles.find((p) => p.cio_id === body.secondary.cio_id);
+        if (cio.applyWrites && primary && secondary) {
+          primary.prefs ??= secondary.prefs;
+          cio.profiles = cio.profiles.filter((p) => p !== secondary);
+        }
+
         return jsonResponse(200, {});
       }
     }
@@ -287,7 +305,9 @@ describe('updateCustomerIoEmail', () => {
 
       expect(cio.mergeCalls).toEqual([{ primary: 'c1', secondary: 'c2' }]);
       expect(cio.identifyCalls).toEqual([{ id: 'u1', email: 'new@example.com' }]);
-      expect(cio.profiles).toEqual([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
+      expect(cio.profiles).toEqual([{
+        cio_id: 'c1', id: 'u1', email: 'new@example.com', prefs: {},
+      }]);
     });
 
     test('merges an orphan whose user id no longer exists in the user table', async () => {
@@ -300,7 +320,43 @@ describe('updateCustomerIoEmail', () => {
       await run();
 
       expect(cio.mergeCalls).toEqual([{ primary: 'c1', secondary: 'c2' }]);
-      expect(cio.profiles).toEqual([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
+      expect(cio.profiles).toEqual([{
+        cio_id: 'c1', id: 'u1', email: 'new@example.com', prefs: {},
+      }]);
+    });
+
+    test('keeps the user subscribed when the orphan carries opt-outs and the user has no preferences', async () => {
+      const cio = makeFakeCio([
+        { cio_id: 'c1', id: 'u1', email: 'old@example.com' },
+        {
+          cio_id: 'c2', id: 'u-deleted', email: 'new@example.com', prefs: { topic_15: false, topic_9: false },
+        },
+      ]);
+      installFakeCio(cio);
+
+      await run();
+
+      expect(cio.prefsCalls).toEqual([{ cio_id: 'c1', topics: {} }]);
+      expect(cio.profiles).toEqual([{
+        cio_id: 'c1', id: 'u1', email: 'new@example.com', prefs: {},
+      }]);
+    });
+
+    test('keeps the user\'s own preferences without rewriting them', async () => {
+      const cio = makeFakeCio([
+        {
+          cio_id: 'c1', id: 'u1', email: 'old@example.com', prefs: { topic_9: false },
+        },
+        { cio_id: 'c2', email: 'new@example.com', prefs: { topic_15: false } },
+      ]);
+      installFakeCio(cio);
+
+      await run();
+
+      expect(cio.prefsCalls).toEqual([]);
+      expect(cio.profiles).toEqual([{
+        cio_id: 'c1', id: 'u1', email: 'new@example.com', prefs: { topic_9: false },
+      }]);
     });
 
     test('merges into a claimed old-email profile', async () => {
@@ -313,7 +369,9 @@ describe('updateCustomerIoEmail', () => {
       await run();
 
       expect(cio.mergeCalls).toEqual([{ primary: 'c1', secondary: 'c2' }]);
-      expect(cio.profiles).toEqual([{ cio_id: 'c1', id: 'u1', email: 'new@example.com' }]);
+      expect(cio.profiles).toEqual([{
+        cio_id: 'c1', id: 'u1', email: 'new@example.com', prefs: {},
+      }]);
     });
 
     test('refuses to touch anything when the new email is owned by another existing user', async () => {

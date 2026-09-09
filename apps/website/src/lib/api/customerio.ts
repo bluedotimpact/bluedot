@@ -121,6 +121,14 @@ async function mergeOrphanProfilesOwningEmail({ userId, primaryCioId, email }: {
     throw new Error(`Email update aborted for user ${userId}: the new email is already owned by ${describeProfiles(liveOwners)}`);
   }
 
+  // customer.io's merge copies attributes from the orphan to the primary profile if they are not explicitly set
+  // on the primary. If the orphan is left over from deleting an account, then it has all topic preferences set as
+  // `false`, and naively merging would copy this to the primary profile.
+  // Workaround: If the primary has no explicit preferences, set "use default preferences" explicitly. This way
+  // the preferences from the primary profile are preserved
+  const userHasExplicitPreferences = Boolean((await getProfileById(userId))?.attributes?.cio_subscription_preferences);
+  if (!userHasExplicitPreferences) await setSubscriptionTopics({ cioId: primaryCioId, topics: {} });
+
   await Promise.all(others.map((profile) => mergeProfile({ primaryCioId, secondaryCioId: profile.cio_id })));
   const merged = await waitUntil(async () => (await searchProfilesByEmail(email)).every((profile) => profile.id === userId));
   if (!merged) {
