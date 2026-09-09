@@ -36,7 +36,7 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
         <meta property="og:title" content={`${programName} | BlueDot Impact`} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={`${SITE_URL}/programs/context-week`} />
-        {linkPreviewMetaTags({ imageUrl: LINK_PREVIEW_FALLBACK_IMAGE_URL })}
+        {linkPreviewMetaTags({ imageUrl: LINK_PREVIEW_FALLBACK_IMAGE_URL, alt: 'BlueDot Impact logo' })}
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={description} />
       </Head>

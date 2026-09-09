@@ -76,5 +76,6 @@ describe('ContextWeekProgramPage', () => {
     expect(document.querySelector('meta[property="og:description"]')?.getAttribute('content')).toBe(expectedDescription);
     expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe(expectedDescription);
     expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');
+    expect(document.querySelector('meta[property="og:image:alt"]')?.getAttribute('content')).toBe('BlueDot Impact logo');
   });
 });
