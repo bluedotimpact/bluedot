@@ -13,6 +13,7 @@ import {
   deduplicateActions,
   clearQueues,
   MAX_RETRIES,
+  waitForQueueToEmpty,
 } from './pg-sync';
 import type { AirtableAction } from './webhook';
 
@@ -55,7 +56,7 @@ vi.mock('@bluedot/db', () => ({
     airtableFieldId: 'fieldId',
     enabled: 'enabled',
   },
-  syncMetadataTable: {},
+  syncMetadataTable: { pg: {} },
 }));
 
 describe('deduplicateActions', () => {
@@ -300,5 +301,40 @@ describe('pg-sync priority queue', () => {
         expect.stringContaining(`Update failed after ${MAX_RETRIES} attempts, giving up: base1/table1/fail1`),
       ]),
     );
+  });
+});
+
+describe('waitForQueueToEmpty', () => {
+  beforeEach(() => {
+    clearQueues();
+    vi.clearAllMocks();
+  });
+
+  const makeUpdate = (recordId: string): AirtableAction => ({
+    baseId: 'base1',
+    tableId: 'table1',
+    recordId,
+    isDelete: false,
+    fieldIds: ['field1'],
+  });
+
+  test('resolves once the queue drains', async () => {
+    addToQueue([makeUpdate('low1')], 'low');
+
+    const wait = waitForQueueToEmpty();
+    await processUpdateQueue(async () => true);
+
+    await expect(wait).resolves.toBeUndefined();
+  });
+
+  test('multiple concurrent waiters all resolve when the queue drains', async () => {
+    addToQueue([makeUpdate('low1')], 'low');
+
+    const firstWait = waitForQueueToEmpty();
+    const secondWait = waitForQueueToEmpty();
+    await processUpdateQueue(async () => true);
+
+    await expect(firstWait).resolves.toBeUndefined();
+    await expect(secondWait).resolves.toBeUndefined();
   });
 });

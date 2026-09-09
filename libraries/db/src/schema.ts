@@ -28,22 +28,33 @@ export const metaTable = pgTable('meta', {
   pgField: text().notNull(),
 });
 
+// Outcome of the last finished full sync
+export type FullSyncStatus = 'success' | 'failed' | 'interrupted';
+
 /**
  * Table used to track sync operations and their status.
  * This helps determine when initial sync is needed.
  */
-export const syncMetadataTable = pgTable('sync_metadata', {
-  id: text().primaryKey().default('singleton'), // Single row table
-  lastFullSyncAt: timestamp(),
-  lastIncrementalSyncAt: timestamp(),
-  syncInProgress: boolean().default(false),
-  lastSyncStatus: text(), // 'success', 'failed', 'in_progress'
-  lastSyncError: text(),
-  updatedAt: timestamp().defaultNow(),
+export const syncMetadataTable = deprecationSafePgTable('sync_metadata', {
+  columns: {
+    id: text().primaryKey().default('singleton'), // Single row table
+    lastFullSyncStartedAt: timestamp(),
+    lastFullSyncFinishedAt: timestamp(),
+    lastFullSyncStatus: text().$type<FullSyncStatus>(),
+    lastFullSyncError: text(),
+    lastIncrementalSyncAt: timestamp(), // heartbeat: bumped whenever record updates are applied to Postgres
+  },
+  deprecatedColumns: {
+    lastFullSyncAt: timestamp(),
+    syncInProgress: boolean(),
+    lastSyncStatus: text(),
+    lastSyncError: text(),
+    updatedAt: timestamp(),
+  },
 });
 
 // Define sync status type
-export type SyncStatus = 'queued' | 'running' | 'completed';
+export type SyncStatus = 'queued' | 'running' | 'completed' | 'failed';
 
 /**
  * Table to track manual sync requests from the admin dashboard.
@@ -1723,7 +1734,7 @@ export const isDiscussionParticipant = (
 
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
-export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
+export type SyncMetadata = InferSelectModel<typeof syncMetadataTable.pg>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
