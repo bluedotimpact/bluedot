@@ -1,4 +1,6 @@
 import { logger } from '@bluedot/ui/src/api';
+import { userTable } from '@bluedot/db';
+import db from './db';
 import env from './env';
 import { normaliseEmail } from './utils';
 
@@ -12,7 +14,7 @@ const VERIFY_POLL_ATTEMPTS = 6;
 type CioProfileSummary = { cio_id: string; id?: string | null; email?: string | null };
 
 type CioProfile = {
-  identifiers?: { cio_id?: string; id?: string | null; email?: string | null };
+  identifiers: { cio_id: string; id?: string | null; email?: string | null };
   attributes?: Record<string, unknown>;
 };
 
@@ -53,6 +55,15 @@ export async function setSubscriptionTopics({ cioId, topics }: { cioId: string; 
   if (!res.ok) throw new Error(`customer.io subscription topic update failed: HTTP ${res.status}`);
 }
 
+async function mergeProfile({ primaryCioId, secondaryCioId }: { primaryCioId: string; secondaryCioId: string }): Promise<void> {
+  const res = await fetch(`${CIO_TRACK_V1_BASE}/merge_customers`, {
+    method: 'POST',
+    headers: trackHeaders(),
+    body: JSON.stringify({ primary: { cio_id: primaryCioId }, secondary: { cio_id: secondaryCioId } }),
+  });
+  if (!res.ok) throw new Error(`customer.io merge failed: HTTP ${res.status}`);
+}
+
 async function identify({ userId, email }: { userId: string; email: string }): Promise<void> {
   const res = await fetch(`${CIO_TRACK_V2_BASE}/batch`, {
     method: 'POST',
@@ -74,7 +85,8 @@ const profileEmail = (profile: CioProfile | null): string | null => {
   return typeof email === 'string' ? normaliseEmail(email) : null;
 };
 
-async function emailIsVisible({ userId, email }: { userId: string; email: string }): Promise<boolean> {
+// customer.io returns 200 before reads reflect a write, so poll until a read agrees
+async function waitUntil(condition: () => Promise<boolean>): Promise<boolean> {
   for (let attempt = 0; attempt < VERIFY_POLL_ATTEMPTS; attempt++) {
     // eslint-disable-next-line no-await-in-loop
     await new Promise((resolve) => {
@@ -82,13 +94,46 @@ async function emailIsVisible({ userId, email }: { userId: string; email: string
     });
     try {
       // eslint-disable-next-line no-await-in-loop
-      if (profileEmail(await getProfileById(userId)) === email) return true;
+      if (await condition()) return true;
     } catch (error) {
-      logger.warn(`Failed to read the customer.io profile for user ${userId} while verifying an email change:`, error);
+      logger.warn('Failed to read from customer.io while verifying a write:', error);
     }
   }
 
   return false;
+}
+
+const emailIsVisible = ({ userId, email }: { userId: string; email: string }) => waitUntil(async () => profileEmail(await getProfileById(userId)) === email);
+
+const describeProfiles = (profiles: CioProfileSummary[]) => profiles
+  .map((profile) => (profile.id ? `cio_${profile.cio_id} (user id ${profile.id})` : `cio_${profile.cio_id}`))
+  .join(', ');
+
+// A profile already owning the new email makes the rename silently fail. Orphans (no account behind them)
+// are merged into the user's profile; a live user's profile is a genuine conflict.
+async function mergeOrphanProfilesOwningEmail({ userId, primaryCioId, email }: { userId: string; primaryCioId: string; email: string }): Promise<void> {
+  const others = (await searchProfilesByEmail(email)).filter((profile) => profile.id !== userId);
+  if (others.length === 0) return;
+
+  const users = await Promise.all(others.map(async (profile) => (profile.id ? db.getFirst(userTable, { filter: { id: profile.id } }) : null)));
+  const liveOwners = others.filter((_, i) => users[i]);
+  if (liveOwners.length > 0) {
+    throw new Error(`Email update aborted for user ${userId}: the new email is already owned by ${describeProfiles(liveOwners)}`);
+  }
+
+  // customer.io's merge copies attributes from the orphan to the primary profile if they are not explicitly set
+  // on the primary. If the orphan is left over from deleting an account, then it has all topic preferences set as
+  // `false`, and naively merging would copy this to the primary profile.
+  // Workaround: If the primary has no explicit preferences, set "use default preferences" explicitly. This way
+  // the preferences from the primary profile are preserved
+  const userHasExplicitPreferences = Boolean((await getProfileById(userId))?.attributes?.cio_subscription_preferences);
+  if (!userHasExplicitPreferences) await setSubscriptionTopics({ cioId: primaryCioId, topics: {} });
+
+  await Promise.all(others.map((profile) => mergeProfile({ primaryCioId, secondaryCioId: profile.cio_id })));
+  const merged = await waitUntil(async () => (await searchProfilesByEmail(email)).every((profile) => profile.id === userId));
+  if (!merged) {
+    throw new Error(`Email update failed for user ${userId}: merging ${describeProfiles(others)} into cio_${primaryCioId} did not complete`);
+  }
 }
 
 export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, newEmail: newEmailRaw }: { userId: string; oldEmail: string; newEmail: string }): Promise<void> {
@@ -96,8 +141,10 @@ export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, new
   const newEmail = normaliseEmail(newEmailRaw);
 
   const cioProfileByUserId = await getProfileById(userId);
+  let primaryCioId: string;
   if (cioProfileByUserId) {
     if (profileEmail(cioProfileByUserId) === newEmail) return;
+    primaryCioId = cioProfileByUserId.identifiers.cio_id;
   } else {
     const cioProfilesByOldEmail = await searchProfilesByEmail(oldEmail);
     if (cioProfilesByOldEmail.length === 0) return;
@@ -106,6 +153,7 @@ export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, new
     }
 
     const cioProfileByOldEmail = cioProfilesByOldEmail[0]!;
+    primaryCioId = cioProfileByOldEmail.cio_id;
     if (cioProfileByOldEmail.id && cioProfileByOldEmail.id !== userId) {
       throw new Error(`Email update aborted for user ${userId}: the old-email profile is owned by a different user id (${cioProfileByOldEmail.id})`);
     }
@@ -120,6 +168,8 @@ export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, new
     }
   }
 
+  await mergeOrphanProfilesOwningEmail({ userId, primaryCioId, email: newEmail });
+
   // Update the CIO profile with the new email, and wait for it to propagate
   await identify({ userId, email: newEmail });
   if (await emailIsVisible({ userId, email: newEmail })) return;
@@ -130,8 +180,7 @@ export async function updateCustomerIoEmail({ userId, oldEmail: oldEmailRaw, new
     throw new Error(`Email update failed for user ${userId}: rename did not verify and no conflicting profile was found`);
   }
 
-  const owners = newEmailProfiles.map((profile) => (profile.id ? `cio_${profile.cio_id} (user id ${profile.id})` : `cio_${profile.cio_id}`)).join(', ');
-  throw new Error(`Email update failed for user ${userId}: the new email is already owned by ${owners}`);
+  throw new Error(`Email update failed for user ${userId}: the new email is already owned by ${describeProfiles(newEmailProfiles)}`);
 }
 
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`);
