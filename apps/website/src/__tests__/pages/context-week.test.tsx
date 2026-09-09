@@ -63,7 +63,11 @@ describe('ContextWeekProgramPage', () => {
     expect(screen.getByText('You can still fill out the application form as an expression of interest, but you may not hear back.')).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByRole('link', { name: 'Express interest' })).toHaveAttribute('href', 'https://example.com/context-week-application');
+      const interestLinks = screen.getAllByRole('link', { name: 'Express interest' });
+      expect(interestLinks).toHaveLength(2);
+      interestLinks.forEach((link) => {
+        expect(link).toHaveAttribute('href', 'https://example.com/context-week-application');
+      });
     });
 
     expect(document.title).toBe('Context Week | BlueDot Impact');

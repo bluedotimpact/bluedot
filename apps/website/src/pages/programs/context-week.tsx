@@ -40,7 +40,22 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={description} />
       </Head>
-      <MarketingHero title={programName} subtitle={PROGRAM_DESCRIPTION} />
+      <MarketingHero
+        title={programName}
+        subtitle={PROGRAM_DESCRIPTION}
+        cta={applicationUrl && (
+          <CTALinkOrButton
+            variant="unstyled"
+            size="large"
+            withChevron
+            url={applicationUrl}
+            target="_blank"
+            className="bg-white text-bluedot-darker hover:bg-white/90"
+          >
+            Express interest
+          </CTALinkOrButton>
+        )}
+      />
       <Breadcrumbs route={currentRoute} />
       <OverviewSection />
       <section className="section section-body">
