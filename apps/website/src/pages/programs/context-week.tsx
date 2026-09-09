@@ -45,11 +45,11 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
         subtitle={PROGRAM_DESCRIPTION}
         cta={applicationUrl && (
           <CTALinkOrButton
-            variant="primary"
+            variant="unstyled"
             withChevron
             url={applicationUrl}
             target="_blank"
-            className="min-h-11"
+            className="min-h-11 bg-white text-bluedot-darker hover:bg-white/90"
           >
             Express interest
           </CTALinkOrButton>
