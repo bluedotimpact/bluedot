@@ -57,30 +57,20 @@ describe('ContextWeekProgramPage', () => {
     </TrpcProvider>);
 
     expect(screen.getByRole('heading', { name: 'Context Week', level: 1 })).toBeInTheDocument();
-    expect(screen.getByText('Aug 30–Sept 4, 2026')).toBeInTheDocument();
-    expect(screen.getByText('Berkeley')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'About Context Week' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Participants' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Context Week and Incubator Week' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Programme' })).toBeInTheDocument();
-    expect(screen.getByText('Experiment concluded')).toBeInTheDocument();
-    expect(screen.getByText('The Context Week experiment has concluded. You can still fill out the application form as an expression of interest, but you may not hear back.')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'After Context Week' })).toBeInTheDocument();
-    expect(screen.getByText(/about ten hours of reading/)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'What we did' })).toBeInTheDocument();
+    expect(screen.getByText(/We brought together 24 participants at Lighthaven in Berkeley/)).toBeInTheDocument();
+    expect(screen.getByText('Context Week was a four-day residential experiment about AI safety. The experiment has concluded.')).toBeInTheDocument();
+    expect(screen.getByText('You can still fill out the application form as an expression of interest, but you may not hear back.')).toBeInTheDocument();
 
     await waitFor(() => {
-      const interestLinks = screen.getAllByRole('link', { name: 'Express interest' });
-      expect(interestLinks).toHaveLength(2);
-      interestLinks.forEach((link) => {
-        expect(link).toHaveAttribute('href', 'https://example.com/context-week-application');
-      });
+      expect(screen.getByRole('link', { name: 'Express interest' })).toHaveAttribute('href', 'https://example.com/context-week-application');
     });
 
     expect(document.title).toBe('Context Week | BlueDot Impact');
-    const expectedDescription = `The Context Week experiment has concluded. You can still fill out the application form as an expression of interest, but you may not hear back. ${programDescription}`;
+    const expectedDescription = 'Context Week was a four-day residential experiment about AI safety. The experiment has concluded. You can still fill out the application form as an expression of interest, but you may not hear back.';
     expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe(expectedDescription);
     expect(document.querySelector('meta[property="og:description"]')?.getAttribute('content')).toBe(expectedDescription);
     expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe(expectedDescription);
-    expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://bluedot.org/images/programs/link-preview/context-week.png');
+    expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');
   });
 });

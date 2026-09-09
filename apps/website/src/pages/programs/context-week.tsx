@@ -1,15 +1,12 @@
-import { Breadcrumbs, type BluedotRoute } from '@bluedot/ui';
+import {
+  Breadcrumbs, CTALinkOrButton, H3, P, type BluedotRoute,
+} from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
-import FourDayProgrammeSection from '../../components/context-week/FourDayProgrammeSection';
 import OverviewSection from '../../components/context-week/OverviewSection';
-import ParticipantOutputsSection from '../../components/context-week/ParticipantOutputsSection';
-import WhoItIsForSection from '../../components/context-week/WhoItIsForSection';
-import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
-import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
-import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
+import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../../lib/linkPreviewMetaTags';
 import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
@@ -18,15 +15,13 @@ import { ROUTES } from '../../lib/routes';
 
 const PROGRAM_SLUG = 'context-week';
 const FALLBACK_NAME = 'Context Week';
-const PROGRAM_DESCRIPTION = 'A four-day residential experiment designed to help people understand the AI safety field and decide where they could contribute.';
-const APPLICATION_NOTICE = 'The Context Week experiment has concluded. You can still fill out the application form as an expression of interest, but you may not hear back.';
+const PROGRAM_DESCRIPTION = 'Context Week was a four-day residential experiment about AI safety. The experiment has concluded.';
+const APPLICATION_NOTICE = 'You can still fill out the application form as an expression of interest, but you may not hear back.';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
-const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/context-week.png`;
-const LINK_PREVIEW_ALT = 'Context Week v1. A residential programme about the AI safety field and where participants could contribute. Berkeley, August 30 to September 4, 2026. Travel, accommodation, and meals covered.';
 
-const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
+const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
   const applicationUrl = useGrantApplicationUrl('context-week');
-  const description = `${APPLICATION_NOTICE} ${programDescription}`;
+  const description = `${PROGRAM_DESCRIPTION} ${APPLICATION_NOTICE}`;
   const currentRoute: BluedotRoute = {
     title: programName,
     url: '/programs/context-week',
@@ -41,40 +36,30 @@ const ContextWeekProgramPage = ({ programName, programDescription }: ProgramDeta
         <meta property="og:title" content={`${programName} | BlueDot Impact`} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={`${SITE_URL}/programs/context-week`} />
-        {linkPreviewMetaTags({
-          imageUrl: LINK_PREVIEW_IMAGE,
-          alt: LINK_PREVIEW_ALT,
-          width: 1200,
-          height: 630,
-          imageType: 'image/png',
-        })}
+        {linkPreviewMetaTags({ imageUrl: LINK_PREVIEW_FALLBACK_IMAGE_URL })}
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={description} />
       </Head>
-      <MarketingHero title={programName} subtitle={APPLICATION_NOTICE} />
+      <MarketingHero title={programName} subtitle={PROGRAM_DESCRIPTION} />
       <Breadcrumbs route={currentRoute} />
-      <GrantStatsStrip
-        program="context-week"
-        compact
-        primaryAction={{
-          label: 'Express interest',
-          url: applicationUrl,
-        }}
-        stats={[
-          { label: 'Status', value: 'Experiment concluded' },
-          { label: 'Past dates', value: 'Aug 30–Sept 4, 2026' },
-          { label: 'Location', value: 'Berkeley' },
-          { label: 'Covered', value: 'Travel, accommodation, meals' },
-        ]}
-      />
       <OverviewSection />
-      <WhoItIsForSection />
-      <FourDayProgrammeSection />
-      <ParticipantOutputsSection />
-      <AboutBlueDotSection
-        applicationUrl={applicationUrl}
-        ctaLabel="Express interest"
-      />
+      <section className="section section-body">
+        <div className="w-full max-w-prose flex flex-col gap-6">
+          <H3>Express interest</H3>
+          <P>{APPLICATION_NOTICE}</P>
+          {applicationUrl && (
+            <CTALinkOrButton
+              variant="primary"
+              withChevron
+              url={applicationUrl}
+              target="_blank"
+              className="min-h-11"
+            >
+              Express interest
+            </CTALinkOrButton>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
