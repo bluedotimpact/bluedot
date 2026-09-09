@@ -87,7 +87,7 @@ describe('isFullSyncRequired', () => {
   test('given a running sync that is not yet stale, returns false even with requests pending and a non-success last status', async () => {
     // GIVEN the last finished sync was interrupted, but another pod is now running a sync
     await seedInterruptedSync();
-    await db.pg.update(syncMetadataTable.pg).set({
+    await db.pg.update(syncMetadataTable).set({
       lastFullSyncStartedAt: new Date(),
       lastFullSyncFinishedAt: hoursAgo(1),
     });
@@ -100,7 +100,7 @@ describe('isFullSyncRequired', () => {
   test('given a sync that finished in the same millisecond it started, treats it as running', async () => {
     await seedCompletedSync();
     const now = new Date();
-    await db.pg.update(syncMetadataTable.pg).set({
+    await db.pg.update(syncMetadataTable).set({
       lastFullSyncStartedAt: now,
       lastFullSyncFinishedAt: now,
     });
@@ -110,7 +110,7 @@ describe('isFullSyncRequired', () => {
 
   test('given an old but finished sync, does not treat it as a stale running sync', async () => {
     await seedCompletedSync();
-    await db.pg.update(syncMetadataTable.pg).set({
+    await db.pg.update(syncMetadataTable).set({
       lastFullSyncStartedAt: hoursAgo(48),
       lastFullSyncFinishedAt: hoursAgo(47),
     });
@@ -120,7 +120,7 @@ describe('isFullSyncRequired', () => {
 
   test('given a stale running sync from a dead pod, returns true', async () => {
     await seedCompletedSync();
-    await db.pg.update(syncMetadataTable.pg).set({
+    await db.pg.update(syncMetadataTable).set({
       lastFullSyncStartedAt: hoursAgo(FULL_SYNC_TIMEOUT_HOURS + 0.5),
       lastFullSyncFinishedAt: hoursAgo(FULL_SYNC_TIMEOUT_HOURS + 1),
       lastIncrementalSyncAt: new Date(),
@@ -161,7 +161,7 @@ describe('isFullSyncRequired', () => {
 
   test('given last sync older than 24h threshold, returns true at boot only', async () => {
     await seedCompletedSync();
-    await db.pg.update(syncMetadataTable.pg).set({
+    await db.pg.update(syncMetadataTable).set({
       lastFullSyncStartedAt: hoursAgo(49),
       lastFullSyncFinishedAt: hoursAgo(48),
       lastIncrementalSyncAt: hoursAgo(48),
@@ -173,7 +173,7 @@ describe('isFullSyncRequired', () => {
 
   test('given stale full sync but recent incremental sync, returns false', async () => {
     await seedCompletedSync();
-    await db.pg.update(syncMetadataTable.pg).set({
+    await db.pg.update(syncMetadataTable).set({
       lastFullSyncStartedAt: hoursAgo(49),
       lastFullSyncFinishedAt: hoursAgo(48),
     });

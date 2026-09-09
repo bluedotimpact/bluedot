@@ -35,22 +35,13 @@ export type FullSyncStatus = 'success' | 'failed' | 'interrupted';
  * Table used to track sync operations and their status.
  * This helps determine when initial sync is needed.
  */
-export const syncMetadataTable = deprecationSafePgTable('sync_metadata', {
-  columns: {
-    id: text().primaryKey().default('singleton'), // Single row table
-    lastFullSyncStartedAt: timestamp(),
-    lastFullSyncFinishedAt: timestamp(),
-    lastFullSyncStatus: text().$type<FullSyncStatus>(),
-    lastFullSyncError: text(),
-    lastIncrementalSyncAt: timestamp(), // heartbeat: bumped whenever record updates are applied to Postgres
-  },
-  deprecatedColumns: {
-    lastFullSyncAt: timestamp(),
-    syncInProgress: boolean(),
-    lastSyncStatus: text(),
-    lastSyncError: text(),
-    updatedAt: timestamp(),
-  },
+export const syncMetadataTable = pgTable('sync_metadata', {
+  id: text().primaryKey().default('singleton'), // Single row table
+  lastFullSyncStartedAt: timestamp(),
+  lastFullSyncFinishedAt: timestamp(),
+  lastFullSyncStatus: text().$type<FullSyncStatus>(),
+  lastFullSyncError: text(),
+  lastIncrementalSyncAt: timestamp(), // heartbeat: bumped whenever record updates are applied to Postgres
 });
 
 // Define sync status type
@@ -1734,7 +1725,7 @@ export const isDiscussionParticipant = (
 
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
-export type SyncMetadata = InferSelectModel<typeof syncMetadataTable.pg>;
+export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;

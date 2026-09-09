@@ -40,7 +40,7 @@ describe('SyncManager.markSyncInterruptedOnShutdown', () => {
     await tick();
     await manager.markSyncCompleted();
     const otherPodStartedAt = new Date();
-    await db.pg.update(syncMetadataTable.pg).set({
+    await db.pg.update(syncMetadataTable).set({
       lastFullSyncStartedAt: otherPodStartedAt,
       lastFullSyncFinishedAt: hoursAgo(1),
     });

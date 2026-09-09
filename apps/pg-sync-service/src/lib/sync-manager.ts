@@ -15,7 +15,7 @@ export class SyncManager {
    */
   async getSyncMetadata(): Promise<SyncMetadata | null> {
     try {
-      const results = await db.pg.select().from(syncMetadataTable.pg).where(eq(syncMetadataTable.pg.id, 'singleton'));
+      const results = await db.pg.select().from(syncMetadataTable).where(eq(syncMetadataTable.id, 'singleton'));
       return results.length > 0 ? results[0] as SyncMetadata : null;
     } catch (error) {
       logger.error('[SyncManager] Error fetching sync metadata:', error);
@@ -30,7 +30,7 @@ export class SyncManager {
     try {
       const existing = await this.getSyncMetadata();
       if (!existing) {
-        await db.pg.insert(syncMetadataTable.pg).values({ id: 'singleton' });
+        await db.pg.insert(syncMetadataTable).values({ id: 'singleton' });
         logger.info('[SyncManager] Initialized sync metadata table');
       }
     } catch (error) {
@@ -45,9 +45,9 @@ export class SyncManager {
   async markSyncStarted(): Promise<void> {
     try {
       await this.initializeSyncMetadata();
-      await db.pg.update(syncMetadataTable.pg)
+      await db.pg.update(syncMetadataTable)
         .set({ lastFullSyncStartedAt: new Date() })
-        .where(eq(syncMetadataTable.pg.id, 'singleton'));
+        .where(eq(syncMetadataTable.id, 'singleton'));
 
       this.isThisProcessRunningAFullSync = true;
       logger.info('[SyncManager] Marked sync as started');
@@ -64,14 +64,14 @@ export class SyncManager {
   async markSyncCompleted(): Promise<void> {
     try {
       const now = new Date();
-      await db.pg.update(syncMetadataTable.pg)
+      await db.pg.update(syncMetadataTable)
         .set({
           lastFullSyncFinishedAt: now,
           lastFullSyncStatus: 'success',
           lastFullSyncError: null,
           lastIncrementalSyncAt: now,
         })
-        .where(eq(syncMetadataTable.pg.id, 'singleton'));
+        .where(eq(syncMetadataTable.id, 'singleton'));
 
       this.isThisProcessRunningAFullSync = false;
       logger.info('[SyncManager] Marked sync as completed successfully');
@@ -87,13 +87,13 @@ export class SyncManager {
    */
   async markSyncFailed(error: string): Promise<void> {
     try {
-      await db.pg.update(syncMetadataTable.pg)
+      await db.pg.update(syncMetadataTable)
         .set({
           lastFullSyncFinishedAt: new Date(),
           lastFullSyncStatus: 'failed',
           lastFullSyncError: error,
         })
-        .where(eq(syncMetadataTable.pg.id, 'singleton'));
+        .where(eq(syncMetadataTable.id, 'singleton'));
 
       this.isThisProcessRunningAFullSync = false;
       logger.error(`[SyncManager] Marked sync as failed: ${error}`);
@@ -110,13 +110,13 @@ export class SyncManager {
   async markSyncInterruptedOnShutdown(): Promise<void> {
     if (!this.isThisProcessRunningAFullSync) return;
     try {
-      await db.pg.update(syncMetadataTable.pg)
+      await db.pg.update(syncMetadataTable)
         .set({
           lastFullSyncFinishedAt: new Date(),
           lastFullSyncStatus: 'interrupted',
           lastFullSyncError: 'Sync was interrupted by process shutdown (SIGTERM)',
         })
-        .where(eq(syncMetadataTable.pg.id, 'singleton'));
+        .where(eq(syncMetadataTable.id, 'singleton'));
 
       this.isThisProcessRunningAFullSync = false;
       logger.warn('[SyncManager] Marked in-progress sync as interrupted due to shutdown');
@@ -131,9 +131,9 @@ export class SyncManager {
    */
   async markIncrementalSync(): Promise<void> {
     try {
-      await db.pg.update(syncMetadataTable.pg)
+      await db.pg.update(syncMetadataTable)
         .set({ lastIncrementalSyncAt: new Date() })
-        .where(eq(syncMetadataTable.pg.id, 'singleton'));
+        .where(eq(syncMetadataTable.id, 'singleton'));
     } catch (error) {
       logger.error('[SyncManager] Error updating incremental sync timestamp:', error);
       // Don't throw here as this is not critical

@@ -56,7 +56,7 @@ vi.mock('@bluedot/db', () => ({
     airtableFieldId: 'fieldId',
     enabled: 'enabled',
   },
-  syncMetadataTable: { pg: {} },
+  syncMetadataTable: {},
 }));
 
 describe('deduplicateActions', () => {
