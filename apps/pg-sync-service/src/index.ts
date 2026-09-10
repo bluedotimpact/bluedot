@@ -13,6 +13,7 @@ import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
 import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
 import { completeAllRunningRequests, includeQueuedRequestsInCurrentSync } from './lib/admin-dashboard-sync';
+import { syncFieldUsageMarkers } from './lib/field-usage-markers';
 
 const getInitialSyncTableNames = (args: string[]) => {
   const startIdx = args.indexOf('--initial-sync-tables');
@@ -134,6 +135,15 @@ const start = async () => {
 
     // Start admin sync cron after any initial sync logic is complete
     startAdminSyncCron();
+
+    // Best effort and not awaited: a failure here must never affect syncing.
+    // Production only, so a local run can't stamp a branch's schema onto the shared bases.
+    if (process.env.NODE_ENV === 'production') {
+      syncFieldUsageMarkers().catch((error: unknown) => {
+        Sentry.captureException(error);
+        logger.error('[field-usage-markers] Failed:', error);
+      });
+    }
   } catch (error) {
     logger.error('Failed to start server', error);
     Sentry.captureException(error);
