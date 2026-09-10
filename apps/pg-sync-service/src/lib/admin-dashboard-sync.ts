@@ -6,33 +6,24 @@ import { db } from './db';
 export const pendingRequestsFilter = inArray(syncRequestsTable.status, ['queued', 'running']);
 
 export async function claimPendingRequests(): Promise<number[]> {
-  try {
-    const pendingRequests = await db.pg.select()
-      .from(syncRequestsTable)
-      .where(pendingRequestsFilter);
+  const pendingRequests = await db.pg.select()
+    .from(syncRequestsTable)
+    .where(pendingRequestsFilter);
 
-    if (pendingRequests.length === 0) {
-      logger.info('[admin-dashboard] No pending requests to include in current sync');
-      return [];
-    }
-
-    const requestIds = pendingRequests.map((r) => r.id);
-    const now = new Date();
-
-    await db.pg.update(syncRequestsTable)
-      .set({
-        status: 'running',
-        startedAt: now,
-      })
-      .where(inArray(syncRequestsTable.id, requestIds));
-
-    logger.info(`[admin-dashboard] Included ${pendingRequests.length} pending requests in current sync: [${requestIds.join(', ')}]`);
-
-    return requestIds;
-  } catch (error) {
-    logger.error('[admin-dashboard] Error including pending requests in current sync:', error);
+  if (pendingRequests.length === 0) {
+    logger.info('[admin-dashboard] No pending requests to include in current sync');
     return [];
   }
+
+  const requestIds = pendingRequests.map((r) => r.id);
+
+  await db.pg.update(syncRequestsTable)
+    .set({ status: 'running', startedAt: new Date() })
+    .where(inArray(syncRequestsTable.id, requestIds));
+
+  logger.info(`[admin-dashboard] Included ${requestIds.length} pending requests in current sync: [${requestIds.join(', ')}]`);
+
+  return requestIds;
 }
 
 export async function setRequestsToCompleted(requestIds: number[]): Promise<void> {
