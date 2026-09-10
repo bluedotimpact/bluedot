@@ -11,6 +11,7 @@ import { startWebhooksAndProcessingUpdates, startAdminSyncCron } from './lib/cro
 import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
 import { isFullSyncRequired, runFullSync } from './lib/full-sync';
+import { createSyncRequest } from './lib/admin-dashboard-sync';
 
 process.on('SIGTERM', () => {
   syncManager.shuttingDown = true;
@@ -41,6 +42,12 @@ const start = async () => {
 
     const schemaChangesDetected = await ensureSchemaUpToDate();
 
+    if (hasInitialSyncFlag) {
+      await createSyncRequest('pg-sync-service (--initial-sync flag)');
+    } else if (schemaChangesDetected) {
+      await createSyncRequest('pg-sync-service (schema changes detected)');
+    }
+
     const instance = await getInstance();
     await instance.listen({
       port: env.PORT ? parseInt(env.PORT) : 8080,
@@ -51,7 +58,7 @@ const start = async () => {
 
     await startWebhooksAndProcessingUpdates();
 
-    const { isRequired, reason } = await isFullSyncRequired({ trigger: 'boot', hasInitialSyncFlag, schemaChangesDetected });
+    const { isRequired, reason } = await isFullSyncRequired({ trigger: 'boot' });
 
     if (isRequired) {
       logger.info(`[main] Starting full sync: ${reason}`);

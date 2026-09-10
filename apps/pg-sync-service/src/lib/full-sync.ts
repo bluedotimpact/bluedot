@@ -14,28 +14,12 @@ const SYNC_FRESHNESS_THRESHOLD_HOURS = 24;
 // A "running" sync older than this is presumed dead and a new full sync may start
 export const FULL_SYNC_TIMEOUT_HOURS = 3;
 
-type FullSyncCheck = {
-  trigger: 'boot' | 'cron';
-  hasInitialSyncFlag?: boolean;
-  schemaChangesDetected?: boolean;
-};
-
 /**
  * Whether the service should start a full sync right now, and why.
  */
-export async function isFullSyncRequired({
-  trigger, hasInitialSyncFlag, schemaChangesDetected,
-}: FullSyncCheck): Promise<{ isRequired: boolean; reason: string }> {
+export async function isFullSyncRequired({ trigger }: { trigger: 'boot' | 'cron' }): Promise<{ isRequired: boolean; reason: string }> {
   if (syncManager.shuttingDown) {
     return { isRequired: false, reason: 'shutdown in progress' };
-  }
-
-  if (hasInitialSyncFlag) {
-    return { isRequired: true, reason: '--initial-sync flag' };
-  }
-
-  if (schemaChangesDetected) {
-    return { isRequired: true, reason: 'schema changes detected' };
   }
 
   const metadata = await syncManager.getSyncMetadata();
@@ -59,10 +43,10 @@ export async function isFullSyncRequired({
     return { isRequired: false, reason: `a sync started at ${lastFullSyncStartedAt.toISOString()} is already running` };
   }
 
-  // Admin dashboard requests are waiting (or were orphaned as 'running' by a sync that died)
-  const pendingRequests = await db.pg.$count(syncRequestsTable, pendingRequestsFilter);
-  if (pendingRequests > 0) {
-    return { isRequired: true, reason: `${pendingRequests} admin dashboard sync requests pending` };
+  // Requests (from the admin dashboard or boot) are waiting, or were orphaned as 'running' by a sync that died
+  const pendingRequests = await db.pg.select().from(syncRequestsTable).where(pendingRequestsFilter);
+  if (pendingRequests.length > 0) {
+    return { isRequired: true, reason: `${pendingRequests.length} sync requests pending from: ${pendingRequests.map((r) => r.requestedBy).join(', ')}` };
   }
 
   // A rollout interrupted the last sync: retry as soon as possible
@@ -85,7 +69,7 @@ export async function isFullSyncRequired({
 }
 
 /**
- * Runs a full sync to completion, including any pending admin dashboard requests.
+ * Runs a full sync to completion, including any pending sync requests.
  * Never throws: a failure is recorded in the metadata and on the requests.
  */
 export async function runFullSync(): Promise<void> {
