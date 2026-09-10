@@ -25,8 +25,7 @@ npm run start -- --initial-sync-tables course person user
 
 The service is also the home for background jobs that need Airtable and Postgres access. None of these affect syncing: each one catches its own errors and reports them to Slack or Sentry.
 
-- **Admin dashboard sync requests** (every 10s): picks up full-sync requests queued from the admin dashboard and runs them when no sync is in progress.
 - **Computed Airtable fields** (every 2h): recomputes the fields defined in [`libraries/computed-airtable-fields`](../../libraries/computed-airtable-fields) and writes them back to Airtable.
 - **PostHog events** (every 30min): derives analytics events from Postgres state via [`libraries/computed-posthog-events`](../../libraries/computed-posthog-events) and forwards them to PostHog.
 - **Sentry heartbeat** (every minute): check-in for the `pg-sync-heartbeat` monitor, so Sentry alerts if the service stops.
-- **Field usage markers** (on startup, production only): adds `Consider deletion on: Never (used in code as of <date>)` to the Airtable description of every field referenced in `libraries/db/src/schema.ts` and removes it from fields that are no longer referenced (moving a column to `deprecatedColumns` counts as no longer referenced). The first startup of each day rewrites every marked field with that day's date.
+- **Field usage markers** (on startup, production only): adds `Consider deletion on: Never (used in code as of <date>)` to the Airtable description of every field referenced in `libraries/db/src/schema.ts`.
