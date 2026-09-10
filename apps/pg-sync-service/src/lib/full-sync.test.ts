@@ -6,6 +6,7 @@ import { db } from './db';
 import { FULL_SYNC_TIMEOUT_HOURS, isFullSyncRequired, runFullSync } from './full-sync';
 import { syncManager } from './sync-manager';
 import { performFullSync } from './scan';
+import { createSyncRequest } from './admin-dashboard-sync';
 
 vi.mock('./scan', () => ({
   performFullSync: vi.fn().mockResolvedValue(undefined),
@@ -181,11 +182,11 @@ describe('isFullSyncRequired', () => {
     expect(await isRequired({ trigger: 'boot' })).toBe(false);
   });
 
-  test('given a boot flag or schema change, returns true even after a recent sync', async () => {
+  test('given a request created by boot, returns true with its reason', async () => {
     await seedCompletedSync();
+    await createSyncRequest('pg-sync-service (schema changes detected)');
 
-    expect(await isRequired({ trigger: 'boot', hasInitialSyncFlag: true })).toBe(true);
-    expect(await isRequired({ trigger: 'boot', schemaChangesDetected: true })).toBe(true);
+    expect(await isFullSyncRequired({ trigger: 'boot' })).toEqual({ isRequired: true, reason: '1 sync requests pending from: pg-sync-service (schema changes detected)' });
   });
 
   test('returns the reason alongside the decision', async () => {

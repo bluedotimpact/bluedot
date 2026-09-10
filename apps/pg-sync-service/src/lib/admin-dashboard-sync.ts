@@ -5,6 +5,11 @@ import { db } from './db';
 // 'running' requests are included because with no live sync they are orphans of a sync that died
 export const pendingRequestsFilter = inArray(syncRequestsTable.status, ['queued', 'running']);
 
+export async function createSyncRequest(requestedBy: string): Promise<void> {
+  await db.pg.insert(syncRequestsTable).values({ requestedBy });
+  logger.info(`[admin-dashboard] Created sync request from ${requestedBy}`);
+}
+
 export async function claimPendingRequests(): Promise<number[]> {
   const pendingRequests = await db.pg.select()
     .from(syncRequestsTable)
