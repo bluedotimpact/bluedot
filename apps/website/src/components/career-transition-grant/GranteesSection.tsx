@@ -21,7 +21,6 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
         <Avatar name={name} imageSrc={imageUrl} size="medium" />
         <div className="flex min-w-0 flex-col">
           <H4 className="text-size-sm">
-            {/* Stretched link: the name is the card's only anchor, its hit area covers the card */}
             {profileUrl ? <ClickTarget url={profileUrl} className="after:absolute after:inset-0">{name}</ClickTarget> : name}
           </H4>
           {bio && (
