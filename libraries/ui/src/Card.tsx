@@ -5,28 +5,17 @@ import { Tag } from './Tag';
 import { cn } from './utils';
 
 const CARD_SHELL_STYLES = 'rounded-surface border border-subtle bg-raised p-6';
-// Only clickable shells get hover/focus affordances
 const CARD_HOVER_STYLES = 'transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm';
-const CARD_FOCUS_STYLES = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
+// Stretches the link's hit area over the whole card (stretched-link pattern)
+const STRETCHED_LINK_STYLES = 'after:absolute after:inset-0';
 
 export type CardShellProps = React.PropsWithChildren<{
   className?: string;
-  /** When set, the whole shell is a single link and gains hover/focus affordances */
-  url?: string | null;
 }>;
 
-export const CardShell: React.FC<CardShellProps> = ({ className, url, children }) => {
-  const shellClassName = cn(CARD_SHELL_STYLES, className);
-  if (url) {
-    return (
-      <ClickTarget url={url} className={cn(shellClassName, CARD_HOVER_STYLES, CARD_FOCUS_STYLES)}>
-        {children}
-      </ClickTarget>
-    );
-  }
-
-  return <div className={shellClassName}>{children}</div>;
-};
+export const CardShell: React.FC<CardShellProps> = ({ className, children }) => (
+  <div className={cn(CARD_SHELL_STYLES, className)}>{children}</div>
+);
 
 export type CardProps = {
   title: string;
