@@ -18,15 +18,10 @@ export const CardShell: React.FC<CardShellProps> = ({ className, children }) => 
 
 export type CardProps = {
   title: string;
-  /** Destination of the CTA. Its hit area is stretched over the whole card (stretched-link pattern) */
+  /** Destination of the card. Carried by the CTA when present, otherwise by the title */
   url: string;
-  /** The card's only real link. Accessible name is "<ctaText>: <title>" */
-  ctaText: string;
-  /**
-   * Body slot. Rendered above the stretched CTA, so its content behaves like normal
-   * content (selectable text, working form fields) instead of clicking through to `url`.
-   */
-  children?: React.ReactNode;
+  /** When set, renders a primary button as the card's link. Accessible name is "<ctaText>: <title>" */
+  ctaText?: string;
   className?: string;
   imageSrc?: string;
   isFullWidth?: boolean;
@@ -37,7 +32,6 @@ export const Card: React.FC<CardProps> = ({
   title,
   url,
   ctaText,
-  children,
   className,
   imageSrc,
   isFullWidth = false,
@@ -63,16 +57,17 @@ export const Card: React.FC<CardProps> = ({
             {ctaText ? title : <ClickTarget url={url} className={STRETCHED_LINK_STYLES}>{title}</ClickTarget>}
           </p>
           {subtitle && <p>{subtitle}</p>}
-          {children && <div className="relative z-10">{children}</div>}
         </div>
       </div>
-      <CTALinkOrButton
-        url={url}
-        aria-label={`${ctaText}: ${title}`}
-        className={cn('after:absolute after:inset-0', isFullWidth && 'md:shrink-0')}
-      >
-        {ctaText}
-      </CTALinkOrButton>
+      {ctaText && (
+        <CTALinkOrButton
+          url={url}
+          aria-label={`${ctaText}: ${title}`}
+          className={cn(STRETCHED_LINK_STYLES, isFullWidth && 'md:shrink-0')}
+        >
+          {ctaText}
+        </CTALinkOrButton>
+      )}
     </div>
   );
 };
