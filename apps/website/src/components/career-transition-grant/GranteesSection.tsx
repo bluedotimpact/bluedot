@@ -1,8 +1,7 @@
 import {
-  Avatar, CTALinkOrButton, H3, H4, P,
+  Avatar, CardShell, ClickTarget, cn, CTALinkOrButton, H3, H4, P,
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { trpc } from '../../utils/trpc';
 
 const COLLAPSED_ROWS = 3;
@@ -15,8 +14,6 @@ type GranteeCardProps = {
   profileUrl?: string | null;
 };
 
-const cardClass = 'group flex h-full flex-col rounded-lg border border-bluedot-navy/10 bg-white p-5 transition-colors hover:border-bluedot-navy/20';
-
 const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps) => {
   const cardContent = (
     <>
@@ -24,7 +21,7 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
         <Avatar name={name} imageSrc={imageUrl} size="medium" />
         <div className="flex min-w-0 flex-col">
           <H4 className="text-size-sm">
-            {name}
+            {profileUrl ? <ClickTarget url={profileUrl} className="after:absolute after:inset-0">{name}</ClickTarget> : name}
           </H4>
           {bio && (
             <p className="mt-1 text-size-xs leading-normal text-bluedot-navy/68">
@@ -46,11 +43,16 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
     </>
   );
 
-  if (profileUrl) {
-    return <Link href={profileUrl} className={cardClass}>{cardContent}</Link>;
-  }
-
-  return <div className={cardClass}>{cardContent}</div>;
+  return (
+    <CardShell
+      className={cn(
+        'group relative flex h-full flex-col',
+        profileUrl && 'transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm',
+      )}
+    >
+      {cardContent}
+    </CardShell>
+  );
 };
 
 // Column count for the current viewport, matching the grid classes below

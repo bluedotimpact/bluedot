@@ -1,4 +1,6 @@
-import { H2, H3, P } from '@bluedot/ui';
+import {
+  CardShell, H2, H3, P,
+} from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
 import Link from 'next/link';
@@ -51,12 +53,12 @@ const PathwaysSection = ({
             {pathways.map((pathway) => {
               const IconComponent = pathway.icon;
               return (
-                <div
+                <CardShell
                   key={pathway.title}
-                  className="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-bluedot-navy/8 hover:border-bluedot-navy/15 hover:shadow-sm transition-all duration-200"
+                  className="flex flex-col gap-4"
                 >
                   <div
-                    className="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                    className="size-12 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: pathway.accentColor }}
                   >
                     <IconComponent className="text-white" size={24} />
@@ -71,24 +73,24 @@ const PathwaysSection = ({
                     {pathway.linkUrl && pathway.linkText && (
                       <Link
                         href={pathway.linkUrl}
-                        className="text-size-sm font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                        className="text-size-sm font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1"
                       >
                         {pathway.linkText}
-                        <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                        <span>→</span>
                       </Link>
                     )}
                   </div>
-                </div>
+                </CardShell>
               );
             })}
           </div>
 
           {callout && (
-            <div className="mt-10 md:mt-12 p-6 md:p-8 rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03]">
+            <CardShell className="mt-10 md:mt-12 bg-bluedot-navy/[0.03]">
               <div className="text-size-sm leading-relaxed text-bluedot-navy/80">
                 {callout}
               </div>
-            </div>
+            </CardShell>
           )}
         </div>
       </div>

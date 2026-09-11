@@ -1,52 +1,59 @@
 import { describe, expect, test } from 'vitest';
 import { render } from '@testing-library/react';
-import { Card } from './Card';
+import { Card, CardShell } from './Card';
 
 describe('Card', () => {
   const defaultProps = {
     imageSrc: '/images/team/member.jpg',
     title: 'John Doe',
     subtitle: 'Developer',
-    ctaUrl: 'https://linkedin.com/in/johndoe',
+    url: 'https://linkedin.com/in/johndoe',
     ctaText: 'LinkedIn',
   };
 
-  test('renders default as expected', () => {
+  test('renders the CTA as the single real link, stretched over the card', () => {
     const { container } = render(<Card {...defaultProps} />);
     expect(container).toMatchSnapshot();
 
-    const anchorElement = container.querySelector('a.card__cta');
-    expect(anchorElement).not.toBeNull();
-    expect(anchorElement?.getAttribute('href')).toBe(defaultProps.ctaUrl);
+    const anchors = container.querySelectorAll('a');
+    expect(anchors).toHaveLength(1);
+    expect(anchors[0]?.getAttribute('href')).toBe(defaultProps.url);
+    expect(anchors[0]?.textContent).toBe(defaultProps.ctaText);
+    expect(anchors[0]?.className).toContain('after:inset-0');
+    expect(container.firstElementChild?.className).toContain('relative');
   });
 
-  test('renders with isEntireCardClickable as expected', () => {
-    const { container } = render(<Card {...defaultProps} isEntireCardClickable />);
-    expect(container).toMatchSnapshot();
+  test('accessible name combines CTA text and title so card lists are distinguishable', () => {
+    const { container } = render(<Card {...defaultProps} />);
+    expect(container.querySelector('a')?.getAttribute('aria-label')).toBe('LinkedIn: John Doe');
+  });
 
-    const anchorElement = container.querySelector('a.card');
-    expect(anchorElement).not.toBeNull();
-    expect(anchorElement?.getAttribute('href')).toBe(defaultProps.ctaUrl);
+  test('image is decorative (empty alt)', () => {
+    const { container } = render(<Card {...defaultProps} />);
+    expect(container.querySelector('img')?.getAttribute('alt')).toBe('');
   });
 
   test('renders with custom className', () => {
-    const { container } = render(<Card
-      {...defaultProps}
-      className="custom-class"
-    />);
-    const cardElement = container.querySelector('.custom-class');
-    expect(cardElement).not.toBeNull();
+    const { container } = render(<Card {...defaultProps} className="custom-class" />);
+    expect(container.querySelector('.custom-class')).not.toBeNull();
   });
 
-  test('does not include footer unless given', () => {
-    const { container } = render(<Card {...defaultProps} />);
-    const ctaMetadataElement = container.querySelector('.card__footer');
-    expect(ctaMetadataElement).toBeNull();
+  test('isFullWidth switches to a row layout on desktop with the CTA alongside', () => {
+    const { container } = render(<Card {...defaultProps} isFullWidth />);
+    expect(container.firstElementChild?.className).toContain('md:flex-row');
+    expect(container.querySelector('a')?.textContent).toBe('LinkedIn');
+    expect(container).toMatchSnapshot();
   });
+});
 
-  test('includes footer when given', () => {
-    const { container } = render(<Card {...defaultProps}>A footer of some kind</Card>);
-    const ctaMetadataElement = container.querySelector('.card__footer');
-    expect(ctaMetadataElement).not.toBeNull();
+describe('CardShell', () => {
+  test('renders the container styles around children', () => {
+    const { container } = render(<CardShell className="custom-class">Content</CardShell>);
+    const shell = container.firstElementChild;
+    expect(shell?.className).toContain('rounded-surface');
+    expect(shell?.className).toContain('p-6');
+    expect(shell?.className).toContain('custom-class');
+    expect(shell?.textContent).toBe('Content');
+    expect(shell?.tagName).toBe('DIV');
   });
 });

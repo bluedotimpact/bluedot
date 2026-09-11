@@ -1,4 +1,6 @@
-import { cn, H2, P } from '@bluedot/ui';
+import {
+  CardShell, cn, H2, P,
+} from '@bluedot/ui';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { PlusToggleIcon } from '../../icons';
@@ -82,7 +84,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                 const isOpen = openQuestions.includes(item.id);
 
                 return (
-                  <div key={item.id} className="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white">
+                  <CardShell key={item.id} className="overflow-hidden p-0">
                     <button
                       type="button"
                       onClick={() => handleToggle(item.id)}
@@ -116,7 +118,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </CardShell>
                 );
               })}
             </div>

@@ -6,8 +6,8 @@ export type { AvatarProps } from './Avatar';
 export { Breadcrumbs, type BluedotRoute } from './Breadcrumbs';
 export type { BreadcrumbsProps } from './Breadcrumbs';
 
-export { Card } from './Card';
-export type { CardProps } from './Card';
+export { Card, CardShell } from './Card';
+export type { CardProps, CardShellProps } from './Card';
 
 export { ClickTarget } from './ClickTarget';
 export type { ClickTargetProps } from './ClickTarget';

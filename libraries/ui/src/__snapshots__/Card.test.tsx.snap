@@ -1,131 +1,77 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Card > renders default as expected 1`] = `
+exports[`Card > isFullWidth switches to a row layout on desktop with the CTA alongside 1`] = `
 <div>
   <div
-    class="card flex items-start transition-transform duration-200 flex-col"
+    class="rounded-surface border border-subtle bg-raised p-6 transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6"
   >
     <div
-      class="card__image-container w-full mb-4"
+      class="flex flex-col gap-4 md:flex-1"
     >
       <img
-        alt="John Doe"
-        class="card__image max-w-full max-h-full object-cover rounded-lg "
+        alt=""
+        class="w-full rounded-surface object-cover"
         src="/images/team/member.jpg"
       />
-    </div>
-    <div
-      class="card__content flex gap-6 w-full flex-1 flex-col"
-    >
       <div
-        class="card__text"
+        class="text-size-sm text-secondary flex flex-col gap-3 leading-normal"
       >
-        <div
-          class="flex flex-row gap-4 items-center mb-2"
-        >
-          <p
-            class="bluedot-h4"
-          >
-            John Doe
-          </p>
-        </div>
         <p
-          class="card__subtitle bluedot-p "
+          class="text-size-md text-primary leading-snug font-semibold"
         >
+          John Doe
+        </p>
+        <p>
           Developer
         </p>
-        <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta mt-4"
-          href="https://linkedin.com/in/johndoe"
-          tabindex="0"
-        >
-          LinkedIn
-          <span
-            class="cta-button__chevron ml-3"
-          >
-            <svg
-              class="cta-button__chevron-icon size-2"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 320 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-              />
-            </svg>
-          </span>
-        </a>
       </div>
     </div>
+    <a
+      aria-label="LinkedIn: John Doe"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark after:absolute after:inset-0 md:shrink-0"
+      href="https://linkedin.com/in/johndoe"
+      tabindex="0"
+    >
+      LinkedIn
+    </a>
   </div>
 </div>
 `;
 
-exports[`Card > renders with isEntireCardClickable as expected 1`] = `
+exports[`Card > renders the CTA as the single real link, stretched over the card 1`] = `
 <div>
-  <a
-    class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01]"
-    href="https://linkedin.com/in/johndoe"
+  <div
+    class="rounded-surface border border-subtle bg-raised p-6 transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm relative flex flex-col gap-4"
   >
     <div
-      class="card__image-container w-full mb-4"
+      class="flex flex-col gap-4"
     >
       <img
-        alt="John Doe"
-        class="card__image max-w-full max-h-full object-cover rounded-lg "
+        alt=""
+        class="w-full rounded-surface object-cover"
         src="/images/team/member.jpg"
       />
-    </div>
-    <div
-      class="card__content flex gap-6 w-full flex-1 flex-col"
-    >
       <div
-        class="card__text"
+        class="text-size-sm text-secondary flex flex-col gap-3 leading-normal"
       >
-        <div
-          class="flex flex-row gap-4 items-center mb-2"
-        >
-          <p
-            class="bluedot-h4"
-          >
-            John Doe
-          </p>
-        </div>
         <p
-          class="card__subtitle bluedot-p "
+          class="text-size-md text-primary leading-snug font-semibold"
         >
+          John Doe
+        </p>
+        <p>
           Developer
         </p>
-        <button
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta mt-4"
-          type="button"
-        >
-          LinkedIn
-          <span
-            class="cta-button__chevron ml-3"
-          >
-            <svg
-              class="cta-button__chevron-icon size-2"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 320 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-              />
-            </svg>
-          </span>
-        </button>
       </div>
     </div>
-  </a>
+    <a
+      aria-label="LinkedIn: John Doe"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark after:absolute after:inset-0"
+      href="https://linkedin.com/in/johndoe"
+      tabindex="0"
+    >
+      LinkedIn
+    </a>
+  </div>
 </div>
 `;

@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import {
   cn, CTALinkOrButton, Eyebrow, H2, P,
+  CardShell,
 } from '@bluedot/ui';
 import { PlusToggleIcon } from '../../icons';
 import { type IconType } from 'react-icons';
@@ -54,9 +55,9 @@ const PersonasSection = ({
             const isExpanded = expandedIndex === index;
 
             return (
-              <div
+              <CardShell
                 key={persona.title}
-                className="bg-white rounded-xl border border-bluedot-navy/10 overflow-hidden"
+                className="overflow-hidden p-0"
               >
                 {/* Header - always visible, clickable */}
                 <button
@@ -125,7 +126,7 @@ const PersonasSection = ({
                     </div>
                   </div>
                 </div>
-              </div>
+              </CardShell>
             );
           })}
         </div>
