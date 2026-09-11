@@ -44,7 +44,7 @@ const WhatThisIsForSection = () => {
           {DECISION_CARDS.map((card) => (
             <CardShell
               key={card.title}
-              className="flex flex-col gap-3"
+              className="flex flex-col gap-4"
             >
               <H4>
                 {card.title}
