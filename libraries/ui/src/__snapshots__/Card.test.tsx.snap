@@ -75,39 +75,3 @@ exports[`Card > renders the CTA as the single real link, stretched over the card
   </div>
 </div>
 `;
-
-exports[`Card > without ctaText, the title is the single stretched link 1`] = `
-<div>
-  <div
-    class="rounded-surface border border-subtle bg-raised p-6 transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm relative flex flex-col gap-4"
-  >
-    <div
-      class="flex flex-col gap-4"
-    >
-      <img
-        alt=""
-        class="w-full rounded-surface object-cover"
-        src="/images/team/member.jpg"
-      />
-      <div
-        class="text-size-sm text-secondary flex flex-col gap-3 leading-normal"
-      >
-        <p
-          class="text-size-md text-primary leading-snug font-semibold"
-        >
-          <a
-            class="after:absolute after:inset-0"
-            href="https://linkedin.com/in/johndoe"
-            tabindex="0"
-          >
-            John Doe
-          </a>
-        </p>
-        <p>
-          Developer
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-`;

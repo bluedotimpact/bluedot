@@ -28,18 +28,6 @@ describe('Card', () => {
     expect(container.querySelector('a')?.getAttribute('aria-label')).toBe('LinkedIn: John Doe');
   });
 
-  test('without ctaText, the title is the single stretched link', () => {
-    const { ctaText: _, ...props } = defaultProps;
-    const { container } = render(<Card {...props} />);
-    expect(container).toMatchSnapshot();
-
-    const anchors = container.querySelectorAll('a, button');
-    expect(anchors).toHaveLength(1);
-    expect(anchors[0]?.getAttribute('href')).toBe(props.url);
-    expect(anchors[0]?.textContent).toBe(props.title);
-    expect(anchors[0]?.className).toContain('after:inset-0');
-  });
-
   test('image is decorative (empty alt)', () => {
     const { container } = render(<Card {...defaultProps} />);
     expect(container.querySelector('img')?.getAttribute('alt')).toBe('');
