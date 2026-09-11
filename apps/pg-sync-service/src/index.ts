@@ -72,7 +72,6 @@ const start = async () => {
     startPostBootCronJobs();
 
     // Best effort and not awaited: a failure here must never affect syncing.
-    // Production only, so a local run can't stamp a branch's schema onto the shared bases.
     if (process.env.NODE_ENV === 'production') {
       syncFieldUsageMarkers().catch((error: unknown) => {
         Sentry.captureException(error);
