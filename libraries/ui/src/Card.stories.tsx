@@ -34,13 +34,12 @@ export const WithoutMedia: Story = {
   },
 };
 
-export const WithBadge: Story = {
+export const WithoutCta: Story = {
   args: {
-    title: 'Card header',
-    subtitleBadge: 'New',
-    subtitle: 'A status-labelled item where a small tag sits next to the title.',
-    ctaText: 'Primary action',
+    title: 'Card header is the link',
+    subtitle: 'No CTA button: the title carries the stretched link, so the whole card is still clickable.',
     url: 'https://example.com',
+    imageSrc: 'https://placehold.co/312x140',
     className: 'max-w-[360px]',
   },
 };

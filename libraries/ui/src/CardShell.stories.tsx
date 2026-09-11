@@ -20,14 +20,6 @@ export const Default: Story = {
   },
 };
 
-export const Linked: Story = {
-  args: {
-    url: 'https://example.com',
-    className: 'max-w-[360px]',
-    children: 'With `url` the whole shell is one link — hover darkens the border and adds a small shadow.',
-  },
-};
-
 export const NoPadding: Story = {
   args: {
     className: 'max-w-[360px] p-0 overflow-hidden',
