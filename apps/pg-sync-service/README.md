@@ -28,4 +28,4 @@ The service is also the home for background jobs that need Airtable and Postgres
 - **Computed Airtable fields** (every 2h): recomputes the fields defined in [`libraries/computed-airtable-fields`](../../libraries/computed-airtable-fields) and writes them back to Airtable.
 - **PostHog events** (every 30min): derives analytics events from Postgres state via [`libraries/computed-posthog-events`](../../libraries/computed-posthog-events) and forwards them to PostHog.
 - **Sentry heartbeat** (every minute): check-in for the `pg-sync-heartbeat` monitor, so Sentry alerts if the service stops.
-- **Field usage markers** (on startup, production only): adds `Consider deletion on: Never (used in code as of <date>)` to the Airtable description of every field referenced in `libraries/db/src/schema.ts`.
+- **Field usage markers** (on startup, production only): adds `Consider deletion on: Never (used in code)` to the Airtable description of every field referenced in `libraries/db/src/schema.ts`.
