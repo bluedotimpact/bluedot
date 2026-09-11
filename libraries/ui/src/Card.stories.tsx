@@ -34,16 +34,6 @@ export const WithoutMedia: Story = {
   },
 };
 
-export const WithoutCta: Story = {
-  args: {
-    title: 'Card header is the link',
-    subtitle: 'No CTA button: the title carries the stretched link, so the whole card is still clickable.',
-    url: 'https://example.com',
-    imageSrc: 'https://placehold.co/312x140',
-    className: 'max-w-[360px]',
-  },
-};
-
 export const FullWidth: Story = {
   args: {
     title: 'Clickable card',
