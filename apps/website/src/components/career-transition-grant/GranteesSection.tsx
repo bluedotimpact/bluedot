@@ -44,7 +44,12 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
   );
 
   return (
-    <CardShell url={profileUrl} className="group flex h-full flex-col">
+    <CardShell
+      className={cn(
+        'group relative flex h-full flex-col',
+        profileUrl && 'transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm',
+      )}
+    >
       {cardContent}
     </CardShell>
   );
