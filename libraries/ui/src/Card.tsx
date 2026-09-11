@@ -1,7 +1,6 @@
 import type React from 'react';
 import { ClickTarget } from './ClickTarget';
 import { CTALinkOrButton } from './CTALinkOrButton';
-import { Tag } from './Tag';
 import { cn } from './utils';
 
 const CARD_SHELL_STYLES = 'rounded-surface border border-subtle bg-raised p-6';
@@ -32,7 +31,6 @@ export type CardProps = {
   imageSrc?: string;
   isFullWidth?: boolean;
   subtitle?: string;
-  subtitleBadge?: string;
 };
 
 export const Card: React.FC<CardProps> = ({
@@ -44,7 +42,6 @@ export const Card: React.FC<CardProps> = ({
   imageSrc,
   isFullWidth = false,
   subtitle,
-  subtitleBadge,
 }) => {
   return (
     <div
@@ -62,10 +59,9 @@ export const Card: React.FC<CardProps> = ({
           <img className="w-full rounded-surface object-cover" src={imageSrc} alt="" />
         )}
         <div className="text-size-sm text-secondary flex flex-col gap-3 leading-normal">
-          <div className="flex flex-row items-center gap-2">
-            <p className="text-size-md text-primary leading-snug font-semibold">{title}</p>
-            {subtitleBadge && <Tag variant="secondary">{subtitleBadge}</Tag>}
-          </div>
+          <p className="text-size-md text-primary leading-snug font-semibold">
+            {ctaText ? title : <ClickTarget url={url} className={STRETCHED_LINK_STYLES}>{title}</ClickTarget>}
+          </p>
           {subtitle && <p>{subtitle}</p>}
           {children && <div className="relative z-10">{children}</div>}
         </div>
