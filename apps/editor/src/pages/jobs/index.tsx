@@ -31,7 +31,7 @@ const JobsPage = withAuth(({ auth }) => {
   }
 
   return (
-    <div className="job-list__container flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       {data.jobs.map((job) => (
         <Card
           key={job.id}
