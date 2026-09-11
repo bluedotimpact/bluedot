@@ -45,19 +45,19 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
         return (
           <li key={item.url} className={cn('flex min-w-0 items-center gap-2', isMiddle && 'hidden bd-md:flex')}>
             {isLast ? (
-              <span aria-current="page" title={item.title} className="text-bluedot-navy truncate">
+              <span aria-current="page" title={item.title} className="text-primary truncate">
                 {item.title}
               </span>
             ) : (
-              <A className="text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline" href={item.url}>
+              <A className="text-secondary hover:text-primary truncate no-underline" href={item.url}>
                 {item.title}
               </A>
             )}
-            {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-bluedot-navy/70 shrink-0" />}
+            {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-secondary shrink-0" />}
             {index === 0 && collapsible && (
-              <span aria-hidden="true" className="bd-md:hidden text-bluedot-navy/70 flex items-center gap-2">
+              <span aria-hidden="true" className="bd-md:hidden text-secondary flex items-center gap-2">
                 ⋯
-                <ChevronRightIcon size={16} className="text-bluedot-navy/70 shrink-0" />
+                <ChevronRightIcon size={16} className="text-secondary shrink-0" />
               </span>
             )}
           </li>
@@ -68,7 +68,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
 };
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => (
-  <div className={cn('border-bluedot-navy/10 w-full border-b bg-white py-3', className)}>
+  <div className={cn('bg-canvas border-subtle w-full border-b py-3', className)}>
     <nav className="section-base" aria-label="Breadcrumbs">
       <BreadcrumbTrail route={route} />
     </nav>
