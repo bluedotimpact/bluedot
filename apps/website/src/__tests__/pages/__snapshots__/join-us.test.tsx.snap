@@ -275,7 +275,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                       </a>
                     </div>
                     <div
-                      class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
+                      class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
                     >
                       <a
                         class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
@@ -570,7 +570,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
       </div>
     </section>
     <div
-      class="border-bluedot-navy/10 w-full border-b bg-white py-3"
+      class="bg-canvas border-subtle w-full border-b py-3"
     >
       <nav
         aria-label="Breadcrumbs"
@@ -583,7 +583,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="flex min-w-0 items-center gap-2"
           >
             <a
-              class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
+              class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
               href="/"
               tabindex="0"
             >
@@ -591,7 +591,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             </a>
             <svg
               aria-hidden="true"
-              class="text-bluedot-navy/70 shrink-0"
+              class="text-secondary shrink-0"
               fill="none"
               height="16"
               viewBox="0 0 20 20"
@@ -612,7 +612,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
           >
             <span
               aria-current="page"
-              class="text-bluedot-navy truncate"
+              class="text-primary truncate"
               title="Work with us"
             >
               Work with us

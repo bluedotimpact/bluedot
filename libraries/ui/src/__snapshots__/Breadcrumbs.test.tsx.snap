@@ -3,7 +3,7 @@
 exports[`Breadcrumbs > renders parent pages as links and the current page as plain text 1`] = `
 <div>
   <div
-    class="border-bluedot-navy/10 w-full border-b bg-white py-3"
+    class="bg-canvas border-subtle w-full border-b py-3"
   >
     <nav
       aria-label="Breadcrumbs"
@@ -16,7 +16,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           class="flex min-w-0 items-center gap-2"
         >
           <a
-            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
+            class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
             href="/"
             tabindex="0"
           >
@@ -24,7 +24,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </a>
           <svg
             aria-hidden="true"
-            class="text-bluedot-navy/70 shrink-0"
+            class="text-secondary shrink-0"
             fill="none"
             height="16"
             viewBox="0 0 20 20"
@@ -41,11 +41,11 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </svg>
           <span
             aria-hidden="true"
-            class="bd-md:hidden text-bluedot-navy/70 flex items-center gap-2"
+            class="bd-md:hidden text-secondary flex items-center gap-2"
           >
             ⋯
             <svg
-              class="text-bluedot-navy/70 shrink-0"
+              class="text-secondary shrink-0"
               fill="none"
               height="16"
               viewBox="0 0 20 20"
@@ -66,7 +66,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           class="min-w-0 items-center gap-2 hidden bd-md:flex"
         >
           <a
-            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
+            class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
             href="/courses"
             tabindex="0"
           >
@@ -74,7 +74,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </a>
           <svg
             aria-hidden="true"
-            class="text-bluedot-navy/70 shrink-0"
+            class="text-secondary shrink-0"
             fill="none"
             height="16"
             viewBox="0 0 20 20"
@@ -94,7 +94,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           class="min-w-0 items-center gap-2 hidden bd-md:flex"
         >
           <a
-            class="bluedot-a not-prose text-bluedot-navy/70 hover:text-bluedot-navy truncate no-underline"
+            class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
             href="/courses/future-of-ai"
             tabindex="0"
           >
@@ -102,7 +102,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </a>
           <svg
             aria-hidden="true"
-            class="text-bluedot-navy/70 shrink-0"
+            class="text-secondary shrink-0"
             fill="none"
             height="16"
             viewBox="0 0 20 20"
@@ -123,7 +123,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
         >
           <span
             aria-current="page"
-            class="text-bluedot-navy truncate"
+            class="text-primary truncate"
             title="Unit 1"
           >
             Unit 1
