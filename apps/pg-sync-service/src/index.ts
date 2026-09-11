@@ -14,25 +14,6 @@ import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
 import { completeAllRunningRequests, includeQueuedRequestsInCurrentSync } from './lib/admin-dashboard-sync';
 
-const getInitialSyncTableNames = (args: string[]) => {
-  const startIdx = args.indexOf('--initial-sync-tables');
-  if (startIdx === -1) {
-    return [];
-  }
-
-  const tableArgs: string[] = [];
-  for (let i = startIdx + 1; i < args.length; i++) {
-    const arg = args[i];
-    if (arg && !arg.startsWith('--')) {
-      tableArgs.push(arg);
-    } else {
-      break;
-    }
-  }
-
-  return tableArgs;
-};
-
 const start = async () => {
   try {
     logger.info('Server starting...');
@@ -53,17 +34,6 @@ const start = async () => {
     }
 
     const hasInitialSyncFlag = process.argv.includes('--initial-sync');
-    const hasInitialSyncTablesFlag = process.argv.includes('--initial-sync-tables');
-
-    if (hasInitialSyncFlag && hasInitialSyncTablesFlag) {
-      throw new Error('Cannot use both --initial-sync and --initial-sync-tables flags together. Use either --initial-sync for all tables or --initial-sync-tables followed by specific table names.');
-    }
-
-    const initialSyncTableNames = hasInitialSyncTablesFlag ? getInitialSyncTableNames(process.argv) : undefined;
-
-    if (initialSyncTableNames?.length === 0) {
-      throw new Error('Flag --initial-sync-tables requires at least one table name. Example: --initial-sync-tables course person user');
-    }
 
     const schemaChangesDetected = await ensureSchemaUpToDate();
 
@@ -78,13 +48,11 @@ const start = async () => {
     await startWebhooksAndProcessingUpdates();
 
     // Check if initial sync is needed (either via flag, automatic detection, or schema changes)
-    const needsFullSync = hasInitialSyncFlag || hasInitialSyncTablesFlag || schemaChangesDetected || await syncManager.isInitialSyncNeeded();
+    const needsFullSync = hasInitialSyncFlag || schemaChangesDetected || await syncManager.isInitialSyncNeeded();
 
     if (needsFullSync) {
       if (hasInitialSyncFlag) {
         logger.info('[main] Starting full sync due to --initial-sync flag...');
-      } else if (hasInitialSyncTablesFlag) {
-        logger.info(`[main] Starting full sync of specific tables ([${initialSyncTableNames?.join(', ')}]) due to --initial-sync-tables flag...`);
       } else if (schemaChangesDetected) {
         logger.info('[main] Starting full sync due to schema changes...');
       } else {
@@ -99,7 +67,7 @@ const start = async () => {
         }
 
         await syncManager.markSyncStarted();
-        await performFullSync(addToQueue, initialSyncTableNames);
+        await performFullSync(addToQueue);
 
         // Wait for queue to empty with defensive timeout handling
         try {

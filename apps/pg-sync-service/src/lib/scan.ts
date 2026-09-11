@@ -1,5 +1,5 @@
 import {
-  eq, and, getPgAirtableFromIds, inArray, metaTable, type PgAirtableTable,
+  eq, getPgAirtableFromIds, metaTable, type PgAirtableTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { db } from './db';
@@ -114,10 +114,7 @@ export async function processTableForInitialSync(
 /**
  * Performs full sync by discovering all tracked tables and processing each one.
  */
-export async function performFullSync(
-  addToQueue: (actions: AirtableAction[], priority: 'low' | 'high') => void,
-  limitToTables?: string[],
-): Promise<void> {
+export async function performFullSync(addToQueue: (actions: AirtableAction[], priority: 'low' | 'high') => void): Promise<void> {
   logger.info('🚀 Starting full sync...');
 
   const tableFieldMappings = await db.pg
@@ -125,24 +122,9 @@ export async function performFullSync(
       baseId: metaTable.airtableBaseId,
       tableId: metaTable.airtableTableId,
       fieldId: metaTable.airtableFieldId,
-      pgTable: metaTable.pgTable,
     })
     .from(metaTable)
-    .where(limitToTables
-      ? and(
-        eq(metaTable.enabled, true),
-        inArray(metaTable.pgTable, limitToTables),
-      )
-      : eq(metaTable.enabled, true));
-
-  if (limitToTables) {
-    const foundPgNames = new Set(tableFieldMappings.map((r) => r.pgTable));
-    const missingPgNames = new Set(limitToTables.filter((x) => !foundPgNames.has(x)));
-
-    if (missingPgNames.size) {
-      logger.warn(`Failed to find some of the tables given by --initial-sync-tables: ${Array.from(missingPgNames).join(', ')}`);
-    }
-  }
+    .where(eq(metaTable.enabled, true));
 
   const tableFieldMap: Record<string, string[]> = {};
   for (const { baseId, tableId, fieldId } of tableFieldMappings) {
