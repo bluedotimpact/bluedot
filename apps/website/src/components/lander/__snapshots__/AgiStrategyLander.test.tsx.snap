@@ -1476,7 +1476,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-6"
           >
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-background"
@@ -1524,7 +1524,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-beginners"
@@ -1572,7 +1572,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-formats"
@@ -1620,7 +1620,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-timezones"
@@ -1668,7 +1668,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-direction"
@@ -1716,7 +1716,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-funding"
@@ -1771,7 +1771,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-certificate"
@@ -1819,7 +1819,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-free"
@@ -1867,7 +1867,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
+              class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-bluedot"
