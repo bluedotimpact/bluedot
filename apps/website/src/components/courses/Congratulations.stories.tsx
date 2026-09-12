@@ -177,3 +177,25 @@ export const FoAI: Story = {
     },
   },
 };
+
+export const Biosecurity: Story = {
+  ...loggedInStory(),
+  args: {
+    courseTitle: 'Biosecurity',
+    coursePath: '/courses/biosecurity',
+    courseSlug: 'biosecurity',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.certificates.getStatus.query(() => ({
+          ...hasCertificateMock,
+          courseName: 'Biosecurity',
+          courseSlug: 'biosecurity',
+          certificationDescription: 'Demonstrated understanding of how to prevent, detect and respond to pandemic threats.',
+          courseDetailsUrl: 'https://bluedot.org/courses/biosecurity',
+        })),
+      ],
+    },
+  },
+};

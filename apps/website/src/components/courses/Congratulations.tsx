@@ -9,6 +9,7 @@ import {
   FaCircleMinus,
   FaLink, FaLinkedinIn,
   FaRegCopy,
+  FaUserPlus,
   FaXTwitter,
 } from 'react-icons/fa6';
 import { BLUEDOT_LINKEDIN_ORG_ID, COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
@@ -114,6 +115,28 @@ const ChatPreviewPanel = ({ courseUrl, shareText }: { courseUrl: string; shareTe
         />
       </svg>
     </div>
+  </div>
+);
+
+const REFERRAL_STEPS = [
+  'You tell us who they are. A line on why you thought of them helps.',
+  'We invite them to apply, and mention your name if you allow it.',
+  'Know more than one person? Submit the form once for each.',
+];
+
+const ReferralStepsPanel = () => (
+  <div className="flex h-full flex-col justify-center gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l md:p-8">
+    <Eyebrow className="text-bluedot-navy/80">What happens next</Eyebrow>
+    <ol className="flex flex-col gap-3">
+      {REFERRAL_STEPS.map((step, index) => (
+        <li key={step} className="flex items-start gap-3">
+          <span className="bg-bluedot-normal flex size-6 shrink-0 items-center justify-center rounded-full text-size-xxs font-semibold text-white">
+            {index + 1}
+          </span>
+          <p className="text-bluedot-navy text-size-sm leading-relaxed">{step}</p>
+        </li>
+      ))}
+    </ol>
   </div>
 );
 
@@ -349,8 +372,15 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   const [copied, setCopied] = useState(false);
 
   const courseUrl = `${SITE_URL}${coursePath}`;
+  const congratulationsConfig = COURSE_CONFIG[courseSlug]?.congratulations;
+  const headline = congratulationsConfig?.headline ?? 'Help more people discover AI safety today';
+  const shareCardDescription
+    = congratulationsConfig?.shareCardDescription
+      ?? 'Take a minute to celebrate and raise awareness for safe AI in your network!';
+  const referralFormUrl = congratulationsConfig?.referralFormUrl;
   const shareText
     = text
+      ?? congratulationsConfig?.shareText
       ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const dmText = `Hey, I just finished this free ${courseTitle} course and it genuinely shifted how I think about this stuff. Thought you'd find it interesting as well.`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}&text=${encodeURIComponent(shareText)}`;
@@ -390,7 +420,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             </Eyebrow>
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: fixed 32px at all breakpoints inside the gradient share card */}
             <H2 className="text-[32px] text-white">
-              Help more people discover AI safety today
+              {headline}
             </H2>
             <P className="text-white">
               You&apos;ve spent time understanding one of the most important problems of our era. A post or a message to
@@ -401,7 +431,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           <div className="flex w-full flex-col gap-8">
             <ShareCard
               title="1. Share with your network"
-              description="Take a minute to celebrate and raise awareness for safe AI in your network!"
+              description={shareCardDescription}
               preview={<PostPreviewPanel courseSlug={courseSlug} shareText={shareText} courseUrl={courseUrl} />}
               actions={
                 <>
@@ -417,19 +447,33 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               }
             />
 
-            <ShareCard
-              title="2. Refer a friend or colleague"
-              description={
-                'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way.'
-              }
-              preview={<ChatPreviewPanel courseUrl={courseUrl} shareText={dmText} />}
-              actions={
-                <button type="button" onClick={handleCopyShare} className={primaryBtnClass}>
-                  <FaRegCopy className="size-4" />
-                  {copied ? 'Copied!' : 'Copy Message'}
-                </button>
-              }
-            />
+            {referralFormUrl ? (
+              <ShareCard
+                title="2. Refer a friend or colleague"
+                description="Know someone who should be working on this? Give us their name and we'll invite them to apply. Some of our best participants came in through referrals. Takes about a minute."
+                preview={<ReferralStepsPanel />}
+                actions={
+                  <a href={referralFormUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
+                    <FaUserPlus className="size-4" />
+                    Refer someone
+                  </a>
+                }
+              />
+            ) : (
+              <ShareCard
+                title="2. Refer a friend or colleague"
+                description={
+                  'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way.'
+                }
+                preview={<ChatPreviewPanel courseUrl={courseUrl} shareText={dmText} />}
+                actions={
+                  <button type="button" onClick={handleCopyShare} className={primaryBtnClass}>
+                    <FaRegCopy className="size-4" />
+                    {copied ? 'Copied!' : 'Copy Message'}
+                  </button>
+                }
+              />
+            )}
           </div>
         </div>
       </div>
