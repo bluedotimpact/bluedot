@@ -21,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     applicationUrl: 'https://example.com/apply',
-    applicationDeadline: 'August 14',
+    applicationDeadline: 'October 28',
     contactEmail: 'joshua@bluedot.org',
   },
 };
