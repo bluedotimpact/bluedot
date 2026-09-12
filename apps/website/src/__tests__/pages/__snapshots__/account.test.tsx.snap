@@ -7,41 +7,53 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
       Account | BlueDot Impact
     </title>
     <div
-      class="bg-canvas border-b border-default w-full py-space-between"
+      class="bg-canvas border-subtle w-full border-b py-3"
     >
       <nav
         aria-label="Breadcrumbs"
-        class="section-base flex flex-row justify-between"
+        class="section-base"
       >
         <ol
-          class="flex"
+          class="text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium"
         >
           <li
-            class="flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
             <a
-              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
+              class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
               href="/"
               tabindex="0"
             >
               Home
             </a>
-            <span
-              class="mx-2"
+            <svg
+              aria-hidden="true"
+              class="text-secondary shrink-0"
+              fill="none"
+              height="16"
+              viewBox="0 0 20 20"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              &gt;
-            </span>
+              <path
+                d="M7.5 5L12.5 10L7.5 15"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+              />
+            </svg>
           </li>
           <li
-            class="flex items-center"
+            class="flex min-w-0 items-center gap-2"
           >
-            <a
-              class="bluedot-a not-prose no-underline text-bluedot-darker hover:text-bluedot-normal"
-              href="/account"
-              tabindex="0"
+            <span
+              aria-current="page"
+              class="text-primary truncate"
+              title="Account"
             >
               Account
-            </a>
+            </span>
           </li>
         </ol>
       </nav>
