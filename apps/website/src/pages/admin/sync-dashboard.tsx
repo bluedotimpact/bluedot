@@ -187,8 +187,7 @@ const SyncDashboard = () => {
         <div className="container-lined mb-8 p-4 bg-blue-50 border-blue-200">
           <P className="font-semibold text-blue-900 mb-2">Important notes</P>
           <ul className="text-size-sm text-blue-800 space-y-1 list-disc list-inside">
-            <li>This dashboard only shows manually requested syncs</li>
-            <li>Automatic syncs from schema changes are not displayed here</li>
+            <li>Syncs that pg-sync-service starts itself (e.g. after a schema change) are listed here as requested by pg-sync-service</li>
             <li>Check the Slack channel for sync start/stop updates</li>
             <li>If syncs appear stuck, check #pg-sync-alerts Slack channel for pg-sync-service status</li>
           </ul>
@@ -197,14 +196,14 @@ const SyncDashboard = () => {
         {/* Recent activity (last 24 hours) */}
         <div>
           <H3 className="mb-4 flex items-center gap-2">
-            Manual sync requests (last 24 hours)
+            Sync requests (last 24 hours)
             {isFetching && (
               <RiLoader4Line className="animate-spin text-bluedot-normal" size={16} />
             )}
           </H3>
 
           {!syncData || syncData.length === 0 ? (
-            <P className="text-gray-600">No manual sync requests in the last 24 hours</P>
+            <P className="text-gray-600">No sync requests in the last 24 hours</P>
           ) : (
             <div className="container-lined overflow-hidden">
               <table className="w-full">
@@ -263,6 +262,7 @@ const StatusBadge = ({ status }: { status: SyncStatus }) => {
     queued: 'bg-gray-500',
     running: 'bg-yellow-500',
     completed: 'bg-green-500',
+    failed: 'bg-red-500',
   };
 
   return (

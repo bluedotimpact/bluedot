@@ -94,7 +94,7 @@ describe('SyncDashboard - Main User Journeys', () => {
     render(<SyncDashboard />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('No manual sync requests in the last 24 hours')).toBeInTheDocument();
+      expect(screen.getByText('No sync requests in the last 24 hours')).toBeInTheDocument();
     });
     expect(screen.getByRole('heading', { name: 'Sync dashboard' })).toBeInTheDocument();
 

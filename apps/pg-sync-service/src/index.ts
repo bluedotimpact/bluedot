@@ -8,11 +8,16 @@ import env from './env';
 import { db } from './lib/db';
 import { assertAirtableLiveness } from './lib/airtable-liveness';
 import { startWebhooksAndProcessingUpdates, startAdminSyncCron } from './lib/cron';
-import { performFullSync } from './lib/scan';
-import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
 import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
-import { completeAllRunningRequests, includeQueuedRequestsInCurrentSync } from './lib/admin-dashboard-sync';
+import { isFullSyncRequired, runFullSync } from './lib/full-sync';
+import { createSyncRequest } from './lib/admin-dashboard-sync';
+
+process.on('SIGTERM', () => {
+  syncManager.shuttingDown = true;
+  logger.info('Received SIGTERM, shutting down...');
+  syncManager.markSyncInterruptedOnShutdown().finally(() => process.exit(0));
+});
 
 const start = async () => {
   try {
@@ -37,6 +42,12 @@ const start = async () => {
 
     const schemaChangesDetected = await ensureSchemaUpToDate();
 
+    if (hasInitialSyncFlag) {
+      await createSyncRequest('pg-sync-service (--initial-sync flag)');
+    } else if (schemaChangesDetected) {
+      await createSyncRequest('pg-sync-service (schema changes detected)');
+    }
+
     const instance = await getInstance();
     await instance.listen({
       port: env.PORT ? parseInt(env.PORT) : 8080,
@@ -47,57 +58,13 @@ const start = async () => {
 
     await startWebhooksAndProcessingUpdates();
 
-    // Check if initial sync is needed (either via flag, automatic detection, or schema changes)
-    const needsFullSync = hasInitialSyncFlag || schemaChangesDetected || await syncManager.isInitialSyncNeeded();
+    const { isRequired, reason } = await isFullSyncRequired({ trigger: 'boot' });
 
-    if (needsFullSync) {
-      if (hasInitialSyncFlag) {
-        logger.info('[main] Starting full sync due to --initial-sync flag...');
-      } else if (schemaChangesDetected) {
-        logger.info('[main] Starting full sync due to schema changes...');
-      } else {
-        logger.info('[main] Starting full sync based on metadata check...');
-      }
-
-      try {
-        // Mark any queued admin dashboard requests as running so they're handled by the initial sync
-        const queuedRequestsMarkedAsRunning = await includeQueuedRequestsInCurrentSync();
-        if (queuedRequestsMarkedAsRunning > 0) {
-          logger.info(`[main] Included ${queuedRequestsMarkedAsRunning} queued admin dashboard requests in current sync`);
-        }
-
-        await syncManager.markSyncStarted();
-        await performFullSync(addToQueue);
-
-        // Wait for queue to empty with defensive timeout handling
-        try {
-          logger.info('[main] Waiting for sync queue to empty...');
-          await waitForQueueToEmpty();
-          logger.info('[main] Queue emptied successfully');
-        } catch (waitError) {
-          // If waitForQueueToEmpty times out or fails, log the error but continue
-          // This ensures we don't get stuck with syncInProgress=true forever
-          logger.error('[main] Failed to wait for queue to empty, but continuing to complete sync:', waitError);
-        }
-
-        await syncManager.markSyncCompleted();
-
-        // Initial sync satisfies all pending sync requests
-        const completedRequests = await completeAllRunningRequests();
-        if (completedRequests > 0) {
-          logger.info(`[main] Completed ${completedRequests} running sync requests after initial sync`);
-        }
-
-        logger.info('[main] Full sync completed successfully');
-      } catch (error) {
-        Sentry.captureException(error);
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        await syncManager.markSyncFailed(errorMessage);
-
-        logger.error('[main] Full sync failed:', error);
-      }
+    if (isRequired) {
+      logger.info(`[main] Starting full sync: ${reason}`);
+      await runFullSync();
     } else {
-      logger.info('[main] No full sync needed, continuing with normal operations');
+      logger.info(`[main] No full sync needed (${reason}), continuing with normal operations`);
     }
 
     // Start admin sync cron after any initial sync logic is complete
