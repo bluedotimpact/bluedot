@@ -60,33 +60,22 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
 
   'ai-governance': {
     title: 'How it works',
-    scheduleCtaText: 'Apply by 10 May',
+    scheduleCtaText: 'Apply now',
     details: [
       {
         icon: PiGraduationCap,
-        label: 'Prerequisites',
-        description: (
-          <>
-            <a href="/courses/agi-strategy" className="font-medium underline hover:text-bluedot-normal">AGI Strategy course</a>
-            {' '}
-            (or equivalent), high-level understanding of AI, and bias toward action.
-          </>
-        ),
-      },
-      {
-        icon: PiGraduationCap,
-        label: 'Selection',
-        description: '~20-25% acceptance rate. We\'re looking for people who are analytical, motivated, and considering making this their life\'s work. If you\'re here to add a credential, this isn\'t for you.',
+        label: 'Preparation',
+        description: 'No previous BlueDot course is required. Some familiarity with AI capabilities and risks will help. Come ready to read critically, write, and defend and revise your views.',
       },
       {
         icon: PiClockClockwise,
         label: 'Time',
-        description: '~30 hours total. 2-3 hours of readings and exercises per unit; 2 hours of live discussion with a cohort of 6-8, led by a Teaching Fellow working in AI governance.',
+        description: 'Around 40 hours total across six units. Each unit includes 4–5 hours of readings and exercises and a two-hour live discussion with a small cohort, led by a Teaching Fellow working in AI governance.',
       },
       {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'Free (pay-what-you-want).',
+        description: 'Free, with optional contributions.',
       },
     ],
   },

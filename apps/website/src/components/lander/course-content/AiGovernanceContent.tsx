@@ -19,20 +19,21 @@ export const createAiGovernanceContent = (
 ): CourseLanderContent => ({
   meta: {
     title: 'Frontier AI Governance Course | BlueDot Impact',
-    description: 'A ~30-hour cohort course for people ready to help governments and institutions make better decisions about frontier AI and AGI.',
+    description: 'A 40-hour online course to build your judgment on frontier AI governance. Assess evidence, compare strategies, and plan how you can contribute. No previous BlueDot course required.',
   },
 
   hero: {
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'Frontier AI Governance',
-    description: 'Governments are making decisions about AI. They don\'t have enough people who get it. You could be one of them.',
+    description: 'Build the judgment to help shape how frontier AI is governed. Assess evidence, compare competing strategies, and test your ideas through practical exercises and discussion. Leave with a concrete plan for how you can contribute.',
+    quickFacts: 'Online · 40 hours · Intensive or part-time · Free',
     primaryCta: {
-      text: 'Apply by 10 May',
+      text: 'Apply now',
       url: applicationUrlWithUtm,
     },
     secondaryCta: {
       text: 'Browse curriculum',
-      url: `/courses/${courseSlug}/1/1`,
+      url: '#curriculum',
     },
     imageSrc: '/images/lander/ai-governance/hero-graphic.png',
     imageAlt: 'Frontier AI Governance visualization',
@@ -42,6 +43,7 @@ export const createAiGovernanceContent = (
   },
 
   hideTestimonials: true,
+  graduateLabel: 'BlueDot alumni work at',
   courseInformationHeadingVariant: 'compact',
 
   whoIsThisForText: {
@@ -49,94 +51,32 @@ export const createAiGovernanceContent = (
     title: 'Who this course is for',
     items: [
       {
-        heading: 'Technical people considering governance',
-        body: (
-          <>
-            You understand how these systems work - you&apos;ve built, shipped, or founded. You&apos;re considering whether to point those skills at policy. Engineers, PMs, and founders have made this move and now sit at AISI, NIST, GovAI, and lab policy teams. You&apos;ll leave with the political judgment to match the technical, and a clear read on which roles have leverage.
-          </>
-        ),
+        heading: 'Technical people exploring governance',
+        body: 'You work with AI as an engineer, researcher, product manager, or founder, and want to understand how your technical skills could inform policy and institutional decisions.',
       },
       {
-        heading: 'Serious early-career people',
-        body: 'You\'ve engaged seriously with AI - through our AGI Strategy course, a university group, or your own reading - and you\'re weighing fellowships, grad school, law school, or roles you haven\'t fully mapped. Alumni from this track have gone to Horizon, GovAI, AISI, and lab policy teams; many decided their path during the course. The cohort becomes a network that outlasts it.',
+        heading: 'Professionals with institutional experience',
+        body: 'You work in policy, law, national security, economics, diplomacy, journalism, or a related field, and want to bring informed judgment on frontier AI to your work.',
       },
       {
-        heading: 'Professionals with institutional knowledge',
-        body: 'You have a career - policy, national security, economics, law, diplomacy, intelligence, journalism, finance - and you can see AI is about to reshape it, and everything else too. Your goal isn\'t to switch fields. It\'s to become the person your beat, your agency, your country turns to on the risks and opportunities of AGI.',
-      },
-    ],
-  },
-
-  courseBenefitsText: {
-    id: 'support',
-    title: 'How BlueDot supports you beyond the course',
-    paragraphs: [
-      (
-        <>
-          FAIGC is one course in a wider BlueDot pipeline. During the course, we learn enough about participants to point them toward what makes sense next. Outside BlueDot, that often means introductions - to hiring managers at AI safety organisations or fellowship leads. Inside BlueDot, it means our other programs:
-          {' '}
-          <a href="/grants/rapid" className={externalLinkClassName}>Rapid Grants</a>
-          {' '}
-          for concrete projects,
-          {' '}
-          <a href="/grants/career-transition" className={externalLinkClassName}>Career Transition Grants</a>
-          {' '}
-          for full-time pivots,
-          {' '}
-          <a href="/programs/incubator-week" className={externalLinkClassName}>Incubator Week</a>
-          {' '}
-          for founders, or the
-          {' '}
-          <a href="/courses/technical-ai-safety-project" className={externalLinkClassName}>Technical AI Safety Project Sprint</a>
-          {' '}
-          for technical builders.
-        </>
-      ),
-      (
-        <>
-          The
-          {' '}
-          <a href="/courses/agi-strategy" className={externalLinkClassName}>AGI Strategy Course</a>
-          {' '}
-          is the upstream prerequisite; jurisdiction- and domain-specific courses are in development. About 10,000 alumni are in our Slack - job openings and policy debates come through daily.
-        </>
-      ),
-    ],
-  },
-
-  pathwaysList: {
-    title: 'Where alumni go',
-    items: [
-      {
-        title: 'Build something new',
-        summary: 'Some come out of the course ready to launch: a project, organisation, or research bet. We back policy entrepreneurs.',
-      },
-      {
-        title: 'Fellowships',
-        summary: 'Horizon, GovAI, IAPS, TechCongress, and the strategy streams of MATS and Astra are the obvious next steps. We are often upstream; alumni from earlier cohorts have placed into all of these.',
-      },
-      {
-        title: 'Government and policy roles',
-        summary: 'AISI, NIST/CAISI, OSTP, congressional offices, the EU AI Office, OECD, UN, and frontier lab policy teams (Anthropic, OpenAI, Google DeepMind) all need technical fluency plus political judgment.',
-      },
-      {
-        title: 'Research and analysis',
-        summary: 'AI governance has a real think-and-do tank community. Many graduates work at RAND, CSET, IfP, IAPS, and CLTR.',
+        heading: 'People considering their next step',
+        body: 'You are exploring research, fellowships, further study, or a career in AI governance, and want to test your interest through substantive work and discussion.',
       },
     ],
   },
 
   courseOutcomes: {
+    id: 'curriculum',
     title: 'What you\'ll actually do',
     accentColor: AI_GOVERNANCE_COLORS.iconBackground,
     headingVariant: 'compact',
     outcomes: [
       {
         icon: PiBookOpen,
-        title: 'Unit 1: Read models like a policymaker',
+        title: 'Unit 1: Assess frontier AI evidence',
         description: (
           <>
-            Read a full system card alongside METR and Epoch evaluations; produce policy briefings tailored to a specific decision-maker.
+            Read selected system-card sections alongside independent evaluations. Write briefings for decision-makers and take part in a simulated oversight board.
           </>
         ),
         linkUrl: `/courses/${courseSlug}/1/1`,
@@ -144,69 +84,73 @@ export const createAiGovernanceContent = (
       },
       {
         icon: PiMapTrifold,
-        title: 'Unit 2: Map power',
-        description: 'Map who has power over frontier AI - labs, governments, international bodies - and where the gaps are, including how other actors approach AI risk.',
+        title: 'Unit 2: Map institutions and power',
+        description: 'Map who can act on frontier AI, where their power depends on others, and where institutional gaps or policy windows create opportunities.',
         linkUrl: `/courses/${courseSlug}/2/1`,
         linkText: 'View Unit 2',
       },
       {
         icon: PiHandshake,
-        title: 'Unit 3: Stress-test proposals',
-        description: 'Survey compute governance, safety standards, liability, and international coordination. Argue for and against proposals you didn\'t choose.',
+        title: 'Unit 3: Compare governance strategies',
+        description: 'Compare competing approaches to governing frontier AI. Reconstruct arguments you disagree with and examine what would change your view.',
         linkUrl: `/courses/${courseSlug}/3/1`,
         linkText: 'View Unit 3',
       },
       {
         icon: PiBank,
-        title: 'Unit 4: Govern under pressure',
-        description: 'This is the unit most governance courses don\'t have. Examine competitive dynamics between labs and states, power concentration, and governance as capabilities approach and exceed human-level.',
+        title: 'Unit 4: Test proposals under pressure',
+        description: 'Stress-test governance ideas against accelerating capabilities, competition between labs and states, and the concentration of power.',
         linkUrl: `/courses/${courseSlug}/4/1`,
         linkText: 'View Unit 4',
       },
       {
         icon: PiLightbulb,
-        title: 'Unit 5: Take a side',
-        description: 'Pick a live debate - open-weight models, whether frontier development should be slowed, and more. Read across the spectrum, then defend a position in writing.',
+        title: 'Unit 5: Defend a position',
+        description: 'Your group chooses one debate: open-weight models or restraining frontier AI development. Read competing arguments, write a position, and defend it in discussion.',
         linkUrl: `/courses/${courseSlug}/5/1`,
         linkText: 'View Unit 5',
       },
       {
         icon: PiPath,
-        title: 'Unit 6: Make your roadmap',
-        description: 'Audit your skills, network, and comparative advantage. Produce a 6-month roadmap, with the expectation you\'ll act on it.',
+        title: 'Unit 6: Plan your contribution',
+        description: 'Assess your skills and opportunities. Get peer feedback on a concrete 30-day action and a six-month plan for contributing to AI governance.',
         linkUrl: `/courses/${courseSlug}/6/1`,
         linkText: 'View Unit 6',
       },
     ],
   },
-  courseOutcomesPlacement: 'beforeStructure',
 
   scheduleList: {
-    title: 'Schedule',
-    intro: 'Intensive cohorts run for 6 days at ~5h/day. Part-time cohorts run for 6 weeks at ~5h/week. Apply by the deadline listed below.',
+    title: 'Dates and format',
+    intro: 'Choose a six-day intensive or a six-week part-time cohort. Both cover the same material: around 6–7 hours per day or week, including preparation and live discussion.',
     courseSlug,
     applicationUrl: applicationUrlWithUtm,
-    fallbackText: 'Intensive starts 18 May, 8 Jun, and 22 Jun. Part-time starts 8 Jun and 20 Jul. Apply by the deadline listed below.',
-    fallbackCtaText: 'Apply by 10 May',
+    hoursPerUnit: '6–7',
+    fallbackText: 'Check the application form for upcoming cohorts.',
+    fallbackCtaText: 'Apply now',
   },
 
-  fieldBuilding: {
-    title: 'Help build the field',
-    intro: 'We also hire Adjunct Experts and Facilitators (~5h/week) and Fellow-Researchers (20-30h/week) to teach.',
-    headingVariant: 'compact',
-    roles: [
-      {
-        title: 'Adjunct Experts and Facilitators',
-        description: 'Work with a cohort for about 5 hours per week: lead discussions, bring current AI governance judgment, and help participants find their next step.',
-        linkUrl: '/facilitate',
-        linkText: 'Apply',
-      },
-      {
-        title: 'Fellow-Researchers',
-        description: 'Teach while continuing governance research or field-building work, typically 20-30 hours per week.',
-        linkUrl: '/facilitate',
-        linkText: 'Apply',
-      },
+  courseBenefitsTextPlacement: 'afterStructure',
+  courseBenefitsText: {
+    id: 'support',
+    title: 'After the course',
+    paragraphs: [
+      'Join the wider BlueDot alumni community to exchange ideas, find collaborators, and hear about jobs and fellowships. Use your course roadmap to choose your next step, whether that means research, a policy role, further study, or a project of your own.',
+      (
+        <>
+          Where relevant, explore BlueDot&apos;s
+          {' '}
+          <a href="/grants/rapid" className={externalLinkClassName}>Rapid Grants</a>
+          {' '}
+          and
+          {' '}
+          <a href="/grants/career-transition" className={externalLinkClassName}>Career Transition Grants</a>
+          . Interested in teaching? See
+          {' '}
+          <a href="/facilitate" className={externalLinkClassName}>facilitation opportunities</a>
+          .
+        </>
+      ),
     ],
   },
 
@@ -216,29 +160,34 @@ export const createAiGovernanceContent = (
       {
         id: 'corporate-ai-governance',
         question: 'Is this corporate AI governance or AI ethics?',
-        answer: 'No. We mean frontier AI and AGI - the policy, coordination, and institutional decisions that shape whether advanced AI goes well.',
+        answer: 'The focus is frontier AI and AGI: the policy, coordination, and institutional decisions that shape the development and deployment of increasingly capable AI. It is not a course on corporate compliance or internal AI-use policies.',
       },
       {
-        id: 'technical-background',
-        question: 'Do I need a technical background?',
-        answer: 'No - but you need to engage with the technology seriously enough to assess capability claims. AGI Strategy or equivalent is the bar.',
+        id: 'prior-experience',
+        question: 'Do I need a previous BlueDot course or a technical background?',
+        answer: 'No previous BlueDot course or technical qualification is required. Some familiarity with AI capabilities and risks will help. Come ready to read critically, write, and defend and revise your views.',
       },
       {
         id: 'us-focused',
-        question: 'Is this US-focused?',
-        answer: 'In part. The US is where we think much of the current leverage is. We also cover the EU, UK, China, and international coordination to a smaller extent.',
+        question: 'Which countries does the course cover?',
+        answer: 'The course draws heavily on US examples, alongside the UK, EU, China, and international coordination. You will examine how institutions and political context affect what can work in different jurisdictions.',
+      },
+      {
+        id: 'discussion-times',
+        question: 'When are the live discussions?',
+        answer: 'We run discussions across a range of time zones. You will share your availability so we can match you with a group. Choose a cohort whose dates work for you, and allow time to complete the readings and exercises before each discussion.',
       },
       {
         id: 'vs-fellowships',
         question: 'How is this different from fellowships in the field?',
-        answer: 'Lower commitment (~30 hours vs months full-time). We\'re often upstream - the course helps you decide which fellowships to pursue, and we help you get there.',
+        answer: 'This is a 40-hour course built around readings, exercises, and facilitated discussion. It can help you explore your direction and prepare for further work in the field. It does not include a full-time research placement.',
       },
     ],
   },
 
   banner: {
-    title: 'Governments need people who get AI.',
-    ctaText: 'Apply by 10 May',
+    title: 'Help shape how frontier AI is governed.',
+    ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
     imageSrc: '/images/lander/ai-governance/hero-banner-split.webp',
     imageAlt: 'Frontier AI Governance banner',

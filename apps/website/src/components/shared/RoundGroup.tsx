@@ -16,11 +16,12 @@ type RoundGroupProps = {
   accentColor?: string;
   /** Cap the number of rounds shown. Defaults to 3. */
   maxRounds?: number;
+  hoursPerUnit?: string;
 };
 
 // eslint-disable-next-line react/function-component-definition
 export default function RoundGroup({
-  type, rounds, applicationUrl, accentColor, maxRounds = DEFAULT_MAX_ROUNDS,
+  type, rounds, applicationUrl, accentColor, maxRounds = DEFAULT_MAX_ROUNDS, hoursPerUnit = '5',
 }: RoundGroupProps) {
   const displayedRounds = rounds.slice(0, maxRounds);
   const firstRound = displayedRounds[0];
@@ -28,7 +29,7 @@ export default function RoundGroup({
 
   const label = type === 'intensive' ? 'Intensive:' : 'Part-time:';
   const unitLabel = type === 'intensive' ? 'day' : 'week';
-  const perLabel = type === 'intensive' ? '5h/day' : '5h/week';
+  const perLabel = `${hoursPerUnit}h/${unitLabel}`;
   const description = numberOfUnits ? `${numberOfUnits} ${unitLabel} course (${perLabel})` : `${unitLabel} course`;
 
   return (

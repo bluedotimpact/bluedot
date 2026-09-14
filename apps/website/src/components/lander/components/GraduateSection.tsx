@@ -25,7 +25,7 @@ const logos = [
   { src: '/images/third-party-logos/1day-sooner.webp', alt: '1Day Sooner' },
 ];
 
-const GraduateSection = () => {
+const GraduateSection = ({ label = 'Our 10,000+ alumni work at' }: { label?: string }) => {
   return (
     <section className="w-full h-[106px] bd-md:h-[91px] bg-white flex items-center">
       {/* At 2xl viewports the alumni bar right-aligns with a 272px gap on the left so
@@ -37,7 +37,7 @@ const GraduateSection = () => {
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none">
           {/* Text */}
           <P className="whitespace-nowrap flex-shrink-0">
-            Our 10,000+ alumni work at
+            {label}
           </P>
 
           {/* Logos with scrolling */}

@@ -47,6 +47,7 @@ export type CourseLanderContent = {
   hero: HeroSectionProps;
   /** Alumni logos section - if provided, replaces GraduateSection */
   alumniLogos?: AlumniLogosSectionProps;
+  graduateLabel?: string;
   /** Standard "Who is this for" section with icon cards */
   whoIsThisFor?: WhoIsThisForSectionProps;
   /** Editorial text variant of "Who this course is for" — paragraphs, no icon cards */
@@ -58,6 +59,7 @@ export type CourseLanderContent = {
   courseBenefitsPlacement?: 'default' | 'beforePathways';
   /** Editorial text variant of "How this course will benefit you" — heading + paragraph pairs, no icons */
   courseBenefitsText?: CourseBenefitsTextSectionProps;
+  courseBenefitsTextPlacement?: 'default' | 'afterStructure';
   /** Course outcomes section - alternative to courseBenefits for text-focused content */
   courseOutcomes?: CourseOutcomesSectionProps;
   /** Optional placement override for course outcomes section */
@@ -200,7 +202,7 @@ const CourseLander = ({
       {content.alumniLogos ? (
         <AlumniLogosSection {...content.alumniLogos} />
       ) : (
-        <GraduateSection />
+        <GraduateSection label={content.graduateLabel} />
       )}
 
       <div className="border-t-hairline border-default" />
@@ -225,7 +227,7 @@ const CourseLander = ({
           (`courseBenefits`) defaults to its original after-pathways slot
           below for backwards compatibility, but opt in to the same value-
           then-next-steps order via `courseBenefitsPlacement: 'beforePathways'`. */}
-      {content.courseBenefitsText && (
+      {content.courseBenefitsText && content.courseBenefitsTextPlacement !== 'afterStructure' && (
         <>
           <div className="border-t-hairline border-default" />
           <CourseBenefitsTextSection {...content.courseBenefitsText} />
@@ -314,6 +316,13 @@ const CourseLander = ({
 
       {content.testimonialsPlacement !== 'beforeOutcomes' && testimonialsSection}
 
+      {content.courseBenefitsText && content.courseBenefitsTextPlacement === 'afterStructure' && (
+        <>
+          <div className="border-t-hairline border-default" />
+          <CourseBenefitsTextSection {...content.courseBenefitsText} />
+        </>
+      )}
+
       {content.quotes && (
         <>
           <div className="border-t-hairline border-default" />
@@ -335,7 +344,7 @@ const CourseLander = ({
         </>
       )}
 
-      <LandingBanner {...content.banner} />
+      <LandingBanner {...content.banner} ctaText={soonestDeadline ? ctaText : content.banner.ctaText} />
     </div>
   );
 };
