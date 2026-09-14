@@ -12,7 +12,7 @@ import {
 import {
   initializeWebhooks, pollForUpdates, processUpdateQueue, rateLimiter,
 } from './pg-sync';
-import { processAdminDashboardSyncRequests } from './admin-dashboard-sync';
+import { isFullSyncRequired, runFullSync } from './full-sync';
 import { db } from './db';
 import env from '../env';
 
@@ -53,7 +53,11 @@ const checkAdminDashboardSyncRequestsCron = async () => {
 
   isCheckingAdminSync = true;
   try {
-    await processAdminDashboardSyncRequests();
+    const { isRequired, reason } = await isFullSyncRequired({ trigger: 'cron' });
+    if (isRequired) {
+      logger.info(`[admin-sync-check] Starting full sync: ${reason}`);
+      await runFullSync();
+    }
   } catch (error) {
     logger.error('[admin-sync-check] Error checking admin sync requests:', error);
   } finally {
@@ -163,21 +167,18 @@ const sentryHeartbeatCron = () => {
   );
 };
 
-if (process.env.NODE_ENV !== 'test') {
-  cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
-  cron.schedule(`0 */${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
-  cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
-  cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
-  cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
-}
-
 export const startWebhooksAndProcessingUpdates = async () => {
   logger.info('Starting webhooks and queue processing...');
   await initializeWebhooks();
+  cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
+  cron.schedule(`0 */${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
   processQueueAndWebhooksCron();
 };
 
-export const startAdminSyncCron = () => {
-  logger.info('Starting admin sync cron job...');
+export const startPostBootCronJobs = () => {
+  logger.info('Starting post-boot cron jobs...');
+  cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
+  cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
+  cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
   checkAdminDashboardSyncRequestsCron();
 };

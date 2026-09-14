@@ -1,78 +1,21 @@
 import { logger } from '@bluedot/ui/src/api';
-import { syncMetadataTable, eq } from '@bluedot/db';
+import { eq, syncMetadataTable, type SyncMetadata } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
 import env from '../env';
 
-const DEFAULT_SYNC_THRESHOLD_HOURS = 24;
+export class SyncManager {
+  private isThisProcessRunningAFullSync = false;
 
-export type SyncMetadata = {
-  id: string;
-  lastFullSyncAt: Date | null;
-  lastIncrementalSyncAt: Date | null;
-  syncInProgress: boolean;
-  lastSyncStatus: string | null;
-  lastSyncError: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-class SyncManager {
-  private syncThresholdHours: number;
-
-  constructor(syncThresholdHours: number = DEFAULT_SYNC_THRESHOLD_HOURS) {
-    this.syncThresholdHours = syncThresholdHours;
-  }
-
-  /**
-   * Check if initial sync is needed based on metadata table
-   */
-  async isInitialSyncNeeded(): Promise<boolean> {
-    try {
-      const metadata = await this.getSyncMetadata();
-
-      // If no metadata exists, initial sync is needed
-      if (!metadata) {
-        logger.info('[SyncManager] No sync metadata found, initial sync needed');
-        return true;
-      }
-
-      // If no full sync has ever been completed, initial sync is needed
-      if (!metadata.lastFullSyncAt) {
-        logger.info('[SyncManager] No previous full sync found, initial sync needed');
-        return true;
-      }
-
-      // Check if last full sync is older than threshold
-      const thresholdTime = new Date();
-      thresholdTime.setHours(thresholdTime.getHours() - this.syncThresholdHours);
-
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      const lastSyncAt = metadata.lastIncrementalSyncAt || metadata.lastFullSyncAt;
-      if (lastSyncAt < thresholdTime) {
-        logger.info(`[SyncManager] Last sync was ${lastSyncAt.toISOString()}, older than threshold (${this.syncThresholdHours}h), initial sync needed`);
-        if (metadata.syncInProgress) {
-          logger.warn('[SyncManager] Sync is in progress but updatedAt is not recent, this may indicate a stuck sync. Will try to restart initial sync.');
-        }
-
-        return true;
-      }
-
-      logger.info(`[SyncManager] Last sync was recent (${lastSyncAt.toISOString()}), no initial sync needed`);
-      return false;
-    } catch (error) {
-      logger.error('[SyncManager] Error checking sync metadata:', error);
-      // If we can't check metadata, assume initial sync is needed for safety
-      return true;
-    }
-  }
+  /** Set synchronously on SIGTERM so no new sync work is claimed during the grace period */
+  shuttingDown = false;
 
   /**
    * Get current sync metadata
    */
   async getSyncMetadata(): Promise<SyncMetadata | null> {
     try {
-      const results = await db.pg.select().from(syncMetadataTable).where(eq(syncMetadataTable.id, 'singleton'));
+      const results = await db.pg.select().from(syncMetadataTable.pg).where(eq(syncMetadataTable.pg.id, 'singleton'));
       return results.length > 0 ? results[0] as SyncMetadata : null;
     } catch (error) {
       logger.error('[SyncManager] Error fetching sync metadata:', error);
@@ -87,12 +30,7 @@ class SyncManager {
     try {
       const existing = await this.getSyncMetadata();
       if (!existing) {
-        await db.pg.insert(syncMetadataTable).values({
-          id: 'singleton',
-          syncInProgress: false,
-          lastSyncStatus: null,
-          lastSyncError: null,
-        });
+        await db.pg.insert(syncMetadataTable.pg).values({ id: 'singleton' });
         logger.info('[SyncManager] Initialized sync metadata table');
       }
     } catch (error) {
@@ -107,15 +45,11 @@ class SyncManager {
   async markSyncStarted(): Promise<void> {
     try {
       await this.initializeSyncMetadata();
-      await db.pg.update(syncMetadataTable)
-        .set({
-          syncInProgress: true,
-          lastSyncStatus: 'in_progress',
-          lastSyncError: null,
-          updatedAt: new Date(),
-        })
-        .where(eq(syncMetadataTable.id, 'singleton'));
+      await db.pg.update(syncMetadataTable.pg)
+        .set({ lastFullSyncStartedAt: new Date() })
+        .where(eq(syncMetadataTable.pg.id, 'singleton'));
 
+      this.isThisProcessRunningAFullSync = true;
       logger.info('[SyncManager] Marked sync as started');
       slackAlert(env, ['⌛ PG sync starting...'], { channelId: env.PG_SYNC_SLACK_CHANNEL_ID });
     } catch (error) {
@@ -130,17 +64,16 @@ class SyncManager {
   async markSyncCompleted(): Promise<void> {
     try {
       const now = new Date();
-      await db.pg.update(syncMetadataTable)
+      await db.pg.update(syncMetadataTable.pg)
         .set({
-          syncInProgress: false,
-          lastSyncStatus: 'success',
-          lastSyncError: null,
-          lastFullSyncAt: now,
+          lastFullSyncFinishedAt: now,
+          lastFullSyncStatus: 'success',
+          lastFullSyncError: null,
           lastIncrementalSyncAt: now,
-          updatedAt: now,
         })
-        .where(eq(syncMetadataTable.id, 'singleton'));
+        .where(eq(syncMetadataTable.pg.id, 'singleton'));
 
+      this.isThisProcessRunningAFullSync = false;
       logger.info('[SyncManager] Marked sync as completed successfully');
       slackAlert(env, ['✅ PG sync completed successfully'], { channelId: env.PG_SYNC_SLACK_CHANNEL_ID });
     } catch (error) {
@@ -154,15 +87,15 @@ class SyncManager {
    */
   async markSyncFailed(error: string): Promise<void> {
     try {
-      await db.pg.update(syncMetadataTable)
+      await db.pg.update(syncMetadataTable.pg)
         .set({
-          syncInProgress: false,
-          lastSyncStatus: 'failed',
-          lastSyncError: error,
-          updatedAt: new Date(),
+          lastFullSyncFinishedAt: new Date(),
+          lastFullSyncStatus: 'failed',
+          lastFullSyncError: error,
         })
-        .where(eq(syncMetadataTable.id, 'singleton'));
+        .where(eq(syncMetadataTable.pg.id, 'singleton'));
 
+      this.isThisProcessRunningAFullSync = false;
       logger.error(`[SyncManager] Marked sync as failed: ${error}`);
       slackAlert(env, [`[SyncManager] Sync failed: ${error}`]);
     } catch (updateError) {
@@ -172,16 +105,35 @@ class SyncManager {
   }
 
   /**
+   * Mark a sync as interrupted, only if this process started it (during a rollout the running sync may belong to the old pod)
+   */
+  async markSyncInterruptedOnShutdown(): Promise<void> {
+    if (!this.isThisProcessRunningAFullSync) return;
+    try {
+      await db.pg.update(syncMetadataTable.pg)
+        .set({
+          lastFullSyncFinishedAt: new Date(),
+          lastFullSyncStatus: 'interrupted',
+          lastFullSyncError: 'Sync was interrupted by process shutdown (SIGTERM)',
+        })
+        .where(eq(syncMetadataTable.pg.id, 'singleton'));
+
+      this.isThisProcessRunningAFullSync = false;
+      logger.warn('[SyncManager] Marked in-progress sync as interrupted due to shutdown');
+      slackAlert(env, ['[SyncManager] Sync interrupted by process shutdown (SIGTERM)'], { channelId: env.PG_SYNC_SLACK_CHANNEL_ID });
+    } catch (error) {
+      logger.error('[SyncManager] Error marking sync as interrupted on shutdown:', error);
+    }
+  }
+
+  /**
    * Update incremental sync timestamp (for webhook-based updates)
    */
   async markIncrementalSync(): Promise<void> {
     try {
-      await db.pg.update(syncMetadataTable)
-        .set({
-          lastIncrementalSyncAt: new Date(),
-          updatedAt: new Date(),
-        })
-        .where(eq(syncMetadataTable.id, 'singleton'));
+      await db.pg.update(syncMetadataTable.pg)
+        .set({ lastIncrementalSyncAt: new Date() })
+        .where(eq(syncMetadataTable.pg.id, 'singleton'));
     } catch (error) {
       logger.error('[SyncManager] Error updating incremental sync timestamp:', error);
       // Don't throw here as this is not critical

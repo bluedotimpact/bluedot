@@ -3,8 +3,9 @@ import {
 } from 'vitest';
 
 const {
-  mockRecomputeValues, mockDefinitions, mockLogger, mockForwardEvent, mockProjectionRules, mockEnv,
+  mockRecomputeValues, mockDefinitions, mockLogger, mockForwardEvent, mockProjectionRules, mockEnv, mockSchedule,
 } = vi.hoisted(() => ({
+  mockSchedule: vi.fn(),
   mockRecomputeValues: vi.fn(),
   mockDefinitions: [] as { table: { pg: object; _name?: string }; fields: Record<string, () => Promise<Record<string, unknown>>> }[],
   mockLogger: { info: vi.fn(), error: vi.fn() },
@@ -12,6 +13,8 @@ const {
   mockProjectionRules: [] as { eventType: string }[],
   mockEnv: { POSTHOG_PROJECT_API_KEY: 'phc_test' } as { POSTHOG_PROJECT_API_KEY?: string; POSTHOG_HOST?: string },
 }));
+
+vi.mock('node-cron', () => ({ default: { schedule: mockSchedule } }));
 
 vi.mock('@bluedot/ui/src/api', () => ({
   logger: mockLogger,
@@ -41,13 +44,26 @@ vi.mock('./pg-sync', () => ({
   processUpdateQueue: vi.fn(),
 }));
 
-vi.mock('./admin-dashboard-sync', () => ({
-  processAdminDashboardSyncRequests: vi.fn(),
+vi.mock('./full-sync', () => ({
+  isFullSyncRequired: vi.fn().mockResolvedValue({ isRequired: false, reason: 'test' }),
+  runFullSync: vi.fn(),
 }));
 
 vi.mock('./db', () => ({ db: {} }));
 
-import { recomputeComputedAirtableFieldsCron, forwardAllEventsToPostHogCron } from './cron';
+import {
+  recomputeComputedAirtableFieldsCron, forwardAllEventsToPostHogCron, startWebhooksAndProcessingUpdates, startPostBootCronJobs,
+} from './cron';
+
+describe('cron scheduling', () => {
+  it('schedules nothing on import, only when the start functions are called', async () => {
+    expect(mockSchedule).not.toHaveBeenCalled();
+
+    await startWebhooksAndProcessingUpdates();
+    startPostBootCronJobs();
+    expect(mockSchedule).toHaveBeenCalled();
+  });
+});
 
 describe('recomputeComputedAirtableFieldsCron', () => {
   beforeEach(() => {
