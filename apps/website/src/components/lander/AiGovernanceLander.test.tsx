@@ -13,7 +13,7 @@ const round = {
   id: 'recTestRound',
   intensity: 'intensive',
   applicationDeadline: '27 Sep',
-  applicationDeadlineDetailed: '27 Sep at 23:59 UTC',
+  applicationDeadlineDetailed: '27 Sep at 23:59 anywhere on earth',
   applicationDeadlineRaw: '2026-09-27',
   firstDiscussionDateRaw: '2026-10-05',
   dateRange: '5 Oct - 10 Oct',

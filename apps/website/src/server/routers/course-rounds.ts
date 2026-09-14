@@ -8,22 +8,32 @@ import {
 } from '@bluedot/db';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { ONE_DAY_MS } from '../../lib/constants';
-import { formatApplicationDeadlineUtcDetailed, formatDateRange, formatMonthAndDay } from '../../lib/utils';
+import { ONE_DAY_MS, ONE_HOUR_MS } from '../../lib/constants';
+import { formatApplicationDeadlineDetailed, formatDateRange, formatMonthAndDay } from '../../lib/utils';
 import { getUserFromAuth, publicProcedure, router } from '../trpc';
 
+/**
+ * Application deadlines are "anywhere on earth": a round whose deadline is 13 Sep stays open until
+ * it is 23:59 on 13 Sep in UTC-12, i.e. until 12:00 UTC on 14 Sep.
+ *
+ * Must stay in step with the Airtable Round `Status` formula in the Applications base:
+ *   IS_BEFORE(DATEADD(NOW(), -12, 'hours'), DATEADD({Application deadline}, 1, 'day'))
+ */
+const ANYWHERE_ON_EARTH_OFFSET_MS = 12 * ONE_HOUR_MS;
+
+/** Start (00:00 UTC) of the latest deadline date that is still open anywhere on earth. */
 export function getDeadlineThresholdUtc(): Date {
-  const now = new Date();
+  const anywhereOnEarthNow = new Date(Date.now() - ANYWHERE_ON_EARTH_OFFSET_MS);
   return new Date(Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
+    anywhereOnEarthNow.getUTCFullYear(),
+    anywhereOnEarthNow.getUTCMonth(),
+    anywhereOnEarthNow.getUTCDate(),
   ));
 }
 
 /**
- * SQL predicate for rounds still open to applications: no deadline, or a deadline today or
- * later (UTC). Keeps a displayed "12 Apr" deadline visible until 00:00 UTC on 13 Apr.
+ * SQL predicate for rounds still open to applications: no deadline, or a deadline that has not yet
+ * passed anywhere on earth. Keeps a displayed "12 Apr" deadline open until 12:00 UTC on 13 Apr.
  * Shared by every "upcoming rounds" query.
  */
 export function openRoundDeadlineCondition() {
@@ -120,7 +130,7 @@ export async function getCourseRoundsData(courseSlug: string) {
     intensity: round.intensity,
     applicationDeadline: round.applicationDeadline ? formatMonthAndDay(round.applicationDeadline) : 'TBD',
     applicationDeadlineDetailed: round.applicationDeadline
-      ? formatApplicationDeadlineUtcDetailed(round.applicationDeadline)
+      ? formatApplicationDeadlineDetailed(round.applicationDeadline)
       : 'TBD',
     applicationDeadlineRaw: round.applicationDeadline,
     firstDiscussionDateRaw: round.firstDiscussionDate,
@@ -222,7 +232,7 @@ export const courseRoundsRouter = router({
               ? formatMonthAndDay(round.applicationDeadline)
               : 'TBD',
             applicationDeadlineDetailed: round.applicationDeadline
-              ? formatApplicationDeadlineUtcDetailed(round.applicationDeadline)
+              ? formatApplicationDeadlineDetailed(round.applicationDeadline)
               : 'TBD',
             applicationDeadlineRaw: round.applicationDeadline,
             firstDiscussionDateRaw: round.firstDiscussionDate,
