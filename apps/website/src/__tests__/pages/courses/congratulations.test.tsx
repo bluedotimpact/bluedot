@@ -60,7 +60,7 @@ describe('CongratulationsPage', () => {
       status: 'action-plan-pending' as const,
       meetPersonId: 'mp1',
       hasSubmittedActionPlan: false,
-      isLastDiscussionSoonOrPassed: false,
+      hasAtMostOneDiscussionLeft: false,
     })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
@@ -165,12 +165,13 @@ describe('CongratulationsPage', () => {
     });
   });
 
-  test('does not redirect when attendance-ineligible but last discussion passed', async () => {
+  // getStatus only reports attendance-ineligible once the shortfall is final, so the page lets it
+  // through unconditionally; the timing rules are covered in certificates.test.ts.
+  test('does not redirect when attendance-ineligible', async () => {
     server.use(trpcMsw.certificates.getStatus.query(() => ({
       status: 'attendance-ineligible' as const,
       uniqueDiscussionAttendance: 2,
-      numUnits: 5,
-      isLastDiscussionSoonOrPassed: true,
+      discussionsHeld: 5,
     })));
 
     const { container } = render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
@@ -178,21 +179,6 @@ describe('CongratulationsPage', () => {
     await waitFor(() => {
       expect(mockReplace).not.toHaveBeenCalled();
       expect(container.querySelector('.sidebar')).not.toBeNull();
-    });
-  });
-
-  test('redirects when attendance-ineligible and last discussion has not yet passed', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({
-      status: 'attendance-ineligible' as const,
-      uniqueDiscussionAttendance: 2,
-      numUnits: 5,
-      isLastDiscussionSoonOrPassed: false,
-    })));
-
-    render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
-
-    await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith('/courses/test-course/1/1');
     });
   });
 });

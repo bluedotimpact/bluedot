@@ -18,7 +18,8 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
     || status === 'not-enrolled'
     || status === 'not-eligible'
     || status === 'has-certificate'
-    || (status === 'attendance-ineligible' && data.isLastDiscussionSoonOrPassed)
+    // getStatus only reports this once the shortfall is final, so there's nothing left to gate on here.
+    || status === 'attendance-ineligible'
   );
 };
 
@@ -160,7 +161,7 @@ export const SidebarCertificatePanel = ({
   if (
     status === 'action-plan-pending'
     && !certificateData.hasSubmittedActionPlan
-    && certificateData.isLastDiscussionSoonOrPassed
+    && certificateData.hasAtMostOneDiscussionLeft
   ) {
     return (
       <div className={cn('flex flex-col gap-3', className)}>

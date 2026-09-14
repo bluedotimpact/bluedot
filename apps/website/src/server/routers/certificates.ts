@@ -8,6 +8,7 @@ import {
   eq,
   exerciseResponsePgTable,
   exerciseTable,
+  groupDiscussionTable,
   inArray,
   meetPersonTable,
   roundTable,
@@ -239,26 +240,48 @@ export const certificatesRouter = router({
     }
 
     if (meetPerson.role === COURSE_ROLE.PARTICIPANT) {
-      const { uniqueDiscussionAttendance, numUnits } = meetPerson;
-      const hasAttendedEnough
-        = uniqueDiscussionAttendance == null
-          || numUnits == null
-          || numUnits === 0
-          || numUnits - uniqueDiscussionAttendance <= 1;
-
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'lastDiscussionDate' })
         : null;
-      const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
-      const isLastDiscussionSoonOrPassed
-        = round?.lastDiscussionDate != null && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
+      const lastDiscussionTime
+        = round?.lastDiscussionDate != null ? new Date(round.lastDiscussionDate).getTime() : null;
 
-      if (!hasAttendedEnough) {
+      const expectedDiscussionIds = meetPerson.expectedDiscussionsParticipant ?? [];
+      const expectedDiscussions = expectedDiscussionIds.length > 0
+        ? await db.pg
+          .select({ endDateTime: groupDiscussionTable.pg.endDateTime })
+          .from(groupDiscussionTable.pg)
+          .where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds))
+        : [];
+
+      // Only a discussion that has already ended can have been missed. Both the action-plan nudge
+      // and the attendance verdict wait until at most one discussion is still to come — measured in
+      // discussions, not calendar days, because an intensive round runs all of them inside a week
+      // and would otherwise read as "missed 5" on day one. Discussions with no end time aren't
+      // scheduled yet, so they count as still to come.
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      const heldSoFar = expectedDiscussions
+        .filter((d) => d.endDateTime != null && d.endDateTime <= nowInSeconds).length;
+      const hasDiscussionSchedule = expectedDiscussions.length > 0;
+
+      // Registrations with no discussions linked (never assigned a group, or not yet synced) fall
+      // back to the round's end date: the nudge keeps its original week-out window, while the
+      // verdict waits for the round to actually be over before calling a shortfall final.
+      const hasAtMostOneDiscussionLeft = hasDiscussionSchedule
+        ? expectedDiscussions.length - heldSoFar <= 1
+        : lastDiscussionTime != null && lastDiscussionTime <= Date.now() + 7 * ONE_DAY_MS;
+      const isShortfallFinal = hasDiscussionSchedule
+        ? expectedDiscussions.length - heldSoFar <= 1
+        : lastDiscussionTime != null && lastDiscussionTime <= Date.now();
+
+      const discussionsHeld = hasDiscussionSchedule ? heldSoFar : (meetPerson.numUnits ?? 0);
+      const attended = meetPerson.uniqueDiscussionAttendance ?? 0;
+
+      if (isShortfallFinal && discussionsHeld - attended > 1) {
         return {
           status: 'attendance-ineligible' as const,
-          uniqueDiscussionAttendance,
-          numUnits,
-          isLastDiscussionSoonOrPassed,
+          uniqueDiscussionAttendance: attended,
+          discussionsHeld,
         };
       }
 
@@ -266,7 +289,7 @@ export const certificatesRouter = router({
         status: 'action-plan-pending',
         meetPersonId: meetPerson.id,
         hasSubmittedActionPlan: (meetPerson.projectSubmission?.length ?? 0) > 0,
-        isLastDiscussionSoonOrPassed,
+        hasAtMostOneDiscussionLeft,
       } as const;
     }
 

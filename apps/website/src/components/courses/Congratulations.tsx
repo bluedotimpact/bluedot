@@ -151,12 +151,12 @@ const outlinedBtnClass
 
 const AttendanceIneligibleCard = ({
   uniqueDiscussionAttendance,
-  numUnits,
+  discussionsHeld,
 }: {
   uniqueDiscussionAttendance: number;
-  numUnits: number;
+  discussionsHeld: number;
 }) => {
-  const missed = numUnits - uniqueDiscussionAttendance;
+  const missed = discussionsHeld - uniqueDiscussionAttendance;
 
   return (
     <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-charcoal-mid/50 bg-bluedot-lightest px-5 py-6">
@@ -167,7 +167,8 @@ const AttendanceIneligibleCard = ({
         </span>
       </div>
       <p className="text-bluedot-navy text-size-xs leading-relaxed">
-        Discussions attended: {uniqueDiscussionAttendance} of {numUnits} discussions - Missed {missed} (max 1 allowed)
+        Discussions attended: {uniqueDiscussionAttendance} of {discussionsHeld} discussions so far - Missed {missed}{' '}
+        (max 1 allowed)
       </p>
       <p className="text-bluedot-navy text-size-xs leading-5">
         If you have any questions about certificate requirement, get in touch at{' '}
@@ -276,7 +277,10 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
 
   if (data?.status === 'attendance-ineligible') {
     return (
-      <AttendanceIneligibleCard uniqueDiscussionAttendance={data.uniqueDiscussionAttendance} numUnits={data.numUnits} />
+      <AttendanceIneligibleCard
+        uniqueDiscussionAttendance={data.uniqueDiscussionAttendance}
+        discussionsHeld={data.discussionsHeld}
+      />
     );
   }
 
