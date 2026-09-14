@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Sentry from '@sentry/nextjs';
 import { ErrorSection, Section } from '@bluedot/ui';
 import { reportClientError } from '../lib/reportClientError';
 
@@ -15,6 +16,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Slack first, so a Sentry failure can never swallow the report.
     reportClientError(
       {
         message: error.message,
@@ -23,6 +25,17 @@ export class ErrorBoundary extends React.Component<Props, State> {
       },
       'errorboundary',
     );
+    // Without this, Sentry never sees these crashes. They don't reach window.onerror.
+    // Guarded: a Sentry failure must never break the boundary or swallow the Slack report.
+    try {
+      Sentry.captureException(error, {
+        contexts: {
+          react: { componentStack: errorInfo.componentStack ?? undefined },
+        },
+      });
+    } catch {
+      // Slack already went out above, so there is nothing left to do.
+    }
   }
 
   render() {
