@@ -2,6 +2,7 @@
 import './instrument';
 import * as Sentry from '@sentry/node';
 import { logger } from '@bluedot/ui/src/api';
+import { metaTable } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils';
 import { getInstance } from './app';
 import env from './env';
@@ -12,6 +13,7 @@ import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
 import { isFullSyncRequired, runFullSync } from './lib/full-sync';
 import { createSyncRequest } from './lib/admin-dashboard-sync';
+import { syncFieldUsageMarkers } from './lib/field-usage-markers';
 
 process.on('SIGTERM', () => {
   syncManager.shuttingDown = true;
@@ -39,6 +41,10 @@ const start = async () => {
     }
 
     const hasInitialSyncFlag = process.argv.includes('--initial-sync');
+
+    // Read before schema-sync rewrites the meta table, to track bases that have just left the schema
+    const previousBaseIds = await db.pg.selectDistinct({ baseId: metaTable.airtableBaseId }).from(metaTable)
+      .then((rows) => rows.map((row) => row.baseId), () => [] as string[]);
 
     const schemaChangesDetected = await ensureSchemaUpToDate();
 
@@ -69,6 +75,14 @@ const start = async () => {
 
     // Admin sync, computed fields and PostHog crons only start once the boot sync has settled
     startPostBootCronJobs();
+
+    // Best effort and not awaited: a failure here must never affect syncing.
+    if (process.env.NODE_ENV === 'production') {
+      syncFieldUsageMarkers(previousBaseIds).catch((error: unknown) => {
+        Sentry.captureException(error);
+        logger.error('[field-usage-markers] Failed:', error);
+      });
+    }
   } catch (error) {
     logger.error('Failed to start server', error);
     Sentry.captureException(error);
