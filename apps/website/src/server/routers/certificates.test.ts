@@ -1,6 +1,6 @@
 import {
   applicationsRoundTable, courseRegistrationTable, courseTable, eq, exerciseResponsePgTable, exerciseTable,
-  meetPersonTable, roundTable, selfServeCourseRegistrationTable, userTable,
+  groupDiscussionTable, meetPersonTable, roundTable, selfServeCourseRegistrationTable, userTable,
 } from '@bluedot/db';
 import {
   beforeEach, describe, expect, test, vi,
@@ -270,7 +270,7 @@ describe('certificates.getStatus', () => {
       status: 'action-plan-pending',
       meetPersonId: 'mp1',
       hasSubmittedActionPlan: true,
-      isLastDiscussionSoonOrPassed: true,
+      hasAtMostOneDiscussionLeft: true,
     });
   });
 
@@ -310,28 +310,181 @@ describe('certificates.getStatus', () => {
     expect(result).toEqual({ status: 'not-eligible', hasUpcomingRounds: false });
   });
 
-  test('returns attendance-ineligible when a participant misses more than one discussion', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg1', email: 'test@example.com', userId: 'test-user', courseId: 'rec-other', decision: 'Accept',
-    });
-    await testDb.insert(roundTable, {
-      id: 'round1', lastDiscussionDate: '2020-01-01',
-    });
-    await testDb.insert(meetPersonTable, {
-      id: 'mp1',
-      applicationsBaseRecordId: 'reg1',
-      role: 'Participant',
-      round: 'round1',
-      uniqueDiscussionAttendance: 3,
-      numUnits: 5,
+  // Eligibility is judged on the discussions actually held so far, so the fixtures below place
+  // discussion end times relative to now rather than relying on the round's dates.
+  describe('participant attendance', () => {
+    const ONE_HOUR_SECONDS = 60 * 60;
+
+    /**
+     * Seeds an accepted participant whose expected discussions end at the given offsets in seconds
+     * from now; negative offsets are discussions that have already happened, `null` is one that
+     * hasn't been scheduled yet.
+     */
+    const seedParticipant = async ({
+      endOffsets, attended, numUnits, lastDiscussionDate,
+    }: {
+      endOffsets?: (number | null)[];
+      attended: number | null;
+      numUnits: number;
+      lastDiscussionDate: string;
+    }) => {
+      const nowSeconds = Math.floor(Date.now() / 1000);
+      await testDb.insert(courseRegistrationTable, {
+        id: 'reg1', email: 'test@example.com', userId: 'test-user', courseId: 'rec-other', decision: 'Accept',
+      });
+      await testDb.insert(roundTable, { id: 'round1', lastDiscussionDate });
+
+      const discussions = (endOffsets ?? []).map((offset, index) => ({ id: `disc-${index + 1}`, offset }));
+      await Promise.all(discussions.map(({ id, offset }) => testDb.insert(groupDiscussionTable, {
+        id,
+        group: 'group1',
+        round: 'round1',
+        startDateTime: nowSeconds + (offset ?? 0) - ONE_HOUR_SECONDS,
+        endDateTime: offset == null ? null : nowSeconds + offset,
+        facilitators: [],
+        participantsExpected: ['mp1'],
+      })));
+
+      await testDb.insert(meetPersonTable, {
+        id: 'mp1',
+        applicationsBaseRecordId: 'reg1',
+        role: 'Participant',
+        round: 'round1',
+        uniqueDiscussionAttendance: attended,
+        numUnits,
+        expectedDiscussionsParticipant: discussions.map((d) => d.id),
+      });
+    };
+
+    const getStatus = () => createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
+
+    test('reports nothing while the attendance rollup has not synced', async () => {
+      await seedParticipant({
+        endOffsets: [-6, -5, -4, -3, -2, -1].map((days) => days * 24 * ONE_HOUR_SECONDS),
+        attended: null,
+        numUnits: 6,
+        lastDiscussionDate: '2020-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending' });
     });
 
-    const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
-    expect(result).toEqual({
-      status: 'attendance-ineligible',
-      uniqueDiscussionAttendance: 3,
-      numUnits: 5,
-      isLastDiscussionSoonOrPassed: true,
+    test('does not report a shortfall or nudge for an action plan on day one of an intensive round', async () => {
+      // Six daily discussions; the first has just ended and the participant attended it.
+      await seedParticipant({
+        endOffsets: [-ONE_HOUR_SECONDS, 23 * ONE_HOUR_SECONDS, 47 * ONE_HOUR_SECONDS, 71 * ONE_HOUR_SECONDS, 95 * ONE_HOUR_SECONDS, 119 * ONE_HOUR_SECONDS],
+        attended: 1,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({
+        status: 'action-plan-pending',
+        hasAtMostOneDiscussionLeft: false,
+      });
+    });
+
+    test('does not report a shortfall while more than one discussion is still to come', async () => {
+      // Day three of six: three held, one attended — two missed, but three chances left.
+      await seedParticipant({
+        endOffsets: [-47 * ONE_HOUR_SECONDS, -23 * ONE_HOUR_SECONDS, -ONE_HOUR_SECONDS, 23 * ONE_HOUR_SECONDS, 47 * ONE_HOUR_SECONDS, 71 * ONE_HOUR_SECONDS],
+        attended: 1,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending' });
+    });
+
+    test('reports attendance-ineligible once only the final discussion is left, counting held discussions', async () => {
+      await seedParticipant({
+        endOffsets: [-95 * ONE_HOUR_SECONDS, -71 * ONE_HOUR_SECONDS, -47 * ONE_HOUR_SECONDS, -23 * ONE_HOUR_SECONDS, -ONE_HOUR_SECONDS, 23 * ONE_HOUR_SECONDS],
+        attended: 3,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
+      });
+
+      expect(await getStatus()).toEqual({
+        status: 'attendance-ineligible',
+        uniqueDiscussionAttendance: 3,
+        discussionsHeld: 5,
+      });
+    });
+
+    test('still allows a certificate when only one held discussion was missed, and nudges for the action plan', async () => {
+      await seedParticipant({
+        endOffsets: [-95 * ONE_HOUR_SECONDS, -71 * ONE_HOUR_SECONDS, -47 * ONE_HOUR_SECONDS, -23 * ONE_HOUR_SECONDS, -ONE_HOUR_SECONDS, 23 * ONE_HOUR_SECONDS],
+        attended: 4,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({
+        status: 'action-plan-pending',
+        hasAtMostOneDiscussionLeft: true,
+      });
+    });
+
+    test('counts every held discussion once the round is over', async () => {
+      await seedParticipant({
+        endOffsets: [-6, -5, -4, -3, -2, -1].map((days) => days * 24 * ONE_HOUR_SECONDS),
+        attended: 4,
+        numUnits: 6,
+        lastDiscussionDate: '2020-01-01',
+      });
+
+      expect(await getStatus()).toEqual({
+        status: 'attendance-ineligible',
+        uniqueDiscussionAttendance: 4,
+        discussionsHeld: 6,
+      });
+    });
+
+    test('treats a linked discussion with no row yet as still to come', async () => {
+      await seedParticipant({
+        endOffsets: [-71 * ONE_HOUR_SECONDS, -47 * ONE_HOUR_SECONDS, -23 * ONE_HOUR_SECONDS, -ONE_HOUR_SECONDS],
+        attended: 0,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
+      });
+      // Two more discussions are linked on the registration but haven't synced into the table.
+      await testDb.update(meetPersonTable, {
+        id: 'mp1',
+        expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5', 'disc-6'],
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending' });
+    });
+
+    test('treats unscheduled discussions as still to come', async () => {
+      // Four held, two not yet scheduled: the shortfall isn't final even though four were missed.
+      await seedParticipant({
+        endOffsets: [-71 * ONE_HOUR_SECONDS, -47 * ONE_HOUR_SECONDS, -23 * ONE_HOUR_SECONDS, -ONE_HOUR_SECONDS, null, null],
+        attended: 0,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending' });
+    });
+
+    test('falls back to course totals when no discussions are linked and the round is over', async () => {
+      await seedParticipant({ attended: 3, numUnits: 5, lastDiscussionDate: '2020-01-01' });
+
+      expect(await getStatus()).toEqual({
+        status: 'attendance-ineligible',
+        uniqueDiscussionAttendance: 3,
+        discussionsHeld: 5,
+      });
+    });
+
+    test('reports nothing when no discussions are linked and the round is still running', async () => {
+      await seedParticipant({ attended: 0, numUnits: 5, lastDiscussionDate: '2999-01-01' });
+
+      expect(await getStatus()).toMatchObject({
+        status: 'action-plan-pending',
+        hasAtMostOneDiscussionLeft: false,
+      });
     });
   });
 });

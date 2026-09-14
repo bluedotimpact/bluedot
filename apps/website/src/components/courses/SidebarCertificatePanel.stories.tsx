@@ -85,7 +85,7 @@ export const ActionPlanPending: Story = {
       status: 'action-plan-pending',
       meetPersonId: 'meet-person-123',
       hasSubmittedActionPlan: false,
-      isLastDiscussionSoonOrPassed: true,
+      hasAtMostOneDiscussionLeft: true,
     },
   },
 };
@@ -95,8 +95,7 @@ export const AttendanceIneligible: Story = {
     certificateData: {
       status: 'attendance-ineligible',
       uniqueDiscussionAttendance: 2,
-      numUnits: 5,
-      isLastDiscussionSoonOrPassed: true,
+      discussionsHeld: 5,
     },
   },
 };
@@ -104,10 +103,10 @@ export const AttendanceIneligible: Story = {
 export const MidCourse: Story = {
   args: {
     certificateData: {
-      status: 'attendance-ineligible',
-      uniqueDiscussionAttendance: 2,
-      numUnits: 5,
-      isLastDiscussionSoonOrPassed: false,
+      status: 'action-plan-pending',
+      meetPersonId: 'meet-person-123',
+      hasSubmittedActionPlan: false,
+      hasAtMostOneDiscussionLeft: false,
     },
   },
 };
@@ -135,7 +134,7 @@ export const ActionPlanSubmitted: Story = {
       status: 'action-plan-pending',
       meetPersonId: 'meet-person-123',
       hasSubmittedActionPlan: true,
-      isLastDiscussionSoonOrPassed: true,
+      hasAtMostOneDiscussionLeft: true,
     },
   },
 };
