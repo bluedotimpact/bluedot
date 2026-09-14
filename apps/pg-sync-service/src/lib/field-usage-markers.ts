@@ -26,7 +26,7 @@ export const removeUsageMarker = (description: string): string => {
 
 const errorMessage = (error: unknown) => (error instanceof Error ? error.message : String(error));
 
-export const syncFieldUsageMarkers = async (): Promise<{ updated: number; failures: string[] }> => {
+export const syncFieldUsageMarkers = async (previousBaseIds: Iterable<string> = []): Promise<{ updated: number; failures: string[] }> => {
   const result = { updated: 0, failures: [] as string[] };
 
   // Returns the response body, or undefined after recording the failure
@@ -47,7 +47,8 @@ export const syncFieldUsageMarkers = async (): Promise<{ updated: number; failur
   };
 
   try {
-    const baseIds = new Set<string>();
+    // A base that has left the schema is still visited once so its markers get removed
+    const baseIds = new Set<string>(previousBaseIds);
     const fieldIdsInSchema = new Set<string>();
     for (const table of Object.values(schema)) {
       if (table instanceof PgAirtableTable) {

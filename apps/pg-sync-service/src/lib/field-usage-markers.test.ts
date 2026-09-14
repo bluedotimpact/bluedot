@@ -113,6 +113,29 @@ describe('syncFieldUsageMarkers', () => {
     expect(slackAlert).not.toHaveBeenCalled();
   });
 
+  test('given a base that has left the schema, removes its markers', async () => {
+    const previousBaseId = 'appLeftSchema';
+    const oldFields = new Map([['fldOld', `Description: Old.\n${USAGE_MARKER}`]]);
+    server.use(
+      http.get(`${META_URL}/${previousBaseId}/tables`, () => {
+        listedBaseIds.add(previousBaseId);
+        const fields = [...oldFields].map(([id, description]) => ({ id, name: id, description }));
+        return HttpResponse.json({ tables: [{ id: 'tblOld', name: 'Old', fields }] });
+      }),
+      http.patch(`${META_URL}/${previousBaseId}/tables/tblOld/fields/:fieldId`, async ({ params, request }) => {
+        const { description } = await request.json() as { description: string };
+        oldFields.set(params.fieldId as string, description);
+        return HttpResponse.json({ id: params.fieldId });
+      }),
+    );
+
+    const result = await syncFieldUsageMarkers([previousBaseId, baseId]);
+
+    expect(result).toEqual({ updated: 4, failures: [] });
+    expect(oldFields.get('fldOld')).toBe('Description: Old.');
+    expect(listedBaseIds).toEqual(new Set([...allBaseIds, previousBaseId]));
+  });
+
   test('given descriptions already in sync, makes no PATCH requests', async () => {
     await syncFieldUsageMarkers();
     expect(patchCount).toBe(3);
