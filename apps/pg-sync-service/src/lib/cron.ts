@@ -167,21 +167,18 @@ const sentryHeartbeatCron = () => {
   );
 };
 
-if (process.env.NODE_ENV !== 'test') {
-  cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
-  cron.schedule(`0 */${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
-  cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
-  cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
-  cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
-}
-
 export const startWebhooksAndProcessingUpdates = async () => {
   logger.info('Starting webhooks and queue processing...');
   await initializeWebhooks();
+  cron.schedule(`*/${QUEUE_PROCESSING_INTERVAL_SECONDS} * * * * *`, processQueueAndWebhooksCron);
+  cron.schedule(`0 */${SENTRY_HEARTBEAT_INTERVAL_MINUTES} * * * *`, sentryHeartbeatCron);
   processQueueAndWebhooksCron();
 };
 
-export const startAdminSyncCron = () => {
-  logger.info('Starting admin sync cron job...');
+export const startPostBootCronJobs = () => {
+  logger.info('Starting post-boot cron jobs...');
+  cron.schedule(`*/${ADMIN_SYNC_CHECK_INTERVAL_SECONDS} * * * * *`, checkAdminDashboardSyncRequestsCron);
+  cron.schedule(COMPUTED_AIRTABLE_FIELDS_RECOMPUTE_SCHEDULE, recomputeComputedAirtableFieldsCron);
+  cron.schedule(POSTHOG_EVENTS_SCHEDULE, forwardAllEventsToPostHogCron);
   checkAdminDashboardSyncRequestsCron();
 };

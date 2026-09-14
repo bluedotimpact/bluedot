@@ -7,7 +7,7 @@ import { getInstance } from './app';
 import env from './env';
 import { db } from './lib/db';
 import { assertAirtableLiveness } from './lib/airtable-liveness';
-import { startWebhooksAndProcessingUpdates, startAdminSyncCron } from './lib/cron';
+import { startWebhooksAndProcessingUpdates, startPostBootCronJobs } from './lib/cron';
 import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
 import { isFullSyncRequired, runFullSync } from './lib/full-sync';
@@ -67,8 +67,8 @@ const start = async () => {
       logger.info(`[main] No full sync needed (${reason}), continuing with normal operations`);
     }
 
-    // Start admin sync cron after any initial sync logic is complete
-    startAdminSyncCron();
+    // Admin sync, computed fields and PostHog crons only start once the boot sync has settled
+    startPostBootCronJobs();
   } catch (error) {
     logger.error('Failed to start server', error);
     Sentry.captureException(error);
