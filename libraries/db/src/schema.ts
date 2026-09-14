@@ -44,13 +44,6 @@ export const syncMetadataTable = deprecationSafePgTable('sync_metadata', {
     lastFullSyncError: text(),
     lastIncrementalSyncAt: timestamp(), // heartbeat: bumped whenever record updates are applied to Postgres
   },
-  deprecatedColumns: {
-    lastFullSyncAt: timestamp(),
-    syncInProgress: boolean(),
-    lastSyncStatus: text(),
-    lastSyncError: text(),
-    updatedAt: timestamp(),
-  },
 });
 
 // Define sync status type
@@ -163,11 +156,6 @@ export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response
     createdAt: text(),
     completedAt: text(),
     userId: text().array(),
-  },
-  deprecatedColumns: {
-    // Keep until ~2026-08-01: while deprecated, the old email values stay in the column,
-    // so restoring is just moving this back into `columns`
-    email: text(),
   },
 });
 
@@ -1539,12 +1527,6 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     userId: text().array(),
     createdAt: text(),
     completedAt: text(),
-  },
-  deprecatedColumns: {
-    createdByUserId: text().array(),
-    // Keep until ~2026-08-01: while deprecated, the old email values stay in the column,
-    // so restoring is just moving this back into `columns`
-    email: text(),
   },
 });
 
