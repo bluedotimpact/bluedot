@@ -56,7 +56,7 @@ export const Inactive: Story = {
               id: 'round-next',
               intensity: 'Part-time',
               applicationDeadline: '15 May',
-              applicationDeadlineDetailed: '15 May at 23:59 UTC',
+              applicationDeadlineDetailed: '15 May at 23:59 anywhere on earth',
               applicationDeadlineRaw: '2026-05-15',
               firstDiscussionDateRaw: '2026-06-01',
               dateRange: '1 Jun - 20 Jul',

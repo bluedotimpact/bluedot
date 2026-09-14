@@ -36,20 +36,20 @@ describe('getCourseRoundsData', () => {
     vi.useRealTimers();
   });
 
-  test('returns the start of the current UTC day', () => {
-    vi.setSystemTime(new Date('2026-04-13T10:45:00.000Z'));
+  test('before 12:00 UTC the previous UTC day is still open', () => {
+    vi.setSystemTime(new Date('2026-04-13T11:59:59.000Z'));
+
+    expect(getDeadlineThresholdUtc().toISOString()).toBe('2026-04-12T00:00:00.000Z');
+  });
+
+  test('rolls over at 12:00 UTC, when the previous day has ended everywhere on earth', () => {
+    vi.setSystemTime(new Date('2026-04-13T12:00:00.000Z'));
 
     expect(getDeadlineThresholdUtc().toISOString()).toBe('2026-04-13T00:00:00.000Z');
   });
 
-  test('does not roll over until the UTC date changes', () => {
-    vi.setSystemTime(new Date('2026-04-13T23:59:59.000Z'));
-
-    expect(getDeadlineThresholdUtc().toISOString()).toBe('2026-04-13T00:00:00.000Z');
-  });
-
-  test('keeps a round visible throughout its deadline day', async () => {
-    vi.setSystemTime(new Date('2026-04-12T23:59:00.000Z'));
+  test('keeps a round visible until its deadline day has ended anywhere on earth', async () => {
+    vi.setSystemTime(new Date('2026-04-13T11:59:00.000Z'));
     await seedCourseAndRound('2026-04-12');
 
     const rounds = await getCourseRoundsData('technical-ai-safety');
@@ -59,7 +59,7 @@ describe('getCourseRoundsData', () => {
   });
 
   test('hides a round once the deadline has passed everywhere in the world', async () => {
-    vi.setSystemTime(new Date('2026-04-13T00:00:00.000Z'));
+    vi.setSystemTime(new Date('2026-04-13T12:00:00.000Z'));
     await seedCourseAndRound('2026-04-12');
 
     const rounds = await getCourseRoundsData('technical-ai-safety');

@@ -5,7 +5,6 @@ const DEFAULT_MAX_ROUNDS = 3;
 
 const buildDeadlineSubtitle = (round: CourseRound): string => {
   if (round.applicationDeadlineDetailed) return `Applications close ${round.applicationDeadlineDetailed}`;
-  if (round.applicationDeadline) return `Applications close ${round.applicationDeadline} at 23:59 UTC`;
   return 'Applications open';
 };
 
