@@ -269,9 +269,13 @@ export const certificatesRouter = router({
         : roundEndTime != null && roundEndTime + ONE_DAY_MS <= Date.now();
 
       const discussionsHeld = hasDiscussionSchedule ? heldSoFar : (meetPerson.numUnits ?? 0);
-      const attended = meetPerson.uniqueDiscussionAttendance ?? 0;
 
-      if (hasAtMostOneDiscussionLeft && discussionsHeld - attended > 1) {
+      // The attendance rollup syncs separately from the discussions, so a null reads as "not known
+      // yet", never as zero: counting it as zero would accuse someone of missing every discussion
+      // held so far.
+      const attended = meetPerson.uniqueDiscussionAttendance;
+
+      if (attended != null && hasAtMostOneDiscussionLeft && discussionsHeld - attended > 1) {
         return {
           status: 'attendance-ineligible' as const,
           uniqueDiscussionAttendance: attended,

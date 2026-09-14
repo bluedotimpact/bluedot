@@ -324,7 +324,7 @@ describe('certificates.getStatus', () => {
       endOffsets, attended, numUnits, lastDiscussionDate,
     }: {
       endOffsets?: (number | null)[];
-      attended: number;
+      attended: number | null;
       numUnits: number;
       lastDiscussionDate: string;
     }) => {
@@ -357,6 +357,17 @@ describe('certificates.getStatus', () => {
     };
 
     const getStatus = () => createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
+
+    test('reports nothing while the attendance rollup has not synced', async () => {
+      await seedParticipant({
+        endOffsets: [-6, -5, -4, -3, -2, -1].map((days) => days * 24 * ONE_HOUR_SECONDS),
+        attended: null,
+        numUnits: 6,
+        lastDiscussionDate: '2020-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending' });
+    });
 
     test('does not report a shortfall or nudge for an action plan on day one of an intensive round', async () => {
       // Six daily discussions; the first has just ended and the participant attended it.
