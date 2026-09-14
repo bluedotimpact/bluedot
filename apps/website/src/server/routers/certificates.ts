@@ -8,6 +8,7 @@ import {
   eq,
   exerciseResponsePgTable,
   exerciseTable,
+  groupDiscussionTable,
   inArray,
   meetPersonTable,
   roundTable,
@@ -239,26 +240,42 @@ export const certificatesRouter = router({
     }
 
     if (meetPerson.role === COURSE_ROLE.PARTICIPANT) {
-      const { uniqueDiscussionAttendance, numUnits } = meetPerson;
-      const hasAttendedEnough
-        = uniqueDiscussionAttendance == null
-          || numUnits == null
-          || numUnits === 0
-          || numUnits - uniqueDiscussionAttendance <= 1;
-
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'lastDiscussionDate' })
         : null;
-      const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
-      const isLastDiscussionSoonOrPassed
-        = round?.lastDiscussionDate != null && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
+      const expectedDiscussionIds = meetPerson.expectedDiscussionsParticipant ?? [];
+      const expectedDiscussions = expectedDiscussionIds.length > 0
+        ? await db.pg
+          .select({ endDateTime: groupDiscussionTable.pg.endDateTime })
+          .from(groupDiscussionTable.pg)
+          .where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds))
+        : [];
 
-      if (!hasAttendedEnough) {
+      // A discussion that hasn't ended yet can't have been missed, and a shortfall only counts as
+      // final once at most one discussion is still to come. Anything we can't place in the past —
+      // no end time, or a row that hasn't synced yet — counts as still to come, so the total comes
+      // from the linked ids rather than the rows we managed to read.
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      const heldSoFar = expectedDiscussions
+        .filter((d) => d.endDateTime != null && d.endDateTime <= nowInSeconds).length;
+
+      // With no discussions linked there is nothing to count, so fall back to the course totals,
+      // which only mean anything once the round's last discussion day is fully behind us.
+      const hasDiscussionSchedule = expectedDiscussionIds.length > 0;
+      const roundEndTime
+        = round?.lastDiscussionDate != null ? new Date(round.lastDiscussionDate).getTime() : null;
+      const hasAtMostOneDiscussionLeft = hasDiscussionSchedule
+        ? expectedDiscussionIds.length - heldSoFar <= 1
+        : roundEndTime != null && roundEndTime + ONE_DAY_MS <= Date.now();
+
+      const discussionsHeld = hasDiscussionSchedule ? heldSoFar : (meetPerson.numUnits ?? 0);
+      const attended = meetPerson.uniqueDiscussionAttendance ?? 0;
+
+      if (hasAtMostOneDiscussionLeft && discussionsHeld - attended > 1) {
         return {
           status: 'attendance-ineligible' as const,
-          uniqueDiscussionAttendance,
-          numUnits,
-          isLastDiscussionSoonOrPassed,
+          uniqueDiscussionAttendance: attended,
+          discussionsHeld,
         };
       }
 
@@ -266,7 +283,7 @@ export const certificatesRouter = router({
         status: 'action-plan-pending',
         meetPersonId: meetPerson.id,
         hasSubmittedActionPlan: (meetPerson.projectSubmission?.length ?? 0) > 0,
-        isLastDiscussionSoonOrPassed,
+        hasAtMostOneDiscussionLeft,
       } as const;
     }
 
