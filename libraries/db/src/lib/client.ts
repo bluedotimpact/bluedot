@@ -87,7 +87,11 @@ export class PgAirtableDb {
 
   public pg: RestrictedPgDatabase;
 
-  /** @deprecated Never use this, unless you know what you're doing. Use the primary methods on PgAirtableDb instead */
+  /**
+   * @deprecated Never use this, unless you know what you're doing. Use the primary methods on PgAirtableDb instead.
+   * The primary methods retry transient Airtable errors (429s, 5xx); calls made directly through this client do
+   * not, so wrap them in `withAirtableRetry` yourself (see `linkToUser` in apps/website for an example).
+   */
   public airtableClient: AirtableTs;
 
   /** @deprecated Old name. Use .insert() instead */

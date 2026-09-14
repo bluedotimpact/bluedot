@@ -1,6 +1,6 @@
 import {
   applicationsRoundTable, courseRegistrationTable, inArray,
-  eq, and, or, ne, isNull, sql, userTable,
+  eq, and, or, ne, isNull, sql, userTable, withAirtableRetry,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -72,11 +72,12 @@ export const courseRegistrationsRouter = router({
       // 1. Link-or-create the user if we are given a course registration
       if (input.courseRegistrationId !== undefined) {
         // Read from Airtable, not Postgres: the webhook fires seconds after creation, before pg-sync replicates the record.
-        const courseRegistration = await db.airtableClient
-          .get(courseRegistrationTable.airtable, input.courseRegistrationId)
-          .catch((error: unknown) => {
-            throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found', cause: error });
-          });
+        const courseRegistration = await withAirtableRetry(
+          () => db.airtableClient.get(courseRegistrationTable.airtable, input.courseRegistrationId!),
+          { idempotent: true },
+        ).catch((error: unknown) => {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found', cause: error });
+        });
 
         if (courseRegistration.userId) {
           return { action: 'already-linked', userId: courseRegistration.userId } as const;
@@ -104,11 +105,12 @@ export const courseRegistrationsRouter = router({
 
       // 2. Link all matching course registrations if we are given a user
       // Read from Airtable, not Postgres (same reason as above): the triggering user may be brand new.
-      const user = await db.airtableClient
-        .get(userTable.airtable, input.userId!)
-        .catch((error: unknown) => {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found', cause: error });
-        });
+      const user = await withAirtableRetry(
+        () => db.airtableClient.get(userTable.airtable, input.userId!),
+        { idempotent: true },
+      ).catch((error: unknown) => {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found', cause: error });
+      });
 
       const email = normaliseEmail(user.email ?? '');
       if (!email) {

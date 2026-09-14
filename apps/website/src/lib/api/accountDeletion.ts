@@ -13,6 +13,7 @@ import {
   resourceCompletionPgTable,
   selfServeCourseRegistrationTable,
   userTable,
+  withAirtableRetry,
   type PgAirtableColumnInput,
   type PgAirtableTable,
   type SQL,
@@ -95,7 +96,10 @@ export const runAccountDeletion = async (deletionRequestId: string) => {
   // Completion promises the email is freed, so check the Airtable user row and the Keycloak login.
   const survivingUserObjects = await Promise.all([
     // Use airtableClient directly to check the source of truth
-    db.airtableClient.scan(userTable.airtable, { filterByFormula: `RECORD_ID()='${userId}'` }),
+    withAirtableRetry(
+      () => db.airtableClient.scan(userTable.airtable, { filterByFormula: `RECORD_ID()='${userId}'` }),
+      { idempotent: true },
+    ),
     keycloakIdentifier === null ? false : keycloakUserExists(keycloakIdentifier),
   ]).then(([userRecords, keycloakUserSurvives]) => [
     ...userRecords.map((record) => `user record ${record.id}`),
