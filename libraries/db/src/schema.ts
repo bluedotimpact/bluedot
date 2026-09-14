@@ -1536,6 +1536,7 @@ export const teamMemberTable = pgAirtable('team_member', {
   columns: {
     name: { pgColumn: text(), airtableId: 'fldjY13g0tuTPJmB3' },
     jobTitle: { pgColumn: text(), airtableId: 'fldlJy9D63sCry5Yg' },
+    subteam: { pgColumn: text(), airtableId: 'fldBZCgL5nGiMbslF' },
     imageAttachmentUrls: { pgColumn: text(), airtableId: 'fldOo7XlA4hA1glaL' },
     imagePublicUrls: { pgColumn: text(), airtableId: 'fldmN54i5qJObcwuN' },
     url: { pgColumn: text(), airtableId: 'fld3ChLLOQHQGDK18' },
