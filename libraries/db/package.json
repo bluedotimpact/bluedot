@@ -22,6 +22,7 @@
         "@bluedot/typescript-config": "*",
         "@electric-sql/pglite": "^0.3.15",
         "@types/node": "^22.15.21",
+        "airtable": "^0.12.2",
         "drizzle-kit": "^0.31.9",
         "eslint": "^9.39.2",
         "ts-node": "^10.9.1",
