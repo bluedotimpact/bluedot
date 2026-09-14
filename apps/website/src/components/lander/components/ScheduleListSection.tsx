@@ -10,6 +10,7 @@ export type ScheduleListSectionProps = {
   intro?: ReactNode;
   courseSlug: string;
   applicationUrl: string;
+  hoursPerUnit?: string;
   fallbackText?: ReactNode;
   fallbackCtaText?: string;
 };
@@ -20,6 +21,7 @@ const ScheduleListSection = ({
   intro,
   courseSlug,
   applicationUrl,
+  hoursPerUnit,
   fallbackText = 'No rounds are open right now. Apply and we\'ll let you know when the next one opens.',
   fallbackCtaText = 'Apply now',
 }: ScheduleListSectionProps) => {
@@ -63,6 +65,7 @@ const ScheduleListSection = ({
               {intenseRounds.length > 0 && (
                 <RoundGroup
                   type="intensive"
+                  hoursPerUnit={hoursPerUnit}
                   rounds={intenseRounds}
                   applicationUrl={applicationUrl}
                   accentColor={accentColor}
@@ -71,6 +74,7 @@ const ScheduleListSection = ({
               {partTimeRounds.length > 0 && (
                 <RoundGroup
                   type="part-time"
+                  hoursPerUnit={hoursPerUnit}
                   rounds={partTimeRounds}
                   applicationUrl={applicationUrl}
                   accentColor={accentColor}
