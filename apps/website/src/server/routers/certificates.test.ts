@@ -310,8 +310,8 @@ describe('certificates.getStatus', () => {
     expect(result).toEqual({ status: 'not-eligible', hasUpcomingRounds: false });
   });
 
-  // Attendance eligibility is judged on the discussions that have actually been held, so an
-  // intensive round — six discussions inside a week — doesn't read as "missed five" on day one.
+  // Eligibility is judged on the discussions actually held so far, so the fixtures below place
+  // discussion end times relative to now rather than relying on the round's dates.
   describe('participant attendance', () => {
     const ONE_HOUR_SECONDS = 60 * 60;
 
@@ -334,9 +334,9 @@ describe('certificates.getStatus', () => {
       });
       await testDb.insert(roundTable, { id: 'round1', lastDiscussionDate });
 
-      const discussionIds = (endOffsets ?? []).map((_, index) => `disc-${index + 1}`);
-      await Promise.all((endOffsets ?? []).map((offset, index) => testDb.insert(groupDiscussionTable, {
-        id: discussionIds[index]!,
+      const discussions = (endOffsets ?? []).map((offset, index) => ({ id: `disc-${index + 1}`, offset }));
+      await Promise.all(discussions.map(({ id, offset }) => testDb.insert(groupDiscussionTable, {
+        id,
         group: 'group1',
         round: 'round1',
         startDateTime: nowSeconds + (offset ?? 0) - ONE_HOUR_SECONDS,
@@ -352,14 +352,12 @@ describe('certificates.getStatus', () => {
         round: 'round1',
         uniqueDiscussionAttendance: attended,
         numUnits,
-        expectedDiscussionsParticipant: discussionIds,
+        expectedDiscussionsParticipant: discussions.map((d) => d.id),
       });
     };
 
     const getStatus = () => createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
 
-    // The whole round falls inside the old seven-day window, so day one used to both accuse the
-    // participant of missing five discussions and nudge them for an action plan.
     test('does not report a shortfall or nudge for an action plan on day one of an intensive round', async () => {
       // Six daily discussions; the first has just ended and the participant attended it.
       await seedParticipant({
@@ -431,6 +429,22 @@ describe('certificates.getStatus', () => {
       });
     });
 
+    test('treats a linked discussion with no row yet as still to come', async () => {
+      await seedParticipant({
+        endOffsets: [-71 * ONE_HOUR_SECONDS, -47 * ONE_HOUR_SECONDS, -23 * ONE_HOUR_SECONDS, -ONE_HOUR_SECONDS],
+        attended: 0,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
+      });
+      // Two more discussions are linked on the registration but haven't synced into the table.
+      await testDb.update(meetPersonTable, {
+        id: 'mp1',
+        expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5', 'disc-6'],
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending' });
+    });
+
     test('treats unscheduled discussions as still to come', async () => {
       // Four held, two not yet scheduled: the shortfall isn't final even though four were missed.
       await seedParticipant({
@@ -443,8 +457,6 @@ describe('certificates.getStatus', () => {
       expect(await getStatus()).toMatchObject({ status: 'action-plan-pending' });
     });
 
-    // Registrations with no discussions linked (never assigned a group, or not yet synced) fall
-    // back to comparing course totals, which only says anything once the round is over.
     test('falls back to course totals when no discussions are linked and the round is over', async () => {
       await seedParticipant({ attended: 3, numUnits: 5, lastDiscussionDate: '2020-01-01' });
 

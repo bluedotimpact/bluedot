@@ -165,8 +165,7 @@ describe('CongratulationsPage', () => {
     });
   });
 
-  // getStatus only reports attendance-ineligible once the shortfall is final, so the page lets it
-  // through unconditionally; the timing rules are covered in certificates.test.ts.
+  // The timing rules behind this status live in certificates.test.ts.
   test('does not redirect when attendance-ineligible', async () => {
     server.use(trpcMsw.certificates.getStatus.query(() => ({
       status: 'attendance-ineligible' as const,

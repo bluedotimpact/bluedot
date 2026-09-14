@@ -18,7 +18,7 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
     || status === 'not-enrolled'
     || status === 'not-eligible'
     || status === 'has-certificate'
-    // getStatus only reports this once the shortfall is final, so there's nothing left to gate on here.
+    // getStatus decides when a shortfall is final; there's no timing to re-check here.
     || status === 'attendance-ineligible'
   );
 };

@@ -243,9 +243,6 @@ export const certificatesRouter = router({
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'lastDiscussionDate' })
         : null;
-      const lastDiscussionTime
-        = round?.lastDiscussionDate != null ? new Date(round.lastDiscussionDate).getTime() : null;
-
       const expectedDiscussionIds = meetPerson.expectedDiscussionsParticipant ?? [];
       const expectedDiscussions = expectedDiscussionIds.length > 0
         ? await db.pg
@@ -254,30 +251,27 @@ export const certificatesRouter = router({
           .where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds))
         : [];
 
-      // Only a discussion that has already ended can have been missed. Both the action-plan nudge
-      // and the attendance verdict wait until at most one discussion is still to come — measured in
-      // discussions, not calendar days, because an intensive round runs all of them inside a week
-      // and would otherwise read as "missed 5" on day one. Discussions with no end time aren't
-      // scheduled yet, so they count as still to come.
+      // A discussion that hasn't ended yet can't have been missed, and a shortfall only counts as
+      // final once at most one discussion is still to come. Anything we can't place in the past —
+      // no end time, or a row that hasn't synced yet — counts as still to come, so the total comes
+      // from the linked ids rather than the rows we managed to read.
       const nowInSeconds = Math.floor(Date.now() / 1000);
       const heldSoFar = expectedDiscussions
         .filter((d) => d.endDateTime != null && d.endDateTime <= nowInSeconds).length;
-      const hasDiscussionSchedule = expectedDiscussions.length > 0;
 
-      // Registrations with no discussions linked (never assigned a group, or not yet synced) fall
-      // back to the round's end date: the nudge keeps its original week-out window, while the
-      // verdict waits for the round to actually be over before calling a shortfall final.
+      // With no discussions linked there is nothing to count, so fall back to the course totals,
+      // which only mean anything once the round's last discussion day is fully behind us.
+      const hasDiscussionSchedule = expectedDiscussionIds.length > 0;
+      const roundEndTime
+        = round?.lastDiscussionDate != null ? new Date(round.lastDiscussionDate).getTime() : null;
       const hasAtMostOneDiscussionLeft = hasDiscussionSchedule
-        ? expectedDiscussions.length - heldSoFar <= 1
-        : lastDiscussionTime != null && lastDiscussionTime <= Date.now() + 7 * ONE_DAY_MS;
-      const isShortfallFinal = hasDiscussionSchedule
-        ? expectedDiscussions.length - heldSoFar <= 1
-        : lastDiscussionTime != null && lastDiscussionTime <= Date.now();
+        ? expectedDiscussionIds.length - heldSoFar <= 1
+        : roundEndTime != null && roundEndTime + ONE_DAY_MS <= Date.now();
 
       const discussionsHeld = hasDiscussionSchedule ? heldSoFar : (meetPerson.numUnits ?? 0);
       const attended = meetPerson.uniqueDiscussionAttendance ?? 0;
 
-      if (isShortfallFinal && discussionsHeld - attended > 1) {
+      if (hasAtMostOneDiscussionLeft && discussionsHeld - attended > 1) {
         return {
           status: 'attendance-ineligible' as const,
           uniqueDiscussionAttendance: attended,
