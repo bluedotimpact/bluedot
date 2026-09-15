@@ -50,15 +50,21 @@ export const TimePicker = ({
     >
       {label && <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>}
       <DateInput
-        className={cn(
-          'flex rounded-surface border border-gray-200 bg-white/90 px-3 py-2 text-gray-700 ring-black transition focus-within:bg-white focus-visible:ring-2',
+        className={({ isFocusWithin, isDisabled }) => cn(
+          'flex h-11 items-center rounded-surface border border-subtle bg-raised px-3 text-primary transition',
+          isFocusWithin && 'border-accent ring-1 ring-accent',
+          isDisabled && 'bg-tint text-disabled',
           inputClassName,
         )}
       >
         {(segment) => (
           <DateSegment
             segment={segment}
-            className="focus:bg-bluedot-normal rounded-xs px-0.5 tabular-nums caret-transparent outline-hidden placeholder-shown:italic focus:text-white"
+            className={({ isPlaceholder, isFocused, isDisabled }) => cn(
+              'rounded-surface px-0.5 tabular-nums caret-transparent outline-hidden',
+              isPlaceholder && !isDisabled && 'text-placeholder',
+              isFocused && 'bg-accent text-on-dark',
+            )}
           />
         )}
       </DateInput>
