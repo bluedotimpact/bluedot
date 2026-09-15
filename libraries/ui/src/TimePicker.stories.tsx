@@ -57,12 +57,3 @@ export const HiddenLabel: Story = {
     label: undefined,
   },
 };
-
-export const CustomStyles: Story = {
-  args: {
-    label: 'Custom Styled Time Picker',
-    className: 'w-full',
-    labelClassName: 'text-blue-600 font-bold text-lg',
-    inputClassName: 'bg-blue-50 border-blue-300 hover:border-blue-500',
-  },
-};

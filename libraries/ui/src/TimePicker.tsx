@@ -10,8 +10,6 @@ export type TimePickerProps = {
   onTimeChange?: (value?: Date) => void;
   disabled?: boolean;
   className?: string;
-  labelClassName?: string;
-  inputClassName?: string;
 };
 
 export const TimePicker = ({
@@ -20,8 +18,6 @@ export const TimePicker = ({
   onTimeChange,
   disabled,
   className,
-  labelClassName,
-  inputClassName,
 }: TimePickerProps) => {
   // Convert Date to Time object
   const time = timeValue ? new Time(timeValue.getHours(), timeValue.getMinutes()) : null;
@@ -48,13 +44,12 @@ export const TimePicker = ({
       onChange={handleChange}
       isDisabled={disabled}
     >
-      {label && <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>}
+      {label && <Label className="cursor-default text-black">{label}</Label>}
       <DateInput
         className={({ isFocusWithin, isDisabled }) => cn(
           'flex h-11 items-center rounded-surface border border-subtle bg-raised px-3 text-primary transition',
           isFocusWithin && 'border-accent ring-1 ring-accent',
           isDisabled && 'bg-tint text-disabled',
-          inputClassName,
         )}
       >
         {(segment) => (
