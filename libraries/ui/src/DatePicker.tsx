@@ -2,8 +2,10 @@ import { format, isValid, parse } from 'date-fns';
 import {
   useCallback, useEffect, useId, useRef, useState,
 } from 'react';
-import { DayPicker, type ClassNames } from 'react-day-picker';
-import { LuChevronsUpDown } from 'react-icons/lu';
+import {
+  DayPicker, type ChevronProps, type ClassNames, type DayButtonProps,
+} from 'react-day-picker';
+import { FaChevronLeft, FaChevronRight, FaRegCalendar } from 'react-icons/fa6';
 import { cn } from './utils';
 
 // Utility function to get the locale-specific date format of the user
@@ -203,9 +205,34 @@ export const DatePicker = ({
           month={month}
           onMonthChange={setMonth}
           showOutsideDays
+          components={{ Chevron: CalendarChevron, DayButton: CalendarDayButton }}
           classNames={{ ...CALENDAR_CLASS_NAMES, ...classNames?.calendar }}
         />
       </div>
     </div>
   );
 };
+
+const CalendarChevron = ({ orientation, className }: ChevronProps) => {
+  const Icon = orientation === 'left' ? FaChevronLeft : FaChevronRight;
+  return <Icon className={cn('size-3.5', className)} aria-hidden="true" />;
+};
+
+// Modifiers arrive as props here, so selected/today/outside precedence is explicit
+// instead of depending on stylesheet order.
+const CalendarDayButton = ({
+  day, modifiers, className, ...props
+}: DayButtonProps) => (
+  <button
+    type="button"
+    {...props}
+    className={cn(
+      'flex size-11 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus',
+      modifiers.outside && 'text-secondary',
+      modifiers.today && 'text-accent ring-1 ring-inset ring-accent',
+      modifiers.selected && 'bg-accent text-on-dark ring-0 hover:bg-accent',
+      modifiers.disabled && 'cursor-default text-disabled hover:bg-transparent',
+      className,
+    )}
+  />
+);
