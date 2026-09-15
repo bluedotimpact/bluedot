@@ -14,8 +14,8 @@ function getFirstImageUrl(imageAttachmentUrls: string | string[] | null): string
   return imageAttachmentUrls.split(' ')[0] ?? '';
 }
 
-function getAdvisorProfileDescription(advisorProfileDescription: string | null): string | undefined {
-  const trimmed = advisorProfileDescription?.trim();
+function getOptionalText(value: string | null): string | undefined {
+  const trimmed = value?.trim();
   if (!trimmed) {
     return undefined;
   }
@@ -35,6 +35,7 @@ export const teamMembersRouter = router({
         .map((m) => ({
           name: m.name,
           jobTitle: m.jobTitle,
+          subteam: getOptionalText(m.subteam),
           imageUrl: getFirstImageUrl(m.imagePublicUrls),
           url: m.url ?? undefined,
         }))
@@ -54,7 +55,7 @@ export const teamMembersRouter = router({
           jobTitle: m.jobTitle,
           imageUrl: getFirstImageUrl(m.imagePublicUrls),
           url: m.url ?? undefined,
-          advisorProfileDescription: getAdvisorProfileDescription(m.advisorProfileDescription),
+          advisorProfileDescription: getOptionalText(m.advisorProfileDescription),
         }))
         .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
     }),

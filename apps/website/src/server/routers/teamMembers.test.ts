@@ -4,6 +4,37 @@ import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
 
+describe('teamMembers.getAll', () => {
+  test('returns subteams and keeps unassigned members while excluding inactive or incomplete profiles', async () => {
+    const profiles = [
+      {
+        name: 'Zoe', subteam: '  Courses  ', status: 'Active', imagePublicUrls: 'https://example.com/zoe.jpg',
+      },
+      {
+        name: 'Ada', subteam: null, status: 'Active', imagePublicUrls: 'https://example.com/ada.jpg',
+      },
+      {
+        name: 'Ben', subteam: '   ', status: 'Active', imagePublicUrls: 'https://example.com/ben.jpg',
+      },
+      {
+        name: 'Inactive', subteam: 'Courses', status: 'Inactive', imagePublicUrls: 'https://example.com/inactive.jpg',
+      },
+      {
+        name: 'No photo', subteam: 'Courses', status: 'Active', imagePublicUrls: null,
+      },
+    ];
+    await Promise.all(profiles.map((profile) => testDb.insert(teamMemberTable, profile)));
+
+    const result = await createCaller().teamMembers.getAll();
+
+    expect(result.map(({ name, subteam }) => ({ name, subteam }))).toEqual([
+      { name: 'Ada', subteam: undefined },
+      { name: 'Ben', subteam: undefined },
+      { name: 'Zoe', subteam: 'Courses' },
+    ]);
+  });
+});
+
 describe('teamMembers.getOneOnOneAdvisors', () => {
   test('returns advisor profile descriptions for active 1-1 advisors', async () => {
     await testDb.insert(teamMemberTable, {
