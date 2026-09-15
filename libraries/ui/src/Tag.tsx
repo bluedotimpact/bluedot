@@ -4,7 +4,7 @@ import { cn } from './utils';
 export type TagProps = {
   children: ReactNode;
   className?: string;
-  tone?: 'neutral' | 'accent' | 'status';
+  tone?: 'neutral' | 'accent';
   shape?: 'rounded' | 'pill';
 };
 
@@ -22,7 +22,6 @@ export const Tag = ({
         shape === 'pill' && 'rounded-full px-3',
         tone === 'neutral' && 'border border-default text-secondary',
         tone === 'accent' && 'bg-accent-subtle text-accent',
-        tone === 'status' && 'bg-accent-subtle text-secondary',
         className,
       )}
     >

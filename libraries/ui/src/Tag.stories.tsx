@@ -28,19 +28,6 @@ export const Accent: Story = {
   },
 };
 
-export const Status: Story = {
-  args: {
-    children: (
-      <>
-        <IoCheckmark aria-hidden />
-        Attended
-      </>
-    ),
-    tone: 'status',
-    shape: 'pill',
-  },
-};
-
 export const Pill: Story = {
   args: {
     children: 'Weekly',
@@ -48,16 +35,26 @@ export const Pill: Story = {
   },
 };
 
+export const WithIcon: Story = {
+  args: {
+    children: (
+      <>
+        <IoCheckmark aria-hidden />
+        Attended
+      </>
+    ),
+    shape: 'pill',
+  },
+};
+
 export const AllVariants: Story = {
   args: { children: null },
   render: () => (
-    <div className="grid w-fit grid-cols-3 gap-4">
+    <div className="grid w-fit grid-cols-2 gap-4">
       <Tag>Neutral</Tag>
       <Tag tone="accent">Accent</Tag>
-      <Tag tone="status"><IoCheckmark aria-hidden />Status</Tag>
-      <Tag shape="pill">Neutral</Tag>
-      <Tag tone="accent" shape="pill">Accent</Tag>
-      <Tag tone="status" shape="pill"><IoCheckmark aria-hidden />Status</Tag>
+      <Tag shape="pill"><IoCheckmark aria-hidden />Neutral</Tag>
+      <Tag tone="accent" shape="pill"><IoCheckmark aria-hidden />Accent</Tag>
     </div>
   ),
 };
