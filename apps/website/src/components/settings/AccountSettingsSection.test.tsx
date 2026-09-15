@@ -53,8 +53,8 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees success message
-    const successMessage = await screen.findByRole('status');
-    expect(successMessage).toHaveTextContent('Password updated successfully!');
+    const successMessage = await screen.findByText('Password updated successfully!');
+    expect(successMessage).toHaveAttribute('role', 'status');
 
     // Modal should be closed
     await waitFor(() => {
@@ -163,8 +163,8 @@ describe('AccountSettingsSection - User Journeys', () => {
     });
 
     // Success message appears
-    const successMessage = await screen.findByRole('status');
-    expect(successMessage).toHaveTextContent('Password updated successfully!');
+    const successMessage = await screen.findByText('Password updated successfully!');
+    expect(successMessage).toHaveAttribute('role', 'status');
 
     // Wait for modal to close
     await waitFor(() => {
