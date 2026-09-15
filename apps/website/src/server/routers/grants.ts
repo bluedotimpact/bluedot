@@ -129,27 +129,30 @@ const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
 };
 
 const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCareerTransitionGrant[] => {
-  return all
+  const enriched = all
     .filter((grant) => Boolean(grant.firstName?.trim()) && Boolean(grant.lastName?.trim()))
     .map((grant: CareerTransitionGrant) => {
       // Formula concatenates up to 5 permanent URLs space-separated; take the first.
       const firstImageUrl = grant.imageUrl?.trim().split(/\s+/)[0] ?? null;
-      return {
+      const publicGrant: PublicCareerTransitionGrant = {
         granteeName: [grant.firstName?.trim(), grant.lastName?.trim()].filter(Boolean).join(' '),
         imageUrl: sanitizeUrl(firstImageUrl),
         bio: grant.bio?.trim() ? grant.bio.trim() : undefined,
         grantPlan: grant.grantPlan?.trim() ? grant.grantPlan.trim() : undefined,
         profileUrl: sanitizeUrl(grant.profileUrl),
       };
-    })
-    .sort((a, b) => {
-      // Grantees with a photo, a bio and a grant description render as full
-      // cards, so surface those first; the rest follow, each group alphabetical.
-      const aComplete = Boolean(a.imageUrl) && Boolean(a.bio) && Boolean(a.grantPlan);
-      const bComplete = Boolean(b.imageUrl) && Boolean(b.bio) && Boolean(b.grantPlan);
-      if (aComplete !== bComplete) return aComplete ? -1 : 1;
-      return a.granteeName.localeCompare(b.granteeName);
+      return { publicGrant, dateMs: parseGrantDate(grant.grantApprovalDate)?.getTime() ?? null };
     });
+
+  return enriched
+    .filter(({ publicGrant }) => Boolean(publicGrant.imageUrl))
+    .sort((a, b) => {
+      if (a.dateMs !== null && b.dateMs !== null && a.dateMs !== b.dateMs) return b.dateMs - a.dateMs;
+      if (a.dateMs !== null && b.dateMs === null) return -1;
+      if (a.dateMs === null && b.dateMs !== null) return 1;
+      return a.publicGrant.granteeName.localeCompare(b.publicGrant.granteeName);
+    })
+    .map(({ publicGrant }) => publicGrant);
 };
 
 export const grantsRouter = router({
