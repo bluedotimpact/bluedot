@@ -3,7 +3,6 @@ import {
   useCallback, useEffect, useId, useRef, useState,
 } from 'react';
 import { DayPicker, type ClassNames } from 'react-day-picker';
-import 'react-day-picker/style.css';
 import { LuChevronsUpDown } from 'react-icons/lu';
 import { cn } from './utils';
 
@@ -49,6 +48,20 @@ export type DatePickerProps = {
   onChange?: (value?: Date) => void;
   disabled?: boolean;
   classNames?: DatePickerClassNames;
+};
+
+const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
+  root: 'text-primary',
+  months: 'relative',
+  month: 'flex flex-col gap-3',
+  nav: 'absolute inset-x-0 top-0 flex h-9 items-center justify-between',
+  button_previous: 'flex size-9 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus disabled:cursor-default disabled:text-disabled disabled:hover:bg-transparent',
+  button_next: 'flex size-9 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus disabled:cursor-default disabled:text-disabled disabled:hover:bg-transparent',
+  month_caption: 'flex h-9 items-center justify-center text-size-xs font-medium',
+  month_grid: 'border-collapse',
+  weekday: 'h-5 w-11 text-size-xs font-medium text-secondary',
+  day: 'p-0 text-center',
+  hidden: 'invisible',
 };
 
 export const DatePicker = ({
@@ -184,11 +197,7 @@ export const DatePicker = ({
           month={month}
           onMonthChange={setMonth}
           showOutsideDays
-          classNames={{
-            chevron: 'fill-bluedot-normal',
-            today: 'text-bluedot-normal',
-            ...classNames?.calendar,
-          }}
+          classNames={{ ...CALENDAR_CLASS_NAMES, ...classNames?.calendar }}
         />
       </div>
     </div>
