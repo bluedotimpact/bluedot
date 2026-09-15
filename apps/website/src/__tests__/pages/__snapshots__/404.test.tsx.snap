@@ -67,6 +67,7 @@ exports[`Error404Page > should render correctly 1`] = `
               class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
               href="/"
               tabindex="0"
+              title="Home"
             >
               Home
             </a>

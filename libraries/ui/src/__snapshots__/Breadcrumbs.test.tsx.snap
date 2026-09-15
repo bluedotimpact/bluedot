@@ -19,6 +19,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
             class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
             href="/"
             tabindex="0"
+            title="Home"
           >
             Home
           </a>
@@ -69,6 +70,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
             class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
             href="/courses"
             tabindex="0"
+            title="Courses"
           >
             Courses
           </a>
@@ -97,6 +99,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
             class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
             href="/courses/future-of-ai"
             tabindex="0"
+            title="Future of AI"
           >
             Future of AI
           </a>

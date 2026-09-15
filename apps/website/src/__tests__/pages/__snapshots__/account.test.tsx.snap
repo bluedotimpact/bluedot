@@ -23,6 +23,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
               href="/"
               tabindex="0"
+              title="Home"
             >
               Home
             </a>

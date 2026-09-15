@@ -762,6 +762,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
                     href="/courses"
                     tabindex="0"
+                    title="Courses"
                   >
                     Courses
                   </a>
@@ -812,6 +813,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
                     href="/courses/test-course"
                     tabindex="0"
+                    title="What the fish [Test Course]"
                   >
                     What the fish [Test Course]
                   </a>
