@@ -34,7 +34,7 @@ export type BreadcrumbTrailProps = {
 /** The crumbs alone, for embedding in an existing bar. Use `Breadcrumbs` for the standalone full-width bar. */
 export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, className }) => {
   const items = [...(route.parentPages ?? []), route];
-  const collapsible = items.length > 2;
+  const hasMiddleCrumbs = items.length > 2;
 
   return (
     <ol className={cn('text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium', className)}>
@@ -54,7 +54,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
               </A>
             )}
             {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-secondary shrink-0" />}
-            {index === 0 && collapsible && (
+            {index === 0 && hasMiddleCrumbs && (
               <span aria-hidden="true" className="bd-md:hidden text-secondary flex items-center gap-2">
                 ⋯
                 <ChevronRightIcon size={16} className="text-secondary shrink-0" />
