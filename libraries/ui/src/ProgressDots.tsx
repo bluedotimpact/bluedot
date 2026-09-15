@@ -13,5 +13,6 @@ export const ProgressDots: React.FC<ProgressDotsProps> = ({ className }) => {
       <span aria-hidden className={DOT_CLASSES} style={{ animationDelay: '0ms' }} />
       <span aria-hidden className={DOT_CLASSES} style={{ animationDelay: '150ms' }} />
       <span aria-hidden className={DOT_CLASSES} style={{ animationDelay: '300ms' }} />
+      <span className="sr-only">Loading…</span>
   );
 };
