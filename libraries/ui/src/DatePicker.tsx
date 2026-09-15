@@ -141,7 +141,13 @@ export const DatePicker = ({
           {label}
         </label>
       ) : null}
-      <div className="relative rounded-surface border border-gray-200 bg-white/90 text-gray-700 transition focus-within:bg-white">
+      <div
+        className={cn(
+          'relative flex h-11 items-center rounded-surface border border-subtle bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent',
+          isOpen && 'border-accent ring-1 ring-accent',
+          disabled && 'bg-tint text-disabled',
+        )}
+      >
         <input
           id={inputId}
           type="text"
@@ -160,7 +166,7 @@ export const DatePicker = ({
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
           className={cn(
-            'w-full rounded-surface bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic',
+            'size-full rounded-surface bg-transparent pr-10 pl-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed',
             classNames?.input,
           )}
         />
@@ -171,7 +177,7 @@ export const DatePicker = ({
           disabled={disabled}
           aria-label="Open calendar"
           className={cn(
-            'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none',
+            'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-secondary outline-none disabled:cursor-not-allowed disabled:text-disabled',
             classNames?.button,
           )}
         >
@@ -188,7 +194,7 @@ export const DatePicker = ({
             transform: 'translateX(-50%)',
           } as React.CSSProperties
         }
-        className={cn('overflow-auto rounded-surface bg-white p-4 ring-1 ring-black/10 drop-shadow-sm', classNames?.popover)}
+        className={cn('rounded-surface border border-subtle bg-raised p-4 drop-shadow-sm', classNames?.popover)}
       >
         <DayPicker
           mode="single"
