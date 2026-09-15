@@ -4,20 +4,24 @@ import clsx from 'clsx';
 export type TagProps = {
   children: React.ReactNode;
   className?: string;
-  variant?: 'default' | 'secondary';
+  tone?: 'neutral' | 'accent';
+  shape?: 'rounded' | 'pill';
 };
 
 export const Tag: React.FC<TagProps> = ({
   className,
   children,
-  variant = 'default',
+  tone = 'neutral',
+  shape = 'rounded',
 }) => {
   return (
     <span
       className={clsx(
-        'tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit',
-        variant === 'default' && 'text-secondary container-lined',
-        variant === 'secondary' && '!text-bluedot-normal bg-[#E5EDFE] rounded-sm',
+        'inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0',
+        shape === 'rounded' && 'rounded-surface px-4',
+        shape === 'pill' && 'rounded-full px-3',
+        tone === 'neutral' && 'border border-default text-secondary',
+        tone === 'accent' && 'bg-accent-subtle text-accent',
         className,
       )}
     >
