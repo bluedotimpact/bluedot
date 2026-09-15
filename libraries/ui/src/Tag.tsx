@@ -4,7 +4,7 @@ import clsx from 'clsx';
 export type TagProps = {
   children: React.ReactNode;
   className?: string;
-  tone?: 'neutral' | 'accent';
+  tone?: 'neutral' | 'accent' | 'status';
   shape?: 'rounded' | 'pill';
 };
 
@@ -22,6 +22,7 @@ export const Tag: React.FC<TagProps> = ({
         shape === 'pill' && 'rounded-full px-3',
         tone === 'neutral' && 'border border-default text-secondary',
         tone === 'accent' && 'bg-accent-subtle text-accent',
+        tone === 'status' && 'bg-accent-subtle text-secondary',
         className,
       )}
     >
