@@ -46,6 +46,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           >
             ⋯
             <svg
+              aria-hidden="true"
               class="text-secondary shrink-0"
               fill="none"
               height="16"

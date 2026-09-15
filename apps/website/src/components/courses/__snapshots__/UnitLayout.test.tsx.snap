@@ -789,6 +789,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   >
                     ⋯
                     <svg
+                      aria-hidden="true"
                       class="text-secondary shrink-0"
                       fill="none"
                       height="16"
