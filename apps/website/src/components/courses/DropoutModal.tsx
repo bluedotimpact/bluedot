@@ -266,10 +266,10 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         disabled={submitDisabled}
       >
         {dropoutMutation.isPending ? (
-          <div className="flex items-center gap-2">
+          <span className="flex items-center gap-2">
             <ProgressDots className="my-0 text-on-dark" />
             Submitting...
-          </div>
+          </span>
         ) : (
           <span>Submit</span>
         )}

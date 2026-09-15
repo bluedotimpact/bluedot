@@ -314,10 +314,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             disabled={submitDisabled}
           >
             {updateDiscussionTimeMutation.isPending ? (
-              <div className="flex items-center gap-2">
+              <span className="flex items-center gap-2">
                 <ProgressDots className="my-0 text-on-dark" />
                 Submitting...
-              </div>
+              </span>
             ) : (
               <span>Submit</span>
             )}
@@ -382,10 +382,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           disabled={facilitatorChangeSubmitDisabled}
         >
           {changeFacilitatorMutation.isPending ? (
-            <div className="flex items-center gap-2">
+            <span className="flex items-center gap-2">
               <ProgressDots className="my-0 text-on-dark" />
               Submitting...
-            </div>
+            </span>
           ) : (
             <span>Submit</span>
           )}
