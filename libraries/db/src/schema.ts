@@ -882,6 +882,10 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tbln76u7AsVnWAKZo',
   columns: {
+    grantApprovalDate: {
+      pgColumn: text(),
+      airtableId: 'fldG5gmxovgokbwsX',
+    },
     firstName: {
       pgColumn: text(),
       airtableId: 'fldWQsNeLnniYRtBC',
