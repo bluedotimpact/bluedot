@@ -53,7 +53,6 @@ export type DatePickerProps = {
 const NAV_BUTTON_STYLES = 'flex size-9 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus';
 
 const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
-  root: 'text-primary',
   months: 'relative',
   month: 'flex flex-col gap-3',
   nav: 'absolute inset-x-0 top-0 flex h-9 items-center justify-between',
@@ -63,7 +62,6 @@ const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
   month_grid: 'border-collapse',
   weekday: 'h-5 w-11 text-size-xs font-medium text-secondary',
   day: 'p-0 text-center',
-  hidden: 'invisible',
 };
 
 export const DatePicker = ({
@@ -230,7 +228,6 @@ const CalendarDayButton = ({
       modifiers.outside && 'text-secondary',
       modifiers.today && 'text-accent ring-1 ring-inset ring-accent',
       modifiers.selected && 'bg-accent text-on-dark ring-0 hover:bg-accent',
-      modifiers.disabled && 'cursor-default text-disabled hover:bg-transparent',
       className,
     )}
   />
