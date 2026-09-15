@@ -89,8 +89,12 @@ exports[`Nav > renders with courses 1`] = `
                         >
                           Future of AI
                           <span
+<<<<<<< HEAD
                             class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
                             role="status"
+=======
+                            class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+>>>>>>> efc7d0442 (Update snapshots)
                           >
                             Start Here
                           </span>
@@ -109,8 +113,12 @@ exports[`Nav > renders with courses 1`] = `
                         >
                           New Course
                           <span
+<<<<<<< HEAD
                             class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
                             role="status"
+=======
+                            class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+>>>>>>> efc7d0442 (Update snapshots)
                           >
                             New
                           </span>
@@ -358,8 +366,12 @@ exports[`Nav > renders with courses 1`] = `
                   >
                     Future of AI
                     <span
+<<<<<<< HEAD
                       class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
                       role="status"
+=======
+                      class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+>>>>>>> efc7d0442 (Update snapshots)
                     >
                       Start Here
                     </span>
@@ -378,8 +390,12 @@ exports[`Nav > renders with courses 1`] = `
                   >
                     New Course
                     <span
+<<<<<<< HEAD
                       class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
                       role="status"
+=======
+                      class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+>>>>>>> efc7d0442 (Update snapshots)
                     >
                       New
                     </span>
