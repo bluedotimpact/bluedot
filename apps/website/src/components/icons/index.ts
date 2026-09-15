@@ -21,7 +21,7 @@ export { ArrowRightIcon } from './ArrowRightIcon';
 export { BooksIcon } from './BooksIcon';
 export { CheckIcon } from './CheckIcon';
 export { CheckmarkIcon } from './CheckmarkIcon';
-export { ChevronRightIcon } from './ChevronRightIcon';
+export { ChevronRightIcon } from '@bluedot/ui';
 export { ChunkIcon } from './ChunkIcon';
 export { CircledCheckmarkIcon } from './CircledCheckmarkIcon';
 export { ClockIcon } from './ClockIcon';

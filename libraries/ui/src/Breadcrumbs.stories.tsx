@@ -24,3 +24,19 @@ export const Default: Story = {
     route,
   },
 };
+
+const routeWithManyParents: BluedotRoute = {
+  title: 'Unit 3: Alignment',
+  url: '/courses/agi-safety/unit-3',
+  parentPages: [
+    { title: 'Home', url: '/' },
+    { title: 'Courses', url: '/courses' },
+    { title: 'AGI Safety Fundamentals', url: '/courses/agi-safety' },
+  ],
+};
+
+export const ManyParentPages: Story = {
+  args: {
+    route: routeWithManyParents,
+  },
+};

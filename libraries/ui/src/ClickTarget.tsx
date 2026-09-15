@@ -9,6 +9,7 @@ export type ClickTargetProps = React.PropsWithChildren<{
   target?: React.HTMLAttributeAnchorTarget;
   rel?: string;
   disabled?: boolean;
+  title?: string;
   'aria-label'?: string;
   type?: 'button' | 'submit' | 'reset';
 }>;
@@ -22,6 +23,7 @@ export const ClickTarget = ({
   url,
   target,
   rel,
+  title,
   'aria-label': ariaLabel,
   type = 'button',
 }: ClickTargetProps) => {
@@ -47,6 +49,7 @@ export const ClickTarget = ({
         onClick={handleInteraction}
         target={target}
         rel={safeRel}
+        title={title}
         aria-disabled={disabled ? 'true' : undefined}
         aria-label={ariaLabel}
         tabIndex={disabled ? -1 : 0}
@@ -62,6 +65,7 @@ export const ClickTarget = ({
       style={style}
       onClick={handleInteraction}
       disabled={disabled}
+      title={title}
       aria-label={ariaLabel}
 
       // eslint-disable-next-line no-nested-ternary
