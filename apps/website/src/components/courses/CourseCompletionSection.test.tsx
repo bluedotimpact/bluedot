@@ -41,7 +41,7 @@ describe('CourseCompletionSection', () => {
     // No handler - query stays pending
     const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
 
-    expect(screen.getByText('Loading…')).toBeInTheDocument();
+    expect(screen.getByText('Loading…')).toBeTruthy();
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
 
