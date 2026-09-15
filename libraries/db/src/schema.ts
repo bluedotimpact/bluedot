@@ -886,6 +886,10 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
       pgColumn: text(),
       airtableId: 'fldG5gmxovgokbwsX',
     },
+    applicationId: {
+      pgColumn: text(),
+      airtableId: 'fld88zk57vo3LUHC5',
+    },
     firstName: {
       pgColumn: text(),
       airtableId: 'fldWQsNeLnniYRtBC',
@@ -919,6 +923,14 @@ export const careerTransitionGrantApplicationTable = pgAirtable('career_transiti
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblh5zr4jRdrndKnC',
   columns: {
+    startDate: {
+      pgColumn: text(),
+      airtableId: 'fldsyHHRrb45I24Mm',
+    },
+    publicSharing: {
+      pgColumn: text(),
+      airtableId: 'fld5RXq6FYZQa10e0',
+    },
     grantAmountUsd: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldYhy8btQ5r8vRk0',
