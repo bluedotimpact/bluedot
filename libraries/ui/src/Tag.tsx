@@ -1,19 +1,19 @@
-import type React from 'react';
+import type { ReactNode } from 'react';
 import { cn } from './utils';
 
 export type TagProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   tone?: 'neutral' | 'accent' | 'status';
   shape?: 'rounded' | 'pill';
 };
 
-export const Tag: React.FC<TagProps> = ({
+export const Tag = ({
   className,
   children,
   tone = 'neutral',
   shape = 'rounded',
-}) => {
+}: TagProps) => {
   return (
     <span
       className={cn(
