@@ -228,7 +228,7 @@ const NavDropdown = ({
                 {link.title}
                 {link.footer && <span aria-hidden="true">&nbsp;→</span>}
                 {link.tag && (
-                  <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                  <Tag tone="accent" className="ml-2 px-2 py-0.5">
                     {link.tag}
                   </Tag>
                 )}
