@@ -1,7 +1,19 @@
 FROM quay.io/keycloak/keycloak:26.2@sha256:9869b88191392727f0be7301e53573cc39c13c9d9b9b08492c97d1ea40366eae AS base
 
+### Compile custom providers against the jars shipped in the Keycloak image
+# (the Keycloak image has no javac, hence the separate JDK stage)
+FROM eclipse-temurin:21-jdk@sha256:85f00967bcc624fc19fa9c2cf124ea426a5363898e267141726f31f358c2e14b AS providers-builder
+COPY --from=base /opt/keycloak/lib/lib/main /kc-lib/main
+COPY --from=base /opt/keycloak/lib/lib/boot /kc-lib/boot
+COPY ./src /build/src
+RUN mkdir -p /build/classes \
+    && javac --release 21 -cp "/kc-lib/main/*:/kc-lib/boot/*" -d /build/classes $(find /build/src/main/java -name '*.java') \
+    && cp -r /build/src/main/resources/. /build/classes/ \
+    && jar --create --file /build/bluedot-keycloak-providers.jar --date 2025-04-01T00:00:00Z -C /build/classes .
+
 ### Build
 FROM base AS builder
+COPY --from=providers-builder --chown=keycloak:keycloak --chmod=644 /build/bluedot-keycloak-providers.jar /opt/keycloak/providers/
 WORKDIR /opt/keycloak
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
