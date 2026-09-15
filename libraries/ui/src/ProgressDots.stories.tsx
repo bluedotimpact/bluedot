@@ -36,7 +36,7 @@ export const InButton: Story = {
     <CTALinkOrButton disabled>
       <span className="flex items-center gap-2">
         Submitting
-        <ProgressDots className="text-on-dark" />
+        <ProgressDots className="my-0 text-on-dark" />
       </span>
     </CTALinkOrButton>
   ),
