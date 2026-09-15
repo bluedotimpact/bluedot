@@ -53,11 +53,11 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
                 {item.title}
               </A>
             )}
-            {!isLast && <ChevronRightIcon size={16} aria-hidden="true" className="text-secondary shrink-0" />}
+            {!isLast && <Separator />}
             {index === 0 && hasMiddleCrumbs && (
               <span aria-hidden="true" className="bd-md:hidden text-secondary flex items-center gap-2">
                 ⋯
-                <ChevronRightIcon size={16} className="text-secondary shrink-0" />
+                <Separator />
               </span>
             )}
           </li>
@@ -66,6 +66,8 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
     </ol>
   );
 };
+
+const Separator = () => <ChevronRightIcon size={16} aria-hidden="true" className="text-secondary shrink-0" />;
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => (
   <div className={cn('bg-canvas border-subtle w-full border-b py-3', className)}>
