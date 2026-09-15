@@ -91,7 +91,7 @@ const TeamMemberCards = ({ members, subteam }: { members: TeamMembers; subteam?:
   return (
     <ul
       aria-label={subteam ? `${subteam} team members` : 'Team members'}
-      className="grid grid-cols-2 gap-x-3 gap-y-7 min-[360px]:grid-cols-3 md:gap-x-space-between md:gap-y-spacing-y xl:grid-cols-4"
+      className="grid grid-cols-2 gap-x-3 gap-y-7 min-[360px]:grid-cols-3 md:grid-cols-[repeat(auto-fill,10rem)] md:gap-6"
     >
       {members.map((member) => (
         <li key={member.name}>
@@ -118,9 +118,9 @@ const TeamMemberCards = ({ members, subteam }: { members: TeamMembers; subteam?:
                 />
               )}
             </div>
-            <div className="w-full pt-2 text-center md:p-4 md:text-left">
-              <NameHeading className="bluedot-h4 not-prose text-size-xs mb-1 md:text-size-lg">{member.name}</NameHeading>
-              <p className="text-size-xxs text-secondary md:text-size-sm">{member.jobTitle}</p>
+            <div className="w-full pt-2 text-center md:pt-3 md:text-left">
+              <NameHeading className="bluedot-h4 not-prose text-size-xs mb-1 md:text-size-sm">{member.name}</NameHeading>
+              <p className="text-size-xxs text-secondary md:text-size-xs">{member.jobTitle}</p>
             </div>
           </div>
         </li>
