@@ -13,11 +13,11 @@ exports[`TeamSection > renders as expected 1`] = `
     </h3>
     <ul
       aria-label="Team members"
-      class="grid grid-cols-2 gap-x-3 gap-y-7 min-[360px]:grid-cols-3 md:gap-x-space-between md:gap-y-spacing-y xl:grid-cols-4"
+      class="grid grid-cols-2 gap-x-3 gap-y-7 min-[360px]:grid-cols-3 md:grid-cols-[repeat(auto-fill,10rem)] md:gap-6"
     >
       <li>
         <div
-          class="flex flex-col items-center transition-transform duration-200 md:items-start"
+          class="flex flex-col items-start transition-transform duration-200"
         >
           <div
             class="w-full"
@@ -30,21 +30,21 @@ exports[`TeamSection > renders as expected 1`] = `
             >
               <img
                 alt="Test Person - CEO"
-                class="aspect-square w-full rounded-full object-cover md:rounded-none"
+                class="aspect-square w-full object-cover"
                 src="https://example.com/photo.jpg"
               />
             </a>
           </div>
           <div
-            class="w-full pt-2 text-center md:p-4 md:text-left"
+            class="w-full pt-2 text-left md:pt-3"
           >
             <h4
-              class="bluedot-h4 not-prose text-size-xs mb-1 md:text-size-lg"
+              class="bluedot-h4 not-prose text-size-xs mb-1 md:text-size-sm"
             >
               Test Person
             </h4>
             <p
-              class="text-size-xxs text-gray-600 md:text-size-sm"
+              class="text-size-xxs text-secondary md:text-size-xs"
             >
               CEO
             </p>
