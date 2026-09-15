@@ -134,7 +134,7 @@ describe('Nav', () => {
     // Wait for courses to load
     await waitFor(() => {
       // Check that we don't have any progress dots
-      expect(screen.queryByText('Loading…')).not.toBeInTheDocument();
+      expect(screen.queryByText('Loading…')).toBeNull();
     });
 
     expect(container).toMatchSnapshot();
