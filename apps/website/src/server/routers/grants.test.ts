@@ -135,7 +135,7 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(new Date('2026-09-15T11:59:59.999Z'));
     await testDb.insert(careerTransitionGrantApplicationTable, {
-      id: 'eligible-application', status: 'Approve', startDate: '2026-09-01', publicSharing: 'Can share publicly with my name',
+      id: 'eligible-application', status: 'Approve', startDate: '2026-09-01T00:00:00.000Z', publicSharing: 'Can share publicly with my name',
     });
   });
 
@@ -264,14 +264,14 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
     expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
   });
 
-  test.each([null, '', 'not-a-date', '2026-02-30', '2026-2-3', '2026-09-01T00:00:00Z', '2026-09-15', '2026-09-16'])('hides missing, malformed, current and future start dates (%s)', async (startDate) => {
+  test.each([null, '', 'not-a-date', '2026-02-30', '2026-02-30T00:00:00.000Z', '2026-13-01T00:00:00.000Z', '2026-2-3', '2026-09-15', '2026-09-16', '2026-09-15T00:00:00.000Z', '2026-09-16T00:00:00.000Z'])('hides missing, malformed, current and future start dates (%s)', async (startDate) => {
     await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', startDate });
     await insertPublicGrantee({ firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
     expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
   });
 
-  test('publishes only when the start day has ended everywhere, without exposing eligibility fields', async () => {
-    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', startDate: '2026-09-14' });
+  test.each(['2026-09-14', '2026-09-14T00:00:00Z', '2026-09-14T00:00:00.000Z'])('publishes only after the start day has ended everywhere, without exposing eligibility fields (%s)', async (startDate) => {
+    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', startDate });
     await insertPublicGrantee({
       firstName: 'Ready', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', grantApprovalDate: '2026-09-01',
     });

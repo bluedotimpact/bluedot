@@ -133,12 +133,13 @@ const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
 const canPublishCareerTransitionGrant = (application: CareerTransitionGrantApplication, now: number): boolean => {
   if (application.status !== 'Approve' || application.publicSharing !== 'Can share publicly with my name') return false;
 
-  const startDate = z.string().date().safeParse(application.startDate);
+  // Airtable's date-only fields are normalized to UTC timestamps by the sync client.
+  const startDate = z.union([z.string().date(), z.string().datetime()]).safeParse(application.startDate);
   if (!startDate.success) return false;
 
   // Grantees may still be employed before their transition. Without their timezone,
   // wait until the start day has ended in UTC-12 (anywhere on earth).
-  const publishAt = Date.parse(`${startDate.data}T00:00:00Z`) + ONE_DAY_MS + 12 * ONE_HOUR_MS;
+  const publishAt = Date.parse(`${startDate.data.slice(0, 10)}T00:00:00Z`) + ONE_DAY_MS + 12 * ONE_HOUR_MS;
   return now >= publishAt;
 };
 
