@@ -47,11 +47,12 @@ export type DatePickerProps = {
   label?: string;
   value?: Date;
   onChange?: (value?: Date) => void;
+  disabled?: boolean;
   classNames?: DatePickerClassNames;
 };
 
 export const DatePicker = ({
-  label, value, onChange, classNames,
+  label, value, onChange, disabled, classNames,
 }: DatePickerProps) => {
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
@@ -132,6 +133,7 @@ export const DatePicker = ({
           id={inputId}
           type="text"
           value={inputValue}
+          disabled={disabled}
           // Input field is editable only after a date has been selected
           readOnly={value === undefined}
           onClick={() => {
@@ -153,6 +155,7 @@ export const DatePicker = ({
           type="button"
           popoverTarget={popoverId}
           onClick={updatePopoverPosition}
+          disabled={disabled}
           aria-label="Open calendar"
           className={cn(
             'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none',
