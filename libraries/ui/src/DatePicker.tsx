@@ -2,10 +2,8 @@ import { format, isValid, parse } from 'date-fns';
 import {
   useCallback, useEffect, useId, useRef, useState,
 } from 'react';
-import {
-  DayPicker, type ChevronProps, type ClassNames, type DayButtonProps,
-} from 'react-day-picker';
 import { FaChevronLeft, FaChevronRight, FaRegCalendar } from 'react-icons/fa6';
+import { DayPicker, type ClassNames, type DayButtonProps } from 'react-day-picker';
 import { cn } from './utils';
 
 // Utility function to get the locale-specific date format of the user
