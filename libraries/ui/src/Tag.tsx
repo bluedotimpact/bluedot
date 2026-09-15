@@ -1,5 +1,5 @@
 import type React from 'react';
-import clsx from 'clsx';
+import { cn } from './utils';
 
 export type TagProps = {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export const Tag: React.FC<TagProps> = ({
 }) => {
   return (
     <span
-      className={clsx(
+      className={cn(
         'inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0',
         shape === 'rounded' && 'rounded-surface px-4',
         shape === 'pill' && 'rounded-full px-3',
