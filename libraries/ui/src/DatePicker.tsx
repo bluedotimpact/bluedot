@@ -162,7 +162,7 @@ export const DatePicker = ({
             classNames?.button,
           )}
         >
-          <LuChevronsUpDown className="size-4" />
+          <FaRegCalendar className="size-4" aria-hidden="true" />
         </button>
       </div>
       <div
