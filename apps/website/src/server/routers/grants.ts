@@ -1,4 +1,4 @@
-import type { CareerTransitionGrant, RapidGrant } from '@bluedot/db';
+import type { CareerTransitionGrant, CareerTransitionGrantApplication, RapidGrant } from '@bluedot/db';
 import {
   careerTransitionGrantApplicationTable,
   careerTransitionGrantTable,
@@ -6,7 +6,9 @@ import {
   rapidGrantApplicationTable,
   rapidGrantTable,
 } from '@bluedot/db';
+import { z } from 'zod';
 import db from '../../lib/api/db';
+import { ONE_DAY_MS, ONE_HOUR_MS } from '../../lib/constants';
 import { sanitizeUrl } from '../../lib/sanitizeUrl';
 import { publicProcedure, router } from '../trpc';
 
@@ -128,28 +130,43 @@ const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
     .map(({ publicGrant }) => publicGrant);
 };
 
+const canPublishCareerTransitionGrant = (application: CareerTransitionGrantApplication, now: number): boolean => {
+  if (application.status !== 'Approve' || application.publicSharing !== 'Can share publicly with my name') return false;
+
+  const startDate = z.string().date().safeParse(application.startDate);
+  if (!startDate.success) return false;
+
+  // Grantees may still be employed before their transition. Without their timezone,
+  // wait until the start day has ended in UTC-12 (anywhere on earth).
+  const publishAt = Date.parse(`${startDate.data}T00:00:00Z`) + ONE_DAY_MS + 12 * ONE_HOUR_MS;
+  return now >= publishAt;
+};
+
 const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCareerTransitionGrant[] => {
-  return all
+  const enriched = all
     .filter((grant) => Boolean(grant.firstName?.trim()) && Boolean(grant.lastName?.trim()))
     .map((grant: CareerTransitionGrant) => {
       // Formula concatenates up to 5 permanent URLs space-separated; take the first.
       const firstImageUrl = grant.imageUrl?.trim().split(/\s+/)[0] ?? null;
-      return {
+      const publicGrant: PublicCareerTransitionGrant = {
         granteeName: [grant.firstName?.trim(), grant.lastName?.trim()].filter(Boolean).join(' '),
         imageUrl: sanitizeUrl(firstImageUrl),
         bio: grant.bio?.trim() ? grant.bio.trim() : undefined,
         grantPlan: grant.grantPlan?.trim() ? grant.grantPlan.trim() : undefined,
         profileUrl: sanitizeUrl(grant.profileUrl),
       };
-    })
-    .sort((a, b) => {
-      // Grantees with a photo, a bio and a grant description render as full
-      // cards, so surface those first; the rest follow, each group alphabetical.
-      const aComplete = Boolean(a.imageUrl) && Boolean(a.bio) && Boolean(a.grantPlan);
-      const bComplete = Boolean(b.imageUrl) && Boolean(b.bio) && Boolean(b.grantPlan);
-      if (aComplete !== bComplete) return aComplete ? -1 : 1;
-      return a.granteeName.localeCompare(b.granteeName);
+      return { publicGrant, dateMs: parseGrantDate(grant.grantApprovalDate)?.getTime() ?? null };
     });
+
+  return enriched
+    .filter(({ publicGrant }) => Boolean(publicGrant.imageUrl))
+    .sort((a, b) => {
+      if (a.dateMs !== null && b.dateMs !== null && a.dateMs !== b.dateMs) return b.dateMs - a.dateMs;
+      if (a.dateMs !== null && b.dateMs === null) return -1;
+      if (a.dateMs === null && b.dateMs !== null) return 1;
+      return a.publicGrant.granteeName.localeCompare(b.publicGrant.granteeName);
+    })
+    .map(({ publicGrant }) => publicGrant);
 };
 
 export const grantsRouter = router({
@@ -159,8 +176,16 @@ export const grantsRouter = router({
   }),
 
   getAllPublicCareerTransitionGrantees: publicProcedure.query(async (): Promise<PublicCareerTransitionGrant[]> => {
-    const all = await db.scan(careerTransitionGrantTable);
-    return mapPublicCareerTransitionGrants(all);
+    const [all, applications] = await Promise.all([
+      db.scan(careerTransitionGrantTable),
+      db.scan(careerTransitionGrantApplicationTable),
+    ]);
+    const now = Date.now();
+    const publishableApplicationIds = new Set(applications
+      .filter((application) => canPublishCareerTransitionGrant(application, now))
+      .map((application) => application.id));
+    return mapPublicCareerTransitionGrants(all.filter((grant) => grant.applicationId
+      && publishableApplicationIds.has(grant.applicationId)));
   }),
 
   getRapidGrantStats: publicProcedure.query(async (): Promise<RapidGrantStatsWithDecision> => {
