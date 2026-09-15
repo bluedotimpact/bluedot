@@ -46,4 +46,14 @@ describe('Breadcrumbs', () => {
 
     expect(screen.queryByText('⋯')).toBeNull();
   });
+
+  test('renders a route without parents as a single non-link crumb', () => {
+    render(<Breadcrumbs route={{ title: 'Home', url: '/' }} />);
+
+    const current = screen.getByText('Home');
+    expect(current.tagName).toBe('SPAN');
+    expect(current.getAttribute('aria-current')).toBe('page');
+    expect(screen.queryAllByRole('link')).toHaveLength(0);
+    expect(screen.queryByText('⋯')).toBeNull();
+  });
 });
