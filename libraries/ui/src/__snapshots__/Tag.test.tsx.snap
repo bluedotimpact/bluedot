@@ -3,8 +3,7 @@
 exports[`Tag > renders default as expected 1`] = `
 <div>
   <span
-    class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-secondary container-lined"
-    role="status"
+    class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 border border-default text-secondary"
   >
     Basic tag
   </span>
@@ -13,8 +12,7 @@ exports[`Tag > renders default as expected 1`] = `
 
 exports[`Tag > renders with optional args 1`] = `
 <span
-  class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-secondary container-lined custom-class"
-  role="status"
+  class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 border border-default text-secondary custom-class"
 >
   Custom tag
 </span>
