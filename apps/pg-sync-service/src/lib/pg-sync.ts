@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/node';
 import {
-  eq, inArray, and, getPgAirtableFromIds, metaTable,
+  eq, inArray, and, getPgAirtableFromIds, metaTable, type PgAirtableTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { type AirtableItemFromColumnsMap, type PgAirtableColumnInput } from '@bluedot/db/src/lib/typeUtils';
@@ -274,6 +274,18 @@ export async function pollForUpdates(): Promise<void> {
   }
 }
 
+async function doesRecordExist(pgAirtable: PgAirtableTable, update: AirtableAction): Promise<boolean> {
+  await rateLimiter.acquire();
+  try {
+    // `scan(..., { filterByFormula: ... })` is the Airtable trick to distinguish "record does not exist" from other 403 errors
+    const records = await db.airtableClient.scan(pgAirtable.airtable, { filterByFormula: `RECORD_ID()='${update.recordId}'` });
+    return records.length > 0;
+  } catch {
+    // No retry: during an outage the original error should surface promptly
+    return true;
+  }
+}
+
 async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
   try {
     // For initial sync updates with recordData, skip rate limiting during processing
@@ -320,11 +332,22 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
       });
     } else {
       // Standard path: fetch data via API (webhook updates)
-      await db.ensureReplicated({
-        table: pgAirtable,
-        id: update.recordId,
-        isDelete: update.isDelete,
-      });
+      try {
+        await db.ensureReplicated({
+          table: pgAirtable,
+          id: update.recordId,
+          isDelete: update.isDelete,
+        });
+      } catch (err) {
+        // The record may have been deleted between the webhook firing and our fetch, don't alert in that case
+        const recordExists = await doesRecordExist(pgAirtable, update);
+        if (!update.isDelete && !recordExists) {
+          logger.info(`[processSingleUpdate] Record ${update.baseId}/${update.tableId}/${update.recordId} was deleted before its update could be replicated, skipping`);
+          return true;
+        }
+
+        throw err;
+      }
     }
 
     return true;

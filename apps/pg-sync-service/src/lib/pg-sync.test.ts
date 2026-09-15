@@ -3,9 +3,12 @@ import {
   expect,
   test,
   beforeEach,
+  afterEach,
+  afterAll,
   vi,
 } from 'vitest';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
+import { logger } from '@bluedot/ui/src/api';
 import {
   addToQueue,
   processUpdateQueue,
@@ -14,8 +17,14 @@ import {
   clearQueues,
   MAX_RETRIES,
   waitForQueueToEmpty,
+  rateLimiter,
 } from './pg-sync';
+import { db } from './db';
 import type { AirtableAction } from './webhook';
+
+const { mockLimit } = vi.hoisted(() => ({
+  mockLimit: vi.fn().mockResolvedValue([]),
+}));
 
 // Mock the db module
 vi.mock('./db', () => ({
@@ -24,7 +33,7 @@ vi.mock('./db', () => ({
       select: vi.fn().mockReturnValue({
         from: vi.fn().mockReturnValue({
           where: vi.fn().mockReturnValue({
-            limit: vi.fn().mockResolvedValue([]),
+            limit: mockLimit,
           }),
         }),
       }),
@@ -35,6 +44,9 @@ vi.mock('./db', () => ({
       }),
     },
     ensureReplicated: vi.fn().mockResolvedValue(undefined),
+    airtableClient: {
+      scan: vi.fn(),
+    },
   },
 }));
 
@@ -336,5 +348,66 @@ describe('waitForQueueToEmpty', () => {
 
     await expect(firstWait).resolves.toBeUndefined();
     await expect(secondWait).resolves.toBeUndefined();
+  });
+});
+
+describe('processSingleUpdate', () => {
+  const update: AirtableAction = {
+    baseId: 'base1',
+    tableId: 'table1',
+    recordId: 'rec1',
+    isDelete: false,
+    fieldIds: ['field1'],
+  };
+
+  const spies = [
+    vi.spyOn(rateLimiter, 'acquire'),
+    vi.spyOn(logger, 'info'),
+  ];
+
+  beforeEach(() => {
+    clearQueues();
+    vi.clearAllMocks();
+    vi.mocked(rateLimiter.acquire).mockResolvedValue(undefined);
+    vi.mocked(db.ensureReplicated).mockRejectedValue(new Error('Airtable 403'));
+    // Mark the table as tracked so the update reaches ensureReplicated
+    mockLimit.mockResolvedValue([{}]);
+  });
+
+  afterEach(() => {
+    mockLimit.mockResolvedValue([]);
+    vi.mocked(db.ensureReplicated).mockResolvedValue(undefined);
+  });
+
+  afterAll(() => {
+    spies.forEach((spy) => spy.mockRestore());
+  });
+
+  test('skips an update for a record that was deleted before it could be fetched', async () => {
+    vi.mocked(db.airtableClient.scan).mockResolvedValue([]);
+
+    addToQueue([update], 'high');
+    await processUpdateQueue();
+
+    expect(vi.mocked(db.ensureReplicated)).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(db.airtableClient.scan)).toHaveBeenCalledWith(
+      { name: 'test' },
+      { filterByFormula: 'RECORD_ID()=\'rec1\'' },
+    );
+    expect(vi.mocked(logger.info)).toHaveBeenCalledWith(expect.stringContaining('was deleted'));
+    expect(vi.mocked(slackAlert)).not.toHaveBeenCalled();
+  });
+
+  test.each([
+    ['the record still exists', () => vi.mocked(db.airtableClient.scan).mockResolvedValue([{ id: 'rec1' }])],
+    ['the existence probe fails', () => vi.mocked(db.airtableClient.scan).mockRejectedValue(new Error('Airtable down'))],
+  ])('retries and alerts as before when %s', async (_, setupScan) => {
+    setupScan();
+
+    addToQueue([update], 'high');
+    await processUpdateQueue();
+
+    expect(vi.mocked(db.ensureReplicated)).toHaveBeenCalledTimes(MAX_RETRIES);
+    expect(vi.mocked(slackAlert)).toHaveBeenCalledTimes(1);
   });
 });
