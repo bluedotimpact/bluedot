@@ -129,15 +129,15 @@ describe('grants.getAllPublicRapidGrantees', () => {
 });
 
 describe('grants.getAllPublicCareerTransitionGrantees', () => {
-  test('drops nameless rows, trims and sanitizes fields, and surfaces complete cards (photo + bio + description) first, each group alphabetical', async () => {
-    // Complete cards (photo, bio and grant plan) — should lead, alphabetised between themselves.
+  test('drops nameless rows, trims and sanitizes fields, and sorts undated grantees alphabetically', async () => {
+    // Profile completeness does not affect ordering.
     await testDb.insert(careerTransitionGrantTable, {
       firstName: 'Zoe', lastName: 'Adams', imageUrl: 'https://example.com/zoe.png', bio: 'Engineer', grantPlan: 'Skilling up on evals', profileUrl: 'https://example.com/zoe',
     });
     await testDb.insert(careerTransitionGrantTable, {
       firstName: '  Amy  ', lastName: '  Baker  ', imageUrl: '  https://example.com/amy.png  ', bio: '  Researcher  ', grantPlan: '  Studying interpretability  ', profileUrl: ' https://example.com/amy ',
     });
-    // Incomplete — each missing exactly one of photo / bio / description — should fall below, alphabetised.
+    // Incomplete profiles remain in the list.
     await testDb.insert(careerTransitionGrantTable, {
       firstName: 'Ann', lastName: 'Davis', imageUrl: 'https://example.com/ann.png', bio: 'Has a bio but no plan', grantPlan: '   ',
     });
@@ -160,11 +160,11 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
 
     expect(result.map((grantee) => grantee.granteeName)).toEqual([
       'Amy Baker',
-      'Zoe Adams',
       'Ann Davis',
       'Bob Carter',
       'Cara Evans',
       'Kai Foster',
+      'Zoe Adams',
     ]);
     // Leading complete card has its fields trimmed and URLs sanitized.
     expect(result[0]).toEqual({
@@ -174,6 +174,44 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
       grantPlan: 'Studying interpretability',
       profileUrl: 'https://example.com/amy',
     });
+  });
+
+  test('sorts by approval date newest first, breaks ties by name, and places missing or invalid dates last', async () => {
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Alice', lastName: 'Oldest', grantApprovalDate: '2026-04-01',
+      imageUrl: 'https://example.com/alice.png', bio: 'Researcher', grantPlan: 'Safety research',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Zoe', lastName: 'Newest', grantApprovalDate: '2026-09-11',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Ben', lastName: 'SameDay', grantApprovalDate: '2026-09-11',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Middle', lastName: 'Grantee', grantApprovalDate: '2026-07-01',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Aaron', lastName: 'Undated',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Charlie', lastName: 'Invalid', grantApprovalDate: 'not-a-date',
+    });
+    await testDb.insert(careerTransitionGrantTable, {
+      firstName: 'Bob', lastName: 'Blank', grantApprovalDate: '   ',
+    });
+
+    const result = await createCaller().grants.getAllPublicCareerTransitionGrantees();
+
+    expect(result.map((grantee) => grantee.granteeName)).toEqual([
+      'Ben SameDay',
+      'Zoe Newest',
+      'Middle Grantee',
+      'Alice Oldest',
+      'Aaron Undated',
+      'Bob Blank',
+      'Charlie Invalid',
+    ]);
+    expect(result.every((grantee) => !('dateMs' in grantee) && !('grantApprovalDate' in grantee))).toBe(true);
   });
 });
 
