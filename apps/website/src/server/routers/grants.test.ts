@@ -1,6 +1,8 @@
-import { describe, expect, test } from 'vitest';
 import {
-  careerTransitionGrantApplicationTable, careerTransitionGrantTable, oneOnOneAdvisingApplicationTable, rapidGrantApplicationTable, rapidGrantTable,
+  afterEach, beforeEach, describe, expect, test, vi,
+} from 'vitest';
+import {
+  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, oneOnOneAdvisingApplicationTable, rapidGrantApplicationTable, rapidGrantTable,
 } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
@@ -129,29 +131,49 @@ describe('grants.getAllPublicRapidGrantees', () => {
 });
 
 describe('grants.getAllPublicCareerTransitionGrantees', () => {
-  test('drops nameless rows, trims and sanitizes fields, and surfaces complete cards (photo + bio + description) first, each group alphabetical', async () => {
-    // Complete cards (photo, bio and grant plan) — should lead, alphabetised between themselves.
-    await testDb.insert(careerTransitionGrantTable, {
-      firstName: 'Zoe', lastName: 'Adams', imageUrl: 'https://example.com/zoe.png', bio: 'Engineer', grantPlan: 'Skilling up on evals', profileUrl: 'https://example.com/zoe',
+  beforeEach(async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date('2026-09-15T11:59:59.999Z'));
+    await testDb.insert(careerTransitionGrantApplicationTable, {
+      id: 'eligible-application', status: 'Approve', startDate: '2026-09-01T00:00:00.000Z', publicSharing: 'Can share publicly with my name',
     });
-    await testDb.insert(careerTransitionGrantTable, {
+  });
+
+  afterEach(() => vi.useRealTimers());
+
+  const insertPublicGrantee = (values: Partial<CareerTransitionGrant>) => testDb.insert(careerTransitionGrantTable, {
+    applicationId: 'eligible-application', ...values,
+  });
+
+  test('drops rows without names or usable photos, sanitizes fields, and sorts undated grantees alphabetically', async () => {
+    // Photos are required; bio and grant-plan completeness do not affect ordering.
+    await insertPublicGrantee({
+      firstName: 'Zoe', lastName: 'Adams', imageUrl: 'https://example.com/zoe.png https://example.com/zoe-2.png', bio: 'Engineer', grantPlan: 'Skilling up on evals', profileUrl: 'https://example.com/zoe',
+    });
+    await insertPublicGrantee({
       firstName: '  Amy  ', lastName: '  Baker  ', imageUrl: '  https://example.com/amy.png  ', bio: '  Researcher  ', grantPlan: '  Studying interpretability  ', profileUrl: ' https://example.com/amy ',
     });
-    // Incomplete — each missing exactly one of photo / bio / description — should fall below, alphabetised.
-    await testDb.insert(careerTransitionGrantTable, {
+    // Profiles with a photo remain visible even if a bio or grant plan is missing.
+    await insertPublicGrantee({
       firstName: 'Ann', lastName: 'Davis', imageUrl: 'https://example.com/ann.png', bio: 'Has a bio but no plan', grantPlan: '   ',
     });
-    await testDb.insert(careerTransitionGrantTable, {
+    await insertPublicGrantee({
       firstName: 'Bob', lastName: 'Carter', imageUrl: 'https://example.com/bob.png', bio: '   ', grantPlan: 'Has a plan but no bio',
     });
-    await testDb.insert(careerTransitionGrantTable, {
+    await insertPublicGrantee({
       firstName: 'Cara', lastName: 'Evans',
     });
-    await testDb.insert(careerTransitionGrantTable, {
+    await insertPublicGrantee({
       firstName: 'Kai', lastName: 'Foster', bio: 'Has a bio and plan but no photo', grantPlan: 'Doing safety work',
     });
+    await insertPublicGrantee({
+      firstName: 'Blank', lastName: 'Photo', imageUrl: '   ',
+    });
+    await insertPublicGrantee({
+      firstName: 'Unsupported', lastName: 'Photo', imageUrl: 'ftp://example.com/photo.png',
+    });
     // Dropped — missing last name.
-    await testDb.insert(careerTransitionGrantTable, {
+    await insertPublicGrantee({
       firstName: 'NoLast', lastName: '   ', imageUrl: 'https://example.com/x.png', bio: 'x', grantPlan: 'y',
     });
 
@@ -160,11 +182,9 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
 
     expect(result.map((grantee) => grantee.granteeName)).toEqual([
       'Amy Baker',
-      'Zoe Adams',
       'Ann Davis',
       'Bob Carter',
-      'Cara Evans',
-      'Kai Foster',
+      'Zoe Adams',
     ]);
     // Leading complete card has its fields trimmed and URLs sanitized.
     expect(result[0]).toEqual({
@@ -174,6 +194,106 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
       grantPlan: 'Studying interpretability',
       profileUrl: 'https://example.com/amy',
     });
+  });
+
+  test('sorts by approval date newest first, breaks ties by name, and places missing or invalid dates last', async () => {
+    await insertPublicGrantee({
+      imageUrl: 'https://example.com/photo.png',
+      firstName: 'Alice', lastName: 'Oldest', grantApprovalDate: '2026-04-01',
+      bio: 'Researcher', grantPlan: 'Safety research',
+    });
+    await insertPublicGrantee({
+      imageUrl: 'https://example.com/photo.png',
+      firstName: 'Zoe', lastName: 'Newest', grantApprovalDate: '2026-09-11',
+    });
+    await insertPublicGrantee({
+      imageUrl: 'https://example.com/photo.png',
+      firstName: 'Ben', lastName: 'SameDay', grantApprovalDate: '2026-09-11',
+    });
+    await insertPublicGrantee({
+      imageUrl: 'https://example.com/photo.png',
+      firstName: 'Middle', lastName: 'Grantee', grantApprovalDate: '2026-07-01',
+    });
+    await insertPublicGrantee({
+      imageUrl: 'https://example.com/photo.png',
+      firstName: 'Aaron', lastName: 'Undated',
+    });
+    await insertPublicGrantee({
+      imageUrl: 'https://example.com/photo.png',
+      firstName: 'Charlie', lastName: 'Invalid', grantApprovalDate: 'not-a-date',
+    });
+    await insertPublicGrantee({
+      imageUrl: 'https://example.com/photo.png',
+      firstName: 'Bob', lastName: 'Blank', grantApprovalDate: '   ',
+    });
+
+    await insertPublicGrantee({
+      firstName: 'Latest', lastName: 'NoPhoto', grantApprovalDate: '2026-09-15',
+    });
+
+    const result = await createCaller().grants.getAllPublicCareerTransitionGrantees();
+
+    expect(result.map((grantee) => grantee.granteeName)).toEqual([
+      'Ben SameDay',
+      'Zoe Newest',
+      'Middle Grantee',
+      'Alice Oldest',
+      'Aaron Undated',
+      'Bob Blank',
+      'Charlie Invalid',
+    ]);
+    expect(result.every((grantee) => !('dateMs' in grantee) && !('grantApprovalDate' in grantee))).toBe(true);
+  });
+
+  test.each([null, '', 'unknown-application'])('hides grantees without a matching application (%s)', async (applicationId) => {
+    await insertPublicGrantee({
+      firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', applicationId,
+    });
+    expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
+  });
+
+  test.each([null, '', 'Can share publicly without my name', 'Cannot share publicly', 'Yes'])('requires explicit named-sharing consent (%s)', async (publicSharing) => {
+    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', publicSharing });
+    await insertPublicGrantee({ firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
+    expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
+  });
+
+  test.each([null, 'TODO', 'Rejected', 'Archive'])('hides applications that are not approved (%s)', async (status) => {
+    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', status });
+    await insertPublicGrantee({ firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
+    expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
+  });
+
+  test.each([null, '', 'not-a-date', '2026-02-30', '2026-02-30T00:00:00.000Z', '2026-13-01T00:00:00.000Z', '2026-2-3', '2026-09-15', '2026-09-16', '2026-09-15T00:00:00.000Z', '2026-09-16T00:00:00.000Z'])('hides missing, malformed, current and future start dates (%s)', async (startDate) => {
+    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', startDate });
+    await insertPublicGrantee({ firstName: 'Private', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
+    expect(await createCaller().grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
+  });
+
+  test.each(['2026-09-14', '2026-09-14T00:00:00Z', '2026-09-14T00:00:00.000Z'])('publishes only after the start day has ended everywhere, without exposing eligibility fields (%s)', async (startDate) => {
+    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', startDate });
+    await insertPublicGrantee({
+      firstName: 'Ready', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png', grantApprovalDate: '2026-09-01',
+    });
+    const caller = createCaller();
+    expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
+
+    vi.setSystemTime(new Date('2026-09-15T12:00:00.000Z'));
+    expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toEqual([{
+      granteeName: 'Ready Grantee', imageUrl: 'https://example.com/photo.png', bio: undefined, grantPlan: undefined, profileUrl: undefined,
+    }]);
+  });
+
+  test('honors withdrawn consent and postponed start dates on subsequent requests', async () => {
+    await insertPublicGrantee({ firstName: 'Ready', lastName: 'Grantee', imageUrl: 'https://example.com/photo.png' });
+    const caller = createCaller();
+    expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toHaveLength(1);
+
+    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', publicSharing: 'Cannot share publicly' });
+    expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
+
+    await testDb.update(careerTransitionGrantApplicationTable, { id: 'eligible-application', publicSharing: 'Can share publicly with my name', startDate: '2026-10-01' });
+    expect(await caller.grants.getAllPublicCareerTransitionGrantees()).toEqual([]);
   });
 });
 
