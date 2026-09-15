@@ -259,7 +259,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
                     title: breadcrumb,
                     url: router.asPath,
                     parentPages: [
-                      { title: 'Courses', url: ROUTES.courses.url },
+                      ROUTES.courses,
                       { title: courseTitle, url: `/courses/${courseSlug}` },
                     ],
                   }}
