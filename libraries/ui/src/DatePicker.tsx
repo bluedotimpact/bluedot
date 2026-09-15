@@ -72,6 +72,7 @@ export const DatePicker = ({
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
   const [month, setMonth] = useState<Date>(value ?? new Date());
+  const [isOpen, setIsOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
