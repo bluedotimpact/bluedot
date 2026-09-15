@@ -3,7 +3,9 @@ import {
   useCallback, useEffect, useId, useRef, useState,
 } from 'react';
 import { FaChevronLeft, FaChevronRight, FaRegCalendar } from 'react-icons/fa6';
-import { DayPicker, type ClassNames, type DayButtonProps } from 'react-day-picker';
+import {
+  DayPicker, type ChevronProps, type ClassNames, type DayButtonProps,
+} from 'react-day-picker';
 import { cn } from './utils';
 
 // Utility function to get the locale-specific date format of the user
@@ -33,21 +35,12 @@ export const getLocaleDateFormat = (): string => {
     .join('');
 };
 
-type DatePickerClassNames = {
-  root?: string;
-  label?: string;
-  input?: string;
-  button?: string;
-  popover?: string;
-  calendar?: Partial<ClassNames>;
-};
-
 export type DatePickerProps = {
   label?: string;
   value?: Date;
   onChange?: (value?: Date) => void;
   disabled?: boolean;
-  classNames?: DatePickerClassNames;
+  className?: string;
 };
 
 const NAV_BUTTON_STYLES = 'flex size-9 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus';
@@ -65,7 +58,7 @@ const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
 };
 
 export const DatePicker = ({
-  label, value, onChange, disabled, classNames,
+  label, value, onChange, disabled, className,
 }: DatePickerProps) => {
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
@@ -135,9 +128,9 @@ export const DatePicker = ({
   }, [updatePopoverPosition]);
 
   return (
-    <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', classNames?.root)}>
+    <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', className)}>
       {label ? (
-        <label htmlFor={inputId} className={cn('text-black', classNames?.label)}>
+        <label htmlFor={inputId} className="text-black">
           {label}
         </label>
       ) : null}
@@ -164,10 +157,7 @@ export const DatePicker = ({
           onBlur={handleInputBlur}
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
-          className={cn(
-            'size-full rounded-surface bg-transparent pr-10 pl-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed',
-            classNames?.input,
-          )}
+          className="size-full rounded-surface bg-transparent pr-10 pl-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
         />
         <button
           type="button"
@@ -175,10 +165,7 @@ export const DatePicker = ({
           onClick={updatePopoverPosition}
           disabled={disabled}
           aria-label="Open calendar"
-          className={cn(
-            'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-secondary outline-none disabled:cursor-not-allowed disabled:text-disabled',
-            classNames?.button,
-          )}
+          className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-secondary outline-none disabled:cursor-not-allowed disabled:text-disabled"
         >
           <FaRegCalendar className="size-4" aria-hidden="true" />
         </button>
@@ -193,7 +180,7 @@ export const DatePicker = ({
             transform: 'translateX(-50%)',
           } as React.CSSProperties
         }
-        className={cn('rounded-surface border border-subtle bg-raised p-4 drop-shadow-sm', classNames?.popover)}
+        className="rounded-surface border border-subtle bg-raised p-4 drop-shadow-sm"
       >
         <DayPicker
           mode="single"
@@ -203,7 +190,7 @@ export const DatePicker = ({
           onMonthChange={setMonth}
           showOutsideDays
           components={{ Chevron: CalendarChevron, DayButton: CalendarDayButton }}
-          classNames={{ ...CALENDAR_CLASS_NAMES, ...classNames?.calendar }}
+          classNames={CALENDAR_CLASS_NAMES}
         />
       </div>
     </div>
