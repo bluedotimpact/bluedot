@@ -391,7 +391,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
                   Submitting
-                  <ProgressDots className="my-0" dotClassName="bg-white" />
+                  <ProgressDots className="my-0 text-on-dark" />
                 </span>
               ) : (
                 'Submit'

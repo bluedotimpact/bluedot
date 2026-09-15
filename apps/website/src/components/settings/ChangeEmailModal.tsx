@@ -135,7 +135,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               >
                 {requestEmailChange.isPending ? (
                   <span className="flex items-center gap-2">
-                    <ProgressDots className="my-0" dotClassName="bg-white" />
+                    <ProgressDots className="my-0 text-on-dark" />
                     <span>Sending...</span>
                   </span>
                 ) : (

@@ -267,7 +267,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       >
         {dropoutMutation.isPending ? (
           <div className="flex items-center gap-2">
-            <ProgressDots className="my-0" dotClassName="bg-white" />
+            <ProgressDots className="my-0 text-on-dark" />
             Submitting...
           </div>
         ) : (
