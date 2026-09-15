@@ -100,7 +100,7 @@ exports[`Nav > renders with courses 1`] = `
                         >
                           Future of AI
                           <span
-                            class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+                            class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                           >
                             Start Here
                           </span>
@@ -122,7 +122,7 @@ exports[`Nav > renders with courses 1`] = `
                         >
                           New Course
                           <span
-                            class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+                            class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                           >
                             New
                           </span>
@@ -369,7 +369,7 @@ exports[`Nav > renders with courses 1`] = `
                   >
                     Future of AI
                     <span
-                      class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+                      class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                     >
                       Start Here
                     </span>
@@ -391,7 +391,7 @@ exports[`Nav > renders with courses 1`] = `
                   >
                     New Course
                     <span
-                      class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+                      class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                     >
                       New
                     </span>
