@@ -30,5 +30,3 @@ export const Tag: React.FC<TagProps> = ({
     </span>
   );
 };
-
-export default Tag;
