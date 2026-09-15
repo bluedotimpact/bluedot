@@ -96,22 +96,31 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                         <div
                           class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
-                          <div
-                            class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                          <span
+                            class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                            role="status"
                           >
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 0ms;"
                             />
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 150ms;"
                             />
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 300ms;"
                             />
-                          </div>
+                            <span
+                              class="sr-only"
+                            >
+                              Loading…
+                            </span>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -150,22 +159,31 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                         <div
                           class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
-                          <div
-                            class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                          <span
+                            class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                            role="status"
                           >
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 0ms;"
                             />
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 150ms;"
                             />
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 300ms;"
                             />
-                          </div>
+                            <span
+                              class="sr-only"
+                            >
+                              Loading…
+                            </span>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -204,22 +222,31 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                         <div
                           class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
-                          <div
-                            class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                          <span
+                            class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                            role="status"
                           >
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 0ms;"
                             />
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 150ms;"
                             />
                             <span
-                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              aria-hidden="true"
+                              class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                               style="animation-delay: 300ms;"
                             />
-                          </div>
+                            <span
+                              class="sr-only"
+                            >
+                              Loading…
+                            </span>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -312,22 +339,31 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <div
                     class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
-                    <div
-                      class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                    <span
+                      class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                      role="status"
                     >
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 0ms;"
                       />
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 150ms;"
                       />
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 300ms;"
                       />
-                    </div>
+                      <span
+                        class="sr-only"
+                      >
+                        Loading…
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -366,22 +402,31 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <div
                     class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
-                    <div
-                      class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                    <span
+                      class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                      role="status"
                     >
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 0ms;"
                       />
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 150ms;"
                       />
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 300ms;"
                       />
-                    </div>
+                      <span
+                        class="sr-only"
+                      >
+                        Loading…
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -420,22 +465,31 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   <div
                     class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
-                    <div
-                      class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                    <span
+                      class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                      role="status"
                     >
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 0ms;"
                       />
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 150ms;"
                       />
                       <span
-                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        aria-hidden="true"
+                        class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
                         style="animation-delay: 300ms;"
                       />
-                    </div>
+                      <span
+                        class="sr-only"
+                      >
+                        Loading…
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>

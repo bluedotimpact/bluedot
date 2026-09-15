@@ -134,8 +134,7 @@ describe('Nav', () => {
     // Wait for courses to load
     await waitFor(() => {
       // Check that we don't have any progress dots
-      const progressDots = container.querySelectorAll('.progress-dots');
-      expect(progressDots.length).toBe(0);
+      expect(screen.queryByText('Loading…')).toBeNull();
     });
 
     expect(container).toMatchSnapshot();

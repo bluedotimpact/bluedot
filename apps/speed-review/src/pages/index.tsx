@@ -223,7 +223,7 @@ const ApplicationLoader: React.FC<ApplicationLoaderProps> = ({
   if (loading) {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center">
-        <ProgressDots />
+        <ProgressDots className="text-on-dark" />
       </div>
     );
   }

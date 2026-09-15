@@ -735,7 +735,7 @@ describe('GroupSwitchModal', () => {
         setTimeout(resolve, 50);
       });
 
-      expect(document.querySelector('.progress-dots')).toBeInTheDocument();
+      expect(screen.getByText('Loading…')).toBeInTheDocument();
       expect(screen.queryByLabelText('Reason for group switch request')).not.toBeInTheDocument();
       expect(screen.queryByRole('checkbox', { name: /I have updated my availability/i })).not.toBeInTheDocument();
 

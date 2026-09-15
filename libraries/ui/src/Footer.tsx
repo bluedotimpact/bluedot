@@ -107,7 +107,7 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className={clsx('w-full bg-[#02051E]', className)}>
       {loading ? (
-        <ProgressDots className="w-full py-16" />
+        <ProgressDots className="w-full py-16 text-on-dark" />
       ) : (
         <div className="w-full py-8 px-5 bd-md:pt-10 bd-md:pb-[72px] bd-md:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20">
           <div className="max-w-screen-xl mx-auto">
