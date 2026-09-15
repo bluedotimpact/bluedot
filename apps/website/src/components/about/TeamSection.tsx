@@ -57,7 +57,7 @@ const TeamSection = () => {
       {namedGroups.length === 0 ? (
         <TeamMemberCards members={teamMembers} />
       ) : (
-        <div className="grid grid-cols-1 gap-y-12 md:gap-y-16 lg:grid-cols-2 lg:gap-x-12">
+        <div className="grid grid-cols-1 gap-y-12 md:gap-y-16 lg:grid-cols-[21.5rem_minmax(0,1fr)] lg:gap-x-14">
           {namedGroups.map((subteam) => {
             const members = groups.get(subteam)!;
             const canShareRow = members.length <= 2 && !FULL_WIDTH_SUBTEAMS.includes(subteam);
