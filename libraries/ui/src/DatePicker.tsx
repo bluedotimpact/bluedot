@@ -2,9 +2,10 @@ import { format, isValid, parse } from 'date-fns';
 import {
   useCallback, useEffect, useId, useRef, useState,
 } from 'react';
-import { DayPicker, type ClassNames } from 'react-day-picker';
-import 'react-day-picker/style.css';
-import { LuChevronsUpDown } from 'react-icons/lu';
+import { FaChevronLeft, FaChevronRight, FaRegCalendar } from 'react-icons/fa6';
+import {
+  DayPicker, type ChevronProps, type ClassNames, type DayButtonProps,
+} from 'react-day-picker';
 import { cn } from './utils';
 
 // Utility function to get the locale-specific date format of the user
@@ -34,24 +35,30 @@ export const getLocaleDateFormat = (): string => {
     .join('');
 };
 
-type DatePickerClassNames = {
-  root?: string;
-  label?: string;
-  input?: string;
-  button?: string;
-  popover?: string;
-  calendar?: Partial<ClassNames>;
-};
-
 export type DatePickerProps = {
   label?: string;
   value?: Date;
   onChange?: (value?: Date) => void;
-  classNames?: DatePickerClassNames;
+  disabled?: boolean;
+  className?: string;
+};
+
+const NAV_BUTTON_STYLES = 'flex size-9 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus';
+
+const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
+  months: 'relative',
+  month: 'flex flex-col gap-3',
+  nav: 'absolute inset-x-0 top-0 flex h-9 items-center justify-between',
+  button_previous: NAV_BUTTON_STYLES,
+  button_next: NAV_BUTTON_STYLES,
+  month_caption: 'flex h-9 items-center justify-center text-size-xs font-medium',
+  month_grid: 'border-collapse',
+  weekday: 'h-5 w-11 text-size-xs font-medium text-secondary',
+  day: 'p-0 text-center',
 };
 
 export const DatePicker = ({
-  label, value, onChange, classNames,
+  label, value, onChange, disabled, className,
 }: DatePickerProps) => {
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
@@ -67,6 +74,13 @@ export const DatePicker = ({
       setMonth(value);
     }
   }, [value, localeFormat]);
+
+  // Close calendar when `disabled` changes to true
+  useEffect(() => {
+    if (disabled) {
+      popoverRef.current?.hidePopover();
+    }
+  }, [disabled]);
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -121,17 +135,23 @@ export const DatePicker = ({
   }, [updatePopoverPosition]);
 
   return (
-    <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', classNames?.root)}>
+    <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', className)}>
       {label ? (
-        <label htmlFor={inputId} className={cn('text-black', classNames?.label)}>
+        <label htmlFor={inputId} className="text-black">
           {label}
         </label>
       ) : null}
-      <div className="relative rounded-surface border border-gray-200 bg-white/90 text-gray-700 transition focus-within:bg-white">
+      <div
+        className={cn(
+          'relative flex h-11 items-center rounded-surface border border-subtle bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent group-has-[:popover-open]:border-accent group-has-[:popover-open]:ring-1 group-has-[:popover-open]:ring-accent',
+          disabled && 'bg-tint text-disabled',
+        )}
+      >
         <input
           id={inputId}
           type="text"
           value={inputValue}
+          disabled={disabled}
           // Input field is editable only after a date has been selected
           readOnly={value === undefined}
           onClick={() => {
@@ -144,22 +164,17 @@ export const DatePicker = ({
           onBlur={handleInputBlur}
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
-          className={cn(
-            'w-full rounded-surface bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic',
-            classNames?.input,
-          )}
+          className="size-full rounded-surface bg-transparent pr-10 pl-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
         />
         <button
           type="button"
           popoverTarget={popoverId}
           onClick={updatePopoverPosition}
+          disabled={disabled}
           aria-label="Open calendar"
-          className={cn(
-            'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none',
-            classNames?.button,
-          )}
+          className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-secondary outline-none disabled:cursor-not-allowed disabled:text-disabled"
         >
-          <LuChevronsUpDown className="size-4" />
+          <FaRegCalendar className="size-4" aria-hidden="true" />
         </button>
       </div>
       <div
@@ -172,7 +187,7 @@ export const DatePicker = ({
             transform: 'translateX(-50%)',
           } as React.CSSProperties
         }
-        className={cn('overflow-auto rounded-surface bg-white p-4 ring-1 ring-black/10 drop-shadow-sm', classNames?.popover)}
+        className="rounded-surface border border-subtle bg-raised p-4 drop-shadow-sm"
       >
         <DayPicker
           mode="single"
@@ -181,13 +196,33 @@ export const DatePicker = ({
           month={month}
           onMonthChange={setMonth}
           showOutsideDays
-          classNames={{
-            chevron: 'fill-bluedot-normal',
-            today: 'text-bluedot-normal',
-            ...classNames?.calendar,
-          }}
+          components={{ Chevron: CalendarChevron, DayButton: CalendarDayButton }}
+          classNames={CALENDAR_CLASS_NAMES}
         />
       </div>
     </div>
   );
 };
+
+const CalendarChevron = ({ orientation, className }: ChevronProps) => {
+  const Icon = orientation === 'left' ? FaChevronLeft : FaChevronRight;
+  return <Icon className={cn('size-3.5', className)} aria-hidden="true" />;
+};
+
+// Modifiers arrive as props here, so selected/today/outside precedence is explicit
+// instead of depending on stylesheet order.
+const CalendarDayButton = ({
+  day, modifiers, className, ...props
+}: DayButtonProps) => (
+  <button
+    type="button"
+    {...props}
+    className={cn(
+      'flex size-11 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus',
+      modifiers.outside && 'text-secondary',
+      modifiers.today && 'text-accent ring-1 ring-inset ring-accent',
+      modifiers.selected && 'bg-accent text-on-dark ring-0 hover:bg-accent',
+      className,
+    )}
+  />
+);

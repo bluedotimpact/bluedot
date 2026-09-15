@@ -33,6 +33,21 @@ export const Default: Story = {
   },
 };
 
+export const Selected: Story = {
+  args: {
+    label: 'Pick a date',
+    value: new Date(2026, 6, 24),
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    label: 'Pick a date',
+    value: new Date(2026, 6, 24),
+    disabled: true,
+  },
+};
+
 export const CustomLabel: Story = {
   args: {
     label: 'Select Date',
@@ -42,23 +57,5 @@ export const CustomLabel: Story = {
 export const HiddenLabel: Story = {
   args: {
     label: undefined,
-  },
-};
-
-export const CustomStyles: Story = {
-  args: {
-    label: 'Custom Styled Date Picker',
-    classNames: {
-      root: 'border border-bluedot-normal rounded-lg p-2',
-      label: 'text-bluedot-normal font-semibold',
-      input: 'text-bluedot-normal placeholder-bluedot-light',
-      button: 'text-bluedot-normal hover:text-bluedot-dark',
-      popover: 'ring-bluedot-normal',
-      calendar: {
-        selected: 'bg-bluedot-normal text-white',
-        today: 'text-bluedot-normal underline',
-        chevron: 'fill-bluedot-normal hover:fill-bluedot-dark',
-      },
-    },
   },
 };
