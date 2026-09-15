@@ -16,6 +16,8 @@ const SUBTEAM_ORDER = [
   'Hiring',
 ];
 
+const FULL_WIDTH_SUBTEAMS = ['Leadership', 'Courses', 'Talent Activation'];
+
 const TeamSection = () => {
   const { data: teamMembers, isLoading, error } = trpc.teamMembers.getAll.useQuery();
 
@@ -55,15 +57,20 @@ const TeamSection = () => {
       {namedGroups.length === 0 ? (
         <TeamMemberCards members={teamMembers} />
       ) : (
-        <div className="space-y-12 md:space-y-16">
-          {namedGroups.map((subteam) => (
-            <section key={subteam} aria-label={subteam}>
-              <H4 className="mb-6">{subteam}</H4>
-              <TeamMemberCards members={groups.get(subteam)!} subteam={subteam} />
-            </section>
-          ))}
+        <div className="grid grid-cols-1 gap-y-12 md:gap-y-16 lg:grid-cols-2 lg:gap-x-12">
+          {namedGroups.map((subteam) => {
+            const members = groups.get(subteam)!;
+            const canShareRow = members.length <= 2 && !FULL_WIDTH_SUBTEAMS.includes(subteam);
+
+            return (
+              <section key={subteam} aria-label={subteam} className={canShareRow ? 'min-w-0' : 'min-w-0 lg:col-span-2'}>
+                <H4 className="mb-6">{subteam}</H4>
+                <TeamMemberCards members={members} subteam={subteam} />
+              </section>
+            );
+          })}
           {groups.has('') && (
-            <section aria-label="More of our team">
+            <section aria-label="More of our team" className="min-w-0 lg:col-span-2">
               <H4 className="mb-6">More of our team</H4>
               <TeamMemberCards members={groups.get('')!} subteam="More of our team" />
             </section>

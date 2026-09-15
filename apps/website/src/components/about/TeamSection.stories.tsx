@@ -132,6 +132,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const SmallTeams: Story = {
+  parameters: {
+    msw: {
+      handlers: [trpcStorybookMsw.teamMembers.getAll.query(() => members.filter((member) => [
+        'Special Projects', 'Growth', 'Operations', 'Hiring',
+      ].includes(member.subteam)))],
+    },
+  },
+};
+
 export const Unassigned: Story = {
   parameters: {
     msw: { handlers: [trpcStorybookMsw.teamMembers.getAll.query(() => members.map((member) => ({ ...member, subteam: undefined })))] },
