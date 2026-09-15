@@ -108,7 +108,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: status === 'attended',
       variant: 'inline',
       inline: (
-        <Tag tone="status" shape="pill">
+        <Tag shape="pill">
           <IoCheckmark aria-hidden />
           Attended
         </Tag>
@@ -119,7 +119,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: status === 'absent',
       variant: 'inline',
       inline: (
-        <Tag tone="status" shape="pill">
+        <Tag shape="pill">
           <IoBan aria-hidden />
           Absent
         </Tag>
@@ -172,7 +172,7 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: !isPast && status !== 'live',
       variant: 'inline',
       inline: (
-        <Tag tone="status" shape="pill">
+        <Tag shape="pill">
           {attendingCount} Attending
         </Tag>
       ),
@@ -182,7 +182,7 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: isPast,
       variant: 'inline',
       inline: (
-        <Tag tone="status" shape="pill">
+        <Tag shape="pill">
           <IoCheckmark aria-hidden />
           Facilitated
         </Tag>

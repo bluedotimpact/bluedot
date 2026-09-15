@@ -68,7 +68,7 @@ const ApplicationRow = ({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-3">
-          <Tag tone="status" shape="pill" className="hidden sm:inline-flex">{statusLabel}</Tag>
+          <Tag shape="pill" className="hidden sm:inline-flex">{statusLabel}</Tag>
           <span className="hidden sm:contents">{inlineActions}</span>
           {overflowItems.length > 0 && (
             <OverflowMenu ariaLabel="Application actions" items={overflowItems} />
@@ -76,7 +76,7 @@ const ApplicationRow = ({
         </div>
       </div>
       <div className="relative flex flex-wrap items-center gap-3 px-5 pb-5 sm:hidden">
-        <Tag tone="status" shape="pill">{statusLabel}</Tag>
+        <Tag shape="pill">{statusLabel}</Tag>
         {inlineActions}
       </div>
     </li>

@@ -351,7 +351,7 @@ const getParticipantActions = (
       isVisible: state === 'dropped',
       variant: 'inline',
       inline: (
-        <Tag tone="status" shape="pill">
+        <Tag shape="pill">
           <IoBan aria-hidden />
           Dropped
         </Tag>
@@ -428,7 +428,7 @@ const getFacilitatorActions = (
       isVisible: state === 'dropped',
       variant: 'inline',
       inline: (
-        <Tag tone="status" shape="pill">
+        <Tag shape="pill">
           <IoBan aria-hidden />
           Dropped
         </Tag>
