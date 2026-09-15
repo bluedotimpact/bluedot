@@ -56,4 +56,12 @@ describe('Breadcrumbs', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(0);
     expect(screen.queryByText('⋯')).toBeNull();
   });
+
+  test('gives every crumb a title tooltip for truncated text', () => {
+    render(<Breadcrumbs route={route} />);
+
+    [...route.parentPages, route].forEach((page) => {
+      expect(screen.getByText(page.title).getAttribute('title')).toBe(page.title);
+    });
+  });
 });
