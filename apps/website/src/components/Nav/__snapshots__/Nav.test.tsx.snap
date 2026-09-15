@@ -3,248 +3,256 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    aria-label="Main"
-    class="z-50 sticky top-0 bg-canvas border-b border-strong"
+    class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-default"
   >
     <div
-      class="section-base"
+      class="nav__container section-base"
     >
       <div
-        class="flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
+        class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
       >
         <div
-          class="flex items-center gap-1.5"
+          class="flex items-center"
         >
           <div
-            class="xl:hidden"
+            class="mobile-nav-links xl:hidden"
           >
             <button
-              aria-controls="mobile-nav-drawer"
-              aria-expanded="false"
-              aria-label="Open menu"
-              class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface hover:bg-tint on-dark:text-on-dark on-dark:hover:bg-surface-on-dark-subtle focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5"
+              class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn"
               type="button"
             >
               <svg
-                aria-hidden="true"
-                class="size-4"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 448 512"
-                width="1em"
+                fill="none"
+                height="48"
+                viewBox="0 0 48 48"
+                width="48"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
+                  d="M16 18H32"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="2"
+                />
+                <path
+                  d="M16 24H32"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="2"
+                />
+                <path
+                  d="M16 30H32"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="2"
                 />
               </svg>
             </button>
             <div
-              class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
-              id="mobile-nav-drawer"
+              class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
             >
               <div
-                class="flex flex-col font-medium"
+                class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
+                role="presentation"
               >
                 <div
-                  class="flex flex-col"
+                  class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
                 >
-                  <div>
+                  <div
+                    class="nav-dropdown"
+                  >
                     <button
-                      aria-controls="courses-dropdown-mobile"
+                      aria-controls="courses-dropdown"
                       aria-expanded="false"
-                      class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Courses
                       <svg
-                        aria-hidden="true"
-                        class="size-3 shrink-0 transition-transform duration-300 ease-in-out motion-reduce:transition-none"
-                        fill="currentColor"
+                        class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                        fill="none"
                         height="1em"
                         stroke="currentColor"
                         stroke-width="0"
-                        viewBox="0 0 512 512"
+                        viewBox="0 0 24 24"
                         width="1em"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                          fill="currentColor"
                         />
                       </svg>
                     </button>
                     <div
-                      class="pl-4 hidden"
-                      id="courses-dropdown-mobile"
+                      aria-label="Courses menu"
+                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      id="courses-dropdown"
+                      role="region"
                     >
                       <div
-                        class="flex flex-col text-pretty w-full"
+                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                       >
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/future-of-ai"
                           tabindex="0"
                         >
                           Future of AI
                           <span
-<<<<<<< HEAD
-                            class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                            role="status"
-=======
-                            class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
->>>>>>> efc7d0442 (Update snapshots)
+                            class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                           >
                             Start Here
                           </span>
                         </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/agi-strategy"
                           tabindex="0"
                         >
                           Featured Course
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/ops"
                           tabindex="0"
                         >
                           New Course
                           <span
-<<<<<<< HEAD
-                            class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                            role="status"
-=======
-                            class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
->>>>>>> efc7d0442 (Update snapshots)
+                            class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                           >
                             New
                           </span>
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/project-sprint"
                           tabindex="0"
                         >
                           Project Sprint
                         </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses"
                           tabindex="0"
                         >
                           See all courses
-                          <span
-                            aria-hidden="true"
-                          >
-                             →
-                          </span>
                         </a>
                       </div>
                     </div>
                   </div>
-                  <div>
+                  <div
+                    class="nav-dropdown"
+                  >
                     <button
-                      aria-controls="grants-dropdown-mobile"
+                      aria-controls="grants-dropdown"
                       aria-expanded="false"
-                      class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Grants
                       <svg
-                        aria-hidden="true"
-                        class="size-3 shrink-0 transition-transform duration-300 ease-in-out motion-reduce:transition-none"
-                        fill="currentColor"
+                        class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                        fill="none"
                         height="1em"
                         stroke="currentColor"
                         stroke-width="0"
-                        viewBox="0 0 512 512"
+                        viewBox="0 0 24 24"
                         width="1em"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                          fill="currentColor"
                         />
                       </svg>
                     </button>
                     <div
-                      class="pl-4 hidden"
-                      id="grants-dropdown-mobile"
+                      aria-label="Grants menu"
+                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      id="grants-dropdown"
+                      role="region"
                     >
                       <div
-                        class="flex flex-col text-pretty w-full"
+                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                       >
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/grants/rapid"
                           tabindex="0"
                         >
                           Rapid Grants
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/grants/career-transition"
                           tabindex="0"
                         >
                           Career Transition Grants
                         </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/grants"
                           tabindex="0"
                         >
                           See all grants
-                          <span
-                            aria-hidden="true"
-                          >
-                             →
-                          </span>
                         </a>
                       </div>
                     </div>
                   </div>
-                  <div>
+                  <div
+                    class="nav-dropdown"
+                  >
                     <button
-                      aria-controls="programs-dropdown-mobile"
+                      aria-controls="programs-dropdown"
                       aria-expanded="false"
-                      class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Programs
                       <svg
-                        aria-hidden="true"
-                        class="size-3 shrink-0 transition-transform duration-300 ease-in-out motion-reduce:transition-none"
-                        fill="currentColor"
+                        class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                        fill="none"
                         height="1em"
                         stroke="currentColor"
                         stroke-width="0"
-                        viewBox="0 0 512 512"
+                        viewBox="0 0 24 24"
                         width="1em"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                          fill="currentColor"
                         />
                       </svg>
                     </button>
                     <div
-                      class="pl-4 hidden"
-                      id="programs-dropdown-mobile"
+                      aria-label="Programs menu"
+                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      id="programs-dropdown"
+                      role="region"
                     >
                       <div
-                        class="flex flex-col text-pretty w-full"
+                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                       >
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/programs/incubator-week"
                           tabindex="0"
                         >
                           Incubator Week
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="https://aisb.dev/"
                           rel="noopener noreferrer"
                           tabindex="0"
@@ -252,44 +260,35 @@ exports[`Nav > renders with courses 1`] = `
                         >
                           AI Security Bootcamp
                         </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
                         <a
-                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/programs?utm_source=website&utm_campaign=nav"
                           tabindex="0"
                         >
                           See all programs
-                          <span
-                            aria-hidden="true"
-                          >
-                             →
-                          </span>
                         </a>
                       </div>
                     </div>
                   </div>
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
-                    href="/missions"
-                    tabindex="0"
-                  >
-                    Missions
-                  </a>
-                  <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/alumni"
                     tabindex="0"
                   >
                     Alumni
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/about"
                     tabindex="0"
                   >
                     About
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/join-us"
                     tabindex="0"
                   >
@@ -297,10 +296,10 @@ exports[`Nav > renders with courses 1`] = `
                   </a>
                 </div>
                 <div
-                  class="pt-6 mt-6 border-t border-subtle bd-md:hidden"
+                  class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
                 >
                   <a
-                    class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover w-full"
+                    class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
                     href="/login?register=true&redirect_to=%2Ftest-page"
                     tabindex="0"
                   >
@@ -311,13 +310,13 @@ exports[`Nav > renders with courses 1`] = `
             </div>
           </div>
           <a
-            class="bluedot-a not-prose shrink-0 no-underline"
+            class="bluedot-a not-prose logo shrink-0 w-[151px] min-[681px]:w-[200px] no-underline"
             href="/"
             tabindex="0"
           >
             <img
               alt="BlueDot Impact Logo"
-              class="h-5 bd-md:h-6"
+              class="logo__img h-5 min-[681px]:h-6 mr-auto transition-all duration-300"
               src="/images/logo/BlueDot_Impact_Logo.svg"
             />
           </a>
@@ -326,202 +325,203 @@ exports[`Nav > renders with courses 1`] = `
           class="flex items-center gap-12"
         >
           <div
-            class="flex gap-9 hidden xl:flex max-[1360px]:gap-6"
+            class="nav-links flex gap-9 [&>*]:w-fit hidden xl:flex"
           >
-            <div>
+            <div
+              class="nav-dropdown"
+            >
               <button
                 aria-controls="courses-dropdown"
                 aria-expanded="false"
-                class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap gap-2"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Courses
                 <svg
-                  aria-hidden="true"
-                  class="size-3 shrink-0 transition-transform duration-300 ease-in-out motion-reduce:transition-none"
-                  fill="currentColor"
+                  class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                  fill="none"
                   height="1em"
                   stroke="currentColor"
                   stroke-width="0"
-                  viewBox="0 0 512 512"
+                  viewBox="0 0 24 24"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                    fill="currentColor"
                   />
                 </svg>
               </button>
               <div
-                class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
+                aria-label="Courses menu"
+                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 id="courses-dropdown"
+                role="region"
               >
                 <div
-                  class="flex flex-col text-pretty w-fit mx-auto"
+                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                 >
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/future-of-ai"
                     tabindex="0"
                   >
                     Future of AI
                     <span
-<<<<<<< HEAD
-                      class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                      role="status"
-=======
-                      class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
->>>>>>> efc7d0442 (Update snapshots)
+                      class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                     >
                       Start Here
                     </span>
                   </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/agi-strategy"
                     tabindex="0"
                   >
                     Featured Course
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/ops"
                     tabindex="0"
                   >
                     New Course
                     <span
-<<<<<<< HEAD
-                      class="tag inline-flex items-center px-4 py-2 text-size-xxs leading-4 font-semibold w-fit !text-accent bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                      role="status"
-=======
-                      class="inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 bg-accent-subtle text-accent ml-2 px-2 py-0.5"
->>>>>>> efc7d0442 (Update snapshots)
+                      class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
                     >
                       New
                     </span>
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/project-sprint"
                     tabindex="0"
                   >
                     Project Sprint
                   </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses"
                     tabindex="0"
                   >
                     See all courses
-                    <span
-                      aria-hidden="true"
-                    >
-                       →
-                    </span>
                   </a>
                 </div>
               </div>
             </div>
-            <div>
+            <div
+              class="nav-dropdown"
+            >
               <button
                 aria-controls="grants-dropdown"
                 aria-expanded="false"
-                class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap gap-2"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Grants
                 <svg
-                  aria-hidden="true"
-                  class="size-3 shrink-0 transition-transform duration-300 ease-in-out motion-reduce:transition-none"
-                  fill="currentColor"
+                  class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                  fill="none"
                   height="1em"
                   stroke="currentColor"
                   stroke-width="0"
-                  viewBox="0 0 512 512"
+                  viewBox="0 0 24 24"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                    fill="currentColor"
                   />
                 </svg>
               </button>
               <div
-                class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
+                aria-label="Grants menu"
+                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 id="grants-dropdown"
+                role="region"
               >
                 <div
-                  class="flex flex-col text-pretty w-fit mx-auto"
+                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                 >
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/grants/rapid"
                     tabindex="0"
                   >
                     Rapid Grants
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/grants/career-transition"
                     tabindex="0"
                   >
                     Career Transition Grants
                   </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/grants"
                     tabindex="0"
                   >
                     See all grants
-                    <span
-                      aria-hidden="true"
-                    >
-                       →
-                    </span>
                   </a>
                 </div>
               </div>
             </div>
-            <div>
+            <div
+              class="nav-dropdown"
+            >
               <button
                 aria-controls="programs-dropdown"
                 aria-expanded="false"
-                class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap gap-2"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Programs
                 <svg
-                  aria-hidden="true"
-                  class="size-3 shrink-0 transition-transform duration-300 ease-in-out motion-reduce:transition-none"
-                  fill="currentColor"
+                  class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                  fill="none"
                   height="1em"
                   stroke="currentColor"
                   stroke-width="0"
-                  viewBox="0 0 512 512"
+                  viewBox="0 0 24 24"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                    fill="currentColor"
                   />
                 </svg>
               </button>
               <div
-                class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
+                aria-label="Programs menu"
+                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 id="programs-dropdown"
+                role="region"
               >
                 <div
-                  class="flex flex-col text-pretty w-fit mx-auto"
+                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                 >
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/programs/incubator-week"
                     tabindex="0"
                   >
                     Incubator Week
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="https://aisb.dev/"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -529,44 +529,35 @@ exports[`Nav > renders with courses 1`] = `
                   >
                     AI Security Bootcamp
                   </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
                   <a
-                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/programs?utm_source=website&utm_campaign=nav"
                     tabindex="0"
                   >
                     See all programs
-                    <span
-                      aria-hidden="true"
-                    >
-                       →
-                    </span>
                   </a>
                 </div>
               </div>
             </div>
             <a
-              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
-              href="/missions"
-              tabindex="0"
-            >
-              Missions
-            </a>
-            <a
-              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/alumni"
               tabindex="0"
             >
               Alumni
             </a>
             <a
-              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/about"
               tabindex="0"
             >
               About
             </a>
             <a
-              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/join-us"
               tabindex="0"
             >
@@ -574,17 +565,17 @@ exports[`Nav > renders with courses 1`] = `
             </a>
           </div>
           <div
-            class="flex items-center gap-4"
+            class="nav-cta flex flex-row items-center gap-4"
           >
             <a
-              class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover"
+              class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--secondary bg-transparent nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center border border-default text-primary hover:text-primary hover:bg-gray-50"
               href="/login?redirect_to=%2Ftest-page"
               tabindex="0"
             >
               Sign in
             </a>
             <a
-              class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden bd-md:flex"
+              class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
               href="/login?register=true&redirect_to=%2Ftest-page"
               tabindex="0"
             >
