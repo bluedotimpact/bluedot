@@ -339,9 +339,9 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
           isDelete: update.isDelete,
         });
       } catch (err) {
-        // The record may have been deleted between the webhook firing and our fetch, don't alert in that case
-        const recordExists = await doesRecordExist(pgAirtable, update);
-        if (!update.isDelete && !recordExists) {
+        const isUpdateAfterDeleteError = !update.isDelete && !(await doesRecordExist(pgAirtable, update));
+        if (isUpdateAfterDeleteError) {
+          // Log rather than alerting, to avoid spam
           logger.info(`[processSingleUpdate] Record ${update.baseId}/${update.tableId}/${update.recordId} was deleted before its update could be replicated, skipping`);
           return true;
         }
