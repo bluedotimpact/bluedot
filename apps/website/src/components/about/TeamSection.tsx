@@ -95,7 +95,7 @@ const TeamMemberCards = ({ members, subteam }: { members: TeamMembers; subteam?:
     >
       {members.map((member) => (
         <li key={member.name}>
-          <div className="flex flex-col items-center transition-transform duration-200 md:items-start">
+          <div className="flex flex-col items-start transition-transform duration-200">
             <div className="w-full">
               {member.url ? (
                 <a
@@ -105,20 +105,20 @@ const TeamMemberCards = ({ members, subteam }: { members: TeamMembers; subteam?:
                   className="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                 >
                   <img
-                    className="aspect-square w-full rounded-full object-cover md:rounded-none"
+                    className="aspect-square w-full object-cover"
                     src={member.imageUrl}
                     alt={`${member.name} - ${member.jobTitle}`}
                   />
                 </a>
               ) : (
                 <img
-                  className="aspect-square w-full rounded-full object-cover md:rounded-none"
+                  className="aspect-square w-full object-cover"
                   src={member.imageUrl}
                   alt={`${member.name} - ${member.jobTitle}`}
                 />
               )}
             </div>
-            <div className="w-full pt-2 text-center md:pt-3 md:text-left">
+            <div className="w-full pt-2 text-left md:pt-3">
               <NameHeading className="bluedot-h4 not-prose text-size-xs mb-1 md:text-size-sm">{member.name}</NameHeading>
               <p className="text-size-xxs text-secondary md:text-size-xs">{member.jobTitle}</p>
             </div>
