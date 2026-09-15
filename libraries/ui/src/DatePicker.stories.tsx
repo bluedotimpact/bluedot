@@ -33,6 +33,21 @@ export const Default: Story = {
   },
 };
 
+export const Selected: Story = {
+  args: {
+    label: 'Pick a date',
+    value: new Date(2026, 6, 24),
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    label: 'Pick a date',
+    value: new Date(2026, 6, 24),
+    disabled: true,
+  },
+};
+
 export const CustomLabel: Story = {
   args: {
     label: 'Select Date',
