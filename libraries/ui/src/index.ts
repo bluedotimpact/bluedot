@@ -9,6 +9,8 @@ export type { BreadcrumbsProps, BreadcrumbTrailProps } from './Breadcrumbs';
 export { Card, CardShell } from './Card';
 export type { CardProps, CardShellProps } from './Card';
 
+export { ChevronRightIcon } from './icons/ChevronRightIcon';
+
 export { ClickTarget } from './ClickTarget';
 export type { ClickTargetProps } from './ClickTarget';
 
@@ -34,8 +36,6 @@ export type { HeroSectionProps, HeroCTAContainerProps } from './HeroSection';
 
 export { IconButton } from './IconButton';
 export type { IconButtonProps } from './IconButton';
-
-export { ChevronRightIcon } from './icons/ChevronRightIcon';
 
 export { Input } from './Input';
 export type { InputProps } from './Input';
