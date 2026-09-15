@@ -72,7 +72,6 @@ export const DatePicker = ({
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
   const [month, setMonth] = useState<Date>(value ?? new Date());
-  const [isOpen, setIsOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
@@ -84,20 +83,6 @@ export const DatePicker = ({
       setMonth(value);
     }
   }, [value, localeFormat]);
-
-  useEffect(() => {
-    const popover = popoverRef.current;
-    if (!popover) {
-      return undefined;
-    }
-
-    const handleToggle = (e: Event) => {
-      setIsOpen((e as Event & { newState?: string }).newState === 'open');
-    };
-
-    popover.addEventListener('toggle', handleToggle);
-    return () => popover.removeEventListener('toggle', handleToggle);
-  }, []);
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -160,8 +145,7 @@ export const DatePicker = ({
       ) : null}
       <div
         className={cn(
-          'relative flex h-11 items-center rounded-surface border border-subtle bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent',
-          isOpen && 'border-accent ring-1 ring-accent',
+          'relative flex h-11 items-center rounded-surface border border-subtle bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent group-has-[:popover-open]:border-accent group-has-[:popover-open]:ring-1 group-has-[:popover-open]:ring-accent',
           disabled && 'bg-tint text-disabled',
         )}
       >
