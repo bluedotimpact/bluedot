@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import {
   beforeEach, describe, expect, type Mock, test, vi,
 } from 'vitest';
@@ -35,7 +35,7 @@ describe('JoinUsPage', () => {
 
     // Wait for loading to finish - check that ProgressDots are gone
     await waitFor(() => {
-      expect(container.querySelector('.progress-dots')).not.toBeInTheDocument();
+      expect(screen.queryByText('Loading…')).not.toBeInTheDocument();
     }, { timeout: 5000 });
 
     expect(container).toMatchSnapshot();

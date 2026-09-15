@@ -38,9 +38,9 @@ describe('withAdminGuard', () => {
   );
 
   test('shows progress dots while the admin check is pending', () => {
-    const { container } = renderGuard('admin-sub');
+    renderGuard('admin-sub');
 
-    expect(container.querySelector('.progress-dots')).toBeInTheDocument();
+    expect(screen.getByText('Loading…')).toBeInTheDocument();
     expect(screen.queryByText('Admin only content')).not.toBeInTheDocument();
   });
 

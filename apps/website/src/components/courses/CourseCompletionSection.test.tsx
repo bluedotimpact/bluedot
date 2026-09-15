@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
@@ -41,7 +41,7 @@ describe('CourseCompletionSection', () => {
     // No handler - query stays pending
     const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
 
-    expect(container.querySelector('.progress-dots')).toBeTruthy();
+    expect(screen.getByText('Loading…')).toBeInTheDocument();
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
 
