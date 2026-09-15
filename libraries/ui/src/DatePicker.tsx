@@ -85,6 +85,20 @@ export const DatePicker = ({
     }
   }, [value, localeFormat]);
 
+  useEffect(() => {
+    const popover = popoverRef.current;
+    if (!popover) {
+      return undefined;
+    }
+
+    const handleToggle = (e: Event) => {
+      setIsOpen((e as Event & { newState?: string }).newState === 'open');
+    };
+
+    popover.addEventListener('toggle', handleToggle);
+    return () => popover.removeEventListener('toggle', handleToggle);
+  }, []);
+
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     if (!newValue) {
