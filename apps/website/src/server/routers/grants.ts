@@ -145,6 +145,7 @@ const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCa
     });
 
   return enriched
+    .filter(({ publicGrant }) => Boolean(publicGrant.imageUrl))
     .sort((a, b) => {
       if (a.dateMs !== null && b.dateMs !== null && a.dateMs !== b.dateMs) return b.dateMs - a.dateMs;
       if (a.dateMs !== null && b.dateMs === null) return -1;
