@@ -8,6 +8,7 @@ export type TimePickerProps = {
   label?: string;
   timeValue?: Date;
   onTimeChange?: (value?: Date) => void;
+  disabled?: boolean;
   className?: string;
   labelClassName?: string;
   inputClassName?: string;
@@ -17,6 +18,7 @@ export const TimePicker = ({
   label,
   timeValue,
   onTimeChange,
+  disabled,
   className,
   labelClassName,
   inputClassName,
@@ -44,6 +46,7 @@ export const TimePicker = ({
       className={cn('group flex w-[200px] flex-col gap-1', className)}
       value={time}
       onChange={handleChange}
+      isDisabled={disabled}
     >
       {label && <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>}
       <DateInput
