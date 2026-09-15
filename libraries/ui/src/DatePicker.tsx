@@ -75,6 +75,13 @@ export const DatePicker = ({
     }
   }, [value, localeFormat]);
 
+  // Close calendar when `disabled` changes to true
+  useEffect(() => {
+    if (disabled) {
+      popoverRef.current?.hidePopover();
+    }
+  }, [disabled]);
+
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     if (!newValue) {
