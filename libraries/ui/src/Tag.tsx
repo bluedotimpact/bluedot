@@ -2,9 +2,7 @@ import type React from 'react';
 import clsx from 'clsx';
 
 export type TagProps = {
-  // Required
   children: React.ReactNode;
-  // Optional
   className?: string;
   variant?: 'default' | 'secondary';
 };
