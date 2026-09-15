@@ -49,7 +49,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
                 {item.title}
               </span>
             ) : (
-              <A className="text-secondary hover:text-primary truncate no-underline" href={item.url}>
+              <A className="text-secondary hover:text-primary truncate no-underline" href={item.url} title={item.title}>
                 {item.title}
               </A>
             )}
