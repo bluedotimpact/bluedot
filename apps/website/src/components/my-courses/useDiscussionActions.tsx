@@ -1,8 +1,7 @@
 import {
-  CTALinkOrButton, useCurrentTimeMs, type OverflowMenuItemProps,
+  CTALinkOrButton, Tag, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
-import { FaCheck } from 'react-icons/fa6';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
@@ -109,10 +108,10 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: status === 'attended',
       variant: 'inline',
       inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoCheckmark aria-hidden size={14} />
+        <Tag tone="status" shape="pill">
+          <IoCheckmark aria-hidden />
           Attended
-        </span>
+        </Tag>
       ),
     },
     {
@@ -120,10 +119,10 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: status === 'absent',
       variant: 'inline',
       inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
+        <Tag tone="status" shape="pill">
+          <IoBan aria-hidden />
           Absent
-        </span>
+        </Tag>
       ),
     },
     {
@@ -173,9 +172,9 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: !isPast && status !== 'live',
       variant: 'inline',
       inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+        <Tag tone="status" shape="pill">
           {attendingCount} Attending
-        </span>
+        </Tag>
       ),
     },
     {
@@ -183,10 +182,10 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: isPast,
       variant: 'inline',
       inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <FaCheck aria-hidden size={12} />
+        <Tag tone="status" shape="pill">
+          <IoCheckmark aria-hidden />
           Facilitated
-        </span>
+        </Tag>
       ),
     },
     {
