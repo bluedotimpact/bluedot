@@ -11,7 +11,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "weekly-availabilities": "^1.0.0"
+    "weekly-availabilities": "^2.0.0"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
