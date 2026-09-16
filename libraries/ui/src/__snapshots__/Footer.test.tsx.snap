@@ -156,15 +156,6 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -278,15 +269,6 @@ exports[`Footer > renders default as expected 1`] = `
                   target="_blank"
                 >
                   Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
                 </a>
               </li>
               <li>
@@ -486,15 +468,6 @@ exports[`Footer > renders default as expected 1`] = `
                   target="_blank"
                 >
                   Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
                 </a>
               </li>
               <li>
@@ -760,15 +733,6 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -890,15 +854,6 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
                   target="_blank"
                 >
                   Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
                 </a>
               </li>
               <li>
@@ -1106,15 +1061,6 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
                   target="_blank"
                 >
                   Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
                 </a>
               </li>
               <li>
@@ -1388,15 +1334,6 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -1520,15 +1457,6 @@ exports[`Footer > renders with optional args 1`] = `
                   target="_blank"
                 >
                   Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
                 </a>
               </li>
               <li>
@@ -1738,15 +1666,6 @@ exports[`Footer > renders with optional args 1`] = `
                   target="_blank"
                 >
                   Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
                 </a>
               </li>
               <li>

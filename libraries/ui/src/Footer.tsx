@@ -92,7 +92,6 @@ export const Footer: React.FC<FooterProps> = ({
     { url: '/join-us', label: 'Join us' },
     { url: '/events?utm_source=website&utm_campaign=footer', label: 'Events' },
     { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
-    { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
     { url: '/contact', label: 'Contact & legal' },
     ...(onReportBug ? [{ onClick: onReportBug, label: 'Report a bug' }] : []),
