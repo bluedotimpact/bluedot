@@ -46,6 +46,11 @@ const FAQ_ITEMS = [
     answer: 'Choose the program that best matches what you want to do. If you are still unsure, apply to the closest fit and we can redirect you.',
   },
   {
+    id: 'bluedot-course',
+    question: 'Do I need to have taken a BlueDot course?',
+    answer: 'No. You do not need to have taken a BlueDot course to apply for either grant.',
+  },
+  {
     id: 'career-plan',
     question: 'Do I need a fixed career plan?',
     answer: 'No. We look for a promising direction, a way to test it, and useful work or learning along the way.',
@@ -88,16 +93,16 @@ const GrantsPage = () => {
       <Breadcrumbs route={ROUTES.grants} />
 
       <section id="find-your-grant" aria-label="Find your grant" className="section section-body pt-10 scroll-mt-28">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-0">
+        <div className="divide-y divide-bluedot-navy/10">
           {FUNDING_ROUTES.map((route) => {
             const stats = route.slug === 'rapid-grants' ? rapidStats : careerTransitionStats;
 
             return (
-              <article key={route.slug} aria-labelledby={`${route.slug}-heading`} className="flex flex-col border-bluedot-navy/10 not-first:border-t not-first:pt-8 md:first:pr-8 md:not-first:border-t-0 md:not-first:border-l md:not-first:pt-0 md:not-first:pl-8 lg:first:pr-12 lg:not-first:pl-12">
+              <article key={route.slug} aria-labelledby={`${route.slug}-heading`} className="py-8 first:pt-0 last:pb-0">
                 <H2 className="text-size-lg"><span id={`${route.slug}-heading`}>{route.name}</span></H2>
                 <P className="mt-3 text-size-md font-medium">{route.amount}</P>
                 <P className="mt-5 text-size-md">{route.description}</P>
-                <div className="mt-auto pt-6">
+                <div className="pt-6">
                   <P className="text-size-sm text-secondary">{route.application}</P>
                   <A href={GRANT_PATHS[route.slug]} className="mt-3 inline-flex items-center gap-2 font-medium no-underline hover:underline">
                     {route.cta}<span aria-hidden="true">→</span>
@@ -112,10 +117,7 @@ const GrantsPage = () => {
             );
           })}
         </div>
-        <div className="mt-10 space-y-2">
-          <P className="text-size-sm text-secondary">CTGs generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
-          <P className="text-size-sm text-secondary">You do not need to have taken a BlueDot course to apply.</P>
-        </div>
+        <P className="mt-10 text-size-sm text-secondary">CTGs generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
         <div className="mt-8">
           <GrantEligibilityNotice />
         </div>
