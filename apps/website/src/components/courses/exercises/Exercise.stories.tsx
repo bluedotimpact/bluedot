@@ -35,6 +35,21 @@ const multipleChoiceExercise = {
   computedNumResponses: null,
 };
 
+const projectSubmissionExercise = {
+  id: EXERCISE_ID,
+  type: 'Project submission',
+  title: 'Create your 1-pager',
+  description: 'Spend ~1 hour on this.\n\nOnce you\'re finished, make the Google Doc shareable, submit it below, and share it with your group in Slack!',
+  answer: null,
+  options: null,
+  courseId: 'course-1',
+  unitId: 'unit-1',
+  status: 'Core',
+  unitNumber: null,
+  exerciseNumber: null,
+  computedNumResponses: null,
+};
+
 const savedResponse = {
   id: 'response-1',
   exerciseId: EXERCISE_ID,
@@ -142,6 +157,58 @@ export const MultipleChoice: Story = {
     msw: {
       handlers: [
         trpcStorybookMsw.exercises.getExercise.query(() => multipleChoiceExercise),
+        ...defaultHandlers,
+      ],
+    },
+  },
+};
+
+export const ProjectSubmissionOpen: Story = {
+  ...loggedInStory(),
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.exercises.getExercise.query(() => projectSubmissionExercise),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({
+          status: 'action-plan-pending' as const,
+          meetPersonId: 'recMeetPerson1',
+          hasSubmittedActionPlan: false,
+          hasAtMostOneDiscussionLeft: true,
+        })),
+        ...defaultHandlers,
+      ],
+    },
+  },
+};
+
+export const ProjectSubmissionSubmitted: Story = {
+  ...loggedInStory(),
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.exercises.getExercise.query(() => projectSubmissionExercise),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({
+          status: 'action-plan-pending' as const,
+          meetPersonId: 'recMeetPerson1',
+          hasSubmittedActionPlan: true,
+          hasAtMostOneDiscussionLeft: true,
+        })),
+        ...defaultHandlers,
+      ],
+    },
+  },
+};
+
+export const ProjectSubmissionNotEnrolled: Story = {
+  ...loggedInStory(),
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.exercises.getExercise.query(() => projectSubmissionExercise),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({
+          status: 'not-enrolled' as const,
+          hasUpcomingRounds: true,
+        })),
         ...defaultHandlers,
       ],
     },

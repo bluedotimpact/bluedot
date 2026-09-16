@@ -9,6 +9,9 @@ import {
   exerciseTable,
   inArray,
   isNotNull,
+  isNull,
+  ne,
+  or,
   resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
@@ -189,12 +192,15 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
     .where(and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)));
   const coreResourceIds = coreResources.map((r) => r.id);
 
+  // Project submissions are handed in through an external form and have no completion action on
+  // the page, so counting them would hold every learner one short of 100%.
   const requiredExercises = await db.pg
     .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)
     .where(and(
       eq(exerciseTable.pg.status, 'Core'),
       inArray(exerciseTable.pg.id, allExerciseIds),
+      or(isNull(exerciseTable.pg.type), ne(exerciseTable.pg.type, 'Project submission')),
     ));
   const requiredExerciseIds = requiredExercises.map((e) => e.id);
 

@@ -51,7 +51,7 @@ const seedChunk = (id: string, unitId: string, opts: {
     status: opts.status ?? 'Active',
   });
 
-const seedExercise = (id: string, status = 'Core') => testDb.insert(exerciseTable, { id, status });
+const seedExercise = (id: string, status = 'Core', type = 'Free text') => testDb.insert(exerciseTable, { id, status, type });
 
 describe('courses.getBySlug', () => {
   test('returns the course for a known slug', async () => {
@@ -235,6 +235,35 @@ describe('courses.getCourseProgress', () => {
     });
 
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'further-prog' });
+
+    expect(courseProgress).toEqual({ totalCount: 1, completedCount: 0, percentage: 0 });
+  });
+
+  test('Project submission exercises count towards neither the total nor completion', async () => {
+    await seedLoggedInUser();
+    await seedCourse('submission-prog');
+    await seedUnit('usp', 'submission-prog', '1');
+    await seedChunk('usp-a', 'usp', { exercises: ['ex-req', 'ex-submission'] });
+    await seedExercise('ex-req');
+    await seedExercise('ex-submission', 'Core', 'Project submission');
+
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: 'r-req', userId: ['test-user'], exerciseId: 'ex-req', response: 'x', completedAt: '2026-01-01',
+    });
+
+    const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'submission-prog' });
+
+    expect(courseProgress).toEqual({ totalCount: 1, completedCount: 1, percentage: 100 });
+  });
+
+  test('exercises with no type set still count towards progress', async () => {
+    await seedLoggedInUser();
+    await seedCourse('untyped-prog');
+    await seedUnit('uup', 'untyped-prog', '1');
+    await seedChunk('uup-a', 'uup', { exercises: ['ex-untyped'] });
+    await testDb.insert(exerciseTable, { id: 'ex-untyped', status: 'Core' });
+
+    const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'untyped-prog' });
 
     expect(courseProgress).toEqual({ totalCount: 1, completedCount: 0, percentage: 0 });
   });

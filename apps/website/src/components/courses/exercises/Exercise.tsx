@@ -6,6 +6,7 @@ import {
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
+import { ProjectSubmission } from './ProjectSubmission';
 
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
@@ -186,6 +187,8 @@ const Exercise: React.FC<ExerciseProps> = ({
             onExerciseSubmit={handleExerciseSubmit}
           />
         );
+      case 'Project submission':
+        return <ProjectSubmission courseId={exerciseData.courseId} />;
       default:
         return <ErrorView error={new Error(`Unknown exercise type: '${exerciseData.type}'`)} />;
     }

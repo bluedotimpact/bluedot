@@ -78,7 +78,7 @@ export const OnSecondUnit: Story = {
 export const Facilitator: Story = {
   ...loggedInStory(),
   args: {
-    certificateData: { status: 'is-facilitator' },
+    certificateData: { status: 'is-facilitator', hasUpcomingRounds: true },
   },
   parameters: {
     msw: {
