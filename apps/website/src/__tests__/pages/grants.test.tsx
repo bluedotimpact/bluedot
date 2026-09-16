@@ -67,14 +67,12 @@ describe('GrantsPage', () => {
 
     expect(screen.getByText('Up to $20k')).toBeInTheDocument();
     expect(screen.getByText('Up to $200k')).toBeInTheDocument();
-    expect(screen.getByRole('complementary', { name: 'Funding restrictions' })).toBeVisible();
-    expect(screen.getByText(/unable to fund people based in Russia, China or India/)).toBeVisible();
-    expect(screen.getByText(/breach applicable sanctions/)).toBeVisible();
+    expect(screen.getByRole('button', { name: 'What funding restrictions apply?' })).toHaveAttribute('aria-expanded', 'false');
     expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toBeInTheDocument();
   });
 
-  test('opens the larger-request guidance and provides a contact route', async () => {
+  test('opens funding guidance and provides contact routes', async () => {
     const user = userEvent.setup();
     render(<GrantsPage />, { wrapper: TrpcProvider });
 
@@ -87,5 +85,14 @@ describe('GrantsPage', () => {
     });
     expect(question).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('link', { name: 'Contact us' })).toHaveAttribute('href', '/contact');
+
+    const restrictions = screen.getByRole('button', { name: 'What funding restrictions apply?' });
+    await act(async () => {
+      await user.click(restrictions);
+    });
+    expect(restrictions).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByText(/unable to fund people based in Russia, China or India/)).toBeVisible();
+    expect(screen.getByText(/breach applicable sanctions/)).toBeVisible();
+    expect(screen.getByRole('link', { name: 'Contact us before applying' })).toHaveAttribute('href', '/contact');
   });
 });

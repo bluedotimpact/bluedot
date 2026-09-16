@@ -1,7 +1,5 @@
-import { A } from '@bluedot/ui';
 import type { FAQItem } from '../lander/components/FAQSection';
-import { ROUTES } from '../../lib/routes';
-import { GRANT_LOCATION_RESTRICTION, GRANT_SANCTIONS_RESTRICTION } from './GrantEligibilityNotice';
+import { FUNDING_RESTRICTIONS_FAQ } from './fundingRestrictions';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
 export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | 'fieldbuilder-week' | 'context-week' | 'advising';
@@ -75,20 +73,6 @@ export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-g
 
 export type GrantProgramSectionConfig = {
   faqItems: FAQItem[];
-};
-
-const FUNDING_RESTRICTIONS_FAQ: FAQItem = {
-  id: 'funding-restrictions',
-  question: 'What funding restrictions apply?',
-  answer: (
-    <>
-      {GRANT_LOCATION_RESTRICTION} {GRANT_SANCTIONS_RESTRICTION}
-      <br />
-      <br />
-      Unsure whether a restriction applies? <A href={ROUTES.contact.url}>Contact us before applying</A>.
-    </>
-  ),
-  answerText: `${GRANT_LOCATION_RESTRICTION} ${GRANT_SANCTIONS_RESTRICTION} Unsure whether a restriction applies? Contact us before applying.`,
 };
 
 export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantProgramSectionConfig> = {

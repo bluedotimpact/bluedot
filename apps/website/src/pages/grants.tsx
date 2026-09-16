@@ -1,9 +1,9 @@
 import {
-  A, Breadcrumbs, CTALinkOrButton, H2, H3, P,
+  A, Breadcrumbs, CTALinkOrButton, H2, P,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
-import GrantEligibilityNotice from '../components/grants/GrantEligibilityNotice';
+import { FUNDING_RESTRICTIONS_FAQ } from '../components/grants/fundingRestrictions';
 import FAQSection from '../components/lander/components/FAQSection';
 import { GRANT_PATHS } from '../lib/grantRoutes';
 import { ROUTES } from '../lib/routes';
@@ -50,6 +50,7 @@ const FAQ_ITEMS = [
     question: 'Do I need to have taken a BlueDot course?',
     answer: 'No. You do not need to have taken a BlueDot course to apply for either grant.',
   },
+  FUNDING_RESTRICTIONS_FAQ,
   {
     id: 'career-plan',
     question: 'Do I need a fixed career plan?',
@@ -117,17 +118,6 @@ const GrantsPage = () => {
           })}
         </div>
         <P className="mt-10 text-size-sm text-secondary">CTGs generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
-        <div className="mt-8">
-          <GrantEligibilityNotice />
-        </div>
-      </section>
-
-      <section aria-labelledby="what-we-look-for-heading" className="section section-body">
-        <H3><span id="what-we-look-for-heading">What we look for</span></H3>
-        <P className="mt-4 max-w-[780px] text-size-sm text-secondary">
-          A clear connection to reducing catastrophic risk, evidence you can make progress, and a useful role for funding.
-          Tell us what you would do next and how a grant would help.
-        </P>
       </section>
 
       <FAQSection title="A few common questions" items={FAQ_ITEMS} />
