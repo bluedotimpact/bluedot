@@ -54,7 +54,6 @@ describe('GrantsPage', () => {
     expect(screen.getByRole('link', { name: 'Explore in-person programs' })).toHaveAttribute('href', '/programs');
     expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toHaveAttribute('href', '/grants/rapid');
     expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toHaveAttribute('href', '/grants/career-transition');
-    expect(screen.getByRole('link', { name: 'Find the right grant' })).toHaveAttribute('href', '#find-your-grant');
     expect(document.getElementById('find-your-grant')).toBeInTheDocument();
   });
 

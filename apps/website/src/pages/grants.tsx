@@ -87,7 +87,6 @@ const GrantsPage = () => {
       <MarketingHero
         title="Grants"
         subtitle="Funding to explore, build and move full-time into work that reduces catastrophic risks from AI and biological threats."
-        cta={<CTALinkOrButton url="#find-your-grant" withChevron>Find the right grant</CTALinkOrButton>}
       />
 
       <Breadcrumbs route={ROUTES.grants} />
