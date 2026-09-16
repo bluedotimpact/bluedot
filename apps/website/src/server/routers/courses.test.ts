@@ -256,6 +256,20 @@ describe('courses.getCourseProgress', () => {
     expect(courseProgress).toEqual({ totalCount: 1, completedCount: 1, percentage: 100 });
   });
 
+  test('Project submission exercises are left out of the curriculum exercise count too', async () => {
+    await seedCourse('metadata-prog');
+    await seedUnit('ump', 'metadata-prog', '1');
+    await seedChunk('ump-a', 'ump', { exercises: ['ex-req', 'ex-submission'] });
+    await seedExercise('ex-req');
+    await seedExercise('ex-submission', 'Core', 'Project submission');
+
+    const result = await caller.courses.getCurriculumMetadata({ courseSlug: 'metadata-prog' });
+
+    expect(result).toEqual([{
+      unitId: 'ump', unitNumber: '1', duration: null, exerciseCount: 1,
+    }]);
+  });
+
   test('exercises with no type set still count towards progress', async () => {
     await seedLoggedInUser();
     await seedCourse('untyped-prog');

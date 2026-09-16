@@ -34,6 +34,26 @@ const expectSubmitButton = async () => {
 };
 
 describe('ProjectSubmission', () => {
+  test('resolves the course from the url when the exercise has no course of its own', async () => {
+    server.use(
+      trpcMsw.courses.getBySlug.query(() => ({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        course: { id: 'course-from-slug' } as any,
+        units: [],
+      })),
+      trpcMsw.certificates.getStatus.query(({ input }) => (input.courseId === 'course-from-slug' ? {
+        status: 'action-plan-pending' as const,
+        meetPersonId: 'recMeetPerson1',
+        hasSubmittedActionPlan: false,
+        hasAtMostOneDiscussionLeft: true,
+      } : { status: 'not-enrolled' as const, hasUpcomingRounds: false })),
+    );
+
+    render(<ProjectSubmission courseId={null} />, { wrapper: TrpcProvider });
+
+    await expectSubmitButton();
+  });
+
   describe('anyone with a Meet person id can submit', () => {
     test('a participant part-way through the course', async () => {
       renderWithStatus({
@@ -104,6 +124,12 @@ describe('ProjectSubmission', () => {
       renderWithStatus({ status: 'not-eligible' as const, hasUpcomingRounds: true });
 
       expect(await screen.findByRole('link', { name: /Join a facilitated cohort today/ })).toBeInTheDocument();
+    });
+
+    test('nothing renders for a certificate holder, who has already finished the course', async () => {
+      renderWithStatus({ status: 'has-certificate' as const, ...certificate });
+
+      await expect(screen.findByRole('link')).rejects.toThrow();
     });
 
     test('nothing renders when no rounds are coming up, since that page would redirect', async () => {

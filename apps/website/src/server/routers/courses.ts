@@ -182,6 +182,13 @@ const calculateChunkProgress = (
   };
 };
 
+// Project submissions are handed in through an external form and have no completion action on
+// the page, so counting them would hold every learner one short of 100%.
+const countsTowardProgress = or(
+  isNull(exerciseTable.pg.type),
+  ne(exerciseTable.pg.type, 'Project submission'),
+);
+
 const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
   const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
   const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
@@ -192,15 +199,13 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
     .where(and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)));
   const coreResourceIds = coreResources.map((r) => r.id);
 
-  // Project submissions are handed in through an external form and have no completion action on
-  // the page, so counting them would hold every learner one short of 100%.
   const requiredExercises = await db.pg
     .select({ id: exerciseTable.pg.id })
     .from(exerciseTable.pg)
     .where(and(
       eq(exerciseTable.pg.status, 'Core'),
       inArray(exerciseTable.pg.id, allExerciseIds),
-      or(isNull(exerciseTable.pg.type), ne(exerciseTable.pg.type, 'Project submission')),
+      countsTowardProgress,
     ));
   const requiredExerciseIds = requiredExercises.map((e) => e.id);
 
@@ -266,6 +271,7 @@ export const coursesRouter = router({
           .where(and(
             eq(exerciseTable.pg.status, 'Core'),
             inArray(exerciseTable.pg.id, referencedExerciseIds),
+            countsTowardProgress,
           ));
         for (const e of requiredExercises) requiredExerciseIds.add(e.id);
       }

@@ -148,7 +148,11 @@ const Exercise: React.FC<ExerciseProps> = ({
     return <ErrorView error={new Error('Exercise not found')} />;
   }
 
-  const showGroupResponses = !!facilitatorGroupResponses && showGroupResponsesIfFacilitator;
+  // Group responses are fetched for any exercise a facilitator's group is on, but a project
+  // submission has no written answers to collect, so the table would only ever read "0 Responses".
+  const showGroupResponses = !!facilitatorGroupResponses
+    && showGroupResponsesIfFacilitator
+    && exerciseData.type !== 'Project submission';
 
   // Free text completion checkbox (positioned outside the card)
   const hasResponse = editorHasText || !!(responseData?.response?.trim());
