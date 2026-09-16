@@ -19,7 +19,7 @@ const meta = {
 export default meta;
 
 const sampleStats = [
-  { label: 'Typical grants', value: 'Up to $10k' },
+  { label: 'Grant funding', value: 'Up to $20k' },
   { label: 'Decision time', value: '< 2 weeks' },
   { label: 'Funded so far', value: '$1.4M+' },
   { label: 'Active programmes', value: '4' },

@@ -6,11 +6,11 @@ import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 const DECISION_CARDS = [
   {
     title: 'What we fund',
-    body: 'Impactful work where money is the bottleneck. Compute and API credits, events and meetups, research access, travel, community chapters, project tooling. Wildcards welcome. Pitch us.',
+    body: 'Time and resources to make progress on AI safety or biosecurity. A focused period of research or learning, testing a promising idea, events and community building, living costs, travel, compute and tools. Wildcards welcome. Pitch us.',
   },
   {
-    title: 'What needs a stronger case',
-    body: 'General equipment, productivity subscriptions, or plans you haven\'t started yet. Stipends and living expenses aren\'t our usual scope, but apply and make the case if yours is high-impact.',
+    title: 'What we look for',
+    body: 'A worthwhile direction, evidence you can make progress, and a clear role for funding. Tell us what you want to do, what you have done or learned so far, and what the grant would make possible.',
   },
 ];
 
@@ -23,7 +23,7 @@ const WhatThisIsForSection = () => {
         <H3>Who this is for</H3>
 
         <div className="flex flex-col gap-5">
-          <P>For anyone working on concrete AI safety projects. Research, events, community building, tooling, compute.</P>
+          <P>For people taking a promising next step in AI safety or biosecurity. Grants of up to $20k can support your time, exploration and work, as well as the resources you need.</P>
           {applicationUrl && (
             <P>
               If in doubt,{' '}

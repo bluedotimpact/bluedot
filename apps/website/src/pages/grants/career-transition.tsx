@@ -52,7 +52,9 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
       />
       <GrantStatsStrip
         program="career-transition-grant"
+        compact
         stats={[
+          { label: 'Grant funding', value: 'Up to $200k' },
           { label: 'Grants made', value: grantsMadeLabel },
           { label: 'Funding awarded', value: fundingAwardedLabel },
           { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
