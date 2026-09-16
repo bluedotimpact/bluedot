@@ -9,7 +9,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Reusable section components rendered on the /grants programme pages. Each takes a program slug and (for stats/faq) the displayed content. CTAs and FAQ items are sourced from `GRANT_PROGRAM_SECTIONS` in `grantPrograms.ts`.',
+        component: 'Reusable section components rendered on the /grants program pages. Each takes a program slug and (for stats/faq) the displayed content. CTAs and FAQ items are sourced from `GRANT_PROGRAM_SECTIONS` in `grantPrograms.ts`.',
       },
     },
   },
@@ -22,7 +22,7 @@ const sampleStats = [
   { label: 'Grant funding', value: 'Up to $20k' },
   { label: 'Decision time', value: '< 2 weeks' },
   { label: 'Funded so far', value: '$1.4M+' },
-  { label: 'Active programmes', value: '4' },
+  { label: 'Active programs', value: '4' },
 ];
 
 export const Cta: StoryObj = {

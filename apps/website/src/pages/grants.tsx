@@ -1,28 +1,31 @@
 import {
-  A, Breadcrumbs, CTALinkOrButton, H3, P,
+  A, Breadcrumbs, CTALinkOrButton, H2, H3, P,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
 import GrantEligibilityNotice from '../components/grants/GrantEligibilityNotice';
-import { PageListGroup, PageListRow } from '../components/PageListRow';
 import FAQSection from '../components/lander/components/FAQSection';
 import { GRANT_PATHS } from '../lib/grantRoutes';
 import { ROUTES } from '../lib/routes';
-import { formatAmountUsd } from '../lib/utils';
 import { trpc } from '../utils/trpc';
 
 const TITLE = 'Grants for AI safety and biosecurity | BlueDot Impact';
 const DESCRIPTION = 'Funding for people moving into AI safety and biosecurity, and for the projects they want to make happen. Find the right BlueDot grant for your next step.';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
+const AWARDED_AMOUNT_FORMAT = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  notation: 'compact',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 1,
+});
 
 const FUNDING_ROUTES = [
   {
     slug: 'rapid-grants',
     name: 'Rapid Grants',
     amount: 'Up to $20k',
-    duration: 'Flexible scope and duration',
-    description: 'Time and resources for a promising next step in AI safety or biosecurity.',
-    detail: 'Explore an idea, do research or build something. Funding can cover living costs, compute, travel and more.',
+    description: 'Time and resources to explore an idea, do research or build something in AI safety or biosecurity.',
     application: 'About 15 minutes to apply',
     cta: 'Explore Rapid Grants',
   },
@@ -30,9 +33,7 @@ const FUNDING_ROUTES = [
     slug: 'career-transition-grant',
     name: 'Career Transition Grants',
     amount: 'Up to $200k',
-    duration: 'Typically around six months',
-    description: 'Runway to move full-time into impactful AI safety or biosecurity work.',
-    detail: 'Build experience, produce useful work or test a new career path. CTGs generally start at $20k; smaller requests go to Rapid.',
+    description: 'Runway to move full-time into AI safety or biosecurity. Build experience, produce useful work or test a career path.',
     application: 'About 45 minutes to apply',
     cta: 'Explore Career Transition Grants',
   },
@@ -42,7 +43,7 @@ const FAQ_ITEMS = [
   {
     id: 'choosing-a-grant',
     question: 'What if I am unsure which grant fits?',
-    answer: 'For requests under $20k, choose Rapid Grants. For a sustained, full-time career transition, choose a CTG. If you are still unsure, apply to the closest fit and we can redirect you.',
+    answer: 'Choose the program that best matches what you want to do. If you are still unsure, apply to the closest fit and we can redirect you.',
   },
   {
     id: 'career-plan',
@@ -51,7 +52,7 @@ const FAQ_ITEMS = [
   },
   {
     id: 'other-funding',
-    question: 'What about a larger project or funding for an organisation?',
+    question: 'What about a larger project or funding for an organization?',
     answer: (
       <>
         <A href={ROUTES.contact.url}>Contact us</A> with your plan, the amount you need and what funding would enable.
@@ -87,34 +88,34 @@ const GrantsPage = () => {
       <Breadcrumbs route={ROUTES.grants} />
 
       <section id="find-your-grant" aria-label="Find your grant" className="section section-body pt-10 scroll-mt-28">
-        <PageListGroup>
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-0">
           {FUNDING_ROUTES.map((route) => {
             const stats = route.slug === 'rapid-grants' ? rapidStats : careerTransitionStats;
 
             return (
-              <PageListRow
-                key={route.slug}
-                href={GRANT_PATHS[route.slug]}
-                title={route.name}
-                summary={`${route.description} ${route.detail}`}
-                meta={(
-                  <>
-                    <span>{route.amount}</span> · {route.duration} · {route.application}
-                    {stats && (
-                      <span className="block">
-                        {formatAmountUsd(stats.totalAmountUsd)} awarded across {stats.count} {stats.count === 1 ? 'grant' : 'grants'}.
-                      </span>
-                    )}
-                  </>
-                )}
-                ctaLabel={route.cta}
-              />
+              <article key={route.slug} aria-labelledby={`${route.slug}-heading`} className="flex flex-col border-bluedot-navy/10 not-first:border-t not-first:pt-8 md:first:pr-8 md:not-first:border-t-0 md:not-first:border-l md:not-first:pt-0 md:not-first:pl-8 lg:first:pr-12 lg:not-first:pl-12">
+                <H2 className="text-size-lg"><span id={`${route.slug}-heading`}>{route.name}</span></H2>
+                <P className="mt-3 text-size-md font-medium">{route.amount}</P>
+                <P className="mt-5 text-size-md">{route.description}</P>
+                <div className="mt-auto pt-6">
+                  <P className="text-size-sm text-secondary">{route.application}</P>
+                  <A href={GRANT_PATHS[route.slug]} className="mt-3 inline-flex items-center gap-2 font-medium no-underline hover:underline">
+                    {route.cta}<span aria-hidden="true">→</span>
+                  </A>
+                  {stats && (
+                    <P className="mt-4 text-size-xs text-secondary">
+                      {AWARDED_AMOUNT_FORMAT.format(stats.totalAmountUsd).toLowerCase()} awarded · {stats.count.toLocaleString('en-US')} {stats.count === 1 ? 'grant' : 'grants'}
+                    </P>
+                  )}
+                </div>
+              </article>
             );
           })}
-        </PageListGroup>
-        <P className="mt-6 text-size-sm text-secondary">
-          You do not need to have taken a BlueDot course to apply.
-        </P>
+        </div>
+        <div className="mt-10 space-y-2">
+          <P className="text-size-sm text-secondary">CTGs generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
+          <P className="text-size-sm text-secondary">You do not need to have taken a BlueDot course to apply.</P>
+        </div>
         <div className="mt-8">
           <GrantEligibilityNotice />
         </div>

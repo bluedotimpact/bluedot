@@ -43,15 +43,17 @@ describe('GrantsPage', () => {
     render(<GrantsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByRole('link', { name: /^Rapid Grants / })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /^Career Transition Grants / })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toBeInTheDocument();
     });
 
+    expect(screen.getByRole('heading', { name: 'Rapid Grants', level: 2 })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Career Transition Grants', level: 2 })).toBeVisible();
     expect(screen.queryByRole('heading', { name: 'Media Grants' })).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Seed Grants' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Explore in-person programs' })).toHaveAttribute('href', '/programs');
-    expect(screen.getByRole('link', { name: /^Rapid Grants / })).toHaveAttribute('href', '/grants/rapid');
-    expect(screen.getByRole('link', { name: /^Career Transition Grants / })).toHaveAttribute('href', '/grants/career-transition');
+    expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toHaveAttribute('href', '/grants/rapid');
+    expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toHaveAttribute('href', '/grants/career-transition');
     expect(screen.getByRole('link', { name: 'Find the right grant' })).toHaveAttribute('href', '#find-your-grant');
     expect(document.getElementById('find-your-grant')).toBeInTheDocument();
   });
@@ -69,17 +71,17 @@ describe('GrantsPage', () => {
     expect(screen.getByRole('complementary', { name: 'Funding restrictions' })).toBeVisible();
     expect(screen.getByText(/unable to fund people based in Russia, China or India/)).toBeVisible();
     expect(screen.getByText(/breach applicable sanctions/)).toBeVisible();
-    expect(screen.getByRole('link', { name: /^Rapid Grants / })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /^Career Transition Grants / })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toBeInTheDocument();
   });
 
   test('opens the larger-request guidance and provides a contact route', async () => {
     const user = userEvent.setup();
     render(<GrantsPage />, { wrapper: TrpcProvider });
 
-    await screen.findByText('$105,000 awarded across 104 grants.');
+    await screen.findByText('$105k awarded · 104 grants');
 
-    const question = screen.getByRole('button', { name: 'What about a larger project or funding for an organisation?' });
+    const question = screen.getByRole('button', { name: 'What about a larger project or funding for an organization?' });
     expect(question).toHaveAttribute('aria-expanded', 'false');
     await act(async () => {
       await user.click(question);

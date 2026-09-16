@@ -2,7 +2,7 @@ import { A, H3, P } from '@bluedot/ui';
 import { ROUTES } from '../../lib/routes';
 
 export const GRANT_LOCATION_RESTRICTION = 'We are currently unable to fund people based in Russia, China or India.';
-export const GRANT_SANCTIONS_RESTRICTION = 'We cannot fund individuals or organisations where doing so would breach applicable sanctions.';
+export const GRANT_SANCTIONS_RESTRICTION = 'We cannot fund individuals or organizations where doing so would breach applicable sanctions.';
 
 const GrantEligibilityNotice = () => (
   <aside id="funding-restrictions" aria-labelledby="funding-restrictions-heading" className="scroll-mt-28 border-t border-bluedot-navy/10 pt-6">
