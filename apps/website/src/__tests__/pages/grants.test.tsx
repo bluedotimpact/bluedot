@@ -76,7 +76,8 @@ describe('GrantsPage', () => {
     const user = userEvent.setup();
     render(<GrantsPage />, { wrapper: TrpcProvider });
 
-    await screen.findByText('$105k awarded · 104 grants');
+    await screen.findByText('$105k awarded across 104 grants');
+    await screen.findByText('$67.5k awarded across 8 grants');
 
     const question = screen.getByRole('button', { name: 'What about a larger project or funding for an organization?' });
     expect(question).toHaveAttribute('aria-expanded', 'false');

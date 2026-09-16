@@ -103,15 +103,15 @@ const GrantsPage = () => {
                 <P className="mt-3 text-size-md font-medium">{route.amount}</P>
                 <P className="mt-5 text-size-md">{route.description}</P>
                 <div className="pt-6">
+                  {stats && (
+                    <P className="mb-2 text-size-sm">
+                      {AWARDED_AMOUNT_FORMAT.format(stats.totalAmountUsd).toLowerCase()} awarded across {stats.count.toLocaleString('en-US')} {stats.count === 1 ? 'grant' : 'grants'}
+                    </P>
+                  )}
                   <P className="text-size-sm text-secondary">{route.application}</P>
                   <A href={GRANT_PATHS[route.slug]} className="mt-3 inline-flex items-center gap-2 font-medium no-underline hover:underline">
                     {route.cta}<span aria-hidden="true">→</span>
                   </A>
-                  {stats && (
-                    <P className="mt-4 text-size-xs text-secondary">
-                      {AWARDED_AMOUNT_FORMAT.format(stats.totalAmountUsd).toLowerCase()} awarded · {stats.count.toLocaleString('en-US')} {stats.count === 1 ? 'grant' : 'grants'}
-                    </P>
-                  )}
                 </div>
               </article>
             );
