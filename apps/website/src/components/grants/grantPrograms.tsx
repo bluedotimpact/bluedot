@@ -1,4 +1,5 @@
 import type { FAQItem } from '../lander/components/FAQSection';
+import { FUNDING_RESTRICTIONS_FAQ } from './fundingRestrictions';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
 export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | 'fieldbuilder-week' | 'context-week' | 'advising';
@@ -24,7 +25,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/grants/rapid',
     track: 'Funding',
     goal: 'Fund talented people in the BlueDot community to do excellent work on AI safety - research, events, community building, and more.',
-    scope: 'Grants up to $10,000 for project costs, events, travel, community building, and other costs that remove barriers. Fast decisions, lightweight process.',
+    scope: 'Grants up to $20,000 for the time and resources to do useful work or explore a promising direction in AI safety or biosecurity. A short application and a flexible scope.',
     status: 'Active',
   },
   {
@@ -33,7 +34,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/grants/career-transition',
     track: 'Funding',
     goal: 'Support people making full-time transitions into work that reduces catastrophic risks from advanced AI or biological threats.',
-    scope: 'Funding, advising, targeted connections, and community for a defined period of evidence-producing personal transition.',
+    scope: 'Grants up to $200,000, advising, targeted connections, and community for a defined period of evidence-producing personal transition.',
     status: 'Active',
   },
   {
@@ -80,20 +81,26 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'unsure',
         question: 'Should I apply if I\'m not sure it\'s a fit?',
-        answer: 'Yes. If the work\'s underway and the need is specific, just apply. Don\'t talk yourself out of it.',
+        answer: 'Yes. Tell us what you want to do and what funding would make possible. You can apply for time to explore or begin something new, as well as support for work already underway.',
       },
       {
         id: 'eligibility',
         question: 'Who is eligible?',
         answer: (
           <>
-            Everyone who wants to start working on AI safety and biosecurity.
+            People taking a promising next step in AI safety or biosecurity, subject to our funding restrictions.
             <br />
             <br />
             You're more likely to receive a grant if you're a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.
           </>
         ),
-        answerText: 'Everyone who wants to start working on AI safety and biosecurity. You\'re more likely to receive a grant if you\'re a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.',
+        answerText: 'People taking a promising next step in AI safety or biosecurity, subject to our funding restrictions. You\'re more likely to receive a grant if you\'re a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.',
+      },
+      FUNDING_RESTRICTIONS_FAQ,
+      {
+        id: 'excluded-activities',
+        question: 'What can a Rapid Grant not fund?',
+        answer: 'Rapid Grants cannot be used for party-political donations or campaigning, activities that are unlawful in the UK or your jurisdiction, or activities outside BlueDot’s charitable or educational purposes. Funds must be used for the agreed purpose; material changes need our prior written approval.',
       },
       {
         id: 'events',
@@ -102,8 +109,8 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       },
       {
         id: 'reimbursement',
-        question: 'Do you fund upfront or reimburse later?',
-        answer: 'Both. Usually we send the money upfront; sometimes we reimburse instead. We\'ll tell you which when we approve.',
+        question: 'How is the grant paid?',
+        answer: 'The grant is paid as a single lump sum after you submit a claim through our claims portal and we complete any required checks. Your acceptance email sets out the timing. Transfer fees and exchange costs may reduce the amount you receive.',
       },
       {
         id: 'travel',
@@ -113,7 +120,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'larger-request',
         question: 'What if I need more than a few thousand dollars?',
-        answer: 'Rapid Grants run from $50 to $10,000. If you need more, get in touch. We can sometimes route you through another program.',
+        answer: 'Rapid Grants offer up to $20,000. If you need more, get in touch. We can sometimes route you through another program.',
       },
     ],
   },
@@ -130,11 +137,12 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
             <span className="block mb-2">• Have a plausible plan for producing work, testing a path or moving into a contribution</span>
             <span className="block mb-2">• Can explain how success could contribute to reducing catastrophic risks from advanced AI or biological threats</span>
             <span className="block mb-4">• Believe funding would meaningfully improve the transition</span>
-            <span className="block">Applications are open to everyone. Prior participation in a BlueDot course or community is not required.</span>
+            <span className="block">Prior participation in a BlueDot course or community is not required. Our funding restrictions apply.</span>
           </>
         ),
-        answerText: 'Apply if you are ready to work full-time on a personal transition, can point to evidence of relevant ability or recent momentum, have a plausible plan for producing work, testing a path or moving into a contribution, can explain how success could contribute to reducing catastrophic risks from advanced AI or biological threats, and believe funding would meaningfully improve the transition. Applications are open to everyone. Prior participation in a BlueDot course or community is not required.',
+        answerText: 'Apply if you are ready to work full-time on a personal transition, can point to evidence of relevant ability or recent momentum, have a plausible plan for producing work, testing a path or moving into a contribution, can explain how success could contribute to reducing catastrophic risks from advanced AI or biological threats, and believe funding would meaningfully improve the transition. Prior participation in a BlueDot course or community is not required. Our funding restrictions apply.',
       },
+      FUNDING_RESTRICTIONS_FAQ,
       {
         id: 'funding-need',
         question: 'Do I need to be unable to transition without funding?',
@@ -148,7 +156,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'rapid-grants',
         question: 'Should I apply to Rapid Grants instead?',
-        answer: 'Rapid Grants are usually a better fit when you have a concrete project with specific costs—such as research, an event, travel, compute or tooling—and need up to $10,000. Career Transition Grants are for a period of full-time personal transition. If you are unsure, apply to the route that seems closest and we can redirect you.',
+        answer: 'Rapid Grants offer up to $20,000 for useful work or exploration, including your time, living costs and other resources. Career Transition Grants generally start at $20,000 and offer up to $200,000 for a sustained, full-time personal transition. For requests under $20,000, apply to Rapid Grants. If you are unsure, apply to the route that seems closest and we can redirect you.',
       },
       {
         id: 'uncertain',

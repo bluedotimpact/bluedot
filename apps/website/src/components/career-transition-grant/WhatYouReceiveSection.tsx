@@ -10,7 +10,7 @@ const SUPPORT_CARDS = [
   {
     icon: PiCurrencyDollar,
     title: 'Funding',
-    description: 'A fellowship grant that allows you to focus full-time on the transition.',
+    description: 'A grant of up to $200k that allows you to focus full-time on the transition. CTGs generally start at $20k; smaller requests should go to Rapid Grants. We agree the amount and duration around your plan and needs.',
   },
   {
     icon: PiCompass,

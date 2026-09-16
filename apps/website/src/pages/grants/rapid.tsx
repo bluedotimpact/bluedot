@@ -65,7 +65,7 @@ const RapidGrantsPage = ({ programName, programDescription }: ProgramDetailPageP
         program="rapid-grants"
         compact
         stats={[
-          { label: 'Typical grants', value: 'Up to $10k' },
+          { label: 'Grant funding', value: 'Up to $20k' },
           { label: 'Avg decision time', value: decisionTimeLabel },
           { label: 'Grants made', value: grantsMadeLabel },
           { label: 'Funding given', value: fundingGivenOutLabel },

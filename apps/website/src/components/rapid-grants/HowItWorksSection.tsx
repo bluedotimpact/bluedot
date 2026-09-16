@@ -25,7 +25,7 @@ const buildProcessSteps = (applicationUrl: string | undefined, decisionBody: str
     number: '01',
     title: 'Apply',
     url: applicationUrl,
-    body: 'Tell us what you\'re doing, what you need, and how much it costs. Takes five minutes.',
+    body: 'Tell us what you\'re doing, what you need, and how much it costs. Takes about 15 minutes.',
   },
   {
     number: '02',
@@ -35,17 +35,17 @@ const buildProcessSteps = (applicationUrl: string | undefined, decisionBody: str
   {
     number: '03',
     title: 'Get paid',
-    body: 'We pay upfront by default; sometimes we reimburse instead. We\'ll let you know which when we approve.',
+    body: 'Submit a claim through our claims portal. We pay the grant as a single lump sum after any required checks.',
   },
   {
     number: '04',
     title: 'Do the work',
-    body: 'Use the funding for what we agreed on. If your plan shifts, tell us.',
+    body: 'Use the funding for the agreed purpose. Get our written approval before making material changes.',
   },
   {
     number: '05',
     title: 'Share your impact',
-    body: 'A short update when you\'re done. What you did, what came of it. No formal report.',
+    body: 'Send a short completion report within 60 days of finishing the work or the grant period ending.',
   },
 ];
 

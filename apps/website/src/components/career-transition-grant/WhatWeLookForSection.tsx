@@ -7,7 +7,7 @@ const CRITERIA = [
     title: 'Evidence that you are already moving',
     body: (
       <>
-        <P>We look for concrete recent action—not only an intention to enter the field. This might include research, writing, technical work, policy work, organising, professional achievements or strong analogous work.</P>
+        <P>We look for concrete recent action—not only an intention to enter the field. This might include research, writing, technical work, policy work, organizing, professional achievements or strong analogous work.</P>
         <P>You do not need a conventional AI safety background, but we need enough evidence to judge your ability to carry out the proposed transition.</P>
       </>
     ),
@@ -18,7 +18,7 @@ const CRITERIA = [
   },
   {
     title: 'Clear thinking under uncertainty',
-    body: <P>Career plans rarely work exactly as expected. We look for people who can prioritise, identify important uncertainties, notice when an approach is failing and adapt without losing sight of the ultimate goal.</P>,
+    body: <P>Career plans rarely work exactly as expected. We look for people who can prioritize, identify important uncertainties, notice when an approach is failing and adapt without losing sight of the ultimate goal.</P>,
   },
   {
     title: 'A credible connection to catastrophic-risk reduction',

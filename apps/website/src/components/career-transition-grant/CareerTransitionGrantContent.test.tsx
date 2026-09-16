@@ -55,6 +55,6 @@ describe('Career Transition Grant content', () => {
     expect(screen.getByText(/do not require the transition to be literally impossible/i)).toBeVisible();
 
     await act(async () => user.click(screen.getByRole('button', { name: 'Should I apply to Rapid Grants instead?' })));
-    expect(screen.getByText(/concrete project with specific costs/i)).toBeVisible();
+    expect(screen.getByText(/Rapid Grants offer up to \$20,000 for useful work or exploration/i)).toBeVisible();
   });
 });
