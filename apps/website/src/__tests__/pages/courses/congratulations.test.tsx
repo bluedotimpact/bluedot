@@ -71,7 +71,7 @@ describe('CongratulationsPage', () => {
   });
 
   test('redirects when user is a facilitator', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const })));
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const, hasUpcomingRounds: true })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
@@ -171,6 +171,8 @@ describe('CongratulationsPage', () => {
       status: 'attendance-ineligible' as const,
       uniqueDiscussionAttendance: 2,
       discussionsHeld: 5,
+      meetPersonId: 'recMeetPerson1',
+      hasSubmittedActionPlan: false,
     })));
 
     const { container } = render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });

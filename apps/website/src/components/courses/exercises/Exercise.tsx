@@ -6,6 +6,7 @@ import {
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
+import { ProjectSubmission } from './ProjectSubmission';
 
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
@@ -147,7 +148,11 @@ const Exercise: React.FC<ExerciseProps> = ({
     return <ErrorView error={new Error('Exercise not found')} />;
   }
 
-  const showGroupResponses = !!facilitatorGroupResponses && showGroupResponsesIfFacilitator;
+  // Group responses are fetched for any exercise a facilitator's group is on, but a project
+  // submission has no written answers to collect, so the table would only ever read "0 Responses".
+  const showGroupResponses = !!facilitatorGroupResponses
+    && showGroupResponsesIfFacilitator
+    && exerciseData.type !== 'Project submission';
 
   // Free text completion checkbox (positioned outside the card)
   const hasResponse = editorHasText || !!(responseData?.response?.trim());
@@ -186,6 +191,8 @@ const Exercise: React.FC<ExerciseProps> = ({
             onExerciseSubmit={handleExerciseSubmit}
           />
         );
+      case 'Project submission':
+        return <ProjectSubmission courseId={exerciseData.courseId} />;
       default:
         return <ErrorView error={new Error(`Unknown exercise type: '${exerciseData.type}'`)} />;
     }

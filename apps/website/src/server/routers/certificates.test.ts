@@ -295,7 +295,7 @@ describe('certificates.getStatus', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
-    expect(result).toEqual({ status: 'is-facilitator' });
+    expect(result).toEqual({ status: 'is-facilitator', hasUpcomingRounds: false });
   });
 
   test('returns not-eligible for an unrecognised meetPerson role', async () => {
@@ -408,6 +408,8 @@ describe('certificates.getStatus', () => {
         status: 'attendance-ineligible',
         uniqueDiscussionAttendance: 3,
         discussionsHeld: 5,
+        meetPersonId: 'mp1',
+        hasSubmittedActionPlan: false,
       });
     });
 
@@ -437,6 +439,8 @@ describe('certificates.getStatus', () => {
         status: 'attendance-ineligible',
         uniqueDiscussionAttendance: 4,
         discussionsHeld: 6,
+        meetPersonId: 'mp1',
+        hasSubmittedActionPlan: false,
       });
     });
 
@@ -475,6 +479,8 @@ describe('certificates.getStatus', () => {
         status: 'attendance-ineligible',
         uniqueDiscussionAttendance: 3,
         discussionsHeld: 5,
+        meetPersonId: 'mp1',
+        hasSubmittedActionPlan: false,
       });
     });
 

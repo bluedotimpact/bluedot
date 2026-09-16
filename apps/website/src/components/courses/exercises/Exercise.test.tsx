@@ -81,6 +81,28 @@ describe('Exercise', () => {
     expect(await screen.findByText('Reflection')).toBeInTheDocument();
   });
 
+  test('renders a project submission exercise with a submit button and no answer editor', async () => {
+    server.use(
+      trpcMsw.exercises.getExercise.query(() => ({
+        ...freeTextExercise,
+        type: 'Project submission' as const,
+        courseId: 'course-1',
+      })),
+      trpcMsw.certificates.getStatus.query(() => ({
+        status: 'action-plan-pending' as const,
+        meetPersonId: 'recMeetPerson1',
+        hasSubmittedActionPlan: false,
+        hasAtMostOneDiscussionLeft: true,
+      })),
+    );
+
+    const { container } = render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
+
+    expect(await screen.findByText('Reflection')).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /Submit your project\/action plan/ })).toBeInTheDocument();
+    expect(container.querySelector('.ProseMirror')).toBeNull();
+  });
+
   test('shows facilitator view when group data is returned', async () => {
     server.use(trpcMsw.exercises.getGroupExerciseResponses.query(() => ({
       groups: [{

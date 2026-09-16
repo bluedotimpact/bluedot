@@ -96,6 +96,8 @@ export const AttendanceIneligible: Story = {
       status: 'attendance-ineligible',
       uniqueDiscussionAttendance: 2,
       discussionsHeld: 5,
+      meetPersonId: 'recMeetPerson1',
+      hasSubmittedActionPlan: false,
     },
   },
 };
@@ -141,6 +143,6 @@ export const ActionPlanSubmitted: Story = {
 
 export const IsFacilitator: Story = {
   args: {
-    certificateData: { status: 'is-facilitator' },
+    certificateData: { status: 'is-facilitator', hasUpcomingRounds: true },
   },
 };

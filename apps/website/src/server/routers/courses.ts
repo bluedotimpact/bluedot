@@ -9,6 +9,9 @@ import {
   exerciseTable,
   inArray,
   isNotNull,
+  isNull,
+  ne,
+  or,
   resourceCompletionPgTable,
   unitResourceTable,
   unitTable,
@@ -179,6 +182,13 @@ const calculateChunkProgress = (
   };
 };
 
+// Project submissions are handed in through an external form and have no completion action on
+// the page, so counting them would hold every learner one short of 100%.
+const countsTowardProgress = or(
+  isNull(exerciseTable.pg.type),
+  ne(exerciseTable.pg.type, 'Project submission'),
+);
+
 const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
   const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
   const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
@@ -195,6 +205,7 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
     .where(and(
       eq(exerciseTable.pg.status, 'Core'),
       inArray(exerciseTable.pg.id, allExerciseIds),
+      countsTowardProgress,
     ));
   const requiredExerciseIds = requiredExercises.map((e) => e.id);
 
@@ -260,6 +271,7 @@ export const coursesRouter = router({
           .where(and(
             eq(exerciseTable.pg.status, 'Core'),
             inArray(exerciseTable.pg.id, referencedExerciseIds),
+            countsTowardProgress,
           ));
         for (const e of requiredExercises) requiredExerciseIds.add(e.id);
       }

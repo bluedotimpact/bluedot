@@ -126,7 +126,7 @@ export const FacilitatorPending: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const })),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const, hasUpcomingRounds: true })),
       ],
     },
   },
@@ -142,6 +142,8 @@ export const AttendanceIneligible: Story = {
           status: 'attendance-ineligible' as const,
           uniqueDiscussionAttendance: 3,
           discussionsHeld: 5,
+          meetPersonId: 'recMeetPerson1',
+          hasSubmittedActionPlan: false,
         })),
       ],
     },

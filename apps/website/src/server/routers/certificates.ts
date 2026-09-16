@@ -222,17 +222,19 @@ export const certificatesRouter = router({
       return { status: 'not-enrolled', hasUpcomingRounds } as const;
     }
 
+    const meetPerson = await db.getFirst(meetPersonTable, {
+      filter: { applicationsBaseRecordId: courseRegistration.id },
+    });
+
     if (courseRegistration.certificateId) {
       const certificate = await getCertificateData(courseRegistration.certificateId);
       return {
         status: 'has-certificate' as const,
         ...certificate,
+        meetPersonId: meetPerson?.id ?? null,
+        hasSubmittedActionPlan: (meetPerson?.projectSubmission?.length ?? 0) > 0,
       };
     }
-
-    const meetPerson = await db.getFirst(meetPersonTable, {
-      filter: { applicationsBaseRecordId: courseRegistration.id },
-    });
 
     if (!meetPerson) {
       const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
@@ -274,25 +276,29 @@ export const certificatesRouter = router({
       // yet", never as zero: counting it as zero would accuse someone of missing every discussion
       // held so far.
       const attended = meetPerson.uniqueDiscussionAttendance;
+      const hasSubmittedActionPlan = (meetPerson.projectSubmission?.length ?? 0) > 0;
 
       if (attended != null && hasAtMostOneDiscussionLeft && discussionsHeld - attended > 1) {
         return {
           status: 'attendance-ineligible' as const,
           uniqueDiscussionAttendance: attended,
           discussionsHeld,
+          meetPersonId: meetPerson.id,
+          hasSubmittedActionPlan,
         };
       }
 
       return {
         status: 'action-plan-pending',
         meetPersonId: meetPerson.id,
-        hasSubmittedActionPlan: (meetPerson.projectSubmission?.length ?? 0) > 0,
+        hasSubmittedActionPlan,
         hasAtMostOneDiscussionLeft,
       } as const;
     }
 
     if (meetPerson.role === COURSE_ROLE.FACILITATOR) {
-      return { status: 'is-facilitator' } as const;
+      const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
+      return { status: 'is-facilitator', hasUpcomingRounds } as const;
     }
 
     const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
