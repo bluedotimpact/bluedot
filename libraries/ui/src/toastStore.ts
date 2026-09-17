@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type ToastVariant = 'default' | 'success';
+export type ToastVariant = 'default' | 'success' | 'warning' | 'error';
 
 export type ToastOptions = {
   id?: string;
@@ -91,4 +91,6 @@ const enqueue = (message: string, variant: ToastVariant, opts: ToastOptions = {}
 
 export const toast = Object.assign((message: string, opts?: ToastOptions) => enqueue(message, 'default', opts), {
   success: (message: string, opts?: ToastOptions) => enqueue(message, 'success', opts),
+  warning: (message: string, opts?: ToastOptions) => enqueue(message, 'warning', opts),
+  error: (message: string, opts?: ToastOptions) => enqueue(message, 'error', opts),
 });
