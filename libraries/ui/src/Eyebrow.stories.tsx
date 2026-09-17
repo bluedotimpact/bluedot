@@ -23,7 +23,7 @@ export const Default: Story = {
 export const OnDark: Story = {
   render: () => (
     <div className="bg-bluedot-navy p-6">
-      <Eyebrow className="text-white/70">Self-paced course</Eyebrow>
+      <Eyebrow className="text-on-dark-secondary">Self-paced course</Eyebrow>
     </div>
   ),
 };
@@ -31,7 +31,7 @@ export const OnDark: Story = {
 export const Muted: Story = {
   args: {
     children: 'More stories',
-    className: 'text-bluedot-navy/60',
+    className: 'text-secondary',
   },
 };
 
