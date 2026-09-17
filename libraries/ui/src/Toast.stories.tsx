@@ -1,44 +1,39 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect } from 'react';
 import { Toaster } from './Toast';
-import { toast, useToastStore } from './toastStore';
+import { toast, useToastStore, type ToastVariant } from './toastStore';
 
 type DemoArgs = {
   message: string;
   description?: string;
-  variant?: 'default' | 'success';
-  closeButton?: boolean;
+  variant?: ToastVariant;
   stacked?: boolean;
 };
 
-const Demo = ({ message, description, variant = 'default', closeButton = false, stacked = false }: DemoArgs) => {
+const fireToast = (variant: ToastVariant, message: string, description?: string) => {
+  if (variant === 'default') return toast(message, { description });
+  return toast[variant](message, { description });
+};
+
+const Demo = ({ message, description, variant = 'default', stacked = false }: DemoArgs) => {
   useEffect(() => {
     useToastStore.setState({ toasts: [], queue: [], paused: false });
-    const fire = () => {
-      if (stacked) {
-        toast('First', { description: 'Oldest visible toast' });
-        toast('Second', { description: 'Middle of the stack' });
-        toast.success('Third', { description: 'Newest toast' });
-        return;
-      }
+    if (stacked) {
+      toast('First', { description: 'Oldest visible toast' });
+      toast.warning('Second', { description: 'Middle of the stack' });
+      toast.success('Third', { description: 'Newest toast' });
+      return;
+    }
 
-      const opts = { description, closeButton };
-      if (variant === 'success') toast.success(message, opts);
-      else toast(message, opts);
-    };
-
-    fire();
-  }, [message, description, variant, closeButton, stacked]);
+    fireToast(variant, message, description);
+  }, [message, description, variant, stacked]);
 
   return (
     <div className="p-8">
       <button
         type="button"
         className="cursor-pointer rounded border px-2 py-1 hover:opacity-80"
-        onClick={() => {
-          if (variant === 'success') toast.success(message, { description, closeButton });
-          else toast(message, { description, closeButton });
-        }}
+        onClick={() => fireToast(variant, message, description)}
       >
         Fire toast
       </button>
@@ -76,11 +71,20 @@ export const Success: Story = {
   },
 };
 
-export const WithCloseButton: Story = {
+export const Warning: Story = {
   args: {
-    message: 'Saved',
-    description: 'Changes have been saved.',
-    closeButton: true,
+    message: 'Your session expires in 5 minutes',
+    description: 'Save your work to avoid losing changes.',
+    variant: 'warning',
+  },
+};
+
+/** Error toasts stay until dismissed. */
+export const Error: Story = {
+  args: {
+    message: 'Something went wrong',
+    description: 'We couldn’t submit your application. Please try again.',
+    variant: 'error',
   },
 };
 
