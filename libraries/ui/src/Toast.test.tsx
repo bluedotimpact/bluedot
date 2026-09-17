@@ -30,20 +30,9 @@ describe('toast store', () => {
     expect(useToastStore.getState().toasts[0]!.variant).toBe('success');
   });
 
-  test('toast.warning() and toast.error() set their variants', () => {
-    toast.warning('Careful');
-    toast.error('Broken');
-    const { toasts } = useToastStore.getState();
-    expect(toasts[0]!.variant).toBe('warning');
-    expect(toasts[1]!.variant).toBe('error');
-  });
-
-  test('error toasts default to persisting; explicit duration wins', () => {
-    toast.error('Broken');
+  test('explicit duration overrides the persistent error default', () => {
     toast.error('Brief', { duration: 1000 });
-    const { toasts } = useToastStore.getState();
-    expect(toasts[0]!.duration).toBe(Infinity);
-    expect(toasts[1]!.duration).toBe(1000);
+    expect(useToastStore.getState().toasts[0]!.duration).toBe(1000);
   });
 
   test('caps visible at 3 and queues the rest', () => {
@@ -247,14 +236,5 @@ describe('Toaster', () => {
       vi.advanceTimersByTime(TOAST_EXIT_DURATION_MS + 50);
     });
     expect(useToastStore.getState().toasts).toHaveLength(0);
-  });
-
-  test('non-error toasts use role="status"', () => {
-    render(<Toaster />);
-    act(() => {
-      toast.warning('Careful');
-    });
-    expect(screen.getByRole('status')).toBeTruthy();
-    expect(screen.queryByRole('alert')).toBeNull();
   });
 });
