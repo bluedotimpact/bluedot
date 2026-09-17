@@ -195,12 +195,22 @@ describe('Toaster', () => {
     expect(useToastStore.getState().toasts[0]!.status).toBe('exiting');
   });
 
-  test('success variant renders check icon', () => {
+  test('success variant renders decorative check icon', () => {
     render(<Toaster />);
     act(() => {
       toast.success('Saved');
     });
-    const region = screen.getByRole('region');
-    expect(region.querySelector('svg')).toBeTruthy();
+    const icon = screen.getByRole('region').querySelector('svg');
+    expect(icon).toBeTruthy();
+    expect(icon!.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  test('close button has accessible name and decorative icon', () => {
+    render(<Toaster />);
+    act(() => {
+      toast('Close me', { closeButton: true });
+    });
+    const button = screen.getByRole('button', { name: 'Dismiss notification' });
+    expect(button.querySelector('svg')!.getAttribute('aria-hidden')).toBe('true');
   });
 });
