@@ -6,7 +6,6 @@ export type ToastOptions = {
   id?: string;
   description?: string;
   duration?: number;
-  closeButton?: boolean;
 };
 
 export type ToastEntry = {
@@ -15,7 +14,6 @@ export type ToastEntry = {
   description?: string;
   duration: number;
   variant: ToastVariant;
-  closeButton: boolean;
   status: 'visible' | 'exiting';
 };
 
@@ -84,7 +82,6 @@ const enqueue = (message: string, variant: ToastVariant, opts: ToastOptions = {}
     description: opts.description,
     duration: opts.duration ?? TOAST_DEFAULT_DURATION,
     variant,
-    closeButton: opts.closeButton ?? false,
   });
   return id;
 };
