@@ -8,7 +8,7 @@ import {
 } from './toastStore';
 import { cn } from './utils';
 
-const TONE_STYLES: Record<ToastVariant, { container: string; Icon?: IconType }> = {
+const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType }> = {
   default: { container: 'border-default bg-raised text-primary' },
   success: { container: 'border-success-border bg-success-bg text-success-fg', Icon: FaCircleCheck },
   warning: { container: 'border-warning-border bg-warning-bg text-warning-fg', Icon: FaTriangleExclamation },
@@ -82,7 +82,7 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
     };
   }, [paused, toast.status, toast.id, toast.duration, remove, startExit]);
 
-  const { container, Icon } = TONE_STYLES[toast.variant];
+  const { container, Icon } = TOAST_STYLES[toast.variant];
 
   return (
     <div
