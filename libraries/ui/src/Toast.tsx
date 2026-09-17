@@ -77,17 +77,15 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
     <div
       role="status"
       className={cn(
-        'pointer-events-auto flex items-center gap-3 rounded-[10px] border-[0.5px] px-3 py-4',
+        'pointer-events-auto flex items-center gap-3 rounded-surface border px-3 py-4',
         'w-full leading-normal md:w-[320px]',
         toast.status === 'exiting' ? 'bd-toast-exit' : 'bd-toast-enter-mobile md:bd-toast-enter-desktop',
-        isSuccess
-          ? 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]'
-          : 'border-bluedot-charcoal-light text-bluedot-navy bg-white',
+        isSuccess ? 'border-success-border bg-success-bg text-success-fg' : 'border-default bg-raised text-primary',
       )}
     >
-      {isSuccess && <CircledCheckmarkIcon size={20} className="shrink-0 text-[#1a7a52]" aria-hidden />}
+      {isSuccess && <CircledCheckmarkIcon size={20} className="shrink-0 text-success-fg" aria-hidden="true" />}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <p className="text-size-xs font-bold break-words">{toast.message}</p>
+        <p className="text-size-xs font-semibold break-words">{toast.message}</p>
         {toast.description && <p className="text-size-xxs font-normal break-words">{toast.description}</p>}
       </div>
       {toast.closeButton && (
@@ -95,9 +93,14 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
           type="button"
           aria-label="Dismiss notification"
           onClick={() => startExit(toast.id)}
-          className="shrink-0 cursor-pointer rounded-sm p-1 hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-current"
+          className={cn(
+            'relative shrink-0 cursor-pointer rounded-sm p-1 hover:opacity-70',
+            // Extends the tap target to 44x44 around the 24px button without changing the footprint
+            'before:absolute before:-inset-2.5',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+          )}
         >
-          <CloseIcon size={16} className="stroke-[1.5]" />
+          <CloseIcon size={16} className="stroke-[1.5]" aria-hidden="true" />
         </button>
       )}
     </div>
