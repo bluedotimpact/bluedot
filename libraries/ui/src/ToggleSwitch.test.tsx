@@ -24,4 +24,13 @@ describe('ToggleSwitch', () => {
     fireEvent.click(screen.getByRole('switch'));
     expect(onChange).toHaveBeenCalledWith(true);
   });
+
+  test('does not call onChange when disabled', () => {
+    const onChange = vi.fn();
+    render(<ToggleSwitch checked={false} onChange={onChange} disabled aria-label="Test toggle" />);
+    const toggle = screen.getByRole('switch');
+    expect(toggle).toBeDisabled();
+    fireEvent.click(toggle);
+    expect(onChange).not.toHaveBeenCalled();
+  });
 });
