@@ -90,7 +90,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   return (
     <div
       className={clsx(
-        'w-full border-b border-charcoal-light bg-bluedot-lighter text-bluedot-darker',
+        'w-full border-b border-subtle bg-accent-subtle text-primary',
         className,
       )}
     >
@@ -114,7 +114,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
               {ctaUrl && (
                 <CTALinkOrButton
                   size="small"
-                  variant="black"
+                  variant="primary"
                   url={ctaUrl}
                   withChevron
                 >
