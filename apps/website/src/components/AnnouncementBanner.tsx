@@ -56,11 +56,22 @@ export type AnnouncementBannerProps = React.PropsWithChildren<{
   hideUntil?: Date;
   /** Hide the banner after this time. E.g. hide a banner announcing an event if the event has passed */
   hideAfter?: Date;
-  /** Whether to show the Dismiss button. Defaults to true. */
+  /**
+   * Whether to show the Dismiss button. Defaults to true.
+   *
+   * Dismissal is keyed by a hash of the message text and persisted in localStorage, so a dismissed
+   * banner stays hidden across visits. Any change to the message text (even a typo fix) produces a
+   * new key and the banner reappears for everyone who dismissed the old text. Set to `false` to
+   * always show the banner, even if the same message was dismissed before.
+   */
   dismissible?: boolean;
 }>;
 
-/** A banner with an announcement, and optionally a CTA. In most cases you'll want to use this in _app.tsx underneath Nav. */
+/**
+ * A banner with an announcement, and optionally a CTA. In most cases you'll want to use this in _app.tsx underneath Nav.
+ *
+ * Renders as a named "Announcement" region landmark. See `dismissible` for how dismissal persists.
+ */
 export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   className,
   children,
