@@ -57,6 +57,11 @@ const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
   day: 'p-0 text-center',
 };
 
+const CalendarChevron = ({ orientation, className }: ChevronProps) => {
+  const Icon = orientation === 'left' ? FaChevronLeft : FaChevronRight;
+  return <Icon className={cn('size-3.5', className)} aria-hidden="true" />;
+};
+
 // Wraps the library button (which moves DOM focus for arrow-key navigation) so that
 // selected/today/outside precedence is explicit instead of depending on stylesheet order.
 const CalendarDayButton = ({ modifiers, className, ...props }: DayButtonProps) => (
@@ -73,6 +78,8 @@ const CalendarDayButton = ({ modifiers, className, ...props }: DayButtonProps) =
     )}
   />
 );
+
+const CALENDAR_COMPONENTS = { Chevron: CalendarChevron, DayButton: CalendarDayButton };
 
 export const DatePicker = ({
   label, value, onChange, disabled, className,
@@ -213,16 +220,10 @@ export const DatePicker = ({
           month={month}
           onMonthChange={setMonth}
           showOutsideDays
-          components={{ Chevron: CalendarChevron, DayButton: CalendarDayButton }}
+          components={CALENDAR_COMPONENTS}
           classNames={CALENDAR_CLASS_NAMES}
         />
       </div>
     </div>
   );
 };
-
-const CalendarChevron = ({ orientation, className }: ChevronProps) => {
-  const Icon = orientation === 'left' ? FaChevronLeft : FaChevronRight;
-  return <Icon className={cn('size-3.5', className)} aria-hidden="true" />;
-};
-
