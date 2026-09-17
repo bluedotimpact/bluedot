@@ -11,10 +11,12 @@ import { InfoCircleIcon } from './icons/InfoCircleIcon';
 
 export type TooltipProps = {
   content: ReactNode;
+  /** Accessible name for the trigger and the bubble, e.g. "Show certificate eligibility information". */
+  'aria-label': string;
+  /** Custom trigger content. Must not be interactive: it renders inside the trigger button. */
   children?: ReactNode;
   placement?: React.ComponentProps<typeof Popover>['placement'];
   className?: string;
-  ariaLabel?: string;
 };
 
 /**
@@ -23,10 +25,10 @@ export type TooltipProps = {
  */
 export const Tooltip: React.FC<TooltipProps> = ({
   content,
+  'aria-label': ariaLabel,
   children = <InfoCircleIcon />,
   placement = 'top',
   className,
-  ariaLabel = 'Show info tooltip',
 }) => {
   return (
     <DialogTrigger>
@@ -49,7 +51,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           className,
         )}
       >
-        <Dialog>
+        <Dialog aria-label={ariaLabel}>
           {content}
         </Dialog>
       </Popover>
