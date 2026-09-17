@@ -80,7 +80,7 @@ export const Warning: Story = {
 };
 
 /** Error toasts stay until dismissed. */
-export const Error: Story = {
+export const ErrorToast: Story = {
   args: {
     message: 'Something went wrong',
     description: 'We couldn’t submit your application. Please try again.',
