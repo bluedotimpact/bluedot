@@ -50,7 +50,8 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
       return () => clearTimeout(timer);
     }
 
-    if (paused) {
+    // Infinity has no timer: the toast stays until dismissed.
+    if (paused || !Number.isFinite(remainingRef.current)) {
       return undefined;
     }
 
