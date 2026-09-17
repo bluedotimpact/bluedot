@@ -1,8 +1,10 @@
 'use client';
 
-import { CTALinkOrButton, P, useCurrentTimeMs } from '@bluedot/ui';
+import {
+  CTALinkOrButton, Eyebrow, P, useCurrentTimeMs,
+} from '@bluedot/ui';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useId } from 'react';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 
 /**
