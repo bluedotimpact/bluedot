@@ -3,36 +3,33 @@
 exports[`Collapsible > renders to snapshot 1`] = `
 <div>
   <details
-    class="collapsible max-w-max-width border-b border-default py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+    class="max-w-max-width border-b border-default py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
   >
     <summary
-      class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+      class="flex items-center justify-between cursor-pointer py-6 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
     >
       <span
-        class="collapsible__title bluedot-h4"
+        class="bluedot-h4"
       >
         Test Collapsible
       </span>
-      <span
-        class="collapsible__button flex items-center"
+      <svg
+        aria-hidden="true"
+        class="size-6 shrink-0 transition-transform motion-reduce:transition-none group-open:rotate-180"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
       >
-        <svg
-          class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 9l-7 7-7-7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-          />
-        </svg>
-      </span>
+        <path
+          d="M19 9l-7 7-7-7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
     </summary>
     <div
-      class="collapsible__content pb-6"
+      class="pb-6"
     >
       <p>
         Test Content

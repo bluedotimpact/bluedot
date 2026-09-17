@@ -57,7 +57,7 @@ describe('MarkdownExtendedRenderer', () => {
         expect(container.querySelector('.callout')).toBeTruthy();
       });
 
-      const titleElement = container.querySelector('.collapsible__title');
+      const titleElement = container.querySelector('summary');
       expect(titleElement?.textContent).toBe('Characters _ * [ ] ( ) # + - . ! ` ~ are unescaped');
     });
 
@@ -88,7 +88,7 @@ describe('MarkdownExtendedRenderer', () => {
       });
 
       // The title should have all unescaped characters
-      const titleElement = container.querySelector('.collapsible__title');
+      const titleElement = container.querySelector('summary');
       expect(titleElement?.textContent).toBe('Multiple *escaped* [characters] with (different) `symbols`');
     });
 
@@ -103,7 +103,7 @@ describe('MarkdownExtendedRenderer', () => {
       });
 
       // The title should have an actual backslash
-      const titleElement = container.querySelector('.collapsible__title');
+      const titleElement = container.querySelector('summary');
       expect(titleElement?.textContent).toBe('The backslash symbol (\\) is used to escape');
     });
   });
