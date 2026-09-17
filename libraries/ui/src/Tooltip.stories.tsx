@@ -5,6 +5,9 @@ const meta = {
   title: 'ui/Tooltip',
   component: Tooltip,
   tags: ['autodocs'],
+  args: {
+    'aria-label': 'Show more information',
+  },
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
@@ -18,7 +21,23 @@ export const Default: Story = {
 
 export const CustomTrigger: Story = {
   args: {
-    content: 'This tooltip has a custom button trigger.',
-    children: <button className="border rounded py-1 px-2 border-black cursor-pointer hover:opacity-80" type="button">custom trigger</button>,
+    content: 'This tooltip has a custom text trigger.',
+    children: <span className="underline underline-offset-2">What does this mean?</span>,
   },
+};
+
+export const Placements: Story = {
+  args: {
+    content: 'Flips to the opposite side when it would leave the viewport.',
+  },
+  render: (args) => (
+    <div className="grid grid-cols-2 gap-16 p-16 w-fit">
+      {(['top', 'bottom', 'left', 'right'] as const).map((placement) => (
+        <div key={placement} className="flex items-center gap-2">
+          <Tooltip {...args} placement={placement} aria-label={`Show ${placement} tooltip`} />
+          <span className="text-size-xs text-secondary">{placement}</span>
+        </div>
+      ))}
+    </div>
+  ),
 };
