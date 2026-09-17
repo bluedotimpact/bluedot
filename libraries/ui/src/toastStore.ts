@@ -5,6 +5,7 @@ export type ToastVariant = 'default' | 'success' | 'warning' | 'error';
 export type ToastOptions = {
   id?: string;
   description?: string;
+  /** Milliseconds before auto-dismiss. `Infinity` keeps the toast until the user dismisses it. */
   duration?: number;
 };
 
@@ -76,11 +77,13 @@ export const useToastStore = create<ToastStore>((set) => ({
 
 const enqueue = (message: string, variant: ToastVariant, opts: ToastOptions = {}): string => {
   const id = opts.id ?? crypto.randomUUID();
+  // Errors stay until dismissed so the user can act on them (WCAG 2.2.1); every toast has a close button.
+  const defaultDuration = variant === 'error' ? Infinity : TOAST_DEFAULT_DURATION;
   useToastStore.getState().add({
     id,
     message,
     description: opts.description,
-    duration: opts.duration ?? TOAST_DEFAULT_DURATION,
+    duration: opts.duration ?? defaultDuration,
     variant,
   });
   return id;
