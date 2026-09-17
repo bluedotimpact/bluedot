@@ -30,6 +30,22 @@ describe('toast store', () => {
     expect(useToastStore.getState().toasts[0]!.variant).toBe('success');
   });
 
+  test('toast.warning() and toast.error() set their variants', () => {
+    toast.warning('Careful');
+    toast.error('Broken');
+    const { toasts } = useToastStore.getState();
+    expect(toasts[0]!.variant).toBe('warning');
+    expect(toasts[1]!.variant).toBe('error');
+  });
+
+  test('error toasts default to persisting; explicit duration wins', () => {
+    toast.error('Broken');
+    toast.error('Brief', { duration: 1000 });
+    const { toasts } = useToastStore.getState();
+    expect(toasts[0]!.duration).toBe(Infinity);
+    expect(toasts[1]!.duration).toBe(1000);
+  });
+
   test('caps visible at 3 and queues the rest', () => {
     toast('1');
     toast('2');
@@ -118,7 +134,7 @@ describe('Toaster', () => {
   test('close button dismisses', () => {
     render(<Toaster />);
     act(() => {
-      toast('Close me', { closeButton: true });
+      toast('Close me');
     });
     const button = screen.getByLabelText('Dismiss notification');
     fireEvent.click(button);
@@ -205,12 +221,40 @@ describe('Toaster', () => {
     expect(icon!.getAttribute('aria-hidden')).toBe('true');
   });
 
-  test('close button has accessible name and decorative icon', () => {
+  test('every toast has a labelled close button with a decorative icon', () => {
     render(<Toaster />);
     act(() => {
-      toast('Close me', { closeButton: true });
+      toast('Plain');
+      toast.success('Saved');
     });
-    const button = screen.getByRole('button', { name: 'Dismiss notification' });
-    expect(button.querySelector('svg')!.getAttribute('aria-hidden')).toBe('true');
+    const buttons = screen.getAllByRole('button', { name: 'Dismiss notification' });
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0]!.querySelector('svg')!.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  test('error toast uses role="alert" and stays until dismissed', () => {
+    render(<Toaster />);
+    act(() => {
+      toast.error('Broken');
+    });
+    expect(screen.getByRole('alert')).toBeTruthy();
+    act(() => {
+      vi.advanceTimersByTime(TOAST_DEFAULT_DURATION * 10);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('visible');
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss notification' }));
+    act(() => {
+      vi.advanceTimersByTime(TOAST_EXIT_DURATION_MS + 50);
+    });
+    expect(useToastStore.getState().toasts).toHaveLength(0);
+  });
+
+  test('non-error toasts use role="status"', () => {
+    render(<Toaster />);
+    act(() => {
+      toast.warning('Careful');
+    });
+    expect(screen.getByRole('status')).toBeTruthy();
+    expect(screen.queryByRole('alert')).toBeNull();
   });
 });
