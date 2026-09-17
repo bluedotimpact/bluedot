@@ -89,21 +89,19 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
         <p className="text-size-xs font-semibold break-words">{toast.message}</p>
         {toast.description && <p className="text-size-xxs font-normal break-words">{toast.description}</p>}
       </div>
-      {toast.closeButton && (
-        <button
-          type="button"
-          aria-label="Dismiss notification"
-          onClick={() => startExit(toast.id)}
-          className={cn(
-            'relative shrink-0 cursor-pointer rounded-sm p-1 hover:opacity-70',
-            // Extends the tap target to 44x44 around the 24px button without changing the footprint
-            'before:absolute before:-inset-2.5',
-            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-          )}
-        >
-          <CloseIcon size={16} className="stroke-[1.5]" aria-hidden="true" />
-        </button>
-      )}
+      <button
+        type="button"
+        aria-label="Dismiss notification"
+        onClick={() => startExit(toast.id)}
+        className={cn(
+          'relative shrink-0 cursor-pointer rounded-sm p-1 hover:opacity-70',
+          // Extends the tap target to 44x44 around the 24px button without changing the footprint
+          'before:absolute before:-inset-2.5',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        )}
+      >
+        <CloseIcon size={16} className="stroke-[1.5]" aria-hidden="true" />
+      </button>
     </div>
   );
 };
