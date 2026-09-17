@@ -88,7 +88,8 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   }
 
   return (
-    <div
+    <section
+      aria-label="Announcement"
       className={clsx(
         'w-full border-b border-subtle bg-accent-subtle text-primary',
         className,
@@ -135,8 +136,6 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
-
-export default AnnouncementBanner;
