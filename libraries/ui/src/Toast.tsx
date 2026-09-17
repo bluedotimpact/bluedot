@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CircledCheckmarkIcon } from './icons/CircledCheckmarkIcon';
+import type { IconType } from 'react-icons';
+import { FaCircleCheck, FaCircleXmark, FaTriangleExclamation } from 'react-icons/fa6';
 import { CloseIcon } from './icons/CloseIcon';
-import { TOAST_EXIT_DURATION_MS, useToastStore, type ToastEntry } from './toastStore';
+import {
+  TOAST_EXIT_DURATION_MS, useToastStore, type ToastEntry, type ToastVariant,
+} from './toastStore';
 import { cn } from './utils';
 
 const TONE_STYLES: Record<ToastVariant, { container: string; Icon?: IconType }> = {
