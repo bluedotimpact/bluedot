@@ -26,7 +26,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
           </svg>
         </span>
       </summary>
-      <div className="collapsible__content pb-6">
+      <div className="pb-6">
         {children}
       </div>
     </details>
