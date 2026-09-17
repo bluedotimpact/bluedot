@@ -4,7 +4,7 @@ import {
 } from 'react';
 import { FaChevronLeft, FaChevronRight, FaRegCalendar } from 'react-icons/fa6';
 import {
-  DayPicker, type ChevronProps, type ClassNames, type DayButtonProps,
+  DayButton, DayPicker, type ChevronProps, type ClassNames, type DayButtonProps,
 } from 'react-day-picker';
 import { cn } from './utils';
 
@@ -56,6 +56,23 @@ const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
   weekday: 'h-5 w-11 text-size-xs font-medium text-secondary',
   day: 'p-0 text-center',
 };
+
+// Wraps the library button (which moves DOM focus for arrow-key navigation) so that
+// selected/today/outside precedence is explicit instead of depending on stylesheet order.
+const CalendarDayButton = ({ modifiers, className, ...props }: DayButtonProps) => (
+  <DayButton
+    {...props}
+    modifiers={modifiers}
+    className={cn(
+      ROUND_BUTTON_STYLES,
+      'size-11',
+      modifiers.outside && 'text-secondary',
+      modifiers.today && 'text-accent ring-1 ring-inset ring-accent',
+      modifiers.selected && 'bg-accent text-on-dark ring-0 hover:bg-accent',
+      className,
+    )}
+  />
+);
 
 export const DatePicker = ({
   label, value, onChange, disabled, className,
@@ -209,20 +226,3 @@ const CalendarChevron = ({ orientation, className }: ChevronProps) => {
   return <Icon className={cn('size-3.5', className)} aria-hidden="true" />;
 };
 
-// Modifiers arrive as props here, so selected/today/outside precedence is explicit
-// instead of depending on stylesheet order.
-const CalendarDayButton = ({
-  day, modifiers, className, ...props
-}: DayButtonProps) => (
-  <button
-    type="button"
-    {...props}
-    className={cn(
-      'flex size-11 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus',
-      modifiers.outside && 'text-secondary',
-      modifiers.today && 'text-accent ring-1 ring-inset ring-accent',
-      modifiers.selected && 'bg-accent text-on-dark ring-0 hover:bg-accent',
-      className,
-    )}
-  />
-);
