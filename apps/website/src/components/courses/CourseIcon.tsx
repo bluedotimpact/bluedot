@@ -54,8 +54,8 @@ export const CourseIcon: React.FC<CourseIconProps> = ({
   const courseConfig = COURSE_CONFIG[courseSlug];
   const iconSrc = courseConfig?.icon;
   const iconFullBleed = courseConfig?.iconFullBleed;
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const iconBackground = courseConfig?.iconBackground || 'var(--bluedot-normal)';
+  // Course plate colours live outside the token system (lib/courseColors.ts), hence inline.
+  const iconBackground = courseConfig?.iconBackground;
   const badge = courseConfig?.badge;
   const config = SIZE_CONFIG[size];
 
