@@ -5,6 +5,13 @@ import { CloseIcon } from './icons/CloseIcon';
 import { TOAST_EXIT_DURATION_MS, useToastStore, type ToastEntry } from './toastStore';
 import { cn } from './utils';
 
+const TONE_STYLES: Record<ToastVariant, { container: string; Icon?: IconType }> = {
+  default: { container: 'border-default bg-raised text-primary' },
+  success: { container: 'border-success-border bg-success-bg text-success-fg', Icon: FaCircleCheck },
+  warning: { container: 'border-warning-border bg-warning-bg text-warning-fg', Icon: FaTriangleExclamation },
+  error: { container: 'border-error-border bg-error-bg text-error-fg', Icon: FaCircleXmark },
+};
+
 const TOAST_STYLES = `
 @keyframes bd-toast-in-right {
   from { opacity: 0; transform: translateX(24px); }
@@ -72,19 +79,19 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
     };
   }, [paused, toast.status, toast.id, toast.duration, remove, startExit]);
 
-  const isSuccess = toast.variant === 'success';
+  const { container, Icon } = TONE_STYLES[toast.variant];
 
   return (
     <div
-      role="status"
+      role={toast.variant === 'error' ? 'alert' : 'status'}
       className={cn(
         'pointer-events-auto flex items-center gap-3 rounded-surface border px-3 py-4',
         'w-full leading-normal md:w-[320px]',
         toast.status === 'exiting' ? 'bd-toast-exit' : 'bd-toast-enter-mobile md:bd-toast-enter-desktop',
-        isSuccess ? 'border-success-border bg-success-bg text-success-fg' : 'border-default bg-raised text-primary',
+        container,
       )}
     >
-      {isSuccess && <CircledCheckmarkIcon size={20} className="shrink-0 text-success-fg" aria-hidden="true" />}
+      {Icon && <Icon size={20} className="shrink-0" aria-hidden="true" />}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="text-size-xs font-semibold break-words">{toast.message}</p>
         {toast.description && <p className="text-size-xxs font-normal break-words">{toast.description}</p>}
