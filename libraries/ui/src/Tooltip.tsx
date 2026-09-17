@@ -5,6 +5,7 @@ import {
   DialogTrigger,
   Popover,
   Dialog,
+  OverlayArrow,
 } from 'react-aria-components';
 import { cn } from './utils';
 import { InfoCircleIcon } from './icons/InfoCircleIcon';
@@ -45,12 +46,23 @@ export const Tooltip: React.FC<TooltipProps> = ({
       </Button>
       <Popover
         placement={placement}
-        offset={8}
+        offset={12}
         className={cn(
-          'bg-dark text-on-dark text-size-xs leading-normal text-pretty px-3 py-2 rounded-surface shadow-md max-w-2xs',
+          'group bg-dark text-on-dark text-size-xs leading-normal text-pretty px-3 py-2 rounded-surface shadow-md max-w-2xs',
           className,
         )}
       >
+        <OverlayArrow>
+          <svg
+            aria-hidden="true"
+            width={12}
+            height={12}
+            viewBox="0 0 12 12"
+            className="block fill-dark group-data-[placement=bottom]:rotate-180 group-data-[placement=left]:-rotate-90 group-data-[placement=right]:rotate-90"
+          >
+            <path d="M0 0 12 0 6 6Z" />
+          </svg>
+        </OverlayArrow>
         <Dialog aria-label={ariaLabel}>
           {content}
         </Dialog>
