@@ -52,7 +52,7 @@ const Grid = ({ children }: { children: ReactNode }) => (
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="flex flex-col gap-3">
-    <Eyebrow className="text-bluedot-navy/80">{title}</Eyebrow>
+    <Eyebrow className="text-secondary">{title}</Eyebrow>
     {children}
   </section>
 );

@@ -117,7 +117,7 @@ const HowItWorksSection = () => {
                   number={step.number}
                   title={step.title}
                   body={step.body}
-                  eyebrowClass="text-bluedot-navy/60"
+                  eyebrowClass="text-secondary"
                 />
               </div>
             )

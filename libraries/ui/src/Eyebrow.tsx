@@ -10,7 +10,7 @@ export const Eyebrow = ({
   children, className, id, style,
 }: EyebrowProps) => {
   return (
-    <p id={id} style={style} className={cn('text-size-xxs font-medium uppercase tracking-wide text-bluedot-normal', className)}>
+    <p id={id} style={style} className={cn('text-size-xxs font-medium uppercase tracking-wide text-accent', className)}>
       {children}
     </p>
   );
