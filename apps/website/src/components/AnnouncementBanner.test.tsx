@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
   beforeEach,
@@ -18,6 +19,21 @@ describe('AnnouncementBanner', () => {
     render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
 
     expect(screen.getByText('Test Announcement')).toBeDefined();
+  });
+
+  test('exposes a named announcement region', () => {
+    render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
+
+    const region = screen.getByRole('region', { name: 'Announcement' });
+    expect(region.tagName).toBe('SECTION');
+    expect(region.textContent).toContain('Test Announcement');
+  });
+
+  test('dismiss button is described by the announcement content', () => {
+    render(<AnnouncementBanner label="Platform update">Test Announcement</AnnouncementBanner>);
+
+    const dismissButton = screen.getByRole('button', { name: 'Dismiss announcement' });
+    expect(dismissButton).toHaveAccessibleDescription('Platform update Test Announcement');
   });
 
   test('renders with custom className', () => {
@@ -112,6 +128,15 @@ describe('AnnouncementBanner', () => {
     expect(screen.queryByText(textContent)).toBeNull();
   });
 
+  test('reappears when the message content changes after a dismissal', () => {
+    const originalText = 'Applications close on Friday';
+    useAnnouncementBannerStore.setState({ dismissedBanners: { [getAnnouncementBannerKey(originalText)]: true } });
+
+    render(<AnnouncementBanner>Applications close on Saturday</AnnouncementBanner>);
+
+    expect(screen.getByText('Applications close on Saturday')).toBeDefined();
+  });
+
   test('renders when banner has not been dismissed', () => {
     // Initial state has no dismissed banners (set in beforeEach)
     render(<AnnouncementBanner>
@@ -132,7 +157,7 @@ describe('AnnouncementBanner', () => {
     // Banner is initially shown
     expect(screen.getByText(textContent)).toBeDefined();
 
-    const closeButton = screen.getByRole('button', { name: 'Close announcement' });
+    const closeButton = screen.getByRole('button', { name: 'Dismiss announcement' });
     fireEvent.click(closeButton);
 
     expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({ [bannerKey]: true });
@@ -148,7 +173,7 @@ describe('AnnouncementBanner', () => {
 
     expect(screen.getByText('Test Announcement')).toBeDefined();
 
-    const closeButton = screen.queryByRole('button', { name: 'Close announcement' });
+    const closeButton = screen.queryByRole('button', { name: 'Dismiss announcement' });
     expect(closeButton).toBeNull();
   });
 
