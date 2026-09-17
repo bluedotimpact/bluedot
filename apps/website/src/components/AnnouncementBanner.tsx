@@ -126,7 +126,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
                 <CTALinkOrButton
                   variant="outline-black"
                   size="small"
-                  aria-label="Close announcement"
+                  aria-label="Dismiss announcement"
                   onClick={() => dismissBanner(bannerKey)}
                 >
                   Dismiss
