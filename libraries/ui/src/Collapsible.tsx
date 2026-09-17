@@ -5,7 +5,6 @@ export type CollapsibleProps = React.PropsWithChildren<{
   title: string;
   className?: string;
   summaryClassName?: string;
-  children?: React.ReactNode;
 }>;
 
 export const Collapsible: React.FC<CollapsibleProps> = ({
