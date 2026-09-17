@@ -43,7 +43,8 @@ export type DatePickerProps = {
   className?: string;
 };
 
-const NAV_BUTTON_STYLES = 'flex size-9 cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus';
+const ROUND_BUTTON_STYLES = 'flex cursor-pointer items-center justify-center rounded-full outline-none transition-colors hover:bg-tint focus-visible:ring-2 focus-visible:ring-focus';
+const NAV_BUTTON_STYLES = cn(ROUND_BUTTON_STYLES, 'size-9');
 
 const CALENDAR_CLASS_NAMES: Partial<ClassNames> = {
   months: 'relative',
