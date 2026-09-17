@@ -69,6 +69,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   hideAfter,
   dismissible = true,
 }) => {
+  const contentId = useId();
   const bannerKey = getAnnouncementBannerKey(children);
   const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
   const isDismissed = useAnnouncementBannerStore((s) => Boolean(s.dismissedBanners[bannerKey]));
@@ -98,13 +99,9 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
       <div className="section-base">
         <div className="flex flex-col gap-3 py-3 sm:py-3.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
           <div className="min-w-0 flex-1">
-            <div className="flex flex-col gap-1.5">
-              {label && (
-                <span className="text-size-xxs font-semibold uppercase tracking-widest text-bluedot-normal">
-                  {label}
-                </span>
-              )}
-              <P className="max-w-4xl text-pretty text-size-xs leading-6 text-bluedot-darker sm:text-size-sm">
+            <div id={contentId} className="flex flex-col gap-1.5">
+              {label && <Eyebrow>{label}</Eyebrow>}
+              <P className="max-w-4xl text-pretty text-size-xs leading-6 text-primary sm:text-size-sm">
                 {children}
               </P>
             </div>
@@ -127,6 +124,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
                   variant="outline-black"
                   size="small"
                   aria-label="Dismiss announcement"
+                  aria-describedby={contentId}
                   onClick={() => dismissBanner(bannerKey)}
                 >
                   Dismiss
