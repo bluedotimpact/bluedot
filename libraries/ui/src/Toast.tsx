@@ -8,11 +8,11 @@ import {
 } from './toastStore';
 import { cn } from './utils';
 
-const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType }> = {
-  default: { container: 'border-default bg-raised text-primary' },
-  success: { container: 'border-success-border bg-success-bg text-success-fg', Icon: FaCircleCheck },
-  warning: { container: 'border-warning-border bg-warning-bg text-warning-fg', Icon: FaTriangleExclamation },
-  error: { container: 'border-error-border bg-error-bg text-error-fg', Icon: FaCircleXmark },
+const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType; role: 'status' | 'alert' }> = {
+  default: { container: 'border-default bg-raised text-primary', role: 'status' },
+  success: { container: 'border-success-border bg-success-bg text-success-fg', Icon: FaCircleCheck, role: 'status' },
+  warning: { container: 'border-warning-border bg-warning-bg text-warning-fg', Icon: FaTriangleExclamation, role: 'status' },
+  error: { container: 'border-error-border bg-error-bg text-error-fg', Icon: FaCircleXmark, role: 'alert' },
 };
 
 const TOAST_ANIMATION_CSS = `
@@ -82,11 +82,11 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
     };
   }, [paused, toast.status, toast.id, toast.duration, remove, startExit]);
 
-  const { container, Icon } = TOAST_STYLES[toast.variant];
+  const { container, Icon, role } = TOAST_STYLES[toast.variant];
 
   return (
     <div
-      role={toast.variant === 'error' ? 'alert' : 'status'}
+      role={role}
       className={cn(
         'pointer-events-auto flex items-center gap-3 rounded-surface border px-3 py-4',
         'w-full leading-normal md:w-[320px]',
