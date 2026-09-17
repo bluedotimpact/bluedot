@@ -68,7 +68,9 @@ describe('Tooltip', () => {
 
     await user.click(screen.getByRole('button', { name: LABEL }));
 
-    expect(screen.getByRole('dialog').closest('[data-placement]')).toHaveAttribute('data-placement', 'bottom');
+    const popover = screen.getByRole('dialog').closest('[data-placement]');
+    expect(popover).toHaveAttribute('data-placement', 'bottom');
+    expect(popover?.querySelector('svg')).toBeInTheDocument();
   });
 
   test('renders custom trigger content instead of the default icon', () => {
