@@ -44,7 +44,10 @@ export const DefaultHeadTags = () => (
   </Head>
 );
 
-const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
+const AnnouncementBanner = dynamic(
+  () => import('../components/AnnouncementBanner').then((m) => m.AnnouncementBanner),
+  { ssr: false },
+);
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
 const CustomerioAnalytics = dynamic(() => import('../components/analytics/CustomerioAnalytics'), { ssr: false });
 
