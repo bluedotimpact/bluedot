@@ -18,7 +18,7 @@ export type TooltipProps = {
 };
 
 /**
- * Tooltip that opens on click/tap (not hover), closes when clicking outside or pressing Escape.
+ * Tooltip: opens on click/tap or Enter/Space, never on hover. Escape or an outside click closes it.
  * Placement flips automatically when it would collide with the viewport edge.
  */
 export const Tooltip: React.FC<TooltipProps> = ({
