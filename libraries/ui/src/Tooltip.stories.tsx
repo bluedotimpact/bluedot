@@ -31,7 +31,7 @@ export const Placements: Story = {
     content: 'Flips to the opposite side when it would leave the viewport.',
   },
   render: (args) => (
-    <div className="grid grid-cols-2 gap-16 p-16 w-fit">
+    <div className="mx-auto grid w-fit grid-cols-2 gap-16 py-32">
       {(['top', 'bottom', 'left', 'right'] as const).map((placement) => (
         <div key={placement} className="flex items-center gap-2">
           <Tooltip {...args} placement={placement} aria-label={`Show ${placement} tooltip`} />
