@@ -29,7 +29,15 @@ export const Tooltip: React.FC<TooltipProps> = ({
 }) => {
   return (
     <DialogTrigger>
-      <Button className="cursor-pointer" aria-label={ariaLabel}>
+      <Button
+        aria-label={ariaLabel}
+        className={cn(
+          'relative inline-flex cursor-pointer rounded-full text-secondary',
+          // Extends the tap target to 24x24 around the 16px icon without changing the inline footprint
+          'before:absolute before:-inset-1',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        )}
+      >
         {children}
       </Button>
       <Popover
