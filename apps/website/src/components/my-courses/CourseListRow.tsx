@@ -142,14 +142,14 @@ const CourseListRow = (row: CourseListRowProps) => {
               </a>
               {certEligibilityReason && (
                 <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
-                  <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />
+                  <Tooltip content={certEligibilityReason} aria-label="Show certificate eligibility information" />
                 </span>
               )}
               {showApplicationTimelineTooltip && (
                 <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
                   <Tooltip
                     content="We typically finalise all application decisions and group discussion times 1 week before the start of the course."
-                    ariaLabel="Show application timeline information"
+                    aria-label="Show application timeline information"
                   />
                 </span>
               )}
