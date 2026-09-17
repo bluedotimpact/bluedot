@@ -15,7 +15,7 @@ const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType }>
   error: { container: 'border-error-border bg-error-bg text-error-fg', Icon: FaCircleXmark },
 };
 
-const TOAST_STYLES = `
+const TOAST_ANIMATION_CSS = `
 @keyframes bd-toast-in-right {
   from { opacity: 0; transform: translateX(24px); }
   to { opacity: 1; transform: translateX(0); }
@@ -134,7 +134,7 @@ export const Toaster = () => {
 
   return createPortal(
     <>
-      <style>{TOAST_STYLES}</style>
+      <style>{TOAST_ANIMATION_CSS}</style>
       <div
         role="region"
         aria-label="Notifications"
