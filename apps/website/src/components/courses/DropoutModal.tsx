@@ -251,7 +251,6 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
           onChange={(e) => setReason(e.target.value)}
           placeholder="Share your reason for leaving..."
           rows={3}
-          className="w-full"
           disabled={dropoutMutation.isPending}
         />
       </div>

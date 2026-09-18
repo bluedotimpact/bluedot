@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import {
-  H2, H3, P, A, CTALinkOrButton, ProgressDots, ClickTarget,
+  H2, H3, P, A, CTALinkOrButton, ProgressDots, ClickTarget, Textarea,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { CodeRenderer } from '../components/CodeRenderer';
@@ -50,7 +50,7 @@ const DemoPage: React.FC = () => {
         <div className="mb-4">
           <H2 className="mt-4 mb-2">What do you want to build?</H2>
           <div className="relative flex">
-            <textarea
+            <Textarea
               placeholder="A website about..."
               value={userPrompt}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setUserPrompt(e.target.value)}
@@ -59,7 +59,6 @@ const DemoPage: React.FC = () => {
                   handleSubmit();
                 }
               }}
-              className="w-full p-4 border border-gray-400 rounded-lg shadow-md"
               rows={1}
             />
             <CTALinkOrButton

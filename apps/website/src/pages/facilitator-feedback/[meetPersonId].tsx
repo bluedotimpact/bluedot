@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
-  ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots,
+  ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -216,12 +216,11 @@ const FacilitatorFeedbackPage = () => {
               </label>
               <p className="text-size-xs text-bluedot-navy/60">Describe a specific moment or element that stands out.</p>
             </div>
-            <textarea
+            <Textarea
               id="most-valuable"
               value={mostValuable}
               onChange={(e) => setMostValuable(e.target.value)}
               rows={4}
-              className="w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy"
             />
           </div>
 
@@ -232,13 +231,12 @@ const FacilitatorFeedbackPage = () => {
               </label>
               <p className="text-size-xs text-bluedot-navy/60">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
             </div>
-            <textarea
+            <Textarea
               id="difficulties"
               value={difficulties}
               onChange={(e) => setDifficulties(e.target.value)}
               placeholder="The more specific your feedback is, the easier it is for us to take action on it."
               rows={4}
-              className="w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400"
             />
           </div>
         </section>
