@@ -30,6 +30,11 @@ describe('toast store', () => {
     expect(useToastStore.getState().toasts[0]!.variant).toBe('success');
   });
 
+  test('explicit duration overrides the persistent error default', () => {
+    toast.error('Brief', { duration: 1000 });
+    expect(useToastStore.getState().toasts[0]!.duration).toBe(1000);
+  });
+
   test('caps visible at 3 and queues the rest', () => {
     toast('1');
     toast('2');
@@ -118,7 +123,7 @@ describe('Toaster', () => {
   test('close button dismisses', () => {
     render(<Toaster />);
     act(() => {
-      toast('Close me', { closeButton: true });
+      toast('Close me');
     });
     const button = screen.getByLabelText('Dismiss notification');
     fireEvent.click(button);
@@ -195,12 +200,41 @@ describe('Toaster', () => {
     expect(useToastStore.getState().toasts[0]!.status).toBe('exiting');
   });
 
-  test('success variant renders check icon', () => {
+  test('success variant renders decorative check icon', () => {
     render(<Toaster />);
     act(() => {
       toast.success('Saved');
     });
-    const region = screen.getByRole('region');
-    expect(region.querySelector('svg')).toBeTruthy();
+    const icon = screen.getByRole('region').querySelector('svg');
+    expect(icon).toBeTruthy();
+    expect(icon!.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  test('every toast has a labelled close button with a decorative icon', () => {
+    render(<Toaster />);
+    act(() => {
+      toast('Plain');
+      toast.success('Saved');
+    });
+    const buttons = screen.getAllByRole('button', { name: 'Dismiss notification' });
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0]!.querySelector('svg')!.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  test('error toast uses role="alert" and stays until dismissed', () => {
+    render(<Toaster />);
+    act(() => {
+      toast.error('Broken');
+    });
+    expect(screen.getByRole('alert')).toBeTruthy();
+    act(() => {
+      vi.advanceTimersByTime(TOAST_DEFAULT_DURATION * 10);
+    });
+    expect(useToastStore.getState().toasts[0]!.status).toBe('visible');
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss notification' }));
+    act(() => {
+      vi.advanceTimersByTime(TOAST_EXIT_DURATION_MS + 50);
+    });
+    expect(useToastStore.getState().toasts).toHaveLength(0);
   });
 });

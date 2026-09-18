@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CircledCheckmarkIcon } from './icons/CircledCheckmarkIcon';
+import type { IconType } from 'react-icons';
+import { FaCircleCheck, FaCircleXmark, FaTriangleExclamation } from 'react-icons/fa6';
 import { CloseIcon } from './icons/CloseIcon';
-import { TOAST_EXIT_DURATION_MS, useToastStore, type ToastEntry } from './toastStore';
+import {
+  TOAST_EXIT_DURATION_MS, useToastStore, type ToastEntry, type ToastVariant,
+} from './toastStore';
 import { cn } from './utils';
 
-const TOAST_STYLES = `
+const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType; role: 'status' | 'alert' }> = {
+  default: { container: 'border-default bg-raised text-primary', role: 'status' },
+  success: { container: 'border-success-border bg-success-bg text-success-fg', Icon: FaCircleCheck, role: 'status' },
+  warning: { container: 'border-warning-border bg-warning-bg text-warning-fg', Icon: FaTriangleExclamation, role: 'status' },
+  error: { container: 'border-error-border bg-error-bg text-error-fg', Icon: FaCircleXmark, role: 'alert' },
+};
+
+const TOAST_ANIMATION_CSS = `
 @keyframes bd-toast-in-right {
   from { opacity: 0; transform: translateX(24px); }
   to { opacity: 1; transform: translateX(0); }
@@ -50,7 +60,8 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
       return () => clearTimeout(timer);
     }
 
-    if (paused) {
+    // Infinity has no timer: the toast stays until dismissed.
+    if (paused || !Number.isFinite(remainingRef.current)) {
       return undefined;
     }
 
@@ -71,35 +82,36 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
     };
   }, [paused, toast.status, toast.id, toast.duration, remove, startExit]);
 
-  const isSuccess = toast.variant === 'success';
+  const { container, Icon, role } = TOAST_STYLES[toast.variant];
 
   return (
     <div
-      role="status"
+      role={role}
       className={cn(
-        'pointer-events-auto flex items-center gap-3 rounded-[10px] border-[0.5px] px-3 py-4',
+        'pointer-events-auto flex items-center gap-3 rounded-surface border px-3 py-4',
         'w-full leading-normal md:w-[320px]',
         toast.status === 'exiting' ? 'bd-toast-exit' : 'bd-toast-enter-mobile md:bd-toast-enter-desktop',
-        isSuccess
-          ? 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]'
-          : 'border-bluedot-charcoal-light text-bluedot-navy bg-white',
+        container,
       )}
     >
-      {isSuccess && <CircledCheckmarkIcon size={20} className="shrink-0 text-[#1a7a52]" aria-hidden />}
+      {Icon && <Icon size={20} className="shrink-0 self-start" aria-hidden="true" />}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <p className="text-size-xs font-bold break-words">{toast.message}</p>
+        <p className="text-size-xs font-semibold break-words">{toast.message}</p>
         {toast.description && <p className="text-size-xxs font-normal break-words">{toast.description}</p>}
       </div>
-      {toast.closeButton && (
-        <button
-          type="button"
-          aria-label="Dismiss notification"
-          onClick={() => startExit(toast.id)}
-          className="shrink-0 cursor-pointer rounded-sm p-1 hover:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-current"
-        >
-          <CloseIcon size={16} className="stroke-[1.5]" />
-        </button>
-      )}
+      <button
+        type="button"
+        aria-label="Dismiss notification"
+        onClick={() => startExit(toast.id)}
+        className={cn(
+          'relative shrink-0 cursor-pointer rounded-sm p-1 hover:opacity-70',
+          // Extends the tap target to 44x44 around the 24px button without changing the footprint
+          'before:absolute before:-inset-2.5',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        )}
+      >
+        <CloseIcon size={16} className="stroke-[1.5]" aria-hidden="true" />
+      </button>
     </div>
   );
 };
@@ -122,7 +134,7 @@ export const Toaster = () => {
 
   return createPortal(
     <>
-      <style>{TOAST_STYLES}</style>
+      <style>{TOAST_ANIMATION_CSS}</style>
       <div
         role="region"
         aria-label="Notifications"

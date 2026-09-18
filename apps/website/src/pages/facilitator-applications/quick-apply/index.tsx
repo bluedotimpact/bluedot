@@ -275,7 +275,8 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
           router.push(ROUTES.facilitatorApplications.url);
         },
         onError: (error) => {
-          toast('Something went wrong', { description: error.message });
+          // Fixed id: repeated failures update the persistent toast in place instead of stacking.
+          toast.error('Something went wrong', { id: 'quick-apply-error', description: error.message });
         },
       },
     );
