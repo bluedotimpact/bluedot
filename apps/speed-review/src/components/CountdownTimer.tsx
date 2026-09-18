@@ -70,26 +70,25 @@ export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerPro
   const isWarning = remainingSeconds <= 10;
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 text-size-xs">
+    <div className="flex items-center justify-between text-size-sm">
       <button
         type="button"
         onClick={onTogglePause}
-        className="flex min-h-11 items-center gap-3 cursor-pointer"
+        className="flex items-center gap-3 cursor-pointer"
         title={paused ? 'Resume timer' : 'Pause timer'}
-        aria-label={paused ? 'Resume timer' : 'Pause timer'}
       >
         {/* Countdown bar */}
-        <div className="w-20 sm:w-32 h-2 bg-active rounded-full overflow-hidden">
+        <div className="w-20 sm:w-32 h-2 bg-stone-700 rounded-full overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-100 ${isWarning ? 'bg-warning-fg' : 'bg-accent'}`}
+            className={`h-full rounded-full transition-all duration-100 ${isWarning ? 'bg-red-500' : 'bg-green-500'}`}
             style={{ width: `${fraction * 100}%` }}
           />
         </div>
-        <span className={`font-mono font-semibold tabular-nums ${isWarning ? 'text-error-fg' : 'text-primary'}`}>
-          {remainingSeconds}s {paused && <span className="text-secondary">(paused)</span>}
+        <span className={`font-mono font-semibold tabular-nums ${isWarning ? 'text-red-400' : 'text-stone-300'}`}>
+          {remainingSeconds}s {paused && <span className="text-stone-500">(paused)</span>}
         </span>
       </button>
-      <span className="text-secondary font-mono tabular-nums">
+      <span className="text-stone-500 font-mono tabular-nums">
         Total: {elapsedFormatted}
       </span>
     </div>

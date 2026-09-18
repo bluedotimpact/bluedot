@@ -1,3 +1,3 @@
 import { loginPresets, LoginRedirectPage } from '@bluedot/ui';
 
-export default () => <LoginRedirectPage loginPreset={loginPresets.googleBlueDot} />;
+export default () => <LoginRedirectPage loginPreset={loginPresets.keycloak} />;

@@ -1,0 +1,97 @@
+import {
+  forwardRef, useEffect, useImperativeHandle, useRef, useState,
+} from 'react';
+
+type CountdownTimerProps = {
+  durationMs: number;
+  paused: boolean;
+  onExpire: () => void;
+  onTogglePause: () => void;
+  startMs: number;
+};
+
+export type CountdownTimerHandle = { addTime: (ms: number) => void };
+
+export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerProps>(({
+  durationMs, paused, onExpire, onTogglePause, startMs,
+}, ref) => {
+  const [remainingMs, setRemainingMs] = useState(durationMs);
+  const [elapsedSessionMs, setElapsedSessionMs] = useState(0);
+  const lastTickRef = useRef<number>(Date.now());
+  const expiredRef = useRef(false);
+
+  useImperativeHandle(ref, () => ({
+    addTime: (ms: number) => {
+      expiredRef.current = false;
+      setRemainingMs((prev) => prev + ms);
+    },
+  }));
+
+  // Reset when a new card appears (durationMs reference changes or paused resets)
+  useEffect(() => {
+    setRemainingMs(durationMs);
+    expiredRef.current = false;
+    lastTickRef.current = Date.now();
+  }, [durationMs]);
+
+  useEffect(() => {
+    if (paused) return;
+
+    lastTickRef.current = Date.now();
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const delta = now - lastTickRef.current;
+      lastTickRef.current = now;
+
+      setElapsedSessionMs(now - startMs);
+      setRemainingMs((prev) => {
+        const next = Math.max(0, prev - delta);
+        if (next === 0 && !expiredRef.current) {
+          expiredRef.current = true;
+          setTimeout(onExpire, 0);
+        }
+
+        return next;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [paused, onExpire, startMs]);
+
+  const remainingSeconds = Math.ceil(remainingMs / 1000);
+  const fraction = remainingMs / durationMs;
+
+  const elapsedSeconds = Math.floor(elapsedSessionMs / 1000);
+  const elapsedMins = Math.floor(elapsedSeconds / 60);
+  const elapsedSecs = elapsedSeconds % 60;
+  const elapsedFormatted = `${elapsedMins}:${String(elapsedSecs).padStart(2, '0')}`;
+
+  const isWarning = remainingSeconds <= 10;
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-2 text-size-xs">
+      <button
+        type="button"
+        onClick={onTogglePause}
+        className="flex min-h-11 items-center gap-3 cursor-pointer"
+        title={paused ? 'Resume timer' : 'Pause timer'}
+        aria-label={paused ? 'Resume timer' : 'Pause timer'}
+      >
+        {/* Countdown bar */}
+        <div className="w-20 sm:w-32 h-2 bg-active rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all duration-100 ${isWarning ? 'bg-warning-fg' : 'bg-accent'}`}
+            style={{ width: `${fraction * 100}%` }}
+          />
+        </div>
+        <span className={`font-mono font-semibold tabular-nums ${isWarning ? 'text-error-fg' : 'text-primary'}`}>
+          {remainingSeconds}s {paused && <span className="text-secondary">(paused)</span>}
+        </span>
+      </button>
+      <span className="text-secondary font-mono tabular-nums">
+        Total: {elapsedFormatted}
+      </span>
+    </div>
+  );
+});

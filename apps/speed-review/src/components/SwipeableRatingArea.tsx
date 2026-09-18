@@ -23,16 +23,16 @@ const SWIPE_LABEL: Record<Exclude<SwipeDirection, null>, string> = {
 
 const SWIPE_COLOR: Record<Exclude<SwipeDirection, null>, string> = {
   left: 'bg-red-500/20 border-red-500',
-  right: 'bg-accent/20 border-accent',
-  up: 'bg-stone-500/20 border-strong',
-  down: 'bg-stone-500/20 border-strong',
+  right: 'bg-green-500/20 border-green-500',
+  up: 'bg-stone-500/20 border-stone-400',
+  down: 'bg-stone-500/20 border-stone-400',
 };
 
 const SWIPE_TEXT_COLOR: Record<Exclude<SwipeDirection, null>, string> = {
-  left: 'text-error-fg',
-  right: 'text-info-fg',
-  up: 'text-primary',
-  down: 'text-primary',
+  left: 'text-red-400',
+  right: 'text-green-400',
+  up: 'text-stone-300',
+  down: 'text-stone-300',
 };
 
 type SwipeableRatingAreaProps = {
@@ -151,10 +151,10 @@ export const SwipeableRatingArea: React.FC<SwipeableRatingAreaProps> = ({ onRate
       )}
 
       <RatingButtons onRate={onRate} disabled={disabled} />
-      <p className="sm:hidden text-size-xs text-secondary text-center mt-3">
+      <p className="sm:hidden text-size-xs text-stone-500 text-center mt-3">
         Swipe to rate
       </p>
-      <p className="hidden sm:block text-size-xs text-secondary text-center mt-3">
+      <p className="hidden sm:block text-size-xs text-stone-500 text-center mt-3">
         ← / A No &nbsp;·&nbsp; ↑↓ / WS Neutral &nbsp;·&nbsp; → / D Yes &nbsp;·&nbsp; E Strong Yes &nbsp;·&nbsp; Space Next Section &nbsp;·&nbsp; P Pause &nbsp;·&nbsp; Esc Conclude
       </p>
     </div>

@@ -5,7 +5,7 @@ import {
 vi.mock('./env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-airtable-credential' } }));
 
 import {
-  fetchApplications, writeOpinions, resetOpinion, moveApplicationToAgisc,
+  fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToAgisc,
 } from './airtable';
 
 const fetchMock = vi.fn<typeof fetch>();
@@ -44,6 +44,19 @@ describe('real-data Airtable adapter', () => {
     expect(fetchMock.mock.calls[0]?.[1]?.headers).toMatchObject({ Authorization: 'Bearer test-airtable-credential' });
   });
 
+  test('loads round names, courses, and dates using consistent Airtable field IDs', async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({
+      records: [{
+        id: 'recFutureRound',
+        fields: { fldvOk9j9FbDV5aLl: 'AGI Strategy (test)', fldfi2ZKsbSK6NVTV: ['recCourse'], fldLQNa0te7r3GpBU: '2100-01-01' },
+      }],
+    })));
+    expect(await fetchRounds()).toEqual([expect.objectContaining({ id: 'recFutureRound', name: 'AGI Strategy (test)', course: 'recCourse' })]);
+    const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
+    expect(request.searchParams.get('returnFieldsByFieldId')).toBe('true');
+    expect(request.searchParams.getAll('fields[]')).toContain('fldfi2ZKsbSK6NVTV');
+  });
+
   test('writes ratings using Airtable field IDs and its ten-record batch limit', async () => {
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
     await writeOpinions(Array.from({ length: 11 }, (_, index) => ({ id: `recTest${index}`, opinion: 'Strong yes', decision: 'Accept' })));
@@ -64,11 +77,14 @@ describe('real-data Airtable adapter', () => {
     expect(bodyAt(0).records).toEqual([{ id: 'recTest', fields: { fldOm6fJcqhq78M71: 'TODO', fldWVKY5EFAGSRcDT: null } }]);
   });
 
-  test('moves course and round before clearing the derived course link', async () => {
+  test('moves course, round, and derived course link in one write', async () => {
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
     await moveApplicationToAgisc('recTest', 'recNewRound');
-    expect(bodyAt(0).records).toEqual([{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'AGI Strategy', fldYaHSLqnvBXyjur: ['recNewRound'] } }]);
-    expect(bodyAt(1).records).toEqual([{ id: 'recTest', fields: { fldPkqPbeoIhERqSY: [] } }]);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(bodyAt(0).records).toEqual([{
+      id: 'recTest',
+      fields: { fldkEQ0zBUhqpIuJn: 'AGI Strategy', fldYaHSLqnvBXyjur: ['recNewRound'], fldPkqPbeoIhERqSY: [] },
+    }]);
   });
 
   test('does not clear the course link when the course move fails', async () => {

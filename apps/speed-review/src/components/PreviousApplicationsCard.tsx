@@ -44,11 +44,11 @@ const summarise = (history: PreviousApplication[], course: string): Verdict => {
 const opinionBadgeClass = (opinion: string): string => {
   switch (opinion) {
     case 'Strong yes': return 'bg-blue-800 text-white';
-    case 'Weak yes': return 'bg-sky-400 text-primary';
+    case 'Weak yes': return 'bg-sky-400 text-stone-900';
     case 'Neutral': return 'bg-stone-500 text-white';
     case 'Weak no': return 'bg-red-500 text-white';
-    case 'Strong no': return 'bg-error-bg text-white';
-    default: return 'bg-active text-primary';
+    case 'Strong no': return 'bg-red-800 text-white';
+    default: return 'bg-stone-700 text-stone-300';
   }
 };
 
@@ -56,7 +56,7 @@ const decisionBadgeClass = (decision: string): string => {
   switch (decision) {
     case 'Accept': return 'bg-blue-600 text-white';
     case 'Reject': return 'bg-red-600 text-white';
-    default: return 'bg-active text-primary';
+    default: return 'bg-stone-700 text-stone-300';
   }
 };
 
@@ -83,9 +83,9 @@ const BannerLabel: React.FC<{ verdict: Verdict }> = ({ verdict }) => {
 };
 
 const bannerClass = (verdict: Verdict): string => {
-  if (verdict.kind === 'accepted') return 'bg-warning-bg/40 border-warning-border text-amber-200';
-  if (verdict.kind === 'rejected') return 'bg-tint border-subtle text-primary';
-  return 'bg-tint border-subtle text-secondary';
+  if (verdict.kind === 'accepted') return 'bg-amber-900/40 border-amber-700 text-amber-200';
+  if (verdict.kind === 'rejected') return 'bg-stone-800 border-stone-700 text-stone-300';
+  return 'bg-stone-800 border-stone-700 text-stone-400';
 };
 
 export const PreviousApplicationsCard: React.FC<PreviousApplicationsCardProps> = ({ applicationId, course }) => {
@@ -98,7 +98,7 @@ export const PreviousApplicationsCard: React.FC<PreviousApplicationsCardProps> =
 
   if (error) {
     return (
-      <p className="text-size-xs text-error-fg px-1">
+      <p className="text-size-xs text-red-400 px-1">
         Couldn&apos;t load previous applications: {error.message}
       </p>
     );
@@ -108,7 +108,7 @@ export const PreviousApplicationsCard: React.FC<PreviousApplicationsCardProps> =
   const verdict = summarise(history, course);
   if (verdict.kind === 'none') {
     return (
-      <p className="text-size-xs text-secondary px-1">No previous applications.</p>
+      <p className="text-size-xs text-stone-500 px-1">No previous applications.</p>
     );
   }
 
@@ -125,7 +125,7 @@ export const PreviousApplicationsCard: React.FC<PreviousApplicationsCardProps> =
       <ul className="px-3 pb-3 space-y-2">
         {history.map((h) => (
           <li key={h.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 sm:gap-3">
-            <span className="text-size-sm text-primary">{h.roundName}</span>
+            <span className="text-size-sm text-stone-200">{h.roundName}</span>
             <span className="flex items-center gap-1.5 shrink-0">
               <Badge label={h.humanOpinion || 'TODO'} className={opinionBadgeClass(h.humanOpinion || 'TODO')} />
               <Badge label={h.decision || 'TODO'} className={decisionBadgeClass(h.decision || 'TODO')} />

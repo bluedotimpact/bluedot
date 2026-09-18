@@ -41,19 +41,19 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
         <div>
-          <H1 className="text-size-lg text-primary">{name}</H1>
+          <H1 className="text-size-lg text-stone-100">{name}</H1>
           {subtitle && (
-            <p className="text-size-sm text-secondary mt-0.5">{subtitle}</p>
+            <p className="text-size-sm text-stone-400 mt-0.5">{subtitle}</p>
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {profileUrl && (
-            <a href={profileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-2 sm:py-1.5 rounded-lg text-size-sm font-medium border border-strong text-primary bg-tint hover:bg-active transition-colors">
+            <a href={profileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-2 sm:py-1.5 rounded-lg text-size-sm font-medium border border-stone-600 text-stone-300 bg-stone-800 hover:bg-stone-700 transition-colors">
               LinkedIn
             </a>
           )}
           {otherProfileUrl && (
-            <a href={otherProfileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-2 sm:py-1.5 rounded-lg text-size-sm font-medium border border-strong text-primary bg-tint hover:bg-active transition-colors">
+            <a href={otherProfileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-2 sm:py-1.5 rounded-lg text-size-sm font-medium border border-stone-600 text-stone-300 bg-stone-800 hover:bg-stone-700 transition-colors">
               Profile
             </a>
           )}
@@ -81,7 +81,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         />
       )}
 
-      <div className="border border-subtle rounded-lg divide-y divide-stone-700 overflow-hidden">
+      <div className="border border-stone-700 rounded-lg divide-y divide-stone-700 overflow-hidden">
         {([
           { title: 'Path to impact', content: pathToImpact },
           { title: 'Experience', content: experience },
@@ -90,25 +90,25 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
           { title: 'Reasoning', content: reasoning },
         ] as const).filter(({ content }) => content).map(({ title, content }) => (
           <details key={title} className="group">
-            <summary className="min-h-11 flex items-center justify-between px-4 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-              <span className="text-size-sm font-semibold font-sans text-primary">{title}</span>
-              <svg className="size-4 text-secondary transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <summary className="flex items-center justify-between px-4 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+              <span className="text-size-sm font-semibold font-mono text-stone-300">{title}</span>
+              <svg className="size-4 text-stone-500 transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </summary>
-            <p className="px-4 pb-3 text-size-sm text-primary leading-relaxed whitespace-pre-wrap">{content}</p>
+            <p className="px-4 pb-3 text-size-sm text-stone-300 leading-relaxed whitespace-pre-wrap">{content}</p>
           </details>
         ))}
       </div>
 
       {(applicationSource ?? utmSource) && (
-        <div className="text-size-xs text-secondary space-y-0.5 break-words overflow-hidden">
+        <div className="text-size-xs text-stone-500 space-y-0.5 break-words overflow-hidden">
           {applicationSource && <p>Heard about us: {applicationSource}</p>}
           {utmSource && <p>UTM source: {utmSource}</p>}
         </div>
       )}
 
-      <p className="text-size-xs text-secondary text-right">{position} of {total}</p>
+      <p className="text-size-xs text-stone-500 text-right">{position} of {total}</p>
     </div>
   );
 };
