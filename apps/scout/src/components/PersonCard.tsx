@@ -43,9 +43,11 @@ const Disclosure: React.FC<{
   const [open, setOpen] = useState(defaultOpen);
   return (
     <details open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
-      <summary className={cn('flex cursor-pointer select-none list-none items-center gap-2 rounded-surface text-size-sm marker:hidden [&::-webkit-details-marker]:hidden hover:bg-tint focus-visible:outline-2 focus-visible:outline-focus', summaryClassName)}>
-        <ChevronRightIcon size={16} aria-hidden className={cn('shrink-0 text-secondary transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
-        {summary}
+      <summary className={cn('cursor-pointer select-none list-none rounded-surface marker:hidden [&::-webkit-details-marker]:hidden hover:bg-tint focus:outline-none focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-focus', summaryClassName)}>
+        <span className="flex items-center gap-2">
+          <ChevronRightIcon size={14} aria-hidden className={cn('shrink-0 text-disabled transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
+          {summary}
+        </span>
         {!open && preview}
       </summary>
       {open && <div className={bodyClassName}>{children}</div>}
@@ -54,14 +56,29 @@ const Disclosure: React.FC<{
 };
 
 // A question with its answer. Collapsed: the label and the first line of the answer.
+// Application and feedback answers arrive as free text, sometimes with markdown
+// syntax typed in by hand. Strip the noise so previews read as prose.
+const plain = (text: string) => text
+  .replace(/\*\*|__|`/g, '')
+  .replace(/^#{1,6}\s+/gm, '')
+  .replace(/^\s*[-*•]\s+/gm, '')
+  .replace(/-{3,}|_{3,}|={3,}/g, '')
+  .replace(/\n{3,}/g, '\n\n')
+  .trim();
+
+const Caption: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <span className="text-size-xs font-semibold uppercase tracking-wide text-secondary">{children}</span>
+);
+
 const Answer: React.FC<{ label: string; text?: string }> = ({ label, text }) => (
   text ? (
     <Disclosure
-      summary={<span className="shrink-0 font-medium text-secondary">{label}</span>}
-      preview={<span className="min-w-0 truncate text-primary">{text.replace(/\s+/g, ' ')}</span>}
-      bodyClassName="pl-6 pt-1"
+      summary={<Caption>{label}</Caption>}
+      summaryClassName="flex flex-col gap-1 py-1"
+      preview={<span className="line-clamp-2 pl-[22px] text-size-sm leading-snug text-primary">{plain(text).replace(/\s+/g, ' ')}</span>}
+      bodyClassName="pl-[22px] pt-1"
     >
-      <P className="whitespace-pre-wrap">{text}</P>
+      <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{plain(text)}</P>
     </Disclosure>
   ) : null
 );
@@ -74,14 +91,23 @@ const Section: React.FC<{
   title, meta, empty = false, emptyText = 'none', defaultOpen = false, children,
 }) => (
   empty ? (
-    <CardShell className="px-4 py-2 pl-10 text-size-sm text-disabled">{title} — {emptyText}</CardShell>
+    <CardShell className="flex items-center gap-2 px-4 py-2.5 text-size-sm text-disabled">
+      <span className="inline-block w-[14px]" />
+      <span className="font-semibold">{title}</span>
+      <span>{emptyText}</span>
+    </CardShell>
   ) : (
     <CardShell className="p-0">
       <Disclosure
         defaultOpen={defaultOpen}
-        summary={<><span className="font-semibold text-primary">{title}</span>{meta}</>}
-        summaryClassName="flex-wrap gap-x-3 gap-y-1 px-4 py-2"
-        bodyClassName="flex flex-col gap-3 px-4 pb-3 pl-10"
+        summary={(
+          <>
+            <span className="text-size-sm font-semibold text-primary">{title}</span>
+            {meta && <span className="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-size-xs text-secondary">{meta}</span>}
+          </>
+        )}
+        summaryClassName="px-4 py-2.5 [&>span]:w-full"
+        bodyClassName="flex flex-col gap-3 border-t border-subtle px-4 py-3 pl-[38px]"
       >
         {children}
       </Disclosure>
@@ -89,7 +115,7 @@ const Section: React.FC<{
   )
 );
 
-const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span className="font-normal text-secondary">{children}</span>;
+const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
 
 const hostLabel = (u: string) => {
   try {
@@ -114,9 +140,9 @@ const CompletionBadge: React.FC<{ r: Registration }> = ({ r }) => {
 const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children?: ReactNode }> = ({
   what, when, bold = false, children,
 }) => (
-  <div className={`grid grid-cols-1 items-center gap-x-3 gap-y-1 text-size-sm text-primary sm:grid-cols-[minmax(9rem,12rem)_minmax(8rem,14rem)_1fr] ${bold ? 'font-semibold' : ''}`}>
+  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary sm:grid-cols-[minmax(9rem,12rem)_minmax(8rem,14rem)_1fr] ${bold ? 'font-medium' : ''}`}>
     <span className="truncate">{what}</span>
-    <span className="truncate text-secondary">{when}</span>
+    <span className="truncate text-size-xs text-secondary">{when}</span>
     <span className="flex flex-wrap items-center gap-1">{children}</span>
   </div>
 );
@@ -196,7 +222,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       >
         {app && (
           <>
-            {appHeader && <p className="text-size-sm text-secondary">{appHeader}</p>}
+            {appHeader && <p className="pl-[22px] text-size-xs text-secondary">{appHeader}</p>}
             <Answer label="End of course, wild success — how is life different?" text={app.pathToImpact} />
             <Answer label="Engagement with the field so far" text={app.experience} />
             <Answer label="Skills they'll contribute" text={app.skills} />
@@ -208,20 +234,27 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         )}
       </Section>
 
-      <Section
-        title="Project"
-        empty={person.projects.length === 0}
-        emptyText="no submission"
-        meta={person.projects[0]?.url && <A href={person.projects[0].url} target="_blank" className="font-normal">{person.projects[0].title ?? 'open'} ↗</A>}
-      >
-        {person.projects.map((p) => (
-          <div key={p.id} className="flex flex-col gap-2">
-            {!p.url && p.title && <p className="text-size-sm font-medium text-primary">{p.title}</p>}
-            {p.evalNotes.length === 0 && <p className="text-size-sm text-disabled">No evaluator notes.</p>}
-            {p.evalNotes.map((n, i) => <Answer key={n} label={`Evaluator notes${p.evalNotes.length > 1 ? ` ${i + 1}` : ''}`} text={n} />)}
-          </div>
-        ))}
-      </Section>
+      {person.projects.every((p) => p.evalNotes.length === 0) ? (
+        <CardShell className="flex flex-wrap items-center gap-2 px-4 py-2.5 text-size-sm">
+          <span className="inline-block w-[14px]" />
+          <span className={cn('font-semibold', person.projects.length === 0 ? 'text-disabled' : 'text-primary')}>Project</span>
+          {person.projects.length === 0 && <span className="text-disabled">no submission</span>}
+          {person.projects.map((p) => (p.url
+            ? <A key={p.id} href={p.url} target="_blank" className="text-size-xs">{p.title ?? 'open'} ↗</A>
+            : <span key={p.id} className="text-secondary">{p.title}</span>))}
+        </CardShell>
+      ) : (
+        <Section
+          title="Project"
+          meta={person.projects.map((p) => (p.url
+            ? <A key={p.id} href={p.url} target="_blank">{p.title ?? 'open'} ↗</A>
+            : <Meta key={p.id}>{p.title}</Meta>))}
+        >
+          {person.projects.map((p) => p.evalNotes.map((n, i) => (
+            <Answer key={n} label={`Evaluator notes${p.evalNotes.length > 1 ? ` ${i + 1}` : ''}`} text={n} />
+          )))}
+        </Section>
+      )}
 
       {person.reports.length > 0 && (
         <Section title="Facilitator 1:1 report" meta={<Meta>{person.reports.map((r) => formatDate(r.date)).join(', ')}</Meta>}>
