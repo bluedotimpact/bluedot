@@ -92,6 +92,8 @@ If you want to use your secret 'raw', import config from [config.ts](./src/confi
 
 For complete workflows including validation and deployment steps, see [ADDING_ENV_GUIDE.md](./ADDING_ENV_GUIDE.md).
 
+The team portal's Ashby key is managed through the repository Actions secret `ASHBY_API_KEY`, which takes precedence over the local Pulumi `ashbyApiKey` setting. See the [team portal Ashby setup](../team-apps/README.md#ashby-key-for-talent-sourcing) for provisioning and rotation.
+
 ### Connect to the cluster with kubectl
 
 ```bash
