@@ -193,11 +193,10 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
   const applicationUrl = app ? `https://airtable.com/${APPLICATIONS_BASE_ID}/${APPLICATIONS_TABLE_ID}/${app.id}` : undefined;
   const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
   // Speed-review scores (1-5), produced by the Applications-base automation at application time
-  const scores = ([
-    ['Commitment', app?.commitmentScore],
-    ['Impressiveness', app?.impressivenessScore],
-    ['Technical', app?.technicalSkillScore],
-  ] as const).filter((x): x is readonly [string, number] => x[1] !== undefined);
+  const scores: [string, number][] = [];
+  if (app?.commitmentScore !== undefined) scores.push(['Commitment', app.commitmentScore]);
+  if (app?.impressivenessScore !== undefined) scores.push(['Impressiveness', app.impressivenessScore]);
+  if (app?.technicalSkillScore !== undefined) scores.push(['Technical', app.technicalSkillScore]);
   const roundLine = `${shortRound(person.roundName)} · ended ${formatDate(person.roundEnd)}`;
 
   return (
