@@ -112,6 +112,11 @@ const GRANT = {
 // Applications › Evaluation calls
 const CALL = {
   email: 'fldCigDwg47QHQiM8',
+  commitment: 'fld3h1dQtzQp1suKj',
+  agency: 'fldyfufiBgMXRV0wQ',
+  sharpness: 'fld6H0R45bkU77JKY',
+  expertise: 'fldrxqdB8mrO7XIGI',
+  strategicClarity: 'fld1GlPLFv3H9rH0I',
   createdAt: 'fldas6mED92PFLwRm',
   callDate: 'fldENW0Wjh65PgRGz',
   status: 'fldw2nYIeX6fum5vy',
@@ -121,6 +126,7 @@ const CALL = {
 
 // Applications base — Course registration (same field IDs speed-review uses)
 const APP = {
+  profileUrl: 'fldgtfQaYJbUHvH3h',
   otherProfileUrl: 'fldq4vFSZQ4U5KelW',
   source: 'flduEoJRp6uvz74xo',
   jobTitle: 'fldn2VmCwMP7XFSTn',
@@ -352,6 +358,13 @@ const toCall = (r: AirtableRecord): EvaluationCall => ({
   status: str(r.fields[CALL.status]),
   opinion: str(r.fields[CALL.opinion]),
   notesUrl: url(r.fields[CALL.notesUrl]),
+  cases: {
+    commitment: num(r.fields[CALL.commitment]),
+    agency: num(r.fields[CALL.agency]),
+    sharpness: num(r.fields[CALL.sharpness]),
+    expertise: num(r.fields[CALL.expertise]),
+    strategicClarity: num(r.fields[CALL.strategicClarity]),
+  },
 });
 
 const byEmailFormula = (fieldName: string, email: string) => `LOWER({${fieldName}})='${email.replace(/'/g, '\\\'').toLowerCase()}'`;
@@ -360,6 +373,7 @@ const toApplication = (r: AirtableRecord): Application => {
   const f = r.fields;
   return {
     id: r.id,
+    profileUrl: url(f[APP.profileUrl]),
     otherProfileUrl: url(f[APP.otherProfileUrl]),
     source: str(f[APP.source]),
     jobTitle: str(f[APP.jobTitle]),

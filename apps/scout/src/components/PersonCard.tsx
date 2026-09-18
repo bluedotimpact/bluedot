@@ -149,7 +149,7 @@ const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children
 
 const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
   <Row what={r.course} when={shortRound(r.roundName)} bold={r.isCurrent}>
-    {r.facilitated && <Badge>Facilitator</Badge>}
+    {r.facilitated && <Badge className="bg-purple-100 text-purple-900">Facilitator</Badge>}
     <OpinionBadge opinion={r.opinion} />
     <CompletionBadge r={r} />
     {r.isCurrent && <span className="text-size-xxs font-normal text-secondary">← this one</span>}
@@ -166,16 +166,27 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
   </div>
 );
 
+// "C4 A3 S2 E3 SC3" — the CASES ratings given on the call, omitting unrated ones
+const casesLabel = (c: EvaluationCall) => {
+  const parts = [['C', c.cases?.commitment], ['A', c.cases?.agency], ['S', c.cases?.sharpness], ['E', c.cases?.expertise], ['SC', c.cases?.strategicClarity]] as const;
+  return parts.filter(([, v]) => v !== undefined).map(([k, v]) => `${k}${v}`).join(' ');
+};
+
 const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
   <Row what="Evaluation call" when={formatDate(c.callDate ?? c.createdAt)}>
     {c.status && <Badge className="bg-warning-bg text-warning-fg">{c.status}</Badge>}
     <OpinionBadge opinion={c.opinion} />
+    {casesLabel(c) && <span className="text-size-xs text-secondary" title="CASES: commitment · agency · sharpness · expertise · strategic clarity">{casesLabel(c)}</span>}
     {c.notesUrl && <A href={c.notesUrl} target="_blank" className="text-size-xs">notes ↗</A>}
   </Row>
 );
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
-  const profileLinks = [person.profileUrl, person.application?.otherProfileUrl].filter((u): u is string => !!u);
+  // LinkedIn sometimes lives only on the application record, so merge both sources
+  const normalise = (u: string) => u.replace(/\/+$/, '').toLowerCase();
+  const profileLinks = [...new Map([person.profileUrl, person.application?.profileUrl, person.application?.otherProfileUrl]
+    .filter((u): u is string => !!u)
+    .map((u) => [normalise(u), u] as const)).values()];
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
   const withBlueDotCount = person.history.length + person.grants.length + person.calls.length;
   const app = person.application;
@@ -190,7 +201,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           <span className="text-size-md font-semibold text-primary">{showName ? person.name : 'Participant'}</span>
           <OpinionBadge opinion={person.opinion} />
           {person.certificateUrl && <Badge className="bg-info-bg text-info-fg">Completed</Badge>}
-          {person.reports.length > 0 && <Badge>Facilitator 1:1 report</Badge>}
+          {person.reports.length > 0 && <Badge className="bg-purple-100 text-purple-900">Facilitator 1:1 report</Badge>}
           {person.calls.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Had an evaluation call</Badge>}
           {person.grants.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Applied for a grant</Badge>}
         </div>

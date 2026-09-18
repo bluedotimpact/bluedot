@@ -54,6 +54,8 @@ export type EvaluationCall = {
   status?: string;
   opinion?: string;
   notesUrl?: string;
+  // CASES ratings given on the call, 1-5 each, in this order
+  cases?: { commitment?: number; agency?: number; sharpness?: number; expertise?: number; strategicClarity?: number };
 };
 
 export type FacilitatorReport = {
@@ -86,6 +88,7 @@ export type CourseFeedback = {
 
 export type Application = {
   id: string;
+  profileUrl?: string;
   otherProfileUrl?: string;
   source?: string;
   jobTitle?: string;
