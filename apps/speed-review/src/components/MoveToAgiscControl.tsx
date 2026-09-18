@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { authFetch } from '../lib/client/api';
+import { useNavigationState } from '../lib/client/navigation';
 
 type Round = { id: string; name: string };
 
@@ -14,6 +15,7 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
   allowMoveToAgisc,
   onMoved,
 }) => {
+  const pendingWrites = useNavigationState((state) => state.pendingWrites);
   const [agiscRounds, setAgiscRounds] = useState<Round[]>([]);
   const [selectedRoundId, setSelectedRoundId] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
@@ -38,7 +40,7 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
   }, []);
 
   const handleMove = async () => {
-    if (!selectedRoundId) return;
+    if (!selectedRoundId || useNavigationState.getState().pendingWrites > 0) return;
     setStatus('loading');
     setError(null);
 
@@ -65,19 +67,19 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
     <div className="space-y-3">
       <div className="flex items-center gap-2">
         {allowMoveToAgisc ? (
-          <span className="text-green-400 text-size-sm font-medium">&#10003; Allows move to AGISC</span>
+          <span className="text-info-fg text-size-sm font-medium">&#10003; Allows move to AGISC</span>
         ) : (
-          <span className="text-red-400 text-size-sm font-medium">&#10007; Does not allow move to AGISC</span>
+          <span className="text-error-fg text-size-sm font-medium">&#10007; Does not allow move to AGISC</span>
         )}
       </div>
 
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-        <label className="text-size-xs text-stone-400 shrink-0" htmlFor="agisc-round-select">Move to:</label>
+        <label className="text-size-xs text-secondary shrink-0" htmlFor="agisc-round-select">Move to:</label>
         <select
           id="agisc-round-select"
           value={selectedRoundId}
           onChange={(e) => setSelectedRoundId(e.target.value)}
-          className="flex-1 bg-stone-800 border border-stone-600 rounded-lg px-3 py-2 text-size-sm text-stone-200 focus:outline-none focus:border-stone-400"
+          className="flex-1 bg-tint border border-strong rounded-lg min-h-11 px-3 py-2 text-size-sm text-primary focus:outline-none focus:border-strong"
         >
           <option value="">Select a round…</option>
           {agiscRounds.map((r) => (
@@ -86,16 +88,16 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
         </select>
         <button
           type="button"
-          disabled={!selectedRoundId || status === 'loading'}
+          disabled={!selectedRoundId || status === 'loading' || pendingWrites > 0}
           onClick={handleMove}
-          className="shrink-0 px-4 py-2 rounded-lg text-size-sm font-semibold border border-amber-700 text-amber-300 bg-amber-950 hover:bg-amber-900 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="shrink-0 min-h-11 px-4 py-2 rounded-lg text-size-sm font-semibold border border-warning-border text-warning-fg bg-warning-bg hover:bg-warning-bg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {status === 'loading' ? 'Moving…' : 'Move to AGI Strategy'}
         </button>
       </div>
 
       {error && (
-        <p className="text-size-xs text-red-400">{error}</p>
+        <p className="text-size-xs text-error-fg">{error}</p>
       )}
     </div>
   );

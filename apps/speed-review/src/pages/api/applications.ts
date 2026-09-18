@@ -2,7 +2,6 @@ import createHttpError from 'http-errors';
 import { z } from 'zod';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';
 import { fetchApplications } from '../../lib/api/airtable';
-import { requireAdmin } from '../../lib/api/requireAdmin';
 import { type Direction } from '../../lib/client/types';
 
 const ApplicationSchema = z.object({
@@ -42,9 +41,7 @@ export default makeApiRoute({
     applications: z.array(ApplicationSchema),
     nextOffset: z.string().optional(),
   }),
-}, async (_, { auth, raw: { req } }) => {
-  await requireAdmin(auth.email);
-
+}, async (_, { raw: { req } }) => {
   const round = typeof req.query.round === 'string' ? req.query.round : '';
   if (!round) throw new createHttpError.BadRequest('Missing required query param: round');
   const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;

@@ -1,3 +1,3 @@
 import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
 
-export default () => <LoginOauthCallbackPage loginPreset={loginPresets.keycloak} />;
+export default () => <LoginOauthCallbackPage loginPreset={loginPresets.googleBlueDot} />;

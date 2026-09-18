@@ -12,7 +12,9 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "deploy:cd": "docker-scripts deploy"
+    "deploy:cd": "docker-scripts deploy",
+    "start:preview": "NEXT_PUBLIC_LOCAL_PREVIEW=true next dev --hostname 127.0.0.1 -p 8000",
+    "test:ui": "node tools/check-ui.mjs"
   },
   "dependencies": {
     "@bluedot/db": "*",
@@ -25,7 +27,8 @@
     "react": "^18.2.0",
     "react-confetti": "^6.4.0",
     "react-dom": "^18.2.0",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@bluedot/docker-scripts": "*",
@@ -41,6 +44,7 @@
     "eslint": "^9.39.2",
     "happy-dom": "^18.0.1",
     "node-mocks-http": "^1.14.1",
+    "playwright": "1.58.2",
     "postcss": "^8.4.38",
     "shx": "^0.4.0",
     "tailwindcss": "^4.0.6",

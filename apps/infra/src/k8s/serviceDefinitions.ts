@@ -444,7 +444,7 @@ export const services: ServiceDefinition[] = [
         },
       }],
     },
-    hosts: ['speed-review.k8s.bluedot.org'],
+    hosts: ['speed-review.k8s.bluedot.org', 'apps.bluedot.org'],
   },
   {
     name: 'bluedot-login',

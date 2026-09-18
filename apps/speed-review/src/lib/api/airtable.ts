@@ -1,4 +1,6 @@
 import env from './env';
+import { isLocalPreview } from '../preview';
+import { previewData } from './previewData';
 import { type Application, type Direction } from '../client/types';
 
 const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
@@ -149,6 +151,7 @@ const matchesRound = (record: AirtableRecord, roundId: string): boolean => {
 };
 
 export const fetchRounds = async (): Promise<Round[]> => {
+  if (isLocalPreview()) return previewData.fetchRounds();
   const records = await fetchAll(
     ROUNDS_URL,
     { filterByFormula: 'OR({Status} = "Active", {Status} = "Future")' },
@@ -191,6 +194,7 @@ export const fetchApplications = async (
   offset?: string,
   direction: Direction = 'top',
 ): Promise<{ applications: Application[]; nextOffset?: string }> => {
+  if (isLocalPreview()) return previewData.fetchApplications(roundId, offset, direction);
   const collected: Application[] = [];
   // Airtable pagination can return the same record across internal pages when
   // the filtered-on field is modified mid-iteration (every rating mutates the
@@ -264,6 +268,7 @@ const fetchApplicationEmailAndRound = async (applicationId: string): Promise<{ e
 };
 
 export const fetchApplicationHistory = async (applicationId: string): Promise<PreviousApplication[]> => {
+  if (isLocalPreview()) return previewData.fetchApplicationHistory();
   const { email, roundId } = await fetchApplicationEmailAndRound(applicationId);
   if (!email) return [];
 
@@ -311,6 +316,7 @@ export type RoundStats = {
 };
 
 export const fetchRoundStats = async (roundId: string): Promise<RoundStats> => {
+  if (isLocalPreview()) return previewData.fetchRoundStats();
   const { records } = await fetchPage(
     ROUNDS_URL,
     {
@@ -367,6 +373,7 @@ const patchSingle = async (id: string, fields: Record<string, unknown>): Promise
 };
 
 export const moveApplicationToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
+  if (isLocalPreview()) return previewData.moveApplicationToAgisc(applicationId, roundId);
   // Step 1: Set course and round
   await patchSingle(applicationId, {
     fldkEQ0zBUhqpIuJn: 'AGI Strategy', // Course (single select)
@@ -379,6 +386,7 @@ export const moveApplicationToAgisc = async (applicationId: string, roundId: str
 };
 
 export const resetOpinion = async (id: string): Promise<void> => {
+  if (isLocalPreview()) return previewData.resetOpinion(id);
   await patchSingle(id, {
     fldOm6fJcqhq78M71: 'TODO', // Human opinion
     fldWVKY5EFAGSRcDT: null, // Decision — null clears single select
@@ -386,6 +394,7 @@ export const resetOpinion = async (id: string): Promise<void> => {
 };
 
 export const writeOpinions = async (opinions: { id: string; opinion: string; decision: string }[]): Promise<void> => {
+  if (isLocalPreview()) return previewData.writeOpinions(opinions);
   const BATCH_SIZE = 10;
   const batches: { id: string; opinion: string; decision: string }[][] = [];
   for (let i = 0; i < opinions.length; i += BATCH_SIZE) {

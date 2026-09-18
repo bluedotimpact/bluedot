@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';
 import { writeOpinions } from '../../lib/api/airtable';
-import { requireAdmin } from '../../lib/api/requireAdmin';
 
 export default makeApiRoute({
   requireAuth: true,
@@ -12,7 +11,6 @@ export default makeApiRoute({
       decision: z.enum(['Accept', 'Reject']),
     })).max(50),
   }),
-}, async ({ opinions }, { auth }) => {
-  await requireAdmin(auth.email);
+}, async ({ opinions }) => {
   await writeOpinions(opinions);
 });
