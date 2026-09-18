@@ -173,7 +173,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             id="investment-note"
             value={investmentNote}
             onChange={(e) => setInvestmentNote(e.target.value)}
-            className="h-[106px] resize-none"
+            className="min-h-[106px] resize-none"
           />
           {isStandout && <StandoutNudge />}
         </div>
