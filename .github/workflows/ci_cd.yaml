@@ -293,3 +293,4 @@ jobs:
         run: npm run deploy:cd --workspace ${{ matrix.app }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          ASHBY_API_KEY: ${{ matrix.app == '@bluedot/infra' && secrets.ASHBY_API_KEY || '' }}

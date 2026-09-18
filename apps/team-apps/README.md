@@ -93,6 +93,28 @@ The normal app and infrastructure deployment jobs run independently. On first de
 
 If the portal fails verification, keep the old reviewer available and roll back only the portal changes. No database schema migration or data copy is required.
 
+### Ashby key for talent sourcing
+
+Add a repository Actions secret named `ASHBY_API_KEY` in `bluedotimpact/bluedot`.
+Use an Ashby key with `jobsRead`, `candidatesRead` and `candidatesWrite` permissions.
+The key is passed only to the infrastructure deployment, marked secret in Pulumi,
+and stored in a Kubernetes Secret. Only the `bluedot-team-apps` container receives
+it as the server environment variable `ASHBY_API_KEY`. It is not a build argument
+or a `NEXT_PUBLIC_` variable.
+
+Create this GitHub secret before merging the infrastructure change. An infrastructure
+run without this key or a local Pulumi `ashbyApiKey` value fails rather than publishing
+an empty key. For local infrastructure previews, provide `ASHBY_API_KEY` privately or
+use `npm run config:secret ashbyApiKey` from `apps/infra`; do not commit a plaintext key.
+
+This provisions the credential only. Talent sourcing still needs its authenticated
+portal integration, durable data and job hosting before it can run here. The local
+Python server remains loopback-only. Its existing key is not copied to production.
+
+For key rotation, update the GitHub secret, run the infrastructure deployment, then
+restart the team-apps deployment using the normal rollout procedure in the infra guide.
+Changing the GitHub secret alone does not update a running container.
+
 ### End of trial
 
 Dewi has a retirement task due 2 Oct 2026. Extend the trial if launch is delayed or regressions remain. After acceptance, use a separate PR to remove the old `apps/speed-review` package and service, and redirect its old hostname to `https://apps.bluedot.org/speed-review` so bookmarks keep working. Preserve the shared Airtable data, shared secrets, and the new portal deployment.
