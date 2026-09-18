@@ -1,8 +1,10 @@
 'use client';
 
-import { CTALinkOrButton, P, useCurrentTimeMs } from '@bluedot/ui';
+import {
+  CTALinkOrButton, Eyebrow, P, useCurrentTimeMs,
+} from '@bluedot/ui';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useId } from 'react';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 
 /**
@@ -54,11 +56,17 @@ export type AnnouncementBannerProps = React.PropsWithChildren<{
   hideUntil?: Date;
   /** Hide the banner after this time. E.g. hide a banner announcing an event if the event has passed */
   hideAfter?: Date;
-  /** Whether to show the Dismiss button. Defaults to true. */
+  /**
+   * Whether to show the Dismiss button. Defaults to true.
+   *
+   * Dismissal is keyed by a hash of the message text and persisted in localStorage, so a dismissed banner stays hidden across visits.
+   */
   dismissible?: boolean;
 }>;
 
-/** A banner with an announcement, and optionally a CTA. In most cases you'll want to use this in _app.tsx underneath Nav. */
+/**
+ * A banner with an announcement, and optionally a CTA. In most cases you'll want to use this in _app.tsx underneath Nav.
+ */
 export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   className,
   children,
@@ -69,6 +77,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   hideAfter,
   dismissible = true,
 }) => {
+  const contentId = useId();
   const bannerKey = getAnnouncementBannerKey(children);
   const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
   const isDismissed = useAnnouncementBannerStore((s) => Boolean(s.dismissedBanners[bannerKey]));
@@ -88,36 +97,23 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   }
 
   return (
-    <div
-      className={clsx(
-        'w-full border-b border-charcoal-light bg-bluedot-lighter text-bluedot-darker',
-        className,
-      )}
+    <section
+      aria-label="Announcement"
+      className={clsx('border-subtle bg-accent-subtle text-primary w-full border-b', className)}
     >
       <div className="section-base">
         <div className="flex flex-col gap-3 py-3 sm:py-3.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
           <div className="min-w-0 flex-1">
-            <div className="flex flex-col gap-1.5">
-              {label && (
-                <span className="text-size-xxs font-semibold uppercase tracking-widest text-bluedot-normal">
-                  {label}
-                </span>
-              )}
-              <P className="max-w-4xl text-pretty text-size-xs leading-6 text-bluedot-darker sm:text-size-sm">
-                {children}
-              </P>
+            <div id={contentId} className="flex flex-col gap-1.5">
+              {label && <Eyebrow>{label}</Eyebrow>}
+              <P className="text-size-xs text-primary sm:text-size-sm max-w-4xl leading-6 text-pretty">{children}</P>
             </div>
           </div>
 
           {(!!ctaUrl || dismissible) && (
             <div className="flex flex-wrap items-center gap-2">
               {ctaUrl && (
-                <CTALinkOrButton
-                  size="small"
-                  variant="black"
-                  url={ctaUrl}
-                  withChevron
-                >
+                <CTALinkOrButton size="small" variant="primary" url={ctaUrl} withChevron>
                   {ctaText}
                 </CTALinkOrButton>
               )}
@@ -125,7 +121,8 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
                 <CTALinkOrButton
                   variant="outline-black"
                   size="small"
-                  aria-label="Close announcement"
+                  aria-label="Dismiss announcement"
+                  aria-describedby={contentId}
                   onClick={() => dismissBanner(bannerKey)}
                 >
                   Dismiss
@@ -135,8 +132,6 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
-
-export default AnnouncementBanner;
