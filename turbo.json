@@ -23,6 +23,10 @@
       "cache": false,
       "persistent": true,
       "env": ["NODE_ENV"]
+    },
+    "@bluedot/infra#deploy:cd": {
+      "cache": false,
+      "env": ["ASHBY_API_KEY"]
     }
   }
 }

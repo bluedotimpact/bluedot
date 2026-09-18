@@ -453,6 +453,7 @@ export const services: ServiceDefinition[] = [
         name: 'bluedot-team-apps',
         image: 'ghcr.io/bluedotimpact/bluedot-team-apps:latest',
         env: [
+          { name: 'ASHBY_API_KEY', valueFrom: envVarSources.ashbyApiKey },
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
