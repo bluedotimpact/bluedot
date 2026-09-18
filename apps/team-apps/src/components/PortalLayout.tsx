@@ -146,15 +146,22 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
   const navigation = (compact: boolean) => (
     <nav aria-label="Apps" className="flex flex-col gap-1">
       {[{
-        name: 'Home', href: '/', id: 'home', icon: 'home' as const,
+        name: 'Home', href: '/', id: 'home', icon: 'home' as const, external: false,
       }, ...apps].map((app) => (
         <Link
           key={app.id}
           href={app.href}
-          aria-label={app.name}
+          target={app.external ? '_blank' : undefined}
+          rel={app.external ? 'noopener noreferrer' : undefined}
+          aria-label={app.external ? `${app.name} (opens in a new tab)` : app.name}
           aria-current={router.pathname === app.href ? 'page' : undefined}
           title={compact ? app.name : undefined}
           onClick={(event) => {
+            if (app.external) {
+              setMobileOpen(false);
+              return;
+            }
+
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
             if (router.pathname === app.href) {
@@ -170,7 +177,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           className={`flex min-h-11 items-center gap-3 rounded-surface px-3 text-size-xs font-medium transition-colors ${compact ? 'justify-center' : ''} ${router.pathname === app.href ? 'bg-active text-primary' : 'text-secondary hover:bg-tint hover:text-primary'}`}
         >
           <PortalIcon name={app.icon} className="shrink-0" />
-          {!compact && <span>{app.name}</span>}
+          {!compact && <><span>{app.name}</span>{app.external && <PortalIcon name="external" className="ml-auto size-3.5 shrink-0" />}</>}
         </Link>
       ))}
     </nav>
