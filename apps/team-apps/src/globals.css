@@ -1,0 +1,8 @@
+/* You usually shouldn't need to edit this file. Instead of putting styles here, use utility classes in a component instead. For more details, see https://tailwindcss.com/docs/styling-with-utility-classes */
+
+@import 'tailwindcss';
+@import '../../../libraries/ui/src/default-config/tailwind.css';
+
+@layer base {
+  button, a, input, select, summary { @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus; }
+}

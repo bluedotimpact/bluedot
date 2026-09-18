@@ -1,0 +1,22 @@
+import createHttpError from 'http-errors';
+import { z } from 'zod';
+import { makeApiRoute } from '../../lib/api/makeApiRoute';
+import { fetchApplicationHistory } from '../../lib/api/airtable';
+
+export default makeApiRoute({
+  requireAuth: true,
+  responseBody: z.object({
+    history: z.array(z.object({
+      id: z.string(),
+      roundName: z.string(),
+      humanOpinion: z.string(),
+      decision: z.string(),
+      createdAt: z.string(),
+    })),
+  }),
+}, async (_, { raw: { req } }) => {
+  const id = typeof req.query.id === 'string' ? req.query.id : '';
+  if (!/^rec[A-Za-z0-9]{14}$/.test(id)) throw new createHttpError.BadRequest('Missing or invalid query param: id');
+  const history = await fetchApplicationHistory(id);
+  return { history };
+});
