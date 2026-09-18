@@ -5,8 +5,8 @@
 // project submissions, course feedback) onto db.scan once PG_URL is set up.
 import env from './env';
 import {
-  type Application, type Course, type CourseFeedback, type FacilitatorReport,
-  type Person, type Project, type QueueItem, type Registration,
+  type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
+  type FacilitatorReport, type GrantApplication, type Person, type Project, type QueueItem, type Registration,
 } from '../client/types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -17,6 +17,9 @@ const ROUNDS_URL = `${COURSE_RUNNER}/tblu6u7F2NHfCMgsk`;
 const REPORTS_URL = `${COURSE_RUNNER}/tblRTbvkM5pMvWoEb`;
 const PROJECTS_URL = `${COURSE_RUNNER}/tblKo0mCsC7gfRGC7`;
 const FEEDBACK_URL = `${COURSE_RUNNER}/tblRFqRF2tKAqh7sp`;
+const PEER_FEEDBACK_URL = `${COURSE_RUNNER}/tbl8KC4Q1i5YlCGhm`;
+const GRANTS_URL = `${APPLICATIONS}/tblh5zr4jRdrndKnC`;
+const CALLS_URL = `${APPLICATIONS}/tblVstbJehu8wew93`;
 const APPLICATION_REGISTRATIONS_URL = `${APPLICATIONS}/tblXKnWoXK3R63F6D`;
 const USERS_URL = `${APPLICATIONS}/tblCgeKADNDSCXPpR`;
 
@@ -36,6 +39,8 @@ const REG = {
   reports: 'fldhnrkUUKFyv6hGe',
   projects: 'fldFjRSrXH8Z5sGaQ',
   feedback: 'fldD7uatp5h4szlzB',
+  peerFeedback: 'fldD6lrcQ0SGqPaOq',
+  droppedOut: 'fldo6OFs9DMQFgqcv',
   applicationId: 'fldoKAVy6QPWZmofb',
   profileUrl: 'fldo0UeWXuVagtk9T',
   jobTitle: 'fldMRGSPKYpynaKGf',
@@ -79,8 +84,45 @@ const FEEDBACK = {
   timeSpent: 'fld0lUDTIw698MzZw',
 } as const;
 
+// Course runner › Peer feedback — the facilitator's private notes on a participant
+const PEER = {
+  reviewer: 'fldn73Ry62ZUi1p9V',
+  reviewerRole: 'fldbbYQQE7ELZgzkl',
+  round: 'fldeJLO4PeQQ6HgFQ',
+  totalRating: 'fldPpQJJWyWvNP97T',
+  ratingReasoning: 'fldNXTpmIxyKvYdZH',
+  ratingInitiative: 'fldUBSY6rZ1Oyf1bd',
+  feedback: 'fldybGPKyRUcM0D84',
+  oneOnOneRating: 'fldbc8hZ7zQs9BFvH',
+  motivation: 'fldHZHrE2nI1BQzvt',
+  nextSteps: 'fldDXBWnFLi7vD2CQ',
+  recommendToFacilitate: 'fldlCEk5bRh2LeafW',
+} as const;
+
+// Applications › Career transition grants
+const GRANT = {
+  email: 'fldAIKWJz3O3IzyH2',
+  createdAt: 'fldE84yZkPAzBL2gl',
+  status: 'fldnfK6Wgb1CAuvFE',
+  decisionDate: 'fld3eJ88BBBQHgcmJ',
+  amountUsd: 'fldYhy8btQ5r8vRk0',
+  reasoning: 'fld8umY7wuskih6gg',
+} as const;
+
+// Applications › Evaluation calls
+const CALL = {
+  email: 'fldCigDwg47QHQiM8',
+  createdAt: 'fldas6mED92PFLwRm',
+  callDate: 'fldENW0Wjh65PgRGz',
+  status: 'fldw2nYIeX6fum5vy',
+  opinion: 'fldcGMexyNn2SMTpX',
+  notesUrl: 'fldygXae4jBcNmHae',
+} as const;
+
 // Applications base — Course registration (same field IDs speed-review uses)
 const APP = {
+  otherProfileUrl: 'fldq4vFSZQ4U5KelW',
+  source: 'flduEoJRp6uvz74xo',
   jobTitle: 'fldn2VmCwMP7XFSTn',
   organisation: 'fldBKgqEQ2xBVZUlH',
   careerLevel: 'fld0J5SuqA1MZSLU1',
@@ -280,10 +322,46 @@ const toFeedback = (r: AirtableRecord): CourseFeedback => ({
   timeSpent: num(r.fields[FEEDBACK.timeSpent]),
 });
 
+const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorFeedback => ({
+  id: r.id,
+  reviewer: first(r.fields[PEER.reviewer]),
+  round: rounds.get(first(r.fields[PEER.round]) ?? '')?.name,
+  rating: num(r.fields[PEER.totalRating]),
+  ratingReasoning: num(r.fields[PEER.ratingReasoning]),
+  ratingInitiative: num(r.fields[PEER.ratingInitiative]),
+  feedback: str(r.fields[PEER.feedback]),
+  oneOnOneRating: str(r.fields[PEER.oneOnOneRating]),
+  motivation: str(r.fields[PEER.motivation]),
+  nextSteps: strList(r.fields[PEER.nextSteps]),
+  recommendToFacilitate: !!r.fields[PEER.recommendToFacilitate],
+});
+
+const toGrant = (r: AirtableRecord): GrantApplication => ({
+  id: r.id,
+  createdAt: str(r.fields[GRANT.createdAt]),
+  status: str(r.fields[GRANT.status]),
+  decisionDate: str(r.fields[GRANT.decisionDate]),
+  amountUsd: num(r.fields[GRANT.amountUsd]),
+  reasoning: str(r.fields[GRANT.reasoning]),
+});
+
+const toCall = (r: AirtableRecord): EvaluationCall => ({
+  id: r.id,
+  createdAt: str(r.fields[CALL.createdAt]),
+  callDate: str(r.fields[CALL.callDate]),
+  status: str(r.fields[CALL.status]),
+  opinion: str(r.fields[CALL.opinion]),
+  notesUrl: url(r.fields[CALL.notesUrl]),
+});
+
+const byEmailFormula = (fieldName: string, email: string) => `LOWER({${fieldName}})='${email.replace(/'/g, '\\\'').toLowerCase()}'`;
+
 const toApplication = (r: AirtableRecord): Application => {
   const f = r.fields;
   return {
     id: r.id,
+    otherProfileUrl: url(f[APP.otherProfileUrl]),
+    source: str(f[APP.source]),
     jobTitle: str(f[APP.jobTitle]),
     organisation: str(f[APP.organisation]),
     careerLevel: str(f[APP.careerLevel]),
@@ -304,7 +382,7 @@ const toApplication = (r: AirtableRecord): Application => {
   };
 };
 
-const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt];
+const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut];
 
 // Every registration this email has with BlueDot, in any course, oldest first.
 const fetchHistory = async (email: string, currentId: string, rounds: Map<string, Round>): Promise<Registration[]> => {
@@ -319,9 +397,10 @@ const fetchHistory = async (email: string, currentId: string, rounds: Map<string
         roundName: round?.name ?? '',
         roundStart: round?.start,
         roundEnd: round?.end,
-        role: str(r.fields[REG.role]),
+        facilitated: str(r.fields[REG.role]) === 'Facilitator',
         opinion: str(r.fields[REG.opinion]),
         hasCertificate: !!r.fields[REG.certificateCreatedAt],
+        droppedOut: !!r.fields[REG.droppedOut],
         isCurrent: r.id === currentId,
       };
     })
@@ -341,9 +420,12 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   const email = str(f[REG.email]) ?? '';
   const applicationId = str(f[REG.applicationId]);
 
-  const [history, reports, projects, feedback, application] = await Promise.all([
+  const [history, grants, calls, reports, peerFeedback, projects, feedback, application] = await Promise.all([
     email ? fetchHistory(email, id, rounds) : Promise.resolve([]),
+    email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
+    email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
     fetchMany(REPORTS_URL, strList(f[REG.reports]), Object.values(REPORT)),
+    fetchMany(PEER_FEEDBACK_URL, strList(f[REG.peerFeedback]), Object.values(PEER)),
     fetchMany(PROJECTS_URL, strList(f[REG.projects]), Object.values(PROJECT)),
     fetchMany(FEEDBACK_URL, strList(f[REG.feedback]), Object.values(FEEDBACK)),
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
@@ -364,7 +446,11 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     country: str(f[REG.country]),
     scoutingStatus: str(f[REG.scoutingStatus]),
     history,
+    grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
+    calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     reports: reports.map(toReport(rounds)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
+    // Only the facilitator's rows; participants can also leave peer feedback
+    facilitatorFeedback: peerFeedback.filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator')).map(toFacilitatorFeedback(rounds)),
     projects: projects.map(toProject),
     feedback: feedback.map(toFeedback),
     application: application ? toApplication(application) : undefined,

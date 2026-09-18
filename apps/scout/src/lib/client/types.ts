@@ -16,10 +16,44 @@ export type Registration = {
   roundName: string;
   roundStart?: string;
   roundEnd?: string;
-  role?: string;
+  facilitated: boolean;
   opinion?: string;
   hasCertificate: boolean;
+  droppedOut: boolean;
   isCurrent: boolean;
+};
+
+// Facilitator's private feedback on a participant (Course runner › Peer feedback)
+export type FacilitatorFeedback = {
+  id: string;
+  reviewer?: string;
+  round?: string;
+  rating?: number;
+  ratingReasoning?: number;
+  ratingInitiative?: number;
+  feedback?: string;
+  oneOnOneRating?: string;
+  motivation?: string;
+  nextSteps: string[];
+  recommendToFacilitate: boolean;
+};
+
+export type GrantApplication = {
+  id: string;
+  createdAt?: string;
+  status?: string;
+  decisionDate?: string;
+  amountUsd?: number;
+  reasoning?: string;
+};
+
+export type EvaluationCall = {
+  id: string;
+  createdAt?: string;
+  callDate?: string;
+  status?: string;
+  opinion?: string;
+  notesUrl?: string;
 };
 
 export type FacilitatorReport = {
@@ -52,6 +86,8 @@ export type CourseFeedback = {
 
 export type Application = {
   id: string;
+  otherProfileUrl?: string;
+  source?: string;
   jobTitle?: string;
   organisation?: string;
   careerLevel?: string;
@@ -86,7 +122,10 @@ export type Person = {
   country?: string;
   scoutingStatus?: string;
   history: Registration[];
+  grants: GrantApplication[];
+  calls: EvaluationCall[];
   reports: FacilitatorReport[];
+  facilitatorFeedback: FacilitatorFeedback[];
   projects: Project[];
   feedback: CourseFeedback[];
   application?: Application;
