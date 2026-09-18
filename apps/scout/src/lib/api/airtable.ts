@@ -471,20 +471,38 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   };
 };
 
-// ---- Decisions ----
+// ---- Invite ----
 
-export const writesEnabled = () => env.SCOUT_WRITES_ENABLED === 'true';
+const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
+const REG_EMAIL_SENT = 'fldTuKceN6K8fDrvH';
+const REG_EMAIL_SENT_IN_APPLICATIONS = 'fldBPgPLpZ1oL4KiT';
 
-// Invite = the same two-field habit used by hand: set the invite source and tick
-// the send box. The Course runner automation sends the email and stamps the date.
-export const recordDecision = async (id: string, decision: 'invite' | 'not-now'): Promise<void> => {
-  const fields = decision === 'invite'
-    ? { [REG.scoutingStatus]: 'Invited', [REG.inviteSource]: 'Talent scouting app', [REG.sendInviteEmail]: true }
-    : { [REG.scoutingStatus]: 'Pass' };
+export type InviteResult = { ok: true } | { ok: false; reason: string };
+
+// Invite for real = the same two-field habit used by hand: set the invite source
+// and tick the send box. The Course runner automation sends the email from the
+// course lead and stamps the date. The row is re-read first so a person who was
+// already contacted is never invited twice, even from two open tabs.
+export const inviteForReal = async (id: string): Promise<InviteResult> => {
+  const record = await fetchOne(REGISTRATIONS_URL, id, []);
+  if (!record) return { ok: false, reason: 'Registration not found' };
+  const f = record.fields;
+  const alreadyContacted = [REG_INVITE_DATE, REG_EMAIL_SENT, REG_EMAIL_SENT_IN_APPLICATIONS, REG.sendInviteEmail].some((field) => !!f[field]);
+  if (alreadyContacted) {
+    return { ok: false, reason: 'This person has already been invited to a call' };
+  }
+
+  if (str(f[REG.scoutingStatus])) {
+    return { ok: false, reason: `This person already has the status "${str(f[REG.scoutingStatus])}"` };
+  }
+
   const response = await fetch(`${REGISTRATIONS_URL}/${id}`, {
     method: 'PATCH',
     headers: headers(),
-    body: JSON.stringify({ fields }),
+    body: JSON.stringify({
+      fields: { [REG.scoutingStatus]: 'Invited', [REG.inviteSource]: 'Talent scouting app', [REG.sendInviteEmail]: true },
+    }),
   });
   if (!response.ok) throw await airtableError(response, `update ${id}`);
+  return { ok: true };
 };

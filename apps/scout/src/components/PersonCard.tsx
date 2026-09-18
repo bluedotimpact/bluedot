@@ -6,6 +6,8 @@ import {
   type EvaluationCall, type GrantApplication, type Person, type Registration,
 } from '../lib/client/types';
 
+const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
+const REGISTRATIONS_TABLE_ID = 'tblBeMxAM1FAW06n4';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
 const APPLICATIONS_TABLE_ID = 'tblXKnWoXK3R63F6D';
 
@@ -67,7 +69,7 @@ const plain = (text: string) => text
   .trim();
 
 const Caption: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <span className="text-size-xs font-semibold uppercase tracking-wide text-secondary">{children}</span>
+  <span className="text-size-xs font-medium text-bluedot-navy">{children}</span>
 );
 
 const Answer: React.FC<{ label: string; text?: string }> = ({ label, text }) => (
@@ -215,7 +217,11 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           {profileLinks.map((u) => (
             <CTALinkOrButton key={u} size="small" variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</CTALinkOrButton>
           ))}
+          {person.projects.filter((p) => p.url).map((p) => (
+            <CTALinkOrButton key={p.id} size="small" variant="outline-black" url={p.url} target="_blank">Project ↗</CTALinkOrButton>
+          ))}
           <CTALinkOrButton size="small" variant="outline-black" onClick={() => navigator.clipboard.writeText(person.email)}>Copy email</CTALinkOrButton>
+          <A href={`https://airtable.com/${COURSE_RUNNER_BASE_ID}/${REGISTRATIONS_TABLE_ID}/${person.id}`} target="_blank" className="self-center text-size-xs">registration in Airtable ↗</A>
         </div>
       </CardShell>
 
@@ -262,22 +268,8 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         )}
       </Section>
 
-      {person.projects.every((p) => p.evalNotes.length === 0) ? (
-        <CardShell className="flex flex-wrap items-center gap-2 px-4 py-2.5 text-size-sm">
-          <span className="inline-block w-[14px]" />
-          <span className={cn('font-semibold', person.projects.length === 0 ? 'text-disabled' : 'text-primary')}>Project</span>
-          {person.projects.length === 0 && <span className="text-disabled">no submission</span>}
-          {person.projects.map((p) => (p.url
-            ? <A key={p.id} href={p.url} target="_blank" className="text-size-xs">{p.title ?? 'open'} ↗</A>
-            : <span key={p.id} className="text-secondary">{p.title}</span>))}
-        </CardShell>
-      ) : (
-        <Section
-          title="Project"
-          meta={person.projects.map((p) => (p.url
-            ? <A key={p.id} href={p.url} target="_blank">{p.title ?? 'open'} ↗</A>
-            : <Meta key={p.id}>{p.title}</Meta>))}
-        >
+      {person.projects.some((p) => p.evalNotes.length > 0) && (
+        <Section title="Project notes">
           {person.projects.map((p) => p.evalNotes.map((n, i) => (
             <Answer key={n} label={`Evaluator notes${p.evalNotes.length > 1 ? ` ${i + 1}` : ''}`} text={n} />
           )))}

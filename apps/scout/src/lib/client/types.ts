@@ -134,4 +134,4 @@ export type Person = {
   application?: Application;
 };
 
-export type Decision = 'invite' | 'not-now';
+export type Decision = 'invite' | 'not-now' | 'invited';
