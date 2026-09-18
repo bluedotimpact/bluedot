@@ -1,8 +1,8 @@
 # BlueDot Apps
 
-The team portal is a separate Next.js app (`@bluedot/team-apps`) with its own `bluedot-team-apps` deployment. Speed Reviewer is the first tool. During the trial, the existing `apps/speed-review` app stays at its original hostname with its original sign-in.
+The team portal is a separate Next.js app (`@bluedot/team-apps`) with its own `bluedot-team-apps` deployment. Speed Reviewer and Candidate sourcing share the portal shell. During the trial, the existing `apps/speed-review` app stays at its original hostname with its original sign-in.
 
-Signed-out visitors see only a minimal Google sign-in page, including when opening an app directly. App names, navigation, and screens appear after sign-in. The signed-in home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Toggle it with ⌘B on Mac or Ctrl+B on Windows/Linux, matching the course pages; typing in an input or editor leaves that shortcut alone. Speed Reviewer is the first app, at `/speed-review`. More tools can follow through normal PRs.
+Signed-out visitors see only a minimal Google sign-in page, including when opening an app directly. App names, navigation, and screens appear after sign-in. The signed-in home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Toggle it with ⌘B on Mac or Ctrl+B on Windows/Linux, matching the course pages; typing in an input or editor leaves that shortcut alone. Speed Reviewer lives at `/speed-review`; Candidate sourcing lives at `/candidate-sourcing`. More tools can follow through normal PRs.
 
 ## Run locally with real data
 
@@ -37,6 +37,14 @@ Choose **Explore local preview**. All applicants are synthetic. Ratings, resets,
 
 The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=true`. Production rejects its synthetic identity even when the flag is accidentally set. This mode is bound to loopback and is not for publicly hosted preview environments.
 
+## Candidate sourcing
+
+The React/TypeScript Workbench is native portal content, with a person-search icon in the shared app registry. It keeps the existing search, assessment, feedback, review and Ashby workflows. It is not an iframe or a link to the standalone app.
+
+The frontend lives in `src/features/candidate-sourcing`, its typed and staff-authenticated tRPC API in `src/server`, and its Python assessment engine in `candidate-sourcing`. Browser requests use the portal origin and its existing Google identity. The engine remains private on loopback; its local write token and Ashby key never enter browser responses. Navigation and sign-out wait for saves and protect unsaved review drafts.
+
+Follow [the engine setup guide](candidate-sourcing/README.md) for real-data development or the isolated sample preview. This change is for local acceptance. Production engine hosting and data migration must be completed before publishing the app to the team.
+
 ## Add or improve a tool
 
 1. Add its page under `src/pages/` and group its components and backend code by feature.
@@ -45,7 +53,7 @@ The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=tru
 4. Register active work and pending writes with `useNavigationState` so navigation cannot silently abandon them.
 5. Test with synthetic/local data, open a PR, and publish through the normal deployment process after review.
 
-Personal experiments can stay in local branches or forks with local/test data and no production write credentials. The portal does not create or host personal forks. Talent sourcing's multi-user hosting is a separate project; its Python backend can be retained.
+Personal experiments can stay in local branches or forks with local/test data and no production write credentials. The portal does not create or host personal forks. Candidate sourcing is integrated locally; its Python engine still needs durable production hosting before team rollout. See [its setup guide](candidate-sourcing/README.md).
 
 ## Verification
 
@@ -107,8 +115,8 @@ run without this key or a local Pulumi `ashbyApiKey` value fails rather than pub
 an empty key. For local infrastructure previews, provide `ASHBY_API_KEY` privately or
 use `npm run config:secret ashbyApiKey` from `apps/infra`; do not commit a plaintext key.
 
-This provisions the credential only. Talent sourcing still needs its authenticated
-portal integration, durable data and job hosting before it can run here. The local
+This provisions the credential only. Candidate sourcing now has its authenticated
+portal integration, but still needs durable data and engine hosting before it can run here. The local
 Python server remains loopback-only. Its existing key is not copied to production.
 
 For key rotation, update the GitHub secret, run the infrastructure deployment, then

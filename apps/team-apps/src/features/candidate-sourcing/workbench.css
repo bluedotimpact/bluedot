@@ -1,0 +1,918 @@
+/* Scope every rule to the feature; use the portal's semantic tokens when present. */
+.talent-workbench,
+.ts-dialog {
+  --ts-ink: var(--color-primary, #13132e);
+  --ts-muted: var(--color-secondary, #13132eb2);
+  --ts-canvas: var(--color-canvas, #fcfbf9);
+  --ts-raised: var(--color-raised, #fff);
+  --ts-line: var(--color-subtle, #13132e1a);
+  --ts-tint: var(--color-tint, #13132e0f);
+  --ts-blue: var(--color-accent, #1144cc);
+  --ts-warning: var(--color-warning-fg, #a85708);
+  color: var(--ts-ink);
+  font: 14px/1.5
+    var(--font-sans, Inter, ui-sans-serif, system-ui, -apple-system, sans-serif);
+  text-align: left;
+}
+.talent-workbench {
+  container: talent / inline-size;
+  min-width: 0;
+  width: 100%;
+  background: var(--ts-raised);
+}
+.talent-workbench *,
+.ts-dialog * {
+  box-sizing: border-box;
+}
+:where(.talent-workbench, .ts-dialog) :where(button, input, textarea, select) {
+  font: inherit;
+  color: inherit;
+}
+:where(.talent-workbench, .ts-dialog) :where(button, select, summary) {
+  cursor: pointer;
+}
+:where(.talent-workbench, .ts-dialog) button {
+  border: 1px solid var(--ts-line);
+  border-radius: 8px;
+  background: var(--ts-raised);
+  padding: 9px 13px;
+  min-height: 40px;
+  line-height: 1.35;
+  font-weight: 500;
+  transition: background 100ms;
+}
+:where(.talent-workbench, .ts-dialog) button:hover {
+  background: var(--ts-tint);
+}
+:where(.talent-workbench, .ts-dialog) button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+:where(.talent-workbench, .ts-dialog) .ts-primary {
+  color: #fff;
+  background: var(--ts-blue);
+  border-color: var(--ts-blue);
+}
+:where(.talent-workbench, .ts-dialog) .ts-primary:hover {
+  background: var(--color-accent-hover, #0d369f);
+}
+:where(.talent-workbench, .ts-dialog) :focus-visible {
+  outline: 2px solid var(--color-focus, #1144cc);
+  outline-offset: 3px;
+}
+:where(.talent-workbench, .ts-dialog) :where(input, select, textarea) {
+  min-width: 0;
+  width: 100%;
+  border: 1px solid var(--ts-line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--ts-raised);
+  min-height: 42px;
+}
+:where(.talent-workbench, .ts-dialog) textarea {
+  display: block;
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+:where(.talent-workbench, .ts-dialog) input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  accent-color: var(--ts-blue);
+}
+:where(.talent-workbench, .ts-dialog) :where(h1, h2, h3, p) {
+  margin: 0;
+}
+:where(.talent-workbench, .ts-dialog) h1 {
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+:where(.talent-workbench, .ts-dialog) h2 {
+  font-size: 23px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+:where(.talent-workbench, .ts-dialog) h3 {
+  font-size: 14px;
+  font-weight: 650;
+}
+:where(.talent-workbench, .ts-dialog) p {
+  max-width: 70ch;
+  overflow-wrap: anywhere;
+}
+:where(.talent-workbench, .ts-dialog) :where(a, .ts-link-button) {
+  color: var(--ts-blue);
+  text-decoration: none;
+}
+:where(.talent-workbench, .ts-dialog) a:hover {
+  text-decoration: underline;
+}
+:where(.talent-workbench, .ts-dialog) small {
+  font-size: 12px;
+}
+:where(.talent-workbench, .ts-dialog) pre {
+  font: inherit;
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.65;
+  max-width: 70ch;
+}
+:where(.talent-workbench, .ts-dialog) label {
+  display: grid;
+  gap: 7px;
+}
+:where(.talent-workbench, .ts-dialog) progress {
+  width: 100%;
+  height: 5px;
+  display: block;
+  accent-color: var(--ts-blue);
+  border-radius: 4px;
+}
+:where(.talent-workbench, .ts-dialog) summary {
+  padding: 14px 0;
+  font-weight: 500;
+}
+:where(.talent-workbench, .ts-dialog) li {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.ts-muted {
+  color: var(--ts-muted);
+}
+.ts-small {
+  font-size: 12px;
+}
+.ts-warning-text {
+  color: var(--ts-warning);
+}
+.ts-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 10px;
+  font-weight: 650;
+  color: var(--ts-muted);
+  display: block;
+}
+.ts-flex {
+  flex: 1;
+}
+.ts-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.ts-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ts-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: var(--candidate-viewport-height, 100dvh);
+}
+.ts-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 32px 20px;
+  flex-shrink: 0;
+}
+.ts-main-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.ts-search-tools {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ts-search-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.ts-search-meta button {
+  flex-shrink: 0;
+}
+.ts-pool-count {
+  font-size: 12px;
+}
+
+.ts-search-tools select {
+  width: 200px;
+  min-width: 110px;
+  font-size: 12px;
+  background: var(--ts-canvas);
+}
+.ts-search-tools button {
+  border: 0;
+  font-size: 12px;
+}
+.ts-workspace {
+  display: grid;
+  grid-template-columns: minmax(280px, 36%) minmax(0, 1fr);
+  min-height: 0;
+  flex: 1;
+  border-top: 1px solid var(--ts-line);
+}
+.ts-people {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--ts-line);
+}
+.ts-list-tools {
+  padding: 20px 20px 12px;
+}
+.ts-list-tools input {
+  background: var(--ts-canvas);
+  font-size: 13px;
+}
+.ts-list-search {
+  display: flex;
+  gap: 8px;
+}
+.ts-list-search input {
+  flex: 1;
+}
+.ts-list-search button {
+  font-size: 12px;
+  padding: 7px 10px;
+  flex-shrink: 0;
+}
+.ts-review-tabs {
+  display: flex;
+  margin-top: 12px;
+  border-bottom: 1px solid var(--ts-line);
+}
+.talent-workbench .ts-review-tabs button {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 10px 4px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ts-muted);
+}
+.talent-workbench .ts-review-tabs button[aria-selected="true"] {
+  color: var(--ts-blue);
+  border-bottom-color: var(--ts-blue);
+}
+.talent-workbench .ts-review-tabs button:hover {
+  background: var(--ts-tint);
+}
+.ts-list-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  justify-content: space-between;
+  padding: 0 20px 12px;
+  font-size: 11px;
+  color: var(--ts-muted);
+}
+.ts-person-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+.talent-workbench .ts-person-row {
+  display: flex;
+  width: 100%;
+  gap: 18px;
+  align-items: start;
+  text-align: left;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid var(--ts-line);
+  padding: 20px;
+  position: relative;
+}
+.talent-workbench .ts-person-row[aria-current="true"] {
+  background: var(--color-info-bg, #eef3ff);
+  box-shadow: inset 3px 0 var(--ts-blue);
+}
+.ts-person-main {
+  min-width: 0;
+  flex: 1;
+}
+.ts-person-main strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.ts-person-role {
+  font-size: 12px;
+  color: var(--ts-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 4px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.ts-row-score {
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.ts-row-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 10px;
+  color: var(--ts-blue);
+  font-weight: 500;
+  margin-top: 7px;
+}
+.ts-row-flags:empty {
+  display: none;
+}
+.ts-pagination {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top: 1px solid var(--ts-line);
+  font-size: 11px;
+}
+.ts-pagination button {
+  width: 38px;
+  padding: 5px;
+}
+.ts-pagination .ts-actions {
+  gap: 8px;
+}
+.ts-profile {
+  overflow-y: auto;
+  min-width: 0;
+  padding: 20px 36px 48px;
+  overscroll-behavior: contain;
+}
+.ts-profile-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 11px;
+}
+.ts-profile-nav button {
+  width: 38px;
+  padding: 6px;
+}
+.ts-profile-nav .ts-mobile-back {
+  display: none;
+  width: auto;
+}
+.ts-profile-title {
+  display: flex;
+  gap: 14px;
+  align-items: start;
+  justify-content: space-between;
+}
+.ts-profile-title h2 {
+  overflow-wrap: anywhere;
+}
+.ts-profile-title p {
+  margin-top: 8px;
+  font-size: 13px;
+}
+.ts-star {
+  flex-shrink: 0;
+  font-size: 23px !important;
+  padding: 2px 10px !important;
+}
+.ts-star[data-added="true"] {
+  color: var(--ts-blue);
+}
+.ts-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: 12px;
+  margin: 14px 0 24px;
+  overflow-wrap: anywhere;
+}
+.ts-score-summary {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border-top: 1px solid var(--ts-line);
+  padding-top: 22px;
+  margin-bottom: 18px;
+}
+.ts-score-summary > strong {
+  font-size: 35px;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.ts-score-summary > strong small {
+  color: var(--ts-muted);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+.ts-score-summary > div {
+  flex: 1;
+  font-size: 12px;
+}
+.ts-score-summary > div small {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+}
+.ts-score-summary button {
+  border: 0;
+  font-size: 11px;
+  padding: 6px 0;
+}
+.ts-summary {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.ts-review {
+  margin: 24px 0 28px;
+  padding: 20px;
+  border: 1px solid var(--ts-line);
+  border-radius: 10px;
+  background: var(--ts-canvas);
+}
+.ts-section-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ts-section-heading > span {
+  font-size: 11px;
+  max-width: 60%;
+}
+.ts-decisions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.ts-decisions button {
+  flex: 1;
+  font-size: 12px;
+}
+.ts-decisions button[aria-pressed="true"] {
+  border-color: var(--ts-blue);
+  color: var(--ts-blue);
+  background: var(--color-info-bg, #eef3ff);
+}
+.ts-review textarea {
+  font-size: 13px;
+  min-height: 104px;
+}
+.ts-draft {
+  font-size: 12px;
+  margin-top: 10px;
+}
+.ts-draft p {
+  margin-bottom: 12px;
+}
+.ts-evidence h3 {
+  margin-bottom: 10px;
+}
+.ts-dimension {
+  border-bottom: 1px solid var(--ts-line);
+}
+.ts-dimension summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 13px;
+  list-style: none;
+}
+.ts-dimension summary::after {
+  content: "+";
+  color: var(--ts-muted);
+  font-weight: 400;
+}
+.ts-dimension[open] summary::after {
+  content: "−";
+}
+.ts-dimension summary span {
+  flex: 1;
+}
+.ts-dimension small {
+  color: var(--ts-muted);
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 10px;
+}
+.ts-dimension b {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.ts-dimension p {
+  font-size: 13px;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.ts-disclosure {
+  border-bottom: 1px solid var(--ts-line);
+  margin-top: 10px;
+}
+.ts-disclosure > summary {
+  font-size: 13px;
+}
+.ts-disclosure > summary span {
+  color: var(--ts-muted);
+  margin-left: 8px;
+}
+.ts-disclosure p {
+  margin: 10px 0;
+}
+.ts-disclosure :where(ul, dl) {
+  font-size: 13px;
+}
+.ts-disclosure dt {
+  font-weight: 600;
+  margin-top: 16px;
+}
+.ts-disclosure dd {
+  margin: 4px 0 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--ts-muted);
+}
+.ts-warning {
+  background: var(--color-warning-bg, #fff8eb);
+  color: var(--ts-warning);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-size: 12px;
+}
+.ts-warning p + p {
+  margin-top: 8px;
+}
+.ts-error,
+.ts-notice,
+.ts-job {
+  margin: 0 32px 16px;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  background: var(--color-info-bg, #eef3ff);
+}
+.ts-error {
+  background: var(--color-warning-bg, #fff8eb);
+  color: var(--ts-warning);
+}
+.ts-error span {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.ts-job > div:first-child {
+  flex: 1;
+}
+.ts-job p {
+  margin: 3px 0 7px;
+}
+.ts-job progress {
+  max-width: 320px;
+}
+.ts-job button,
+.ts-notice button,
+.ts-error button {
+  font-size: 11px;
+}
+.ts-ranking-note {
+  margin: 0 32px 16px !important;
+  font-size: 12px;
+  color: var(--ts-muted);
+}
+.ts-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--ts-muted);
+}
+.ts-empty h2 {
+  font-size: 17px;
+}
+.ts-empty p {
+  margin: 12px auto 20px;
+}
+.ts-dialog {
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--ts-line);
+  border-radius: 12px;
+  width: 660px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 48px);
+  background: var(--ts-raised);
+  box-shadow: 0 20px 100px #13132e26;
+  overflow: auto;
+}
+.ts-dialog::backdrop {
+  background: #13132e55;
+  backdrop-filter: blur(2px);
+}
+.ts-dialog-head {
+  position: sticky;
+  top: 0;
+  background: var(--ts-raised);
+  z-index: 1;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--ts-line);
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+.ts-dialog-head h2 {
+  font-size: 20px;
+}
+.ts-dialog-head button {
+  font-size: 24px;
+  padding: 2px 10px;
+  border: 0;
+}
+.ts-dialog-body {
+  padding: 24px;
+}
+.ts-dialog-body > p {
+  margin-bottom: 20px;
+}
+.ts-dialog-body form {
+  display: grid;
+  gap: 14px;
+}
+.ts-dialog-body form > button {
+  justify-self: start;
+}
+.ts-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.ts-checks {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0;
+}
+.ts-checks label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ts-criteria-weights > div {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--ts-line);
+  padding: 12px 0;
+}
+.ts-proposal {
+  padding: 16px;
+  border: 1px solid var(--ts-line);
+  border-radius: 8px;
+  margin: 12px 0;
+}
+.ts-proposal p {
+  margin-top: 8px;
+}
+.ts-feedback > p,
+.ts-feedback > h3 {
+  margin-bottom: 16px;
+}
+.ts-feedback > h3 {
+  margin-top: 24px;
+}
+.ts-feedback progress {
+  margin: 20px 0;
+}
+.ts-approval {
+  padding: 20px 0;
+}
+.ts-approval p {
+  margin-bottom: 16px;
+}
+.ts-feedback-context {
+  padding-top: 20px;
+  border-top: 1px solid var(--ts-line);
+  display: grid;
+  gap: 12px;
+}
+.ts-feedback-context button {
+  justify-self: start;
+}
+.ts-dimension-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px auto;
+  align-items: end;
+  gap: 10px;
+}
+.ts-table-scroll {
+  max-width: 100%;
+  overflow: auto;
+}
+.ts-table-scroll :where(th, td) {
+  padding: 8px;
+  min-width: 110px;
+  font-size: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--ts-line);
+}
+@container talent (min-width: 1440px) {
+  .ts-workspace {
+    grid-template-columns: 420px minmax(0, 1fr);
+  }
+  .ts-profile {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+  .ts-profile > * {
+    max-width: 850px;
+  }
+}
+@container talent (max-width: 900px) {
+  .ts-heading {
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .ts-main-actions {
+    align-self: flex-end;
+  }
+  .ts-profile {
+    padding: 16px 24px 40px;
+  }
+  .ts-main-actions button {
+    font-size: 12px;
+  }
+  .ts-score-summary {
+    flex-wrap: wrap;
+  }
+  .ts-score-summary .ts-link-button {
+    display: none;
+  }
+  .ts-review {
+    padding: 16px;
+  }
+  .ts-error,
+  .ts-notice,
+  .ts-job {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+@container talent (max-width: 700px) {
+  .ts-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .ts-main-actions {
+    width: 100%;
+  }
+  .ts-main-actions button {
+    flex: 1;
+    min-height: 44px;
+  }
+  .ts-search-tools {
+    width: 100%;
+    gap: 4px;
+  }
+  .ts-search-meta {
+    flex: 1;
+    min-width: min(260px, 100%);
+  }
+  .ts-search-tools select {
+    flex: 1;
+    width: 130px;
+  }
+  .ts-search-tools .ts-flex {
+    display: none;
+  }
+  .ts-search-tools button {
+    min-height: 44px;
+  }
+  .ts-workspace {
+    display: flex;
+  }
+  .ts-people {
+    flex: 1;
+    border-right: 0;
+  }
+  .ts-profile {
+    display: none;
+    flex: 1;
+    padding: 16px 20px 32px;
+  }
+  .ts-profile-nav .ts-mobile-back {
+    display: block;
+  }
+  .ts-profile-nav {
+    gap: 8px;
+  }
+  .ts-profile-nav > span {
+    flex: 1;
+  }
+  .ts-show-profile .ts-profile {
+    display: block;
+  }
+  .ts-show-profile .ts-people {
+    display: none;
+  }
+  .ts-show-profile .ts-search-tools {
+    display: none;
+  }
+  .ts-job,
+  .ts-error,
+  .ts-notice {
+    flex-wrap: wrap;
+  }
+  .ts-job > div:first-child {
+    min-width: 100%;
+  }
+  .ts-ranking-note {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+  }
+  .ts-dimension small {
+    display: block;
+    margin-left: 0;
+    margin-top: 3px;
+  }
+  button {
+    min-height: 44px !important;
+  }
+  .ts-profile-title h2 {
+    font-size: 23px;
+  }
+  .ts-score-summary > strong {
+    font-size: 31px;
+  }
+}
+@media (max-width: 480px) {
+  .ts-dialog {
+    max-width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+  }
+  .ts-dialog-head {
+    padding: 16px;
+  }
+  .ts-dialog-body {
+    padding: 16px;
+  }
+  .ts-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .ts-dialog button {
+    min-height: 44px;
+  }
+  .ts-dimension-editor {
+    grid-template-columns: minmax(0, 1fr) 80px;
+  }
+  .ts-dimension-editor > button {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}

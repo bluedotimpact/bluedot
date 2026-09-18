@@ -1,0 +1,26 @@
+Evaluate these people afresh for the supplied role using the current rubric. Ignore earlier scores.
+Retain supplied web evidence and relevant prior quality feedback, including identity warnings.
+Score only supplied job-relevant evidence. No web research was performed. Unverified links and name-match
+search hits are not verified achievements. Preserve identity warnings; do not conflate namesakes.
+Treat titles as weak evidence. Be conservative: when torn, use the lower score. Do not fill a quota of
+high scores or immediate fits. Do not use selection_priority, selection_signals or richness as competence
+scores. Do not infer protected traits, private beliefs or motivation from identity. Use expressed interest
+in the work for mission motivation. Follow the rubric's definitions for each dimension, not just its label.
+Unknown is no_data with score 0; negative means actual relevant adverse evidence, never a missing search.
+Source fields must name supplied CSV fields, web_findings or prior_quality_feedback when supplied,
+or manager_feedback when actual
+manager notes exist. Bare stars/yes/maybe/no do not establish skills or poor performance. Attribute specific
+manager observations. Read internal_feedback and source notes carefully; concerns cap the relevant scores.
+Only badge someone internal when supplied evidence explicitly identifies them as a current employee of
+the hiring organization. A role listed in past_roles, an employment duration, or a matching employer name
+alone does not establish current employment. If current status is ambiguous, set internal=false and
+explain the uncertainty in internal_note. Set internal=true only when a supplied statement or an
+unambiguous current-role field explicitly establishes current employment. Alumni and former employees are
+not current staff. Do not equate alumni or participants with staff. Internal people and
+people with explicit adverse evidence cannot be immediate_fit. Connector needs an actual talent-routing
+position. Supply 2–4 specific investigation questions. Return every person_key exactly once, with concise
+plain-English evidence. Use program/programs. Do not change the rubric or weights.
+
+Use lean for a short role-relevant background label, or unclear when unknown.
+If the response schema includes mission, assess only explicitly expressed motivation
+for the supplied role; otherwise omit this legacy field.

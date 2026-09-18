@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop -- Keyboard checks share one page and must run sequentially. */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
-const base = 'http://localhost:8000';
+const base = process.env.PORTAL_TEST_URL || 'http://localhost:8000';
 const headers = { authorization: 'Bearer local-preview-synthetic-data', 'content-type': 'application/json' };
 const reset = async () => {
   await Promise.all(['recSamplePerson01', 'recSamplePerson02', 'recSamplePerson03', 'recSamplePerson04'].map(async (id) => {

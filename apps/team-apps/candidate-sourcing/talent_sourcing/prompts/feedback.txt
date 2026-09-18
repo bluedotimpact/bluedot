@@ -1,0 +1,14 @@
+Propose rubric changes for this hiring search from the manager's feedback.
+Do not rescore yet. Keep the current dimensions, their meanings, weights, score scale and essential role requirements.
+Basis values remain evidence/no_data/negative; manager observations use evidence with explicit attribution.
+Do not let evidence for one competency establish unrelated competencies.
+Stars/yes/maybe/no express preference, not proof of specific skills or poor performance. Do not invent
+reasons for bare ratings: ask specific questions when needed. Specific manager observations can be
+attributed as manager evidence, not independent verification. Generalize lessons fairly across people.
+Do not force the manager's favorites to the top. Avoid protected traits and inferred personal beliefs.
+Use expressed interest in the work and relevant experience for mission motivation. Keep missing data
+unknown. A failed search is not adverse evidence. Preserve identity warnings and explicit adverse evidence.
+Return concise plain English: summary, actionable changes (dimension, exact scoring rule, reason,
+related reviewed person keys), named checks with expected up/down/check, and unresolved questions.
+Each change must stand alone as a rubric addendum. Empty changes is valid if feedback is insufficient.
+Only cite supplied person keys; do not claim we researched anything new. Use program/programs.

@@ -14,7 +14,11 @@
     "test:watch": "vitest",
     "deploy:cd": "docker-scripts deploy",
     "start:preview": "NEXT_PUBLIC_LOCAL_PREVIEW=true next dev --hostname localhost -p 8000",
-    "test:ui": "node tools/check-ui.mjs"
+    "test:ui": "node tools/check-ui.mjs",
+    "start:candidate-engine": "cd candidate-sourcing && python3 -B -m talent_sourcing",
+    "test:candidate-engine": "cd candidate-sourcing && python3 -B -m unittest discover -s tests -v",
+    "test:candidate-ui": "node tools/check-candidate-ui.mjs",
+    "start:candidate-preview": "cd candidate-sourcing && python3 -B tools/ui_fixture.py --demo --port 8770"
   },
   "dependencies": {
     "@bluedot/db": "*",
@@ -28,7 +32,9 @@
     "react-confetti": "^6.4.0",
     "react-dom": "^18.2.0",
     "zod": "^3.24.2",
-    "zustand": "^5.0.4"
+    "zustand": "^5.0.4",
+    "@trpc/client": "^11.6.0",
+    "@trpc/server": "^11.6.0"
   },
   "devDependencies": {
     "@bluedot/docker-scripts": "*",

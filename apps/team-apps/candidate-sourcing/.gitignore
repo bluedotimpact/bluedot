@@ -1,0 +1,11 @@
+data/
+raw/
+local/
+datasets/
+searches/
+__pycache__/
+*.pyc
+.ruff_cache/
+.venv/
+.ashby-key
+*.log

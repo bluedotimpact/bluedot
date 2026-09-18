@@ -19,13 +19,16 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [leaveAction, setLeaveAction] = useState<(() => void) | null>(null);
-  const pendingWrites = useNavigationState((state) => state.pendingWrites);
+  const pendingWrites = useNavigationState((state) => state.pendingWrites + state.candidatePendingWrites);
+  const unsavedChanges = useNavigationState((state) => state.unsavedChanges);
   const menuButton = useRef<HTMLButtonElement>(null);
   const historyPosition = useRef(0);
   const historyEntries = useRef(new Map<string, number>());
   const restoringHistory = useRef<(() => void) | null>(null);
   const approvedHistory = useRef(false);
-  const activeApp = apps.find((app) => router.pathname === app.href);
+  const currentPath = router.asPath.split('?')[0];
+  const isActiveApp = (href: string) => currentPath === href || (href !== '/' && currentPath?.startsWith(`${href}/`));
+  const activeApp = apps.find((app) => isActiveApp(app.href));
   const isLogin = router.pathname.startsWith('/login');
   const preview = isLocalPreview();
 
@@ -37,14 +40,14 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
 
   const requestLeave = useCallback((action: () => void) => {
     const state = useNavigationState.getState();
-    if (state.sessionActive || state.pendingWrites > 0) setLeaveAction(() => action);
+    if (state.sessionActive || state.unsavedChanges || state.pendingWrites + state.candidatePendingWrites > 0) setLeaveAction(() => action);
     else action();
   }, []);
 
   useEffect(() => {
     const onUnload = (event: BeforeUnloadEvent) => {
       const state = useNavigationState.getState();
-      if (state.sessionActive || state.pendingWrites > 0) {
+      if (state.sessionActive || state.unsavedChanges || state.pendingWrites + state.candidatePendingWrites > 0) {
         event.preventDefault();
         event.returnValue = '';
       }
@@ -82,7 +85,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
       // Next replaces custom history state on an accepted pop. Retain it by its stable key.
       if (key && targetPosition !== undefined) historyEntries.current.set(key, targetPosition);
       const state = useNavigationState.getState();
-      if (approvedHistory.current || (!state.sessionActive && state.pendingWrites === 0)) {
+      if (approvedHistory.current || (!state.sessionActive && !state.unsavedChanges && state.pendingWrites + state.candidatePendingWrites === 0)) {
         approvedHistory.current = false;
         return true;
       }
@@ -152,7 +155,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           key={app.id}
           href={app.href}
           aria-label={app.name}
-          aria-current={router.pathname === app.href ? 'page' : undefined}
+          aria-current={isActiveApp(app.href) ? 'page' : undefined}
           title={compact ? app.name : undefined}
           onClick={(event) => {
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -167,7 +170,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
               void router.push(app.href);
             });
           }}
-          className={`flex min-h-11 items-center gap-3 rounded-surface px-3 text-size-xs font-medium transition-colors ${compact ? 'justify-center' : ''} ${router.pathname === app.href ? 'bg-active text-primary' : 'text-secondary hover:bg-tint hover:text-primary'}`}
+          className={`flex min-h-11 items-center gap-3 rounded-surface px-3 text-size-xs font-medium transition-colors ${compact ? 'justify-center' : ''} ${isActiveApp(app.href) ? 'bg-active text-primary' : 'text-secondary hover:bg-tint hover:text-primary'}`}
         >
           <PortalIcon name={app.icon} className="shrink-0" />
           {!compact && <span>{app.name}</span>}
@@ -181,6 +184,9 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
     setMobileOpen(false);
     void router.replace('/');
   });
+
+  const leaveTitle = unsavedChanges ? 'Leave with an unsaved review?' : 'Leave this review session?';
+  const leaveMessage = unsavedChanges ? 'Your draft will stay in this browser. Save it before leaving if you want it included in feedback or an Ashby lead note.' : 'Saved ratings will be kept. Your place in this session and its timer will reset.';
 
   return (
     <div className="bluedot-base flex min-h-dvh">
@@ -229,16 +235,16 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
       </Modal>
       <Modal desktopHeaderClassName="[&_button]:min-h-11 [&_button]:min-w-11" isOpen={auth !== null && leaveAction !== null} setIsOpen={(open) => {
         if (!open) setLeaveAction(null);
-      }} title={pendingWrites > 0 ? 'Saving your changes' : 'Leave this review session?'}>
+      }} title={pendingWrites > 0 ? 'Saving your changes' : leaveTitle}>
         <div className="max-w-sm space-y-5">
-          <p className="text-size-sm leading-relaxed text-secondary">{pendingWrites > 0 ? 'Please wait for your changes to finish saving before leaving.' : 'Saved ratings will be kept. Your place in this session and its timer will reset.'}</p>
+          <p className="text-size-sm leading-relaxed text-secondary">{pendingWrites > 0 ? 'Please wait for your changes to finish saving before leaving.' : leaveMessage}</p>
           <div className="flex flex-wrap gap-3">
             <CTALinkOrButton variant="secondary" onClick={() => setLeaveAction(null)}>Stay here</CTALinkOrButton>
             <CTALinkOrButton disabled={pendingWrites > 0} onClick={() => {
               const action = leaveAction;
               setLeaveAction(null);
               action?.();
-            }}>Leave session</CTALinkOrButton>
+            }}>{unsavedChanges ? 'Leave app' : 'Leave session'}</CTALinkOrButton>
           </div>
         </div>
       </Modal>

@@ -19,10 +19,18 @@
       "cache": false
     },
     "test": {},
+    "test:ui": {
+      "cache": false,
+      "env": ["PORTAL_TEST_URL"]
+    },
+    "test:candidate-ui": {
+      "cache": false,
+      "env": ["PORTAL_TEST_URL", "CANDIDATE_TEST_ENGINE_URL", "UI_OUTPUT_DIR"]
+    },
     "start": {
       "cache": false,
       "persistent": true,
-      "env": ["NODE_ENV"]
+      "env": ["NODE_ENV", "CANDIDATE_SOURCING_URL"]
     },
     "@bluedot/infra#deploy:cd": {
       "cache": false,
