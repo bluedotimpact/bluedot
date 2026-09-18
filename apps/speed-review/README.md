@@ -13,7 +13,7 @@ npm ci
 npm run start:preview --workspace @bluedot/speed-review
 ```
 
-Open the address printed by Next.js and choose **Explore local preview**. The server binds to `127.0.0.1:8000`. All applicants are synthetic. Ratings, resets, and course moves affect only sample data in the local server's memory; restarting the server resets them. No Airtable, Postgres, or AI credentials are needed for this mode. It never sends Slack alerts.
+Open the address printed by Next.js and choose **Explore local preview**. The server binds to `localhost:8000`. Use this hostname: the existing Google OAuth client accepts `http://localhost:8000/login/oauth-callback`, while `127.0.0.1` produces `redirect_uri_mismatch`. All applicants are synthetic. Ratings, resets, and course moves affect only sample data in the local server's memory; restarting the server resets them. No Airtable, Postgres, or AI credentials are needed for this mode. It never sends Slack alerts.
 
 The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=true`. Production rejects its synthetic identity even when the flag is accidentally set. Keep this command bound to loopback. The preview is for local product testing, not for publicly hosted preview environments.
 
@@ -56,7 +56,7 @@ This app uses the existing Docker/Kubernetes deployment. Merging to master autom
 Before merging:
 
 - Configure and verify DNS for `apps.bluedot.org` to the existing ingress. The service definition requests HTTPS for both domain names.
-- Register the new domain's `/login/oauth-callback` with the existing staff Google OAuth client. Register the actual localhost callback too if testing real Google sign-in locally.
+- Register the new domain's `/login/oauth-callback` with the existing staff Google OAuth client. The existing `http://localhost:8000/login/oauth-callback` is accepted for local sign-in; a different hostname or port needs its own registered callback.
 - Confirm existing reviewer users have BlueDot Google accounts. This switches the reviewer from Keycloak plus a website-admin flag to staff Google sign-in; non-staff website admins will no longer have access.
 
 After deployment, verify one staff login, a rejected non-staff login, sign-out, and deep links on the final domain.

@@ -13,7 +13,7 @@
     "test": "vitest --run",
     "test:watch": "vitest",
     "deploy:cd": "docker-scripts deploy",
-    "start:preview": "NEXT_PUBLIC_LOCAL_PREVIEW=true next dev --hostname 127.0.0.1 -p 8000",
+    "start:preview": "NEXT_PUBLIC_LOCAL_PREVIEW=true next dev --hostname localhost -p 8000",
     "test:ui": "node tools/check-ui.mjs"
   },
   "dependencies": {

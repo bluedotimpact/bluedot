@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
-const base = 'http://127.0.0.1:8000';
+const base = 'http://localhost:8000';
 const headers = { authorization: 'Bearer local-preview-synthetic-data', 'content-type': 'application/json' };
 const reset = async () => {
   await Promise.all(['recSamplePerson01', 'recSamplePerson02', 'recSamplePerson03', 'recSamplePerson04'].map(async (id) => {
