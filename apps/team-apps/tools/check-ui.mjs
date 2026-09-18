@@ -54,10 +54,20 @@ try {
   };
 
   await openExternalApp(page.getByRole('main').getByRole('link', { name: externalName }));
+  const sidebarIconPositions = () => page.locator('aside').evaluate((sidebar) => [
+    ...sidebar.querySelectorAll('nav a > svg:first-child, button > svg, div.h-16 > span[aria-hidden]'),
+  ].map((icon) => {
+    const { x, width } = icon.getBoundingClientRect();
+    return { x, width };
+  }));
+  const expandedIconPositions = await sidebarIconPositions();
+  assert.equal(expandedIconPositions.length, await page.locator('aside nav a').count() + 3, 'Check the logo, all apps, sign-out and collapse control');
   await page.getByRole('button', { name: 'Collapse sidebar' }).click();
+  assert.deepEqual(await sidebarIconPositions(), expandedIconPositions, 'Sidebar icons keep their horizontal position when collapsed');
   await page.reload({ waitUntil: 'networkidle' });
   assert.equal(await page.getByRole('button', { name: 'Expand sidebar' }).count(), 1);
   await page.getByRole('button', { name: 'Expand sidebar' }).click();
+  assert.deepEqual(await sidebarIconPositions(), expandedIconPositions, 'Sidebar icons keep their horizontal position when expanded');
   // The course-page shortcut toggles and persists the same preference as the button.
   await page.keyboard.press('Meta+b');
   await page.getByRole('button', { name: 'Expand sidebar' }).waitFor();
