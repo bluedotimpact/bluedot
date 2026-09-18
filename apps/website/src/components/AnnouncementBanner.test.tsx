@@ -1,10 +1,7 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
-  beforeEach,
-  describe,
-  expect,
-  test,
+  beforeEach, describe, expect, test,
 } from 'vitest';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 import { AnnouncementBanner, getAnnouncementBannerKey } from './AnnouncementBanner';
@@ -32,7 +29,9 @@ describe('AnnouncementBanner', () => {
   test('dismiss button is described by the announcement content', () => {
     render(<AnnouncementBanner label="Platform update">Test Announcement</AnnouncementBanner>);
 
-    const dismissButton = screen.getByRole('button', { name: 'Dismiss announcement' });
+    const dismissButton = screen.getByRole('button', {
+      name: 'Dismiss announcement',
+    });
     expect(dismissButton).toHaveAccessibleDescription('Platform update Test Announcement');
   });
 
@@ -56,9 +55,7 @@ describe('AnnouncementBanner', () => {
   });
 
   test('renders CTA button when ctaUrl is provided', () => {
-    render(<AnnouncementBanner ctaUrl="https://example.com">
-      Test Announcement
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner ctaUrl="https://example.com">Test Announcement</AnnouncementBanner>);
 
     const ctaLink = screen.getByRole('link');
     expect(ctaLink.getAttribute('href')).toBe('https://example.com');
@@ -77,9 +74,7 @@ describe('AnnouncementBanner', () => {
   test('does not render when current date is before hideUntil date', () => {
     const futureDate = new Date(Date.now() + ONE_DAY_MS);
 
-    render(<AnnouncementBanner hideUntil={futureDate}>
-      Test Announcement
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner hideUntil={futureDate}>Test Announcement</AnnouncementBanner>);
 
     expect(screen.queryByText('Test Announcement')).toBeNull();
   });
@@ -87,9 +82,7 @@ describe('AnnouncementBanner', () => {
   test('renders when current date is after hideUntil date', () => {
     const pastDate = new Date(Date.now() - ONE_DAY_MS);
 
-    render(<AnnouncementBanner hideUntil={pastDate}>
-      Test Announcement
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner hideUntil={pastDate}>Test Announcement</AnnouncementBanner>);
 
     expect(screen.getByText('Test Announcement')).toBeDefined();
   });
@@ -97,9 +90,7 @@ describe('AnnouncementBanner', () => {
   test('does not render when current date is after hideAfter date', () => {
     const pastDate = new Date(Date.now() - ONE_DAY_MS);
 
-    render(<AnnouncementBanner hideAfter={pastDate}>
-      Test Announcement
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner hideAfter={pastDate}>Test Announcement</AnnouncementBanner>);
 
     expect(screen.queryByText('Test Announcement')).toBeNull();
   });
@@ -107,9 +98,7 @@ describe('AnnouncementBanner', () => {
   test('renders when current date is before hideAfter date', () => {
     const futureDate = new Date(Date.now() + ONE_DAY_MS);
 
-    render(<AnnouncementBanner hideAfter={futureDate}>
-      Test Announcement
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner hideAfter={futureDate}>Test Announcement</AnnouncementBanner>);
 
     expect(screen.getByText('Test Announcement')).toBeDefined();
   });
@@ -119,18 +108,20 @@ describe('AnnouncementBanner', () => {
     const bannerKey = getAnnouncementBannerKey(textContent);
 
     // Set up dismissed banner state
-    useAnnouncementBannerStore.setState({ dismissedBanners: { [bannerKey]: true } });
+    useAnnouncementBannerStore.setState({
+      dismissedBanners: { [bannerKey]: true },
+    });
 
-    render(<AnnouncementBanner>
-      {textContent}
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner>{textContent}</AnnouncementBanner>);
 
     expect(screen.queryByText(textContent)).toBeNull();
   });
 
   test('reappears when the message content changes after a dismissal', () => {
     const originalText = 'Applications close on Friday';
-    useAnnouncementBannerStore.setState({ dismissedBanners: { [getAnnouncementBannerKey(originalText)]: true } });
+    useAnnouncementBannerStore.setState({
+      dismissedBanners: { [getAnnouncementBannerKey(originalText)]: true },
+    });
 
     render(<AnnouncementBanner>Applications close on Saturday</AnnouncementBanner>);
 
@@ -139,9 +130,7 @@ describe('AnnouncementBanner', () => {
 
   test('renders when banner has not been dismissed', () => {
     // Initial state has no dismissed banners (set in beforeEach)
-    render(<AnnouncementBanner>
-      Test Announcement
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
 
     expect(screen.getByText('Test Announcement')).toBeDefined();
   });
@@ -150,30 +139,32 @@ describe('AnnouncementBanner', () => {
     const textContent = 'Test Announcement';
     const bannerKey = getAnnouncementBannerKey(textContent);
 
-    render(<AnnouncementBanner>
-      {textContent}
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner>{textContent}</AnnouncementBanner>);
 
     // Banner is initially shown
     expect(screen.getByText(textContent)).toBeDefined();
 
-    const closeButton = screen.getByRole('button', { name: 'Dismiss announcement' });
+    const closeButton = screen.getByRole('button', {
+      name: 'Dismiss announcement',
+    });
     fireEvent.click(closeButton);
 
-    expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({ [bannerKey]: true });
+    expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({
+      [bannerKey]: true,
+    });
 
     // Banner should be closed
     expect(screen.queryByText(textContent)).toBeNull();
   });
 
   test('does not render dismiss button when dismissible is false', () => {
-    render(<AnnouncementBanner dismissible={false}>
-      Test Announcement
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner dismissible={false}>Test Announcement</AnnouncementBanner>);
 
     expect(screen.getByText('Test Announcement')).toBeDefined();
 
-    const closeButton = screen.queryByRole('button', { name: 'Dismiss announcement' });
+    const closeButton = screen.queryByRole('button', {
+      name: 'Dismiss announcement',
+    });
     expect(closeButton).toBeNull();
   });
 
@@ -181,11 +172,11 @@ describe('AnnouncementBanner', () => {
     const textContent = 'Test Announcement';
     const bannerKey = getAnnouncementBannerKey(textContent);
 
-    useAnnouncementBannerStore.setState({ dismissedBanners: { [bannerKey]: true } });
+    useAnnouncementBannerStore.setState({
+      dismissedBanners: { [bannerKey]: true },
+    });
 
-    render(<AnnouncementBanner dismissible={false}>
-      {textContent}
-    </AnnouncementBanner>);
+    render(<AnnouncementBanner dismissible={false}>{textContent}</AnnouncementBanner>);
 
     expect(screen.getByText(textContent)).toBeDefined();
   });

@@ -99,31 +99,21 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   return (
     <section
       aria-label="Announcement"
-      className={clsx(
-        'w-full border-b border-subtle bg-accent-subtle text-primary',
-        className,
-      )}
+      className={clsx('border-subtle bg-accent-subtle text-primary w-full border-b', className)}
     >
       <div className="section-base">
         <div className="flex flex-col gap-3 py-3 sm:py-3.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
           <div className="min-w-0 flex-1">
             <div id={contentId} className="flex flex-col gap-1.5">
               {label && <Eyebrow>{label}</Eyebrow>}
-              <P className="max-w-4xl text-pretty text-size-xs leading-6 text-primary sm:text-size-sm">
-                {children}
-              </P>
+              <P className="text-size-xs text-primary sm:text-size-sm max-w-4xl leading-6 text-pretty">{children}</P>
             </div>
           </div>
 
           {(!!ctaUrl || dismissible) && (
             <div className="flex flex-wrap items-center gap-2">
               {ctaUrl && (
-                <CTALinkOrButton
-                  size="small"
-                  variant="primary"
-                  url={ctaUrl}
-                  withChevron
-                >
+                <CTALinkOrButton size="small" variant="primary" url={ctaUrl} withChevron>
                   {ctaText}
                 </CTALinkOrButton>
               )}
