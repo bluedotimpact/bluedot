@@ -4,26 +4,38 @@ The team portal lives in this existing Next.js app so Speed Reviewer has one mai
 
 The home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Speed Reviewer is the first app, at `/speed-review`. More tools can follow through normal PRs.
 
-## Try the local preview
+## Run locally with real data
 
-From the repository root:
+The normal local app uses Google staff sign-in and the same Airtable records as the hosted reviewer. Ratings, resets, and course moves update shared records immediately.
+
+1. Copy the existing reviewer `.env.local` into this worktree. Ensure `AIRTABLE_PERSONAL_ACCESS_TOKEN` contains the approved BlueDot credential with access to the reviewer base; the template's empty value is not enough. Keep this file ignored by Git. For local development, leave `ALERTS_SLACK_BOT_TOKEN=IGNORE_SLACK_ALERTS`.
+2. Leave `NEXT_PUBLIC_LOCAL_PREVIEW` unset.
+3. From the repository root, run:
 
 ```sh
 npm ci
-npm run start:preview --workspace @bluedot/speed-review
+npm run start --workspace @bluedot/speed-review
 ```
 
-Open the address printed by Next.js and choose **Explore local preview**. The server binds to `localhost:8000`. Use this hostname: the existing Google OAuth client accepts `http://localhost:8000/login/oauth-callback`, while `127.0.0.1` produces `redirect_uri_mismatch`. All applicants are synthetic. Ratings, resets, and course moves affect only sample data in the local server's memory; restarting the server resets them. No Airtable, Postgres, or AI credentials are needed for this mode. It never sends Slack alerts.
+Open `http://localhost:8000` and choose **Continue with Google**. Use this hostname: the existing Google OAuth client accepts `http://localhost:8000/login/oauth-callback`, while `127.0.0.1` produces `redirect_uri_mismatch`. Sign in with a BlueDot account. Ordinary localhost use is fully connected to Airtable; it does not need a separate local database for the reviewer.
 
-The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=true`. Production rejects its synthetic identity even when the flag is accidentally set. Keep this command bound to loopback. The preview is for local product testing, not for publicly hosted preview environments.
-
-## Real sign-in and application data
-
-Run the regular `npm run start --workspace @bluedot/speed-review` with the existing `.env.local` configuration. This uses Google sign-in and the real application service. Do not use real records for automated mutation tests.
+Do not use real applicants for automated mutation tests. For live acceptance, use a designated test application or make a genuine review decision and check that it persists in Airtable.
 
 Every API endpoint verifies BlueDot Google Workspace membership through `loginPresets.googleBlueDot`, including the verified organization claim. Portal access does not require or grant the website's separate admin role. Expired or rejected credentials return the UI to sign-in at the requested route.
 
 Ratings advance only after a successful save. Failed ratings remain on the same application and can be retried. Leaving an active review asks for confirmation. Navigation and sign-out wait for pending writes. This release does not restore an unfinished session after refresh; saved ratings remain stored.
+
+## Optional sample-data mode
+
+For automated browser checks or design experiments only:
+
+```sh
+npm run start:preview --workspace @bluedot/speed-review
+```
+
+Choose **Explore local preview**. All applicants are synthetic. Ratings, resets, and course moves affect only sample data in the local server's memory; restarting resets them. This mode needs no data credentials and never sends Slack alerts. Stop it before starting the real app on the same port.
+
+The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=true`. Production rejects its synthetic identity even when the flag is accidentally set. This mode is bound to loopback and is not for publicly hosted preview environments.
 
 ## Add or improve a tool
 
