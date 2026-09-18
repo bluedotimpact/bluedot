@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
-import { CTALinkOrButton, H1, ProgressDots } from '@bluedot/ui';
+import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { type Round } from '../lib/api/airtable';
 import { type Direction } from '../lib/client/types';
 
@@ -39,7 +39,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
 
   if (loading) {
     return (
-      <div className="min-h-[calc(100dvh-4rem)] bg-canvas flex items-center justify-center">
+      <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center">
         <ProgressDots className="text-accent" />
       </div>
     );
@@ -47,7 +47,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
 
   if (error) {
     return (
-      <div className="min-h-[calc(100dvh-4rem)] bg-canvas flex items-center justify-center p-8">
+      <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center p-8">
         <p className="text-error-fg">{error.message}</p>
       </div>
     );
@@ -83,12 +83,9 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
   };
 
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-canvas flex items-start justify-center p-6 sm:p-10">
+    <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-start justify-center p-6 sm:p-10">
       <div className="bg-raised rounded-xl border border-subtle p-4 sm:p-8 max-w-3xl w-full space-y-6">
-        <div>
-          <H1 className="text-size-lg text-primary">Speed Reviewer</H1>
-          <p className="text-size-sm text-secondary mt-1">Choose a round to start reviewing applications.</p>
-        </div>
+        <p className="text-size-sm text-secondary">Choose a round to start reviewing applications.</p>
 
         <div>
           <p className="text-size-xs font-semibold uppercase tracking-wide text-secondary mb-2">Review from</p>
