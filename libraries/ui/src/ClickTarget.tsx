@@ -12,6 +12,7 @@ export type ClickTargetProps = React.PropsWithChildren<{
   title?: string;
   'aria-label'?: string;
   'aria-describedby'?: string;
+  'aria-current'?: React.AriaAttributes['aria-current'];
   type?: 'button' | 'submit' | 'reset';
 }>;
 
@@ -27,6 +28,7 @@ export const ClickTarget = ({
   title,
   'aria-label': ariaLabel,
   'aria-describedby': ariaDescribedBy,
+  'aria-current': ariaCurrent,
   type = 'button',
 }: ClickTargetProps) => {
   const safeRel = target === '_blank'
@@ -55,6 +57,7 @@ export const ClickTarget = ({
         aria-disabled={disabled ? 'true' : undefined}
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
+        aria-current={ariaCurrent}
         tabIndex={disabled ? -1 : 0}
       >
         {children}
@@ -71,6 +74,7 @@ export const ClickTarget = ({
       title={title}
       aria-label={ariaLabel}
       aria-describedby={ariaDescribedBy}
+      aria-current={ariaCurrent}
 
       // eslint-disable-next-line no-nested-ternary
       type={type === 'submit' ? 'submit' : type === 'reset' ? 'reset' : 'button'}
