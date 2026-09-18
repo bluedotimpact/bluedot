@@ -5,7 +5,7 @@ import {
 import {
   cn, ClickTarget, CTALinkOrButton,
   ErrorSection, H3, Modal, ModalTitle, ProgressDots,
-  Select,
+  Select, Textarea,
 } from '@bluedot/ui';
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { ClockUserIcon, UserIcon } from '../icons';
@@ -315,11 +315,11 @@ export default function GroupSwitchModal({
       title: 'Tell us why you\'re making this change',
       subtitle: 'Participants who stick with their group usually have a better experience on the course.',
       control: (
-        <textarea
+        <Textarea
           placeholder="Share your reason here..."
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="border border-default rounded-lg px-3 py-2 min-h-20 bg-white"
+          className="min-h-20"
           required
           aria-label="Reason for group switch request"
         />

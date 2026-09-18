@@ -1,5 +1,5 @@
 import {
-  Avatar, ErrorSection, Modal, ModalTitle,
+  Avatar, ErrorSection, Modal, ModalTitle, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
@@ -169,11 +169,11 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             </label>
             <p className="text-size-xs text-bluedot-navy/60">Feel free to paste this from your 1:1 report.</p>
           </div>
-          <textarea
+          <Textarea
             id="investment-note"
             value={investmentNote}
             onChange={(e) => setInvestmentNote(e.target.value)}
-            className="w-full h-[106px] border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy bg-white resize-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+            className="h-[106px] resize-none"
           />
           {isStandout && <StandoutNudge />}
         </div>
