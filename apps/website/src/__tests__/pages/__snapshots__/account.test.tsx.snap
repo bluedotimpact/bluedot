@@ -80,11 +80,11 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
           >
             <div
               aria-hidden="true"
-              class="absolute bottom-0 left-0 top-0 w-1 bg-default"
+              class="absolute bottom-0 left-0 top-0 w-1 bg-subtle"
             />
             <span
               aria-hidden="true"
-              class="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-bluedot-normal transition-transform duration-200 ease-out"
+              class="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-accent transition-transform duration-200 ease-out motion-reduce:transition-none"
               style="transform: translateY(44px);"
             />
             <ul
@@ -92,12 +92,12 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             >
               <li>
                 <a
-                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
                   href="/my-courses"
                   tabindex="0"
                 >
                   <span
-                    class="text-size-sm leading-6 transition-colors text-bluedot-navy"
+                    class="text-size-sm leading-6 transition-colors motion-reduce:transition-none text-primary"
                   >
                     My Courses
                   </span>
@@ -105,12 +105,13 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               </li>
               <li>
                 <a
-                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
+                  aria-current="page"
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
                   href="/account"
                   tabindex="0"
                 >
                   <span
-                    class="text-size-sm leading-6 transition-colors text-bluedot-normal"
+                    class="text-size-sm leading-6 transition-colors motion-reduce:transition-none text-accent"
                   >
                     Account
                   </span>
