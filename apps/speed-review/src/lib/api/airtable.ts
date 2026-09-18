@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import env from './env';
 import { isLocalPreview } from '../preview';
 import { previewData } from './previewData';
@@ -336,6 +337,17 @@ export const fetchRoundStats = async (roundId: string): Promise<RoundStats> => {
   };
 };
 
+const checkWriteResponse = async (response: Response): Promise<void> => {
+  if (response.status === 401 || response.status === 403) {
+    throw createHttpError(503, 'The app cannot save to Airtable. Its connection needs write access to application records.', { expose: true });
+  }
+
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new Error(`Airtable error: ${response.status} ${response.statusText} — ${body}`);
+  }
+};
+
 const patchBatch = async (batch: { id: string; opinion: string; decision: string }[]): Promise<void> => {
   const response = await fetch(APPLICATIONS_URL, {
     method: 'PATCH',
@@ -351,10 +363,7 @@ const patchBatch = async (batch: { id: string; opinion: string; decision: string
       returnFieldsByFieldId: true,
     }),
   });
-  if (!response.ok) {
-    const body = await response.text().catch(() => '');
-    throw new Error(`Airtable error: ${response.status} ${response.statusText} — ${body}`);
-  }
+  await checkWriteResponse(response);
 };
 
 const patchSingle = async (id: string, fields: Record<string, unknown>): Promise<void> => {
@@ -366,10 +375,7 @@ const patchSingle = async (id: string, fields: Record<string, unknown>): Promise
       returnFieldsByFieldId: true,
     }),
   });
-  if (!response.ok) {
-    const body = await response.text().catch(() => '');
-    throw new Error(`Airtable error: ${response.status} ${response.statusText} — ${body}`);
-  }
+  await checkWriteResponse(response);
 };
 
 export const moveApplicationToAgisc = async (applicationId: string, roundId: string): Promise<void> => {

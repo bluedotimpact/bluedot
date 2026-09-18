@@ -55,7 +55,7 @@ describe('real-data Airtable adapter', () => {
 
   test('rejects failed real writes so the UI can preserve the current application', async () => {
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ error: { type: 'INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND' } }), { status: 403 }));
-    await expect(writeOpinions([{ id: 'recTest', opinion: 'Weak yes', decision: 'Accept' }])).rejects.toThrow('Airtable error: 403');
+    await expect(writeOpinions([{ id: 'recTest', opinion: 'Weak yes', decision: 'Accept' }])).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
   });
 
   test('resets the rating and decision together for rerating', async () => {
@@ -73,7 +73,7 @@ describe('real-data Airtable adapter', () => {
 
   test('does not clear the course link when the course move fails', async () => {
     fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
-    await expect(moveApplicationToAgisc('recTest', 'recNewRound')).rejects.toThrow('Airtable error: 403');
+    await expect(moveApplicationToAgisc('recTest', 'recNewRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

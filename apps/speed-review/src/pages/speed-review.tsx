@@ -244,7 +244,7 @@ const SpeedReviewPage = () => {
     setSessionActive(state.status === 'reviewing' || state.status === 'loading');
     return () => setSessionActive(false);
   }, [state.status, setSessionActive]);
-  const [toastName, setToastName] = useState<string | null>(null);
+  const [timeoutMessage, setTimeoutMessage] = useState<string | null>(null);
   const [milestoneToast, setMilestoneToast] = useState<string | null>(null);
   const [undoToast, setUndoToast] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -288,7 +288,11 @@ const SpeedReviewPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ opinions: [{ id: current.id, opinion: toHumanOpinion(rating), decision: toDecision(rating) }] }),
       });
-      if (!response.ok) throw new Error('Your rating could not be saved. Please try again.');
+      if (!response.ok) {
+        const result = await response.json().catch(() => null) as { error?: unknown } | null;
+        throw new Error(typeof result?.error === 'string' ? result.error : 'Your rating could not be saved. Please try again.');
+      }
+
       failedRating.current = null;
       showMilestone(state.seen.length + 1);
       dispatch({ type: 'RATE', rating });
@@ -313,12 +317,14 @@ const SpeedReviewPage = () => {
     const [current] = state.queue;
     if (!current) return;
     const { name } = current;
+    // A one-card queue rotates back to the same ID, so expiry must also reset its timer key.
+    timerKeyRef.current += 1;
     dispatch({ type: 'TIMEOUT' });
     setUndoToast(null);
     if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
-    setToastName(name);
+    setTimeoutMessage(state.queue.length === 1 ? 'Only one application remains. Timer restarted.' : `Moved to back of queue: ${name}`);
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
-    toastTimerRef.current = setTimeout(() => setToastName(null), 3000);
+    toastTimerRef.current = setTimeout(() => setTimeoutMessage(null), 5000);
   }, [state]);
 
   // Background prefetch: trigger when queue is running low
@@ -582,9 +588,9 @@ const SpeedReviewPage = () => {
         </div>
       )}
 
-      {toastName && (
-        <div className={`fixed left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg pointer-events-none ${undoToast ? 'bottom-16' : 'bottom-6'}`}>
-          Moved to back of queue: {toastName}
+      {timeoutMessage && (
+        <div role="status" className={`fixed left-1/2 -translate-x-1/2 w-max max-w-[calc(100vw-2rem)] text-center bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg pointer-events-none ${undoToast ? 'bottom-16' : 'bottom-6'}`}>
+          {timeoutMessage}
         </div>
       )}
     </div>

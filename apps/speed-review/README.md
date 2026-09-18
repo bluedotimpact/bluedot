@@ -8,7 +8,7 @@ The home page lists published tools. A collapsible sidebar stays beside each too
 
 The normal local app uses Google staff sign-in and the same Airtable records as the hosted reviewer. Ratings, resets, and course moves update shared records immediately.
 
-1. Copy the existing reviewer `.env.local` into this worktree. Ensure `AIRTABLE_PERSONAL_ACCESS_TOKEN` contains the approved BlueDot credential with access to the reviewer base; the template's empty value is not enough. Keep this file ignored by Git. For local development, leave `ALERTS_SLACK_BOT_TOKEN=IGNORE_SLACK_ALERTS`.
+1. Copy the existing reviewer `.env.local` into this worktree. Ensure `AIRTABLE_PERSONAL_ACCESS_TOKEN` contains the approved BlueDot credential with read and write access to the reviewer base and its application fields; the template's empty value is not enough. A successful read does not verify write permission. Keep this file ignored by Git. For local development, leave `ALERTS_SLACK_BOT_TOKEN=IGNORE_SLACK_ALERTS`.
 2. Leave `NEXT_PUBLIC_LOCAL_PREVIEW` unset.
 3. From the repository root, run:
 
@@ -23,7 +23,7 @@ Do not use real applicants for automated mutation tests. For live acceptance, us
 
 Every API endpoint verifies BlueDot Google Workspace membership through `loginPresets.googleBlueDot`, including the verified organization claim. Portal access does not require or grant the website's separate admin role. Expired or rejected credentials return the UI to sign-in at the requested route.
 
-Ratings advance only after a successful save. Failed ratings remain on the same application and can be retried. Leaving an active review asks for confirmation. Navigation and sign-out wait for pending writes. This release does not restore an unfinished session after refresh; saved ratings remain stored.
+Ratings advance only after a successful save. Timer expiry moves an unrated application to the back of the queue. If only one application remains, its timer restarts and the UI explains why the same application stays visible; expiry never saves a rating. Failed ratings remain on the same application and can be retried. Leaving an active review asks for confirmation. Navigation and sign-out wait for pending writes. This release does not restore an unfinished session after refresh; saved ratings remain stored.
 
 ## Optional sample-data mode
 
