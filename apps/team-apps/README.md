@@ -2,7 +2,7 @@
 
 The team portal is a separate Next.js app (`@bluedot/team-apps`) with its own `bluedot-team-apps` deployment. Speed Reviewer is the first tool. During the trial, the existing `apps/speed-review` app stays at its original hostname with its original sign-in.
 
-The home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Speed Reviewer is the first app, at `/speed-review`. More tools can follow through normal PRs.
+Signed-out visitors see only a minimal Google sign-in page, including when opening an app directly. App names, navigation, and screens appear after sign-in. The signed-in home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Speed Reviewer is the first app, at `/speed-review`. More tools can follow through normal PRs.
 
 ## Run locally with real data
 

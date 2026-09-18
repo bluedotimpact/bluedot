@@ -22,6 +22,10 @@ try {
   await page.goto(`${base}/speed-review`, { waitUntil: 'networkidle' });
   assert.equal(await page.getByRole('heading', { name: 'BlueDot Apps' }).count(), 1);
   assert.equal(await page.getByText('Alex Morgan', { exact: true }).count(), 0);
+  assert.equal(await page.getByRole('navigation', { name: 'Apps' }).count(), 0);
+  assert.equal(await page.getByText('Speed Reviewer', { exact: true }).count(), 0);
+  assert.equal(await page.getByRole('button', { name: 'Open navigation' }).count(), 0);
+  assert.equal(await page.getByRole('link', { name: 'Continue with Google' }).getAttribute('href'), '/login?redirect_to=%2Fspeed-review');
   await page.getByRole('button', { name: 'Explore local preview' }).click();
   await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).waitFor();
   await page.getByRole('link', { name: 'Home', exact: true }).click();
@@ -88,6 +92,8 @@ try {
   await page.getByRole('heading', { name: 'Apps', exact: true }).waitFor();
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
   await page.getByRole('heading', { name: 'BlueDot Apps', exact: true }).waitFor();
+  assert.equal(await page.getByRole('navigation', { name: 'Apps' }).count(), 0);
+  assert.equal(await page.getByText('Speed Reviewer', { exact: true }).count(), 0);
   assert.deepEqual(errors, [], 'browser errors');
   console.log('PASS browser Back and Forward confirmation, sign-out');
 } finally {
