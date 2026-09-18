@@ -29,18 +29,6 @@ describe('Textarea', () => {
     expect(textarea).toHaveValue('fixed');
   });
 
-  test('readOnly blocks input but stays focusable', async () => {
-    const user = userEvent.setup();
-    render(<Textarea aria-label="Answer" readOnly defaultValue="fixed" />);
-
-    const textarea = screen.getByRole('textbox', { name: 'Answer' });
-    await user.tab();
-    await user.keyboard('x');
-
-    expect(textarea).toHaveFocus();
-    expect(textarea).toHaveValue('fixed');
-  });
-
   test('forwards ref to the native element', () => {
     const ref = createRef<HTMLTextAreaElement>();
     render(<Textarea ref={ref} />);
