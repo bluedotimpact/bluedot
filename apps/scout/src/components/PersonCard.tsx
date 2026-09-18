@@ -192,6 +192,12 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
   const app = person.application;
   const applicationUrl = app ? `https://airtable.com/${APPLICATIONS_BASE_ID}/${APPLICATIONS_TABLE_ID}/${app.id}` : undefined;
   const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
+  // Speed-review scores (1-5), produced by the Applications-base automation at application time
+  const scores = ([
+    ['Commitment', app?.commitmentScore],
+    ['Impressiveness', app?.impressivenessScore],
+    ['Technical', app?.technicalSkillScore],
+  ] as const).filter((x): x is readonly [string, number] => x[1] !== undefined);
   const roundLine = `${shortRound(person.roundName)} · ended ${formatDate(person.roundEnd)}`;
 
   return (
@@ -234,13 +240,25 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         {app && (
           <>
             {appHeader && <p className="pl-[22px] text-size-xs text-secondary">{appHeader}</p>}
-            <Answer label="End of course, wild success — how is life different?" text={app.pathToImpact} />
-            <Answer label="Engagement with the field so far" text={app.experience} />
-            <Answer label="Skills they'll contribute" text={app.skills} />
-            <Answer label="Achievement they're most proud of" text={app.impressiveProject} />
-            <Answer label="Hardest tradeoff they see" text={app.reasoning} />
-            <Answer label="Heard about the course from" text={app.source} />
-            <Answer label="Speed-review summary (AI)" text={app.aiSummary} />
+            {scores.length > 0 && (
+              <div className="flex flex-wrap gap-1 pl-[22px]">
+                {scores.map(([label, score]) => <Badge key={label}>{label} {score}/5</Badge>)}
+              </div>
+            )}
+            <Answer label="Speed-review summary (AI, at application time)" text={app.aiSummary} />
+            <Answer label="Imagine you're at the end of the course, and it's been a wild success for you. How is your life different?" text={app.pathToImpact} />
+            <Answer label="How have you engaged with the field so far?" text={app.experience} />
+            <Answer label="What skills will you contribute?" text={app.skills} />
+            <Answer label="Tell us about one achievement you're most proud of." text={app.impressiveProject} />
+            <Answer label="What's the hardest tradeoff or tension you see in the field?" text={app.reasoning} />
+            <Answer label="Where did you hear about this course?" text={app.source} />
+            {scores.length > 0 && (
+              <>
+                <Answer label={`Why commitment ${app.commitmentScore}/5 (AI)`} text={app.commitmentRationale} />
+                <Answer label={`Why impressiveness ${app.impressivenessScore}/5 (AI)`} text={app.impressivenessRationale} />
+                <Answer label={`Why technical ${app.technicalSkillScore}/5 (AI)`} text={app.technicalSkillRationale} />
+              </>
+            )}
           </>
         )}
       </Section>
