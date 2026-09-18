@@ -114,13 +114,34 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
     };
   }, [leaveAction, mobileOpen]);
 
-  const toggleCollapsed = () => {
+  const toggleCollapsed = useCallback(() => {
     const next = !collapsed;
     setCollapsed(next);
     try {
       localStorage.setItem(SIDEBAR_KEY, String(next));
     } catch { /* The preference remains in memory. */ }
-  };
+  }, [collapsed]);
+
+  useEffect(() => {
+    if (!auth) return undefined;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const { activeElement } = document;
+      if (activeElement instanceof HTMLElement
+        && (['INPUT', 'TEXTAREA'].includes(activeElement.tagName) || activeElement.isContentEditable)) return;
+
+      const isSidebarToggle = event.code === 'KeyB'
+        && !event.altKey && !event.shiftKey
+        && ((event.metaKey && !event.ctrlKey) || (event.ctrlKey && !event.metaKey));
+      if (isSidebarToggle) {
+        event.preventDefault();
+        toggleCollapsed();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown, true);
+    return () => document.removeEventListener('keydown', handleKeyDown, true);
+  }, [auth, toggleCollapsed]);
 
   const navigation = (compact: boolean) => (
     <nav aria-label="Apps" className="flex flex-col gap-1">
@@ -178,18 +199,17 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
               <button type="button" onClick={signOut} aria-label="Sign out" title="Sign out" className="flex size-11 shrink-0 items-center justify-center rounded-surface text-secondary hover:bg-tint"><PortalIcon name="logout" /></button>
             </div>
           )}
-          <button type="button" onClick={toggleCollapsed} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-expanded={!collapsed} className={`flex min-h-11 w-full items-center gap-3 rounded-surface px-3 text-size-xs text-secondary hover:bg-tint ${collapsed ? 'justify-center' : ''}`}><PortalIcon name="panel" className={collapsed ? 'rotate-180' : ''} />{!collapsed && 'Collapse sidebar'}</button>
+          <button type="button" onClick={toggleCollapsed} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={`${collapsed ? 'Expand' : 'Collapse'} sidebar (⌘B / Ctrl+B)`} aria-keyshortcuts="Meta+B Control+B" aria-expanded={!collapsed} className={`flex min-h-11 w-full items-center gap-3 rounded-surface px-3 text-size-xs text-secondary hover:bg-tint ${collapsed ? 'justify-center' : ''}`}><PortalIcon name="panel" className={collapsed ? 'rotate-180' : ''} />{!collapsed && 'Collapse sidebar'}</button>
         </div>
       </aside>}
       <div className="flex min-w-0 flex-1 flex-col bg-raised">
-        {auth && <header className="flex h-16 shrink-0 items-center justify-between gap-3 border-b border-subtle px-4 sm:px-8">
+        {auth && <header className="flex h-16 md:hidden shrink-0 items-center justify-between gap-3 border-b border-subtle px-4 sm:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <button ref={menuButton} type="button" onClick={() => setMobileOpen(true)} aria-label="Open navigation" aria-expanded={mobileOpen} className="flex size-11 shrink-0 items-center justify-center rounded-surface hover:bg-tint md:hidden"><PortalIcon name="menu" /></button>
-            <span className="truncate text-size-xs text-secondary">{activeApp?.name ?? 'Workspace'}</span>
           </div>
           {preview && <span className="shrink-0 rounded-full bg-warning-bg px-3 py-1 text-size-xxs text-warning-fg"><span className="hidden sm:inline">Local preview · sample data</span><span className="sm:hidden">Sample data</span></span>}
         </header>}
-        <main id="app-content" tabIndex={-1} className="min-w-0 flex-1 outline-none">
+        <main id="app-content" aria-label={auth ? activeApp?.name : undefined} tabIndex={-1} className="min-w-0 flex-1 outline-none">
           {auth !== null || isLogin ? children : (
             <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 py-12">
               <span className="mb-6 size-4 rounded-full bg-accent" aria-hidden="true" />

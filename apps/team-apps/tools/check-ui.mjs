@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable no-await-in-loop -- Keyboard checks share one page and must run sequentially. */
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 const base = 'http://localhost:8000';
@@ -28,12 +29,57 @@ try {
   assert.equal(await page.getByRole('link', { name: 'Continue with Google' }).getAttribute('href'), '/login?redirect_to=%2Fspeed-review');
   await page.getByRole('button', { name: 'Explore local preview' }).click();
   await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).waitFor();
+  assert.equal(await page.getByRole('heading', { name: 'Speed Reviewer', exact: true }).count(), 0);
+  assert.equal(await page.locator('header').isVisible(), false);
   await page.getByRole('link', { name: 'Home', exact: true }).click();
   await page.getByRole('heading', { name: 'Apps', exact: true }).waitFor();
   await page.getByRole('button', { name: 'Collapse sidebar' }).click();
   await page.reload({ waitUntil: 'networkidle' });
   assert.equal(await page.getByRole('button', { name: 'Expand sidebar' }).count(), 1);
   await page.getByRole('button', { name: 'Expand sidebar' }).click();
+  // The course-page shortcut toggles and persists the same preference as the button.
+  await page.keyboard.press('Meta+b');
+  await page.getByRole('button', { name: 'Expand sidebar' }).waitFor();
+  await page.reload({ waitUntil: 'networkidle' });
+  assert.equal(await page.getByRole('button', { name: 'Expand sidebar' }).count(), 1);
+  await page.keyboard.press('Control+b');
+  await page.getByRole('button', { name: 'Collapse sidebar' }).waitFor();
+  const dispatchShortcut = (options) => page.evaluate((init) => {
+    const event = new globalThis.KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, code: 'KeyB', key: 'b', ...init,
+    });
+    globalThis.document.activeElement.dispatchEvent(event);
+    return event.defaultPrevented;
+  }, options);
+  for (const modifiers of [{}, { metaKey: true, shiftKey: true }, { ctrlKey: true, altKey: true }, { metaKey: true, ctrlKey: true }]) {
+    assert.equal(await dispatchShortcut(modifiers), false);
+    assert.equal(await page.getByRole('button', { name: 'Collapse sidebar' }).count(), 1);
+  }
+
+  assert.equal(await dispatchShortcut({ metaKey: true, key: 'x' }), true, 'Use the physical B key across keyboard layouts');
+  await page.getByRole('button', { name: 'Expand sidebar' }).waitFor();
+  await page.keyboard.press('Meta+b');
+  await page.getByRole('button', { name: 'Collapse sidebar' }).waitFor();
+  for (const kind of ['input', 'textarea', 'rich-editor', 'plain-editor']) {
+    await page.evaluate((type) => {
+      const editor = globalThis.document.createElement(type.endsWith('editor') ? 'div' : type);
+      editor.id = 'shortcut-test-editor';
+      if (type.endsWith('editor')) {
+        editor.contentEditable = type === 'plain-editor' ? 'plaintext-only' : 'true';
+        const child = globalThis.document.createElement('span');
+        child.tabIndex = 0;
+        editor.append(child);
+      }
+
+      globalThis.document.body.append(editor);
+      (editor.firstElementChild ?? editor).focus();
+    }, kind);
+    assert.equal(await dispatchShortcut({ metaKey: true }), false, `Keep Cmd+B in ${kind}`);
+    assert.equal(await dispatchShortcut({ ctrlKey: true }), false, `Keep Ctrl+B in ${kind}`);
+    assert.equal(await page.getByRole('button', { name: 'Collapse sidebar' }).count(), 1);
+    await page.locator('#shortcut-test-editor').evaluate((editor) => editor.remove());
+  }
+
   await page.getByRole('link', { name: 'Speed Reviewer', exact: true }).click();
   await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).click();
   await page.getByText('Alex Morgan', { exact: true }).waitFor();
@@ -94,6 +140,8 @@ try {
   await page.getByRole('heading', { name: 'BlueDot Apps', exact: true }).waitFor();
   assert.equal(await page.getByRole('navigation', { name: 'Apps' }).count(), 0);
   assert.equal(await page.getByText('Speed Reviewer', { exact: true }).count(), 0);
+  assert.equal(await page.getByRole('button', { name: 'Open navigation' }).count(), 0);
+  assert.equal(await dispatchShortcut({ metaKey: true }), false, 'Signed-out pages leave browser shortcuts alone');
   assert.deepEqual(errors, [], 'browser errors');
   console.log('PASS browser Back and Forward confirmation, sign-out');
 } finally {

@@ -223,7 +223,7 @@ const ApplicationLoader: React.FC<ApplicationLoaderProps> = ({
 
   if (loading) {
     return (
-      <div className="min-h-[calc(100dvh-4rem)] bg-canvas flex items-center justify-center">
+      <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center">
         <ProgressDots className="text-accent" />
       </div>
     );
@@ -447,7 +447,7 @@ const SpeedReviewPage = () => {
 
   if (state.status === 'complete') {
     return (
-      <div className="min-h-[calc(100dvh-4rem)] bg-canvas py-6 sm:py-12 px-3 sm:px-4">
+      <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas py-6 sm:py-12 px-3 sm:px-4">
         <div className="max-w-3xl mx-auto bg-raised rounded-xl shadow-sm border border-subtle p-4 sm:p-8">
           <SessionComplete
             roundId={state.roundId}
@@ -466,7 +466,7 @@ const SpeedReviewPage = () => {
 
   if (saveError) {
     return (
-      <div className="min-h-[calc(100dvh-4rem)] bg-canvas flex items-center justify-center p-8">
+      <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center p-8">
         <div className="bg-raised rounded-xl border border-error-border p-4 sm:p-8 max-w-md w-full space-y-4">
           <H1 className="text-size-xl text-error-fg">Save failed</H1>
           <p className="text-size-sm text-primary">
@@ -512,7 +512,7 @@ const SpeedReviewPage = () => {
   const totalApps = state.queue.length + state.seen.length;
 
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-canvas py-4 sm:py-8 px-3 sm:px-4">
+    <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-3xl mx-auto space-y-4">
         <div className="bg-raised rounded-xl border border-subtle px-5 py-3 flex items-center gap-4">
           <div className="flex-1">
