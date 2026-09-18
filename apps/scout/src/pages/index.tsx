@@ -55,7 +55,6 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
   };
 
   const next = useCallback(() => setIndex((i) => Math.min(i + 1, queue.length)), [queue.length]);
-  const back = useCallback(() => setIndex((i) => Math.max(i - 1, 0)), []);
 
   const decide = useCallback(async (decision: Decision) => {
     if (!current) return;
@@ -63,9 +62,9 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
     next();
     try {
       const res = await axios.post<{ written: boolean }>('/api/decision', { id: current.id, decision }, { headers: authHeaders });
-      const label = decision === 'invite' ? 'Invite' : 'Not now';
+      const label = decision === 'invite' ? 'Invite' : 'Don\'t invite';
       if (res.data.written) {
-        flash(decision === 'invite' ? 'Invite sent' : 'Marked not now');
+        flash(decision === 'invite' ? 'Invite sent' : 'Marked as don\'t invite');
       } else {
         flash(`${label} noted here only — writes are off in this environment`);
       }
@@ -81,7 +80,6 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
         ArrowRight: () => decide('invite'),
         ArrowLeft: () => decide('not-now'),
         ArrowDown: next,
-        ArrowUp: back,
         n: () => setShowName((s) => !s),
       };
       const action = actions[e.key];
@@ -92,7 +90,7 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [decide, next, back]);
+  }, [decide, next]);
 
   useEffect(() => {
     setIndex(0);
@@ -128,11 +126,14 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
           {personError && <ErrorSection error={personError} />}
           {personData?.person?.id === current.id && <PersonCard person={personData.person} showName={showName} />}
           <div className="flex flex-wrap items-center justify-between gap-2 border-t border-gray-200 pt-4">
-            <CTALinkOrButton variant="secondary" onClick={() => decide('not-now')}>← Not now</CTALinkOrButton>
-            <div className="flex gap-2 text-size-sm text-gray-500">
-              <button type="button" className="underline" onClick={back}>↑ back</button>
-              <button type="button" className="underline" onClick={next}>↓ skip</button>
-            </div>
+            <button
+              type="button"
+              onClick={() => decide('not-now')}
+              className="rounded border-2 border-red-600 px-4 py-2 text-size-sm font-semibold text-red-700 hover:bg-red-50"
+            >
+              ← Don't invite
+            </button>
+            <button type="button" className="text-size-sm text-gray-500 underline" onClick={next}>↓ skip</button>
             <CTALinkOrButton onClick={() => decide('invite')}>Invite →</CTALinkOrButton>
           </div>
           {decided[current.id] && <p className="text-size-xs text-gray-500">You already marked this person: {decided[current.id]}</p>}
