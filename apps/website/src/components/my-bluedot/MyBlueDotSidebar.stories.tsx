@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import MyBlueDotSidebar from './MyBlueDotSidebar';
+import { MyBlueDotSidebar } from './MyBlueDotSidebar';
 
 const meta = {
   title: 'website/MyBlueDotSidebar',

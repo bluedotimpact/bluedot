@@ -9,7 +9,7 @@ const ACCOUNT_ITEM = { label: 'Account', href: '/account' };
 
 const ITEM_HEIGHT_PX = 44;
 
-const MyBlueDotSidebar = () => {
+export const MyBlueDotSidebar = () => {
   const router = useRouter();
   const { data: facilitatorNavItems } = trpc.myBluedot.hasFacilitatorNavItems.useQuery();
   // Render unconditionally on facilitator routes so direct visits don't blank the active item until the query resolves
@@ -64,5 +64,3 @@ const MyBlueDotSidebar = () => {
     </nav>
   );
 };
-
-export default MyBlueDotSidebar;
