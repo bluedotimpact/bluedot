@@ -292,9 +292,8 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
     });
   }
 
-  // Most recently finished rounds first; within a round, strong yes first.
-  const opinionRank = (o?: string) => ['Strong yes', 'Weak yes', 'Neutral', 'Weak no', 'Strong no'].indexOf(o ?? '');
-  return items.sort((a, b) => (b.roundEnd ?? '').localeCompare(a.roundEnd ?? '') || opinionRank(a.opinion) - opinionRank(b.opinion));
+  // Airtable returns rows in the view's own sort, so the order is controlled there.
+  return items;
 };
 
 // ---- Person ----

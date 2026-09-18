@@ -191,7 +191,7 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
       </div>
 
       <p className="text-size-xs text-secondary">
-        Invite and Don't invite are notes kept in this browser — nothing reaches Airtable. Only <strong>Invite for real</strong> writes to Airtable and sends the email.
+        Invite and Don't invite are dummy. Only <strong>Invite for real</strong> writes to Airtable and sends the email.
       </p>
 
       {current ? (
@@ -209,7 +209,7 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
             </button>
             <button type="button" className="cursor-pointer text-size-sm text-secondary underline" onClick={next}>↓ skip</button>
             <div className="flex items-center gap-2">
-              <CTALinkOrButton variant="secondary" onClick={() => setConfirming(true)} disabled={!person || currentNote?.decision === 'invited'}>Invite for real…</CTALinkOrButton>
+              <CTALinkOrButton variant="secondary" onClick={() => setConfirming(true)} disabled={!person || currentNote?.decision === 'invited'}>Invite for real</CTALinkOrButton>
               <CTALinkOrButton onClick={() => decide('invite')}>Invite →</CTALinkOrButton>
             </div>
           </div>
@@ -232,9 +232,7 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
         <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/40 p-4" role="dialog" aria-modal="true">
           <div className="flex w-full max-w-md flex-col gap-4 rounded bg-raised p-6 shadow-lg">
             <P className="font-semibold">Invite {person.name} to an evaluation call?</P>
-            <P className="text-size-sm">
-              This writes to Airtable now: the invite email goes to {person.email} from the {current.course} course lead, and the registration is marked as invited by the scouting app. It cannot be undone from here.
-            </P>
+            <P className="text-size-sm">This really writes to Airtable and emails the participant. Are you sure you want to continue?</P>
             <div className="flex justify-end gap-2">
               <CTALinkOrButton variant="secondary" onClick={() => setConfirming(false)}>Cancel</CTALinkOrButton>
               <CTALinkOrButton onClick={inviteForReal}>Send the invite</CTALinkOrButton>

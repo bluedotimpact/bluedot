@@ -11,21 +11,43 @@ const REGISTRATIONS_TABLE_ID = 'tblBeMxAM1FAW06n4';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
 const APPLICATIONS_TABLE_ID = 'tblXKnWoXK3R63F6D';
 
-// Airtable's colours for Human opinion, so the card reads like the base does.
-const OPINION_STYLE: Record<string, string> = {
-  'Strong yes': 'bg-green-200 text-green-900',
-  'Weak yes': 'bg-green-100 text-green-800',
-  Neutral: 'bg-gray-200 text-gray-800',
-  'Weak no': 'bg-orange-100 text-orange-800',
-  'Strong no': 'bg-red-200 text-red-900',
+// Airtable's select colours (its documented palette), so badges read like the base does.
+const AIRTABLE: Record<string, { bg: string; fg: string }> = {
+  blueLight2: { bg: '#cfdfff', fg: '#102046' }, blueLight1: { bg: '#9cc7ff', fg: '#102046' }, blueBright: { bg: '#2d7ff9', fg: '#ffffff' },
+  cyanLight2: { bg: '#d0f0fd', fg: '#04283f' }, cyanLight1: { bg: '#77d1f3', fg: '#04283f' },
+  tealLight2: { bg: '#c2f5e9', fg: '#012524' },
+  greenLight2: { bg: '#d1f7c4', fg: '#0b1d05' },
+  yellowLight2: { bg: '#ffeab6', fg: '#3b2300' }, yellowLight1: { bg: '#ffd66e', fg: '#3b2300' }, yellowBright: { bg: '#fcb400', fg: '#3b2300' },
+  orangeBright: { bg: '#ff6f2c', fg: '#ffffff' },
+  pinkLight1: { bg: '#f99de2', fg: '#400832' },
+  grayLight2: { bg: '#eeeeee', fg: '#333333' },
 };
 
-const Badge: React.FC<{ children: ReactNode; className?: string }> = ({ children, className = 'bg-tint text-primary' }) => (
-  <span className={`inline-flex items-center whitespace-nowrap rounded-sm px-2 py-0.5 text-size-xxs font-medium ${className}`}>{children}</span>
+// Choice → Airtable colour name, copied from the field definitions in Course runner.
+const OPINION_COLOUR: Record<string, string> = {
+  'Strong yes': 'blueBright', 'Weak yes': 'cyanLight1', Neutral: 'grayLight2', 'Weak no': 'yellowLight1', 'Strong no': 'orangeBright', '[tmp] VIP': 'blueLight2', TODO: 'pinkLight1',
+};
+const NEXT_STEP_COLOUR: Record<string, string> = {
+  'No further action needed': 'blueLight2',
+  'Add to talent pipeline [keep warm for future opportunities/check-ins]': 'cyanLight2',
+  '[!] Flag for 1-1 advising with BlueDot team': 'tealLight2',
+  'Schedule follow-up call with BlueDot team within ~1 week (high-priority)': 'tealLight2',
+  '[!] Flag as candidate for funding (career transition/project)': 'greenLight2',
+  'Flag as candidate for funding (career transition/project)': 'greenLight2',
+  '[!] Recommend to facilitate': 'yellowLight2',
+};
+const ONE_ON_ONE_RATING_COLOUR: Record<string, string> = {
+  Exceptional: 'blueLight2', Promising: 'cyanLight2', Solid: 'tealLight2', 'Not a fit': 'greenLight2',
+};
+
+const airtableStyle = (colour?: string) => (colour && AIRTABLE[colour] ? { backgroundColor: AIRTABLE[colour].bg, color: AIRTABLE[colour].fg } : undefined);
+
+const Badge: React.FC<{ children: ReactNode; className?: string; colour?: string }> = ({ children, className = 'bg-tint text-primary', colour }) => (
+  <span className={cn('inline-flex items-center whitespace-nowrap rounded-sm px-2 py-0.5 text-size-xxs font-medium', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
 );
 
 const OpinionBadge: React.FC<{ opinion?: string }> = ({ opinion }) => (
-  opinion ? <Badge className={OPINION_STYLE[opinion] ?? 'bg-tint text-primary'}>{opinion}</Badge> : null
+  opinion ? <Badge colour={OPINION_COLOUR[opinion]}>{opinion}</Badge> : null
 );
 
 const formatDate = (iso?: string) => (iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
@@ -69,7 +91,7 @@ const plain = (text: string) => text
   .trim();
 
 const Caption: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <span className="text-size-xs font-medium text-bluedot-navy">{children}</span>
+  <span className="text-size-xs font-medium text-bluedot-normal">{children}</span>
 );
 
 const Answer: React.FC<{ label: string; text?: string }> = ({ label, text }) => (
@@ -104,7 +126,7 @@ const Section: React.FC<{
         defaultOpen={defaultOpen}
         summary={(
           <>
-            <span className="text-size-sm font-semibold text-primary">{title}</span>
+            <span className="text-size-sm font-semibold text-bluedot-normal">{title}</span>
             {meta && <span className="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-size-xs text-secondary">{meta}</span>}
           </>
         )}
@@ -118,6 +140,26 @@ const Section: React.FC<{
 );
 
 const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
+
+// The email as plain text with a copy control — it is data, not a link to open.
+const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      title="Copy email"
+      className="flex cursor-pointer items-center gap-1 self-center text-size-sm text-secondary hover:text-primary"
+      onClick={() => {
+        navigator.clipboard.writeText(email);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }}
+    >
+      <span className="select-all">{email}</span>
+      <span aria-hidden className="text-size-xs">{copied ? '✓' : '⧉'}</span>
+    </button>
+  );
+};
 
 const hostLabel = (u: string) => {
   try {
@@ -220,7 +262,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           {person.projects.filter((p) => p.url).map((p) => (
             <CTALinkOrButton key={p.id} size="small" variant="outline-black" url={p.url} target="_blank">Project ↗</CTALinkOrButton>
           ))}
-          <CTALinkOrButton size="small" variant="outline-black" onClick={() => navigator.clipboard.writeText(person.email)}>Copy email</CTALinkOrButton>
+          <CopyEmail email={person.email} />
           <A href={`https://airtable.com/${COURSE_RUNNER_BASE_ID}/${REGISTRATIONS_TABLE_ID}/${person.id}`} target="_blank" className="self-center text-size-xs">registration in Airtable ↗</A>
         </div>
       </CardShell>
@@ -282,7 +324,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
             <div key={r.id} className="flex flex-col gap-2">
               {(r.nextSteps.length > 0 || r.docUrl) && (
                 <div className="flex flex-wrap items-center gap-2 text-size-xs">
-                  {r.nextSteps.map((s) => <Badge key={s}>{s}</Badge>)}
+                  {r.nextSteps.map((step) => <Badge key={step} colour={NEXT_STEP_COLOUR[step]}>{step}</Badge>)}
                   {r.docUrl && <A href={r.docUrl} target="_blank">full report ↗</A>}
                 </div>
               )}
@@ -300,7 +342,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         meta={person.facilitatorFeedback.map((fb) => (
           <span key={fb.id} className="flex items-center gap-2 font-normal">
             {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10</span>}
-            {fb.oneOnOneRating && <Badge>{fb.oneOnOneRating}</Badge>}
+            {fb.oneOnOneRating && <Badge colour={ONE_ON_ONE_RATING_COLOUR[fb.oneOnOneRating]}>{fb.oneOnOneRating}</Badge>}
             {fb.reviewer && <Meta>{fb.reviewer}</Meta>}
           </span>
         ))}
@@ -310,7 +352,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
             {(fb.recommendToFacilitate || fb.nextSteps.length > 0 || fb.motivation) && (
               <div className="flex flex-wrap items-center gap-1 text-size-xs text-secondary">
                 {fb.recommendToFacilitate && <Badge>Recommended to facilitate</Badge>}
-                {fb.nextSteps.map((s) => <Badge key={s}>{s.replace(/^\[!\] /, '')}</Badge>)}
+                {fb.nextSteps.map((step) => <Badge key={step} colour={NEXT_STEP_COLOUR[step]}>{step.replace(/^\[!\] /, '')}</Badge>)}
                 {fb.motivation && <span className="ml-1">x-risk motivated: {fb.motivation}</span>}
               </div>
             )}
