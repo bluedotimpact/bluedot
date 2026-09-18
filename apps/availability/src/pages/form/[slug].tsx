@@ -110,7 +110,7 @@ const Form: React.FC<{
         <TimeAvailabilityInput control={control} name="timeAv" />
         <label className="text-size-xs text-stone-500 block mt-4">(Optional) Additional comments<br />
           <Textarea
-            className="w-full mt-1"
+            className="mt-1"
             {...register('comment')}
           />
         </label>

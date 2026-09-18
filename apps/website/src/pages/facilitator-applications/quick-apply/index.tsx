@@ -332,7 +332,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
               </label>
               <p className="text-size-xxs text-bluedot-navy/60">e.g. on the desired amount/composition of groups</p>
             </div>
-            <Textarea id="formFeedback" className="min-h-24 w-full" {...register('formFeedback')} />
+            <Textarea id="formFeedback" className="min-h-24" {...register('formFeedback')} />
           </div>
         </div>
       </Section>
@@ -351,7 +351,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
               bullets={question.bullets}
               outro={question.outro}
             >
-              <Textarea aria-label={question.label} className="min-h-24 w-full" {...register(question.name)} />
+              <Textarea aria-label={question.label} className="min-h-24" {...register(question.name)} />
             </QuestionCollapsible>
           ))}
         </div>
@@ -408,7 +408,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
           <label htmlFor="availabilityComments" className="text-size-xs text-bluedot-navy font-semibold">
             Additional comments
           </label>
-          <Textarea id="availabilityComments" className="min-h-24 w-full" {...register('availabilityComments')} />
+          <Textarea id="availabilityComments" className="min-h-24" {...register('availabilityComments')} />
         </div>
       </Section>
 
