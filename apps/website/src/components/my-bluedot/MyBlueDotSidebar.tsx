@@ -34,11 +34,11 @@ export const MyBlueDotSidebar = () => {
         My BlueDot
       </Eyebrow>
       <div className="relative">
-        <div aria-hidden className="absolute bottom-0 left-0 top-0 w-1 bg-default" />
+        <div aria-hidden className="absolute bottom-0 left-0 top-0 w-1 bg-subtle" />
         {activeIndex >= 0 && (
           <span
             aria-hidden
-            className="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-bluedot-normal transition-transform duration-200 ease-out"
+            className="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-accent transition-transform duration-200 ease-out motion-reduce:transition-none"
             style={{ transform: `translateY(${activeIndex * ITEM_HEIGHT_PX}px)` }}
           />
         )}
@@ -49,10 +49,10 @@ export const MyBlueDotSidebar = () => {
               <li key={item.href}>
                 <ClickTarget
                   url={item.href}
-                  className="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
+                  className="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
                   aria-current={isActive ? 'page' : undefined}
                 >
-                  <span className={`text-size-sm leading-6 transition-colors ${isActive ? 'text-bluedot-normal' : 'text-bluedot-navy'}`}>
+                  <span className={`text-size-sm leading-6 transition-colors motion-reduce:transition-none ${isActive ? 'text-accent' : 'text-primary'}`}>
                     {item.label}
                   </span>
                 </ClickTarget>
