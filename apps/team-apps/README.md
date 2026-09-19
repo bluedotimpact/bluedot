@@ -118,3 +118,23 @@ Changing the GitHub secret alone does not update a running container.
 ### End of trial
 
 Dewi has a retirement task due 2 Oct 2026. Extend the trial if launch is delayed or regressions remain. After acceptance, use a separate PR to remove the old `apps/speed-review` package and service, and redirect its old hostname to `https://apps.bluedot.org/speed-review` so bookmarks keep working. Preserve the shared Airtable data, shared secrets, and the new portal deployment.
+
+## Scout
+
+Scout lives at `/scout` and is available to every verified BlueDot staff account. It ports the current non-AI review workflow from Eleni's `eleni/scout-queue` branch (source commit `f4f2dc2e`). It retains the locked Airtable queue's order, the TAIS / TAIS Project / Biosecurity tabs, participant history and feedback. Existing application-time AI summaries may be displayed; Scout makes no model calls.
+
+Both decisions need confirmation. Invite sets the existing Course runner email trigger; don't invite sets the scouting status to `Pass`. Skip changes only the current browser session. The server re-reads contact/status fields and queue membership before writing. All portal decisions for one registration hold a PostgreSQL transaction advisory lock through `@bluedot/db`, so concurrent portal requests cannot overwrite each other after passing a stale check. There is no schema migration. This lock does not coordinate manual Airtable edits or the original standalone Scout app.
+
+The existing `PG_URL` must be reachable to save real decisions. Reads retain Scout's Airtable adapter because several source fields are not synced; this port does not add or change the shared database schema. The Airtable credential needs read access to both Course runner and Applications, and write access to the Course runner decision fields. Secrets stay server-side. The adapter spaces requests and uses the existing retry helper; ambiguous failed writes are not automatically retried. Navigation, course changes and skip wait for the save, and a failed save stays on the selected participant for retry.
+
+Use the existing `start:preview` command to review synthetic Scout participants and test decisions without sending emails or changing Airtable. The sample state resets on server restart. Ordinary `start` uses live data even on localhost. Do not automate decisions on real participants.
+
+Run `npm run test:scout-ui --workspace @bluedot/team-apps -- <screenshot-directory>` with the synthetic preview running for the Scout browser regression and viewport checks.
+
+The app test suite includes Scout access, read/write validation, decision payloads, stale records, retry behavior, navigation controls and preview isolation. Optional concurrency tests run against a disposable PostgreSQL database on loopback:
+
+```sh
+SCOUT_TEST_PG_URL=postgresql://localhost-user@127.0.0.1:55439/postgres npm test --workspace @bluedot/team-apps
+```
+
+Use an actual disposable local database URL for that command; the test refuses non-loopback hosts. The integration needs a designated-test-record invitation check and production credential verification before deployment. A local UI review does not send a real invitation.

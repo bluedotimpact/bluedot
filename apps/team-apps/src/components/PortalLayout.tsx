@@ -238,7 +238,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
         if (!open) setLeaveAction(null);
       }} title={pendingWrites > 0 ? 'Saving your changes' : 'Leave this review session?'}>
         <div className="max-w-sm space-y-5">
-          <p className="text-size-sm leading-relaxed text-secondary">{pendingWrites > 0 ? 'Please wait for your changes to finish saving before leaving.' : 'Saved ratings will be kept. Your place in this session and its timer will reset.'}</p>
+          <p className="text-size-sm leading-relaxed text-secondary">{pendingWrites > 0 ? 'Please wait for your changes to finish saving before leaving.' : 'Saved decisions will be kept. Your place in this review session will reset.'}</p>
           <div className="flex flex-wrap gap-3">
             <CTALinkOrButton variant="secondary" onClick={() => setLeaveAction(null)}>Stay here</CTALinkOrButton>
             <CTALinkOrButton disabled={pendingWrites > 0} onClick={() => {
