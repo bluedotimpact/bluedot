@@ -34,3 +34,15 @@ An internal review tool for course leads: one course participant per screen, rea
 ## Verifying
 
 `npm run lint` and `npm run typecheck` from `apps/scout` (inside the dev container). Then run it and page through a few people — the checks cannot see whether a field renders as intended.
+
+## Practicalities for an assistant
+
+- **Node only exists inside the dev container.** Run `npm` there (VS Code terminal, or `docker exec` into the container). Git runs fine from either side.
+- **Never test Invite or Don't invite on a real person** — Invite emails them and neither can be undone from the app. Ask the course engineer for a test registration first, or verify the write path read-only (fetch the row, check the guard fields) as `inviteForReal` does.
+- **Finding a field ID**: the Airtable meta API lists every table and field for a base, using the same token as `.env.local`:
+  `curl -s -H "Authorization: Bearer $AIRTABLE_PERSONAL_ACCESS_TOKEN" https://api.airtable.com/v0/meta/bases/appPs3sb9BrYZN69z/tables` (Course runner; Applications is `appnJbsG1eWbAdEvf`). Use IDs, never names, in code; a renamed field must not break the app.
+- **Airtable rate limit is 5 requests/second per base.** Loading one person already makes ~6 parallel requests. Do not add anything that fetches every person in the queue, or loops over linked records beyond the current card.
+- **The queue view is locked.** Changing who appears or the order is an Airtable change by the course engineer, not a code change.
+- `.env.local` is git-ignored and holds a personal token — never commit it, never print its contents.
+- **Prompt drafts go in Notion, not here.** The repository is public; see "No prompts" above.
+- Branch off `eleni/scout-queue`, keep PRs small, open them against that branch, and comment `@claude review` on each (root `CLAUDE.md` describes the review loop).
