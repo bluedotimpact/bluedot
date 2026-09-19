@@ -2,17 +2,19 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { publicProcedure, router } from '../trpc';
 import env from '../../lib/api/env';
 import { ONE_MINUTE_MS } from '../../lib/constants';
-import { isPublicLumaEvent, type LumaEvent } from './luma-utils';
+import {
+  buildListEventsUrl, getLumaLocation, isPublicLumaEvent, type LumaEvent,
+} from './luma-utils';
 
 const CACHE_TTL_MS = ONE_MINUTE_MS;
 const FAILURE_THRESHOLD = 3;
-const EXCLUDED_EVENT_TITLE_SUFFIXES = ['paper reading club', 'paper reading group'];
 const MAX_EVENT_PAGES = 20;
 
 export type Event = {
   id: string;
   description?: string;
   descriptionMd?: string;
+  coverUrl?: string;
   startAt: string;
   endAt: string;
   location: string;
@@ -21,15 +23,15 @@ export type Event = {
   url: string;
 };
 
-function transformEvent(api_id: string, event: LumaEvent): Event {
+function transformEvent(event: LumaEvent): Event {
   return {
-    id: api_id,
+    id: event.id,
     description: event.description,
     descriptionMd: event.description_md,
     startAt: event.start_at,
     endAt: event.end_at,
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    location: event.geo_address_json?.city?.toUpperCase() || 'ONLINE',
+    coverUrl: event.cover_url ?? undefined,
+    location: getLumaLocation(event),
     timezone: event.timezone,
     title: event.name,
     url: event.url,
@@ -44,10 +46,7 @@ export type EventStats = {
 };
 
 type LumaListEventsResponse = {
-  entries: {
-    api_id: string;
-    event: LumaEvent;
-  }[];
+  entries: LumaEvent[];
   has_more: boolean;
   next_cursor?: string;
 };
@@ -109,41 +108,12 @@ export const lumaRouter = router({
   }),
 });
 
-function buildListEventsUrl({
-  after,
-  cursor,
-}: {
-  after?: string;
-  cursor?: string;
-}) {
-  const url = new URL('https://public-api.luma.com/v1/calendar/list-events');
-  url.searchParams.set('pagination_limit', '100');
-  url.searchParams.set('sort_column', 'start_at');
-  url.searchParams.set('sort_direction', 'asc');
-
-  if (after) {
-    url.searchParams.set('after', after);
-  }
-
-  if (cursor) {
-    url.searchParams.set('pagination_cursor', cursor);
-  }
-
-  return url;
-}
-
 function filterAndTransformEvents(entries: LumaListEventsResponse['entries']) {
-  return (entries ?? [])
-    .filter(({ event }) => isPublicLumaEvent(event))
-    .map(({ api_id, event }) => transformEvent(api_id, event))
-    .filter((event) => {
-      const titleLower = event.title.toLowerCase();
-      return !EXCLUDED_EVENT_TITLE_SUFFIXES.some((suffix) => titleLower.endsWith(suffix));
-    });
+  return entries.filter(isPublicLumaEvent).map(transformEvent);
 }
 
 function summarizeEvents(events: Event[]): EventStats {
-  const cities = new Set(events.filter((event) => event.location !== 'ONLINE').map((event) => event.location)).size;
+  const cities = new Set(events.filter((event) => !['ONLINE', 'IN PERSON', 'LOCATION TBC'].includes(event.location)).map((event) => event.location)).size;
 
   const firstEventStartAt = events.reduce<string | null>((earliest, event) => {
     if (!earliest || event.startAt < earliest) {
@@ -189,11 +159,16 @@ async function fetchPublicEvents({ after }: { after?: string } = {}): Promise<Ev
     // eslint-disable-next-line no-await-in-loop
     const data = await response.json() as LumaListEventsResponse;
     events.push(...filterAndTransformEvents(data.entries));
-    cursor = data.has_more ? data.next_cursor : undefined;
     pagesFetched += 1;
+    if (data.has_more && (!data.next_cursor || data.next_cursor === cursor || pagesFetched >= MAX_EVENT_PAGES)) {
+      throw new Error('Luma pagination did not complete');
+    }
+
+    cursor = data.has_more ? data.next_cursor : undefined;
   } while (cursor && pagesFetched < MAX_EVENT_PAGES);
 
-  return events;
+  return [...new Map(events.map((event) => [event.id, event])).values()]
+    .sort((a, b) => Date.parse(a.startAt) - Date.parse(b.startAt));
 }
 
 async function handleRefreshFailure<T>(error: unknown, fallbackValue: T): Promise<T> {
@@ -226,7 +201,9 @@ async function refreshUpcomingEvents(): Promise<Event[]> {
 
       return events;
     } catch (error) {
-      return await handleRefreshFailure(error, cachedUpcomingEvents ?? []);
+      await handleRefreshFailure(error, undefined);
+      if (cachedUpcomingEvents) return cachedUpcomingEvents;
+      throw error;
     } finally {
       isRefreshingUpcomingEvents = false;
       refreshUpcomingEventsPromise = null;

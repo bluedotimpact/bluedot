@@ -1,266 +1,176 @@
 import { useState } from 'react';
-import {
-  addQueryParam,
-  Breadcrumbs,
-  CTALinkOrButton,
-  ErrorSection,
-  P,
-  ProgressDots,
-  type BluedotRoute,
-} from '@bluedot/ui';
+import { addQueryParam, CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
-import MarketingHero from '../../components/MarketingHero';
+import {
+  HiArrowUpRight, HiOutlineCalendarDays, HiOutlineMapPin, HiOutlineVideoCamera,
+} from 'react-icons/hi2';
+import { Nav } from '../../components/Nav/Nav';
 import PageNewsletter from '../../components/PageNewsletter';
-import { PageListGroup, PageListRow } from '../../components/PageListRow';
-import { buildTimeDeltaString } from '../../components/events/eventsUtils';
-import { ROUTES } from '../../lib/routes';
+import { buildTimeDeltaString, formatEventDate, formatLocationLabel } from '../../components/events/eventsUtils';
 import type { Event } from '../../server/routers/luma';
 import { trpc } from '../../utils/trpc';
 
-const CURRENT_ROUTE: BluedotRoute = {
-  title: 'Events',
-  url: ROUTES.events.url,
-  parentPages: [ROUTES.home],
-};
-
 const LUMA_CALENDAR_URL = 'https://lu.ma/bluedotevents';
-const UPCOMING_EVENTS_ANCHOR = 'upcoming-events';
-const VISIBLE_EVENTS_COUNT = 20;
-const CITY_FILTER_MIN_EVENTS = 2;
+const PAGE_SIZE = 20;
+const FILTERS = { all: 'All events', online: 'Online', 'in-person': 'In person' } as const;
+type EventFilter = keyof typeof FILTERS;
 
-type EventFilterKey = 'all' | 'virtual' | 'in-person' | 'london' | 'san-francisco';
-type EventsPageCtaContent = 'top-cta' | 'event-title' | 'event-link' | 'empty-cta' | 'footer-banner';
-
-const addEventsPageUtm = (url: string, content: EventsPageCtaContent) => {
+const trackedUrl = (url: string, content: string) => {
   const withSource = addQueryParam(url, 'utm_source', 'website');
   const withCampaign = addQueryParam(withSource, 'utm_campaign', 'events-page');
   return addQueryParam(withCampaign, 'utm_content', content);
 };
 
-const formatLocationLabel = (location: string) => {
-  if (location === 'ONLINE') {
-    return 'Virtual';
-  }
+const isInPerson = (event: Event) => !['ONLINE', 'LOCATION TBC'].includes(event.location);
 
-  return location
-    .toLowerCase()
-    .split(' ')
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
-};
-
-const formatMonth = (dateString: string) => new Date(dateString).toLocaleString('en-US', { month: 'short' }).toUpperCase();
-const formatDay = (dateString: string) => new Date(dateString).getDate().toString();
-const formatMonthLabel = (dateString: string) => new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  year: 'numeric',
-}).format(new Date(dateString));
-
-const groupEventsByMonth = (events: Event[]) => {
-  const groups: { month: string; events: Event[] }[] = [];
-
-  for (const event of events) {
-    const month = formatMonthLabel(event.startAt);
-    const existingGroup = groups[groups.length - 1];
-
-    if (existingGroup?.month === month) {
-      existingGroup.events.push(event);
-    } else {
-      groups.push({ month, events: [event] });
-    }
-  }
-
-  return groups;
-};
-
-const FILTER_LABELS: Record<EventFilterKey, string> = {
-  all: 'All',
-  virtual: 'Virtual',
-  'in-person': 'In person',
-  london: 'London',
-  'san-francisco': 'San Francisco',
-};
-
-const matchesFilter = (event: Event, filter: EventFilterKey) => {
-  switch (filter) {
-    case 'all':
-      return true;
-    case 'virtual':
-      return event.location === 'ONLINE';
-    case 'in-person':
-      return event.location !== 'ONLINE';
-    case 'london':
-      return event.location === 'LONDON';
-    case 'san-francisco':
-      return event.location === 'SAN FRANCISCO';
-    default:
-      return true;
-  }
-};
-
-const EventDateBadge = ({ event }: { event: Event }) => {
+const EventCard = ({ event }: { event: Event }) => {
+  const [imageFailed, setImageFailed] = useState(false);
+  const online = event.location === 'ONLINE';
+  const LocationIcon = online ? HiOutlineVideoCamera : HiOutlineMapPin;
   return (
-    <div className="flex size-[68px] shrink-0 flex-col overflow-hidden rounded-xl border border-bluedot-navy/10 bg-white">
-      <div className="flex items-center justify-center bg-bluedot-normal px-2 py-1.5">
-        <span className="text-size-xxs font-semibold uppercase tracking-widest text-white">
-          {formatMonth(event.startAt)}
-        </span>
-      </div>
-      <div className="flex flex-1 items-center justify-center">
-        {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: event-row day number, fixed 28px sized to fit the row chrome */}
-        <span className="text-[28px] font-medium tracking-[-0.05em] text-bluedot-navy">
-          {formatDay(event.startAt)}
-        </span>
-      </div>
-    </div>
+    <li>
+      <a
+        href={trackedUrl(event.url, 'event-link')}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex items-center gap-4 rounded-2xl border border-bluedot-navy/10 bg-white p-4 transition-colors hover:border-bluedot-normal/40 hover:bg-bluedot-light/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bluedot-normal sm:gap-6 sm:p-5"
+      >
+        <div className="size-20 shrink-0 overflow-hidden rounded-xl bg-bluedot-light sm:size-28">
+          {event.coverUrl && !imageFailed ? (
+            <img src={event.coverUrl} alt="" width={112} height={112} loading="lazy" onError={() => setImageFailed(true)} className="size-full object-cover" />
+          ) : (
+            <div className="flex size-full items-center justify-center text-bluedot-normal"><HiOutlineCalendarDays size={32} aria-hidden="true" /></div>
+          )}
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-size-xxs font-medium leading-relaxed text-bluedot-navy/65 sm:text-size-xs">{buildTimeDeltaString(event)}</p>
+          <h3 className="mt-1 text-size-sm font-semibold leading-snug tracking-tight text-bluedot-navy group-hover:text-bluedot-normal sm:text-size-md">{event.title}</h3>
+          <p className="mt-2 flex items-center gap-1.5 text-size-xs leading-relaxed text-bluedot-navy/65">
+            <LocationIcon className="shrink-0" size={16} aria-hidden="true" />
+            {formatLocationLabel(event.location)}
+          </p>
+        </div>
+        <HiArrowUpRight className="hidden shrink-0 text-bluedot-navy/40 group-hover:text-bluedot-normal sm:block" size={22} aria-hidden="true" />
+      </a>
+    </li>
   );
 };
 
 const EventsPage = () => {
   const { data: events, isLoading, error } = trpc.luma.getUpcomingEvents.useQuery();
-  const [selectedFilter, setSelectedFilter] = useState<EventFilterKey>('all');
-  const topCalendarUrl = addEventsPageUtm(LUMA_CALENDAR_URL, 'top-cta');
-  const emptyCalendarUrl = addEventsPageUtm(LUMA_CALENDAR_URL, 'empty-cta');
-
+  const [filter, setFilter] = useState<EventFilter>('all');
+  const [location, setLocation] = useState('all');
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const upcomingEvents = events ?? [];
-  const visibleEvents = upcomingEvents.slice(0, VISIBLE_EVENTS_COUNT);
-  const londonCount = visibleEvents.filter((event) => event.location === 'LONDON').length;
-  const sanFranciscoCount = visibleEvents.filter((event) => event.location === 'SAN FRANCISCO').length;
-  const availableFilters: EventFilterKey[] = ['all'];
-
-  if (visibleEvents.some((event) => event.location === 'ONLINE')) {
-    availableFilters.push('virtual');
+  const locations = [...new Set(upcomingEvents.filter(isInPerson)
+    .map((event) => event.location).filter((value) => value !== 'IN PERSON'))].sort();
+  const filteredEvents = upcomingEvents.filter((event) => {
+    if (filter === 'online' && event.location !== 'ONLINE') return false;
+    if (filter === 'in-person' && !isInPerson(event)) return false;
+    return location === 'all' || event.location === location;
+  });
+  const visibleEvents = filteredEvents.slice(0, visibleCount);
+  const groups: { date: string; events: Event[] }[] = [];
+  for (const event of visibleEvents) {
+    const date = formatEventDate(event);
+    const lastGroup = groups[groups.length - 1];
+    if (lastGroup?.date === date) lastGroup.events.push(event);
+    else groups.push({ date, events: [event] });
   }
-
-  if (visibleEvents.some((event) => event.location !== 'ONLINE')) {
-    availableFilters.push('in-person');
-  }
-
-  if (londonCount >= CITY_FILTER_MIN_EVENTS) {
-    availableFilters.push('london');
-  }
-
-  if (sanFranciscoCount >= CITY_FILTER_MIN_EVENTS) {
-    availableFilters.push('san-francisco');
-  }
-
-  const activeFilter = availableFilters.includes(selectedFilter) ? selectedFilter : 'all';
-  const filteredListEvents = visibleEvents.filter((event) => matchesFilter(event, activeFilter));
-  const groupedListEvents = groupEventsByMonth(filteredListEvents);
-  const showFilters = visibleEvents.length >= 4 && availableFilters.length > 1;
-
-  const renderEventRow = (event: Event) => {
-    const eventLinkUrl = addEventsPageUtm(event.url, 'event-link');
-    const meta = `${formatLocationLabel(event.location)} · ${buildTimeDeltaString(event)}`;
-    return (
-      <PageListRow
-        key={event.id}
-        href={eventLinkUrl}
-        title={event.title}
-        meta={meta}
-        external
-        ctaLabel="View on Luma"
-        leadingSlot={<EventDateBadge event={event} />}
-      />
-    );
-  };
 
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta
-          name="description"
-          content="Browse upcoming BlueDot events, including reading groups, coffee chats, workshops, socials, and city meetups."
-        />
+        <title>Events | BlueDot Impact</title>
+        <meta name="description" content="Meet the BlueDot community. Explore upcoming AI safety reading groups, workshops, socials, and meetups online and around the world." />
       </Head>
-
-      <MarketingHero
-        title="Events"
-        subtitle="Recurring groups, meetups, socials, and workshops for the BlueDot community."
-      />
-      <Breadcrumbs route={CURRENT_ROUTE} />
-
-      <section className="section section-body events-featured-section">
-        <div className="w-full flex flex-col gap-8">
-          <div
-            id={UPCOMING_EVENTS_ANCHOR}
-            className="scroll-mt-28 flex flex-col gap-4 min-[960px]:flex-row min-[960px]:items-end min-[960px]:justify-between"
-          >
-            <div className="max-w-[760px]">
-              <P>
-                Most BlueDot events live on Luma. This page is the quick scan - what's coming up, what we run, and where to RSVP.
-              </P>
-              <P className="mt-3 text-size-xs text-bluedot-navy/80">
-                Virtual events are shown in your local time. In-person events are shown in local venue time.
-              </P>
+      <Nav />
+      <main className="bg-slate-50/70 pb-16">
+        <header className="border-b border-bluedot-navy/10 bg-white">
+          <div className="section-base flex flex-col gap-5 py-8 sm:flex-row sm:items-center sm:justify-between sm:py-10">
+            <div>
+              <h1 className="text-size-2xl font-semibold tracking-tight text-bluedot-navy">Events</h1>
+              <p className="mt-3 max-w-[620px] text-size-sm leading-relaxed text-bluedot-navy/70">Meet, learn, and work on AI safety with the BlueDot community.</p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <CTALinkOrButton url={topCalendarUrl} target="_blank">
-                Open the full Luma calendar
-              </CTALinkOrButton>
-            </div>
+            <CTALinkOrButton url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</CTALinkOrButton>
           </div>
-
-          {isLoading && <ProgressDots />}
-          {error && <ErrorSection error={error} />}
-
-          {!isLoading && !error && visibleEvents.length > 0 && (
-            <div className="flex flex-col gap-10">
-              {showFilters && (
-                <div className="flex flex-wrap gap-2">
-                  {availableFilters.map((filter) => {
-                    const isActive = activeFilter === filter;
-
-                    return (
-                      <button
-                        key={filter}
-                        type="button"
-                        onClick={() => setSelectedFilter(filter)}
-                        className={isActive
-                          ? 'inline-flex items-center justify-center rounded-md bg-bluedot-navy px-4 py-2 text-size-sm font-medium tracking-tighter text-white'
-                          : 'inline-flex items-center justify-center rounded-md bg-bluedot-navy/10 px-4 py-2 text-size-sm font-medium tracking-tighter text-bluedot-navy transition-colors hover:bg-bluedot-navy/15'}
-                        aria-pressed={isActive}
-                      >
-                        {FILTER_LABELS[filter]}
-                      </button>
-                    );
-                  })}
+        </header>
+        <section aria-label="Upcoming events" className="section-base pt-6 sm:pt-8">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap gap-1 rounded-xl border border-bluedot-navy/10 bg-white p-1" aria-label="Event format">
+              {Object.entries(FILTERS).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  aria-pressed={filter === key}
+                  onClick={() => {
+                    setFilter(key as EventFilter);
+                    setLocation('all');
+                    setVisibleCount(PAGE_SIZE);
+                  }}
+                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal sm:flex-none sm:px-4 ${filter === key ? 'bg-bluedot-navy text-white' : 'text-bluedot-navy/70 hover:bg-slate-100'}`}
+                >{label}</button>
+              ))}
+            </div>
+            {filter !== 'online' && locations.length > 0 && (
+              <label className="flex items-center gap-3 text-size-xs text-bluedot-navy/70">
+                Location
+                <select
+                  value={location}
+                  onChange={(e) => {
+                    setLocation(e.target.value);
+                    setVisibleCount(PAGE_SIZE);
+                  }}
+                  className="min-w-0 flex-1 rounded-lg border border-bluedot-navy/15 bg-white px-3 py-2.5 text-bluedot-navy sm:min-w-44"
+                >
+                  <option value="all">Everywhere</option>
+                  {locations.map((value) => <option key={value} value={value}>{formatLocationLabel(value)}</option>)}
+                </select>
+              </label>
+            )}
+          </div>
+          <div className="mb-6 flex flex-col gap-1 text-size-xxs leading-relaxed text-bluedot-navy/60 sm:flex-row sm:justify-between">
+            <p role="status">{!isLoading && !error ? `${filteredEvents.length} upcoming ${filteredEvents.length === 1 ? 'event' : 'events'}` : 'Upcoming events'}</p>
+            <p>Online events in your time. In-person events in venue time.</p>
+          </div>
+          {isLoading && <div className="py-12"><ProgressDots /></div>}
+          {error && <p role="alert" className="py-8">We couldn’t load the events. <a className="underline" href={trackedUrl(LUMA_CALENDAR_URL, 'error-cta')}>See the calendar on Luma ↗</a></p>}
+          {!isLoading && !error && (
+            <>
+              <div className="flex flex-col gap-7">
+                {groups.map((group, index) => (
+                  <div key={`${group.date}-${index}`} className="grid gap-3 sm:grid-cols-[160px_minmax(0,1fr)] sm:gap-8">
+                    <h2 className="pt-2 text-size-sm font-semibold leading-relaxed text-bluedot-navy">{group.date}</h2>
+                    <ul className="flex flex-col gap-3">{group.events.map((event) => <EventCard key={event.id} event={event} />)}</ul>
+                  </div>
+                ))}
+              </div>
+              {filteredEvents.length === 0 && (
+                <div className="rounded-2xl border border-bluedot-navy/10 bg-white p-8 text-center">
+                  <p className="text-size-md font-semibold">{upcomingEvents.length ? 'No events match these filters.' : 'More events are on the way.'}</p>
+                  <p className="mt-3 text-size-sm text-bluedot-navy/70">{upcomingEvents.length ? 'Try another location or browse all upcoming events.' : 'Follow our Luma calendar to hear about the next one.'}</p>
+                  {upcomingEvents.length > 0 ? (
+                    <button type="button" className="mt-5 text-bluedot-normal underline" onClick={() => {
+                      setFilter('all');
+                      setLocation('all');
+                      setVisibleCount(PAGE_SIZE);
+                    }}>Clear filters</button>
+                  ) : <a href={trackedUrl(LUMA_CALENDAR_URL, 'empty-cta')} className="mt-5 inline-block text-bluedot-normal underline">Open the Luma calendar ↗</a>}
                 </div>
               )}
-
-              <div className="flex flex-col gap-12">
-                {groupedListEvents.length > 0 ? (
-                  groupedListEvents.map((group) => (
-                    <PageListGroup key={group.month} label={group.month}>
-                      {group.events.map(renderEventRow)}
-                    </PageListGroup>
-                  ))
-                ) : (
-                  <P>No events match this filter right now.</P>
-                )}
-              </div>
-            </div>
+              {visibleCount < filteredEvents.length && (
+                <div className="mt-8 flex justify-center">
+                  <button type="button" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)} className="rounded-lg border border-bluedot-navy/20 bg-white px-6 py-3 text-size-sm font-medium hover:border-bluedot-normal">Show more events ({filteredEvents.length - visibleCount} remaining)</button>
+                </div>
+              )}
+            </>
           )}
-
-          {!isLoading && !error && upcomingEvents.length === 0 && (
-            <div>
-              <P>No upcoming events are showing right now. Check the Luma calendar directly for the latest updates.</P>
-              <div className="mt-5">
-                <CTALinkOrButton url={emptyCalendarUrl} target="_blank">
-                  Open the full Luma calendar
-                </CTALinkOrButton>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
-
+        </section>
+      </main>
       <PageNewsletter />
     </div>
   );
 };
 
 EventsPage.pageRendersOwnNav = true;
-
 export default EventsPage;

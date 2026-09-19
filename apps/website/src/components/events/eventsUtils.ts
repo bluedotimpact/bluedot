@@ -52,3 +52,19 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
   const timeEnd = formatTime(endDate, { timeZoneName: 'short' });
   return `${timeStart} - ${timeEnd}`;
 };
+
+/** Keep date headings in the same timezone as the event's time label. */
+export const formatEventDate = (event: Event) => new Intl.DateTimeFormat('en-US', {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: event.location === 'ONLINE' ? undefined : event.timezone,
+}).format(new Date(event.startAt));
+
+export const formatLocationLabel = (location: string) => {
+  if (location === 'ONLINE') return 'Online';
+  if (location === 'IN PERSON') return 'In person · location to be announced';
+  if (location === 'LOCATION TBC') return 'Location to be announced';
+  return location.toLowerCase().replace(/(^|\s)\S/g, (letter) => letter.toUpperCase());
+};

@@ -105,6 +105,12 @@ const mockEvents = [
   },
 ];
 
+beforeEach(() => {
+  server.use(trpcMsw.courses.getAll.query(() => []));
+  server.use(trpcMsw.programs.getInPerson.query(() => []));
+  server.use(trpcMsw.programs.getGrants.query(() => []));
+});
+
 describe('EventsPage', () => {
   beforeEach(() => {
     server.use(trpcMsw.courses.getAll.query(() => []));
@@ -114,16 +120,15 @@ describe('EventsPage', () => {
   test('renders hero copy and upcoming events', async () => {
     render(<EventsPage />, { wrapper: TrpcProvider });
 
-    expect(screen.getByText('Recurring groups, meetups, socials, and workshops for the BlueDot community.')).toBeTruthy();
-    expect(screen.getByText('Most BlueDot events live on Luma. This page is the quick scan - what\'s coming up, what we run, and where to RSVP.')).toBeTruthy();
-    expect(screen.getByText('Virtual events are shown in your local time. In-person events are shown in local venue time.')).toBeTruthy();
+    expect(screen.getByText('Meet, learn, and work on AI safety with the BlueDot community.')).toBeTruthy();
+    expect(screen.getByText('Online events in your time. In-person events in venue time.')).toBeTruthy();
 
     await waitFor(() => {
       expect(screen.getByText('AI Governance Club')).toBeTruthy();
       expect(screen.getByText('London Community Meetup')).toBeTruthy();
     });
 
-    const ctas = screen.getAllByRole('link', { name: 'Open the full Luma calendar' });
+    const ctas = screen.getAllByRole('link', { name: 'Follow on Luma ↗' });
     const trackedCtaUrl = new URL(ctas[0]?.getAttribute('href') ?? '');
     expect(`${trackedCtaUrl.origin}${trackedCtaUrl.pathname}`).toBe('https://lu.ma/bluedotevents');
     expect(trackedCtaUrl.searchParams.get('utm_source')).toBe('website');
@@ -137,7 +142,7 @@ describe('EventsPage', () => {
     render(<EventsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('No upcoming events are showing right now. Check the Luma calendar directly for the latest updates.')).toBeTruthy();
+      expect(screen.getByText('More events are on the way.')).toBeTruthy();
     });
   });
 
@@ -148,7 +153,7 @@ describe('EventsPage', () => {
       expect(screen.getByText('London Reading Group')).toBeTruthy();
     });
 
-    fireEvent.click(screen.getByRole('button', { name: 'London' }));
+    fireEvent.change(screen.getByRole('combobox', { name: 'Location' }), { target: { value: 'LONDON' } });
 
     expect(screen.getByText('London Reading Group')).toBeTruthy();
     expect(screen.getByText('London Policy Meetup')).toBeTruthy();
@@ -156,4 +161,31 @@ describe('EventsPage', () => {
     expect(screen.queryByText('Virtual Office Hours')).toBeNull();
     expect(screen.queryByText('AI Governance Club')).toBeNull();
   });
+});
+
+test('filters the complete calendar before pagination and lets visitors reach later events', async () => {
+  const manyEvents = Array.from({ length: 25 }, (_, index) => ({
+    ...mockEvents[0]!, id: `event-${index}`, title: `Event ${index}`, location: index === 24 ? 'OXFORD' : 'ONLINE',
+  }));
+  server.use(trpcMsw.luma.getUpcomingEvents.query(() => manyEvents));
+  render(<EventsPage />, { wrapper: TrpcProvider });
+  await screen.findByText('Event 0');
+  expect(screen.queryByText('Event 24')).toBeNull();
+  fireEvent.change(screen.getByRole('combobox', { name: 'Location' }), { target: { value: 'OXFORD' } });
+  expect(screen.getByText('Event 24')).toBeTruthy();
+  expect(screen.queryByText('Event 0')).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'All events' }));
+  fireEvent.click(screen.getByRole('button', { name: /Show more events/ }));
+  expect(screen.getByText('Event 24')).toBeTruthy();
+  expect(screen.queryByRole('button', { name: /Show more events/ })).toBeNull();
+});
+
+test('shows a recovery link when the event feed fails', async () => {
+  server.use(trpcMsw.luma.getUpcomingEvents.query(() => {
+    throw new Error('Feed unavailable');
+  }));
+  render(<EventsPage />, { wrapper: TrpcProvider });
+  expect((await screen.findByRole('alert')).textContent).toContain('We couldn’t load the events.');
+  expect(screen.getByRole('link', { name: 'See the calendar on Luma ↗' })).toBeTruthy();
+  expect(screen.queryByText('More events are on the way.')).toBeNull();
 });
