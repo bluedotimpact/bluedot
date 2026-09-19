@@ -196,7 +196,7 @@ The website uses **Inter** for body text and **Inter Display** for headlines. Th
 **Do not delete any font files from `/public/fonts/`** - here's why:
 
 - The shared UI library (`/libraries/ui/`) defines font URLs pointing to `https://bluedot.org/fonts/*`
-- 8+ other apps (Storybook, Meet, Room, Editor, etc.) load Inter/InterDisplay from these URLs
+- 8+ other apps (Storybook, Meet, Room, etc.) load Inter/InterDisplay from these URLs
 - Deleting these fonts would break typography in all other apps
 - The website loads fonts locally via `next/font` while serving the same files for other apps
 - Legacy Roobert/Reckless files are no longer referenced by the shared UI library, but external consumers still load them by URL
@@ -219,7 +219,6 @@ These are loaded by the shared UI library (`libraries/ui/src/default-config/tail
 - `storybook` — component documentation
 - `meet` — meeting attendance + Zoom Web SDK
 - `room` — meeting/collaboration app
-- `editor` — content editor
 - `availability` — scheduling/availability forms
 - `course-demos` — interactive course demos
 - `frontend-example` — example app
