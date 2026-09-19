@@ -2,7 +2,7 @@
 
 The team portal is a separate Next.js app (`@bluedot/team-apps`) with its own `bluedot-team-apps` deployment. Speed Reviewer is the first tool. During the trial, the existing `apps/speed-review` app stays at its original hostname with its original sign-in.
 
-Signed-out visitors see only a minimal Google sign-in page, including when opening an app directly. App names, navigation, and screens appear after sign-in. The signed-in home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Toggle it with ⌘B on Mac or Ctrl+B on Windows/Linux, matching the course pages; typing in an input or editor leaves that shortcut alone. Speed Reviewer is the first app, at `/speed-review`. More tools can follow through normal PRs.
+Signed-out visitors see only a minimal Google sign-in page, including when opening an app directly. App names, navigation, and screens appear after sign-in. The signed-in home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Toggle it with ⌘B on Mac or Ctrl+B on Windows/Linux, matching the course pages; typing in an input or editor leaves that shortcut alone. Speed Reviewer is the first app, at `/speed-review`. Talent Capture opens its Chrome Web Store listing in a new tab. External tools appear alongside internal apps after sign-in; opening one leaves the current portal page and any review session in place.
 
 ## Run locally with real data
 
@@ -40,7 +40,7 @@ The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=tru
 ## Add or improve a tool
 
 1. Add its page under `src/pages/` and group its components and backend code by feature.
-2. Add its name, description, icon, and route to `src/lib/apps.ts`. The home page and sidebar read the same list.
+2. Add its name, description, icon, and route to `src/lib/apps.ts`. The home page and sidebar read the same list. For an externally hosted app or Chrome extension, use its full HTTPS URL and `external: true`; no portal page is needed. External links open a new tab with `noopener noreferrer` and bypass the leave-session prompt because the current session stays open.
 3. Reuse `PortalLayout`, `@bluedot/ui`, and the shared design tokens. Protect server reads and writes with staff authentication. New data access should follow the monorepo's `@bluedot/db` and tRPC conventions; the reviewer retains its existing Airtable integration.
 4. Register active work and pending writes with `useNavigationState` so navigation cannot silently abandon them.
 5. Test with synthetic/local data, open a PR, and publish through the normal deployment process after review.

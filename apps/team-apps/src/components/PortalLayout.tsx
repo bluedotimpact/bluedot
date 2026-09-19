@@ -146,15 +146,22 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
   const navigation = (compact: boolean) => (
     <nav aria-label="Apps" className="flex flex-col gap-1">
       {[{
-        name: 'Home', href: '/', id: 'home', icon: 'home' as const,
+        name: 'Home', href: '/', id: 'home', icon: 'home' as const, external: false,
       }, ...apps].map((app) => (
         <Link
           key={app.id}
           href={app.href}
-          aria-label={app.name}
+          target={app.external ? '_blank' : undefined}
+          rel={app.external ? 'noopener noreferrer' : undefined}
+          aria-label={app.external ? `${app.name} (opens in a new tab)` : app.name}
           aria-current={router.pathname === app.href ? 'page' : undefined}
           title={compact ? app.name : undefined}
           onClick={(event) => {
+            if (app.external) {
+              setMobileOpen(false);
+              return;
+            }
+
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
             if (router.pathname === app.href) {
@@ -167,10 +174,10 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
               void router.push(app.href);
             });
           }}
-          className={`flex min-h-11 items-center gap-3 rounded-surface px-3 text-size-xs font-medium transition-colors ${compact ? 'justify-center' : ''} ${router.pathname === app.href ? 'bg-active text-primary' : 'text-secondary hover:bg-tint hover:text-primary'}`}
+          className={`flex min-h-11 items-center gap-3 rounded-surface px-3 text-size-xs font-medium transition-colors ${router.pathname === app.href ? 'bg-active text-primary' : 'text-secondary hover:bg-tint hover:text-primary'}`}
         >
           <PortalIcon name={app.icon} className="shrink-0" />
-          {!compact && <span>{app.name}</span>}
+          {!compact && <><span>{app.name}</span>{app.external && <PortalIcon name="external" className="ml-auto size-3.5 shrink-0" />}</>}
         </Link>
       ))}
     </nav>
@@ -186,20 +193,20 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
     <div className="bluedot-base flex min-h-dvh">
       <a href="#app-content" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-70 focus:rounded-surface focus:bg-raised focus:p-3">Skip to content</a>
       {auth && <aside aria-label="Workspace" className={`sticky top-0 hidden h-dvh shrink-0 flex-col border-r border-subtle bg-canvas p-3 md:flex ${collapsed ? 'w-18' : 'w-60'}`}>
-        <div className={`flex h-16 items-center gap-2.5 px-3 ${collapsed ? 'justify-center' : ''}`}>
-          <span className="size-3 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+        <div className="flex h-16 items-center gap-2.5 px-3">
+          <span className="flex size-5 shrink-0 items-center justify-center" aria-hidden="true"><span className="size-3 rounded-full bg-accent" /></span>
           {!collapsed && <span className="text-size-md font-semibold tracking-tight">BlueDot <span className="font-normal text-secondary">Apps</span></span>}
           {collapsed && <span className="sr-only">BlueDot Apps</span>}
         </div>
         <div className="mt-5">{navigation(collapsed)}</div>
         <div className="mt-auto space-y-2 pt-6">
           {auth && (
-            <div className={`flex items-center gap-2 rounded-surface ${collapsed ? 'flex-col' : 'px-2'}`}>
-              {!collapsed && <div className="min-w-0 flex-1"><p className="text-size-xs font-medium">{preview ? 'Local preview' : 'Signed in'}</p><p className="truncate text-size-xxs text-secondary" title={auth.email}>{auth.email}</p></div>}
+            <div className="flex items-center rounded-surface">
               <button type="button" onClick={signOut} aria-label="Sign out" title="Sign out" className="flex size-11 shrink-0 items-center justify-center rounded-surface text-secondary hover:bg-tint"><PortalIcon name="logout" /></button>
+              {!collapsed && <div className="min-w-0 flex-1"><p className="text-size-xs font-medium">{preview ? 'Local preview' : 'Signed in'}</p><p className="truncate text-size-xxs text-secondary" title={auth.email}>{auth.email}</p></div>}
             </div>
           )}
-          <button type="button" onClick={toggleCollapsed} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={`${collapsed ? 'Expand' : 'Collapse'} sidebar (⌘B / Ctrl+B)`} aria-keyshortcuts="Meta+B Control+B" aria-expanded={!collapsed} className={`flex min-h-11 w-full items-center gap-3 rounded-surface px-3 text-size-xs text-secondary hover:bg-tint ${collapsed ? 'justify-center' : ''}`}><PortalIcon name="panel" className={collapsed ? 'rotate-180' : ''} />{!collapsed && 'Collapse sidebar'}</button>
+          <button type="button" onClick={toggleCollapsed} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={`${collapsed ? 'Expand' : 'Collapse'} sidebar (⌘B / Ctrl+B)`} aria-keyshortcuts="Meta+B Control+B" aria-expanded={!collapsed} className="flex min-h-11 w-full items-center gap-3 rounded-surface px-3 text-size-xs text-secondary hover:bg-tint"><PortalIcon name="panel" className={`shrink-0 ${collapsed ? 'rotate-180' : ''}`} />{!collapsed && 'Collapse sidebar'}</button>
         </div>
       </aside>}
       <div className="flex min-w-0 flex-1 flex-col bg-raised">
