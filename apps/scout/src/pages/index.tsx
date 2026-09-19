@@ -179,7 +179,7 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
       </div>
 
       <p className="text-size-xs text-secondary">
-        Invite and Don't invite both write to Airtable after you confirm; Invite also sends the email. Use skip to just look around.
+        Invite and Don't invite work <em>for real</em>. Use skip if you just want to look around.
       </p>
 
       {current ? (
@@ -225,7 +225,11 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
             </P>
             <div className="flex justify-end gap-2">
               <CTALinkOrButton variant="secondary" onClick={() => setConfirming(undefined)}>Cancel</CTALinkOrButton>
-              <CTALinkOrButton onClick={confirm}>{confirming === 'invite' ? 'Send the invite' : 'Mark as don\'t invite'}</CTALinkOrButton>
+              {confirming === 'invite' ? (
+                <CTALinkOrButton onClick={confirm}>Send the invite</CTALinkOrButton>
+              ) : (
+                <button type="button" onClick={confirm} className="cursor-pointer rounded bg-error-fg px-4 py-2 text-size-sm font-semibold text-on-dark hover:opacity-90">Mark as don't invite</button>
+              )}
             </div>
           </div>
         </div>

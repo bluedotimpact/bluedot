@@ -148,7 +148,7 @@ const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
     <button
       type="button"
       title="Copy email"
-      className="flex cursor-pointer items-center gap-1 self-center text-size-sm text-secondary hover:text-primary"
+      className="flex cursor-pointer items-center gap-1 text-size-xs text-secondary hover:text-primary"
       onClick={() => {
         navigator.clipboard.writeText(email);
         setCopied(true);
@@ -246,8 +246,11 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
   return (
     <div className="flex flex-col gap-2">
       <CardShell className="flex flex-col gap-2 p-4">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span className="text-size-md font-semibold text-primary">{showName ? person.name : 'Participant'}</span>
+          {person.email && <CopyEmail email={person.email} />}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
           <OpinionBadge opinion={person.opinion} />
           {person.certificateUrl && <Badge className="bg-info-bg text-info-fg">Completed</Badge>}
           {person.reports.length > 0 && <Badge className="bg-purple-100 text-purple-900">Facilitator 1:1 report</Badge>}
@@ -262,7 +265,6 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           {person.projects.filter((p) => p.url).map((p) => (
             <CTALinkOrButton key={p.id} size="small" variant="outline-black" url={p.url} target="_blank">Project ↗</CTALinkOrButton>
           ))}
-          {person.email && <CopyEmail email={person.email} />}
           <A href={`https://airtable.com/${COURSE_RUNNER_BASE_ID}/${REGISTRATIONS_TABLE_ID}/${person.id}`} target="_blank" className="self-center text-size-xs">registration in Airtable ↗</A>
         </div>
       </CardShell>
