@@ -10,6 +10,12 @@ export type PortalApp = {
 };
 
 export const apps: PortalApp[] = [{
+  id: 'scout',
+  icon: 'scout',
+  name: 'Scout',
+  description: 'Review course participants and invite promising people to an evaluation call.',
+  href: '/scout',
+}, {
   id: 'speed-review',
   icon: 'review',
   name: 'Speed Reviewer',
