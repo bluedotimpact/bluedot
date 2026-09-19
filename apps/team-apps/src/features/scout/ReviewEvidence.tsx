@@ -4,12 +4,12 @@ import { PersonCard } from './PersonCard';
 import { roundLabel } from './reviewQueue';
 import { button, panel } from './reviewStyles';
 
-export const ReviewEvidence = ({ item, person, error, onRetry, actions, status }: { item: QueueItem; person?: Person; error?: string; onRetry: () => void; actions: ReactNode; status?: ReactNode }) => {
+export const ReviewEvidence = ({ item, person, error, onRetry, actions }: { item: QueueItem; person?: Person; error?: string; onRetry: () => void; actions: ReactNode }) => {
   const [tab, setTab] = useState('brief');
   return (
     <section aria-label="Participant evidence" className={panel}>
       <div className="border-b border-subtle p-5 sm:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-2"><p className="text-size-xs font-medium uppercase tracking-widest text-secondary">Consider for an evaluation call</p>{status}</div>
+        <div className="flex flex-wrap items-center justify-between gap-2"><p className="text-size-xs font-medium uppercase tracking-widest text-secondary">Consider for an evaluation call</p></div>
         <h2 className="mt-3 break-words text-size-lg font-semibold">{item.name ?? person?.name ?? 'Participant'}</h2>
         {person && <p className="mt-1 text-size-sm leading-relaxed text-secondary">{[person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ')}</p>}
         <p className="mt-2 text-size-xs text-secondary">{item.course} · {roundLabel(item)}</p>

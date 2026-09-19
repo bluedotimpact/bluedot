@@ -219,7 +219,7 @@ const Scout = () => {
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
         {!loading && queueError && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{queueError} Use Refresh queue to try again.</div>}
         {!loading && !queueError && (!round ? (
-          <RoundPicker items={remaining} direction={direction} onDirection={setDirection} onSelect={chooseRound} showDirection />
+          <RoundPicker items={remaining} direction={direction} onDirection={setDirection} onSelect={chooseRound} />
         ) : <>
           <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 p-4`}>
             <div><p className="font-medium">{round.course}</p><p className="mt-1 text-size-xs text-secondary">{roundLabel(round)} · {direction === 'top' ? 'Top' : 'Bottom'} of Airtable queue</p></div>
@@ -269,7 +269,7 @@ const Scout = () => {
         </>)}
         {round && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Skips and this session’s summary reset when you leave or reload. Confirmed decisions remain saved.</p>}
         <Modal desktopHeaderClassName="[&_button]:min-h-11 [&_button]:min-w-11" isOpen={pickerOpen} setIsOpen={setPickerOpen} title="Choose a round">
-          <RoundPicker items={remaining} direction={direction} onDirection={setDirection} onSelect={chooseRound} showDirection />
+          <RoundPicker items={remaining} direction={direction} onDirection={setDirection} onSelect={chooseRound} />
         </Modal>
         <Modal isOpen={confirmation !== undefined} setIsOpen={(open) => {
           if (!open && !writingRef.current) {

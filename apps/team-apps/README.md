@@ -121,7 +121,7 @@ Dewi has a retirement task due 2 Oct 2026. Extend the trial if launch is delayed
 
 ## Scout
 
-Scout lives at `/scout` and is available to every verified BlueDot staff account. It ports the current non-AI review workflow from Eleni's `eleni/scout-queue` branch (source commit `f4f2dc2e`). It retains the locked Airtable queue's order, the supported TAIS / TAIS Project / Biosecurity courses, participant history and feedback. Existing application-time AI summaries may be displayed; Scout makes no model calls.
+Scout is ported into the app dashboard at `/scout` for Eleni and course leads to use and continue developing as they see fit. It is available to every verified BlueDot staff account. It ports the current non-AI review workflow from Eleni's `eleni/scout-queue` branch (source commit `f4f2dc2e`). It retains the locked Airtable queue's order, the supported TAIS / TAIS Project / Biosecurity courses, participant history and feedback. Existing application-time AI summaries may be displayed; Scout makes no model calls.
 
 Both decisions need confirmation. Invite sets the existing Course runner email trigger; don't invite sets the scouting status to `Pass`. Skip changes only the current browser session. The server re-reads contact/status fields and queue membership before writing. All portal decisions for one registration hold a PostgreSQL transaction advisory lock through `@bluedot/db`, so concurrent portal requests cannot overwrite each other after passing a stale check. There is no schema migration. This lock does not coordinate manual Airtable edits or the original standalone Scout app.
 
@@ -139,19 +139,10 @@ SCOUT_TEST_PG_URL=postgresql://localhost-user@127.0.0.1:55439/postgres npm test 
 
 Use an actual disposable local database URL for that command; the test refuses non-loopback hosts. The integration needs a designated-test-record invitation check and production credential verification before deployment. A local UI review does not send a real invitation.
 
-### Scout design comparison
+### Review workflow
 
-The three `/scout/designs/session`, `/scout/designs/inbox` and `/scout/designs/board` pages are interactive proposals for the whole review workflow. They use Speed Reviewer's grouped course/round picker pattern, but read Scout's existing queue rather than the applications-review queue. The queue response includes names and stable round IDs so the list is fast and filters do not confuse identically named rounds.
+`/scout` reviews one participant at a time. Choose a course round using the Speed Reviewer pattern, then read a short selection of original notes or open the full record. Invite and don't invite use the existing confirmed, locked decision endpoint. Skip, undo skip and revisiting skipped people are session-only. Finishing early shows saved decisions and allows resuming; invitation delivery remains Airtable's responsibility.
 
-All choices on these pages are component-local drafts; none calls the decision endpoint. They reset when leaving the page. `?demo=1` uses fictional participants for comparisons and screenshots; staff authentication still applies. Without that query, the prototypes read the live queue. A decision brief surfaces facilitator feedback, project notes and next steps, while Full record retains the original history, application and feedback card. No model calls or new ranking rules are introduced.
-
-Run `npm run test:scout-designs --workspace @bluedot/team-apps -- <screenshot-directory>` against `start:preview` for all three workflow checks and 57 viewport states. These comparison routes remain draft-only; `/scout` implements the selected focused-review direction. The PR remains a draft for local acceptance.
-
-
-### Focused Scout review
-
-`/scout` now uses the selected focused-review layout. Choose a course round using the Speed Reviewer pattern, then read a short selection of original notes or open the full record. Invite and don't invite use the existing confirmed, locked decision endpoint. Skip, undo skip and revisiting skipped people are session-only. Finishing early shows saved decisions and allows resuming; invitation delivery remains Airtable's responsibility.
-
-The course/round picker only lists registrations already in the locked Scout view. Its exact Airtable filter predicates are not exposed by the metadata API. No AI is used to rank or choose people. Existing `/scout/designs/*` comparison pages remain draft-only.
+The course/round picker only lists registrations already in the locked Scout view. Its exact Airtable filter predicates are not exposed by the metadata API. No AI is used to rank or choose people.
 
 `npm run test:scout-ui` verifies the functional flow against the isolated local sample-data server, including confirmation, failures/retry, pending-write guards, round selection, skip/undo, session resume and 38 picker/review viewport states.
