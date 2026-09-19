@@ -1,26 +1,27 @@
-import type React from 'react';
-import clsx from 'clsx';
+import type { ReactNode } from 'react';
+import { cn } from './utils';
 
 export type TagProps = {
-  // Required
-  children: React.ReactNode;
-  // Optional
+  children: ReactNode;
   className?: string;
-  variant?: 'default' | 'secondary';
+  tone?: 'neutral' | 'accent';
+  shape?: 'rounded' | 'pill';
 };
 
-export const Tag: React.FC<TagProps> = ({
+export const Tag = ({
   className,
   children,
-  variant = 'default',
-}) => {
+  tone = 'neutral',
+  shape = 'rounded',
+}: TagProps) => {
   return (
     <span
-      role="status"
-      className={clsx(
-        'tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit',
-        variant === 'default' && 'text-secondary container-lined',
-        variant === 'secondary' && '!text-bluedot-normal bg-[#E5EDFE] rounded-sm',
+      className={cn(
+        'inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0',
+        shape === 'rounded' && 'rounded-surface px-4',
+        shape === 'pill' && 'rounded-full px-3',
+        tone === 'neutral' && 'border border-default text-secondary',
+        tone === 'accent' && 'bg-accent-subtle text-accent',
         className,
       )}
     >
@@ -28,5 +29,3 @@ export const Tag: React.FC<TagProps> = ({
     </span>
   );
 };
-
-export default Tag;
