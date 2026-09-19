@@ -27,8 +27,6 @@ const toK8s = [
   'cioHmacSecret',
   'emailChangeTokenSecret',
   'lumaApiKey',
-  'mcpGoogleOauthClientId',
-  'mcpGoogleOauthClientSecret',
   'notionApiToken',
 ] as const;
 
