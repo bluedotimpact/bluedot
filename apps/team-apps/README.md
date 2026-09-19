@@ -84,7 +84,7 @@ The deployments have separate images, services, ingress routes, and HTTPS certif
 Before merging:
 
 1. Add DNS for `apps.bluedot.org` pointing to the cluster ingress, matching the current destination of the existing Kubernetes app hostnames. Verify the destination at rollout rather than hard-coding an old IP address.
-2. In the existing staff Google OAuth client's settings, add exactly `https://apps.bluedot.org/login/oauth-callback` to its authorized redirect URIs. Preserve the existing Editor and localhost entries. The code derives this callback from the current origin; it does not register the domain with Google.
+2. In the existing staff Google OAuth client's settings, add exactly `https://apps.bluedot.org/login/oauth-callback` to its authorized redirect URIs. Preserve the existing callback entries. The code derives this callback from the current origin; it does not register the domain with Google.
 3. Verify the production Airtable credential permits reads and writes to the reviewer base and application fields. Local `.env.local` is ignored and is not deployed. Update production secrets through the existing Pulumi secret workflow only if needed.
 
 After deployment, verify HTTPS, a staff login, rejection of a non-staff login, sign-out, reviewer deep links, and a genuine rating or designated test record that persists after refresh. Confirm the old reviewer still loads and retains its existing sign-in. Check course moves and resets with designated test records before team rollout. The course move sends all three changed fields in one request; the existing Airtable automation still fills the derived course link.
