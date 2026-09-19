@@ -25,7 +25,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
   const historyEntries = useRef(new Map<string, number>());
   const restoringHistory = useRef<(() => void) | null>(null);
   const approvedHistory = useRef(false);
-  const activeApp = apps.find((app) => router.pathname === app.href);
+  const activeApp = apps.find((app) => router.pathname === app.href || (!app.external && router.pathname.startsWith(`${app.href}/`)));
   const isLogin = router.pathname.startsWith('/login');
   const preview = isLocalPreview();
 
@@ -154,7 +154,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           target={app.external ? '_blank' : undefined}
           rel={app.external ? 'noopener noreferrer' : undefined}
           aria-label={app.external ? `${app.name} (opens in a new tab)` : app.name}
-          aria-current={router.pathname === app.href ? 'page' : undefined}
+          aria-current={router.pathname === app.href || activeApp?.id === app.id ? 'page' : undefined}
           title={compact ? app.name : undefined}
           onClick={(event) => {
             if (app.external) {
@@ -174,7 +174,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
               void router.push(app.href);
             });
           }}
-          className={`flex min-h-11 items-center gap-3 rounded-surface px-3 text-size-xs font-medium transition-colors ${router.pathname === app.href ? 'bg-active text-primary' : 'text-secondary hover:bg-tint hover:text-primary'}`}
+          className={`flex min-h-11 items-center gap-3 rounded-surface px-3 text-size-xs font-medium transition-colors ${router.pathname === app.href || activeApp?.id === app.id ? 'bg-active text-primary' : 'text-secondary hover:bg-tint hover:text-primary'}`}
         >
           <PortalIcon name={app.icon} className="shrink-0" />
           {!compact && <><span>{app.name}</span>{app.external && <PortalIcon name="external" className="ml-auto size-3.5 shrink-0" />}</>}

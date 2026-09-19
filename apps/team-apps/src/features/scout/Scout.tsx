@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
@@ -187,6 +188,7 @@ const Scout = () => {
   return (
     <div className="min-h-[calc(100dvh-4rem)] bg-canvas px-3 py-6 sm:px-6 md:min-h-dvh">
       <div className="mx-auto flex max-w-3xl flex-col gap-4">
+        <Link href="/scout/designs/inbox" className="inline-flex min-h-11 items-center justify-between gap-3 rounded-surface border border-info-border bg-info-bg px-4 py-3 text-size-sm font-medium text-info-fg">Compare three new Scout layouts <span aria-hidden="true">→</span></Link>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div><H1 className="text-size-xl">Scout</H1><p className="mt-1 text-size-sm text-secondary">Find course participants to invite to an evaluation call.</p></div>
           <button type="button" onClick={() => {

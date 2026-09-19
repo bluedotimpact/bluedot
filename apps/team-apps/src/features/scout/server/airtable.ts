@@ -265,7 +265,7 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 // ---- Queue ----
 
-const QUEUE_FIELDS = [REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
+const QUEUE_FIELDS = [REG.fullName, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
 
 export const fetchQueue = async (): Promise<QueueItem[]> => {
   const [records, rounds] = await Promise.all([
@@ -279,6 +279,8 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
     if (!course) continue;
     items.push({
       id: r.id,
+      name: str(r.fields[REG.fullName]),
+      roundId: round?.id,
       course,
       roundName: round?.name ?? '',
       roundEnd: round?.end,

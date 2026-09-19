@@ -47,7 +47,7 @@ const state = () => {
 
 export const scoutPreview = {
   fetchQueue: async (): Promise<QueueItem[]> => samplePeople.filter((p) => !state().decisions[p.id]).map((p) => ({
-    id: p.id, course: p.course, roundName: p.roundName, roundEnd: p.roundEnd, opinion: p.opinion, hasCertificate: true, hasReport: true,
+    id: p.id, name: p.name, roundId: `sample-${p.course}`, course: p.course, roundName: p.roundName, roundEnd: p.roundEnd, opinion: p.opinion, hasCertificate: true, hasReport: true,
   })),
   fetchPerson: async (id: string): Promise<Person | undefined> => {
     const person = samplePeople.find((p) => p.id === id);

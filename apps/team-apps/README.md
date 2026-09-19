@@ -138,3 +138,11 @@ SCOUT_TEST_PG_URL=postgresql://localhost-user@127.0.0.1:55439/postgres npm test 
 ```
 
 Use an actual disposable local database URL for that command; the test refuses non-loopback hosts. The integration needs a designated-test-record invitation check and production credential verification before deployment. A local UI review does not send a real invitation.
+
+### Scout design comparison
+
+The three `/scout/designs/session`, `/scout/designs/inbox` and `/scout/designs/board` pages are interactive proposals for the whole review workflow. They use Speed Reviewer's grouped course/round picker pattern, but read Scout's existing queue rather than the applications-review queue. The queue response includes names and stable round IDs so the list is fast and filters do not confuse identically named rounds.
+
+All choices on these pages are component-local drafts; none calls the decision endpoint. They reset when leaving the page. `?demo=1` uses fictional participants for comparisons and screenshots; staff authentication still applies. Without that query, the prototypes read the live queue. A decision brief surfaces facilitator feedback, project notes and next steps, while Full record retains the original history, application and feedback card. No model calls or new ranking rules are introduced.
+
+Run `npm run test:scout-designs --workspace @bluedot/team-apps -- <screenshot-directory>` against `start:preview` for all three workflow checks and 57 viewport states. Keep these routes out of production until a direction is chosen; the PR remains a draft.

@@ -15,7 +15,8 @@
     "deploy:cd": "docker-scripts deploy",
     "start:preview": "NEXT_PUBLIC_LOCAL_PREVIEW=true next dev --hostname localhost -p 8000",
     "test:ui": "node tools/check-ui.mjs",
-    "test:scout-ui": "node tools/check-scout-ui.mjs"
+    "test:scout-ui": "node tools/check-scout-ui.mjs",
+    "test:scout-designs": "node tools/check-scout-designs.mjs"
   },
   "dependencies": {
     "@bluedot/db": "*",
