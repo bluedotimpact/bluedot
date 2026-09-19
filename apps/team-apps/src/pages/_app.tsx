@@ -11,6 +11,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <title>BlueDot Apps</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="128x128" href="/apple-touch-icon.png" />
       </Head>
       <PortalLayout>
         <Component {...pageProps} />

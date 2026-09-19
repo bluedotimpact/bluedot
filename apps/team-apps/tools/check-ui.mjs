@@ -25,6 +25,7 @@ try {
   assert.equal(await page.getByText('Alex Morgan', { exact: true }).count(), 0);
   assert.equal(await page.getByRole('navigation', { name: 'Apps' }).count(), 0);
   assert.equal(await page.getByText('Speed Reviewer', { exact: true }).count(), 0);
+  assert.equal(await page.getByText('Talent Capture', { exact: true }).count(), 0);
   assert.equal(await page.getByRole('button', { name: 'Open navigation' }).count(), 0);
   assert.equal(await page.getByRole('link', { name: 'Continue with Google' }).getAttribute('href'), '/login?redirect_to=%2Fspeed-review');
   await page.getByRole('button', { name: 'Explore local preview' }).click();
@@ -33,10 +34,40 @@ try {
   assert.equal(await page.locator('header').isVisible(), false);
   await page.getByRole('link', { name: 'Home', exact: true }).click();
   await page.getByRole('heading', { name: 'Apps', exact: true }).waitFor();
+  const externalUrl = 'https://chromewebstore.google.com/detail/add-to-top-talent-crm/pabfnkpcbfplnhpccofejgmcbihlahjo';
+  const externalName = 'Talent Capture (opens in a new tab)';
+  await ctx.route(externalUrl, (route) => route.fulfill({ contentType: 'text/html', body: '<title>Store link fixture</title>' }));
+  const openExternalApp = async (link) => {
+    const currentUrl = page.url();
+    assert.equal(await link.getAttribute('href'), externalUrl);
+    assert.equal(await link.getAttribute('target'), '_blank');
+    assert.equal(await link.getAttribute('rel'), 'noopener noreferrer');
+    const opened = page.waitForEvent('popup');
+    await link.click();
+    const popup = await opened;
+    await popup.waitForLoadState();
+    assert.equal(popup.url(), externalUrl);
+    assert.equal(await popup.evaluate(() => globalThis.opener), null);
+    assert.equal(page.url(), currentUrl);
+    assert.equal(await page.getByRole('dialog').filter({ hasText: 'Leave this review session?' }).count(), 0);
+    await popup.close();
+  };
+
+  await openExternalApp(page.getByRole('main').getByRole('link', { name: externalName }));
+  const sidebarIconPositions = () => page.locator('aside').evaluate((sidebar) => [
+    ...sidebar.querySelectorAll('nav a > svg:first-child, button > svg, div.h-16 > span[aria-hidden]'),
+  ].map((icon) => {
+    const { x, width } = icon.getBoundingClientRect();
+    return { x, width };
+  }));
+  const expandedIconPositions = await sidebarIconPositions();
+  assert.equal(expandedIconPositions.length, await page.locator('aside nav a').count() + 3, 'Check the logo, all apps, sign-out and collapse control');
   await page.getByRole('button', { name: 'Collapse sidebar' }).click();
+  assert.deepEqual(await sidebarIconPositions(), expandedIconPositions, 'Sidebar icons keep their horizontal position when collapsed');
   await page.reload({ waitUntil: 'networkidle' });
   assert.equal(await page.getByRole('button', { name: 'Expand sidebar' }).count(), 1);
   await page.getByRole('button', { name: 'Expand sidebar' }).click();
+  assert.deepEqual(await sidebarIconPositions(), expandedIconPositions, 'Sidebar icons keep their horizontal position when expanded');
   // The course-page shortcut toggles and persists the same preference as the button.
   await page.keyboard.press('Meta+b');
   await page.getByRole('button', { name: 'Expand sidebar' }).waitFor();
@@ -84,6 +115,15 @@ try {
   await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).click();
   await page.getByText('Alex Morgan', { exact: true }).waitFor();
   await page.getByRole('button', { name: 'Pause timer' }).click();
+  // External tools leave the active reviewer and its queued application in place.
+  await openExternalApp(page.getByRole('navigation', { name: 'Apps' }).getByRole('link', { name: externalName }));
+  assert.equal(await page.getByText('Alex Morgan', { exact: true }).count(), 1);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole('button', { name: 'Open navigation' }).click();
+  await openExternalApp(page.getByRole('dialog').getByRole('link', { name: externalName }));
+  assert.equal(await page.getByRole('dialog').count(), 0, 'Mobile navigation closes after opening the external app');
+  assert.equal(await page.getByText('Alex Morgan', { exact: true }).count(), 1);
+  await page.setViewportSize({ width: 1440, height: 900 });
   // Failed rating stays on the application; retry commits once and advances.
   await page.route('**/api/decisions', (route) => route.fulfill({ status: 500, body: '{"error":"Simulated save failure"}', contentType: 'application/json' }));
   await page.getByRole('button', { name: 'Yes →', exact: true }).click();
@@ -140,6 +180,7 @@ try {
   await page.getByRole('heading', { name: 'BlueDot Apps', exact: true }).waitFor();
   assert.equal(await page.getByRole('navigation', { name: 'Apps' }).count(), 0);
   assert.equal(await page.getByText('Speed Reviewer', { exact: true }).count(), 0);
+  assert.equal(await page.getByText('Talent Capture', { exact: true }).count(), 0);
   assert.equal(await page.getByRole('button', { name: 'Open navigation' }).count(), 0);
   assert.equal(await dispatchShortcut({ metaKey: true }), false, 'Signed-out pages leave browser shortcuts alone');
   assert.deepEqual(errors, [], 'browser errors');
