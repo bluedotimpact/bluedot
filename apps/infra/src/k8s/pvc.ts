@@ -9,8 +9,8 @@ export const minioPvc = new k8s.core.v1.PersistentVolumeClaim('minio-pvc', {
   },
 }, { provider });
 
-// MCP token-store PVCs. skipAwait stops Pulumi blocking the Deployment on the PVC binding,
-// so a slow-to-provision volume can never red-flag CD — the pod just waits for the volume.
+// Retain the retired MCP services' connection stores and encrypted Pulumi configuration
+// so a rollback can reuse stored credentials. These volumes are still managed by Pulumi.
 export const mcpAggregatorDataPvc = new k8s.core.v1.PersistentVolumeClaim('mcp-aggregator-data-pvc', {
   metadata: {
     name: 'mcp-aggregator-data-pvc',
