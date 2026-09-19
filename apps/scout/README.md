@@ -20,7 +20,6 @@ Currently on the branch `eleni/scout-queue`, run locally. Access: the `Is admin`
 
 - The queue is the locked Airtable view **Talent scouting [read by Talent Scouting App]** (Course runner › Course registration), in the view's own order. Who appears and in what order is decided there, not in code.
 - Keys: `→` Invite · `←` Don't invite · `↓` skip · `n` show name.
-- **Invite and Don't invite are dummy** — notes kept in your browser, listed at the end of the queue with a copy button.
-- **Invite for real** is the only thing that writes: after a confirmation it sets `1-1 invite source = Talent scouting app`, ticks `[!] Send 1:1 email` and sets `Talent scouting status = Invited`; the existing Course runner automation then sends the email from the course lead. The server refuses anyone already contacted.
+- **Both decisions write to Airtable after a confirmation.** Don't invite sets `Talent scouting status`. Invite sets `1-1 invite source = Talent scouting app`, ticks `[!] Send 1:1 email` and sets the status; the existing Course runner automation then sends the email from the course lead. The server refuses anyone already contacted or already decided. Use **skip** to just look around.
 
 To change the app, branch off `eleni/scout-queue` and open a PR back into it. `CLAUDE.md` in this folder explains the code to an assistant.
