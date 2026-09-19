@@ -262,7 +262,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           {person.projects.filter((p) => p.url).map((p) => (
             <CTALinkOrButton key={p.id} size="small" variant="outline-black" url={p.url} target="_blank">Project ↗</CTALinkOrButton>
           ))}
-          <CopyEmail email={person.email} />
+          {person.email && <CopyEmail email={person.email} />}
           <A href={`https://airtable.com/${COURSE_RUNNER_BASE_ID}/${REGISTRATIONS_TABLE_ID}/${person.id}`} target="_blank" className="self-center text-size-xs">registration in Airtable ↗</A>
         </div>
       </CardShell>

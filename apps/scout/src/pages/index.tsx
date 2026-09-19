@@ -114,7 +114,8 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
   }, [current, person]);
 
   const decide = useCallback((decision: 'invite' | 'not-now') => {
-    if (!current) return;
+    // Nothing to decide on until the card is on screen
+    if (!current || !person) return;
     if (notes[current.id]?.decision === 'invited') {
       flash('Already invited for real');
       return;
@@ -122,7 +123,7 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
 
     note(decision);
     next();
-  }, [current, notes, note, next]);
+  }, [current, person, notes, note, next]);
 
   const inviteForReal = async () => {
     if (!current || !person) return;

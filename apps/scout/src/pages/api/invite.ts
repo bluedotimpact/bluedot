@@ -10,7 +10,7 @@ export default makeApiRoute({
   requestBody: z.object({ id: z.string().regex(/^rec[A-Za-z0-9]{14}$/) }),
   responseBody: z.object({ ok: z.boolean(), reason: z.string().optional() }),
 }, async (body, { auth }) => {
-  await requireAdmin(auth.email);
+  await requireAdmin(auth.email, { fresh: true });
   const result = await inviteForReal(body.id);
   return result.ok ? { ok: true } : { ok: false, reason: result.reason };
 });

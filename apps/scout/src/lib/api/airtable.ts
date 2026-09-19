@@ -258,8 +258,9 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 let adminsCache: { at: number; emails: Set<string> } | undefined;
 const ADMINS_TTL_MS = 5 * 60 * 1000;
 
-export const isAdmin = async (email: string): Promise<boolean> => {
-  if (!adminsCache || Date.now() - adminsCache.at > ADMINS_TTL_MS) {
+// `fresh` skips the cache — used before the one write, so a revoked admin cannot invite.
+export const isAdmin = async (email: string, { fresh = false } = {}): Promise<boolean> => {
+  if (fresh || !adminsCache || Date.now() - adminsCache.at > ADMINS_TTL_MS) {
     const records = await fetchAll(USERS_URL, { filterByFormula: '{Is admin}=1' }, [USER.email]);
     adminsCache = { at: Date.now(), emails: new Set(records.map((r) => str(r.fields[USER.email])?.toLowerCase()).filter((e): e is string => !!e)) };
   }
