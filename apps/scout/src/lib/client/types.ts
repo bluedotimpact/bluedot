@@ -1,4 +1,4 @@
-export type Course = 'Biosecurity' | 'Technical AI Safety';
+export type Course = 'Biosecurity' | 'Technical AI Safety' | 'Technical AI Safety Project';
 
 export type QueueItem = {
   id: string;

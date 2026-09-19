@@ -11,7 +11,12 @@ import {
   type Course, type Decision, type Person, type QueueItem,
 } from '../lib/client/types';
 
-const COURSES: Course[] = ['Biosecurity', 'Technical AI Safety'];
+// Tabs in this order; TAIS first since it is the largest queue
+const COURSES: { course: Course; label: string }[] = [
+  { course: 'Technical AI Safety', label: 'TAIS' },
+  { course: 'Technical AI Safety Project', label: 'TAIS Project' },
+  { course: 'Biosecurity', label: 'Biosecurity' },
+];
 
 // A fetched person, or the error from trying. Absent from the cache means not loaded yet.
 type Loaded = { person: Person } | { error: unknown };
@@ -41,7 +46,7 @@ export default HomePage;
 
 const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders }) => {
   const [{ data, loading, error }] = useAxios<{ items: QueueItem[] }>({ url: '/api/queue', headers: authHeaders });
-  const [course, setCourse] = useState<Course>('Biosecurity');
+  const [course, setCourse] = useState<Course>('Technical AI Safety');
   const [index, setIndex] = useState(0);
   const [done, setDone] = useState<Record<string, Done>>({});
   const [showName, setShowName] = useState(false);
@@ -161,14 +166,14 @@ const Review: React.FC<{ authHeaders: Record<string, string> }> = ({ authHeaders
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-4 py-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex gap-1">
-          {COURSES.map((c) => (
+          {COURSES.map(({ course: c, label }) => (
             <button
               key={c}
               type="button"
               onClick={() => switchCourse(c)}
               className={`cursor-pointer rounded px-3 py-1 text-size-sm ${c === course ? 'bg-bluedot-navy text-on-dark' : 'bg-tint text-primary hover:bg-subtle'}`}
             >
-              {c} <span className="opacity-60">{(data?.items ?? []).filter((i) => i.course === c).length}</span>
+              {label} <span className="opacity-60">{(data?.items ?? []).filter((i) => i.course === c).length}</span>
             </button>
           ))}
         </div>

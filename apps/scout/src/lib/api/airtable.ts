@@ -249,6 +249,7 @@ const getRounds = async (): Promise<Map<string, Round>> => {
 const courseOf = (round: Round | undefined): Course | undefined => {
   const text = round?.course ?? '';
   if (text.includes('Biosecurity')) return 'Biosecurity';
+  if (text.includes('Technical AI Safety Project')) return 'Technical AI Safety Project';
   if (text.includes('Technical AI Safety')) return 'Technical AI Safety';
   return undefined;
 };

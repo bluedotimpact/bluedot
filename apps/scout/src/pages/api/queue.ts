@@ -8,7 +8,7 @@ export default makeApiRoute({
   responseBody: z.object({
     items: z.array(z.object({
       id: z.string(),
-      course: z.enum(['Biosecurity', 'Technical AI Safety']),
+      course: z.enum(['Biosecurity', 'Technical AI Safety', 'Technical AI Safety Project']),
       roundName: z.string(),
       roundEnd: z.string().optional(),
       opinion: z.string().optional(),
