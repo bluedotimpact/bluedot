@@ -7,7 +7,6 @@ import {
 import {
   minioPvc, mcpAggregatorDataPvc, mcpAshbyDataPvc, mcpGoogleDataPvc,
 } from './pvc';
-import { websiteAssetsBucket } from '../minio';
 import { config } from '../config';
 
 const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
@@ -259,32 +258,6 @@ export const services: ServiceDefinition[] = [
       }],
     },
     hosts: ['storybook.k8s.bluedot.org'],
-  },
-  {
-    name: 'bluedot-editor',
-    spec: {
-      containers: [{
-        name: 'bluedot-editor',
-        image: 'ghcr.io/bluedotimpact/bluedot-editor:latest',
-        env: [
-          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
-          { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
-          { name: 'WEBSITE_ASSETS_BUCKET_ACCESS_KEY_ID', value: websiteAssetsBucket.readWriteUser.name },
-          { name: 'WEBSITE_ASSETS_BUCKET_SECRET_ACCESS_KEY', value: websiteAssetsBucket.readWriteUser.secret },
-        ],
-        resources: {
-          requests: {
-            memory: '256Mi',
-          },
-          limits: {
-            memory: '512Mi',
-          },
-        },
-      }],
-    },
-    hosts: ['editor.k8s.bluedot.org'],
   },
   {
     name: 'bluedot-posthog-proxy',

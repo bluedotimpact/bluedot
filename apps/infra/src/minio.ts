@@ -68,6 +68,7 @@ function createMinioBuckets(bucketConfigs: { name: string; acl: 'private' | 'pub
   };
 }
 
+// Keep existing uploads available: published content may still reference these assets.
 export const websiteAssetsBucket = createMinioBuckets([
   { name: 'website-assets', acl: 'public-read' },
 ]);
