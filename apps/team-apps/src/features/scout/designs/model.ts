@@ -1,6 +1,10 @@
-import type { Course, QueueItem } from '../types';
+import type { QueueItem } from '../types';
+import { roundKey } from '../reviewQueue';
 
-export const courses: Course[] = ['Technical AI Safety', 'Technical AI Safety Project', 'Biosecurity'];
+export {
+  courses, roundKey, roundLabel, roundsFor,
+} from '../reviewQueue';
+
 export const versions = [
   {
     id: 'session', name: 'Focused review', number: '01', description: 'One clear brief, one person at a time. Based on Speed Reviewer.', tradeoff: 'Best for focused review. Less useful for comparing people.',
@@ -18,14 +22,6 @@ export type Filters = { course: string; round: string; search: string; evidence:
 export const emptyFilters: Filters = {
   course: '', round: '', search: '', evidence: '', order: 'source',
 };
-export const roundKey = (item: QueueItem) => item.roundId ?? `${item.course}:${item.roundName}`;
-export const roundLabel = (item: QueueItem) => item.roundName.replace(`${item.course} `, '').replace(/^\((.*?)\)/, '$1');
-export const roundsFor = (items: QueueItem[], course: string) => {
-  const rounds = new Map<string, QueueItem>();
-  items.filter((item) => !course || item.course === course).forEach((item) => rounds.set(roundKey(item), item));
-  return [...rounds.values()].sort((a, b) => (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
-};
-
 export const filterQueue = (items: QueueItem[], filters: Filters): QueueItem[] => {
   const filtered = items.filter((item) => (!filters.course || item.course === filters.course)
     && (!filters.round || roundKey(item) === filters.round)

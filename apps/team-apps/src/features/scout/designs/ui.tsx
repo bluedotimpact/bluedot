@@ -2,10 +2,10 @@ import type { ReactNode } from 'react';
 import type { Draft } from './model';
 import { draftLabel } from './model';
 
-export const button = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-surface border border-subtle bg-raised px-4 py-2 text-size-sm font-medium text-primary hover:bg-tint disabled:cursor-not-allowed disabled:opacity-40';
-export const primary = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-surface bg-accent px-4 py-2 text-size-sm font-medium text-on-dark hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40';
+import { panel } from '../reviewStyles';
+
+export { button, primary, panel } from '../reviewStyles';
 export const field = 'min-h-11 w-full min-w-0 rounded-surface border border-subtle bg-raised px-3 py-2 text-size-sm text-primary';
-export const panel = 'min-w-0 rounded-overlay border border-subtle bg-raised';
 export const Select = ({ label, value, onChange, children }: { label: string; value: string; onChange: (value: string) => void; children: ReactNode }) => (
   <label className="block min-w-0 text-size-xs font-medium text-secondary">{label}<select className={`${field} mt-2`} value={value} onChange={(event) => onChange(event.target.value)}>{children}</select></label>
 );
