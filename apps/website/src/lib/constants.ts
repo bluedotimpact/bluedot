@@ -65,6 +65,17 @@ type CourseConfigItem = {
     curriculumCtaLabel: string;
     detailsCtaLabel: string;
   };
+  /** Overrides for the sharing section of the congratulations page. The defaults
+   * are written for the AI safety courses; set these for courses in another
+   * cause area. */
+  congratulations?: {
+    headline?: string;
+    shareCardDescription?: string;
+    shareText?: string;
+    /** When set, the "Refer a friend or colleague" card links to this form
+     * instead of offering a copy-pasteable message. */
+    referralFormUrl?: string;
+  };
 };
 
 const DIGITAL_MINDS_COURSE_CONFIG: CourseConfigItem = {
@@ -115,6 +126,12 @@ export const COURSE_CONFIG: Record<string, CourseConfigItem> = {
     icon: '/images/courses/biosecurity-icon.svg',
     iconBackground: COURSE_COLORS.biosecurity.iconBackground,
     accentColor: COURSE_COLORS.biosecurity.full,
+    congratulations: {
+      headline: 'Help more people discover biosecurity today',
+      shareCardDescription: 'Take a minute to celebrate and raise awareness for pandemic preparedness in your network!',
+      shareText: 'I just completed the Biosecurity course from BlueDot Impact: 30 hours on how to prevent, detect and respond to pandemic threats. Check it out:',
+      referralFormUrl: 'https://web.miniextensions.com/DN3PuxFG7kf50g5RTph4',
+    },
   },
   'technical-ai-safety-project': {
     icon: '/images/courses/technical-ai-safety-icon.svg',
