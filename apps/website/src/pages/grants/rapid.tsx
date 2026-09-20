@@ -1,11 +1,10 @@
-import type React from 'react';
-import { Breadcrumbs } from '@bluedot/ui';
+import { Breadcrumbs, CTALinkOrButton } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
-import GrantCta from '../../components/grants/sections/GrantCta';
+import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
 import WhatThisIsForSection from '../../components/rapid-grants/WhatThisIsForSection';
 import HowItWorksSection from '../../components/rapid-grants/HowItWorksSection';
 import FundedProjectsSection from '../../components/rapid-grants/FundedProjectsSection';
@@ -19,7 +18,8 @@ import {
 
 const PROGRAM_SLUG = 'rapid-grants';
 const FALLBACK_NAME = 'Rapid Grants';
-const FALLBACK_DESCRIPTION = 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety and biosecurity.';
+// This page's introduction is maintained here rather than using the shared program summary.
+const PAGE_DESCRIPTION = 'Funding of up to $20,000 for time and resources to make progress on AI safety or biosecurity - from exploring a promising direction to carrying out a concrete project.';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const PAGE_PATH = '/grants/rapid';
 
@@ -29,65 +29,48 @@ const formatDecisionTime = (hours: number | null | undefined): string => {
   return days === 1 ? '1 day' : `${days} days`;
 };
 
-const RapidGrantsPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
+const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
-  const grantsMadeLabel = stats ? String(stats.count) : '—';
-  const fundingGivenOutLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
-  const decisionTimeLabel = formatDecisionTime(stats?.averageHoursToDecision);
-
-  const scrollToGrantees = (e: React.BaseSyntheticEvent) => {
-    e.preventDefault();
-    const granteesSection = document.getElementById('grants-made');
-    if (!granteesSection) return;
-
-    const navOffset = 96;
-    const targetTop = granteesSection.getBoundingClientRect().top + window.scrollY - navOffset;
-    window.history.replaceState(null, '', '#grants-made');
-    window.scrollTo({ top: targetTop, behavior: 'smooth' });
-  };
+  const applicationUrl = useGrantApplicationUrl('rapid-grants');
 
   return (
-    <div>
+    <div className="bg-white text-bluedot-navy">
       <Head>
         <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={programDescription} />
+        <meta name="description" content={PAGE_DESCRIPTION} />
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
       </Head>
-      <MarketingHero title={programName} subtitle={programDescription} />
-      <Breadcrumbs
-        route={{
-          title: programName,
-          url: PAGE_PATH,
-          parentPages: [ROUTES.home, ROUTES.grants],
-        }}
-      />
+      <MarketingHero title={programName} subtitle={PAGE_DESCRIPTION} />
+      <Breadcrumbs route={{ title: programName, url: PAGE_PATH, parentPages: [ROUTES.home, ROUTES.grants] }} />
       <GrantStatsStrip
         program="rapid-grants"
         compact
         stats={[
           { label: 'Grant funding', value: 'Up to $20k' },
-          { label: 'Avg decision time', value: decisionTimeLabel },
-          { label: 'Grants made', value: grantsMadeLabel },
-          { label: 'Funding given', value: fundingGivenOutLabel },
+          { label: 'Avg decision time', value: formatDecisionTime(stats?.averageHoursToDecision) },
+          { label: 'Grants made', value: stats ? String(stats.count) : '—' },
+          { label: 'Funding given', value: stats ? formatAmountUsd(stats.totalAmountUsd) : '—' },
         ]}
-        secondaryAction={{
-          label: 'See funded projects',
-          url: '#grants-made',
-          onClick: scrollToGrantees,
-        }}
       />
       <WhatThisIsForSection />
       <HowItWorksSection />
       <FundedProjectsSection />
-      <GrantFaqSection program="rapid-grants" />
-      <GrantCta program="rapid-grants" />
+      <GrantFaqSection program="rapid-grants" variant="plain" />
+      {applicationUrl && (
+        <div className="section-base">
+          <div className="flex flex-col items-start gap-5 border-t border-bluedot-navy/15 py-10 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:py-12">
+            <p className="text-size-lg tracking-tight">Have something in mind?</p>
+            <CTALinkOrButton url={applicationUrl} target="_blank" withChevron>Apply for a Rapid Grant</CTALinkOrButton>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export const getStaticProps: GetStaticProps<ProgramDetailPageProps> = () => getProgramDetailPageStaticProps(
   PROGRAM_SLUG,
-  { programName: FALLBACK_NAME, programDescription: FALLBACK_DESCRIPTION },
+  { programName: FALLBACK_NAME, programDescription: PAGE_DESCRIPTION },
 );
 
 RapidGrantsPage.pageRendersOwnNav = true;

@@ -118,6 +118,16 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         answer: 'Yes. We fund travel for conferences, collaboration, and fieldwork. Show us why being there matters for the work.',
       },
       {
+        id: 'after-receiving',
+        question: 'What do I need to do after receiving a grant?',
+        answer: 'Use the funding for the agreed purpose and get our written approval before making material changes. Send a short completion report within 60 days of finishing the work or the grant period ending.',
+      },
+      {
+        id: 'community',
+        question: 'What support is available beyond the grant?',
+        answer: 'Grantees join our community: intros, event invites, and follow-on opportunities as they come up.',
+      },
+      {
         id: 'larger-request',
         question: 'What if I need more than a few thousand dollars?',
         answer: 'Rapid Grants offer up to $20,000. If you need more, get in touch. We can sometimes route you through another program.',

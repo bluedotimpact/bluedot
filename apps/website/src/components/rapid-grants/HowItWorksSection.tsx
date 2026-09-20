@@ -1,12 +1,12 @@
 import {
-  Eyebrow, H3, H4, P,
+  P,
 } from '@bluedot/ui';
 import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 import { trpc } from '../../utils/trpc';
 
-const FALLBACK_DECISION_BODY = 'On average we reply within a day, and 9 in 10 applicants hear back within a week.';
+const FALLBACK_DECISION_BODY = 'We review your application and email you a decision.';
 
-// Builds the "Get a decision" card body from live stats.
+// Builds the "Get a decision" step body from live stats.
 // Average is the 10%-trimmed mean in hours (robust to outliers). p90 in days (rounded up).
 // Returns a stable fallback while tRPC is loading or when no decided rows exist yet.
 const buildDecisionBody = (averageHours: number | null | undefined, p90Days: number | null | undefined): string => {
@@ -25,7 +25,7 @@ const buildProcessSteps = (applicationUrl: string | undefined, decisionBody: str
     number: '01',
     title: 'Apply',
     url: applicationUrl,
-    body: 'Tell us what you\'re doing, what you need, and how much it costs. Takes about 15 minutes.',
+    body: 'Tell us your plan and budget. Takes about 15 minutes.',
   },
   {
     number: '02',
@@ -34,55 +34,10 @@ const buildProcessSteps = (applicationUrl: string | undefined, decisionBody: str
   },
   {
     number: '03',
-    title: 'Get paid',
-    body: 'Submit a claim through our claims portal. We pay the grant as a single lump sum after any required checks.',
-  },
-  {
-    number: '04',
-    title: 'Do the work',
-    body: 'Use the funding for the agreed purpose. Get our written approval before making material changes.',
-  },
-  {
-    number: '05',
-    title: 'Share your impact',
-    body: 'Send a short completion report within 60 days of finishing the work or the grant period ending.',
+    title: 'Receive funding',
+    body: 'Submit a claim through our claims portal. We pay a single lump sum after any required checks.',
   },
 ];
-
-const COMMUNITY_CARD = {
-  eyebrow: 'Beyond the grant',
-  title: 'Community',
-  body: 'Grantees join our community: intros, event invites, and follow-on opportunities as they come up.',
-};
-
-const cardBaseClass = 'rapid-grants-step-card relative overflow-hidden rounded-lg border px-5 py-5 min-h-[188px]';
-const defaultCardClass = `${cardBaseClass} border-bluedot-navy/10 bg-white`;
-const accentCardClass = `${cardBaseClass} border-bluedot-lighter bg-bluedot-lighter/20`;
-
-const StepCardBody = ({
-  number, title, body, eyebrowClass,
-}: {
-  number: string;
-  title: string;
-  body: string;
-  eyebrowClass?: string;
-}) => {
-  return (
-    <div className="flex h-full flex-col gap-6">
-      <Eyebrow className={eyebrowClass}>
-        {number}
-      </Eyebrow>
-      <div className="flex flex-col gap-3">
-        <H4 className="bd-md:text-size-lg font-medium tracking-[-0.04em]">
-          {title}
-        </H4>
-        <P className="text-bluedot-navy/80">
-          {body}
-        </P>
-      </div>
-    </div>
-  );
-};
 
 const HowItWorksSection = () => {
   const applicationUrl = useGrantApplicationUrl('rapid-grants');
@@ -91,46 +46,33 @@ const HowItWorksSection = () => {
   const processSteps = buildProcessSteps(applicationUrl, decisionBody);
 
   return (
-    <section className="section section-body rapid-grants-how-section">
-      <div className="w-full flex flex-col gap-6">
-        <H3>How it works</H3>
+    <section className="section-base rapid-grants-how-section">
+      <div className="flex flex-col gap-6 border-b border-bluedot-navy/15 py-10 bd-md:py-12">
+        <h2 className="text-size-lg font-medium tracking-tight">How it works</h2>
 
-        <div className="grid gap-4 bd-md:grid-cols-2 min-[960px]:grid-cols-3">
+        <ol className="grid list-none gap-5 p-0 bd-md:grid-cols-3 bd-md:gap-8">
           {processSteps.map((step) => (
-            step.url ? (
-              <a
-                key={step.title}
-                href={step.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${accentCardClass} block cursor-pointer`}
-              >
-                <StepCardBody
-                  number={step.number}
-                  title={step.title}
-                  body={step.body}
-                />
-              </a>
-            ) : (
-              <div key={step.title} className={defaultCardClass}>
-                <StepCardBody
-                  number={step.number}
-                  title={step.title}
-                  body={step.body}
-                  eyebrowClass="text-secondary"
-                />
+            <li key={step.title} className="min-w-0">
+              <div className="mb-2 flex items-baseline gap-3">
+                <span className="text-size-xs text-secondary" aria-hidden="true">{step.number}</span>
+                <h3 className="text-size-sm font-medium">
+                  {step.url ? (
+                    <a
+                      href={step.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-4"
+                    >
+                      {step.title}
+                    </a>
+                  ) : step.title}
+                </h3>
               </div>
-            )
+              <P className="text-size-sm text-secondary">{step.body}</P>
+            </li>
           ))}
+        </ol>
 
-          <div className={accentCardClass}>
-            <StepCardBody
-              number={COMMUNITY_CARD.eyebrow}
-              title={COMMUNITY_CARD.title}
-              body={COMMUNITY_CARD.body}
-            />
-          </div>
-        </div>
       </div>
     </section>
   );
