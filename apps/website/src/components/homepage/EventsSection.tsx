@@ -17,12 +17,9 @@ const EventsSection = () => {
       aria-labelledby="events-section-heading"
     >
       <div className="section-base">
-        <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 id="events-section-heading" className="bluedot-h2 font-medium tracking-tighter">Join an upcoming event</h2>
-            <p className="mt-4 max-w-[620px] text-size-sm leading-relaxed text-bluedot-navy/70">Reading groups, workshops, and meetups. Connect with the BlueDot community online and around the world.</p>
-          </div>
-          <CTALinkOrButton url={EVENTS_SECTION_URL} variant="secondary" className="shrink-0">See all events →</CTALinkOrButton>
+        <div className="mb-8 text-center">
+          <h2 id="events-section-heading" className="bluedot-h2 font-medium tracking-tighter">Join an upcoming event</h2>
+          <p className="mx-auto mt-4 max-w-[620px] text-size-sm leading-relaxed text-bluedot-navy/70">Reading groups, workshops, and meetups. Connect with the BlueDot community online and around the world.</p>
         </div>
         {isLoading && <div className="py-8"><ProgressDots /></div>}
         {error && (
@@ -39,6 +36,9 @@ const EventsSection = () => {
         {!isLoading && !error && displayEvents.length === 0 && (
           <p className="py-6 text-size-sm leading-relaxed text-bluedot-navy/70">More events are on the way. Explore our calendar for the latest updates.</p>
         )}
+        <div className="mt-8 flex justify-center">
+          <CTALinkOrButton url={EVENTS_SECTION_URL} variant="secondary">See all events →</CTALinkOrButton>
+        </div>
       </div>
     </section>
   );
