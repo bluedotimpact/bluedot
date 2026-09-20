@@ -50,7 +50,7 @@ export const createAgiStrategyContent = (
       },
       {
         heading: 'A clear way to think about the future of AI',
-        body: 'You\'ll analyse the incentives facing AI companies. You\'ll develop "kill chains" to analyse the threats. And you\'ll apply defense in depth to evaluate and prioritise interventions. You\'ll know enough to hold your own in rooms with experts.',
+        body: 'You\'ll examine why the transition to AGI could be one of the most consequential periods in human history, how quickly it could happen, and what needs to go right for it to result in extraordinary flourishing rather than catastrophic harm. You\'ll look at proposed strategies to steer that future, considering evidence of AI progress and incentives facing companies and governments.',
       },
       {
         heading: 'A community of builders',
