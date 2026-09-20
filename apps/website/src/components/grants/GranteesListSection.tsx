@@ -47,12 +47,30 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   );
 };
 
+const EditorialGranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => (
+  <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 bd-md:gap-8">
+    <div className="min-w-0">
+      <h3 className="text-size-sm bd-md:text-size-md font-medium leading-snug tracking-tight break-words">
+        {grantee.link ? (
+          <a href={grantee.link} target="_blank" rel="noopener noreferrer" className="hover:text-bluedot-normal underline decoration-bluedot-navy/25 underline-offset-4 hover:decoration-bluedot-normal">
+            {grantee.projectTitle}
+          </a>
+        ) : grantee.projectTitle}
+      </h3>
+      {grantee.projectSummary && <p className="mt-2 max-w-[760px] text-size-sm leading-relaxed text-secondary">{grantee.projectSummary}</p>}
+      <p className="mt-2 text-size-xs text-secondary">{[grantee.granteeName, grantee.monthLabel].filter(Boolean).join(' · ')}</p>
+    </div>
+    {grantee.amountUsd !== null && <p className="text-size-sm bd-md:text-size-md font-medium tabular-nums whitespace-nowrap">{formatAmountUsd(grantee.amountUsd)}</p>}
+  </div>
+);
+
 type GranteesListSectionProps = {
   id?: string;
   heading?: string;
   title?: string;
   subtitle?: string;
   limit?: number;
+  layout?: 'default' | 'editorial';
 };
 
 const GranteesListSection = ({
@@ -61,18 +79,25 @@ const GranteesListSection = ({
   title,
   subtitle,
   limit,
+  layout = 'default',
 }: GranteesListSectionProps) => {
   const { data: grantees, isLoading, error } = trpc.grants.getAllPublicRapidGrantees.useQuery();
   const [showAll, setShowAll] = useState(false);
+  const [sortOrder, setSortOrder] = useState('newest');
 
   if (error) {
     return <ErrorSection error={error} />;
   }
 
   const shouldLimitResults = !!limit && !showAll;
+  // Public records have no ID, and recipients can receive multiple grants for the same project.
+  const granteeRows = grantees?.map((grantee, index) => ({ grantee, key: index }));
+  const sortedGrantees = sortOrder === 'largest'
+    ? granteeRows?.sort((a, b) => (b.grantee.amountUsd ?? -Infinity) - (a.grantee.amountUsd ?? -Infinity))
+    : granteeRows;
   const visibleGrantees = shouldLimitResults
-    ? grantees?.slice(0, limit)
-    : grantees;
+    ? sortedGrantees?.slice(0, limit)
+    : sortedGrantees;
   const hasHiddenGrantees = !!limit && !!grantees && grantees.length > limit;
   const hiddenGranteeCount = hasHiddenGrantees && limit && grantees
     ? grantees.length - limit
@@ -85,8 +110,24 @@ const GranteesListSection = ({
       className="w-full scroll-mt-28"
     >
       {heading && (
-        <div className="mb-6 flex items-center justify-between gap-4">
-          <H3>{heading}</H3>
+        <div className={layout === 'editorial' ? 'mb-8 flex flex-wrap items-center justify-between gap-4' : 'mb-6 flex items-center justify-between gap-4'}>
+          {layout === 'editorial' ? (
+            <h2 className="text-size-lg font-medium tracking-tight">{heading}</h2>
+          ) : <H3>{heading}</H3>}
+          {layout === 'editorial' && (
+            <label className="ml-auto flex items-center gap-2 text-size-xs text-secondary shrink-0">
+              Sort:
+              <select
+                aria-label="Sort projects"
+                value={sortOrder}
+                onChange={(event) => setSortOrder(event.target.value)}
+                className="min-h-11 cursor-pointer rounded bg-transparent py-2 pr-1 text-size-xs text-bluedot-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal"
+              >
+                <option value="newest">Newest</option>
+                <option value="largest">Largest grant</option>
+              </select>
+            </label>
+          )}
           {hasHiddenGrantees && showAll && (
             <CTALinkOrButton
               variant="secondary"
@@ -120,11 +161,12 @@ const GranteesListSection = ({
       {!!visibleGrantees?.length && (
         <div>
           <PageListGroup>
-            {visibleGrantees.map((grantee) => (
-              <GranteeRow
-                key={`${grantee.granteeName}-${grantee.projectTitle}`}
-                grantee={grantee}
-              />
+            {visibleGrantees.map(({ grantee, key }) => (
+              layout === 'editorial' ? (
+                <EditorialGranteeRow key={key} grantee={grantee} />
+              ) : (
+                <GranteeRow key={key} grantee={grantee} />
+              )
             ))}
           </PageListGroup>
 

@@ -84,6 +84,14 @@ export const SingleItem: Story = {
   },
 };
 
+export const Plain: Story = {
+  args: {
+    title: 'Frequently asked questions',
+    items: defaultFaqItems,
+    variant: 'plain',
+  },
+};
+
 export const WithRichContent: Story = {
   args: {
     title: 'Frequently Asked Questions',

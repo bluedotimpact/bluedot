@@ -94,6 +94,14 @@ export const WithTitleAndSubtitle: Story = {
   },
 };
 
+export const Editorial: Story = {
+  args: {
+    heading: 'Projects we\'ve funded',
+    layout: 'editorial',
+    limit: 6,
+  },
+};
+
 export const Empty: Story = {
   args: {
     heading: 'Projects we\'ve funded',

@@ -6,9 +6,10 @@ import {
 
 type Props = {
   program: ConfigurableGrantProgramSlug;
+  variant?: 'cards' | 'plain';
 };
 
-const GrantFaqSection = ({ program }: Props) => {
+const GrantFaqSection = ({ program, variant }: Props) => {
   const { faqItems } = GRANT_PROGRAM_SECTIONS[program];
 
   return (
@@ -17,6 +18,7 @@ const GrantFaqSection = ({ program }: Props) => {
       title="Frequently asked questions"
       items={faqItems}
       background="canvas"
+      variant={variant}
     />
   );
 };
