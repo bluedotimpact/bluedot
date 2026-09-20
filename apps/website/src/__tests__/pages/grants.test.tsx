@@ -43,17 +43,16 @@ describe('GrantsPage', () => {
     render(<GrantsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Rapid Grants' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Career Transition Grants' })).toBeInTheDocument();
     });
 
     expect(screen.getByRole('heading', { name: 'Rapid Grants', level: 2 })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'Career Transition Grants', level: 2 })).toBeVisible();
     expect(screen.queryByRole('heading', { name: 'Media Grants' })).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Seed Grants' })).not.toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Explore in-person programs' })).toHaveAttribute('href', '/programs');
-    expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toHaveAttribute('href', '/grants/rapid');
-    expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toHaveAttribute('href', '/grants/career-transition');
+    expect(screen.getByRole('link', { name: 'Rapid Grants' })).toHaveAttribute('href', '/grants/rapid');
+    expect(screen.getByRole('link', { name: 'Career Transition Grants' })).toHaveAttribute('href', '/grants/career-transition');
     expect(document.getElementById('find-your-grant')).toBeInTheDocument();
   });
 
@@ -68,8 +67,8 @@ describe('GrantsPage', () => {
     expect(screen.getByText('Up to $20k')).toBeInTheDocument();
     expect(screen.getByText('Up to $200k')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'What funding restrictions apply?' })).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.getByRole('link', { name: 'Explore Rapid Grants' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Explore Career Transition Grants' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Rapid Grants' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Career Transition Grants' })).toBeInTheDocument();
   });
 
   test('opens funding guidance and provides contact routes', async () => {
