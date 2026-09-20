@@ -131,7 +131,7 @@ const GrantsPage = () => {
         </div>
       </section>
 
-      <FAQSection title="A few common questions" items={FAQ_ITEMS} />
+      <FAQSection title="Frequently asked questions" items={FAQ_ITEMS} />
     </div>
   );
 };
