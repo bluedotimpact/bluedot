@@ -178,9 +178,9 @@ const TestimonialCarousel = ({
       {/* Header Container */}
       <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
         {/* Header Section */}
-        <div className="flex flex-col items-center text-center bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left gap-8 bd-md:gap-16">
+        <div className={clsx('relative flex flex-col items-center text-center gap-8 bd-md:gap-16', variant === 'lander' && 'bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left')}>
           {/* Header Content */}
-          <div className="flex flex-col gap-8">
+          <div className={clsx('flex flex-col', variant === 'homepage' ? 'gap-4 bd-md:px-32' : 'gap-8')}>
             {variant === 'homepage' ? (
               <h2
                 className="bluedot-h2 font-medium tracking-tighter"
@@ -204,7 +204,7 @@ const TestimonialCarousel = ({
 
           {/* Navigation Buttons - Desktop (carousel only) */}
           {shouldLoop && (
-            <div className="hidden bd-md:flex gap-3 flex-shrink-0">
+            <div className={clsx('hidden bd-md:flex gap-3 flex-shrink-0', variant === 'homepage' && 'absolute right-0 top-0')}>
               <NavigationButton
                 direction="left"
                 onClick={() => scroll('left')}

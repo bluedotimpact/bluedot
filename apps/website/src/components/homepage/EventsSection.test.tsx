@@ -2,7 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import {
   describe, expect, test, beforeEach,
 } from 'vitest';
-import EventsSection, { buildTimeDeltaString } from './EventsSection';
+import EventsSection from './EventsSection';
+import { buildTimeDeltaString } from '../events/eventsUtils';
 import type { Event } from '../../server/routers/luma';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
@@ -353,18 +354,7 @@ describe('EventsSection', () => {
     server.use(trpcMsw.luma.getUpcomingEvents.query(() => mockEvents));
   });
 
-  // Helper to get event titles in order from the desktop layout (single row)
-  const getDesktopEventTitles = (container: HTMLElement): string[] => {
-    // Desktop layout uses flex, find the container with "hidden xl:flex"
-    const desktopContainer = container.querySelector('.hidden.xl\\:flex');
-    if (!desktopContainer) {
-      return [];
-    }
-
-    const headings = desktopContainer.querySelectorAll('h3');
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    return Array.from(headings).map((h) => h.textContent || '');
-  };
+  const getEventTitles = (container: HTMLElement): string[] => Array.from(container.querySelectorAll('h4')).map((heading) => heading.textContent ?? '');
 
   test('displays events in chronological order', async () => {
     const { container } = render(<EventsSection />, { wrapper: TrpcProvider });
@@ -373,7 +363,7 @@ describe('EventsSection', () => {
       expect(screen.getAllByText('First Chronologically').length).toBeGreaterThan(0);
     });
 
-    const titles = getDesktopEventTitles(container);
+    const titles = getEventTitles(container);
     expect(titles).toEqual([
       'First Chronologically',
       'Second Chronologically',
@@ -382,14 +372,36 @@ describe('EventsSection', () => {
     ]);
   });
 
-  test('shows the first four upcoming events', async () => {
+  test('shows the first four upcoming events with a route to the complete calendar', async () => {
+    server.use(trpcMsw.luma.getUpcomingEvents.query(() => [...mockEvents, { ...mockEvents[3]!, id: 'fifth', title: 'Fifth event' }]));
     const { container } = render(<EventsSection />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getAllByText('Fourth Chronologically').length).toBeGreaterThan(0);
     });
 
-    const titles = getDesktopEventTitles(container);
+    const titles = getEventTitles(container);
     expect(titles).toHaveLength(4);
+    expect(screen.queryByText('Fifth event')).toBeNull();
+    expect(screen.getByRole('link', { name: 'See all events →' }).getAttribute('href')).toBe('/events?utm_source=website&utm_campaign=events-section');
+    expect(screen.queryByRole('region', { name: 'Event photos carousel' })).toBeNull();
+    const link = screen.getByRole('link', { name: /First Chronologically/ });
+    expect(new URL(link.getAttribute('href')!).searchParams.get('utm_campaign')).toBe('events-section');
+  });
+
+  test('keeps the calendar link available when no events are scheduled', async () => {
+    server.use(trpcMsw.luma.getUpcomingEvents.query(() => []));
+    render(<EventsSection />, { wrapper: TrpcProvider });
+    await screen.findByText('More events are on the way. Explore our calendar for the latest updates.');
+    expect(screen.getByRole('link', { name: 'See all events →' })).toBeTruthy();
+  });
+
+  test('shows a Luma recovery link when the feed fails', async () => {
+    server.use(trpcMsw.luma.getUpcomingEvents.query(() => {
+      throw new Error('Feed unavailable');
+    }));
+    render(<EventsSection />, { wrapper: TrpcProvider });
+    expect((await screen.findByRole('alert')).textContent).toContain('We couldn’t load the events.');
+    expect(screen.getByRole('link', { name: 'Check the calendar on Luma ↗' })).toBeTruthy();
   });
 });
