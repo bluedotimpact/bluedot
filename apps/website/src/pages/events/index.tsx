@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { addQueryParam, CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import {
+  addQueryParam, Breadcrumbs, CTALinkOrButton, ProgressDots,
+} from '@bluedot/ui';
 import Head from 'next/head';
 import {
   HiArrowUpRight, HiOutlineCalendarDays, HiOutlineMapPin, HiOutlineVideoCamera,
 } from 'react-icons/hi2';
-import { Nav } from '../../components/Nav/Nav';
+import MarketingHero from '../../components/MarketingHero';
+import { ROUTES } from '../../lib/routes';
 import PageNewsletter from '../../components/PageNewsletter';
 import { buildTimeDeltaString, formatEventDate, formatLocationLabel } from '../../components/events/eventsUtils';
 import type { Event } from '../../server/routers/luma';
@@ -84,19 +87,14 @@ const EventsPage = () => {
         <title>Events | BlueDot Impact</title>
         <meta name="description" content="Meet the BlueDot community. Explore upcoming AI safety reading groups, workshops, socials, and meetups online and around the world." />
       </Head>
-      <Nav />
+      <MarketingHero
+        title="Events"
+        subtitle="Meet, learn, and work on AI safety with the BlueDot community."
+      />
+      <Breadcrumbs route={ROUTES.events} />
       <main className="bg-slate-50/70 pb-16">
-        <header className="border-b border-bluedot-navy/10 bg-white">
-          <div className="section-base flex flex-col gap-5 py-8 sm:flex-row sm:items-center sm:justify-between sm:py-10">
-            <div>
-              <h1 className="text-size-2xl font-semibold tracking-tight text-bluedot-navy">Events</h1>
-              <p className="mt-3 max-w-[620px] text-size-sm leading-relaxed text-bluedot-navy/70">Meet, learn, and work on AI safety with the BlueDot community.</p>
-            </div>
-            <CTALinkOrButton url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</CTALinkOrButton>
-          </div>
-        </header>
         <section aria-label="Upcoming events" className="section-base pt-6 sm:pt-8">
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div className="flex flex-wrap gap-1 rounded-xl border border-bluedot-navy/10 bg-white p-1" aria-label="Event format">
               {Object.entries(FILTERS).map(([key, label]) => (
                 <button
@@ -112,22 +110,25 @@ const EventsPage = () => {
                 >{label}</button>
               ))}
             </div>
-            {filter !== 'online' && locations.length > 0 && (
-              <label className="flex items-center gap-3 text-size-xs text-bluedot-navy/70">
-                Location
-                <select
-                  value={location}
-                  onChange={(e) => {
-                    setLocation(e.target.value);
-                    setVisibleCount(PAGE_SIZE);
-                  }}
-                  className="min-w-0 flex-1 rounded-lg border border-bluedot-navy/15 bg-white px-3 py-2.5 text-bluedot-navy sm:min-w-44"
-                >
-                  <option value="all">Everywhere</option>
-                  {locations.map((value) => <option key={value} value={value}>{formatLocationLabel(value)}</option>)}
-                </select>
-              </label>
-            )}
+            <div className="flex flex-wrap items-center gap-4">
+              {filter !== 'online' && locations.length > 0 && (
+                <label className="flex items-center gap-3 text-size-xs text-bluedot-navy/70">
+                  Location
+                  <select
+                    value={location}
+                    onChange={(e) => {
+                      setLocation(e.target.value);
+                      setVisibleCount(PAGE_SIZE);
+                    }}
+                    className="min-w-0 flex-1 rounded-lg border border-bluedot-navy/15 bg-white px-3 py-2.5 text-bluedot-navy sm:min-w-44"
+                  >
+                    <option value="all">Everywhere</option>
+                    {locations.map((value) => <option key={value} value={value}>{formatLocationLabel(value)}</option>)}
+                  </select>
+                </label>
+              )}
+              <CTALinkOrButton url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</CTALinkOrButton>
+            </div>
           </div>
           <div className="mb-6 flex flex-col gap-1 text-size-xxs leading-relaxed text-bluedot-navy/60 sm:flex-row sm:justify-between">
             <p role="status">{!isLoading && !error ? `${filteredEvents.length} upcoming ${filteredEvents.length === 1 ? 'event' : 'events'}` : 'Upcoming events'}</p>
