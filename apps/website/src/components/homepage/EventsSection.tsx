@@ -13,7 +13,7 @@ const EventsSection = () => {
   return (
     <section
       id="upcoming-events"
-      className="w-full bg-slate-50/70 py-12 bd-md:py-16 lg:py-20 xl:py-24"
+      className="w-full bg-white py-12 bd-md:py-16 lg:py-20 xl:py-24"
       aria-labelledby="events-section-heading"
     >
       <div className="section-base">
