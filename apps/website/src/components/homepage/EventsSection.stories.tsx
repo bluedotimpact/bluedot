@@ -50,7 +50,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'The events section of the homepage featuring a photo carousel and upcoming event cards fetched from Luma. Shows event dates, locations, and times.',
+        component: 'The events section of the homepage previewing the next four Luma events with the shared calendar agenda. Shows event dates, locations, and times.',
       },
     },
   },
