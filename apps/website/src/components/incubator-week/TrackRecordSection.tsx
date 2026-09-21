@@ -7,7 +7,7 @@ const TrackRecordSection = () => {
 
       <div className="flex flex-col gap-5">
         <P>
-          Past cohorts: 38 participants, $2.5M+ in external funding raised.
+          Past cohorts: 50 participants, $7M+ in external funding raised.
         </P>
         <div className="flex flex-col gap-2">
           <P>Alumni include:</P>
