@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import clsx from 'clsx';
 import {
   CTALinkOrButton,
@@ -77,6 +77,8 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
     }
   };
 
+  const firstNameId = useId();
+  const lastNameId = useId();
   const hasChanges = trimmed.firstName !== savedNames.firstName.trim() || trimmed.lastName !== savedNames.lastName.trim();
   const showButtons = alwaysShowButtons || hasChanges;
 
@@ -85,9 +87,9 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
       <div className="flex flex-col gap-4">
         <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
           <div className="flex flex-col gap-2">
-            <label htmlFor="profile-first-name" className="font-semibold">First name*</label>
+            <label htmlFor={firstNameId} className="font-semibold">First name<span aria-hidden="true">*</span></label>
             <Input
-              id="profile-first-name"
+              id={firstNameId}
               value={names.firstName}
               onChange={(e) => setNames({ ...names, firstName: e.target.value })}
               onFocus={handleFocus}
@@ -98,9 +100,9 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="profile-last-name" className="font-semibold">Last name*</label>
+            <label htmlFor={lastNameId} className="font-semibold">Last name<span aria-hidden="true">*</span></label>
             <Input
-              id="profile-last-name"
+              id={lastNameId}
               value={names.lastName}
               onChange={(e) => setNames({ ...names, lastName: e.target.value })}
               onFocus={handleFocus}
