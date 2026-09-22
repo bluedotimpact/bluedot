@@ -307,7 +307,9 @@ const hostLabel = (u: string) => {
   }
 };
 
+// Completion only means something for participants: facilitators never receive a certificate
 const CompletionBadge: React.FC<{ r: Registration }> = ({ r }) => {
+  if (r.facilitated) return null;
   if (r.hasCertificate) return <Badge className="bg-info-bg text-info-fg">Completed</Badge>;
   if (r.droppedOut) return <Badge className="bg-error-bg text-error-fg">Dropped out</Badge>;
   if (r.roundEnd && new Date(r.roundEnd) < new Date()) return <Badge className="bg-error-bg text-error-fg">Not completed</Badge>;
