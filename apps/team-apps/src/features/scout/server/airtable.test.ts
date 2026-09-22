@@ -16,11 +16,7 @@ let currentFields: Record<string, unknown>;
 let eligible = true;
 const reads = async (input: RequestInfo | URL, init?: RequestInit) => {
   const url = new URL(input instanceof Request ? input.url : input.toString());
-  if (init?.method === 'PATCH') {
-    // Writing the source on the Applications record shows up on the synced Course runner row
-    if (url.pathname.endsWith(applicationId)) currentFields = { ...currentFields, fldCWl2plmCdiykLb: 'Talent scouting app' };
-    return json({ id, fields: JSON.parse(init.body as string).fields });
-  }
+  if (init?.method === 'PATCH') return json({ id, fields: JSON.parse(init.body as string).fields });
 
   if (url.pathname.endsWith(id)) return json({ id, fields: currentFields });
   if (url.pathname.endsWith('tblu6u7F2NHfCMgsk')) return json({ records: [{ id: 'recRoundExample01', fields: { fldEBVjEF9l2IEyG7: 'Test round', fldvorW4UVmRTihB9: ['Technical AI Safety'] } }] });
@@ -49,21 +45,11 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-test('invites by writing the source at its Applications-base home, then ticking the send box once synced', async () => {
+test('invites with one write: scouting status plus the send box; the automation owns date and source', async () => {
   expect(await run(inviteForReal(id))).toEqual({ ok: true });
-  expect(patches()).toHaveLength(2);
-  const [source, trigger] = patches();
-  expect((source![0] as string)).toContain(`tblXKnWoXK3R63F6D/${applicationId}`);
-  expect(JSON.parse(source![1]!.body as string)).toEqual({ fields: { fldwhiPOBOHDUKDDA: 'Talent scouting app' } });
-  expect((trigger![0] as string)).toContain(`tblBeMxAM1FAW06n4/${id}`);
-  expect(JSON.parse(trigger![1]!.body as string)).toEqual({ fields: { fldr09njoFMHdDD1F: 'Invited', flddylvIrOk9DunGQ: true } });
-});
-
-test('refuses to invite when the registration has no linked application record', async () => {
-  currentFields = { fld8KD3BUPbCHHHqE: ['recRoundExample01'] };
-  const result = await run(inviteForReal(id));
-  expect(result.ok).toBe(false);
-  expect(patches()).toHaveLength(0);
+  expect(patches()).toHaveLength(1);
+  expect((patches()[0]![0] as string)).toContain(`tblBeMxAM1FAW06n4/${id}`);
+  expect(JSON.parse(patches()[0]![1]!.body as string)).toEqual({ fields: { fldr09njoFMHdDD1F: 'Invited', flddylvIrOk9DunGQ: true } });
 });
 
 test('declines only by setting the scouting status, without triggering email', async () => {

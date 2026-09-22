@@ -53,6 +53,9 @@ const REG = {
   sendInviteEmail: 'flddylvIrOk9DunGQ',
 } as const;
 
+// Stamped by the invite automations; read for the weekly count and the double-invite guard
+const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
+
 const ROUND = {
   name: 'fldEBVjEF9l2IEyG7',
   start: 'fldmmbX7ZtwjPbfMK',
@@ -298,14 +301,12 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
 
 // ---- Invites this week ----
 
-const INVITE_DATE_FIELD = 'fld9YWOaYvSauL5sV';
-
 // Both invite flows stamp the same date on the registration, so one read covers them.
 export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThisWeek> => {
   const monday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - ((now.getUTCDay() + 6) % 7)));
   const sunday = new Date(monday.getTime() - 86400000).toISOString().slice(0, 10);
   const [records, rounds] = await Promise.all([
-    fetchAll(REGISTRATIONS_URL, { filterByFormula: `IS_AFTER({1-1 invite date}, DATETIME_PARSE('${sunday}'))` }, [REG.round, REG.inviteSource, INVITE_DATE_FIELD]),
+    fetchAll(REGISTRATIONS_URL, { filterByFormula: `IS_AFTER({1-1 invite date}, DATETIME_PARSE('${sunday}'))` }, [REG.round, REG.inviteSource, REG_INVITE_DATE]),
     getRounds(),
   ]);
   const counts: InvitedThisWeek = {};
@@ -555,12 +556,6 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
 
 // ---- Invite ----
 
-const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
-// "1-1 invite source" lives on the Applications-base record and is synced into Course
-// runner; the API refuses to edit it from the Course runner side, so it is written at source.
-const APPLICATION_INVITE_SOURCE = 'fldwhiPOBOHDUKDDA';
-const SYNC_POLL_MS = 2500;
-const SYNC_POLL_ATTEMPTS = 6;
 const REG_EMAIL_SENT = 'fldTuKceN6K8fDrvH';
 const REG_EMAIL_SENT_IN_APPLICATIONS = 'fldBPgPLpZ1oL4KiT';
 
@@ -603,39 +598,14 @@ export const declineForReal = async (id: string): Promise<WriteResult> => {
   return { ok: true };
 };
 
-// Invite mirrors the manual habit: set the invite source, then tick the send box. The
-// Course runner automation sends the email from the course lead and stamps the date,
-// choosing its wording from the source — so the source is written first (at its home in
-// the Applications base) and we wait for the sync to show it before ticking the box.
+// Invite = set the scouting status and tick the send box, in one write. The Course
+// runner automation does the rest: it sends the email from the course lead, stamps
+// the invite date and — because it sees the status — records the source as
+// "Talent scouting app". The source field itself is synced from the Applications base
+// and cannot be written through the API from here, which is why the automation owns it.
 export const inviteForReal = async (id: string): Promise<InviteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
-  const applicationId = str(check.fields[REG.applicationId]);
-  if (!applicationId) {
-    return { ok: false, reason: 'This registration has no linked application record, so the invite source cannot be set. Invite from Airtable instead.' };
-  }
-
-  const sourceResponse = await airtableFetch(`${APPLICATION_REGISTRATIONS_URL}/${applicationId}`, {
-    method: 'PATCH',
-    headers: headers(),
-    body: JSON.stringify({ fields: { [APPLICATION_INVITE_SOURCE]: 'Talent scouting app' } }),
-  });
-  if (!sourceResponse.ok) throw airtableError(sourceResponse, `update application ${applicationId}`);
-
-  let synced = false;
-  for (let attempt = 0; attempt < SYNC_POLL_ATTEMPTS && !synced; attempt += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    await new Promise((resolve) => {
-      setTimeout(resolve, SYNC_POLL_MS);
-    });
-    // eslint-disable-next-line no-await-in-loop
-    const current = await fetchOne(REGISTRATIONS_URL, id, []);
-    synced = str(current?.fields[REG.inviteSource]) === 'Talent scouting app';
-  }
-
-  // If the sync is slow the email still goes out; the automation then falls back to its
-  // facilitator wording, which is acceptable — a missed invite is not.
-
   await patchRegistration(id, { [REG.scoutingStatus]: 'Invited', [REG.sendInviteEmail]: true });
   return { ok: true };
 };
