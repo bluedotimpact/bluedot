@@ -39,7 +39,6 @@ const Scout = () => {
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
-  const [pickerOpen, setPickerOpen] = useState(false);
   const [finished, setFinished] = useState(false);
   const [skipHistory, setSkipHistory] = useState<string[]>([]);
   const [people, setPeople] = useState<Record<string, Loaded>>({});
@@ -99,7 +98,6 @@ const Scout = () => {
     setRound(item);
 
     setFinished(false);
-    setPickerOpen(false);
     setSkipHistory([]);
     setSaveError(undefined);
     setConflict(false);
@@ -137,18 +135,18 @@ const Scout = () => {
   }, [finished, loading, queueError, roundItems.length, confirmation, setSessionActive]);
 
   const skip = useCallback(() => {
-    if (!current || writingRef.current || confirmation !== undefined || pickerOpen || promptOpen || conflict) return;
+    if (!current || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSkipped((state) => new Set([...state, current.id]));
     setSkipHistory((state) => [...state, current.id]);
     setNotice(`${current.name ?? 'Participant'} skipped. Nothing was saved.`);
     setSaveError(undefined);
-  }, [current, confirmation, pickerOpen, promptOpen, conflict]);
+  }, [current, confirmation, promptOpen, conflict]);
 
   const ask = useCallback((decision: Decision) => {
-    if (!current || person?.id !== current.id || writingRef.current || confirmation !== undefined || pickerOpen || promptOpen || conflict) return;
+    if (!current || person?.id !== current.id || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSaveError(undefined);
     setConfirmation({ person, decision, item: current });
-  }, [person, current, confirmation, pickerOpen, promptOpen, conflict]);
+  }, [person, current, confirmation, promptOpen, conflict]);
 
   const confirm = async () => {
     if (!confirmation || writingRef.current) return;
@@ -183,7 +181,7 @@ const Scout = () => {
     const onKey = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.repeat || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest('input, textarea, select, button, a, summary, [role="dialog"]'))) return;
-      if (writingRef.current || confirmation !== undefined || pickerOpen || finished || promptOpen || loading || queueError !== undefined) return;
+      if (writingRef.current || confirmation !== undefined || finished || promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
         ArrowRight: () => ask('invite'), ArrowLeft: () => ask('decline'), ArrowDown: skip,
       };
@@ -196,9 +194,9 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, confirmation, pickerOpen, finished, promptOpen, loading, queueError]);
+  }, [ask, skip, confirmation, finished, promptOpen, loading, queueError]);
 
-  const controlsDisabled = writing || confirmation !== undefined || pickerOpen || promptOpen;
+  const controlsDisabled = writing || confirmation !== undefined || promptOpen;
   let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
   if (confirmation?.decision === 'invite') confirmDescription = 'This emails the participant on behalf of the course lead. You cannot undo this email.';
   if (preview) confirmDescription = 'This saves a sample decision only. No email will be sent.';
@@ -224,7 +222,11 @@ const Scout = () => {
         ) : <>
           <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 p-4`}>
             <div><p className="font-medium">{round.course}</p><p className="mt-1 text-size-xs text-secondary">{roundLabel(round)}</p></div>
-            <button type="button" className={button} disabled={controlsDisabled} onClick={() => setPickerOpen(true)}>Change round</button>
+            <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
+              setRound(undefined);
+              setSkipHistory([]);
+              setNotice(undefined);
+            }}>Change round</button>
           </section>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-size-sm text-secondary">{decisions.length} reviewed · {queue.length} to review · {skippedCount} skipped</p>
@@ -263,9 +265,6 @@ const Scout = () => {
             }}>Review skipped participants</button>}
           </section>}
         </>)}
-        <Modal desktopHeaderClassName="[&_button]:min-h-11 [&_button]:min-w-11" isOpen={pickerOpen} setIsOpen={setPickerOpen} title="Choose a round">
-          <RoundPicker items={remaining} onSelect={chooseRound} />
-        </Modal>
         <Modal isOpen={confirmation !== undefined} setIsOpen={(open) => {
           if (!open && !writingRef.current) {
             setConfirmation(undefined);

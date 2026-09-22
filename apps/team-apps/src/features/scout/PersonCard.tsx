@@ -186,7 +186,7 @@ const CompletionBadge: React.FC<{ r: Registration }> = ({ r }) => {
 const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children?: ReactNode }> = ({
   what, when, bold = false, children,
 }) => (
-  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] ${bold ? '-mx-2 rounded-surface bg-info-bg px-2 py-1 font-medium' : ''}`}>
+  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] ${bold ? '-mx-2 rounded-surface bg-info-bg/50 px-2 py-1 font-medium' : ''}`}>
     <span className="truncate">{what}</span>
     <span className="truncate text-size-xs text-secondary">{when}</span>
     <span className="flex flex-wrap items-center gap-1">{children}</span>
