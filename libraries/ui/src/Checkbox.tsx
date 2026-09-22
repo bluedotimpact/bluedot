@@ -22,7 +22,7 @@ export type CheckboxProps = {
   className?: string;
 };
 
-// 44px row via padding: Figma draws 32, but the touch floor wins. See docs/design-system-review/checkbox.md.
+// Figma draws a 32px row; py-2.5 lifts it to the 44px touch floor.
 const ROOT_STYLES = 'flex items-start gap-2 py-2.5 cursor-pointer text-size-sm leading-normal text-primary';
 
 const BOX_STYLES = 'flex size-6 shrink-0 items-center justify-center rounded-surface border transition-colors motion-reduce:transition-none';
