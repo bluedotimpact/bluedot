@@ -21,6 +21,7 @@ const AIRTABLE: Record<string, { bg: string; fg: string }> = {
   orangeBright: { bg: '#ff6f2c', fg: '#ffffff' },
   pinkLight1: { bg: '#f99de2', fg: '#400832' },
   grayLight2: { bg: '#eeeeee', fg: '#333333' },
+  purpleLight2: { bg: '#ede2fe', fg: '#280b4d' },
 };
 
 // Choice → Airtable colour name, copied from the field definitions in Course runner.
@@ -195,7 +196,7 @@ const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children
 
 const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
   <Row what={r.course} when={shortRound(r.roundName)} bold={r.isCurrent}>
-    {r.facilitated && <Badge className="bg-purple-100 text-purple-900">Facilitator</Badge>}
+    {r.facilitated && <Badge colour="purpleLight2">Facilitator</Badge>}
     <OpinionBadge opinion={r.opinion} />
     <CompletionBadge r={r} />
   </Row>
@@ -254,7 +255,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         <div className="flex flex-wrap items-center gap-2">
           <OpinionBadge opinion={person.opinion} />
           {person.certificateUrl && <Badge className="bg-info-bg text-info-fg">Completed</Badge>}
-          {person.reports.length > 0 && <Badge className="bg-purple-100 text-purple-900">Facilitator 1:1 report</Badge>}
+          {person.reports.length > 0 && <Badge colour="purpleLight2">Facilitator 1:1 report</Badge>}
           {person.calls.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Had an evaluation call</Badge>}
           {person.grants.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Applied for a grant</Badge>}
         </div>
