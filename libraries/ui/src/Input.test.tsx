@@ -64,7 +64,7 @@ describe('Input', () => {
 
     const input = screen.getByRole('textbox', { name: 'Search' });
     expect(screen.getByTestId('leading')).toBeInTheDocument();
-    expect(input).toHaveClass('pl-10', 'pr-10');
+    expect(input).toHaveClass('pl-10', 'pr-11');
 
     await user.click(screen.getByRole('button', { name: 'Clear' }));
     expect(cleared).toBe(true);

@@ -89,7 +89,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
           className={cn(
             TEXT_INPUT_STYLES,
             leading && 'pl-10',
-            trailing && 'pr-10',
+            trailing && 'pr-11',
             className,
           )}
         />
