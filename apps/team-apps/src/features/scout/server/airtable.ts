@@ -22,6 +22,8 @@ const PEER_FEEDBACK_URL = `${COURSE_RUNNER}/tbl8KC4Q1i5YlCGhm`;
 const GRANTS_URL = `${APPLICATIONS}/tblh5zr4jRdrndKnC`;
 const CALLS_URL = `${APPLICATIONS}/tblVstbJehu8wew93`;
 const APPLICATION_REGISTRATIONS_URL = `${APPLICATIONS}/tblXKnWoXK3R63F6D`;
+// CRM › Person: one record per human across courses, calls and notes
+const CRM_PERSON_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tblMYYK8bL2fRJmv7';
 
 // Locked view "Talent scouting [read by Talent Scouting App]" — the hard filter
 // lives there, so course leads can change it without a deploy.
@@ -480,6 +482,13 @@ const toApplication = (r: AirtableRecord): Application => {
 
 const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut];
 
+// The CRM Person record for this email, when exactly one matches (primary or secondary email)
+const fetchCrmPersonId = async (email: string): Promise<string | undefined> => {
+  const escaped = email.replace(/'/g, '\\\'').toLowerCase();
+  const records = await fetchAll(CRM_PERSON_URL, { filterByFormula: `OR(LOWER({Primary email})='${escaped}', LOWER({Secondary email})='${escaped}')`, pageSize: '3' }, ['Primary email']);
+  return records.length === 1 ? records[0]!.id : undefined;
+};
+
 // Every registration this email has with BlueDot, in any course, oldest first.
 const fetchHistory = async (email: string, currentId: string, rounds: Map<string, Round>): Promise<Registration[]> => {
   const records = await fetchAll(REGISTRATIONS_URL, { filterByFormula: byEmailFormula('email', email) }, HISTORY_FIELDS);
@@ -515,7 +524,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   const email = str(f[REG.email]) ?? '';
   const applicationId = str(f[REG.applicationId]);
 
-  const [history, grants, calls, reports, peerFeedback, projects, feedback, application] = await Promise.all([
+  const [history, grants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId] = await Promise.all([
     email ? fetchHistory(email, id, rounds) : Promise.resolve([]),
     email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
     email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
@@ -524,6 +533,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     fetchMany(PROJECTS_URL, strList(f[REG.projects]), Object.values(PROJECT)),
     fetchMany(FEEDBACK_URL, strList(f[REG.feedback]), Object.values(FEEDBACK)),
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
+    email ? fetchCrmPersonId(email) : Promise.resolve(undefined),
   ]);
 
   return {
@@ -540,6 +550,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     organisation: str(f[REG.organisation]),
     country: str(f[REG.country]),
     scoutingStatus: str(f[REG.scoutingStatus]),
+    crmPersonId,
     webFacts: parseWebFacts(f[REG.webFacts]),
     lookedUpOn: str(f[REG.lookedUpOn]),
     history,

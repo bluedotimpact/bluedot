@@ -168,6 +168,8 @@ export type Person = {
   projects: Project[];
   feedback: CourseFeedback[];
   application?: Application;
+  // The person's record in the CRM base, matched by email; absent when no match or several
+  crmPersonId?: string;
   // Present once the lookup job has run for this registration
   webFacts?: WebFacts;
   lookedUpOn?: string;

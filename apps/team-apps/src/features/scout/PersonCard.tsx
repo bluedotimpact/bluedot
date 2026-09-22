@@ -6,10 +6,9 @@ import {
   type EvaluationCall, type GrantApplication, type Person, type Registration, type WebFacts, type WebLink, type WebSource,
 } from './types';
 
-const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
-const REGISTRATIONS_TABLE_ID = 'tblBeMxAM1FAW06n4';
-const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
-const APPLICATIONS_TABLE_ID = 'tblXKnWoXK3R63F6D';
+// The CRM interface page course leads already use to prepare calls ("Their CRM record")
+const CRM_BASE_ID = 'apppOzz9fPg59PxLa';
+const CRM_PERSON_PAGE_ID = 'pagxj8sTbwi5d5k5z';
 
 // Airtable's select colours (its documented palette), so badges read like the base does.
 const AIRTABLE: Record<string, { bg: string; fg: string }> = {
@@ -368,7 +367,6 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
   const withBlueDotCount = person.history.length + person.grants.length + person.calls.length;
   const app = person.application;
-  const applicationUrl = app ? `https://airtable.com/${APPLICATIONS_BASE_ID}/${APPLICATIONS_TABLE_ID}/${app.id}` : undefined;
   const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
   // Speed-review scores (1-5), produced by the Applications-base automation at application time
   const scores: [string, number][] = [];
@@ -402,11 +400,12 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         )}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-size-xs">
           <span className="font-medium text-secondary">BlueDot records:</span>
+          {person.crmPersonId
+            ? <A href={`https://airtable.com/${CRM_BASE_ID}/${CRM_PERSON_PAGE_ID}/${person.crmPersonId}`} target="_blank" className="inline-flex min-h-11 items-center">CRM record ↗</A>
+            : <span className="text-disabled">no CRM record found for this email</span>}
           {person.projects.filter((p) => p.url).map((p) => (
             <A key={p.id} href={p.url} target="_blank" className="inline-flex min-h-11 items-center">Project ↗</A>
           ))}
-          <A href={`https://airtable.com/${COURSE_RUNNER_BASE_ID}/${REGISTRATIONS_TABLE_ID}/${person.id}`} target="_blank" className="inline-flex min-h-11 items-center">Registration in Airtable ↗</A>
-          {applicationUrl && <A href={applicationUrl} target="_blank" className="inline-flex min-h-11 items-center">Application in Airtable ↗</A>}
         </div>
       </CardShell>
 
