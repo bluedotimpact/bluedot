@@ -556,6 +556,11 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
 // ---- Invite ----
 
 const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
+// "1-1 invite source" lives on the Applications-base record and is synced into Course
+// runner; the API refuses to edit it from the Course runner side, so it is written at source.
+const APPLICATION_INVITE_SOURCE = 'fldwhiPOBOHDUKDDA';
+const SYNC_POLL_MS = 2500;
+const SYNC_POLL_ATTEMPTS = 6;
 const REG_EMAIL_SENT = 'fldTuKceN6K8fDrvH';
 const REG_EMAIL_SENT_IN_APPLICATIONS = 'fldBPgPLpZ1oL4KiT';
 
@@ -598,12 +603,39 @@ export const declineForReal = async (id: string): Promise<WriteResult> => {
   return { ok: true };
 };
 
-// Invite records the decision alongside the manual workflow: set the source and tick
-// the send box. The Course runner automation sends the email from the course
-// lead and stamps the date.
+// Invite mirrors the manual habit: set the invite source, then tick the send box. The
+// Course runner automation sends the email from the course lead and stamps the date,
+// choosing its wording from the source — so the source is written first (at its home in
+// the Applications base) and we wait for the sync to show it before ticking the box.
 export const inviteForReal = async (id: string): Promise<InviteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
-  await patchRegistration(id, { [REG.scoutingStatus]: 'Invited', [REG.inviteSource]: 'Talent scouting app', [REG.sendInviteEmail]: true });
+  const applicationId = str(check.fields[REG.applicationId]);
+  if (!applicationId) {
+    return { ok: false, reason: 'This registration has no linked application record, so the invite source cannot be set. Invite from Airtable instead.' };
+  }
+
+  const sourceResponse = await airtableFetch(`${APPLICATION_REGISTRATIONS_URL}/${applicationId}`, {
+    method: 'PATCH',
+    headers: headers(),
+    body: JSON.stringify({ fields: { [APPLICATION_INVITE_SOURCE]: 'Talent scouting app' } }),
+  });
+  if (!sourceResponse.ok) throw airtableError(sourceResponse, `update application ${applicationId}`);
+
+  let synced = false;
+  for (let attempt = 0; attempt < SYNC_POLL_ATTEMPTS && !synced; attempt += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await new Promise((resolve) => {
+      setTimeout(resolve, SYNC_POLL_MS);
+    });
+    // eslint-disable-next-line no-await-in-loop
+    const current = await fetchOne(REGISTRATIONS_URL, id, []);
+    synced = str(current?.fields[REG.inviteSource]) === 'Talent scouting app';
+  }
+
+  // If the sync is slow the email still goes out; the automation then falls back to its
+  // facilitator wording, which is acceptable — a missed invite is not.
+
+  await patchRegistration(id, { [REG.scoutingStatus]: 'Invited', [REG.sendInviteEmail]: true });
   return { ok: true };
 };
