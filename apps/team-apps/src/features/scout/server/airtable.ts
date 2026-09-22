@@ -26,6 +26,9 @@ const APPLICATION_REGISTRATIONS_URL = `${APPLICATIONS}/tblXKnWoXK3R63F6D`;
 const CRM_PERSON_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tblMYYK8bL2fRJmv7';
 const CRM_RAPID_GRANTS_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tbl3ftXbbaVDRGGLP';
 
+// The record's page in Airtable, so a lead can open the row behind a timeline entry
+const recordLink = (tableApiUrl: string, id: string) => `${tableApiUrl.replace('https://api.airtable.com/v0/', 'https://airtable.com/')}/${id}`;
+
 // CRM › Rapid grants
 const RAPID = {
   email: 'fldrm6UvPUfZaISgv',
@@ -153,6 +156,7 @@ const APP_OUTCOME = {
   course: 'fldPkqPbeoIhERqSY',
   roundName: 'fldQymBa7milTYP9q',
   roundEnd: 'fldyzxzjh5xgHgKuC',
+  opinion: 'fldOm6fJcqhq78M71',
 } as const;
 
 // Applications base — Course registration (same field IDs speed-review uses)
@@ -452,6 +456,7 @@ const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord
 
 const toGrant = (r: AirtableRecord): GrantApplication => ({
   id: r.id,
+  recordUrl: recordLink(GRANTS_URL, r.id),
   createdAt: str(r.fields[GRANT.createdAt]),
   status: str(r.fields[GRANT.status]),
   decisionDate: str(r.fields[GRANT.decisionDate]),
@@ -461,6 +466,7 @@ const toGrant = (r: AirtableRecord): GrantApplication => ({
 
 const toCall = (r: AirtableRecord): EvaluationCall => ({
   id: r.id,
+  recordUrl: recordLink(CALLS_URL, r.id),
   createdAt: str(r.fields[CALL.createdAt]),
   callDate: str(r.fields[CALL.callDate]),
   status: str(r.fields[CALL.status]),
@@ -508,6 +514,7 @@ const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreated
 
 const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   id: r.id,
+  recordUrl: recordLink(CRM_RAPID_GRANTS_URL, r.id),
   createdAt: str(r.fields[RAPID.createdAt]),
   decision: str(r.fields[RAPID.decision]),
   projectTitle: str(r.fields[RAPID.projectTitle]),
@@ -527,12 +534,14 @@ const fetchOtherApplications = async (email: string, registrationApplicationIds:
       const roundName = str(r.fields[APP_OUTCOME.roundName]) ?? '';
       return {
         id: r.id,
+        recordUrl: recordLink(APPLICATION_REGISTRATIONS_URL, r.id),
         course: courseNameFrom(roundName) ?? 'Unknown course',
         roundName,
         roundEnd: first(r.fields[APP_OUTCOME.roundEnd]),
         createdAt: str(r.fields[APP_OUTCOME.createdAt]),
         facilitator: str(r.fields[APP_OUTCOME.role]) === 'Facilitator',
         decision: str(r.fields[APP_OUTCOME.decision]),
+        opinion: str(r.fields[APP_OUTCOME.opinion]),
       };
     })
     .sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
@@ -559,6 +568,7 @@ const fetchHistory = async (email: string, currentId: string, rounds: Map<string
       const round = rounds.get(first(r.fields[REG.round]) ?? '');
       return {
         id: r.id,
+        recordUrl: recordLink(REGISTRATIONS_URL, r.id),
         course: round?.course ?? 'Unknown course',
         roundName: round?.name ?? '',
         roundStart: round?.start,

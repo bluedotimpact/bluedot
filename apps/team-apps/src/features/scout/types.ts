@@ -17,6 +17,7 @@ export type InvitedThisWeek = Partial<Record<Course, { total: number; viaApp: nu
 
 export type Registration = {
   id: string;
+  recordUrl?: string;
   course: string;
   roundName: string;
   roundStart?: string;
@@ -46,6 +47,7 @@ export type FacilitatorFeedback = {
 
 export type GrantApplication = {
   id: string;
+  recordUrl?: string;
   createdAt?: string;
   status?: string;
   decisionDate?: string;
@@ -57,17 +59,20 @@ export type GrantApplication = {
 // rejected, withdrawn, or still undecided. Shown quietly as intent, not as history.
 export type OtherApplication = {
   id: string;
+  recordUrl?: string;
   course: string;
   roundName: string;
   roundEnd?: string;
   createdAt?: string;
   facilitator: boolean;
   decision?: string;
+  opinion?: string;
 };
 
 // CRM › Rapid grants: small project grants, separate from career transition grants
 export type RapidGrant = {
   id: string;
+  recordUrl?: string;
   createdAt?: string;
   decision?: string;
   projectTitle?: string;
@@ -79,6 +84,7 @@ export type RapidGrant = {
 
 export type EvaluationCall = {
   id: string;
+  recordUrl?: string;
   createdAt?: string;
   callDate?: string;
   status?: string;

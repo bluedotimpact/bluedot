@@ -307,53 +307,113 @@ const hostLabel = (u: string) => {
   }
 };
 
-// Completion only means something for participants: facilitators never receive a certificate
-const CompletionBadge: React.FC<{ r: Registration }> = ({ r }) => {
-  if (r.facilitated) return null;
-  if (r.hasCertificate) return <Badge className="bg-info-bg text-info-fg">Completed</Badge>;
-  if (r.droppedOut) return <Badge className="bg-error-bg text-error-fg">Dropped out</Badge>;
-  if (r.roundEnd && new Date(r.roundEnd) < new Date()) return <Badge className="bg-error-bg text-error-fg">Not completed</Badge>;
-  return <Badge>In progress</Badge>;
+type Tone = 'good' | 'warn' | 'bad' | 'quiet' | 'plain';
+const TONE_CLASS: Record<Tone, string> = {
+  good: 'bg-info-bg text-info-fg',
+  warn: 'bg-warning-bg text-warning-fg',
+  bad: 'bg-error-bg text-error-fg',
+  quiet: 'bg-tint text-disabled',
+  plain: 'bg-tint text-primary',
+};
+type Status = { tone: Tone; label: string };
+
+// Where a course stands for a participant; facilitators have no completion state
+const courseStatus = (r: Registration): Status | undefined => {
+  if (r.facilitated) return undefined;
+  if (r.hasCertificate) return { tone: 'good', label: 'Completed' };
+  if (r.droppedOut) return { tone: 'bad', label: 'Dropped out' };
+  if (r.roundEnd && new Date(r.roundEnd) < new Date()) return { tone: 'bad', label: 'Not completed' };
+  return { tone: 'plain', label: 'In progress' };
 };
 
-// Three aligned columns: what · when (+ small detail) · state badges. Badges never wrap;
-// the middle column truncates instead. Stacks on narrow screens.
-const Row: React.FC<{ what: ReactNode; when: ReactNode; detail?: ReactNode; bold?: boolean; children?: ReactNode }> = ({
-  what, when, detail, bold = false, children,
+// Airtable's own option names (grant status, call status, application decision),
+// coloured by what they mean for the person. Unknown options read as "pending".
+const decisionStatus = (label?: string): Status => {
+  if (!label) return { tone: 'quiet', label: 'No decision yet' };
+  let tone: Tone = 'warn';
+  if (/withdrawn/i.test(label)) tone = 'quiet';
+  else if (/reject|archiv/i.test(label)) tone = 'bad';
+  else if (/accept|approve/i.test(label)) tone = 'good';
+  else if (/complete/i.test(label)) tone = 'plain';
+  return { tone, label: label === 'call' ? 'Call' : label };
+};
+
+const monthYear = (iso?: string) => (iso ? new Date(iso).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }) : '');
+
+// "Biosecurity (2026 Oct W42) - Part-time" → "Part-time"
+const intensityOf = (roundName: string) => roundName.split(' - ')[1];
+
+const money = (n?: number) => (n === undefined ? undefined : `$${n.toLocaleString()}`);
+
+// "$2,500 asked · $2,000 granted" when they differ, otherwise the one amount
+const amounts = (asked?: number, granted?: number) => {
+  if (asked !== undefined && granted !== undefined && asked !== granted) return `${money(asked)} asked · ${money(granted)} granted`;
+  return money(granted ?? asked);
+};
+
+// One line per thing with BlueDot: when · kind · detail · opinion · status · record link.
+// Fixed columns so the badges line up down the list; the detail column truncates.
+// On narrow screens the badges wrap under the text.
+const TimelineRow: React.FC<{
+  when: string; kind: string; detail?: ReactNode; opinion?: string; status?: Status; url?: string; current?: boolean; quiet?: boolean;
+}> = ({
+  when, kind, detail, opinion, status, url, current = false, quiet = false,
 }) => (
-  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.6fr)_auto] ${bold ? '-mx-2 rounded-surface bg-info-bg/50 px-2 py-1 font-medium' : ''}`}>
-    <span className="min-w-0 truncate">{what}</span>
-    <span className="min-w-0 text-size-xs text-secondary">
-      <span className="block truncate">{when}</span>
-      {detail && <span className="block truncate">{detail}</span>}
-    </span>
-    <span className="flex flex-nowrap items-center gap-1 lg:justify-self-end">{children}</span>
+  <div className={cn(
+    'grid grid-cols-[4.5rem_5.5rem_minmax(0,1fr)] items-center gap-x-3 gap-y-1 py-1 text-size-sm text-primary lg:grid-cols-[4.5rem_5.5rem_minmax(0,1fr)_5rem_8.5rem_1rem]',
+    current && '-mx-2 rounded-surface bg-info-bg/50 px-2 font-medium',
+    quiet && 'text-disabled',
+  )}
+  >
+    <span className="text-size-xs tabular-nums text-secondary">{when}</span>
+    <span className="text-size-xs text-secondary">{kind}</span>
+    <span className="min-w-0 truncate">{detail}</span>
+    <span className="min-w-0">{opinion && <OpinionBadge opinion={opinion} />}</span>
+    <span className="min-w-0">{status && <Badge className={TONE_CLASS[status.tone]}>{status.label}</Badge>}</span>
+    <span className="text-size-xs">{url && <A href={url} target="_blank" className="text-secondary no-underline" title="Open the record in Airtable">↗</A>}</span>
   </div>
 );
+
+const CourseDetail: React.FC<{ course: string; roundName: string }> = ({ course, roundName }) => {
+  const intensity = intensityOf(roundName);
+  return <>{course}{intensity && <span className="text-size-xs text-secondary"> · {intensity}</span>}</>;
+};
 
 const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
-  <Row what={<>{r.course}{r.facilitated && <> <Badge colour="purpleLight2">Facilitator</Badge></>}</>} when={shortRound(r.roundName)} bold={r.isCurrent}>
-    <OpinionBadge opinion={r.opinion} />
-    <CompletionBadge r={r} />
-  </Row>
+  <TimelineRow
+    when={monthYear(r.roundStart)}
+    kind={r.facilitated ? 'Facilitator' : 'Participant'}
+    detail={<CourseDetail course={r.course} roundName={r.roundName} />}
+    opinion={r.opinion}
+    status={courseStatus(r)}
+    url={r.recordUrl}
+    current={r.isCurrent}
+  />
 );
 
-// Quiet: an application that never became a registration
-const OtherApplicationRow: React.FC<{ a: OtherApplication }> = ({ a }) => (
-  <div className="text-disabled">
-    <Row what={<>Applied · {a.course}</>} when={shortRound(a.roundName)} detail={a.facilitator ? 'as facilitator' : undefined}>
-      <span className="text-size-xs">{a.decision ?? 'no decision yet'}</span>
-    </Row>
-  </div>
-);
+// An application that never became a registration: rejections in red with the reviewer's
+// opinion, withdrawn and undecided ones quietly
+const OtherApplicationRow: React.FC<{ a: OtherApplication }> = ({ a }) => {
+  const status = decisionStatus(a.decision);
+  return (
+    <TimelineRow
+      when={monthYear(a.createdAt)}
+      kind={a.facilitator ? 'Facilitator' : 'Participant'}
+      detail={<CourseDetail course={a.course} roundName={a.roundName} />}
+      opinion={a.opinion}
+      status={status}
+      url={a.recordUrl}
+      quiet={status.tone === 'quiet'}
+    />
+  );
+};
 
 const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
-  <div className="flex flex-col gap-1">
-    <Row what="Career transition grant" when={formatDate(g.decisionDate ?? g.createdAt)} detail={g.amountUsd !== undefined ? `${money(g.amountUsd)}` : undefined}>
-      {g.status && <Badge className={/reject/i.test(g.status) ? 'bg-error-bg text-error-fg' : 'bg-warning-bg text-warning-fg'}>{g.status}</Badge>}
-    </Row>
-    {g.reasoning && <div className="pl-2"><Answer label="Why" text={g.reasoning} /></div>}
-  </div>
+  <TimelineRow when={monthYear(g.decisionDate ?? g.createdAt)} kind="CTG" detail={<span className="text-size-xs text-secondary">{amounts(g.amountUsd)}</span>} status={decisionStatus(g.status)} url={g.recordUrl} />
+);
+
+const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
+  <TimelineRow when={monthYear(g.createdAt)} kind="Rapid grant" detail={<span className="text-size-xs text-secondary">{amounts(g.amountRequestedUsd, g.amountGrantedUsd)}</span>} status={decisionStatus(g.decision)} url={g.recordUrl} />
 );
 
 // "C4 A3 S2 E3 SC3" — the CASES ratings given on the call, omitting unrated ones
@@ -362,33 +422,21 @@ const casesLabel = (c: EvaluationCall) => {
   return parts.filter(([, v]) => v !== undefined).map(([k, v]) => `${k}${v}`).join(' ');
 };
 
-const money = (n?: number) => (n === undefined ? undefined : `$${n.toLocaleString()}`);
-
-const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => {
-  let amount: string | undefined;
-  if (g.amountGrantedUsd !== undefined) amount = `${money(g.amountGrantedUsd)} granted`;
-  else if (g.amountRequestedUsd !== undefined) amount = `${money(g.amountRequestedUsd)} requested`;
-  const title = g.projectTitle ?? g.oneLiner;
-  return (
-    <Row
-      what="Rapid grant"
-      when={formatDate(g.createdAt)}
-      detail={[amount, title].some(Boolean) ? <>{amount}{amount && title ? ' · ' : ''}{title && (g.projectUrl ? <A href={g.projectUrl} target="_blank">{title} ↗</A> : title)}</> : undefined}
-    >
-      {g.decision && <Badge className={/reject|archiv/i.test(g.decision) ? 'bg-error-bg text-error-fg' : 'bg-warning-bg text-warning-fg'}>{g.decision === 'call' ? 'Call' : g.decision}</Badge>}
-    </Row>
-  );
-};
-
 const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
-  <Row
-    what="Evaluation call"
-    when={formatDate(c.callDate ?? c.createdAt)}
-    detail={[casesLabel(c), c.notesUrl].some(Boolean) ? <>{casesLabel(c) && <span title="CASES: commitment · agency · sharpness · expertise · strategic clarity">{casesLabel(c)}</span>}{casesLabel(c) && c.notesUrl ? ' · ' : ''}{c.notesUrl && <A href={c.notesUrl} target="_blank">notes ↗</A>}</> : undefined}
-  >
-    {c.status && <Badge className="bg-warning-bg text-warning-fg">{c.status}</Badge>}
-    <OpinionBadge opinion={c.opinion} />
-  </Row>
+  <TimelineRow
+    when={monthYear(c.callDate ?? c.createdAt)}
+    kind="Eval call"
+    detail={(
+      <span className="text-size-xs text-secondary">
+        {casesLabel(c) && <span title="CASES: commitment · agency · sharpness · expertise · strategic clarity">{casesLabel(c)}</span>}
+        {casesLabel(c) && c.notesUrl ? ' · ' : ''}
+        {c.notesUrl && <A href={c.notesUrl} target="_blank">notes ↗</A>}
+      </span>
+    )}
+    opinion={c.opinion}
+    status={c.status ? decisionStatus(c.status) : undefined}
+    url={c.recordUrl}
+  />
 );
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
@@ -398,7 +446,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
     .filter((u): u is string => !!u)
     .map((u) => [normalise(u), u] as const)).values()];
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
-  // Everything with BlueDot as one chronological list: registrations by round start,
+  // Everything with BlueDot as one list, newest first: registrations by round start,
   // applications, grants and calls by their own dates. Undated items go last.
   const timeline = [
     ...person.history.map((r) => ({ date: r.roundStart, node: <HistoryRow key={r.id} r={r} /> })),
@@ -406,7 +454,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
     ...person.grants.map((g) => ({ date: g.decisionDate ?? g.createdAt, node: <GrantRow key={g.id} g={g} /> })),
     ...person.rapidGrants.map((g) => ({ date: g.createdAt, node: <RapidGrantRow key={g.id} g={g} /> })),
     ...person.calls.map((c) => ({ date: c.callDate ?? c.createdAt, node: <CallRow key={c.id} c={c} /> })),
-  ].sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999'));
+  ].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
   const withBlueDotCount = person.history.length + person.otherApplications.length + person.grants.length + person.rapidGrants.length + person.calls.length;
   const app = person.application;
   const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
@@ -424,13 +472,8 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           <span className="text-size-md font-semibold text-primary">{showName ? person.name : 'Participant'}</span>
           {person.email && <CopyEmail email={person.email} />}
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <OpinionBadge opinion={person.opinion} />
-          {person.certificateUrl && <Badge className="bg-info-bg text-info-fg">Completed</Badge>}
-          {person.reports.length > 0 && <Badge colour="purpleLight2">Facilitator 1:1 report</Badge>}
-          {person.calls.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Had an evaluation call</Badge>}
-          {(person.grants.length > 0 || person.rapidGrants.length > 0) && <Badge className="bg-warning-bg text-warning-fg">Applied for a grant</Badge>}
-        </div>
+        {/* Just the human opinion up here; completion, grants and calls are all rows in With BlueDot */}
+        {person.opinion && <div><OpinionBadge opinion={person.opinion} /></div>}
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
         {/* Line 1: where they are online. Line 2: our own records about them. */}
         {profileLinks.length > 0 && (
