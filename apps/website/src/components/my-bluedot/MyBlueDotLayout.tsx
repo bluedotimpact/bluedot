@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Breadcrumbs, type BluedotRoute } from '@bluedot/ui';
-import MyBlueDotSidebar from './MyBlueDotSidebar';
+import { MyBlueDotSidebar } from './MyBlueDotSidebar';
 
 type MyBlueDotLayoutProps = {
   children: React.ReactNode;
