@@ -137,7 +137,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                 >
                   <label
                     class="font-semibold"
-                    for="profile-first-name"
+                    for=":r0:"
                   >
                     First name
                     <span
@@ -149,7 +149,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   <input
                     aria-invalid="false"
                     class="w-full h-11 px-3 rounded-surface border border-subtle bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:bg-tint disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
-                    id="profile-first-name"
+                    id=":r0:"
                     placeholder="Enter your first name"
                     type="text"
                     value="John"
@@ -160,7 +160,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                 >
                   <label
                     class="font-semibold"
-                    for="profile-last-name"
+                    for=":r1:"
                   >
                     Last name
                     <span
@@ -172,7 +172,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   <input
                     aria-invalid="false"
                     class="w-full h-11 px-3 rounded-surface border border-subtle bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:bg-tint disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
-                    id="profile-last-name"
+                    id=":r1:"
                     placeholder="Enter your last name"
                     type="text"
                     value="Doe"
