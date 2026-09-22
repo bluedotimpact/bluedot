@@ -2,7 +2,7 @@ import { A } from '@bluedot/ui';
 import type { FAQItem } from '../lander/components/FAQSection';
 import { ROUTES } from '../../lib/routes';
 
-const GRANT_LOCATION_RESTRICTION = 'We are currently unable to fund people based in Russia, China or India.';
+const GRANT_LOCATION_RESTRICTION = 'We cannot send money to the following countries and territories: Afghanistan, Belarus, Burundi, Central African Republic, Chad, China, Congo Republic, Cuba, Democratic Republic of the Congo, Eritrea, India, Iraq, Iran, Libya, Myanmar, North Korea, Somalia, South Sudan, Sudan, Syria, Russia, Venezuela, Yemen.';
 const GRANT_SANCTIONS_RESTRICTION = 'We cannot fund individuals or organizations where doing so would breach applicable sanctions.';
 
 export const FUNDING_RESTRICTIONS_FAQ: FAQItem = {

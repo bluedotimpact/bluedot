@@ -91,7 +91,7 @@ describe('GrantsPage', () => {
       await user.click(restrictions);
     });
     expect(restrictions).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByText(/unable to fund people based in Russia, China or India/)).toBeVisible();
+    expect(screen.getByText(/We cannot send money to the following countries and territories: Afghanistan/)).toBeVisible();
     expect(screen.getByText(/breach applicable sanctions/)).toBeVisible();
     expect(screen.getByRole('link', { name: 'Contact us before applying' })).toHaveAttribute('href', '/contact');
   });
