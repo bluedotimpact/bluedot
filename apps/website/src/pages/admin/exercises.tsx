@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, ErrorSection, Input, ProgressDots, Section,
+  Breadcrumbs, Checkbox, ErrorSection, Input, ProgressDots, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -155,14 +155,9 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               </button>
             </div>
 
-            <label className="flex items-center gap-2 text-size-xs cursor-pointer">
-              <input
-                type="checkbox"
-                checked={includeInProgress}
-                onChange={(e) => setIncludeInProgress(e.target.checked)}
-              />
+            <Checkbox checked={includeInProgress} onChange={setIncludeInProgress}>
               Show in-progress
-            </label>
+            </Checkbox>
 
             {courses.length > 0 && (
               <div className="flex flex-col gap-2">
