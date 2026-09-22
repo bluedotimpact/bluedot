@@ -39,7 +39,6 @@ const start = async () => {
 };
 
 beforeEach(() => {
-  window.localStorage.clear();
   mockFetch.mockReset().mockImplementation(read);
   useNavigationState.setState({ sessionActive: false, pendingWrites: 0, promptOpen: false });
 });

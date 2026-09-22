@@ -154,8 +154,6 @@ try {
   }
 
   await page.getByTestId('choose-round-sample-Technical AI Safety').click();
-  // Names are hidden until asked for
-  await page.getByRole('button', { name: 'Show names (n)', exact: true }).click();
   await page.getByText('Alex Morgan', { exact: true }).first().waitFor();
 
   // Expanded content and the confirmation dialog also have to fit mobile.
