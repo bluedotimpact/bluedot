@@ -67,7 +67,7 @@ export const Checkbox = ({
               isFilled ? 'border-accent bg-accent text-on-dark' : 'border-strong bg-raised',
               !isFilled && isHovered && !isDisabled && 'border-accent',
               isDisabled && (isFilled ? 'opacity-40' : 'border-default bg-tint'),
-              isInvalid && 'border-error-fg',
+              isInvalid && !isDisabled && 'border-error-fg',
               isFocusVisible && 'outline-2 outline-offset-2 outline-focus',
             )}
           >
