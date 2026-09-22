@@ -236,7 +236,7 @@ const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: 
   if (links.length === 0) {
     // Still surface an unconfirmed identity: that is the most useful thing a lookup can say when it found nothing
     const identityNote = !facts.identity.confident && facts.identity.note ? ` · identity unconfirmed: ${facts.identity.note}` : '';
-    return <Section title="Found online" empty emptyText={`nothing new confirmed as this person${lookedUpOn ? ` · looked up ${formatDate(lookedUpOn)}` : ''}${identityNote}`} />;
+    return <Section title="Found online" empty emptyText={`nothing found online${lookedUpOn ? ` · looked up ${formatDate(lookedUpOn)}` : ''}${identityNote}`} />;
   }
 
   return (
