@@ -39,6 +39,7 @@ const start = async () => {
 };
 
 beforeEach(() => {
+  window.localStorage.clear();
   mockFetch.mockReset().mockImplementation(read);
   useNavigationState.setState({ sessionActive: false, pendingWrites: 0, promptOpen: false });
 });
@@ -145,13 +146,13 @@ test('chooses a round before loading people and never includes another round fro
   await screen.findByTestId('choose-round-sample-Technical AI Safety');
   expect(mockFetch.mock.calls.some(([path]) => pathOf(path).includes('/person/'))).toBe(false);
   fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
-  await screen.findByRole('heading', { name: 'Alex Morgan' });
+  await screen.findByText('Alex Morgan');
   fireEvent.click(screen.getByRole('button', { name: 'Skip for now' }));
   await screen.findByRole('heading', { name: 'Your session, at a glance.' });
-  expect(screen.queryByRole('heading', { name: 'Sam Chen' })).toBeNull();
+  expect(screen.queryByText('Sam Chen')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Change round' }));
   fireEvent.click(screen.getByTestId('choose-round-another-round'));
-  await screen.findByRole('heading', { name: 'Sam Chen' });
+  await screen.findByText('Sam Chen');
   expect(decisions()).toHaveLength(0);
 });
 
@@ -159,17 +160,17 @@ test('supports bottom-of-queue review, undoing a skip, and resuming an early fin
   render(<Scout />);
   fireEvent.click(await screen.findByRole('button', { name: 'Bottom of queue' }));
   fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
-  await screen.findByRole('heading', { name: 'Sam Chen' });
+  await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Skip for now' }));
-  await screen.findByRole('heading', { name: 'Alex Morgan' });
+  await screen.findByText('Alex Morgan');
   fireEvent.click(screen.getByRole('button', { name: 'Undo skip' }));
-  await screen.findByRole('heading', { name: 'Sam Chen' });
+  await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Finish session' }));
   await screen.findByRole('heading', { name: 'Your session, at a glance.' });
   fireEvent.keyDown(document.body, { key: 'ArrowRight' });
   expect(screen.queryByRole('dialog')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Resume this round' }));
-  await screen.findByRole('heading', { name: 'Sam Chen' });
+  await screen.findByText('Sam Chen');
   expect(decisions()).toHaveLength(0);
 });
 
@@ -187,9 +188,9 @@ test('keeps saved decisions in the round summary after refresh and never offers 
   await start();
   fireEvent.click(screen.getByRole('button', { name: 'Invite to a call' }));
   fireEvent.click(screen.getByRole('button', { name: 'Send invitation' }));
-  await screen.findByRole('heading', { name: 'Sam Chen' });
+  await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Refresh queue' }));
-  await screen.findByRole('heading', { name: 'Sam Chen' });
+  await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Finish session' }));
   await screen.findByRole('heading', { name: 'Your session, at a glance.' });
   expect(screen.getByText('Invitation requested')).toBeTruthy();

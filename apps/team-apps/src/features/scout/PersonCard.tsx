@@ -94,9 +94,10 @@ const Caption: React.FC<{ children: ReactNode }> = ({ children }) => (
   <span className="text-size-xs font-medium text-accent">{children}</span>
 );
 
-const Answer: React.FC<{ label: string; text?: string }> = ({ label, text }) => (
+const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean }> = ({ label, text, defaultOpen = false }) => (
   text ? (
     <Disclosure
+      defaultOpen={defaultOpen}
       summary={<Caption>{label}</Caption>}
       summaryClassName="flex flex-col gap-1 py-1 [&>span]:flex-nowrap [&>span]:items-start"
       preview={<span className="line-clamp-2 pl-[22px] text-size-sm leading-snug text-primary">{plain(text).replace(/\s+/g, ' ')}</span>}
@@ -194,7 +195,7 @@ const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children
 
 const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
   <Row what={r.course} when={shortRound(r.roundName)} bold={r.isCurrent}>
-    {r.facilitated && <Badge className="bg-tint text-primary">Facilitator</Badge>}
+    {r.facilitated && <Badge className="bg-purple-100 text-purple-900">Facilitator</Badge>}
     <OpinionBadge opinion={r.opinion} />
     <CompletionBadge r={r} />
     {r.isCurrent && <span className="text-size-xxs font-normal text-secondary">← this one</span>}
@@ -203,7 +204,7 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
 
 const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
   <div className="flex flex-col gap-1">
-    <Row what="Career transition grant" when={formatDate(g.decisionDate ?? g.createdAt)}>
+    <Row what={/rapid/i.test(g.status ?? '') ? 'Rapid grant' : 'Career transition grant'} when={formatDate(g.decisionDate ?? g.createdAt)}>
       {g.status && <Badge className={/reject/i.test(g.status) ? 'bg-error-bg text-error-fg' : 'bg-warning-bg text-warning-fg'}>{g.status}</Badge>}
       {g.amountUsd !== undefined && <span className="text-secondary">${g.amountUsd.toLocaleString()}</span>}
     </Row>
@@ -254,7 +255,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         <div className="flex flex-wrap items-center gap-2">
           <OpinionBadge opinion={person.opinion} />
           {person.certificateUrl && <Badge className="bg-info-bg text-info-fg">Completed</Badge>}
-          {person.reports.length > 0 && <Badge className="bg-tint text-primary">Facilitator 1:1 report</Badge>}
+          {person.reports.length > 0 && <Badge className="bg-purple-100 text-purple-900">Facilitator 1:1 report</Badge>}
           {person.calls.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Had an evaluation call</Badge>}
           {person.grants.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Applied for a grant</Badge>}
         </div>
@@ -295,6 +296,9 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
                 {scores.map(([label, score]) => <Badge key={label}>{label} {score}/5</Badge>)}
               </div>
             )}
+            {app.commitmentScore !== undefined && <Answer defaultOpen label={`Why commitment ${app.commitmentScore}/5 (AI)`} text={app.commitmentRationale} />}
+            {app.impressivenessScore !== undefined && <Answer defaultOpen label={`Why impressiveness ${app.impressivenessScore}/5 (AI)`} text={app.impressivenessRationale} />}
+            {app.technicalSkillScore !== undefined && <Answer defaultOpen label={`Why technical ${app.technicalSkillScore}/5 (AI)`} text={app.technicalSkillRationale} />}
             <Answer label="Speed-review summary (AI, at application time)" text={app.aiSummary} />
             <Answer label="Imagine you're at the end of the course, and it's been a wild success for you. How is your life different?" text={app.pathToImpact} />
             <Answer label="How have you engaged with the field so far?" text={app.experience} />
@@ -302,13 +306,6 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
             <Answer label="Tell us about one achievement you're most proud of." text={app.impressiveProject} />
             <Answer label="What's the hardest tradeoff or tension you see in the field?" text={app.reasoning} />
             <Answer label="Where did you hear about this course?" text={app.source} />
-            {scores.length > 0 && (
-              <>
-                <Answer label={`Why commitment ${app.commitmentScore}/5 (AI)`} text={app.commitmentRationale} />
-                <Answer label={`Why impressiveness ${app.impressivenessScore}/5 (AI)`} text={app.impressivenessRationale} />
-                <Answer label={`Why technical ${app.technicalSkillScore}/5 (AI)`} text={app.technicalSkillRationale} />
-              </>
-            )}
           </>
         )}
       </Section>

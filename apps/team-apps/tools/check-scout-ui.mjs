@@ -154,11 +154,12 @@ try {
   }
 
   await page.getByTestId('choose-round-sample-Technical AI Safety').click();
-  await page.getByRole('heading', { name: 'Alex Morgan', exact: true }).waitFor();
+  // Names are hidden until asked for
+  await page.getByRole('button', { name: 'Show names (n)', exact: true }).click();
+  await page.getByText('Alex Morgan', { exact: true }).first().waitFor();
 
   // Expanded content and the confirmation dialog also have to fit mobile.
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole('button', { name: 'Full record', exact: true }).click();
   await page.locator('summary').filter({ hasText: 'Application' }).first().click();
   await page.locator('summary').filter({ hasText: 'Facilitator 1:1 report' }).first().click();
   if (output) await page.screenshot({ path: path.join(output, 'scout-mobile-expanded.png'), fullPage: true });

@@ -12,7 +12,9 @@ import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { QueueSource } from './QueueSource';
 import { roundKey, roundLabel } from './reviewQueue';
-import { button, primary, panel } from './reviewStyles';
+import {
+  button, danger, primary, panel,
+} from './reviewStyles';
 import type {
   Decision, Person, QueueItem,
 } from './types';
@@ -29,6 +31,8 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
   if (!response.ok) throw new Error(data.error ?? `Request failed (${response.status}). Please try again.`);
   return data as T;
 };
+
+const ROUND_KEY = 'scout.round';
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
 
@@ -52,6 +56,7 @@ const Scout = () => {
   const [saveError, setSaveError] = useState<string>();
   const [conflict, setConflict] = useState(false);
   const [notice, setNotice] = useState<string>();
+  const [showName, setShowName] = useState(false);
   const promptOpen = useNavigationState((state) => state.promptOpen);
   const setSessionActive = useNavigationState((state) => state.setSessionActive);
   const preview = isLocalPreview();
@@ -82,6 +87,20 @@ const Scout = () => {
     void loadQueue();
   }, [loadQueue]);
 
+  // Land straight back in the round reviewed last time, if it still has people
+  useEffect(() => {
+    if (loading) return;
+    if (round) return;
+    if (items.length === 0) return;
+    try {
+      const remembered = window.localStorage.getItem(ROUND_KEY);
+      const match = remembered ? items.find((item) => roundKey(item) === remembered) : undefined;
+      if (match) setRound(match);
+    } catch {
+      // storage unavailable: show the picker
+    }
+  }, [loading, round, items]);
+
   const remaining = useMemo(() => items.filter((item) => !done[item.id]), [items, done]);
   const roundItems = round ? remaining.filter((item) => roundKey(item) === roundKey(round)) : [];
   const queue = roundItems.filter((item) => !skipped.has(item.id));
@@ -97,6 +116,12 @@ const Scout = () => {
   const chooseRound = (item: QueueItem) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
     setRound(item);
+    try {
+      window.localStorage.setItem(ROUND_KEY, roundKey(item));
+    } catch {
+      // storage unavailable: the round simply isn't remembered
+    }
+
     setFinished(false);
     setPickerOpen(false);
     setSkipHistory([]);
@@ -184,7 +209,7 @@ const Scout = () => {
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest('input, textarea, select, button, a, summary, [role="dialog"]'))) return;
       if (writingRef.current || confirmation !== undefined || pickerOpen || finished || promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
-        ArrowRight: () => ask('invite'), ArrowLeft: () => ask('decline'), ArrowDown: skip,
+        ArrowRight: () => ask('invite'), ArrowLeft: () => ask('decline'), ArrowDown: skip, n: () => setShowName((value) => !value),
       };
       const action = actions[event.key];
       if (action) {
@@ -210,7 +235,7 @@ const Scout = () => {
       <Head><title>Scout · BlueDot Apps</title></Head>
       <div className="mx-auto flex max-w-3xl flex-col gap-4">
         <header className="flex flex-wrap items-start justify-between gap-3">
-          <div><h1 className="text-size-lg font-semibold">Scout</h1><p className="mt-2 max-w-prose text-size-sm leading-relaxed text-secondary">Review course participants for an evaluation call, one person at a time.</p></div>
+          <div><h1 className="text-size-lg font-semibold">Scout</h1><p className="mt-1 text-size-sm text-secondary">Who from a finished round should get an evaluation call?</p></div>
           <button type="button" className={button} disabled={controlsDisabled || loading} onClick={() => {
             void loadQueue();
           }}>Refresh queue</button>
@@ -228,6 +253,7 @@ const Scout = () => {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-size-sm text-secondary">{decisions.length} reviewed · {queue.length} to review · {skippedCount} skipped</p>
             <div className="flex flex-wrap gap-2">
+              <button type="button" className={button} onClick={() => setShowName((value) => !value)}>{showName ? 'Hide names' : 'Show names'} (n)</button>
               <button type="button" className={button} disabled={controlsDisabled || conflict || skipHistory.length === 0} onClick={() => {
                 const id = skipHistory.at(-1);
                 if (!id) return;
@@ -242,16 +268,14 @@ const Scout = () => {
           <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
           {notice && <p role="status" className="rounded-surface bg-info-bg p-3 text-size-sm text-info-fg">{notice}</p>}
           {saveError && !confirmation && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{saveError}</div>}
-          {current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
+          {current ? <ReviewEvidence key={current.id} item={current} person={person} showName={showName} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
             <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
-              <p className="mb-3 text-size-sm font-medium">Is an evaluation call a useful next step?</p>
-              <div className="flex flex-wrap gap-2">
-                <button type="button" className={primary} disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite to a call</button>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <button type="button" className={danger} disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</button>
                 <button type="button" className={button} disabled={controlsDisabled || conflict} onClick={skip}>Skip for now</button>
-                <button type="button" className={button} disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}>Don’t invite</button>
+                <button type="button" className={primary} disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite to a call <span aria-hidden>→</span></button>
               </div>
-              <p className="mt-3 max-w-prose text-size-xs leading-relaxed text-secondary">{preview ? 'Sample data. Decisions stay in this preview and send no emails.' : 'Invite sends an email after confirmation. Don’t invite saves a pass after confirmation. Skip makes no changes.'}</p>
-              <p className="mt-2 text-size-xs text-secondary">Keyboard: → invite · ↓ skip · ← don’t invite</p>
+              <p className="mt-3 text-size-xs text-secondary">{preview ? 'Sample data: decisions send no emails.' : 'Invite and Don’t invite are for real, after you confirm. Skip changes nothing.'} Keys: ← don’t invite · ↓ skip · → invite · n names</p>
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
             <h2 className="text-size-lg font-semibold">Your session, at a glance.</h2>
@@ -267,7 +291,6 @@ const Scout = () => {
             {queue.length > 0 && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => setFinished(false)}>Resume this round</button>}
           </section>}
         </>)}
-        {round && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Skips and this session’s summary reset when you leave or reload. Confirmed decisions remain saved.</p>}
         <Modal desktopHeaderClassName="[&_button]:min-h-11 [&_button]:min-w-11" isOpen={pickerOpen} setIsOpen={setPickerOpen} title="Choose a round">
           <RoundPicker items={remaining} direction={direction} onDirection={setDirection} onSelect={chooseRound} />
         </Modal>
