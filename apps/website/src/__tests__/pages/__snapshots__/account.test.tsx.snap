@@ -80,11 +80,11 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
           >
             <div
               aria-hidden="true"
-              class="absolute bottom-0 left-0 top-0 w-1 bg-subtle"
+              class="absolute bottom-0 left-0 top-0 w-1 bg-default"
             />
             <span
               aria-hidden="true"
-              class="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-accent transition-transform duration-200 ease-out motion-reduce:transition-none"
+              class="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-bluedot-normal transition-transform duration-200 ease-out"
               style="transform: translateY(44px);"
             />
             <ul
@@ -92,12 +92,12 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             >
               <li>
                 <a
-                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
                   href="/my-courses"
                   tabindex="0"
                 >
                   <span
-                    class="text-size-sm leading-6 transition-colors motion-reduce:transition-none text-primary"
+                    class="text-size-sm leading-6 transition-colors text-bluedot-navy"
                   >
                     My Courses
                   </span>
@@ -105,13 +105,12 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               </li>
               <li>
                 <a
-                  aria-current="page"
-                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
                   href="/account"
                   tabindex="0"
                 >
                   <span
-                    class="text-size-sm leading-6 transition-colors motion-reduce:transition-none text-accent"
+                    class="text-size-sm leading-6 transition-colors text-bluedot-normal"
                   >
                     Account
                   </span>
@@ -138,19 +137,14 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                 >
                   <label
                     class="font-semibold"
-                    for=":r0:"
+                    for="profile-first-name"
                   >
-                    First name
-                    <span
-                      aria-hidden="true"
-                    >
-                      *
-                    </span>
+                    First name*
                   </label>
                   <input
                     aria-invalid="false"
                     class="w-full h-11 px-3 rounded-surface border border-subtle bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:bg-tint disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
-                    id=":r0:"
+                    id="profile-first-name"
                     placeholder="Enter your first name"
                     type="text"
                     value="John"
@@ -161,19 +155,14 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                 >
                   <label
                     class="font-semibold"
-                    for=":r1:"
+                    for="profile-last-name"
                   >
-                    Last name
-                    <span
-                      aria-hidden="true"
-                    >
-                      *
-                    </span>
+                    Last name*
                   </label>
                   <input
                     aria-invalid="false"
                     class="w-full h-11 px-3 rounded-surface border border-subtle bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:bg-tint disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
-                    id=":r1:"
+                    id="profile-last-name"
                     placeholder="Enter your last name"
                     type="text"
                     value="Doe"
