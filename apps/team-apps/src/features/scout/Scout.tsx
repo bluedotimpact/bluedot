@@ -95,9 +95,11 @@ const Scout = () => {
   const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
   const total = roundItems.length + decisions.length;
 
-  // The round the picker would list after this one that still has people to review
+  // The round listed after this one in the picker that still has people; wraps to the top
+  const orderedRounds = courses.flatMap((course) => roundsFor(remaining, course));
+  const currentIndex = round ? orderedRounds.findIndex((item) => roundKey(item) === roundKey(round)) : -1;
   const nextRound = round
-    ? courses.flatMap((course) => roundsFor(remaining, course)).find((item) => roundKey(item) !== roundKey(round))
+    ? [...orderedRounds.slice(currentIndex + 1), ...orderedRounds.slice(0, Math.max(currentIndex, 0))].find((item) => roundKey(item) !== roundKey(round))
     : undefined;
 
   const chooseRound = (item: QueueItem) => {
