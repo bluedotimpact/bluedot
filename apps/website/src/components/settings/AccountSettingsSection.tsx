@@ -208,7 +208,7 @@ const ChangePasswordModal = ({
       <div className="w-full max-w-modal space-y-4">
         <div className="h-0 w-[600px] max-w-full" />
         <div className="flex flex-col gap-2">
-          <label htmlFor="current-password" className="font-semibold">Current password*</label>
+          <label htmlFor="current-password" className="font-semibold">Current password<span aria-hidden="true">*</span></label>
           <Input
             id="current-password"
             ref={currentPasswordRef}
@@ -241,7 +241,7 @@ const ChangePasswordModal = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="new-password" className="font-semibold">New password*</label>
+          <label htmlFor="new-password" className="font-semibold">New password<span aria-hidden="true">*</span></label>
           <Input
             id="new-password"
             type="password"
@@ -281,7 +281,7 @@ const ChangePasswordModal = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="confirm-password" className="font-semibold">Confirm new password*</label>
+          <label htmlFor="confirm-password" className="font-semibold">Confirm new password<span aria-hidden="true">*</span></label>
           <Input
             id="confirm-password"
             type="password"

@@ -85,7 +85,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               Your email won't change until you click it.
             </P>
             <div className="flex flex-col gap-2">
-              <label htmlFor="new-email" className="font-semibold">New email*</label>
+              <label htmlFor="new-email" className="font-semibold">New email<span aria-hidden="true">*</span></label>
               <Input
                 id="new-email"
                 autoFocus
