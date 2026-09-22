@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import {
-  act, fireEvent, render, waitFor,
+  act, fireEvent, render, waitFor, within,
 } from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
 import { describe, expect, test } from 'vitest';
@@ -37,7 +37,7 @@ const johnDoe = { firstName: 'John', lastName: 'Doe' };
 
 // Test helper function for selecting elements
 const getInput = (container: HTMLElement, label: 'First name' | 'Last name'): HTMLInputElement => {
-  const input = container.querySelector<HTMLInputElement>(label === 'First name' ? '#profile-first-name' : '#profile-last-name')!;
+  const input = within(container).getByLabelText<HTMLInputElement>(new RegExp(label, 'i'));
   expect(input).toBeInTheDocument();
   return input;
 };
@@ -296,8 +296,8 @@ describe('ProfileNameEditor (with DB)', () => {
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
-    const firstNameInput = container.querySelector<HTMLInputElement>('#profile-first-name')!;
-    const lastNameInput = container.querySelector<HTMLInputElement>('#profile-last-name')!;
+    const firstNameInput = within(container).getByLabelText<HTMLInputElement>(/first name/i);
+    const lastNameInput = within(container).getByLabelText<HTMLInputElement>(/last name/i);
     expect(firstNameInput.value).toBe('Test');
     expect(lastNameInput.value).toBe('User');
 
@@ -326,7 +326,7 @@ describe('ProfileNameEditor (with DB)', () => {
       { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
-    const input = container.querySelector<HTMLInputElement>('#profile-first-name')!;
+    const input = within(container).getByLabelText<HTMLInputElement>(/first name/i);
     fireEvent.change(input, { target: { value: 'New' } });
 
     const saveButton = container.querySelector('button[aria-label="Save profile name changes"]')!;
