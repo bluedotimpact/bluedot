@@ -108,6 +108,19 @@ test('web facts: malformed cells read as not looked up, stray nulls are dropped,
   expect(sloppy?.links).toEqual([{ url: 'https://github.com/alice', kind: 'github', confidence: 'high' }]);
   expect(sloppy?.sources).toHaveLength(1);
   expect(sloppy?.sources[0]?.facts.recent).toEqual([{ name: 'evals' }]);
+
+  // Object-valued scalars and items missing their key field are dropped, not rendered
+  const typed = parseWebFacts(JSON.stringify({
+    identity: { confident: true, matched_on: [], note: '' },
+    links: [],
+    sources: [{
+      url: 'https://x.org', kind: 'website', confidence: 'high', read: 'page',
+      facts: {
+        headline: { value: 'x' }, about: 'fine', posts: [{ title: { nested: true } }, { title: 'ok', date: 2026 }], languages: ['ts', 4],
+      },
+    }],
+  }));
+  expect(typed?.sources[0]?.facts).toEqual({ about: 'fine', posts: [{ title: 'ok', date: 2026 }], languages: ['ts'] });
   expect(sloppy?.sources[0]?.other).toEqual(['line']);
 
   const good = parseWebFacts(JSON.stringify({

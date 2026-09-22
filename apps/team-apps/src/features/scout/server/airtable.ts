@@ -324,8 +324,18 @@ export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThi
 // The lookup field holds JSON written by the job. A malformed cell is treated as
 // "not looked up" rather than breaking the card.
 const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
+const isScalar = (v: unknown): v is string | number | boolean => ['string', 'number', 'boolean'].includes(typeof v);
 const recordsWithUrl = <T extends { url: string }>(v: unknown): T[] => (Array.isArray(v) ? v.filter((x): x is T => isRecord(x) && typeof x.url === 'string') : []);
-const cleanList = <T>(v: unknown): T[] | undefined => (Array.isArray(v) ? (v.filter(isRecord) as T[]) : undefined);
+const stringList = (v: unknown): string[] | undefined => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : undefined);
+
+// Keep only scalar-valued fields of an object; the card renders these as text
+const scalars = (v: unknown): Record<string, string | number | boolean> => (
+  isRecord(v) ? Object.fromEntries(Object.entries(v).filter(([, value]) => isScalar(value))) as Record<string, string | number | boolean> : {}
+);
+// A list of objects, each reduced to its scalar fields, and dropped unless it has the field the card keys on
+const cleanList = <T>(v: unknown, required: string): T[] | undefined => (
+  Array.isArray(v) ? (v.map(scalars).filter((item) => typeof item[required] === 'string') as T[]) : undefined
+);
 
 export const parseWebFacts = (raw: unknown): WebFacts | undefined => {
   const text = str(raw);
@@ -339,17 +349,27 @@ export const parseWebFacts = (raw: unknown): WebFacts | undefined => {
     const sources = recordsWithUrl<WebFacts['sources'][number]>(parsed.sources).map((source) => {
       const facts = isRecord(source.facts) ? source.facts : {};
       return {
-        ...source,
+        url: source.url,
+        kind: typeof source.kind === 'string' ? source.kind : 'other',
+        confidence: source.confidence === 'medium' ? 'medium' : 'high',
+        read: source.read === 'page' ? 'page' : 'snippet',
         facts: {
-          ...facts,
-          roles: cleanList(facts.roles), papers: cleanList(facts.papers), recent: cleanList(facts.recent), starred: cleanList(facts.starred), posts: cleanList(facts.posts),
+          ...scalars(facts),
+          roles: cleanList(facts.roles, 'title'),
+          papers: cleanList(facts.papers, 'title'),
+          recent: cleanList(facts.recent, 'name'),
+          starred: cleanList(facts.starred, 'name'),
+          posts: cleanList(facts.posts, 'title'),
+          languages: stringList(facts.languages),
         } as WebFacts['sources'][number]['facts'],
-        other: Array.isArray(source.other) ? source.other.filter((x): x is string => typeof x === 'string') : undefined,
-      };
+        other: stringList(source.other),
+      } as WebFacts['sources'][number];
     });
     return {
-      identity: { confident: identity.confident === true, matched_on: Array.isArray(identity.matched_on) ? identity.matched_on.filter((x): x is string => typeof x === 'string') : [], note: typeof identity.note === 'string' ? identity.note : '' },
-      links: recordsWithUrl<WebFacts['links'][number]>(parsed.links),
+      identity: { confident: identity.confident === true, matched_on: stringList(identity.matched_on) ?? [], note: typeof identity.note === 'string' ? identity.note : '' },
+      links: recordsWithUrl<WebFacts['links'][number]>(parsed.links).map((link) => ({
+        url: link.url, kind: typeof link.kind === 'string' ? link.kind : 'other', confidence: link.confidence === 'medium' ? 'medium' : 'high',
+      } as WebFacts['links'][number])),
       sources,
       meta: isRecord(parsed.meta) ? (parsed.meta as WebFacts['meta']) : {},
     };
