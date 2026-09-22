@@ -35,12 +35,12 @@ try {
     writes += 1;
     await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'Synthetic save failure' }) });
   });
-  await page.getByRole('button', { name: 'Invite to a call', exact: true }).click();
+  await page.getByRole('button', { name: 'Invite', exact: true }).click();
   await page.getByRole('dialog').waitFor();
   await page.getByRole('button', { name: 'Cancel', exact: true }).click();
   assert.equal(writes, 0);
-  await page.getByRole('button', { name: 'Invite to a call', exact: true }).click();
-  await page.getByRole('button', { name: 'Send invitation', exact: true }).click();
+  await page.getByRole('button', { name: 'Invite', exact: true }).click();
+  await page.getByRole('button', { name: 'Send invite', exact: true }).click();
   await page.getByText('Synthetic save failure').waitFor();
   assert.equal(await page.getByText('Sam Chen', { exact: true }).count(), 0);
   await page.unroute('**/api/scout/decision');
@@ -56,7 +56,7 @@ try {
   });
   await page.getByRole('button', { name: 'Retry save', exact: true }).click();
   await page.getByRole('button', { name: 'Saving…', exact: true }).waitFor();
-  assert.equal(await page.getByRole('button', { name: 'Skip for now', exact: true }).isDisabled(), true);
+  assert.equal(await page.getByRole('button', { name: 'Skip', exact: true }).isDisabled(), true);
   assert.equal(await page.getByRole('button', { name: 'Change round', exact: true }).isDisabled(), true);
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Escape');
@@ -70,17 +70,14 @@ try {
   await page.reload({ waitUntil: 'networkidle' });
   await page.getByTestId('choose-round-sample-Technical AI Safety').click();
   await page.getByText('Alex Morgan', { exact: true }).waitFor();
-  await page.getByRole('button', { name: 'Skip for now', exact: true }).click();
+  await page.getByRole('button', { name: 'Skip', exact: true }).click();
   await page.getByText('Sam Chen', { exact: true }).waitFor();
   await page.getByRole('link', { name: 'Home', exact: true }).click();
   await page.getByRole('dialog', { name: 'Leave this review session?' }).waitFor();
   await page.getByRole('button', { name: 'Stay here', exact: true }).click();
   assert.equal(await page.getByText('Sam Chen', { exact: true }).count(), 1);
   await page.getByRole('button', { name: 'Undo skip', exact: true }).click();
-  await page.getByRole('heading', { name: 'Alex Morgan', exact: true }).waitFor();
-  await page.getByRole('button', { name: 'Finish session', exact: true }).click();
-  await page.getByRole('heading', { name: 'Your session, at a glance.' }).waitFor();
-  await page.getByRole('button', { name: 'Resume this round', exact: true }).click();
+  await page.getByText('Alex Morgan', { exact: true }).first().waitFor();
   // All changed views are checked with realistic content at short and tall sizes.
   await page.getByRole('button', { name: 'Refresh queue', exact: true }).click();
   await page.getByText('Alex Morgan', { exact: true }).waitFor();

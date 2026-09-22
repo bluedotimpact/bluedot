@@ -186,7 +186,7 @@ const CompletionBadge: React.FC<{ r: Registration }> = ({ r }) => {
 const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children?: ReactNode }> = ({
   what, when, bold = false, children,
 }) => (
-  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] ${bold ? 'font-medium' : ''}`}>
+  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] ${bold ? '-mx-2 rounded-surface bg-info-bg px-2 py-1 font-medium' : ''}`}>
     <span className="truncate">{what}</span>
     <span className="truncate text-size-xs text-secondary">{when}</span>
     <span className="flex flex-wrap items-center gap-1">{children}</span>
@@ -198,7 +198,6 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
     {r.facilitated && <Badge className="bg-purple-100 text-purple-900">Facilitator</Badge>}
     <OpinionBadge opinion={r.opinion} />
     <CompletionBadge r={r} />
-    {r.isCurrent && <span className="text-size-xxs font-normal text-secondary">← this one</span>}
   </Row>
 );
 
@@ -260,14 +259,21 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           {person.grants.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Applied for a grant</Badge>}
         </div>
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
-        <div className="flex flex-wrap gap-2 pt-1">
-          {profileLinks.map((u) => (
-            <CTALinkOrButton key={u} size="small" className="min-h-11" variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</CTALinkOrButton>
-          ))}
+        {/* Line 1: where they are online. Line 2: our own records about them. */}
+        {profileLinks.length > 0 && (
+          <div className="flex flex-wrap gap-2 pt-1">
+            {profileLinks.map((u) => (
+              <CTALinkOrButton key={u} size="small" className="min-h-11 text-size-xs" variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</CTALinkOrButton>
+            ))}
+          </div>
+        )}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-size-xs">
+          <span className="font-medium text-secondary">BlueDot records:</span>
           {person.projects.filter((p) => p.url).map((p) => (
-            <CTALinkOrButton key={p.id} size="small" className="min-h-11" variant="outline-black" url={p.url} target="_blank">Project ↗</CTALinkOrButton>
+            <A key={p.id} href={p.url} target="_blank" className="inline-flex min-h-11 items-center">Project ↗</A>
           ))}
-          <A href={`https://airtable.com/${COURSE_RUNNER_BASE_ID}/${REGISTRATIONS_TABLE_ID}/${person.id}`} target="_blank" className="flex min-h-11 items-center text-size-xs">registration in Airtable ↗</A>
+          <A href={`https://airtable.com/${COURSE_RUNNER_BASE_ID}/${REGISTRATIONS_TABLE_ID}/${person.id}`} target="_blank" className="inline-flex min-h-11 items-center">Registration in Airtable ↗</A>
+          {applicationUrl && <A href={applicationUrl} target="_blank" className="inline-flex min-h-11 items-center">Application in Airtable ↗</A>}
         </div>
       </CardShell>
 
@@ -284,7 +290,6 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         meta={(
           <>
             <Meta>{roundLine}</Meta>
-            {applicationUrl && <A href={applicationUrl} target="_blank" className="inline-flex min-h-11 items-center text-size-xs">open in Airtable ↗</A>}
           </>
         )}
       >

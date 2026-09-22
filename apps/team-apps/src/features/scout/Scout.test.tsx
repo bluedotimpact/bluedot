@@ -35,7 +35,7 @@ const decisions = () => mockFetch.mock.calls.filter(([path]) => pathOf(path).end
 const start = async () => {
   render(<Scout />);
   fireEvent.click(await screen.findByTestId('choose-round-sample-Technical AI Safety'));
-  await waitFor(() => expect(screen.getByRole('button', { name: 'Invite to a call' }).hasAttribute('disabled')).toBe(false));
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Invite' }).hasAttribute('disabled')).toBe(false));
 };
 
 beforeEach(() => {
@@ -50,7 +50,7 @@ afterEach(() => {
 test('loads staff review without an admin lookup and requires confirmation before writing', async () => {
   await start();
   expect(mockFetch.mock.calls.some(([path]) => pathOf(path).includes('/me'))).toBe(false);
-  fireEvent.click(screen.getByRole('button', { name: 'Invite to a call' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
   expect(decisions()).toHaveLength(0);
   fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
   expect(screen.queryByRole('dialog')).toBeNull();
@@ -63,10 +63,10 @@ test('holds the selected participant and disables skipping/course changes while 
     finish = resolve;
   }) : read(path)));
   await start();
-  fireEvent.click(screen.getByRole('button', { name: 'Invite to a call' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Send invitation' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
   await waitFor(() => expect(decisions()).toHaveLength(1));
-  expect((screen.getByRole('button', { name: 'Skip for now' })).hasAttribute('disabled')).toBe(true);
+  expect((screen.getByRole('button', { name: 'Skip' })).hasAttribute('disabled')).toBe(true);
   expect((screen.getByRole('button', { name: 'Change round' })).hasAttribute('disabled')).toBe(true);
   fireEvent.keyDown(document.body, { key: 'ArrowDown' });
   fireEvent.keyDown(document.body, { key: 'ArrowRight' });
@@ -87,7 +87,7 @@ test('keeps failed saves on the same participant and supports retry', async () =
   });
   await start();
   fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Confirm don’t invite' }));
+  fireEvent.click(screen.getAllByRole('button', { name: 'Don’t invite' }).slice(-1)[0]!);
   await screen.findByText('Temporary save failure');
   expect(screen.queryByText('Sam Chen')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Retry save' }));
@@ -99,11 +99,11 @@ test('keeps failed saves on the same participant and supports retry', async () =
 test('reports decisions made elsewhere and requires refresh instead of silently advancing', async () => {
   mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: false, reason: 'Already invited elsewhere' }) : read(path)));
   await start();
-  fireEvent.click(screen.getByRole('button', { name: 'Invite to a call' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Send invitation' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
   await screen.findByText('Already invited elsewhere');
   expect(screen.getByText('Alex Morgan')).toBeTruthy();
-  expect((screen.getByRole('button', { name: 'Invite to a call' })).hasAttribute('disabled')).toBe(true);
+  expect((screen.getByRole('button', { name: 'Invite' })).hasAttribute('disabled')).toBe(true);
 });
 
 test('retries failed participant loads and keeps decisions disabled until data is ready', async () => {
@@ -119,7 +119,7 @@ test('retries failed participant loads and keeps decisions disabled until data i
   render(<Scout />);
   fireEvent.click(await screen.findByTestId('choose-round-sample-Technical AI Safety'));
   await screen.findByText('Participant load failed');
-  expect((screen.getByRole('button', { name: 'Invite to a call' })).hasAttribute('disabled')).toBe(true);
+  expect((screen.getByRole('button', { name: 'Invite' })).hasAttribute('disabled')).toBe(true);
   fireEvent.click(screen.getByRole('button', { name: 'Retry participant' }));
   await screen.findByText('Alex Morgan');
 });
@@ -130,9 +130,9 @@ test('skip is local and can be revisited; keyboard shortcuts pause when portal n
   fireEvent.keyDown(document.body, { key: 'ArrowRight' });
   expect(screen.queryByRole('dialog')).toBeNull();
   act(() => useNavigationState.setState({ promptOpen: false }));
-  fireEvent.click(screen.getByRole('button', { name: 'Skip for now' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
   await screen.findByText('Sam Chen');
-  fireEvent.click(screen.getByRole('button', { name: 'Skip for now' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
   fireEvent.click(await screen.findByRole('button', { name: 'Review skipped participants' }));
   await screen.findByText('Alex Morgan');
   expect(decisions()).toHaveLength(0);
@@ -146,8 +146,8 @@ test('chooses a round before loading people and never includes another round fro
   expect(mockFetch.mock.calls.some(([path]) => pathOf(path).includes('/person/'))).toBe(false);
   fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
   await screen.findByText('Alex Morgan');
-  fireEvent.click(screen.getByRole('button', { name: 'Skip for now' }));
-  await screen.findByRole('heading', { name: 'Your session, at a glance.' });
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  await screen.findByRole('heading', { name: 'Round done' });
   expect(screen.queryByText('Sam Chen')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Change round' }));
   fireEvent.click(screen.getByTestId('choose-round-another-round'));
@@ -155,21 +155,12 @@ test('chooses a round before loading people and never includes another round fro
   expect(decisions()).toHaveLength(0);
 });
 
-test('supports bottom-of-queue review, undoing a skip, and resuming an early finish', async () => {
-  render(<Scout />);
-  fireEvent.click(await screen.findByRole('button', { name: 'Bottom of queue' }));
-  fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
+test('supports undoing a skip', async () => {
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
   await screen.findByText('Sam Chen');
-  fireEvent.click(screen.getByRole('button', { name: 'Skip for now' }));
-  await screen.findByText('Alex Morgan');
   fireEvent.click(screen.getByRole('button', { name: 'Undo skip' }));
-  await screen.findByText('Sam Chen');
-  fireEvent.click(screen.getByRole('button', { name: 'Finish session' }));
-  await screen.findByRole('heading', { name: 'Your session, at a glance.' });
-  fireEvent.keyDown(document.body, { key: 'ArrowRight' });
-  expect(screen.queryByRole('dialog')).toBeNull();
-  fireEvent.click(screen.getByRole('button', { name: 'Resume this round' }));
-  await screen.findByText('Sam Chen');
+  await screen.findByText('Alex Morgan');
   expect(decisions()).toHaveLength(0);
 });
 
@@ -185,15 +176,11 @@ test('keeps saved decisions in the round summary after refresh and never offers 
     return read(path);
   });
   await start();
-  fireEvent.click(screen.getByRole('button', { name: 'Invite to a call' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Send invitation' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
   await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Refresh queue' }));
   await screen.findByText('Sam Chen');
-  fireEvent.click(screen.getByRole('button', { name: 'Finish session' }));
-  await screen.findByRole('heading', { name: 'Your session, at a glance.' });
-  expect(screen.getByText('Invitation requested')).toBeTruthy();
   expect(screen.getByRole('button', { name: 'Undo skip' }).hasAttribute('disabled')).toBe(true);
-  expect(screen.getByText(/1 invitation requested/)).toBeTruthy();
   expect(decisions()).toHaveLength(1);
 });
