@@ -139,7 +139,12 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                     class="font-semibold"
                     for="profile-first-name"
                   >
-                    First name*
+                    First name
+                    <span
+                      aria-hidden="true"
+                    >
+                      *
+                    </span>
                   </label>
                   <input
                     aria-invalid="false"
@@ -157,7 +162,12 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                     class="font-semibold"
                     for="profile-last-name"
                   >
-                    Last name*
+                    Last name
+                    <span
+                      aria-hidden="true"
+                    >
+                      *
+                    </span>
                   </label>
                   <input
                     aria-invalid="false"
