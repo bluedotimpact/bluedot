@@ -11,7 +11,9 @@ import { isLocalPreview } from '../../lib/preview';
 import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { QueueSource } from './QueueSource';
-import { roundKey, roundLabel } from './reviewQueue';
+import {
+  courses, roundKey, roundLabel, roundsFor,
+} from './reviewQueue';
 import {
   button, danger, dangerSolid, primary, panel,
 } from './reviewStyles';
@@ -92,6 +94,11 @@ const Scout = () => {
   const skippedCount = roundItems.filter((item) => skipped.has(item.id)).length;
   const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
   const total = roundItems.length + decisions.length;
+
+  // The round the picker would list after this one that still has people to review
+  const nextRound = round
+    ? courses.flatMap((course) => roundsFor(remaining, course)).find((item) => roundKey(item) !== roundKey(round))
+    : undefined;
 
   const chooseRound = (item: QueueItem) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
@@ -253,16 +260,24 @@ const Scout = () => {
               </div>
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
-            <h2 className="text-size-lg font-semibold">Round done</h2>
+            <h2 className="text-size-lg font-semibold">Round done <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
             <p className="text-size-sm text-secondary">{decisions.filter((entry) => entry.decision === 'invite').length} invited · {decisions.filter((entry) => entry.decision === 'decline').length} marked don’t invite · {skippedCount} skipped</p>
             <SessionDecisions decisions={decisions} />
             {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">{preview ? 'These are sample decisions. No email was sent.' : 'Decisions are saved in Airtable; the invite emails are sent from there.'}</p>}
-            {skippedCount > 0 && <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
-              setSkipped((state) => new Set([...state].filter((id) => !roundItems.some((item) => item.id === id))));
-              setSkipHistory([]);
-              setFinished(false);
-              setNotice(undefined);
-            }}>Review skipped participants</button>}
+            <div className="flex flex-wrap gap-2">
+              {nextRound && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></button>}
+              {skippedCount > 0 && <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
+                setSkipped((state) => new Set([...state].filter((id) => !roundItems.some((item) => item.id === id))));
+                setSkipHistory([]);
+                setFinished(false);
+                setNotice(undefined);
+              }}>Review skipped participants</button>}
+              <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
+                setRound(undefined);
+                setSkipHistory([]);
+                setNotice(undefined);
+              }}>Back to main page</button>
+            </div>
           </section>}
         </>)}
         <Modal isOpen={confirmation !== undefined} setIsOpen={(open) => {
