@@ -115,6 +115,37 @@ export type Application = {
   technicalSkillRationale?: string;
 };
 
+// What the web-lookup job found for a person, as stored in "Talent scouting web facts".
+// Facts only; every source carries the URL it came from and how it was read.
+// Field names are snake_case on purpose: they mirror the job's JSON one-to-one so the stored
+// cell can be parsed without a mapping layer. Do not "fix" them to camelCase.
+export type WebLinkKind = 'linkedin' | 'publications' | 'github' | 'website' | 'forum' | 'programme' | 'other';
+export type WebLink = { url: string; kind: WebLinkKind; confidence: 'high' | 'medium' };
+export type WebPaper = { title: string; year?: number; venue?: string; first_author?: boolean; citations?: number; abstract?: string; url?: string };
+export type WebRepo = { name: string; description?: string; stars?: number; last_activity?: string };
+export type WebPost = { title: string; date?: string; url?: string; first_paragraph?: string };
+export type WebRole = { title?: string; company?: string; since?: string; description?: string };
+export type WebSource = {
+  url: string;
+  kind: WebLinkKind;
+  confidence: 'high' | 'medium';
+  read: 'page' | 'snippet';
+  facts: {
+    headline?: string; about?: string; location?: string; roles?: WebRole[];
+    papers?: WebPaper[]; total_citations?: number;
+    bio?: string; recent?: WebRepo[]; starred?: WebRepo[]; languages?: string[]; followers?: number;
+    posts?: WebPost[];
+    mention?: string; cohort?: string; project?: string; mentor?: string;
+  };
+  other?: string[];
+};
+export type WebFacts = {
+  identity: { confident: boolean; matched_on: string[]; note: string };
+  links: WebLink[];
+  sources: WebSource[];
+  meta: { searches?: number; pages_fetched?: number; all_urls_seen?: string[] };
+};
+
 export type Person = {
   id: string;
   name: string;
@@ -137,6 +168,9 @@ export type Person = {
   projects: Project[];
   feedback: CourseFeedback[];
   application?: Application;
+  // Present once the lookup job has run for this registration
+  webFacts?: WebFacts;
+  lookedUpOn?: string;
 };
 
 export type Decision = 'invite' | 'decline';

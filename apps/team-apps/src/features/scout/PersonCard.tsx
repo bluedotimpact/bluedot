@@ -3,7 +3,7 @@ import {
   A, CardShell, ChevronRightIcon, cn, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import {
-  type EvaluationCall, type GrantApplication, type Person, type Registration,
+  type EvaluationCall, type GrantApplication, type Person, type Registration, type WebFacts, type WebLink, type WebSource,
 } from './types';
 
 const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
@@ -112,9 +112,9 @@ const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean }> 
 // Section header carries the summary (count, score, rating) so most sections
 // never need opening. Empty sections are greyed and cannot be opened.
 const Section: React.FC<{
-  title: string; meta?: ReactNode; empty?: boolean; emptyText?: string; defaultOpen?: boolean; children?: ReactNode;
+  title: string; count?: number; meta?: ReactNode; empty?: boolean; emptyText?: string; defaultOpen?: boolean; titleClassName?: string; children?: ReactNode;
 }> = ({
-  title, meta, empty = false, emptyText = 'none', defaultOpen = false, children,
+  title, count, meta, empty = false, emptyText = 'none', defaultOpen = false, titleClassName = 'text-accent', children,
 }) => (
   empty ? (
     <CardShell className="flex items-center gap-2 px-4 py-2.5 text-size-sm text-disabled">
@@ -128,7 +128,7 @@ const Section: React.FC<{
         defaultOpen={defaultOpen}
         summary={(
           <>
-            <span className="text-size-sm font-semibold text-accent">{title}</span>
+            <span className={cn('text-size-sm font-semibold', titleClassName)}>{title}{count !== undefined && <span className="font-normal text-secondary"> ({count})</span>}</span>
             {meta && <span className="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-size-xs text-secondary">{meta}</span>}
           </>
         )}
@@ -142,6 +142,138 @@ const Section: React.FC<{
 );
 
 const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
+
+// ---- Found online: what the lookup job found. Facts only, each with its source. ----
+
+// Display order for found links, then within a kind by confidence (high first)
+const LINK_KIND_ORDER = ['linkedin', 'publications', 'github', 'website', 'forum', 'programme', 'other'];
+const LINK_KIND_LABEL: Record<string, string> = {
+  linkedin: 'LinkedIn', publications: 'Publications', github: 'GitHub', website: 'Website', forum: 'Forum', programme: 'Programme', other: 'Mention',
+};
+const MAX_FOUND_LINKS = 5;
+
+const PUBLICATION_HOSTS: [RegExp, string][] = [
+  [/semanticscholar/, 'Semantic Scholar'], [/researchgate/, 'ResearchGate'], [/scholar\.google/, 'Google Scholar'], [/arxiv/, 'arXiv'],
+];
+
+const foundLinkLabel = (link: WebLink) => {
+  if (link.kind === 'linkedin') return 'LinkedIn';
+  if (link.kind === 'github') return 'GitHub';
+  if (link.kind === 'publications') {
+    const known = PUBLICATION_HOSTS.find(([pattern]) => pattern.test(link.url));
+    if (known) return known[1];
+  }
+
+  return hostLabel(link.url);
+};
+
+const confidenceRank = (link: WebLink) => (link.confidence === 'high' ? 0 : 1);
+
+const sortedFoundLinks = (links: WebLink[]) => [...links]
+  .sort((a, b) => (confidenceRank(a) - confidenceRank(b)) || (LINK_KIND_ORDER.indexOf(a.kind) - LINK_KIND_ORDER.indexOf(b.kind)));
+
+const Line: React.FC<{ children: ReactNode }> = ({ children }) => <li className="text-size-sm leading-relaxed text-primary">{children}</li>;
+
+// One source's facts, laid out for its kind. Only what the page said, in the shape it said it.
+const SourceFacts: React.FC<{ source: WebSource }> = ({ source }) => {
+  const f = source.facts ?? {};
+  return (
+    <ul className="flex list-disc flex-col gap-1.5 pl-5 marker:text-secondary">
+      {f.headline && <Line><span className="font-medium">{f.headline}</span></Line>}
+      {f.location && <Line><span className="text-secondary">{f.location}</span></Line>}
+      {f.about && <li className="list-none -ml-5"><Answer label="About" text={f.about} /></li>}
+      {f.roles?.map((r, i) => (
+        <Line key={`${r.title}-${i}`}>
+          <span className="font-medium">{r.title}</span>{r.company && <> · {r.company}</>}{r.since && <span className="text-secondary"> · since {r.since}</span>}
+          {r.description && <span className="block text-size-xs text-secondary">{r.description}</span>}
+        </Line>
+      ))}
+      {f.papers?.map((paper) => (
+        <Line key={paper.title}>
+          {paper.url ? <A href={paper.url} target="_blank">{paper.title}</A> : paper.title}
+          <span className="text-size-xs text-secondary"> · {[paper.venue, paper.year, paper.first_author ? 'first author' : undefined, paper.citations !== undefined && paper.citations !== null ? `${paper.citations} citations` : undefined].filter(Boolean).join(' · ')}</span>
+          {paper.abstract && <div className="pt-1"><Answer label="Abstract" text={paper.abstract} /></div>}
+        </Line>
+      ))}
+      {f.total_citations !== undefined && f.total_citations !== null && <Line><span className="text-secondary">{f.total_citations} citations in total</span></Line>}
+      {f.bio && <Line>{f.bio}</Line>}
+      {[...(f.recent ?? []), ...(f.starred ?? []).filter((r) => !(f.recent ?? []).some((x) => x.name === r.name))].map((repo) => (
+        <Line key={repo.name}>
+          <span className="font-medium">{repo.name}</span>{repo.description && <> · {repo.description}</>}
+          <span className="text-size-xs text-secondary">{repo.stars !== undefined ? ` · ★ ${repo.stars}` : ''}{repo.last_activity ? ` · last active ${repo.last_activity}` : ''}</span>
+        </Line>
+      ))}
+      {f.languages?.length ? <Line><span className="text-size-xs text-secondary">{f.languages.join(' · ')}{f.followers !== undefined ? ` · ${f.followers} followers` : ''}</span></Line> : null}
+      {f.posts?.map((post) => (
+        <Line key={post.title}>
+          {post.url ? <A href={post.url} target="_blank">{post.title}</A> : post.title}{post.date && <span className="text-size-xs text-secondary"> · {formatDate(post.date)}</span>}
+          {post.first_paragraph && <div className="pt-1"><Answer label="Opening" text={post.first_paragraph} /></div>}
+        </Line>
+      ))}
+      {f.mention && <Line>“{f.mention}”</Line>}
+      {[f.cohort, f.project, f.mentor].some(Boolean) && <Line><span className="text-size-xs text-secondary">{[f.cohort, f.project, f.mentor && `mentor: ${f.mentor}`].filter(Boolean).join(' · ')}</span></Line>}
+      {source.other?.map((line) => <Line key={line}><span className="text-secondary">“{line}”</span></Line>)}
+    </ul>
+  );
+};
+
+const readLabel = (source?: WebSource) => {
+  if (!source) return '';
+  return source.read === 'page' ? ' · read from page' : ' · from search snippet';
+};
+
+// Same profile, different spellings: scheme, www, query, fragment and trailing slash are ignored
+const normaliseUrl = (u: string) => u.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/[?#].*$/, '').replace(/\/+$/, '');
+
+const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: string[] }> = ({ facts, lookedUpOn, givenUrls }) => {
+  if (!facts) return <Section title="Found online" empty emptyText="not looked up yet" />;
+  const given = new Set(givenUrls.map(normaliseUrl));
+  // Links the participant gave us already sit in the top row; only show what was newly found
+  const newLinks = facts.links.filter((link) => !given.has(normaliseUrl(link.url)));
+  const links = sortedFoundLinks(newLinks).slice(0, MAX_FOUND_LINKS);
+  const sourceFor = (link: WebLink) => facts.sources.find((source) => source.confidence === 'high' && normaliseUrl(source.url) === normaliseUrl(link.url));
+  const hasFacts = (source?: WebSource) => !!source && (Object.values(source.facts ?? {}).some((v) => (Array.isArray(v) ? v.length > 0 : v !== undefined && v !== null && v !== '')) || (source.other?.length ?? 0) > 0);
+  if (links.length === 0) {
+    // Still surface an unconfirmed identity: that is the most useful thing a lookup can say when it found nothing
+    const identityNote = !facts.identity.confident && facts.identity.note ? ` · identity unconfirmed: ${facts.identity.note}` : '';
+    return <Section title="Found online" empty emptyText={`nothing found online${lookedUpOn ? ` · looked up ${formatDate(lookedUpOn)}` : ''}${identityNote}`} />;
+  }
+
+  return (
+    <Section
+      title="Found online"
+      count={newLinks.length}
+      titleClassName="text-warning-fg"
+      meta={(
+        <>
+          <Meta>AI lookup{lookedUpOn ? ` · ${formatDate(lookedUpOn)}` : ''}</Meta>
+          {!facts.identity.confident && <Badge className="bg-warning-bg text-warning-fg">identity unconfirmed</Badge>}
+        </>
+      )}
+    >
+      {!facts.identity.confident && facts.identity.note && <p className="text-size-xs text-secondary">{facts.identity.note}</p>}
+      <div className="flex flex-col divide-y divide-subtle">
+        {links.map((link) => {
+          const source = sourceFor(link);
+          const label = (
+            <>
+              <span className="text-size-sm font-medium text-primary">{foundLinkLabel(link)}</span>
+              <span className="text-size-xs text-secondary">{LINK_KIND_LABEL[link.kind] ?? link.kind}{link.confidence === 'medium' ? ' · unverified' : ''}{readLabel(source)}</span>
+              <A href={link.url} target="_blank" className="ml-auto inline-flex min-h-11 shrink-0 items-center text-size-xs">open ↗</A>
+            </>
+          );
+          return hasFacts(source) && source ? (
+            <Disclosure key={link.url} summary={label} summaryClassName="py-1 [&>span]:w-full" bodyClassName="pb-3 pl-[22px]">
+              <SourceFacts source={source} />
+            </Disclosure>
+          ) : (
+            <div key={link.url} className="flex items-center gap-2 py-1"><span className="inline-block w-[14px] shrink-0" />{label}</div>
+          );
+        })}
+      </div>
+    </Section>
+  );
+};
 
 // The email as plain text with a copy control — it is data, not a link to open.
 const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
@@ -278,7 +410,9 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         </div>
       </CardShell>
 
-      <Section title="With BlueDot" defaultOpen meta={<Meta>({withBlueDotCount})</Meta>} empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
+      <FoundOnline facts={person.webFacts} lookedUpOn={person.lookedUpOn} givenUrls={profileLinks} />
+
+      <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
         {person.history.map((r) => <HistoryRow key={r.id} r={r} />)}
         {person.grants.map((g) => <GrantRow key={g.id} g={g} />)}
         {person.calls.map((c) => <CallRow key={c.id} c={c} />)}
