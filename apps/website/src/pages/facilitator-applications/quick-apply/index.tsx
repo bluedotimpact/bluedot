@@ -310,7 +310,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
                 type="number"
                 min={1}
                 max={10}
-                inputClassName="w-16"
+                className="w-16"
                 {...register('numGroupsToFacilitate', {
                   valueAsNumber: true,
                   required: true,

@@ -82,7 +82,7 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string; participantId:
 
       <div className="mt-4 flex gap-2 md:w-1/2">
         <label className="flex items-center flex-1">Other:
-          <Input type="text" value={otherReason} onChange={(value) => setOtherReason(value.target.value)} className="ml-2 w-full" />
+          <Input type="text" value={otherReason} onChange={(value) => setOtherReason(value.target.value)} className="ml-2" />
         </label>
         <CTALinkOrButton variant="secondary" onClick={() => recordAttendance({ reason: otherReason })} disabled={!otherReason.length}>Submit</CTALinkOrButton>
       </div>

@@ -84,8 +84,10 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               We'll send a confirmation link to your new email address.
               Your email won't change until you click it.
             </P>
-            <div>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="new-email" className="font-semibold">New email*</label>
               <Input
+                id="new-email"
                 autoFocus
                 type="email"
                 value={newEmail}
@@ -100,8 +102,6 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
                   }
                 }}
                 placeholder="Enter new email address"
-                label="New email*"
-                aria-label="New email address"
                 aria-describedby={inlineError ? 'new-email-error' : undefined}
                 aria-invalid={!!inlineError}
                 disabled={requestEmailChange.isPending}

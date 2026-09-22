@@ -69,8 +69,7 @@ const AdminChangeEmail = withAdminGuard(() => {
               <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
                 <Input
                   type="email"
-                  labelClassName="flex-1 min-w-0"
-                  inputClassName="w-full"
+                  className="flex-1 min-w-0"
                   value={newEmail}
                   onChange={(e) => {
                     setNewEmail(e.target.value);

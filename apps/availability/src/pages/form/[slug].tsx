@@ -100,7 +100,6 @@ const Form: React.FC<{
             <Input
               type="text"
               placeholder="you@example.com"
-              className="w-full"
               {...register('email')}
             />
           </label>
