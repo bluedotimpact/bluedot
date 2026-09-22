@@ -92,7 +92,7 @@ describe('ParticipantFeedbackModal', () => {
     fireEvent.click(screen.getByText('Regularly engaged critically')); // 4
     expect(getDoneButton()).toBeDisabled(); // still need a follow-up
 
-    fireEvent.click(screen.getByText('Flag for 1-1 advising with BlueDot team'));
+    fireEvent.click(screen.getByLabelText('Flag for 1-1 advising with BlueDot team'));
     expect(getDoneButton()).toBeEnabled();
 
     fireEvent.change(screen.getByLabelText(/In 2-3 sentences/), { target: { value: 'Strong cohort member.' } });
