@@ -3,11 +3,11 @@ import { forwardRef } from 'react';
 import { cn } from './utils';
 
 export type InputProps = {
-  /** Checkbox/radio only. Text inputs are bare; label them from outside. */
+  /** Radio only. Text inputs are bare; label them from outside. */
   inputClassName?: string;
-  /** Checkbox/radio only. */
+  /** Radio only. */
   label?: string;
-  /** Checkbox/radio only. */
+  /** Radio only. */
   labelClassName?: string;
   leading?: React.ReactNode;
   trailing?: React.ReactNode;
@@ -35,28 +35,6 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
   ref,
 ) => {
   switch (type) {
-    case 'checkbox':
-      return (
-        <label
-          className={clsx(
-            BASE_LABEL_STYLES,
-            'items-center cursor-pointer',
-            labelClassName,
-          )}
-        >
-          <input
-            {...props}
-            ref={ref}
-            className={clsx(
-              'input--checkbox size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed',
-              inputClassName,
-            )}
-            type="checkbox"
-          />
-          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-          <span className="input__label">{props.label || props.value}</span>
-        </label>
-      );
     case 'radio':
       return (
         <label
