@@ -70,7 +70,7 @@ test('holds the selected participant and disables skipping/course changes while 
   expect((screen.getByRole('button', { name: 'Change round' })).hasAttribute('disabled')).toBe(true);
   fireEvent.keyDown(document.body, { key: 'ArrowDown' });
   fireEvent.keyDown(document.body, { key: 'ArrowRight' });
-  fireEvent.click(screen.getByRole('button', { name: 'Saving…' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Sending invite…' }));
   expect(decisions()).toHaveLength(1);
   await act(async () => finish(response({ ok: true })));
   await screen.findByText('Sam Chen');
