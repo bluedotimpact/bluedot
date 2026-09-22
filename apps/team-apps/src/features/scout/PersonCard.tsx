@@ -112,9 +112,9 @@ const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean }> 
 // Section header carries the summary (count, score, rating) so most sections
 // never need opening. Empty sections are greyed and cannot be opened.
 const Section: React.FC<{
-  title: string; meta?: ReactNode; empty?: boolean; emptyText?: string; defaultOpen?: boolean; titleClassName?: string; children?: ReactNode;
+  title: string; count?: number; meta?: ReactNode; empty?: boolean; emptyText?: string; defaultOpen?: boolean; titleClassName?: string; children?: ReactNode;
 }> = ({
-  title, meta, empty = false, emptyText = 'none', defaultOpen = false, titleClassName = 'text-accent', children,
+  title, count, meta, empty = false, emptyText = 'none', defaultOpen = false, titleClassName = 'text-accent', children,
 }) => (
   empty ? (
     <CardShell className="flex items-center gap-2 px-4 py-2.5 text-size-sm text-disabled">
@@ -128,7 +128,7 @@ const Section: React.FC<{
         defaultOpen={defaultOpen}
         summary={(
           <>
-            <span className={cn('text-size-sm font-semibold', titleClassName)}>{title}</span>
+            <span className={cn('text-size-sm font-semibold', titleClassName)}>{title}{count !== undefined && <span className="font-normal text-secondary"> ({count})</span>}</span>
             {meta && <span className="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-size-xs text-secondary">{meta}</span>}
           </>
         )}
@@ -239,6 +239,7 @@ const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: 
   return (
     <Section
       title="Found online"
+      count={links.length}
       titleClassName="text-warning-fg"
       meta={(
         <>
@@ -408,7 +409,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
 
       <FoundOnline facts={person.webFacts} lookedUpOn={person.lookedUpOn} givenUrls={profileLinks} />
 
-      <Section title="With BlueDot" defaultOpen meta={<Meta>({withBlueDotCount})</Meta>} empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
+      <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
         {person.history.map((r) => <HistoryRow key={r.id} r={r} />)}
         {person.grants.map((g) => <GrantRow key={g.id} g={g} />)}
         {person.calls.map((c) => <CallRow key={c.id} c={c} />)}
