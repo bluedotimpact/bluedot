@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { type GetServerSideProps } from 'next';
 import { useState } from 'react';
 import {
-  CTALinkOrButton, ErrorSection, ProgressDots,
+  Checkbox, CTALinkOrButton, ErrorSection, ProgressDots,
 } from '@bluedot/ui';
 import { H3, P } from '@bluedot/ui/src/Text';
 import { ROUTES } from '../lib/routes';
@@ -95,23 +95,19 @@ const PreferencesForm = ({
       {topics.map((topic) => {
         const isHighlighted = topic.id === highlightTopicId;
         return (
-          <label
+          <Checkbox
             key={topic.id}
-            className={`flex items-start gap-3 cursor-pointer rounded-lg p-3 -mx-3 ${isHighlighted ? 'border border-bluedot-light' : ''}`}
+            className={`gap-3 rounded-lg p-3 -mx-3 ${isHighlighted ? 'border border-bluedot-light' : ''}`}
+            checked={subscribed[topic.id] ?? topic.subscribed}
+            onChange={(checked) => handleToggle(topic.id, checked)}
           >
-            <input
-              type="checkbox"
-              className="mt-0.5 size-6 shrink-0 cursor-pointer accent-bluedot-normal"
-              checked={subscribed[topic.id] ?? topic.subscribed}
-              onChange={(e) => handleToggle(topic.id, e.target.checked)}
-            />
             <div>
               <P className="font-semibold text-black leading-snug">{topic.name}</P>
               {topic.description && (
                 <P className="text-gray-500 text-size-sm mt-0.5">{topic.description}</P>
               )}
             </div>
-          </label>
+          </Checkbox>
         );
       })}
 
