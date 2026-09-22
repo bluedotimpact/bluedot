@@ -7,7 +7,7 @@ import { withAirtableRetry } from '@bluedot/db';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
-  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type Person, type Project, type QueueItem, type Registration,
+  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type Person, type Project, type QueueItem, type Registration, type WebFacts,
 } from '../types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -47,6 +47,8 @@ const REG = {
   organisation: 'fldMGbiCTnLZbfrZ1',
   country: 'fldN0ROkTm71RMgtX',
   scoutingStatus: 'fldr09njoFMHdDD1F',
+  webFacts: 'fld4LNE1wrVOeUVXZ',
+  lookedUpOn: 'fldaqAtUqaY0A1wO6',
   inviteSource: 'fldCWl2plmCdiykLb',
   sendInviteEmail: 'flddylvIrOk9DunGQ',
 } as const;
@@ -319,6 +321,25 @@ export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThi
   return counts;
 };
 
+// The lookup field holds JSON written by the job. A malformed cell is treated as
+// "not looked up" rather than breaking the card.
+const parseWebFacts = (raw: unknown): WebFacts | undefined => {
+  const text = str(raw);
+  if (!text) return undefined;
+  try {
+    const parsed = JSON.parse(text) as Partial<WebFacts>;
+    if (!parsed || typeof parsed !== 'object') return undefined;
+    return {
+      identity: parsed.identity ?? { confident: false, matched_on: [], note: '' },
+      links: Array.isArray(parsed.links) ? parsed.links : [],
+      sources: Array.isArray(parsed.sources) ? parsed.sources : [],
+      meta: parsed.meta ?? {},
+    };
+  } catch {
+    return undefined;
+  }
+};
+
 // ---- Person ----
 
 const toReport = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorReport => ({
@@ -480,6 +501,8 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     organisation: str(f[REG.organisation]),
     country: str(f[REG.country]),
     scoutingStatus: str(f[REG.scoutingStatus]),
+    webFacts: parseWebFacts(f[REG.webFacts]),
+    lookedUpOn: str(f[REG.lookedUpOn]),
     history,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
