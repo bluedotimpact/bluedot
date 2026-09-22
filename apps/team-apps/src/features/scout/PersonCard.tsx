@@ -316,14 +316,18 @@ const CompletionBadge: React.FC<{ r: Registration }> = ({ r }) => {
   return <Badge>In progress</Badge>;
 };
 
-// Three aligned columns: what · when · badges. Stacks on narrow screens so the page never scrolls sideways.
-const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children?: ReactNode }> = ({
-  what, when, bold = false, children,
+// Three aligned columns: what · when (+ small detail) · state badges. Badges never wrap;
+// the middle column truncates instead. Stacks on narrow screens.
+const Row: React.FC<{ what: ReactNode; when: ReactNode; detail?: ReactNode; bold?: boolean; children?: ReactNode }> = ({
+  what, when, detail, bold = false, children,
 }) => (
-  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] ${bold ? '-mx-2 rounded-surface bg-info-bg/50 px-2 py-1 font-medium' : ''}`}>
-    <span className="truncate">{what}</span>
-    <span className="truncate text-size-xs text-secondary">{when}</span>
-    <span className="flex flex-wrap items-center gap-1">{children}</span>
+  <div className={`grid grid-cols-1 items-center gap-x-4 gap-y-1 text-size-sm text-primary lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.6fr)_auto] ${bold ? '-mx-2 rounded-surface bg-info-bg/50 px-2 py-1 font-medium' : ''}`}>
+    <span className="min-w-0 truncate">{what}</span>
+    <span className="min-w-0 text-size-xs text-secondary">
+      <span className="block truncate">{when}</span>
+      {detail && <span className="block truncate">{detail}</span>}
+    </span>
+    <span className="flex flex-nowrap items-center gap-1 lg:justify-self-end">{children}</span>
   </div>
 );
 
@@ -337,7 +341,7 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
 // Quiet: an application that never became a registration
 const OtherApplicationRow: React.FC<{ a: OtherApplication }> = ({ a }) => (
   <div className="text-disabled">
-    <Row what={<>Applied · {a.course}{a.facilitator && <> · facilitator</>}</>} when={shortRound(a.roundName)}>
+    <Row what={<>Applied · {a.course}</>} when={shortRound(a.roundName)} detail={a.facilitator ? 'as facilitator' : undefined}>
       <span className="text-size-xs">{a.decision ?? 'no decision yet'}</span>
     </Row>
   </div>
@@ -345,11 +349,10 @@ const OtherApplicationRow: React.FC<{ a: OtherApplication }> = ({ a }) => (
 
 const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
   <div className="flex flex-col gap-1">
-    <Row what={/rapid/i.test(g.status ?? '') ? 'Rapid grant' : 'Career transition grant'} when={formatDate(g.decisionDate ?? g.createdAt)}>
+    <Row what="Career transition grant" when={formatDate(g.decisionDate ?? g.createdAt)} detail={g.amountUsd !== undefined ? `${money(g.amountUsd)}` : undefined}>
       {g.status && <Badge className={/reject/i.test(g.status) ? 'bg-error-bg text-error-fg' : 'bg-warning-bg text-warning-fg'}>{g.status}</Badge>}
-      {g.amountUsd !== undefined && <span className="text-secondary">${g.amountUsd.toLocaleString()}</span>}
     </Row>
-    <Answer label="Why" text={g.reasoning} />
+    {g.reasoning && <div className="pl-2"><Answer label="Why" text={g.reasoning} /></div>}
   </div>
 );
 
@@ -361,28 +364,30 @@ const casesLabel = (c: EvaluationCall) => {
 
 const money = (n?: number) => (n === undefined ? undefined : `$${n.toLocaleString()}`);
 
-const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
-  <div className="flex flex-col gap-1">
-    <Row what="Rapid grant" when={formatDate(g.createdAt)}>
+const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => {
+  let amount: string | undefined;
+  if (g.amountGrantedUsd !== undefined) amount = `${money(g.amountGrantedUsd)} granted`;
+  else if (g.amountRequestedUsd !== undefined) amount = `${money(g.amountRequestedUsd)} requested`;
+  const title = g.projectTitle ?? g.oneLiner;
+  return (
+    <Row
+      what="Rapid grant"
+      when={formatDate(g.createdAt)}
+      detail={[amount, title].some(Boolean) ? <>{amount}{amount && title ? ' · ' : ''}{title && (g.projectUrl ? <A href={g.projectUrl} target="_blank">{title} ↗</A> : title)}</> : undefined}
+    >
       {g.decision && <Badge className={/reject|archiv/i.test(g.decision) ? 'bg-error-bg text-error-fg' : 'bg-warning-bg text-warning-fg'}>{g.decision === 'call' ? 'Call' : g.decision}</Badge>}
-      {g.amountGrantedUsd !== undefined && <span className="text-secondary">{money(g.amountGrantedUsd)} granted</span>}
-      {g.amountGrantedUsd === undefined && g.amountRequestedUsd !== undefined && <span className="text-secondary">{money(g.amountRequestedUsd)} requested</span>}
     </Row>
-    {[g.projectTitle, g.oneLiner].some(Boolean) && (
-      <p className="pl-2 text-size-xs text-secondary">
-        {g.projectUrl ? <A href={g.projectUrl} target="_blank">{g.projectTitle ?? 'Project'} ↗</A> : g.projectTitle}
-        {g.oneLiner && g.oneLiner !== g.projectTitle && <> · {g.oneLiner}</>}
-      </p>
-    )}
-  </div>
-);
+  );
+};
 
 const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
-  <Row what="Evaluation call" when={formatDate(c.callDate ?? c.createdAt)}>
+  <Row
+    what="Evaluation call"
+    when={formatDate(c.callDate ?? c.createdAt)}
+    detail={[casesLabel(c), c.notesUrl].some(Boolean) ? <>{casesLabel(c) && <span title="CASES: commitment · agency · sharpness · expertise · strategic clarity">{casesLabel(c)}</span>}{casesLabel(c) && c.notesUrl ? ' · ' : ''}{c.notesUrl && <A href={c.notesUrl} target="_blank">notes ↗</A>}</> : undefined}
+  >
     {c.status && <Badge className="bg-warning-bg text-warning-fg">{c.status}</Badge>}
     <OpinionBadge opinion={c.opinion} />
-    {casesLabel(c) && <span className="text-size-xs text-secondary" title="CASES: commitment · agency · sharpness · expertise · strategic clarity">{casesLabel(c)}</span>}
-    {c.notesUrl && <A href={c.notesUrl} target="_blank" className="inline-flex min-h-11 min-w-11 items-center text-size-xs">notes ↗</A>}
   </Row>
 );
 
@@ -393,6 +398,15 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
     .filter((u): u is string => !!u)
     .map((u) => [normalise(u), u] as const)).values()];
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
+  // Everything with BlueDot as one chronological list: registrations by round start,
+  // applications, grants and calls by their own dates. Undated items go last.
+  const timeline = [
+    ...person.history.map((r) => ({ date: r.roundStart, node: <HistoryRow key={r.id} r={r} /> })),
+    ...person.otherApplications.map((a) => ({ date: a.createdAt, node: <OtherApplicationRow key={a.id} a={a} /> })),
+    ...person.grants.map((g) => ({ date: g.decisionDate ?? g.createdAt, node: <GrantRow key={g.id} g={g} /> })),
+    ...person.rapidGrants.map((g) => ({ date: g.createdAt, node: <RapidGrantRow key={g.id} g={g} /> })),
+    ...person.calls.map((c) => ({ date: c.callDate ?? c.createdAt, node: <CallRow key={c.id} c={c} /> })),
+  ].sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999'));
   const withBlueDotCount = person.history.length + person.otherApplications.length + person.grants.length + person.rapidGrants.length + person.calls.length;
   const app = person.application;
   const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
@@ -440,11 +454,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       <FoundOnline facts={person.webFacts} lookedUpOn={person.lookedUpOn} givenUrls={profileLinks} />
 
       <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
-        {person.history.map((r) => <HistoryRow key={r.id} r={r} />)}
-        {person.otherApplications.map((a) => <OtherApplicationRow key={a.id} a={a} />)}
-        {person.grants.map((g) => <GrantRow key={g.id} g={g} />)}
-        {person.rapidGrants.map((g) => <RapidGrantRow key={g.id} g={g} />)}
-        {person.calls.map((c) => <CallRow key={c.id} c={c} />)}
+        {timeline.map((item) => item.node)}
       </Section>
 
       <Section
