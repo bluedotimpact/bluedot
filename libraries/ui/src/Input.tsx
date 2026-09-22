@@ -5,6 +5,8 @@ export type InputProps = {
   inputClassName?: string;
   label?: string;
   labelClassName?: string;
+  leading?: React.ReactNode;
+  trailing?: React.ReactNode;
 } & React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
@@ -15,7 +17,7 @@ const BASE_LABEL_STYLES = 'input flex gap-2 has-[:disabled]:cursor-not-allowed';
 
 export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
   {
-    className, inputClassName, labelClassName, type = 'text', ...props
+    className, inputClassName, labelClassName, leading, trailing, type = 'text', ...props
   },
   ref,
 ) => {
