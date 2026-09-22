@@ -297,7 +297,7 @@ const Scout = () => {
             {writing && (
               <div className="flex items-center gap-2 text-size-xs text-secondary" role="status">
                 <ProgressDots />
-                <span>{confirmation.decision === 'invite' ? 'Setting the invite source, waiting for Airtable to sync, then triggering the email. This can take up to 15 seconds.' : 'Saving to Airtable.'}</span>
+                <span>Saving to Airtable.</span>
               </div>
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
