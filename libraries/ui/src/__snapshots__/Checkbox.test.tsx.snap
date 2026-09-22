@@ -1,0 +1,27 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Checkbox > renders Default as expected 1`] = `
+<div>
+  <label
+    class="flex items-start gap-2 py-2.5 cursor-pointer text-size-sm leading-normal text-primary"
+    data-rac=""
+    data-react-aria-pressable="true"
+  >
+    <span
+      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
+    >
+      <input
+        data-react-aria-pressable="true"
+        tabindex="0"
+        title=""
+        type="checkbox"
+      />
+    </span>
+    <span
+      aria-hidden="true"
+      class="flex size-6 shrink-0 items-center justify-center rounded-surface border transition-colors motion-reduce:transition-none border-strong bg-raised"
+    />
+    Email me course updates
+  </label>
+</div>
+`;
