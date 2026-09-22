@@ -3,7 +3,7 @@ import {
   A, CardShell, ChevronRightIcon, cn, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import {
-  type EvaluationCall, type GrantApplication, type Person, type Registration, type WebFacts, type WebLink, type WebSource,
+  type EvaluationCall, type GrantApplication, type Person, type RapidGrant, type Registration, type WebFacts, type WebLink, type WebSource,
 } from './types';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
@@ -350,6 +350,24 @@ const casesLabel = (c: EvaluationCall) => {
   return parts.filter(([, v]) => v !== undefined).map(([k, v]) => `${k}${v}`).join(' ');
 };
 
+const money = (n?: number) => (n === undefined ? undefined : `$${n.toLocaleString()}`);
+
+const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
+  <div className="flex flex-col gap-1">
+    <Row what="Rapid grant" when={formatDate(g.createdAt)}>
+      {g.decision && <Badge className={/reject|archiv/i.test(g.decision) ? 'bg-error-bg text-error-fg' : 'bg-warning-bg text-warning-fg'}>{g.decision === 'call' ? 'Call' : g.decision}</Badge>}
+      {g.amountGrantedUsd !== undefined && <span className="text-secondary">{money(g.amountGrantedUsd)} granted</span>}
+      {g.amountGrantedUsd === undefined && g.amountRequestedUsd !== undefined && <span className="text-secondary">{money(g.amountRequestedUsd)} requested</span>}
+    </Row>
+    {[g.projectTitle, g.oneLiner].some(Boolean) && (
+      <p className="pl-2 text-size-xs text-secondary">
+        {g.projectUrl ? <A href={g.projectUrl} target="_blank">{g.projectTitle ?? 'Project'} ↗</A> : g.projectTitle}
+        {g.oneLiner && g.oneLiner !== g.projectTitle && <> · {g.oneLiner}</>}
+      </p>
+    )}
+  </div>
+);
+
 const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
   <Row what="Evaluation call" when={formatDate(c.callDate ?? c.createdAt)}>
     {c.status && <Badge className="bg-warning-bg text-warning-fg">{c.status}</Badge>}
@@ -366,7 +384,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
     .filter((u): u is string => !!u)
     .map((u) => [normalise(u), u] as const)).values()];
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
-  const withBlueDotCount = person.history.length + person.grants.length + person.calls.length;
+  const withBlueDotCount = person.history.length + person.grants.length + person.rapidGrants.length + person.calls.length;
   const app = person.application;
   const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
   // Speed-review scores (1-5), produced by the Applications-base automation at application time
@@ -388,7 +406,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           {person.certificateUrl && <Badge className="bg-info-bg text-info-fg">Completed</Badge>}
           {person.reports.length > 0 && <Badge colour="purpleLight2">Facilitator 1:1 report</Badge>}
           {person.calls.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Had an evaluation call</Badge>}
-          {person.grants.length > 0 && <Badge className="bg-warning-bg text-warning-fg">Applied for a grant</Badge>}
+          {(person.grants.length > 0 || person.rapidGrants.length > 0) && <Badge className="bg-warning-bg text-warning-fg">Applied for a grant</Badge>}
         </div>
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
         {/* Line 1: where they are online. Line 2: our own records about them. */}
@@ -415,6 +433,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
         {person.history.map((r) => <HistoryRow key={r.id} r={r} />)}
         {person.grants.map((g) => <GrantRow key={g.id} g={g} />)}
+        {person.rapidGrants.map((g) => <RapidGrantRow key={g.id} g={g} />)}
         {person.calls.map((c) => <CallRow key={c.id} c={c} />)}
       </Section>
 

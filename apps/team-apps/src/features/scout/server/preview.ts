@@ -20,6 +20,7 @@ export const samplePeople: Person[] = examples.map(({ id, name, course }) => ({
   grants: [{
     id: 'recSampleGrant001', status: 'Under review', createdAt: '2026-08-15', reasoning: 'A small grant would let this participant test their research direction with a focused, well-scoped project.',
   }],
+  rapidGrants: [],
   calls: [{
     id: 'recSampleCall001', callDate: '2026-07-15', opinion: 'Weak yes', cases: { commitment: 4, agency: 3, expertise: 3 },
   }],

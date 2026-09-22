@@ -52,6 +52,18 @@ export type GrantApplication = {
   reasoning?: string;
 };
 
+// CRM › Rapid grants: small project grants, separate from career transition grants
+export type RapidGrant = {
+  id: string;
+  createdAt?: string;
+  decision?: string;
+  projectTitle?: string;
+  projectUrl?: string;
+  oneLiner?: string;
+  amountRequestedUsd?: number;
+  amountGrantedUsd?: number;
+};
+
 export type EvaluationCall = {
   id: string;
   createdAt?: string;
@@ -162,6 +174,7 @@ export type Person = {
   scoutingStatus?: string;
   history: Registration[];
   grants: GrantApplication[];
+  rapidGrants: RapidGrant[];
   calls: EvaluationCall[];
   reports: FacilitatorReport[];
   facilitatorFeedback: FacilitatorFeedback[];

@@ -7,7 +7,7 @@ import { withAirtableRetry } from '@bluedot/db';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
-  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type Person, type Project, type QueueItem, type Registration, type WebFacts,
+  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type WebFacts,
 } from '../types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -24,6 +24,19 @@ const CALLS_URL = `${APPLICATIONS}/tblVstbJehu8wew93`;
 const APPLICATION_REGISTRATIONS_URL = `${APPLICATIONS}/tblXKnWoXK3R63F6D`;
 // CRM › Person: one record per human across courses, calls and notes
 const CRM_PERSON_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tblMYYK8bL2fRJmv7';
+const CRM_RAPID_GRANTS_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tbl3ftXbbaVDRGGLP';
+
+// CRM › Rapid grants
+const RAPID = {
+  email: 'fldrm6UvPUfZaISgv',
+  createdAt: 'fldh9xhyMNic4820Z',
+  decision: 'fldhpWWgl7zZgd47R',
+  projectTitle: 'fldB2CfBZxzbAy3p7',
+  projectUrl: 'fldZmXrLwVEdeRdMQ',
+  oneLiner: 'fldcppNQHZZJa4USi',
+  amountRequested: 'fldBzDMLm9ahutnTF',
+  amountGranted: 'fldHJfsaPMImrlAOb',
+} as const;
 
 // Locked view "Talent scouting [read by Talent Scouting App]" — the hard filter
 // lives there, so course leads can change it without a deploy.
@@ -482,6 +495,17 @@ const toApplication = (r: AirtableRecord): Application => {
 
 const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut];
 
+const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
+  id: r.id,
+  createdAt: str(r.fields[RAPID.createdAt]),
+  decision: str(r.fields[RAPID.decision]),
+  projectTitle: str(r.fields[RAPID.projectTitle]),
+  projectUrl: url(r.fields[RAPID.projectUrl]),
+  oneLiner: str(r.fields[RAPID.oneLiner]),
+  amountRequestedUsd: num(r.fields[RAPID.amountRequested]),
+  amountGrantedUsd: num(r.fields[RAPID.amountGranted]),
+});
+
 // The CRM Person record for this email, when exactly one matches (primary or secondary email)
 const fetchCrmPersonId = async (email: string): Promise<string | undefined> => {
   const escaped = email.replace(/'/g, '\\\'').toLowerCase();
@@ -524,9 +548,10 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   const email = str(f[REG.email]) ?? '';
   const applicationId = str(f[REG.applicationId]);
 
-  const [history, grants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId] = await Promise.all([
+  const [history, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId] = await Promise.all([
     email ? fetchHistory(email, id, rounds) : Promise.resolve([]),
     email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
+    email ? fetchAll(CRM_RAPID_GRANTS_URL, { filterByFormula: byEmailFormula('Applicant email', email) }, Object.values(RAPID)) : Promise.resolve([]),
     email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
     fetchMany(REPORTS_URL, strList(f[REG.reports]), Object.values(REPORT)),
     fetchMany(PEER_FEEDBACK_URL, strList(f[REG.peerFeedback]), Object.values(PEER)),
@@ -555,6 +580,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     lookedUpOn: str(f[REG.lookedUpOn]),
     history,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
+    rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     reports: reports.map(toReport(rounds)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
     // Only the facilitator's rows; participants can also leave peer feedback
