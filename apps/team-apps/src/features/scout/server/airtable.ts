@@ -323,17 +323,35 @@ export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThi
 
 // The lookup field holds JSON written by the job. A malformed cell is treated as
 // "not looked up" rather than breaking the card.
-const parseWebFacts = (raw: unknown): WebFacts | undefined => {
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
+const recordsWithUrl = <T extends { url: string }>(v: unknown): T[] => (Array.isArray(v) ? v.filter((x): x is T => isRecord(x) && typeof x.url === 'string') : []);
+const cleanList = <T>(v: unknown): T[] | undefined => (Array.isArray(v) ? (v.filter(isRecord) as T[]) : undefined);
+
+export const parseWebFacts = (raw: unknown): WebFacts | undefined => {
   const text = str(raw);
   if (!text) return undefined;
   try {
-    const parsed = JSON.parse(text) as Partial<WebFacts>;
-    if (!parsed || typeof parsed !== 'object') return undefined;
+    const parsed: unknown = JSON.parse(text);
+    if (!isRecord(parsed)) return undefined;
+    const identity = isRecord(parsed.identity) ? parsed.identity : {};
+    // Only entries that carry a URL survive; nested lists keep only object items so
+    // a stray null from the job cannot break rendering.
+    const sources = recordsWithUrl<WebFacts['sources'][number]>(parsed.sources).map((source) => {
+      const facts = isRecord(source.facts) ? source.facts : {};
+      return {
+        ...source,
+        facts: {
+          ...facts,
+          roles: cleanList(facts.roles), papers: cleanList(facts.papers), recent: cleanList(facts.recent), starred: cleanList(facts.starred), posts: cleanList(facts.posts),
+        } as WebFacts['sources'][number]['facts'],
+        other: Array.isArray(source.other) ? source.other.filter((x): x is string => typeof x === 'string') : undefined,
+      };
+    });
     return {
-      identity: parsed.identity ?? { confident: false, matched_on: [], note: '' },
-      links: Array.isArray(parsed.links) ? parsed.links : [],
-      sources: Array.isArray(parsed.sources) ? parsed.sources : [],
-      meta: parsed.meta ?? {},
+      identity: { confident: identity.confident === true, matched_on: Array.isArray(identity.matched_on) ? identity.matched_on.filter((x): x is string => typeof x === 'string') : [], note: typeof identity.note === 'string' ? identity.note : '' },
+      links: recordsWithUrl<WebFacts['links'][number]>(parsed.links),
+      sources,
+      meta: isRecord(parsed.meta) ? (parsed.meta as WebFacts['meta']) : {},
     };
   } catch {
     return undefined;

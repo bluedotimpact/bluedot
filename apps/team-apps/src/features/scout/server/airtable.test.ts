@@ -3,7 +3,9 @@ import {
 } from 'vitest';
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
-import { fetchQueue, inviteForReal, declineForReal } from './airtable';
+import {
+  fetchQueue, inviteForReal, declineForReal, parseWebFacts,
+} from './airtable';
 
 const fetchMock = vi.fn<typeof fetch>();
 const id = 'recScoutSample001';
@@ -87,4 +89,33 @@ test('does not automatically retry ambiguous write failures that could resend an
   fetchMock.mockImplementation(async (input, init) => (init?.method === 'PATCH' ? json({}, 503) : reads(input, init)));
   await expect(run(inviteForReal(id))).rejects.toMatchObject({ statusCode: 503 });
   expect(patches()).toHaveLength(1);
+});
+
+test('web facts: malformed cells read as not looked up, stray nulls are dropped, good data survives', () => {
+  expect(parseWebFacts(undefined)).toBeUndefined();
+  expect(parseWebFacts('')).toBeUndefined();
+  expect(parseWebFacts('not json')).toBeUndefined();
+  expect(parseWebFacts('[1,2]')).toBeUndefined();
+
+  const sloppy = parseWebFacts(JSON.stringify({
+    identity: { confident: 'yes', matched_on: ['url', 7], note: null },
+    links: [null, { url: 'https://github.com/alice', kind: 'github', confidence: 'high' }, { kind: 'website' }],
+    sources: [{
+      url: 'https://github.com/alice', kind: 'github', confidence: 'high', read: 'page', facts: { recent: [null, { name: 'evals' }] }, other: ['line', 3],
+    }, 'junk'],
+  }));
+  expect(sloppy?.identity).toEqual({ confident: false, matched_on: ['url'], note: '' });
+  expect(sloppy?.links).toEqual([{ url: 'https://github.com/alice', kind: 'github', confidence: 'high' }]);
+  expect(sloppy?.sources).toHaveLength(1);
+  expect(sloppy?.sources[0]?.facts.recent).toEqual([{ name: 'evals' }]);
+  expect(sloppy?.sources[0]?.other).toEqual(['line']);
+
+  const good = parseWebFacts(JSON.stringify({
+    identity: { confident: true, matched_on: ['profile URL'], note: '' },
+    links: [{ url: 'https://www.linkedin.com/in/alice', kind: 'linkedin', confidence: 'high' }],
+    sources: [],
+    meta: { searches: 3, all_urls_seen: ['https://www.linkedin.com/in/alice'] },
+  }));
+  expect(good?.identity.confident).toBe(true);
+  expect(good?.meta.searches).toBe(3);
 });

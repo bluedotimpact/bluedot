@@ -117,6 +117,8 @@ export type Application = {
 
 // What the web-lookup job found for a person, as stored in "Talent scouting web facts".
 // Facts only; every source carries the URL it came from and how it was read.
+// Field names are snake_case on purpose: they mirror the job's JSON one-to-one so the stored
+// cell can be parsed without a mapping layer. Do not "fix" them to camelCase.
 export type WebLinkKind = 'linkedin' | 'publications' | 'github' | 'website' | 'forum' | 'programme' | 'other';
 export type WebLink = { url: string; kind: WebLinkKind; confidence: 'high' | 'medium' };
 export type WebPaper = { title: string; year?: number; venue?: string; first_author?: boolean; citations?: number; abstract?: string; url?: string };

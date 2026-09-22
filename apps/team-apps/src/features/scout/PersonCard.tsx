@@ -170,8 +170,7 @@ const foundLinkLabel = (link: WebLink) => {
 const confidenceRank = (link: WebLink) => (link.confidence === 'high' ? 0 : 1);
 
 const sortedFoundLinks = (links: WebLink[]) => [...links]
-  .sort((a, b) => (confidenceRank(a) - confidenceRank(b)) || (LINK_KIND_ORDER.indexOf(a.kind) - LINK_KIND_ORDER.indexOf(b.kind)))
-  .slice(0, MAX_FOUND_LINKS);
+  .sort((a, b) => (confidenceRank(a) - confidenceRank(b)) || (LINK_KIND_ORDER.indexOf(a.kind) - LINK_KIND_ORDER.indexOf(b.kind)));
 
 const Line: React.FC<{ children: ReactNode }> = ({ children }) => <li className="text-size-sm leading-relaxed text-primary">{children}</li>;
 
@@ -223,23 +222,27 @@ const readLabel = (source?: WebSource) => {
   return source.read === 'page' ? ' · read from page' : ' · from search snippet';
 };
 
-const normaliseUrl = (u: string) => u.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/+$/, '');
+// Same profile, different spellings: scheme, www, query, fragment and trailing slash are ignored
+const normaliseUrl = (u: string) => u.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/[?#].*$/, '').replace(/\/+$/, '');
 
 const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: string[] }> = ({ facts, lookedUpOn, givenUrls }) => {
   if (!facts) return <Section title="Found online" empty emptyText="not looked up yet" />;
   const given = new Set(givenUrls.map(normaliseUrl));
   // Links the participant gave us already sit in the top row; only show what was newly found
-  const links = sortedFoundLinks(facts.links.filter((link) => !given.has(normaliseUrl(link.url))));
+  const newLinks = facts.links.filter((link) => !given.has(normaliseUrl(link.url)));
+  const links = sortedFoundLinks(newLinks).slice(0, MAX_FOUND_LINKS);
   const sourceFor = (link: WebLink) => facts.sources.find((source) => source.confidence === 'high' && normaliseUrl(source.url) === normaliseUrl(link.url));
   const hasFacts = (source?: WebSource) => !!source && (Object.values(source.facts ?? {}).some((v) => (Array.isArray(v) ? v.length > 0 : v !== undefined && v !== null && v !== '')) || (source.other?.length ?? 0) > 0);
   if (links.length === 0) {
-    return <Section title="Found online" empty emptyText={`nothing new confirmed as this person${lookedUpOn ? ` · looked up ${formatDate(lookedUpOn)}` : ''}`} />;
+    // Still surface an unconfirmed identity: that is the most useful thing a lookup can say when it found nothing
+    const identityNote = !facts.identity.confident && facts.identity.note ? ` · identity unconfirmed: ${facts.identity.note}` : '';
+    return <Section title="Found online" empty emptyText={`nothing new confirmed as this person${lookedUpOn ? ` · looked up ${formatDate(lookedUpOn)}` : ''}${identityNote}`} />;
   }
 
   return (
     <Section
       title="Found online"
-      count={links.length}
+      count={newLinks.length}
       titleClassName="text-warning-fg"
       meta={(
         <>
