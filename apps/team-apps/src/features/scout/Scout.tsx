@@ -212,7 +212,7 @@ const Scout = () => {
   if (preview) confirmDescription = 'This saves a sample decision only. No email will be sent.';
   let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
   if (saveError) confirmLabel = 'Retry save';
-  if (writing) confirmLabel = 'Saving…';
+  if (writing) confirmLabel = confirmation?.decision === 'invite' ? 'Sending invite…' : 'Saving…';
 
   return (
     <div className="min-h-dvh bg-canvas p-3 sm:p-6">
@@ -294,6 +294,12 @@ const Scout = () => {
           {confirmation && <div className="max-w-md space-y-4 break-words text-size-sm">
             <p className="font-semibold">{confirmation.person.name}</p>
             <p>{confirmDescription}</p>
+            {writing && (
+              <div className="flex items-center gap-2 text-size-xs text-secondary" role="status">
+                <ProgressDots />
+                <span>{confirmation.decision === 'invite' ? 'Setting the invite source, waiting for Airtable to sync, then triggering the email. This can take up to 15 seconds.' : 'Saving to Airtable.'}</span>
+              </div>
+            )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
             <div className="flex flex-wrap justify-end gap-2">
               <CTALinkOrButton className="min-h-11" variant="secondary" disabled={writing} onClick={() => {
