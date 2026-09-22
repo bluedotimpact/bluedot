@@ -1,12 +1,12 @@
 import {
-  Breadcrumbs, ErrorSection, ProgressDots, Section,
+  Breadcrumbs, ErrorSection, Input, ProgressDots, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
   useEffect, useMemo, useRef, useState,
 } from 'react';
-import { RiSearchLine } from 'react-icons/ri';
+import { RiCloseLine, RiSearchLine } from 'react-icons/ri';
 import { withAdminGuard } from '../../components/admin/withAdminGuard';
 import { UserSearchModal } from '../../components/admin/UserSearchModal';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -84,6 +84,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
   );
 
   const infiniteScrollSentinelRef = useRef<HTMLDivElement | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = exerciseResponseQuery;
   useEffect(() => {
     const node = infiniteScrollSentinelRef.current;
@@ -194,16 +195,28 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
 
           {/* Main (right column): search + results */}
           <div className="flex-1 flex flex-col gap-4 min-w-0">
-            <div className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2">
-              <RiSearchLine className="text-gray-400 shrink-0" size={15} />
-              <input
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search question or response..."
-                className="flex-1 outline-none text-size-xs placeholder:text-gray-400"
-              />
-            </div>
+            <Input
+              ref={searchInputRef}
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search question or response..."
+              aria-label="Search question or response"
+              leading={<RiSearchLine aria-hidden />}
+              trailing={search ? (
+                <button
+                  type="button"
+                  aria-label="Clear search"
+                  onClick={() => {
+                    setSearch('');
+                    searchInputRef.current?.focus();
+                  }}
+                  className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+                >
+                  <RiCloseLine aria-hidden />
+                </button>
+              ) : undefined}
+            />
 
             {renderResults()}
 

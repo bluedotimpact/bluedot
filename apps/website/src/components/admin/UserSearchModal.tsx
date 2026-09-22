@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  ErrorSection, Modal, ProgressDots, useCurrentTimeMs,
+  ErrorSection, Input, Modal, ProgressDots, useCurrentTimeMs,
 } from '@bluedot/ui';
-import { RiSearchLine } from 'react-icons/ri';
+import { RiCloseLine, RiSearchLine } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
 import type { UserSearchResult } from '../../server/routers/admin';
@@ -50,17 +50,29 @@ export const UserSearchModal = ({
       <div className="w-full max-w-modal mx-auto">
         {/* Spacer to stop the desktop modal shrinking when there are no results */}
         <div className="hidden md:block w-[600px] max-w-full h-0" />
-        <div className="flex items-center gap-2 border border-gray-300 rounded px-3 py-2 mb-4">
-          <RiSearchLine className="text-gray-400" size={18} />
-          <input
-            ref={inputRef}
-            type="text"
-            value={searchTermInput}
-            onChange={(e) => setSearchTermInput(e.target.value)}
-            placeholder="Search by name or email..."
-            className="flex-1 outline-none"
-          />
-        </div>
+        <Input
+          ref={inputRef}
+          type="search"
+          value={searchTermInput}
+          onChange={(e) => setSearchTermInput(e.target.value)}
+          placeholder="Search by name or email..."
+          aria-label="Search by name or email"
+          className="mb-4"
+          leading={<RiSearchLine aria-hidden />}
+          trailing={searchTermInput ? (
+            <button
+              type="button"
+              aria-label="Clear search"
+              onClick={() => {
+                setSearchTermInput('');
+                inputRef.current?.focus();
+              }}
+              className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+            >
+              <RiCloseLine aria-hidden />
+            </button>
+          ) : undefined}
+        />
 
         <div className="md:h-[400px] overflow-y-auto">
           {error && <ErrorSection error={error} />}
