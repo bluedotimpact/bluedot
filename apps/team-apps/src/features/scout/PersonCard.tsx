@@ -313,7 +313,7 @@ const CompletionBadge: React.FC<{ r: Registration }> = ({ r }) => {
   if (r.hasCertificate) return <Badge className="bg-info-bg text-info-fg">Completed</Badge>;
   if (r.droppedOut) return <Badge className="bg-error-bg text-error-fg">Dropped out</Badge>;
   if (r.roundEnd && new Date(r.roundEnd) < new Date()) return <Badge className="bg-error-bg text-error-fg">Not completed</Badge>;
-  return null;
+  return <Badge>In progress</Badge>;
 };
 
 // Three aligned columns: what · when · badges. Stacks on narrow screens so the page never scrolls sideways.
