@@ -7,7 +7,7 @@ import { withAirtableRetry } from '@bluedot/db';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
-  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type WebFacts,
+  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type OtherApplication, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type WebFacts,
 } from '../types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -142,6 +142,17 @@ const CALL = {
   status: 'fldw2nYIeX6fum5vy',
   opinion: 'fldcGMexyNn2SMTpX',
   notesUrl: 'fldygXae4jBcNmHae',
+} as const;
+
+// Applications base — Course registration: the fields that say what an application became
+const APP_OUTCOME = {
+  email: 'fld0g392xytratknm',
+  decision: 'fldWVKY5EFAGSRcDT',
+  role: 'fld52Y2AyWV8tECDy',
+  createdAt: 'fldyZHM0qpgIkzo8c',
+  course: 'fldPkqPbeoIhERqSY',
+  roundName: 'fldQymBa7milTYP9q',
+  roundEnd: 'fldyzxzjh5xgHgKuC',
 } as const;
 
 // Applications base — Course registration (same field IDs speed-review uses)
@@ -493,7 +504,7 @@ const toApplication = (r: AirtableRecord): Application => {
   };
 };
 
-const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut];
+const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut, REG.applicationId];
 
 const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   id: r.id,
@@ -505,6 +516,33 @@ const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   amountRequestedUsd: num(r.fields[RAPID.amountRequested]),
   amountGrantedUsd: num(r.fields[RAPID.amountGranted]),
 });
+
+// Applications for this email that did not become a registration (the registrations'
+// own application IDs are excluded), so a lead sees rejections, withdrawals and pending applications.
+const fetchOtherApplications = async (email: string, registrationApplicationIds: Set<string>): Promise<OtherApplication[]> => {
+  const records = await fetchAll(APPLICATION_REGISTRATIONS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(APP_OUTCOME));
+  return records
+    .filter((r) => !registrationApplicationIds.has(r.id))
+    .map((r): OtherApplication => {
+      const roundName = str(r.fields[APP_OUTCOME.roundName]) ?? '';
+      return {
+        id: r.id,
+        course: courseNameFrom(roundName) ?? 'Unknown course',
+        roundName,
+        roundEnd: first(r.fields[APP_OUTCOME.roundEnd]),
+        createdAt: str(r.fields[APP_OUTCOME.createdAt]),
+        facilitator: str(r.fields[APP_OUTCOME.role]) === 'Facilitator',
+        decision: str(r.fields[APP_OUTCOME.decision]),
+      };
+    })
+    .sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
+};
+
+// "Biosecurity (2026 Oct W42) - Part-time" → "Biosecurity"
+const courseNameFrom = (roundName: string) => {
+  const name = roundName.split(' (')[0];
+  return name === '' ? undefined : name;
+};
 
 // The CRM Person record for this email, when exactly one matches (primary or secondary email)
 const fetchCrmPersonId = async (email: string): Promise<string | undefined> => {
@@ -529,6 +567,7 @@ const fetchHistory = async (email: string, currentId: string, rounds: Map<string
         opinion: str(r.fields[REG.opinion]),
         hasCertificate: !!r.fields[REG.certificateCreatedAt],
         droppedOut: !!r.fields[REG.droppedOut],
+        applicationId: str(r.fields[REG.applicationId])?.trim(),
         isCurrent: r.id === currentId,
       };
     })
@@ -548,8 +587,10 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   const email = str(f[REG.email]) ?? '';
   const applicationId = str(f[REG.applicationId]);
 
-  const [history, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId] = await Promise.all([
-    email ? fetchHistory(email, id, rounds) : Promise.resolve([]),
+  const history = email ? await fetchHistory(email, id, rounds) : [];
+  const registrationApplicationIds = new Set(history.map((h) => h.applicationId).filter((x): x is string => !!x));
+  const [otherApplications, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId] = await Promise.all([
+    email ? fetchOtherApplications(email, registrationApplicationIds) : Promise.resolve([]),
     email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
     email ? fetchAll(CRM_RAPID_GRANTS_URL, { filterByFormula: byEmailFormula('Applicant email', email) }, Object.values(RAPID)) : Promise.resolve([]),
     email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
@@ -579,6 +620,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     webFacts: parseWebFacts(f[REG.webFacts]),
     lookedUpOn: str(f[REG.lookedUpOn]),
     history,
+    otherApplications,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),

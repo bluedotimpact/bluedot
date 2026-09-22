@@ -25,6 +25,7 @@ export type Registration = {
   opinion?: string;
   hasCertificate: boolean;
   droppedOut: boolean;
+  applicationId?: string;
   isCurrent: boolean;
 };
 
@@ -50,6 +51,18 @@ export type GrantApplication = {
   decisionDate?: string;
   amountUsd?: number;
   reasoning?: string;
+};
+
+// An application (Applications base) that never became a Course runner registration:
+// rejected, withdrawn, or still undecided. Shown quietly as intent, not as history.
+export type OtherApplication = {
+  id: string;
+  course: string;
+  roundName: string;
+  roundEnd?: string;
+  createdAt?: string;
+  facilitator: boolean;
+  decision?: string;
 };
 
 // CRM › Rapid grants: small project grants, separate from career transition grants
@@ -173,6 +186,7 @@ export type Person = {
   country?: string;
   scoutingStatus?: string;
   history: Registration[];
+  otherApplications: OtherApplication[];
   grants: GrantApplication[];
   rapidGrants: RapidGrant[];
   calls: EvaluationCall[];

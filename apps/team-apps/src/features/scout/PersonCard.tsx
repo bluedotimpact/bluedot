@@ -3,7 +3,7 @@ import {
   A, CardShell, ChevronRightIcon, cn, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import {
-  type EvaluationCall, type GrantApplication, type Person, type RapidGrant, type Registration, type WebFacts, type WebLink, type WebSource,
+  type EvaluationCall, type GrantApplication, type OtherApplication, type Person, type RapidGrant, type Registration, type WebFacts, type WebLink, type WebSource,
 } from './types';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
@@ -334,6 +334,15 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
   </Row>
 );
 
+// Quiet: an application that never became a registration
+const OtherApplicationRow: React.FC<{ a: OtherApplication }> = ({ a }) => (
+  <div className="text-disabled">
+    <Row what={<>Applied · {a.course}{a.facilitator && <> · facilitator</>}</>} when={shortRound(a.roundName)}>
+      <span className="text-size-xs">{a.decision ?? 'no decision yet'}</span>
+    </Row>
+  </div>
+);
+
 const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
   <div className="flex flex-col gap-1">
     <Row what={/rapid/i.test(g.status ?? '') ? 'Rapid grant' : 'Career transition grant'} when={formatDate(g.decisionDate ?? g.createdAt)}>
@@ -384,7 +393,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
     .filter((u): u is string => !!u)
     .map((u) => [normalise(u), u] as const)).values()];
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
-  const withBlueDotCount = person.history.length + person.grants.length + person.rapidGrants.length + person.calls.length;
+  const withBlueDotCount = person.history.length + person.otherApplications.length + person.grants.length + person.rapidGrants.length + person.calls.length;
   const app = person.application;
   const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
   // Speed-review scores (1-5), produced by the Applications-base automation at application time
@@ -432,6 +441,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
 
       <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
         {person.history.map((r) => <HistoryRow key={r.id} r={r} />)}
+        {person.otherApplications.map((a) => <OtherApplicationRow key={a.id} a={a} />)}
         {person.grants.map((g) => <GrantRow key={g.id} g={g} />)}
         {person.rapidGrants.map((g) => <RapidGrantRow key={g.id} g={g} />)}
         {person.calls.map((c) => <CallRow key={c.id} c={c} />)}
