@@ -1,5 +1,5 @@
 import type {
-  Course, Decision, Person, QueueItem,
+  Course, Decision, InvitedThisWeek, Person, QueueItem,
 } from '../types';
 import type { WriteResult } from './airtable';
 
@@ -49,6 +49,7 @@ export const scoutPreview = {
   fetchQueue: async (): Promise<QueueItem[]> => samplePeople.filter((p) => !state().decisions[p.id]).map((p) => ({
     id: p.id, name: p.name, roundId: `sample-${p.course}`, course: p.course, roundName: p.roundName, roundEnd: p.roundEnd, opinion: p.opinion, hasCertificate: true, hasReport: true,
   })),
+  fetchInvitedThisWeek: async (): Promise<InvitedThisWeek> => ({ 'Technical AI Safety': { total: 3, viaApp: 1 }, Biosecurity: { total: 1, viaApp: 0 } }),
   fetchPerson: async (id: string): Promise<Person | undefined> => {
     const person = samplePeople.find((p) => p.id === id);
     const decision = state().decisions[id];

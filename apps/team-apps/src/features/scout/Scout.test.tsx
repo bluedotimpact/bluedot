@@ -133,6 +133,16 @@ test('skip is local and can be revisited; keyboard shortcuts pause when portal n
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
   await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  // Other rounds still have people, so they come first; skips return only at the very end
+  await screen.findByRole('heading', { name: /Round done/ });
+  expect(screen.queryByRole('button', { name: 'Review skipped participants' })).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Review next round' }));
+  await screen.findByText('Jordan Patel');
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  await screen.findByRole('heading', { name: /Round done/ });
+  fireEvent.click(screen.getByRole('button', { name: 'Review next round' }));
+  await screen.findByText('Riley Williams');
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
   fireEvent.click(await screen.findByRole('button', { name: 'Review skipped participants' }));
   await screen.findByText('Alex Morgan');
   expect(decisions()).toHaveLength(0);

@@ -18,7 +18,7 @@ import {
   button, danger, dangerSolid, primary, panel,
 } from './reviewStyles';
 import type {
-  Decision, Person, QueueItem,
+  Decision, InvitedThisWeek, Person, QueueItem,
 } from './types';
 
 type Loaded = { person: Person } | { error: string };
@@ -38,6 +38,7 @@ const message = (error: unknown) => (error instanceof Error ? error.message : 'S
 
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
+  const [invited, setInvited] = useState<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
@@ -67,9 +68,10 @@ const Scout = () => {
     setSaveError(undefined);
     setConflict(false);
     try {
-      const data = await request<{ items: QueueItem[] }>('queue');
+      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek }>('queue');
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
+      setInvited(data.invitedThisWeek ?? {});
       setSkipped((state) => new Set([...state].filter((id) => data.items.some((item) => item.id === id))));
       setSkipHistory([]);
       setPeople({});
@@ -95,12 +97,11 @@ const Scout = () => {
   const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
   const total = roundItems.length + decisions.length;
 
-  // The round listed after this one in the picker that still has people; wraps to the top
-  const orderedRounds = courses.flatMap((course) => roundsFor(remaining, course));
-  const currentIndex = round ? orderedRounds.findIndex((item) => roundKey(item) === roundKey(round)) : -1;
-  const nextRound = round
-    ? [...orderedRounds.slice(currentIndex + 1), ...orderedRounds.slice(0, Math.max(currentIndex, 0))].find((item) => roundKey(item) !== roundKey(round))
-    : undefined;
+  // First round (in picker order) that still has unskipped people, so a lead sees everyone
+  // once before the skips come back. Skips live in this page only.
+  const unskipped = remaining.filter((item) => !skipped.has(item.id));
+  const nextRound = round ? courses.flatMap((course) => roundsFor(unskipped, course)).find((item) => roundKey(item) !== roundKey(round)) : undefined;
+  const anySkipped = remaining.some((item) => skipped.has(item.id));
 
   const chooseRound = (item: QueueItem) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
@@ -227,7 +228,7 @@ const Scout = () => {
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
         {!loading && queueError && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{queueError} Use Refresh queue to try again.</div>}
         {!loading && !queueError && (!round ? (
-          <RoundPicker items={remaining} onSelect={chooseRound} />
+          <RoundPicker items={remaining} invited={invited} onSelect={chooseRound} />
         ) : <>
           <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 p-4`}>
             <div><p className="font-medium">{round.course}</p><p className="mt-1 text-size-xs text-secondary">{roundLabel(round)}</p></div>
@@ -268,11 +269,13 @@ const Scout = () => {
             {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">{preview ? 'These are sample decisions. No email was sent.' : 'Decisions are saved in Airtable; the invite emails are sent from there.'}</p>}
             <div className="flex flex-wrap gap-2">
               {nextRound && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></button>}
-              {skippedCount > 0 && <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
-                setSkipped((state) => new Set([...state].filter((id) => !roundItems.some((item) => item.id === id))));
+              {!nextRound && anySkipped && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => {
+                const firstWithSkips = courses.flatMap((course) => roundsFor(remaining, course)).find((item) => remaining.some((r) => roundKey(r) === roundKey(item) && skipped.has(r.id)));
+                setSkipped(new Set());
                 setSkipHistory([]);
                 setFinished(false);
                 setNotice(undefined);
+                if (firstWithSkips) setRound(firstWithSkips);
               }}>Review skipped participants</button>}
               <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
                 setRound(undefined);

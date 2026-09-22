@@ -7,7 +7,7 @@ import { withAirtableRetry } from '@bluedot/db';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
-  type FacilitatorReport, type GrantApplication, type Person, type Project, type QueueItem, type Registration,
+  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type Person, type Project, type QueueItem, type Registration,
 } from '../types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -292,6 +292,31 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
 
   // Airtable returns rows in the view's own sort, so the order is controlled there.
   return items;
+};
+
+// ---- Invites this week ----
+
+const INVITE_DATE_FIELD = 'fld9YWOaYvSauL5sV';
+
+// Both invite flows stamp the same date on the registration, so one read covers them.
+export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThisWeek> => {
+  const monday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - ((now.getUTCDay() + 6) % 7)));
+  const sunday = new Date(monday.getTime() - 86400000).toISOString().slice(0, 10);
+  const [records, rounds] = await Promise.all([
+    fetchAll(REGISTRATIONS_URL, { filterByFormula: `IS_AFTER({1-1 invite date}, DATETIME_PARSE('${sunday}'))` }, [REG.round, REG.inviteSource, INVITE_DATE_FIELD]),
+    getRounds(),
+  ]);
+  const counts: InvitedThisWeek = {};
+  for (const r of records) {
+    const course = courseOf(rounds.get(first(r.fields[REG.round]) ?? ''));
+    if (!course) continue;
+    const entry = counts[course] ?? { total: 0, viaApp: 0 };
+    entry.total += 1;
+    if (str(r.fields[REG.inviteSource]) === 'Talent scouting app') entry.viaApp += 1;
+    counts[course] = entry;
+  }
+
+  return counts;
 };
 
 // ---- Person ----
