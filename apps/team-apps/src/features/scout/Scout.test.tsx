@@ -147,7 +147,7 @@ test('chooses a round before loading people and never includes another round fro
   fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
   await screen.findByText('Alex Morgan');
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
-  await screen.findByRole('heading', { name: 'Round done' });
+  await screen.findByRole('heading', { name: /Round done/ });
   expect(screen.queryByText('Sam Chen')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Change round' }));
   fireEvent.click(screen.getByTestId('choose-round-another-round'));
