@@ -4,6 +4,7 @@ import { scoutPreview } from './preview';
 import * as airtable from './airtable';
 
 export const fetchQueue = () => (isLocalPreview() ? scoutPreview.fetchQueue() : airtable.fetchQueue());
+export const fetchInvitedThisWeek = () => (isLocalPreview() ? scoutPreview.fetchInvitedThisWeek() : airtable.fetchInvitedThisWeek());
 export const fetchPerson = (id: string) => (isLocalPreview() ? scoutPreview.fetchPerson(id) : airtable.fetchPerson(id));
 
 export const recordDecision = async (id: string, decision: Decision) => {

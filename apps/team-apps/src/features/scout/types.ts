@@ -12,6 +12,9 @@ export type QueueItem = {
   hasReport: boolean;
 };
 
+// Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share
+export type InvitedThisWeek = Partial<Record<Course, { total: number; viaApp: number }>>;
+
 export type Registration = {
   id: string;
   course: string;

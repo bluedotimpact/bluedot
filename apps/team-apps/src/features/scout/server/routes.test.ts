@@ -4,11 +4,15 @@ import {
   beforeEach, expect, test, vi,
 } from 'vitest';
 
-const { verify, fetchQueue, fetchPerson, recordDecision } = vi.hoisted(() => ({
-  verify: vi.fn(), fetchQueue: vi.fn(), fetchPerson: vi.fn(), recordDecision: vi.fn(),
+const {
+  verify, fetchQueue, fetchInvitedThisWeek, fetchPerson, recordDecision,
+} = vi.hoisted(() => ({
+  verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchPerson: vi.fn(), recordDecision: vi.fn(),
 }));
 vi.mock('@bluedot/ui', () => ({ loginPresets: { googleBlueDot: { verifyAndDecodeToken: verify } } }));
-vi.mock('./index', () => ({ fetchQueue, fetchPerson, recordDecision }));
+vi.mock('./index', () => ({
+  fetchQueue, fetchInvitedThisWeek, fetchPerson, recordDecision,
+}));
 import queue from '../../../pages/api/scout/queue';
 import person from '../../../pages/api/scout/person/[id]';
 import decision from '../../../pages/api/scout/decision';
