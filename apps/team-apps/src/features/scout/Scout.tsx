@@ -145,7 +145,7 @@ const Scout = () => {
     if (!current || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSkipped((state) => new Set([...state, current.id]));
     setSkipHistory((state) => [...state, current.id]);
-    setNotice(`${current.name ?? 'Participant'} skipped. Nothing was saved.`);
+    setNotice(undefined);
     setSaveError(undefined);
   }, [current, confirmation, promptOpen, conflict]);
 
@@ -244,7 +244,7 @@ const Scout = () => {
                 setSkipped((state) => new Set([...state].filter((value) => value !== id)));
                 setSkipHistory((state) => state.slice(0, -1));
                 setFinished(false);
-                setNotice('Last skip undone.');
+                setNotice(undefined);
               }}>Undo skip</button>
             </div>
           </div>
