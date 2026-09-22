@@ -328,8 +328,7 @@ const Row: React.FC<{ what: ReactNode; when: ReactNode; bold?: boolean; children
 );
 
 const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
-  <Row what={r.course} when={shortRound(r.roundName)} bold={r.isCurrent}>
-    {r.facilitated && <Badge colour="purpleLight2">Facilitator</Badge>}
+  <Row what={<>{r.course}{r.facilitated && <> <Badge colour="purpleLight2">Facilitator</Badge></>}</>} when={shortRound(r.roundName)} bold={r.isCurrent}>
     <OpinionBadge opinion={r.opinion} />
     <CompletionBadge r={r} />
   </Row>
