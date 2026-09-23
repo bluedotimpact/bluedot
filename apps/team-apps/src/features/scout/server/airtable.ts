@@ -785,7 +785,7 @@ export type WriteResult = { ok: true } | { ok: false; reason: string };
 export type InviteResult = WriteResult;
 
 // Refuses anyone already contacted or already given a status, so a decision is
-// checked against live Airtable state; the caller holds the decision lock.
+// checked against live Airtable state right before the write.
 const untouchedOrReason = async (id: string): Promise<{ ok: true; fields: Record<string, unknown> } | { ok: false; reason: string }> => {
   const record = await fetchOne(REGISTRATIONS_URL, id, []);
   if (!record) return { ok: false, reason: 'Registration not found' };
