@@ -7,6 +7,7 @@ import {
 } from '@bluedot/ui';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
+import { isLocalPreview } from '../../lib/preview';
 import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { QueueSource } from './QueueSource';
@@ -34,6 +35,18 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
 };
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
+
+// Scout reads live Airtable data and has no sample data set, so the portal's local
+// preview mode (synthetic token, no Airtable token) cannot show it
+const PreviewNotice = () => (
+  <div className="min-h-dvh bg-canvas p-3 sm:p-6">
+    <Head><title>Course talent scouting · BlueDot Apps</title></Head>
+    <div className={`${panel} mx-auto max-w-3xl space-y-2 p-6 text-size-sm`}>
+      <h1 className="text-size-lg font-semibold">Course talent scouting</h1>
+      <p className="text-secondary">This app has no local preview data. Run the portal with a real sign-in and an Airtable token to use it.</p>
+    </div>
+  </div>
+);
 
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
@@ -208,6 +221,8 @@ const Scout = () => {
   let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
   if (saveError) confirmLabel = 'Retry save';
   if (writing) confirmLabel = confirmation?.decision === 'invite' ? 'Sending invite…' : 'Saving…';
+
+  if (isLocalPreview()) return <PreviewNotice />;
 
   return (
     <div className="min-h-dvh bg-canvas p-3 sm:p-6">

@@ -379,8 +379,9 @@ const RecordLink: React.FC<{ url?: string }> = ({ url }) => (
 
 // The list is one grid and every row a subgrid of it, so the badge columns line up across
 // rows while sizing to their content. Columns: when · kind · detail · opinion · status · link.
+// Below lg the six cells fall into three columns, two lines per row, instead of overflowing.
 const TimelineList: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="grid grid-cols-[auto_auto_minmax(0,1fr)_auto_auto_auto] items-center gap-x-4 text-size-xs text-secondary">{children}</div>
+  <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 text-size-xs text-secondary lg:grid-cols-[auto_auto_minmax(0,1fr)_auto_auto_auto]">{children}</div>
 );
 
 // `more` adds a chevron and opens text under the row.
@@ -544,8 +545,9 @@ const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
 const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
   if (sessions.length === 0) return <Section title="Sessions" empty emptyText="no sessions found for this registration" />;
   const now = new Date();
-  const past = sessions.filter((x) => x.startAt && new Date(x.startAt) < now);
-  const attended = sessions.filter((x) => x.attended).length;
+  // Sessions that have happened: started already, or recorded as attended whatever the timing says
+  const happened = sessions.filter((x) => x.attended || (x.startAt && new Date(x.startAt) < now));
+  const attended = happened.filter((x) => x.attended).length;
   const status = (x: Session): Status | undefined => {
     if (x.attended) return { tone: 'good', label: 'Attended' };
     if (x.startAt && new Date(x.startAt) < now) return { tone: 'bad', label: 'Absent' };
@@ -556,7 +558,7 @@ const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
   const seen = new Set<number | undefined>();
 
   return (
-    <Section title="Sessions" count={sessions.length} meta={<Meta>{attended} of {past.length} attended</Meta>}>
+    <Section title="Sessions" count={sessions.length} meta={<Meta>{attended} of {happened.length} attended</Meta>}>
       <TimelineList>
         {sessions.map((x) => {
           const first = !seen.has(x.group);
