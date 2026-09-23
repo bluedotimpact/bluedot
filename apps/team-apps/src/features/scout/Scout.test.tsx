@@ -229,14 +229,14 @@ test('search opens one registration, a decision on it returns to the start and r
   expect(decisions()).toHaveLength(1);
 });
 
-test('back to search keeps the query; a ?person= link opens the card directly', async () => {
+test('back to search starts with an empty box; a ?person= link opens the card directly', async () => {
   render(<Scout />);
   fireEvent.change(await screen.findByLabelText('Find a participant in the queue'), { target: { value: 'example.org' } });
   expect(screen.getAllByTestId(/search-result-/)).toHaveLength(4);
   fireEvent.click(screen.getByTestId('search-result-recScoutSample002'));
   await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Back to search' }));
-  expect((await screen.findByLabelText('Find a participant in the queue')).getAttribute('value')).toBe('example.org');
+  expect((await screen.findByLabelText('Find a participant in the queue')).getAttribute('value')).toBe('');
   expect(decisions()).toHaveLength(0);
   cleanup();
 

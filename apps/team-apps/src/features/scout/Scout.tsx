@@ -144,6 +144,7 @@ const Scout = () => {
 
   const closeLookup = () => {
     setLookup(undefined);
+    setSearch('');
     setPersonInUrl(undefined);
   };
 
