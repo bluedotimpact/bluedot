@@ -67,8 +67,10 @@ export type GrantApplication = {
   status?: string;
   decisionDate?: string;
   amountUsd?: number;
+  // "Decision reasoning" is the evaluator's; "Current situation" is the applicant's answer
   reasoning?: string;
   decidedBy?: string;
+  currentSituation?: string;
 };
 
 // An application (Applications base) that never became a Course runner registration:

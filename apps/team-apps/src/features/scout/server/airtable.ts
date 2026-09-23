@@ -172,6 +172,7 @@ const GRANT = {
   amountUsd: 'fldYhy8btQ5r8vRk0',
   reasoning: 'fld8umY7wuskih6gg',
   evaluator: 'fldGavMM0OtpbjwnT',
+  currentSituation: 'fldytFzdfdEikERie',
 } as const;
 
 // Applications › Evaluation calls
@@ -577,6 +578,7 @@ const toGrant = (r: AirtableRecord): GrantApplication => ({
   amountUsd: num(r.fields[GRANT.amountUsd]),
   reasoning: str(r.fields[GRANT.reasoning]),
   decidedBy: collaboratorName(r.fields[GRANT.evaluator]),
+  currentSituation: str(r.fields[GRANT.currentSituation]),
 });
 
 const toCall = (r: AirtableRecord): EvaluationCall => ({

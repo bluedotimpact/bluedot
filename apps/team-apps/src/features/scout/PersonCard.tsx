@@ -423,6 +423,17 @@ const More: React.FC<{ label: string; text?: string; ai?: boolean }> = ({ label,
 // "-" and similar placeholders typed into a text field count as empty
 const hasText = (text?: string) => !!text && /[A-Za-z0-9]/.test(text);
 
+// First line inside a grant row: who decided, when, and the project link if there is one.
+// Labels below say whether the text is the applicant's or ours.
+const DecisionLine: React.FC<{ by?: string; on?: string; projectUrl?: string }> = ({ by, on, projectUrl }) => (
+  (by ?? on ?? projectUrl) ? (
+    <p className="text-size-xs text-secondary">
+      {by && `Decision by ${by}`}{by && on && ' · '}{on && formatDate(on)}
+      {projectUrl && <>{(by ?? on) && ' · '}<A href={projectUrl} target="_blank">link to project ↗</A></>}
+    </p>
+  ) : null
+);
+
 const CourseDetail: React.FC<{ course: string; roundName: string }> = ({ course, roundName }) => {
   const intensity = intensityOf(roundName);
   return <>{course}{intensity && ` · ${intensity}`}</>;
@@ -465,7 +476,13 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
     detail={amounts(g.amountUsd)}
     status={decisionStatus(g.status)}
     url={g.recordUrl}
-    more={hasText(g.reasoning) && <More label={['Decision reasoning', g.decidedBy, g.decisionDate && formatDate(g.decisionDate)].filter(Boolean).join(' · ')} text={g.reasoning} />}
+    more={(g.decidedBy ?? g.decisionDate ?? (hasText(g.currentSituation) || hasText(g.reasoning))) && (
+      <div className="flex flex-col gap-2">
+        <DecisionLine by={g.decidedBy} on={g.decisionDate} />
+        {hasText(g.currentSituation) && <More label="Applicant · Current situation" text={g.currentSituation} />}
+        {hasText(g.reasoning) && <More label="BlueDot · Decision reasoning" text={g.reasoning} />}
+      </div>
+    )}
   />
 );
 
@@ -479,9 +496,9 @@ const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
     url={g.recordUrl}
     more={(hasText(g.projectTitle) || hasText(g.whyItMatters) || g.madeBy) && (
       <div className="flex flex-col gap-2">
-        {hasText(g.projectTitle) && <p className="text-size-sm font-medium">{g.publicUrl ? <A href={g.publicUrl} target="_blank">{g.projectTitle} ↗</A> : g.projectTitle}</p>}
-        <More label="How it reduces catastrophic risk" text={hasText(g.whyItMatters) ? g.whyItMatters : undefined} />
-        {g.madeBy && <p className="text-size-xs text-secondary">Decision by {g.madeBy}{g.decidedAt && ` · ${formatDate(g.decidedAt)}`}</p>}
+        <DecisionLine by={g.madeBy} on={g.decidedAt} projectUrl={g.publicUrl ?? g.projectUrl} />
+        {hasText(g.projectTitle) && <More label="Applicant · Project title" text={g.projectTitle} />}
+        {hasText(g.whyItMatters) && <More label="Applicant · How it reduces catastrophic risk" text={g.whyItMatters} />}
       </div>
     )}
   />
@@ -581,9 +598,9 @@ const ProjectSection: React.FC<{ projects: Project[] }> = ({ projects }) => {
 // "10/10 · Aline gave 10 or more to 1 of the 7 they rated this round"
 const feedbackSummary = (fb: FacilitatorFeedback) => {
   const who = fb.reviewer?.split(' ')[0] ?? 'The facilitator';
-  const score = fb.rating !== undefined ? `${fb.rating}/10 · ` : '';
-  if (fb.roundStats && fb.rating !== undefined) return `${score}${who} gave ${fb.rating} or more to ${fb.roundStats.atOrAbove} of the ${fb.roundStats.rated} they rated this round.`;
-  return `${score}${who}${fb.round ? ` · ${shortRound(fb.round)}` : ''}`;
+  const score = fb.rating !== undefined ? <><span className="font-semibold text-primary">{fb.rating}/10</span> · </> : null;
+  if (fb.roundStats && fb.rating !== undefined) return <>{score}{who} gave {fb.rating} or more to {fb.roundStats.atOrAbove} of the {fb.roundStats.rated} they rated this round.</>;
+  return <>{score}{who}{fb.round ? ` · ${shortRound(fb.round)}` : ''}</>;
 };
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
