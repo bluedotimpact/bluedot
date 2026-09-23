@@ -40,7 +40,6 @@ export type FacilitatorFeedback = {
   ratingReasoning?: number;
   ratingInitiative?: number;
   feedback?: string;
-  oneOnOneRating?: string;
   motivation?: string;
   nextSteps: string[];
   recommendToFacilitate: boolean;
@@ -100,10 +99,18 @@ export type FacilitatorReport = {
   recordUrl?: string;
   date?: string;
   round?: string;
+  facilitator?: string;
+  // "Overall take justification" on the form
   quickTake?: string;
   anythingElse?: string;
+  // Older reports (before September 2026)
   nextSteps: string[];
   docUrl?: string;
+  // Newer reports: Strong yes … Strong no, or Unsure
+  overallTake?: string;
+  ratings: { label: string; score?: number; evidence?: string }[];
+  plans?: string;
+  reviewNotes?: string;
 };
 
 export type Project = {

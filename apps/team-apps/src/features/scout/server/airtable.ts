@@ -81,14 +81,31 @@ const ROUND = {
   courseText: 'fldvorW4UVmRTihB9',
 } as const;
 
+// Facilitator 1-1 reports. The form changed in September 2026: newer reports carry an
+// overall take, three ratings with evidence and the participant's plans, and leave the
+// "[old]" fields empty. Both shapes are read.
 const REPORT = {
   date: 'fldDnJTlUZeyxQV1h',
   round: 'fldkGuyiYsn3TBO2k',
+  facilitator: 'fldjehExSEm88BAAa',
   quickTake: 'fldbc2Lpd7rm5jFKK',
   anythingElse: 'fldeFI1AL6n9BeAA8',
   nextSteps: 'fldPpOlwbqECwCLuN',
   docUrl: 'fldmEDOArgi8w0M4h',
+  overallTake: 'fld2RJ0EwPPpo1uSr',
+  commitment: 'fldAJIYebMUZFY7lj',
+  commitmentEvidence: 'fld3L3K7zlnM6u84z',
+  agency: 'fldJRH3StmKxcjjNH',
+  agencyEvidence: 'fldyxhZD9lEBMSap3',
+  sharpness: 'fldlHew2pGQ4LzDDv',
+  sharpnessEvidence: 'fldQ7IXGeed6cQcOs',
+  plans: 'flddhhm6nMliEYCmp',
+  reviewNotes: 'fldE7HnjsEN7hq1VP',
 } as const;
+
+// Course runner › User: who wrote a 1-1 report
+const USERS_URL = `${COURSE_RUNNER}/tbl0Cs1Vfc9fiWDXZ`;
+const USER_FULL_NAME = 'fldTnRgrJCcfhdbdV';
 
 const PROJECT = {
   title: 'fldSEaFkf5t8a4ppA',
@@ -116,7 +133,6 @@ const PEER = {
   ratingReasoning: 'fldNXTpmIxyKvYdZH',
   ratingInitiative: 'fldUBSY6rZ1Oyf1bd',
   feedback: 'fldybGPKyRUcM0D84',
-  oneOnOneRating: 'fldbc8hZ7zQs9BFvH',
   motivation: 'fldHZHrE2nI1BQzvt',
   nextSteps: 'fldDXBWnFLi7vD2CQ',
   recommendToFacilitate: 'fldlCEk5bRh2LeafW',
@@ -411,17 +427,33 @@ export const parseWebFacts = (raw: unknown): WebFacts | undefined => {
 
 // ---- Person ----
 
-const toReport = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorReport => ({
+const toReport = (rounds: Map<string, Round>, facilitators: Map<string, string>) => (r: AirtableRecord): FacilitatorReport => ({
   id: r.id,
   recordUrl: recordLink(REPORTS_URL, r.id),
   date: str(r.fields[REPORT.date]),
   // The lookup returns round record IDs, not names
   round: rounds.get(first(r.fields[REPORT.round]) ?? '')?.name,
+  facilitator: facilitators.get(first(r.fields[REPORT.facilitator]) ?? ''),
   quickTake: str(r.fields[REPORT.quickTake]),
   anythingElse: str(r.fields[REPORT.anythingElse]),
   nextSteps: strList(r.fields[REPORT.nextSteps]),
   docUrl: url(r.fields[REPORT.docUrl]),
+  overallTake: str(r.fields[REPORT.overallTake]),
+  ratings: [
+    { label: 'Commitment', score: num(r.fields[REPORT.commitment]), evidence: str(r.fields[REPORT.commitmentEvidence]) },
+    { label: 'Agency', score: num(r.fields[REPORT.agency]), evidence: str(r.fields[REPORT.agencyEvidence]) },
+    { label: 'Sharpness', score: num(r.fields[REPORT.sharpness]), evidence: str(r.fields[REPORT.sharpnessEvidence]) },
+  ].filter((x) => x.score !== undefined || x.evidence),
+  plans: str(r.fields[REPORT.plans]),
+  reviewNotes: str(r.fields[REPORT.reviewNotes]),
 });
+
+// Full names for the facilitators who wrote these reports
+const fetchFacilitatorNames = async (reports: AirtableRecord[]): Promise<Map<string, string>> => {
+  const ids = [...new Set(reports.flatMap((r) => strList(r.fields[REPORT.facilitator])))];
+  const users = ids.length > 0 ? await fetchMany(USERS_URL, ids, [USER_FULL_NAME]) : [];
+  return new Map(users.map((u) => [u.id, str(u.fields[USER_FULL_NAME]) ?? '']));
+};
 
 const toProject = (r: AirtableRecord): Project => ({
   id: r.id,
@@ -452,7 +484,6 @@ const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord
   ratingReasoning: num(r.fields[PEER.ratingReasoning]),
   ratingInitiative: num(r.fields[PEER.ratingInitiative]),
   feedback: str(r.fields[PEER.feedback]),
-  oneOnOneRating: str(r.fields[PEER.oneOnOneRating]),
   motivation: str(r.fields[PEER.motivation]),
   nextSteps: strList(r.fields[PEER.nextSteps]),
   recommendToFacilitate: !!r.fields[PEER.recommendToFacilitate],
@@ -616,6 +647,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
     email ? fetchCrmPersonId(email) : Promise.resolve(undefined),
   ]);
+  const facilitators = await fetchFacilitatorNames(reports);
 
   return {
     id: record.id,
@@ -639,7 +671,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
-    reports: reports.map(toReport(rounds)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
+    reports: reports.map(toReport(rounds, facilitators)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
     // Only the facilitator's rows; participants can also leave peer feedback
     facilitatorFeedback: peerFeedback.filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator')).map(toFacilitatorFeedback(rounds)),
     projects: projects.map(toProject),

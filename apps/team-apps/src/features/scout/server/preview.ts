@@ -26,10 +26,10 @@ export const samplePeople: Person[] = examples.map(({ id, name, course }) => ({
     id: 'recSampleCall001', callDate: '2026-07-15', opinion: 'Weak yes', cases: { commitment: 4, agency: 3, expertise: 3 },
   }],
   reports: [{
-    id: 'recSampleReport01', date: '2026-08-25', quickTake: 'Asked precise questions, followed up with a working experiment, and helped peers understand the evaluation results.', nextSteps: ['Schedule follow-up call with BlueDot team within ~1 week (high-priority)'],
+    id: 'recSampleReport01', date: '2026-08-25', facilitator: 'Example facilitator', quickTake: 'Asked precise questions, followed up with a working experiment, and helped peers understand the evaluation results.', nextSteps: [], overallTake: 'Weak yes', ratings: [{ label: 'Commitment', score: 4, evidence: 'Already spends weekends on a related side project.' }, { label: 'Agency', score: 3 }], plans: 'Wants to apply for a research fellowship next spring.',
   }],
   facilitatorFeedback: [{
-    id: 'recSamplePeer001', reviewer: 'Example facilitator', rating: 8, feedback: 'Strong independent work and clear reasoning. Worth a conversation about practical next steps.', nextSteps: [], oneOnOneRating: 'Promising', recommendToFacilitate: true,
+    id: 'recSamplePeer001', reviewer: 'Example facilitator', rating: 8, feedback: 'Strong independent work and clear reasoning. Worth a conversation about practical next steps.', nextSteps: [], recommendToFacilitate: true,
   }],
   projects: [{ id: 'recSampleProject', title: 'Evaluation reliability', evalNotes: ['Compared several evaluation methods and documented where their results disagree.'] }],
   feedback: [{

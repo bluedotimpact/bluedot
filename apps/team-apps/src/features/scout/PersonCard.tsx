@@ -36,9 +36,6 @@ const NEXT_STEP_COLOUR: Record<string, string> = {
   'Flag as candidate for funding (career transition/project)': 'greenLight2',
   '[!] Recommend to facilitate': 'yellowLight2',
 };
-const ONE_ON_ONE_RATING_COLOUR: Record<string, string> = {
-  Exceptional: 'blueLight2', Promising: 'cyanLight2', Solid: 'tealLight2', 'Not a fit': 'greenLight2',
-};
 
 const airtableStyle = (colour?: string) => (colour && AIRTABLE[colour] ? { backgroundColor: AIRTABLE[colour].bg, color: AIRTABLE[colour].fg } : undefined);
 
@@ -47,7 +44,7 @@ const Badge: React.FC<{ children: ReactNode; className?: string; colour?: string
 );
 
 const OpinionBadge: React.FC<{ opinion?: string }> = ({ opinion }) => (
-  opinion ? <Badge colour={OPINION_COLOUR[opinion]}>{opinion}</Badge> : null
+  opinion ? <Badge colour={OPINION_COLOUR[opinion] ?? 'grayLight2'}>{opinion}</Badge> : null
 );
 
 const formatDate = (iso?: string) => (iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
@@ -556,21 +553,34 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       )}
 
       {person.reports.length > 0 && (
-        <Section title="Facilitator 1:1 report" meta={<Meta>{person.reports.map((r) => formatDate(r.date)).join(', ')}</Meta>}>
+        <Section
+          title="Facilitator 1:1 report"
+          defaultOpen
+          meta={person.reports.map((r) => (
+            <span key={r.id} className="flex items-center gap-2 font-normal">
+              <OpinionBadge opinion={r.overallTake} />
+              <Meta>{formatDate(r.date)}</Meta>
+            </span>
+          ))}
+        >
           {person.reports.map((r) => (
             <div key={r.id} className="flex min-w-0 flex-col gap-2 break-words">
               <EntryHeading>
-                <span>{formatDate(r.date)}{r.round && ` · ${shortRound(r.round)}`}</span>
+                <span>{r.facilitator ?? 'Facilitator'}{r.round && ` · ${shortRound(r.round)}`}{r.date && ` · ${formatDate(r.date)}`}</span>
                 <RecordLink url={r.recordUrl} />
               </EntryHeading>
-              {(r.nextSteps.length > 0 || r.docUrl) && (
-                <div className="flex flex-wrap items-center gap-2 text-size-xs">
+              {(r.ratings.length > 0 || r.nextSteps.length > 0 || r.docUrl) && (
+                <div className="flex flex-wrap items-center gap-1 text-size-xs">
+                  {r.ratings.filter((x) => x.score !== undefined).map((x) => <Badge key={x.label}>{x.label} {x.score}/5</Badge>)}
                   {r.nextSteps.map((step) => <Badge key={step} colour={NEXT_STEP_COLOUR[step]}>{step}</Badge>)}
-                  {r.docUrl && <A href={r.docUrl} target="_blank" className="inline-flex min-h-11 items-center">full report ↗</A>}
+                  {r.docUrl && <A href={r.docUrl} target="_blank" className="ml-1 inline-flex min-h-11 items-center">full report ↗</A>}
                 </div>
               )}
-              <Answer label="Quick take" text={r.quickTake} />
+              <Answer label="Overall take" text={r.quickTake} />
+              {r.ratings.map((x) => <Answer key={x.label} label={`Why ${x.label.toLowerCase()}${x.score !== undefined ? ` ${x.score}/5` : ''}`} text={x.evidence} />)}
+              <Answer label="Their plans" text={r.plans} />
               <Answer label="Anything else" text={r.anythingElse} />
+              <Answer label="Review notes (BlueDot)" text={r.reviewNotes} />
             </div>
           ))}
         </Section>
@@ -578,12 +588,12 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
 
       <Section
         title="Facilitator feedback"
+        defaultOpen
         empty={person.facilitatorFeedback.length === 0}
         emptyText="the facilitator left none"
         meta={person.facilitatorFeedback.map((fb) => (
           <span key={fb.id} className="flex items-center gap-2 font-normal">
             {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10</span>}
-            {fb.oneOnOneRating && <Badge colour={ONE_ON_ONE_RATING_COLOUR[fb.oneOnOneRating]}>{fb.oneOnOneRating}</Badge>}
             {fb.reviewer && <Meta>{fb.reviewer}</Meta>}
           </span>
         ))}
@@ -612,6 +622,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
 
       <Section
         title="Course feedback"
+        defaultOpen
         empty={person.feedback.length === 0}
         emptyText="none"
         meta={person.feedback.map((fb) => (
