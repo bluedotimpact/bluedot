@@ -5,6 +5,8 @@ import {
   intervalsToWeeklyTimeAv,
   gridToUtcIntervalString,
   utcIntervalStringToGrid,
+  MINUTES_IN_UNIT,
+  MINUTES_IN_WEEK,
   type TimeAvailabilityMap,
 } from './timeAvailability';
 
@@ -80,5 +82,14 @@ describe('gridToUtcIntervalString and utcIntervalStringToGrid', () => {
 
   test('round-trips for a negative offset', () => {
     expect(utcIntervalStringToGrid(gridToUtcIntervalString(map, 'UTC-05:00'), 'UTC-05:00')).toEqual(map);
+  });
+
+  test('round-trips a full-week selection', () => {
+    const fullWeek: TimeAvailabilityMap = {};
+    for (let t = 0; t < MINUTES_IN_WEEK; t += MINUTES_IN_UNIT) fullWeek[t] = true;
+
+    const utc = gridToUtcIntervalString(fullWeek, 'UTC-03:00');
+    expect(utc).toBe('M00:00 M00:00');
+    expect(utcIntervalStringToGrid(utc, 'UTC-03:00')).toEqual(fullWeek);
   });
 });
