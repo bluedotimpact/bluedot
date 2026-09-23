@@ -3,6 +3,7 @@ export type Course = 'Biosecurity' | 'Technical AI Safety' | 'Technical AI Safet
 export type QueueItem = {
   id: string;
   name?: string;
+  email?: string;
   roundId?: string;
   course: Course;
   roundName: string;
