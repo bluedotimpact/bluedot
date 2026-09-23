@@ -678,8 +678,8 @@ const courseNameFrom = (roundName: string) => {
 
 // The CRM Person record for this email, when exactly one matches (primary or secondary email)
 const fetchCrmPersonId = async (email: string): Promise<string | undefined> => {
-  const escaped = email.replace(/'/g, '\\\'').toLowerCase();
-  const records = await fetchAll(CRM_PERSON_URL, { filterByFormula: `OR(LOWER({Primary email})='${escaped}', LOWER({Secondary email})='${escaped}')`, pageSize: '3' }, ['Primary email']);
+  const formula = `OR(${byEmailFormula('Primary email', email)}, ${byEmailFormula('Secondary email', email)})`;
+  const records = await fetchAll(CRM_PERSON_URL, { filterByFormula: formula, pageSize: '3' }, ['Primary email']);
   return records.length === 1 ? records[0]!.id : undefined;
 };
 
@@ -741,7 +741,8 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     .filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator'))
     .map(toFacilitatorFeedback(rounds))
     .map(async (fb) => (fb.reviewer && fb.round && fb.rating !== undefined
-      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating) }
+      // Context only: if the stats read fails (renamed field, rate limit) the feedback still shows
+      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating).catch(() => undefined) }
       : fb)));
 
   return {

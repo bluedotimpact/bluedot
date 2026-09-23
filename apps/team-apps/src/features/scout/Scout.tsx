@@ -186,6 +186,7 @@ const Scout = () => {
       }
 
       setDone((state) => ({ ...state, [selected.person.id]: selected }));
+      setSkipOrder((state) => state.filter((id) => id !== selected.person.id));
       setConfirmation(undefined);
       setNotice(selected.decision === 'invite' ? 'Invitation requested. Airtable will send the email.' : 'Saved as don’t invite.');
     } catch (error) {
@@ -249,7 +250,7 @@ const Scout = () => {
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <p className="font-medium">{round.course}</p>
               <p className="text-size-xs text-secondary">{roundLabel(round)}</p>
-              <p className="text-size-xs text-secondary">{decisions.length} of {total} reviewed{skipOrder.length > 0 && ` · ${skipOrder.length} skipped for now`}</p>
+              <p className="text-size-xs text-secondary">{decisions.length} of {total} reviewed{skippedItems.length > 0 && ` · ${skippedItems.length} skipped for now`}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <button type="button" className={button} disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
