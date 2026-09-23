@@ -148,18 +148,26 @@ const Scout = () => {
     setPersonInUrl(undefined);
   };
 
-  // ?person=rec… on load opens that registration, if it is in the queue
+  // ?person=rec… opens that registration, if it is in the queue: on load, and whenever the
+  // parameter changes underneath an open card (a pasted link, browser back). Removing it
+  // closes the card. The page's own open/close write the same value, so they are no-ops here.
   const linked = typeof router.query.person === 'string' ? router.query.person : undefined;
   useEffect(() => {
-    if (loading || queueError !== undefined || !linked || lookup) return;
+    if (loading || queueError !== undefined) return;
+    if (!linked) {
+      if (lookup) setLookup(undefined);
+      return;
+    }
+    if (lookup?.id === linked) return;
     const item = items.find((entry) => entry.id === linked);
     if (item && !done[item.id]) {
       setLookup(item);
     } else {
+      setLookup(undefined);
       setNotice('That person is not in the queue right now.');
       setPersonInUrl(undefined);
     }
-    // Only on load: later changes to the URL come from this page itself
+    // Runs when the URL parameter changes, not on every render that touches lookup or items
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, queueError, linked]);
 
