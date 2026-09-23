@@ -17,6 +17,7 @@ export type InvitedThisWeek = Partial<Record<Course, { total: number; viaApp: nu
 
 export type Registration = {
   id: string;
+  recordUrl?: string;
   course: string;
   roundName: string;
   roundStart?: string;
@@ -25,63 +26,137 @@ export type Registration = {
   opinion?: string;
   hasCertificate: boolean;
   droppedOut: boolean;
+  applicationId?: string;
   isCurrent: boolean;
 };
 
 // Facilitator's private feedback on a participant (Course runner › Peer feedback)
 export type FacilitatorFeedback = {
   id: string;
+  recordUrl?: string;
   reviewer?: string;
   round?: string;
   rating?: number;
   ratingReasoning?: number;
   ratingInitiative?: number;
   feedback?: string;
-  oneOnOneRating?: string;
   motivation?: string;
   nextSteps: string[];
   recommendToFacilitate: boolean;
+  // Everyone this facilitator rated in the same round, and how many got this score or more
+  roundStats?: { rated: number; atOrAbove: number };
+};
+
+// A session (group discussion) this registration was expected at
+export type Session = {
+  id: string;
+  recordUrl?: string;
+  unit?: number;
+  topic?: string;
+  group?: number;
+  docUrl?: string;
+  startAt?: string;
+  facilitator?: string;
+  attended: boolean;
 };
 
 export type GrantApplication = {
   id: string;
+  recordUrl?: string;
   createdAt?: string;
   status?: string;
   decisionDate?: string;
   amountUsd?: number;
+  // "Decision reasoning" is the evaluator's; "Current situation" is the applicant's answer
   reasoning?: string;
+  decidedBy?: string;
+  currentSituation?: string;
+};
+
+// An application (Applications base) that never became a Course runner registration:
+// rejected, withdrawn, or still undecided. Shown quietly as intent, not as history.
+export type OtherApplication = {
+  id: string;
+  recordUrl?: string;
+  course: string;
+  roundName: string;
+  roundEnd?: string;
+  createdAt?: string;
+  facilitator: boolean;
+  decision?: string;
+  opinion?: string;
+  // Speed-review summary written at application time
+  aiSummary?: string;
+};
+
+// CRM › Rapid grants: small project grants, separate from career transition grants
+export type RapidGrant = {
+  id: string;
+  recordUrl?: string;
+  createdAt?: string;
+  decision?: string;
+  projectTitle?: string;
+  projectUrl?: string;
+  oneLiner?: string;
+  amountRequestedUsd?: number;
+  amountGrantedUsd?: number;
+  opinion?: string;
+  // The applicant's answer to how the project helps; who decided and when
+  whyItMatters?: string;
+  publicUrl?: string;
+  madeBy?: string;
+  decidedAt?: string;
 };
 
 export type EvaluationCall = {
   id: string;
+  recordUrl?: string;
   createdAt?: string;
   callDate?: string;
   status?: string;
   opinion?: string;
   notesUrl?: string;
+  // "Evaluation notes" written after the call
+  notes?: string;
   // CASES ratings given on the call, 1-5 each, in this order
   cases?: { commitment?: number; agency?: number; sharpness?: number; expertise?: number; strategicClarity?: number };
 };
 
 export type FacilitatorReport = {
   id: string;
+  recordUrl?: string;
   date?: string;
   round?: string;
+  facilitator?: string;
+  // "Overall take justification" on the form
   quickTake?: string;
   anythingElse?: string;
+  // Older reports (before September 2026)
   nextSteps: string[];
-  docUrl?: string;
+  // Newer reports: Strong yes … Strong no, or Unsure
+  overallTake?: string;
+  ratings: { label: string; score?: number; evidence?: string }[];
+  plans?: string;
+  reviewNotes?: string;
 };
 
 export type Project = {
   id: string;
+  recordUrl?: string;
   title?: string;
   url?: string;
+  // "Low-quality" … "Winner!", set for a minority of projects
+  evaluation?: string;
+  // One list of scores per evaluator who scored it
+  scores: number[][];
+  // Notes shared with the participant, then the evaluators' private notes
   evalNotes: string[];
+  privateNotes: string[];
 };
 
 export type CourseFeedback = {
   id: string;
+  recordUrl?: string;
   submittedAt?: string;
   rating?: number;
   courseValue?: string;
@@ -93,6 +168,7 @@ export type CourseFeedback = {
 
 export type Application = {
   id: string;
+  recordUrl?: string;
   profileUrl?: string;
   otherProfileUrl?: string;
   source?: string;
@@ -161,13 +237,19 @@ export type Person = {
   country?: string;
   scoutingStatus?: string;
   history: Registration[];
+  otherApplications: OtherApplication[];
   grants: GrantApplication[];
+  rapidGrants: RapidGrant[];
   calls: EvaluationCall[];
   reports: FacilitatorReport[];
   facilitatorFeedback: FacilitatorFeedback[];
+  // The current round's sessions only
+  sessions: Session[];
   projects: Project[];
   feedback: CourseFeedback[];
   application?: Application;
+  // The person's record in the CRM base, matched by email; absent when no match or several
+  crmPersonId?: string;
   // Present once the lookup job has run for this registration
   webFacts?: WebFacts;
   lookedUpOn?: string;

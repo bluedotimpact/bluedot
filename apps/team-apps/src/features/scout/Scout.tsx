@@ -36,18 +36,30 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
 
+// Scout reads live Airtable data and has no sample data set, so the portal's local
+// preview mode (synthetic token, no Airtable token) cannot show it
+const PreviewNotice = () => (
+  <div className="min-h-dvh bg-canvas p-3 sm:p-6">
+    <Head><title>Course talent scouting · BlueDot Apps</title></Head>
+    <div className={`${panel} mx-auto max-w-3xl space-y-2 p-6 text-size-sm`}>
+      <h1 className="text-size-lg font-semibold">Course talent scouting</h1>
+      <p className="text-secondary">This app has no local preview data. Run the portal with a real sign-in and an Airtable token to use it.</p>
+    </div>
+  </div>
+);
+
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [invited, setInvited] = useState<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
-  const [finished, setFinished] = useState(false);
-  const [skipHistory, setSkipHistory] = useState<string[]>([]);
+  // Skip = "not now": the person moves to the end of this pass. Forgotten when the round
+  // is reopened or the queue reloads; nothing is written anywhere.
+  const [skipOrder, setSkipOrder] = useState<string[]>([]);
   const [people, setPeople] = useState<Record<string, Loaded>>({});
   const requested = useRef(new Set<string>());
   const generation = useRef(0);
-  const [skipped, setSkipped] = useState<Set<string>>(new Set());
   const [done, setDone] = useState<Record<string, Done>>({});
   const [confirmation, setConfirmation] = useState<Confirmation>();
   const [writing, setWriting] = useState(false);
@@ -57,7 +69,6 @@ const Scout = () => {
   const [notice, setNotice] = useState<string>();
   const promptOpen = useNavigationState((state) => state.promptOpen);
   const setSessionActive = useNavigationState((state) => state.setSessionActive);
-  const preview = isLocalPreview();
 
   const loadQueue = useCallback(async () => {
     if (writingRef.current) return;
@@ -72,8 +83,7 @@ const Scout = () => {
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
       setInvited(data.invitedThisWeek ?? {});
-      setSkipped((state) => new Set([...state].filter((id) => data.items.some((item) => item.id === id))));
-      setSkipHistory([]);
+      setSkipOrder([]);
       setPeople({});
       requested.current.clear();
     } catch (error) {
@@ -88,27 +98,22 @@ const Scout = () => {
 
   const remaining = useMemo(() => items.filter((item) => !done[item.id]), [items, done]);
   const roundItems = round ? remaining.filter((item) => roundKey(item) === roundKey(round)) : [];
-  const queue = roundItems.filter((item) => !skipped.has(item.id));
-  const current = finished ? undefined : queue[0];
-  const upcoming = finished ? undefined : queue[1];
+  const skippedItems = skipOrder.map((id) => roundItems.find((item) => item.id === id)).filter((item): item is QueueItem => item !== undefined);
+  const queue = [...roundItems.filter((item) => !skipOrder.includes(item.id)), ...skippedItems];
+  const current = queue[0];
+  const upcoming = queue[1];
   const loaded = current ? people[current.id] : undefined;
   const person = loaded && 'person' in loaded ? loaded.person : undefined;
-  const skippedCount = roundItems.filter((item) => skipped.has(item.id)).length;
   const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
   const total = roundItems.length + decisions.length;
 
-  // First round (in picker order) that still has unskipped people, so a lead sees everyone
-  // once before the skips come back. Skips live in this page only.
-  const unskipped = remaining.filter((item) => !skipped.has(item.id));
-  const nextRound = round ? courses.flatMap((course) => roundsFor(unskipped, course)).find((item) => roundKey(item) !== roundKey(round)) : undefined;
-  const anySkipped = remaining.some((item) => skipped.has(item.id));
+  // Next round in picker order that still has people
+  const nextRound = round ? courses.flatMap((course) => roundsFor(remaining, course)).find((item) => roundKey(item) !== roundKey(round)) : undefined;
 
   const chooseRound = (item: QueueItem) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
     setRound(item);
-
-    setFinished(false);
-    setSkipHistory([]);
+    setSkipOrder([]);
     setSaveError(undefined);
     setConflict(false);
     setNotice(undefined);
@@ -139,15 +144,20 @@ const Scout = () => {
     if (upcoming) loadPerson(upcoming.id);
   }, [current, upcoming, loading, queueError, loadPerson]);
 
+  // A new person starts at the top of their card, however far down the previous one was read
+  const currentId = current?.id;
   useEffect(() => {
-    setSessionActive(!finished && !loading && !queueError && (roundItems.length > 0 || confirmation !== undefined));
+    if (currentId) window.scrollTo({ top: 0 });
+  }, [currentId]);
+
+  useEffect(() => {
+    setSessionActive(!loading && !queueError && (roundItems.length > 0 || confirmation !== undefined));
     return () => setSessionActive(false);
-  }, [finished, loading, queueError, roundItems.length, confirmation, setSessionActive]);
+  }, [loading, queueError, roundItems.length, confirmation, setSessionActive]);
 
   const skip = useCallback(() => {
     if (!current || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
-    setSkipped((state) => new Set([...state, current.id]));
-    setSkipHistory((state) => [...state, current.id]);
+    setSkipOrder((state) => [...state.filter((id) => id !== current.id), current.id]);
     setNotice(undefined);
     setSaveError(undefined);
   }, [current, confirmation, promptOpen, conflict]);
@@ -176,9 +186,9 @@ const Scout = () => {
       }
 
       setDone((state) => ({ ...state, [selected.person.id]: selected }));
+      setSkipOrder((state) => state.filter((id) => id !== selected.person.id));
       setConfirmation(undefined);
-      const inviteNotice = preview ? 'Sample invitation saved. No email was sent.' : 'Invitation requested. Airtable will send the email.';
-      setNotice(selected.decision === 'invite' ? inviteNotice : 'Saved as don’t invite.');
+      setNotice(selected.decision === 'invite' ? 'Invitation requested. Airtable will send the email.' : 'Saved as don’t invite.');
     } catch (error) {
       setSaveError(message(error));
     } finally {
@@ -191,7 +201,7 @@ const Scout = () => {
     const onKey = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.repeat || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest('input, textarea, select, button, a, summary, [role="dialog"]'))) return;
-      if (writingRef.current || confirmation !== undefined || finished || promptOpen || loading || queueError !== undefined) return;
+      if (writingRef.current || confirmation !== undefined || promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
         ArrowRight: () => ask('invite'), ArrowLeft: () => ask('decline'), ArrowDown: skip,
       };
@@ -204,53 +214,56 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, confirmation, finished, promptOpen, loading, queueError]);
+  }, [ask, skip, confirmation, promptOpen, loading, queueError]);
 
   const controlsDisabled = writing || confirmation !== undefined || promptOpen;
   let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
   if (confirmation?.decision === 'invite') confirmDescription = 'This emails the participant on behalf of the course lead. You cannot undo this email.';
-  if (preview) confirmDescription = 'This saves a sample decision only. No email will be sent.';
   let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
   if (saveError) confirmLabel = 'Retry save';
   if (writing) confirmLabel = confirmation?.decision === 'invite' ? 'Sending invite…' : 'Saving…';
+
+  if (isLocalPreview()) return <PreviewNotice />;
 
   return (
     <div className="min-h-dvh bg-canvas p-3 sm:p-6">
       <Head><title>Course talent scouting · BlueDot Apps</title></Head>
       <div className="mx-auto flex max-w-3xl flex-col gap-4">
-        <header className="flex flex-wrap items-start justify-between gap-3">
-          <div><h1 className="text-size-lg font-semibold">Course talent scouting</h1><p className="mt-1 text-size-sm text-secondary">Which course participant should get an evaluation call?</p></div>
-          <button type="button" className={button} disabled={controlsDisabled || loading} onClick={() => {
-            void loadQueue();
-          }}>Refresh queue</button>
-        </header>
-        <QueueSource count={remaining.length} demo={preview} />
+        {/* While reviewing, the page belongs to the person: the title and the queue notes stay on the picker */}
+        {!round && (
+          <>
+            <header className="flex flex-wrap items-start justify-between gap-3">
+              <div><h1 className="text-size-lg font-semibold">Course talent scouting</h1><p className="mt-1 text-size-sm text-secondary">Which course participant should get an evaluation call?</p></div>
+              <button type="button" className={button} disabled={controlsDisabled || loading} onClick={() => {
+                void loadQueue();
+              }}>Refresh queue</button>
+            </header>
+            {!loading && !queueError && <QueueSource count={remaining.length} />}
+          </>
+        )}
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
         {!loading && queueError && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{queueError} Use Refresh queue to try again.</div>}
         {!loading && !queueError && (!round ? (
           <RoundPicker items={remaining} invited={invited} onSelect={chooseRound} />
         ) : <>
-          <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 p-4`}>
-            <div><p className="font-medium">{round.course}</p><p className="mt-1 text-size-xs text-secondary">{roundLabel(round)}</p></div>
-            <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
-              setRound(undefined);
-              setSkipHistory([]);
-              setNotice(undefined);
-            }}>Change round</button>
-          </section>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-size-sm text-secondary">{decisions.length} reviewed · {queue.length} to review · {skippedCount} skipped</p>
+          <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <p className="font-medium">{round.course}</p>
+              <p className="text-size-xs text-secondary">{roundLabel(round)}</p>
+              <p className="text-size-xs text-secondary">{decisions.length} of {total} reviewed{skippedItems.length > 0 && ` · ${skippedItems.length} skipped for now`}</p>
+            </div>
             <div className="flex flex-wrap gap-2">
-              <button type="button" className={button} disabled={controlsDisabled || conflict || skipHistory.length === 0} onClick={() => {
-                const id = skipHistory.at(-1);
-                if (!id) return;
-                setSkipped((state) => new Set([...state].filter((value) => value !== id)));
-                setSkipHistory((state) => state.slice(0, -1));
-                setFinished(false);
+              <button type="button" className={button} disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
+                setSkipOrder((state) => state.slice(0, -1));
                 setNotice(undefined);
               }}>Undo skip</button>
+              <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
+                setRound(undefined);
+                setSkipOrder([]);
+                setNotice(undefined);
+              }}>Change round</button>
             </div>
-          </div>
+          </section>
           <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
           {notice && <p role="status" className="rounded-surface bg-info-bg p-3 text-size-sm text-info-fg">{notice}</p>}
           {saveError && !confirmation && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{saveError}</div>}
@@ -264,22 +277,14 @@ const Scout = () => {
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
             <h2 className="text-size-lg font-semibold">Round done <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
-            <p className="text-size-sm text-secondary">{decisions.filter((entry) => entry.decision === 'invite').length} invited · {decisions.filter((entry) => entry.decision === 'decline').length} marked don’t invite · {skippedCount} skipped</p>
+            <p className="text-size-sm text-secondary">{decisions.filter((entry) => entry.decision === 'invite').length} invited · {decisions.filter((entry) => entry.decision === 'decline').length} marked don’t invite</p>
             <SessionDecisions decisions={decisions} />
-            {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">{preview ? 'These are sample decisions. No email was sent.' : 'Decisions are saved in Airtable; the invite emails are sent from there.'}</p>}
+            {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Decisions are saved in Airtable; the invite emails are sent from there.</p>}
             <div className="flex flex-wrap gap-2">
               {nextRound && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></button>}
-              {!nextRound && anySkipped && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => {
-                const firstWithSkips = courses.flatMap((course) => roundsFor(remaining, course)).find((item) => remaining.some((r) => roundKey(r) === roundKey(item) && skipped.has(r.id)));
-                setSkipped(new Set());
-                setSkipHistory([]);
-                setFinished(false);
-                setNotice(undefined);
-                if (firstWithSkips) setRound(firstWithSkips);
-              }}>Review skipped participants</button>}
               <button type="button" className={button} disabled={controlsDisabled} onClick={() => {
                 setRound(undefined);
-                setSkipHistory([]);
+                setSkipOrder([]);
                 setNotice(undefined);
               }}>Back to main page</button>
             </div>
@@ -302,10 +307,17 @@ const Scout = () => {
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
             <div className="flex flex-wrap justify-end gap-2">
-              <CTALinkOrButton className="min-h-11" variant="secondary" disabled={writing} onClick={() => {
-                setConfirmation(undefined);
-                setSaveError(undefined);
-              }}>Cancel</CTALinkOrButton>
+              {confirmation.decision === 'invite' ? (
+                <CTALinkOrButton className="min-h-11" variant="secondary" disabled={writing} onClick={() => {
+                  setConfirmation(undefined);
+                  setSaveError(undefined);
+                }}>Cancel</CTALinkOrButton>
+              ) : (
+                <button type="button" className={danger} disabled={writing} onClick={() => {
+                  setConfirmation(undefined);
+                  setSaveError(undefined);
+                }}>Cancel</button>
+              )}
               {confirmation.decision === 'invite' ? (
                 <CTALinkOrButton className="min-h-11" disabled={writing} onClick={() => {
                   void confirm();

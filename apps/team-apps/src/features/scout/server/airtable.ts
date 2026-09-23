@@ -7,7 +7,7 @@ import { withAirtableRetry } from '@bluedot/db';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
-  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type Person, type Project, type QueueItem, type Registration, type WebFacts,
+  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type OtherApplication, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type Session, type WebFacts,
 } from '../types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -22,6 +22,29 @@ const PEER_FEEDBACK_URL = `${COURSE_RUNNER}/tbl8KC4Q1i5YlCGhm`;
 const GRANTS_URL = `${APPLICATIONS}/tblh5zr4jRdrndKnC`;
 const CALLS_URL = `${APPLICATIONS}/tblVstbJehu8wew93`;
 const APPLICATION_REGISTRATIONS_URL = `${APPLICATIONS}/tblXKnWoXK3R63F6D`;
+// CRM › Person: one record per human across courses, calls and notes
+const CRM_PERSON_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tblMYYK8bL2fRJmv7';
+const CRM_RAPID_GRANTS_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tbl3ftXbbaVDRGGLP';
+
+// The record's page in Airtable, so a lead can open the row behind a timeline entry
+const recordLink = (tableApiUrl: string, id: string) => `${tableApiUrl.replace('https://api.airtable.com/v0/', 'https://airtable.com/')}/${id}`;
+
+// CRM › Rapid grants
+const RAPID = {
+  email: 'fldrm6UvPUfZaISgv',
+  createdAt: 'fldh9xhyMNic4820Z',
+  decision: 'fldhpWWgl7zZgd47R',
+  projectTitle: 'fldB2CfBZxzbAy3p7',
+  projectUrl: 'fldZmXrLwVEdeRdMQ',
+  oneLiner: 'fldcppNQHZZJa4USi',
+  amountRequested: 'fldBzDMLm9ahutnTF',
+  amountGranted: 'fldHJfsaPMImrlAOb',
+  opinion: 'fldS2oWvglg2D5d9z',
+  whyItMatters: 'fldjK9tMiOMXlzI0n',
+  publicUrl: 'fldVebX6W7HDpjVsG',
+  madeBy: 'fldJnWE07WCkh9F6J',
+  decidedAt: 'fldMfQhEyV24Wxgqx',
+} as const;
 
 // Locked view "Talent scouting [read by Talent Scouting App]" — the hard filter
 // lives there, so course leads can change it without a deploy.
@@ -51,6 +74,19 @@ const REG = {
   lookedUpOn: 'fldaqAtUqaY0A1wO6',
   inviteSource: 'fldCWl2plmCdiykLb',
   sendInviteEmail: 'flddylvIrOk9DunGQ',
+  expectedDiscussions: 'fldPsZbe9s5jtkQRn',
+  attendedDiscussions: 'fldTEkxGZQxTqHhdX',
+} as const;
+
+// Course runner › Group discussion: one row per session a group holds
+const DISCUSSIONS_URL = `${COURSE_RUNNER}/tblDNME0bA9OoApTk`;
+const DISCUSSION = {
+  unitNumber: 'fldbNYACt7S5J2QlU',
+  topic: 'fld5e8hjMvCzZXfy2',
+  groupNumber: 'fldUsMdwsychpEHI9',
+  docUrl: 'fldR74MrOB3EvDnmw',
+  startAt: 'flduTqIxS6OEHNr4H',
+  facilitator: 'fldP5BqdFfcn8enfc',
 } as const;
 
 // Stamped by the invite automations; read for the weekly count and the double-invite guard
@@ -63,21 +99,44 @@ const ROUND = {
   courseText: 'fldvorW4UVmRTihB9',
 } as const;
 
+// Facilitator 1-1 reports. The form changed in September 2026: newer reports carry an
+// overall take, three ratings with evidence and the participant's plans, and leave the
+// "[old]" fields empty. Both shapes are read.
 const REPORT = {
   date: 'fldDnJTlUZeyxQV1h',
   round: 'fldkGuyiYsn3TBO2k',
+  facilitator: 'fldjehExSEm88BAAa',
   quickTake: 'fldbc2Lpd7rm5jFKK',
   anythingElse: 'fldeFI1AL6n9BeAA8',
   nextSteps: 'fldPpOlwbqECwCLuN',
-  docUrl: 'fldmEDOArgi8w0M4h',
+  overallTake: 'fld2RJ0EwPPpo1uSr',
+  commitment: 'fldAJIYebMUZFY7lj',
+  commitmentEvidence: 'fld3L3K7zlnM6u84z',
+  agency: 'fldJRH3StmKxcjjNH',
+  agencyEvidence: 'fldyxhZD9lEBMSap3',
+  sharpness: 'fldlHew2pGQ4LzDDv',
+  sharpnessEvidence: 'fldQ7IXGeed6cQcOs',
+  plans: 'flddhhm6nMliEYCmp',
+  reviewNotes: 'fldE7HnjsEN7hq1VP',
 } as const;
 
+// Course runner › User: who wrote a 1-1 report
+const USERS_URL = `${COURSE_RUNNER}/tbl0Cs1Vfc9fiWDXZ`;
+const USER_FULL_NAME = 'fldTnRgrJCcfhdbdV';
+
+// Two evaluators, each with three scores, notes shared with the participant and private notes
 const PROJECT = {
   title: 'fldSEaFkf5t8a4ppA',
   url: 'fldzIGtGZGde6xxVR',
+  evaluation: 'fldlDvd6hM5gMar3m',
   evalNotes1: 'fldUFLAlImwRU4dxe',
   evalNotes2: 'fldqQP2Sp4Tky3sqd',
+  privateNotes1: 'fldrTgOZTlqIxZGNU',
+  privateNotes2: 'fldsKmphlG4HLJdIo',
+  scores1: ['fld20BuYU0L2KdyAh', 'fldkWT2K2MkqSSutv', 'fld46ZHKG5eY3WmK7'],
+  scores2: ['fldQNXddJ8viNGYsx', 'fldgIyxbSGzitjn0P', 'fldZO8JguwpTz1EaK'],
 } as const;
+const PROJECT_FIELDS = [PROJECT.title, PROJECT.url, PROJECT.evaluation, PROJECT.evalNotes1, PROJECT.evalNotes2, PROJECT.privateNotes1, PROJECT.privateNotes2, ...PROJECT.scores1, ...PROJECT.scores2];
 
 const FEEDBACK = {
   submittedAt: 'fldU1lnBjth2Fxban',
@@ -98,7 +157,6 @@ const PEER = {
   ratingReasoning: 'fldNXTpmIxyKvYdZH',
   ratingInitiative: 'fldUBSY6rZ1Oyf1bd',
   feedback: 'fldybGPKyRUcM0D84',
-  oneOnOneRating: 'fldbc8hZ7zQs9BFvH',
   motivation: 'fldHZHrE2nI1BQzvt',
   nextSteps: 'fldDXBWnFLi7vD2CQ',
   recommendToFacilitate: 'fldlCEk5bRh2LeafW',
@@ -112,6 +170,8 @@ const GRANT = {
   decisionDate: 'fld3eJ88BBBQHgcmJ',
   amountUsd: 'fldYhy8btQ5r8vRk0',
   reasoning: 'fld8umY7wuskih6gg',
+  evaluator: 'fldGavMM0OtpbjwnT',
+  currentSituation: 'fldytFzdfdEikERie',
 } as const;
 
 // Applications › Evaluation calls
@@ -127,6 +187,20 @@ const CALL = {
   status: 'fldw2nYIeX6fum5vy',
   opinion: 'fldcGMexyNn2SMTpX',
   notesUrl: 'fldygXae4jBcNmHae',
+  notes: 'fldpIr3ucbOLvJL4Y',
+} as const;
+
+// Applications base — Course registration: the fields that say what an application became
+const APP_OUTCOME = {
+  email: 'fld0g392xytratknm',
+  decision: 'fldWVKY5EFAGSRcDT',
+  role: 'fld52Y2AyWV8tECDy',
+  createdAt: 'fldyZHM0qpgIkzo8c',
+  course: 'fldPkqPbeoIhERqSY',
+  roundName: 'fldQymBa7milTYP9q',
+  roundEnd: 'fldyzxzjh5xgHgKuC',
+  opinion: 'fldOm6fJcqhq78M71',
+  aiSummary: 'fldRXdZQ0rnuVOcl7',
 } as const;
 
 // Applications base — Course registration (same field IDs speed-review uses)
@@ -165,6 +239,8 @@ const str = (v: unknown): string | undefined => (typeof v === 'string' && v.trim
 const num = (v: unknown): number | undefined => (typeof v === 'number' ? v : undefined);
 const strList = (v: unknown): string[] => (Array.isArray(v) ? v.map(String).filter((s) => s.trim()) : []);
 const first = (v: unknown): string | undefined => strList(v)[0];
+// A collaborator field: { id, email, name }
+const collaboratorName = (v: unknown): string | undefined => (typeof v === 'object' && v !== null && 'name' in v ? str((v as { name?: unknown }).name) : undefined);
 const url = (v: unknown): string | undefined => {
   const s = str(v);
   if (!s) return undefined;
@@ -230,10 +306,17 @@ const fetchOne = async (tableUrl: string, id: string, _fields: readonly string[]
   return response.json() as Promise<AirtableRecord>;
 };
 
-// Airtable has no "id in (...)" filter, so linked records are fetched one by one.
+// Linked records in one request per table (OR of record ids), in the order the link field
+// lists them. Chunked so the formula stays well inside Airtable's URL limit; one request
+// per chunk of 40 keeps a person to about ten calls, under the 5-per-second rate limit.
 const fetchMany = async (tableUrl: string, ids: string[], fields: readonly string[]): Promise<AirtableRecord[]> => {
-  const records = await Promise.all(ids.map((id) => fetchOne(tableUrl, id, fields)));
-  return records.filter((r): r is AirtableRecord => !!r);
+  const chunks: string[][] = [];
+  for (let i = 0; i < ids.length; i += 40) chunks.push(ids.slice(i, i + 40));
+  const pages = await Promise.all(chunks.map((chunk) => fetchAll(tableUrl, {
+    filterByFormula: `OR(${chunk.map((id) => `RECORD_ID()='${id}'`).join(',')})`,
+  }, fields)));
+  const byId = new Map(pages.flat().map((r) => [r.id, r]));
+  return ids.map((id) => byId.get(id)).filter((r): r is AirtableRecord => r !== undefined);
 };
 
 // ---- Rounds (small table, cached briefly) ----
@@ -381,26 +464,51 @@ export const parseWebFacts = (raw: unknown): WebFacts | undefined => {
 
 // ---- Person ----
 
-const toReport = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorReport => ({
+const toReport = (rounds: Map<string, Round>, facilitators: Map<string, string>) => (r: AirtableRecord): FacilitatorReport => ({
   id: r.id,
+  recordUrl: recordLink(REPORTS_URL, r.id),
   date: str(r.fields[REPORT.date]),
   // The lookup returns round record IDs, not names
   round: rounds.get(first(r.fields[REPORT.round]) ?? '')?.name,
+  facilitator: facilitators.get(first(r.fields[REPORT.facilitator]) ?? ''),
   quickTake: str(r.fields[REPORT.quickTake]),
   anythingElse: str(r.fields[REPORT.anythingElse]),
   nextSteps: strList(r.fields[REPORT.nextSteps]),
-  docUrl: url(r.fields[REPORT.docUrl]),
+  overallTake: str(r.fields[REPORT.overallTake]),
+  ratings: [
+    { label: 'Commitment', score: num(r.fields[REPORT.commitment]), evidence: str(r.fields[REPORT.commitmentEvidence]) },
+    { label: 'Agency', score: num(r.fields[REPORT.agency]), evidence: str(r.fields[REPORT.agencyEvidence]) },
+    { label: 'Sharpness', score: num(r.fields[REPORT.sharpness]), evidence: str(r.fields[REPORT.sharpnessEvidence]) },
+  ].filter((x) => x.score !== undefined || x.evidence),
+  plans: str(r.fields[REPORT.plans]),
+  reviewNotes: str(r.fields[REPORT.reviewNotes]),
 });
 
-const toProject = (r: AirtableRecord): Project => ({
-  id: r.id,
-  title: str(r.fields[PROJECT.title]),
-  url: url(r.fields[PROJECT.url]),
-  evalNotes: [str(r.fields[PROJECT.evalNotes1]), str(r.fields[PROJECT.evalNotes2])].filter((s): s is string => !!s),
-});
+// Full names for the facilitators who wrote these reports
+const fetchFacilitatorNames = async (reports: AirtableRecord[]): Promise<Map<string, string>> => {
+  const ids = [...new Set(reports.flatMap((r) => strList(r.fields[REPORT.facilitator])))];
+  const users = ids.length > 0 ? await fetchMany(USERS_URL, ids, [USER_FULL_NAME]) : [];
+  return new Map(users.map((u) => [u.id, str(u.fields[USER_FULL_NAME]) ?? '']));
+};
+
+const toProject = (r: AirtableRecord): Project => {
+  const present = (xs: (string | undefined)[]) => xs.filter((x): x is string => !!x);
+  const scoresOf = (ids: readonly string[]) => ids.map((id) => num(r.fields[id])).filter((x): x is number => x !== undefined);
+  return {
+    id: r.id,
+    recordUrl: recordLink(PROJECTS_URL, r.id),
+    title: str(r.fields[PROJECT.title]),
+    url: url(r.fields[PROJECT.url]),
+    evaluation: str(r.fields[PROJECT.evaluation]),
+    scores: [scoresOf(PROJECT.scores1), scoresOf(PROJECT.scores2)].filter((xs) => xs.length > 0),
+    evalNotes: present([str(r.fields[PROJECT.evalNotes1]), str(r.fields[PROJECT.evalNotes2])]),
+    privateNotes: present([str(r.fields[PROJECT.privateNotes1]), str(r.fields[PROJECT.privateNotes2])]),
+  };
+};
 
 const toFeedback = (r: AirtableRecord): CourseFeedback => ({
   id: r.id,
+  recordUrl: recordLink(FEEDBACK_URL, r.id),
   submittedAt: str(r.fields[FEEDBACK.submittedAt]),
   rating: num(r.fields[FEEDBACK.rating]),
   courseValue: str(r.fields[FEEDBACK.courseValue]),
@@ -410,15 +518,50 @@ const toFeedback = (r: AirtableRecord): CourseFeedback => ({
   timeSpent: num(r.fields[FEEDBACK.timeSpent]),
 });
 
+// The sessions this registration was expected at, in unit order, with whether they attended.
+// The doc is the group's discussion doc, so it changes only when the person switched group.
+const fetchSessions = async (expectedIds: string[], attendedIds: string[]): Promise<Session[]> => {
+  if (expectedIds.length === 0) return [];
+  const attended = new Set(attendedIds);
+  const records = await fetchMany(DISCUSSIONS_URL, expectedIds, Object.values(DISCUSSION));
+  // The facilitator is a registration record; show their first name
+  const facilitatorIds = [...new Set(records.flatMap((r) => strList(r.fields[DISCUSSION.facilitator])))];
+  const facilitators = new Map((facilitatorIds.length > 0 ? await fetchMany(REGISTRATIONS_URL, facilitatorIds, [REG.fullName]) : [])
+    .map((u) => [u.id, str(u.fields[REG.fullName])?.split(' ')[0]]));
+  return records
+    .map((r): Session => ({
+      id: r.id,
+      recordUrl: recordLink(DISCUSSIONS_URL, r.id),
+      unit: num(first(r.fields[DISCUSSION.unitNumber]) === undefined ? undefined : Number(first(r.fields[DISCUSSION.unitNumber]))),
+      topic: first(r.fields[DISCUSSION.topic]),
+      group: num(first(r.fields[DISCUSSION.groupNumber]) === undefined ? undefined : Number(first(r.fields[DISCUSSION.groupNumber]))),
+      docUrl: url(first(r.fields[DISCUSSION.docUrl])),
+      startAt: str(r.fields[DISCUSSION.startAt]),
+      facilitator: facilitators.get(first(r.fields[DISCUSSION.facilitator]) ?? ''),
+      attended: attended.has(r.id),
+    }))
+    .sort((a, b) => (a.unit ?? 99) - (b.unit ?? 99) || (a.startAt ?? '').localeCompare(b.startAt ?? ''));
+};
+
+// How this facilitator rated everyone in the same round, so a lead can read an 8/10 against
+// the facilitator's own scale ("gave 8 or more to 3 of 8"). Matched by reviewer name.
+const fetchReviewerRoundStats = async (reviewer: string, roundName: string, rating: number): Promise<{ rated: number; atOrAbove: number }> => {
+  const quote = (v: string) => `'${v.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')}'`;
+  const formula = `AND(ARRAYJOIN({[>] Reviewer name})=${quote(reviewer)}, FIND(${quote(roundName)}, ARRAYJOIN({[>] Round})))`;
+  const records = await fetchAll(PEER_FEEDBACK_URL, { filterByFormula: formula }, [PEER.totalRating]);
+  const ratings = records.map((r) => num(r.fields[PEER.totalRating])).filter((x): x is number => x !== undefined);
+  return { rated: ratings.length, atOrAbove: ratings.filter((x) => x >= rating).length };
+};
+
 const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorFeedback => ({
   id: r.id,
+  recordUrl: recordLink(PEER_FEEDBACK_URL, r.id),
   reviewer: first(r.fields[PEER.reviewer]),
   round: rounds.get(first(r.fields[PEER.round]) ?? '')?.name,
   rating: num(r.fields[PEER.totalRating]),
   ratingReasoning: num(r.fields[PEER.ratingReasoning]),
   ratingInitiative: num(r.fields[PEER.ratingInitiative]),
   feedback: str(r.fields[PEER.feedback]),
-  oneOnOneRating: str(r.fields[PEER.oneOnOneRating]),
   motivation: str(r.fields[PEER.motivation]),
   nextSteps: strList(r.fields[PEER.nextSteps]),
   recommendToFacilitate: !!r.fields[PEER.recommendToFacilitate],
@@ -426,20 +569,25 @@ const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord
 
 const toGrant = (r: AirtableRecord): GrantApplication => ({
   id: r.id,
+  recordUrl: recordLink(GRANTS_URL, r.id),
   createdAt: str(r.fields[GRANT.createdAt]),
   status: str(r.fields[GRANT.status]),
   decisionDate: str(r.fields[GRANT.decisionDate]),
   amountUsd: num(r.fields[GRANT.amountUsd]),
   reasoning: str(r.fields[GRANT.reasoning]),
+  decidedBy: collaboratorName(r.fields[GRANT.evaluator]),
+  currentSituation: str(r.fields[GRANT.currentSituation]),
 });
 
 const toCall = (r: AirtableRecord): EvaluationCall => ({
   id: r.id,
+  recordUrl: recordLink(CALLS_URL, r.id),
   createdAt: str(r.fields[CALL.createdAt]),
   callDate: str(r.fields[CALL.callDate]),
   status: str(r.fields[CALL.status]),
   opinion: str(r.fields[CALL.opinion]),
   notesUrl: url(r.fields[CALL.notesUrl]),
+  notes: str(r.fields[CALL.notes]),
   cases: {
     commitment: num(r.fields[CALL.commitment]),
     agency: num(r.fields[CALL.agency]),
@@ -455,6 +603,7 @@ const toApplication = (r: AirtableRecord): Application => {
   const f = r.fields;
   return {
     id: r.id,
+    recordUrl: recordLink(APPLICATION_REGISTRATIONS_URL, r.id),
     profileUrl: url(f[APP.profileUrl]),
     otherProfileUrl: url(f[APP.otherProfileUrl]),
     source: str(f[APP.source]),
@@ -478,7 +627,61 @@ const toApplication = (r: AirtableRecord): Application => {
   };
 };
 
-const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut];
+const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut, REG.applicationId];
+
+const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
+  id: r.id,
+  recordUrl: recordLink(CRM_RAPID_GRANTS_URL, r.id),
+  createdAt: str(r.fields[RAPID.createdAt]),
+  decision: str(r.fields[RAPID.decision]),
+  projectTitle: str(r.fields[RAPID.projectTitle]),
+  projectUrl: url(r.fields[RAPID.projectUrl]),
+  oneLiner: str(r.fields[RAPID.oneLiner]),
+  amountRequestedUsd: num(r.fields[RAPID.amountRequested]),
+  amountGrantedUsd: num(r.fields[RAPID.amountGranted]),
+  opinion: str(r.fields[RAPID.opinion]),
+  whyItMatters: str(r.fields[RAPID.whyItMatters]),
+  publicUrl: url(r.fields[RAPID.publicUrl]),
+  madeBy: collaboratorName(r.fields[RAPID.madeBy]),
+  decidedAt: str(r.fields[RAPID.decidedAt]),
+});
+
+// Applications for this email that did not become a registration (the registrations'
+// own application IDs are excluded), so a lead sees rejections, withdrawals and pending applications.
+const fetchOtherApplications = async (email: string, registrationApplicationIds: Set<string>): Promise<OtherApplication[]> => {
+  const records = await fetchAll(APPLICATION_REGISTRATIONS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(APP_OUTCOME));
+  return records
+    .filter((r) => !registrationApplicationIds.has(r.id))
+    .map((r): OtherApplication => {
+      const roundName = str(r.fields[APP_OUTCOME.roundName]) ?? '';
+      return {
+        id: r.id,
+        recordUrl: recordLink(APPLICATION_REGISTRATIONS_URL, r.id),
+        course: courseNameFrom(roundName) ?? 'Unknown course',
+        roundName,
+        roundEnd: first(r.fields[APP_OUTCOME.roundEnd]),
+        createdAt: str(r.fields[APP_OUTCOME.createdAt]),
+        facilitator: str(r.fields[APP_OUTCOME.role]) === 'Facilitator',
+        decision: str(r.fields[APP_OUTCOME.decision]),
+        opinion: str(r.fields[APP_OUTCOME.opinion]),
+        aiSummary: str(r.fields[APP_OUTCOME.aiSummary]),
+      };
+    })
+    .sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
+};
+
+// "Biosecurity (2026 Oct W42) - Part-time" → "Biosecurity"
+const courseNameFrom = (roundName: string) => {
+  const name = roundName.split(' (')[0];
+  return name === '' ? undefined : name;
+};
+
+// The CRM Person record for this email, when exactly one matches (primary or secondary email)
+const fetchCrmPersonId = async (email: string): Promise<string | undefined> => {
+  const formula = `OR(${byEmailFormula('Primary email', email)}, ${byEmailFormula('Secondary email', email)})`;
+  const records = await fetchAll(CRM_PERSON_URL, { filterByFormula: formula, pageSize: '3' }, ['Primary email']);
+  return records.length === 1 ? records[0]!.id : undefined;
+};
 
 // Every registration this email has with BlueDot, in any course, oldest first.
 const fetchHistory = async (email: string, currentId: string, rounds: Map<string, Round>): Promise<Registration[]> => {
@@ -488,6 +691,7 @@ const fetchHistory = async (email: string, currentId: string, rounds: Map<string
       const round = rounds.get(first(r.fields[REG.round]) ?? '');
       return {
         id: r.id,
+        recordUrl: recordLink(REGISTRATIONS_URL, r.id),
         course: round?.course ?? 'Unknown course',
         roundName: round?.name ?? '',
         roundStart: round?.start,
@@ -496,6 +700,7 @@ const fetchHistory = async (email: string, currentId: string, rounds: Map<string
         opinion: str(r.fields[REG.opinion]),
         hasCertificate: !!r.fields[REG.certificateCreatedAt],
         droppedOut: !!r.fields[REG.droppedOut],
+        applicationId: str(r.fields[REG.applicationId])?.trim(),
         isCurrent: r.id === currentId,
       };
     })
@@ -515,16 +720,30 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   const email = str(f[REG.email]) ?? '';
   const applicationId = str(f[REG.applicationId]);
 
-  const [history, grants, calls, reports, peerFeedback, projects, feedback, application] = await Promise.all([
-    email ? fetchHistory(email, id, rounds) : Promise.resolve([]),
+  const history = email ? await fetchHistory(email, id, rounds) : [];
+  const registrationApplicationIds = new Set(history.map((h) => h.applicationId).filter((x): x is string => !!x));
+  const [otherApplications, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId, sessions] = await Promise.all([
+    email ? fetchOtherApplications(email, registrationApplicationIds) : Promise.resolve([]),
     email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
+    email ? fetchAll(CRM_RAPID_GRANTS_URL, { filterByFormula: byEmailFormula('Applicant email', email) }, Object.values(RAPID)) : Promise.resolve([]),
     email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
     fetchMany(REPORTS_URL, strList(f[REG.reports]), Object.values(REPORT)),
     fetchMany(PEER_FEEDBACK_URL, strList(f[REG.peerFeedback]), Object.values(PEER)),
-    fetchMany(PROJECTS_URL, strList(f[REG.projects]), Object.values(PROJECT)),
+    fetchMany(PROJECTS_URL, strList(f[REG.projects]), PROJECT_FIELDS),
     fetchMany(FEEDBACK_URL, strList(f[REG.feedback]), Object.values(FEEDBACK)),
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
+    email ? fetchCrmPersonId(email) : Promise.resolve(undefined),
+    fetchSessions(strList(f[REG.expectedDiscussions]), strList(f[REG.attendedDiscussions])),
   ]);
+  const facilitators = await fetchFacilitatorNames(reports);
+  // Only the facilitator's rows; participants can also leave peer feedback
+  const facilitatorFeedback = await Promise.all(peerFeedback
+    .filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator'))
+    .map(toFacilitatorFeedback(rounds))
+    .map(async (fb) => (fb.reviewer && fb.round && fb.rating !== undefined
+      // Context only: if the stats read fails (renamed field, rate limit) the feedback still shows
+      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating).catch(() => undefined) }
+      : fb)));
 
   return {
     id: record.id,
@@ -540,14 +759,17 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     organisation: str(f[REG.organisation]),
     country: str(f[REG.country]),
     scoutingStatus: str(f[REG.scoutingStatus]),
+    crmPersonId,
     webFacts: parseWebFacts(f[REG.webFacts]),
     lookedUpOn: str(f[REG.lookedUpOn]),
     history,
+    otherApplications,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
+    rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
-    reports: reports.map(toReport(rounds)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
-    // Only the facilitator's rows; participants can also leave peer feedback
-    facilitatorFeedback: peerFeedback.filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator')).map(toFacilitatorFeedback(rounds)),
+    reports: reports.map(toReport(rounds, facilitators)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
+    facilitatorFeedback,
+    sessions,
     projects: projects.map(toProject),
     feedback: feedback.map(toFeedback),
     application: application ? toApplication(application) : undefined,
@@ -563,7 +785,7 @@ export type WriteResult = { ok: true } | { ok: false; reason: string };
 export type InviteResult = WriteResult;
 
 // Refuses anyone already contacted or already given a status, so a decision is
-// checked against live Airtable state; the caller holds the decision lock.
+// checked against live Airtable state right before the write.
 const untouchedOrReason = async (id: string): Promise<{ ok: true; fields: Record<string, unknown> } | { ok: false; reason: string }> => {
   const record = await fetchOne(REGISTRATIONS_URL, id, []);
   if (!record) return { ok: false, reason: 'Registration not found' };

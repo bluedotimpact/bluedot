@@ -7,7 +7,7 @@ import {
 import type { ReactNode } from 'react';
 import { useNavigationState } from '../../lib/client/navigation';
 import { authFetch } from '../../lib/client/api';
-import { samplePeople } from './server/preview';
+import type { Course, Person } from './types';
 
 vi.mock('../../lib/client/api', () => ({ authFetch: vi.fn() }));
 vi.mock('./PersonCard', () => ({ PersonCard: ({ person }: { person: { name: string } }) => <p>{person.name}</p> }));
@@ -20,6 +20,16 @@ vi.mock('@bluedot/ui', () => ({
 import Scout from './Scout';
 
 const response = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status });
+const person = (id: string, name: string, course: Course): Person => ({
+  id, name, course, email: `${name.toLowerCase().replace(' ', '.')}@example.org`, roundName: `${course} (2026 Aug W32) - Part-time`,
+  history: [], otherApplications: [], grants: [], rapidGrants: [], calls: [], reports: [], facilitatorFeedback: [], sessions: [], projects: [], feedback: [],
+});
+const samplePeople: Person[] = [
+  person('recScoutSample001', 'Alex Morgan', 'Technical AI Safety'),
+  person('recScoutSample002', 'Sam Chen', 'Technical AI Safety'),
+  person('recScoutSample003', 'Jordan Patel', 'Technical AI Safety Project'),
+  person('recScoutSample004', 'Riley Williams', 'Biosecurity'),
+];
 const mockFetch = vi.mocked(authFetch);
 const realQueue = samplePeople.map((p) => ({
   id: p.id, name: p.name, roundId: `sample-${p.course}`, course: p.course, roundName: p.roundName, hasReport: true, hasCertificate: true,
@@ -124,7 +134,7 @@ test('retries failed participant loads and keeps decisions disabled until data i
   await screen.findByText('Alex Morgan');
 });
 
-test('skip is local and can be revisited; keyboard shortcuts pause when portal navigation is open', async () => {
+test('skip moves the person to the end of the pass and is forgotten when the round is reopened; shortcuts pause when portal navigation is open', async () => {
   await start();
   act(() => useNavigationState.setState({ promptOpen: true }));
   fireEvent.keyDown(document.body, { key: 'ArrowRight' });
@@ -132,19 +142,16 @@ test('skip is local and can be revisited; keyboard shortcuts pause when portal n
   act(() => useNavigationState.setState({ promptOpen: false }));
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
   await screen.findByText('Sam Chen');
+  // Everyone skipped once: the pass starts again from the first skip, no dead end
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
-  // Other rounds still have people, so they come first; skips return only at the very end
-  await screen.findByRole('heading', { name: /Round done/ });
-  expect(screen.queryByRole('button', { name: 'Review skipped participants' })).toBeNull();
-  fireEvent.click(screen.getByRole('button', { name: 'Review next round' }));
-  await screen.findByText('Jordan Patel');
-  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
-  await screen.findByRole('heading', { name: /Round done/ });
-  fireEvent.click(screen.getByRole('button', { name: 'Review next round' }));
-  await screen.findByText('Riley Williams');
-  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
-  fireEvent.click(await screen.findByRole('button', { name: 'Review skipped participants' }));
   await screen.findByText('Alex Morgan');
+  expect(screen.queryByRole('heading', { name: /Round done/ })).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  await screen.findByText('Sam Chen');
+  fireEvent.click(screen.getByRole('button', { name: 'Change round' }));
+  fireEvent.click(await screen.findByTestId('choose-round-sample-Technical AI Safety'));
+  await screen.findByText('Alex Morgan');
+  expect(screen.getByRole('button', { name: 'Undo skip' }).hasAttribute('disabled')).toBe(true);
   expect(decisions()).toHaveLength(0);
 });
 
@@ -157,7 +164,8 @@ test('chooses a round before loading people and never includes another round fro
   fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
   await screen.findByText('Alex Morgan');
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
-  await screen.findByRole('heading', { name: /Round done/ });
+  // The only person in this round: skipping brings them straight back rather than borrowing from another round
+  await screen.findByText('Alex Morgan');
   expect(screen.queryByText('Sam Chen')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Change round' }));
   fireEvent.click(screen.getByTestId('choose-round-another-round'));
@@ -189,7 +197,9 @@ test('keeps saved decisions in the round summary after refresh and never offers 
   fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
   fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
   await screen.findByText('Sam Chen');
-  fireEvent.click(screen.getByRole('button', { name: 'Refresh queue' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Change round' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Refresh queue' }));
+  fireEvent.click(await screen.findByTestId('choose-round-sample-Technical AI Safety'));
   await screen.findByText('Sam Chen');
   expect(screen.getByRole('button', { name: 'Undo skip' }).hasAttribute('disabled')).toBe(true);
   expect(decisions()).toHaveLength(1);

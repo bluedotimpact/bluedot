@@ -11,8 +11,8 @@ export default makeApiRoute({
   try {
     return await recordDecision(id, decision);
   } catch {
-    // A timed-out write might have reached Airtable. A retry rechecks its status
-    // under the same lock before deciding whether another write is safe.
+    // A timed-out write might have reached Airtable. A retry re-reads the record
+    // first, so it refuses rather than writing twice.
     throw createHttpError(503, 'Could not confirm the save. Retry to check its status, or refresh the queue before continuing.', { expose: true });
   }
 });
