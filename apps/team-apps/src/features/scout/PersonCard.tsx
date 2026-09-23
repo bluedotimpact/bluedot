@@ -555,7 +555,6 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       {person.reports.length > 0 && (
         <Section
           title="Facilitator 1:1 report"
-          defaultOpen
           meta={person.reports.map((r) => (
             <span key={r.id} className="flex items-center gap-2 font-normal">
               <OpinionBadge opinion={r.overallTake} />
@@ -576,11 +575,11 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
                   {r.docUrl && <A href={r.docUrl} target="_blank" className="ml-1 inline-flex min-h-11 items-center">full report ↗</A>}
                 </div>
               )}
-              <Answer label="Overall take" text={r.quickTake} />
-              {r.ratings.map((x) => <Answer key={x.label} label={`Why ${x.label.toLowerCase()}${x.score !== undefined ? ` ${x.score}/5` : ''}`} text={x.evidence} />)}
-              <Answer label="Their plans" text={r.plans} />
-              <Answer label="Anything else" text={r.anythingElse} />
-              <Answer label="Review notes (BlueDot)" text={r.reviewNotes} />
+              <Answer defaultOpen label="Overall take" text={r.quickTake} />
+              {r.ratings.map((x) => <Answer key={x.label} defaultOpen label={`Why ${x.label.toLowerCase()}${x.score !== undefined ? ` ${x.score}/5` : ''}`} text={x.evidence} />)}
+              <Answer defaultOpen label="Their plans" text={r.plans} />
+              <Answer defaultOpen label="Anything else" text={r.anythingElse} />
+              <Answer defaultOpen label="Review notes (BlueDot)" text={r.reviewNotes} />
             </div>
           ))}
         </Section>
@@ -588,7 +587,6 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
 
       <Section
         title="Facilitator feedback"
-        defaultOpen
         empty={person.facilitatorFeedback.length === 0}
         emptyText="the facilitator left none"
         meta={person.facilitatorFeedback.map((fb) => (
@@ -615,14 +613,13 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
                 {fb.motivation && <span className="ml-1">x-risk motivated: {fb.motivation}</span>}
               </div>
             )}
-            <Answer label="Private feedback" text={fb.feedback} />
+            <Answer defaultOpen label="Private feedback" text={fb.feedback} />
           </div>
         ))}
       </Section>
 
       <Section
         title="Course feedback"
-        defaultOpen
         empty={person.feedback.length === 0}
         emptyText="none"
         meta={person.feedback.map((fb) => (
@@ -636,9 +633,9 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         {person.feedback.map((fb) => (
           <div key={fb.id} className="flex min-w-0 flex-col gap-2 break-words">
             <EntryHeading><span>{fb.submittedAt ? formatDate(fb.submittedAt) : 'Course feedback'}</span><RecordLink url={fb.recordUrl} /></EntryHeading>
-            <Answer label="What they got out of it" text={fb.courseValue} />
-            <Answer label="What changed their mind" text={fb.changeMind} />
-            <Answer label="What they'd improve" text={fb.improvements} />
+            <Answer defaultOpen label="What they got out of it" text={fb.courseValue} />
+            <Answer defaultOpen label="What changed their mind" text={fb.changeMind} />
+            <Answer defaultOpen label="What they'd improve" text={fb.improvements} />
           </div>
         ))}
       </Section>
