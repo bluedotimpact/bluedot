@@ -28,8 +28,11 @@ export const samplePeople: Person[] = examples.map(({ id, name, course }) => ({
   reports: [{
     id: 'recSampleReport01', date: '2026-08-25', facilitator: 'Example facilitator', quickTake: 'Asked precise questions, followed up with a working experiment, and helped peers understand the evaluation results.', nextSteps: [], overallTake: 'Weak yes', ratings: [{ label: 'Commitment', score: 4, evidence: 'Already spends weekends on a related side project.' }, { label: 'Agency', score: 3 }], plans: 'Wants to apply for a research fellowship next spring.',
   }],
+  sessions: [1, 2, 3, 4, 5, 6].map((unit) => ({
+    id: `recSampleSession${unit}`, unit, topic: ['Foundations', 'Training safer models', 'Detecting danger', 'Understanding AI', 'Minimising harm', 'Start contributing'][unit - 1], group: unit === 4 ? 7 : 5, docUrl: 'https://docs.google.com/document/d/example', startAt: `2026-08-0${unit + 2}`, attended: unit !== 5,
+  })),
   facilitatorFeedback: [{
-    id: 'recSamplePeer001', reviewer: 'Example facilitator', rating: 8, feedback: 'Strong independent work and clear reasoning. Worth a conversation about practical next steps.', nextSteps: [], recommendToFacilitate: true,
+    id: 'recSamplePeer001', reviewer: 'Example facilitator', rating: 8, roundStats: { rated: 8, atOrAbove: 3 }, feedback: 'Strong independent work and clear reasoning. Worth a conversation about practical next steps.', nextSteps: [], recommendToFacilitate: true,
   }],
   projects: [{ id: 'recSampleProject', title: 'Evaluation reliability', evalNotes: ['Compared several evaluation methods and documented where their results disagree.'] }],
   feedback: [{

@@ -7,7 +7,7 @@ import { withAirtableRetry } from '@bluedot/db';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
-  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type OtherApplication, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type WebFacts,
+  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type OtherApplication, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type Session, type WebFacts,
 } from '../types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -69,6 +69,18 @@ const REG = {
   lookedUpOn: 'fldaqAtUqaY0A1wO6',
   inviteSource: 'fldCWl2plmCdiykLb',
   sendInviteEmail: 'flddylvIrOk9DunGQ',
+  expectedDiscussions: 'fldPsZbe9s5jtkQRn',
+  attendedDiscussions: 'fldTEkxGZQxTqHhdX',
+} as const;
+
+// Course runner › Group discussion: one row per session a group holds
+const DISCUSSIONS_URL = `${COURSE_RUNNER}/tblDNME0bA9OoApTk`;
+const DISCUSSION = {
+  unitNumber: 'fldbNYACt7S5J2QlU',
+  topic: 'fld5e8hjMvCzZXfy2',
+  groupNumber: 'fldUsMdwsychpEHI9',
+  docUrl: 'fldR74MrOB3EvDnmw',
+  startAt: 'flduTqIxS6OEHNr4H',
 } as const;
 
 // Stamped by the invite automations; read for the weekly count and the double-invite guard
@@ -475,6 +487,36 @@ const toFeedback = (r: AirtableRecord): CourseFeedback => ({
   timeSpent: num(r.fields[FEEDBACK.timeSpent]),
 });
 
+// The sessions this registration was expected at, in unit order, with whether they attended.
+// The doc is the group's discussion doc, so it changes only when the person switched group.
+const fetchSessions = async (expectedIds: string[], attendedIds: string[]): Promise<Session[]> => {
+  if (expectedIds.length === 0) return [];
+  const attended = new Set(attendedIds);
+  const records = await fetchMany(DISCUSSIONS_URL, expectedIds, Object.values(DISCUSSION));
+  return records
+    .map((r): Session => ({
+      id: r.id,
+      recordUrl: recordLink(DISCUSSIONS_URL, r.id),
+      unit: num(first(r.fields[DISCUSSION.unitNumber]) === undefined ? undefined : Number(first(r.fields[DISCUSSION.unitNumber]))),
+      topic: first(r.fields[DISCUSSION.topic]),
+      group: num(first(r.fields[DISCUSSION.groupNumber]) === undefined ? undefined : Number(first(r.fields[DISCUSSION.groupNumber]))),
+      docUrl: url(first(r.fields[DISCUSSION.docUrl])),
+      startAt: str(r.fields[DISCUSSION.startAt]),
+      attended: attended.has(r.id),
+    }))
+    .sort((a, b) => (a.unit ?? 99) - (b.unit ?? 99) || (a.startAt ?? '').localeCompare(b.startAt ?? ''));
+};
+
+// How this facilitator rated everyone in the same round, so a lead can read an 8/10 against
+// the facilitator's own scale ("gave 8 or more to 3 of 8"). Matched by reviewer name.
+const fetchReviewerRoundStats = async (reviewer: string, roundName: string, rating: number): Promise<{ rated: number; atOrAbove: number }> => {
+  const quote = (v: string) => `'${v.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')}'`;
+  const formula = `AND(ARRAYJOIN({[>] Reviewer name})=${quote(reviewer)}, FIND(${quote(roundName)}, ARRAYJOIN({[>] Round})))`;
+  const records = await fetchAll(PEER_FEEDBACK_URL, { filterByFormula: formula }, [PEER.totalRating]);
+  const ratings = records.map((r) => num(r.fields[PEER.totalRating])).filter((x): x is number => x !== undefined);
+  return { rated: ratings.length, atOrAbove: ratings.filter((x) => x >= rating).length };
+};
+
 const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorFeedback => ({
   id: r.id,
   recordUrl: recordLink(PEER_FEEDBACK_URL, r.id),
@@ -635,7 +677,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
 
   const history = email ? await fetchHistory(email, id, rounds) : [];
   const registrationApplicationIds = new Set(history.map((h) => h.applicationId).filter((x): x is string => !!x));
-  const [otherApplications, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId] = await Promise.all([
+  const [otherApplications, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId, sessions] = await Promise.all([
     email ? fetchOtherApplications(email, registrationApplicationIds) : Promise.resolve([]),
     email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
     email ? fetchAll(CRM_RAPID_GRANTS_URL, { filterByFormula: byEmailFormula('Applicant email', email) }, Object.values(RAPID)) : Promise.resolve([]),
@@ -646,8 +688,16 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     fetchMany(FEEDBACK_URL, strList(f[REG.feedback]), Object.values(FEEDBACK)),
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
     email ? fetchCrmPersonId(email) : Promise.resolve(undefined),
+    fetchSessions(strList(f[REG.expectedDiscussions]), strList(f[REG.attendedDiscussions])),
   ]);
   const facilitators = await fetchFacilitatorNames(reports);
+  // Only the facilitator's rows; participants can also leave peer feedback
+  const facilitatorFeedback = await Promise.all(peerFeedback
+    .filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator'))
+    .map(toFacilitatorFeedback(rounds))
+    .map(async (fb) => (fb.reviewer && fb.round && fb.rating !== undefined
+      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating) }
+      : fb)));
 
   return {
     id: record.id,
@@ -672,8 +722,8 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     reports: reports.map(toReport(rounds, facilitators)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
-    // Only the facilitator's rows; participants can also leave peer feedback
-    facilitatorFeedback: peerFeedback.filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator')).map(toFacilitatorFeedback(rounds)),
+    facilitatorFeedback,
+    sessions,
     projects: projects.map(toProject),
     feedback: feedback.map(toFeedback),
     application: application ? toApplication(application) : undefined,

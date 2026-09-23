@@ -3,7 +3,7 @@ import {
   A, CardShell, ChevronRightIcon, cn, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import {
-  type EvaluationCall, type GrantApplication, type OtherApplication, type Person, type RapidGrant, type Registration, type WebFacts, type WebLink, type WebSource,
+  type EvaluationCall, type GrantApplication, type OtherApplication, type Person, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
 } from './types';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
@@ -138,6 +138,11 @@ const Section: React.FC<{
 );
 
 const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
+
+// Quiet label between groups of sections: what is about the person, what is about this round
+const GroupLabel: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <p className="px-1 pt-2 text-size-xxs uppercase tracking-wide text-secondary">{children}</p>
+);
 
 // One line above each entry when a section can hold several (two facilitators, two reports):
 // who or when it is from, and the record it came from
@@ -447,6 +452,34 @@ const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
   />
 );
 
+// One row per session of the current round: unit and topic, group, attended or not, the group's doc
+const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
+  if (sessions.length === 0) return <Section title="Sessions" empty emptyText="no sessions found for this registration" />;
+  const now = new Date();
+  const past = sessions.filter((x) => x.startAt && new Date(x.startAt) < now);
+  const attended = sessions.filter((x) => x.attended).length;
+  const status = (x: Session): Status | undefined => {
+    if (x.attended) return { tone: 'good', label: 'Attended' };
+    if (x.startAt && new Date(x.startAt) < now) return { tone: 'bad', label: 'Absent' };
+    return undefined;
+  };
+
+  return (
+    <Section title="Sessions" count={sessions.length} meta={<Meta>{attended} of {past.length} attended</Meta>}>
+      {sessions.map((x) => (
+        <TimelineRow
+          key={x.id}
+          when={monthYear(x.startAt)}
+          kind={x.unit !== undefined ? `Unit ${x.unit}` : 'Session'}
+          detail={<>{x.topic}{x.group !== undefined && <span className="text-size-xs text-secondary"> · Group {x.group}</span>}</>}
+          status={status(x)}
+          url={x.docUrl ?? x.recordUrl}
+        />
+      ))}
+    </Section>
+  );
+};
+
 export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
   // LinkedIn sometimes lives only on the application record, so merge both sources
   const normalise = (u: string) => u.replace(/\/+$/, '').toLowerCase();
@@ -471,7 +504,9 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
   if (app?.commitmentScore !== undefined) scores.push(['Commitment', app.commitmentScore]);
   if (app?.impressivenessScore !== undefined) scores.push(['Impressiveness', app.impressivenessScore]);
   if (app?.technicalSkillScore !== undefined) scores.push(['Technical', app.technicalSkillScore]);
-  const roundLine = `${shortRound(person.roundName)} · ended ${formatDate(person.roundEnd)}`;
+  const roundLine = `ended ${formatDate(person.roundEnd)}`;
+  // "(2026 Aug W36) - Part-time" → "2026 Aug W36 · Part-time"
+  const roundLabel = shortRound(person.roundName).replace(/[()]/g, '').replace(' - ', ' · ');
 
   return (
     <div className="flex min-w-0 flex-col gap-2 break-words">
@@ -502,12 +537,14 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         </div>
       </CardShell>
 
+      <GroupLabel>About them</GroupLabel>
       <FoundOnline facts={person.webFacts} lookedUpOn={person.lookedUpOn} givenUrls={profileLinks} />
 
       <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
         {timeline.map((item) => item.node)}
       </Section>
 
+      <GroupLabel>This round · {roundLabel}</GroupLabel>
       <Section
         title="Application"
         empty={!app}
@@ -541,6 +578,8 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         )}
       </Section>
 
+      <Sessions sessions={person.sessions} />
+
       {person.projects.some((p) => p.evalNotes.length > 0) && (
         <Section title="Project notes">
           {person.projects.filter((p) => p.evalNotes.length > 0).map((p) => (
@@ -558,6 +597,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           meta={person.reports.map((r) => (
             <span key={r.id} className="flex items-center gap-2 font-normal">
               <OpinionBadge opinion={r.overallTake} />
+              {r.facilitator && <Meta>{r.facilitator}</Meta>}
               <Meta>{formatDate(r.date)}</Meta>
             </span>
           ))}
@@ -603,6 +643,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
                 {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10 · </span>}
                 {fb.reviewer ?? <span className="text-disabled">facilitator not recorded</span>}
                 {fb.round && ` · ${shortRound(fb.round)}`}
+                {fb.roundStats && fb.rating !== undefined && ` · gave ${fb.rating} or more to ${fb.roundStats.atOrAbove} of the ${fb.roundStats.rated} they rated this round`}
               </span>
               <RecordLink url={fb.recordUrl} />
             </EntryHeading>

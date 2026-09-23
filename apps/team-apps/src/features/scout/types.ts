@@ -43,6 +43,20 @@ export type FacilitatorFeedback = {
   motivation?: string;
   nextSteps: string[];
   recommendToFacilitate: boolean;
+  // Everyone this facilitator rated in the same round, and how many got this score or more
+  roundStats?: { rated: number; atOrAbove: number };
+};
+
+// A session (group discussion) this registration was expected at
+export type Session = {
+  id: string;
+  recordUrl?: string;
+  unit?: number;
+  topic?: string;
+  group?: number;
+  docUrl?: string;
+  startAt?: string;
+  attended: boolean;
 };
 
 export type GrantApplication = {
@@ -210,6 +224,8 @@ export type Person = {
   calls: EvaluationCall[];
   reports: FacilitatorReport[];
   facilitatorFeedback: FacilitatorFeedback[];
+  // The current round's sessions only
+  sessions: Session[];
   projects: Project[];
   feedback: CourseFeedback[];
   application?: Application;
