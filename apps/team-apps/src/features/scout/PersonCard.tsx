@@ -17,7 +17,7 @@ const AIRTABLE: Record<string, { bg: string; fg: string }> = {
   tealLight2: { bg: '#c2f5e9', fg: '#012524' },
   greenLight2: { bg: '#d1f7c4', fg: '#0b1d05' },
   yellowLight2: { bg: '#ffeab6', fg: '#3b2300' }, yellowLight1: { bg: '#ffd66e', fg: '#3b2300' }, yellowBright: { bg: '#fcb400', fg: '#3b2300' },
-  orangeBright: { bg: '#ff6f2c', fg: '#ffffff' },
+  orangeBright: { bg: '#ff6f2c', fg: '#ffffff' }, redBright: { bg: '#f82b60', fg: '#ffffff' },
   pinkLight1: { bg: '#f99de2', fg: '#400832' },
   grayLight2: { bg: '#eeeeee', fg: '#333333' },
   purpleLight2: { bg: '#ede2fe', fg: '#280b4d' },
@@ -25,7 +25,7 @@ const AIRTABLE: Record<string, { bg: string; fg: string }> = {
 
 // Choice → Airtable colour name, copied from the field definitions in Course runner.
 const OPINION_COLOUR: Record<string, string> = {
-  'Strong yes': 'blueBright', 'Weak yes': 'cyanLight1', Neutral: 'grayLight2', 'Weak no': 'yellowLight1', 'Strong no': 'orangeBright', '[tmp] VIP': 'blueLight2', TODO: 'pinkLight1',
+  'Strong yes': 'blueBright', 'Weak yes': 'cyanLight1', Neutral: 'grayLight2', 'Weak no': 'yellowLight1', 'Strong no': 'redBright', '[tmp] VIP': 'blueLight2', TODO: 'pinkLight1',
 };
 const NEXT_STEP_COLOUR: Record<string, string> = {
   'No further action needed': 'blueLight2',
@@ -83,6 +83,7 @@ const Disclosure: React.FC<{
 // Application and feedback answers arrive as free text, sometimes with markdown
 // syntax typed in by hand. Strip the noise so previews read as prose.
 const plain = (text: string) => text
+  .replace(/\\n/g, '\n')
   .replace(/\*\*|__|`/g, '')
   .replace(/^#{1,6}\s+/gm, '')
   .replace(/^\s*[-*•]\s+/gm, '')
@@ -122,7 +123,7 @@ const Section: React.FC<{
   empty ? (
     <CardShell className="flex items-center gap-2 px-4 py-2.5 text-size-sm text-disabled">
       <span className="inline-block w-[14px]" />
-      <span className="font-semibold">{title}</span>
+      <span className="font-semibold">{ai && <AiMark />}{title}</span>
       <span>{emptyText}</span>
     </CardShell>
   ) : (
@@ -147,8 +148,8 @@ const Section: React.FC<{
 const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
 
 // Quiet label between groups of sections: what is about the person, what is about this round
-const GroupLabel: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <p className="px-1 pt-2 text-size-xxs uppercase tracking-wide text-secondary">{children}</p>
+const GroupLabel: React.FC<{ children: ReactNode; spaced?: boolean }> = ({ children, spaced = false }) => (
+  <p className={cn('px-1 text-size-xxs uppercase tracking-wide text-secondary', spaced ? 'pt-6' : 'pt-2')}>{children}</p>
 );
 
 // One line above each entry when a section can hold several (two facilitators, two reports):
@@ -191,6 +192,8 @@ const Line: React.FC<{ children: ReactNode }> = ({ children }) => <li className=
 // One source's facts, laid out for its kind. Only what the page said, in the shape it said it.
 const SourceFacts: React.FC<{ source: WebSource }> = ({ source }) => {
   const f = source.facts ?? {};
+  // Loose notes are the job's own remarks; they only earn space when there is nothing structured
+  const structured = Object.values(f).some((v) => (Array.isArray(v) ? v.length > 0 : v !== undefined && v !== null && v !== ''));
   return (
     <ul className="flex list-disc flex-col gap-1.5 pl-5 marker:text-secondary">
       {f.headline && <Line><span className="font-medium">{f.headline}</span></Line>}
@@ -226,7 +229,7 @@ const SourceFacts: React.FC<{ source: WebSource }> = ({ source }) => {
       ))}
       {f.mention && <Line>“{f.mention}”</Line>}
       {[f.cohort, f.project, f.mentor].some(Boolean) && <Line><span className="text-size-xs text-secondary">{[f.cohort, f.project, f.mentor && `mentor: ${f.mentor}`].filter(Boolean).join(' · ')}</span></Line>}
-      {source.other?.map((line) => <Line key={line}><span className="text-secondary">“{line}”</span></Line>)}
+      {!structured && source.other?.map((line) => <Line key={line}><span className="text-secondary">“{line}”</span></Line>)}
     </ul>
   );
 };
@@ -236,27 +239,31 @@ const readLabel = (source?: WebSource) => {
   return source.read === 'page' ? ' · read from page' : ' · from search snippet';
 };
 
+// Google Scholar profiles open sorted by year, newest first
+const openUrl = (u: string) => (/scholar\.google\.[a-z.]+\/citations\?.*user=/.test(u) && !u.includes('sortby=') ? `${u}&view_op=list_works&sortby=pubdate` : u);
+
 // Same profile, different spellings: scheme, www, query, fragment and trailing slash are ignored
 const normaliseUrl = (u: string) => u.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/[?#].*$/, '').replace(/\/+$/, '');
 
 const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: string[] }> = ({ facts, lookedUpOn, givenUrls }) => {
-  if (!facts) return <Section title="Found online" empty emptyText="not looked up yet" />;
+  if (!facts) return <Section title="Found online" ai empty emptyText="not looked up yet" />;
   const given = new Set(givenUrls.map(normaliseUrl));
-  // Links the participant gave us already sit in the top row; only show what was newly found
-  const newLinks = facts.links.filter((link) => !given.has(normaliseUrl(link.url)));
+  // Links the participant gave us already sit in the top row; only show what was newly found.
+  // LinkedIn is never listed here: the profile cannot be read, so a second LinkedIn link says nothing new.
+  const newLinks = facts.links.filter((link) => link.kind !== 'linkedin' && !given.has(normaliseUrl(link.url)));
   const links = sortedFoundLinks(newLinks).slice(0, MAX_FOUND_LINKS);
   const sourceFor = (link: WebLink) => facts.sources.find((source) => source.confidence === 'high' && normaliseUrl(source.url) === normaliseUrl(link.url));
   const hasFacts = (source?: WebSource) => !!source && (Object.values(source.facts ?? {}).some((v) => (Array.isArray(v) ? v.length > 0 : v !== undefined && v !== null && v !== '')) || (source.other?.length ?? 0) > 0);
   if (links.length === 0) {
     // Still surface an unconfirmed identity: that is the most useful thing a lookup can say when it found nothing
-    const identityNote = !facts.identity.confident && facts.identity.note ? ` · identity unconfirmed: ${facts.identity.note}` : '';
-    return <Section title="Found online" empty emptyText={`nothing found online${lookedUpOn ? ` · looked up ${formatDate(lookedUpOn)}` : ''}${identityNote}`} />;
+    const identityNote = facts.identity.confident ? '' : ' · identity unconfirmed';
+    return <Section title="Found online" ai empty emptyText={`nothing found online${lookedUpOn ? ` · looked up ${formatDate(lookedUpOn)}` : ''}${identityNote}`} />;
   }
 
   return (
     <Section
       title="Found online"
-      count={newLinks.length}
+      count={links.length}
       ai
       meta={(
         <>
@@ -265,19 +272,18 @@ const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: 
         </>
       )}
     >
-      {!facts.identity.confident && facts.identity.note && <p className="text-size-xs text-secondary">{facts.identity.note}</p>}
       <div className="flex flex-col divide-y divide-subtle">
         {links.map((link) => {
           const source = sourceFor(link);
           const label = (
             <>
               <span className="text-size-sm font-medium text-primary">{foundLinkLabel(link)}</span>
-              <span className="text-size-xs text-secondary">{LINK_KIND_LABEL[link.kind] ?? link.kind}{link.confidence === 'medium' ? ' · unverified' : ''}{readLabel(source)}</span>
-              <A href={link.url} target="_blank" className="ml-auto inline-flex min-h-11 shrink-0 items-center text-size-xs">open ↗</A>
+              <span className="text-size-xs text-secondary">{LINK_KIND_LABEL[link.kind] ?? link.kind}{link.confidence === 'medium' ? ' · probably them, not confirmed' : ''}{readLabel(source)}</span>
+              <A href={openUrl(link.url)} target="_blank" className="ml-auto inline-flex min-h-11 shrink-0 items-center text-size-xs">open ↗</A>
             </>
           );
           return hasFacts(source) && source ? (
-            <Disclosure key={link.url} summary={label} summaryClassName="py-1 [&>span]:w-full" bodyClassName="pb-3 pl-[22px]">
+            <Disclosure key={link.url} defaultOpen summary={label} summaryClassName="py-1 [&>span]:w-full" bodyClassName="pb-3 pl-[22px]">
               <SourceFacts source={source} />
             </Disclosure>
           ) : (
@@ -405,14 +411,17 @@ const TimelineRow: React.FC<{
 };
 
 // Free text behind a row, shown when the row is opened
-const More: React.FC<{ label: string; text?: string }> = ({ label, text }) => (
+const More: React.FC<{ label: string; text?: string; ai?: boolean }> = ({ label, text, ai = false }) => (
   text ? (
     <div className="flex flex-col gap-1">
-      <Caption>{label}</Caption>
+      <Caption ai={ai}>{label}</Caption>
       <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{plain(text)}</P>
     </div>
   ) : null
 );
+
+// "-" and similar placeholders typed into a text field count as empty
+const hasText = (text?: string) => !!text && /[A-Za-z0-9]/.test(text);
 
 const CourseDetail: React.FC<{ course: string; roundName: string }> = ({ course, roundName }) => {
   const intensity = intensityOf(roundName);
@@ -444,6 +453,7 @@ const OtherApplicationRow: React.FC<{ a: OtherApplication }> = ({ a }) => {
       status={status}
       url={a.recordUrl}
       quiet={status.tone === 'quiet'}
+      more={status.tone === 'bad' && hasText(a.aiSummary) && <More ai label="Speed-review summary, at application time" text={a.aiSummary} />}
     />
   );
 };
@@ -455,7 +465,7 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
     detail={amounts(g.amountUsd)}
     status={decisionStatus(g.status)}
     url={g.recordUrl}
-    more={g.reasoning && <More label="Decision reasoning" text={g.reasoning} />}
+    more={hasText(g.reasoning) && <More label={['Decision reasoning', g.decidedBy, g.decisionDate && formatDate(g.decisionDate)].filter(Boolean).join(' · ')} text={g.reasoning} />}
   />
 );
 
@@ -467,7 +477,13 @@ const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
     opinion={g.opinion}
     status={decisionStatus(g.decision)}
     url={g.recordUrl}
-    more={g.feedback && <More label="Feedback" text={g.feedback} />}
+    more={(hasText(g.projectTitle) || hasText(g.whyItMatters) || g.madeBy) && (
+      <div className="flex flex-col gap-2">
+        {hasText(g.projectTitle) && <p className="text-size-sm font-medium">{g.publicUrl ? <A href={g.publicUrl} target="_blank">{g.projectTitle} ↗</A> : g.projectTitle}</p>}
+        <More label="How it reduces catastrophic risk" text={hasText(g.whyItMatters) ? g.whyItMatters : undefined} />
+        {g.madeBy && <p className="text-size-xs text-secondary">Decision by {g.madeBy}{g.decidedAt && ` · ${formatDate(g.decidedAt)}`}</p>}
+      </div>
+    )}
   />
 );
 
@@ -562,11 +578,12 @@ const ProjectSection: React.FC<{ projects: Project[] }> = ({ projects }) => {
   );
 };
 
-// "Aline gave 10 or more to 1 of the 7 they rated this round", or just who wrote it
+// "10/10 · Aline gave 10 or more to 1 of the 7 they rated this round"
 const feedbackSummary = (fb: FacilitatorFeedback) => {
   const who = fb.reviewer?.split(' ')[0] ?? 'The facilitator';
-  if (fb.roundStats && fb.rating !== undefined) return `${who} gave ${fb.rating} or more to ${fb.roundStats.atOrAbove} of the ${fb.roundStats.rated} they rated this round`;
-  return fb.reviewer ?? 'facilitator not recorded';
+  const score = fb.rating !== undefined ? `${fb.rating}/10 · ` : '';
+  if (fb.roundStats && fb.rating !== undefined) return `${score}${who} gave ${fb.rating} or more to ${fb.roundStats.atOrAbove} of the ${fb.roundStats.rated} they rated this round.`;
+  return `${score}${who}${fb.round ? ` · ${shortRound(fb.round)}` : ''}`;
 };
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
@@ -633,7 +650,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         <TimelineList>{timeline.map((item) => item.node)}</TimelineList>
       </Section>
 
-      <GroupLabel>This round · {roundLabel}</GroupLabel>
+      <GroupLabel spaced>This round · {roundLabel}</GroupLabel>
       <Section
         title="Application"
         empty={!app}
@@ -708,13 +725,14 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         meta={person.facilitatorFeedback.map((fb) => (
           <span key={fb.id} className="flex items-center gap-2 font-normal">
             {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10</span>}
-            <Meta>{feedbackSummary(fb)}</Meta>
+            <Meta>{fb.reviewer ?? 'facilitator not recorded'}</Meta>
             <RecordLink url={fb.recordUrl} />
           </span>
         ))}
       >
-        {person.facilitatorFeedback.map((fb) => (
-          <div key={fb.id} className="flex min-w-0 flex-col gap-2 break-words">
+        {person.facilitatorFeedback.map((fb, i) => (
+          <div key={fb.id} className={cn('flex min-w-0 flex-col gap-2 break-words', i > 0 && 'border-t border-subtle pt-4')}>
+            <p className="text-size-xs text-secondary">{feedbackSummary(fb)}</p>
             {(fb.recommendToFacilitate || fb.nextSteps.length > 0 || fb.motivation) && (
               <div className="flex flex-wrap items-center gap-1 text-size-xs text-secondary">
                 {fb.recommendToFacilitate && <Badge>Recommended to facilitate</Badge>}

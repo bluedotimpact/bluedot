@@ -68,6 +68,7 @@ export type GrantApplication = {
   decisionDate?: string;
   amountUsd?: number;
   reasoning?: string;
+  decidedBy?: string;
 };
 
 // An application (Applications base) that never became a Course runner registration:
@@ -82,6 +83,8 @@ export type OtherApplication = {
   facilitator: boolean;
   decision?: string;
   opinion?: string;
+  // Speed-review summary written at application time
+  aiSummary?: string;
 };
 
 // CRM › Rapid grants: small project grants, separate from career transition grants
@@ -95,8 +98,12 @@ export type RapidGrant = {
   oneLiner?: string;
   amountRequestedUsd?: number;
   amountGrantedUsd?: number;
-  feedback?: string;
   opinion?: string;
+  // The applicant's answer to how the project helps; who decided and when
+  whyItMatters?: string;
+  publicUrl?: string;
+  madeBy?: string;
+  decidedAt?: string;
 };
 
 export type EvaluationCall = {

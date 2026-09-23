@@ -39,8 +39,11 @@ const RAPID = {
   oneLiner: 'fldcppNQHZZJa4USi',
   amountRequested: 'fldBzDMLm9ahutnTF',
   amountGranted: 'fldHJfsaPMImrlAOb',
-  feedback: 'fld5kPhKTCvje7mnk',
   opinion: 'fldS2oWvglg2D5d9z',
+  whyItMatters: 'fldjK9tMiOMXlzI0n',
+  publicUrl: 'fldVebX6W7HDpjVsG',
+  madeBy: 'fldJnWE07WCkh9F6J',
+  decidedAt: 'fldMfQhEyV24Wxgqx',
 } as const;
 
 // Locked view "Talent scouting [read by Talent Scouting App]" — the hard filter
@@ -168,6 +171,7 @@ const GRANT = {
   decisionDate: 'fld3eJ88BBBQHgcmJ',
   amountUsd: 'fldYhy8btQ5r8vRk0',
   reasoning: 'fld8umY7wuskih6gg',
+  evaluator: 'fldGavMM0OtpbjwnT',
 } as const;
 
 // Applications › Evaluation calls
@@ -196,6 +200,7 @@ const APP_OUTCOME = {
   roundName: 'fldQymBa7milTYP9q',
   roundEnd: 'fldyzxzjh5xgHgKuC',
   opinion: 'fldOm6fJcqhq78M71',
+  aiSummary: 'fldRXdZQ0rnuVOcl7',
 } as const;
 
 // Applications base — Course registration (same field IDs speed-review uses)
@@ -234,6 +239,8 @@ const str = (v: unknown): string | undefined => (typeof v === 'string' && v.trim
 const num = (v: unknown): number | undefined => (typeof v === 'number' ? v : undefined);
 const strList = (v: unknown): string[] => (Array.isArray(v) ? v.map(String).filter((s) => s.trim()) : []);
 const first = (v: unknown): string | undefined => strList(v)[0];
+// A collaborator field: { id, email, name }
+const collaboratorName = (v: unknown): string | undefined => (typeof v === 'object' && v !== null && 'name' in v ? str((v as { name?: unknown }).name) : undefined);
 const url = (v: unknown): string | undefined => {
   const s = str(v);
   if (!s) return undefined;
@@ -569,6 +576,7 @@ const toGrant = (r: AirtableRecord): GrantApplication => ({
   decisionDate: str(r.fields[GRANT.decisionDate]),
   amountUsd: num(r.fields[GRANT.amountUsd]),
   reasoning: str(r.fields[GRANT.reasoning]),
+  decidedBy: collaboratorName(r.fields[GRANT.evaluator]),
 });
 
 const toCall = (r: AirtableRecord): EvaluationCall => ({
@@ -631,8 +639,11 @@ const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   oneLiner: str(r.fields[RAPID.oneLiner]),
   amountRequestedUsd: num(r.fields[RAPID.amountRequested]),
   amountGrantedUsd: num(r.fields[RAPID.amountGranted]),
-  feedback: str(r.fields[RAPID.feedback]),
   opinion: str(r.fields[RAPID.opinion]),
+  whyItMatters: str(r.fields[RAPID.whyItMatters]),
+  publicUrl: url(r.fields[RAPID.publicUrl]),
+  madeBy: collaboratorName(r.fields[RAPID.madeBy]),
+  decidedAt: str(r.fields[RAPID.decidedAt]),
 });
 
 // Applications for this email that did not become a registration (the registrations'
@@ -653,6 +664,7 @@ const fetchOtherApplications = async (email: string, registrationApplicationIds:
         facilitator: str(r.fields[APP_OUTCOME.role]) === 'Facilitator',
         decision: str(r.fields[APP_OUTCOME.decision]),
         opinion: str(r.fields[APP_OUTCOME.opinion]),
+        aiSummary: str(r.fields[APP_OUTCOME.aiSummary]),
       };
     })
     .sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
