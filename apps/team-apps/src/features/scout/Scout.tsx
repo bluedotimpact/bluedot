@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
@@ -10,6 +11,7 @@ import { useNavigationState } from '../../lib/client/navigation';
 import { isLocalPreview } from '../../lib/preview';
 import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
+import { PersonSearch } from './PersonSearch';
 import { QueueSource } from './QueueSource';
 import {
   courses, roundKey, roundLabel, roundsFor,
@@ -54,6 +56,11 @@ const Scout = () => {
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
+  // Looking one person up from the search box or a ?person= link: just their card and a
+  // decision, no round, no queue, then back to the start.
+  const [lookup, setLookup] = useState<QueueItem>();
+  const [search, setSearch] = useState('');
+  const router = useRouter();
   // Skip = "not now": the person moves to the end of this pass. Forgotten when the round
   // is reopened or the queue reloads; nothing is written anywhere.
   const [skipOrder, setSkipOrder] = useState<string[]>([]);
@@ -100,8 +107,8 @@ const Scout = () => {
   const roundItems = round ? remaining.filter((item) => roundKey(item) === roundKey(round)) : [];
   const skippedItems = skipOrder.map((id) => roundItems.find((item) => item.id === id)).filter((item): item is QueueItem => item !== undefined);
   const queue = [...roundItems.filter((item) => !skipOrder.includes(item.id)), ...skippedItems];
-  const current = queue[0];
-  const upcoming = queue[1];
+  const current = lookup ?? queue[0];
+  const upcoming = lookup ? undefined : queue[1];
   const loaded = current ? people[current.id] : undefined;
   const person = loaded && 'person' in loaded ? loaded.person : undefined;
   const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
@@ -118,6 +125,52 @@ const Scout = () => {
     setConflict(false);
     setNotice(undefined);
   };
+
+  // The URL carries the person being looked up, so a card can be shared as a link
+  const setPersonInUrl = useCallback((id?: string) => {
+    const query = { ...router.query };
+    if (id) query.person = id;
+    else delete query.person;
+    void router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
+  }, [router]);
+  const openLookup = (item: QueueItem) => {
+    if (writingRef.current || confirmation !== undefined || promptOpen) return;
+    setLookup(item);
+    setSaveError(undefined);
+    setConflict(false);
+    setNotice(undefined);
+    setPersonInUrl(item.id);
+  };
+
+  const closeLookup = () => {
+    setLookup(undefined);
+    setSearch('');
+    setPersonInUrl(undefined);
+  };
+
+  // ?person=rec… opens that registration, if it is in the queue: on load, and whenever the
+  // parameter changes underneath an open card (a pasted link, browser back). Removing it
+  // closes the card. The page's own open/close write the same value, so they are no-ops here.
+  const linked = typeof router.query.person === 'string' ? router.query.person : undefined;
+  useEffect(() => {
+    if (loading || queueError !== undefined) return;
+    if (!linked) {
+      if (lookup) setLookup(undefined);
+      return;
+    }
+
+    if (lookup?.id === linked) return;
+    const item = items.find((entry) => entry.id === linked);
+    if (item && !done[item.id]) {
+      setLookup(item);
+    } else {
+      setLookup(undefined);
+      setNotice('That person is not in the queue right now.');
+      setPersonInUrl(undefined);
+    }
+    // Runs when the URL parameter changes, not on every render that touches lookup or items
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, queueError, linked]);
 
   const loadPerson = useCallback((id: string) => {
     if (requested.current.has(id)) return;
@@ -151,16 +204,16 @@ const Scout = () => {
   }, [currentId]);
 
   useEffect(() => {
-    setSessionActive(!loading && !queueError && (roundItems.length > 0 || confirmation !== undefined));
+    setSessionActive(!loading && !queueError && (roundItems.length > 0 || lookup !== undefined || confirmation !== undefined));
     return () => setSessionActive(false);
-  }, [loading, queueError, roundItems.length, confirmation, setSessionActive]);
+  }, [loading, queueError, roundItems.length, lookup, confirmation, setSessionActive]);
 
   const skip = useCallback(() => {
-    if (!current || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
+    if (!current || lookup !== undefined || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSkipOrder((state) => [...state.filter((id) => id !== current.id), current.id]);
     setNotice(undefined);
     setSaveError(undefined);
-  }, [current, confirmation, promptOpen, conflict]);
+  }, [current, lookup, confirmation, promptOpen, conflict]);
 
   const ask = useCallback((decision: Decision) => {
     if (!current || person?.id !== current.id || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
@@ -188,7 +241,10 @@ const Scout = () => {
       setDone((state) => ({ ...state, [selected.person.id]: selected }));
       setSkipOrder((state) => state.filter((id) => id !== selected.person.id));
       setConfirmation(undefined);
-      setNotice(selected.decision === 'invite' ? 'Invitation requested. Airtable will send the email.' : 'Saved as don’t invite.');
+      const who = selected.person.name ? `${selected.person.name}: ` : '';
+      setNotice(selected.decision === 'invite' ? `${who}invitation requested. Airtable will send the email.` : `${who}saved as don’t invite.`);
+      // A looked-up person is decided and done: back to the start
+      if (lookup?.id === selected.person.id) closeLookup();
     } catch (error) {
       setSaveError(message(error));
     } finally {
@@ -230,7 +286,7 @@ const Scout = () => {
       <Head><title>Course talent scouting · BlueDot Apps</title></Head>
       <div className="mx-auto flex max-w-3xl flex-col gap-4">
         {/* While reviewing, the page belongs to the person: the title and the queue notes stay on the picker */}
-        {!round && (
+        {!round && !lookup && (
           <>
             <header className="flex flex-wrap items-start justify-between gap-3">
               <div><h1 className="text-size-lg font-semibold">Course talent scouting</h1><p className="mt-1 text-size-sm text-secondary">Which course participant should get an evaluation call?</p></div>
@@ -243,8 +299,29 @@ const Scout = () => {
         )}
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
         {!loading && queueError && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{queueError} Use Refresh queue to try again.</div>}
-        {!loading && !queueError && (!round ? (
-          <RoundPicker items={remaining} invited={invited} onSelect={chooseRound} />
+        {!loading && !queueError && lookup && (
+          <>
+            <section aria-label="Looking up one participant" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
+              <p className="text-size-xs text-secondary">Opened from search · {lookup.course} · {roundLabel(lookup)}</p>
+              <button type="button" className={button} disabled={controlsDisabled} onClick={closeLookup}>Back to search</button>
+            </section>
+            {saveError && !confirmation && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{saveError}</div>}
+            <ReviewEvidence key={lookup.id} item={lookup} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(lookup.id)} actions={
+              <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <button type="button" className={danger} disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</button>
+                  <button type="button" className={primary} disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></button>
+                </div>
+              </div>
+            } />
+          </>
+        )}
+        {!loading && !queueError && !lookup && (!round ? (
+          <>
+            {notice && <p role="status" className="rounded-surface bg-info-bg p-3 text-size-sm text-info-fg">{notice}</p>}
+            <PersonSearch items={remaining} query={search} onQueryChange={setSearch} onSelect={openLookup} />
+            <RoundPicker items={remaining} invited={invited} onSelect={chooseRound} />
+          </>
         ) : <>
           <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">

@@ -10,6 +10,9 @@ import { authFetch } from '../../lib/client/api';
 import type { Course, Person } from './types';
 
 vi.mock('../../lib/client/api', () => ({ authFetch: vi.fn() }));
+const routerQuery: Record<string, string> = {};
+const routerReplace = vi.fn();
+vi.mock('next/router', () => ({ useRouter: () => ({ query: routerQuery, pathname: '/scout', replace: routerReplace }) }));
 vi.mock('./PersonCard', () => ({ PersonCard: ({ person }: { person: { name: string } }) => <p>{person.name}</p> }));
 vi.mock('@bluedot/ui', () => ({
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
@@ -32,7 +35,7 @@ const samplePeople: Person[] = [
 ];
 const mockFetch = vi.mocked(authFetch);
 const realQueue = samplePeople.map((p) => ({
-  id: p.id, name: p.name, roundId: `sample-${p.course}`, course: p.course, roundName: p.roundName, hasReport: true, hasCertificate: true,
+  id: p.id, name: p.name, email: p.email, roundId: `sample-${p.course}`, course: p.course, roundName: p.roundName, hasReport: true, hasCertificate: true,
 }));
 const pathOf = (input: RequestInfo | URL) => (input instanceof Request ? input.url : input.toString());
 const read = async (input: RequestInfo | URL) => {
@@ -49,6 +52,8 @@ const start = async () => {
 };
 
 beforeEach(() => {
+  Object.keys(routerQuery).forEach((key) => delete routerQuery[key]);
+  routerReplace.mockReset();
   mockFetch.mockReset().mockImplementation(read);
   useNavigationState.setState({ sessionActive: false, pendingWrites: 0, promptOpen: false });
 });
@@ -203,4 +208,45 @@ test('keeps saved decisions in the round summary after refresh and never offers 
   await screen.findByText('Sam Chen');
   expect(screen.getByRole('button', { name: 'Undo skip' }).hasAttribute('disabled')).toBe(true);
   expect(decisions()).toHaveLength(1);
+});
+
+test('search opens one registration, a decision on it returns to the start and removes them from the queue', async () => {
+  mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: true }) : read(path)));
+  render(<Scout />);
+  const box = await screen.findByLabelText('Find a participant in the queue');
+  fireEvent.change(box, { target: { value: 'jordan' } });
+  fireEvent.click(await screen.findByTestId('search-result-recScoutSample003'));
+  await screen.findByText('Jordan Patel');
+  expect(screen.queryByRole('button', { name: 'Skip' })).toBeNull();
+  expect(routerReplace).toHaveBeenLastCalledWith({ pathname: '/scout', query: { person: 'recScoutSample003' } }, undefined, { shallow: true });
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Invite' }).hasAttribute('disabled')).toBe(false));
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+  await screen.findByText('Jordan Patel: invitation requested. Airtable will send the email.');
+  expect(screen.getByLabelText('Find a participant in the queue')).toBeTruthy();
+  // Their round had one person, so it no longer appears in the picker
+  expect(screen.queryByTestId('choose-round-sample-Technical AI Safety Project')).toBeNull();
+  expect(decisions()).toHaveLength(1);
+});
+
+test('back to search starts with an empty box; a ?person= link opens the card directly', async () => {
+  render(<Scout />);
+  fireEvent.change(await screen.findByLabelText('Find a participant in the queue'), { target: { value: 'example.org' } });
+  expect(screen.getAllByTestId(/search-result-/)).toHaveLength(4);
+  fireEvent.click(screen.getByTestId('search-result-recScoutSample002'));
+  await screen.findByText('Sam Chen');
+  fireEvent.click(screen.getByRole('button', { name: 'Back to search' }));
+  expect((await screen.findByLabelText('Find a participant in the queue')).getAttribute('value')).toBe('');
+  expect(decisions()).toHaveLength(0);
+  cleanup();
+
+  routerQuery.person = 'recScoutSample004';
+  render(<Scout />);
+  await screen.findByText('Riley Williams');
+  expect(screen.getByRole('button', { name: 'Back to search' })).toBeTruthy();
+  cleanup();
+
+  routerQuery.person = 'recNotInQueue00001';
+  render(<Scout />);
+  await screen.findByText('That person is not in the queue right now.');
 });

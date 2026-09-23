@@ -353,7 +353,7 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 // ---- Queue ----
 
-const QUEUE_FIELDS = [REG.fullName, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
+const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
 
 export const fetchQueue = async (): Promise<QueueItem[]> => {
   const [records, rounds] = await Promise.all([
@@ -368,6 +368,7 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
     items.push({
       id: r.id,
       name: str(r.fields[REG.fullName]),
+      email: str(r.fields[REG.email]),
       roundId: round?.id,
       course,
       roundName: round?.name ?? '',
