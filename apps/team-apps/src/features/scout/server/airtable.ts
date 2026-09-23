@@ -299,10 +299,17 @@ const fetchOne = async (tableUrl: string, id: string, _fields: readonly string[]
   return response.json() as Promise<AirtableRecord>;
 };
 
-// Airtable has no "id in (...)" filter, so linked records are fetched one by one.
+// Linked records in one request per table (OR of record ids), in the order the link field
+// lists them. Chunked so the formula stays well inside Airtable's URL limit; one request
+// per chunk of 40 keeps a person to about ten calls, under the 5-per-second rate limit.
 const fetchMany = async (tableUrl: string, ids: string[], fields: readonly string[]): Promise<AirtableRecord[]> => {
-  const records = await Promise.all(ids.map((id) => fetchOne(tableUrl, id, fields)));
-  return records.filter((r): r is AirtableRecord => !!r);
+  const chunks: string[][] = [];
+  for (let i = 0; i < ids.length; i += 40) chunks.push(ids.slice(i, i + 40));
+  const pages = await Promise.all(chunks.map((chunk) => fetchAll(tableUrl, {
+    filterByFormula: `OR(${chunk.map((id) => `RECORD_ID()='${id}'`).join(',')})`,
+  }, fields)));
+  const byId = new Map(pages.flat().map((r) => [r.id, r]));
+  return ids.map((id) => byId.get(id)).filter((r): r is AirtableRecord => r !== undefined);
 };
 
 // ---- Rounds (small table, cached briefly) ----
