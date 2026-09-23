@@ -11,8 +11,8 @@ export const searchQueue = (items: QueueItem[], query: string): QueueItem[] => {
   return items.filter((item) => (item.name ?? '').toLowerCase().includes(q) || (item.email ?? '').toLowerCase().includes(q));
 };
 
-// Look one person up by name or email. One line per registration, so someone who took
-// two courses appears twice and the lead picks the one they mean.
+// Look one person up by name or email (the email matches but is not shown, the line is
+// busy enough). One line per registration, so someone who took two courses appears twice.
 export const PersonSearch = ({
   items, query, onQueryChange, onSelect,
 }: { items: QueueItem[]; query: string; onQueryChange: (value: string) => void; onSelect: (item: QueueItem) => void }) => {
@@ -43,7 +43,6 @@ export const PersonSearch = ({
                 className="flex min-h-11 w-full flex-wrap items-center gap-x-3 gap-y-1 rounded-surface border border-subtle bg-raised px-3 py-2 text-left text-size-sm hover:border-accent hover:bg-tint"
               >
                 <span className="font-medium">{item.name ?? 'Participant'}</span>
-                {item.email && <span className="text-size-xs text-secondary">{item.email}</span>}
                 <span className="ml-auto text-size-xs text-secondary">{item.course} · {roundLabel(item)}{item.opinion ? ` · ${item.opinion}` : ''}</span>
               </button>
             </li>
