@@ -470,8 +470,8 @@ const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
         <TimelineRow
           key={x.id}
           when={monthYear(x.startAt)}
-          kind={x.unit !== undefined ? `Unit ${x.unit}` : 'Session'}
-          detail={<>{x.topic}{x.group !== undefined && <span className="text-size-xs text-secondary"> · Group {x.group}</span>}</>}
+          kind={x.group !== undefined ? `Group ${x.group}` : ''}
+          detail={<>{x.unit !== undefined && <span className="text-size-xs text-secondary">Unit {x.unit} · </span>}{x.topic}</>}
           status={status(x)}
           url={x.docUrl ?? x.recordUrl}
         />
@@ -597,8 +597,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           meta={person.reports.map((r) => (
             <span key={r.id} className="flex items-center gap-2 font-normal">
               <OpinionBadge opinion={r.overallTake} />
-              {r.facilitator && <Meta>{r.facilitator}</Meta>}
-              <Meta>{formatDate(r.date)}</Meta>
+              <Meta>{[r.facilitator, formatDate(r.date)].filter(Boolean).join(' · ')}</Meta>
             </span>
           ))}
         >
