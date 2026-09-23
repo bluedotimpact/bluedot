@@ -3,7 +3,7 @@ import {
   A, CardShell, ChevronRightIcon, cn, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import {
-  type EvaluationCall, type GrantApplication, type OtherApplication, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
+  type EvaluationCall, type FacilitatorFeedback, type GrantApplication, type OtherApplication, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
 } from './types';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
@@ -43,9 +43,12 @@ const Badge: React.FC<{ children: ReactNode; className?: string; colour?: string
   <span className={cn('inline-flex items-center max-w-full whitespace-normal break-words rounded-sm px-2 py-0.5 text-size-xxs font-medium', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
 );
 
-const OpinionBadge: React.FC<{ opinion?: string }> = ({ opinion }) => (
-  opinion ? <Badge colour={OPINION_COLOUR[opinion] ?? 'grayLight2'}>{opinion}</Badge> : null
-);
+// Rapid grants store the same options in lower case ("strong yes"), so match by lower case
+const OpinionBadge: React.FC<{ opinion?: string }> = ({ opinion }) => {
+  if (!opinion) return null;
+  const known = Object.keys(OPINION_COLOUR).find((k) => k.toLowerCase() === opinion.toLowerCase());
+  return <Badge colour={known ? OPINION_COLOUR[known] : 'grayLight2'}>{known ?? opinion.charAt(0).toUpperCase() + opinion.slice(1)}</Badge>;
+};
 
 const formatDate = (iso?: string) => (iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '');
 
@@ -87,9 +90,10 @@ const plain = (text: string) => text
   .replace(/\n{3,}/g, '\n\n')
   .trim();
 
-// Amber means AI wrote it, the same amber as the Found online section
+// Amber with an "AI" mark means a model wrote it; everything else is what people wrote
+const AiMark: React.FC = () => <span className="mr-1.5 rounded-sm bg-warning-bg px-1 py-px text-size-xxs font-semibold text-warning-fg">AI</span>;
 const Caption: React.FC<{ children: ReactNode; ai?: boolean }> = ({ children, ai = false }) => (
-  <span className={cn('text-size-xs font-medium', ai ? 'text-warning-fg' : 'text-accent')}>{children}</span>
+  <span className={cn('text-size-xs font-medium', ai ? 'text-warning-fg' : 'text-accent')}>{ai && <AiMark />}{children}</span>
 );
 
 const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean; ai?: boolean }> = ({
@@ -111,9 +115,9 @@ const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean; ai
 // Section header carries the summary (count, score, rating) so most sections
 // never need opening. Empty sections are greyed and cannot be opened.
 const Section: React.FC<{
-  title: string; count?: number; meta?: ReactNode; empty?: boolean; emptyText?: string; defaultOpen?: boolean; titleClassName?: string; children?: ReactNode;
+  title: string; count?: number; meta?: ReactNode; empty?: boolean; emptyText?: string; defaultOpen?: boolean; ai?: boolean; children?: ReactNode;
 }> = ({
-  title, count, meta, empty = false, emptyText = 'none', defaultOpen = false, titleClassName = 'text-accent', children,
+  title, count, meta, empty = false, emptyText = 'none', defaultOpen = false, ai = false, children,
 }) => (
   empty ? (
     <CardShell className="flex items-center gap-2 px-4 py-2.5 text-size-sm text-disabled">
@@ -127,7 +131,7 @@ const Section: React.FC<{
         defaultOpen={defaultOpen}
         summary={(
           <>
-            <span className={cn('text-size-sm font-semibold', titleClassName)}>{title}{count !== undefined && <span className="font-normal text-secondary"> ({count})</span>}</span>
+            <span className={cn('text-size-sm font-semibold', ai ? 'text-warning-fg' : 'text-accent')}>{ai && <AiMark />}{title}{count !== undefined && <span className="font-normal text-secondary"> ({count})</span>}</span>
             {meta && <span className="ml-auto flex flex-wrap items-center justify-end gap-x-3 gap-y-1 text-size-xs text-secondary">{meta}</span>}
           </>
         )}
@@ -253,10 +257,10 @@ const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: 
     <Section
       title="Found online"
       count={newLinks.length}
-      titleClassName="text-warning-fg"
+      ai
       meta={(
         <>
-          <Meta>AI lookup{lookedUpOn ? ` · ${formatDate(lookedUpOn)}` : ''}</Meta>
+          <Meta>looked up{lookedUpOn ? ` ${formatDate(lookedUpOn)}` : ''}</Meta>
           {!facts.identity.confident && <Badge className="bg-warning-bg text-warning-fg">identity unconfirmed</Badge>}
         </>
       )}
@@ -367,34 +371,35 @@ const RecordLink: React.FC<{ url?: string }> = ({ url }) => (
   url ? <A href={url} target="_blank" className="text-size-xs text-secondary no-underline" title="Open the record in Airtable">↗</A> : null
 );
 
-// One line per thing with BlueDot: when · kind · detail · opinion · status · record link.
-// The badge columns size to their content and stay aligned down the list; the detail
-// wraps rather than truncating. `more` adds a chevron and opens text under the row.
-// On narrow screens the badges wrap under the text.
+// The list is one grid and every row a subgrid of it, so the badge columns line up across
+// rows while sizing to their content. Columns: when · kind · detail · opinion · status · link.
+const TimelineList: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <div className="grid grid-cols-[auto_auto_minmax(0,1fr)_auto_auto_auto] items-center gap-x-4 text-size-xs text-secondary">{children}</div>
+);
+
+// `more` adds a chevron and opens text under the row.
 const TimelineRow: React.FC<{
-  when: string; kind: string; detail?: ReactNode; opinion?: string; status?: Status; url?: string; current?: boolean; quiet?: boolean; more?: ReactNode;
+  when: string; kind: string; detail?: ReactNode; opinion?: string; status?: Status; url?: string; linkLabel?: string; current?: boolean; quiet?: boolean; more?: ReactNode;
 }> = ({
-  when, kind, detail, opinion, status, url, current = false, quiet = false, more,
+  when, kind, detail, opinion, status, url, linkLabel, current = false, quiet = false, more,
 }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className={cn('py-1', current && '-mx-2 rounded-surface bg-info-bg/50 px-2 font-medium', quiet && 'text-disabled')}>
-      <div className="grid grid-cols-[4.5rem_minmax(5.5rem,auto)_minmax(0,1fr)] items-center gap-x-3 gap-y-1 text-size-sm text-primary lg:grid-cols-[4.5rem_minmax(5.5rem,auto)_minmax(0,1fr)_auto_auto_2.5rem]">
-        <span className="text-size-xs tabular-nums text-secondary">{when}</span>
-        <span className="text-size-xs text-secondary">{kind}</span>
-        <span className="min-w-0 break-words">{detail}</span>
-        <span className="min-w-0">{opinion && <OpinionBadge opinion={opinion} />}</span>
-        <span className="min-w-0">{status && <Badge className={TONE_CLASS[status.tone]}>{status.label}</Badge>}</span>
-        <span className="flex items-center justify-end gap-1">
-          {more && (
-            <button type="button" aria-expanded={open} aria-label={open ? 'Hide details' : 'Show details'} className="flex size-6 items-center justify-center rounded-surface text-disabled hover:bg-tint" onClick={() => setOpen((o) => !o)}>
-              <ChevronRightIcon size={14} aria-hidden className={cn('transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
-            </button>
-          )}
-          <RecordLink url={url} />
-        </span>
-      </div>
-      {open && more && <div className="pb-2 pl-[4.5rem] pt-1 lg:pr-10">{more}</div>}
+    <div className={cn('col-span-full grid grid-cols-subgrid items-center gap-y-1 py-1.5', current && '-mx-2 rounded-surface bg-info-bg/50 px-2 font-medium text-primary', quiet && 'text-disabled')}>
+      <span className="tabular-nums">{when}</span>
+      <span>{kind}</span>
+      <span className="min-w-0 break-words">{detail}</span>
+      <span>{opinion && <OpinionBadge opinion={opinion} />}</span>
+      <span>{status && <Badge className={TONE_CLASS[status.tone]}>{status.label}</Badge>}</span>
+      <span className="flex items-center justify-end gap-1">
+        {more && (
+          <button type="button" aria-expanded={open} aria-label={open ? 'Hide details' : 'Show details'} className="flex size-6 items-center justify-center rounded-surface text-disabled hover:bg-tint" onClick={() => setOpen((o) => !o)}>
+            <ChevronRightIcon size={14} aria-hidden className={cn('transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
+          </button>
+        )}
+        {url && (linkLabel ? <A href={url} target="_blank" className="whitespace-nowrap no-underline">{linkLabel} ↗</A> : <RecordLink url={url} />)}
+      </span>
+      {open && more && <div className="col-span-full pb-1 pl-[4.5rem] text-primary">{more}</div>}
     </div>
   );
 };
@@ -411,7 +416,7 @@ const More: React.FC<{ label: string; text?: string }> = ({ label, text }) => (
 
 const CourseDetail: React.FC<{ course: string; roundName: string }> = ({ course, roundName }) => {
   const intensity = intensityOf(roundName);
-  return <>{course}{intensity && <span className="text-secondary"> · {intensity}</span>}</>;
+  return <>{course}{intensity && ` · ${intensity}`}</>;
 };
 
 const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
@@ -447,7 +452,7 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
   <TimelineRow
     when={monthYear(g.decisionDate ?? g.createdAt)}
     kind="CTG"
-    detail={<span className="text-secondary">{amounts(g.amountUsd)}</span>}
+    detail={amounts(g.amountUsd)}
     status={decisionStatus(g.status)}
     url={g.recordUrl}
     more={g.reasoning && <More label="Decision reasoning" text={g.reasoning} />}
@@ -458,7 +463,7 @@ const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
   <TimelineRow
     when={monthYear(g.createdAt)}
     kind="Rapid grant"
-    detail={<span className="text-secondary">{amounts(g.amountRequestedUsd, g.amountGrantedUsd)}</span>}
+    detail={amounts(g.amountRequestedUsd, g.amountGrantedUsd)}
     opinion={g.opinion}
     status={decisionStatus(g.decision)}
     url={g.recordUrl}
@@ -477,11 +482,11 @@ const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
     when={monthYear(c.callDate ?? c.createdAt)}
     kind="Eval call"
     detail={(
-      <span className="text-secondary">
+      <>
         {casesLabel(c) && <span title="CASES: commitment · agency · sharpness · expertise · strategic clarity">{casesLabel(c)}</span>}
         {casesLabel(c) && c.notesUrl ? ' · ' : ''}
         {c.notesUrl && <A href={c.notesUrl} target="_blank">notes ↗</A>}
-      </span>
+      </>
     )}
     opinion={c.opinion}
     status={c.status ? decisionStatus(c.status) : undefined}
@@ -503,25 +508,28 @@ const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
     return undefined;
   };
 
-  const linked = new Set<string>();
-  const docFor = (x: Session) => {
-    if (!x.docUrl || linked.has(x.docUrl)) return undefined;
-    linked.add(x.docUrl);
-    return x.docUrl;
-  };
+  // Facilitator and doc belong to the group, so they show once, on its first row
+  const seen = new Set<number | undefined>();
 
   return (
     <Section title="Sessions" count={sessions.length} meta={<Meta>{attended} of {past.length} attended</Meta>}>
-      {sessions.map((x) => (
-        <TimelineRow
-          key={x.id}
-          when={monthYear(x.startAt)}
-          kind={[x.group !== undefined ? `Group ${x.group}` : undefined, x.facilitator].filter(Boolean).join(' · ')}
-          detail={<>{x.unit !== undefined && `Unit ${x.unit}: `}{x.topic}</>}
-          status={status(x)}
-          url={docFor(x)}
-        />
-      ))}
+      <TimelineList>
+        {sessions.map((x) => {
+          const first = !seen.has(x.group);
+          seen.add(x.group);
+          return (
+            <TimelineRow
+              key={x.id}
+              when={monthYear(x.startAt)}
+              kind={[x.group !== undefined ? `Group ${x.group}` : undefined, first ? x.facilitator : undefined].filter(Boolean).join(' · ')}
+              detail={<>{x.unit !== undefined && `Unit ${x.unit}: `}{x.topic}</>}
+              status={status(x)}
+              url={first ? x.docUrl : undefined}
+              linkLabel="doc"
+            />
+          );
+        })}
+      </TimelineList>
     </Section>
   );
 };
@@ -552,6 +560,13 @@ const ProjectSection: React.FC<{ projects: Project[] }> = ({ projects }) => {
       ))}
     </Section>
   );
+};
+
+// "Aline gave 10 or more to 1 of the 7 they rated this round", or just who wrote it
+const feedbackSummary = (fb: FacilitatorFeedback) => {
+  const who = fb.reviewer?.split(' ')[0] ?? 'The facilitator';
+  if (fb.roundStats && fb.rating !== undefined) return `${who} gave ${fb.rating} or more to ${fb.roundStats.atOrAbove} of the ${fb.roundStats.rated} they rated this round`;
+  return fb.reviewer ?? 'facilitator not recorded';
 };
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
@@ -615,7 +630,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       <FoundOnline facts={person.webFacts} lookedUpOn={person.lookedUpOn} givenUrls={profileLinks} />
 
       <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
-        {timeline.map((item) => item.node)}
+        <TimelineList>{timeline.map((item) => item.node)}</TimelineList>
       </Section>
 
       <GroupLabel>This round · {roundLabel}</GroupLabel>
@@ -663,15 +678,12 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
             <span key={r.id} className="flex items-center gap-2 font-normal">
               <OpinionBadge opinion={r.overallTake} />
               <Meta>{[r.facilitator, formatDate(r.date)].filter(Boolean).join(' · ')}</Meta>
+              <RecordLink url={r.recordUrl} />
             </span>
           ))}
         >
           {person.reports.map((r) => (
             <div key={r.id} className="flex min-w-0 flex-col gap-2 break-words">
-              <EntryHeading>
-                <span>{r.facilitator ?? 'Facilitator'}{r.round && ` · ${shortRound(r.round)}`}{r.date && ` · ${formatDate(r.date)}`}</span>
-                <RecordLink url={r.recordUrl} />
-              </EntryHeading>
               {(r.ratings.length > 0 || r.nextSteps.length > 0 || r.docUrl) && (
                 <div className="flex flex-wrap items-center gap-1 text-size-xs">
                   {r.ratings.filter((x) => x.score !== undefined).map((x) => <Badge key={x.label}>{x.label} {x.score}/5</Badge>)}
@@ -696,23 +708,13 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         meta={person.facilitatorFeedback.map((fb) => (
           <span key={fb.id} className="flex items-center gap-2 font-normal">
             {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10</span>}
-            {fb.reviewer && <Meta>{fb.reviewer}</Meta>}
+            <Meta>{feedbackSummary(fb)}</Meta>
+            <RecordLink url={fb.recordUrl} />
           </span>
         ))}
       >
         {person.facilitatorFeedback.map((fb) => (
           <div key={fb.id} className="flex min-w-0 flex-col gap-2 break-words">
-            <EntryHeading>
-              <span>
-                {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10 · </span>}
-                {fb.reviewer ?? <span className="text-disabled">facilitator not recorded</span>}
-                {fb.round && ` · ${shortRound(fb.round)}`}
-              </span>
-              <RecordLink url={fb.recordUrl} />
-            </EntryHeading>
-            {fb.roundStats && fb.rating !== undefined && (
-              <p className="-mt-1 text-size-xs text-secondary">Gave {fb.rating} or more to {fb.roundStats.atOrAbove} of the {fb.roundStats.rated} they rated this round.</p>
-            )}
             {(fb.recommendToFacilitate || fb.nextSteps.length > 0 || fb.motivation) && (
               <div className="flex flex-wrap items-center gap-1 text-size-xs text-secondary">
                 {fb.recommendToFacilitate && <Badge>Recommended to facilitate</Badge>}
@@ -734,12 +736,13 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
             {fb.rating !== undefined && <span className="font-semibold text-primary">Rating {fb.rating}</span>}
             {fb.timeSpent !== undefined && <span> · {fb.timeSpent} h/week</span>}
             {fb.futureFacilitate && <span> · would facilitate: {fb.futureFacilitate}</span>}
+            {' '}
+            <RecordLink url={fb.recordUrl} />
           </Meta>
         ))}
       >
         {person.feedback.map((fb) => (
           <div key={fb.id} className="flex min-w-0 flex-col gap-2 break-words">
-            <EntryHeading><span>{fb.submittedAt ? formatDate(fb.submittedAt) : 'Course feedback'}</span><RecordLink url={fb.recordUrl} /></EntryHeading>
             <Answer defaultOpen label="What they got out of it" text={fb.courseValue} />
             <Answer defaultOpen label="What changed their mind" text={fb.changeMind} />
             <Answer defaultOpen label="What they'd improve" text={fb.improvements} />

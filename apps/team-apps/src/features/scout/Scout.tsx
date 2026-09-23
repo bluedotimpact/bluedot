@@ -131,6 +131,12 @@ const Scout = () => {
     if (upcoming) loadPerson(upcoming.id);
   }, [current, upcoming, loading, queueError, loadPerson]);
 
+  // A new person starts at the top of their card, however far down the previous one was read
+  const currentId = current?.id;
+  useEffect(() => {
+    if (currentId) window.scrollTo({ top: 0 });
+  }, [currentId]);
+
   useEffect(() => {
     setSessionActive(!loading && !queueError && (roundItems.length > 0 || confirmation !== undefined));
     return () => setSessionActive(false);
@@ -285,10 +291,17 @@ const Scout = () => {
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
             <div className="flex flex-wrap justify-end gap-2">
-              <CTALinkOrButton className="min-h-11" variant="secondary" disabled={writing} onClick={() => {
-                setConfirmation(undefined);
-                setSaveError(undefined);
-              }}>Cancel</CTALinkOrButton>
+              {confirmation.decision === 'invite' ? (
+                <CTALinkOrButton className="min-h-11" variant="secondary" disabled={writing} onClick={() => {
+                  setConfirmation(undefined);
+                  setSaveError(undefined);
+                }}>Cancel</CTALinkOrButton>
+              ) : (
+                <button type="button" className={danger} disabled={writing} onClick={() => {
+                  setConfirmation(undefined);
+                  setSaveError(undefined);
+                }}>Cancel</button>
+              )}
               {confirmation.decision === 'invite' ? (
                 <CTALinkOrButton className="min-h-11" disabled={writing} onClick={() => {
                   void confirm();
