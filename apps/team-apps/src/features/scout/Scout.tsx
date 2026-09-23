@@ -158,6 +158,7 @@ const Scout = () => {
       if (lookup) setLookup(undefined);
       return;
     }
+
     if (lookup?.id === linked) return;
     const item = items.find((entry) => entry.id === linked);
     if (item && !done[item.id]) {
