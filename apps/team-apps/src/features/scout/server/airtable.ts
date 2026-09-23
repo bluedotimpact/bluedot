@@ -413,6 +413,7 @@ export const parseWebFacts = (raw: unknown): WebFacts | undefined => {
 
 const toReport = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorReport => ({
   id: r.id,
+  recordUrl: recordLink(REPORTS_URL, r.id),
   date: str(r.fields[REPORT.date]),
   // The lookup returns round record IDs, not names
   round: rounds.get(first(r.fields[REPORT.round]) ?? '')?.name,
@@ -424,6 +425,7 @@ const toReport = (rounds: Map<string, Round>) => (r: AirtableRecord): Facilitato
 
 const toProject = (r: AirtableRecord): Project => ({
   id: r.id,
+  recordUrl: recordLink(PROJECTS_URL, r.id),
   title: str(r.fields[PROJECT.title]),
   url: url(r.fields[PROJECT.url]),
   evalNotes: [str(r.fields[PROJECT.evalNotes1]), str(r.fields[PROJECT.evalNotes2])].filter((s): s is string => !!s),
@@ -431,6 +433,7 @@ const toProject = (r: AirtableRecord): Project => ({
 
 const toFeedback = (r: AirtableRecord): CourseFeedback => ({
   id: r.id,
+  recordUrl: recordLink(FEEDBACK_URL, r.id),
   submittedAt: str(r.fields[FEEDBACK.submittedAt]),
   rating: num(r.fields[FEEDBACK.rating]),
   courseValue: str(r.fields[FEEDBACK.courseValue]),
@@ -442,6 +445,7 @@ const toFeedback = (r: AirtableRecord): CourseFeedback => ({
 
 const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorFeedback => ({
   id: r.id,
+  recordUrl: recordLink(PEER_FEEDBACK_URL, r.id),
   reviewer: first(r.fields[PEER.reviewer]),
   round: rounds.get(first(r.fields[PEER.round]) ?? '')?.name,
   rating: num(r.fields[PEER.totalRating]),
@@ -487,6 +491,7 @@ const toApplication = (r: AirtableRecord): Application => {
   const f = r.fields;
   return {
     id: r.id,
+    recordUrl: recordLink(APPLICATION_REGISTRATIONS_URL, r.id),
     profileUrl: url(f[APP.profileUrl]),
     otherProfileUrl: url(f[APP.otherProfileUrl]),
     source: str(f[APP.source]),

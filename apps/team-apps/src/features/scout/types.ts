@@ -33,6 +33,7 @@ export type Registration = {
 // Facilitator's private feedback on a participant (Course runner › Peer feedback)
 export type FacilitatorFeedback = {
   id: string;
+  recordUrl?: string;
   reviewer?: string;
   round?: string;
   rating?: number;
@@ -96,6 +97,7 @@ export type EvaluationCall = {
 
 export type FacilitatorReport = {
   id: string;
+  recordUrl?: string;
   date?: string;
   round?: string;
   quickTake?: string;
@@ -106,6 +108,7 @@ export type FacilitatorReport = {
 
 export type Project = {
   id: string;
+  recordUrl?: string;
   title?: string;
   url?: string;
   evalNotes: string[];
@@ -113,6 +116,7 @@ export type Project = {
 
 export type CourseFeedback = {
   id: string;
+  recordUrl?: string;
   submittedAt?: string;
   rating?: number;
   courseValue?: string;
@@ -124,6 +128,7 @@ export type CourseFeedback = {
 
 export type Application = {
   id: string;
+  recordUrl?: string;
   profileUrl?: string;
   otherProfileUrl?: string;
   source?: string;

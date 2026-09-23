@@ -142,6 +142,12 @@ const Section: React.FC<{
 
 const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
 
+// One line above each entry when a section can hold several (two facilitators, two reports):
+// who or when it is from, and the record it came from
+const EntryHeading: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <div className="flex items-center gap-2 text-size-xs text-secondary">{children}</div>
+);
+
 // ---- Found online: what the lookup job found. Facts only, each with its source. ----
 
 // Display order for found links, then within a kind by confidence (high first)
@@ -351,6 +357,11 @@ const amounts = (asked?: number, granted?: number) => {
   return money(granted ?? asked);
 };
 
+// The Airtable record behind a piece of information, for when the summary is not enough
+const RecordLink: React.FC<{ url?: string }> = ({ url }) => (
+  url ? <A href={url} target="_blank" className="text-size-xs text-secondary no-underline" title="Open the record in Airtable">↗</A> : null
+);
+
 // One line per thing with BlueDot: when · kind · detail · opinion · status · record link.
 // Fixed columns so the badges line up down the list; the detail column truncates.
 // On narrow screens the badges wrap under the text.
@@ -370,7 +381,7 @@ const TimelineRow: React.FC<{
     <span className="min-w-0 truncate">{detail}</span>
     <span className="min-w-0">{opinion && <OpinionBadge opinion={opinion} />}</span>
     <span className="min-w-0">{status && <Badge className={TONE_CLASS[status.tone]}>{status.label}</Badge>}</span>
-    <span className="text-size-xs">{url && <A href={url} target="_blank" className="text-secondary no-underline" title="Open the record in Airtable">↗</A>}</span>
+    <span><RecordLink url={url} /></span>
   </div>
 );
 
@@ -507,6 +518,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         meta={(
           <>
             <Meta>{roundLine}</Meta>
+            <RecordLink url={app?.recordUrl} />
           </>
         )}
       >
@@ -534,9 +546,12 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
 
       {person.projects.some((p) => p.evalNotes.length > 0) && (
         <Section title="Project notes">
-          {person.projects.map((p) => p.evalNotes.map((n, i) => (
-            <Answer key={n} label={`Evaluator notes${p.evalNotes.length > 1 ? ` ${i + 1}` : ''}`} text={n} />
-          )))}
+          {person.projects.filter((p) => p.evalNotes.length > 0).map((p) => (
+            <div key={p.id} className="flex min-w-0 flex-col gap-2 break-words">
+              <EntryHeading><span>{p.title ?? 'Project'}</span><RecordLink url={p.recordUrl} /></EntryHeading>
+              {p.evalNotes.map((n, i) => <Answer key={n} label={`Evaluator notes${p.evalNotes.length > 1 ? ` ${i + 1}` : ''}`} text={n} />)}
+            </div>
+          ))}
         </Section>
       )}
 
@@ -544,6 +559,10 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         <Section title="Facilitator 1:1 report" meta={<Meta>{person.reports.map((r) => formatDate(r.date)).join(', ')}</Meta>}>
           {person.reports.map((r) => (
             <div key={r.id} className="flex min-w-0 flex-col gap-2 break-words">
+              <EntryHeading>
+                <span>{formatDate(r.date)}{r.round && ` · ${shortRound(r.round)}`}</span>
+                <RecordLink url={r.recordUrl} />
+              </EntryHeading>
               {(r.nextSteps.length > 0 || r.docUrl) && (
                 <div className="flex flex-wrap items-center gap-2 text-size-xs">
                   {r.nextSteps.map((step) => <Badge key={step} colour={NEXT_STEP_COLOUR[step]}>{step}</Badge>)}
@@ -571,6 +590,14 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       >
         {person.facilitatorFeedback.map((fb) => (
           <div key={fb.id} className="flex min-w-0 flex-col gap-2 break-words">
+            <EntryHeading>
+              <span>
+                {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10 · </span>}
+                {fb.reviewer ?? <span className="text-disabled">facilitator not recorded</span>}
+                {fb.round && ` · ${shortRound(fb.round)}`}
+              </span>
+              <RecordLink url={fb.recordUrl} />
+            </EntryHeading>
             {(fb.recommendToFacilitate || fb.nextSteps.length > 0 || fb.motivation) && (
               <div className="flex flex-wrap items-center gap-1 text-size-xs text-secondary">
                 {fb.recommendToFacilitate && <Badge>Recommended to facilitate</Badge>}
@@ -597,6 +624,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
       >
         {person.feedback.map((fb) => (
           <div key={fb.id} className="flex min-w-0 flex-col gap-2 break-words">
+            <EntryHeading><span>{fb.submittedAt ? formatDate(fb.submittedAt) : 'Course feedback'}</span><RecordLink url={fb.recordUrl} /></EntryHeading>
             <Answer label="What they got out of it" text={fb.courseValue} />
             <Answer label="What changed their mind" text={fb.changeMind} />
             <Answer label="What they'd improve" text={fb.improvements} />
