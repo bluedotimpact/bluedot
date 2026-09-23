@@ -56,6 +56,7 @@ export type Session = {
   group?: number;
   docUrl?: string;
   startAt?: string;
+  facilitator?: string;
   attended: boolean;
 };
 
@@ -94,6 +95,8 @@ export type RapidGrant = {
   oneLiner?: string;
   amountRequestedUsd?: number;
   amountGrantedUsd?: number;
+  feedback?: string;
+  opinion?: string;
 };
 
 export type EvaluationCall = {
@@ -104,6 +107,8 @@ export type EvaluationCall = {
   status?: string;
   opinion?: string;
   notesUrl?: string;
+  // "Evaluation notes" written after the call
+  notes?: string;
   // CASES ratings given on the call, 1-5 each, in this order
   cases?: { commitment?: number; agency?: number; sharpness?: number; expertise?: number; strategicClarity?: number };
 };
@@ -132,7 +137,13 @@ export type Project = {
   recordUrl?: string;
   title?: string;
   url?: string;
+  // "Low-quality" … "Winner!", set for a minority of projects
+  evaluation?: string;
+  // One list of scores per evaluator who scored it
+  scores: number[][];
+  // Notes shared with the participant, then the evaluators' private notes
   evalNotes: string[];
+  privateNotes: string[];
 };
 
 export type CourseFeedback = {

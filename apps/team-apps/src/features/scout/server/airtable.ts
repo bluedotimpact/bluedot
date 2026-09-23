@@ -39,6 +39,8 @@ const RAPID = {
   oneLiner: 'fldcppNQHZZJa4USi',
   amountRequested: 'fldBzDMLm9ahutnTF',
   amountGranted: 'fldHJfsaPMImrlAOb',
+  feedback: 'fld5kPhKTCvje7mnk',
+  opinion: 'fldS2oWvglg2D5d9z',
 } as const;
 
 // Locked view "Talent scouting [read by Talent Scouting App]" — the hard filter
@@ -81,6 +83,7 @@ const DISCUSSION = {
   groupNumber: 'fldUsMdwsychpEHI9',
   docUrl: 'fldR74MrOB3EvDnmw',
   startAt: 'flduTqIxS6OEHNr4H',
+  facilitator: 'fldP5BqdFfcn8enfc',
 } as const;
 
 // Stamped by the invite automations; read for the weekly count and the double-invite guard
@@ -119,12 +122,19 @@ const REPORT = {
 const USERS_URL = `${COURSE_RUNNER}/tbl0Cs1Vfc9fiWDXZ`;
 const USER_FULL_NAME = 'fldTnRgrJCcfhdbdV';
 
+// Two evaluators, each with three scores, notes shared with the participant and private notes
 const PROJECT = {
   title: 'fldSEaFkf5t8a4ppA',
   url: 'fldzIGtGZGde6xxVR',
+  evaluation: 'fldlDvd6hM5gMar3m',
   evalNotes1: 'fldUFLAlImwRU4dxe',
   evalNotes2: 'fldqQP2Sp4Tky3sqd',
+  privateNotes1: 'fldrTgOZTlqIxZGNU',
+  privateNotes2: 'fldsKmphlG4HLJdIo',
+  scores1: ['fld20BuYU0L2KdyAh', 'fldkWT2K2MkqSSutv', 'fld46ZHKG5eY3WmK7'],
+  scores2: ['fldQNXddJ8viNGYsx', 'fldgIyxbSGzitjn0P', 'fldZO8JguwpTz1EaK'],
 } as const;
+const PROJECT_FIELDS = [PROJECT.title, PROJECT.url, PROJECT.evaluation, PROJECT.evalNotes1, PROJECT.evalNotes2, PROJECT.privateNotes1, PROJECT.privateNotes2, ...PROJECT.scores1, ...PROJECT.scores2];
 
 const FEEDBACK = {
   submittedAt: 'fldU1lnBjth2Fxban',
@@ -173,6 +183,7 @@ const CALL = {
   status: 'fldw2nYIeX6fum5vy',
   opinion: 'fldcGMexyNn2SMTpX',
   notesUrl: 'fldygXae4jBcNmHae',
+  notes: 'fldpIr3ucbOLvJL4Y',
 } as const;
 
 // Applications base — Course registration: the fields that say what an application became
@@ -467,13 +478,20 @@ const fetchFacilitatorNames = async (reports: AirtableRecord[]): Promise<Map<str
   return new Map(users.map((u) => [u.id, str(u.fields[USER_FULL_NAME]) ?? '']));
 };
 
-const toProject = (r: AirtableRecord): Project => ({
-  id: r.id,
-  recordUrl: recordLink(PROJECTS_URL, r.id),
-  title: str(r.fields[PROJECT.title]),
-  url: url(r.fields[PROJECT.url]),
-  evalNotes: [str(r.fields[PROJECT.evalNotes1]), str(r.fields[PROJECT.evalNotes2])].filter((s): s is string => !!s),
-});
+const toProject = (r: AirtableRecord): Project => {
+  const present = (xs: (string | undefined)[]) => xs.filter((x): x is string => !!x);
+  const scoresOf = (ids: readonly string[]) => ids.map((id) => num(r.fields[id])).filter((x): x is number => x !== undefined);
+  return {
+    id: r.id,
+    recordUrl: recordLink(PROJECTS_URL, r.id),
+    title: str(r.fields[PROJECT.title]),
+    url: url(r.fields[PROJECT.url]),
+    evaluation: str(r.fields[PROJECT.evaluation]),
+    scores: [scoresOf(PROJECT.scores1), scoresOf(PROJECT.scores2)].filter((xs) => xs.length > 0),
+    evalNotes: present([str(r.fields[PROJECT.evalNotes1]), str(r.fields[PROJECT.evalNotes2])]),
+    privateNotes: present([str(r.fields[PROJECT.privateNotes1]), str(r.fields[PROJECT.privateNotes2])]),
+  };
+};
 
 const toFeedback = (r: AirtableRecord): CourseFeedback => ({
   id: r.id,
@@ -493,6 +511,10 @@ const fetchSessions = async (expectedIds: string[], attendedIds: string[]): Prom
   if (expectedIds.length === 0) return [];
   const attended = new Set(attendedIds);
   const records = await fetchMany(DISCUSSIONS_URL, expectedIds, Object.values(DISCUSSION));
+  // The facilitator is a registration record; show their first name
+  const facilitatorIds = [...new Set(records.flatMap((r) => strList(r.fields[DISCUSSION.facilitator])))];
+  const facilitators = new Map((facilitatorIds.length > 0 ? await fetchMany(REGISTRATIONS_URL, facilitatorIds, [REG.fullName]) : [])
+    .map((u) => [u.id, str(u.fields[REG.fullName])?.split(' ')[0]]));
   return records
     .map((r): Session => ({
       id: r.id,
@@ -502,6 +524,7 @@ const fetchSessions = async (expectedIds: string[], attendedIds: string[]): Prom
       group: num(first(r.fields[DISCUSSION.groupNumber]) === undefined ? undefined : Number(first(r.fields[DISCUSSION.groupNumber]))),
       docUrl: url(first(r.fields[DISCUSSION.docUrl])),
       startAt: str(r.fields[DISCUSSION.startAt]),
+      facilitator: facilitators.get(first(r.fields[DISCUSSION.facilitator]) ?? ''),
       attended: attended.has(r.id),
     }))
     .sort((a, b) => (a.unit ?? 99) - (b.unit ?? 99) || (a.startAt ?? '').localeCompare(b.startAt ?? ''));
@@ -549,6 +572,7 @@ const toCall = (r: AirtableRecord): EvaluationCall => ({
   status: str(r.fields[CALL.status]),
   opinion: str(r.fields[CALL.opinion]),
   notesUrl: url(r.fields[CALL.notesUrl]),
+  notes: str(r.fields[CALL.notes]),
   cases: {
     commitment: num(r.fields[CALL.commitment]),
     agency: num(r.fields[CALL.agency]),
@@ -600,6 +624,8 @@ const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   oneLiner: str(r.fields[RAPID.oneLiner]),
   amountRequestedUsd: num(r.fields[RAPID.amountRequested]),
   amountGrantedUsd: num(r.fields[RAPID.amountGranted]),
+  feedback: str(r.fields[RAPID.feedback]),
+  opinion: str(r.fields[RAPID.opinion]),
 });
 
 // Applications for this email that did not become a registration (the registrations'
@@ -684,7 +710,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
     fetchMany(REPORTS_URL, strList(f[REG.reports]), Object.values(REPORT)),
     fetchMany(PEER_FEEDBACK_URL, strList(f[REG.peerFeedback]), Object.values(PEER)),
-    fetchMany(PROJECTS_URL, strList(f[REG.projects]), Object.values(PROJECT)),
+    fetchMany(PROJECTS_URL, strList(f[REG.projects]), PROJECT_FIELDS),
     fetchMany(FEEDBACK_URL, strList(f[REG.feedback]), Object.values(FEEDBACK)),
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
     email ? fetchCrmPersonId(email) : Promise.resolve(undefined),

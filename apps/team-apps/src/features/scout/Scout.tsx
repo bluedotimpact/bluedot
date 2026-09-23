@@ -7,7 +7,6 @@ import {
 } from '@bluedot/ui';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
-import { isLocalPreview } from '../../lib/preview';
 import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { QueueSource } from './QueueSource';
@@ -57,7 +56,6 @@ const Scout = () => {
   const [notice, setNotice] = useState<string>();
   const promptOpen = useNavigationState((state) => state.promptOpen);
   const setSessionActive = useNavigationState((state) => state.setSessionActive);
-  const preview = isLocalPreview();
 
   const loadQueue = useCallback(async () => {
     if (writingRef.current) return;
@@ -177,8 +175,7 @@ const Scout = () => {
 
       setDone((state) => ({ ...state, [selected.person.id]: selected }));
       setConfirmation(undefined);
-      const inviteNotice = preview ? 'Sample invitation saved. No email was sent.' : 'Invitation requested. Airtable will send the email.';
-      setNotice(selected.decision === 'invite' ? inviteNotice : 'Saved as don’t invite.');
+      setNotice(selected.decision === 'invite' ? 'Invitation requested. Airtable will send the email.' : 'Saved as don’t invite.');
     } catch (error) {
       setSaveError(message(error));
     } finally {
@@ -209,7 +206,6 @@ const Scout = () => {
   const controlsDisabled = writing || confirmation !== undefined || promptOpen;
   let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
   if (confirmation?.decision === 'invite') confirmDescription = 'This emails the participant on behalf of the course lead. You cannot undo this email.';
-  if (preview) confirmDescription = 'This saves a sample decision only. No email will be sent.';
   let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
   if (saveError) confirmLabel = 'Retry save';
   if (writing) confirmLabel = confirmation?.decision === 'invite' ? 'Sending invite…' : 'Saving…';
@@ -224,7 +220,7 @@ const Scout = () => {
             void loadQueue();
           }}>Refresh queue</button>
         </header>
-        <QueueSource count={remaining.length} demo={preview} />
+        <QueueSource count={remaining.length} />
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
         {!loading && queueError && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{queueError} Use Refresh queue to try again.</div>}
         {!loading && !queueError && (!round ? (
@@ -266,7 +262,7 @@ const Scout = () => {
             <h2 className="text-size-lg font-semibold">Round done <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
             <p className="text-size-sm text-secondary">{decisions.filter((entry) => entry.decision === 'invite').length} invited · {decisions.filter((entry) => entry.decision === 'decline').length} marked don’t invite · {skippedCount} skipped</p>
             <SessionDecisions decisions={decisions} />
-            {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">{preview ? 'These are sample decisions. No email was sent.' : 'Decisions are saved in Airtable; the invite emails are sent from there.'}</p>}
+            {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Decisions are saved in Airtable; the invite emails are sent from there.</p>}
             <div className="flex flex-wrap gap-2">
               {nextRound && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></button>}
               {!nextRound && anySkipped && <button type="button" className={primary} disabled={controlsDisabled} onClick={() => {
