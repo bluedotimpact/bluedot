@@ -411,14 +411,18 @@ const TimelineRow: React.FC<{
 };
 
 // Free text behind a row, shown when the row is opened
-const More: React.FC<{ label: string; text?: string; ai?: boolean }> = ({ label, text, ai = false }) => (
-  text ? (
+// `always` shows the label with a dash when there is no text, so "nothing recorded" is visible
+const More: React.FC<{ label: string; text?: string; ai?: boolean; always?: boolean }> = ({
+  label, text, ai = false, always = false,
+}) => {
+  if (!text && !always) return null;
+  return (
     <div className="flex flex-col gap-1">
       <Caption ai={ai}>{label}</Caption>
-      <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{plain(text)}</P>
+      {text ? <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{plain(text)}</P> : <span className="text-size-sm text-disabled">–</span>}
     </div>
-  ) : null
-);
+  );
+};
 
 // "-" and similar placeholders typed into a text field count as empty
 const hasText = (text?: string) => !!text && /[A-Za-z0-9]/.test(text);
@@ -476,11 +480,11 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
     detail={amounts(g.amountUsd)}
     status={decisionStatus(g.status)}
     url={g.recordUrl}
-    more={(g.decidedBy ?? g.decisionDate ?? (hasText(g.currentSituation) || hasText(g.reasoning))) && (
+    more={(
       <div className="flex flex-col gap-2">
         <DecisionLine by={g.decidedBy} on={g.decisionDate} />
+        <More always label="BlueDot · Decision reasoning" text={hasText(g.reasoning) ? g.reasoning : undefined} />
         {hasText(g.currentSituation) && <More label="Applicant · Current situation" text={g.currentSituation} />}
-        {hasText(g.reasoning) && <More label="BlueDot · Decision reasoning" text={g.reasoning} />}
       </div>
     )}
   />
@@ -510,6 +514,13 @@ const casesLabel = (c: EvaluationCall) => {
   return parts.filter(([, v]) => v !== undefined).map(([k, v]) => `${k}${v}`).join(' ');
 };
 
+// Call notes live in Notion today; name the destination rather than "notes"
+const notesLabel = (u: string) => {
+  if (u.includes('notion.')) return 'Notion';
+  if (u.includes('docs.google.')) return 'Doc';
+  return 'Notes';
+};
+
 const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
   <TimelineRow
     when={monthYear(c.callDate ?? c.createdAt)}
@@ -518,13 +529,13 @@ const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
       <>
         {casesLabel(c) && <span title="CASES: commitment · agency · sharpness · expertise · strategic clarity">{casesLabel(c)}</span>}
         {casesLabel(c) && c.notesUrl ? ' · ' : ''}
-        {c.notesUrl && <A href={c.notesUrl} target="_blank">notes ↗</A>}
+        {c.notesUrl && <A href={c.notesUrl} target="_blank">{notesLabel(c.notesUrl)} ↗</A>}
       </>
     )}
     opinion={c.opinion}
     status={c.status ? decisionStatus(c.status) : undefined}
     url={c.recordUrl}
-    more={c.notes && <More label="Evaluation notes" text={c.notes} />}
+    more={hasText(c.notes) && <More label="BlueDot · Evaluation notes" text={c.notes} />}
   />
 );
 
@@ -718,11 +729,15 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         >
           {person.reports.map((r) => (
             <div key={r.id} className="flex min-w-0 flex-col gap-2 break-words">
-              {(r.ratings.length > 0 || r.nextSteps.length > 0 || r.docUrl) && (
+              {r.ratings.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1 text-size-xs">
                   {r.ratings.filter((x) => x.score !== undefined).map((x) => <Badge key={x.label}>{x.label} {x.score}/5</Badge>)}
+                </div>
+              )}
+              {r.nextSteps.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1 text-size-xs text-secondary">
+                  <span className="mr-1">Facilitator flagged:</span>
                   {r.nextSteps.map((step) => <Badge key={step} colour={NEXT_STEP_COLOUR[step]}>{step}</Badge>)}
-                  {r.docUrl && <A href={r.docUrl} target="_blank" className="ml-1 inline-flex min-h-11 items-center">full report ↗</A>}
                 </div>
               )}
               <Answer defaultOpen label="Overall take" text={r.quickTake} />
@@ -752,6 +767,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
             <p className="text-size-xs text-secondary">{feedbackSummary(fb)}</p>
             {(fb.recommendToFacilitate || fb.nextSteps.length > 0 || fb.motivation) && (
               <div className="flex flex-wrap items-center gap-1 text-size-xs text-secondary">
+                <span className="mr-1">Facilitator flagged:</span>
                 {fb.recommendToFacilitate && <Badge>Recommended to facilitate</Badge>}
                 {fb.nextSteps.map((step) => <Badge key={step} colour={NEXT_STEP_COLOUR[step]}>{step.replace(/^\[!\] /, '')}</Badge>)}
                 {fb.motivation && <span className="ml-1">x-risk motivated: {fb.motivation}</span>}

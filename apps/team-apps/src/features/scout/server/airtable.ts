@@ -109,7 +109,6 @@ const REPORT = {
   quickTake: 'fldbc2Lpd7rm5jFKK',
   anythingElse: 'fldeFI1AL6n9BeAA8',
   nextSteps: 'fldPpOlwbqECwCLuN',
-  docUrl: 'fldmEDOArgi8w0M4h',
   overallTake: 'fld2RJ0EwPPpo1uSr',
   commitment: 'fldAJIYebMUZFY7lj',
   commitmentEvidence: 'fld3L3K7zlnM6u84z',
@@ -475,7 +474,6 @@ const toReport = (rounds: Map<string, Round>, facilitators: Map<string, string>)
   quickTake: str(r.fields[REPORT.quickTake]),
   anythingElse: str(r.fields[REPORT.anythingElse]),
   nextSteps: strList(r.fields[REPORT.nextSteps]),
-  docUrl: url(r.fields[REPORT.docUrl]),
   overallTake: str(r.fields[REPORT.overallTake]),
   ratings: [
     { label: 'Commitment', score: num(r.fields[REPORT.commitment]), evidence: str(r.fields[REPORT.commitmentEvidence]) },

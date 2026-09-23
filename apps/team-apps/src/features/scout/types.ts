@@ -133,7 +133,6 @@ export type FacilitatorReport = {
   anythingElse?: string;
   // Older reports (before September 2026)
   nextSteps: string[];
-  docUrl?: string;
   // Newer reports: Strong yes … Strong no, or Unsure
   overallTake?: string;
   ratings: { label: string; score?: number; evidence?: string }[];
