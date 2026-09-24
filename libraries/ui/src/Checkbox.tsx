@@ -1,96 +1,79 @@
-import type { ReactNode } from 'react';
-import { Checkbox as AriaCheckbox } from 'react-aria-components';
+import {
+  forwardRef, useEffect, useImperativeHandle, useRef,
+} from 'react';
+import type { InputHTMLAttributes, ReactNode } from 'react';
 import { FaCheck, FaMinus } from 'react-icons/fa6';
 import { cn } from './utils';
 
-export type CheckboxProps = {
-  checked?: boolean;
-  defaultChecked?: boolean;
-  onChange?: (checked: boolean) => void;
-  disabled?: boolean;
+export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'children'> & {
   indeterminate?: boolean;
-  required?: boolean;
-  name?: string;
-  value?: string;
-  id?: string;
-  'aria-invalid'?: boolean;
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
   /** Bordered, full-width row that highlights when selected. Focus ring moves to the card edge. */
   card?: boolean;
   children?: ReactNode;
-  /** Applied to the root label, which carries react-aria's data-* state attributes. */
+  /** Applied to the root label. */
   className?: string;
 };
 
-const ROOT_STYLES = 'flex gap-2 cursor-pointer text-size-sm leading-normal text-primary';
+// The native input is visually hidden; the label (`group`, `has-*`) and the drawn box (`peer-*`) read its state.
+const ROOT_STYLES = [
+  'group flex gap-2 cursor-pointer text-size-sm leading-normal text-primary',
+  'has-disabled:cursor-not-allowed has-disabled:text-disabled',
+];
 
 // Figma draws a 32px row; py-2.5 lifts it to the 44px touch floor.
 const ROW_STYLES = 'items-start py-2.5';
 
-const CARD_STYLES = 'items-center rounded-surface border-2 border-default bg-canvas p-4 transition-colors motion-reduce:transition-none';
+const CARD_STYLES = [
+  'items-center rounded-surface border-2 border-default bg-canvas p-4 transition-colors motion-reduce:transition-none',
+  'hover:not-has-checked:not-has-disabled:bg-tint',
+  'has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle',
+  'has-disabled:bg-tint',
+  'has-focus-visible:outline-2 has-focus-visible:outline-focus',
+];
 
-const BOX_STYLES = 'flex size-6 shrink-0 items-center justify-center rounded-surface border transition-colors motion-reduce:transition-none';
+// Glyph is always rendered and inherits the box colour, so it stays transparent until the box fills.
+const BOX_STYLES = [
+  'flex size-6 shrink-0 items-center justify-center rounded-surface border border-strong bg-raised text-transparent',
+  'transition-colors motion-reduce:transition-none',
+  'peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark',
+  'peer-indeterminate:border-accent peer-indeterminate:bg-accent peer-indeterminate:text-on-dark',
+  'peer-disabled:not-peer-checked:not-peer-indeterminate:border-default peer-disabled:not-peer-checked:not-peer-indeterminate:bg-tint',
+  'peer-disabled:peer-checked:opacity-40 peer-disabled:peer-indeterminate:opacity-40',
+  'peer-aria-invalid:not-peer-disabled:border-error-fg',
+];
 
-export const Checkbox = ({
-  checked,
-  defaultChecked,
-  onChange,
-  disabled,
+// Row only: the card carries its own hover and focus treatment.
+const BOX_ROW_STYLES = [
+  'group-hover:not-peer-disabled:border-accent',
+  'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus',
+];
+
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
   indeterminate,
-  required,
-  'aria-invalid': ariaInvalid,
   card,
   children,
   className,
   ...props
-}: CheckboxProps) => (
-  <AriaCheckbox
-    {...props}
-    isSelected={checked}
-    defaultSelected={defaultChecked}
-    onChange={onChange}
-    isDisabled={disabled}
-    isIndeterminate={indeterminate}
-    isRequired={required}
-    isInvalid={ariaInvalid}
-    className={({
-      isSelected, isDisabled, isHovered, isFocusVisible,
-    }) => cn(
-      ROOT_STYLES,
-      card ? CARD_STYLES : ROW_STYLES,
-      isDisabled && 'cursor-not-allowed text-disabled',
-      card && isSelected && !isDisabled && 'border-accent bg-accent-subtle',
-      card && isHovered && !isSelected && !isDisabled && 'bg-tint',
-      card && isDisabled && 'bg-tint',
-      card && isFocusVisible && 'outline-2 outline-focus',
-      className,
-    )}
-  >
-    {({
-      isSelected, isIndeterminate, isDisabled, isInvalid, isHovered, isFocusVisible,
-    }) => {
-      const isFilled = isSelected || isIndeterminate;
-      return (
-        <>
-          <span
-            aria-hidden
-            className={cn(
-              BOX_STYLES,
-              isFilled ? 'border-accent bg-accent text-on-dark' : 'border-strong bg-raised',
-              !isFilled && isHovered && !isDisabled && !card && 'border-accent',
-              isDisabled && (isFilled ? 'opacity-40' : 'border-default bg-tint'),
-              isInvalid && !isDisabled && 'border-error-fg',
-              isFocusVisible && !card && 'outline-2 outline-offset-2 outline-focus',
-            )}
-          >
-            {isIndeterminate && <FaMinus className="size-3.5" />}
-            {isSelected && !isIndeterminate && <FaCheck className="size-3.5" />}
-          </span>
-          {children}
-        </>
-      );
-    }}
-  </AriaCheckbox>
-);
+}, ref) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useImperativeHandle(ref, () => inputRef.current!);
+
+  // `indeterminate` is a DOM property, not an attribute. Re-applied every render because a click clears it.
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.indeterminate = Boolean(indeterminate);
+    }
+  });
+
+  return (
+    <label className={cn(ROOT_STYLES, card ? CARD_STYLES : ROW_STYLES, className)}>
+      <input {...props} ref={inputRef} type="checkbox" className="peer sr-only" />
+      <span aria-hidden className={cn(BOX_STYLES, !card && BOX_ROW_STYLES)}>
+        {indeterminate ? <FaMinus className="size-3.5" /> : <FaCheck className="size-3.5" />}
+      </span>
+      {children}
+    </label>
+  );
+});
+
+Checkbox.displayName = 'Checkbox';
