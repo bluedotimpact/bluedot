@@ -64,12 +64,3 @@ const SearchExample = () => {
 export const Search: Story = {
   render: () => <SearchExample />,
 };
-
-export const Radio: Story = {
-  render: () => (
-    <form className="flex flex-col gap-4 p-4">
-      <Input type="radio" value="This is the first value" name="radio-group" />
-      <Input type="radio" value="This is the second value" name="radio-group" />
-    </form>
-  ),
-};
