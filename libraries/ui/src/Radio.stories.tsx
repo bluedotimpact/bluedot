@@ -152,7 +152,6 @@ export const QuizResult: Story = {
           {option}
         </Radio>
       ))}
-      <p role="status" className="text-size-sm text-success-fg">Correct</p>
     </fieldset>
   ),
 };
