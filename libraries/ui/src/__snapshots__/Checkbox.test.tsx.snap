@@ -3,7 +3,7 @@
 exports[`Checkbox > renders Card as expected 1`] = `
 <div>
   <label
-    class="group flex gap-2 cursor-pointer text-size-sm leading-normal text-primary has-disabled:cursor-not-allowed has-disabled:text-disabled items-center rounded-surface border-2 border-default bg-canvas p-4 transition-colors motion-reduce:transition-none hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint has-focus-visible:outline-2 has-focus-visible:outline-focus"
+    class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
   >
     <input
       checked=""
@@ -37,7 +37,7 @@ exports[`Checkbox > renders Card as expected 1`] = `
 exports[`Checkbox > renders Default as expected 1`] = `
 <div>
   <label
-    class="group flex gap-2 cursor-pointer text-size-sm leading-normal text-primary has-disabled:cursor-not-allowed has-disabled:text-disabled items-start py-2.5"
+    class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-start py-2.5"
   >
     <input
       class="peer sr-only"
