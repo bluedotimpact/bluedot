@@ -53,7 +53,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
       {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+        description: 'Completely free. No hidden costs.',
       },
     ],
   },
@@ -75,7 +75,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
       {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'Free, with optional contributions.',
+        description: 'Completely free. No hidden costs.',
       },
     ],
   },
@@ -108,7 +108,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
       {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+        description: 'Completely free. No hidden costs.',
       },
     ],
   },
@@ -173,7 +173,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
       {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+        description: 'Completely free. No hidden costs.',
       },
     ],
   },
@@ -203,7 +203,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
       {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+        description: 'Completely free. No hidden costs.',
       },
       {
         icon: PiCalendarDots,
