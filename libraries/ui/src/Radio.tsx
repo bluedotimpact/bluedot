@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import type { InputHTMLAttributes } from 'react';
+import type { ClassValue } from 'clsx';
 import {
   CHOICE_CARD_NEUTRAL_STYLES, CHOICE_CARD_STYLES, CHOICE_ROOT_NEUTRAL_STYLES, CHOICE_ROOT_STYLES, CHOICE_ROW_STYLES,
 } from './choiceStyles';
@@ -26,19 +27,24 @@ const INDICATOR_STYLES = [
   'transition-colors motion-reduce:transition-none',
 ];
 
-const INDICATOR_NEUTRAL_STYLES = [
-  'border-strong',
-  'peer-checked:border-accent peer-checked:text-accent',
-  'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint',
-  'peer-disabled:peer-checked:opacity-40',
-  'peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg',
+// Row only: the card carries its own hover and focus treatment.
+const INDICATOR_ROW_STYLES = [
+  'group-hover:not-peer-disabled:border-accent',
+  'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus',
 ];
 
-// Row only: the card carries its own hover and focus treatment.
-const INDICATOR_ROW_FOCUS_STYLES = 'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus';
-const INDICATOR_ROW_HOVER_STYLES = 'group-hover:not-peer-disabled:border-accent';
-
-const TONE_STYLES: Record<RadioTone, { root: string; card: string; indicator: string }> = {
+const TONE_STYLES: Record<RadioTone | 'neutral', { root: ClassValue; card: ClassValue; indicator: ClassValue }> = {
+  neutral: {
+    root: CHOICE_ROOT_NEUTRAL_STYLES,
+    card: CHOICE_CARD_NEUTRAL_STYLES,
+    indicator: [
+      'border-strong',
+      'peer-checked:border-accent peer-checked:text-accent',
+      'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint',
+      'peer-disabled:peer-checked:opacity-40',
+      'peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg',
+    ],
+  },
   success: {
     root: 'text-success-fg',
     card: 'border-success-border bg-success-bg',
@@ -58,27 +64,19 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
   className,
   ...props
 }, ref) => {
-  const toneStyles = tone ? TONE_STYLES[tone] : undefined;
+  const toneStyles = TONE_STYLES[tone ?? 'neutral'];
 
   return (
     <label
       className={cn(
         CHOICE_ROOT_STYLES,
-        toneStyles ? toneStyles.root : CHOICE_ROOT_NEUTRAL_STYLES,
-        card ? [CHOICE_CARD_STYLES, toneStyles ? toneStyles.card : CHOICE_CARD_NEUTRAL_STYLES] : CHOICE_ROW_STYLES,
+        toneStyles.root,
+        card ? [CHOICE_CARD_STYLES, toneStyles.card] : CHOICE_ROW_STYLES,
         className,
       )}
     >
       <input {...props} ref={ref} type="radio" className="peer sr-only" />
-      <span
-        aria-hidden
-        className={cn(
-          INDICATOR_STYLES,
-          toneStyles ? toneStyles.indicator : INDICATOR_NEUTRAL_STYLES,
-          !card && INDICATOR_ROW_FOCUS_STYLES,
-          !card && !toneStyles && INDICATOR_ROW_HOVER_STYLES,
-        )}
-      >
+      <span aria-hidden className={cn(INDICATOR_STYLES, toneStyles.indicator, !card && INDICATOR_ROW_STYLES)}>
         <span className="size-2.5 rounded-full bg-current" />
       </span>
       {children}
