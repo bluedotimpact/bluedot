@@ -1,4 +1,4 @@
-import { BugReportModal, type FeedbackData } from '@bluedot/ui';
+import { BugReportModal, useAuthStore, type FeedbackData } from '@bluedot/ui';
 import {
   createContext, useContext, useEffect, useState,
 } from 'react';
@@ -20,6 +20,8 @@ export default function BugReportProvider({ children }: { children: React.ReactN
   const [pageUrl, setPageUrl] = useState<string | undefined>();
 
   const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
+  // The logged-in user's own email, which is the admin's rather than the target's when impersonating
+  const authEmail = useAuthStore((s) => s.auth?.email);
 
   // Birdie setup
   useEffect(() => {
@@ -92,6 +94,7 @@ export default function BugReportProvider({ children }: { children: React.ReactN
         onRecordScreen={handleRecordScreen}
         onSubmit={handleBugReportSubmit}
         recordingUrl={recordingUrl}
+        defaultEmail={authEmail}
       />
     </bugReportContext.Provider>
   );

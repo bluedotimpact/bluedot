@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useAuthStore } from '@bluedot/ui';
 import {
-  beforeEach, describe, expect, it,
+  afterEach, beforeEach, describe, expect, it,
 } from 'vitest';
 import { server, trpcMsw } from '../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../__tests__/trpcProvider';
@@ -65,5 +66,37 @@ describe('BugReportProvider page URL capture', () => {
     await fillAndSubmit(user);
 
     expect(capturedPageUrl).toBe(`${window.location.origin}/page-b`);
+  });
+});
+
+describe('BugReportProvider contact email', () => {
+  afterEach(() => {
+    useAuthStore.setState({ auth: null });
+  });
+
+  it('pre-fills the contact email for a logged-in user', async () => {
+    useAuthStore.setState({
+      auth: {
+        email: 'logged-in@example.com',
+        token: 'mockToken',
+        expiresAt: Date.now() + 86400_000,
+        sub: 'mock-sub',
+      },
+    });
+    const user = userEvent.setup();
+    renderProvider();
+
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+
+    expect(screen.getByPlaceholderText('Email')).toHaveValue('logged-in@example.com');
+  });
+
+  it('leaves the contact email empty when logged out', async () => {
+    const user = userEvent.setup();
+    renderProvider();
+
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+
+    expect(screen.getByPlaceholderText('Email')).toHaveValue('');
   });
 });

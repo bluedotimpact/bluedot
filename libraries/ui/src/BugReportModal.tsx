@@ -28,6 +28,8 @@ export type BugReportModalProps = {
   setIsOpen?: (isOpen: boolean) => void;
   onRecordScreen?: () => void;
   recordingUrl?: string;
+  // Pre-fills the contact email, e.g. with the logged-in user's email. The user can still edit it.
+  defaultEmail?: string;
 };
 
 const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => void }) => {
@@ -70,6 +72,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   setIsOpen = () => {},
   onRecordScreen,
   recordingUrl,
+  defaultEmail,
 }) => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
@@ -86,6 +89,13 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   useEffect(() => {
     setRecordingUrlInput(recordingUrl ?? '');
   }, [recordingUrl]);
+
+  // Only fill an empty field, so we never overwrite an email the user has typed
+  useEffect(() => {
+    if (isOpen && defaultEmail) {
+      setEmail((prev) => prev || defaultEmail);
+    }
+  }, [isOpen, defaultEmail]);
 
   useEffect(() => {
     if (isOpen) {
