@@ -1,6 +1,7 @@
 import {
   describe, expect, test, vi,
 } from 'vitest';
+import { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import userEvent from '@testing-library/user-event';
@@ -24,8 +25,16 @@ describe('Checkbox', () => {
 
     await user.click(screen.getByRole('checkbox', { name: 'Email me' }));
 
-    expect(onChange).toHaveBeenCalledWith(true);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls[0]?.[0].target.checked).toBe(true);
     expect(screen.getByRole('checkbox')).toBeChecked();
+  });
+
+  test('forwards ref to the input', () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<Checkbox ref={ref}>Email me</Checkbox>);
+
+    expect(ref.current).toBe(screen.getByRole('checkbox'));
   });
 
   test('clicking the label text toggles', async () => {

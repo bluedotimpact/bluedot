@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+import type { ChangeEvent } from 'react';
 
 import { Checkbox } from './Checkbox';
 
@@ -83,8 +84,8 @@ export const CardDisabled: Story = {
 
 const CardGroupExample = () => {
   const [selected, setSelected] = useState<string[]>(['flag']);
-  const toggle = (value: string) => (checked: boolean) => {
-    setSelected((prev) => (checked ? [...prev, value] : prev.filter((v) => v !== value)));
+  const toggle = (value: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    setSelected((prev) => (e.target.checked ? [...prev, value] : prev.filter((v) => v !== value)));
   };
 
   return (
