@@ -80,7 +80,7 @@ export async function withAirtableRetry<T>(
 }
 
 const PG_CONNECT_ERROR_CODES = new Set(['ECONNREFUSED', 'ENOTFOUND', 'EAI_AGAIN', '57P03', '08001', '08004']);
-const PG_CONNECTION_LOST_ERROR_CODES = new Set(['ECONNRESET', 'EPIPE', '57P01', '57P02']);
+const PG_CONNECTION_LOST_ERROR_CODES = new Set(['ECONNRESET', 'EPIPE', '57P01', '57P02', '08000', '08003', '08006']);
 // pg's own messages for a socket closing mid-query (no code on these)
 const PG_CONNECTION_LOST_MESSAGES = new Set(['Connection terminated', 'Connection terminated unexpectedly']);
 
@@ -99,10 +99,8 @@ function isPgConnectError(error: unknown): boolean {
 }
 
 function isPgConnectionLostError(error: unknown): boolean {
-  if (isPgConnectError(error)) return false;
-  const { code = '', message } = pgErrorDetails(error);
-  // SQLSTATE class 08 is "connection exception"
-  return PG_CONNECTION_LOST_MESSAGES.has(message) || PG_CONNECTION_LOST_ERROR_CODES.has(code) || code.startsWith('08');
+  const { code, message } = pgErrorDetails(error);
+  return PG_CONNECTION_LOST_MESSAGES.has(message) || (code !== undefined && PG_CONNECTION_LOST_ERROR_CODES.has(code));
 }
 
 export function isRetryablePgError(error: unknown, idempotent = false): boolean {

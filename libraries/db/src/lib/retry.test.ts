@@ -221,6 +221,7 @@ describe('isRetryablePgError', () => {
     expect(isRetryablePgError(pgError('ETIMEDOUT'))).toBe(false);
     expect(isRetryablePgError(pgError('ETIMEDOUT'), true)).toBe(false);
     expect(isRetryablePgError(new Error('Connection terminated due to connection timeout'), true)).toBe(false);
+    expect(isRetryablePgError(pgError('08P01', 'protocol violation'), true)).toBe(false);
     expect(isRetryablePgError(pgError('23505', 'duplicate key value'), true)).toBe(false);
     expect(isRetryablePgError(pgError('42P01', 'relation does not exist'), true)).toBe(false);
     expect(isRetryablePgError(new Error('Something else'), true)).toBe(false);
