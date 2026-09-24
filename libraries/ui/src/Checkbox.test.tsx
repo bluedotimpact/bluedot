@@ -12,6 +12,11 @@ describe('Checkbox', () => {
     expect(container).toMatchSnapshot();
   });
 
+  test('renders Card as expected', () => {
+    const { container } = render(<Checkbox card defaultChecked>Email me course updates</Checkbox>);
+    expect(container).toMatchSnapshot();
+  });
+
   test('clicking the box toggles and reports the new value', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();

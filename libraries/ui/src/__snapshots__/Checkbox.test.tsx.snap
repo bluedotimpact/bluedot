@@ -1,9 +1,52 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Checkbox > renders Card as expected 1`] = `
+<div>
+  <label
+    class="flex gap-2 cursor-pointer text-size-sm leading-normal text-primary items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none border-accent bg-accent-subtle"
+    data-rac=""
+    data-react-aria-pressable="true"
+    data-selected="true"
+  >
+    <span
+      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
+    >
+      <input
+        checked=""
+        data-react-aria-pressable="true"
+        tabindex="0"
+        title=""
+        type="checkbox"
+      />
+    </span>
+    <span
+      aria-hidden="true"
+      class="flex size-6 shrink-0 items-center justify-center rounded-surface border transition-colors motion-reduce:transition-none border-accent bg-accent text-on-dark"
+    >
+      <svg
+        class="size-3.5"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 448 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
+        />
+      </svg>
+    </span>
+    Email me course updates
+  </label>
+</div>
+`;
+
 exports[`Checkbox > renders Default as expected 1`] = `
 <div>
   <label
-    class="flex items-start gap-2 py-2.5 cursor-pointer text-size-sm leading-normal text-primary"
+    class="flex gap-2 cursor-pointer text-size-sm leading-normal text-primary items-start py-2.5"
     data-rac=""
     data-react-aria-pressable="true"
   >

@@ -62,28 +62,44 @@ export const Group: Story = {
   ),
 };
 
-const CARD_STYLES = 'w-80 rounded-surface border border-default p-4 gap-4 data-[hovered]:bg-tint data-[selected]:border-transparent data-[selected]:bg-accent-subtle';
+export const Card: Story = {
+  args: { card: true },
+  render: (args) => (
+    <div className="w-80">
+      <Checkbox {...args} />
+    </div>
+  ),
+};
 
-const CardCompositionExample = () => {
+export const CardChecked: Story = {
+  ...Card,
+  args: { card: true, defaultChecked: true },
+};
+
+export const CardDisabled: Story = {
+  ...Card,
+  args: { card: true, disabled: true },
+};
+
+const CardGroupExample = () => {
   const [selected, setSelected] = useState<string[]>(['flag']);
   const toggle = (value: string) => (checked: boolean) => {
     setSelected((prev) => (checked ? [...prev, value] : prev.filter((v) => v !== value)));
   };
 
   return (
-    <fieldset className="flex flex-col gap-2">
+    <fieldset className="flex w-80 flex-col gap-2">
       <legend className="mb-2 text-size-sm font-semibold text-primary">How should we follow up?</legend>
-      <Checkbox className={CARD_STYLES} checked={selected.includes('flag')} onChange={toggle('flag')}>
+      <Checkbox card checked={selected.includes('flag')} onChange={toggle('flag')}>
         Flag for 1-1 advising
       </Checkbox>
-      <Checkbox className={CARD_STYLES} checked={selected.includes('none')} onChange={toggle('none')}>
+      <Checkbox card checked={selected.includes('none')} onChange={toggle('none')}>
         No further action needed
       </Checkbox>
     </fieldset>
   );
 };
 
-/** Card treatment is caller-owned: style the root via react-aria's data-* attributes. */
-export const CardComposition: Story = {
-  render: () => <CardCompositionExample />,
+export const CardGroup: Story = {
+  render: () => <CardGroupExample />,
 };
