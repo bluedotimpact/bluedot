@@ -1,14 +1,7 @@
-import clsx from 'clsx';
 import { forwardRef } from 'react';
 import { cn } from './utils';
 
 export type InputProps = {
-  /** Radio only. Text inputs are bare; label them from outside. */
-  inputClassName?: string;
-  /** Radio only. */
-  label?: string;
-  /** Radio only. */
-  labelClassName?: string;
   leading?: React.ReactNode;
   trailing?: React.ReactNode;
 } & React.DetailedHTMLProps<
@@ -16,8 +9,6 @@ export type InputProps = {
   HTMLInputElement
 > &
 React.RefAttributes<HTMLInputElement>;
-
-const BASE_LABEL_STYLES = 'input flex gap-2 has-[:disabled]:cursor-not-allowed';
 
 const TEXT_INPUT_STYLES = [
   'w-full h-11 px-3 rounded-surface border border-subtle bg-raised',
@@ -30,68 +21,41 @@ const TEXT_INPUT_STYLES = [
 
 export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
   {
-    className, inputClassName, labelClassName, leading, trailing, type = 'text', ...props
+    className, leading, trailing, type = 'text', ...props
   },
   ref,
 ) => {
-  switch (type) {
-    case 'radio':
-      return (
-        <label
-          className={clsx(
-            BASE_LABEL_STYLES,
-            'items-center cursor-pointer',
-            labelClassName,
-          )}
-        >
-          <input
-            {...props}
-            ref={ref}
-            className={clsx(
-              'input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed',
-              inputClassName,
-            )}
-            type="radio"
-          />
-          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-          <span className="input__label">{props.label || props.value}</span>
-        </label>
-      );
-    default: {
-      const { label: _label, ...inputProps } = props;
-      const input = (
-        <input
-          {...inputProps}
-          ref={ref}
-          type={type}
-          className={cn(
-            TEXT_INPUT_STYLES,
-            leading && 'pl-10',
-            trailing && 'pr-11',
-            className,
-          )}
-        />
-      );
+  const input = (
+    <input
+      {...props}
+      ref={ref}
+      type={type}
+      className={cn(
+        TEXT_INPUT_STYLES,
+        leading && 'pl-10',
+        trailing && 'pr-11',
+        className,
+      )}
+    />
+  );
 
-      if (!leading && !trailing) {
-        return input;
-      }
-
-      return (
-        <div className="relative w-full">
-          {leading && (
-            <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-secondary">
-              {leading}
-            </div>
-          )}
-          {input}
-          {trailing && (
-            <div className="absolute inset-y-0 right-3 flex items-center text-secondary">
-              {trailing}
-            </div>
-          )}
-        </div>
-      );
-    }
+  if (!leading && !trailing) {
+    return input;
   }
+
+  return (
+    <div className="relative w-full">
+      {leading && (
+        <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-secondary">
+          {leading}
+        </div>
+      )}
+      {input}
+      {trailing && (
+        <div className="absolute inset-y-0 right-3 flex items-center text-secondary">
+          {trailing}
+        </div>
+      )}
+    </div>
+  );
 });
