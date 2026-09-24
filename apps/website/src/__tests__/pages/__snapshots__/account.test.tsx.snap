@@ -133,42 +133,52 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               <div
                 class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center"
               >
-                <label
-                  class="input flex gap-2 has-[:disabled]:cursor-not-allowed flex-col font-semibold"
+                <div
+                  class="flex flex-col gap-2"
                 >
-                  <span
-                    class="input__label"
+                  <label
+                    class="font-semibold"
+                    for=":r0:"
                   >
-                    First name*
-                  </span>
+                    First name
+                    <span
+                      aria-hidden="true"
+                    >
+                      *
+                    </span>
+                  </label>
                   <input
                     aria-invalid="false"
-                    aria-label="First name"
-                    class="border border-default rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
-                    label="First name*"
+                    class="w-full h-11 px-3 rounded-surface border border-subtle bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:bg-tint disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
+                    id=":r0:"
                     placeholder="Enter your first name"
                     type="text"
                     value="John"
                   />
-                </label>
-                <label
-                  class="input flex gap-2 has-[:disabled]:cursor-not-allowed flex-col font-semibold"
+                </div>
+                <div
+                  class="flex flex-col gap-2"
                 >
-                  <span
-                    class="input__label"
+                  <label
+                    class="font-semibold"
+                    for=":r1:"
                   >
-                    Last name*
-                  </span>
+                    Last name
+                    <span
+                      aria-hidden="true"
+                    >
+                      *
+                    </span>
+                  </label>
                   <input
                     aria-invalid="false"
-                    aria-label="Last name"
-                    class="border border-default rounded-surface p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 font-normal"
-                    label="Last name*"
+                    class="w-full h-11 px-3 rounded-surface border border-subtle bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:bg-tint disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
+                    id=":r1:"
                     placeholder="Enter your last name"
                     type="text"
                     value="Doe"
                   />
-                </label>
+                </div>
                 <div
                   class="flex gap-2 sm:mt-8 max-sm:hidden sm:invisible"
                 >

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import clsx from 'clsx';
 import {
   CTALinkOrButton,
@@ -77,6 +77,8 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
     }
   };
 
+  const firstNameId = useId();
+  const lastNameId = useId();
   const hasChanges = trimmed.firstName !== savedNames.firstName.trim() || trimmed.lastName !== savedNames.lastName.trim();
   const showButtons = alwaysShowButtons || hasChanges;
 
@@ -84,32 +86,32 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
     <div className="mb-6">
       <div className="flex flex-col gap-4">
         <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
-          <Input
-            label="First name*"
-            labelClassName="font-semibold"
-            inputClassName="font-normal"
-            value={names.firstName}
-            onChange={(e) => setNames({ ...names, firstName: e.target.value })}
-            onFocus={handleFocus}
-            onKeyDown={handleKeyDown}
-            placeholder="Enter your first name"
-            aria-label="First name"
-            aria-describedby={nameError ? 'profile-name-error' : undefined}
-            aria-invalid={!!nameError}
-          />
-          <Input
-            label="Last name*"
-            labelClassName="font-semibold"
-            inputClassName="font-normal"
-            value={names.lastName}
-            onChange={(e) => setNames({ ...names, lastName: e.target.value })}
-            onFocus={handleFocus}
-            onKeyDown={handleKeyDown}
-            placeholder="Enter your last name"
-            aria-label="Last name"
-            aria-describedby={nameError ? 'profile-name-error' : undefined}
-            aria-invalid={!!nameError}
-          />
+          <div className="flex flex-col gap-2">
+            <label htmlFor={firstNameId} className="font-semibold">First name<span aria-hidden="true">*</span></label>
+            <Input
+              id={firstNameId}
+              value={names.firstName}
+              onChange={(e) => setNames({ ...names, firstName: e.target.value })}
+              onFocus={handleFocus}
+              onKeyDown={handleKeyDown}
+              placeholder="Enter your first name"
+              aria-describedby={nameError ? 'profile-name-error' : undefined}
+              aria-invalid={!!nameError}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor={lastNameId} className="font-semibold">Last name<span aria-hidden="true">*</span></label>
+            <Input
+              id={lastNameId}
+              value={names.lastName}
+              onChange={(e) => setNames({ ...names, lastName: e.target.value })}
+              onFocus={handleFocus}
+              onKeyDown={handleKeyDown}
+              placeholder="Enter your last name"
+              aria-describedby={nameError ? 'profile-name-error' : undefined}
+              aria-invalid={!!nameError}
+            />
+          </div>
           {/* Always rendered so the column keeps its width; the top margin centres the buttons on the inputs rather than on label + input */}
           <div className={clsx('flex gap-2 sm:mt-8', !showButtons && 'max-sm:hidden sm:invisible')}>
             <CTALinkOrButton

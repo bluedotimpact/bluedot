@@ -1,6 +1,6 @@
-import { Modal, ProgressDots } from '@bluedot/ui';
-import { useState } from 'react';
-import { RiSearchLine } from 'react-icons/ri';
+import { Input, Modal, ProgressDots } from '@bluedot/ui';
+import { useRef, useState } from 'react';
+import { RiCloseLine, RiSearchLine } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
 import ParticipantRow from './ParticipantRow';
 
@@ -13,6 +13,7 @@ type AddParticipantModalProps = {
 
 const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId, excludeIds, onAdd, onClose }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const { data, isLoading, isError } = trpc.facilitators.searchAddableParticipants.useQuery({
     meetPersonId,
     searchTerm: searchTerm.trim() || undefined,
@@ -38,17 +39,28 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
           Search for a participant enrolled in this course who isn't already on your list.
         </p>
 
-        <div className="flex items-center gap-2 h-[46px] border border-gray-300 rounded-md px-3">
-          <RiSearchLine className="text-gray-400 shrink-0" size={15} />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by name..."
-            aria-label="Search participants by name"
-            className="flex-1 outline-none text-size-xs placeholder:text-gray-400"
-          />
-        </div>
+        <Input
+          ref={searchInputRef}
+          type="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search by name..."
+          aria-label="Search participants by name"
+          leading={<RiSearchLine aria-hidden />}
+          trailing={searchTerm ? (
+            <button
+              type="button"
+              aria-label="Clear search"
+              onClick={() => {
+                setSearchTerm('');
+                searchInputRef.current?.focus();
+              }}
+              className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+            >
+              <RiCloseLine aria-hidden />
+            </button>
+          ) : undefined}
+        />
 
         <div className="flex flex-col gap-1.5">
           {isLoading && <ProgressDots />}

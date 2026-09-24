@@ -80,8 +80,8 @@ describe('AccountSettingsPage', () => {
     render(<AccountSettingsPageWithAuth auth={{ token: 'test-token' }} />, { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) });
 
     const modal = await screen.findByRole('dialog');
-    fireEvent.change(within(modal).getByLabelText('First name'), { target: { value: 'Jane' } });
-    fireEvent.change(within(modal).getByLabelText('Last name'), { target: { value: 'Smith' } });
+    fireEvent.change(within(modal).getByLabelText(/first name/i), { target: { value: 'Jane' } });
+    fireEvent.change(within(modal).getByLabelText(/last name/i), { target: { value: 'Smith' } });
     fireEvent.click(within(modal).getByRole('button', { name: 'Save profile name changes' }));
 
     await waitFor(() => {

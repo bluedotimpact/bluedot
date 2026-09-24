@@ -207,8 +207,10 @@ const ChangePasswordModal = ({
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Change password" bottomDrawerOnMobile>
       <div className="w-full max-w-modal space-y-4">
         <div className="h-0 w-[600px] max-w-full" />
-        <div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="current-password" className="font-semibold">Current password<span aria-hidden="true">*</span></label>
           <Input
+            id="current-password"
             ref={currentPasswordRef}
             type="password"
             value={currentPassword}
@@ -220,8 +222,6 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter current password"
-            label="Current password*"
-            aria-label="Current password"
             aria-describedby={
               errors.current ? 'current-password-error' : undefined
             }
@@ -240,8 +240,10 @@ const ChangePasswordModal = ({
           )}
         </div>
 
-        <div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="new-password" className="font-semibold">New password<span aria-hidden="true">*</span></label>
           <Input
+            id="new-password"
             type="password"
             value={newPassword}
             onChange={(e) => {
@@ -252,8 +254,6 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter new password"
-            label="New password*"
-            aria-label="New password"
             aria-describedby={
               errors.new ? 'new-password-error' : 'new-password-hint'
             }
@@ -280,8 +280,10 @@ const ChangePasswordModal = ({
           )}
         </div>
 
-        <div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="confirm-password" className="font-semibold">Confirm new password<span aria-hidden="true">*</span></label>
           <Input
+            id="confirm-password"
             type="password"
             value={confirmPassword}
             onChange={(e) => {
@@ -292,8 +294,6 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Confirm new password"
-            label="Confirm new password*"
-            aria-label="Confirm new password"
             aria-describedby={
               errors.confirm ? 'confirm-password-error' : undefined
             }
