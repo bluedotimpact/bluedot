@@ -33,10 +33,6 @@ export const CheckedDisabled: Story = {
   args: { defaultChecked: true, disabled: true },
 };
 
-export const Indeterminate: Story = {
-  args: { indeterminate: true },
-};
-
 export const Invalid: Story = {
   args: { 'aria-invalid': true, required: true, children: 'I agree to the terms' },
 };

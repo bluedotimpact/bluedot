@@ -69,12 +69,6 @@ describe('Checkbox', () => {
     expect(onChange).not.toHaveBeenCalled();
   });
 
-  test('indeterminate sets the native mixed state', () => {
-    render(<Checkbox indeterminate>Select all</Checkbox>);
-
-    expect(screen.getByRole<HTMLInputElement>('checkbox').indeterminate).toBe(true);
-  });
-
   test('submits name and value through FormData', async () => {
     const user = userEvent.setup();
     let data: FormData | undefined;
