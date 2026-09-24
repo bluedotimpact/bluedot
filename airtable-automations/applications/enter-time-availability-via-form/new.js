@@ -1,4 +1,3 @@
-// Emulation of today's no-code steps ("Get application record" find + "Update record"); never pasted anywhere.
 const { email, roundId, availability, timezone, comments } = input.config();
 
 const table = base.getTable('tblXKnWoXK3R63F6D'); // Course registration
@@ -14,13 +13,13 @@ const query = await table.selectRecordsAsync({
   fields: [ROUND, IS_DUPLICATE, IS_TEST_RECORD, EMAIL, COURSE, COURSE_ID],
 });
 
-// Find records: `contains` is a case-insensitive substring match; limit 1 with no sort
+// A person can have several registrations in one round (e.g. quick-apply plus manual); update them all
 const matches = query.records.filter((record) =>
   (record.getCellValue(ROUND) ?? []).some((round) => round.id === roundId)
   && !record.getCellValue(IS_DUPLICATE)
   && !record.getCellValue(IS_TEST_RECORD)
   && (record.getCellValue(EMAIL) ?? '').toLowerCase().includes((email ?? '').toLowerCase())
-  && !(record.getCellValue(COURSE) ?? []).some((course) => course.id === EXCLUDED_COURSE_ID)).slice(0, 1);
+  && !(record.getCellValue(COURSE) ?? []).some((course) => course.id === EXCLUDED_COURSE_ID));
 
 for (const record of matches) {
   await table.updateRecordsAsync([{
