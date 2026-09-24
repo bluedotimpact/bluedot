@@ -200,13 +200,11 @@ describe('isRetryablePgError', () => {
     expect(isRetryablePgError(new DrizzleQueryError('select 1', [], pgError('ECONNREFUSED')))).toBe(true);
     expect(isRetryablePgError(pgError('57P03', 'the database system is starting up'))).toBe(true);
     expect(isRetryablePgError(pgError('EAI_AGAIN'))).toBe(true);
-    expect(isRetryablePgError(new Error('Connection terminated due to connection timeout'))).toBe(true);
   });
 
   test('retries a lost connection only for idempotent queries', () => {
     const lost = [
       pgError('ECONNRESET'),
-      pgError('ETIMEDOUT'),
       pgError('57P01', 'terminating connection due to administrator command'),
       pgError('57P02'),
       pgError('08006'),
@@ -219,7 +217,10 @@ describe('isRetryablePgError', () => {
     });
   });
 
-  test('does not retry query errors or unknown errors', () => {
+  test('does not retry timeouts, query errors, or unknown errors', () => {
+    expect(isRetryablePgError(pgError('ETIMEDOUT'))).toBe(false);
+    expect(isRetryablePgError(pgError('ETIMEDOUT'), true)).toBe(false);
+    expect(isRetryablePgError(new Error('Connection terminated due to connection timeout'), true)).toBe(false);
     expect(isRetryablePgError(pgError('23505', 'duplicate key value'), true)).toBe(false);
     expect(isRetryablePgError(pgError('42P01', 'relation does not exist'), true)).toBe(false);
     expect(isRetryablePgError(new Error('Something else'), true)).toBe(false);
@@ -304,11 +305,5 @@ describe('withPgRetryIdempotentWrite', () => {
     });
     await expect(withPgRetryIdempotentWrite(refused)).rejects.toThrow();
     expect(refused).toHaveBeenCalledTimes(1);
-
-    const timedOut = vi.fn(async () => {
-      throw new Error('Connection terminated due to connection timeout');
-    });
-    await expect(withPgRetryIdempotentWrite(timedOut)).rejects.toThrow();
-    expect(timedOut).toHaveBeenCalledTimes(1);
   });
 });

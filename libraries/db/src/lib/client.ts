@@ -16,9 +16,6 @@ import env from './env';
 
 export { type Filter, type PgDatabase } from './pg-query';
 
-// Without this, a connect to an unresponsive host waits for the OS TCP timeout (~2 min)
-const PG_CONNECTION_TIMEOUT_MS = 10_000;
-
 /**
  * Base options interface for getFirst method
  */
@@ -131,7 +128,7 @@ export class PgAirtableDb {
     if (pgClient) {
       this.pgUnrestricted = pgClient;
     } else {
-      const pg = drizzle({ connection: { ...pgConnectionConfig(pgConnString), connectionTimeoutMillis: PG_CONNECTION_TIMEOUT_MS } });
+      const pg = drizzle({ connection: pgConnectionConfig(pgConnString) });
       patchPgClientToRetryQueries(pg.$client);
       this.pgUnrestricted = pg;
     }

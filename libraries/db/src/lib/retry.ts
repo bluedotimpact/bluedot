@@ -80,9 +80,9 @@ export async function withAirtableRetry<T>(
 }
 
 const PG_CONNECT_ERROR_CODES = new Set(['ECONNREFUSED', 'ENOTFOUND', 'EAI_AGAIN', '57P03', '08001', '08004']);
-const PG_CONNECTION_LOST_ERROR_CODES = new Set(['ECONNRESET', 'ETIMEDOUT', 'EPIPE', '57P01', '57P02']);
-// pg-pool's error when `connectionTimeoutMillis` expires before the connection is established
-const PG_CONNECT_TIMEOUT_MESSAGE = 'Connection terminated due to connection timeout';
+const PG_CONNECTION_LOST_ERROR_CODES = new Set(['ECONNRESET', 'EPIPE', '57P01', '57P02']);
+// pg's own messages for a socket closing mid-query (no code on these)
+const PG_CONNECTION_LOST_MESSAGES = new Set(['Connection terminated', 'Connection terminated unexpectedly']);
 
 function pgErrorDetails(error: unknown): { code?: string; message: string } {
   const pgError = error instanceof DrizzleQueryError ? error.cause : error;
@@ -94,15 +94,15 @@ function pgErrorDetails(error: unknown): { code?: string; message: string } {
 }
 
 function isPgConnectError(error: unknown): boolean {
-  const { code, message } = pgErrorDetails(error);
-  return (code !== undefined && PG_CONNECT_ERROR_CODES.has(code)) || message === PG_CONNECT_TIMEOUT_MESSAGE;
+  const { code } = pgErrorDetails(error);
+  return code !== undefined && PG_CONNECT_ERROR_CODES.has(code);
 }
 
 function isPgConnectionLostError(error: unknown): boolean {
   if (isPgConnectError(error)) return false;
   const { code = '', message } = pgErrorDetails(error);
   // SQLSTATE class 08 is "connection exception"
-  return message.startsWith('Connection terminated') || PG_CONNECTION_LOST_ERROR_CODES.has(code) || code.startsWith('08');
+  return PG_CONNECTION_LOST_MESSAGES.has(message) || PG_CONNECTION_LOST_ERROR_CODES.has(code) || code.startsWith('08');
 }
 
 export function isRetryablePgError(error: unknown, idempotent = false): boolean {
