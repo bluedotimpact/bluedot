@@ -146,7 +146,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
                 key={option.id}
                 card
                 checked={followUps.includes(option.name)}
-                onChange={(checked) => setFollowUps(checked
+                onChange={(e) => setFollowUps(e.target.checked
                   ? [...followUps, option.name]
                   : followUps.filter((name) => name !== option.name))}
               >

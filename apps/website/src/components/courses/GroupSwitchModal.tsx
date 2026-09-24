@@ -376,7 +376,7 @@ export default function GroupSwitchModal({
         </>
       ) : undefined,
       control: (
-        <Checkbox className="w-fit" checked={hasUpdatedAvailability} onChange={setHasUpdatedAvailability}>
+        <Checkbox className="w-fit" checked={hasUpdatedAvailability} onChange={(e) => setHasUpdatedAvailability(e.target.checked)}>
           I have updated my availability
         </Checkbox>
       ),

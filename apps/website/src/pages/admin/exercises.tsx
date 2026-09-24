@@ -155,7 +155,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               </button>
             </div>
 
-            <Checkbox checked={includeInProgress} onChange={setIncludeInProgress}>
+            <Checkbox checked={includeInProgress} onChange={(e) => setIncludeInProgress(e.target.checked)}>
               Show in-progress
             </Checkbox>
 

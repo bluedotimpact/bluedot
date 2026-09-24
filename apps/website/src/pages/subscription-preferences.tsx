@@ -99,7 +99,7 @@ const PreferencesForm = ({
             key={topic.id}
             className={`gap-3 rounded-lg p-3 -mx-3 ${isHighlighted ? 'border border-bluedot-light' : ''}`}
             checked={subscribed[topic.id] ?? topic.subscribed}
-            onChange={(checked) => handleToggle(topic.id, checked)}
+            onChange={(e) => handleToggle(topic.id, e.target.checked)}
           >
             <div>
               <P className="font-semibold text-black leading-snug">{topic.name}</P>
