@@ -1,12 +1,9 @@
-import {
-  forwardRef, useEffect, useImperativeHandle, useRef,
-} from 'react';
-import type { InputHTMLAttributes, ReactNode } from 'react';
-import { FaCheck, FaMinus } from 'react-icons/fa6';
+import { forwardRef } from 'react';
+import type { InputHTMLAttributes } from 'react';
+import { FaCheck } from 'react-icons/fa6';
 import { cn } from './utils';
 
 export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'children'> & {
-  indeterminate?: boolean;
   /** Bordered, full-width row that highlights when selected. Focus ring moves to the card edge. */
   card?: boolean;
   children?: ReactNode;
@@ -36,9 +33,8 @@ const BOX_STYLES = [
   'flex size-6 shrink-0 items-center justify-center rounded-surface border border-strong bg-raised text-transparent',
   'transition-colors motion-reduce:transition-none',
   'peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark',
-  'peer-indeterminate:border-accent peer-indeterminate:bg-accent peer-indeterminate:text-on-dark',
-  'peer-disabled:not-peer-checked:not-peer-indeterminate:border-default peer-disabled:not-peer-checked:not-peer-indeterminate:bg-tint',
-  'peer-disabled:peer-checked:opacity-40 peer-disabled:peer-indeterminate:opacity-40',
+  'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint',
+  'peer-disabled:peer-checked:opacity-40',
   'peer-aria-invalid:not-peer-disabled:border-error-fg',
 ];
 
@@ -49,31 +45,18 @@ const BOX_ROW_STYLES = [
 ];
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
-  indeterminate,
   card,
   children,
   className,
   ...props
-}, ref) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  useImperativeHandle(ref, () => inputRef.current!);
-
-  // `indeterminate` is a DOM property, not an attribute. Re-applied every render because a click clears it.
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.indeterminate = Boolean(indeterminate);
-    }
-  });
-
-  return (
-    <label className={cn(ROOT_STYLES, card ? CARD_STYLES : ROW_STYLES, className)}>
-      <input {...props} ref={inputRef} type="checkbox" className="peer sr-only" />
-      <span aria-hidden className={cn(BOX_STYLES, !card && BOX_ROW_STYLES)}>
-        {indeterminate ? <FaMinus className="size-3.5" /> : <FaCheck className="size-3.5" />}
-      </span>
-      {children}
-    </label>
-  );
-});
+}, ref) => (
+  <label className={cn(ROOT_STYLES, card ? CARD_STYLES : ROW_STYLES, className)}>
+    <input {...props} ref={ref} type="checkbox" className="peer sr-only" />
+    <span aria-hidden className={cn(BOX_STYLES, !card && BOX_ROW_STYLES)}>
+      <FaCheck className="size-3.5" />
+    </span>
+    {children}
+  </label>
+));
 
 Checkbox.displayName = 'Checkbox';
