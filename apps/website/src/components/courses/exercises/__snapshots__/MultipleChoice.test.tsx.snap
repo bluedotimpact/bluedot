@@ -9,68 +9,84 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       class="flex flex-col gap-2"
     >
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           disabled=""
           name="answer"
           type="radio"
           value="The community's preference for low-tech fishing traditions"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          The community's preference for low-tech fishing traditions
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        The community's preference for low-tech fishing traditions
       </label>
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           disabled=""
           name="answer"
           type="radio"
           value="Rising consumer demand for fish with more Omega-3s"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          Rising consumer demand for fish with more Omega-3s
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        Rising consumer demand for fish with more Omega-3s
       </label>
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           disabled=""
           name="answer"
           type="radio"
           value="Environmental regulations and declining cod stocks"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          Environmental regulations and declining cod stocks
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        Environmental regulations and declining cod stocks
       </label>
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           disabled=""
           name="answer"
           type="radio"
           value="A cultural shift toward vegetarianism in the region"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          A cultural shift toward vegetarianism in the region
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        A cultural shift toward vegetarianism in the region
       </label>
     </div>
     <a
@@ -111,64 +127,80 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
       class="flex flex-col gap-2"
     >
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           name="answer"
           type="radio"
           value="The community's preference for low-tech fishing traditions"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          The community's preference for low-tech fishing traditions
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        The community's preference for low-tech fishing traditions
       </label>
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           name="answer"
           type="radio"
           value="Rising consumer demand for fish with more Omega-3s"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          Rising consumer demand for fish with more Omega-3s
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        Rising consumer demand for fish with more Omega-3s
       </label>
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           name="answer"
           type="radio"
           value="Environmental regulations and declining cod stocks"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          Environmental regulations and declining cod stocks
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        Environmental regulations and declining cod stocks
       </label>
       <label
-        class="input flex gap-2 has-[:disabled]:cursor-not-allowed items-center cursor-pointer flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
         <input
-          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          class="peer sr-only"
           name="answer"
           type="radio"
           value="A cultural shift toward vegetarianism in the region"
         />
         <span
-          class="input__label"
+          aria-hidden="true"
+          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
-          A cultural shift toward vegetarianism in the region
+          <span
+            class="size-2.5 rounded-full bg-current"
+          />
         </span>
+        A cultural shift toward vegetarianism in the region
       </label>
     </div>
     <button
@@ -184,7 +216,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
 <input
-  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+  class="peer sr-only"
   disabled=""
   name="answer"
   type="radio"
@@ -194,7 +226,7 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
 
 exports[`MultipleChoice > updates styles for incorrect option 1`] = `
 <input
-  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+  class="peer sr-only"
   name="answer"
   type="radio"
   value="Rising consumer demand for fish with more Omega-3s"
@@ -230,7 +262,7 @@ exports[`MultipleChoice > updates styles for incorrect option 2`] = `
 
 exports[`MultipleChoice > updates styles for selected option 1`] = `
 <input
-  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+  class="peer sr-only"
   name="answer"
   type="radio"
   value="The community's preference for low-tech fishing traditions"
