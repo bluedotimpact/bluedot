@@ -1,6 +1,9 @@
 import { forwardRef } from 'react';
 import type { InputHTMLAttributes } from 'react';
 import { FaCheck } from 'react-icons/fa6';
+import {
+  CHOICE_CARD_NEUTRAL_STYLES, CHOICE_CARD_STYLES, CHOICE_ROOT_NEUTRAL_STYLES, CHOICE_ROOT_STYLES, CHOICE_ROW_STYLES,
+} from './choiceStyles';
 import { cn } from './utils';
 
 export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className'> & {
@@ -9,23 +12,6 @@ export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' |
   /** Applied to the root label. */
   className?: string;
 };
-
-// The native input is visually hidden; the label (`group`, `has-*`) and the drawn box (`peer-*`) read its state.
-const ROOT_STYLES = [
-  'group flex gap-2 cursor-pointer text-size-sm leading-normal text-primary',
-  'has-disabled:cursor-not-allowed has-disabled:text-disabled',
-];
-
-// Figma draws a 32px row; py-2.5 lifts it to the 44px touch floor.
-const ROW_STYLES = 'items-start py-2.5';
-
-const CARD_STYLES = [
-  'items-center rounded-surface border-2 border-default bg-canvas p-4 transition-colors motion-reduce:transition-none',
-  'hover:not-has-checked:not-has-disabled:bg-tint',
-  'has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle',
-  'has-disabled:bg-tint',
-  'has-focus-visible:outline-2 has-focus-visible:outline-focus',
-];
 
 // Glyph is always rendered and inherits the box colour, so it stays transparent until the box fills.
 const BOX_STYLES = [
@@ -49,7 +35,14 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
   className,
   ...props
 }, ref) => (
-  <label className={cn(ROOT_STYLES, card ? CARD_STYLES : ROW_STYLES, className)}>
+  <label
+    className={cn(
+      CHOICE_ROOT_STYLES,
+      CHOICE_ROOT_NEUTRAL_STYLES,
+      card ? [CHOICE_CARD_STYLES, CHOICE_CARD_NEUTRAL_STYLES] : CHOICE_ROW_STYLES,
+      className,
+    )}
+  >
     <input {...props} ref={ref} type="checkbox" className="peer sr-only" />
     <span aria-hidden className={cn(BOX_STYLES, !card && BOX_ROW_STYLES)}>
       <FaCheck className="size-3.5" />
