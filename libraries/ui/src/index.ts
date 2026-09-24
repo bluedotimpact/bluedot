@@ -57,6 +57,9 @@ export type { NavigateProps } from './Navigate';
 
 export { ProgressDots } from './ProgressDots';
 
+export { Radio } from './Radio';
+export type { RadioProps, RadioTone } from './Radio';
+
 export { Section, SectionHeading } from './Section';
 export type { SectionProps } from './Section';
 
