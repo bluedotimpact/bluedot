@@ -11,11 +11,6 @@ export type RadioTone = 'success' | 'error';
 export type RadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className'> & {
   /** Bordered, full-width row that highlights when selected. Focus ring moves to the card edge. */
   card?: boolean;
-  /**
-   * Post-submit result colouring (quiz correct/incorrect). Replaces the selected/disabled recipe
-   * rather than layering on it, so a locked correct answer still reads as correct. Colour is the
-   * only signal this adds; pair it with visible text.
-   */
   tone?: RadioTone;
   /** Applied to the root label. */
   className?: string;
