@@ -135,14 +135,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           />
         </div>
 
-        <div className="mt-8 flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <p className="text-size-xs font-semibold text-bluedot-navy">
-              How should we follow up with them? <span className="text-red-600">*</span>
-            </p>
-            <p className="text-size-xs text-bluedot-navy/60">Check all that apply.</p>
-          </div>
-          <div className="flex flex-col gap-2">
+        <fieldset className="m-0 mt-8 flex flex-col gap-1.5 border-0 p-0">
+          <legend className="p-0 text-size-xs font-semibold text-bluedot-navy">
+            How should we follow up with them? <span className="text-red-600">*</span>
+          </legend>
+          <p className="text-size-xs text-bluedot-navy/60">Check all that apply.</p>
+          <div className="mt-2.5 flex flex-col gap-2">
             {followUpOptions.map((option) => (
               <Checkbox
                 key={option.id}
@@ -156,7 +154,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
               </Checkbox>
             ))}
           </div>
-        </div>
+        </fieldset>
 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
