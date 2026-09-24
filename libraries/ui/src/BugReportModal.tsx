@@ -76,6 +76,8 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 }) => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
+  // Once the user edits the email, it's theirs and the pre-fill stops touching it
+  const [isEmailEditedByUser, setIsEmailEditedByUser] = useState(false);
   const [attachments, setAttachments] = useState<File[]>([]);
   const [attachmentError, setAttachmentError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -90,12 +92,13 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setRecordingUrlInput(recordingUrl ?? '');
   }, [recordingUrl]);
 
-  // Only fill an empty field, so we never overwrite an email the user has typed
+  // Follow `defaultEmail` until the user edits the field, so the email clears on logout and updates if the account
+  // changes, but never overwrites what the user typed
   useEffect(() => {
-    if (isOpen && defaultEmail) {
-      setEmail((prev) => prev || defaultEmail);
+    if (isOpen && !isEmailEditedByUser) {
+      setEmail(defaultEmail ?? '');
     }
-  }, [isOpen, defaultEmail]);
+  }, [isOpen, defaultEmail, isEmailEditedByUser]);
 
   useEffect(() => {
     if (isOpen) {
@@ -115,6 +118,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   const resetForm = () => {
     setDescription('');
     setEmail('');
+    setIsEmailEditedByUser(false);
     setAttachments([]);
     setAttachmentError(null);
     setEmailError(null);
@@ -383,6 +387,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 onBlur={() => setEmailError(validateEmail(email))}
                 onChange={(e) => {
                   setEmail(e.target.value);
+                  setIsEmailEditedByUser(true);
                   if (emailError) setEmailError(validateEmail(e.target.value));
                 }}
               />
