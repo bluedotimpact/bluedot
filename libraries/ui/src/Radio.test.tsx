@@ -102,10 +102,9 @@ describe('Radio', () => {
     expect(screen.getByRole('radio')).toHaveAttribute('aria-invalid', 'true');
   });
 
-  test('tone is exposed on the root for styling and does not disable the input', () => {
+  test('tone does not disable the input', () => {
     render(<Radio name="answer" value="a" tone="error">Wrong</Radio>);
 
-    expect(screen.getByText('Wrong')).toHaveAttribute('data-tone', 'error');
     expect(screen.getByRole('radio')).toBeEnabled();
   });
 });

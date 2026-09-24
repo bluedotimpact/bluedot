@@ -62,7 +62,6 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
 
   return (
     <label
-      data-tone={tone}
       className={cn(
         CHOICE_ROOT_STYLES,
         toneStyles ? toneStyles.root : CHOICE_ROOT_NEUTRAL_STYLES,
