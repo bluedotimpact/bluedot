@@ -36,19 +36,6 @@ type CoursePageProps = {
 };
 
 const CoursePage = ({
-  courseSlug, courseData, courseOgImage, soonestDeadline,
-}: CoursePageProps) => {
-  return (
-    <div>
-      {renderCoursePage({
-        courseSlug, courseData, courseOgImage, soonestDeadline,
-      })}
-    </div>
-  );
-};
-
-// Helper function to render the appropriate course page based on slug
-const renderCoursePage = ({
   courseSlug: slug, courseData, courseOgImage, soonestDeadline,
 }: CoursePageProps) => {
   const { course } = courseData;
