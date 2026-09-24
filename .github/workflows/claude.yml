@@ -38,40 +38,35 @@ jobs:
 
       - name: Run Claude Code
         id: claude
-        uses: anthropics/claude-code-action@beta
+        uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
-          # The action's default model (claude-sonnet-4-20250514) was retired and now
-          # 404s, making every @claude invocation fail. Pin a current model explicitly.
-          model: claude-sonnet-5
-
-          # Allow Claude to read CI results on PRs
           additional_permissions: |
             actions: read
 
-          # Allow Claude to run common development commands for this monorepo
-          allowed_tools: |
-            Bash(npm install)
-            Bash(npm run build)
-            Bash(npm run test)
-            Bash(npm run test:*)
-            Bash(npm run lint)
-            Bash(npm run lint:fix)
-            Bash(turbo run *)
-            Bash(npm run start --workspace=*)
+          # Background helpers select their model independently of --model.
+          settings: |
+            {
+              "env": {
+                "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-4-5-20251001",
+                "NODE_ENV": "development",
+                "TURBO_TELEMETRY_DISABLED": "1"
+              }
+            }
 
-          # Custom instructions tailored to this monorepo
-          custom_instructions: |
-            This is a TypeScript monorepo using Turbo for build orchestration and npm workspaces.
-            
+          claude_args: |
+            --model claude-sonnet-5
+            --allowedTools 'Bash(npm install),Bash(npm run build),Bash(npm run test),Bash(npm run test:*),Bash(npm run lint),Bash(npm run lint:fix),Bash(turbo run *),Bash(npm run start --workspace=*)'
+            --append-system-prompt 'This is a TypeScript monorepo using Turbo for build orchestration and npm workspaces.
+
             Project Structure:
             - apps/: Contains multiple applications (Next.js apps, backend services, etc.)
             - libraries/: Shared libraries and packages
             - Uses Turbo for efficient builds and task running
             - Node.js 22 and npm 10.7.0
             - AGPL-3.0 license
-            
+
             Development Guidelines:
             - Follow the existing TypeScript and ESLint configuration
             - Use the turbo commands for building and testing across workspaces
@@ -79,20 +74,15 @@ jobs:
             - Run tests and linting before suggesting changes
             - Respect the workspace structure and dependencies
             - Use npm workspaces syntax when working with specific apps/libraries
-            
+
             Common Commands:
             - `npm run build` - Build all packages
             - `npm run test` - Run all tests
             - `npm run lint` - Lint all packages
             - `turbo run <command>` - Run commands across workspaces efficiently
-            
+
             When implementing changes:
             1. Understand the monorepo structure and affected packages
             2. Run appropriate tests and linting
             3. Consider cross-package dependencies
-            4. Follow existing code patterns and conventions
-
-          # Environment variables for development
-          claude_env: |
-            NODE_ENV: development
-            TURBO_TELEMETRY_DISABLED: 1
+            4. Follow existing code patterns and conventions'
