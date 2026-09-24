@@ -146,7 +146,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             {followUpOptions.map((option) => (
               <Checkbox
                 key={option.id}
-                className="rounded-surface border border-default p-4 gap-4 data-[hovered]:bg-tint data-[selected]:border-transparent data-[selected]:bg-accent-subtle"
+                card
                 checked={followUps.includes(option.name)}
                 onChange={(checked) => setFollowUps(checked
                   ? [...followUps, option.name]
