@@ -28,6 +28,8 @@ export type BugReportModalProps = {
   setIsOpen?: (isOpen: boolean) => void;
   onRecordScreen?: () => void;
   recordingUrl?: string;
+  // Pre-fills the contact email, e.g. with the logged-in user's email. The user can still edit it.
+  defaultEmail?: string;
 };
 
 const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => void }) => {
@@ -70,9 +72,12 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   setIsOpen = () => {},
   onRecordScreen,
   recordingUrl,
+  defaultEmail,
 }) => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
+  // Once the user edits the email, it's theirs and the pre-fill stops touching it
+  const [isEmailEditedByUser, setIsEmailEditedByUser] = useState(false);
   const [attachments, setAttachments] = useState<File[]>([]);
   const [attachmentError, setAttachmentError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -86,6 +91,14 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   useEffect(() => {
     setRecordingUrlInput(recordingUrl ?? '');
   }, [recordingUrl]);
+
+  // Follow `defaultEmail` until the user edits the field, so the email clears on logout and updates if the account
+  // changes, but never overwrites what the user typed
+  useEffect(() => {
+    if (isOpen && !isEmailEditedByUser) {
+      setEmail(defaultEmail ?? '');
+    }
+  }, [isOpen, defaultEmail, isEmailEditedByUser]);
 
   useEffect(() => {
     if (isOpen) {
@@ -105,6 +118,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   const resetForm = () => {
     setDescription('');
     setEmail('');
+    setIsEmailEditedByUser(false);
     setAttachments([]);
     setAttachmentError(null);
     setEmailError(null);
@@ -373,6 +387,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 onBlur={() => setEmailError(validateEmail(email))}
                 onChange={(e) => {
                   setEmail(e.target.value);
+                  setIsEmailEditedByUser(true);
                   if (emailError) setEmailError(validateEmail(e.target.value));
                 }}
               />

@@ -227,6 +227,33 @@ describe('BugReportModal', () => {
     expect(screen.getByText('Submit').closest('button')).toBeDisabled();
   });
 
+  it('pre-fills the email with defaultEmail', () => {
+    render(<BugReportModal isOpen defaultEmail="user@example.com" />);
+    expect(screen.getByPlaceholderText('Email')).toHaveValue('user@example.com');
+  });
+
+  it('does not overwrite an email the user has typed when defaultEmail arrives', () => {
+    const { rerender } = render(<BugReportModal isOpen />);
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'typed@example.com' },
+    });
+    rerender(<BugReportModal isOpen defaultEmail="user@example.com" />);
+    expect(screen.getByPlaceholderText('Email')).toHaveValue('typed@example.com');
+  });
+
+  it('clears the pre-filled email when defaultEmail goes away, e.g. on logout', () => {
+    const { rerender } = render(<BugReportModal isOpen defaultEmail="user@example.com" />);
+    rerender(<BugReportModal isOpen={false} />);
+    rerender(<BugReportModal isOpen />);
+    expect(screen.getByPlaceholderText('Email')).toHaveValue('');
+  });
+
+  it('does not refill the email after the user clears it', () => {
+    render(<BugReportModal isOpen defaultEmail="user@example.com" />);
+    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: '' } });
+    expect(screen.getByPlaceholderText('Email')).toHaveValue('');
+  });
+
   it('does not render video section when onRecordScreen is not provided', () => {
     render(<BugReportModal isOpen />);
     expect(screen.queryByText('Could you show us with a video?')).not.toBeInTheDocument();
