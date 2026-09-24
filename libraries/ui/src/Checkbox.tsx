@@ -17,13 +17,19 @@ export type CheckboxProps = {
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
+  /** Bordered, full-width row that highlights when selected. Focus ring moves to the card edge. */
+  card?: boolean;
   children?: ReactNode;
   /** Applied to the root label, which carries react-aria's data-* state attributes. */
   className?: string;
 };
 
+const ROOT_STYLES = 'flex gap-2 cursor-pointer text-size-sm leading-normal text-primary';
+
 // Figma draws a 32px row; py-2.5 lifts it to the 44px touch floor.
-const ROOT_STYLES = 'flex items-start gap-2 py-2.5 cursor-pointer text-size-sm leading-normal text-primary';
+const ROW_STYLES = 'items-start py-2.5';
+
+const CARD_STYLES = 'items-center rounded-surface border-2 border-default bg-canvas p-4 transition-colors motion-reduce:transition-none';
 
 const BOX_STYLES = 'flex size-6 shrink-0 items-center justify-center rounded-surface border transition-colors motion-reduce:transition-none';
 
@@ -35,6 +41,7 @@ export const Checkbox = ({
   indeterminate,
   required,
   'aria-invalid': ariaInvalid,
+  card,
   children,
   className,
   ...props
@@ -48,9 +55,16 @@ export const Checkbox = ({
     isIndeterminate={indeterminate}
     isRequired={required}
     isInvalid={ariaInvalid}
-    className={({ isDisabled }) => cn(
+    className={({
+      isSelected, isDisabled, isHovered, isFocusVisible,
+    }) => cn(
       ROOT_STYLES,
+      card ? CARD_STYLES : ROW_STYLES,
       isDisabled && 'cursor-not-allowed text-disabled',
+      card && isSelected && !isDisabled && 'border-accent bg-accent-subtle',
+      card && isHovered && !isSelected && !isDisabled && 'bg-tint',
+      card && isDisabled && 'bg-tint',
+      card && isFocusVisible && 'outline-2 outline-focus',
       className,
     )}
   >
@@ -65,10 +79,10 @@ export const Checkbox = ({
             className={cn(
               BOX_STYLES,
               isFilled ? 'border-accent bg-accent text-on-dark' : 'border-strong bg-raised',
-              !isFilled && isHovered && !isDisabled && 'border-accent',
+              !isFilled && isHovered && !isDisabled && !card && 'border-accent',
               isDisabled && (isFilled ? 'opacity-40' : 'border-default bg-tint'),
               isInvalid && !isDisabled && 'border-error-fg',
-              isFocusVisible && 'outline-2 outline-offset-2 outline-focus',
+              isFocusVisible && !card && 'outline-2 outline-offset-2 outline-focus',
             )}
           >
             {isIndeterminate && <FaMinus className="size-3.5" />}
