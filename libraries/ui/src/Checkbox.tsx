@@ -3,10 +3,9 @@ import type { InputHTMLAttributes } from 'react';
 import { FaCheck } from 'react-icons/fa6';
 import { cn } from './utils';
 
-export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className' | 'children'> & {
+export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className'> & {
   /** Bordered, full-width row that highlights when selected. Focus ring moves to the card edge. */
   card?: boolean;
-  children?: ReactNode;
   /** Applied to the root label. */
   className?: string;
 };
