@@ -15,7 +15,7 @@ export type InputProps = {
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 > &
-  React.RefAttributes<HTMLInputElement>;
+React.RefAttributes<HTMLInputElement>;
 
 const BASE_LABEL_STYLES = 'input flex gap-2 has-[:disabled]:cursor-not-allowed';
 
