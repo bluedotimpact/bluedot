@@ -18,7 +18,7 @@ const matches = query.records.filter((record) =>
   (record.getCellValue(ROUND) ?? []).some((round) => round.id === roundId)
   && !record.getCellValue(IS_DUPLICATE)
   && !record.getCellValue(IS_TEST_RECORD)
-  && (record.getCellValue(EMAIL) ?? '').toLowerCase().includes((email ?? '').toLowerCase())
+  && (record.getCellValue(EMAIL) ?? '').trim().toLowerCase() === (email ?? '').trim().toLowerCase()
   && !(record.getCellValue(COURSE) ?? []).some((course) => course.id === EXCLUDED_COURSE_ID));
 
 for (const record of matches) {
