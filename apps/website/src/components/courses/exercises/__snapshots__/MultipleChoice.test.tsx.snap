@@ -215,22 +215,48 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 `;
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
-<input
-  class="peer sr-only"
-  disabled=""
-  name="answer"
-  type="radio"
-  value="The community's preference for low-tech fishing traditions"
-/>
+<label
+  class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-success-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-success-border bg-success-bg"
+>
+  <input
+    class="peer sr-only"
+    disabled=""
+    name="answer"
+    type="radio"
+    value="The community's preference for low-tech fishing traditions"
+  />
+  <span
+    aria-hidden="true"
+    class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-success-fg peer-checked:text-success-fg"
+  >
+    <span
+      class="size-2.5 rounded-full bg-current"
+    />
+  </span>
+  The community's preference for low-tech fishing traditions
+</label>
 `;
 
 exports[`MultipleChoice > updates styles for incorrect option 1`] = `
-<input
-  class="peer sr-only"
-  name="answer"
-  type="radio"
-  value="Rising consumer demand for fish with more Omega-3s"
-/>
+<label
+  class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-error-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-error-border bg-error-bg"
+>
+  <input
+    class="peer sr-only"
+    name="answer"
+    type="radio"
+    value="Rising consumer demand for fish with more Omega-3s"
+  />
+  <span
+    aria-hidden="true"
+    class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-error-fg peer-checked:text-error-fg"
+  >
+    <span
+      class="size-2.5 rounded-full bg-current"
+    />
+  </span>
+  Rising consumer demand for fish with more Omega-3s
+</label>
 `;
 
 exports[`MultipleChoice > updates styles for incorrect option 2`] = `
