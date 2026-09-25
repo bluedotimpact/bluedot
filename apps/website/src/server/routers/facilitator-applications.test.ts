@@ -414,6 +414,82 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
     });
   });
 
+  test('takes details from the latest registration that has any, across courses and roles', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-facilitator',
+      email: CALLER_EMAIL,
+      userId: 'test-user',
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-a',
+      autoNumberId: 1,
+      jobTitle: 'Software Engineer',
+      organisation: 'Old Employer',
+      careerLevel: 'Mid-career professional (3-10 years post uni)',
+      profileUrl: 'https://linkedin.com/in/old',
+    });
+    // A participant application on another course, made later: this is where the current details live
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-participant-other-course',
+      email: CALLER_EMAIL,
+      userId: 'test-user',
+      courseId: 'course-2',
+      role: 'Participant',
+      roundId: 'round-c',
+      autoNumberId: 2,
+      jobTitle: 'Engineering Lead',
+      organisation: 'UK AISI',
+      careerLevel: 'Experienced professional (10 years+ post uni)',
+      profession: 'Software Engineer',
+      profileUrl: 'https://linkedin.com/in/new',
+    });
+    // A newer quick-apply row with no details at all, which must not blank the prefill
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-quick-apply',
+      email: CALLER_EMAIL,
+      userId: 'test-user',
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-b',
+      autoNumberId: 3,
+    });
+    await seedRound('round-next', 'course-1', null);
+
+    const result = await caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' });
+    expect(result.details).toEqual({
+      jobTitle: 'Engineering Lead',
+      organisation: 'UK AISI',
+      careerLevel: 'Experienced professional (10 years+ post uni)',
+      profession: 'Software Engineer',
+      profileUrl: 'https://linkedin.com/in/new',
+      otherProfileUrl: '',
+    });
+  });
+
+  test('returns empty details when no registration has any', async () => {
+    await seedCourse('course-1', 'tai', 'Technical AI Safety');
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      userId: 'test-user',
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundId: 'round-a',
+    });
+    await seedRound('round-next', 'course-1', null);
+
+    const result = await caller.facilitatorApplications.quickApplyPrefill({ roundId: 'round-next' });
+    expect(result.details).toEqual({
+      jobTitle: '',
+      organisation: '',
+      careerLevel: '',
+      profession: '',
+      profileUrl: '',
+      otherProfileUrl: '',
+    });
+  });
+
   test('throws NOT_FOUND when the round does not exist', async () => {
     await expect(caller.facilitatorApplications.quickApplyPrefill({ roundId: 'nope' })).rejects.toMatchObject({
       code: 'NOT_FOUND',
@@ -422,11 +498,16 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
 });
 
 describe('facilitatorApplications.quickApply', () => {
-  const validInput = {
+  type QuickApplyInput = Parameters<typeof caller.facilitatorApplications.quickApply>[0];
+
+  const validInput: QuickApplyInput = {
     roundId: 'round-next',
     numGroupsToFacilitate: 2,
     availabilityIntervalsUTC: 'M16:00 M18:00',
     availabilityTimezone: 'UTC+00:00',
+    careerLevel: 'PhD',
+    profileUrl: 'https://linkedin.com/in/test',
+    shareDetails: false,
   };
 
   test('rejects unauthenticated callers', async () => {
@@ -525,6 +606,65 @@ describe('facilitatorApplications.quickApply', () => {
     test('falls back to the latest prior application when the user has no name', async () => {
       await testDb.update(userTable, { id: 'test-user', name: '' });
       expect(await quickApplyInsert({ firstName: 'Prior', lastName: 'Applicant' })).toMatchObject({ firstName: 'Prior', lastName: 'Applicant' });
+    });
+  });
+
+  describe('applicant details', () => {
+    // The real insert can't run here (see above), so capture what it would write
+    const quickApplyInsert = async (input: Partial<QuickApplyInput> = {}) => {
+      await seedRound('round-next', 'course-1', null);
+      await testDb.insert(applicationsCourseTable, { id: 'app-course-1', courseBuilderId: 'course-1' });
+      const insertSpy = vi.spyOn(db, 'insert').mockResolvedValue({ id: 'reg-new' } as never);
+      await caller.facilitatorApplications.quickApply({ ...validInput, ...input });
+      const inserted = insertSpy.mock.calls[0]![1] as Record<string, unknown>;
+      insertSpy.mockRestore();
+      return inserted;
+    };
+
+    beforeEach(async () => {
+      await seedCourse('course-1', 'tai', 'Technical AI Safety');
+      await testDb.insert(courseRegistrationTable, {
+        id: 'reg-1',
+        email: CALLER_EMAIL,
+        userId: 'test-user',
+        courseId: 'course-1',
+        role: 'Facilitator',
+        roundId: 'round-a',
+        jobTitle: 'Old Title',
+        cityId: ['city-london'],
+      });
+    });
+
+    test('writes the submitted details and copies the city forward', async () => {
+      expect(await quickApplyInsert({
+        jobTitle: 'Engineering Lead',
+        organisation: 'UK AISI',
+        careerLevel: 'Experienced professional (10 years+ post uni)',
+        profession: 'Software Engineer',
+        profileUrl: 'https://linkedin.com/in/new',
+        otherProfileUrl: 'https://example.com',
+        shareDetails: true,
+      })).toMatchObject({
+        jobTitle: 'Engineering Lead',
+        organisation: 'UK AISI',
+        careerLevel: 'Experienced professional (10 years+ post uni)',
+        profession: 'Software Engineer',
+        profileUrl: 'https://linkedin.com/in/new',
+        otherProfileUrl: 'https://example.com',
+        cityId: ['city-london'],
+        dataSharingConsent: 'Yes - I consent',
+      });
+    });
+
+    test('records consent as refused when the box is left unticked', async () => {
+      expect(await quickApplyInsert({ shareDetails: false })).toMatchObject({
+        dataSharingConsent: 'No - I don\'t consent',
+      });
+    });
+
+    test('writes a null city when no prior registration has one', async () => {
+      await testDb.update(courseRegistrationTable, { id: 'reg-1', cityId: null });
+      expect(await quickApplyInsert()).toMatchObject({ cityId: null });
     });
   });
 });
