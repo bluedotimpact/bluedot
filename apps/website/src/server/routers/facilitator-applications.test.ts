@@ -438,6 +438,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
       role: 'Participant',
       roundId: 'round-c',
       autoNumberId: 2,
+      createdAt: '2026-08-18T21:05:17.000Z',
       jobTitle: 'Engineering Lead',
       organisation: 'UK AISI',
       careerLevel: 'Experienced professional (10 years+ post uni)',
@@ -465,6 +466,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
       profileUrl: 'https://linkedin.com/in/new',
       otherProfileUrl: '',
     });
+    expect(result.detailsDate).toBe('2026-08-18T21:05:17.000Z');
   });
 
   test('returns empty details when no registration has any', async () => {
@@ -488,6 +490,7 @@ describe('facilitatorApplications.quickApplyPrefill', () => {
       profileUrl: '',
       otherProfileUrl: '',
     });
+    expect(result.detailsDate).toBeNull();
   });
 
   test('throws NOT_FOUND when the round does not exist', async () => {

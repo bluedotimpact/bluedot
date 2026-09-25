@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   CTALinkOrButton,
   ErrorSection,
   H1,
@@ -135,10 +136,16 @@ const formatRoundLine = (round: QuickApplyPrefillData['round']): string => {
   return dateRange ?? '';
 };
 
-const formatDetailsLine = (details: QuickApplyPrefillData['details']): string => {
+const formatDetailsLine = (
+  details: Pick<FormValues, 'jobTitle' | 'organisation' | 'careerLevel' | 'profession'>,
+): string => {
   const role = [details.jobTitle, details.organisation].filter(Boolean).join(' at ');
   return [role, details.careerLevel, details.profession].filter(Boolean).join(' \u00b7 ');
 };
+
+const formatMonthAndYear = (isoDate: string): string => new Date(isoDate).toLocaleDateString('en-GB', {
+  month: 'long', year: 'numeric', timeZone: 'UTC',
+});
 
 const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
   <header className="border-charcoal-light flex items-center gap-4 border-b bg-white px-5 py-5 sm:pr-5 sm:pl-10">
@@ -246,12 +253,14 @@ const QuestionCollapsible = ({
 
 const DetailsField = ({
   label,
+  hint,
   htmlFor,
   required,
   error,
   children,
 }: {
   label: string;
+  hint?: string;
   htmlFor?: string;
   required?: boolean;
   error?: string;
@@ -262,6 +271,7 @@ const DetailsField = ({
       {label}
       {required && <span className="text-error-fg"> *</span>}
     </label>
+    {hint && <p className="text-size-xxs text-bluedot-navy/60">{hint}</p>}
     {children}
     {error && <p className="text-size-xxs text-error-fg">{error}</p>}
   </div>
@@ -272,6 +282,7 @@ const QuickApplyForm = ({
   round,
   prefill,
   details,
+  detailsDate,
 }: { roundId: string } & QuickApplyPrefillData) => {
   const router = useRouter();
   const defaultTimezone = emptyToUndefined(prefill?.availabilityTimezone ?? '')
@@ -291,6 +302,7 @@ const QuickApplyForm = ({
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -357,8 +369,12 @@ const QuickApplyForm = ({
   };
 
   const roundLine = formatRoundLine(round);
-  const detailsLine = formatDetailsLine(details);
-  const [detailsOpen, setDetailsOpen] = useState(!detailsLine);
+  const [jobTitle, organisation, careerLevel, profession] = watch(['jobTitle', 'organisation', 'careerLevel', 'profession']);
+  const detailsLine = formatDetailsLine({
+    jobTitle, organisation, careerLevel, profession,
+  });
+  const hasPriorDetails = Object.values(details).some(Boolean);
+  const [detailsOpen, setDetailsOpen] = useState(!hasPriorDetails);
 
   return (
     <Shell subtitle={roundLine || undefined}>
@@ -490,51 +506,46 @@ const QuickApplyForm = ({
 
       <Section
         label="Your details"
-        title="Keep your profile up to date"
-        description="These are the details we hold for you. There’s nothing to do if none of them have changed."
+        title={hasPriorDetails ? 'Has anything changed since your last application?' : 'Add your details'}
+        description={detailsDate
+          ? `These are the latest details we have for you, from your BlueDot application in ${formatMonthAndYear(detailsDate)}. If they’re still right, you don’t need to do anything.`
+          : undefined}
       >
-        <label className="flex cursor-pointer items-start gap-3">
-          <input
-            type="checkbox"
-            className="accent-bluedot-normal mt-0.5 size-6 shrink-0 cursor-pointer"
-            {...register('shareDetails')}
-          />
-          <div className="flex flex-col gap-0.5">
-            <span className="text-size-xs text-bluedot-navy font-semibold">
-              Share my details with organisations BlueDot partners with
-            </span>
-            <span className="text-size-xxs text-bluedot-navy/60">
-              If you’re accepted, this lets us pass your professional details to organisations hiring or
-              collaborating in AI safety. Leave it unticked and we won’t share them.
-            </span>
-          </div>
-        </label>
-
         <QuestionCollapsible
           open={detailsOpen || !!errors.careerLevel || !!errors.profileUrl}
           onToggle={setDetailsOpen}
           title={(
             <span className="flex min-w-0 flex-col gap-0.5">
-              <span>Check your details</span>
-              <span className="text-size-xxs text-bluedot-navy/60 truncate font-medium">
-                {detailsLine || 'We don\u2019t have any details for you yet'}
-              </span>
+              <span>{hasPriorDetails ? 'Update your details' : 'Your details'}</span>
+              {detailsLine && (
+                <span className="text-size-xxs text-bluedot-navy/60 truncate font-medium">{detailsLine}</span>
+              )}
             </span>
           )}
         >
           <div className="flex flex-col gap-5 sm:grid sm:grid-cols-2">
-            <DetailsField label="Job title" htmlFor="jobTitle">
-              <Input id="jobTitle" {...register('jobTitle')} />
-            </DetailsField>
-
-            <DetailsField label="Organisation" htmlFor="organisation">
-              <Input id="organisation" {...register('organisation')} />
+            <DetailsField
+              label="Profile URL"
+              hint="Provide a link for your LinkedIn profile or your CV. We prefer LinkedIn."
+              htmlFor="profileUrl"
+              required
+              error={errors.profileUrl && 'Add a link we can look you up on.'}
+            >
+              <Input id="profileUrl" {...register('profileUrl', { validate: (value) => !!value.trim() })} />
             </DetailsField>
 
             <DetailsField
-              label="Career level"
+              label="Link to any other profile"
+              hint="E.g. your CV, GitHub, personal website, blog."
+              htmlFor="otherProfileUrl"
+            >
+              <Input id="otherProfileUrl" {...register('otherProfileUrl')} />
+            </DetailsField>
+
+            <DetailsField
+              label="What is your current career stage?"
               required
-              error={errors.careerLevel && 'Select your career level.'}
+              error={errors.careerLevel && 'Select your career stage.'}
             >
               <Controller
                 control={control}
@@ -542,7 +553,7 @@ const QuickApplyForm = ({
                 rules={{ required: true }}
                 render={({ field }) => (
                   <Select
-                    ariaLabel="Career level"
+                    ariaLabel="Career stage"
                     className="w-full"
                     options={CAREER_LEVELS.map((level) => ({ value: level, label: level }))}
                     value={field.value}
@@ -552,7 +563,15 @@ const QuickApplyForm = ({
               />
             </DetailsField>
 
-            <DetailsField label="Profession">
+            <DetailsField label="What organisation do you work at?" htmlFor="organisation">
+              <Input id="organisation" {...register('organisation')} />
+            </DetailsField>
+
+            <DetailsField label="What’s your job title?" htmlFor="jobTitle">
+              <Input id="jobTitle" {...register('jobTitle')} />
+            </DetailsField>
+
+            <DetailsField label="Which of the following most closely describes your profession?">
               <Controller
                 control={control}
                 name="profession"
@@ -560,28 +579,28 @@ const QuickApplyForm = ({
                   <Select
                     ariaLabel="Profession"
                     className="w-full"
-                    options={PROFESSIONS.map((profession) => ({ value: profession, label: profession }))}
+                    options={PROFESSIONS.map((option) => ({ value: option, label: option }))}
                     value={field.value}
                     onChange={field.onChange}
                   />
                 )}
               />
             </DetailsField>
-
-            <DetailsField
-              label="LinkedIn or profile URL"
-              htmlFor="profileUrl"
-              required
-              error={errors.profileUrl && 'Add a link we can look you up on.'}
-            >
-              <Input id="profileUrl" {...register('profileUrl', { required: true })} />
-            </DetailsField>
-
-            <DetailsField label="Other profile URL" htmlFor="otherProfileUrl">
-              <Input id="otherProfileUrl" {...register('otherProfileUrl')} />
-            </DetailsField>
           </div>
         </QuestionCollapsible>
+
+        <Checkbox {...register('shareDetails')}>
+          <span className="flex flex-col gap-0.5">
+            <span className="text-size-xs text-bluedot-navy font-semibold">
+              Share my data with third-party AI safety organisations
+            </span>
+            <span className="text-size-xxs text-bluedot-navy/60">
+              If you opt in, we may share parts of this application and your course participation with
+              organisations we trust. They sometimes email people about jobs or other opportunities. It
+              won’t affect your application decision.
+            </span>
+          </span>
+        </Checkbox>
       </Section>
 
       <div className="border-charcoal-light rounded-lg border bg-white p-5">
@@ -626,7 +645,7 @@ const QuickApplyPage = () => {
     );
   }
 
-  return <QuickApplyForm roundId={roundId} round={data.round} prefill={data.prefill} details={data.details} />;
+  return <QuickApplyForm roundId={roundId} round={data.round} prefill={data.prefill} details={data.details} detailsDate={data.detailsDate} />;
 };
 
 QuickApplyPage.rawLayout = true;

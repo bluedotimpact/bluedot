@@ -43,7 +43,7 @@ export const applicantDetailsSchema = z.object({
   organisation: z.string().optional(),
   careerLevel: z.enum(CAREER_LEVELS),
   profession: z.enum(PROFESSIONS).optional(),
-  profileUrl: z.string().min(1),
+  profileUrl: z.string().trim().min(1),
   otherProfileUrl: z.string().optional(),
   shareDetails: z.boolean(),
 });

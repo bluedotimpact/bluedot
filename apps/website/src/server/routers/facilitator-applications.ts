@@ -184,6 +184,7 @@ const getLatestDetailsReg = async (userId: string) => {
   const regs = await db.pg
     .select({
       autoNumberId: courseRegistrationTable.pg.autoNumberId,
+      createdAt: courseRegistrationTable.pg.createdAt,
       jobTitle: courseRegistrationTable.pg.jobTitle,
       organisation: courseRegistrationTable.pg.organisation,
       careerLevel: courseRegistrationTable.pg.careerLevel,
@@ -381,9 +382,13 @@ export const facilitatorApplicationsRouter = router({
 
     const mostRecent = priorRegs[0] ?? null;
     const prefill = mostRecent ? buildPrefill(mostRecent) : null;
-    const details = buildDetailsPrefill(await getLatestDetailsReg(user.id));
+    const latestDetailsReg = await getLatestDetailsReg(user.id);
+    const details = buildDetailsPrefill(latestDetailsReg);
+    const detailsDate = latestDetailsReg?.createdAt ?? null;
 
-    return { round, prefill, details };
+    return {
+      round, prefill, details, detailsDate,
+    };
   }),
 
   quickApply: protectedProcedure
