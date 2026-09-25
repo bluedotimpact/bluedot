@@ -1361,6 +1361,38 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fld7qr6IyUtC4ILkT',
     },
+    jobTitle: {
+      pgColumn: text(),
+      airtableId: 'fldn2VmCwMP7XFSTn',
+    },
+    organisation: {
+      pgColumn: text(),
+      airtableId: 'fldBKgqEQ2xBVZUlH',
+    },
+    careerLevel: {
+      pgColumn: text(),
+      airtableId: 'fld0J5SuqA1MZSLU1',
+    },
+    profession: {
+      pgColumn: text(),
+      airtableId: 'fldRls5y4N4WIJ8tJ',
+    },
+    profileUrl: {
+      pgColumn: text(),
+      airtableId: 'fldgtfQaYJbUHvH3h',
+    },
+    otherProfileUrl: {
+      pgColumn: text(),
+      airtableId: 'fldq4vFSZQ4U5KelW',
+    },
+    cityId: {
+      pgColumn: text().array(),
+      airtableId: 'fldZHjHXBvzY0oxr5',
+    },
+    dataSharingConsent: {
+      pgColumn: text(),
+      airtableId: 'fldCqp2Yp3xD9VGmK',
+    },
   },
 });
 

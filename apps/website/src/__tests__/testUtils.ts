@@ -171,6 +171,14 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   createdAt: null,
   posthogSessionId: null,
   posthogDistinctId: null,
+  jobTitle: null,
+  organisation: null,
+  careerLevel: null,
+  profession: null,
+  profileUrl: null,
+  otherProfileUrl: null,
+  cityId: null,
+  dataSharingConsent: null,
   ...overrides,
 });
 
