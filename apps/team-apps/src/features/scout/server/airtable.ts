@@ -355,20 +355,35 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
 
+// People BlueDot is already talking to leave the queue: an approved career transition grant,
+// or a completed evaluation call. Rejected grants and "Reject" calls (rejected without a call)
+// do not count. Matched by email, the only key shared by the three tables.
+const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
+  const [grants, calls] = await Promise.all([
+    fetchAll(GRANTS_URL, { filterByFormula: "{Status}='Approve'" }, [GRANT.email]),
+    fetchAll(CALLS_URL, { filterByFormula: "{Status}='Call complete'" }, [CALL.email]),
+  ]);
+  const emails = [...grants.map((r) => str(r.fields[GRANT.email])), ...calls.map((r) => str(r.fields[CALL.email]))];
+  return new Set(emails.filter((e): e is string => !!e).map((e) => e.toLowerCase()));
+};
+
 export const fetchQueue = async (): Promise<QueueItem[]> => {
-  const [records, rounds] = await Promise.all([
+  const [records, rounds, alreadySupported] = await Promise.all([
     fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID }, QUEUE_FIELDS),
     getRounds(),
+    fetchAlreadySupportedEmails(),
   ]);
   const items: QueueItem[] = [];
   for (const r of records) {
     const round = rounds.get(first(r.fields[REG.round]) ?? '');
     const course = courseOf(round);
     if (!course) continue;
+    const email = str(r.fields[REG.email]);
+    if (email && alreadySupported.has(email.toLowerCase())) continue;
     items.push({
       id: r.id,
       name: str(r.fields[REG.fullName]),
-      email: str(r.fields[REG.email]),
+      email,
       roundId: round?.id,
       course,
       roundName: round?.name ?? '',
