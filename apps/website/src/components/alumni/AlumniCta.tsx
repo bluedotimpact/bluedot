@@ -4,7 +4,7 @@ const AlumniCta = () => (
   <LandingBanner
     title="Start your AI safety journey."
     ctaText="Explore programs"
-    ctaUrl="/courses"
+    ctaUrl="/programs"
     imageSrc="/images/lander/agi-strategy/hero-banner-split.webp"
     imageAlt="Alumni CTA banner"
     iconSrc="/images/agi-strategy/bluedot-icon.svg"

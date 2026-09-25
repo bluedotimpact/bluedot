@@ -81,7 +81,7 @@ export const createTechnicalAiSafetyContent = (
         <CardShell className="bg-bluedot-navy/[0.03] text-left">
           <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">We don&apos;t just teach</p>
           <p className="text-size-sm leading-relaxed text-bluedot-navy/80">
-            BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run a
+            BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run
             {' '}
             <a href="/grants/rapid" className={externalLinkClassName}>Rapid Grants</a>
             {' '}
