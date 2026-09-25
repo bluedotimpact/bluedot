@@ -93,12 +93,14 @@ test('leaves out people with an approved career transition grant or a completed 
     if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
       return json({ records: [{ id, fields: withEmail('kept@example.org') }, { id: granted, fields: withEmail('Granted@example.org') }, { id: called, fields: withEmail('called@example.org') }] });
     }
+
     if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) {
-      expect(url.searchParams.get('filterByFormula')).toBe("{Status}='Approve'");
+      expect(url.searchParams.get('filterByFormula')).toBe('{Status}=\'Approve\'');
       return json({ records: [{ id: 'recGrant', fields: { fldAIKWJz3O3IzyH2: 'granted@example.org' } }] });
     }
+
     if (url.pathname.endsWith('tblVstbJehu8wew93')) {
-      expect(url.searchParams.get('filterByFormula')).toBe("{Status}='Call complete'");
+      expect(url.searchParams.get('filterByFormula')).toBe('{Status}=\'Call complete\'');
       return json({ records: [{ id: 'recCall', fields: { fldCigDwg47QHQiM8: 'called@example.org' } }] });
     }
 

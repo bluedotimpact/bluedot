@@ -360,8 +360,8 @@ const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certi
 // do not count. Matched by email, the only key shared by the three tables.
 const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
   const [grants, calls] = await Promise.all([
-    fetchAll(GRANTS_URL, { filterByFormula: "{Status}='Approve'" }, [GRANT.email]),
-    fetchAll(CALLS_URL, { filterByFormula: "{Status}='Call complete'" }, [CALL.email]),
+    fetchAll(GRANTS_URL, { filterByFormula: '{Status}=\'Approve\'' }, [GRANT.email]),
+    fetchAll(CALLS_URL, { filterByFormula: '{Status}=\'Call complete\'' }, [CALL.email]),
   ]);
   const emails = [...grants.map((r) => str(r.fields[GRANT.email])), ...calls.map((r) => str(r.fields[CALL.email]))];
   return new Set(emails.filter((e): e is string => !!e).map((e) => e.toLowerCase()));
