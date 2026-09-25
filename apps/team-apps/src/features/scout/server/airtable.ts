@@ -4,6 +4,7 @@
 // This port retains Scout's adapter and locked view. A later migration can move
 // synced reads to db.scan once all required field mappings are available.
 import { withAirtableRetry } from '@bluedot/db';
+import { logger } from '@bluedot/ui/src/api';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
@@ -355,20 +356,40 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
 
+// Emails with an approved CTG or a completed eval call; call status "Reject" means no call happened.
+const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
+  try {
+    const [grants, calls] = await Promise.all([
+      fetchAll(GRANTS_URL, { filterByFormula: '{Status}=\'Approve\'' }, [GRANT.email]),
+      fetchAll(CALLS_URL, { filterByFormula: '{Status}=\'Call complete\'' }, [CALL.email]),
+    ]);
+    const emails = [...grants.map((r) => str(r.fields[GRANT.email])), ...calls.map((r) => str(r.fields[CALL.email]))];
+    return new Set(emails.filter((e): e is string => !!e).map(normaliseEmail));
+  } catch (error) {
+    logger.warn(`scout: could not read grants/calls for the queue filter, showing everyone: ${error instanceof Error ? error.message : String(error)}`);
+    return new Set();
+  }
+};
+
+const normaliseEmail = (email: string) => email.trim().toLowerCase();
+
 export const fetchQueue = async (): Promise<QueueItem[]> => {
-  const [records, rounds] = await Promise.all([
+  const [records, rounds, alreadySupported] = await Promise.all([
     fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID }, QUEUE_FIELDS),
     getRounds(),
+    fetchAlreadySupportedEmails(),
   ]);
   const items: QueueItem[] = [];
   for (const r of records) {
     const round = rounds.get(first(r.fields[REG.round]) ?? '');
     const course = courseOf(round);
     if (!course) continue;
+    const email = str(r.fields[REG.email]);
+    if (email && alreadySupported.has(normaliseEmail(email))) continue;
     items.push({
       id: r.id,
       name: str(r.fields[REG.fullName]),
-      email: str(r.fields[REG.email]),
+      email,
       roundId: round?.id,
       course,
       roundName: round?.name ?? '',

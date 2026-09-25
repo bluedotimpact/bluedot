@@ -540,8 +540,9 @@ const CallRow: React.FC<{ c: EvaluationCall }> = ({ c }) => (
   />
 );
 
-// One row per session of the current round: group and facilitator, unit and topic, attended
-// or not. The doc is per group, so it is linked once, on the group's first row.
+// One row per session of the current round: group and facilitator (per session, so a cover
+// week shows), unit and topic, attended or not. The doc is per group, so it is linked once,
+// on the group's first row.
 const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
   if (sessions.length === 0) return <Section title="Sessions" empty emptyText="no sessions found for this registration" />;
   const now = new Date();
@@ -554,7 +555,7 @@ const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
     return undefined;
   };
 
-  // Facilitator and doc belong to the group, so they show once, on its first row
+  // The doc belongs to the group, so it is linked once, on its first row
   const seen = new Set<number | undefined>();
 
   return (
@@ -567,7 +568,7 @@ const Sessions: React.FC<{ sessions: Session[] }> = ({ sessions }) => {
             <TimelineRow
               key={x.id}
               when={monthYear(x.startAt)}
-              kind={[x.group !== undefined ? `Group ${x.group}` : undefined, first ? x.facilitator : undefined].filter(Boolean).join(' · ')}
+              kind={[x.group !== undefined ? `Group ${x.group}` : undefined, x.facilitator].filter(Boolean).join(' · ')}
               detail={<>{x.unit !== undefined && `Unit ${x.unit}: `}{x.topic}</>}
               status={status(x)}
               url={first ? x.docUrl : undefined}
