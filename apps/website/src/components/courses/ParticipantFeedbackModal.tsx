@@ -1,5 +1,5 @@
 import {
-  Avatar, ErrorSection, Modal, ModalTitle, Textarea,
+  Avatar, Checkbox, ErrorSection, Modal, ModalTitle, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
@@ -135,32 +135,26 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           />
         </div>
 
-        <div className="mt-8 flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <p className="text-size-xs font-semibold text-bluedot-navy">
-              How should we follow up with them? <span className="text-red-600">*</span>
-            </p>
-            <p className="text-size-xs text-bluedot-navy/60">Check all that apply.</p>
-          </div>
-          <div className="flex flex-col gap-2">
+        <fieldset className="m-0 mt-8 flex flex-col gap-1.5 border-0 p-0">
+          <legend className="p-0 text-size-xs font-semibold text-bluedot-navy">
+            How should we follow up with them? <span className="text-red-600">*</span>
+          </legend>
+          <p className="text-size-xs text-bluedot-navy/60">Check all that apply.</p>
+          <div className="mt-2.5 flex flex-col gap-2">
             {followUpOptions.map((option) => (
-              <label
+              <Checkbox
                 key={option.id}
-                className="flex items-center gap-2.5 border border-gray-300 rounded-md bg-white px-2.5 py-3 cursor-pointer hover:bg-gray-50 transition-colors"
+                card
+                checked={followUps.includes(option.name)}
+                onChange={(e) => setFollowUps(e.target.checked
+                  ? [...followUps, option.name]
+                  : followUps.filter((name) => name !== option.name))}
               >
-                <input
-                  type="checkbox"
-                  checked={followUps.includes(option.name)}
-                  onChange={(e) => setFollowUps(e.target.checked
-                    ? [...followUps, option.name]
-                    : followUps.filter((name) => name !== option.name))}
-                  className="size-[18px] shrink-0 cursor-pointer accent-bluedot-normal"
-                />
-                <span className="text-size-xs font-medium text-bluedot-navy">{option.label}</span>
-              </label>
+                {option.label}
+              </Checkbox>
             ))}
           </div>
-        </div>
+        </fieldset>
 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">

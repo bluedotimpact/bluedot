@@ -3,7 +3,7 @@ import {
   useState, useMemo, useEffect,
 } from 'react';
 import {
-  cn, ClickTarget, CTALinkOrButton,
+  Checkbox, cn, ClickTarget, CTALinkOrButton,
   ErrorSection, H3, Modal, ModalTitle, ProgressDots,
   Select, Textarea,
 } from '@bluedot/ui';
@@ -376,15 +376,9 @@ export default function GroupSwitchModal({
         </>
       ) : undefined,
       control: (
-        <label className="flex items-center gap-2 cursor-pointer w-fit">
-          <input
-            type="checkbox"
-            checked={hasUpdatedAvailability}
-            onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
-            className="size-4 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
-          />
-          <span className="text-size-sm text-bluedot-navy">I have updated my availability</span>
-        </label>
+        <Checkbox className="w-fit" checked={hasUpdatedAvailability} onChange={(e) => setHasUpdatedAvailability(e.target.checked)}>
+          I have updated my availability
+        </Checkbox>
       ),
     },
   ];

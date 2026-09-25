@@ -9,6 +9,9 @@ export type { BreadcrumbsProps, BreadcrumbTrailProps } from './Breadcrumbs';
 export { Card, CardShell } from './Card';
 export type { CardProps, CardShellProps } from './Card';
 
+export { Checkbox } from './Checkbox';
+export type { CheckboxProps } from './Checkbox';
+
 export { ChevronRightIcon } from './icons/ChevronRightIcon';
 
 export { ClickTarget } from './ClickTarget';

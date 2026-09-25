@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { Input } from './Input';
-import { H3 } from './Text';
 
 const meta = {
   title: 'ui/Input',
@@ -66,23 +65,11 @@ export const Search: Story = {
   render: () => <SearchExample />,
 };
 
-export const CheckboxAndRadio: Story = {
+export const Radio: Story = {
   render: () => (
-    <div className="flex flex-col gap-8 p-4">
-      <div>
-        <H3 className="mb-4">Radio Button</H3>
-        <form className="flex flex-col gap-4">
-          <Input type="radio" value="This is the first value" name="radio-group" />
-          <Input type="radio" value="This is the second value" name="radio-group" />
-        </form>
-      </div>
-      <div>
-        <H3 className="mb-4">Checkbox</H3>
-        <form className="flex flex-col gap-4">
-          <Input type="checkbox" value="This is the first value" name="checkbox-group" />
-          <Input type="checkbox" value="This is the second value" name="checkbox-group" />
-        </form>
-      </div>
-    </div>
+    <form className="flex flex-col gap-4 p-4">
+      <Input type="radio" value="This is the first value" name="radio-group" />
+      <Input type="radio" value="This is the second value" name="radio-group" />
+    </form>
   ),
 };

@@ -78,13 +78,4 @@ describe('Input', () => {
     />);
     expect(container).toMatchSnapshot();
   });
-
-  test('renders checkbox as expected', () => {
-    const { container } = render(<Input
-      type="checkbox"
-      value="This is the value"
-      name="checkbox-group"
-    />);
-    expect(container).toMatchSnapshot();
-  });
 });
