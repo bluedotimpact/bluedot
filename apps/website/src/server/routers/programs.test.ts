@@ -28,46 +28,6 @@ describe('programs.getBySlug', () => {
   });
 });
 
-describe('legacy grant type slugs (temporary bridge)', () => {
-  test('getBySlug finds a row that still uses the old slug and returns the new one', async () => {
-    await testDb.insert(programTable, {
-      name: 'Rapid Grants', slug: 'rapid-grants', status: 'Active', applicationForm: 'https://example.com/rapid',
-    });
-
-    const caller = createCaller();
-    const result = await caller.programs.getBySlug({ slug: 'rapid' });
-
-    expect(result?.slug).toBe('rapid');
-    expect(result?.applicationForm).toBe('https://example.com/rapid');
-  });
-
-  test('getBySlug finds a row that already uses the new slug', async () => {
-    await testDb.insert(programTable, {
-      name: 'Career Transition Grants', slug: 'career-transition', status: 'Active', applicationForm: 'https://example.com/ctg',
-    });
-
-    const caller = createCaller();
-    const result = await caller.programs.getBySlug({ slug: 'career-transition' });
-
-    expect(result?.slug).toBe('career-transition');
-    expect(result?.applicationForm).toBe('https://example.com/ctg');
-  });
-
-  test('listings return new slugs for rows that still use old ones', async () => {
-    await testDb.insert(programTable, {
-      name: 'Rapid Grants', slug: 'rapid-grants', status: 'Active', category: 'Funding', order: '1',
-    });
-    await testDb.insert(programTable, {
-      name: 'Career Transition Grants', slug: 'career-transition', status: 'Active', category: 'Funding', order: '2',
-    });
-
-    const caller = createCaller();
-    const grants = await caller.programs.getGrants();
-
-    expect(grants.map((grant) => grant.slug)).toEqual(['rapid', 'career-transition']);
-  });
-});
-
 describe('programs.getAll', () => {
   test('excludes non-Active programs — locks down the listing-vs-detail contract divergence', async () => {
     await testDb.insert(programTable, {
@@ -87,16 +47,10 @@ describe('programs.getAll', () => {
 describe('public program taxonomy', () => {
   test('separates funding from full-time in-person programs', async () => {
     await testDb.insert(programTable, {
-      name: 'Rapid Grants', slug: 'rapid-grants', status: 'Active', category: 'Funding', order: '1',
+      name: 'Rapid Grants', slug: 'rapid', status: 'Active', category: 'Funding', order: '1',
     });
     await testDb.insert(programTable, {
       name: 'Incubator Week', slug: 'incubator-week', status: 'Active', category: 'Found', order: '2',
-    });
-    await testDb.insert(programTable, {
-      name: '1-1 advising', slug: 'advising', status: 'Active', category: null, order: '3',
-    });
-    await testDb.insert(programTable, {
-      name: 'Project Sprint', slug: 'technical-ai-safety-project-sprint', status: 'Active', category: 'Build', order: '4',
     });
     await testDb.insert(programTable, {
       name: 'Fieldbuilder Week', slug: 'fieldbuilder-week', status: 'Draft', category: 'Build', order: '5',

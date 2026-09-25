@@ -2,7 +2,7 @@ import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, oneOnOneAdvisingApplicationTable, rapidGrantApplicationTable, rapidGrantTable,
+  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, rapidGrantApplicationTable, rapidGrantTable,
 } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
@@ -403,6 +403,8 @@ describe('grants.getCareerTransitionGrantStats', () => {
     await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 0, status: 'Rejected', timeToDecisionDays: 0 });
     // Not yet decided — the formula is NaN until a decision date exists, stored as null — excluded from avg.
     await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null, status: 'TODO', timeToDecisionDays: null });
+    // Corrupt back-fill — decision date before submission yields a negative diff; excluded from avg.
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 0, status: 'Rejected', timeToDecisionDays: -3 });
 
     const caller = createCaller();
     const result = await caller.grants.getCareerTransitionGrantStats();
@@ -426,40 +428,5 @@ describe('grants.getCareerTransitionGrantStats', () => {
     const result = await caller.grants.getCareerTransitionGrantStats();
 
     expect(result).toEqual({ count: 0, totalAmountUsd: 0, averageDaysToDecision: null });
-  });
-});
-
-describe('grants.getOneOnOneAdvisingStats', () => {
-  test('averages every decided application including same-day (0) decisions, excluding undecided (null) rows', async () => {
-    await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: 4 });
-    await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: 2 });
-    // Same-day decision (0 days) — a real decided application, included in the avg.
-    await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: 0 });
-    // Not yet decided — the formula is NaN until a decision date exists, stored as null.
-    await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: null });
-    // Corrupt back-fill — decision date before submission yields a negative diff; excluded.
-    await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: -3 });
-
-    const caller = createCaller();
-    const result = await caller.grants.getOneOnOneAdvisingStats();
-
-    // avg over [4, 2, 0] = 2
-    expect(result).toEqual({ averageDaysToDecision: 2 });
-  });
-
-  test('returns null when no applications have been decided', async () => {
-    await testDb.insert(oneOnOneAdvisingApplicationTable, { timeToDecisionDays: null });
-
-    const caller = createCaller();
-    const result = await caller.grants.getOneOnOneAdvisingStats();
-
-    expect(result).toEqual({ averageDaysToDecision: null });
-  });
-
-  test('returns null when the table is empty', async () => {
-    const caller = createCaller();
-    const result = await caller.grants.getOneOnOneAdvisingStats();
-
-    expect(result).toEqual({ averageDaysToDecision: null });
   });
 });

@@ -26,16 +26,6 @@ const mockRouter = {
 
 const mockPrograms = [
   {
-    id: 'rec-advising',
-    name: '1-1 advising',
-    status: 'Active',
-    description: 'A 30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety',
-    applicationForm: 'https://web.miniextensions.com/example',
-    category: null,
-    slug: 'advising',
-    order: '1',
-  },
-  {
     id: 'rec-rapid',
     name: 'Rapid grant',
     status: 'Active',
@@ -77,17 +67,19 @@ const mockPrograms = [
   },
 ];
 
+const contextWeek = mockPrograms.find((program) => program.slug === 'context-week')!;
+
 beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
-    trpcMsw.programs.getInPerson.query(() => mockPrograms.filter((program) => ['context-week', 'incubator-week'].includes(program.slug))),
+    trpcMsw.programs.getInPerson.query(() => mockPrograms.filter((program) => program.category !== 'Funding')),
     trpcMsw.programs.getGrants.query(() => []),
     trpcMsw.courses.getAll.query(() => []),
   );
 });
 
 describe('ProgramsPage', () => {
-  test('renders in-person programs without grants or advising', async () => {
+  test('renders in-person programs without grants', async () => {
     render(<ProgramsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
@@ -106,12 +98,12 @@ describe('ProgramsPage', () => {
   test('preserves full program details and external destinations, and omits entries without a destination', async () => {
     server.use(trpcMsw.programs.getInPerson.query(() => [
       {
-        ...mockPrograms[0]!, id: 'external-program', name: 'External program', slug: null,
+        ...contextWeek, id: 'external-program', name: 'External program', slug: null,
         description: 'Full catalogue description for a future program.',
         applicationForm: 'https://example.com/apply?round=2#form',
       },
       {
-        ...mockPrograms[0]!, id: 'unpublished', name: 'No destination', slug: null, applicationForm: null,
+        ...contextWeek, id: 'unpublished', name: 'No destination', slug: null, applicationForm: null,
       },
     ]));
     render(<ProgramsPage />, { wrapper: TrpcProvider });

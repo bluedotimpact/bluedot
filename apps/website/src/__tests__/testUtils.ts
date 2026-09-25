@@ -70,16 +70,6 @@ const MOCK_EXERCISE_ID = 'exercise-id';
 /** Default Programs router output for tests that render the Nav. */
 export const MOCK_NAV_PROGRAMS: Program[] = [
   {
-    id: 'rec-advising',
-    name: '1-1 advising',
-    status: 'Active',
-    description: '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety.',
-    applicationForm: 'https://example.com/advising',
-    category: null,
-    slug: 'advising',
-    order: '1',
-  },
-  {
     id: 'rec-rapid',
     name: 'Rapid Grants',
     status: 'Active',
@@ -112,7 +102,7 @@ export const MOCK_NAV_PROGRAMS: Program[] = [
 ];
 
 export const MOCK_NAV_GRANTS = MOCK_NAV_PROGRAMS.filter((program) => program.category === 'Funding');
-export const MOCK_NAV_IN_PERSON_PROGRAMS = MOCK_NAV_PROGRAMS.filter((program) => program.slug === 'incubator-week');
+export const MOCK_NAV_IN_PERSON_PROGRAMS = MOCK_NAV_PROGRAMS.filter((program) => program.category !== 'Funding');
 
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   applyUrl: null,
