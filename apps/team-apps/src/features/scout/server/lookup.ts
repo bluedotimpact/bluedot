@@ -8,7 +8,7 @@ import {
   fetchIdsNeedingLookup, fetchLookupAnchors, parseWebFacts, writeWebFacts, type LookupAnchors,
 } from './airtable';
 
-export const LOOKUP_MODEL = 'claude-sonnet-5';
+export const LOOKUP_MODEL = 'claude-opus-5-5';
 const MAX_SEARCHES = 8;
 const MAX_PAGE_READS = 6;
 const MAX_LINKS = 5;
