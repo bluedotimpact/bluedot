@@ -1,10 +1,9 @@
 import {
-  A, Breadcrumbs, H2, P,
+  A, Breadcrumbs, P,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import Link from 'next/link';
-import { HiArrowUpRight } from 'react-icons/hi2';
 import MarketingHero from '../components/MarketingHero';
+import OpportunityCard from '../components/OpportunityCard';
 import { FUNDING_RESTRICTIONS_FAQ } from '../components/grants/fundingRestrictions';
 import FAQSection from '../components/lander/components/FAQSection';
 import { GRANT_PATHS } from '../lib/grantRoutes';
@@ -92,41 +91,36 @@ const GrantsPage = () => {
 
       <Breadcrumbs route={ROUTES.grants} />
 
-      <section id="find-your-grant" aria-label="Find your grant" className="scroll-mt-28 bg-slate-50/70">
+      <section id="find-your-grant" aria-label="Find your grant" className="scroll-mt-28 bg-canvas">
         <div className="section-base py-10 sm:py-12">
-          <div className="grid gap-5 md:grid-cols-2">
+          <ul className="grid list-none gap-5 bd-md:grid-cols-2 lg:gap-6">
             {FUNDING_ROUTES.map((route) => {
               const stats = route.slug === 'rapid-grants' ? rapidStats : careerTransitionStats;
 
               return (
-                <Link
-                  key={route.slug}
-                  href={GRANT_PATHS[route.slug]}
-                  aria-labelledby={`${route.slug}-heading`}
-                  className="group flex flex-col rounded-2xl border border-bluedot-navy/10 bg-white p-6 transition-colors hover:border-bluedot-normal/40 hover:bg-bluedot-light/20 focus-visible:border-bluedot-normal/40 focus-visible:bg-bluedot-light/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bluedot-normal sm:p-8"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <H2 className="text-size-lg group-hover:text-bluedot-normal group-focus-visible:text-bluedot-normal">
-                      <span id={`${route.slug}-heading`}>{route.name}</span>
-                    </H2>
-                    <HiArrowUpRight className="mt-1 shrink-0 text-bluedot-navy/40 group-hover:text-bluedot-normal group-focus-visible:text-bluedot-normal" size={22} aria-hidden="true" />
-                  </div>
-                  <P className="mt-4 max-w-prose text-bluedot-navy/80">{route.description}</P>
-                  <div className="mt-auto pt-8 text-size-xs leading-relaxed text-bluedot-navy/65">
-                    <p className="flex flex-wrap gap-x-4 gap-y-1">
-                      <span className="font-medium text-bluedot-navy">{route.amount}</span>
-                      <span>{route.application}</span>
-                    </p>
-                    {stats && (
-                      <p className="mt-2">
-                        {AWARDED_AMOUNT_FORMAT.format(stats.totalAmountUsd).toLowerCase()} awarded across {stats.count.toLocaleString('en-US')} {stats.count === 1 ? 'grant' : 'grants'}
-                      </p>
+                <li key={route.slug} className="min-w-0">
+                  <OpportunityCard
+                    href={GRANT_PATHS[route.slug]}
+                    title={route.name}
+                    description={route.description}
+                    tone={route.slug === 'rapid-grants' ? 'funding' : 'careerTransition'}
+                    ctaLabel="Explore grant"
+                    details={(
+                      <div>
+                        <P className="text-size-lg font-medium text-white">{route.amount}</P>
+                        <P className="mt-1 text-size-xs text-white/85">{route.application}</P>
+                        {stats && (
+                          <P className="mt-3 text-size-xs text-white/75">
+                            {AWARDED_AMOUNT_FORMAT.format(stats.totalAmountUsd).toLowerCase()} awarded across {stats.count.toLocaleString('en-US')} {stats.count === 1 ? 'grant' : 'grants'}
+                          </P>
+                        )}
+                      </div>
                     )}
-                  </div>
-                </Link>
+                  />
+                </li>
               );
             })}
-          </div>
+          </ul>
           <P className="mt-6 text-center text-size-xs text-bluedot-navy/65">Career Transition Grants generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
         </div>
       </section>

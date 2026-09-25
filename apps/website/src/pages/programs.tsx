@@ -25,10 +25,8 @@ const ProgramsPage = () => {
 
       <Breadcrumbs route={ROUTES.programs} />
 
-      <section className="section section-body">
-        <div className="flex flex-col gap-12 lg:gap-14">
-          <ProgramsList />
-        </div>
+      <section id="find-your-program" className="section-base scroll-mt-28 py-10 sm:py-12">
+        <ProgramsList />
 
         <div className="flex justify-center pt-6 bd-md:pt-8 lg:pt-10">
           <CTALinkOrButton

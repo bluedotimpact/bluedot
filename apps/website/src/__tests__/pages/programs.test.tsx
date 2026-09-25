@@ -91,15 +91,40 @@ describe('ProgramsPage', () => {
     render(<ProgramsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      const contextWeekTitle = screen.getByText('Context Week', { selector: 'p' });
-      const incubatorWeekTitle = screen.getByText('Incubator week', { selector: 'p' });
+      const contextWeekTitle = screen.getByRole('heading', { name: 'Context Week', level: 2 });
+      const incubatorWeekTitle = screen.getByRole('heading', { name: 'Incubator week', level: 2 });
 
       expect(screen.getByText('A four-day residential programme for people who want to understand the AI safety field and decide where they could contribute.')).toBeInTheDocument();
       expect(contextWeekTitle.closest('li')).not.toBe(incubatorWeekTitle.closest('li'));
-      expect(screen.getByText('AI Security Bootcamp', { selector: 'p' })).toBeInTheDocument();
-      expect(screen.queryByText('Rapid grant', { selector: 'p' })).not.toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'AI Security Bootcamp (opens in a new tab)', level: 2 })).toBeInTheDocument();
+      expect(screen.queryByRole('heading', { name: 'Rapid grant' })).not.toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Explore courses instead' })).toBeInTheDocument();
       expect(screen.getByText('Subscribe to get AI safety news and course updates delivered directly to your inbox')).toBeInTheDocument();
     });
+  });
+
+  test('preserves full program details and external destinations, and omits entries without a destination', async () => {
+    server.use(trpcMsw.programs.getInPerson.query(() => [
+      {
+        ...mockPrograms[0]!, id: 'external-program', name: 'External program', slug: null,
+        description: 'Full catalogue description for a future program.',
+        applicationForm: 'https://example.com/apply?round=2#form',
+      },
+      {
+        ...mockPrograms[0]!, id: 'unpublished', name: 'No destination', slug: null, applicationForm: null,
+      },
+    ]));
+    render(<ProgramsPage />, { wrapper: TrpcProvider });
+
+    const external = await screen.findByRole('link', { name: 'External program (opens in a new tab)' });
+    expect(external).toHaveAttribute('href', 'https://example.com/apply?round=2#form');
+    expect(external).toHaveAttribute('target', '_blank');
+    expect(external).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(screen.getByText('Full catalogue description for a future program.')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'No destination' })).not.toBeInTheDocument();
+    const bootcamp = screen.getByRole('link', { name: 'AI Security Bootcamp (opens in a new tab)' });
+    expect(bootcamp).toHaveAttribute('href', 'https://aisb.dev/');
+    expect(bootcamp).toHaveAttribute('target', '_blank');
+    expect(screen.getByText('An intensive, in-person program for technical talent building practical skills for AI security work.')).toBeInTheDocument();
   });
 });
