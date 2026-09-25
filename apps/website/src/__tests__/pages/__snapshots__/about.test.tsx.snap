@@ -651,7 +651,7 @@ exports[`AboutPage > should render correctly 1`] = `
         <p
           class="bluedot-p not-prose"
         >
-          The gap between how fast AI is advancing and how fast the safety and security workforce is growing is the most dangerous mismatch of our time. We're a small team based in San Francisco and London working as fast as we can to close it.
+          The gap between how fast AI is advancing and how fast the safety and security workforce is growing is the most dangerous mismatch of our time. Our team of 16 works from San Francisco, London, and remotely. We're working as fast as we can to close it.
         </p>
       </div>
     </section>

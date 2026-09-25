@@ -38,6 +38,11 @@ const baseConfig = withDefaultBlueDotNextConfig({
   async redirects() {
     return [
       ...proxyPortedRedirects,
+      ...['/biosechackathon', '/events/hackathon', '/events/special-event'].map((source) => ({
+        source,
+        destination: '/events',
+        permanent: true,
+      })),
       {
         source: '/company-information',
         destination: '/contact',

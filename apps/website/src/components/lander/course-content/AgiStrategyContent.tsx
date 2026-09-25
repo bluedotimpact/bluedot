@@ -92,7 +92,7 @@ export const createAgiStrategyContent = (
       },
       {
         title: 'Rapid Grants',
-        summary: 'Small, fast funding for concrete AI safety work. Five-minute application, decisions in days, money upfront by default.',
+        summary: 'Small, fast funding for concrete AI safety work. 15-minute application, decisions in days, money upfront by default.',
         href: '/grants/rapid',
         ctaLabel: 'Explore grant',
       },
@@ -173,10 +173,10 @@ export const createAgiStrategyContent = (
         question: 'Is there funding available?',
         answer: (
           <>
-            Yes. See <a href="/programs" className="underline">bluedot.org/programs</a> for current grants and how to apply.
+            Yes. See <a href="/grants" className="underline">bluedot.org/grants</a> for current grants and how to apply.
           </>
         ),
-        answerText: 'Yes. See bluedot.org/programs for current grants and how to apply.',
+        answerText: 'Yes. See bluedot.org/grants for current grants and how to apply.',
       },
       {
         id: 'certificate',
@@ -191,7 +191,7 @@ export const createAgiStrategyContent = (
       {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
-        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We\'ve trained thousands of people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI.',
+        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We\'ve trained over 10,000 people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI.',
       },
     ],
   },
