@@ -4,6 +4,7 @@
 // This port retains Scout's adapter and locked view. A later migration can move
 // synced reads to db.scan once all required field mappings are available.
 import { withAirtableRetry } from '@bluedot/db';
+import { logger } from '@bluedot/ui/src/api';
 import env from '../../../lib/api/env';
 import {
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
@@ -358,14 +359,23 @@ const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certi
 // People BlueDot is already talking to leave the queue: an approved career transition grant,
 // or a completed evaluation call. Rejected grants and "Reject" calls (rejected without a call)
 // do not count. Matched by email, the only key shared by the three tables.
+// If either read fails the queue still loads, unfiltered, with a warning: a lead can review
+// with a few extra people in the list, but not with no list at all.
 const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
-  const [grants, calls] = await Promise.all([
-    fetchAll(GRANTS_URL, { filterByFormula: '{Status}=\'Approve\'' }, [GRANT.email]),
-    fetchAll(CALLS_URL, { filterByFormula: '{Status}=\'Call complete\'' }, [CALL.email]),
-  ]);
-  const emails = [...grants.map((r) => str(r.fields[GRANT.email])), ...calls.map((r) => str(r.fields[CALL.email]))];
-  return new Set(emails.filter((e): e is string => !!e).map((e) => e.toLowerCase()));
+  try {
+    const [grants, calls] = await Promise.all([
+      fetchAll(GRANTS_URL, { filterByFormula: '{Status}=\'Approve\'' }, [GRANT.email]),
+      fetchAll(CALLS_URL, { filterByFormula: '{Status}=\'Call complete\'' }, [CALL.email]),
+    ]);
+    const emails = [...grants.map((r) => str(r.fields[GRANT.email])), ...calls.map((r) => str(r.fields[CALL.email]))];
+    return new Set(emails.filter((e): e is string => !!e).map(normaliseEmail));
+  } catch (error) {
+    logger.warn(`scout: could not read grants/calls for the queue filter, showing everyone: ${error instanceof Error ? error.message : String(error)}`);
+    return new Set();
+  }
 };
+
+const normaliseEmail = (email: string) => email.trim().toLowerCase();
 
 export const fetchQueue = async (): Promise<QueueItem[]> => {
   const [records, rounds, alreadySupported] = await Promise.all([
@@ -379,7 +389,7 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
     const course = courseOf(round);
     if (!course) continue;
     const email = str(r.fields[REG.email]);
-    if (email && alreadySupported.has(email.toLowerCase())) continue;
+    if (email && alreadySupported.has(normaliseEmail(email))) continue;
     items.push({
       id: r.id,
       name: str(r.fields[REG.fullName]),
