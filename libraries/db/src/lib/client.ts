@@ -6,7 +6,7 @@ import {
 } from 'airtable-ts';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
 import { type PgAirtableTable } from './db-core';
-import { withAirtableRetry } from './retry';
+import { patchPgClientToRetryQueries, withAirtableRetry, withPgRetryIdempotentWrite } from './retry';
 import { type AirtableItemFromColumnsMap, type BasePgTableType, type PgAirtableColumnInput } from './typeUtils';
 import {
   buildWhereClause, getFirstFromPg, type Filter, type PgDatabase,
@@ -125,7 +125,14 @@ export class PgAirtableDb {
       onWarning,
     });
 
-    this.pgUnrestricted = pgClient ?? drizzle({ connection: pgConnectionConfig(pgConnString) });
+    if (pgClient) {
+      this.pgUnrestricted = pgClient;
+    } else {
+      const pg = drizzle({ connection: pgConnectionConfig(pgConnString) });
+      patchPgClientToRetryQueries(pg.$client);
+      this.pgUnrestricted = pg;
+    }
+
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
   }
 
@@ -281,7 +288,7 @@ export class PgAirtableDb {
     isDelete?: boolean;
   }): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
     if (isDelete) {
-      const deletedResults = await this.pgUnrestricted.delete(table.pg).where(eq(table.pg.id, id)).returning();
+      const deletedResults = await withPgRetryIdempotentWrite(() => this.pgUnrestricted.delete(table.pg).where(eq(table.pg.id, id)).returning());
       const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
       if (!deletedResult) {
@@ -297,10 +304,10 @@ export class PgAirtableDb {
       throw new Error('No data found for upsert operation');
     }
 
-    const rows = await this.pgUnrestricted.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
+    const rows = await withPgRetryIdempotentWrite(async () => this.pgUnrestricted.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
       target: table.pg.id,
       set: data as PgUpdateSetSource<typeof table.pg>,
-    }).returning();
+    }).returning());
 
     const result = Array.isArray(rows) ? rows[0] : undefined;
 
