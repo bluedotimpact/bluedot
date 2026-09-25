@@ -15,6 +15,13 @@
      other apps in the monorepo that consume the cream default. */
   --bluedot-cream-normal: #ffffff;
 
+  /* Sampled from /images/homepage/hero.webp so opportunity cards share the
+     marketing header palette. Keep the pale highlights out of text backgrounds. */
+  --marketing-hero-midnight: #04043f;
+  --marketing-hero-indigo: #030996;
+  --marketing-hero-blue: #0232cf;
+  --marketing-hero-sky: #357df2;
+
   /* Hairline borders for standard displays */
   --border-hairline: 1px;
 

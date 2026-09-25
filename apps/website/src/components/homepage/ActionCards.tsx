@@ -1,21 +1,10 @@
 import {
-  addQueryParam, ErrorSection, H3, H4, P, ProgressDots,
+  addQueryParam, ErrorSection, H3, ProgressDots,
 } from '@bluedot/ui';
-import type { IconType } from 'react-icons';
-import {
-  LuArrowRight, LuArrowUpRight, LuBlocks, LuComponent, LuRoute, LuShield,
-} from 'react-icons/lu';
+import OpportunityCard, { type OpportunityCardTone } from '../OpportunityCard';
 import { getGrantPath } from '../../lib/grantRoutes';
 import { AI_SECURITY_BOOTCAMP } from '../../lib/publicPrograms';
 import { trpc } from '../../utils/trpc';
-
-// Keep the action stage in the brand-blue palette, distinct from course colours.
-const ACTION_GRADIENTS = {
-  funding: 'radial-gradient(ellipse at 0% 0%, color-mix(in srgb, var(--bluedot-light) 22%, var(--bluedot-navy)) 0%, var(--bluedot-navy) 65%, var(--bluedot-darker) 100%)',
-  careerTransition: 'radial-gradient(ellipse at 100% 110%, color-mix(in srgb, var(--bluedot-light) 62%, var(--bluedot-navy)) 0%, color-mix(in srgb, var(--bluedot-light) 30%, var(--bluedot-navy)) 55%, var(--bluedot-navy) 100%)',
-  programs: 'radial-gradient(ellipse at 100% 0%, var(--bluedot-normal) 0%, var(--bluedot-dark) 60%, var(--bluedot-darker) 100%)',
-  securityBootcamp: 'linear-gradient(130deg, color-mix(in srgb, var(--bluedot-normal) 60%, var(--bluedot-navy)) 0%, var(--bluedot-darker) 60%, var(--bluedot-navy) 100%)',
-} as const;
 
 const HOMEPAGE_DESCRIPTIONS: Record<string, string> = {
   'rapid-grants': 'Get funding to run a project, host an event, or test an idea in AI safety or biosecurity.',
@@ -32,49 +21,8 @@ type ActionCardData = {
   title: string;
   description: string | null;
   href: string;
-  icon: IconType;
-  gradient?: string;
+  tone: OpportunityCardTone;
   external?: boolean;
-};
-
-const ActionCard = ({ card, gradient }: { card: ActionCardData; gradient: string }) => {
-  const Icon = card.icon;
-  const Arrow = card.external ? LuArrowUpRight : LuArrowRight;
-
-  return (
-    <a
-      href={card.href}
-      target={card.external ? '_blank' : undefined}
-      rel={card.external ? 'noopener noreferrer' : undefined}
-      aria-labelledby={`homepage-action-${card.id}`}
-      className="action-cards__card group relative flex h-full min-h-56 flex-col overflow-hidden rounded-surface border border-bluedot-navy/10 p-6 md:p-7 text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bluedot-normal"
-      style={{ background: card.gradient ?? gradient }}
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 mix-blend-soft-light opacity-30"
-        style={{
-          backgroundImage: 'url(/images/agi-strategy/noise.webp)',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '464.64px 736.56px',
-        }}
-      />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none" />
-      <div className="relative mb-7 flex items-start justify-between gap-4">
-        <Icon aria-hidden="true" className="size-7" strokeWidth={1.4} />
-        <Arrow aria-hidden="true" className="size-6 opacity-70 transition-[transform,opacity] duration-200 group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100 motion-reduce:transform-none motion-reduce:transition-none" />
-      </div>
-      <div className="relative mt-auto flex flex-col gap-3">
-        <H4 className="text-size-lg font-medium leading-snug tracking-tight text-white">
-          <span id={`homepage-action-${card.id}`}>
-            {card.title}
-            {card.external && <span className="sr-only"> (opens in a new tab)</span>}
-          </span>
-        </H4>
-        {card.description && <P className="text-white/85">{card.description}</P>}
-      </div>
-    </a>
-  );
 };
 
 const ActionCards = () => {
@@ -91,8 +39,7 @@ const ActionCards = () => {
       title: grant.name,
       description: HOMEPAGE_DESCRIPTIONS[grant.slug ?? ''] ?? grant.description,
       href: withHomepageTracking(href, 'homepage-grants'),
-      icon: grant.slug === 'career-transition-grant' ? LuRoute : LuBlocks,
-      gradient: grant.slug === 'career-transition-grant' ? ACTION_GRADIENTS.careerTransition : undefined,
+      tone: grant.slug === 'career-transition-grant' ? 'careerTransition' : 'funding',
     }];
   });
 
@@ -104,7 +51,7 @@ const ActionCards = () => {
       title: program.name,
       description: HOMEPAGE_DESCRIPTIONS[program.slug ?? ''] ?? program.description,
       href: withHomepageTracking(href, 'homepage-programs'),
-      icon: LuComponent,
+      tone: 'programs',
       external: /^https?:\/\//.test(href),
     }];
   });
@@ -113,17 +60,16 @@ const ActionCards = () => {
     title: AI_SECURITY_BOOTCAMP.title,
     description: 'Build practical AI security skills through intensive, in-person training.',
     href: withHomepageTracking(AI_SECURITY_BOOTCAMP.url, 'homepage-programs'),
-    icon: LuShield,
-    gradient: ACTION_GRADIENTS.securityBootcamp,
+    tone: 'securityBootcamp',
     external: true,
   });
 
   const groups = [
     {
-      id: 'funding', title: 'Get funding', cards: grantCards, query: grants, gradient: ACTION_GRADIENTS.funding,
+      id: 'funding', title: 'Get funding', cards: grantCards, query: grants,
     },
     {
-      id: 'programs', title: 'Join an in-person program', cards: programCards, query: programs, gradient: ACTION_GRADIENTS.programs,
+      id: 'programs', title: 'Join an in-person program', cards: programCards, query: programs,
     },
   ];
 
@@ -140,7 +86,7 @@ const ActionCards = () => {
             <ul className="grid flex-1 auto-rows-fr list-none gap-5 lg:gap-6">
               {group.cards.map((card) => (
                 <li key={card.id} className="min-w-0">
-                  <ActionCard card={card} gradient={group.gradient} />
+                  <OpportunityCard {...card} compact headingLevel={4} />
                 </li>
               ))}
             </ul>

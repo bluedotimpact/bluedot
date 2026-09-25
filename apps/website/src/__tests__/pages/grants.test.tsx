@@ -66,6 +66,9 @@ describe('GrantsPage', () => {
 
     expect(screen.getByText('Up to $20k')).toBeInTheDocument();
     expect(screen.getByText('Up to $200k')).toBeInTheDocument();
+    expect(screen.getByText('About 15 minutes to apply')).toBeInTheDocument();
+    expect(screen.getByText('About 45 minutes to apply')).toBeInTheDocument();
+    expect(screen.getByText('Career Transition Grants generally start at $20k. For smaller requests, apply to Rapid Grants.')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'What funding restrictions apply?' })).toHaveAttribute('aria-expanded', 'false');
     expect(screen.getByRole('link', { name: 'Rapid Grants' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Career Transition Grants' })).toBeInTheDocument();
