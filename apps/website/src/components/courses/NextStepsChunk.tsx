@@ -116,7 +116,7 @@ const BlueDotNextStepsChunk: React.FC = () => {
 
   const getOpportunityHref = (program: { category: string | null; slug: string | null }) => {
     if (program.category === 'Funding') return getGrantPath(program.slug);
-    if (!program.slug || ['advising', 'technical-ai-safety-project-sprint'].includes(program.slug)) return undefined;
+    if (!program.slug) return undefined;
     return `/programs/${program.slug}`;
   };
 

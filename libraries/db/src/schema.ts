@@ -968,18 +968,6 @@ export const rapidGrantApplicationTable = pgAirtable('rapid_grant_application', 
     },
   },
 });
-/** 1-1 advising applications. timeToDecisionDays is the `[*] Time to decision` formula (decision date − submission, in days); NaN until a decision is made, so the avg-days-to-decision stat averages only rows with a finite value. */
-export const oneOnOneAdvisingApplicationTable = pgAirtable('one_on_one_advising_application', {
-  baseId: APPLICATIONS_BASE_ID,
-  tableId: 'tblVstbJehu8wew93',
-  columns: {
-    timeToDecisionDays: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldKwIzhQ7OdsjzAb',
-    },
-  },
-});
-
 export const chunkTable = pgAirtable('chunk', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblNeBgFeQ5Qmebfc',
@@ -1790,7 +1778,6 @@ export type RapidGrant = InferSelectModel<typeof rapidGrantTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
 export type CareerTransitionGrantApplication = InferSelectModel<typeof careerTransitionGrantApplicationTable.pg>;
 export type RapidGrantApplication = InferSelectModel<typeof rapidGrantApplicationTable.pg>;
-export type OneOnOneAdvisingApplication = InferSelectModel<typeof oneOnOneAdvisingApplicationTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;

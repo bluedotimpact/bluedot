@@ -2,7 +2,6 @@ import type { CareerTransitionGrant, CareerTransitionGrantApplication, RapidGran
 import {
   careerTransitionGrantApplicationTable,
   careerTransitionGrantTable,
-  oneOnOneAdvisingApplicationTable,
   rapidGrantApplicationTable,
   rapidGrantTable,
 } from '@bluedot/db';
@@ -18,10 +17,6 @@ export type GrantStats = {
 };
 
 export type CareerTransitionGrantStats = GrantStats & {
-  averageDaysToDecision: number | null;
-};
-
-export type OneOnOneAdvisingStats = {
   averageDaysToDecision: number | null;
 };
 
@@ -231,15 +226,6 @@ export const grantsRouter = router({
     return {
       count: granted.length,
       totalAmountUsd: granted.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
-      averageDaysToDecision: averageDecisionDays(all),
-    };
-  }),
-
-  // 1-1 advising decision speed. Same avg-days-to-decision metric as CTG, over
-  // every decided application; the advising page keeps its other stats hardcoded.
-  getOneOnOneAdvisingStats: publicProcedure.query(async (): Promise<OneOnOneAdvisingStats> => {
-    const all = await db.scan(oneOnOneAdvisingApplicationTable);
-    return {
       averageDaysToDecision: averageDecisionDays(all),
     };
   }),
