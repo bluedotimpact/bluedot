@@ -1,18 +1,18 @@
 import { CTALinkOrButton } from '@bluedot/ui';
-import { type ConfigurableGrantProgramSlug } from '../grantPrograms';
-import { useGrantApplicationUrl } from '../useGrantApplicationUrl';
+import { type GrantTypeSlug } from '../../../lib/grantTypes';
+import { useApplicationUrl } from '../../../lib/hooks/useApplicationUrl';
 
 type Props = {
-  program: ConfigurableGrantProgramSlug;
+  grantType: GrantTypeSlug;
 };
 
-const GrantCta = ({ program }: Props) => {
-  const applicationUrl = useGrantApplicationUrl(program);
+const GrantCta = ({ grantType }: Props) => {
+  const applicationUrl = useApplicationUrl(grantType);
 
   if (!applicationUrl) return null;
 
   return (
-    <div className={`${program}-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center`}>
+    <div className={`${grantType}-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center`}>
       <CTALinkOrButton
         variant="primary"
         withChevron

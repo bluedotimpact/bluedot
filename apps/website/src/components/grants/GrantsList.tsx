@@ -1,6 +1,6 @@
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import { PageListGroup, PageListRow } from '../PageListRow';
-import { getGrantPath } from '../../lib/grantRoutes';
+import { getGrantPath } from '../../lib/grantTypes';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -16,11 +16,11 @@ export const GrantsList = ({ utmCampaign }: GrantsListProps) => {
   const { data: careerTransitionStats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
 
   const getMeta = (slug: string | null): string | null => {
-    if (slug === 'rapid-grants' && rapidStats) {
+    if (slug === 'rapid' && rapidStats) {
       return `${formatAmountUsd(rapidStats.totalAmountUsd)} deployed so far across ${pluralizeGrants(rapidStats.count)}.`;
     }
 
-    if (slug === 'career-transition-grant' && careerTransitionStats) {
+    if (slug === 'career-transition' && careerTransitionStats) {
       return `${formatAmountUsd(careerTransitionStats.totalAmountUsd)} awarded so far across ${pluralizeGrants(careerTransitionStats.count)}.`;
     }
 

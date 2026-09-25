@@ -46,7 +46,7 @@ describe('Career Transition Grant content', () => {
 
   test('answers the revised applicant-routing questions', async () => {
     const user = userEvent.setup();
-    render(<GrantFaqSection program="career-transition-grant" />);
+    render(<GrantFaqSection grantType="career-transition" />);
 
     expect(screen.getByRole('button', { name: 'Who should apply?' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Who is eligible?' })).not.toBeInTheDocument();

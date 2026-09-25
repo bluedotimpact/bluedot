@@ -1,8 +1,8 @@
 import { A, H3, P } from '@bluedot/ui';
-import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
+import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 
 const WhoYouAreSection = () => {
-  const applicationUrl = useGrantApplicationUrl('fieldbuilder-week');
+  const applicationUrl = useApplicationUrl('fieldbuilder-week');
 
   return (
     <section className="section section-body fieldbuilder-week-who-you-are-section">

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import GrantCta from './GrantCta';
 import GrantFaqSection from './GrantFaqSection';
-import GrantStatsStrip from './GrantStatsStrip';
 
 const meta = {
   title: 'website/Grants/Sections',
@@ -9,7 +8,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Reusable section components rendered on the /grants program pages. Each takes a program slug and (for stats/faq) the displayed content. CTAs and FAQ items are sourced from `GRANT_PROGRAM_SECTIONS` in `grantPrograms.ts`.',
+        component: 'Reusable section components rendered on the grant type pages under /grants. Each takes a grant type slug. FAQ items are sourced from `GRANT_TYPE_FAQS` in `grantTypeFaqs.tsx`.',
       },
     },
   },
@@ -18,34 +17,17 @@ const meta = {
 
 export default meta;
 
-const sampleStats = [
-  { label: 'Grant funding', value: 'Up to $20k' },
-  { label: 'Decision time', value: '< 2 weeks' },
-  { label: 'Funded so far', value: '$1.4M+' },
-  { label: 'Active programs', value: '4' },
-];
-
 export const Cta: StoryObj = {
   name: 'GrantCta',
-  render: () => <GrantCta program="rapid-grants" />,
-};
-
-export const StatsStrip: StoryObj = {
-  name: 'GrantStatsStrip — roomy',
-  render: () => <GrantStatsStrip program="rapid-grants" stats={sampleStats} />,
-};
-
-export const StatsStripCompact: StoryObj = {
-  name: 'GrantStatsStrip — compact',
-  render: () => <GrantStatsStrip program="rapid-grants" stats={sampleStats} compact />,
+  render: () => <GrantCta grantType="rapid" />,
 };
 
 export const FaqRapidGrants: StoryObj = {
   name: 'GrantFaqSection — Rapid Grants',
-  render: () => <GrantFaqSection program="rapid-grants" />,
+  render: () => <GrantFaqSection grantType="rapid" />,
 };
 
 export const FaqCareerTransition: StoryObj = {
   name: 'GrantFaqSection — Career Transition',
-  render: () => <GrantFaqSection program="career-transition-grant" />,
+  render: () => <GrantFaqSection grantType="career-transition" />,
 };

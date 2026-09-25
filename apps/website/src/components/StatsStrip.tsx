@@ -1,37 +1,37 @@
 import type React from 'react';
 import { CTALinkOrButton, Eyebrow } from '@bluedot/ui';
-import { type ConfigurableGrantProgramSlug } from '../grantPrograms';
-import { useGrantApplicationUrl } from '../useGrantApplicationUrl';
+import { type ApplicationSlug, useApplicationUrl } from '../lib/hooks/useApplicationUrl';
 
-export type GrantStat = {
+export type Stat = {
   label: string;
   value: string;
 };
 
-export type GrantStatsAction = {
+export type StatsAction = {
   label: string;
   url: string | undefined;
   onClick?: (e: React.BaseSyntheticEvent) => void;
 };
 
 type Props = {
-  program: ConfigurableGrantProgramSlug;
-  stats: GrantStat[];
-  /** Override the default "Apply now" primary CTA target. Defaults to the program's applicationUrl. */
-  primaryAction?: GrantStatsAction;
-  secondaryAction?: GrantStatsAction;
+  /** Airtable `program` slug whose application form the default "Apply now" CTA links to. */
+  slug: ApplicationSlug;
+  stats: Stat[];
+  /** Override the default "Apply now" primary CTA target. */
+  primaryAction?: StatsAction;
+  secondaryAction?: StatsAction;
   /** Compact: tighter type scale, 2-then-4 grid. Default: roomier scale, single flex row. */
   compact?: boolean;
 };
 
-const GrantStatsStrip = ({
-  program,
+const StatsStrip = ({
+  slug,
   stats,
   primaryAction,
   secondaryAction,
   compact = false,
 }: Props) => {
-  const applicationUrl = useGrantApplicationUrl(program);
+  const applicationUrl = useApplicationUrl(slug);
   const primary = primaryAction ?? { label: 'Apply now', url: applicationUrl };
 
   const outerLayoutClass = compact
@@ -43,11 +43,11 @@ const GrantStatsStrip = ({
     : 'flex flex-wrap items-baseline gap-x-10 gap-y-3';
 
   return (
-    <section className={`section section-body ${program}-stats-strip`}>
+    <section className={`section section-body ${slug}-stats-strip`}>
       <div className={outerLayoutClass}>
         <div className={statsLayoutClass}>
           {stats.map((stat) => (
-            <Stat key={stat.label} label={stat.label} value={stat.value} compact={compact} />
+            <StatItem key={stat.label} label={stat.label} value={stat.value} compact={compact} />
           ))}
         </div>
         <div className="flex flex-wrap gap-3">
@@ -78,7 +78,7 @@ const GrantStatsStrip = ({
   );
 };
 
-const Stat = ({ label, value, compact }: { label: string; value: string; compact: boolean }) => {
+const StatItem = ({ label, value, compact }: { label: string; value: string; compact: boolean }) => {
   const valueClass = compact
     ? 'text-size-md font-medium leading-tight text-bluedot-navy'
     : 'text-size-lg bd-md:text-[28px] font-medium leading-tight text-bluedot-navy';
@@ -91,4 +91,4 @@ const Stat = ({ label, value, compact }: { label: string; value: string; compact
   );
 };
 
-export default GrantStatsStrip;
+export default StatsStrip;

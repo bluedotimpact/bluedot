@@ -9,7 +9,7 @@ import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import { AI_SECURITY_BOOTCAMP } from '../../lib/publicPrograms';
-import { getGrantPath } from '../../lib/grantRoutes';
+import { getGrantPath } from '../../lib/grantTypes';
 import { trpc } from '../../utils/trpc';
 import {
   DRAWER_CLASSES,

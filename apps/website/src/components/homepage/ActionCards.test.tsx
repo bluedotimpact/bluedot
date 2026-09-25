@@ -13,10 +13,10 @@ const program = {
 };
 const grants = [
   {
-    ...program, id: 'rapid', name: 'Rapid Grants', slug: 'rapid-grants', category: 'Funding',
+    ...program, id: 'rapid', name: 'Rapid Grants', slug: 'rapid', category: 'Funding',
   },
   {
-    ...program, id: 'career', name: 'Career Transition Grants', slug: 'career-transition-grant', category: 'Funding',
+    ...program, id: 'career', name: 'Career Transition Grants', slug: 'career-transition', category: 'Funding',
   },
 ];
 
