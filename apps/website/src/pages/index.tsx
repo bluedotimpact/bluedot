@@ -3,22 +3,14 @@ import CourseValueProps from '../components/homepage/CourseValueProps';
 import MergedLadder from '../components/homepage/MergedLadder';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
-import TestimonialCarousel, { type TestimonialMember } from '../components/lander/TestimonialCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
-import { trpc } from '../utils/trpc';
 import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
 
 const META_TITLE = 'BlueDot Impact | Have a positive impact on the trajectory of AI';
 const META_DESCRIPTION = 'Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 10,000+ alumni and start today.';
 
 const HomePage = () => {
-  const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
-
-  const testimonials = (dbTestimonials ?? [])
-    .filter((t) => t.imageSrc)
-    .map((t): TestimonialMember => ({ ...t }));
-
   return (
     <div>
       <Head>
@@ -65,15 +57,7 @@ const HomePage = () => {
       <MergedLadder />
       {/* Divider */}
       <div className="border-t-hairline border-default" />
-      <TestimonialCarousel
-        testimonials={testimonials}
-        subtitle="Learn more about the incredible work our community is doing."
-        variant="homepage"
-        hideQuotes
-        cta={{ label: 'Read alumni stories', url: '/alumni' }}
-      />
-      {/* Divider */}
-      <div className="border-t-hairline border-default" />
+      {/* Community carousel temporarily hidden until alumni profiles are refreshed and verified. */}
       <EventsSection />
       {/* Divider */}
       <div className="border-t-hairline border-default" />

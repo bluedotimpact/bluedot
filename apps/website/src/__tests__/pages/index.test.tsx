@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
@@ -29,7 +29,7 @@ vi.mock('next/router', () => ({
   }),
 }));
 
-describe('HomePage testimonials', () => {
+describe('HomePage', () => {
   beforeEach(() => {
     document.head.innerHTML = '';
     server.use(trpcMsw.courses.getAll.query(() => []));
@@ -45,32 +45,23 @@ describe('HomePage testimonials', () => {
     })));
   });
 
-  test('shows database testimonials', async () => {
+  test('temporarily hides community profiles while keeping action and event sections', async () => {
     server.use(trpcMsw.testimonials.getCommunityMembers.query(() => [
       {
-        name: 'DB Person 1', jobTitle: 'Job 1', imageSrc: 'https://example.com/1.jpg', url: 'https://example.com/1', quote: 'Quote 1', isPrioritised: false,
-      },
-      {
-        name: 'DB Person 2', jobTitle: 'Job 2', imageSrc: 'https://example.com/2.jpg', url: 'https://example.com/2', quote: 'Quote 2', isPrioritised: false,
-      },
-      {
-        name: 'DB Person 3', jobTitle: 'Job 3', imageSrc: 'https://example.com/3.jpg', url: 'https://example.com/3', quote: 'Quote 3', isPrioritised: false,
-      },
-      {
-        name: 'DB Person 4', jobTitle: 'Job 4', imageSrc: 'https://example.com/4.jpg', url: 'https://example.com/4', quote: 'Quote 4', isPrioritised: false,
+        name: 'DB Person 1', jobTitle: 'Outdated role', imageSrc: 'https://example.com/1.jpg', url: 'https://example.com/1', quote: 'Quote 1', isPrioritised: false,
       },
     ]));
 
     render(<HomePage />, { wrapper: TrpcProvider });
 
-    await waitFor(() => {
-      expect(screen.getAllByText('DB Person 1').length).toBeGreaterThan(0);
-    });
+    await screen.findByRole('link', { name: 'AI Security Bootcamp (opens in a new tab)' });
+    expect(screen.queryByRole('heading', { name: 'Our community' })).toBeNull();
+    expect(screen.queryByText('DB Person 1')).toBeNull();
+    expect(screen.getByRole('heading', { name: 'Turn knowledge into action' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Join an upcoming event' })).toBeTruthy();
   });
 
   test('sets homepage social metadata', async () => {
-    server.use(trpcMsw.testimonials.getCommunityMembers.query(() => []));
-
     renderWithHead(<TrpcProvider>
       <HomePage />
     </TrpcProvider>);

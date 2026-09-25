@@ -1,12 +1,10 @@
 import clsx from 'clsx';
 import {
   Eyebrow, H3, P, Section, ProgressDots,
-  CardShell,
 } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
-import { GrantsList } from '../grants/GrantsList';
-import { ProgramsList } from '../programs/ProgramsList';
+import ActionCards from './ActionCards';
 import { ArrowDownIcon } from '../icons';
 
 const FOAI = COURSE_COLORS['future-of-ai'];
@@ -214,28 +212,9 @@ const MergedLadder = () => {
           {rungTwoContent}
         </div>
 
-        <div className="flex flex-col gap-6 lg:gap-8 w-full">
+        <div id="take-action" className="flex flex-col gap-6 lg:gap-8 w-full scroll-mt-8">
           <RungHeader rung={RUNGS[2]!} />
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
-            <CardShell>
-              <div className="mb-6 flex max-w-prose flex-col gap-2">
-                <H3>Get funding</H3>
-                <P className="text-bluedot-navy/70">
-                  Grants for career transitions and concrete work that reduces catastrophic risks.
-                </P>
-              </div>
-              <GrantsList utmCampaign="homepage-grants" />
-            </CardShell>
-            <CardShell>
-              <div className="mb-6 flex max-w-prose flex-col gap-2">
-                <H3>Join an in-person program</H3>
-                <P className="text-bluedot-navy/70">
-                  Full-time experiences lasting a week or more, built around doing ambitious work together.
-                </P>
-              </div>
-              <ProgramsList utmCampaign="homepage-programs" />
-            </CardShell>
-          </div>
+          <ActionCards />
         </div>
       </div>
     </Section>
