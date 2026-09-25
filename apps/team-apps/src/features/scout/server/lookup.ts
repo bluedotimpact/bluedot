@@ -64,10 +64,12 @@ const anchorText = (a: LookupAnchors) => [
   a.givenUrls.length > 0 ? `Links they gave us: ${a.givenUrls.join(' , ')}` : 'Links they gave us: none',
 ].filter(Boolean).join('\n');
 
-// Scheme, www, query, fragment and trailing slash do not make a different page
-const normaliseUrl = (u: string) => u.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/[?#].*$/, '').replace(/\/+$/, '');
+// Scheme, www, fragment and trailing slash do not make a different page; the query string can
+// (Google Scholar profiles differ only by ?user=), so it stays
+const normaliseUrl = (u: string) => u.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/#.*$/, '').replace(/\/+(?=\?|$)/, '');
 
-// The URLs the tools actually returned, from the tool calls and results in every step
+// The URLs the tools actually returned: search results and pages that were fetched
+// successfully. A fetch the model asked for but that failed does not count.
 const urlsSeen = (steps: { content: unknown[] }[]): Set<string> => {
   const seen = new Set<string>();
   const add = (u: unknown) => {
@@ -77,8 +79,7 @@ const urlsSeen = (steps: { content: unknown[] }[]): Set<string> => {
   for (const step of steps) {
     for (const part of step.content) {
       if (typeof part !== 'object' || part === null) continue;
-      const p = part as { type?: string; input?: unknown; output?: unknown };
-      if (p.type === 'tool-call' && typeof p.input === 'object' && p.input !== null) add((p.input as { url?: unknown }).url);
+      const p = part as { type?: string; output?: unknown };
       if (p.type === 'tool-result') {
         const out = p.output;
         if (Array.isArray(out)) out.forEach((r) => add((r as { url?: unknown })?.url));
@@ -97,12 +98,13 @@ const extractJson = (text: string): unknown => {
   return JSON.parse(text.slice(start, end + 1));
 };
 
-// Drops every link and source whose URL the tools never returned, and caps the lists.
-// Exported for tests.
+// Drops every URL the tools never returned (links, sources, and the paper and post links
+// inside a source) and caps the lists. Exported for tests.
 export const sanitise = (raw: unknown, seen: Set<string>, meta: WebFacts['meta']): WebFacts => {
   const parsed = parseWebFacts(JSON.stringify(raw));
   if (!parsed) throw new Error('lookup JSON did not match the expected shape');
   const known = (u: string) => seen.has(normaliseUrl(u));
+  const checkedUrl = <T extends { url?: string }>(item: T): T => (item.url && !known(item.url) ? { ...item, url: undefined } : item);
   return {
     identity: parsed.identity,
     links: parsed.links.filter((l) => known(l.url)).slice(0, MAX_LINKS),
@@ -110,10 +112,10 @@ export const sanitise = (raw: unknown, seen: Set<string>, meta: WebFacts['meta']
       ...s,
       facts: {
         ...s.facts,
-        papers: s.facts.papers?.slice(0, 10),
+        papers: s.facts.papers?.slice(0, 10).map(checkedUrl),
         recent: s.facts.recent?.slice(0, 10),
         starred: s.facts.starred?.slice(0, 10),
-        posts: s.facts.posts?.slice(0, 10),
+        posts: s.facts.posts?.slice(0, 10).map(checkedUrl),
       },
     })),
     meta: { ...meta, all_urls_seen: [...seen] },
