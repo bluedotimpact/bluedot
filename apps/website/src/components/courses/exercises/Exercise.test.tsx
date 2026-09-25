@@ -78,7 +78,9 @@ describe('Exercise', () => {
 
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
-    expect(await screen.findByText('Reflection')).toBeInTheDocument();
+    // The radio group is named after the exercise question, not just the individual options.
+    expect(await screen.findByRole('group', { name: 'Reflection' })).toBeInTheDocument();
+    expect(screen.getAllByRole('radio')).toHaveLength(3);
   });
 
   test('renders a project submission exercise with a submit button and no answer editor', async () => {

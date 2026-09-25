@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, Checkbox, ErrorSection, Input, ProgressDots, Section,
+  Breadcrumbs, Checkbox, ErrorSection, Input, ProgressDots, Radio, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -160,31 +160,26 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
             </Checkbox>
 
             {courses.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <p className="text-size-xs font-semibold text-bluedot-navy">Course</p>
-                <div className="flex flex-col gap-1">
-                  <label className="flex items-center gap-2 text-size-xs cursor-pointer">
-                    <input
-                      type="radio"
-                      name="course"
-                      checked={!courseId}
-                      onChange={() => setCourseId(undefined)}
-                    />
-                    All courses
-                  </label>
-                  {courses.map((c) => (
-                    <label key={c.id ?? '__none__'} className="flex items-center gap-2 text-size-xs cursor-pointer">
-                      <input
-                        type="radio"
-                        name="course"
-                        checked={courseId === c.id}
-                        onChange={() => setCourseId(c.id ?? undefined)}
-                      />
-                      {c.title ?? '(untitled)'}
-                    </label>
-                  ))}
-                </div>
-              </div>
+              <fieldset className="flex flex-col border-0 m-0 p-0 min-w-0">
+                <legend className="mb-2 text-size-xs font-semibold text-bluedot-navy">Course</legend>
+                <Radio
+                  name="course"
+                  checked={!courseId}
+                  onChange={() => setCourseId(undefined)}
+                >
+                  All courses
+                </Radio>
+                {courses.map((c) => (
+                  <Radio
+                    key={c.id ?? '__none__'}
+                    name="course"
+                    checked={courseId === c.id}
+                    onChange={() => setCourseId(c.id ?? undefined)}
+                  >
+                    {c.title ?? '(untitled)'}
+                  </Radio>
+                ))}
+              </fieldset>
             )}
           </div>
 

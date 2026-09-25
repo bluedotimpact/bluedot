@@ -27,6 +27,7 @@ const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
 const mockArgs = {
   options: mockOptions,
   answer: 'The community\'s preference for low-tech fishing traditions\n',
+  question: 'What drove the change?',
   onExerciseSubmit: () => Promise.resolve(),
 };
 
@@ -56,6 +57,12 @@ describe('MultipleChoice', () => {
       expect(input).not.toBeChecked();
       expect(input).toBeEnabled();
     });
+  });
+
+  test('names the radio group after the question', () => {
+    const { getByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
+
+    expect(getByRole('group', { name: mockArgs.question })).toBeInTheDocument();
   });
 
   test('disables submit button when no option selected', () => {
@@ -105,7 +112,10 @@ describe('MultipleChoice', () => {
 
     const correctRadio = getByDisplayValue(mockArgs.answer.trim());
     expect(correctRadio).toBeChecked();
-    expect(correctRadio).toMatchSnapshot();
+
+    const correctLabel = correctRadio.closest('label');
+    expect(correctLabel).toHaveClass('bg-success-bg', 'border-success-border', 'text-success-fg');
+    expect(correctLabel).toMatchSnapshot();
 
     const radioInputs = getAllByRole('radio');
     radioInputs.forEach((input) => {
@@ -119,7 +129,10 @@ describe('MultipleChoice', () => {
 
     const incorrectRadio = getByDisplayValue(incorrectAnswer.trim());
     expect(incorrectRadio).toBeChecked();
-    expect(incorrectRadio).toMatchSnapshot();
+
+    const incorrectLabel = incorrectRadio.closest('label');
+    expect(incorrectLabel).toHaveClass('bg-error-bg', 'border-error-border', 'text-error-fg');
+    expect(incorrectLabel).toMatchSnapshot();
 
     const tryAgainButton = getByRole('button', { name: /try again/i });
     expect(tryAgainButton).toBeInTheDocument();

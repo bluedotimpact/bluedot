@@ -1,5 +1,4 @@
-import { CTALinkOrButton, Input } from '@bluedot/ui';
-import clsx from 'clsx';
+import { CTALinkOrButton, Radio, type RadioTone } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -12,6 +11,8 @@ type MultipleChoiceProps = {
   answer: string;
   onExerciseSubmit: (savedExerciseResponse: string, completed?: boolean) => Promise<void>;
   options: string;
+  /** Names the radio group for assistive tech; rendered as a visually hidden legend. */
+  question: string;
   // Optional
   exerciseResponse?: string;
   isLoggedIn?: boolean;
@@ -27,6 +28,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   isLoggedIn,
   onExerciseSubmit,
   options,
+  question,
 }) => {
   const router = useRouter();
   /**
@@ -88,50 +90,35 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     return 'Select an option'; // No quiz options have been selected yet
   };
 
-  const isCorrect = !isEditing && currentAnswer && currentAnswer === formattedAnswer;
-  const isIncorrect = !isEditing && currentAnswer && currentAnswer !== formattedAnswer;
+  const hasResult = !isEditing && Boolean(currentAnswer);
+  const isCorrect = hasResult && currentAnswer === formattedAnswer;
+  const isIncorrect = hasResult && !isCorrect;
 
-  const getOptionClasses = (option: string) => {
-    const selected = currentAnswer === option;
-
-    if (!selected) {
-      // If there is a submitted answer, or the user is not logged in, dim unselected option text and don't allow hover effects.
-      return `bg-[#2A2D340A] border-transparent ${isCorrect || isIncorrect || !isLoggedIn ? 'text-gray-400' : 'hover:bg-[#F0F5FD]'}`;
-    }
-
-    if (isCorrect) {
-      return 'bg-[#18B71B1A] border-[#18B71B]';
-    }
-
-    if (isIncorrect) {
-      return 'bg-[#DC00001A] border-[#DC0000]';
-    }
-
-    // Default style for selected option (when no answer has been submitted yet)
-    return 'bg-[#F0F5FD] border-bluedot-normal';
-  };
+  let resultTone: RadioTone | undefined;
+  if (isCorrect) resultTone = 'success';
+  if (isIncorrect) resultTone = 'error';
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
-      <div className="flex flex-col gap-2">
-        {formattedOptions.map((option) => {
-          return (
-            <Input
-              key={option}
-              {...register('answer')}
-              labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
-              inputClassName="flex-shrink-0"
-              type="radio"
-              value={option}
-              onChange={() => handleOptionSelect(option)}
-              disabled={!isLoggedIn || Boolean(isCorrect)}
-            />
-          );
-        })}
-      </div>
+      <fieldset className="flex flex-col gap-2 border-0 m-0 p-0 min-w-0">
+        <legend className="sr-only">{question}</legend>
+        {formattedOptions.map((option) => (
+          <Radio
+            key={option}
+            {...register('answer')}
+            card
+            value={option}
+            tone={currentAnswer === option ? resultTone : undefined}
+            onChange={() => handleOptionSelect(option)}
+            disabled={!isLoggedIn || isCorrect}
+          >
+            {option}
+          </Radio>
+        ))}
+      </fieldset>
       {!isLoggedIn && (
         <CTALinkOrButton
           className="!bg-bluedot-normal !whitespace-normal"
@@ -142,7 +129,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           Create a free account to check your answer
         </CTALinkOrButton>
       )}
-      {isLoggedIn && !isCorrect && !isIncorrect && (
+      {isLoggedIn && !hasResult && (
         <CTALinkOrButton
           className="!bg-bluedot-normal"
           variant="primary"

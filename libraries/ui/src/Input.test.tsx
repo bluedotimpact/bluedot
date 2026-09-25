@@ -69,13 +69,4 @@ describe('Input', () => {
     await user.click(screen.getByRole('button', { name: 'Clear' }));
     expect(cleared).toBe(true);
   });
-
-  test('renders radio as expected', () => {
-    const { container } = render(<Input
-      type="radio"
-      value="This is the value"
-      name="radio-group"
-    />);
-    expect(container).toMatchSnapshot();
-  });
 });

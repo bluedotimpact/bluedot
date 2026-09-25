@@ -189,6 +189,7 @@ const Exercise: React.FC<ExerciseProps> = ({
             exerciseResponse={responseData?.response}
             isLoggedIn={!!auth}
             onExerciseSubmit={handleExerciseSubmit}
+            question={exerciseData.title ?? ''}
           />
         );
       case 'Project submission':

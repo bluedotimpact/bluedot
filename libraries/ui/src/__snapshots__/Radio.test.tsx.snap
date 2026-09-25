@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Radio > renders Card with tone as expected 1`] = `
+<div>
+  <label
+    class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-success-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-success-border bg-success-bg"
+  >
+    <input
+      checked=""
+      class="peer sr-only"
+      disabled=""
+      name="answer"
+      type="radio"
+      value="a"
+    />
+    <span
+      aria-hidden="true"
+      class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-success-fg peer-checked:text-success-fg"
+    >
+      <span
+        class="size-2.5 rounded-full bg-current"
+      />
+    </span>
+    Correct answer
+  </label>
+</div>
+`;
+
+exports[`Radio > renders Default as expected 1`] = `
+<div>
+  <label
+    class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-start py-2.5"
+  >
+    <input
+      class="peer sr-only"
+      name="frequency"
+      type="radio"
+      value="weekly"
+    />
+    <span
+      aria-hidden="true"
+      class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus group-hover:not-peer-disabled:border-accent"
+    >
+      <span
+        class="size-2.5 rounded-full bg-current"
+      />
+    </span>
+    Weekly digest
+  </label>
+</div>
+`;
