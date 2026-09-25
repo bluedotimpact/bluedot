@@ -24,8 +24,8 @@ export default makeApiRoute({
   responseBody: z.object({ accepted: z.number() }),
 }, async (body, { raw }) => {
   verifyAutomationToken(raw.req.headers.authorization);
-  const ids = await idsToLookUp(body);
+  const jobs = await idsToLookUp(body);
   // The lookups take a minute or more each, so answer now and work in the background
-  void lookUpPeople(ids);
-  return { accepted: ids.length };
+  void lookUpPeople(jobs);
+  return { accepted: jobs.length };
 });

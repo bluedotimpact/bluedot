@@ -4,12 +4,13 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
 const {
-  generateText, fetchLookupAnchors, writeWebFacts, fetchIdsNeedingLookup, slackAlert,
+  generateText, fetchLookupAnchors, writeWebFacts, fetchIdsNeedingLookup, fetchLookedUpOn, slackAlert,
 } = vi.hoisted(() => ({
   generateText: vi.fn(),
   fetchLookupAnchors: vi.fn(),
   writeWebFacts: vi.fn(),
   fetchIdsNeedingLookup: vi.fn(),
+  fetchLookedUpOn: vi.fn(),
   slackAlert: vi.fn(async (_env: unknown, _messages: string[]) => undefined),
 }));
 vi.mock('ai', () => ({ generateText, stepCountIs: () => () => false }));
@@ -22,6 +23,7 @@ vi.mock('./airtable', async (importOriginal) => ({
   fetchLookupAnchors,
   writeWebFacts,
   fetchIdsNeedingLookup,
+  fetchLookedUpOn,
 }));
 import {
   idsToLookUp, lookUpPeople, runLookup, sanitise,
@@ -61,6 +63,7 @@ beforeEach(() => {
   fetchLookupAnchors.mockResolvedValue(anchors);
   writeWebFacts.mockResolvedValue(undefined);
   fetchIdsNeedingLookup.mockResolvedValue(['recScoutSample002', 'recScoutSample003']);
+  fetchLookedUpOn.mockResolvedValue(undefined);
 });
 
 test('sanitise keeps only URLs the tools returned, ignoring scheme and trailing slash but not the query string, and caps the lists', () => {
@@ -97,15 +100,28 @@ test('lookUpPeople writes each success, alerts on a failure, and carries on with
   generateText
     .mockRejectedValueOnce(new Error('model unavailable'))
     .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant' }] }] }] });
-  await lookUpPeople(['recScoutSample001', 'recScoutSample002']);
+  await lookUpPeople([{ id: 'recScoutSample001', onlyIfMissing: false }, { id: 'recScoutSample002', onlyIfMissing: false }]);
   expect(writeWebFacts).toHaveBeenCalledTimes(1);
   expect(writeWebFacts.mock.calls[0]![0]).toBe('recScoutSample002');
   expect(slackAlert).toHaveBeenCalledTimes(1);
   expect(slackAlert.mock.calls[0]![1][0]).toContain('recScoutSample001');
 });
 
-test('idsToLookUp merges explicit ids with everyone still missing a lookup', async () => {
-  expect(await idsToLookUp({ ids: ['recScoutSample002', 'recScoutSample009'], everyoneMissing: true })).toEqual(['recScoutSample002', 'recScoutSample009', 'recScoutSample003']);
-  expect(await idsToLookUp({ ids: ['recScoutSample009'] })).toEqual(['recScoutSample009']);
+test('idsToLookUp merges explicit ids with everyone still missing a lookup; only the latter are conditional', async () => {
+  expect(await idsToLookUp({ ids: ['recScoutSample002', 'recScoutSample009'], everyoneMissing: true })).toEqual([
+    { id: 'recScoutSample002', onlyIfMissing: false },
+    { id: 'recScoutSample009', onlyIfMissing: false },
+    { id: 'recScoutSample003', onlyIfMissing: true },
+  ]);
+  expect(await idsToLookUp({ ids: ['recScoutSample009'] })).toEqual([{ id: 'recScoutSample009', onlyIfMissing: false }]);
   expect(fetchIdsNeedingLookup).toHaveBeenCalledTimes(1);
+});
+
+test('a conditional job is skipped when another run has written the date meanwhile; a named one still runs', async () => {
+  fetchLookedUpOn.mockResolvedValue('2026-09-25');
+  generateText.mockResolvedValue({ text: JSON.stringify(modelJson), steps: [] });
+  await lookUpPeople([{ id: 'recScoutSample002', onlyIfMissing: true }, { id: 'recScoutSample003', onlyIfMissing: false }]);
+  expect(writeWebFacts).toHaveBeenCalledTimes(1);
+  expect(writeWebFacts.mock.calls[0]![0]).toBe('recScoutSample003');
+  expect(generateText).toHaveBeenCalledTimes(1);
 });

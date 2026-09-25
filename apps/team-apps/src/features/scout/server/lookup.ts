@@ -5,8 +5,12 @@ import { logger } from '@bluedot/ui/src/api';
 import env from '../../../lib/api/env';
 import type { WebFacts } from '../types';
 import {
-  fetchIdsNeedingLookup, fetchLookupAnchors, parseWebFacts, writeWebFacts, type LookupAnchors,
+  fetchIdsNeedingLookup, fetchLookedUpOn, fetchLookupAnchors, parseWebFacts, writeWebFacts, type LookupAnchors,
 } from './airtable';
+
+// Named ids always run (ticking the box is how a re-lookup is asked for); ids collected as
+// "everyone missing" are re-checked first, so two overlapping runs do not pay twice.
+export type LookupJob = { id: string; onlyIfMissing: boolean };
 
 export const LOOKUP_MODEL = 'claude-opus-5-5';
 const MAX_SEARCHES = 8;
@@ -149,9 +153,15 @@ export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
 // Looks people up one after another and writes each result as it lands. A failure is
 // logged and alerted, and the person is picked up again by the next scheduled run
 // because their "looked up on" stays empty.
-export const lookUpPeople = async (ids: string[]): Promise<void> => {
-  for (const id of ids) {
+export const lookUpPeople = async (jobs: LookupJob[]): Promise<void> => {
+  for (const { id, onlyIfMissing } of jobs) {
     try {
+      // eslint-disable-next-line no-await-in-loop
+      if (onlyIfMissing && await fetchLookedUpOn(id)) {
+        logger.info(`scout lookup: ${id} was looked up by another run meanwhile, skipped`);
+        continue;
+      }
+
       // eslint-disable-next-line no-await-in-loop
       const anchors = await fetchLookupAnchors(id);
       if (!anchors) {
@@ -173,8 +183,14 @@ export const lookUpPeople = async (ids: string[]): Promise<void> => {
   }
 };
 
-export const idsToLookUp = async (request: { ids?: string[]; everyoneMissing?: boolean }): Promise<string[]> => {
-  const ids = new Set(request.ids ?? []);
-  if (request.everyoneMissing) (await fetchIdsNeedingLookup()).forEach((id) => ids.add(id));
-  return [...ids];
+export const idsToLookUp = async (request: { ids?: string[]; everyoneMissing?: boolean }): Promise<LookupJob[]> => {
+  const jobs = new Map<string, LookupJob>();
+  (request.ids ?? []).forEach((id) => jobs.set(id, { id, onlyIfMissing: false }));
+  if (request.everyoneMissing) {
+    (await fetchIdsNeedingLookup()).forEach((id) => {
+      if (!jobs.has(id)) jobs.set(id, { id, onlyIfMissing: true });
+    });
+  }
+
+  return [...jobs.values()];
 };

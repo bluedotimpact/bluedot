@@ -14,7 +14,7 @@ vi.mock('./index', () => ({
   fetchQueue, fetchInvitedThisWeek, fetchPerson, recordDecision,
 }));
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', AIRTABLE_AUTOMATION_TOKEN: 'automation-secret', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
-const { lookUpPeople, idsToLookUp } = vi.hoisted(() => ({ lookUpPeople: vi.fn(async () => undefined), idsToLookUp: vi.fn(async (body: { ids?: string[] }) => body.ids ?? []) }));
+const { lookUpPeople, idsToLookUp } = vi.hoisted(() => ({ lookUpPeople: vi.fn(async () => undefined), idsToLookUp: vi.fn(async (body: { ids?: string[] }) => (body.ids ?? []).map((id) => ({ id, onlyIfMissing: false }))) }));
 vi.mock('../../../features/scout/server/lookup', () => ({ lookUpPeople, idsToLookUp }));
 import lookup from '../../../pages/api/scout/lookup';
 import queue from '../../../pages/api/scout/queue';
@@ -99,5 +99,5 @@ test('the lookup route accepts only the Airtable automation token and answers be
   await lookup(ok.req, ok.res);
   expect(ok.res._getStatusCode()).toBe(200);
   expect(ok.res._getJSONData()).toEqual({ accepted: 2 });
-  expect(lookUpPeople).toHaveBeenCalledWith(body.ids);
+  expect(lookUpPeople).toHaveBeenCalledWith(body.ids.map((id) => ({ id, onlyIfMissing: false })));
 });

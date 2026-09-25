@@ -842,6 +842,11 @@ export const fetchIdsNeedingLookup = async (): Promise<string[]> => {
   return records.map((r) => r.id);
 };
 
+export const fetchLookedUpOn = async (id: string): Promise<string | undefined> => {
+  const record = await fetchOne(REGISTRATIONS_URL, id, [REG.lookedUpOn]);
+  return record ? str(record.fields[REG.lookedUpOn]) : undefined;
+};
+
 export const writeWebFacts = async (id: string, facts: WebFacts): Promise<void> => {
   await patchRegistration(id, {
     [REG.webFacts]: JSON.stringify(facts, null, 1),
