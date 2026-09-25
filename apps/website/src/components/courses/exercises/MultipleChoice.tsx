@@ -11,6 +11,8 @@ type MultipleChoiceProps = {
   answer: string;
   onExerciseSubmit: (savedExerciseResponse: string, completed?: boolean) => Promise<void>;
   options: string;
+  /** Names the radio group for assistive tech; rendered as a visually hidden legend. */
+  question: string;
   // Optional
   exerciseResponse?: string;
   isLoggedIn?: boolean;
@@ -26,6 +28,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   isLoggedIn,
   onExerciseSubmit,
   options,
+  question,
 }) => {
   const router = useRouter();
   /**
@@ -100,7 +103,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-6"
     >
-      <div className="flex flex-col gap-2">
+      <fieldset className="flex flex-col gap-2 border-0 m-0 p-0 min-w-0">
+        <legend className="sr-only">{question}</legend>
         {formattedOptions.map((option) => (
           <Radio
             key={option}
@@ -114,7 +118,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             {option}
           </Radio>
         ))}
-      </div>
+      </fieldset>
       {!isLoggedIn && (
         <CTALinkOrButton
           className="!bg-bluedot-normal !whitespace-normal"
