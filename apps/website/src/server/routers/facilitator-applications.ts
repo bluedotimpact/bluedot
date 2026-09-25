@@ -14,6 +14,10 @@ import { utcIntervalStringToGrid } from '@bluedot/utils';
 import { type inferRouterOutputs, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
+import {
+  applicantDetailsSchema,
+  DATA_SHARING_CONSENT,
+} from '../../lib/schemas/facilitatorApplications/applicantDetails.schema';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { openRoundDeadlineCondition } from './course-rounds';
@@ -165,6 +169,48 @@ const getEligiblePriorFacilitatorRegs = async (userId: string, courseId: string,
 
   return priorRegs;
 };
+
+const DETAIL_COLUMNS = [
+  'jobTitle', 'organisation', 'careerLevel', 'profession', 'profileUrl', 'otherProfileUrl',
+] as const;
+
+/**
+ * The applicant's most recent registration carrying any professional details, across every course
+ * and role - not just the course they're re-applying to facilitate, because people update their
+ * details on whichever application they happened to fill in last. Registrations with none of the
+ * details filled are skipped, which covers quick-apply rows made before we started asking for them.
+ */
+const getLatestDetailsReg = async (userId: string) => {
+  const regs = await db.pg
+    .select({
+      autoNumberId: courseRegistrationTable.pg.autoNumberId,
+      createdAt: courseRegistrationTable.pg.createdAt,
+      jobTitle: courseRegistrationTable.pg.jobTitle,
+      organisation: courseRegistrationTable.pg.organisation,
+      careerLevel: courseRegistrationTable.pg.careerLevel,
+      profession: courseRegistrationTable.pg.profession,
+      profileUrl: courseRegistrationTable.pg.profileUrl,
+      otherProfileUrl: courseRegistrationTable.pg.otherProfileUrl,
+      cityId: courseRegistrationTable.pg.cityId,
+    })
+    .from(courseRegistrationTable.pg)
+    .where(eq(courseRegistrationTable.pg.userId, userId));
+
+  const withDetails = regs.filter((r) => DETAIL_COLUMNS.some((column) => !!r[column]));
+
+  return withDetails.sort((a, b) => (b.autoNumberId ?? 0) - (a.autoNumberId ?? 0))[0] ?? null;
+};
+
+type LatestDetailsReg = Awaited<ReturnType<typeof getLatestDetailsReg>>;
+
+const buildDetailsPrefill = (reg: LatestDetailsReg) => ({
+  jobTitle: reg?.jobTitle ?? '',
+  organisation: reg?.organisation ?? '',
+  careerLevel: reg?.careerLevel ?? '',
+  profession: reg?.profession ?? '',
+  profileUrl: reg?.profileUrl ?? '',
+  otherProfileUrl: reg?.otherProfileUrl ?? '',
+});
 
 // The resolved form of a prior application's answers: every field present (optional strings
 // default to '', numGroupsToFacilitate to 1) so the client form can seed react-hook-form.
@@ -336,12 +382,17 @@ export const facilitatorApplicationsRouter = router({
 
     const mostRecent = priorRegs[0] ?? null;
     const prefill = mostRecent ? buildPrefill(mostRecent) : null;
+    const latestDetailsReg = await getLatestDetailsReg(user.id);
+    const details = buildDetailsPrefill(latestDetailsReg);
+    const detailsDate = latestDetailsReg?.createdAt ?? null;
 
-    return { round, prefill };
+    return {
+      round, prefill, details, detailsDate,
+    };
   }),
 
   quickApply: protectedProcedure
-    .input(facilitatorApplicationAnswersSchema.extend({ roundId: z.string() }).refine(
+    .input(facilitatorApplicationAnswersSchema.merge(applicantDetailsSchema).extend({ roundId: z.string() }).refine(
       (v) => {
         try {
           return Object.values(utcIntervalStringToGrid(v.availabilityIntervalsUTC, v.availabilityTimezone)).some(Boolean);
@@ -356,6 +407,10 @@ export const facilitatorApplicationsRouter = router({
 
       const { courseId } = await getOpenRound(input.roundId);
       const priorRegs = await getEligiblePriorFacilitatorRegs(user.id, courseId, input.roundId);
+
+      // City isn't editable on the form, so it's carried over from the same registration the
+      // details were pre-filled from rather than taken from the client.
+      const latestDetailsReg = await getLatestDetailsReg(user.id);
 
       // Users with no name on their record yet fall back to their latest application for this course
       const applicant = user.name ? user : priorRegs[0];
@@ -390,6 +445,14 @@ export const facilitatorApplicationsRouter = router({
         availabilityIntervalsUTC: input.availabilityIntervalsUTC,
         availabilityTimezone: input.availabilityTimezone,
         availabilityComments: input.availabilityComments ?? null,
+        jobTitle: input.jobTitle ?? null,
+        organisation: input.organisation ?? null,
+        careerLevel: input.careerLevel,
+        profession: input.profession ?? null,
+        profileUrl: input.profileUrl,
+        otherProfileUrl: input.otherProfileUrl ?? null,
+        cityId: latestDetailsReg?.cityId ?? null,
+        dataSharingConsent: input.shareDetails ? DATA_SHARING_CONSENT.YES : DATA_SHARING_CONSENT.NO,
       });
     }),
 });

@@ -1,4 +1,5 @@
 import {
+  Checkbox,
   CTALinkOrButton,
   ErrorSection,
   H1,
@@ -21,9 +22,10 @@ import {
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
+import { CAREER_LEVELS, PROFESSIONS } from '../../../lib/schemas/facilitatorApplications/applicantDetails.schema';
 import { formatDateRange } from '../../../lib/utils';
 import type { QuickApplyPrefillData } from '../../../server/routers/facilitator-applications';
 import { trpc } from '../../../utils/trpc';
@@ -109,9 +111,22 @@ type FormValues = {
   timezone: string;
   timeAv: TimeAvailabilityMap;
   availabilityComments: string;
+  shareDetails: boolean;
+  jobTitle: string;
+  organisation: string;
+  careerLevel: (typeof CAREER_LEVELS)[number] | '';
+  profession: (typeof PROFESSIONS)[number] | '';
+  profileUrl: string;
+  otherProfileUrl: string;
 };
 
 const emptyToUndefined = (value: string): string | undefined => (value.trim() ? value : undefined);
+
+// Stored values that are no longer offered as options (the lists have changed over the years)
+// become empty, so the applicant picks again rather than submitting a value Airtable will reject.
+const asOption = <T extends string>(options: readonly T[], value: string): T | '' => (
+  (options as readonly string[]).includes(value) ? (value as T) : ''
+);
 
 const formatRoundLine = (round: QuickApplyPrefillData['round']): string => {
   const name = [round.courseTitle, round.label].filter(Boolean).join(' - ');
@@ -120,6 +135,15 @@ const formatRoundLine = (round: QuickApplyPrefillData['round']): string => {
   if (name) return name;
   return dateRange ?? '';
 };
+
+const formatDetailsLine = (details: Pick<FormValues, 'jobTitle' | 'organisation' | 'careerLevel' | 'profession'>): string => {
+  const role = [details.jobTitle, details.organisation].filter(Boolean).join(' at ');
+  return [role, details.careerLevel, details.profession].filter(Boolean).join(' \u00b7 ');
+};
+
+const formatMonthAndYear = (isoDate: string): string => new Date(isoDate).toLocaleDateString('en-GB', {
+  month: 'long', year: 'numeric', timeZone: 'UTC',
+});
 
 const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
   <header className="border-charcoal-light flex items-center gap-4 border-b bg-white px-5 py-5 sm:pr-5 sm:pl-10">
@@ -179,15 +203,23 @@ const QuestionCollapsible = ({
   intro,
   bullets,
   outro,
+  open,
+  onToggle,
   children,
 }: {
-  title: string;
-  intro: string;
+  title: React.ReactNode;
+  intro?: string;
   bullets?: string[];
   outro?: string;
+  open?: boolean;
+  onToggle?: (open: boolean) => void;
   children: React.ReactNode;
 }) => (
-  <details className="group border-charcoal-light rounded-md border bg-white [&_summary::-webkit-details-marker]:hidden">
+  <details
+    open={open}
+    onToggle={onToggle && ((e) => onToggle(e.currentTarget.open))}
+    className="group border-charcoal-light rounded-md border bg-white [&_summary::-webkit-details-marker]:hidden"
+  >
     <summary className="text-size-xs text-bluedot-navy flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
       {title}
       <svg
@@ -202,7 +234,7 @@ const QuestionCollapsible = ({
     </summary>
     <div className="flex flex-col gap-3 px-3 pb-4">
       <div className="text-size-xxs text-bluedot-navy/60 flex flex-col gap-1">
-        <p>{intro}</p>
+        {intro && <p>{intro}</p>}
         {bullets && (
           <ul className="list-disc space-y-0.5 pl-[18px]">
             {bullets.map((bullet) => (
@@ -217,7 +249,39 @@ const QuestionCollapsible = ({
   </details>
 );
 
-const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & QuickApplyPrefillData) => {
+const DetailsField = ({
+  label,
+  hint,
+  htmlFor,
+  required,
+  error,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  htmlFor?: string;
+  required?: boolean;
+  error?: string;
+  children: React.ReactNode;
+}) => (
+  <div className="flex flex-col gap-1.5">
+    <label htmlFor={htmlFor} className="text-size-xs text-bluedot-navy font-semibold">
+      {label}
+      {required && <span className="text-error-fg"> *</span>}
+    </label>
+    {hint && <p className="text-size-xxs text-bluedot-navy/60">{hint}</p>}
+    {children}
+    {error && <p className="text-size-xxs text-error-fg">{error}</p>}
+  </div>
+);
+
+const QuickApplyForm = ({
+  roundId,
+  round,
+  prefill,
+  details,
+  detailsDate,
+}: { roundId: string } & QuickApplyPrefillData) => {
   const router = useRouter();
   const defaultTimezone = emptyToUndefined(prefill?.availabilityTimezone ?? '')
     ?? formatOffsetFromMinutesToString(new Date().getTimezoneOffset());
@@ -236,6 +300,7 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -249,12 +314,24 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
       availabilityComments: prefill?.availabilityComments ?? '',
       timezone: defaultTimezone,
       timeAv: defaultTimeAv,
+      // Consent is asked for on every application, so it always starts unticked rather than
+      // carrying over an answer given on a previous one.
+      shareDetails: false,
+      jobTitle: details.jobTitle,
+      organisation: details.organisation,
+      careerLevel: asOption(CAREER_LEVELS, details.careerLevel),
+      profession: asOption(PROFESSIONS, details.profession),
+      profileUrl: details.profileUrl,
+      otherProfileUrl: details.otherProfileUrl,
     },
   });
 
   const quickApply = trpc.facilitatorApplications.quickApply.useMutation();
 
   const onSubmit = (values: FormValues) => {
+    // Guaranteed by the field's required rule, which runs before this
+    if (!values.careerLevel) return;
+
     quickApply.mutate(
       {
         roundId,
@@ -268,6 +345,13 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
         availabilityIntervalsUTC: gridToUtcIntervalString(values.timeAv, values.timezone),
         availabilityTimezone: values.timezone,
         availabilityComments: emptyToUndefined(values.availabilityComments),
+        shareDetails: values.shareDetails,
+        jobTitle: emptyToUndefined(values.jobTitle),
+        organisation: emptyToUndefined(values.organisation),
+        careerLevel: values.careerLevel,
+        profession: values.profession || undefined,
+        profileUrl: values.profileUrl,
+        otherProfileUrl: emptyToUndefined(values.otherProfileUrl),
       },
       {
         onSuccess: () => {
@@ -283,6 +367,12 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
   };
 
   const roundLine = formatRoundLine(round);
+  const [jobTitle, organisation, careerLevel, profession] = watch(['jobTitle', 'organisation', 'careerLevel', 'profession']);
+  const detailsLine = formatDetailsLine({
+    jobTitle, organisation, careerLevel, profession,
+  });
+  const hasPriorDetails = Object.values(details).some(Boolean);
+  const [detailsOpen, setDetailsOpen] = useState(!hasPriorDetails);
 
   return (
     <Shell subtitle={roundLine || undefined}>
@@ -412,6 +502,105 @@ const QuickApplyForm = ({ roundId, round, prefill }: { roundId: string } & Quick
         </div>
       </Section>
 
+      <Section
+        label="Your details"
+        title={hasPriorDetails ? 'Has anything changed since your last application?' : 'Add your details'}
+        description={detailsDate
+          ? `These are the latest details we have for you, from your BlueDot application in ${formatMonthAndYear(detailsDate)}. If they’re still right, you don’t need to do anything.`
+          : undefined}
+      >
+        <QuestionCollapsible
+          open={detailsOpen || !!errors.careerLevel || !!errors.profileUrl}
+          onToggle={setDetailsOpen}
+          title={(
+            <span className="flex min-w-0 flex-col gap-0.5">
+              <span>{hasPriorDetails ? 'Update your details' : 'Your details'}</span>
+              {detailsLine && (
+                <span className="text-size-xxs text-bluedot-navy/60 truncate font-medium">{detailsLine}</span>
+              )}
+            </span>
+          )}
+        >
+          <div className="flex flex-col gap-5">
+            <DetailsField
+              label="Profile URL"
+              hint="Provide a link for your LinkedIn profile or your CV. We prefer LinkedIn."
+              htmlFor="profileUrl"
+              required
+              error={errors.profileUrl && 'Add a link we can look you up on.'}
+            >
+              <Input id="profileUrl" {...register('profileUrl', { validate: (value) => !!value.trim() })} />
+            </DetailsField>
+
+            <DetailsField
+              label="Link to any other profile"
+              hint="E.g. your CV, GitHub, personal website, blog."
+              htmlFor="otherProfileUrl"
+            >
+              <Input id="otherProfileUrl" {...register('otherProfileUrl')} />
+            </DetailsField>
+
+            <DetailsField
+              label="What is your current career stage?"
+              required
+              error={errors.careerLevel && 'Select your career stage.'}
+            >
+              <Controller
+                control={control}
+                name="careerLevel"
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Select
+                    ariaLabel="Career stage"
+                    className="w-full"
+                    options={CAREER_LEVELS.map((level) => ({ value: level, label: level }))}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+            </DetailsField>
+
+            <DetailsField label="What organisation do you work at?" htmlFor="organisation">
+              <Input id="organisation" {...register('organisation')} />
+            </DetailsField>
+
+            <DetailsField label="What’s your job title?" htmlFor="jobTitle">
+              <Input id="jobTitle" {...register('jobTitle')} />
+            </DetailsField>
+
+            <DetailsField label="Which of the following most closely describes your profession?">
+              <Controller
+                control={control}
+                name="profession"
+                render={({ field }) => (
+                  <Select
+                    ariaLabel="Profession"
+                    className="w-full"
+                    options={PROFESSIONS.map((option) => ({ value: option, label: option }))}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+            </DetailsField>
+          </div>
+        </QuestionCollapsible>
+
+        <Checkbox {...register('shareDetails')}>
+          <span className="flex flex-col gap-0.5">
+            <span className="text-size-xs text-bluedot-navy font-semibold">
+              Share my data with third-party AI safety organisations
+            </span>
+            <span className="text-size-xxs text-bluedot-navy/60">
+              If you opt in, we may share parts of this application and your course participation with
+              organisations we trust. They sometimes email people about jobs or other opportunities. It
+              won’t affect your application decision.
+            </span>
+          </span>
+        </Checkbox>
+      </Section>
+
       <div className="border-charcoal-light rounded-lg border bg-white p-5">
         <CTALinkOrButton onClick={handleSubmit(onSubmit)} disabled={quickApply.isPending}>
           {quickApply.isPending ? 'Submitting…' : 'Submit'}
@@ -454,7 +643,7 @@ const QuickApplyPage = () => {
     );
   }
 
-  return <QuickApplyForm roundId={roundId} round={data.round} prefill={data.prefill} />;
+  return <QuickApplyForm roundId={roundId} round={data.round} prefill={data.prefill} details={data.details} detailsDate={data.detailsDate} />;
 };
 
 QuickApplyPage.rawLayout = true;
