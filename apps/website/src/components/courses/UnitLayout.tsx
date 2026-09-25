@@ -29,6 +29,7 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import NextStepsChunk from './NextStepsChunk';
 import { ResourceDisplay } from './ResourceDisplay';
 import CourseShell from './CourseShell';
+import ChunkAiDiscussion from './ChunkAiDiscussion';
 
 export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
@@ -79,6 +80,15 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;
   const chunk = chunks[chunkIndex];
+  const aiDiscussion = courseSlug === 'agi-strategy' && chunk && chunk.id !== NEXT_STEPS_CHUNK_ID ? (
+    <ChunkAiDiscussion
+      key={chunk.id}
+      chunk={chunk}
+      unit={unit}
+      courseSlug={courseSlug}
+      chunkIndex={chunkIndex}
+    />
+  ) : null;
 
   const nextUnit = units[unitArrIndex + 1];
   const prevUnit = units[unitArrIndex - 1];
@@ -225,8 +235,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   className={clsx(chunk?.chunkContent ? 'mt-8 md:mt-6' : 'mt-4')}
                   courseSlug={courseSlug}
                   chunkIndex={chunkIndex}
+                  headerActions={aiDiscussion}
                 />
-              ) : null}
+              ) : aiDiscussion && (
+                <div className="mt-6">{aiDiscussion}</div>
+              )}
             </>
           )}
 

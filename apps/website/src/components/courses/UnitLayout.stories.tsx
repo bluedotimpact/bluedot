@@ -102,3 +102,9 @@ export const LastChunkOfUnit: Story = {
     chunkIndex: 1,
   },
 };
+
+export const AgiStrategyWithAiDiscussion: Story = {
+  args: {
+    courseSlug: 'agi-strategy',
+  },
+};
