@@ -521,7 +521,7 @@ const QuickApplyForm = ({
             </span>
           )}
         >
-          <div className="flex flex-col gap-5 sm:grid sm:grid-cols-2">
+          <div className="flex flex-col gap-5">
             <DetailsField
               label="Profile URL"
               hint="Provide a link for your LinkedIn profile or your CV. We prefer LinkedIn."
