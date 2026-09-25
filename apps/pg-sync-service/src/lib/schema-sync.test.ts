@@ -3,7 +3,7 @@ import {
   DeprecationSafePgTable, isDeprecationSafeTable, isTable, sql,
 } from '@bluedot/db';
 // eslint-disable-next-line import/no-extraneous-dependencies -- drizzle-orm is transitive via @bluedot/db; only needed to build a table fixture below
-import { text } from 'drizzle-orm/pg-core';
+import { pgTable, text } from 'drizzle-orm/pg-core';
 import { pushSchema } from 'drizzle-kit/api';
 import * as schema from '@bluedot/db/src/schema';
 import { statementsRequireFullSync, cleanupRemovedColumns } from './schema-sync';
@@ -208,4 +208,56 @@ describe('cleanupRemovedColumns and DeprecationSafePgTable deprecated columns', 
 
     await db.pg.execute(sql`DROP TABLE IF EXISTS safe_pg_cleanup_test`);
   });
+});
+
+describe('pushSchema when a table is removed from the schema', () => {
+  // Removing a pgAirtable table from @bluedot/db (e.g. #2855, and the 1-1
+  // advising applications table) means pg-sync pushes a schema that no longer
+  // contains a table that still exists in Postgres. A table *rename* once made
+  // drizzle-kit wait for interactive input and hang the headless push (it
+  // cannot tell a rename from a drop + create). A pure removal has no such
+  // ambiguity. This guards that: the push must finish without prompting.
+  const buildPgTables = (extra: Record<string, unknown> = {}) => ({
+    ...Object.fromEntries(Object.entries(schema)
+      .filter(([, value]) => isDeprecationSafeTable(value) || isTable(value))
+      .map(([name, value]) => [
+        name,
+        isDeprecationSafeTable(value) ? (value.pgWithDeprecatedColumns ?? value.pg) : value,
+      ])),
+    ...extra,
+  });
+
+  const tableExists = async (): Promise<boolean> => {
+    const result = await db.pg.execute(sql`
+      SELECT 1 FROM information_schema.tables
+      WHERE table_name = 'removed_table_test' AND table_schema = 'public'
+    `);
+    return result.rows.length > 0;
+  };
+
+  test('pushing a schema without an existing, populated table completes without hanging', async () => {
+    const removedTable = pgTable('removed_table_test', { id: text().primaryKey(), value: text() });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const addResult = await pushSchema(buildPgTables({ removedTable }) as any, db.pg as any);
+    await addResult.apply();
+    await db.pg.execute(sql`INSERT INTO removed_table_test (id, value) VALUES ('rec1', 'some data')`);
+    expect(await tableExists()).toBe(true);
+
+    const pushWithoutTable = async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = await pushSchema(buildPgTables() as any, db.pg as any);
+      await result.apply();
+      return result;
+    };
+
+    const timeout = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('pushSchema hung after removing a table')), 30_000);
+    });
+
+    const result = await Promise.race([pushWithoutTable(), timeout]);
+
+    expect(result.statementsToExecute.some((statement) => statement.includes('DROP TABLE "removed_table_test"'))).toBe(true);
+    expect(await tableExists()).toBe(false);
+  }, 60_000);
 });
