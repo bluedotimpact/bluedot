@@ -29,29 +29,29 @@ import {
 
 const anchors = {
   id: 'recScoutSample001',
-  name: 'Alex Morgan',
+  name: 'Sample Participant',
   course: 'Technical AI Safety' as const,
   roundName: 'Technical AI Safety (2026 Aug W32) - Part-time',
-  givenUrls: ['https://github.com/alex-morgan'],
+  givenUrls: ['https://code.example.org/sample-participant'],
 };
-const seen = new Set(['github.com/alex-morgan', 'arxiv.org/abs/2601.00001', 'scholar.google.com/citations?user=alice']);
+const seen = new Set(['code.example.org/sample-participant', 'papers.example.org/abs/0001', 'scholar.example.org/citations?user=alice']);
 const modelJson = {
   identity: { confident: true, matched_on: ['given GitHub URL'], note: '' },
   links: [
-    { url: 'https://github.com/alex-morgan/', kind: 'github', confidence: 'high' },
-    { url: 'https://arxiv.org/abs/2601.00001', kind: 'publications', confidence: 'high' },
+    { url: 'https://code.example.org/sample-participant/', kind: 'github', confidence: 'high' },
+    { url: 'https://papers.example.org/abs/0001', kind: 'publications', confidence: 'high' },
     { url: 'https://example.com/not-seen', kind: 'website', confidence: 'high' },
-    { url: 'https://scholar.google.com/citations?user=bob', kind: 'publications', confidence: 'high' },
+    { url: 'https://scholar.example.org/citations?user=bob', kind: 'publications', confidence: 'high' },
   ],
   sources: [
     {
-      url: 'https://github.com/alex-morgan', kind: 'github', confidence: 'high', read: 'page', facts: { bio: 'Builds evals', recent: Array.from({ length: 12 }, (_, i) => ({ name: `alex-morgan/repo-${i}` })) },
+      url: 'https://code.example.org/sample-participant', kind: 'github', confidence: 'high', read: 'page', facts: { bio: 'Builds evals', recent: Array.from({ length: 12 }, (_, i) => ({ name: `sample-participant/repo-${i}` })) },
     },
     {
       url: 'https://example.com/not-seen', kind: 'website', confidence: 'high', read: 'page', facts: { about: 'made up' },
     },
     {
-      url: 'https://scholar.google.com/citations?user=alice', kind: 'publications', confidence: 'high', read: 'page', facts: { papers: [{ title: 'Seen paper', url: 'https://arxiv.org/abs/2601.00001' }, { title: 'Unseen paper', url: 'https://arxiv.org/abs/2699.99999' }] },
+      url: 'https://scholar.example.org/citations?user=alice', kind: 'publications', confidence: 'high', read: 'page', facts: { papers: [{ title: 'Seen paper', url: 'https://papers.example.org/abs/0001' }, { title: 'Unseen paper', url: 'https://papers.example.org/abs/9999' }] },
     },
   ],
 };
@@ -65,11 +65,11 @@ beforeEach(() => {
 
 test('sanitise keeps only URLs the tools returned, ignoring scheme and trailing slash but not the query string, and caps the lists', () => {
   const facts = sanitise(modelJson, seen, { searches: 3, pages_fetched: 2 });
-  expect(facts.links.map((l) => l.url)).toEqual(['https://github.com/alex-morgan/', 'https://arxiv.org/abs/2601.00001']);
-  expect(facts.sources.map((s) => s.url)).toEqual(['https://github.com/alex-morgan', 'https://scholar.google.com/citations?user=alice']);
+  expect(facts.links.map((l) => l.url)).toEqual(['https://code.example.org/sample-participant/', 'https://papers.example.org/abs/0001']);
+  expect(facts.sources.map((s) => s.url)).toEqual(['https://code.example.org/sample-participant', 'https://scholar.example.org/citations?user=alice']);
   expect(facts.sources[0]!.facts.recent).toHaveLength(10);
   // A paper link the tools never returned is dropped; the paper itself stays
-  expect(facts.sources[1]!.facts.papers?.map((p) => p.url)).toEqual(['https://arxiv.org/abs/2601.00001', undefined]);
+  expect(facts.sources[1]!.facts.papers?.map((p) => p.url)).toEqual(['https://papers.example.org/abs/0001', undefined]);
   expect(facts.meta).toEqual({ searches: 3, pages_fetched: 2, all_urls_seen: [...seen] });
 });
 
@@ -77,18 +77,18 @@ test('runLookup collects seen URLs from tool results only, counts the calls, and
   generateText.mockResolvedValue({
     text: `Here you go:\n\`\`\`json\n${JSON.stringify(modelJson)}\n\`\`\``,
     steps: [
-      { content: [{ type: 'tool-call', toolName: 'web_search', input: { query: 'Alex Morgan GitHub' } }, { type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://github.com/alex-morgan', title: 'alex-morgan' }] }] },
-      { content: [{ type: 'tool-call', toolName: 'web_fetch', input: { url: 'https://arxiv.org/abs/2601.00001' } }, { type: 'tool-result', toolName: 'web_fetch', output: { type: 'web_fetch_result', url: 'https://arxiv.org/abs/2601.00001' } }] },
+      { content: [{ type: 'tool-call', toolName: 'web_search', input: { query: 'Sample Participant GitHub' } }, { type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant', title: 'sample-participant' }] }] },
+      { content: [{ type: 'tool-call', toolName: 'web_fetch', input: { url: 'https://papers.example.org/abs/0001' } }, { type: 'tool-result', toolName: 'web_fetch', output: { type: 'web_fetch_result', url: 'https://papers.example.org/abs/0001' } }] },
       // A fetch that failed: the URL was asked for but never returned, so it must not count
-      { content: [{ type: 'tool-call', toolName: 'web_fetch', input: { url: 'https://scholar.google.com/citations?user=alice' } }, { type: 'tool-error', toolName: 'web_fetch', error: 'blocked' }] },
+      { content: [{ type: 'tool-call', toolName: 'web_fetch', input: { url: 'https://scholar.example.org/citations?user=alice' } }, { type: 'tool-error', toolName: 'web_fetch', error: 'blocked' }] },
       { content: [{ type: 'text', text: 'done' }] },
     ],
   });
   const facts = await runLookup(anchors);
-  expect(generateText.mock.calls[0]![0].prompt).toContain('Name: Alex Morgan');
+  expect(generateText.mock.calls[0]![0].prompt).toContain('Name: Sample Participant');
   expect(generateText.mock.calls[0]![0].prompt).not.toContain('@');
   expect(facts.links).toHaveLength(2);
-  expect(facts.sources.map((s) => s.url)).toEqual(['https://github.com/alex-morgan']);
+  expect(facts.sources.map((s) => s.url)).toEqual(['https://code.example.org/sample-participant']);
   expect(facts.meta.searches).toBe(1);
   expect(facts.meta.pages_fetched).toBe(2);
 });
@@ -96,7 +96,7 @@ test('runLookup collects seen URLs from tool results only, counts the calls, and
 test('lookUpPeople writes each success, alerts on a failure, and carries on with the next person', async () => {
   generateText
     .mockRejectedValueOnce(new Error('model unavailable'))
-    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://github.com/alex-morgan' }] }] }] });
+    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant' }] }] }] });
   await lookUpPeople(['recScoutSample001', 'recScoutSample002']);
   expect(writeWebFacts).toHaveBeenCalledTimes(1);
   expect(writeWebFacts.mock.calls[0]![0]).toBe('recScoutSample002');
