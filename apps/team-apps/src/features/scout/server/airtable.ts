@@ -356,11 +356,7 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
 
-// People BlueDot is already talking to leave the queue: an approved career transition grant,
-// or a completed evaluation call. Rejected grants and "Reject" calls (rejected without a call)
-// do not count. Matched by email, the only key shared by the three tables.
-// If either read fails the queue still loads, unfiltered, with a warning: a lead can review
-// with a few extra people in the list, but not with no list at all.
+// Emails with an approved CTG or a completed eval call; call status "Reject" means no call happened.
 const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
   try {
     const [grants, calls] = await Promise.all([
