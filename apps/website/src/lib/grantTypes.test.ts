@@ -11,6 +11,7 @@ describe('getGrantPath', () => {
     expect(getGrantPath('seed')).toBeUndefined();
     expect(getGrantPath('rapid-grants')).toBeUndefined();
     expect(getGrantPath('toString')).toBeUndefined();
+    expect(getGrantPath('constructor')).toBeUndefined();
   });
 
   test('returns undefined for missing slugs', () => {
