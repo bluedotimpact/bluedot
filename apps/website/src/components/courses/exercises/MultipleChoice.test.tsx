@@ -27,6 +27,7 @@ const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
 const mockArgs = {
   options: mockOptions,
   answer: 'The community\'s preference for low-tech fishing traditions\n',
+  question: 'What drove the change?',
   onExerciseSubmit: () => Promise.resolve(),
 };
 
@@ -56,6 +57,12 @@ describe('MultipleChoice', () => {
       expect(input).not.toBeChecked();
       expect(input).toBeEnabled();
     });
+  });
+
+  test('names the radio group after the question', () => {
+    const { getByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
+
+    expect(getByRole('group', { name: mockArgs.question })).toBeInTheDocument();
   });
 
   test('disables submit button when no option selected', () => {

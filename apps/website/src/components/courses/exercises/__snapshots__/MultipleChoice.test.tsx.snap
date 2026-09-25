@@ -5,9 +5,14 @@ exports[`MultipleChoice > renders default as expected 1`] = `
   <form
     class="flex flex-col gap-6"
   >
-    <div
-      class="flex flex-col gap-2"
+    <fieldset
+      class="flex flex-col gap-2 border-0 m-0 p-0 min-w-0"
     >
+      <legend
+        class="sr-only"
+      >
+        What drove the change?
+      </legend>
       <label
         class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
@@ -88,7 +93,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         </span>
         A cultural shift toward vegetarianism in the region
       </label>
-    </div>
+    </fieldset>
     <a
       class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal !whitespace-normal"
       href="/login?register=true&redirect_to=%2Ftest-path"
@@ -123,9 +128,14 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
   <form
     class="flex flex-col gap-6"
   >
-    <div
-      class="flex flex-col gap-2"
+    <fieldset
+      class="flex flex-col gap-2 border-0 m-0 p-0 min-w-0"
     >
+      <legend
+        class="sr-only"
+      >
+        What drove the change?
+      </legend>
       <label
         class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
       >
@@ -202,7 +212,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         </span>
         A cultural shift toward vegetarianism in the region
       </label>
-    </div>
+    </fieldset>
     <button
       class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal"
       disabled=""
