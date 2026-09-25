@@ -245,6 +245,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
                 rounds={rounds.intense}
                 applicationUrl={applicationUrlWithUtm}
                 accentColor={getCourseAccentColor(course.slug)}
+                hoursPerUnit={course.slug === 'ai-governance' ? '6–7' : undefined}
               />
             )}
             {hasPartTime && (
@@ -253,6 +254,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
                 rounds={rounds.partTime}
                 applicationUrl={applicationUrlWithUtm}
                 accentColor={getCourseAccentColor(course.slug)}
+                hoursPerUnit={course.slug === 'ai-governance' ? '6–7' : undefined}
               />
             )}
           </div>

@@ -54,7 +54,7 @@ const WhatThisIsForSection = () => {
             </ul>
           </div>
           <P className="text-bluedot-navy/80 pt-4">
-            Run by BlueDot Impact. We&apos;ve raised over $35M to build the workforce and organizations needed to safely navigate AGI.
+            Run by BlueDot Impact. We&apos;ve raised $71M to build the workforce and organizations needed to safely navigate AGI.
           </P>
         </div>
 

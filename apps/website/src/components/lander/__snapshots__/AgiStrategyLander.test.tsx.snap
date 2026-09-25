@@ -1024,7 +1024,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <p
                         class="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62"
                       >
-                        Small, fast funding for concrete AI safety work. Five-minute application, decisions in days, money upfront by default.
+                        Small, fast funding for concrete AI safety work. 15-minute application, decisions in days, money upfront by default.
                       </p>
                     </div>
                   </div>
@@ -1509,7 +1509,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
     <script
       type="application/ld+json"
     >
-      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What background do I need?","acceptedAnswer":{"@type":"Answer","text":"We don't care about your CV. We care about what you'll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action."}},{"@type":"Question","name":"Is this course for beginners?","acceptedAnswer":{"@type":"Answer","text":"It's for people new to working on AI safety, not new to thinking hard. If you've been reading and thinking, and are ready to act, this is where you start."}},{"@type":"Question","name":"What's the difference between intensive and part-time?","acceptedAnswer":{"@type":"Answer","text":"Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place."}},{"@type":"Question","name":"What time zones do you run cohorts in?","acceptedAnswer":{"@type":"Answer","text":"We run discussions across a wide range of timezones. You'll tell us your availability and we'll put you in a group that works for your current schedule."}},{"@type":"Question","name":"What if I don't know which direction I want to go?","acceptedAnswer":{"@type":"Answer","text":"That's what the course is for. You'll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work."}},{"@type":"Question","name":"Is there funding available?","acceptedAnswer":{"@type":"Answer","text":"Yes. See bluedot.org/programs for current grants and how to apply."}},{"@type":"Question","name":"Will I get a certificate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes."}},{"@type":"Question","name":"Who is BlueDot Impact?","acceptedAnswer":{"@type":"Answer","text":"BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained thousands of people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI."}}]}
+      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What background do I need?","acceptedAnswer":{"@type":"Answer","text":"We don't care about your CV. We care about what you'll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action."}},{"@type":"Question","name":"Is this course for beginners?","acceptedAnswer":{"@type":"Answer","text":"It's for people new to working on AI safety, not new to thinking hard. If you've been reading and thinking, and are ready to act, this is where you start."}},{"@type":"Question","name":"What's the difference between intensive and part-time?","acceptedAnswer":{"@type":"Answer","text":"Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place."}},{"@type":"Question","name":"What time zones do you run cohorts in?","acceptedAnswer":{"@type":"Answer","text":"We run discussions across a wide range of timezones. You'll tell us your availability and we'll put you in a group that works for your current schedule."}},{"@type":"Question","name":"What if I don't know which direction I want to go?","acceptedAnswer":{"@type":"Answer","text":"That's what the course is for. You'll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work."}},{"@type":"Question","name":"Is there funding available?","acceptedAnswer":{"@type":"Answer","text":"Yes. See bluedot.org/grants for current grants and how to apply."}},{"@type":"Question","name":"Will I get a certificate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes."}},{"@type":"Question","name":"Who is BlueDot Impact?","acceptedAnswer":{"@type":"Answer","text":"BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained over 10,000 people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI."}}]}
     </script>
     <section
       class="w-full bg-white"
@@ -1814,9 +1814,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       Yes. See 
                       <a
                         class="underline"
-                        href="/programs"
+                        href="/grants"
                       >
-                        bluedot.org/programs
+                        bluedot.org/grants
                       </a>
                        for current grants and how to apply.
                     </p>
@@ -1962,7 +1962,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <p
                       class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
                     >
-                      BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained thousands of people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI.
+                      BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained over 10,000 people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI.
                     </p>
                   </div>
                 </div>

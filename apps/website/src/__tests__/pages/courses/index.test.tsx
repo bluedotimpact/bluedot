@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import {
   describe, expect, test, vi, beforeEach,
 } from 'vitest';
@@ -65,6 +65,19 @@ describe('CoursesPage', () => {
 
     const heroTitle = container.querySelector('h1');
     expect(heroTitle?.textContent).toBe('Online courses');
+  });
+
+  test('shows the governance workload for intensive and part-time courses', async () => {
+    server.use(trpcMsw.courseRounds.getRoundsForCourse.query(() => ({
+      intense: [{ ...mockRounds.intense[0]!, numberOfUnits: 6 }],
+      partTime: [{
+        ...mockRounds.intense[0]!, id: 'round-part-time', intensity: 'part-time', numberOfUnits: 6,
+      }],
+    })));
+    render(<CoursesPage />, { wrapper: TrpcProvider });
+
+    expect(await screen.findByText('6 day course (6–7h/day)')).toBeTruthy();
+    expect(await screen.findByText('6 week course (6–7h/week)')).toBeTruthy();
   });
 
   test('renders newsletter banner', async () => {

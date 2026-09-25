@@ -99,7 +99,7 @@ export const createBioSecurityContent = (
       {
         icon: PiHandCoins,
         title: 'Get funded to accelerate your impact',
-        description: 'From small grants to build your portfolio, up to £50k to launch new organisations. We\'ll do whatever it takes to accelerate your journey.',
+        description: <>Explore our <a href="/grants" className="underline">current grants</a> for funding to build your portfolio, pursue projects, or transition into impactful work.</>,
       },
     ],
   },
@@ -119,7 +119,7 @@ export const createBioSecurityContent = (
     items: [
       {
         title: 'Rapid Grants',
-        summary: 'Small, fast funding for concrete biosecurity work. Five-minute application, decisions in days, money upfront by default.',
+        summary: 'Small, fast funding for concrete biosecurity work. 15-minute application, decisions in days, money upfront by default.',
         href: '/grants/rapid',
         ctaLabel: 'Explore grant',
       },
@@ -185,15 +185,15 @@ export const createBioSecurityContent = (
         question: 'Is there funding available?',
         answer: (
           <>
-            Yes. Funding is available to graduates of the course. See <a href="/programs" className="underline">bluedot.org/programs</a> for current grants and how to apply.
+            Yes. Funding is available to graduates of the course. See <a href="/grants" className="underline">bluedot.org/grants</a> for current grants and how to apply.
           </>
         ),
-        answerText: 'Yes. Funding is available to graduates of the course. See bluedot.org/programs for current grants and how to apply.',
+        answerText: 'Yes. Funding is available to graduates of the course. See bluedot.org/grants for current grants and how to apply.',
       },
       {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
-        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run cohort-based courses, help people land jobs, organise events around the world, and back people starting new organisations. Biosecurity is one of three programmes alongside AI safety and AI governance. We\'ve trained thousands of people since 2022, and our biosecurity alumni now work on pandemic preparedness at organisations around the world.',
+        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run cohort-based courses, help people land jobs, organise events around the world, and back people starting new organisations. Biosecurity is one of three programmes alongside AI safety and AI governance. We\'ve trained over 10,000 people since 2022, and our biosecurity alumni now work on pandemic preparedness at organisations around the world.',
       },
     ],
   },
