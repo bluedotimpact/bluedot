@@ -16,7 +16,7 @@ import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
 import '../lib/axios'; // Configure axios-hooks
 import { FOAI_COURSE_SLUG } from '../lib/constants';
 import { inter, interDisplay } from '../lib/fonts';
-import { getGrantPath } from '../lib/grantRoutes';
+import { getGrantPath } from '../lib/grantTypes';
 import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
 import { useCourses } from '../lib/hooks/useCourses';
 import { AI_SECURITY_BOOTCAMP } from '../lib/publicPrograms';

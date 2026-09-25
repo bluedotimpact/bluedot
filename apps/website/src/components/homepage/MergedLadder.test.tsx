@@ -49,7 +49,7 @@ const mockPrograms = [
     description: 'Fund talented people in the BlueDot community.',
     applicationForm: null,
     category: 'Funding',
-    slug: 'rapid-grants',
+    slug: 'rapid',
     order: '1',
     status: 'Active',
   },

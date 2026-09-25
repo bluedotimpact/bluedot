@@ -4,11 +4,11 @@ import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const grants = [
   {
-    id: 'rapid', name: 'Rapid Grants', slug: 'rapid-grants', category: 'Funding',
+    id: 'rapid', name: 'Rapid Grants', slug: 'rapid', category: 'Funding',
     description: 'Funding for projects.', applicationForm: null, order: '1', status: 'Active',
   },
   {
-    id: 'career', name: 'Career Transition Grants', slug: 'career-transition-grant', category: 'Funding',
+    id: 'career', name: 'Career Transition Grants', slug: 'career-transition', category: 'Funding',
     description: 'Funding for career transitions.', applicationForm: null, order: '2', status: 'Active',
   },
 ];

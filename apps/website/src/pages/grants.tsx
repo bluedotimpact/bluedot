@@ -6,7 +6,7 @@ import MarketingHero from '../components/MarketingHero';
 import OpportunityCard from '../components/OpportunityCard';
 import { FUNDING_RESTRICTIONS_FAQ } from '../components/grants/fundingRestrictions';
 import FAQSection from '../components/lander/components/FAQSection';
-import { GRANT_PATHS } from '../lib/grantRoutes';
+import { grantTypePath } from '../lib/grantTypes';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
 
@@ -23,14 +23,14 @@ const AWARDED_AMOUNT_FORMAT = new Intl.NumberFormat('en-US', {
 
 const FUNDING_ROUTES = [
   {
-    slug: 'rapid-grants',
+    slug: 'rapid',
     name: 'Rapid Grants',
     amount: 'Up to $20k',
     description: 'Funding for time and resources to explore an idea, do research or build something in AI safety or biosecurity.',
     application: 'About 15 minutes to apply',
   },
   {
-    slug: 'career-transition-grant',
+    slug: 'career-transition',
     name: 'Career Transition Grants',
     amount: 'Up to $200k',
     description: 'Funding to move full-time into AI safety or biosecurity. Build experience, produce useful work or test a career path.',
@@ -95,15 +95,15 @@ const GrantsPage = () => {
         <div className="section-base py-10 sm:py-12">
           <ul className="grid list-none gap-5 bd-md:grid-cols-2 lg:gap-6">
             {FUNDING_ROUTES.map((route) => {
-              const stats = route.slug === 'rapid-grants' ? rapidStats : careerTransitionStats;
+              const stats = route.slug === 'rapid' ? rapidStats : careerTransitionStats;
 
               return (
                 <li key={route.slug} className="min-w-0">
                   <OpportunityCard
-                    href={GRANT_PATHS[route.slug]}
+                    href={grantTypePath(route.slug)}
                     title={route.name}
                     description={route.description}
-                    tone={route.slug === 'rapid-grants' ? 'funding' : 'careerTransition'}
+                    tone={route.slug === 'rapid' ? 'funding' : 'careerTransition'}
                     ctaLabel="Explore grant"
                     details={(
                       <div>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
+import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 
 const FUNDING_EXAMPLES = [
   { title: 'Research and learning', description: 'Time, living costs and research access' },
@@ -9,7 +9,7 @@ const FUNDING_EXAMPLES = [
 ];
 
 const WhatThisIsForSection = () => {
-  const applicationUrl = useGrantApplicationUrl('rapid-grants');
+  const applicationUrl = useApplicationUrl('rapid');
 
   return (
     <section className="section-base rapid-grants-what-section">

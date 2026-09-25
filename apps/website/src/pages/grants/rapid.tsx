@@ -2,9 +2,9 @@ import { Breadcrumbs, CTALinkOrButton } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
-import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
+import StatsStrip from '../../components/StatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
-import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
+import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 import WhatThisIsForSection from '../../components/rapid-grants/WhatThisIsForSection';
 import HowItWorksSection from '../../components/rapid-grants/HowItWorksSection';
 import FundedProjectsSection from '../../components/rapid-grants/FundedProjectsSection';
@@ -15,8 +15,9 @@ import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
 } from '../../lib/programDetailPage';
+import { type GrantTypeSlug } from '../../lib/grantTypes';
 
-const PROGRAM_SLUG = 'rapid-grants';
+const GRANT_TYPE: GrantTypeSlug = 'rapid';
 const FALLBACK_NAME = 'Rapid Grants';
 // This page's introduction is maintained here rather than using the shared program summary.
 const PAGE_DESCRIPTION = 'Funding of up to $20,000 for time and resources to make progress on AI safety or biosecurity - from exploring a promising direction to carrying out a concrete project.';
@@ -31,7 +32,7 @@ const formatDecisionTime = (hours: number | null | undefined): string => {
 
 const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
-  const applicationUrl = useGrantApplicationUrl('rapid-grants');
+  const applicationUrl = useApplicationUrl(GRANT_TYPE);
 
   return (
     <div className="bg-white text-bluedot-navy">
@@ -42,8 +43,8 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
       </Head>
       <MarketingHero title={programName} subtitle={PAGE_DESCRIPTION} />
       <Breadcrumbs route={{ title: programName, url: PAGE_PATH, parentPages: [ROUTES.home, ROUTES.grants] }} />
-      <GrantStatsStrip
-        program="rapid-grants"
+      <StatsStrip
+        slug={GRANT_TYPE}
         compact
         stats={[
           { label: 'Grant funding', value: 'Up to $20k' },
@@ -55,7 +56,7 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
       <WhatThisIsForSection />
       <HowItWorksSection />
       <FundedProjectsSection />
-      <GrantFaqSection program="rapid-grants" variant="plain" />
+      <GrantFaqSection grantType={GRANT_TYPE} variant="plain" />
       {applicationUrl && (
         <div className="section-base">
           <div className="flex flex-col items-start gap-5 border-t border-bluedot-navy/15 py-10 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:py-12">
@@ -69,7 +70,7 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
 };
 
 export const getStaticProps: GetStaticProps<ProgramDetailPageProps> = () => getProgramDetailPageStaticProps(
-  PROGRAM_SLUG,
+  GRANT_TYPE,
   { programName: FALLBACK_NAME, programDescription: PAGE_DESCRIPTION },
 );
 

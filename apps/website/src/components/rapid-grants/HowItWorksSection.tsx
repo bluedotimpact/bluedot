@@ -1,7 +1,7 @@
 import {
   P,
 } from '@bluedot/ui';
-import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
+import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 import { trpc } from '../../utils/trpc';
 
 const FALLBACK_DECISION_BODY = 'We review your application and email you a decision.';
@@ -40,7 +40,7 @@ const buildProcessSteps = (applicationUrl: string | undefined, decisionBody: str
 ];
 
 const HowItWorksSection = () => {
-  const applicationUrl = useGrantApplicationUrl('rapid-grants');
+  const applicationUrl = useApplicationUrl('rapid');
   const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
   const decisionBody = buildDecisionBody(stats?.averageHoursToDecision, stats?.p90DaysToDecision);
   const processSteps = buildProcessSteps(applicationUrl, decisionBody);

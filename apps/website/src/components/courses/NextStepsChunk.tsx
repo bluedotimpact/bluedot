@@ -5,7 +5,7 @@ import type React from 'react';
 import { PageListGroup, PageListRow } from '../PageListRow';
 import { isDigitalMindsCourseSlug } from '../../lib/constants';
 import { formatAmountUsd } from '../../lib/utils';
-import { getGrantPath } from '../../lib/grantRoutes';
+import { getGrantPath } from '../../lib/grantTypes';
 import { trpc } from '../../utils/trpc';
 
 const pluralizeGrants = (count: number) => `${count} ${count === 1 ? 'grant' : 'grants'}`;
@@ -103,11 +103,11 @@ const BlueDotNextStepsChunk: React.FC = () => {
   const { data: ctStats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
 
   const getMeta = (slug: string | null): string | null => {
-    if (slug === 'rapid-grants' && rapidStats) {
+    if (slug === 'rapid' && rapidStats) {
       return `${formatAmountUsd(rapidStats.totalAmountUsd)} deployed so far across ${pluralizeGrants(rapidStats.count)}.`;
     }
 
-    if (slug === 'career-transition-grant' && ctStats) {
+    if (slug === 'career-transition' && ctStats) {
       return `${formatAmountUsd(ctStats.totalAmountUsd)} awarded so far across ${pluralizeGrants(ctStats.count)}.`;
     }
 

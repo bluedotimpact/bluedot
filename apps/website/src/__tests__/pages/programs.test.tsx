@@ -42,7 +42,7 @@ const mockPrograms = [
     description: 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety and biosecurity.',
     applicationForm: 'https://example.com/rapid',
     category: 'Funding',
-    slug: 'rapid-grants',
+    slug: 'rapid',
     order: '2',
   },
   {
@@ -52,7 +52,7 @@ const mockPrograms = [
     description: 'Funding and support to help you go full-time on AI safety and biosecurity.',
     applicationForm: 'https://example.com/ct',
     category: 'Funding',
-    slug: 'career-transition-grant',
+    slug: 'career-transition',
     order: '3',
   },
   {

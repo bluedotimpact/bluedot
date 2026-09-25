@@ -2,13 +2,13 @@ import { Breadcrumbs, type BluedotRoute } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
-import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
+import StatsStrip from '../../components/StatsStrip';
 import FieldBuildersSection from '../../components/fieldbuilder-week/FieldBuildersSection';
 import TheWeekSection from '../../components/fieldbuilder-week/TheWeekSection';
 import WhoYouAreSection from '../../components/fieldbuilder-week/WhoYouAreSection';
 import WhatCouldYouBuildSection from '../../components/fieldbuilder-week/WhatCouldYouBuildSection';
 import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
-import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
+import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 import { ROUTES } from '../../lib/routes';
 import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 import {
@@ -22,7 +22,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/fieldbuilder-week.png`;
 
 const FieldbuilderWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
-  const applicationUrl = useGrantApplicationUrl('fieldbuilder-week');
+  const applicationUrl = useApplicationUrl('fieldbuilder-week');
   const currentRoute: BluedotRoute = {
     title: programName,
     url: '/programs/fieldbuilder-week',
@@ -48,8 +48,8 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
         subtitle={programDescription}
       />
       <Breadcrumbs route={currentRoute} />
-      <GrantStatsStrip
-        program="fieldbuilder-week"
+      <StatsStrip
+        slug="fieldbuilder-week"
         compact
         primaryAction={{
           label: 'Register interest',

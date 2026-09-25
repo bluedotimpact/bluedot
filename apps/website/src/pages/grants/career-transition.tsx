@@ -2,7 +2,7 @@ import { Breadcrumbs } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
-import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
+import StatsStrip from '../../components/StatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
 import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/career-transition-grant/WhatThisIsForSection';
@@ -19,8 +19,9 @@ import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
 } from '../../lib/programDetailPage';
+import { type GrantTypeSlug } from '../../lib/grantTypes';
 
-const PROGRAM_SLUG = 'career-transition-grant';
+const GRANT_TYPE: GrantTypeSlug = 'career-transition';
 const FALLBACK_NAME = 'Career Transition Grants';
 const HERO_DESCRIPTION = 'Funding and support for people ready to make a full-time transition into work that reduces catastrophic risks from advanced AI or biological threats.';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
@@ -50,8 +51,8 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
           parentPages: [ROUTES.home, ROUTES.grants],
         }}
       />
-      <GrantStatsStrip
-        program="career-transition-grant"
+      <StatsStrip
+        slug={GRANT_TYPE}
         compact
         stats={[
           { label: 'Grant funding', value: 'Up to $200k' },
@@ -67,14 +68,14 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
       <ApplicationPreviewSection />
       <NextStepsSection />
       <GranteesSection />
-      <GrantFaqSection program="career-transition-grant" />
-      <GrantCta program="career-transition-grant" />
+      <GrantFaqSection grantType={GRANT_TYPE} />
+      <GrantCta grantType={GRANT_TYPE} />
     </div>
   );
 };
 
 export const getStaticProps: GetStaticProps<ProgramDetailPageProps> = () => getProgramDetailPageStaticProps(
-  PROGRAM_SLUG,
+  GRANT_TYPE,
   { programName: FALLBACK_NAME, programDescription: HERO_DESCRIPTION },
 );
 

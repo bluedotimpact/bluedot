@@ -2,12 +2,12 @@ import { Breadcrumbs, type BluedotRoute } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
-import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
+import StatsStrip from '../../components/StatsStrip';
 import TheWeekSection from '../../components/incubator-week/TheWeekSection';
 import AboutYouSection from '../../components/incubator-week/AboutYouSection';
 import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
 import VideoSection from '../../components/incubator-week/VideoSection';
-import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
+import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 import { ROUTES } from '../../lib/routes';
 import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 import {
@@ -25,7 +25,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/incubator-week-november-2026.png`;
 
 const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
-  const applicationUrl = useGrantApplicationUrl('incubator-week');
+  const applicationUrl = useApplicationUrl('incubator-week');
   const currentRoute: BluedotRoute = {
     title: programName,
     url: '/programs/incubator-week',
@@ -51,8 +51,8 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         subtitle={programDescription}
       />
       <Breadcrumbs route={currentRoute} />
-      <GrantStatsStrip
-        program="incubator-week"
+      <StatsStrip
+        slug="incubator-week"
         compact
         primaryAction={{
           label: `Apply by ${APPLICATION_DEADLINE}`,

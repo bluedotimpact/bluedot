@@ -5,7 +5,7 @@ import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import OverviewSection from '../../components/context-week/OverviewSection';
-import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
+import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../../lib/linkPreviewMetaTags';
 import {
   getProgramDetailPageStaticProps,
@@ -20,7 +20,7 @@ const APPLICATION_NOTICE = 'You can still fill out the application form as an ex
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
 const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
-  const applicationUrl = useGrantApplicationUrl('context-week');
+  const applicationUrl = useApplicationUrl('context-week');
   const description = `${PROGRAM_DESCRIPTION} ${APPLICATION_NOTICE}`;
   const currentRoute: BluedotRoute = {
     title: programName,

@@ -14,7 +14,7 @@ const sampleGrants: Grants = [
     description: 'Funding for concrete work on AI safety and biosecurity.',
     applicationForm: 'https://example.com/apply/rapid-grants',
     category: 'Funding',
-    slug: 'rapid-grants',
+    slug: 'rapid',
     order: '1',
   },
   {
@@ -24,7 +24,7 @@ const sampleGrants: Grants = [
     description: 'Support for people moving into full-time work on AI safety or biosecurity.',
     applicationForm: 'https://example.com/apply/career-transition',
     category: 'Funding',
-    slug: 'career-transition-grant',
+    slug: 'career-transition',
     order: '2',
   },
 ];
