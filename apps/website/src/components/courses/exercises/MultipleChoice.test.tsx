@@ -105,7 +105,10 @@ describe('MultipleChoice', () => {
 
     const correctRadio = getByDisplayValue(mockArgs.answer.trim());
     expect(correctRadio).toBeChecked();
-    expect(correctRadio).toMatchSnapshot();
+
+    const correctLabel = correctRadio.closest('label');
+    expect(correctLabel).toHaveClass('bg-success-bg', 'border-success-border', 'text-success-fg');
+    expect(correctLabel).toMatchSnapshot();
 
     const radioInputs = getAllByRole('radio');
     radioInputs.forEach((input) => {
@@ -119,7 +122,10 @@ describe('MultipleChoice', () => {
 
     const incorrectRadio = getByDisplayValue(incorrectAnswer.trim());
     expect(incorrectRadio).toBeChecked();
-    expect(incorrectRadio).toMatchSnapshot();
+
+    const incorrectLabel = incorrectRadio.closest('label');
+    expect(incorrectLabel).toHaveClass('bg-error-bg', 'border-error-border', 'text-error-fg');
+    expect(incorrectLabel).toMatchSnapshot();
 
     const tryAgainButton = getByRole('button', { name: /try again/i });
     expect(tryAgainButton).toBeInTheDocument();
