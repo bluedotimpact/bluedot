@@ -22,3 +22,14 @@ export const CHOICE_CARD_NEUTRAL_STYLES = [
   'has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle',
   'has-disabled:bg-tint',
 ];
+
+// The drawn control (Checkbox box, Radio ring). Each adds its own shape and state colours.
+// `text-transparent` hides the glyph/dot until a state colour replaces it.
+export const CHOICE_CONTROL_STYLES = [
+  'flex size-6 shrink-0 items-center justify-center bg-raised text-transparent',
+  'transition-colors motion-reduce:transition-none',
+];
+
+// Row only: the card carries its own hover and focus treatment.
+export const CHOICE_CONTROL_ROW_HOVER_STYLES = 'group-hover:not-peer-disabled:border-accent';
+export const CHOICE_CONTROL_ROW_FOCUS_STYLES = 'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus';

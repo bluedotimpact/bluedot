@@ -2,7 +2,14 @@ import { forwardRef } from 'react';
 import type { InputHTMLAttributes } from 'react';
 import { FaCheck } from 'react-icons/fa6';
 import {
-  CHOICE_CARD_NEUTRAL_STYLES, CHOICE_CARD_STYLES, CHOICE_ROOT_NEUTRAL_STYLES, CHOICE_ROOT_STYLES, CHOICE_ROW_STYLES,
+  CHOICE_CARD_NEUTRAL_STYLES,
+  CHOICE_CARD_STYLES,
+  CHOICE_CONTROL_ROW_FOCUS_STYLES,
+  CHOICE_CONTROL_ROW_HOVER_STYLES,
+  CHOICE_CONTROL_STYLES,
+  CHOICE_ROOT_NEUTRAL_STYLES,
+  CHOICE_ROOT_STYLES,
+  CHOICE_ROW_STYLES,
 } from './choiceStyles';
 import { cn } from './utils';
 
@@ -15,19 +22,15 @@ export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' |
 
 // Glyph is always rendered and inherits the box colour, so it stays transparent until the box fills.
 const BOX_STYLES = [
-  'flex size-6 shrink-0 items-center justify-center rounded-surface border border-strong bg-raised text-transparent',
-  'transition-colors motion-reduce:transition-none',
+  CHOICE_CONTROL_STYLES,
+  'rounded-surface border border-strong',
   'peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark',
   'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint',
   'peer-disabled:peer-checked:opacity-40',
   'peer-aria-invalid:not-peer-disabled:border-error-fg',
 ];
 
-// Row only: the card carries its own hover and focus treatment.
-const BOX_ROW_STYLES = [
-  'group-hover:not-peer-disabled:border-accent',
-  'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus',
-];
+const BOX_ROW_STYLES = [CHOICE_CONTROL_ROW_HOVER_STYLES, CHOICE_CONTROL_ROW_FOCUS_STYLES];
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
   card,

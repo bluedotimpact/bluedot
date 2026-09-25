@@ -2,7 +2,14 @@ import { forwardRef } from 'react';
 import type { InputHTMLAttributes } from 'react';
 import type { ClassValue } from 'clsx';
 import {
-  CHOICE_CARD_NEUTRAL_STYLES, CHOICE_CARD_STYLES, CHOICE_ROOT_NEUTRAL_STYLES, CHOICE_ROOT_STYLES, CHOICE_ROW_STYLES,
+  CHOICE_CARD_NEUTRAL_STYLES,
+  CHOICE_CARD_STYLES,
+  CHOICE_CONTROL_ROW_FOCUS_STYLES,
+  CHOICE_CONTROL_ROW_HOVER_STYLES,
+  CHOICE_CONTROL_STYLES,
+  CHOICE_ROOT_NEUTRAL_STYLES,
+  CHOICE_ROOT_STYLES,
+  CHOICE_ROW_STYLES,
 } from './choiceStyles';
 import { cn } from './utils';
 
@@ -16,17 +23,8 @@ export type RadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'c
   className?: string;
 };
 
-// The dot inherits the ring colour via `bg-current`, so it stays transparent until checked.
-const INDICATOR_STYLES = [
-  'flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent',
-  'transition-colors motion-reduce:transition-none',
-];
-
-// Row only: the card carries its own hover and focus treatment.
-const INDICATOR_ROW_STYLES = [
-  'group-hover:not-peer-disabled:border-accent',
-  'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus',
-];
+// The dot inherits the ring colour via `bg-current`.
+const INDICATOR_STYLES = [CHOICE_CONTROL_STYLES, 'rounded-full border-2'];
 
 const TONE_STYLES: Record<RadioTone | 'neutral', { root: ClassValue; card: ClassValue; indicator: ClassValue }> = {
   neutral: {
@@ -71,7 +69,16 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
       )}
     >
       <input {...props} ref={ref} type="radio" className="peer sr-only" />
-      <span aria-hidden className={cn(INDICATOR_STYLES, toneStyles.indicator, !card && INDICATOR_ROW_STYLES)}>
+      <span
+        aria-hidden
+        className={cn(
+          INDICATOR_STYLES,
+          toneStyles.indicator,
+          !card && CHOICE_CONTROL_ROW_FOCUS_STYLES,
+          // Tone owns the ring colour; the accent hover would out-rank it on specificity.
+          !card && !tone && CHOICE_CONTROL_ROW_HOVER_STYLES,
+        )}
+      >
         <span className="size-2.5 rounded-full bg-current" />
       </span>
       {children}
