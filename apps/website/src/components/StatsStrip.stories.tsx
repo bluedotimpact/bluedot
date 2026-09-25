@@ -26,10 +26,18 @@ const sampleStats = [
   { label: 'Grants made', value: '400+' },
 ];
 
+// Storybook has no API, so pass the CTA explicitly rather than looking up the application form.
+const primaryAction = { label: 'Apply now', url: 'https://example.com/apply' };
+const secondaryAction = { label: 'Learn more', url: 'https://example.com/learn-more' };
+
 export const Roomy: Story = {
-  args: { slug: 'rapid', stats: sampleStats },
+  args: {
+    slug: 'rapid', stats: sampleStats, primaryAction, secondaryAction,
+  },
 };
 
 export const Compact: Story = {
-  args: { slug: 'rapid', stats: sampleStats, compact: true },
+  args: {
+    slug: 'rapid', stats: sampleStats, primaryAction, compact: true,
+  },
 };
