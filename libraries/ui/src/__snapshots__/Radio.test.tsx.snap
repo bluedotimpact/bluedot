@@ -15,7 +15,7 @@ exports[`Radio > renders Card with tone as expected 1`] = `
     />
     <span
       aria-hidden="true"
-      class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-success-fg peer-checked:text-success-fg"
+      class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-success-fg peer-checked:text-success-fg"
     >
       <span
         class="size-2.5 rounded-full bg-current"
@@ -39,7 +39,7 @@ exports[`Radio > renders Default as expected 1`] = `
     />
     <span
       aria-hidden="true"
-      class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg group-hover:not-peer-disabled:border-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus"
+      class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus group-hover:not-peer-disabled:border-accent"
     >
       <span
         class="size-2.5 rounded-full bg-current"

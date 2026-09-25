@@ -25,7 +25,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -45,7 +45,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -65,7 +65,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -85,7 +85,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -147,7 +147,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -166,7 +166,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -185,7 +185,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -204,7 +204,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -237,7 +237,7 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
   />
   <span
     aria-hidden="true"
-    class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-success-fg peer-checked:text-success-fg"
+    class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-success-fg peer-checked:text-success-fg"
   >
     <span
       class="size-2.5 rounded-full bg-current"
@@ -259,7 +259,7 @@ exports[`MultipleChoice > updates styles for incorrect option 1`] = `
   />
   <span
     aria-hidden="true"
-    class="flex size-6 shrink-0 items-center justify-center rounded-full border-2 bg-raised text-transparent transition-colors motion-reduce:transition-none border-error-fg peer-checked:text-error-fg"
+    class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-error-fg peer-checked:text-error-fg"
   >
     <span
       class="size-2.5 rounded-full bg-current"

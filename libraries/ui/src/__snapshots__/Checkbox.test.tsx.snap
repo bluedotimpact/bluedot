@@ -12,7 +12,7 @@ exports[`Checkbox > renders Card as expected 1`] = `
     />
     <span
       aria-hidden="true"
-      class="flex size-6 shrink-0 items-center justify-center rounded-surface border border-strong bg-raised text-transparent transition-colors motion-reduce:transition-none peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg"
+      class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-surface border border-strong peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg"
     >
       <svg
         class="size-3.5"
@@ -45,7 +45,7 @@ exports[`Checkbox > renders Default as expected 1`] = `
     />
     <span
       aria-hidden="true"
-      class="flex size-6 shrink-0 items-center justify-center rounded-surface border border-strong bg-raised text-transparent transition-colors motion-reduce:transition-none peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg group-hover:not-peer-disabled:border-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus"
+      class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-surface border border-strong peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg group-hover:not-peer-disabled:border-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus"
     >
       <svg
         class="size-3.5"
