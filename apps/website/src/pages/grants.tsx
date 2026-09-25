@@ -42,7 +42,7 @@ const FAQ_ITEMS = [
   {
     id: 'choosing-a-grant',
     question: 'What if I am unsure which grant fits?',
-    answer: 'Choose the program that best matches what you want to do. If you are still unsure, apply to the closest fit and we can redirect you.',
+    answer: 'Choose the grant that best matches what you want to do. If you are still unsure, apply to the closest fit and we can redirect you.',
   },
   {
     id: 'bluedot-course',
