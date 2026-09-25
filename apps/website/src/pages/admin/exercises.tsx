@@ -160,7 +160,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
             </Checkbox>
 
             {courses.length > 0 && (
-              <fieldset className="flex flex-col">
+              <fieldset className="flex flex-col border-0 m-0 p-0 min-w-0">
                 <legend className="mb-2 text-size-xs font-semibold text-bluedot-navy">Course</legend>
                 <Radio
                   name="course"
