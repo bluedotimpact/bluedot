@@ -136,9 +136,7 @@ const formatRoundLine = (round: QuickApplyPrefillData['round']): string => {
   return dateRange ?? '';
 };
 
-const formatDetailsLine = (
-  details: Pick<FormValues, 'jobTitle' | 'organisation' | 'careerLevel' | 'profession'>,
-): string => {
+const formatDetailsLine = (details: Pick<FormValues, 'jobTitle' | 'organisation' | 'careerLevel' | 'profession'>): string => {
   const role = [details.jobTitle, details.organisation].filter(Boolean).join(' at ');
   return [role, details.careerLevel, details.profession].filter(Boolean).join(' \u00b7 ');
 };
