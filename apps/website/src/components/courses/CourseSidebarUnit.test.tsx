@@ -10,14 +10,13 @@ const unit = createMockUnit({ unitNumber: '2', title: 'Technical Alignment' });
 const CURRENT = 2;
 const OTHER = 1;
 
-const chunks: BasicChunk[] = [
-  {
-    id: 'chunk-1', chunkTitle: 'Alignment Techniques', chunkOrder: '1', estimatedTime: 90,
-  },
-  {
-    id: 'chunk-2', chunkTitle: 'Case Studies', chunkOrder: '2', estimatedTime: 20,
-  },
-];
+const alignment: BasicChunk = {
+  id: 'chunk-1', chunkTitle: 'Alignment Techniques', chunkOrder: '1', estimatedTime: 90,
+};
+const caseStudies: BasicChunk = {
+  id: 'chunk-2', chunkTitle: 'Case Studies', chunkOrder: '2', estimatedTime: 20,
+};
+const chunks = [alignment, caseStudies];
 
 const progress: ChunkProgress[] = [
   { totalCount: 3, completedCount: 1, allCompleted: false },
@@ -83,13 +82,21 @@ describe('CourseSidebarUnit', () => {
     expect(screen.getByText('20min')).toBeInTheDocument();
   });
 
-  test('hides the meta line when a chunk has no estimated time', () => {
+  test('shows progress but no time when estimatedTime is unset (db default 0)', () => {
     renderUnit({
-      chunks: [{ ...chunks[0]!, estimatedTime: 0 }, { ...chunks[1]!, estimatedTime: null }],
+      chunks: [{ ...alignment, estimatedTime: 0 }, { ...caseStudies, estimatedTime: null }],
     });
 
     expect(screen.queryByText(/min/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/completed/)).not.toBeInTheDocument();
+    expect(screen.queryByText('⋅')).not.toBeInTheDocument();
+    expect(screen.getByText('1 of 3 completed')).toBeInTheDocument();
+    expect(screen.getByText('3 of 3 completed')).toBeInTheDocument();
+  });
+
+  test('hides the meta line when there is neither time nor progress', () => {
+    renderUnit({ chunks: [{ ...alignment, estimatedTime: 0 }], chunkProgress: [] });
+
+    expect(screen.getByRole('link', { name: 'Alignment Techniques' })).toBeInTheDocument();
   });
 
   test('calls onChunkClick when a chunk link is activated', () => {
