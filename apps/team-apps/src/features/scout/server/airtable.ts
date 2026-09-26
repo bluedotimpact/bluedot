@@ -798,6 +798,62 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   };
 };
 
+// ---- Web lookup ----
+
+export type LookupAnchors = {
+  id: string; name: string; course: Course; roundName: string;
+  jobTitle?: string; organisation?: string; country?: string;
+  careerLevel?: string; profession?: string; fieldOfStudy?: string[];
+  givenUrls: string[];
+};
+
+// What the lookup is allowed to know: name, course, role and the links they gave us. Never
+// the email, and never anything we think of them.
+export const fetchLookupAnchors = async (id: string): Promise<LookupAnchors | undefined> => {
+  const [record, rounds] = await Promise.all([fetchOne(REGISTRATIONS_URL, id, Object.values(REG)), getRounds()]);
+  if (!record) return undefined;
+  const f = record.fields;
+  const round = rounds.get(first(f[REG.round]) ?? '');
+  const course = courseOf(round);
+  const name = str(f[REG.fullName]);
+  if (!course || !name) return undefined;
+  const applicationId = str(f[REG.applicationId])?.trim();
+  const application = applicationId ? await fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : undefined;
+  const a = application?.fields ?? {};
+  const givenUrls = [...new Set([url(f[REG.profileUrl]), url(a[APP.profileUrl]), url(a[APP.otherProfileUrl])].filter((u): u is string => !!u))];
+  return {
+    id,
+    name,
+    course,
+    roundName: round?.name ?? '',
+    jobTitle: str(f[REG.jobTitle]),
+    organisation: str(f[REG.organisation]),
+    country: str(f[REG.country]),
+    careerLevel: str(a[APP.careerLevel]),
+    profession: str(a[APP.profession]),
+    fieldOfStudy: strList(a[APP.fieldOfStudy]),
+    givenUrls,
+  };
+};
+
+// Everyone in the scouting view who has not been looked up yet
+export const fetchIdsNeedingLookup = async (): Promise<string[]> => {
+  const records = await fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: '{Talent scouting looked up on}=BLANK()' }, [REG.lookedUpOn]);
+  return records.map((r) => r.id);
+};
+
+export const fetchLookedUpOn = async (id: string): Promise<string | undefined> => {
+  const record = await fetchOne(REGISTRATIONS_URL, id, [REG.lookedUpOn]);
+  return record ? str(record.fields[REG.lookedUpOn]) : undefined;
+};
+
+export const writeWebFacts = async (id: string, facts: WebFacts): Promise<void> => {
+  await patchRegistration(id, {
+    [REG.webFacts]: JSON.stringify(facts, null, 1),
+    [REG.lookedUpOn]: new Date().toISOString().slice(0, 10),
+  });
+};
+
 // ---- Invite ----
 
 const REG_EMAIL_SENT = 'fldTuKceN6K8fDrvH';

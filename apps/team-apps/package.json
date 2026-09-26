@@ -17,9 +17,11 @@
     "test:ui": "node tools/check-ui.mjs"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.44",
     "@bluedot/db": "*",
     "@bluedot/ui": "*",
     "@bluedot/utils": "*",
+    "ai": "^5.0.93",
     "axios": "^1.7.2",
     "axios-hooks": "^5.0.2",
     "http-errors": "^2.0.0",
