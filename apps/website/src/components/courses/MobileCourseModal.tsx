@@ -1,14 +1,9 @@
 import type { Unit } from '@bluedot/db';
 import { Modal, ModalTitle } from '@bluedot/ui';
-import clsx from 'clsx';
-import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { FaChevronRight } from 'react-icons/fa6';
-import type { BasicChunk } from '../../server/routers/courses';
+import type { BasicChunk, CourseProgress } from '../../server/routers/courses';
 import type { CertificateData } from '../../server/routers/certificates';
-import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
-import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
+import { CourseSidebarUnit } from './CourseSidebarUnit';
 import { SidebarCertificatePanel } from './SidebarCertificatePanel';
 import { SidebarFacilitateAgainPanel } from './SidebarFacilitateAgainPanel';
 
@@ -21,13 +16,11 @@ type MobileCourseModalProps = {
   units: Unit[];
   currentUnitNumber: number;
   currentChunkIndex: number;
-  onChunkSelect: (index: number) => void;
-  onUnitSelect?: (unitPath: string) => void;
   unitChunks: Record<string, BasicChunk[]>;
   courseProgressData?: CourseProgress;
 };
 
-export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
+export const MobileCourseModal = ({
   isOpen,
   setIsOpen,
   certificateData,
@@ -36,53 +29,15 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   units,
   currentUnitNumber,
   currentChunkIndex,
-  onChunkSelect,
-  onUnitSelect,
   unitChunks,
   courseProgressData,
-}) => {
-  // Track which units are expanded (current unit starts expanded)
-  const [expandedUnitIds, setExpandedUnitIds] = useState<Set<string>>(() => {
-    const currentUnit = units.find((u) => Number(u.unitNumber) === currentUnitNumber);
-    return currentUnit ? new Set([currentUnit.id]) : new Set();
-  });
-
-  const isCurrentUnit = (unit: Unit) => {
-    return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
-  };
-
-  const toggleUnitExpansion = (unitId: string) => {
-    setExpandedUnitIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(unitId)) {
-        next.delete(unitId);
-      } else {
-        next.add(unitId);
-      }
-
-      return next;
-    });
-  };
-
-  const handleChunkClick = (unit: Unit, index: number) => {
-    if (isCurrentUnit(unit)) {
-      // For current unit, use onChunkSelect to update chunk index state without a page reload
-      onChunkSelect(index);
-    } else if (onUnitSelect) {
-      // For other units, navigate to that chunk
-      const chunkPath = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
-      onUnitSelect(chunkPath);
-    }
-
-    setIsOpen(false);
-  };
-
+}: MobileCourseModalProps) => {
   return (
     <Modal
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       title={(
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
+        <div className="flex w-full flex-wrap items-center justify-between gap-4 pb-1">
           <div className="flex items-center gap-4">
             <CourseIcon courseSlug={courseSlug} />
             <ModalTitle>
@@ -93,140 +48,34 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       )}
       bottomDrawerOnMobile
     >
-      <div className="flex flex-col gap-1 w-full max-w-modal">
-        {/* Unit Listing */}
-        {units.map((unit, unitIndex) => (
-          <MobileUnitSection
-            key={unit.id}
-            unit={unit}
-            unitIndex={unitIndex}
-            chunks={unitChunks[unit.id] ?? []}
-            isExpanded={expandedUnitIds.has(unit.id)}
-            isCurrent={isCurrentUnit(unit)}
-            currentChunkIndex={currentChunkIndex}
-            onToggle={() => toggleUnitExpansion(unit.id)}
-            onChunkClick={(index) => handleChunkClick(unit, index)}
-            chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
-          />
-        ))}
-        {certificateData?.status !== 'is-facilitator' && (
-          <div className="relative p-4">
-            <div className="absolute top-0 inset-x-2 border-t-hairline border-bluedot-navy/20" />
-            <SidebarCertificatePanel
-              courseTitle={courseTitle}
+      <div className="w-full max-w-modal">
+        {/* The modal header already draws a bottom border; the first unit's divider would double it. */}
+        <nav aria-label="Course content" className="px-2 [&>details:first-child]:border-t-0">
+          {units.map((unit) => (
+            <CourseSidebarUnit
+              key={unit.id}
+              unit={unit}
+              chunks={unitChunks[unit.id] ?? []}
+              chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
               courseSlug={courseSlug}
-              certificateData={certificateData}
+              currentUnitNumber={currentUnitNumber}
+              currentChunkIndex={currentChunkIndex}
+              onChunkClick={() => setIsOpen(false)}
             />
-          </div>
-        )}
-        {certificateData?.status === 'is-facilitator' && (
-          <SidebarFacilitateAgainPanel courseSlug={courseSlug} />
-        )}
+          ))}
+        </nav>
+        <div className="mx-2 border-t border-subtle py-4 empty:hidden">
+          {certificateData?.status === 'is-facilitator'
+            ? <SidebarFacilitateAgainPanel courseSlug={courseSlug} />
+            : (
+              <SidebarCertificatePanel
+                courseTitle={courseTitle}
+                courseSlug={courseSlug}
+                certificateData={certificateData}
+              />
+            )}
+        </div>
       </div>
     </Modal>
-  );
-};
-
-type MobileUnitSectionProps = {
-  unit: Unit;
-  unitIndex: number;
-  chunks: BasicChunk[];
-  isExpanded: boolean;
-  isCurrent: boolean;
-  currentChunkIndex: number;
-  onToggle: () => void;
-  onChunkClick: (index: number) => void;
-  chunkProgress: ChunkProgress[];
-};
-
-const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
-  unit,
-  unitIndex,
-  chunks,
-  isExpanded,
-  isCurrent,
-  currentChunkIndex,
-  onToggle,
-  onChunkClick,
-  chunkProgress,
-}) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
-
-  useEffect(() => {
-    if (isExpanded && sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  }, [isExpanded]);
-
-  return (
-    <div ref={sectionRef} className="relative scroll-mb-5">
-      {unitIndex > 0 && (
-        <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-2 mb-2" />
-      )}
-
-      {/* Unit header - clickable to expand/collapse */}
-      <button
-        type="button"
-        onClick={onToggle}
-        className="w-full flex items-center px-2 py-4 gap-2 rounded-lg hover:bg-[rgba(42,45,52,0.05)] transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-        aria-expanded={isExpanded}
-        aria-controls={`unit-${unit.id}-chunks`}
-      >
-        <p className="font-semibold text-size-sm leading-relaxed flex-1 text-left text-bluedot-navy">
-          {unit.unitNumber}. {unit.title}
-        </p>
-        <FaChevronRight
-          className={clsx(
-            'size-3 transition-transform duration-200',
-            isExpanded && 'rotate-90',
-          )}
-        />
-      </button>
-
-      {/* Chunk Listing (for any expanded unit) */}
-      {isExpanded && (
-        <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
-          {chunks.map((chunk, index) => {
-            const isActive = isCurrent && currentChunkIndex === index;
-            return (
-              <button
-                type="button"
-                key={chunk.id}
-                onClick={() => onChunkClick(index)}
-                className={clsx(
-                  'flex items-center px-2 py-4 gap-3 text-left transition-colors rounded-lg',
-                  isActive ? 'bg-[rgba(42,45,52,0.05)]' : 'hover:bg-[rgba(42,45,52,0.05)]',
-                )}
-              >
-                <ChunkIcon isActive={isActive} />
-                <div className="flex flex-col flex-1 min-h-11 justify-center">
-                  <div className="flex flex-col gap-1.5">
-                    <p className="font-normal text-size-xs leading-relaxed text-bluedot-navy">
-                      {chunk.chunkTitle}
-                    </p>
-                  </div>
-                  {chunk.estimatedTime != null && (
-                    <div className="flex gap-1 text-size-xs leading-normal font-medium text-bluedot-navy/60 mt-2">
-                      <span>
-                        {formatTime(chunk.estimatedTime)}
-                      </span>
-                      {chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
-                        <>
-                          ⋅
-                          <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
-                            {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
   );
 };
