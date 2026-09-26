@@ -10,7 +10,7 @@ import type { BasicChunk, CourseProgress } from '../../server/routers/courses';
 import { ArrowRightIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 import { MobileCourseModal } from './MobileCourseModal';
-import SideBar from './SideBar';
+import { SideBar } from './SideBar';
 
 type MobileNavigation = {
   prevUnit?: Unit;
