@@ -24,7 +24,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 <button
                   aria-expanded="false"
                   aria-label="Open menu"
-                  class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5 mobile-nav-links__btn text-white hover:bg-white/10"
+                  class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5 mobile-nav-links__btn text-white hover:bg-surface-on-dark-subtle"
                   type="button"
                 >
                   <svg

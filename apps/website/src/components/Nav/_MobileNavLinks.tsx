@@ -62,7 +62,7 @@ export const MobileNavLinks: React.FC<{
         onClick={onToggleMobileNav}
         className={clsx(
           'mobile-nav-links__btn',
-          onColoredBackground && 'text-white hover:bg-white/10',
+          onColoredBackground && 'text-white hover:bg-surface-on-dark-subtle',
         )}
       >
         {expandedSections.mobileNav ? <CloseIcon size={20} aria-hidden="true" /> : <HamburgerIcon aria-hidden="true" />}
