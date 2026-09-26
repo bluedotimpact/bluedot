@@ -190,14 +190,14 @@ export const DatePicker = ({
           onBlur={handleInputBlur}
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
-          className="size-full rounded-surface bg-transparent pr-10 pl-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
+          className="h-full min-w-0 flex-1 rounded-surface bg-transparent px-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
         />
         <IconButton
           popoverTarget={popoverId}
           onClick={updatePopoverPosition}
           disabled={disabled}
           aria-label="Open calendar"
-          className="absolute top-1/2 right-1 -translate-y-1/2 text-secondary"
+          className="mx-1.5 text-secondary"
         >
           <FaRegCalendar className="size-4" aria-hidden="true" />
         </IconButton>
