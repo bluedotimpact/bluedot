@@ -48,7 +48,7 @@ export const Toggle: Story = {
 
 // The design has no on-dark variant. Hover and focus tokens vanish on navy; callers override for now
 export const OnDark: Story = {
-  args: { className: 'text-on-dark hover:bg-surface-on-dark-subtle' },
+  args: { className: 'text-on-dark hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark' },
   decorators: [
     (Story) => (
       <div className="bg-bluedot-navy p-6">
