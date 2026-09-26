@@ -1,37 +1,24 @@
-import clsx from 'clsx';
-import type React from 'react';
-import { CloseIcon } from './icons/CloseIcon';
+import type { ComponentPropsWithoutRef } from 'react';
+import { cn } from './utils';
 
-export const HamburgerIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" className={className}>
-    <path d="M16 18H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <path d="M16 24H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <path d="M16 30H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-  </svg>
+export type IconButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'aria-label'> & {
+  // Icon-only controls have no visible text, so the accessible name is mandatory
+  'aria-label': string;
+  variant?: 'ghost' | 'outline';
+};
+
+export const IconButton = ({ variant = 'ghost', className, ...props }: IconButtonProps) => (
+  <button
+    type="button"
+    {...props}
+    className={cn(
+      'relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface hover:bg-tint',
+      'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
+      'disabled:pointer-events-none disabled:opacity-40',
+      // Extends the tap target to 44x44 around the 32px button without changing the footprint
+      'before:absolute before:-inset-1.5',
+      variant === 'outline' && 'border border-accent',
+      className,
+    )}
+  />
 );
-
-export type IconButtonProps = {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  Icon: React.ReactNode;
-  className?: string;
-};
-
-export const IconButton: React.FC<IconButtonProps> = ({
-  open,
-  setOpen,
-  className,
-  Icon,
-}) => {
-  return (
-    <button
-      type="button"
-      onClick={() => setOpen(!open)}
-      className={clsx('icon-button size-[32px] flex items-center justify-center hover:cursor-pointer', className)}
-    >
-      {open ? <CloseIcon size={20} className="close-icon" /> : Icon}
-    </button>
-  );
-};
-
-export default IconButton;

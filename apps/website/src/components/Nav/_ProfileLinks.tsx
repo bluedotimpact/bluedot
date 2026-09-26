@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
-import { A, IconButton } from '@bluedot/ui';
+import { A, CloseIcon, IconButton } from '@bluedot/ui';
 
 import {
   type ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
@@ -54,14 +54,16 @@ export const ProfileLinks: React.FC<{
   return (
     <div ref={profileRef} className={PROFILE_DROPDOWN_CLASS}>
       <IconButton
+        aria-label={expandedSections.profile ? 'Close profile menu' : 'Open profile menu'}
+        aria-expanded={expandedSections.profile}
+        onClick={onToggleProfile}
         className={clsx(
           'profile-links__btn',
-          onColoredBackground && 'text-white [&_svg]:text-white',
+          onColoredBackground && 'text-white hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
         )}
-        open={expandedSections.profile}
-        Icon={<FaCircleUser className="size-6 opacity-75" />}
-        setOpen={onToggleProfile}
-      />
+      >
+        {expandedSections.profile ? <CloseIcon size={20} aria-hidden="true" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}
+      </IconButton>
       <div
         className={clsx(
           'profile-links__drawer',

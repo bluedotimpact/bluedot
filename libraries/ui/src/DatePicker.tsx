@@ -6,6 +6,7 @@ import { FaChevronLeft, FaChevronRight, FaRegCalendar } from 'react-icons/fa6';
 import {
   DayButton, DayPicker, type ChevronProps, type ClassNames, type DayButtonProps,
 } from 'react-day-picker';
+import { IconButton } from './IconButton';
 import { cn } from './utils';
 
 // Utility function to get the locale-specific date format of the user
@@ -189,18 +190,17 @@ export const DatePicker = ({
           onBlur={handleInputBlur}
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
-          className="size-full rounded-surface bg-transparent pr-10 pl-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
+          className="h-full min-w-0 flex-1 rounded-surface bg-transparent px-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
         />
-        <button
-          type="button"
+        <IconButton
           popoverTarget={popoverId}
           onClick={updatePopoverPosition}
           disabled={disabled}
           aria-label="Open calendar"
-          className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-secondary outline-none disabled:cursor-not-allowed disabled:text-disabled"
+          className="mx-1.5 text-secondary"
         >
           <FaRegCalendar className="size-4" aria-hidden="true" />
-        </button>
+        </IconButton>
       </div>
       <div
         ref={popoverRef}

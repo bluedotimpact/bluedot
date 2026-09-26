@@ -1,5 +1,5 @@
 import type { Unit } from '@bluedot/db';
-import { BreadcrumbTrail, cn } from '@bluedot/ui';
+import { BreadcrumbTrail, cn, IconButton } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import type React from 'react';
 import { type ReactNode, useEffect, useState } from 'react';
@@ -64,31 +64,23 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
       </button>
       {/* Right side - navigation arrows */}
       {mobileNavigation && (
-        <div className="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0">
-          <button
-            type="button"
-            className="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+        <div className="mobile-unit-header__navigation flex h-8 flex-row items-center gap-3">
+          <IconButton
+            className="text-primary"
             disabled={mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit}
             onClick={mobileNavigation.onPrevClick}
             aria-label={mobileNavigation.isFirstChunk && mobileNavigation.prevUnit ? 'Previous unit' : 'Previous section'}
           >
-            <ArrowRightIcon
-              aria-hidden="true"
-              className={cn('rotate-180', mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit ? 'text-charcoal-mid' : 'text-bluedot-darker')}
-            />
-          </button>
-          <button
-            type="button"
-            className="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            <ArrowRightIcon aria-hidden="true" className="rotate-180" />
+          </IconButton>
+          <IconButton
+            className="text-primary"
             disabled={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit}
             onClick={mobileNavigation.onNextClick}
             aria-label={mobileNavigation.isLastChunk && mobileNavigation.nextUnit ? 'Next unit' : 'Next section'}
           >
-            <ArrowRightIcon
-              aria-hidden="true"
-              className={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit ? 'text-charcoal-mid' : 'text-bluedot-darker'}
-            />
-          </button>
+            <ArrowRightIcon aria-hidden="true" />
+          </IconButton>
         </div>
       )}
       {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (

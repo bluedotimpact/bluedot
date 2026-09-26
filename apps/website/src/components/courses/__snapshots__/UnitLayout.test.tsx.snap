@@ -57,17 +57,17 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </div>
         </button>
         <div
-          class="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0"
+          class="mobile-unit-header__navigation flex h-8 flex-row items-center gap-3"
         >
           <button
             aria-label="Previous section"
-            class="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface hover:bg-tint focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5 text-primary"
             disabled=""
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="rotate-180 text-charcoal-mid"
+              class="rotate-180"
               fill="none"
               height="10"
               viewBox="0 0 12 10"
@@ -82,12 +82,11 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next section"
-            class="focus:ring-focus flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface hover:bg-tint focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5 text-primary"
             type="button"
           >
             <svg
               aria-hidden="true"
-              class="text-bluedot-darker"
               fill="none"
               height="10"
               viewBox="0 0 12 10"
