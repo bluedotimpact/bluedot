@@ -38,9 +38,11 @@
     --color-info-bg: #e5edfe;
     --color-info-border: #b5c3ec;
     --color-success-fg: #1a7a52;
+    --color-success-fg-hover: #145f40;
     --color-success-bg: #f2fff8;
     --color-success-border: #a7e3c6;
     --color-warning-fg: #a85708;
+    --color-warning-fg-hover: #834406;
     --color-warning-bg: #fff8eb;
     --color-warning-border: #f2c879;
     --color-error-fg: #c81e1e;
