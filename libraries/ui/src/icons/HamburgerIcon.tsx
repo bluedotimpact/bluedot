@@ -10,6 +10,6 @@ export const HamburgerIcon = ({ size = 16, className, ...props }: IconProps) => 
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path d="M0 2H16M0 8H16M0 14H16" stroke="currentColor" strokeLinecap="round" />
+    <path d="M1 2H15M1 8H15M1 14H15" stroke="currentColor" strokeLinecap="round" />
   </svg>
 );
