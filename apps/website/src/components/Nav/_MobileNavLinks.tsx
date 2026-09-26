@@ -1,8 +1,9 @@
 'use client';
 
 import clsx from 'clsx';
-import { IconButton, CTALinkOrButton } from '@bluedot/ui';
-import { HamburgerIcon } from '@bluedot/ui/src/IconButton';
+import {
+  CloseIcon, CTALinkOrButton, HamburgerIcon, IconButton,
+} from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
 import { NavLinks } from './_NavLinks';
@@ -56,14 +57,16 @@ export const MobileNavLinks: React.FC<{
   return (
     <div ref={mobileNavRef} className={`${MOBILE_NAV_CLASS} xl:hidden`}>
       <IconButton
-        open={expandedSections.mobileNav}
-        Icon={<HamburgerIcon />}
-        setOpen={onToggleMobileNav}
+        aria-label={expandedSections.mobileNav ? 'Close menu' : 'Open menu'}
+        aria-expanded={expandedSections.mobileNav}
+        onClick={onToggleMobileNav}
         className={clsx(
           'mobile-nav-links__btn',
-          onColoredBackground && 'text-white [&_svg]:text-white',
+          onColoredBackground && 'text-white hover:bg-white/10',
         )}
-      />
+      >
+        {expandedSections.mobileNav ? <CloseIcon size={20} aria-hidden="true" /> : <HamburgerIcon aria-hidden="true" />}
+      </IconButton>
       <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(expandedSections.mobileNav))}>
         <div
           className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
