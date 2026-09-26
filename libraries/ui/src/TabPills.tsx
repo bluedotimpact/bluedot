@@ -21,8 +21,9 @@ export const TabPills = <T extends string>({
     aria-label={ariaLabel}
     className={cn(
       'flex gap-3 overflow-x-auto',
-      // Bleed the scroll region to the page edge so a cut-off pill signals more content
-      '-mx-spacing-x px-spacing-x',
+      // Bleed the scroll region to the page edge so a cut-off pill signals more content.
+      // Only below lg: wider layouts put a sidebar beside the content and the bleed would cover it.
+      '-mx-spacing-x px-spacing-x lg:mx-0 lg:px-0',
       // overflow-x-auto also clips vertically; leave room for the focus outline
       '-my-1 py-1',
     )}
