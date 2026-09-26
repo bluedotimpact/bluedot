@@ -39,7 +39,7 @@ export const TabPills = <T extends string>({
             'h-11 shrink-0 px-4 rounded-full border text-size-xs font-medium cursor-pointer transition-colors motion-reduce:transition-none',
             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
             isActive
-              ? 'bg-dark border-dark text-on-dark hover:bg-bluedot-darker hover:border-bluedot-darker'
+              ? 'bg-dark border-dark text-on-dark'
               : 'bg-canvas border-default text-primary hover:bg-tint',
           )}
         >
