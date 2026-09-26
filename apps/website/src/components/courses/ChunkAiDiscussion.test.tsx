@@ -177,6 +177,32 @@ describe('ChunkAiDiscussion', () => {
     }
   });
 
+  test('keeps Markdown autolinks as URLs while stripping HTML tags', () => {
+    const linkedChunk = {
+      ...chunk,
+      chunkContent: 'See <https://example.com/report?page=2> for the <strong>full</strong> data.',
+      resources: [createMockResource({ resourceGuide: 'Background: <http://example.org/notes>' })],
+    };
+    const prompt = buildDiscussionPrompt({
+      chunk: linkedChunk, unit, courseSlug: 'agi-strategy', chunkIndex: 0,
+    });
+
+    expect(prompt).toContain('See https://example.com/report?page=2 for the full data.');
+    expect(prompt).toContain('Background: http://example.org/notes');
+  });
+
+  test('lists a Core reading without a link by name only', () => {
+    const unlinkedChunk = {
+      ...chunk,
+      resources: [createMockResource({ resourceName: 'Printed handout', resourceLink: null })],
+    };
+    const prompt = buildDiscussionPrompt({
+      chunk: unlinkedChunk, unit, courseSlug: 'agi-strategy', chunkIndex: 0,
+    });
+
+    expect(prompt).toMatch(/^Printed handout$/m);
+  });
+
   test('keeps the section link and readings usable when an introduction is long', () => {
     const longChunk = {
       ...chunk,

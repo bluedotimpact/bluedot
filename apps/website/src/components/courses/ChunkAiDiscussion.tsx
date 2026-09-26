@@ -21,6 +21,10 @@ const PROVIDERS = [
   { name: 'ChatGPT', url: 'https://chatgpt.com/', Icon: SiOpenai },
 ] as const;
 
+// Measured URL-encoded, since punctuation and Unicode expand in a link. The readings share the overall prompt limit.
+const MAX_PROMPT_ENCODED_LENGTH = 14000;
+const MAX_READINGS_ENCODED_LENGTH = 3000;
+
 const ChunkAiDiscussion = ({
   chunk, unit, courseSlug, chunkIndex,
 }: ChunkAiDiscussionProps) => {
@@ -38,7 +42,7 @@ const ChunkAiDiscussion = ({
             <FiChevronDown aria-hidden="true" className="size-4 shrink-0" />
           </Button>
           <Popover placement="bottom end" className="min-w-[160px] rounded-lg border border-default bg-canvas p-1 shadow-lg md:hidden">
-            <Menu aria-label="Choose an AI assistant" className="outline-none" onAction={() => setIsMenuOpen(false)}>
+            <Menu className="outline-none" onAction={() => setIsMenuOpen(false)}>
               {PROVIDERS.map(({ name, url, Icon }) => (
                 <MenuItem
                   key={name}
@@ -66,7 +70,7 @@ const ChunkAiDiscussion = ({
             target="_blank"
             variant="unstyled"
             size="small"
-            className="min-h-11 gap-2 border border-default bg-canvas font-medium text-primary hover:bg-tint md:min-h-9"
+            className="min-h-9 gap-2 border border-default bg-canvas font-medium text-primary hover:bg-tint"
             aria-label={`Talk about this section with ${name} (opens in a new tab)`}
           >
             <Icon aria-hidden="true" className="size-4 shrink-0" />
@@ -84,15 +88,18 @@ export const buildDiscussionPrompt = ({ chunk, unit, courseSlug, chunkIndex }: C
   const sectionUrl = `https://bluedot.org${buildCourseUnitUrl({ courseSlug, unitNumber: unit.unitNumber, chunkNumber: chunkIndex + 1 })}`;
   const coreResources = chunk.resources.filter((resource) => resource.coreFurtherMaybe === 'Core');
   const readings = coreResources
-    .map((resource) => `${resource.resourceName ?? 'Reading'}: ${resource.resourceLink ?? sectionUrl}`)
+    .map((resource) => {
+      const name = resource.resourceName ?? 'Reading';
+      return resource.resourceLink ? `${name}: ${resource.resourceLink}` : name;
+    })
     .reduce<string[]>((included, reading) => (
-      encodeURIComponent([...included, reading].join('\n')).length <= 3000 ? [...included, reading] : included
+      encodeURIComponent([...included, reading].join('\n')).length <= MAX_READINGS_ENCODED_LENGTH ? [...included, reading] : included
     ), [])
     .join('\n');
-  const introduction = chunk.chunkContent.replace(/<[^>]*>/g, '').trim();
+  const introduction = toPromptText(chunk.chunkContent);
   const guides = coreResources
     .filter((resource) => resource.resourceGuide)
-    .map((resource) => `${resource.resourceName ?? 'Reading'}:\n${resource.resourceGuide?.replace(/<[^>]*>/g, '').trim()}`)
+    .map((resource) => `${resource.resourceName ?? 'Reading'}:\n${toPromptText(resource.resourceGuide ?? '')}`)
     .join('\n\n');
 
   const prompt = `I'm studying ${unit.courseTitle}, Unit ${unit.unitNumber}: ${unit.title}.
@@ -109,14 +116,19 @@ ${readings || 'See the section link above.'}`;
 
   const introductionHeading = '\n\nSection introduction:\n';
   const guidesHeading = '\n\nCourse reading instructions:\n';
-  // Budget the encoded text, since punctuation and Unicode expand in a URL.
-  const contextBudget = Math.max(0, 14000 - encodeURIComponent(prompt + introductionHeading + guidesHeading).length);
+  const contextBudget = Math.max(0, MAX_PROMPT_ENCODED_LENGTH - encodeURIComponent(prompt + introductionHeading + guidesHeading).length);
   const guideBudget = Math.min(encodeURIComponent(guides).length, Math.floor(contextBudget / 2));
   const introductionExcerpt = shortenForLink(introduction, contextBudget - guideBudget);
   const guideExcerpt = shortenForLink(guides, contextBudget - encodeURIComponent(introductionExcerpt).length);
 
   return `${prompt}${introductionHeading}${introductionExcerpt}${guidesHeading}${guideExcerpt}`;
 };
+
+// Keeps Markdown autolinks like <https://example.com> as plain URLs before stripping HTML tags.
+const toPromptText = (markdown: string): string => markdown
+  .replace(/<(https?:\/\/[^\s>]+)>/g, '$1')
+  .replace(/<[^>]*>/g, '')
+  .trim();
 
 const shortenForLink = (text: string, encodedLimit: number): string => {
   if (encodeURIComponent(text).length <= encodedLimit) {
