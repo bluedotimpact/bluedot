@@ -81,37 +81,40 @@ type ChunkRowProps = {
 
 const ChunkRow = ({
   chunk, progress, href, isActive, onClick,
-}: ChunkRowProps) => (
-  <li>
-    <ClickTarget
-      url={href}
-      onClick={onClick}
-      aria-current={isActive ? 'page' : undefined}
-      className={cn(
-        'flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-        isActive && 'bg-tint',
-      )}
-    >
-      <ChunkIcon isActive={isActive} />
-      <span className="flex min-w-0 flex-1 flex-col gap-1">
-        <span className="text-size-xs leading-normal">{chunk.chunkTitle}</span>
-        {!!chunk.estimatedTime && (
-          <span className="flex gap-1 text-size-xxs leading-normal text-secondary">
-            <span>{formatTime(chunk.estimatedTime)}</span>
-            {progress && progress.totalCount > 0 && (
-              <>
-                {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
-                ⋅
+}: ChunkRowProps) => {
+  // estimatedTime defaults to 0 in the db, so an unset time must not hide the progress count.
+  const time = chunk.estimatedTime ?? 0;
+  const hasProgress = !!progress && progress.totalCount > 0;
+  return (
+    <li>
+      <ClickTarget
+        url={href}
+        onClick={onClick}
+        aria-current={isActive ? 'page' : undefined}
+        className={cn(
+          'flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+          isActive && 'bg-tint',
+        )}
+      >
+        <ChunkIcon isActive={isActive} />
+        <span className="flex min-w-0 flex-1 flex-col gap-1">
+          <span className="text-size-xs leading-normal">{chunk.chunkTitle}</span>
+          {(time > 0 || hasProgress) && (
+            <span className="flex gap-1 text-size-xxs leading-normal text-secondary">
+              {time > 0 && <span>{formatTime(time)}</span>}
+              {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
+              {time > 0 && hasProgress && '⋅'}
+              {hasProgress && (
                 <span className={cn(progress.allCompleted && 'line-through')}>
                   {progress.completedCount} of {progress.totalCount} completed
                 </span>
-              </>
-            )}
-          </span>
-        )}
-      </span>
-    </ClickTarget>
-  </li>
-);
+              )}
+            </span>
+          )}
+        </span>
+      </ClickTarget>
+    </li>
+  );
+};
 
 const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
