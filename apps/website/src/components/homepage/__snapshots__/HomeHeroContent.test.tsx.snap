@@ -21,33 +21,23 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               class="mobile-nav-links xl:hidden"
             >
               <button
-                class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn text-white [&_svg]:text-white"
+                aria-expanded="false"
+                aria-label="Open menu"
+                class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5 mobile-nav-links__btn text-white hover:bg-white/10"
                 type="button"
               >
                 <svg
-                  fill="none"
-                  height="48"
-                  viewBox="0 0 48 48"
-                  width="48"
+                  aria-hidden="true"
+                  class="fill-none stroke-2"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M16 18H32"
+                    d="M0 2H16M0 8H16M0 14H16"
                     stroke="currentColor"
                     stroke-linecap="round"
-                    stroke-width="2"
-                  />
-                  <path
-                    d="M16 24H32"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
-                  />
-                  <path
-                    d="M16 30H32"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
                   />
                 </svg>
               </button>
