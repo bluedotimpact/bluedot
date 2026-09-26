@@ -107,68 +107,59 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       class="md:flex"
     >
       <div
-        class="sidebar flex flex-col bg-canvas size-full md:w-[360px] border-r-[0.5px] border-default hidden md:sticky md:top-(--nav-height-mobile) md:block md:h-[calc(100vh-var(--nav-height-mobile))] md:shrink-0 md:overflow-y-auto lg:top-(--nav-height-desktop) lg:h-[calc(100vh-var(--nav-height-desktop))]"
+        class="sidebar flex-col bg-canvas size-full md:w-[360px] border-r-[0.5px] border-default hidden md:sticky md:top-(--nav-height-mobile) md:block md:h-[calc(100vh-var(--nav-height-mobile))] md:shrink-0 md:overflow-y-auto lg:top-(--nav-height-desktop) lg:h-[calc(100vh-var(--nav-height-desktop))]"
       >
         <div
-          class="p-6 flex flex-col gap-5"
+          class="flex flex-row items-center gap-4 p-6"
         >
           <div
-            class="flex flex-row items-center gap-4"
+            aria-hidden="true"
+            class="size-16 relative flex shrink-0 items-center justify-center rounded-surface bg-accent"
           >
-            <div
-              aria-hidden="true"
-              class="size-16 relative flex shrink-0 items-center justify-center rounded-surface bg-accent"
+            <svg
+              class="fill-on-dark size-10"
+              viewBox="10.375 7.749 21.876 21.876"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                class="fill-on-dark size-10"
-                viewBox="10.375 7.749 21.876 21.876"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M31.9941 21.4938L28.4941 24.9938C28.3299 25.158 28.1072 25.2502 27.875 25.2502C27.6428 25.2502 27.4201 25.158 27.2559 24.9938C27.0918 24.8296 26.9995 24.6069 26.9995 24.3747C26.9995 24.1425 27.0918 23.9198 27.2559 23.7556L29.263 21.7497H19.487L13.362 27.8747H16.5C16.7321 27.8747 16.9546 27.9669 17.1187 28.131C17.2828 28.2951 17.375 28.5176 17.375 28.7497C17.375 28.9818 17.2828 29.2043 17.1187 29.3684C16.9546 29.5325 16.7321 29.6247 16.5 29.6247H11.25C11.0179 29.6247 10.7954 29.5325 10.6313 29.3684C10.4672 29.2043 10.375 28.9818 10.375 28.7497V23.4997C10.375 23.2676 10.4672 23.0451 10.6313 22.881C10.7954 22.7169 11.0179 22.6247 11.25 22.6247C11.4821 22.6247 11.7046 22.7169 11.8687 22.881C12.0328 23.0451 12.125 23.2676 12.125 23.4997V26.6377L18.25 20.5127V10.7367L16.2441 12.7438C16.0799 12.908 15.8572 13.0002 15.625 13.0002C15.3928 13.0002 15.1701 12.908 15.0059 12.7438C14.8418 12.5796 14.7495 12.3569 14.7495 12.1247C14.7495 11.8925 14.8418 11.6698 15.0059 11.5056L18.5059 8.00564C18.5872 7.92429 18.6837 7.85976 18.7899 7.81572C18.8961 7.77169 19.01 7.74902 19.125 7.74902C19.24 7.74902 19.3538 7.77169 19.4601 7.81572C19.5663 7.85976 19.6628 7.92429 19.7441 8.00564L23.2441 11.5056C23.4082 11.6698 23.5005 11.8925 23.5005 12.1247C23.5005 12.3569 23.4082 12.5796 23.2441 12.7438C23.0799 12.908 22.8572 13.0002 22.625 13.0002C22.3928 13.0002 22.1701 12.908 22.0059 12.7438L20 10.7367V19.9997H29.263L27.2559 17.9938C27.0918 17.8296 26.9995 17.6069 26.9995 17.3747C26.9995 17.1425 27.0918 16.9198 27.2559 16.7556C27.4201 16.5915 27.6428 16.4992 27.875 16.4992C28.1072 16.4992 28.3299 16.5915 28.4941 16.7556L31.9941 20.2556C32.0754 20.3369 32.14 20.4334 32.184 20.5396C32.228 20.6459 32.2507 20.7597 32.2507 20.8747C32.2507 20.9897 32.228 21.1036 32.184 21.2098C32.14 21.316 32.0754 21.4125 31.9941 21.4938Z"
-                />
-              </svg>
-            </div>
-            <div
-              class="flex flex-1 min-w-0"
+              <path
+                d="M31.9941 21.4938L28.4941 24.9938C28.3299 25.158 28.1072 25.2502 27.875 25.2502C27.6428 25.2502 27.4201 25.158 27.2559 24.9938C27.0918 24.8296 26.9995 24.6069 26.9995 24.3747C26.9995 24.1425 27.0918 23.9198 27.2559 23.7556L29.263 21.7497H19.487L13.362 27.8747H16.5C16.7321 27.8747 16.9546 27.9669 17.1187 28.131C17.2828 28.2951 17.375 28.5176 17.375 28.7497C17.375 28.9818 17.2828 29.2043 17.1187 29.3684C16.9546 29.5325 16.7321 29.6247 16.5 29.6247H11.25C11.0179 29.6247 10.7954 29.5325 10.6313 29.3684C10.4672 29.2043 10.375 28.9818 10.375 28.7497V23.4997C10.375 23.2676 10.4672 23.0451 10.6313 22.881C10.7954 22.7169 11.0179 22.6247 11.25 22.6247C11.4821 22.6247 11.7046 22.7169 11.8687 22.881C12.0328 23.0451 12.125 23.2676 12.125 23.4997V26.6377L18.25 20.5127V10.7367L16.2441 12.7438C16.0799 12.908 15.8572 13.0002 15.625 13.0002C15.3928 13.0002 15.1701 12.908 15.0059 12.7438C14.8418 12.5796 14.7495 12.3569 14.7495 12.1247C14.7495 11.8925 14.8418 11.6698 15.0059 11.5056L18.5059 8.00564C18.5872 7.92429 18.6837 7.85976 18.7899 7.81572C18.8961 7.77169 19.01 7.74902 19.125 7.74902C19.24 7.74902 19.3538 7.77169 19.4601 7.81572C19.5663 7.85976 19.6628 7.92429 19.7441 8.00564L23.2441 11.5056C23.4082 11.6698 23.5005 11.8925 23.5005 12.1247C23.5005 12.3569 23.4082 12.5796 23.2441 12.7438C23.0799 12.908 22.8572 13.0002 22.625 13.0002C22.3928 13.0002 22.1701 12.908 22.0059 12.7438L20 10.7367V19.9997H29.263L27.2559 17.9938C27.0918 17.8296 26.9995 17.6069 26.9995 17.3747C26.9995 17.1425 27.0918 16.9198 27.2559 16.7556C27.4201 16.5915 27.6428 16.4992 27.875 16.4992C28.1072 16.4992 28.3299 16.5915 28.4941 16.7556L31.9941 20.2556C32.0754 20.3369 32.14 20.4334 32.184 20.5396C32.228 20.6459 32.2507 20.7597 32.2507 20.8747C32.2507 20.9897 32.228 21.1036 32.184 21.2098C32.14 21.316 32.0754 21.4125 31.9941 21.4938Z"
+              />
+            </svg>
+          </div>
+          <div
+            class="flex min-w-0 flex-col"
+          >
+            <h2
+              class="bluedot-h2 not-prose text-size-md"
             >
-              <div
-                class="flex flex-col"
-              >
-                <h2
-                  class="bluedot-h2 not-prose text-size-lg"
-                >
-                  What the fish [Test Course]
-                </h2>
-              </div>
-            </div>
+              What the fish [Test Course]
+            </h2>
           </div>
         </div>
         <div
           class="flex-1 overflow-y-auto pb-6"
         >
-          <div
-            class="relative"
+          <nav
+            aria-label="Course content"
+            class="px-6"
           >
-            <div
-              class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
-            />
             <details
-              class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
+              class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
               open=""
             >
               <summary
-                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
+                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
-                <p
-                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
+                <span
+                  class="flex-1 text-size-xs font-semibold leading-normal text-primary"
                 >
                   1
                   . 
                   Basic Principles of Fish
-                </p>
+                </span>
                 <svg
-                  class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
+                  aria-hidden="true"
+                  class="size-3.5 shrink-0 text-primary transition-transform group-open:rotate-90 motion-reduce:transition-none"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -182,103 +173,96 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
               </summary>
-              <div
-                class="flex flex-col items-start px-0 pb-4 gap-1"
+              <ul
+                class="flex flex-col gap-1 pb-4"
               >
-                <button
-                  class="flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-lg"
-                  type="button"
-                >
-                  <svg
-                    class="text-bluedot-navy"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <li>
+                  <a
+                    aria-current="page"
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus bg-tint"
+                    href="/courses/test-course/1/1"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                    <circle
-                      cx="12"
-                      cy="12"
-                      fill="currentColor"
-                      r="5"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-primary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                      <circle
+                        cx="12"
+                        cy="12"
+                        fill="currentColor"
+                        r="5"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </button>
-                <button
-                  class="flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  type="button"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                      </span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/1/2"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              </div>
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
             </details>
-          </div>
-          <div
-            class="relative"
-          >
-            <div
-              class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
-            />
             <details
-              class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
+              class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
+                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
-                <p
-                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
+                <span
+                  class="flex-1 text-size-xs font-semibold leading-normal text-primary"
                 >
                   2
                   . 
                   What Fish Are People Catching, and Why?
-                </p>
+                </span>
                 <svg
-                  class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
+                  aria-hidden="true"
+                  class="size-3.5 shrink-0 text-primary transition-transform group-open:rotate-90 motion-reduce:transition-none"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -292,99 +276,89 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
               </summary>
-              <div
-                class="flex flex-col items-start px-0 pb-4 gap-1"
+              <ul
+                class="flex flex-col gap-1 pb-4"
               >
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/2/1"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/2/1"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/2/2"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                      </span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/2/2"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
             </details>
-          </div>
-          <div
-            class="relative"
-          >
-            <div
-              class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
-            />
             <details
-              class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
+              class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
+                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
-                <p
-                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
+                <span
+                  class="flex-1 text-size-xs font-semibold leading-normal text-primary"
                 >
                   3
                   . 
                   The Promise of Fish
-                </p>
+                </span>
                 <svg
-                  class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
+                  aria-hidden="true"
+                  class="size-3.5 shrink-0 text-primary transition-transform group-open:rotate-90 motion-reduce:transition-none"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -398,99 +372,89 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
               </summary>
-              <div
-                class="flex flex-col items-start px-0 pb-4 gap-1"
+              <ul
+                class="flex flex-col gap-1 pb-4"
               >
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/3/1"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/3/1"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/3/2"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                      </span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/3/2"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
             </details>
-          </div>
-          <div
-            class="relative"
-          >
-            <div
-              class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
-            />
             <details
-              class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
+              class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
+                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
-                <p
-                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
+                <span
+                  class="flex-1 text-size-xs font-semibold leading-normal text-primary"
                 >
                   4
                   . 
                   The Risks of Fish
-                </p>
+                </span>
                 <svg
-                  class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
+                  aria-hidden="true"
+                  class="size-3.5 shrink-0 text-primary transition-transform group-open:rotate-90 motion-reduce:transition-none"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -504,99 +468,89 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
               </summary>
-              <div
-                class="flex flex-col items-start px-0 pb-4 gap-1"
+              <ul
+                class="flex flex-col gap-1 pb-4"
               >
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/4/1"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/4/1"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/4/2"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                      </span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/4/2"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
             </details>
-          </div>
-          <div
-            class="relative"
-          >
-            <div
-              class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
-            />
             <details
-              class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
+              class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
+                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
-                <p
-                  class="font-semibold text-size-xs leading-normal text-bluedot-navy flex-1"
+                <span
+                  class="flex-1 text-size-xs font-semibold leading-normal text-primary"
                 >
                   5
                   . 
                   Contributing to Fish Safety
-                </p>
+                </span>
                 <svg
-                  class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
+                  aria-hidden="true"
+                  class="size-3.5 shrink-0 text-primary transition-transform group-open:rotate-90 motion-reduce:transition-none"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -610,85 +564,77 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
               </summary>
-              <div
-                class="flex flex-col items-start px-0 pb-4 gap-1"
+              <ul
+                class="flex flex-col gap-1 pb-4"
               >
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/5/1"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/5/1"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-                <a
-                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
-                  href="/courses/test-course/5/2"
-                  tabindex="0"
-                >
-                  <svg
-                    class="text-charcoal-mid/30"
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    xmlns="http://www.w3.org/2000/svg"
+                      </span>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="flex w-full items-center gap-3 rounded-surface p-4 text-left text-primary no-underline transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                    href="/courses/test-course/5/2"
+                    tabindex="0"
                   >
-                    <path
-                      d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                  <div
-                    class="flex flex-col items-start p-0 flex-1"
-                  >
-                    <div
-                      class="flex flex-col items-start gap-1.5"
+                    <svg
+                      class="shrink-0 text-secondary"
+                      fill="none"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <p
-                        class="font-normal text-size-xs leading-relaxed text-bluedot-navy"
+                      <path
+                        d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <span
+                      class="flex min-w-0 flex-1 flex-col gap-1"
+                    >
+                      <span
+                        class="text-size-xs leading-normal"
                       >
                         What can AI do today?
-                      </p>
-                    </div>
-                  </div>
-                </a>
-              </div>
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              </ul>
             </details>
-          </div>
+          </nav>
           <div
-            class="relative p-6"
-          >
-            <div
-              class="border-t-hairline absolute inset-x-[24px] top-0 border-bluedot-navy/20"
-            />
-          </div>
+            class="mx-6 border-t border-subtle py-6 empty:hidden"
+          />
         </div>
       </div>
       <div
