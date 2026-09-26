@@ -29,8 +29,6 @@ const meta: Meta<typeof MobileCourseModal> = {
     units: mockUnits,
     currentUnitNumber: 1,
     currentChunkIndex: 0,
-    onChunkSelect() {},
-    onUnitSelect() {},
     unitChunks: mockChunks,
   },
   ...loggedOutStory(),

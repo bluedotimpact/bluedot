@@ -1,11 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import {
-  describe,
-  expect,
-  test,
-  vi,
-} from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { SideBar } from './SideBar';
@@ -61,7 +56,6 @@ describe('SideBar', () => {
     units: COURSE_UNITS,
     currentUnitNumber: 1,
     currentChunkIndex: 0,
-    onChunkSelect: vi.fn(),
   };
 
   test('renders default as expected', () => {

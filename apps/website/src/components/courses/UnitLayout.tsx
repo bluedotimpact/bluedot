@@ -130,7 +130,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       certificateData={certificateData}
       currentUnitNumber={parseInt(unitNumber, 10)}
       currentChunkIndex={chunkIndex}
-      onChunkSelect={handleChunkSelect}
       courseProgressData={courseProgressData}
       onNavigate={setNavigationAnnouncement}
       breadcrumb={`${unitNumber}. ${unit.title}`}

@@ -112,7 +112,6 @@ export type CourseShellProps = {
   certificateData: CertificateData | undefined;
   currentUnitNumber?: number;
   currentChunkIndex?: number;
-  onChunkSelect?: (index: number) => void;
   courseProgressData?: CourseProgress;
   breadcrumb: string;
   navigationControls?: ReactNode;
@@ -129,7 +128,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
   certificateData,
   currentUnitNumber = 0,
   currentChunkIndex = 0,
-  onChunkSelect = () => {},
   courseProgressData,
   breadcrumb,
   navigationControls,
@@ -229,7 +227,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
             units={units}
             currentUnitNumber={currentUnitNumber}
             currentChunkIndex={currentChunkIndex}
-            onChunkSelect={onChunkSelect}
             unitChunks={allUnitChunks}
             courseProgressData={courseProgressData}
           />
@@ -283,8 +280,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
         units={units}
         currentUnitNumber={currentUnitNumber}
         currentChunkIndex={currentChunkIndex}
-        onChunkSelect={onChunkSelect}
-        onUnitSelect={(unitPath) => router.push(unitPath)}
         unitChunks={allUnitChunks}
         courseProgressData={courseProgressData}
       />
