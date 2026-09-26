@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, ErrorSection, H2, ProgressDots,
+  CTALinkOrButton, ErrorSection, H2, ProgressDots, TabPills,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -19,7 +19,6 @@ import QuickApplyPanel from '../../components/facilitator-applications/QuickAppl
 import MyBlueDotLayout from '../../components/my-bluedot/MyBlueDotLayout';
 import type { CourseAction } from '../../components/my-courses/DiscussionListRow';
 import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
-import TabPills from '../../components/my-courses/TabPills';
 import { ROUTES } from '../../lib/routes';
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
 import { trpc } from '../../utils/trpc';

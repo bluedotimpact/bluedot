@@ -82,6 +82,9 @@ export type { TagProps } from './Tag';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 
+export { TabPills } from './TabPills';
+export type { TabPillsProps } from './TabPills';
+
 export { TimeAvailabilityGrid } from './TimeAvailabilityGrid';
 export type { TimeAvailabilityGridProps } from './TimeAvailabilityGrid';
 
