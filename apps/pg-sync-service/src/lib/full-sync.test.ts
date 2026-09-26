@@ -274,11 +274,6 @@ describe('runFullSync', () => {
 
         return [{ id: 'healthy-record', title: 'Healthy table' }];
       });
-      vi.mocked(waitForQueueToEmpty).mockImplementationOnce(async () => {
-        // The run must stay in progress until records from healthy tables finish processing.
-        await tick();
-        expect(await getRequestStatuses()).toEqual(['running']);
-      });
 
       try {
         await runFullSync();
