@@ -31,7 +31,7 @@ Colour tokens mirror the Figma design-system variables and are used through Tail
 - Surface: `bg-canvas` (cream by default, white on bluedot.org), `bg-raised`, `bg-tint` (hover wash), `bg-active` (pressed / selected), `bg-dark`, `bg-surface-on-dark`, `bg-surface-on-dark-subtle`
 - Border: `border-subtle`, `border-default`, `border-strong`, `border-border-on-dark`
 - Accent (interactive): `bg-accent`, `hover:bg-accent-hover`, `active:bg-accent-active`, `bg-accent-subtle`
-- Status: `text-{info|success|warning|error}-fg`, `bg-…-bg`, `border-…-border`, plus `hover:bg-error-fg-hover` for destructive buttons. Never hand-pick a red or green.
+- Status: `text-{info|success|warning|error}-fg`, `bg-…-bg`, `border-…-border`, plus `hover:bg-{success|warning|error}-fg-hover` for solid tone fills. Never hand-pick a red or green.
 - Focus & overlay: `ring-focus`, `bg-scrim`, `bg-overlay-image`
 
 Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role fits.
@@ -100,18 +100,20 @@ Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role
     },
     {
       title: "Success",
-      subtitle: "fg · bg · border",
+      subtitle: "fg · fg-hover · bg · border",
       colors: {
         "success-fg": 'var(--color-success-fg)',
+        "success-fg-hover": 'var(--color-success-fg-hover)',
         "success-bg": 'var(--color-success-bg)',
         "success-border": 'var(--color-success-border)'
       }
     },
     {
       title: "Warning",
-      subtitle: "fg · bg · border",
+      subtitle: "fg · fg-hover · bg · border",
       colors: {
         "warning-fg": 'var(--color-warning-fg)',
+        "warning-fg-hover": 'var(--color-warning-fg-hover)',
         "warning-bg": 'var(--color-warning-bg)',
         "warning-border": 'var(--color-warning-border)'
       }

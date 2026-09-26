@@ -488,7 +488,7 @@ const SpeedReviewPage = () => {
               onClick={() => {
                 setSaveError(null);
               }}
-              className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm bg-error-bg border border-error-border text-error-fg hover:bg-error-bg transition-colors"
+              className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm bg-error-bg border border-error-border text-error-fg"
             >
               Return to application
             </button>

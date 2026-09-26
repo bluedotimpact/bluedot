@@ -90,7 +90,7 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
           type="button"
           disabled={!selectedRoundId || status === 'loading' || pendingWrites > 0}
           onClick={handleMove}
-          className="shrink-0 min-h-11 px-4 py-2 rounded-lg text-size-sm font-semibold border border-warning-border text-warning-fg bg-warning-bg hover:bg-warning-bg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="shrink-0 min-h-11 px-4 py-2 rounded-lg text-size-sm font-semibold border border-warning-border text-warning-fg bg-warning-bg disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {status === 'loading' ? 'Moving…' : 'Move to AGI Strategy'}
         </button>

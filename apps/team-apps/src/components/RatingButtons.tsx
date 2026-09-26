@@ -59,7 +59,7 @@ export const RatingButtons: React.FC<RatingButtonsProps> = ({ onRate, disabled }
       disabled={disabled}
       onClick={() => onRate('strong-yes')}
       aria-label="Strong yes"
-      className="px-3 sm:px-4 py-2.5 sm:py-4 rounded-lg font-semibold text-size-sm border-2 border-accent text-info-fg bg-info-bg hover:bg-info-bg active:bg-info-bg disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      className="px-3 sm:px-4 py-2.5 sm:py-4 rounded-lg font-semibold text-size-sm border-2 border-accent text-info-fg bg-info-bg disabled:opacity-40 disabled:cursor-not-allowed"
     >
       Strong yes
     </button>
