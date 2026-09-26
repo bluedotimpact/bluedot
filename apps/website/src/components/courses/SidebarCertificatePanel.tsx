@@ -1,12 +1,9 @@
-import {
-  A, cn, Modal, P,
-} from '@bluedot/ui';
+import { Modal, P } from '@bluedot/ui';
 import { type ReactNode, useState } from 'react';
-import { FaArrowRight } from 'react-icons/fa6';
-import { FiLock } from 'react-icons/fi';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
+import { SidebarActionCard, type SidebarActionTone } from './SidebarActionCard';
 
 // Cohort-course gate. FoAI (self-paced) is handled separately at each callsite because the rule
 // there is simpler: only `has-certificate` is accessible.
@@ -57,28 +54,14 @@ const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; on
   </Modal>
 );
 
-const LockedPanel = ({ label, subtitle, className }: {
-  label: string; subtitle: ReactNode; className?: string;
-}) => (
-  <div className={cn('flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4', className)}>
-    <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
-      <p className="text-size-sm leading-relaxed font-bold">{label}</p>
-      <p className="text-size-xs leading-relaxed font-normal">{subtitle}</p>
-    </div>
-    <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
-  </div>
-);
-
 export const SidebarCertificatePanel = ({
   courseTitle,
   courseSlug,
   certificateData,
-  className,
 }: {
   courseTitle: string;
   courseSlug: string;
   certificateData?: CertificateData;
-  className?: string;
 }) => {
   const [isRequirementsModalOpen, setIsRequirementsModalOpen] = useState(false);
   const congratsUrl = `/courses/${courseSlug}/congratulations`;
@@ -91,10 +74,10 @@ export const SidebarCertificatePanel = ({
   // as a locked panel and the page itself redirects.
   if (courseSlug === FOAI_COURSE_SLUG && status !== 'has-certificate') {
     return (
-      <LockedPanel
-        label={label}
+      <SidebarActionCard
+        tone="locked"
+        title={label}
         subtitle="Complete all exercises to unlock your certificate"
-        className={className}
       />
     );
   }
@@ -105,44 +88,24 @@ export const SidebarCertificatePanel = ({
       || status === 'not-enrolled'
       || status === 'not-eligible'
     ) ? COURSE_CONFIG[courseSlug]?.certificateCtaOverride : undefined;
-    let subtitle = 'Join a facilitated cohort today';
+
+    let cta: { tone: SidebarActionTone; title: string; subtitle: string } = {
+      tone: 'solid', title: label, subtitle: 'Join a facilitated cohort today',
+    };
     if (status === 'has-certificate') {
-      subtitle = 'View your certificate';
+      cta = { tone: 'success', title: `Your ${label}`, subtitle: 'View your certificate' };
     } else if (status === 'attendance-ineligible') {
-      subtitle = 'See what\'s next';
+      cta = { tone: 'subtle', title: 'Course complete', subtitle: 'See what\'s next' };
     }
-
-    const hasCert = status === 'has-certificate';
-    const isAttendanceIneligible = status === 'attendance-ineligible';
-    let defaultTitle = label;
-    if (hasCert) {
-      defaultTitle = `Your ${label}`;
-    } else if (isAttendanceIneligible) {
-      defaultTitle = 'Course complete';
-    }
-
-    const title = defaultCtaOverride?.label ?? defaultTitle;
 
     return (
-      <A
+      <SidebarActionCard
+        tone={cta.tone}
+        title={defaultCtaOverride?.label ?? cta.title}
+        subtitle={defaultCtaOverride ? undefined : cta.subtitle}
         href={defaultCtaOverride?.href ?? congratsUrl}
         target={defaultCtaOverride?.target}
-        className={cn(
-          'flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90',
-          hasCert && 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]',
-          isAttendanceIneligible && 'border-bluedot-normal bg-bluedot-normal/5 text-bluedot-normal',
-          !hasCert && !isAttendanceIneligible && 'border-bluedot-normal bg-bluedot-normal text-white',
-          className,
-        )}
-      >
-        <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <p className="text-size-sm leading-relaxed font-bold">
-            {title}
-          </p>
-          {!defaultCtaOverride && <p className="text-size-xs leading-relaxed font-normal">{subtitle}</p>}
-        </div>
-        <FaArrowRight className="size-5 shrink-0" />
-      </A>
+      />
     );
   }
 
@@ -164,17 +127,14 @@ export const SidebarCertificatePanel = ({
     && certificateData.hasAtMostOneDiscussionLeft
   ) {
     return (
-      <div className={cn('flex flex-col gap-3', className)}>
-        <a
+      <div className="flex flex-col gap-3">
+        <SidebarActionCard
+          tone="subtle"
+          title="Submit your project/action plan"
           href={getActionPlanUrl(certificateData.meetPersonId)}
           target="_blank"
-          rel="noopener noreferrer"
-          className="border-bluedot-normal bg-bluedot-normal/5 text-bluedot-normal flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90"
-        >
-          <p className="text-size-sm min-w-0 flex-1 leading-relaxed font-bold">Submit your project/action plan</p>
-          <FaArrowRight className="size-5 shrink-0" />
-        </a>
-        <LockedPanel label={label} subtitle="Submit your project/action plan to claim" />
+        />
+        <SidebarActionCard tone="locked" title={label} subtitle="Submit your project/action plan to claim" />
       </div>
     );
   }
@@ -200,7 +160,7 @@ export const SidebarCertificatePanel = ({
         isOpen={isRequirementsModalOpen}
         onClose={() => setIsRequirementsModalOpen(false)}
       />
-      <LockedPanel label={label} subtitle={subtitle} className={className} />
+      <SidebarActionCard tone="locked" title={label} subtitle={subtitle} />
     </>
   );
 };
