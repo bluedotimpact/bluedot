@@ -1,4 +1,6 @@
-import { ErrorSection, H2, ProgressDots } from '@bluedot/ui';
+import {
+  ErrorSection, H2, ProgressDots, TabPills,
+} from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
@@ -11,7 +13,6 @@ import {
   TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab as bucketRowsByTab,
 } from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
-import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
 
