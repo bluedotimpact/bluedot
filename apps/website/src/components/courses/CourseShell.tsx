@@ -64,8 +64,9 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
       </button>
       {/* Right side - navigation arrows */}
       {mobileNavigation && (
-        <div className="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0">
+        <div className="mobile-unit-header__navigation flex h-8 flex-row items-center gap-3">
           <IconButton
+            className="text-primary"
             disabled={mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit}
             onClick={mobileNavigation.onPrevClick}
             aria-label={mobileNavigation.isFirstChunk && mobileNavigation.prevUnit ? 'Previous unit' : 'Previous section'}
@@ -73,6 +74,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             <ArrowRightIcon aria-hidden="true" className="rotate-180" />
           </IconButton>
           <IconButton
+            className="text-primary"
             disabled={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit}
             onClick={mobileNavigation.onNextClick}
             aria-label={mobileNavigation.isLastChunk && mobileNavigation.nextUnit ? 'Next unit' : 'Next section'}
