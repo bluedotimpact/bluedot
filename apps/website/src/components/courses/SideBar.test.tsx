@@ -8,7 +8,7 @@ import {
 } from 'vitest';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import SideBar from './SideBar';
+import { SideBar } from './SideBar';
 import type { BasicChunk } from '../../server/routers/courses';
 
 const COURSE_UNITS = [
