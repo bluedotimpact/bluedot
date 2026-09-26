@@ -83,6 +83,15 @@ describe('CourseSidebarUnit', () => {
     expect(screen.getByText('20min')).toBeInTheDocument();
   });
 
+  test('hides the meta line when a chunk has no estimated time', () => {
+    renderUnit({
+      chunks: [{ ...chunks[0]!, estimatedTime: 0 }, { ...chunks[1]!, estimatedTime: null }],
+    });
+
+    expect(screen.queryByText(/min/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/completed/)).not.toBeInTheDocument();
+  });
+
   test('calls onChunkClick when a chunk link is activated', () => {
     let clicks = 0;
     renderUnit({

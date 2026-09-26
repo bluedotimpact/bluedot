@@ -95,7 +95,7 @@ const ChunkRow = ({
       <ChunkIcon isActive={isActive} />
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className="text-size-xs leading-normal">{chunk.chunkTitle}</span>
-        {chunk.estimatedTime != null && (
+        {!!chunk.estimatedTime && (
           <span className="flex gap-1 text-size-xxs leading-normal text-secondary">
             <span>{formatTime(chunk.estimatedTime)}</span>
             {progress && progress.totalCount > 0 && (
