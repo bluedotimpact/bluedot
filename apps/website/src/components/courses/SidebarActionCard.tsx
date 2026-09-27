@@ -5,8 +5,6 @@ import { FiLock } from 'react-icons/fi';
 
 export type SidebarActionTone = 'solid' | 'success' | 'subtle' | 'outline' | 'locked';
 
-// Figma ".Course Sidebar Action Button" Tone axis. Which certificate status yields which tone is
-// decided by SidebarCertificatePanel / SidebarFacilitateAgainPanel; this component only draws it.
 const TONE_STYLES: Record<SidebarActionTone, string> = {
   solid: 'border-accent bg-accent text-on-dark hover:bg-accent-hover',
   success: 'border-success-border bg-success-bg text-success-fg hover:opacity-90',
