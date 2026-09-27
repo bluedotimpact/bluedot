@@ -15,8 +15,6 @@ import {
   DocumentIcon,
   ErrorIcon,
   ExternalLinkIcon,
-  InfoIcon,
-  MoonStarsIcon,
   MusicNoteIcon,
   PlayCircleIcon,
   PlusToggleIcon,
@@ -28,8 +26,6 @@ import {
   UndoIcon,
   UserIcon,
   VideoIcon,
-  WarningCircleIcon,
-  WarningTriangleIcon,
 } from '.';
 
 type IconCellProps = {
@@ -91,9 +87,6 @@ const Gallery = () => (
         <IconCell name="ExternalLinkIcon">
           <ExternalLinkIcon size={20} />
         </IconCell>
-        <IconCell name="MoonStarsIcon">
-          <MoonStarsIcon />
-        </IconCell>
         <IconCell name="MusicNoteIcon">
           <MusicNoteIcon />
         </IconCell>
@@ -120,12 +113,6 @@ const Gallery = () => (
         </IconCell>
         <IconCell name="VideoIcon">
           <VideoIcon size={24} />
-        </IconCell>
-        <IconCell name="WarningCircleIcon">
-          <WarningCircleIcon />
-        </IconCell>
-        <IconCell name="WarningTriangleIcon">
-          <WarningTriangleIcon />
         </IconCell>
       </Grid>
     </Section>
@@ -157,17 +144,6 @@ const Gallery = () => (
         </IconCell>
         <IconCell name="ThumbIcon" note="filled=false">
           <ThumbIcon filled={false} />
-        </IconCell>
-      </Grid>
-    </Section>
-
-    <Section title="Dual-tone icons">
-      <Grid>
-        <IconCell name="InfoIcon" note="default (blue/white)">
-          <InfoIcon />
-        </IconCell>
-        <IconCell name="InfoIcon" note="red/white">
-          <InfoIcon bgFill="#DC0000" fgFill="white" />
         </IconCell>
       </Grid>
     </Section>
