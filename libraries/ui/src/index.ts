@@ -41,6 +41,9 @@ export {
 } from './HeroSection';
 export type { HeroSectionProps, HeroCTAContainerProps } from './HeroSection';
 
+export { Callout } from './Callout';
+export type { CalloutProps, CalloutAction, CalloutTone } from './Callout';
+
 export { IconButton } from './IconButton';
 export type { IconButtonProps } from './IconButton';
 
