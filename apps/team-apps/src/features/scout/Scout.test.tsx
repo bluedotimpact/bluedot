@@ -15,6 +15,7 @@ const routerReplace = vi.fn();
 vi.mock('next/router', () => ({ useRouter: () => ({ query: routerQuery, pathname: '/scout', replace: routerReplace }) }));
 vi.mock('./PersonCard', () => ({ PersonCard: ({ person }: { person: { name: string } }) => <p>{person.name}</p> }));
 vi.mock('@bluedot/ui', () => ({
+  Callout: ({ children, role }: { children: ReactNode; role?: string }) => <div role={role}>{children}</div>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   ProgressDots: () => <span>Loading</span>,
   CTALinkOrButton: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
