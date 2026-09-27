@@ -80,6 +80,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 tabindex="0"
               >
                 <svg
+                  aria-hidden="true"
                   class="shrink-0 text-primary"
                   fill="none"
                   height="24"
@@ -151,6 +152,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 tabindex="0"
               >
                 <svg
+                  aria-hidden="true"
                   class="shrink-0 text-secondary"
                   fill="none"
                   height="24"
@@ -216,6 +218,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 tabindex="0"
               >
                 <svg
+                  aria-hidden="true"
                   class="shrink-0 text-secondary"
                   fill="none"
                   height="24"
@@ -281,6 +284,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 tabindex="0"
               >
                 <svg
+                  aria-hidden="true"
                   class="shrink-0 text-secondary"
                   fill="none"
                   height="24"
@@ -346,6 +350,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 tabindex="0"
               >
                 <svg
+                  aria-hidden="true"
                   class="shrink-0 text-secondary"
                   fill="none"
                   height="24"
