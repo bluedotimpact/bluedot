@@ -15,13 +15,13 @@ export const NAV_DROPDOWN_CLASS = 'nav-dropdown' as const;
 export const MOBILE_NAV_CLASS = 'mobile-nav-links' as const;
 export const PROFILE_DROPDOWN_CLASS = 'profile-links' as const;
 
-export const DRAWER_CLASSES = (isOpen: boolean, zIndex: typeof DRAWER_Z_DEFAULT | typeof DRAWER_Z_PROFILE = DRAWER_Z_DEFAULT) => clsx(
-  'absolute top-[60px] lg:top-[76px] left-0 w-full',
-  'xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))]',
-  'px-spacing-x transition-all duration-300 ease-in-out',
-  'bg-white',
+// z-40 sits inside the nav's own z-50 stacking context; Modal is 60, Toast 70
+export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
+  'absolute top-full inset-x-0 w-full',
+  'px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none',
+  'bg-canvas',
   isOpen
-    ? `max-h-[calc(100vh-60px)] lg:max-h-[calc(100vh-76px)] opacity-100 pt-4 pb-10 border-b border-default ${zIndex} overflow-y-auto`
+    ? 'max-h-[calc(100dvh-var(--nav-height-mobile))] lg:max-h-[calc(100dvh-var(--nav-height-desktop))] opacity-100 pt-4 pb-10 border-b border-strong z-40 overflow-y-auto'
     : 'max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden',
 );
 
