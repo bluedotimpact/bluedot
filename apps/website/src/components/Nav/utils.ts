@@ -4,6 +4,11 @@ export const TRANSITION_DURATION_CLASS = 'duration-300';
 
 export const DRAWER_Z_DEFAULT = 'z-40' as const;
 export const DRAWER_Z_PROFILE = 'z-50' as const;
+export const NAV_LINK_CLASS = 'no-underline text-size-sm font-medium leading-relaxed align-middle';
+// Desktop only: hover is meaningless on touch and the underline needs a text-width element
+export const NAV_LINK_ANIMATION_CLASS = 'nav-link-animation w-fit';
+// Full-width rows would stretch the underline across the drawer, so current page uses weight + colour
+export const DRAWER_ROW_CLASS = 'flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent';
 
 // Class names used for nav components - referenced by useClickOutside hook
 export const NAV_DROPDOWN_CLASS = 'nav-dropdown' as const;
