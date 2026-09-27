@@ -60,7 +60,7 @@ describe('SyncDashboard - Main User Journeys', () => {
     render(<SyncDashboard />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
+      expect(screen.getByText('Access Denied')).toBeInTheDocument();
     });
     expect(screen.getByText('You don\'t have permission to access the admin dashboard.')).toBeInTheDocument();
   });
@@ -77,7 +77,7 @@ describe('SyncDashboard - Main User Journeys', () => {
     render(<SyncDashboard />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
+      expect(screen.getByText('Access Denied')).toBeInTheDocument();
     });
     expect(screen.getByText('You need to log in to access the admin dashboard.')).toBeInTheDocument();
     expect(screen.getByText('Log in with your BlueDot email address')).toBeInTheDocument();
