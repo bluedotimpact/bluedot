@@ -25,11 +25,6 @@ export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
     : 'max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden',
 );
 
-export type ExpandedSectionsState = {
-  courses: boolean;
-  grants: boolean;
-  programs: boolean;
-  explore: boolean;
-  mobileNav: boolean;
-  profile: boolean;
+export type NavSection = 'courses' | 'grants' | 'programs' | 'profile';
+
 };
