@@ -14,7 +14,6 @@ import { useEffect, useRef, type RefObject } from 'react';
 export function useClickOutside<T extends HTMLElement = HTMLDivElement>(
   onClickOutside: () => void,
   enabled = true,
-  exclusionSelector?: string,
 ): RefObject<T> {
   const ref = useRef<T>(null);
 
@@ -24,18 +23,7 @@ export function useClickOutside<T extends HTMLElement = HTMLDivElement>(
     }
 
     const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-
-      // Use closest() for selector-based detection when provided.
-      // closest() traverses up the DOM tree and works reliably with absolutely-positioned
-      // elements, while ref.contains() checks DOM tree containment which may not match
-      // the visual hierarchy when position: absolute is used.
-      if (exclusionSelector && target.closest(exclusionSelector)) {
-        return;
-      }
-
-      // Standard ref.contains() check for ref-based detection
-      if (ref.current && !ref.current.contains(target)) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         onClickOutside();
       }
     };
@@ -44,7 +32,7 @@ export function useClickOutside<T extends HTMLElement = HTMLDivElement>(
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [enabled, onClickOutside, exclusionSelector]);
+  }, [enabled, onClickOutside]);
 
   return ref;
 }
