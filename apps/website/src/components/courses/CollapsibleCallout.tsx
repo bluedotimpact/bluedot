@@ -2,12 +2,12 @@ import { Collapsible } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 
-type CalloutProps = React.PropsWithChildren<{
+type CollapsibleCalloutProps = React.PropsWithChildren<{
   title: string;
   className?: string;
 }>;
 
-const Callout: React.FC<CalloutProps> = ({
+export const CollapsibleCallout: React.FC<CollapsibleCalloutProps> = ({
   title,
   children,
   className,
@@ -30,5 +30,3 @@ const Callout: React.FC<CalloutProps> = ({
     </Collapsible>
   );
 };
-
-export default Callout;
