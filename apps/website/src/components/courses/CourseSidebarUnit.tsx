@@ -96,7 +96,7 @@ const ChunkRow = ({
           isActive && 'bg-tint',
         )}
       >
-        <ChunkIcon isActive={isActive} />
+        <ChunkIcon isActive={isActive} aria-hidden="true" />
         <span className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="text-size-xs leading-normal">{chunk.chunkTitle}</span>
           {(time > 0 || hasProgress) && (
