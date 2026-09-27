@@ -244,6 +244,7 @@
     /* underline is applied by ::after psuedoelement for consistency across text and incorporated SVGs */
     @apply after:content-[""] after:invisible after:absolute after:bg-accent after:transition-[translate] after:duration-200 motion-reduce:after:transition-none after:left-0 after:bottom-0 after:w-full after:h-[2px];
     @apply hover:after:visible hover:after:translate-y-[4px];
+    @apply aria-[current=page]:after:visible aria-[current=page]:after:translate-y-[4px];
 }
 
 @utility nav-link-animation-dark {
