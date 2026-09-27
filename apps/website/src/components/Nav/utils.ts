@@ -27,4 +27,16 @@ export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
 
 export type NavSection = 'courses' | 'grants' | 'programs' | 'profile';
 
+export type NavMenuState = {
+  mobileNavOpen: boolean;
+  openSection: NavSection | null;
+};
+
+export type NavMenu = NavMenuState & {
+  toggleSection: (section: NavSection) => void;
+  closeSection: (section: NavSection) => void;
+  toggleMobileNav: () => void;
+  closeAll: () => void;
+};
+
 };
