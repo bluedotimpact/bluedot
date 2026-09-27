@@ -23,8 +23,8 @@ export const TabPills = <T extends string>({
       'flex gap-3 overflow-x-auto',
       // Bleed the scroll region to the page edge so a cut-off pill signals more content.
       // Only below lg: wider layouts put a sidebar beside the content and the bleed would cover it.
-      '-mx-spacing-x px-spacing-x lg:mx-0 lg:px-0',
-      // overflow-x-auto also clips vertically; leave room for the focus outline
+      '-mx-spacing-x px-spacing-x lg:-mx-1 lg:px-1',
+      // The overflow container clips on both axes; 4px of padding keeps the focus outline visible
       '-my-1 py-1',
     )}
   >
