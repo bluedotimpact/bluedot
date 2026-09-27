@@ -1,5 +1,6 @@
 import useAxios from 'axios-hooks';
 import {
+  Callout,
   ClickTarget,
   CTALinkOrButton, ErrorSection, H1,
   ProgressDots,
@@ -50,17 +51,15 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
       <H1 className="mb-4">Hey there! Who are you?</H1>
       {(data.meetingStartTime > (currentTimeMs / 1000) + 10 * 60)
       && (
-        <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">
-          <p className="font-bold mb-1">Heads up, you're a little early.</p>
-          <p>Your next discussion is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.</p>
-        </div>
+        <Callout tone="warning" title="Heads up, you're a little early." className="my-4">
+          Your next discussion is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.
+        </Callout>
       )}
       {(data.meetingEndTime + 10 * 60 < (currentTimeMs / 1000))
       && (
-        <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid">
-          <p className="font-bold mb-1">Heads up, your discussion has passed its scheduled end time.</p>
-          <p>Your discussion ended at {new Date(data.meetingEndTime * 1000).toLocaleString()}.</p>
-        </div>
+        <Callout tone="warning" title="Heads up, your discussion has passed its scheduled end time." className="my-4">
+          Your discussion ended at {new Date(data.meetingEndTime * 1000).toLocaleString()}.
+        </Callout>
       )}
       {data.activityDoc && (
         <CTALinkOrButton

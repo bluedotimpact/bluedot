@@ -1,4 +1,5 @@
 import {
+  Callout,
   CTALinkOrButton,
   DatePicker,
   Modal,
@@ -12,7 +13,7 @@ import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useEffect, useState } from 'react';
 import { trpc } from '../../utils/trpc';
 import {
-  CheckIcon, ClockIcon, InfoIcon, SwitchUserIcon,
+  CheckIcon, ClockIcon, SwitchUserIcon,
 } from '../icons';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 
@@ -410,22 +411,13 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   );
 };
 
-const InformationBanner = ({ modalType }: { modalType: FacilitatorModalType }) => {
-  return (
-    <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
-      <div className="flex flex-1 items-start justify-start gap-3">
-        <div className="flex items-center justify-start">
-          <InfoIcon className="shrink-0" />
-        </div>
-        <P className="text-bluedot-normal flex-1 justify-start">
-          {modalType === 'Update discussion time'
-            ? 'Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation and Course Hub information, but not notify your participants.'
-            : 'Please make sure you have agreed on these changes with the facilitator beforehand.'}
-        </P>
-      </div>
-    </div>
-  );
-};
+const InformationBanner = ({ modalType }: { modalType: FacilitatorModalType }) => (
+  <Callout>
+    {modalType === 'Update discussion time'
+      ? 'Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation and Course Hub information, but not notify your participants.'
+      : 'Please make sure you have agreed on these changes with the facilitator beforehand.'}
+  </Callout>
+);
 
 type GroupOption = { value: string; label: string; disabled?: boolean };
 type DiscussionOption = GroupOption & { startDateTime: number };

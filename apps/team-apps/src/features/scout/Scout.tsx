@@ -4,7 +4,7 @@ import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import {
-  CTALinkOrButton, Modal, ProgressDots,
+  Callout, CTALinkOrButton, Modal, ProgressDots,
 } from '@bluedot/ui';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
@@ -298,14 +298,14 @@ const Scout = () => {
           </>
         )}
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
-        {!loading && queueError && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{queueError} Use Refresh queue to try again.</div>}
+        {!loading && queueError && <Callout tone="error" role="alert">{queueError} Use Refresh queue to try again.</Callout>}
         {!loading && !queueError && lookup && (
           <>
             <section aria-label="Looking up one participant" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
               <p className="text-size-xs text-secondary">Opened from search · {lookup.course} · {roundLabel(lookup)}</p>
               <button type="button" className={button} disabled={controlsDisabled} onClick={closeLookup}>Back to search</button>
             </section>
-            {saveError && !confirmation && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{saveError}</div>}
+            {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
             <ReviewEvidence key={lookup.id} item={lookup} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(lookup.id)} actions={
               <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -318,7 +318,7 @@ const Scout = () => {
         )}
         {!loading && !queueError && !lookup && (!round ? (
           <>
-            {notice && <p role="status" className="rounded-surface bg-info-bg p-3 text-size-sm text-info-fg">{notice}</p>}
+            {notice && <Callout role="status">{notice}</Callout>}
             <PersonSearch items={remaining} query={search} onQueryChange={setSearch} onSelect={openLookup} />
             <RoundPicker items={remaining} invited={invited} onSelect={chooseRound} />
           </>
@@ -342,8 +342,8 @@ const Scout = () => {
             </div>
           </section>
           <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
-          {notice && <p role="status" className="rounded-surface bg-info-bg p-3 text-size-sm text-info-fg">{notice}</p>}
-          {saveError && !confirmation && <div role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{saveError}</div>}
+          {notice && <Callout role="status">{notice}</Callout>}
+          {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
           {current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
             <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">

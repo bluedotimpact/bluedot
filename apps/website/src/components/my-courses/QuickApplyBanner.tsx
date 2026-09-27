@@ -1,5 +1,4 @@
-import { CTALinkOrButton } from '@bluedot/ui';
-import { FaRegFileLines } from 'react-icons/fa6';
+import { Callout } from '@bluedot/ui';
 import { ROUTES } from '../../lib/routes';
 import { useQuickApplyBannerStore } from '../../stores/quickApplyBanner';
 import { trpc } from '../../utils/trpc';
@@ -18,28 +17,14 @@ export const QuickApplyBanner = () => {
   if (eligibleRoundIds.length === 0 || isDismissed) return null;
 
   return (
-    <div className="border-bluedot-normal/10 bg-bluedot-normal/5 rounded-md border border-solid p-4 sm:p-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-        <div className="min-w-0 flex-1 text-bluedot-normal">
-          <div className="flex items-center gap-2">
-            <FaRegFileLines className="size-4 shrink-0" />
-            <p className="text-size-sm font-bold">Quick Apply (~2 min)</p>
-          </div>
-          <p className="text-size-xs mt-1 text-pretty">
-            Thanks for facilitating with BlueDot. If you want to facilitate the same course again, as a return
-            facilitator, quick applying only takes 2 min!
-          </p>
-        </div>
-        <div className="flex shrink-0 flex-wrap items-center gap-3">
-          <CTALinkOrButton variant="secondary" size="small" onClick={() => dismiss(dismissKey)}>
-            Hide
-          </CTALinkOrButton>
-          <CTALinkOrButton variant="primary" size="small" url={ROUTES.facilitatorApplications.url}>
-            Quick apply
-          </CTALinkOrButton>
-        </div>
-      </div>
-    </div>
+    <Callout
+      title="Quick Apply (~2 min)"
+      actions={[{ label: 'Quick apply', url: ROUTES.facilitatorApplications.url }]}
+      onDismiss={() => dismiss(dismissKey)}
+    >
+      Thanks for facilitating with BlueDot. If you want to facilitate the same course again, as a return
+      facilitator, quick applying only takes 2 min!
+    </Callout>
   );
 };
 

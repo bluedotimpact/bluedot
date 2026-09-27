@@ -3,7 +3,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
-import { ErrorSection, H1, ProgressDots } from '@bluedot/ui';
+import {
+  Callout, ErrorSection, H1, ProgressDots,
+} from '@bluedot/ui';
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { trpc } from '../../../utils/trpc';
@@ -138,12 +140,9 @@ const FacilitatorFeedbackSuccessPage = () => {
           </div>
 
           {flaggedNames.length > 0 && (
-            <div className="bg-[#f2fff8] border border-[rgba(5,144,5,0.2)] rounded-md px-4 py-3">
-              <p className="text-size-xs leading-relaxed text-[#1a7a52]">
-                <span className="font-bold">🙌 You suggested follow-up actions for {formatNames(flaggedNames)}</span>
-                <span>{' — we\'ll review these and do our best to act on them.'}</span>
-              </p>
-            </div>
+            <Callout tone="success" title={`You suggested follow-up actions for ${formatNames(flaggedNames)}`}>
+              We'll review these and do our best to act on them.
+            </Callout>
           )}
 
           <Link
