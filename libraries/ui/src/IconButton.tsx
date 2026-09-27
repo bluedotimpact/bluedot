@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from 'react';
+import { type ComponentPropsWithoutRef, forwardRef } from 'react';
 import { cn } from './utils';
 
 export type IconButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'aria-label'> & {
@@ -7,8 +7,9 @@ export type IconButtonProps = Omit<ComponentPropsWithoutRef<'button'>, 'aria-lab
   variant?: 'ghost' | 'outline';
 };
 
-export const IconButton = ({ variant = 'ghost', className, ...props }: IconButtonProps) => (
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({ variant = 'ghost', className, ...props }, ref) => (
   <button
+    ref={ref}
     type="button"
     {...props}
     className={cn(
@@ -21,4 +22,5 @@ export const IconButton = ({ variant = 'ghost', className, ...props }: IconButto
       className,
     )}
   />
-);
+));
+IconButton.displayName = 'IconButton';
