@@ -43,3 +43,23 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const WithDisabledItem: Story = {
+  args: {
+    items: [
+      {
+        id: 'reschedule',
+        label: 'Reschedule',
+        isDisabled: true,
+      },
+      {
+        id: 'download',
+        label: 'Download calendar file',
+        onAction() {
+          // eslint-disable-next-line no-alert
+          alert('Download clicked');
+        },
+      },
+    ],
+  },
+};
