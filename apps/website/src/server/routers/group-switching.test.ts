@@ -7,9 +7,11 @@ import {
   groupTable,
   groupDiscussionTable,
   groupSwitchingTable,
+  unitTable,
 } from '@bluedot/db';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import {
-  beforeEach, describe, expect, it, test,
+  beforeEach, describe, expect, it, test, vi,
 } from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
 import {
@@ -21,12 +23,57 @@ import {
 } from './group-switching';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
+vi.mock('../../lib/api/env', () => ({
+  default: {
+    APP_NAME: 'website',
+    PG_URL: 'postgresql://fake',
+    AIRTABLE_PERSONAL_ACCESS_TOKEN: 'fake',
+    ALERTS_SLACK_CHANNEL_ID: 'C',
+    CLIENT_ERRORS_SLACK_CHANNEL_ID: 'C',
+    ALERTS_SLACK_BOT_TOKEN: 'fake',
+    KEYCLOAK_CLIENT_ID: 'fake',
+    KEYCLOAK_CLIENT_SECRET: 'fake',
+    CIO_TRACK_API_KEY: 'fake:track-key',
+    VITEST: 'true',
+  },
+}));
+
+vi.mock('@bluedot/utils/src/slackNotifications', () => ({
+  slackAlert: vi.fn(),
+}));
+
 setupTestDb();
 
+type CioTrackedEvent = { identifiers: { email: string }; name: string; attributes: Record<string, unknown> };
+let cioTrackedEvents: CioTrackedEvent[];
+let cioTrackStatus: number;
+
 // The authenticated user's row is assumed to exist by the userId-scoped routes.
+// fetch stays stubbed after each test: switchGroup sends its customer.io event in the background, after the mutation resolves.
 beforeEach(async () => {
   await seedLoggedInUser();
+  vi.mocked(slackAlert).mockClear();
+  cioTrackedEvents = [];
+  cioTrackStatus = 200;
+  vi.stubGlobal('fetch', vi.fn(async (input: string, init?: RequestInit) => {
+    if (init?.method === 'POST' && input === 'https://track-eu.customer.io/api/v2/batch') {
+      const { batch } = JSON.parse(init.body as string) as { batch: (CioTrackedEvent & { type: string; action: string })[] };
+      cioTrackedEvents.push(...batch.filter((entry) => entry.type === 'person' && entry.action === 'event'));
+      return new Response('{}', { status: cioTrackStatus });
+    }
+
+    return new Response(`unexpected request: ${input}`, { status: 500 });
+  }));
 });
+
+const waitForSwitchRequestedEvent = async () => {
+  await vi.waitFor(() => expect(cioTrackedEvents).toHaveLength(1));
+  const [event] = cioTrackedEvents;
+  expect(event).toMatchObject({ identifiers: { email: 'test@example.com' }, name: 'Group switch requested' });
+  return event!.attributes;
+};
+
+const availabilityLinkFor = (email: string) => `https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(email)}&utm_source=bluedot-group-switch-email&roundId=`;
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);
@@ -429,6 +476,16 @@ async function seedCourseWithGroups() {
     units: ['unit-1', 'unit-2'],
   });
 
+  await testDb.insert(unitTable, {
+    id: 'cb-unit-1',
+    courseId: 'course-1',
+    courseTitle: 'Test Course',
+    courseSlug: 'test-course',
+    title: 'Governance levers',
+    unitNumber: '1',
+    unitStatus: 'Active',
+  });
+
   await testDb.insert(roundTable, {
     id: 'round-1',
     title: 'Round 1',
@@ -474,6 +531,7 @@ async function seedCourseWithGroups() {
     round: 'round-1',
     unitNumber: 1,
     unit: 'unit-1',
+    courseBuilderUnitRecordId: 'cb-unit-1',
     startDateTime: futureTimeSecs,
     endDateTime: farFutureTimeSecs,
     facilitators: ['facilitator-1'],
@@ -486,8 +544,9 @@ async function seedCourseWithGroups() {
     round: 'round-1',
     unitNumber: 1,
     unit: 'unit-1',
-    startDateTime: futureTimeSecs,
-    endDateTime: farFutureTimeSecs,
+    courseBuilderUnitRecordId: 'cb-unit-1',
+    startDateTime: farFutureTimeSecs,
+    endDateTime: farFutureTimeSecs + 60 * 60,
     facilitators: ['facilitator-2'],
     participantsExpected: ['other-participant-2'],
   });
@@ -1029,6 +1088,16 @@ describe('groupSwitching.switchGroup', () => {
       requestStatus: 'Requested',
       manualRequest: false,
     });
+
+    expect(await waitForSwitchRequestedEvent()).toEqual({
+      switchType: 'Switch group permanently',
+      isManualRequest: false,
+      notesFromParticipant: '',
+      courseName: 'Test Course',
+      courseLink: 'https://bluedot.org/courses/test-course',
+      oldGroupName: 'Group A',
+      newGroupName: 'Group B',
+    });
   });
 
   test('creates a temporary (one unit) switch request', async () => {
@@ -1050,6 +1119,20 @@ describe('groupSwitching.switchGroup', () => {
       newDiscussion: ['disc-b1'],
       unit: 'unit-1',
       requestStatus: 'Requested',
+    });
+
+    expect(await waitForSwitchRequestedEvent()).toEqual({
+      switchType: 'Switch group for one unit',
+      isManualRequest: false,
+      notesFromParticipant: '',
+      courseName: 'Test Course',
+      courseLink: 'https://bluedot.org/courses/test-course',
+      oldGroupName: 'Group A',
+      newGroupName: 'Group B',
+      unitNumber: 1,
+      unitTitle: 'Governance levers',
+      oldDiscussionStartTime: futureTimeSecs,
+      newDiscussionStartTime: farFutureTimeSecs,
     });
   });
 
@@ -1080,6 +1163,16 @@ describe('groupSwitching.switchGroup', () => {
       manualRequest: true,
       notesFromParticipant: 'Please move me to a different group',
       newGroup: null,
+    });
+
+    expect(await waitForSwitchRequestedEvent()).toEqual({
+      switchType: 'Switch group permanently',
+      isManualRequest: true,
+      notesFromParticipant: 'Please move me to a different group',
+      courseName: 'Test Course',
+      courseLink: 'https://bluedot.org/courses/test-course',
+      oldGroupName: 'Group A',
+      availabilityLink: availabilityLinkFor('test@example.com'),
     });
   });
 
@@ -1250,6 +1343,19 @@ describe('groupSwitching.switchGroup', () => {
       newDiscussion: [],
       newGroup: null,
     });
+
+    expect(await waitForSwitchRequestedEvent()).toEqual({
+      switchType: 'Switch group for one unit',
+      isManualRequest: true,
+      notesFromParticipant: 'Cannot make my usual time',
+      courseName: 'Test Course',
+      courseLink: 'https://bluedot.org/courses/test-course',
+      oldGroupName: 'Group A',
+      unitNumber: 1,
+      unitTitle: 'Governance levers',
+      oldDiscussionStartTime: futureTimeSecs,
+      availabilityLink: availabilityLinkFor('test@example.com'),
+    });
   });
 
   test('rejects temporary switch if a facilitator tries to switch', async () => {
@@ -1268,5 +1374,66 @@ describe('groupSwitching.switchGroup', () => {
       isManualRequest: false,
       roundId: 'round-1',
     })).rejects.toThrow('Facilitators cannot switch groups');
+  });
+});
+
+describe('groupSwitching.switchGroup: "Group switch requested" event', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+
+  test('falls back to the discussion\'s stored unit title when the unit record is gone', async () => {
+    await seedCourseWithGroups();
+    await testDb.update(groupDiscussionTable, { id: 'disc-a1', courseBuilderUnitRecordId: 'deleted-unit', unitFallback: '1: Governance levers' });
+
+    await caller.groupSwitching.switchGroup({
+      switchType: 'Switch group for one unit',
+      oldDiscussionId: 'disc-a1',
+      isManualRequest: true,
+      roundId: 'round-1',
+    });
+
+    expect(await waitForSwitchRequestedEvent()).toMatchObject({ unitNumber: 1, unitTitle: 'Governance levers', oldGroupName: 'Group A' });
+  });
+
+  test('prefills the availability link from the course registration', async () => {
+    await seedCourseWithGroups();
+    await testDb.update(courseRegistrationTable, {
+      id: 'reg-1',
+      roundId: 'applications-round-1',
+      availabilityIntervalsUTC: 'M16:00 M18:00',
+      availabilityTimezone: 'UTC+01:00',
+    });
+
+    await caller.groupSwitching.switchGroup({
+      switchType: 'Switch group permanently',
+      oldGroupId: 'group-a',
+      isManualRequest: true,
+      roundId: 'round-1',
+    });
+
+    const link = new URL(String((await waitForSwitchRequestedEvent()).availabilityLink));
+    expect(Object.fromEntries(link.searchParams)).toEqual({
+      email: 'test@example.com',
+      utm_source: 'bluedot-group-switch-email',
+      roundId: 'applications-round-1',
+      prefill_intervals: 'M16:00 M18:00',
+      prefill_timezone: 'UTC+01:00',
+    });
+  });
+
+  test('still records the request when the event fails to send, and alerts', async () => {
+    await seedCourseWithGroups();
+    cioTrackStatus = 500;
+
+    const result = await caller.groupSwitching.switchGroup({
+      switchType: 'Switch group permanently',
+      oldGroupId: 'group-a',
+      newGroupId: 'group-b',
+      isManualRequest: false,
+      roundId: 'round-1',
+    });
+
+    expect(result).toBeNull();
+    expect(await testDb.scan(groupSwitchingTable)).toHaveLength(1);
+    await vi.waitFor(() => expect(slackAlert).toHaveBeenCalledWith(expect.anything(), [expect.stringContaining('"Group switch requested" event for participant participant-1 failed: customer.io event "Group switch requested" failed: HTTP 500')]));
   });
 });

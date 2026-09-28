@@ -80,6 +80,23 @@ async function identify({ userId, email }: { userId: string; email: string }): P
   if (!res.ok) throw new Error(`customer.io identify failed: HTTP ${res.status}`);
 }
 
+export async function trackCustomerIoEvent({ email, name, data }: { email: string; name: string; data: Record<string, unknown> }): Promise<void> {
+  const res = await fetch(`${CIO_TRACK_V2_BASE}/batch`, {
+    method: 'POST',
+    headers: trackHeaders(),
+    body: JSON.stringify({
+      batch: [{
+        type: 'person',
+        identifiers: { email: normaliseEmail(email) },
+        action: 'event',
+        name,
+        attributes: data,
+      }],
+    }),
+  });
+  if (!res.ok) throw new Error(`customer.io event "${name}" failed: HTTP ${res.status}`);
+}
+
 const profileEmail = (profile: CioProfile | null): string | null => {
   const email = profile?.identifiers?.email ?? profile?.attributes?.email;
   return typeof email === 'string' ? normaliseEmail(email) : null;
