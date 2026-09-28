@@ -44,6 +44,9 @@ export default makeApiRoute({
 }, async (_, { raw: { req } }) => {
   const round = typeof req.query.round === 'string' ? req.query.round : '';
   if (!round) throw new createHttpError.BadRequest('Missing required query param: round');
+  // The round id is interpolated into an Airtable filterByFormula, so only
+  // record-id-shaped values are allowed through.
+  if (!/^rec[A-Za-z0-9]+$/.test(round)) throw new createHttpError.BadRequest('Invalid round id');
   const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;
   const direction = parseDirection(req.query.direction);
   try {

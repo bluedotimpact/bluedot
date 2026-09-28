@@ -190,6 +190,16 @@ export const fetchRounds = async (): Promise<Round[]> => {
 // RESPONSE_PAGE_SIZE matches and return the Airtable offset for the next call.
 const BASE_FILTER = 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK())';
 
+// Lookup of the linked Round's RECORD_ID() formula field. Filtering on it in
+// Airtable means each page is already round-specific, instead of paging
+// through every round's undecided applications to find matches in Node.
+const ROUND_ID_LOOKUP_FIELD = 'fldrmNLS764z8WEbR';
+
+// FIND rather than = so applications linked to several rounds still match,
+// mirroring matchesRound's array-includes semantics. Record ids are unique
+// fixed-length strings, so a substring false-positive can't occur.
+const roundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${BASE_FILTER})`;
+
 export const fetchApplications = async (
   roundId: string,
   offset?: string,
@@ -208,7 +218,7 @@ export const fetchApplications = async (
     const { records, nextOffset } = await fetchPage(
       APPLICATIONS_URL,
       {
-        filterByFormula: BASE_FILTER,
+        filterByFormula: roundFilter(roundId),
         pageSize: String(AIRTABLE_PAGE_SIZE),
         returnFieldsByFieldId: 'true',
         'sort[0][field]': TOTAL_SCORE_FIELD_ID,

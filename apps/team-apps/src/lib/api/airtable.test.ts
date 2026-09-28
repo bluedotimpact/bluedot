@@ -44,6 +44,13 @@ describe('real-data Airtable adapter', () => {
     expect(fetchMock.mock.calls[0]?.[1]?.headers).toMatchObject({ Authorization: 'Bearer test-airtable-credential' });
   });
 
+  test('filters applications to the selected round inside the Airtable query', async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
+    await fetchApplications('recLiveRound');
+    const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
+    expect(request.searchParams.get('filterByFormula')).toContain('FIND("recLiveRound", {fldrmNLS764z8WEbR} & "")');
+  });
+
   test('loads round names, courses, and dates using consistent Airtable field IDs', async () => {
     fetchMock.mockResolvedValue(new Response(JSON.stringify({
       records: [{
