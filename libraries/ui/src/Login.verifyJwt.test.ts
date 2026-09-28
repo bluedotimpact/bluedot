@@ -1,14 +1,13 @@
 import {
-  expect, test, vi,
+  beforeEach, expect, test, vi,
 } from 'vitest';
 import { generateKeyPairSync, createSign } from 'crypto';
 import axios from 'axios';
-import { loginPresets } from './Login';
 
 vi.mock('axios');
 
 const { publicKey, privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
-const jwk = { ...publicKey.export({ format: 'jwk' }), kid: 'test-key' };
+const jwkFor = (kid: string) => ({ ...publicKey.export({ format: 'jwk' }), kid });
 
 const b64url = (value: object) => Buffer.from(JSON.stringify(value)).toString('base64url');
 
@@ -27,20 +26,64 @@ const makeToken = (kid: string) => {
   return `${signingInput}.${signature.toString('base64url')}`;
 };
 
-test('caches JWKS keys across verifications instead of refetching per request', async () => {
-  vi.mocked(axios.get).mockResolvedValue({ data: { keys: [jwk] } });
+// The JWKS cache is module state, so each test re-imports the module for an
+// empty cache and full independence from test order.
+const loadPreset = async () => (await import('./Login')).loginPresets.keycloak;
 
-  await loginPresets.keycloak.verifyAndDecodeToken(makeToken('test-key'));
-  await loginPresets.keycloak.verifyAndDecodeToken(makeToken('test-key'));
+beforeEach(() => {
+  vi.resetModules();
+  vi.mocked(axios.get).mockReset();
+});
+
+test('caches JWKS keys across verifications instead of refetching per request', async () => {
+  const preset = await loadPreset();
+  vi.mocked(axios.get).mockResolvedValue({ data: { keys: [jwkFor('key-1')] } });
+
+  await preset.verifyAndDecodeToken(makeToken('key-1'));
+  await preset.verifyAndDecodeToken(makeToken('key-1'));
 
   expect(axios.get).toHaveBeenCalledTimes(1);
 });
 
-test('refetches JWKS once when a token is signed by an unseen key', async () => {
-  vi.mocked(axios.get).mockResolvedValue({ data: { keys: [jwk] } });
-  vi.mocked(axios.get).mockClear();
+test('refetches once for a token signed by a rotated key the cache predates', async () => {
+  const preset = await loadPreset();
+  vi.mocked(axios.get).mockResolvedValueOnce({ data: { keys: [jwkFor('key-1')] } });
+  await preset.verifyAndDecodeToken(makeToken('key-1'));
 
-  await expect(loginPresets.keycloak.verifyAndDecodeToken(makeToken('rotated-key'))).rejects.toThrow('Public key not found');
+  vi.mocked(axios.get).mockResolvedValueOnce({ data: { keys: [jwkFor('key-2')] } });
+  await expect(preset.verifyAndDecodeToken(makeToken('key-2'))).resolves.toMatchObject({ sub: 'user-1' });
+
+  expect(axios.get).toHaveBeenCalledTimes(2);
+});
+
+test('does not refetch when freshly fetched keys lack the token kid', async () => {
+  const preset = await loadPreset();
+  vi.mocked(axios.get).mockResolvedValue({ data: { keys: [jwkFor('key-1')] } });
+
+  await expect(preset.verifyAndDecodeToken(makeToken('unknown-key'))).rejects.toThrow('Public key not found');
 
   expect(axios.get).toHaveBeenCalledTimes(1);
+});
+
+test('concurrent verifications on a cold cache share one JWKS fetch', async () => {
+  const preset = await loadPreset();
+  vi.mocked(axios.get).mockResolvedValue({ data: { keys: [jwkFor('key-1')] } });
+
+  await Promise.all([
+    preset.verifyAndDecodeToken(makeToken('key-1')),
+    preset.verifyAndDecodeToken(makeToken('key-1')),
+  ]);
+
+  expect(axios.get).toHaveBeenCalledTimes(1);
+});
+
+test('does not cache a failed JWKS fetch', async () => {
+  const preset = await loadPreset();
+  vi.mocked(axios.get).mockRejectedValueOnce(new Error('network down'));
+  await expect(preset.verifyAndDecodeToken(makeToken('key-1'))).rejects.toThrow('network down');
+
+  vi.mocked(axios.get).mockResolvedValueOnce({ data: { keys: [jwkFor('key-1')] } });
+  await expect(preset.verifyAndDecodeToken(makeToken('key-1'))).resolves.toMatchObject({ sub: 'user-1' });
+
+  expect(axios.get).toHaveBeenCalledTimes(2);
 });
