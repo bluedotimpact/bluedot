@@ -61,6 +61,7 @@ const renderRow = ({
   discussion?: GroupDiscussionWithEnd;
   unit?: Unit | null;
   canReschedule?: boolean;
+  hasPendingReschedule?: boolean;
   onReschedule?: () => void;
 } = {}) => {
   const statusProps = propsForStatus(status, discussion);
@@ -152,6 +153,43 @@ describe('DiscussionListRow', () => {
     test('hidden when canReschedule=false', () => {
       renderRow({ status: 'absent', canReschedule: false });
       expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
+    });
+  });
+
+  describe('pending reschedule request', () => {
+    test.each(['upcoming', 'soon', 'live'] as const)('%s: "Rescheduling" replaces the Reschedule button', (status) => {
+      const { container } = renderRow({ status, hasPendingReschedule: true });
+      const desktop = container.querySelector('.sm\\:flex')!;
+      expect(desktop).toHaveTextContent('Rescheduling');
+      expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
+    });
+
+    test('live: Join now is still offered', () => {
+      renderRow({ status: 'live', hasPendingReschedule: true });
+      expect(screen.getAllByRole('link', { name: 'Join now' }).length).toBeGreaterThan(0);
+    });
+
+    test.each([true, false])('absent (canReschedule=%s): Absent and Rescheduling, no Reschedule button', (canReschedule) => {
+      const { container } = renderRow({ status: 'absent', canReschedule, hasPendingReschedule: true });
+      const desktop = container.querySelector('.sm\\:flex')!;
+      expect(desktop).toHaveTextContent('Absent');
+      expect(desktop).toHaveTextContent('Rescheduling');
+      expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
+    });
+
+    test('mobile menu keeps "Reschedule", disabled and inert', () => {
+      const onReschedule = vi.fn();
+      const { container } = renderRow({ status: 'upcoming', hasPendingReschedule: true, onReschedule });
+      expect(openOverflowAndGetLabels(container, 'mobile')).toEqual(['Reschedule', 'Download calendar file']);
+      const item = screen.getByRole('menuitem', { name: 'Reschedule' });
+      expect(item).toHaveAttribute('aria-disabled', 'true');
+      fireEvent.click(item);
+      expect(onReschedule).not.toHaveBeenCalled();
+    });
+
+    test('desktop overflow does not duplicate the pill', () => {
+      const { container } = renderRow({ status: 'upcoming', hasPendingReschedule: true });
+      expect(openOverflowAndGetLabels(container, 'desktop')).toEqual(['Download calendar file']);
     });
   });
 

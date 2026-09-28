@@ -4,6 +4,7 @@ import {
   courseTable,
   dropoutTable,
   groupDiscussionTable,
+  groupSwitchingTable,
   groupTable,
   meetPersonTable,
   selfServeCourseRegistrationTable,
@@ -732,6 +733,101 @@ describe('myCoursesPage.getOverview', () => {
       const byRegId = Object.fromEntries(result.courses.map((c) => [c.courseRegistration.id, c]));
       expect(byRegId['reg-x']?.rescheduleEligibleUnits).toEqual(['1']);
       expect(byRegId['reg-y']?.rescheduleEligibleUnits).toEqual(['2']);
+    });
+
+    describe('pending switch requests', () => {
+      const toDate = (sec: number) => new Date(sec * 1000).toISOString().slice(0, 10);
+
+      // Unit 3 next week, unit 4 the week after; round ends after unit 4 unless overridden.
+      const seedParticipantInRound = async (opts: { roundLastDiscussionDate?: string } = {}) => {
+        await seedCourse('course-tais');
+        await seedReg('reg-sw', { courseId: 'course-tais', roundId: 'app-round-sw' });
+        await testDb.insert(applicationsRoundTable, {
+          id: 'app-round-sw',
+          firstDiscussionDate: toDate(nowSec - 14 * ONE_DAY),
+          lastDiscussionDate: opts.roundLastDiscussionDate ?? toDate(inOneWeek + 7 * ONE_DAY),
+        });
+        await testDb.insert(meetPersonTable, {
+          id: 'mp-sw',
+          userId: 'test-user',
+          applicationsBaseRecordId: 'reg-sw',
+          round: 'round-sw',
+          role: 'Participant',
+          groupsAsParticipant: ['group-sw'],
+          expectedDiscussionsParticipant: ['disc-sw-3', 'disc-sw-4'],
+        });
+        await testDb.insert(groupTable, {
+          id: 'group-sw', groupName: 'G', round: 'round-sw', participants: ['mp-sw'],
+        });
+        await Promise.all([['disc-sw-3', inOneWeek], ['disc-sw-4', inOneWeek + 7 * ONE_DAY]].map(([id, start]) => testDb.insert(groupDiscussionTable, {
+          id: id as string,
+          group: 'group-sw',
+          round: 'round-sw',
+          startDateTime: start as number,
+          endDateTime: (start as number) + 60 * 60,
+          facilitators: [],
+          participantsExpected: ['mp-sw'],
+        })));
+      };
+
+      const getParticipantRow = async () => {
+        const result = await caller.myBluedot.myCoursesPage();
+        const row = result.courses.find((c) => c.courseRegistration.id === 'reg-sw');
+        if (row?.mode !== 'participant') throw new Error('expected a participant row');
+        return { row, nextDiscussion: result.nextDiscussion };
+      };
+
+      test('an open one-unit request flags its discussion on the row and the Next card; closed rows are ignored', async () => {
+        await seedParticipantInRound();
+        await testDb.insert(groupSwitchingTable, {
+          id: 'gs-open', participant: 'mp-sw', requestStatus: 'Resolve', switchType: 'Switch group for one unit', oldDiscussion: ['disc-sw-3'], manualRequest: true,
+        });
+        await testDb.insert(groupSwitchingTable, {
+          id: 'gs-archived', participant: 'mp-sw', requestStatus: 'Archived', switchType: 'Switch group for one unit', oldDiscussion: ['disc-sw-4'],
+        });
+
+        const { row, nextDiscussion } = await getParticipantRow();
+        expect(row.pendingRescheduleDiscussionIds).toEqual(['disc-sw-3']);
+        expect(row.hasPendingGroupSwitchRequest).toBe(false);
+        expect(nextDiscussion?.discussion.id).toBe('disc-sw-3');
+        expect(nextDiscussion?.hasPendingReschedule).toBe(true);
+      });
+
+      test('an open permanent request flags the course only', async () => {
+        await seedParticipantInRound();
+        await testDb.insert(groupSwitchingTable, {
+          id: 'gs-perm', participant: 'mp-sw', requestStatus: 'Requested', switchType: 'Switch group permanently',
+        });
+
+        const { row, nextDiscussion } = await getParticipantRow();
+        expect(row.hasPendingGroupSwitchRequest).toBe(true);
+        expect(row.pendingRescheduleDiscussionIds).toEqual([]);
+        expect(nextDiscussion?.hasPendingReschedule).toBe(false);
+      });
+
+      test('open requests in a round that has ended are stale and ignored', async () => {
+        await seedParticipantInRound({ roundLastDiscussionDate: toDate(nowSec - 2 * ONE_DAY) });
+        await testDb.insert(groupSwitchingTable, {
+          id: 'gs-stale', participant: 'mp-sw', requestStatus: 'Requested', switchType: 'Switch group for one unit', oldDiscussion: ['disc-sw-3'],
+        });
+        await testDb.insert(groupSwitchingTable, {
+          id: 'gs-stale-perm', participant: 'mp-sw', requestStatus: 'Resolve', switchType: 'Switch group permanently',
+        });
+
+        const { row } = await getParticipantRow();
+        expect(row.pendingRescheduleDiscussionIds).toEqual([]);
+        expect(row.hasPendingGroupSwitchRequest).toBe(false);
+      });
+
+      test('another participant\'s open request does not leak onto this row', async () => {
+        await seedParticipantInRound();
+        await testDb.insert(groupSwitchingTable, {
+          id: 'gs-other', participant: 'mp-someone-else', requestStatus: 'Resolve', switchType: 'Switch group for one unit', oldDiscussion: ['disc-sw-3'],
+        });
+
+        const { row } = await getParticipantRow();
+        expect(row.pendingRescheduleDiscussionIds).toEqual([]);
+      });
     });
   });
 

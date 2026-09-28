@@ -48,6 +48,7 @@ export const AllStates: Story = {
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} discussion={liveDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} />
+        <NextDiscussionCard {...args} discussion={nextDiscussion} hasPendingReschedule />
       </div>
     </div>
   ),
@@ -70,8 +71,16 @@ export const Next: Story = {
   args: { discussion: nextDiscussion },
 };
 
+export const NextRescheduling: Story = {
+  args: { discussion: nextDiscussion, hasPendingReschedule: true },
+};
+
 export const Live: Story = {
   args: { discussion: liveDiscussion },
+};
+
+export const LiveRescheduling: Story = {
+  args: { discussion: liveDiscussion, hasPendingReschedule: true },
 };
 
 export const FacilitatorNext: Story = {

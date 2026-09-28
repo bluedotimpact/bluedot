@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 import CourseListRow, { type CourseListRowProps, type FacilitatorRowProps, type ParticipantRowProps } from './CourseListRow';
 
 // Pinned "now" so date-relative content (next discussion, time states) is deterministic.
@@ -32,6 +33,8 @@ const stubProps = (overrides: Partial<ParticipantRowProps> = {}): ParticipantRow
   feedbackFormUrl: null,
   hasSubmittedFeedback: false,
   rescheduleEligibleUnits: [],
+  pendingRescheduleDiscussionIds: [],
+  hasPendingGroupSwitchRequest: false,
   isDroppedOut: false,
   isDeferred: false,
   isDeferredToAnotherRound: false,
@@ -73,6 +76,26 @@ const inProgressArgs = stubProps({
   courseRegistration: { ...stubProps().courseRegistration, id: 'reg-in-progress', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: { startTimeUtc: wednesday4pm, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc' } as CourseListRowProps['group'],
+});
+
+// In-progress, expanded: attended unit 1, missed unit 2, units 3 and 4 still to come.
+// Discussion times are relative to real "now" because the rows read the live clock.
+const realNowSec = Math.floor(Date.now() / 1000);
+const DAY = 24 * 60 * 60;
+const discussionsByUnit = [-14, -7, 2, 9].map((offsetDays, i) => createMockGroupDiscussion({
+  id: `disc-unit-${i + 1}`,
+  unitNumber: i + 1,
+  startDateTime: realNowSec + offsetDays * DAY,
+  endDateTime: realNowSec + offsetDays * DAY + 60 * 60,
+}));
+const unitTitles = ['Introduction', 'Detecting danger', 'Governance levers', 'Your next steps'];
+const inProgressWithDiscussionsArgs = stubProps({
+  ...inProgressArgs,
+  discussions: discussionsByUnit,
+  attendedDiscussionIds: ['disc-unit-1'],
+  units: Object.fromEntries(discussionsByUnit.map((d, i) => [d.id, createMockUnit({ unitNumber: `${i + 1}`, title: unitTitles[i] })])),
+  rescheduleEligibleUnits: ['2', '3', '4'],
+  isExpanded: true,
 });
 
 // Upcoming (Future) + Accept
@@ -377,6 +400,19 @@ export const AllFacilitatorStates: Story = {
 };
 
 export const InProgress: Story = { args: inProgressArgs };
+export const InProgressWithDiscussions: Story = { args: inProgressWithDiscussionsArgs };
+export const InProgressWithDiscussionsRescheduling: Story = {
+  args: { ...inProgressWithDiscussionsArgs, pendingRescheduleDiscussionIds: ['disc-unit-3'] },
+};
+export const InProgressWithDiscussionsReschedulingAbsent: Story = {
+  args: { ...inProgressWithDiscussionsArgs, pendingRescheduleDiscussionIds: ['disc-unit-2'] },
+};
+export const InProgressGroupSwitchRequested: Story = {
+  args: { ...inProgressWithDiscussionsArgs, hasPendingGroupSwitchRequest: true },
+};
+export const InProgressGroupSwitchRequestedAndRescheduling: Story = {
+  args: { ...inProgressWithDiscussionsArgs, hasPendingGroupSwitchRequest: true, pendingRescheduleDiscussionIds: ['disc-unit-3'] },
+};
 export const UpcomingAccepted: Story = { args: upcomingAcceptedArgs };
 export const UpcomingInReview: Story = { args: upcomingInReviewArgs };
 export const UpcomingRejected: Story = { args: upcomingRejectedArgs };

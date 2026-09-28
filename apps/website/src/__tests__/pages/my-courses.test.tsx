@@ -22,6 +22,8 @@ const makeRow = (
   roundStartDate: null,
   roundEndDate: null,
   rescheduleEligibleUnits: [],
+  pendingRescheduleDiscussionIds: [],
+  hasPendingGroupSwitchRequest: false,
   numUnits: null,
   uniqueDiscussionAttendance: null,
   hasSubmittedActionPlan: false,

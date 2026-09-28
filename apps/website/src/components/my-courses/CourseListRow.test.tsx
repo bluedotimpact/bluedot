@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import {
-  render, fireEvent, screen, waitFor,
+  render, fireEvent, screen, waitFor, within,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
@@ -48,6 +48,8 @@ describe('getSubtitle precedence', () => {
       isDeferredToAnotherRound: false,
       facilitatorNames: ['Test Facilitator'],
       rescheduleEligibleUnits: [],
+      pendingRescheduleDiscussionIds: [],
+      hasPendingGroupSwitchRequest: false,
       numUnits: null,
       uniqueDiscussionAttendance: null,
       hasSubmittedActionPlan: false,
@@ -298,6 +300,8 @@ describe('CourseListRow actions', () => {
     isDeferred: false,
     isDeferredToAnotherRound: false,
     rescheduleEligibleUnits: [],
+    pendingRescheduleDiscussionIds: [],
+    hasPendingGroupSwitchRequest: false,
     isExpanded: false,
     onToggleExpand: () => {},
     ...overrides,
@@ -360,6 +364,50 @@ describe('CourseListRow actions', () => {
       const completedReg = createMockCourseRegistration({ roundStatus: 'Past' });
       const { container } = renderRow(baseProps({ courseRegistration: completedReg, rescheduleEligibleUnits: ['1'] }));
       expect(openOverflowItems(container)).not.toContain('Switch group permanently');
+    });
+  });
+
+  describe('pending switch requests', () => {
+    const nowSec = Math.floor(Date.now() / 1000);
+    const upcoming = createMockGroupDiscussion({
+      id: 'disc-3', unitNumber: 3, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+    });
+    const laterUpcoming = createMockGroupDiscussion({
+      id: 'disc-4', unitNumber: 4, startDateTime: nowSec + 7 * 86400, endDateTime: nowSec + 7 * 86400 + 3600,
+    });
+    const expandedProps = (overrides: Partial<ParticipantRowProps> = {}) => baseProps({
+      isExpanded: true,
+      discussions: [upcoming, laterUpcoming],
+      units: { 'disc-3': createMockUnit({ unitNumber: '3' }), 'disc-4': createMockUnit({ unitNumber: '4' }) },
+      rescheduleEligibleUnits: ['3', '4'],
+      ...overrides,
+    });
+    const discussionRow = (container: HTMLElement, index: number) => within(container.querySelectorAll<HTMLElement>('li')[index]!);
+
+    test('one-unit request: that row shows "Rescheduling", the others keep Reschedule', () => {
+      const { container } = renderRow(expandedProps({ pendingRescheduleDiscussionIds: ['disc-3'] }));
+      expect(discussionRow(container, 0).getByText('Rescheduling')).toBeInTheDocument();
+      expect(discussionRow(container, 0).queryByRole('button', { name: 'Reschedule' })).toBeNull();
+      expect(discussionRow(container, 1).getByRole('button', { name: 'Reschedule' })).toBeInTheDocument();
+      expect(screen.queryByText('Group switch requested')).toBeNull();
+    });
+
+    test('permanent request: header pill, rows keep Reschedule', () => {
+      const { container } = renderRow(expandedProps({ hasPendingGroupSwitchRequest: true }));
+      expect(screen.getAllByText('Group switch requested').length).toBeGreaterThan(0);
+      expect(discussionRow(container, 0).getByRole('button', { name: 'Reschedule' })).toBeInTheDocument();
+      expect(discussionRow(container, 1).getByRole('button', { name: 'Reschedule' })).toBeInTheDocument();
+    });
+
+    test('permanent and one-unit requests show together', () => {
+      const { container } = renderRow(expandedProps({ hasPendingGroupSwitchRequest: true, pendingRescheduleDiscussionIds: ['disc-3'] }));
+      expect(screen.getAllByText('Group switch requested').length).toBeGreaterThan(0);
+      expect(discussionRow(container, 0).getByText('Rescheduling')).toBeInTheDocument();
+    });
+
+    test('no header pill once the course is completed', () => {
+      renderRow(baseProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Past' }), hasPendingGroupSwitchRequest: true }));
+      expect(screen.queryByText('Group switch requested')).toBeNull();
     });
   });
 
@@ -716,6 +764,8 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     isDeferred: false,
     isDeferredToAnotherRound: false,
     rescheduleEligibleUnits: ['1'],
+    pendingRescheduleDiscussionIds: [],
+    hasPendingGroupSwitchRequest: false,
     isExpanded: false,
     onToggleExpand: () => {},
     ...overrides,

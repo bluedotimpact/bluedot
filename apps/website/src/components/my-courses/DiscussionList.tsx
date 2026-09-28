@@ -11,6 +11,7 @@ type DiscussionListProps = {
   courseSlug: string;
   canReschedule: boolean;
   rescheduleEligibleUnits: string[];
+  pendingRescheduleDiscussionIds?: string[];
   onClickReschedule: (props: { unitNumber: string | null; switchType: SwitchType }) => void;
   onClickFacilitatorReschedule?: (discussion: GroupDiscussionWithEnd) => void;
   onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussionWithEnd) => void;
@@ -19,11 +20,12 @@ type DiscussionListProps = {
 
 const DiscussionList = ({
   mode = 'participant',
-  discussions, units, attendedDiscussionIds, courseSlug, canReschedule, rescheduleEligibleUnits, onClickReschedule,
-  onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
+  discussions, units, attendedDiscussionIds, courseSlug, canReschedule, rescheduleEligibleUnits, pendingRescheduleDiscussionIds = [],
+  onClickReschedule, onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
 }: DiscussionListProps) => {
   const eligibleSet = new Set(rescheduleEligibleUnits);
   const attendedSet = new Set(attendedDiscussionIds);
+  const pendingRescheduleSet = new Set(pendingRescheduleDiscussionIds);
 
   return (
     <ul className="px-6">
@@ -38,6 +40,7 @@ const DiscussionList = ({
             unit={unit}
             courseSlug={courseSlug}
             isAttended={attendedSet.has(discussion.id)}
+            hasPendingReschedule={pendingRescheduleSet.has(discussion.id)}
             canReschedule={canReschedule && (unit?.unitNumber !== undefined && eligibleSet.has(unit.unitNumber))}
             onReschedule={() => onClickReschedule({ unitNumber: unit?.unitNumber ?? null, switchType: 'Switch group for one unit' })}
             onClickFacilitatorReschedule={onClickFacilitatorReschedule}

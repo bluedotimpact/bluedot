@@ -13,6 +13,7 @@ import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
 import type { CourseAction } from './DiscussionListRow';
+import StatusPill, { GroupSwitchRequestedPill } from './StatusPill';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';
@@ -278,6 +279,7 @@ const getParticipantActions = (
 ): CourseAction[] => {
   const {
     course, courseRegistration, group, hasSubmittedActionPlan, feedbackFormUrl, meetPersonId, rescheduleEligibleUnits,
+    hasPendingGroupSwitchRequest,
   } = row;
   const {
     state, hasCert, showLockedCert, showActionPlan, certificateUrl, applyAgainUrl, docUrl, slackUrl,
@@ -285,6 +287,12 @@ const getParticipantActions = (
   const inProgressOrUpcoming = state === 'in-progress' || state === 'upcoming';
 
   return [
+    {
+      id: 'group-switch-requested-pill',
+      isVisible: inProgressOrUpcoming && hasPendingGroupSwitchRequest,
+      variant: 'inline',
+      inline: <GroupSwitchRequestedPill />,
+    },
     {
       id: 'share-feedback',
       isVisible: Boolean(showLockedCert && feedbackFormUrl),
@@ -350,12 +358,7 @@ const getParticipantActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
-          Dropped
-        </span>
-      ),
+      inline: <StatusPill icon={<IoBan aria-hidden size={14} />}>Dropped</StatusPill>,
     },
     {
       id: 'apply-again',
@@ -427,12 +430,7 @@ const getFacilitatorActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
-          Dropped
-        </span>
-      ),
+      inline: <StatusPill icon={<IoBan aria-hidden size={14} />}>Dropped</StatusPill>,
     },
     {
       id: 'share-feedback-facilitator',

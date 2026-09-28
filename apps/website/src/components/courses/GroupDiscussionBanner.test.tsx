@@ -386,4 +386,43 @@ describe('GroupDiscussionBanner', () => {
       expect(unitLink).toHaveAttribute('href', '/courses/page-course/2/1');
     });
   });
+
+  describe('pending reschedule request', () => {
+    test('participant: "Rescheduling" replaces "Can\'t make it?" once expanded, other actions stay', async () => {
+      const { container } = render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={mockGroupDiscussion}
+          userRole="participant"
+          hasPendingReschedule
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      expect(screen.queryByText('Rescheduling')).not.toBeInTheDocument();
+      fireEvent.click(await screen.findByRole('button', { name: 'Expand upcoming discussion banner' }));
+
+      for (const id of ['#discussion-banner-desktop-container', '#discussion-banner-mobile-container']) {
+        const scope = within(container.querySelector<HTMLElement>(id)!);
+        expect(scope.getByText('Rescheduling')).toBeInTheDocument();
+        expect(scope.queryByRole('button', { name: 'Can\'t make it?' })).not.toBeInTheDocument();
+        expect(scope.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
+      }
+    });
+
+    test('facilitator: flag is ignored', async () => {
+      render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={mockGroupDiscussion}
+          userRole="facilitator"
+          hasPendingReschedule
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      fireEvent.click(await screen.findByRole('button', { name: 'Expand upcoming discussion banner' }));
+      expect(screen.queryByText('Rescheduling')).not.toBeInTheDocument();
+    });
+  });
 });

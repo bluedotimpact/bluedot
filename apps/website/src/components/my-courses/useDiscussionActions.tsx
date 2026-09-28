@@ -7,6 +7,7 @@ import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
+import StatusPill, { ReschedulingPill } from './StatusPill';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
@@ -80,17 +81,26 @@ type BuildInput = DiscussionListRowProps & {
 
 const participantActions = (ctx: BuildInput): CourseAction[] => {
   const {
-    status, discussion, canReschedule, isDownloadingCalendar, onReschedule, onDownloadCalendar,
+    status, discussion, canReschedule, hasPendingReschedule = false, isDownloadingCalendar, onReschedule, onDownloadCalendar,
   } = ctx;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
+  // Mobile keeps the menu item, greyed out, so the action is still recognisable.
+  const pendingRescheduleOverflow = { id: 'reschedule', label: 'Reschedule', isDisabled: true };
 
   return [
     {
+      id: 'rescheduling-upcoming',
+      isVisible: isFutureLike && hasPendingReschedule,
+      variant: 'inline',
+      inline: <ReschedulingPill />,
+      overflow: pendingRescheduleOverflow,
+    },
+    {
       id: 'reschedule-upcoming',
-      isVisible: isFutureLike,
+      isVisible: isFutureLike && !hasPendingReschedule,
       variant: 'inline',
       inline: <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
       overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
@@ -108,27 +118,24 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attended-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoCheckmark aria-hidden size={14} />
-          Attended
-        </span>
-      ),
+      inline: <StatusPill icon={<IoCheckmark aria-hidden size={14} />}>Attended</StatusPill>,
     },
     {
       id: 'absent-pill',
       isVisible: status === 'absent',
       variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
-          Absent
-        </span>
-      ),
+      inline: <StatusPill icon={<IoBan aria-hidden size={14} />}>Absent</StatusPill>,
+    },
+    {
+      id: 'rescheduling-absent',
+      isVisible: status === 'absent' && hasPendingReschedule,
+      variant: 'inline',
+      inline: <ReschedulingPill />,
+      overflow: pendingRescheduleOverflow,
     },
     {
       id: 'reschedule-absent',
-      isVisible: status === 'absent' && canReschedule,
+      isVisible: status === 'absent' && canReschedule && !hasPendingReschedule,
       variant: 'inline',
       inline: <CTALinkOrButton variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
       overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
@@ -172,22 +179,13 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attending-pill',
       isVisible: !isPast && status !== 'live',
       variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          {attendingCount} Attending
-        </span>
-      ),
+      inline: <StatusPill>{attendingCount} Attending</StatusPill>,
     },
     {
       id: 'facilitated-pill',
       isVisible: isPast,
       variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <FaCheck aria-hidden size={12} />
-          Facilitated
-        </span>
-      ),
+      inline: <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>,
     },
     {
       id: 'view-attendees',

@@ -53,6 +53,8 @@ export type ParticipantRowProps = CommonRowProps & {
   facilitatorNames: string[];
   groupsAsParticipant: string[] | null;
   rescheduleEligibleUnits: string[];
+  pendingRescheduleDiscussionIds: string[];
+  hasPendingGroupSwitchRequest: boolean;
   numUnits: number | null;
   uniqueDiscussionAttendance: number | null;
   hasSubmittedActionPlan: boolean;
@@ -197,6 +199,7 @@ const CourseListRow = (row: CourseListRowProps) => {
               courseSlug={course.slug}
               canReschedule={state !== 'dropped' && !courseRegistration.certificateCreatedAt}
               rescheduleEligibleUnits={row.mode === 'participant' ? row.rescheduleEligibleUnits : []}
+              pendingRescheduleDiscussionIds={row.mode === 'participant' ? row.pendingRescheduleDiscussionIds : []}
               onClickReschedule={modalCallbacks.onClickReschedule}
               onClickFacilitatorReschedule={modalCallbacks.onClickFacilitatorReschedule}
               onClickFacilitatorAssignSubstitute={modalCallbacks.onClickFacilitatorAssignSubstitute}
