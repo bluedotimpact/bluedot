@@ -20,7 +20,7 @@ vi.mock('../components/RoundPicker', () => ({
   RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string) => void }) => <button type="button" onClick={() => onSelect({ id: 'recTestRound', name: 'AGI Strategy (test)', course: 'AGI Strategy' }, 'top')}>Start test round</button>,
 }));
 vi.mock('../components/ApplicationCard', () => ({ ApplicationCard: ({ application }: { application: Application }) => <p>{application.name}</p> }));
-vi.mock('../components/SwipeableRatingArea', () => ({ SwipeableRatingArea: () => null }));
+vi.mock('../components/RatingButtons', () => ({ RatingButtons: () => null }));
 
 import SpeedReviewPage from '../pages/speed-review';
 
