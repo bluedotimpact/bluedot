@@ -195,7 +195,7 @@ const BASE_FILTER = 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fz
 // through every round's undecided applications to find matches in Node.
 const ROUND_ID_LOOKUP_FIELD = 'fldrmNLS764z8WEbR';
 
-const roundFilter = (roundId: string): string => `AND({${ROUND_ID_LOOKUP_FIELD}} = "${roundId}", ${BASE_FILTER})`;
+const roundFilter = (roundId: string): string => `AND({${ROUND_ID_LOOKUP_FIELD}} = "${roundId.replace(/"/g, '\\"')}", ${BASE_FILTER})`;
 
 export const fetchApplications = async (
   roundId: string,
