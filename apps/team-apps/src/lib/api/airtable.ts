@@ -195,7 +195,10 @@ const BASE_FILTER = 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fz
 // through every round's undecided applications to find matches in Node.
 const ROUND_ID_LOOKUP_FIELD = 'fldrmNLS764z8WEbR';
 
-const roundFilter = (roundId: string): string => `AND({${ROUND_ID_LOOKUP_FIELD}} = "${roundId.replace(/"/g, '\\"')}", ${BASE_FILTER})`;
+// FIND rather than = so applications linked to several rounds still match,
+// mirroring matchesRound's array-includes semantics. Record ids are unique
+// fixed-length strings, so a substring false-positive can't occur.
+const roundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${BASE_FILTER})`;
 
 export const fetchApplications = async (
   roundId: string,

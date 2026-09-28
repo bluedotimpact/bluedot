@@ -48,7 +48,7 @@ describe('real-data Airtable adapter', () => {
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
     await fetchApplications('recLiveRound');
     const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
-    expect(request.searchParams.get('filterByFormula')).toContain('{fldrmNLS764z8WEbR} = "recLiveRound"');
+    expect(request.searchParams.get('filterByFormula')).toContain('FIND("recLiveRound", {fldrmNLS764z8WEbR} & "")');
   });
 
   test('loads round names, courses, and dates using consistent Airtable field IDs', async () => {
