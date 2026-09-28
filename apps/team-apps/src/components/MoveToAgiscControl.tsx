@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { authFetch } from '../lib/client/api';
+import { pickMoveTargets } from '../lib/client/moveTargets';
 import { useNavigationState } from '../lib/client/navigation';
 
 type Round = { id: string; name: string };
@@ -33,7 +34,7 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
         return r.json();
       })
       .then((data: { rounds: Round[] }) => {
-        setAgiscRounds(data.rounds.filter((r) => r.name.includes('AGI Strategy')));
+        setAgiscRounds(pickMoveTargets(data.rounds.filter((r) => r.name.includes('AGI Strategy'))));
       })
       // eslint-disable-next-line no-console
       .catch(console.error);
