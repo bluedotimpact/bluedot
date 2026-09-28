@@ -22,6 +22,24 @@ export type LoginOauthCallbackPageProps = LoginPageProps & {
   onBeforeAuthPersist?: (auth: Auth, redirectTo: string) => Promise<void>;
 };
 
+// Signing keys rotate rarely and issuers serve them with long cache headers,
+// so refetching them on every authenticated request adds a needless network
+// hop to every API call. Cache per issuer, refetching early only when a token
+// arrives signed by a key we haven't seen (rotation mid-TTL).
+const JWKS_CACHE_TTL_MS = 60 * 60 * 1000;
+const jwksCache = new Map<string, { keys: JsonWebKey[]; fetchedAt: number }>();
+
+const getJwks = async (jwksUrl: string, forceRefresh = false): Promise<JsonWebKey[]> => {
+  const cached = jwksCache.get(jwksUrl);
+  if (!forceRefresh && cached && Date.now() - cached.fetchedAt < JWKS_CACHE_TTL_MS) {
+    return cached.keys;
+  }
+
+  const { data: { keys } } = await axios.get<{ keys: JsonWebKey[] }>(jwksUrl);
+  jwksCache.set(jwksUrl, { keys, fetchedAt: Date.now() });
+  return keys;
+};
+
 const verifyJwt = async (
   token: string,
   verifyConfig: { aud: string; iss: string; jwksUrl: string },
@@ -60,8 +78,13 @@ const verifyJwt = async (
   }
 
   // Find key
-  const { data: { keys } } = await axios.get<{ keys: JsonWebKey[] }>(verifyConfig.jwksUrl);
-  const key = keys.find((k) => k.kid === header.kid);
+  let keys = await getJwks(verifyConfig.jwksUrl);
+  let key = keys.find((k) => k.kid === header.kid);
+  if (!key) {
+    keys = await getJwks(verifyConfig.jwksUrl, true);
+    key = keys.find((k) => k.kid === header.kid);
+  }
+
   if (!key) {
     throw new Error('Public key not found');
   }
