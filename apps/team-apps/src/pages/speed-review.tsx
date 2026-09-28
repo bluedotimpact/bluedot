@@ -8,7 +8,7 @@ import {
 } from '../lib/client/types';
 import { type Round } from '../lib/api/airtable';
 import { ApplicationCard } from '../components/ApplicationCard';
-import { SwipeableRatingArea } from '../components/SwipeableRatingArea';
+import { RatingButtons } from '../components/RatingButtons';
 import { CountdownTimer, type CountdownTimerHandle } from '../components/CountdownTimer';
 import { SessionComplete } from '../components/SessionComplete';
 import { RoundPicker } from '../components/RoundPicker';
@@ -555,7 +555,10 @@ const SpeedReviewPage = () => {
         </div>
 
         <div className="bg-raised rounded-xl border border-subtle p-4">
-          <SwipeableRatingArea onRate={handleRate} disabled={pendingWrites > 0} />
+          <RatingButtons onRate={handleRate} disabled={pendingWrites > 0} />
+          <p className="hidden sm:block text-size-xs text-secondary text-center mt-3">
+            ← / A No &nbsp;·&nbsp; ↑↓ / WS Neutral &nbsp;·&nbsp; → / D Yes &nbsp;·&nbsp; E Strong Yes &nbsp;·&nbsp; Space Next Section &nbsp;·&nbsp; P Pause &nbsp;·&nbsp; Esc Conclude
+          </p>
         </div>
 
         {state.course === 'Technical AI Safety' && (
