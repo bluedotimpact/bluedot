@@ -42,7 +42,7 @@ const foldIcsLine = (line: string) => {
   return foldedLines;
 };
 
-const parseUnitFallback = (unitFallback?: string | null) => {
+export const parseUnitFallback = (unitFallback?: string | null) => {
   if (!unitFallback) {
     return null;
   }

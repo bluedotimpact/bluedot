@@ -267,3 +267,41 @@ export const normalisedFirstAndLastName = (source: { name?: string | null; first
   if (firstName || lastName) return { firstName, lastName };
   return source.name?.trim() ? splitNameOnFirstSpace(source.name) : null;
 };
+
+export const buildAvailabilityFormUrl = ({
+  email,
+  utmSource,
+  courseRegistration,
+  roundId,
+}: {
+  email: string;
+  utmSource: string;
+  courseRegistration?: {
+    availabilityIntervalsUTC?: string | null;
+    availabilityTimezone?: string | null;
+    availabilityComments?: string | null;
+  } | null;
+  roundId: string;
+}): string => {
+  const params = new URLSearchParams();
+  params.set('email', email);
+  params.set('utm_source', utmSource);
+  params.set('roundId', roundId);
+
+  const { availabilityIntervalsUTC, availabilityTimezone, availabilityComments } = courseRegistration ?? {};
+
+  if (availabilityIntervalsUTC) {
+    params.set('prefill_intervals', availabilityIntervalsUTC);
+  }
+
+  if (availabilityTimezone) {
+    params.set('prefill_timezone', availabilityTimezone);
+  }
+
+  // Only include comments if they won't make the URL too long (2000 chars overall is generally considered safe)
+  if (availabilityComments && availabilityComments.length <= 1500) {
+    params.set('prefill_comment', availabilityComments);
+  }
+
+  return `https://availability.bluedot.org/form/bluedot-course?${params.toString()}`;
+};
