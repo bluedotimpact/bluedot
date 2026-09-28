@@ -20,8 +20,8 @@ vi.mock('../components/RoundPicker', () => ({
   RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string) => void }) => <button type="button" onClick={() => onSelect({ id: 'recTestRound', name: 'AGI Strategy (test)', course: 'AGI Strategy' }, 'top')}>Start test round</button>,
 }));
 vi.mock('../components/ApplicationCard', () => ({ ApplicationCard: ({ application }: { application: Application }) => <p>{application.name}</p> }));
-vi.mock('../components/RatingButtons', () => ({ RatingButtons: () => null }));
 
+import { authFetch } from '../lib/client/api';
 import SpeedReviewPage from '../pages/speed-review';
 
 beforeEach(() => {
@@ -47,6 +47,21 @@ test('expiry rotates to the next application and restarts its timer', () => {
   expire();
   expect(screen.getByText('Second test applicant')).toBeTruthy();
   expect(screen.getByRole('button', { name: 'Pause timer' }).textContent).toContain('30s');
+});
+
+test('tapping a rating button saves the decision and advances the queue', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }, { id: 'recTwo', name: 'Second test applicant' }];
+  vi.mocked(authFetch).mockResolvedValue({ ok: true } as Response);
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  expect(authFetch).toHaveBeenCalledWith('/api/decisions', expect.objectContaining({
+    method: 'POST',
+    body: expect.stringContaining('"id":"recOne"'),
+  }));
+  expect(screen.getByText('Second test applicant')).toBeTruthy();
 });
 
 test('expiry with only one application restarts the timer and explains why it stays', () => {
