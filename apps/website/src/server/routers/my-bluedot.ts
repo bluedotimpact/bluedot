@@ -114,6 +114,8 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
 const isDeferredToAnotherRound = (status: RegistrationDropoutStatus, roundId: string | null): boolean =>
   status.isDeferred && !!roundId && !status.deferredIntoRoundIds.includes(roundId);
 
+const LIVE_ROUND_STATUSES = ['Active', 'Future'];
+
 export const myBluedotRouter = router({
   // TODO: Superseded by hasFacilitatorNavItems, remove once old bundles no longer call it (after ~2026-09-07)
   hasFacilitatorRegistrations: protectedProcedure
@@ -161,6 +163,10 @@ export const myBluedotRouter = router({
           or(
             ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
             isNull(courseRegistrationTable.pg.decision),
+          ),
+          or(
+            inArray(courseRegistrationTable.pg.roundStatus, LIVE_ROUND_STATUSES),
+            ne(meetPersonTable.pg.groupsAsFacilitator, []),
           ),
         ))
         .limit(1),
@@ -502,7 +508,9 @@ export const myBluedotRouter = router({
       const groupsForCr = facilitatedGroups.filter((g) => g.round === meetPerson.round && (g.facilitator ?? []).includes(meetPerson.id));
 
       if (groupsForCr.length === 0) {
-        return [emptyRow];
+        const isLive = LIVE_ROUND_STATUSES.includes(cr.roundStatus ?? '');
+        const hasGroup = (meetPerson.groupsAsFacilitator ?? []).length > 0;
+        return isLive || hasGroup ? [emptyRow] : [];
       }
 
       return groupsForCr.map((group): FacilitatorRowProps => {
