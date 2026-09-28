@@ -259,6 +259,7 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   uniqueDiscussionAttendance: null,
   numUnits: null,
   groupsAsParticipant: [],
+  groupsAsFacilitator: [],
   autoNumberId: 1,
   courseFeedbackForm: null,
   courseFeedback: null,
