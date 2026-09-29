@@ -10,21 +10,29 @@
     --color-link-hover: var(--bluedot-dark);
     --color-link-active: var(--bluedot-darker);
     --color-on-dark: #ffffff;
+    --color-on-dark-hover: var(--bluedot-lighter);
     --color-on-dark-secondary: #ffffffb2; /* white 70% */
+    --color-on-dark-link: var(--bluedot-lighter);
+    --color-on-dark-link-hover: #ffffff;
+    --color-on-dark-link-active: #ffffff;
+    --color-on-dark-disabled: #ffffff80; /* white 50% */
 
     /* surface/* — canvas resolves per app: cream by default, white on bluedot.org */
     --color-canvas: var(--bluedot-cream-normal);
     --color-raised: #ffffff;
     --color-tint: #13132e0f; /* navy 6%: hover wash */
     --color-active: #13132e1a; /* navy 10%: pressed / selected */
+    --color-surface-disabled: #13132e0f; /* navy 6% */
+    --color-surface-control: #13132e61; /* navy 38%: toggle track (off) */
     --color-dark: var(--bluedot-navy);
     --color-surface-on-dark: #ffffff26; /* white 15% */
     --color-surface-on-dark-subtle: #ffffff14; /* white 8% */
 
     /* border/* */
     --color-subtle: #13132e1a; /* navy 10% */
-    --color-default: var(--bluedot-charcoal-light);
-    --color-strong: #13132e33; /* navy 20% */
+    --color-default: #13132e33; /* navy 20% */
+    --color-strong: #13132e4d; /* navy 30% */
+    --color-border-control: #13132e8c; /* navy 55%: 4.0:1 for WCAG 1.4.11 */
     --color-border-on-dark: #ffffff33; /* white 20% */
 
     /* accent/* */
