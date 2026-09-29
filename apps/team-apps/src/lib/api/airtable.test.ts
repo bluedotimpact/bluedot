@@ -6,6 +6,7 @@ vi.mock('./env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-airta
 
 import {
   fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToAgisc, undoMoveToAgisc,
+  fetchDecisionEmailCounts, flagDecisionEmails,
 } from './airtable';
 
 const fetchMock = vi.fn<typeof fetch>();
@@ -124,5 +125,68 @@ describe('real-data Airtable adapter', () => {
     fetchMock.mockResolvedValueOnce(new Response('{}', { status: 403 }));
     await expect(undoMoveToAgisc('recTest', 'recOriginalRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('decision emails', () => {
+  const reviewedRecords = JSON.stringify({
+    records: [
+      { id: 'recSentAlready', fields: { fldWVKY5EFAGSRcDT: 'Accept', fldgseNhrqlQQesiA: true } },
+      { id: 'recPlainReject', fields: { fldWVKY5EFAGSRcDT: 'Reject' } },
+      { id: 'recDualTodo', fields: { fldWVKY5EFAGSRcDT: 'Accept', fld7fzQNFhb7Oyy90: ['Participant', 'Facilitator'], fld52Y2AyWV8tECDy: 'TODO' } },
+      { id: 'recDualResolved', fields: { fldWVKY5EFAGSRcDT: 'Accept', fld7fzQNFhb7Oyy90: ['Participant', 'Facilitator'], fld52Y2AyWV8tECDy: 'Facilitator' } },
+    ],
+  });
+
+  test('counts reviewed applications in the round, excluding Withdrawn and duplicates in the query', async () => {
+    fetchMock.mockResolvedValue(new Response(reviewedRecords));
+    expect(await fetchDecisionEmailCounts('recRound')).toEqual({
+      reviewed: 4, alreadySent: 1, pending: 3, pendingAccepted: 2, pendingRejected: 1,
+    });
+    const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
+    const formula = request.searchParams.get('filterByFormula');
+    expect(formula).toContain('FIND("recRound", {fldrmNLS764z8WEbR} & "")');
+    expect(formula).toContain('OR({fldWVKY5EFAGSRcDT} = "Accept", {fldWVKY5EFAGSRcDT} = "Reject")');
+    expect(formula).toContain('NOT({fld1KQjHFGoDZKf94})');
+  });
+
+  test('flags unsent applications and resolves dual-role TODO applicants to Participant', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(reviewedRecords));
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
+    expect(await flagDecisionEmails('recRound')).toEqual({ flagged: 3 });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[1]?.[1]?.method).toBe('PATCH');
+    expect(bodyAt(1).records).toEqual([
+      { id: 'recPlainReject', fields: { fldYNTRHyWNGM0DtS: true } },
+      { id: 'recDualTodo', fields: { fldYNTRHyWNGM0DtS: true, fld52Y2AyWV8tECDy: 'Participant' } },
+      { id: 'recDualResolved', fields: { fldYNTRHyWNGM0DtS: true } },
+    ]);
+  });
+
+  test('session scope flags only the given applications and skips already-sent ones', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(reviewedRecords));
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
+    expect(await flagDecisionEmails('recRound', ['recDualTodo', 'recSentAlready', 'recNotInRound'])).toEqual({ flagged: 1 });
+    expect(bodyAt(1).records).toEqual([
+      { id: 'recDualTodo', fields: { fldYNTRHyWNGM0DtS: true, fld52Y2AyWV8tECDy: 'Participant' } },
+    ]);
+  });
+
+  test('splits flag writes into ten-record batches', async () => {
+    const manyPending = JSON.stringify({
+      records: Array.from({ length: 11 }, (_, index) => ({ id: `recPending${index}`, fields: { fldWVKY5EFAGSRcDT: 'Accept' } })),
+    });
+    fetchMock.mockResolvedValueOnce(new Response(manyPending));
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
+    expect(await flagDecisionEmails('recRound')).toEqual({ flagged: 11 });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(bodyAt(1).records).toHaveLength(10);
+    expect(bodyAt(2).records).toHaveLength(1);
+  });
+
+  test('rejects failed flag writes so the UI does not report success', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(reviewedRecords));
+    fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
+    await expect(flagDecisionEmails('recRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
   });
 });

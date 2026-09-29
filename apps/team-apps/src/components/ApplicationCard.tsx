@@ -101,8 +101,9 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         ))}
       </div>
 
-      {(applicationSource ?? utmSource) && (
+      {(applicationSource ?? utmSource ?? application.alsoAppliedToFacilitate) && (
         <div className="text-size-xs text-secondary space-y-0.5 break-words overflow-hidden">
+          {application.alsoAppliedToFacilitate && <p>Also applied to facilitate</p>}
           {applicationSource && <p>Heard about us: {applicationSource}</p>}
           {utmSource && <p>UTM source: {utmSource}</p>}
         </div>

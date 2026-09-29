@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
-import { Callout, H1, H2 } from '@bluedot/ui';
+import {
+  Callout, H1, H2, Modal,
+} from '@bluedot/ui';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
 } from '../lib/client/types';
+import { type DecisionEmailCounts } from '../lib/api/airtable';
 import { authFetch } from '../lib/client/api';
 import { useNavigationState } from '../lib/client/navigation';
 
@@ -12,6 +15,9 @@ type SessionCompleteProps = {
   round: string;
   rated: RatedApplication[];
   totalMs: number;
+  // How many applications the session had available, distinguishing "you
+  // rated none" from "the round had none to review".
+  totalLoaded: number;
   onReset: () => void;
   onReviewRound: (roundId: string, roundName: string) => void;
 };
@@ -35,7 +41,7 @@ const RATING_RANK: Record<RatingValue, number> = {
 };
 
 export const SessionComplete: React.FC<SessionCompleteProps> = ({
-  roundId, round, rated, totalMs, onReset, onReviewRound,
+  roundId, round, rated, totalMs, totalLoaded, onReset, onReviewRound,
 }) => {
   const pendingWrites = useNavigationState((navigation) => navigation.pendingWrites);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -43,6 +49,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const [resetIds, setResetIds] = useState<Set<string>>(new Set());
   const [editingId, setEditingId] = useState<string | null>(null);
   const [roundStats, setRoundStats] = useState<{ total: number; evaluated: number; accepted: number } | null>(null);
+  const [emailCounts, setEmailCounts] = useState<DecisionEmailCounts | null>(null);
+  const [confirmingScope, setConfirmingScope] = useState<'session' | 'round' | null>(null);
+  const [emailNotice, setEmailNotice] = useState<{ tone: 'success' | 'error'; message: string } | null>(null);
   const [confettiSize, setConfettiSize] = useState<{ width: number; height: number } | null>(null);
 
   useEffect(() => {
@@ -63,7 +72,27 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       .catch(console.error);
   }, [roundId]);
 
+  useEffect(() => {
+    authFetch(`/api/decision-email-counts?round=${encodeURIComponent(roundId)}`)
+      .then((r) => {
+        if (!r.ok) throw new Error(`${r.status}: ${r.statusText}`);
+        return r.json();
+      })
+      .then((data: DecisionEmailCounts) => setEmailCounts(data))
+      // eslint-disable-next-line no-console
+      .catch(console.error);
+  }, [roundId]);
+
   const effectiveRating = (r: RatedApplication): RatingValue => overrides[r.id] ?? r.rating;
+
+  const refreshEmailCounts = async () => {
+    try {
+      const counts = await authFetch(`/api/decision-email-counts?round=${encodeURIComponent(roundId)}`);
+      if (counts.ok) setEmailCounts(await counts.json());
+    } catch {
+      // Keep the previous counts; the next refresh will correct them.
+    }
+  };
 
   // Stats are decorative here — a failed refresh must not read as a failed save.
   const refreshStats = async () => {
@@ -74,6 +103,8 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
     } catch {
       // Leave the progress bar in its loading state.
     }
+
+    await refreshEmailCounts();
   };
 
   const saveChange = async (id: string, rating?: RatingValue) => {
@@ -122,6 +153,44 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const byStrength = (a: RatedApplication, b: RatedApplication) => RATING_RANK[effectiveRating(a)] - RATING_RANK[effectiveRating(b)];
   const accepted = active.filter((r) => toDecision(effectiveRating(r)) === 'Accept').sort(byStrength);
   const rejected = active.filter((r) => toDecision(effectiveRating(r)) === 'Reject').sort(byStrength);
+
+  // Applications moved to AGI Strategy left this round, so their decision
+  // emails are not this round's to send.
+  const sessionEmailApps = active.filter((r) => effectiveRating(r) !== 'moved-to-agisc');
+  const sessionEmailIds = sessionEmailApps.map((r) => r.id);
+  const confirmAccepted = confirmingScope === 'session'
+    ? sessionEmailApps.filter((r) => toDecision(effectiveRating(r)) === 'Accept').length
+    : emailCounts?.pendingAccepted ?? 0;
+  const confirmRejected = confirmingScope === 'session'
+    ? sessionEmailApps.filter((r) => toDecision(effectiveRating(r)) === 'Reject').length
+    : emailCounts?.pendingRejected ?? 0;
+  const confirmCount = confirmAccepted + confirmRejected;
+
+  const closeConfirm = () => {
+    setConfirmingScope(null);
+    setEmailNotice(null);
+  };
+
+  const sendDecisionEmails = async (scope: 'session' | 'round') => {
+    if (useNavigationState.getState().pendingWrites > 0) return;
+    setEmailNotice(null);
+    try {
+      const response = await authFetch('/api/send-decision-emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(scope === 'session' ? { roundId, applicationIds: sessionEmailIds } : { roundId }),
+      });
+      if (!response.ok) throw new Error('The decision emails could not be triggered. Please try again.');
+      const { flagged } = await response.json() as { flagged: number };
+      setConfirmingScope(null);
+      setEmailNotice({ tone: 'success', message: `Sending ${flagged} decision email${flagged === 1 ? '' : 's'}.` });
+    } catch (error) {
+      setEmailNotice({ tone: 'error', message: error instanceof Error ? error.message : 'The decision emails could not be triggered.' });
+      return;
+    }
+
+    await refreshEmailCounts();
+  };
 
   const totalCount = roundStats?.total ?? null;
   const reviewedCount = roundStats?.evaluated ?? null;
@@ -232,14 +301,15 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       <div>
         <H1 className="text-size-lg text-primary">{(() => {
           if (roundComplete) return 'You\'ve evaluated all the applications for the round!';
-          if (rated.length === 0) return 'No scored applications available';
+          if (rated.length === 0 && totalLoaded === 0) return 'No scored applications available';
+          if (rated.length === 0) return 'You haven\'t reviewed any applications';
           return 'Session complete';
         })()}
         </H1>
         <p className="text-size-sm text-secondary mt-1">{round}</p>
-        {!roundComplete && rated.length === 0 && (
+        {!roundComplete && rated.length === 0 && totalLoaded === 0 && (
           <p className="text-size-sm text-secondary mt-2">
-            The scoring pipeline may still be running for this round. Try again later, or pick a different round.
+            Applications may still be open for this round. Try again later, or pick a different round.
           </p>
         )}
       </div>
@@ -309,7 +379,80 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="border-t border-subtle pt-5 space-y-3">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+          <H2 className="text-size-sm uppercase tracking-wide text-secondary">Decision emails</H2>
+          <span className="text-size-xs text-secondary">
+            {emailCounts ? `${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent` : 'Loading counts…'}
+          </span>
+        </div>
+        {emailNotice && !confirmingScope && <Callout tone={emailNotice.tone} role={emailNotice.tone === 'error' ? 'alert' : 'status'}>{emailNotice.message}</Callout>}
+        <div className="flex flex-col sm:flex-row gap-2">
+          <button
+            type="button"
+            disabled={pendingWrites > 0 || sessionEmailIds.length === 0}
+            onClick={() => setConfirmingScope('session')}
+            className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors disabled:opacity-40"
+          >
+            Send for this session ({sessionEmailIds.length})
+          </button>
+          <button
+            type="button"
+            disabled={pendingWrites > 0 || !emailCounts || emailCounts.pending === 0}
+            onClick={() => setConfirmingScope('round')}
+            className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors disabled:opacity-40"
+          >
+            Send all reviewed ({emailCounts?.pending ?? '…'})
+          </button>
+        </div>
+      </div>
+
+      <Modal
+        isOpen={confirmingScope !== null}
+        setIsOpen={(open) => {
+          if (!open) closeConfirm();
+        }}
+        title="Send decision emails?"
+      >
+        <div className="space-y-3 sm:min-w-96">
+          <p className="text-size-sm text-primary">
+            {confirmingScope === 'session'
+              ? 'For everyone you reviewed this session:'
+              : 'For everyone reviewed in this round, not yet emailed:'}
+          </p>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between border border-info-border bg-info-bg rounded-lg px-3 py-2 text-size-sm">
+              <span className="text-info-fg">Acceptance emails</span>
+              <span className="font-semibold text-primary">{confirmAccepted}</span>
+            </div>
+            <div className="flex items-center justify-between border border-error-border bg-error-bg rounded-lg px-3 py-2 text-size-sm">
+              <span className="text-error-fg">Rejection emails</span>
+              <span className="font-semibold text-primary">{confirmRejected}</span>
+            </div>
+          </div>
+          {emailNotice?.tone === 'error' && <Callout tone="error" role="alert">{emailNotice.message}</Callout>}
+          <div className="flex flex-col sm:flex-row gap-2 pt-1">
+            <button
+              type="button"
+              disabled={pendingWrites > 0 || confirmCount === 0 || !confirmingScope}
+              onClick={() => confirmingScope && sendDecisionEmails(confirmingScope)}
+              className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm bg-accent text-white hover:bg-accent-hover transition-colors disabled:opacity-40"
+            >
+              Send {confirmCount} email{confirmCount === 1 ? '' : 's'}
+            </button>
+            <button
+              type="button"
+              disabled={pendingWrites > 0}
+              onClick={closeConfirm}
+              className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <div className="border-t border-subtle pt-5 flex flex-col sm:flex-row gap-3">
         <button
           type="button"
           disabled={pendingWrites > 0}

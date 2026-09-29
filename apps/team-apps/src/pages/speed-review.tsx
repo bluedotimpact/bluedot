@@ -500,6 +500,7 @@ const SpeedReviewPage = () => {
             round={state.roundName}
             rated={state.rated}
             totalMs={state.totalMs}
+            totalLoaded={state.totalLoaded}
             onReset={() => dispatch({ type: 'RESET' })}
             onReviewRound={(roundId, roundName) => dispatch({ type: 'ROUND_SELECTED', round: { id: roundId, name: roundName, course: state.course }, direction: state.direction })}
           />
