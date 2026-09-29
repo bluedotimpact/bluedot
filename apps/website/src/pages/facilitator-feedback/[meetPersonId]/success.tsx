@@ -138,8 +138,8 @@ const FacilitatorFeedbackSuccessPage = () => {
           </div>
 
           {flaggedNames.length > 0 && (
-            <div className="bg-[#f2fff8] border border-[rgba(5,144,5,0.2)] rounded-md px-4 py-3">
-              <p className="text-size-xs leading-relaxed text-[#1a7a52]">
+            <div className="bg-success-bg border border-success-border rounded-md px-4 py-3">
+              <p className="text-size-xs leading-relaxed text-success-fg">
                 <span className="font-bold">🙌 You suggested follow-up actions for {formatNames(flaggedNames)}</span>
                 <span>{' — we\'ll review these and do our best to act on them.'}</span>
               </p>

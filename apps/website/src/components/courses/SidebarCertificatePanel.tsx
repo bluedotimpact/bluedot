@@ -129,7 +129,7 @@ export const SidebarCertificatePanel = ({
         target={defaultCtaOverride?.target}
         className={cn(
           'flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90',
-          hasCert && 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]',
+          hasCert && 'border-success-border bg-success-bg text-success-fg',
           isAttendanceIneligible && 'border-bluedot-normal bg-bluedot-normal/5 text-bluedot-normal',
           !hasCert && !isAttendanceIneligible && 'border-bluedot-normal bg-bluedot-normal text-white',
           className,

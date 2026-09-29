@@ -59,7 +59,7 @@ const AccountSettingsSection = () => {
         </div>
         {passwordUpdateSuccess && (
           <p
-            className="text-size-sm text-green-600 mt-2"
+            className="text-size-sm text-success-fg mt-2"
             role="status"
             aria-live="polite"
           >
