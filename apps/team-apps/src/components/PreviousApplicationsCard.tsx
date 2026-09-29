@@ -47,7 +47,7 @@ const opinionBadgeClass = (opinion: string): string => {
     case 'Weak yes': return 'bg-sky-400 text-primary';
     case 'Neutral': return 'bg-stone-500 text-white';
     case 'Weak no': return 'bg-red-500 text-white';
-    case 'Strong no': return 'bg-error-bg text-white';
+    case 'Strong no': return 'bg-red-700 text-white';
     default: return 'bg-active text-primary';
   }
 };
