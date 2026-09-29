@@ -47,9 +47,9 @@ export const TimePicker = ({
       {label && <Label className="cursor-default text-black">{label}</Label>}
       <DateInput
         className={({ isFocusWithin, isDisabled }) => cn(
-          'flex h-11 items-center rounded-surface border border-subtle bg-raised px-3 text-primary transition',
+          'flex h-11 items-center rounded-surface border border-border-control bg-raised px-3 text-primary transition',
           isFocusWithin && 'border-accent ring-1 ring-accent',
-          isDisabled && 'bg-tint text-disabled',
+          isDisabled && 'border-default bg-surface-disabled text-disabled',
         )}
       >
         {(segment) => (
