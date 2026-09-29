@@ -5,7 +5,7 @@ import {
 vi.mock('./env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-airtable-credential' } }));
 
 import {
-  fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToAgisc,
+  fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToAgisc, undoMoveToAgisc,
 } from './airtable';
 
 const fetchMock = vi.fn<typeof fetch>();
@@ -97,6 +97,22 @@ describe('real-data Airtable adapter', () => {
   test('does not clear the course link when the course move fails', async () => {
     fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
     await expect(moveApplicationToAgisc('recTest', 'recNewRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  test('undoing a move restores course, round, and derived course link in one write', async () => {
+    fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
+    await undoMoveToAgisc('recTest', 'recOriginalRound');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(bodyAt(0).records).toEqual([{
+      id: 'recTest',
+      fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety', fldYaHSLqnvBXyjur: ['recOriginalRound'], fldPkqPbeoIhERqSY: [] },
+    }]);
+  });
+
+  test('rejects a failed undo so the UI keeps the application in the moved list', async () => {
+    fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
+    await expect(undoMoveToAgisc('recTest', 'recOriginalRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

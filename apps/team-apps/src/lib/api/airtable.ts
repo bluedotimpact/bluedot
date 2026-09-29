@@ -398,6 +398,17 @@ export const moveApplicationToAgisc = async (applicationId: string, roundId: str
   });
 };
 
+// Moves only happen from Technical AI Safety rounds (see the render gate in
+// speed-review.tsx), so undoing one always restores that course.
+export const undoMoveToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
+  if (isLocalPreview()) return previewData.undoMoveToAgisc(applicationId);
+  await patchSingle(applicationId, {
+    fldkEQ0zBUhqpIuJn: 'Technical AI Safety', // Course (single select)
+    fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
+    fldPkqPbeoIhERqSY: [], // Let automation refill [>] Course from the restored course value
+  });
+};
+
 export const resetOpinion = async (id: string): Promise<void> => {
   if (isLocalPreview()) return previewData.resetOpinion(id);
   await patchSingle(id, {

@@ -86,6 +86,27 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
     }
   };
 
+  // Returns a moved application to this round; it comes back unrated, so the
+  // row disappears from the results like a rerated one.
+  const undoMove = async (id: string) => {
+    if (useNavigationState.getState().pendingWrites > 0) return;
+    setSaveError(null);
+    try {
+      const response = await authFetch('/api/undo-move-to-agisc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ applicationId: id, roundId }),
+      });
+      if (!response.ok) throw new Error('This change could not be saved. Please try again.');
+      setResetIds((prev) => new Set(prev).add(id));
+      setRoundStats(null);
+      const stats = await authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`);
+      if (stats.ok) setRoundStats(await stats.json());
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : 'This change could not be saved.');
+    }
+  };
+
   const active = rated.filter((r) => !resetIds.has(r.id));
   const byStrength = (a: RatedApplication, b: RatedApplication) => RATING_RANK[effectiveRating(a)] - RATING_RANK[effectiveRating(b)];
   const accepted = active.filter((r) => toDecision(effectiveRating(r)) === 'Accept').sort(byStrength);
@@ -128,7 +149,16 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               <p className="text-size-xs text-secondary truncate">{subtitle}</p>
             )}
           </div>
-          {!isMoved && (
+          {isMoved ? (
+            <button
+              type="button"
+              disabled={pendingWrites > 0}
+              onClick={() => undoMove(r.id)}
+              className="min-h-11 shrink-0 text-size-xs text-warning-fg hover:text-primary underline underline-offset-2 disabled:opacity-40"
+            >
+              Undo move
+            </button>
+          ) : (
             <button
               type="button"
               disabled={pendingWrites > 0}
