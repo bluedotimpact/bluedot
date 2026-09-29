@@ -2,7 +2,7 @@ import {
   afterEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  fetchApplications, fetchRounds, fetchApplicationHistory, fetchRoundStats, writeOpinions, resetOpinion, moveApplicationToAgisc, undoMoveToAgisc,
+  fetchApplications, fetchRounds, fetchApplicationHistory, fetchRoundStats, writeOpinions, resetOpinion, moveApplicationToCourse, undoMoveToCourse,
 } from './airtable';
 
 afterEach(() => {
@@ -27,9 +27,9 @@ describe('isolated local preview', () => {
     expect(await fetchRoundStats(rounds[0]!.id)).toMatchObject({ evaluated: 1, accepted: 1 });
     await resetOpinion(first.id);
     expect((await fetchApplications(rounds[0]!.id)).applications).toHaveLength(4);
-    await moveApplicationToAgisc(first.id, rounds[1]!.id);
+    await moveApplicationToCourse(first.id, rounds[1]!.id, 'AGI Strategy');
     expect((await fetchApplications(rounds[0]!.id)).applications).toHaveLength(3);
-    await undoMoveToAgisc(first.id, rounds[0]!.id);
+    await undoMoveToCourse(first.id, rounds[0]!.id, 'AGI Strategy', 'Technical AI Safety');
     expect((await fetchApplications(rounds[0]!.id)).applications).toHaveLength(4);
     expect(network).not.toHaveBeenCalled();
   });

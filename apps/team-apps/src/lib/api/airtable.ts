@@ -3,6 +3,7 @@ import env from './env';
 import { isLocalPreview } from '../preview';
 import { previewData } from './previewData';
 import { type Application, type Direction } from '../client/types';
+import { type MoveTargetCourse, courseOfRoundName } from '../client/courseMoves';
 
 const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
 const APPLICATIONS_URL = `${AIRTABLE_BASE}/tblXKnWoXK3R63F6D`;
@@ -35,6 +36,7 @@ const APPLICATION_FIELDS = [
   'fld1rOZGAHBRcdJcM', // [*] Full name
   'fld7fzQNFhb7Oyy90', // [a] Role
   'fldooZSRRtcLSKKvo', // [TAIS] Allow to move to AGISC
+  'fldbaq4Nzv3ECsW9h', // [TAIS] Allow to move to TAIS
   'fldpYmO0PaZxRFL5v', // Previous courses (lookup)
   'fldL5K79cFu6Bju2N', // Commitment score
   'fldXdgD6to4gCs4Lj', // Commitment rationale
@@ -146,6 +148,7 @@ const toApplication = (record: AirtableRecord): Application => {
     aiSummary: str(f.fldRXdZQ0rnuVOcl7),
     alsoAppliedToFacilitate: isDualRoleApplicant(f),
     allowMoveToAgisc: !!f.fldooZSRRtcLSKKvo,
+    allowMoveToTais: !!f.fldbaq4Nzv3ECsW9h,
     previousCourses: Array.isArray(f.fldpYmO0PaZxRFL5v) ? [...new Set((f.fldpYmO0PaZxRFL5v as unknown[]).map(String).map((s) => s.trim()).filter(Boolean))] : undefined,
     commitmentScore: num(f.fldL5K79cFu6Bju2N),
     commitmentRationale: str(f.fldXdgD6to4gCs4Lj),
@@ -398,32 +401,49 @@ const patchRecords = async (records: { id: string; fields: Record<string, unknow
 
 const patchSingle = async (id: string, fields: Record<string, unknown>): Promise<void> => patchRecords([{ id, fields }]);
 
-export const moveApplicationToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
-  if (isLocalPreview()) return previewData.moveApplicationToAgisc(applicationId, roundId);
+// Course and round arrive as separate request fields, so verify they agree
+// before writing — a mismatched pair would assign an application to a course
+// that contradicts its linked round.
+const assertRoundIsInCourse = async (roundId: string, course: string): Promise<void> => {
+  const { records } = await fetchPage(
+    ROUNDS_URL,
+    { filterByFormula: `RECORD_ID() = "${roundId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },
+    ['fldvOk9j9FbDV5aLl'],
+  );
+  const roundName = str(records[0]?.fields.fldvOk9j9FbDV5aLl) ?? '';
+  if (courseOfRoundName(roundName) !== course) {
+    throw createHttpError(400, `The selected round is not a ${course} round.`, { expose: true });
+  }
+};
+
+export const moveApplicationToCourse = async (applicationId: string, roundId: string, targetCourse: MoveTargetCourse): Promise<void> => {
+  if (isLocalPreview()) return previewData.moveApplication(applicationId, roundId);
+  await assertRoundIsInCourse(roundId, targetCourse);
   // Keep the course, round and automation trigger in one write so the move cannot stop halfway.
   await patchSingle(applicationId, {
-    fldkEQ0zBUhqpIuJn: 'AGI Strategy', // Course (single select)
+    fldkEQ0zBUhqpIuJn: targetCourse, // Course (single select)
     fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
     fldPkqPbeoIhERqSY: [], // Let automation refill [>] Course from the new course value
   });
 };
 
-// Moves only happen from Technical AI Safety rounds (see the render gate in
-// speed-review.tsx), so undoing one always restores that course.
-export const undoMoveToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
-  if (isLocalPreview()) return previewData.undoMoveToAgisc(applicationId);
+// Undo restores the round being reviewed, so the caller supplies its course
+// and the course the move had set (see COURSE_MOVES in courseMoves.ts).
+export const undoMoveToCourse = async (applicationId: string, roundId: string, movedToCourse: MoveTargetCourse, restoreCourse: string): Promise<void> => {
+  if (isLocalPreview()) return previewData.undoMove(applicationId);
+  await assertRoundIsInCourse(roundId, restoreCourse);
   const { records } = await fetchPage(
     APPLICATIONS_URL,
     { filterByFormula: `RECORD_ID() = "${applicationId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },
     ['fldkEQ0zBUhqpIuJn'],
   );
   const course = str(records[0]?.fields.fldkEQ0zBUhqpIuJn);
-  if (course !== 'AGI Strategy') {
-    throw createHttpError(409, 'This application is not currently moved to AGI Strategy, so there is nothing to undo.', { expose: true });
+  if (course !== movedToCourse) {
+    throw createHttpError(409, `This application is not currently moved to ${movedToCourse}, so there is nothing to undo.`, { expose: true });
   }
 
   await patchSingle(applicationId, {
-    fldkEQ0zBUhqpIuJn: 'Technical AI Safety', // Course (single select)
+    fldkEQ0zBUhqpIuJn: restoreCourse, // Course (single select)
     fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
     fldPkqPbeoIhERqSY: [], // Let automation refill [>] Course from the restored course value
   });
