@@ -100,7 +100,7 @@ export const LongContent: Story = {
   },
 };
 
-// Actions stack full-width below 400px (one action) / 480px (two actions) of callout width
+// Actions wrap below the body once it would drop under 220px, then fill the width
 export const Narrow: Story = {
   ...TwoActions,
   decorators: [

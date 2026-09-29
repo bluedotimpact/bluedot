@@ -31,26 +31,25 @@ export const Callout = ({
 }: CalloutProps) => {
   const { surface, fg, Icon } = TONE_STYLES[tone];
   const hasActions = actions.length > 0;
-  const inline = actions.length > 1 ? INLINE_STYLES.wide : INLINE_STYLES.narrow;
-  // With a close button on the trailing edge, actions always sit below the body
-  const actionsBesideBody = hasActions && !onDismiss;
 
   return (
-    <div {...rest} className={cn('@container flex items-start gap-3 rounded-surface border p-4', surface, className)}>
+    <div {...rest} className={cn('flex items-start gap-3 rounded-surface border p-4', surface, className)}>
       <Icon size={20} className={cn('mt-px shrink-0', fg)} aria-hidden="true" />
-      <div className={cn('flex min-w-0 flex-1 flex-col gap-3', actionsBesideBody && inline.row)}>
-        <div className="flex min-w-0 flex-1 flex-col gap-0.5 break-words">
+      {/* Figma: actions stay beside the body while it keeps 220px, then wrap below it and fill the width.
+          With a close button on the trailing edge, actions always sit below the body. */}
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
+        <div className={cn('flex min-w-0 flex-col gap-0.5 break-words', onDismiss ? 'basis-full' : 'grow-[999] basis-[220px]')}>
           {title && <p className={cn('text-size-sm font-semibold leading-snug', fg)}>{title}</p>}
           {children && <div className="text-size-xs leading-normal text-primary [&>*+*]:mt-2">{children}</div>}
         </div>
         {hasActions && (
-          <div className={cn('flex flex-col gap-2', inline.actions)}>
+          <div className="flex grow flex-wrap gap-2">
             {actions.map(({ label, emphasis = 'primary', ...action }) => (
               <CTALinkOrButton
                 key={label}
                 variant="unstyled"
                 size="small"
-                className={cn('w-full', inline.button, ACTION_STYLES[emphasis][tone])}
+                className={cn('grow', ACTION_STYLES[emphasis][tone])}
                 {...action}
               >
                 {label}
@@ -66,19 +65,6 @@ export const Callout = ({
       )}
     </div>
   );
-};
-
-const INLINE_STYLES = {
-  narrow: {
-    row: '@min-[400px]:flex-row @min-[400px]:items-center',
-    actions: '@min-[400px]:flex-row @min-[400px]:shrink-0',
-    button: '@min-[400px]:w-fit',
-  },
-  wide: {
-    row: '@min-[480px]:flex-row @min-[480px]:items-center',
-    actions: '@min-[480px]:flex-row @min-[480px]:shrink-0',
-    button: '@min-[480px]:w-fit',
-  },
 };
 
 const ACTION_STYLES: Record<'primary' | 'secondary', Record<CalloutTone, string>> = {
