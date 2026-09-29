@@ -14,7 +14,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         What drove the change?
       </legend>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -25,7 +25,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -34,7 +34,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         The community's preference for low-tech fishing traditions
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -45,7 +45,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -54,7 +54,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         Rising consumer demand for fish with more Omega-3s
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -65,7 +65,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -74,7 +74,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         Environmental regulations and declining cod stocks
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -85,7 +85,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -137,7 +137,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         What drove the change?
       </legend>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -147,7 +147,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -156,7 +156,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         The community's preference for low-tech fishing traditions
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -166,7 +166,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -175,7 +175,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         Rising consumer demand for fish with more Omega-3s
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -185,7 +185,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
@@ -194,7 +194,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         Environmental regulations and declining cod stocks
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-tint"
+        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -204,7 +204,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         />
         <span
           aria-hidden="true"
-          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-strong peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
+          class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-full border-2 border-border-control peer-checked:border-accent peer-checked:text-accent peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg"
         >
           <span
             class="size-2.5 rounded-full bg-current"
