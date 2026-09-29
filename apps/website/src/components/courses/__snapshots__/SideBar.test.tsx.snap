@@ -47,7 +47,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
           >
             <span
-              class="flex-1 text-size-xs font-semibold leading-normal text-primary"
+              class="flex-1 text-size-sm font-semibold leading-normal text-primary"
             >
               1
               . 
@@ -120,7 +120,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
           >
             <span
-              class="flex-1 text-size-xs font-semibold leading-normal text-primary"
+              class="flex-1 text-size-sm font-semibold leading-normal text-primary"
             >
               2
               . 
@@ -186,7 +186,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
           >
             <span
-              class="flex-1 text-size-xs font-semibold leading-normal text-primary"
+              class="flex-1 text-size-sm font-semibold leading-normal text-primary"
             >
               3
               . 
@@ -252,7 +252,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
           >
             <span
-              class="flex-1 text-size-xs font-semibold leading-normal text-primary"
+              class="flex-1 text-size-sm font-semibold leading-normal text-primary"
             >
               4
               . 
@@ -318,7 +318,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
           >
             <span
-              class="flex-1 text-size-xs font-semibold leading-normal text-primary"
+              class="flex-1 text-size-sm font-semibold leading-normal text-primary"
             >
               5
               . 
