@@ -129,7 +129,10 @@ describe('real-data Airtable adapter', () => {
 });
 
 describe('decision emails', () => {
-  const inRound = { fldYaHSLqnvBXyjur: ['recRound'] };
+  // The participant role mirrors the server-side filter: Airtable would never
+  // return a record without "Participant" in [a] Role. Dual-role records
+  // override the role key below.
+  const inRound = { fldYaHSLqnvBXyjur: ['recRound'], fld7fzQNFhb7Oyy90: ['Participant'] };
   const reviewedRecords = JSON.stringify({
     records: [
       { id: 'recSentAlready', fields: { ...inRound, fldWVKY5EFAGSRcDT: 'Accept', fldgseNhrqlQQesiA: true } },
@@ -159,6 +162,9 @@ describe('decision emails', () => {
     const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
     const formula = request.searchParams.get('filterByFormula');
     expect(formula).toContain('FIND("recRound", {fldrmNLS764z8WEbR} & "")');
+    // Facilitator applications in the round have decisions too, but their
+    // emails are the facilitator process's to send.
+    expect(formula).toContain('SEARCH("Participant", {fld7fzQNFhb7Oyy90})');
     expect(formula).toContain('OR({fldWVKY5EFAGSRcDT} = "Accept", {fldWVKY5EFAGSRcDT} = "Reject")');
     expect(formula).toContain('NOT({fld1KQjHFGoDZKf94})');
   });

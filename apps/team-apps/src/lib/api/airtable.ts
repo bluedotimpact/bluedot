@@ -466,8 +466,11 @@ export type DecisionEmailCounts = {
   pendingRejected: number;
 };
 
-// Withdrawn is deliberately excluded: no decision email exists for it.
-const reviewedInRoundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), OR({${APPLICATION_DECISION_FIELD}} = "Accept", {${APPLICATION_DECISION_FIELD}} = "Reject"), NOT({${APPLICATION_DUPLICATE_FIELD}}))`;
+// Withdrawn is deliberately excluded: no decision email exists for it. The
+// participant clause mirrors BASE_FILTER: a round also links facilitator
+// applications with decisions, and their emails belong to the facilitator
+// review process, not Speed Review's send buttons.
+const reviewedInRoundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), SEARCH("Participant", {fld7fzQNFhb7Oyy90}), OR({${APPLICATION_DECISION_FIELD}} = "Accept", {${APPLICATION_DECISION_FIELD}} = "Reject"), NOT({${APPLICATION_DUPLICATE_FIELD}}))`;
 
 // FIND could substring-match a partial round id, so records are also checked
 // against the linked Round field, mirroring fetchApplications' matchesRound
