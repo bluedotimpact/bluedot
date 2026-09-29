@@ -69,6 +69,30 @@ describe('real-data Airtable adapter', () => {
     expect(unscoredRequest.searchParams.get('sort[0][field]')).toBeNull();
   });
 
+  test('a scored page that fills exactly hands the phase switch to the next request', async () => {
+    // 20 scored matches (one response page) and no further Airtable offset.
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
+      records: Array.from({ length: 20 }, (_, index) => ({
+        id: `recScored${index}`,
+        fields: {
+          fldYaHSLqnvBXyjur: ['recLiveRound'], fld1rOZGAHBRcdJcM: `Applicant ${index}`, fldEPZ0UfYoypB1mp: index, fldRXdZQ0rnuVOcl7: 'Summary',
+        },
+      })),
+    })));
+    const firstPage = await fetchApplications('recLiveRound');
+    expect(firstPage.applications).toHaveLength(20);
+    expect(firstPage.nextOffset).toBe('unscored:');
+
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
+      records: [{ id: 'recUnscored', fields: { fldYaHSLqnvBXyjur: ['recLiveRound'], fld1rOZGAHBRcdJcM: 'Unscored applicant' } }],
+    })));
+    const secondPage = await fetchApplications('recLiveRound', firstPage.nextOffset);
+    expect(secondPage.applications.map((a) => a.name)).toEqual(['Unscored applicant']);
+    const request = new URL(fetchMock.mock.calls[1]?.[0] as string);
+    expect(request.searchParams.get('filterByFormula')).toContain('OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK())');
+    expect(request.searchParams.get('offset')).toBeNull();
+  });
+
   test('an unscored-phase offset resumes the unscored query', async () => {
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
     await fetchApplications('recLiveRound', 'unscored:itrToken/recCursor');
