@@ -248,7 +248,7 @@
 }
 
 @utility link-on-dark {
-    @apply text-on-dark hover:text-accent-subtle cursor-pointer;
+    @apply text-on-dark hover:text-on-dark-hover cursor-pointer;
 }
 
 
