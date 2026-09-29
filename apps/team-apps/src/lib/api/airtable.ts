@@ -3,7 +3,7 @@ import env from './env';
 import { isLocalPreview } from '../preview';
 import { previewData } from './previewData';
 import { type Application, type Direction } from '../client/types';
-import { type MoveTargetCourse } from '../client/courseMoves';
+import { type MoveTargetCourse, courseOfRoundName } from '../client/courseMoves';
 
 const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
 const APPLICATIONS_URL = `${AIRTABLE_BASE}/tblXKnWoXK3R63F6D`;
@@ -401,8 +401,24 @@ const patchRecords = async (records: { id: string; fields: Record<string, unknow
 
 const patchSingle = async (id: string, fields: Record<string, unknown>): Promise<void> => patchRecords([{ id, fields }]);
 
+// Course and round arrive as separate request fields, so verify they agree
+// before writing — a mismatched pair would assign an application to a course
+// that contradicts its linked round.
+const assertRoundIsInCourse = async (roundId: string, course: string): Promise<void> => {
+  const { records } = await fetchPage(
+    ROUNDS_URL,
+    { filterByFormula: `RECORD_ID() = "${roundId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },
+    ['fldvOk9j9FbDV5aLl'],
+  );
+  const roundName = str(records[0]?.fields.fldvOk9j9FbDV5aLl) ?? '';
+  if (courseOfRoundName(roundName) !== course) {
+    throw createHttpError(400, `The selected round is not a ${course} round.`, { expose: true });
+  }
+};
+
 export const moveApplicationToCourse = async (applicationId: string, roundId: string, targetCourse: MoveTargetCourse): Promise<void> => {
   if (isLocalPreview()) return previewData.moveApplication(applicationId, roundId);
+  await assertRoundIsInCourse(roundId, targetCourse);
   // Keep the course, round and automation trigger in one write so the move cannot stop halfway.
   await patchSingle(applicationId, {
     fldkEQ0zBUhqpIuJn: targetCourse, // Course (single select)
@@ -415,6 +431,7 @@ export const moveApplicationToCourse = async (applicationId: string, roundId: st
 // and the course the move had set (see COURSE_MOVES in courseMoves.ts).
 export const undoMoveToCourse = async (applicationId: string, roundId: string, movedToCourse: MoveTargetCourse, restoreCourse: string): Promise<void> => {
   if (isLocalPreview()) return previewData.undoMove(applicationId);
+  await assertRoundIsInCourse(roundId, restoreCourse);
   const { records } = await fetchPage(
     APPLICATIONS_URL,
     { filterByFormula: `RECORD_ID() = "${applicationId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },

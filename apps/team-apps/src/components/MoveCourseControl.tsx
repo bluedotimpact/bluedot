@@ -92,7 +92,7 @@ export const MoveCourseControl: React.FC<MoveCourseControlProps> = ({
         </select>
         <button
           type="button"
-          disabled={!selectedRoundId || status === 'loading' || pendingWrites > 0}
+          disabled={!allowed || !selectedRoundId || status === 'loading' || pendingWrites > 0}
           onClick={handleMove}
           className="shrink-0 min-h-11 px-4 py-2 rounded-lg text-size-sm font-semibold border border-warning-border text-warning-fg bg-warning-bg disabled:opacity-40 disabled:cursor-not-allowed"
         >

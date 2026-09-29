@@ -85,63 +85,79 @@ describe('real-data Airtable adapter', () => {
     expect(bodyAt(0).records).toEqual([{ id: 'recTest', fields: { fldOm6fJcqhq78M71: 'TODO', fldWVKY5EFAGSRcDT: null } }]);
   });
 
-  test('moves course, round, and derived course link in one write', async () => {
+  const roundNamed = (name: string) => JSON.stringify({ records: [{ id: 'recRound', fields: { fldvOk9j9FbDV5aLl: name } }] });
+
+  test('moves course, round, and derived course link in one write after verifying the round', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('AGI Strategy (2026 Nov W48) - Intensive')));
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
     await moveApplicationToCourse('recTest', 'recNewRound', 'AGI Strategy');
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(bodyAt(0).records).toEqual([{
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(bodyAt(1).records).toEqual([{
       id: 'recTest',
       fields: { fldkEQ0zBUhqpIuJn: 'AGI Strategy', fldYaHSLqnvBXyjur: ['recNewRound'], fldPkqPbeoIhERqSY: [] },
     }]);
   });
 
+  test('refuses a move whose round belongs to a different course', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('Technical AI Safety Project (2026 Nov W47) - Part-time')));
+    await expect(moveApplicationToCourse('recTest', 'recNewRound', 'Technical AI Safety')).rejects.toMatchObject({ statusCode: 400, expose: true, message: expect.stringContaining('not a Technical AI Safety round') });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   test('moves a project-round application to Technical AI Safety and undoes it back', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('Technical AI Safety (2026 Oct W44) - Part-time')));
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
     await moveApplicationToCourse('recTest', 'recTaisRound', 'Technical AI Safety');
-    expect(bodyAt(0).records).toEqual([{
+    expect(bodyAt(1).records).toEqual([{
       id: 'recTest',
       fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety', fldYaHSLqnvBXyjur: ['recTaisRound'], fldPkqPbeoIhERqSY: [] },
     }]);
 
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('Technical AI Safety Project (2026 Nov W47) - Part-time')));
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety' } }] })));
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
     await undoMoveToCourse('recTest', 'recProjectRound', 'Technical AI Safety', 'Technical AI Safety Project');
-    expect(bodyAt(2).records).toEqual([{
+    expect(bodyAt(4).records).toEqual([{
       id: 'recTest',
       fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety Project', fldYaHSLqnvBXyjur: ['recProjectRound'], fldPkqPbeoIhERqSY: [] },
     }]);
   });
 
   test('does not clear the course link when the course move fails', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('AGI Strategy (2026 Nov W48) - Intensive')));
     fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
     await expect(moveApplicationToCourse('recTest', 'recNewRound', 'AGI Strategy')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   const movedRecord = JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'AGI Strategy' } }] });
+  const taisRound = 'Technical AI Safety (2026 Oct W44) - Part-time';
 
   test('undoing a move restores course, round, and derived course link in one write', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed(taisRound)));
     fetchMock.mockResolvedValueOnce(new Response(movedRecord));
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
     await undoMoveToCourse('recTest', 'recOriginalRound', 'AGI Strategy', 'Technical AI Safety');
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(bodyAt(1).records).toEqual([{
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(bodyAt(2).records).toEqual([{
       id: 'recTest',
       fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety', fldYaHSLqnvBXyjur: ['recOriginalRound'], fldPkqPbeoIhERqSY: [] },
     }]);
   });
 
   test('refuses to undo an application that is not currently in AGI Strategy', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed(taisRound)));
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety' } }] })));
     await expect(undoMoveToCourse('recTest', 'recOriginalRound', 'AGI Strategy', 'Technical AI Safety')).rejects.toMatchObject({ statusCode: 409, expose: true, message: expect.stringContaining('not currently moved') });
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   test('rejects a failed undo so the UI keeps the application in the moved list', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed(taisRound)));
     fetchMock.mockResolvedValueOnce(new Response(movedRecord));
     fetchMock.mockResolvedValueOnce(new Response('{}', { status: 403 }));
     await expect(undoMoveToCourse('recTest', 'recOriginalRound', 'AGI Strategy', 'Technical AI Safety')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 });
 

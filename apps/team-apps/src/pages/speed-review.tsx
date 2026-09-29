@@ -520,7 +520,7 @@ const SpeedReviewPage = () => {
           <H1 className="text-size-xl text-error-fg">Save failed</H1>
           <p className="text-size-sm text-primary">
             {failedUndoMove.current
-              ? 'The application is still moved to AGI Strategy. Retry the undo or return to reviewing.'
+              ? 'The application is still moved to the other course. Retry the undo or return to reviewing.'
               : 'This application is still in your queue. Retry the save or return to the application.'}
           </p>
           <p role="alert" className="text-size-xs text-secondary break-words">{saveError}</p>
