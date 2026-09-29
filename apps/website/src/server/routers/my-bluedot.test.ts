@@ -944,6 +944,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
       applicationsBaseRecordId: REG_ID,
       round: ROUND_ID,
       role: 'Facilitator',
+      groupsAsFacilitator: [GROUP_ID],
       expectedDiscussionsFacilitator: ['disc-fac'],
     });
     await testDb.insert(groupTable, {
@@ -1017,6 +1018,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     });
     await testDb.update(meetPersonTable, {
       id: MEET_PERSON_ID,
+      groupsAsFacilitator: [GROUP_ID, 'group-fac-2'],
       expectedDiscussionsFacilitator: ['disc-fac', 'disc-fac-2'],
     });
 
@@ -1123,6 +1125,16 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect(result.courses).toEqual([]);
   });
 
+  test('keeps a past round where the facilitator had a group, and shows the nav item', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.update(courseRegistrationTable, { id: REG_ID, roundStatus: 'Past' });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses.map((c) => c.group?.id)).toEqual([GROUP_ID]);
+    expect((await caller.myBluedot.hasFacilitatorNavItems()).hasFacilitatedCourses).toBe(true);
+  });
+
   test('filters out withdrawn registrations', async () => {
     await testDb.insert(courseTable, {
       id: COURSE_ID,
@@ -1202,6 +1214,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     });
     await testDb.update(meetPersonTable, {
       id: MEET_PERSON_ID,
+      groupsAsFacilitator: [GROUP_ID, 'group-later'],
       expectedDiscussionsFacilitator: ['disc-fac', 'disc-later'],
     });
 
