@@ -24,6 +24,7 @@ const ApplicationSchema = z.object({
   aiSummary: z.string().optional(),
   alsoAppliedToFacilitate: z.boolean().optional(),
   allowMoveToAgisc: z.boolean().optional(),
+  allowMoveToTais: z.boolean().optional(),
   previousCourses: z.array(z.string()).optional(),
   commitmentScore: z.number().optional(),
   commitmentRationale: z.string().optional(),

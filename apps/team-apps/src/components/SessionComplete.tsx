@@ -13,6 +13,8 @@ import { useNavigationState } from '../lib/client/navigation';
 type SessionCompleteProps = {
   roundId: string;
   round: string;
+  // The reviewed round's course, restored when a move is undone.
+  course: string;
   rated: RatedApplication[];
   totalMs: number;
   // How many applications the session had available, distinguishing "you
@@ -37,11 +39,11 @@ const RATING_RANK: Record<RatingValue, number> = {
   'neutral-accept': 2,
   'neutral-reject': 3,
   no: 4,
-  'moved-to-agisc': 5,
+  moved: 5,
 };
 
 export const SessionComplete: React.FC<SessionCompleteProps> = ({
-  roundId, round, rated, totalMs, totalLoaded, onReset, onReviewRound,
+  roundId, round, course, rated, totalMs, totalLoaded, onReset, onReviewRound,
 }) => {
   const pendingWrites = useNavigationState((navigation) => navigation.pendingWrites);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -145,10 +147,10 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
     if (useNavigationState.getState().pendingWrites > 0) return;
     setSaveError(null);
     try {
-      const response = await authFetch('/api/undo-move-to-agisc', {
+      const response = await authFetch('/api/undo-move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ applicationId: id, roundId }),
+        body: JSON.stringify({ applicationId: id, roundId, restoreCourse: course }),
       });
       if (!response.ok) throw new Error('This change could not be saved. Please try again.');
       setResetIds((prev) => new Set(prev).add(id));
@@ -165,9 +167,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const accepted = active.filter((r) => toDecision(effectiveRating(r)) === 'Accept').sort(byStrength);
   const rejected = active.filter((r) => toDecision(effectiveRating(r)) === 'Reject').sort(byStrength);
 
-  // Applications moved to AGI Strategy left this round, so their decision
+  // Applications moved to another course left this round, so their decision
   // emails are not this round's to send.
-  const sessionEmailApps = active.filter((r) => effectiveRating(r) !== 'moved-to-agisc' && !flaggedIds.has(r.id));
+  const sessionEmailApps = active.filter((r) => effectiveRating(r) !== 'moved' && !flaggedIds.has(r.id));
   const sessionEmailIds = sessionEmailApps.map((r) => r.id);
   const confirmAccepted = confirmingScope === 'session'
     ? sessionEmailApps.filter((r) => toDecision(effectiveRating(r)) === 'Accept').length
@@ -220,7 +222,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const avgDisplay = avgMins > 0 ? `${avgMins}m ${String(avgSecs).padStart(2, '0')}s` : `${avgSecs}s`;
 
   const renderRow = (r: RatedApplication, accent: 'green' | 'red') => {
-    const isMoved = r.rating === 'moved-to-agisc';
+    const isMoved = r.rating === 'moved';
     const rating = effectiveRating(r);
     const option = RATING_OPTIONS.find((o) => o.value === rating) ?? RATING_OPTIONS[1]!;
     const subtitle = [r.jobTitle, r.organisation].filter(Boolean).join(' · ');

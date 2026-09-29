@@ -1,23 +1,26 @@
 import { useEffect, useState } from 'react';
 import { authFetch } from '../lib/client/api';
 import { pickMoveTargets } from '../lib/client/moveTargets';
+import { type MoveTargetCourse, courseOfRoundName } from '../lib/client/courseMoves';
 import { useNavigationState } from '../lib/client/navigation';
 
 type Round = { id: string; name: string };
 
-type MoveToAgiscControlProps = {
+type MoveCourseControlProps = {
   applicationId: string;
-  allowMoveToAgisc: boolean;
+  targetCourse: MoveTargetCourse;
+  allowed: boolean;
   onMoved: (roundName: string) => void;
 };
 
-export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
+export const MoveCourseControl: React.FC<MoveCourseControlProps> = ({
   applicationId,
-  allowMoveToAgisc,
+  targetCourse,
+  allowed,
   onMoved,
 }) => {
   const pendingWrites = useNavigationState((state) => state.pendingWrites);
-  const [agiscRounds, setAgiscRounds] = useState<Round[]>([]);
+  const [targetRounds, setTargetRounds] = useState<Round[]>([]);
   const [selectedRoundId, setSelectedRoundId] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -34,11 +37,11 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
         return r.json();
       })
       .then((data: { rounds: Round[] }) => {
-        setAgiscRounds(pickMoveTargets(data.rounds.filter((r) => r.name.includes('AGI Strategy'))));
+        setTargetRounds(pickMoveTargets(data.rounds.filter((r) => courseOfRoundName(r.name) === targetCourse)));
       })
       // eslint-disable-next-line no-console
       .catch(console.error);
-  }, []);
+  }, [targetCourse]);
 
   const handleMove = async () => {
     if (!selectedRoundId || useNavigationState.getState().pendingWrites > 0) return;
@@ -46,17 +49,17 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
     setError(null);
 
     try {
-      const res = await authFetch('/api/move-to-agisc', {
+      const res = await authFetch('/api/move-application', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ applicationId, roundId: selectedRoundId }),
+        body: JSON.stringify({ applicationId, roundId: selectedRoundId, targetCourse }),
       });
       if (!res.ok) {
         const body = await res.text().catch(() => '');
         throw new Error(`${res.status}: ${body || res.statusText}`);
       }
 
-      const roundName = agiscRounds.find((r) => r.id === selectedRoundId)?.name ?? 'AGI Strategy';
+      const roundName = targetRounds.find((r) => r.id === selectedRoundId)?.name ?? targetCourse;
       onMoved(roundName);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to move application');
@@ -67,23 +70,23 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        {allowMoveToAgisc ? (
-          <span className="text-info-fg text-size-sm font-medium">&#10003; Allows move to AGISC</span>
+        {allowed ? (
+          <span className="text-info-fg text-size-sm font-medium">&#10003; Allows move to {targetCourse}</span>
         ) : (
-          <span className="text-error-fg text-size-sm font-medium">&#10007; Does not allow move to AGISC</span>
+          <span className="text-error-fg text-size-sm font-medium">&#10007; Does not allow move to {targetCourse}</span>
         )}
       </div>
 
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-        <label className="text-size-xs text-secondary shrink-0" htmlFor="agisc-round-select">Move to:</label>
+        <label className="text-size-xs text-secondary shrink-0" htmlFor="move-round-select">Move to:</label>
         <select
-          id="agisc-round-select"
+          id="move-round-select"
           value={selectedRoundId}
           onChange={(e) => setSelectedRoundId(e.target.value)}
           className="flex-1 bg-tint border border-strong rounded-lg min-h-11 px-3 py-2 text-size-sm text-primary focus:outline-none focus:border-strong"
         >
           <option value="">Select a round…</option>
-          {agiscRounds.map((r) => (
+          {targetRounds.map((r) => (
             <option key={r.id} value={r.id}>{r.name}</option>
           ))}
         </select>
@@ -93,7 +96,7 @@ export const MoveToAgiscControl: React.FC<MoveToAgiscControlProps> = ({
           onClick={handleMove}
           className="shrink-0 min-h-11 px-4 py-2 rounded-lg text-size-sm font-semibold border border-warning-border text-warning-fg bg-warning-bg disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {status === 'loading' ? 'Moving…' : 'Move to AGI Strategy'}
+          {status === 'loading' ? 'Moving…' : `Move to ${targetCourse}`}
         </button>
       </div>
 

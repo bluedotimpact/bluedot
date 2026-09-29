@@ -27,8 +27,8 @@ vi.mock('../components/RoundPicker', () => ({
   RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string) => void }) => <button type="button" onClick={() => onSelect({ id: 'recTestRound', name: testRound.name, course: (testRound.name.split('(')[0] ?? testRound.name).trim() }, 'top')}>Start test round</button>,
 }));
 vi.mock('../components/ApplicationCard', () => ({ ApplicationCard: ({ application }: { application: Application }) => <p>{application.name}</p> }));
-vi.mock('../components/MoveToAgiscControl', () => ({
-  MoveToAgiscControl: ({ onMoved }: { onMoved: (roundName: string) => void }) => <button type="button" onClick={() => onMoved('AGI Strategy (target)')}>Move to AGI Strategy</button>,
+vi.mock('../components/MoveCourseControl', () => ({
+  MoveCourseControl: ({ targetCourse, onMoved }: { targetCourse: string; onMoved: (roundName: string) => void }) => <button type="button" onClick={() => onMoved(`${targetCourse} (target)`)}>Move to {targetCourse}</button>,
 }));
 
 import { authFetch } from '../lib/client/api';
@@ -89,11 +89,30 @@ test('moving to AGI Strategy shows an undo toast that reverses the move', async 
   await act(async () => {
     fireEvent.click(screen.getByRole('button', { name: 'Undo move' }));
   });
-  expect(authFetch).toHaveBeenCalledWith('/api/undo-move-to-agisc', expect.objectContaining({
+  expect(authFetch).toHaveBeenCalledWith('/api/undo-move', expect.objectContaining({
     method: 'POST',
-    body: JSON.stringify({ applicationId: 'recOne', roundId: 'recTestRound' }),
+    body: JSON.stringify({ applicationId: 'recOne', roundId: 'recTestRound', restoreCourse: 'Technical AI Safety' }),
   }));
   expect(screen.getByText('First test applicant')).toBeTruthy();
+});
+
+test('reviewing a Technical AI Safety Project round offers a move to Technical AI Safety', async () => {
+  testRound.name = 'Technical AI Safety Project (test)';
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }, { id: 'recTwo', name: 'Second test applicant' }];
+  vi.mocked(authFetch).mockResolvedValue({ ok: true } as Response);
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Move to Technical AI Safety' }));
+  });
+  expect(screen.getByText('Moved First test applicant')).toBeTruthy();
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Undo move' }));
+  });
+  expect(authFetch).toHaveBeenCalledWith('/api/undo-move', expect.objectContaining({
+    method: 'POST',
+    body: JSON.stringify({ applicationId: 'recOne', roundId: 'recTestRound', restoreCourse: 'Technical AI Safety Project' }),
+  }));
 });
 
 test('a failed undo keeps the application moved and offers a retry', async () => {

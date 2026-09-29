@@ -18,6 +18,7 @@ export type Application = {
   aiSummary?: string;
   alsoAppliedToFacilitate?: boolean;
   allowMoveToAgisc?: boolean;
+  allowMoveToTais?: boolean;
   previousCourses?: string[];
   commitmentScore?: number;
   commitmentRationale?: string;
@@ -30,7 +31,7 @@ export type Application = {
 
 export type Direction = 'top' | 'bottom';
 
-export type RatingValue = 'no' | 'neutral-accept' | 'neutral-reject' | 'yes' | 'strong-yes' | 'moved-to-agisc';
+export type RatingValue = 'no' | 'neutral-accept' | 'neutral-reject' | 'yes' | 'strong-yes' | 'moved';
 
 export type RatedApplication = Application & {
   rating: RatingValue;
@@ -40,7 +41,7 @@ export type RatedApplication = Application & {
 export type HumanOpinion = 'Weak no' | 'Neutral' | 'Weak yes' | 'Strong yes';
 
 export const toHumanOpinion = (rating: RatingValue): HumanOpinion => {
-  if (rating === 'no' || rating === 'moved-to-agisc') return 'Weak no';
+  if (rating === 'no' || rating === 'moved') return 'Weak no';
   if (rating === 'neutral-accept' || rating === 'neutral-reject') return 'Neutral';
   if (rating === 'strong-yes') return 'Strong yes';
   return 'Weak yes';
@@ -49,6 +50,6 @@ export const toHumanOpinion = (rating: RatingValue): HumanOpinion => {
 export type Decision = 'Accept' | 'Reject';
 
 export const toDecision = (rating: RatingValue): Decision => {
-  if (rating === 'no' || rating === 'neutral-reject' || rating === 'moved-to-agisc') return 'Reject';
+  if (rating === 'no' || rating === 'neutral-reject' || rating === 'moved') return 'Reject';
   return 'Accept';
 };

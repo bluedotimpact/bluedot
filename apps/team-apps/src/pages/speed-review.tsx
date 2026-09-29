@@ -12,7 +12,8 @@ import { RatingButtons } from '../components/RatingButtons';
 import { CountdownTimer, type CountdownTimerHandle } from '../components/CountdownTimer';
 import { SessionComplete } from '../components/SessionComplete';
 import { RoundPicker } from '../components/RoundPicker';
-import { MoveToAgiscControl } from '../components/MoveToAgiscControl';
+import { MoveCourseControl } from '../components/MoveCourseControl';
+import { moveFromCourse } from '../lib/client/courseMoves';
 import { authFetch } from '../lib/client/api';
 import { useNavigationState } from '../lib/client/navigation';
 
@@ -58,7 +59,7 @@ type Action =
   | { type: 'CONCLUDE' }
   | { type: 'RESET' }
   | { type: 'UNDO' }
-  | { type: 'MOVE_TO_AGISC'; roundName: string };
+  | { type: 'MOVE'; roundName: string };
 
 const reduce = (state: SessionState, action: Action): SessionState => {
   if (action.type === 'RESET') {
@@ -157,8 +158,8 @@ const reduce = (state: SessionState, action: Action): SessionState => {
     return { ...state, queue: [...rest, current] };
   }
 
-  if (action.type === 'MOVE_TO_AGISC') {
-    const moved: RatedApplication = { ...current, rating: 'moved-to-agisc', movedToRound: action.roundName };
+  if (action.type === 'MOVE') {
+    const moved: RatedApplication = { ...current, rating: 'moved', movedToRound: action.roundName };
     const newSeen = [...state.seen, moved];
     if (rest.length === 0 && !state.nextOffset) {
       return {
@@ -319,7 +320,7 @@ const SpeedReviewPage = () => {
   const handleMoved = useCallback((roundName: string) => {
     if (state.status !== 'reviewing') return;
     const [current] = state.queue;
-    dispatch({ type: 'MOVE_TO_AGISC', roundName });
+    dispatch({ type: 'MOVE', roundName });
     if (!current) return;
     setUndoToast({ name: current.name, kind: 'moved' });
     if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
@@ -331,13 +332,13 @@ const SpeedReviewPage = () => {
   const handleUndoMove = useCallback(async () => {
     if (state.status !== 'reviewing' || useNavigationState.getState().pendingWrites > 0) return;
     const lastSeen = state.seen[state.seen.length - 1];
-    if (!lastSeen || lastSeen.rating !== 'moved-to-agisc') return;
+    if (!lastSeen || lastSeen.rating !== 'moved') return;
     setSaveError(null);
     try {
-      const response = await authFetch('/api/undo-move-to-agisc', {
+      const response = await authFetch('/api/undo-move', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ applicationId: lastSeen.id, roundId: state.roundId }),
+        body: JSON.stringify({ applicationId: lastSeen.id, roundId: state.roundId, restoreCourse: state.course }),
       });
       if (!response.ok) {
         const result = await response.json().catch(() => null) as { error?: unknown } | null;
@@ -498,6 +499,7 @@ const SpeedReviewPage = () => {
           <SessionComplete
             roundId={state.roundId}
             round={state.roundName}
+            course={state.course}
             rated={state.rated}
             totalMs={state.totalMs}
             totalLoaded={state.totalLoaded}
@@ -586,6 +588,7 @@ const SpeedReviewPage = () => {
   }
 
   const totalApps = state.queue.length + state.seen.length;
+  const courseMove = moveFromCourse(state.course);
 
   return (
     <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas py-4 sm:py-8 px-3 sm:px-4">
@@ -637,11 +640,12 @@ const SpeedReviewPage = () => {
           </p>
         </div>
 
-        {state.course === 'Technical AI Safety' && (
+        {courseMove && (
           <div className="bg-raised rounded-xl border border-subtle p-4">
-            <MoveToAgiscControl
+            <MoveCourseControl
               applicationId={current.id}
-              allowMoveToAgisc={current.allowMoveToAgisc ?? false}
+              targetCourse={courseMove.targetCourse}
+              allowed={current[courseMove.allowKey] ?? false}
               onMoved={handleMoved}
             />
           </div>
