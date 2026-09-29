@@ -193,6 +193,55 @@ test('summary offers both send buttons and flags the session applications after 
   expect(screen.getByText('Decision email sent.')).toBeTruthy();
 });
 
+test('a large send shows queueing progress while the flags are being written', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  let releaseSend: (() => void) | undefined;
+  const counts = {
+    reviewed: 3, alreadySent: 1, confirmedSent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
+  };
+  vi.mocked(authFetch).mockImplementation(async (input) => {
+    const url = input as string;
+    if (url.startsWith('/api/send-decision-emails')) {
+      // Hold the flagging request open so the queueing state is observable.
+      await new Promise<void>((resolve) => {
+        releaseSend = resolve;
+      });
+      counts.alreadySent += 1;
+      counts.confirmedSent += 1;
+      counts.pending -= 1;
+      return { ok: true, json: async () => ({ flagged: 1 }) } as Response;
+    }
+
+    if (url.startsWith('/api/decision-email-counts')) {
+      return { ok: true, json: async () => ({ ...counts }) } as Response;
+    }
+
+    if (url.startsWith('/api/round-stats')) {
+      return { ok: true, json: async () => ({ total: 3, evaluated: 1, accepted: 1 }) } as Response;
+    }
+
+    return { ok: true } as Response;
+  });
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  fireEvent.click(screen.getByRole('button', { name: 'Send for this session (1)' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Send 1 email' }));
+  });
+  expect(screen.getByText('Queueing emails… (0 of 1) Keep this page open.')).toBeTruthy();
+  expect(screen.queryByRole('dialog')).toBeNull();
+
+  await act(async () => {
+    releaseSend!();
+  });
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
+});
+
 test('the sent tracker counts up as the automation confirms, then reports done', async () => {
   response.applications = [{ id: 'recOne', name: 'First test applicant' }];
   const counts = mockSummaryApis({ instantConfirm: false });
