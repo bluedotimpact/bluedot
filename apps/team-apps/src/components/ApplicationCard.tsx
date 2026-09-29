@@ -62,24 +62,16 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
 
       <PreviousApplicationsCard applicationId={application.id} course={course} />
 
-      {(!!aiSummary
-        || commitmentScore !== undefined
-        || impressivenessScore !== undefined
-        || technicalSkillScore !== undefined
-        || !!commitmentRationale
-        || !!impressivenessRationale
-        || !!technicalSkillRationale) && (
-        <SummaryCard
-          aiSummary={aiSummary ?? ''}
-          course={course}
-          commitmentScore={commitmentScore}
-          commitmentRationale={commitmentRationale}
-          impressivenessScore={impressivenessScore}
-          impressivenessRationale={impressivenessRationale}
-          technicalSkillScore={technicalSkillScore}
-          technicalSkillRationale={technicalSkillRationale}
-        />
-      )}
+      <SummaryCard
+        aiSummary={aiSummary ?? ''}
+        course={course}
+        commitmentScore={commitmentScore}
+        commitmentRationale={commitmentRationale}
+        impressivenessScore={impressivenessScore}
+        impressivenessRationale={impressivenessRationale}
+        technicalSkillScore={technicalSkillScore}
+        technicalSkillRationale={technicalSkillRationale}
+      />
 
       <div className="border border-subtle rounded-lg divide-y divide-stone-700 overflow-hidden">
         {([

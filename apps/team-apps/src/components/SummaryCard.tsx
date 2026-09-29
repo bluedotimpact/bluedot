@@ -24,7 +24,7 @@ const PillContents: React.FC<ScoreRow & { hasRationale: boolean }> = ({ label, s
     <span className="text-size-xs font-semibold uppercase tracking-wide text-secondary">{label}</span>
     <span className="flex items-center gap-2 shrink-0">
       <span className="text-size-sm font-mono text-primary">
-        {score !== undefined ? `${score}/${RATING_MAX}` : '—'}
+        {score !== undefined ? `${score}/${RATING_MAX}` : 'N/A'}
       </span>
       {hasRationale && (
         <svg className="size-4 text-secondary transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -71,9 +71,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({
 
   return (
     <div className="bg-tint border border-subtle rounded-lg p-3 sm:p-5 space-y-4">
-      {summary && (
-        <p className="text-size-sm text-primary leading-relaxed">{summary}</p>
-      )}
+      <p className="text-size-sm text-primary leading-relaxed">{summary || 'N/A'}</p>
 
       {notable.length > 0 && (
         <div>

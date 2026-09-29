@@ -202,7 +202,12 @@ export const fetchRounds = async (): Promise<Round[]> => {
 // Fetches applications for a round, filtered by round record ID server-side.
 // Airtable paginates in pages of AIRTABLE_PAGE_SIZE; we collect until we have
 // RESPONSE_PAGE_SIZE matches and return the Airtable offset for the next call.
-const BASE_FILTER = 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK())';
+const UNDECIDED_PARTICIPANT_FILTER = '{fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94})';
+// Applications the AI pipeline has scored, served first and sorted by score.
+const BASE_FILTER = `AND(${UNDECIDED_PARTICIPANT_FILTER}, {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK())`;
+// The rest — the scoring pipeline skipped or hasn't reached them — are served
+// after every scored application, so the round can still be finished in-app.
+const UNSCORED_FILTER = `AND(${UNDECIDED_PARTICIPANT_FILTER}, OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK()))`;
 
 // Lookup of the linked Round's RECORD_ID() formula field. Filtering on it in
 // Airtable means each page is already round-specific, instead of paging
@@ -212,7 +217,11 @@ const ROUND_ID_LOOKUP_FIELD = 'fldrmNLS764z8WEbR';
 // FIND rather than = so applications linked to several rounds still match,
 // mirroring matchesRound's array-includes semantics. Record ids are unique
 // fixed-length strings, so a substring false-positive can't occur.
-const roundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${BASE_FILTER})`;
+const roundFilter = (roundId: string, scored: boolean): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${scored ? BASE_FILTER : UNSCORED_FILTER})`;
+
+// Marks a pagination offset as belonging to the unscored phase. Airtable
+// offsets never carry this prefix.
+const UNSCORED_OFFSET_PREFIX = 'unscored:';
 
 export const fetchApplications = async (
   roundId: string,
@@ -225,22 +234,22 @@ export const fetchApplications = async (
   // the filtered-on field is modified mid-iteration (every rating mutates the
   // Decision field). Track IDs to drop duplicates before they reach the queue.
   const seenIds = new Set<string>();
-  let currentOffset = offset;
+  let phase: 'scored' | 'unscored' = offset?.startsWith(UNSCORED_OFFSET_PREFIX) ? 'unscored' : 'scored';
+  let currentOffset = phase === 'unscored' ? (offset!.slice(UNSCORED_OFFSET_PREFIX.length) || undefined) : offset;
 
   while (collected.length < RESPONSE_PAGE_SIZE) {
+    const params: Record<string, string> = {
+      filterByFormula: roundFilter(roundId, phase === 'scored'),
+      pageSize: String(AIRTABLE_PAGE_SIZE),
+      returnFieldsByFieldId: 'true',
+    };
+    if (phase === 'scored') {
+      params['sort[0][field]'] = TOTAL_SCORE_FIELD_ID;
+      params['sort[0][direction]'] = direction === 'top' ? 'desc' : 'asc';
+    }
+
     // eslint-disable-next-line no-await-in-loop
-    const { records, nextOffset } = await fetchPage(
-      APPLICATIONS_URL,
-      {
-        filterByFormula: roundFilter(roundId),
-        pageSize: String(AIRTABLE_PAGE_SIZE),
-        returnFieldsByFieldId: 'true',
-        'sort[0][field]': TOTAL_SCORE_FIELD_ID,
-        'sort[0][direction]': direction === 'top' ? 'desc' : 'asc',
-      },
-      APPLICATION_FIELDS,
-      currentOffset,
-    );
+    const { records, nextOffset } = await fetchPage(APPLICATIONS_URL, params, APPLICATION_FIELDS, currentOffset);
 
     const matching = records
       .filter((r) => matchesRound(r, roundId))
@@ -253,13 +262,30 @@ export const fetchApplications = async (
     collected.push(...matching);
     currentOffset = nextOffset;
 
-    if (!nextOffset) break;
+    if (!nextOffset) {
+      // Scored applications exhausted — chain straight into the unscored
+      // phase so they appear at the end of the queue. If this response is
+      // already full, hand the phase switch to the next request instead.
+      if (phase === 'scored') {
+        phase = 'unscored';
+        currentOffset = undefined;
+        if (collected.length >= RESPONSE_PAGE_SIZE) {
+          return { applications: collected, nextOffset: UNSCORED_OFFSET_PREFIX };
+        }
+
+        continue;
+      }
+
+      break;
+    }
   }
 
-  return {
-    applications: collected,
-    nextOffset: currentOffset,
-  };
+  let nextOffset: string | undefined;
+  if (currentOffset) {
+    nextOffset = phase === 'unscored' ? `${UNSCORED_OFFSET_PREFIX}${currentOffset}` : currentOffset;
+  }
+
+  return { applications: collected, nextOffset };
 };
 
 export type PreviousApplication = {

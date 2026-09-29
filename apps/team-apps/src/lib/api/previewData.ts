@@ -17,6 +17,9 @@ const people: Application[] = [
     id: 'recSamplePerson03', name: 'Jordan Patel', jobTitle: 'Graduate researcher', organisation: 'Example University', experience: 'Studies economics and the governance of emerging technologies.', pathToImpact: 'Contribute empirical research on the incentives shaping AI development.', totalScore: 10, allowMoveToAgisc: false, allowMoveToTais: true,
   },
   {
+    id: 'recSamplePerson05', name: 'Morgan Lee', jobTitle: 'Data analyst', organisation: 'Example Agency', experience: 'Builds reporting pipelines for a public health agency.', pathToImpact: 'Apply data infrastructure skills to biosecurity monitoring.',
+  },
+  {
     id: 'recSamplePerson04', name: 'Riley Williams', jobTitle: 'Program manager', organisation: 'Example Foundation', experience: 'Coordinates research grants and supports teams working on technology governance.', pathToImpact: 'Help promising research projects reach the people who can use their findings.', totalScore: 9, allowMoveToAgisc: true,
   },
 ];
@@ -32,7 +35,16 @@ const state = () => {
 
 export const previewData = {
   fetchRounds: async () => rounds,
-  fetchApplications: async (_round: string, _offset?: string, direction = 'top') => ({ applications: people.filter((person) => !state().opinions[person.id] && !state().moved[person.id]).sort((a, b) => direction === 'bottom' ? (a.totalScore ?? 0) - (b.totalScore ?? 0) : (b.totalScore ?? 0) - (a.totalScore ?? 0)) }),
+  fetchApplications: async (_round: string, _offset?: string, direction = 'top') => ({
+    // Unscored applications sort last in either direction, matching the real
+    // adapter's scored-then-unscored phases.
+    applications: people.filter((person) => !state().opinions[person.id] && !state().moved[person.id]).sort((a, b) => {
+      if (a.totalScore === undefined && b.totalScore === undefined) return 0;
+      if (a.totalScore === undefined) return 1;
+      if (b.totalScore === undefined) return -1;
+      return direction === 'bottom' ? a.totalScore - b.totalScore : b.totalScore - a.totalScore;
+    }),
+  }),
   fetchApplicationHistory: async () => [],
   fetchRoundStats: async (): Promise<RoundStats> => ({ total: people.length, evaluated: Object.keys(state().opinions).length, accepted: Object.values(state().opinions).filter((opinion) => opinion.decision === 'Accept').length }),
   writeOpinions: async (opinions: { id: string; opinion: string; decision: string }[]) => {
