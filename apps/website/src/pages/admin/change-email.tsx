@@ -91,7 +91,7 @@ const AdminChangeEmail = withAdminGuard(() => {
                 </CTALinkOrButton>
               </div>
               {requestMutation.isSuccess && (
-                <p role="status" className="text-size-xs text-green-700">
+                <p role="status" className="text-size-xs text-success-fg">
                   Confirmation email sent to {requestMutation.data.sentTo}. {selectedUser.email} stays on the
                   account until the user clicks the link.
                 </p>

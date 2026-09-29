@@ -190,6 +190,16 @@ export const fetchRounds = async (): Promise<Round[]> => {
 // RESPONSE_PAGE_SIZE matches and return the Airtable offset for the next call.
 const BASE_FILTER = 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK())';
 
+// Lookup of the linked Round's RECORD_ID() formula field. Filtering on it in
+// Airtable means each page is already round-specific, instead of paging
+// through every round's undecided applications to find matches in Node.
+const ROUND_ID_LOOKUP_FIELD = 'fldrmNLS764z8WEbR';
+
+// FIND rather than = so applications linked to several rounds still match,
+// mirroring matchesRound's array-includes semantics. Record ids are unique
+// fixed-length strings, so a substring false-positive can't occur.
+const roundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${BASE_FILTER})`;
+
 export const fetchApplications = async (
   roundId: string,
   offset?: string,
@@ -208,7 +218,7 @@ export const fetchApplications = async (
     const { records, nextOffset } = await fetchPage(
       APPLICATIONS_URL,
       {
-        filterByFormula: BASE_FILTER,
+        filterByFormula: roundFilter(roundId),
         pageSize: String(AIRTABLE_PAGE_SIZE),
         returnFieldsByFieldId: 'true',
         'sort[0][field]': TOTAL_SCORE_FIELD_ID,
@@ -385,6 +395,27 @@ export const moveApplicationToAgisc = async (applicationId: string, roundId: str
     fldkEQ0zBUhqpIuJn: 'AGI Strategy', // Course (single select)
     fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
     fldPkqPbeoIhERqSY: [], // Let automation refill [>] Course from the new course value
+  });
+};
+
+// Moves only happen from Technical AI Safety rounds (see the render gate in
+// speed-review.tsx), so undoing one always restores that course.
+export const undoMoveToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
+  if (isLocalPreview()) return previewData.undoMoveToAgisc(applicationId);
+  const { records } = await fetchPage(
+    APPLICATIONS_URL,
+    { filterByFormula: `RECORD_ID() = "${applicationId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },
+    ['fldkEQ0zBUhqpIuJn'],
+  );
+  const course = str(records[0]?.fields.fldkEQ0zBUhqpIuJn);
+  if (course !== 'AGI Strategy') {
+    throw createHttpError(409, 'This application is not currently moved to AGI Strategy, so there is nothing to undo.', { expose: true });
+  }
+
+  await patchSingle(applicationId, {
+    fldkEQ0zBUhqpIuJn: 'Technical AI Safety', // Course (single select)
+    fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
+    fldPkqPbeoIhERqSY: [], // Let automation refill [>] Course from the restored course value
   });
 };
 

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import {
   describe, expect, test, vi,
 } from 'vitest';
-import TabPills from './TabPills';
+import { TabPills } from './TabPills';
 
 const TABS = [
   { id: 'inProgress', label: 'In Progress' },

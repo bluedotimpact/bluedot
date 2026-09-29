@@ -132,8 +132,8 @@ const NewsletterBanner = () => {
 
           {/* Success Message */}
           {successMessage && (
-            <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-green-50 border border-green-200 animate-in fade-in duration-300">
-              <p className="text-size-sm text-green-800 leading-tight font-medium">
+            <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-success-bg border border-success-border animate-in fade-in duration-300">
+              <p className="text-size-sm text-success-fg leading-tight font-medium">
                 {successMessage}
               </p>
             </div>
