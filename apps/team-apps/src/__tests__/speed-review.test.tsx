@@ -136,22 +136,26 @@ test('a failed undo keeps the application moved and offers a retry', async () =>
   expect(screen.getByText('First test applicant')).toBeTruthy();
 });
 
-const mockSummaryApis = () => {
+const mockSummaryApis = ({ instantConfirm = true } = {}) => {
+  const counts = {
+    reviewed: 3, alreadySent: 1, confirmedSent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
+  };
   // The page only ever fetches string URLs, so the mock can treat input as one.
   vi.mocked(authFetch).mockImplementation(async (input, init) => {
     const url = input as string;
     if (url.startsWith('/api/send-decision-emails')) {
       const body = JSON.parse(init?.body as string) as { applicationIds?: string[] };
-      return { ok: true, json: async () => ({ flagged: body.applicationIds?.length ?? 2 }) } as Response;
+      const flagged = body.applicationIds?.length ?? counts.pending;
+      counts.alreadySent += flagged;
+      counts.pending -= flagged;
+      // The automation confirms sends asynchronously; instantConfirm mirrors it
+      // in the same request, otherwise the test bumps confirmedSent itself.
+      if (instantConfirm) counts.confirmedSent += flagged;
+      return { ok: true, json: async () => ({ flagged }) } as Response;
     }
 
     if (url.startsWith('/api/decision-email-counts')) {
-      return {
-        ok: true,
-        json: async () => ({
-          reviewed: 3, alreadySent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
-        }),
-      } as Response;
+      return { ok: true, json: async () => ({ ...counts }) } as Response;
     }
 
     if (url.startsWith('/api/round-stats')) {
@@ -160,6 +164,7 @@ const mockSummaryApis = () => {
 
     return { ok: true } as Response;
   });
+  return counts;
 };
 
 test('summary offers both send buttons and flags the session applications after confirmation', async () => {
@@ -185,7 +190,30 @@ test('summary offers both send buttons and flags the session applications after 
     method: 'POST',
     body: JSON.stringify({ roundId: 'recTestRound', applicationIds: ['recOne'] }),
   }));
-  expect(screen.getByText('Sending 1 decision email.')).toBeTruthy();
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
+});
+
+test('the sent tracker counts up as the automation confirms, then reports done', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  const counts = mockSummaryApis({ instantConfirm: false });
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  fireEvent.click(screen.getByRole('button', { name: 'Send for this session (1)' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Send 1 email' }));
+  });
+  expect(screen.getByText('Sending emails… (0 of 1) You can leave this page.')).toBeTruthy();
+
+  counts.confirmedSent += 1;
+  await act(async () => {
+    vi.advanceTimersByTime(5000);
+  });
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
 });
 
 test('applications moved to AGI Strategy are excluded from the session send', async () => {

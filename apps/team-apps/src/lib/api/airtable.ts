@@ -480,7 +480,10 @@ const APPLICATION_ROLE_FIELD = 'fld52Y2AyWV8tECDy'; // Role (single select)
 
 export type DecisionEmailCounts = {
   reviewed: number;
+  // Sent, or flagged and about to send — the automation's queue.
   alreadySent: number;
+  // Only records the automation has confirmed sent ("[?] Decision email sent").
+  confirmedSent: number;
   pending: number;
   pendingAccepted: number;
   pendingRejected: number;
@@ -517,6 +520,7 @@ export const fetchDecisionEmailCounts = async (roundId: string): Promise<Decisio
   return {
     reviewed: records.length,
     alreadySent: records.length - pending.length,
+    confirmedSent: records.filter((r) => !!r.fields[DECISION_EMAIL_SENT_FIELD]).length,
     pending: pending.length,
     pendingAccepted,
     pendingRejected: pending.length - pendingAccepted,

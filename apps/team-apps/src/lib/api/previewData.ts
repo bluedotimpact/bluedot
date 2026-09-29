@@ -57,6 +57,8 @@ export const previewData = {
     return {
       reviewed: reviewedIds.length,
       alreadySent: reviewedIds.length - pendingIds.length,
+      // Preview has no automation delay: flagged means sent.
+      confirmedSent: reviewedIds.length - pendingIds.length,
       pending: pendingIds.length,
       pendingAccepted,
       pendingRejected: pendingIds.length - pendingAccepted,
