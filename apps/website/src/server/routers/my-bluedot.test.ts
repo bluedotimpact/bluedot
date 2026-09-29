@@ -812,69 +812,6 @@ describe('myCoursesPage.getOverview', () => {
   });
 });
 
-describe('myBluedot.hasFacilitatorRegistrations', () => {
-  test('returns false when caller has no facilitator registrations', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-participant',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Participant',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: false });
-  });
-
-  test('returns true when caller has at least one facilitator registration', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-fac',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: true });
-  });
-
-  test('ignores withdrawn facilitator registrations', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-withdrawn',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      decision: 'Withdrawn',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: false });
-  });
-
-  test('ignores other users\' facilitator registrations', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-someone-else',
-      email: 'someone-else@example.com',
-      userId: 'user-other',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: false });
-  });
-});
-
 describe('myBluedot.hasFacilitatorNavItems', () => {
   const seedFacilitatorReg = (overrides: { id: string; userId: string; email: string; decision?: string }) =>
     testDb.insert(courseRegistrationTable, {
