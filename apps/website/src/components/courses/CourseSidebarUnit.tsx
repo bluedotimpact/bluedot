@@ -46,7 +46,7 @@ export const CourseSidebarUnit = ({
       onToggle={(e) => setIsExpanded(e.currentTarget.open)}
       className="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
     >
-      <summary className="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
+      <summary className="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus">
         <span className="flex-1 text-size-xs font-semibold leading-normal text-primary">
           {unit.unitNumber}. {unit.title}
         </span>
