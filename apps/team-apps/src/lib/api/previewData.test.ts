@@ -2,7 +2,7 @@ import {
   afterEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  fetchApplications, fetchRounds, fetchApplicationHistory, fetchRoundStats, writeOpinions, resetOpinion, moveApplicationToAgisc,
+  fetchApplications, fetchRounds, fetchApplicationHistory, fetchRoundStats, writeOpinions, resetOpinion, moveApplicationToAgisc, undoMoveToAgisc,
 } from './airtable';
 
 afterEach(() => {
@@ -29,6 +29,8 @@ describe('isolated local preview', () => {
     expect((await fetchApplications(rounds[0]!.id)).applications).toHaveLength(4);
     await moveApplicationToAgisc(first.id, rounds[1]!.id);
     expect((await fetchApplications(rounds[0]!.id)).applications).toHaveLength(3);
+    await undoMoveToAgisc(first.id, rounds[0]!.id);
+    expect((await fetchApplications(rounds[0]!.id)).applications).toHaveLength(4);
     expect(network).not.toHaveBeenCalled();
   });
 });

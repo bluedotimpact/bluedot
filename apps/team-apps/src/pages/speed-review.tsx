@@ -134,13 +134,8 @@ const reduce = (state: SessionState, action: Action): SessionState => {
     };
   }
 
-  const [current, ...rest] = state.queue;
-  if (!current) return state;
-
-  if (action.type === 'TOGGLE_PAUSE') {
-    return { ...state, timerPaused: !state.timerPaused };
-  }
-
+  // UNDO must work even while the queue is empty waiting on a prefetch,
+  // so it is handled before the empty-queue guard below.
   if (action.type === 'UNDO') {
     const lastSeen = state.seen[state.seen.length - 1];
     if (!lastSeen) return state;
@@ -149,6 +144,13 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       queue: [lastSeen, ...state.queue],
       seen: state.seen.slice(0, -1),
     };
+  }
+
+  const [current, ...rest] = state.queue;
+  if (!current) return state;
+
+  if (action.type === 'TOGGLE_PAUSE') {
+    return { ...state, timerPaused: !state.timerPaused };
   }
 
   if (action.type === 'TIMEOUT') {
@@ -246,8 +248,9 @@ const SpeedReviewPage = () => {
   }, [state.status, setSessionActive]);
   const [timeoutMessage, setTimeoutMessage] = useState<string | null>(null);
   const [milestoneToast, setMilestoneToast] = useState<string | null>(null);
-  const [undoToast, setUndoToast] = useState<string | null>(null);
+  const [undoToast, setUndoToast] = useState<{ name: string; kind: 'rated' | 'moved' } | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const failedUndoMove = useRef(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const milestoneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -296,11 +299,12 @@ const SpeedReviewPage = () => {
       failedRating.current = null;
       showMilestone(state.seen.length + 1);
       dispatch({ type: 'RATE', rating });
-      setUndoToast(current.name);
+      setUndoToast({ name: current.name, kind: 'rated' });
       if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
       undoTimerRef.current = setTimeout(() => setUndoToast(null), 6000);
     } catch (error) {
       failedRating.current = rating;
+      failedUndoMove.current = false;
       setSaveError(error instanceof Error ? error.message : 'Your rating could not be saved.');
     }
   }, [state, showMilestone]);
@@ -311,6 +315,48 @@ const SpeedReviewPage = () => {
     setUndoToast(null);
     if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
   }, []);
+
+  const handleMoved = useCallback((roundName: string) => {
+    if (state.status !== 'reviewing') return;
+    const [current] = state.queue;
+    dispatch({ type: 'MOVE_TO_AGISC', roundName });
+    if (!current) return;
+    setUndoToast({ name: current.name, kind: 'moved' });
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    undoTimerRef.current = setTimeout(() => setUndoToast(null), 6000);
+  }, [state]);
+
+  // Undoing a move must reverse the Airtable write first, unlike a rating undo
+  // where the next rating simply overwrites the previous one.
+  const handleUndoMove = useCallback(async () => {
+    if (state.status !== 'reviewing' || useNavigationState.getState().pendingWrites > 0) return;
+    const lastSeen = state.seen[state.seen.length - 1];
+    if (!lastSeen || lastSeen.rating !== 'moved-to-agisc') return;
+    setSaveError(null);
+    try {
+      const response = await authFetch('/api/undo-move-to-agisc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ applicationId: lastSeen.id, roundId: state.roundId }),
+      });
+      if (!response.ok) {
+        const result = await response.json().catch(() => null) as { error?: unknown } | null;
+        throw new Error(typeof result?.error === 'string' ? result.error : 'The move could not be undone. Please try again.');
+      }
+
+      failedUndoMove.current = false;
+      dispatch({ type: 'UNDO' });
+      setUndoToast(null);
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    } catch (error) {
+      failedUndoMove.current = true;
+      failedRating.current = null;
+      // Keep the toast alive past its usual expiry so the undo stays reachable
+      // after "Return to application".
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      setSaveError(error instanceof Error ? error.message : 'The move could not be undone.');
+    }
+  }, [state]);
 
   const handleTimeout = useCallback(() => {
     if (state.status !== 'reviewing') return;
@@ -470,7 +516,9 @@ const SpeedReviewPage = () => {
         <div className="bg-raised rounded-xl border border-error-border p-4 sm:p-8 max-w-md w-full space-y-4">
           <H1 className="text-size-xl text-error-fg">Save failed</H1>
           <p className="text-size-sm text-primary">
-            This application is still in your queue. Retry the save or return to the application.
+            {failedUndoMove.current
+              ? 'The application is still moved to AGI Strategy. Retry the undo or return to reviewing.'
+              : 'This application is still in your queue. Retry the save or return to the application.'}
           </p>
           <p role="alert" className="text-size-xs text-secondary break-words">{saveError}</p>
           <div className="flex gap-3 pt-2">
@@ -478,6 +526,7 @@ const SpeedReviewPage = () => {
               type="button"
               onClick={() => {
                 if (failedRating.current) void handleRate(failedRating.current);
+                else if (failedUndoMove.current) void handleUndoMove();
               }}
               className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors"
             >
@@ -500,8 +549,34 @@ const SpeedReviewPage = () => {
 
   // ── Reviewing ─────────────────────────────────────────────────────────────
 
+  const undoToastElement = undoToast && (
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg flex max-w-[90vw] items-center gap-3 z-20">
+      <span>{undoToast.kind === 'moved' ? 'Moved' : 'Rated'} {undoToast.name}</span>
+      <button
+        type="button"
+        disabled={pendingWrites > 0}
+        onClick={() => {
+          if (undoToast.kind === 'moved') void handleUndoMove();
+          else handleUndo();
+        }}
+        className="font-semibold text-accent hover:text-bluedot-lighter underline underline-offset-2 disabled:opacity-40"
+      >
+        {undoToast.kind === 'moved' ? 'Undo move' : 'Re-rate'}
+      </button>
+    </div>
+  );
+
   const [current] = state.queue;
-  if (!current) return null;
+  if (!current) {
+    // The queue can be empty while a prefetch is still loading. Keep the undo
+    // toast reachable so acting on the last card stays reversible meanwhile.
+    return (
+      <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center">
+        <ProgressDots className="text-accent" />
+        {undoToastElement}
+      </div>
+    );
+  }
 
   if (prevCurrentIdRef.current !== current.id) {
     prevCurrentIdRef.current = current.id;
@@ -566,7 +641,7 @@ const SpeedReviewPage = () => {
             <MoveToAgiscControl
               applicationId={current.id}
               allowMoveToAgisc={current.allowMoveToAgisc ?? false}
-              onMoved={(roundName) => dispatch({ type: 'MOVE_TO_AGISC', roundName })}
+              onMoved={handleMoved}
             />
           </div>
         )}
@@ -578,18 +653,7 @@ const SpeedReviewPage = () => {
         </div>
       )}
 
-      {undoToast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg flex max-w-[90vw] items-center gap-3 z-20">
-          <span>Rated {undoToast}</span>
-          <button
-            type="button"
-            onClick={handleUndo}
-            className="font-semibold text-accent hover:text-bluedot-lighter underline underline-offset-2"
-          >
-            Re-rate
-          </button>
-        </div>
-      )}
+      {undoToastElement}
 
       {timeoutMessage && (
         <div role="status" className={`fixed left-1/2 -translate-x-1/2 w-max max-w-[calc(100vw-2rem)] text-center bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg pointer-events-none ${undoToast ? 'bottom-16' : 'bottom-6'}`}>

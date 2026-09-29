@@ -43,4 +43,7 @@ export const previewData = {
   moveApplicationToAgisc: async (id: string, round: string) => {
     state().moved[id] = round;
   },
+  undoMoveToAgisc: async (id: string) => {
+    delete state().moved[id];
+  },
 };

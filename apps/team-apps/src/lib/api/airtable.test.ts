@@ -5,7 +5,7 @@ import {
 vi.mock('./env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-airtable-credential' } }));
 
 import {
-  fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToAgisc,
+  fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToAgisc, undoMoveToAgisc,
 } from './airtable';
 
 const fetchMock = vi.fn<typeof fetch>();
@@ -98,5 +98,31 @@ describe('real-data Airtable adapter', () => {
     fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
     await expect(moveApplicationToAgisc('recTest', 'recNewRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  const movedRecord = JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'AGI Strategy' } }] });
+
+  test('undoing a move restores course, round, and derived course link in one write', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(movedRecord));
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
+    await undoMoveToAgisc('recTest', 'recOriginalRound');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(bodyAt(1).records).toEqual([{
+      id: 'recTest',
+      fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety', fldYaHSLqnvBXyjur: ['recOriginalRound'], fldPkqPbeoIhERqSY: [] },
+    }]);
+  });
+
+  test('refuses to undo an application that is not currently in AGI Strategy', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety' } }] })));
+    await expect(undoMoveToAgisc('recTest', 'recOriginalRound')).rejects.toMatchObject({ statusCode: 409, expose: true, message: expect.stringContaining('not currently moved') });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  test('rejects a failed undo so the UI keeps the application in the moved list', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(movedRecord));
+    fetchMock.mockResolvedValueOnce(new Response('{}', { status: 403 }));
+    await expect(undoMoveToAgisc('recTest', 'recOriginalRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });

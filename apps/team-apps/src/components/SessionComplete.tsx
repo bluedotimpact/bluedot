@@ -65,6 +65,17 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   const effectiveRating = (r: RatedApplication): RatingValue => overrides[r.id] ?? r.rating;
 
+  // Stats are decorative here — a failed refresh must not read as a failed save.
+  const refreshStats = async () => {
+    setRoundStats(null);
+    try {
+      const stats = await authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`);
+      if (stats.ok) setRoundStats(await stats.json());
+    } catch {
+      // Leave the progress bar in its loading state.
+    }
+  };
+
   const saveChange = async (id: string, rating?: RatingValue) => {
     if (useNavigationState.getState().pendingWrites > 0) return;
     setSaveError(null);
@@ -78,12 +89,33 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       if (rating) setOverrides((prev) => ({ ...prev, [id]: rating }));
       else setResetIds((prev) => new Set(prev).add(id));
       setEditingId(null);
-      setRoundStats(null);
-      const stats = await authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`);
-      if (stats.ok) setRoundStats(await stats.json());
     } catch (error) {
       setSaveError(error instanceof Error ? error.message : 'This change could not be saved.');
+      return;
     }
+
+    await refreshStats();
+  };
+
+  // Returns a moved application to this round; it comes back unrated, so the
+  // row disappears from the results like a rerated one.
+  const undoMove = async (id: string) => {
+    if (useNavigationState.getState().pendingWrites > 0) return;
+    setSaveError(null);
+    try {
+      const response = await authFetch('/api/undo-move-to-agisc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ applicationId: id, roundId }),
+      });
+      if (!response.ok) throw new Error('This change could not be saved. Please try again.');
+      setResetIds((prev) => new Set(prev).add(id));
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : 'This change could not be saved.');
+      return;
+    }
+
+    await refreshStats();
   };
 
   const active = rated.filter((r) => !resetIds.has(r.id));
@@ -128,7 +160,16 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               <p className="text-size-xs text-secondary truncate">{subtitle}</p>
             )}
           </div>
-          {!isMoved && (
+          {isMoved ? (
+            <button
+              type="button"
+              disabled={pendingWrites > 0}
+              onClick={() => undoMove(r.id)}
+              className="min-h-11 shrink-0 text-size-xs text-warning-fg hover:text-primary underline underline-offset-2 disabled:opacity-40"
+            >
+              Undo move
+            </button>
+          ) : (
             <button
               type="button"
               disabled={pendingWrites > 0}
