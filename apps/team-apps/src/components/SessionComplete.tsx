@@ -196,7 +196,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       if (!response.ok) throw new Error('The decision emails could not be triggered. Please try again.');
       const { flagged } = await response.json() as { flagged: number };
       setConfirmingScope(null);
-      setEmailNotice({ tone: 'success', message: `Sending ${flagged} decision email${flagged === 1 ? '' : 's'}.` });
+      setEmailNotice({ tone: 'success', message: `${flagged} decision email${flagged === 1 ? ' is' : 's are'} on ${flagged === 1 ? 'its' : 'their'} way — safe to close this page.` });
       // A round send covers the session's applications too: anything pending
       // was just flagged, anything else was already sent or sending.
       setFlaggedIds((prev) => new Set([...prev, ...sessionEmailIds]));

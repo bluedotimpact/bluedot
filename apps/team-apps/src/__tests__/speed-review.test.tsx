@@ -185,7 +185,7 @@ test('summary offers both send buttons and flags the session applications after 
     method: 'POST',
     body: JSON.stringify({ roundId: 'recTestRound', applicationIds: ['recOne'] }),
   }));
-  expect(screen.getByText('Sending 1 decision email.')).toBeTruthy();
+  expect(screen.getByText('1 decision email is on its way — safe to close this page.')).toBeTruthy();
 });
 
 test('applications moved to AGI Strategy are excluded from the session send', async () => {
