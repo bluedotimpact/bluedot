@@ -100,7 +100,7 @@ const ChunkRow = ({
         <span className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="text-size-xs leading-normal">{chunk.chunkTitle}</span>
           {(time > 0 || hasProgress) && (
-            <span className="flex gap-1 text-size-xxs leading-normal text-secondary">
+            <span className="flex gap-1 text-size-xs leading-normal text-secondary">
               {time > 0 && <span>{formatTime(time)}</span>}
               {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
               {time > 0 && hasProgress && '⋅'}
