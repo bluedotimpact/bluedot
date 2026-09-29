@@ -369,11 +369,19 @@ const checkWriteResponse = async (response: Response): Promise<void> => {
   }
 };
 
-// PATCHes records in Airtable's ten-record batches, sequentially to stay
-// under the 5 req/s base rate limit when flagging a whole round at once.
+// PATCHes records in Airtable's ten-record batches, sequentially with a pause
+// between batches to stay under the 5 req/s base rate limit when flagging a
+// whole round at once.
 const patchRecords = async (records: { id: string; fields: Record<string, unknown> }[]): Promise<void> => {
   const BATCH_SIZE = 10;
   for (let i = 0; i < records.length; i += BATCH_SIZE) {
+    if (i > 0) {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        setTimeout(resolve, 250);
+      });
+    }
+
     // eslint-disable-next-line no-await-in-loop
     const response = await fetch(APPLICATIONS_URL, {
       method: 'PATCH',
@@ -461,16 +469,27 @@ export type DecisionEmailCounts = {
 // Withdrawn is deliberately excluded: no decision email exists for it.
 const reviewedInRoundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), OR({${APPLICATION_DECISION_FIELD}} = "Accept", {${APPLICATION_DECISION_FIELD}} = "Reject"), NOT({${APPLICATION_DUPLICATE_FIELD}}))`;
 
-const fetchReviewedInRound = async (roundId: string): Promise<AirtableRecord[]> => fetchAll(
-  APPLICATIONS_URL,
-  { filterByFormula: reviewedInRoundFilter(roundId), returnFieldsByFieldId: 'true' },
-  [APPLICATION_DECISION_FIELD, DECISION_EMAIL_SENT_FIELD, APPLICATION_ROLE_FIELD, 'fld7fzQNFhb7Oyy90'],
-);
+// FIND could substring-match a partial round id, so records are also checked
+// against the linked Round field, mirroring fetchApplications' matchesRound
+// double-check. Flagging the wrong round's applications sends real emails.
+const fetchReviewedInRound = async (roundId: string): Promise<AirtableRecord[]> => {
+  const records = await fetchAll(
+    APPLICATIONS_URL,
+    { filterByFormula: reviewedInRoundFilter(roundId), returnFieldsByFieldId: 'true' },
+    [APPLICATION_DECISION_FIELD, DECISION_EMAIL_SENT_FIELD, SEND_DECISION_EMAIL_FIELD, APPLICATION_ROLE_FIELD, 'fld7fzQNFhb7Oyy90', 'fldYaHSLqnvBXyjur'],
+  );
+  return records.filter((r) => matchesRound(r, roundId));
+};
+
+// A flagged application's email is already on its way, so it counts as sent
+// rather than pending. This also keeps counts truthful when refreshed before
+// the automation has marked the record.
+const emailSentOrSending = (fields: Record<string, unknown>): boolean => !!fields[DECISION_EMAIL_SENT_FIELD] || !!fields[SEND_DECISION_EMAIL_FIELD];
 
 export const fetchDecisionEmailCounts = async (roundId: string): Promise<DecisionEmailCounts> => {
   if (isLocalPreview()) return previewData.fetchDecisionEmailCounts();
   const records = await fetchReviewedInRound(roundId);
-  const pending = records.filter((r) => !r.fields[DECISION_EMAIL_SENT_FIELD]);
+  const pending = records.filter((r) => !emailSentOrSending(r.fields));
   const pendingAccepted = pending.filter((r) => str(r.fields[APPLICATION_DECISION_FIELD]) === 'Accept').length;
   return {
     reviewed: records.length,
@@ -485,7 +504,7 @@ export const flagDecisionEmails = async (roundId: string, applicationIds?: strin
   if (isLocalPreview()) return previewData.flagDecisionEmails(applicationIds);
   const records = await fetchReviewedInRound(roundId);
   const scope = applicationIds ? new Set(applicationIds) : undefined;
-  const pending = records.filter((r) => !r.fields[DECISION_EMAIL_SENT_FIELD] && (!scope || scope.has(r.id)));
+  const pending = records.filter((r) => !emailSentOrSending(r.fields) && (!scope || scope.has(r.id)));
 
   await patchRecords(pending.map((r) => {
     // Dual-role applicants are created with Role = "TODO", which leaves the

@@ -50,8 +50,12 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [roundStats, setRoundStats] = useState<{ total: number; evaluated: number; accepted: number } | null>(null);
   const [emailCounts, setEmailCounts] = useState<DecisionEmailCounts | null>(null);
+  const [countsError, setCountsError] = useState(false);
   const [confirmingScope, setConfirmingScope] = useState<'session' | 'round' | null>(null);
   const [emailNotice, setEmailNotice] = useState<{ tone: 'success' | 'error'; message: string } | null>(null);
+  // Applications already flagged from this summary; excluded from the session
+  // button so its count matches what another send would actually do.
+  const [flaggedIds, setFlaggedIds] = useState<Set<string>>(new Set());
   const [confettiSize, setConfettiSize] = useState<{ width: number; height: number } | null>(null);
 
   useEffect(() => {
@@ -79,8 +83,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         return r.json();
       })
       .then((data: DecisionEmailCounts) => setEmailCounts(data))
-      // eslint-disable-next-line no-console
-      .catch(console.error);
+      .catch(() => setCountsError(true));
   }, [roundId]);
 
   const effectiveRating = (r: RatedApplication): RatingValue => overrides[r.id] ?? r.rating;
@@ -88,10 +91,18 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const refreshEmailCounts = async () => {
     try {
       const counts = await authFetch(`/api/decision-email-counts?round=${encodeURIComponent(roundId)}`);
-      if (counts.ok) setEmailCounts(await counts.json());
+      if (counts.ok) {
+        setEmailCounts(await counts.json());
+        setCountsError(false);
+        return;
+      }
     } catch {
-      // Keep the previous counts; the next refresh will correct them.
+      // Fall through to the error flag below.
     }
+
+    // With previous counts on screen this flag is invisible; without any it
+    // swaps the loading text for a retry.
+    setCountsError(true);
   };
 
   // Stats are decorative here — a failed refresh must not read as a failed save.
@@ -156,7 +167,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   // Applications moved to AGI Strategy left this round, so their decision
   // emails are not this round's to send.
-  const sessionEmailApps = active.filter((r) => effectiveRating(r) !== 'moved-to-agisc');
+  const sessionEmailApps = active.filter((r) => effectiveRating(r) !== 'moved-to-agisc' && !flaggedIds.has(r.id));
   const sessionEmailIds = sessionEmailApps.map((r) => r.id);
   const confirmAccepted = confirmingScope === 'session'
     ? sessionEmailApps.filter((r) => toDecision(effectiveRating(r)) === 'Accept').length
@@ -184,6 +195,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       const { flagged } = await response.json() as { flagged: number };
       setConfirmingScope(null);
       setEmailNotice({ tone: 'success', message: `Sending ${flagged} decision email${flagged === 1 ? '' : 's'}.` });
+      // A round send covers the session's applications too: anything pending
+      // was just flagged, anything else was already sent or sending.
+      setFlaggedIds((prev) => new Set([...prev, ...sessionEmailIds]));
     } catch (error) {
       setEmailNotice({ tone: 'error', message: error instanceof Error ? error.message : 'The decision emails could not be triggered.' });
       return;
@@ -383,7 +397,15 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
           <H2 className="text-size-sm uppercase tracking-wide text-secondary">Decision emails</H2>
           <span className="text-size-xs text-secondary">
-            {emailCounts ? `${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent` : 'Loading counts…'}
+            {(() => {
+              if (emailCounts) return `${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent`;
+              if (!countsError) return 'Loading counts…';
+              return (
+                <button type="button" onClick={refreshEmailCounts} className="underline underline-offset-2 hover:text-primary">
+                  Counts unavailable — retry
+                </button>
+              );
+            })()}
           </span>
         </div>
         {emailNotice && !confirmingScope && <Callout tone={emailNotice.tone} role={emailNotice.tone === 'error' ? 'alert' : 'status'}>{emailNotice.message}</Callout>}

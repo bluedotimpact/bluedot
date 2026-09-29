@@ -129,19 +129,32 @@ describe('real-data Airtable adapter', () => {
 });
 
 describe('decision emails', () => {
+  const inRound = { fldYaHSLqnvBXyjur: ['recRound'] };
   const reviewedRecords = JSON.stringify({
     records: [
-      { id: 'recSentAlready', fields: { fldWVKY5EFAGSRcDT: 'Accept', fldgseNhrqlQQesiA: true } },
-      { id: 'recPlainReject', fields: { fldWVKY5EFAGSRcDT: 'Reject' } },
-      { id: 'recDualTodo', fields: { fldWVKY5EFAGSRcDT: 'Accept', fld7fzQNFhb7Oyy90: ['Participant', 'Facilitator'], fld52Y2AyWV8tECDy: 'TODO' } },
-      { id: 'recDualResolved', fields: { fldWVKY5EFAGSRcDT: 'Accept', fld7fzQNFhb7Oyy90: ['Participant', 'Facilitator'], fld52Y2AyWV8tECDy: 'Facilitator' } },
+      { id: 'recSentAlready', fields: { ...inRound, fldWVKY5EFAGSRcDT: 'Accept', fldgseNhrqlQQesiA: true } },
+      { id: 'recFlaggedUnsent', fields: { ...inRound, fldWVKY5EFAGSRcDT: 'Accept', fldYNTRHyWNGM0DtS: true } },
+      { id: 'recPlainReject', fields: { ...inRound, fldWVKY5EFAGSRcDT: 'Reject' } },
+      {
+        id: 'recDualTodo',
+        fields: {
+          ...inRound, fldWVKY5EFAGSRcDT: 'Accept', fld7fzQNFhb7Oyy90: ['Participant', 'Facilitator'], fld52Y2AyWV8tECDy: 'TODO',
+        },
+      },
+      {
+        id: 'recDualResolved',
+        fields: {
+          ...inRound, fldWVKY5EFAGSRcDT: 'Accept', fld7fzQNFhb7Oyy90: ['Participant', 'Facilitator'], fld52Y2AyWV8tECDy: 'Facilitator',
+        },
+      },
+      { id: 'recOtherRound', fields: { fldYaHSLqnvBXyjur: ['recRoundOther'], fldWVKY5EFAGSRcDT: 'Accept' } },
     ],
   });
 
-  test('counts reviewed applications in the round, excluding Withdrawn and duplicates in the query', async () => {
+  test('counts reviewed applications in the round, treating flagged-but-unsent as sent', async () => {
     fetchMock.mockResolvedValue(new Response(reviewedRecords));
     expect(await fetchDecisionEmailCounts('recRound')).toEqual({
-      reviewed: 4, alreadySent: 1, pending: 3, pendingAccepted: 2, pendingRejected: 1,
+      reviewed: 5, alreadySent: 2, pending: 3, pendingAccepted: 2, pendingRejected: 1,
     });
     const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
     const formula = request.searchParams.get('filterByFormula');
@@ -174,7 +187,7 @@ describe('decision emails', () => {
 
   test('splits flag writes into ten-record batches', async () => {
     const manyPending = JSON.stringify({
-      records: Array.from({ length: 11 }, (_, index) => ({ id: `recPending${index}`, fields: { fldWVKY5EFAGSRcDT: 'Accept' } })),
+      records: Array.from({ length: 11 }, (_, index) => ({ id: `recPending${index}`, fields: { ...inRound, fldWVKY5EFAGSRcDT: 'Accept' } })),
     });
     fetchMock.mockResolvedValueOnce(new Response(manyPending));
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
