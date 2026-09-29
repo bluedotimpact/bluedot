@@ -43,7 +43,7 @@ export const SideBar = ({
         <div className="flex min-w-0 flex-col">
           <H2 className="text-size-lg">{courseTitle}</H2>
           {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
-            <P className="text-size-xs text-secondary">{courseProgressData.courseProgress.percentage}% completed</P>
+            <P className="text-secondary">{courseProgressData.courseProgress.percentage}% completed</P>
           )}
         </div>
       </div>
