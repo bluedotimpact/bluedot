@@ -35,10 +35,9 @@ export const Callout = ({
   return (
     <div {...rest} className={cn('flex items-start gap-3 rounded-surface border p-4', surface, className)}>
       <Icon size={20} className={cn('mt-px shrink-0', fg)} aria-hidden="true" />
-      {/* Figma: actions stay beside the body while it keeps 220px, then wrap below it and fill the width.
-          With a close button on the trailing edge, actions always sit below the body. */}
+      {/* Figma: actions stay beside the body while it keeps 220px, then wrap below it and fill the width */}
       <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
-        <div className={cn('flex min-w-0 flex-col gap-0.5 break-words', onDismiss ? 'basis-full' : 'grow-[999] basis-[220px]')}>
+        <div className="flex min-w-0 grow-[999] basis-[220px] flex-col gap-0.5 break-words">
           {title && <p className={cn('text-size-sm font-semibold leading-snug', fg)}>{title}</p>}
           {children && <div className="text-size-xs leading-normal text-primary [&>*+*]:mt-2">{children}</div>}
         </div>
