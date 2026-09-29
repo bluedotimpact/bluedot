@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, ErrorSection, Modal, P, ProgressDots, Select, Textarea,
+  Callout, CTALinkOrButton, ErrorSection, Modal, P, ProgressDots, Select, Textarea,
 } from '@bluedot/ui';
 /**
  * Prevents barrel file import errors when importing COURSE_ROLE from @bluedot/db
@@ -10,7 +10,7 @@ import type { CourseRound, CourseRoundsData } from '../../server/routers/course-
 import { ONE_DAY_MS } from '../../lib/constants';
 import { formatMonthAndDay } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { CheckIcon, InfoIcon } from '../icons';
+import { CheckIcon } from '../icons';
 
 const TYPE_OPTIONS = [
   { value: 'Drop out', label: 'Drop out of the course' },
@@ -223,7 +223,10 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
 
   const renderForm = () => (
     <>
-      <InformationBanner />
+      <Callout>
+        If you're having trouble keeping up or need to adjust your schedule, consider deferring to a future round
+        instead of dropping out completely.
+      </Callout>
 
       <div className="flex flex-col gap-2">
         <p className="text-size-md font-medium text-black">1. What would you like to do?</p>
@@ -357,22 +360,6 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
         )}
       </div>
     </Modal>
-  );
-};
-
-const InformationBanner = () => {
-  return (
-    <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
-      <div className="flex flex-1 items-start justify-start gap-3">
-        <div className="flex items-center justify-start">
-          <InfoIcon className="shrink-0" />
-        </div>
-        <P className="text-bluedot-normal flex-1 justify-start">
-          If you're having trouble keeping up or need to adjust your schedule, consider deferring to a future round
-          instead of dropping out completely.
-        </P>
-      </div>
-    </div>
   );
 };
 

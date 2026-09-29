@@ -191,7 +191,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             />
           </div>
         )}
-        <InactiveCourseBanners courseSlug={courseSlug} />
+        <InactiveCourseBanners
+          courseSlug={courseSlug}
+          className="mx-auto max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] px-4 sm:px-spacing-x pt-6 md:pt-8"
+        />
       </div>
 
       {/* Main content section */}

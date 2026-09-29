@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Callout from './Callout';
+import { CollapsibleCallout } from './CollapsibleCallout';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 const meta = {
-  title: 'website/Callout',
-  component: Callout,
+  title: 'website/CollapsibleCallout',
+  component: CollapsibleCallout,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -13,7 +13,7 @@ const meta = {
     layout: 'fullscreen',
   },
   args: {},
-} satisfies Meta<typeof Callout>;
+} satisfies Meta<typeof CollapsibleCallout>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

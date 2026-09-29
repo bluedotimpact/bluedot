@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
-  ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
+  Callout, ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -322,14 +322,10 @@ const FacilitatorFeedbackPage = () => {
         <section className="bg-white rounded-lg border p-5 flex flex-col gap-3">
           {showIncompleteWarning && completedCount < totalCount ? (
             <>
-              <div className="flex gap-2 items-start bg-orange-50 text-orange-800 text-size-xs rounded-md p-3 border border-orange-200">
-                <PiWarningCircle className="shrink-0 mt-0.5 text-size-md" aria-hidden />
-                <p>
-                  <span className="font-semibold">{totalCount - completedCount} participants still need feedback.</span>
-                  {' '}
-                  Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
-                </p>
-              </div>
+              {/* Appears in response to a submit attempt, so announce it */}
+              <Callout tone="warning" role="alert" title={`${totalCount - completedCount} participants still need feedback.`}>
+                Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
+              </Callout>
               <button
                 type="button"
                 className="self-start text-size-xs text-bluedot-navy/50 underline cursor-pointer transition-colors hover:text-bluedot-navy/80 disabled:opacity-50 disabled:pointer-events-none"

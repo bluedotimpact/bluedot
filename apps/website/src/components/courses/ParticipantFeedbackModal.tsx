@@ -1,8 +1,8 @@
 import {
-  Avatar, Checkbox, ErrorSection, Modal, ModalTitle, Textarea,
+  Avatar, Callout, Checkbox, ErrorSection, Modal, ModalTitle, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
+import { FaCheck, FaLock } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 
 export type ParticipantFeedbackData = {
@@ -169,7 +169,9 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             onChange={(e) => setInvestmentNote(e.target.value)}
             className="min-h-[106px] resize-none"
           />
-          {isStandout && <StandoutNudge />}
+          {isStandout && (
+            <Callout>Sounds like they are a standout – a short note here would help us act on this.</Callout>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
@@ -199,15 +201,6 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
 };
 
 export default ParticipantFeedbackModal;
-
-const StandoutNudge: React.FC = () => (
-  <div className="flex gap-2 items-start bg-[#e5edfe] border border-[#c4d3f8] rounded-md p-[11px]">
-    <FaCircleInfo className="size-3.5 shrink-0 text-bluedot-normal mt-[3px]" aria-hidden />
-    <p className="text-size-xs leading-normal text-bluedot-normal">
-      Sounds like they are a standout – a short note here would help us act on this.
-    </p>
-  </div>
-);
 
 // --- RubricSelector ---
 

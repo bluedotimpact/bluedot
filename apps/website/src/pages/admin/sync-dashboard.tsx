@@ -1,6 +1,7 @@
 import type { SyncStatus } from '@bluedot/db';
 import {
   Breadcrumbs,
+  Callout,
   CTALinkOrButton,
   H3,
   P,
@@ -13,7 +14,6 @@ import { RiLoader4Line } from 'react-icons/ri';
 import MarketingHero from '../../components/MarketingHero';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
-import { WarningCircleIcon, WarningTriangleIcon } from '../../components/icons';
 
 const CURRENT_ROUTE = ROUTES.adminSyncDashboard;
 const HERO_SUBTITLE = 'Trigger a manual database sync and review the most recent activity.';
@@ -85,38 +85,22 @@ const SyncDashboard = () => {
     return (
       <PageChrome>
         <Section className="max-w-3xl">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-            <div className="flex items-center mb-4">
-              <div className="flex-shrink-0">
-                <WarningTriangleIcon size={32} className="text-red-600" />
-              </div>
-              <div className="ml-3">
-                <H3 className="text-red-800">Access Denied</H3>
-              </div>
+          <Callout tone="error" title="Access Denied">
+            <p>
+              {auth
+                ? 'You don\'t have permission to access the admin dashboard.'
+                : 'You need to log in to access the admin dashboard.'}
+            </p>
+            <div>
+              <p className="font-semibold">To access the admin dashboard:</p>
+              <ol className="list-decimal list-inside ml-4">
+                {!auth && <li>Log in with your BlueDot email address</li>}
+                <li>Confirm you're logged in with your BlueDot email address that's associated with the BlueDot Notion workspace</li>
+                <li>If you believe you should have access but still see this message, please ask in the Slack channel</li>
+              </ol>
             </div>
-            <div className="text-red-700 space-y-4">
-              <P className="text-red-700">
-                {auth
-                  ? 'You don\'t have permission to access the admin dashboard.'
-                  : 'You need to log in to access the admin dashboard.'}
-              </P>
-
-              <div>
-                <P className="font-semibold text-red-800 mb-2">To access the admin dashboard:</P>
-                <ol className="list-decimal list-inside space-y-2 ml-4 text-red-700">
-                  {!auth && <li>Log in with your BlueDot email address</li>}
-                  <li>Confirm you're logged in with your BlueDot email address that's associated with the BlueDot Notion workspace</li>
-                  <li>If you believe you should have access but still see this message, please ask in the Slack channel</li>
-                </ol>
-              </div>
-
-              <div className="pt-2 border-t border-red-200">
-                <P className="text-size-sm text-red-700">
-                  Only authorized team members with access to the BlueDot Notion workspace can use this dashboard.
-                </P>
-              </div>
-            </div>
-          </div>
+            <p>Only authorized team members with access to the BlueDot Notion workspace can use this dashboard.</p>
+          </Callout>
         </Section>
       </PageChrome>
     );
@@ -127,24 +111,10 @@ const SyncDashboard = () => {
     return (
       <PageChrome>
         <Section className="max-w-3xl">
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
-            <div className="flex items-center mb-4">
-              <div className="flex-shrink-0">
-                <WarningCircleIcon size={32} className="text-amber-600" />
-              </div>
-              <div className="ml-3">
-                <H3 className="text-amber-800">Connection Error</H3>
-              </div>
-            </div>
-            <div className="text-amber-700 space-y-4">
-              <P className="text-amber-700">Unable to load sync dashboard. Please check your connection and try again.</P>
-              <div className="pt-2 border-t border-amber-200">
-                <P className="text-size-sm text-amber-700">
-                  If this problem persists, please check Slack to see if there was an ongoing issue
-                </P>
-              </div>
-            </div>
-          </div>
+          <Callout tone="warning" title="Connection Error">
+            <p>Unable to load sync dashboard. Please check your connection and try again.</p>
+            <p>If this problem persists, please check Slack to see if there was an ongoing issue</p>
+          </Callout>
         </Section>
       </PageChrome>
     );
@@ -184,14 +154,13 @@ const SyncDashboard = () => {
         </div>
 
         {/* Important note about manual vs automatic syncs */}
-        <div className="container-lined mb-8 p-4 bg-blue-50 border-blue-200">
-          <P className="font-semibold text-blue-900 mb-2">Important notes</P>
-          <ul className="text-size-sm text-blue-800 space-y-1 list-disc list-inside">
+        <Callout title="Important notes" className="mb-8">
+          <ul className="list-disc list-inside">
             <li>Syncs that pg-sync-service starts itself (e.g. after a schema change) are listed here as requested by pg-sync-service</li>
             <li>Check the Slack channel for sync start/stop updates</li>
             <li>If syncs appear stuck, check #pg-sync-alerts Slack channel for pg-sync-service status</li>
           </ul>
-        </div>
+        </Callout>
 
         {/* Recent activity (last 24 hours) */}
         <div>

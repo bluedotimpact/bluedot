@@ -98,7 +98,7 @@ const MyCoursesPage = () => {
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
-      <MyBlueDotLayout route={CURRENT_ROUTE} afterBreadcrumbs={<InactiveCourseBanners />}>
+      <MyBlueDotLayout route={CURRENT_ROUTE} afterBreadcrumbs={<InactiveCourseBanners className="section-base pt-8" />}>
         <div className="flex min-h-[60vh] flex-col gap-6">
           {isLoading && (
             <div className="flex flex-1 items-center justify-center">

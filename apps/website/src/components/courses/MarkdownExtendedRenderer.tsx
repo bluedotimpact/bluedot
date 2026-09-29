@@ -11,7 +11,7 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import Greeting from './Greeting';
 import Embed from './Embed';
-import Callout from './Callout';
+import { CollapsibleCallout } from './CollapsibleCallout';
 
 import Exercise from './exercises/Exercise';
 
@@ -73,7 +73,8 @@ export const getSupportedComponents = () => ({
   Greeting,
   Embed,
   Collapsible,
-  Callout,
+  // Authored course content uses the <Callout> tag
+  Callout: CollapsibleCallout,
   Exercise,
   a: Link,
 });

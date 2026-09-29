@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
-import { H1, H2 } from '@bluedot/ui';
+import { Callout, H1, H2 } from '@bluedot/ui';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
 } from '../lib/client/types';
@@ -213,7 +213,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   return (
     <div className="space-y-6 overflow-hidden">
-      {saveError && <p role="alert" className="rounded-surface border border-error-border bg-error-bg p-4 text-size-sm text-error-fg">{saveError}</p>}
+      {saveError && <Callout tone="error" role="alert">{saveError}</Callout>}
       {roundComplete && confettiSize && (
         <Confetti
           recycle={false}

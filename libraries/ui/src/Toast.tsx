@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { IconType } from 'react-icons';
-import { FaCircleCheck, FaCircleXmark, FaTriangleExclamation } from 'react-icons/fa6';
 import { CloseIcon } from './icons/CloseIcon';
 import {
   TOAST_EXIT_DURATION_MS, useToastStore, type ToastEntry, type ToastVariant,
 } from './toastStore';
+import { TONE_STYLES } from './toneStyles';
 import { cn } from './utils';
 
+// Unlike Callout, Toast tints the description as well as the title
 const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType; role: 'status' | 'alert' }> = {
   default: { container: 'border-default bg-raised text-primary', role: 'status' },
-  success: { container: 'border-success-border bg-success-bg text-success-fg', Icon: FaCircleCheck, role: 'status' },
-  warning: { container: 'border-warning-border bg-warning-bg text-warning-fg', Icon: FaTriangleExclamation, role: 'status' },
-  error: { container: 'border-error-border bg-error-bg text-error-fg', Icon: FaCircleXmark, role: 'alert' },
+  success: { container: cn(TONE_STYLES.success.surface, TONE_STYLES.success.fg), Icon: TONE_STYLES.success.Icon, role: 'status' },
+  warning: { container: cn(TONE_STYLES.warning.surface, TONE_STYLES.warning.fg), Icon: TONE_STYLES.warning.Icon, role: 'status' },
+  error: { container: cn(TONE_STYLES.error.surface, TONE_STYLES.error.fg), Icon: TONE_STYLES.error.Icon, role: 'alert' },
 };
 
 const TOAST_ANIMATION_CSS = `
