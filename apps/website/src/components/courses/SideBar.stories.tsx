@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { loggedInStory, loggedOutStory } from '@bluedot/ui/src/utils/storybook';
-import SideBar from './SideBar';
+import { SideBar } from './SideBar';
 import {
   mockUnits,
   mockChunks,
@@ -32,7 +32,6 @@ const meta: Meta<typeof SideBar> = {
     units: mockUnits,
     currentUnitNumber: 1,
     currentChunkIndex: 0,
-    onChunkSelect() {},
     unitChunks: mockChunks,
   },
   ...loggedOutStory(),
