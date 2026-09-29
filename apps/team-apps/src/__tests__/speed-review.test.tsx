@@ -193,6 +193,35 @@ test('summary offers both send buttons and flags the session applications after 
   expect(screen.getByText('Decision email sent.')).toBeTruthy();
 });
 
+test('an in-flight queue from an earlier visit rehydrates the tracker on load', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  vi.mocked(authFetch).mockImplementation(async (input) => {
+    const url = input as string;
+    if (url.startsWith('/api/decision-email-counts')) {
+      return {
+        ok: true,
+        json: async () => ({
+          reviewed: 5, alreadySent: 4, confirmedSent: 1, pending: 1, pendingAccepted: 1, pendingRejected: 0,
+        }),
+      } as Response;
+    }
+
+    if (url.startsWith('/api/round-stats')) {
+      return { ok: true, json: async () => ({ total: 5, evaluated: 4, accepted: 2 }) } as Response;
+    }
+
+    return { ok: true } as Response;
+  });
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  expect(screen.getByText('Sending emails… (0 of 3) You can leave this page.')).toBeTruthy();
+});
+
 test('a large send shows queueing progress while the flags are being written', async () => {
   response.applications = [{ id: 'recOne', name: 'First test applicant' }];
   let releaseSend: (() => void) | undefined;
