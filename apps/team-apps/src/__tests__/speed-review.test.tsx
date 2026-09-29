@@ -20,7 +20,7 @@ vi.mock('@bluedot/ui', () => ({
   ProgressDots: () => <span>Loading</span>,
 }));
 vi.mock('../components/RoundPicker', () => ({
-  RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string) => void }) => <button type="button" onClick={() => onSelect({ id: 'recTestRound', name: testRound.name, course: testRound.name.split('(')[0]!.trim() }, 'top')}>Start test round</button>,
+  RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string) => void }) => <button type="button" onClick={() => onSelect({ id: 'recTestRound', name: testRound.name, course: (testRound.name.split('(')[0] ?? testRound.name).trim() }, 'top')}>Start test round</button>,
 }));
 vi.mock('../components/ApplicationCard', () => ({ ApplicationCard: ({ application }: { application: Application }) => <p>{application.name}</p> }));
 vi.mock('../components/MoveToAgiscControl', () => ({

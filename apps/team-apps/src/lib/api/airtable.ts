@@ -402,6 +402,16 @@ export const moveApplicationToAgisc = async (applicationId: string, roundId: str
 // speed-review.tsx), so undoing one always restores that course.
 export const undoMoveToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
   if (isLocalPreview()) return previewData.undoMoveToAgisc(applicationId);
+  const { records } = await fetchPage(
+    APPLICATIONS_URL,
+    { filterByFormula: `RECORD_ID() = "${applicationId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },
+    ['fldkEQ0zBUhqpIuJn'],
+  );
+  const course = str(records[0]?.fields.fldkEQ0zBUhqpIuJn);
+  if (course !== 'AGI Strategy') {
+    throw createHttpError(409, 'This application is not currently moved to AGI Strategy, so there is nothing to undo.', { expose: true });
+  }
+
   await patchSingle(applicationId, {
     fldkEQ0zBUhqpIuJn: 'Technical AI Safety', // Course (single select)
     fldYaHSLqnvBXyjur: [roundId], // Round (linked record)

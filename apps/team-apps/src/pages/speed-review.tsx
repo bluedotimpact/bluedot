@@ -351,6 +351,9 @@ const SpeedReviewPage = () => {
     } catch (error) {
       failedUndoMove.current = true;
       failedRating.current = null;
+      // Keep the toast alive past its usual expiry so the undo stays reachable
+      // after "Return to application".
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
       setSaveError(error instanceof Error ? error.message : 'The move could not be undone.');
     }
   }, [state]);
@@ -546,8 +549,34 @@ const SpeedReviewPage = () => {
 
   // ── Reviewing ─────────────────────────────────────────────────────────────
 
+  const undoToastElement = undoToast && (
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg flex max-w-[90vw] items-center gap-3 z-20">
+      <span>{undoToast.kind === 'moved' ? 'Moved' : 'Rated'} {undoToast.name}</span>
+      <button
+        type="button"
+        disabled={pendingWrites > 0}
+        onClick={() => {
+          if (undoToast.kind === 'moved') void handleUndoMove();
+          else handleUndo();
+        }}
+        className="font-semibold text-accent hover:text-bluedot-lighter underline underline-offset-2 disabled:opacity-40"
+      >
+        {undoToast.kind === 'moved' ? 'Undo move' : 'Re-rate'}
+      </button>
+    </div>
+  );
+
   const [current] = state.queue;
-  if (!current) return null;
+  if (!current) {
+    // The queue can be empty while a prefetch is still loading. Keep the undo
+    // toast reachable so acting on the last card stays reversible meanwhile.
+    return (
+      <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-center justify-center">
+        <ProgressDots className="text-accent" />
+        {undoToastElement}
+      </div>
+    );
+  }
 
   if (prevCurrentIdRef.current !== current.id) {
     prevCurrentIdRef.current = current.id;
@@ -624,22 +653,7 @@ const SpeedReviewPage = () => {
         </div>
       )}
 
-      {undoToast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg flex max-w-[90vw] items-center gap-3 z-20">
-          <span>{undoToast.kind === 'moved' ? 'Moved' : 'Rated'} {undoToast.name}</span>
-          <button
-            type="button"
-            disabled={pendingWrites > 0}
-            onClick={() => {
-              if (undoToast.kind === 'moved') void handleUndoMove();
-              else handleUndo();
-            }}
-            className="font-semibold text-accent hover:text-bluedot-lighter underline underline-offset-2 disabled:opacity-40"
-          >
-            {undoToast.kind === 'moved' ? 'Undo move' : 'Re-rate'}
-          </button>
-        </div>
-      )}
+      {undoToastElement}
 
       {timeoutMessage && (
         <div role="status" className={`fixed left-1/2 -translate-x-1/2 w-max max-w-[calc(100vw-2rem)] text-center bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg pointer-events-none ${undoToast ? 'bottom-16' : 'bottom-6'}`}>

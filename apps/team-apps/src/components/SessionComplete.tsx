@@ -65,6 +65,17 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   const effectiveRating = (r: RatedApplication): RatingValue => overrides[r.id] ?? r.rating;
 
+  // Stats are decorative here — a failed refresh must not read as a failed save.
+  const refreshStats = async () => {
+    setRoundStats(null);
+    try {
+      const stats = await authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`);
+      if (stats.ok) setRoundStats(await stats.json());
+    } catch {
+      // Leave the progress bar in its loading state.
+    }
+  };
+
   const saveChange = async (id: string, rating?: RatingValue) => {
     if (useNavigationState.getState().pendingWrites > 0) return;
     setSaveError(null);
@@ -78,12 +89,12 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       if (rating) setOverrides((prev) => ({ ...prev, [id]: rating }));
       else setResetIds((prev) => new Set(prev).add(id));
       setEditingId(null);
-      setRoundStats(null);
-      const stats = await authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`);
-      if (stats.ok) setRoundStats(await stats.json());
     } catch (error) {
       setSaveError(error instanceof Error ? error.message : 'This change could not be saved.');
+      return;
     }
+
+    await refreshStats();
   };
 
   // Returns a moved application to this round; it comes back unrated, so the
@@ -99,12 +110,12 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       });
       if (!response.ok) throw new Error('This change could not be saved. Please try again.');
       setResetIds((prev) => new Set(prev).add(id));
-      setRoundStats(null);
-      const stats = await authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`);
-      if (stats.ok) setRoundStats(await stats.json());
     } catch (error) {
       setSaveError(error instanceof Error ? error.message : 'This change could not be saved.');
+      return;
     }
+
+    await refreshStats();
   };
 
   const active = rated.filter((r) => !resetIds.has(r.id));
