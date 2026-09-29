@@ -129,7 +129,10 @@ describe('real-data Airtable adapter', () => {
 });
 
 describe('decision emails', () => {
-  const inRound = { fldYaHSLqnvBXyjur: ['recRound'] };
+  // The participant role mirrors the server-side filter: Airtable would never
+  // return a record without "Participant" in [a] Role. Dual-role records
+  // override the role key below.
+  const inRound = { fldYaHSLqnvBXyjur: ['recRound'], fld7fzQNFhb7Oyy90: ['Participant'] };
   const reviewedRecords = JSON.stringify({
     records: [
       { id: 'recSentAlready', fields: { ...inRound, fldWVKY5EFAGSRcDT: 'Accept', fldgseNhrqlQQesiA: true } },
