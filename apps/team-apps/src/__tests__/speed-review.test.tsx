@@ -237,7 +237,6 @@ test('a large send shows queueing progress while the flags are being written', a
       });
       counts.alreadySent += 1;
       counts.confirmedSent += 1;
-      counts.pending -= 1;
       return { ok: true, json: async () => ({ flagged: 1 }) } as Response;
     }
 
@@ -264,6 +263,13 @@ test('a large send shows queueing progress while the flags are being written', a
   });
   expect(screen.getByText('Queueing emails… (0 of 1) Keep this page open.')).toBeTruthy();
   expect(screen.queryByRole('dialog')).toBeNull();
+
+  // A flag batch lands (pending drops) while the request is still held.
+  counts.pending -= 1;
+  await act(async () => {
+    vi.advanceTimersByTime(5000);
+  });
+  expect(screen.getByText('Queueing emails… (1 of 1) Keep this page open.')).toBeTruthy();
 
   await act(async () => {
     releaseSend!();

@@ -61,7 +61,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   // confirms them; progress is the flagged-but-unconfirmed queue draining to
   // zero, so confirmations from earlier sends can never complete it early.
   const [sendTracker, setSendTracker] = useState<
-    | { phase: 'queueing'; expected: number; pendingAtStart: number }
+    | { phase: 'queueing'; expected: number; pendingAtStart: number | null }
     | { phase: 'sending'; flagged: number; total: number }
     | null
   >(null);
@@ -112,7 +112,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const trackerConfirmed = sendTracker?.phase === 'sending' && trackerRemaining !== null
     ? Math.min(sendTracker.total, Math.max(0, sendTracker.total - trackerRemaining))
     : 0;
-  const trackerQueued = sendTracker?.phase === 'queueing' && emailCounts
+  const trackerQueued = sendTracker?.phase === 'queueing' && sendTracker.pendingAtStart !== null && emailCounts
     ? Math.min(sendTracker.expected, Math.max(0, sendTracker.pendingAtStart - emailCounts.pending))
     : 0;
 
@@ -240,7 +240,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
     // ten-record batches), so close the modal and show queueing progress
     // immediately instead of leaving the buttons silently greyed out.
     const expected = scope === 'round' ? emailCounts?.pending ?? 0 : sessionEmailIds.length;
-    const pendingAtStart = emailCounts?.pending ?? expected;
+    // Progress needs the round's pending count from before the send; without
+    // it the queueing display stays numberless rather than guessing.
+    const pendingAtStart = emailCounts?.pending ?? null;
     setConfirmingScope(null);
     setSendTracker({ phase: 'queueing', expected, pendingAtStart });
     try {
@@ -471,7 +473,16 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         </div>
         {emailNotice && !confirmingScope && <Callout tone="error" role="alert">{emailNotice}</Callout>}
         {sendTracker && !confirmingScope && (() => {
-          if (sendTracker.phase === 'queueing') return <Callout tone="info" role="status">{`Queueing emails… (${trackerQueued} of ${sendTracker.expected}) Keep this page open.`}</Callout>;
+          if (sendTracker.phase === 'queueing') {
+            return (
+              <Callout tone="info" role="status">
+                {sendTracker.pendingAtStart === null
+                  ? 'Queueing emails… Keep this page open.'
+                  : `Queueing emails… (${trackerQueued} of ${sendTracker.expected}) Keep this page open.`}
+              </Callout>
+            );
+          }
+
           if (sendTracker.flagged === 0) return <Callout tone="info" role="status">Nothing to send — the selected applications already had their emails.</Callout>;
           if (trackerDone) return <Callout tone="success" role="status">{sendTracker.flagged === 1 ? 'Decision email sent.' : `All ${sendTracker.flagged} decision emails sent.`}</Callout>;
           if (stalePolls >= 3) return <Callout tone="warning" role="status">{`Sending emails… (${trackerConfirmed} of ${sendTracker.total}) Progress updates aren't coming through — refresh the page to re-check.`}</Callout>;
