@@ -33,6 +33,7 @@ const APPLICATION_FIELDS = [
   'fldRXdZQ0rnuVOcl7', // AI application summary
   'fldYaHSLqnvBXyjur', // Round (for server-side filtering)
   'fld1rOZGAHBRcdJcM', // [*] Full name
+  'fld7fzQNFhb7Oyy90', // [a] Role
   'fldooZSRRtcLSKKvo', // [TAIS] Allow to move to AGISC
   'fldpYmO0PaZxRFL5v', // Previous courses (lookup)
   'fldL5K79cFu6Bju2N', // Commitment score
@@ -114,6 +115,15 @@ const fetchAll = async (
   return all;
 };
 
+const appliedRoles = (fields: Record<string, unknown>): string[] => (
+  Array.isArray(fields.fld7fzQNFhb7Oyy90) ? (fields.fld7fzQNFhb7Oyy90 as unknown[]).map(String) : []
+);
+
+const isDualRoleApplicant = (fields: Record<string, unknown>): boolean => {
+  const roles = appliedRoles(fields);
+  return roles.includes('Participant') && roles.includes('Facilitator');
+};
+
 const toApplication = (record: AirtableRecord): Application => {
   const f = record.fields;
   return {
@@ -134,6 +144,7 @@ const toApplication = (record: AirtableRecord): Application => {
     applicationSource: str(f.flduEoJRp6uvz74xo),
     utmSource: str(f.fldQ9PM3ejhilPFc6),
     aiSummary: str(f.fldRXdZQ0rnuVOcl7),
+    alsoAppliedToFacilitate: isDualRoleApplicant(f),
     allowMoveToAgisc: !!f.fldooZSRRtcLSKKvo,
     previousCourses: Array.isArray(f.fldpYmO0PaZxRFL5v) ? [...new Set((f.fldpYmO0PaZxRFL5v as unknown[]).map(String).map((s) => s.trim()).filter(Boolean))] : undefined,
     commitmentScore: num(f.fldL5K79cFu6Bju2N),
@@ -358,35 +369,34 @@ const checkWriteResponse = async (response: Response): Promise<void> => {
   }
 };
 
-const patchBatch = async (batch: { id: string; opinion: string; decision: string }[]): Promise<void> => {
-  const response = await fetch(APPLICATIONS_URL, {
-    method: 'PATCH',
-    headers: headers(),
-    body: JSON.stringify({
-      records: batch.map(({ id, opinion, decision }) => ({
-        id,
-        fields: {
-          fldOm6fJcqhq78M71: opinion, // Human opinion
-          fldWVKY5EFAGSRcDT: decision, // Decision
-        },
-      })),
-      returnFieldsByFieldId: true,
-    }),
-  });
-  await checkWriteResponse(response);
+// PATCHes records in Airtable's ten-record batches, sequentially with a pause
+// between batches to stay under the 5 req/s base rate limit when flagging a
+// whole round at once.
+const patchRecords = async (records: { id: string; fields: Record<string, unknown> }[]): Promise<void> => {
+  const BATCH_SIZE = 10;
+  for (let i = 0; i < records.length; i += BATCH_SIZE) {
+    if (i > 0) {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        setTimeout(resolve, 250);
+      });
+    }
+
+    // eslint-disable-next-line no-await-in-loop
+    const response = await fetch(APPLICATIONS_URL, {
+      method: 'PATCH',
+      headers: headers(),
+      body: JSON.stringify({
+        records: records.slice(i, i + BATCH_SIZE),
+        returnFieldsByFieldId: true,
+      }),
+    });
+    // eslint-disable-next-line no-await-in-loop
+    await checkWriteResponse(response);
+  }
 };
 
-const patchSingle = async (id: string, fields: Record<string, unknown>): Promise<void> => {
-  const response = await fetch(APPLICATIONS_URL, {
-    method: 'PATCH',
-    headers: headers(),
-    body: JSON.stringify({
-      records: [{ id, fields }],
-      returnFieldsByFieldId: true,
-    }),
-  });
-  await checkWriteResponse(response);
-};
+const patchSingle = async (id: string, fields: Record<string, unknown>): Promise<void> => patchRecords([{ id, fields }]);
 
 export const moveApplicationToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
   if (isLocalPreview()) return previewData.moveApplicationToAgisc(applicationId, roundId);
@@ -429,11 +439,89 @@ export const resetOpinion = async (id: string): Promise<void> => {
 
 export const writeOpinions = async (opinions: { id: string; opinion: string; decision: string }[]): Promise<void> => {
   if (isLocalPreview()) return previewData.writeOpinions(opinions);
-  const BATCH_SIZE = 10;
-  const batches: { id: string; opinion: string; decision: string }[][] = [];
-  for (let i = 0; i < opinions.length; i += BATCH_SIZE) {
-    batches.push(opinions.slice(i, i + BATCH_SIZE));
-  }
+  await patchRecords(opinions.map(({ id, opinion, decision }) => ({
+    id,
+    fields: {
+      fldOm6fJcqhq78M71: opinion, // Human opinion
+      fldWVKY5EFAGSRcDT: decision, // Decision
+    },
+  })));
+};
 
-  await Promise.all(batches.map(patchBatch));
+// ── Decision emails ─────────────────────────────────────────────────────────
+// Flagging works by ticking "[!] Send decision email"; the deployed Airtable
+// automation "Send decision emails" does the sending (via Customer.io) and
+// ticks "[?] Decision email sent". Its trigger requires sent = false, so
+// re-flagging an already-emailed application can never double-send.
+
+const SEND_DECISION_EMAIL_FIELD = 'fldYNTRHyWNGM0DtS'; // [!] Send decision email
+const DECISION_EMAIL_SENT_FIELD = 'fldgseNhrqlQQesiA'; // [?] Decision email sent
+const APPLICATION_ROLE_FIELD = 'fld52Y2AyWV8tECDy'; // Role (single select)
+
+export type DecisionEmailCounts = {
+  reviewed: number;
+  alreadySent: number;
+  pending: number;
+  pendingAccepted: number;
+  pendingRejected: number;
+};
+
+// Withdrawn is deliberately excluded: no decision email exists for it.
+const reviewedInRoundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), OR({${APPLICATION_DECISION_FIELD}} = "Accept", {${APPLICATION_DECISION_FIELD}} = "Reject"), NOT({${APPLICATION_DUPLICATE_FIELD}}))`;
+
+// FIND could substring-match a partial round id, so records are also checked
+// against the linked Round field, mirroring fetchApplications' matchesRound
+// double-check. Flagging the wrong round's applications sends real emails.
+const fetchReviewedInRound = async (roundId: string): Promise<AirtableRecord[]> => {
+  const records = await fetchAll(
+    APPLICATIONS_URL,
+    { filterByFormula: reviewedInRoundFilter(roundId), returnFieldsByFieldId: 'true' },
+    [APPLICATION_DECISION_FIELD, DECISION_EMAIL_SENT_FIELD, SEND_DECISION_EMAIL_FIELD, APPLICATION_ROLE_FIELD, 'fld7fzQNFhb7Oyy90', 'fldYaHSLqnvBXyjur'],
+  );
+  return records.filter((r) => matchesRound(r, roundId));
+};
+
+// A flagged application's email is already on its way, so it counts as sent
+// rather than pending. This also keeps counts truthful when refreshed before
+// the automation has marked the record.
+const emailSentOrSending = (fields: Record<string, unknown>): boolean => !!fields[DECISION_EMAIL_SENT_FIELD] || !!fields[SEND_DECISION_EMAIL_FIELD];
+
+export const fetchDecisionEmailCounts = async (roundId: string): Promise<DecisionEmailCounts> => {
+  if (isLocalPreview()) return previewData.fetchDecisionEmailCounts();
+  const records = await fetchReviewedInRound(roundId);
+  const pending = records.filter((r) => !emailSentOrSending(r.fields));
+  const pendingAccepted = pending.filter((r) => str(r.fields[APPLICATION_DECISION_FIELD]) === 'Accept').length;
+  return {
+    reviewed: records.length,
+    alreadySent: records.length - pending.length,
+    pending: pending.length,
+    pendingAccepted,
+    pendingRejected: pending.length - pendingAccepted,
+  };
+};
+
+export const flagDecisionEmails = async (roundId: string, applicationIds?: string[]): Promise<{ flagged: number }> => {
+  if (isLocalPreview()) return previewData.flagDecisionEmails(applicationIds);
+  const records = await fetchReviewedInRound(roundId);
+  const scope = applicationIds ? new Set(applicationIds) : undefined;
+  const pending = records.filter((r) => !emailSentOrSending(r.fields) && (!scope || scope.has(r.id)));
+
+  await patchRecords(pending.map((r) => {
+    // Dual-role applicants are created with Role = "TODO", which leaves the
+    // "[*] Email flow" formula empty on Accept and the email silently unsent.
+    // Speed Review decides in the participant pipeline, so set Participant —
+    // but never overwrite a Role someone has already resolved.
+    const role = str(r.fields[APPLICATION_ROLE_FIELD]);
+    const roleUnresolved = role !== 'Participant' && role !== 'Facilitator';
+    const setRole = isDualRoleApplicant(r.fields) && roleUnresolved;
+    return {
+      id: r.id,
+      fields: {
+        [SEND_DECISION_EMAIL_FIELD]: true,
+        ...(setRole ? { [APPLICATION_ROLE_FIELD]: 'Participant' } : {}),
+      },
+    };
+  }));
+
+  return { flagged: pending.length };
 };

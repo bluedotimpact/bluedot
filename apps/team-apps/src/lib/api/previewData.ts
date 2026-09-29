@@ -1,5 +1,5 @@
 import type { Application } from '../client/types';
-import type { Round, RoundStats } from './airtable';
+import type { DecisionEmailCounts, Round, RoundStats } from './airtable';
 
 const rounds: Round[] = [
   { id: 'recPreviewRound01', name: 'AGI Strategy (sample round)', course: 'AGI Strategy' },
@@ -7,7 +7,7 @@ const rounds: Round[] = [
 ];
 const people: Application[] = [
   {
-    id: 'recSamplePerson01', name: 'Alex Morgan', jobTitle: 'Policy researcher', organisation: 'Example Institute', experience: 'Three years researching technology policy and public sector procurement. Led a cross-functional project comparing AI assurance approaches.', pathToImpact: 'Help public institutions evaluate advanced AI systems and make better procurement decisions.', impressiveProject: 'Built an open assessment framework used by a small group of public sector researchers.', reasoning: 'I want a stronger technical grounding to connect my policy work with practical questions about model evaluations.', skills: 'Research design, policy analysis, stakeholder interviews.', totalScore: 12, commitmentScore: 4, impressivenessScore: 4, technicalSkillScore: 4, allowMoveToAgisc: true,
+    id: 'recSamplePerson01', name: 'Alex Morgan', jobTitle: 'Policy researcher', organisation: 'Example Institute', experience: 'Three years researching technology policy and public sector procurement. Led a cross-functional project comparing AI assurance approaches.', pathToImpact: 'Help public institutions evaluate advanced AI systems and make better procurement decisions.', impressiveProject: 'Built an open assessment framework used by a small group of public sector researchers.', reasoning: 'I want a stronger technical grounding to connect my policy work with practical questions about model evaluations.', skills: 'Research design, policy analysis, stakeholder interviews.', totalScore: 12, commitmentScore: 4, impressivenessScore: 4, technicalSkillScore: 4, allowMoveToAgisc: true, alsoAppliedToFacilitate: true,
   },
   {
     id: 'recSamplePerson02', name: 'Sam Chen', jobTitle: 'Software engineer', organisation: 'Example Labs', experience: 'Develops infrastructure for machine learning experiments. Recently started an independent reading group on interpretability.', pathToImpact: 'Build evaluation infrastructure that makes safety research faster and easier to reproduce.', impressiveProject: 'Created a reproducible benchmark for comparing changes in model behavior across training runs.', totalScore: 11, commitmentScore: 4, impressivenessScore: 4, technicalSkillScore: 3, allowMoveToAgisc: true,
@@ -20,10 +20,12 @@ const people: Application[] = [
   },
 ];
 
-type PreviewState = { opinions: Record<string, { opinion: string; decision: string }>; moved: Record<string, string> };
+type PreviewState = { opinions: Record<string, { opinion: string; decision: string }>; moved: Record<string, string>; emailsSent: Record<string, true> };
 const previewGlobal = globalThis as typeof globalThis & { blueDotAppsPreview?: PreviewState };
 const state = () => {
-  previewGlobal.blueDotAppsPreview ??= { opinions: {}, moved: {} };
+  previewGlobal.blueDotAppsPreview ??= { opinions: {}, moved: {}, emailsSent: {} };
+  // Next.js hot reload can preserve a state object created before emailsSent existed.
+  previewGlobal.blueDotAppsPreview.emailsSent ??= {};
   return previewGlobal.blueDotAppsPreview;
 };
 
@@ -45,5 +47,26 @@ export const previewData = {
   },
   undoMoveToAgisc: async (id: string) => {
     delete state().moved[id];
+  },
+  fetchDecisionEmailCounts: async (): Promise<DecisionEmailCounts> => {
+    const { opinions, emailsSent } = state();
+    const reviewedIds = Object.keys(opinions);
+    const pendingIds = reviewedIds.filter((id) => !emailsSent[id]);
+    const pendingAccepted = pendingIds.filter((id) => opinions[id]?.decision === 'Accept').length;
+    return {
+      reviewed: reviewedIds.length,
+      alreadySent: reviewedIds.length - pendingIds.length,
+      pending: pendingIds.length,
+      pendingAccepted,
+      pendingRejected: pendingIds.length - pendingAccepted,
+    };
+  },
+  flagDecisionEmails: async (applicationIds?: string[]): Promise<{ flagged: number }> => {
+    const scope = applicationIds ? new Set(applicationIds) : undefined;
+    const pending = Object.keys(state().opinions).filter((id) => !state().emailsSent[id] && (!scope || scope.has(id)));
+    pending.forEach((id) => {
+      state().emailsSent[id] = true;
+    });
+    return { flagged: pending.length };
   },
 };

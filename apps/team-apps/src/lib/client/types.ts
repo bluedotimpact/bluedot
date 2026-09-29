@@ -16,6 +16,7 @@ export type Application = {
   applicationSource?: string;
   utmSource?: string;
   aiSummary?: string;
+  alsoAppliedToFacilitate?: boolean;
   allowMoveToAgisc?: boolean;
   previousCourses?: string[];
   commitmentScore?: number;
