@@ -41,7 +41,7 @@ export const SideBar = ({
       <div className="flex flex-row items-center gap-4 p-6">
         <CourseIcon courseSlug={courseSlug} size="xlarge" />
         <div className="flex min-w-0 flex-col">
-          <H2 className="text-size-md">{courseTitle}</H2>
+          <H2 className="text-size-lg">{courseTitle}</H2>
           {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
             <P className="text-size-xs text-secondary">{courseProgressData.courseProgress.percentage}% completed</P>
           )}
