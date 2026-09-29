@@ -50,7 +50,7 @@ export const MobileCourseModal = ({
     >
       <div className="w-full max-w-modal">
         {/* The modal header already draws a bottom border; the first unit's divider would double it. */}
-        <nav aria-label="Course content" className="px-2 [&>details:first-child]:border-t-0">
+        <nav aria-label="Course content" className="[&>details:first-child]:border-t-0">
           {units.map((unit) => (
             <CourseSidebarUnit
               key={unit.id}
@@ -64,7 +64,7 @@ export const MobileCourseModal = ({
             />
           ))}
         </nav>
-        <div className="mx-2 border-t border-subtle py-4 empty:hidden">
+        <div className="border-t border-subtle py-4 empty:hidden">
           {certificateData?.status === 'is-facilitator'
             ? <SidebarFacilitateAgainPanel courseSlug={courseSlug} />
             : (
