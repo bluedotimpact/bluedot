@@ -54,7 +54,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const [emailCounts, setEmailCounts] = useState<DecisionEmailCounts | null>(null);
   const [countsError, setCountsError] = useState(false);
   const [confirmingScope, setConfirmingScope] = useState<'session' | 'round' | null>(null);
-  const [emailNotice, setEmailNotice] = useState<{ tone: 'success' | 'error'; message: string } | null>(null);
+  const [emailNotice, setEmailNotice] = useState<string | null>(null);
   // Live progress of the last send. Progress is the round's flagged-but-not-
   // yet-confirmed queue draining to zero, so confirmations from earlier sends
   // can never complete this tracker early.
@@ -235,7 +235,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       const queued = fresh ? Math.max(0, fresh.alreadySent - fresh.confirmedSent) : flagged;
       setSendTracker({ flagged, total: queued });
     } catch (error) {
-      setEmailNotice({ tone: 'error', message: error instanceof Error ? error.message : 'The decision emails could not be triggered.' });
+      setEmailNotice(error instanceof Error ? error.message : 'The decision emails could not be triggered.');
     }
   };
 
@@ -441,7 +441,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             })()}
           </span>
         </div>
-        {emailNotice && !confirmingScope && <Callout tone={emailNotice.tone} role={emailNotice.tone === 'error' ? 'alert' : 'status'}>{emailNotice.message}</Callout>}
+        {emailNotice && !confirmingScope && <Callout tone="error" role="alert">{emailNotice}</Callout>}
         {sendTracker && !confirmingScope && (() => {
           if (sendTracker.flagged === 0) return <Callout tone="info" role="status">Nothing to send — the selected applications already had their emails.</Callout>;
           if (trackerDone) return <Callout tone="success" role="status">{sendTracker.flagged === 1 ? 'Decision email sent.' : `All ${sendTracker.flagged} decision emails sent.`}</Callout>;
@@ -490,7 +490,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               <span className="font-semibold text-primary">{confirmRejected}</span>
             </div>
           </div>
-          {emailNotice?.tone === 'error' && <Callout tone="error" role="alert">{emailNotice.message}</Callout>}
+          {emailNotice && <Callout tone="error" role="alert">{emailNotice}</Callout>}
           <div className="flex flex-col sm:flex-row gap-2 pt-1">
             <button
               type="button"
