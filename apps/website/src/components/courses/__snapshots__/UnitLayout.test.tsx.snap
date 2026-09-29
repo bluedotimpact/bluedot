@@ -129,7 +129,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="flex min-w-0 flex-col"
           >
             <h2
-              class="bluedot-h2 not-prose text-size-md"
+              class="bluedot-h2 not-prose text-size-lg"
             >
               What the fish [Test Course]
             </h2>
@@ -147,7 +147,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               open=""
             >
               <summary
-                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
                 <span
                   class="flex-1 text-size-xs font-semibold leading-normal text-primary"
@@ -252,7 +252,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
                 <span
                   class="flex-1 text-size-xs font-semibold leading-normal text-primary"
@@ -350,7 +350,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
                 <span
                   class="flex-1 text-size-xs font-semibold leading-normal text-primary"
@@ -448,7 +448,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
                 <span
                   class="flex-1 text-size-xs font-semibold leading-normal text-primary"
@@ -546,7 +546,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="group border-t border-subtle scroll-mb-5 marker:hidden [&_summary::-webkit-details-marker]:hidden"
             >
               <summary
-                class="flex cursor-pointer items-center gap-2 rounded-surface py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+                class="flex cursor-pointer items-center gap-2 rounded-surface px-3 py-4 text-left transition-colors hover:bg-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
               >
                 <span
                   class="flex-1 text-size-xs font-semibold leading-normal text-primary"
