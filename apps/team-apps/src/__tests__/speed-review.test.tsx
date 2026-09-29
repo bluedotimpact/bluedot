@@ -136,7 +136,7 @@ test('a failed undo keeps the application moved and offers a retry', async () =>
   expect(screen.getByText('First test applicant')).toBeTruthy();
 });
 
-const mockSummaryApis = () => {
+const mockSummaryApis = ({ instantConfirm = true } = {}) => {
   const counts = {
     reviewed: 3, alreadySent: 1, confirmedSent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
   };
@@ -146,10 +146,11 @@ const mockSummaryApis = () => {
     if (url.startsWith('/api/send-decision-emails')) {
       const body = JSON.parse(init?.body as string) as { applicationIds?: string[] };
       const flagged = body.applicationIds?.length ?? counts.pending;
-      // Mirror the automation instantly so the tracker completes on refresh.
       counts.alreadySent += flagged;
-      counts.confirmedSent += flagged;
       counts.pending -= flagged;
+      // The automation confirms sends asynchronously; instantConfirm mirrors it
+      // in the same request, otherwise the test bumps confirmedSent itself.
+      if (instantConfirm) counts.confirmedSent += flagged;
       return { ok: true, json: async () => ({ flagged }) } as Response;
     }
 
@@ -163,6 +164,7 @@ const mockSummaryApis = () => {
 
     return { ok: true } as Response;
   });
+  return counts;
 };
 
 test('summary offers both send buttons and flags the session applications after confirmation', async () => {
@@ -188,6 +190,29 @@ test('summary offers both send buttons and flags the session applications after 
     method: 'POST',
     body: JSON.stringify({ roundId: 'recTestRound', applicationIds: ['recOne'] }),
   }));
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
+});
+
+test('the sent tracker counts up as the automation confirms, then reports done', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  const counts = mockSummaryApis({ instantConfirm: false });
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  fireEvent.click(screen.getByRole('button', { name: 'Send for this session (1)' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Send 1 email' }));
+  });
+  expect(screen.getByText('Sending emails… (0 of 1) You can leave this page.')).toBeTruthy();
+
+  counts.confirmedSent += 1;
+  await act(async () => {
+    vi.advanceTimersByTime(5000);
+  });
   expect(screen.getByText('Decision email sent.')).toBeTruthy();
 });
 
