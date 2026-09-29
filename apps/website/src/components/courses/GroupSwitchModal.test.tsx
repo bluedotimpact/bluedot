@@ -130,6 +130,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
     ],
   },
   rescheduleEligibleUnits: ['1'],
+  roundIntensity: null,
 };
 
 describe('GroupSwitchModal', () => {
@@ -217,6 +218,35 @@ describe('GroupSwitchModal', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Success')).toBeInTheDocument();
+      });
+    });
+
+    test('Permanent switch on an intensive round shows groups as daily', async () => {
+      server.use(trpcMsw.groupSwitching.discussionsAvailable.query(() => ({
+        ...mockAvailableGroupsAndDiscussions,
+        roundIntensity: 'Intensive',
+      })));
+
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          courseSlug="ai-safety"
+          roundId="round-1"
+        />,
+        { wrapper: TrpcProvider },
+      );
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByRole('button', { name: /Select action/i }));
+      const listbox = await screen.findByRole('listbox', { name: /Select action/i });
+      fireEvent.click(within(listbox).getByText(/Switch group permanently/i));
+
+      await waitFor(() => {
+        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+        expect(screen.getAllByText('Daily')).toHaveLength(2);
       });
     });
 
@@ -457,6 +487,7 @@ describe('GroupSwitchModal', () => {
           2: [], // Unit 2 has no upcoming discussions
         },
         rescheduleEligibleUnits: ['1'],
+        roundIntensity: null,
       };
 
       // Override mock for this test
@@ -1026,6 +1057,7 @@ describe('GroupSwitchModal', () => {
         ],
       },
       rescheduleEligibleUnits: ['1'],
+      roundIntensity: null,
     };
 
     test('shows first 3 options collapsed, then expands on click', async () => {
@@ -1141,6 +1173,22 @@ describe('GroupSwitchModal', () => {
         },
         {
           groupName: 'Morning Group', dateTime: monday9am, description: '', isRecurringTime: true,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Morning Group');
+      expect(sorted[1]?.groupName).toBe('Evening Group');
+    });
+
+    test('sorts daily recurring times by time of day only', () => {
+      const tuesday9am = new Date('2024-01-09T09:00:00Z').getTime() / 1000;
+      const monday5pm = new Date('2024-01-08T17:00:00Z').getTime() / 1000;
+      const options = [
+        {
+          groupName: 'Evening Group', dateTime: monday5pm, description: '', isRecurringTime: true, isDaily: true,
+        },
+        {
+          groupName: 'Morning Group', dateTime: tuesday9am, description: '', isRecurringTime: true, isDaily: true,
         },
       ];
       const sorted = sortGroupSwitchOptions(options);

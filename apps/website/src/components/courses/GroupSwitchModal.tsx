@@ -84,6 +84,8 @@ export default function GroupSwitchModal({
   const groups = availableGroupsAndDiscussions?.groupsAvailable ?? [];
   const discussions = availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
+  const isDaily = availableGroupsAndDiscussions?.roundIntensity === 'Intensive';
+
   const rescheduleEligibleUnits = new Set(availableGroupsAndDiscussions?.rescheduleEligibleUnits ?? []);
   const unitOptions = courseData?.units.map((u) => {
     const hasAvailableDiscussions = rescheduleEligibleUnits.has(u.unitNumber.toString());
@@ -134,6 +136,7 @@ export default function GroupSwitchModal({
         }),
         userIsParticipant: true,
         isRecurringTime: true,
+        isDaily,
       };
     }
 
@@ -233,6 +236,7 @@ export default function GroupSwitchModal({
         isDisabled: g.spotsLeftIfKnown === 0,
         isSelected,
         isRecurringTime: true,
+        isDaily,
         description: getGroupSwitchDescription({
           isSelected,
           isTemporarySwitch: false,
@@ -542,7 +546,7 @@ export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): Group
       const dayA = (dateA.getDay() + 6) % 7;
       const dayB = (dateB.getDay() + 6) % 7;
 
-      if (dayA !== dayB) {
+      if (dayA !== dayB && !(a.isDaily && b.isDaily)) {
         return dayA - dayB;
       }
 
@@ -613,6 +617,7 @@ type GroupSwitchOptionProps = {
   isSelected?: boolean;
   userIsParticipant?: boolean;
   isRecurringTime?: boolean;
+  isDaily?: boolean;
   onSelect?: () => void;
   onConfirm?: () => void;
   isSubmitting?: boolean;
@@ -627,6 +632,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   isSelected,
   userIsParticipant,
   isRecurringTime,
+  isDaily,
   onSelect,
   onConfirm,
   isSubmitting,
@@ -637,8 +643,12 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
       return null;
     }
 
-    return isRecurringTime ? formatDateDayOfWeek(dateTime) : formatDateMonthAndDay(dateTime);
-  }, [dateTime, isRecurringTime]);
+    if (!isRecurringTime) {
+      return formatDateMonthAndDay(dateTime);
+    }
+
+    return isDaily ? 'Daily' : formatDateDayOfWeek(dateTime);
+  }, [dateTime, isRecurringTime, isDaily]);
 
   const displayTime = useMemo(() => {
     if (!dateTime) {

@@ -26,6 +26,7 @@ const stubProps = (overrides: Partial<ParticipantRowProps> = {}): ParticipantRow
   units: {},
   roundStartDate: null,
   roundEndDate: null,
+  roundIntensity: null,
   numUnits: null,
   uniqueDiscussionAttendance: null,
   hasSubmittedActionPlan: false,
@@ -73,6 +74,16 @@ const inProgressArgs = stubProps({
   courseRegistration: { ...stubProps().courseRegistration, id: 'reg-in-progress', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: { startTimeUtc: wednesday4pm, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc' } as CourseListRowProps['group'],
+});
+
+// The Unix epoch was a Thursday, so four days into a week-aligned timestamp is a Monday
+const monday4pm = NOW_SEC - (NOW_SEC % (7 * 24 * 60 * 60)) + (4 * 24 * 60 * 60) + (16 * 60 * 60);
+
+const inProgressIntensiveArgs = stubProps({
+  ...inProgressArgs,
+  courseRegistration: { ...inProgressArgs.courseRegistration, id: 'reg-in-progress-intensive' },
+  group: { ...inProgressArgs.group, startTimeUtc: monday4pm } as CourseListRowProps['group'],
+  roundIntensity: 'Intensive',
 });
 
 // Upcoming (Future) + Accept
@@ -334,6 +345,7 @@ type Story = StoryObj<typeof meta>;
 
 const ALL = [
   { id: 'in-progress', args: inProgressArgs },
+  { id: 'in-progress-intensive', args: inProgressIntensiveArgs },
   { id: 'upcoming-accept', args: upcomingAcceptedArgs },
   { id: 'upcoming-in-review', args: upcomingInReviewArgs },
   { id: 'upcoming-reject', args: upcomingRejectedArgs },
@@ -377,6 +389,7 @@ export const AllFacilitatorStates: Story = {
 };
 
 export const InProgress: Story = { args: inProgressArgs };
+export const InProgressIntensive: Story = { args: inProgressIntensiveArgs };
 export const UpcomingAccepted: Story = { args: upcomingAcceptedArgs };
 export const UpcomingInReview: Story = { args: upcomingInReviewArgs };
 export const UpcomingRejected: Story = { args: upcomingRejectedArgs };

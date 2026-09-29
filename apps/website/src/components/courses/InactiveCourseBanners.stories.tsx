@@ -28,6 +28,7 @@ const mockAvailableGroups: DiscussionsAvailable = {
   ],
   discussionsAvailable: {},
   rescheduleEligibleUnits: [],
+  roundIntensity: null,
 };
 
 const meta = {
