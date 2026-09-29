@@ -24,7 +24,7 @@ export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
       'before:absolute before:-inset-x-1 before:-inset-y-3',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       'disabled:opacity-40 disabled:cursor-not-allowed',
-      checked ? 'bg-accent' : 'bg-default',
+      checked ? 'bg-accent' : 'bg-surface-control',
     )}
   >
     <span

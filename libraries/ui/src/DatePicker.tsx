@@ -169,8 +169,8 @@ export const DatePicker = ({
       ) : null}
       <div
         className={cn(
-          'relative flex h-11 items-center rounded-surface border border-subtle bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent group-has-[:popover-open]:border-accent group-has-[:popover-open]:ring-1 group-has-[:popover-open]:ring-accent',
-          disabled && 'bg-tint text-disabled',
+          'relative flex h-11 items-center rounded-surface border border-border-control bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent group-has-[:popover-open]:border-accent group-has-[:popover-open]:ring-1 group-has-[:popover-open]:ring-accent',
+          disabled && 'border-default bg-surface-disabled text-disabled',
         )}
       >
         <input

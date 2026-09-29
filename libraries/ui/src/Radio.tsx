@@ -31,9 +31,9 @@ const TONE_STYLES: Record<RadioTone | 'neutral', { root: ClassValue; card: Class
     root: CHOICE_ROOT_NEUTRAL_STYLES,
     card: CHOICE_CARD_NEUTRAL_STYLES,
     indicator: [
-      'border-strong',
+      'border-border-control',
       'peer-checked:border-accent peer-checked:text-accent',
-      'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint',
+      'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled',
       'peer-disabled:peer-checked:opacity-40',
       'peer-aria-invalid:not-peer-disabled:border-error-fg peer-aria-invalid:not-peer-disabled:text-error-fg',
     ],

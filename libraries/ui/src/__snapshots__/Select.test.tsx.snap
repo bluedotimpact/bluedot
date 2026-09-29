@@ -8,7 +8,7 @@ exports[`Select > applies disabled styling to disabled options 1`] = `
     data-react-aria-hidden="true"
   />
   <div
-    class="w-full flex flex-col bg-white border border-default rounded-surface transition-all text-size-sm"
+    class="w-full flex flex-col bg-raised border border-border-control rounded-surface transition-all text-size-sm"
     data-focus-visible="true"
     data-focused="true"
     data-open="true"
@@ -31,7 +31,7 @@ exports[`Select > applies disabled styling to disabled options 1`] = `
       type="button"
     >
       <span
-        class="text-bluedot-navy flex-1 min-w-0"
+        class="flex-1 min-w-0 text-primary"
       >
         Select an option
       </span>
@@ -87,7 +87,7 @@ exports[`Select > renders with selected value 1`] = `
     data-react-aria-hidden="true"
   />
   <div
-    class="w-full flex flex-col bg-white border border-default rounded-surface transition-all text-size-sm"
+    class="w-full flex flex-col bg-raised border border-border-control rounded-surface transition-all text-size-sm"
     data-rac=""
   >
     <button
@@ -103,7 +103,7 @@ exports[`Select > renders with selected value 1`] = `
       type="button"
     >
       <span
-        class="text-bluedot-navy flex-1 min-w-0"
+        class="flex-1 min-w-0 text-primary"
       >
         Option 1
       </span>

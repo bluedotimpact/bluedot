@@ -73,8 +73,8 @@ export const Select = ({
         isDisabled={disabled}
         aria-label={ariaLabel}
         className={cn(
-          'w-full flex flex-col bg-white border border-default rounded-surface transition-all text-size-sm',
-          disabled && 'opacity-50 cursor-not-allowed bg-gray-50',
+          'w-full flex flex-col bg-raised border border-border-control rounded-surface transition-all text-size-sm',
+          disabled && 'cursor-not-allowed border-default bg-surface-disabled',
           className,
         )}
       >
@@ -82,7 +82,7 @@ export const Select = ({
           className="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
           onPress={() => setIsOpen(true)}
         >
-          <span className="text-bluedot-navy flex-1 min-w-0">
+          <span className={cn('flex-1 min-w-0', disabled ? 'text-disabled' : 'text-primary')}>
             {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             {selectedOption?.label || value || placeholder}
           </span>

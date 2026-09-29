@@ -25,11 +25,11 @@ Our design system aims to be the single source of truth for designing BlueDot Im
 
 ### Colors
 
-Colour tokens mirror the Figma design-system variables and are used through Tailwind utilities. Pick the **role**, not the hue: the Figma leaf name is the token name (`text/secondary` → `text-secondary`, `accent/primary` → `bg-accent`). Where a surface or border leaf collides with a text leaf, the role prefix stays (`bg-surface-on-dark`, `border-border-on-dark`).
+Colour tokens mirror the Figma design-system variables and are used through Tailwind utilities. Pick the **role**, not the hue: the Figma leaf name is the token name (`text/secondary` → `text-secondary`, `accent/primary` → `bg-accent`). Where a surface or border leaf collides with another leaf, the role prefix stays (`bg-surface-on-dark`, `bg-surface-disabled`, `border-border-control`).
 
-- Text: `text-primary`, `text-secondary`, `text-placeholder`, `text-disabled`, `text-link` (+ `-hover`, `-active`), `text-on-dark`, `text-on-dark-secondary`
-- Surface: `bg-canvas` (cream by default, white on bluedot.org), `bg-raised`, `bg-tint` (hover wash), `bg-active` (pressed / selected), `bg-dark`, `bg-surface-on-dark`, `bg-surface-on-dark-subtle`
-- Border: `border-subtle`, `border-default`, `border-strong`, `border-border-on-dark`
+- Text: `text-primary`, `text-secondary`, `text-placeholder`, `text-disabled`, `text-link` (+ `-hover`, `-active`), `text-on-dark` (+ `-hover` for white controls on dark), `text-on-dark-secondary`, `text-on-dark-link` (+ `-hover`, `-active`), `text-on-dark-disabled`
+- Surface: `bg-canvas` (cream by default, white on bluedot.org), `bg-raised`, `bg-tint` (hover wash), `bg-active` (pressed / selected), `bg-surface-disabled`, `bg-surface-control` (toggle track off), `bg-dark`, `bg-surface-on-dark`, `bg-surface-on-dark-subtle`
+- Border: `border-subtle` (dividers inside a container), `border-default` (container edge, disabled controls), `border-strong` (hover / selected container), `border-border-control` (the line is the control: input, select, checkbox, radio), `border-border-on-dark`
 - Accent (interactive): `bg-accent`, `hover:bg-accent-hover`, `active:bg-accent-active`, `bg-accent-subtle`
 - Status: `text-{info|success|warning|error}-fg`, `bg-…-bg`, `border-…-border`, plus `hover:bg-{success|warning|error}-fg-hover` for solid tone fills. Never hand-pick a red or green.
 - Focus & overlay: `ring-focus`, `bg-scrim`, `bg-overlay-image`
@@ -61,22 +61,25 @@ Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role
     },
     {
       title: "Surface",
-      subtitle: "canvas · raised · tint · active · dark",
+      subtitle: "canvas · raised · tint · active · disabled · control · dark",
       colors: {
         "canvas": 'var(--color-canvas)',
         "raised": 'var(--color-raised)',
         "tint": 'var(--color-tint)',
         "active": 'var(--color-active)',
+        "surface-disabled": 'var(--color-surface-disabled)',
+        "surface-control": 'var(--color-surface-control)',
         "dark": 'var(--color-dark)'
       }
     },
     {
       title: "Border",
-      subtitle: "subtle · default · strong",
+      subtitle: "subtle · default · strong · control",
       colors: {
         "subtle": 'var(--color-subtle)',
         "default": 'var(--color-default)',
-        "strong": 'var(--color-strong)'
+        "strong": 'var(--color-strong)',
+        "border-control": 'var(--color-border-control)'
       }
     },
     {
@@ -155,13 +158,16 @@ Reach for the raw `bluedot-*` palette (`text-bluedot-navy/60`) only when no role
 
 #### On dark surfaces
 
-The `on-dark` tokens are white at reduced alpha and only make sense over `bg-dark`, so they are previewed here on navy rather than in the palette above.
+The `on-dark` tokens are white, light blue or white at reduced alpha, and only make sense over `bg-dark`, so they are previewed here on navy rather than in the palette above.
 
 <Unstyled>
   <div className="bg-dark rounded-surface p-6 flex flex-wrap gap-6 font-mono text-size-xxs">
     {[
       ['text-on-dark', 'on-dark'],
+      ['text-on-dark-hover', 'on-dark-hover'],
       ['text-on-dark-secondary', 'on-dark-secondary'],
+      ['text-on-dark-link', 'on-dark-link'],
+      ['text-on-dark-disabled', 'on-dark-disabled'],
     ].map(([cls, name]) => (
       <div key={name} className="flex flex-col gap-2 min-w-40">
         <span className={`${cls} text-size-md font-sans`}>Aa</span>
