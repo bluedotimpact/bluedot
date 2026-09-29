@@ -137,21 +137,24 @@ test('a failed undo keeps the application moved and offers a retry', async () =>
 });
 
 const mockSummaryApis = () => {
+  const counts = {
+    reviewed: 3, alreadySent: 1, confirmedSent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
+  };
   // The page only ever fetches string URLs, so the mock can treat input as one.
   vi.mocked(authFetch).mockImplementation(async (input, init) => {
     const url = input as string;
     if (url.startsWith('/api/send-decision-emails')) {
       const body = JSON.parse(init?.body as string) as { applicationIds?: string[] };
-      return { ok: true, json: async () => ({ flagged: body.applicationIds?.length ?? 2 }) } as Response;
+      const flagged = body.applicationIds?.length ?? counts.pending;
+      // Mirror the automation instantly so the tracker completes on refresh.
+      counts.alreadySent += flagged;
+      counts.confirmedSent += flagged;
+      counts.pending -= flagged;
+      return { ok: true, json: async () => ({ flagged }) } as Response;
     }
 
     if (url.startsWith('/api/decision-email-counts')) {
-      return {
-        ok: true,
-        json: async () => ({
-          reviewed: 3, alreadySent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
-        }),
-      } as Response;
+      return { ok: true, json: async () => ({ ...counts }) } as Response;
     }
 
     if (url.startsWith('/api/round-stats')) {
@@ -185,7 +188,7 @@ test('summary offers both send buttons and flags the session applications after 
     method: 'POST',
     body: JSON.stringify({ roundId: 'recTestRound', applicationIds: ['recOne'] }),
   }));
-  expect(screen.getByText('Sending 1 decision email.')).toBeTruthy();
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
 });
 
 test('applications moved to AGI Strategy are excluded from the session send', async () => {

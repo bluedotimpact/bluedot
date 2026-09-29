@@ -55,6 +55,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const [countsError, setCountsError] = useState(false);
   const [confirmingScope, setConfirmingScope] = useState<'session' | 'round' | null>(null);
   const [emailNotice, setEmailNotice] = useState<{ tone: 'success' | 'error'; message: string } | null>(null);
+  // Live progress of the last send, measured against "[?] Decision email sent"
+  // confirmations from the Airtable automation.
+  const [sendTracker, setSendTracker] = useState<{ flagged: number; baseline: number } | null>(null);
   // Applications already flagged from this summary; excluded from the session
   // button so its count matches what another send would actually do.
   const [flaggedIds, setFlaggedIds] = useState<Set<string>>(new Set());
@@ -87,6 +90,26 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       .then((data: DecisionEmailCounts) => setEmailCounts(data))
       .catch(() => setCountsError(true));
   }, [roundId]);
+
+  const trackerConfirmed = sendTracker
+    ? Math.min(sendTracker.flagged, Math.max(0, (emailCounts?.confirmedSent ?? sendTracker.baseline) - sendTracker.baseline))
+    : 0;
+  const trackerDone = sendTracker !== null && trackerConfirmed >= sendTracker.flagged;
+
+  // While a send is confirming, poll the counts so the tracker advances.
+  useEffect(() => {
+    if (!sendTracker || trackerDone) return undefined;
+    const poll = setInterval(() => {
+      authFetch(`/api/decision-email-counts?round=${encodeURIComponent(roundId)}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data: DecisionEmailCounts | null) => {
+          if (data) setEmailCounts(data);
+        })
+        // eslint-disable-next-line no-console
+        .catch(console.error);
+    }, 5000);
+    return () => clearInterval(poll);
+  }, [sendTracker, trackerDone, roundId]);
 
   const effectiveRating = (r: RatedApplication): RatingValue => overrides[r.id] ?? r.rating;
 
@@ -196,7 +219,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       if (!response.ok) throw new Error('The decision emails could not be triggered. Please try again.');
       const { flagged } = await response.json() as { flagged: number };
       setConfirmingScope(null);
-      setEmailNotice({ tone: 'success', message: `Sending ${flagged} decision email${flagged === 1 ? '' : 's'}.` });
+      setSendTracker({ flagged, baseline: emailCounts?.confirmedSent ?? 0 });
       // A round send covers the session's applications too: anything pending
       // was just flagged, anything else was already sent or sending.
       setFlaggedIds((prev) => new Set([...prev, ...sessionEmailIds]));
@@ -411,6 +434,11 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           </span>
         </div>
         {emailNotice && !confirmingScope && <Callout tone={emailNotice.tone} role={emailNotice.tone === 'error' ? 'alert' : 'status'}>{emailNotice.message}</Callout>}
+        {sendTracker && !confirmingScope && (() => {
+          if (sendTracker.flagged === 0) return <Callout tone="info" role="status">Nothing to send — the selected applications already had their emails.</Callout>;
+          if (trackerDone) return <Callout tone="success" role="status">{sendTracker.flagged === 1 ? 'Decision email sent.' : `All ${sendTracker.flagged} decision emails sent.`}</Callout>;
+          return <Callout tone="info" role="status">Sending emails… ({trackerConfirmed} of {sendTracker.flagged}) You can leave this page.</Callout>;
+        })()}
         <div className="flex flex-col sm:flex-row gap-2">
           <button
             type="button"
