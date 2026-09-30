@@ -10,11 +10,12 @@ const TrackRecordSection = () => {
           Past cohorts: 50 participants, $10M+ in external funding raised.
         </P>
         <div className="flex flex-col gap-2">
-          <P>Alumni have started organisations focused on:</P>
+          <P>Alumni are building organisations focused on:</P>
           <ul className="list-disc pl-6 flex flex-col gap-1">
-            <li>Evaluating frontier AI cyber capabilities and building defences</li>
-            <li>Detecting hallucinations using model internals</li>
-            <li>Modelling AI risk for insurance</li>
+            <li>Evaluating power-seeking and shutdown resistance in frontier AI</li>
+            <li>Scalable oversight of advanced AI systems</li>
+            <li>Detecting safety failures when AI agents interact</li>
+            <li>Defending advanced AI systems against training-data poisoning</li>
           </ul>
           <P>And more.</P>
         </div>
