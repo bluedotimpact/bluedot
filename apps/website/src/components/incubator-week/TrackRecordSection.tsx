@@ -7,7 +7,7 @@ const TrackRecordSection = () => {
 
       <div className="flex flex-col gap-5">
         <P>
-          Past cohorts: 50 participants, $7M+ in external funding raised.
+          Past cohorts: 50 participants, $10M+ in external funding raised.
         </P>
         <div className="flex flex-col gap-2">
           <P>Alumni include:</P>
@@ -23,10 +23,6 @@ const TrackRecordSection = () => {
             <li>
               <a href="https://www.telluvian.ai/about.html" target="_blank" rel="noreferrer" className="underline hover:no-underline">Telluvian</a>
               : mechanistic interpretability for high-stakes AI; FR8 incubator
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/jacob-arbeid/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Jacob Arbeid</a>
-              : quit AISI; raised from ACX/Manifund to build an automated cyber evals lab (stealth)
             </li>
             <li>
               <a href="https://www.linkedin.com/in/shay-yahal/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Shay Yahal</a>
