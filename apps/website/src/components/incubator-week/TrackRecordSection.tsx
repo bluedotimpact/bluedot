@@ -16,6 +16,7 @@ const TrackRecordSection = () => {
             <li>Scalable oversight of advanced AI systems</li>
             <li>Detecting safety failures when AI agents interact</li>
             <li>Defending advanced AI systems against training-data poisoning</li>
+            <li>Tracking undeclared AI compute to support treaty verification</li>
           </ul>
           <P>And more.</P>
         </div>
