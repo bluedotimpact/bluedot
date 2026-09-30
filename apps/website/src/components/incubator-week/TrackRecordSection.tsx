@@ -12,10 +12,9 @@ const TrackRecordSection = () => {
         <div className="flex flex-col gap-2">
           <P>Alumni have started organisations focused on:</P>
           <ul className="list-disc pl-6 flex flex-col gap-1">
-            <li>AI risk measurement</li>
-            <li>AI red teaming</li>
-            <li>Mechanistic interpretability</li>
-            <li>Safe deployment of multi-agent systems</li>
+            <li>Evaluating frontier AI cyber capabilities and building defences</li>
+            <li>Detecting hallucinations using model internals</li>
+            <li>Modelling AI risk for insurance</li>
           </ul>
           <P>And more.</P>
         </div>
