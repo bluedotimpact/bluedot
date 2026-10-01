@@ -1,6 +1,6 @@
 import type React from 'react';
 import {
-  useState, useEffect, useRef,
+  useState, useEffect, useId, useRef,
 } from 'react';
 import {
   Modal as AriaModal,
@@ -47,6 +47,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [isFullyExpanded, setIsFullyExpanded] = useState(false);
   const dragControls = useDragControls();
+  const titleId = useId();
   const duration = useReducedMotion() ? 0 : 0.3;
   const transition = { duration, ease: EASE };
 
@@ -147,7 +148,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 }}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby={titleIsString ? 'mobile-modal-title' : undefined}
+                aria-labelledby={titleIsString ? titleId : undefined}
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 aria-label={!titleIsString ? (ariaLabel || 'Dialog') : undefined}
                 tabIndex={-1}
