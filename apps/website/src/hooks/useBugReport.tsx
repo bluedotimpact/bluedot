@@ -3,10 +3,13 @@ import dynamic from 'next/dynamic';
 import {
   createContext, useContext, useEffect, useState,
 } from 'react';
+import { ModalLoadingFallback } from '../components/ModalLoadingFallback';
 import { toBase64 } from '../utils/toBase64';
 import { trpc } from '../utils/trpc';
 
-const BugReportModal = dynamic(() => import('@bluedot/ui/src/BugReportModal').then((m) => m.BugReportModal));
+const BugReportModal = dynamic(() => import('@bluedot/ui/src/BugReportModal').then((m) => m.BugReportModal), {
+  loading: ModalLoadingFallback,
+});
 
 type BugReportContextType = {
   openBugReport: () => void;
