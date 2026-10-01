@@ -1,4 +1,4 @@
-import { useState, type Key, type ReactNode } from 'react';
+import type { ReactNode, SelectHTMLAttributes } from 'react';
 import {
   Button,
   ListBox,
@@ -7,18 +7,45 @@ import {
   Select as AriaSelect,
 } from 'react-aria-components';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
-import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
-import { BottomDrawerModal } from './BottomDrawerModal';
 import { cn } from './utils';
 
-export type SelectProps = {
-  options: { value: string; label: ReactNode; disabled?: boolean }[];
+export type SelectOption = {
+  value: string;
+  label: ReactNode;
+  disabled?: boolean;
+};
+
+// Only the native attributes react-aria actually forwards
+type NativeSelectProps = Pick<
+  SelectHTMLAttributes<HTMLSelectElement>,
+  'id' | 'name' | 'required' | 'disabled' | 'autoComplete'
+  | 'aria-label' | 'aria-labelledby' | 'aria-describedby' | 'aria-invalid'
+>;
+
+export type SelectProps = NativeSelectProps & {
+  options: SelectOption[];
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
+  /** `ghost` drops the field chrome for title-style switchers (e.g. modal headers) */
+  variant?: 'default' | 'ghost';
   className?: string;
-  ariaLabel?: string;
-  disabled?: boolean;
+};
+
+const TRIGGER_STYLES = {
+  default: [
+    'w-full h-11 px-3 rounded-surface border border-border-control bg-raised',
+    'text-size-sm leading-6 text-primary',
+    'hover:bg-tint',
+    'group-data-[disabled]:border-default group-data-[disabled]:bg-surface-disabled group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-surface-disabled',
+    'group-data-[invalid]:border-error-fg',
+  ],
+  ghost: [
+    'w-fit h-11 px-3 rounded-surface',
+    'text-size-md font-medium text-primary',
+    'hover:bg-tint',
+    'group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-transparent',
+  ],
 };
 
 export const Select = ({
@@ -26,85 +53,74 @@ export const Select = ({
   value,
   onChange,
   placeholder = 'Select an option',
+  variant = 'default',
   className,
-  ariaLabel,
+  required,
   disabled,
+  'aria-invalid': ariaInvalid,
+  ...rest
 }: SelectProps) => {
   const selectedOption = options.find((op) => op.value === value);
-  const isDesktop = useAboveBreakpoint(breakpoints.md);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleSelect = (key: Key | null) => {
-    if (key !== null) {
-      onChange?.(key as string);
-      setIsOpen(false);
-    }
-  };
-
-  const listContent = (
-    <ListBox className="flex flex-col w-full outline-none" onAction={handleSelect}>
-      {options.map((option) => (
-        <ListBoxItem
-          key={option.value}
-          id={option.value}
-          textValue={typeof option.label === 'string' ? option.label : option.value}
-          isDisabled={option.disabled}
-          className={cn(
-            'p-4 text-size-sm transition-colors focus:bg-blue-50 focus:text-blue-900 outline-none flex items-center justify-between gap-3',
-            option.disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 cursor-pointer',
-          )}
-        >
-          <span>{option.label}</span>
-          {option.value === value && (
-            <FaCheck className="size-3 text-blue-600 flex-shrink-0" aria-hidden="true" />
-          )}
-        </ListBoxItem>
-      ))}
-    </ListBox>
-  );
+  const isInvalid = ariaInvalid === true || ariaInvalid === 'true';
 
   return (
-    <>
-      <AriaSelect
-        selectedKey={value}
-        onSelectionChange={handleSelect}
-        isOpen={isDesktop && !disabled ? isOpen : false}
-        onOpenChange={(open) => !disabled && setIsOpen(open)}
-        isDisabled={disabled}
-        aria-label={ariaLabel}
+    <AriaSelect
+      {...rest}
+      selectedKey={value ?? null}
+      onSelectionChange={(key) => {
+        if (key !== null) onChange?.(String(key));
+      }}
+      isRequired={required}
+      isDisabled={disabled}
+      isInvalid={isInvalid}
+      className={cn('group flex flex-col', variant === 'ghost' ? 'w-fit' : 'w-full', className)}
+    >
+      <Button
         className={cn(
-          'w-full flex flex-col bg-raised border border-border-control rounded-surface transition-all text-size-sm',
-          disabled && 'cursor-not-allowed border-default bg-surface-disabled',
-          className,
+          'flex items-center gap-2 text-left cursor-pointer transition-colors',
+          'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
+          'group-data-[disabled]:cursor-not-allowed',
+          TRIGGER_STYLES[variant],
         )}
       >
-        <Button
-          className="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
-          onPress={() => setIsOpen(true)}
-        >
-          <span className={cn('flex-1 min-w-0', disabled ? 'text-disabled' : 'text-primary')}>
-            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-            {selectedOption?.label || value || placeholder}
-          </span>
-          <FaChevronDown
-            className={cn('size-3 -translate-y-px flex-shrink-0 transition-transform', isOpen ? 'rotate-180' : 'rotate-0')}
-            aria-hidden="true"
-          />
-        </Button>
-        <Popover
-          placement="bottom"
-          offset={8}
-          maxHeight={400}
-          className="w-(--trigger-width) bg-white rounded-surface shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-default overflow-hidden max-h-[400px] overflow-y-auto"
-        >
-          {listContent}
-        </Popover>
-      </AriaSelect>
-      {isDesktop === false && (
-        <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} initialSize="fit-content">
-          {listContent}
-        </BottomDrawerModal>
-      )}
-    </>
+        <span className={cn('flex-1 min-w-0 truncate', !selectedOption && 'text-placeholder group-data-[disabled]:text-disabled')}>
+          {selectedOption?.label ?? placeholder}
+        </span>
+        <FaChevronDown
+          className="size-4 shrink-0 text-secondary transition-transform group-data-[open]:rotate-180 group-data-[disabled]:text-disabled"
+          aria-hidden="true"
+        />
+      </Button>
+      <Popover
+        placement="bottom start"
+        offset={8}
+        maxHeight={400}
+        className="w-(--trigger-width) rounded-surface border border-default bg-raised shadow-md overflow-y-auto"
+      >
+        <ListBox className="flex flex-col outline-none">
+          {options.map((option) => (
+            <ListBoxItem
+              key={option.value}
+              id={option.value}
+              textValue={typeof option.label === 'string' ? option.label : option.value}
+              isDisabled={option.disabled}
+              className={cn(
+                'flex items-center justify-between gap-3 min-h-11 px-3 py-2.5 text-size-sm text-primary cursor-pointer outline-none transition-colors',
+                'data-[hovered]:bg-tint data-[focused]:bg-tint',
+                'data-[selected]:bg-accent-subtle data-[selected]:text-accent',
+                'data-[disabled]:text-disabled data-[disabled]:cursor-not-allowed data-[disabled]:hover:bg-transparent',
+              )}
+            >
+              {({ isSelected }) => (
+                <>
+                  <span className="min-w-0">{option.label}</span>
+                  {isSelected && <FaCheck className="size-3.5 shrink-0" aria-hidden="true" />}
+                </>
+              )}
+            </ListBoxItem>
+          ))}
+        </ListBox>
+      </Popover>
+    </AriaSelect>
   );
 };
