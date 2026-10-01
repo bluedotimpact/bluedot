@@ -33,6 +33,7 @@ const ApplicationSchema = z.object({
   technicalSkillScore: z.number().optional(),
   technicalSkillRationale: z.string().optional(),
   totalScore: z.number().optional(),
+  tiles: z.array(z.object({ id: z.string(), label: z.string(), tone: z.enum(['neutral', 'positive', 'caution']) })).optional(),
 });
 
 const parseDirection = (raw: unknown): Direction => (raw === 'bottom' ? 'bottom' : 'top');

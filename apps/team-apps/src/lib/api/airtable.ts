@@ -1,9 +1,10 @@
 import createHttpError from 'http-errors';
+import { logger } from '@bluedot/ui/src/api';
 import env from './env';
 import { isLocalPreview } from '../preview';
 import { previewData } from './previewData';
 import {
-  type Application, type Direction, type FilterOption, type QueueFilters,
+  type Application, type ApplicationTile, type Direction, type FilterOption, type QueueFilters, type TileTone,
 } from '../client/types';
 import { type MoveTargetCourse, courseOfRoundName } from '../client/courseMoves';
 
@@ -225,7 +226,8 @@ const roundFilter = (roundId: string, scored: boolean, queueFilter?: string): st
 // ── Queue filters ───────────────────────────────────────────────────────────
 // Reviewers pick options configured in Airtable. The browser only ever sends
 // option record IDs; each option's field and value are looked up here, so the
-// browser cannot choose what goes into filterByFormula.
+// browser cannot choose what goes into filterByFormula. Options marked as
+// tiles are also shown on the applications they match, as label and tone only.
 
 const QUEUE_FILTER_LABEL_FIELD = 'flduOM83yebFthjm2';
 const QUEUE_FILTER_TARGET_FIELD = 'fldBal237GLenUbp0'; // Applications-table field ID the option filters on
@@ -233,26 +235,43 @@ const QUEUE_FILTER_MATCH_TYPE_FIELD = 'fldh5gt8w7cIHLfAO';
 const QUEUE_FILTER_VALUE_FIELD = 'fldZlRJXr9bUtOS4y';
 const QUEUE_FILTER_ENABLED_FIELD = 'fldf5DndPnkmoE732';
 const QUEUE_FILTER_ORDER_FIELD = 'fldMt36keyZHntBDL';
+const QUEUE_FILTER_SHOW_AS_TILE_FIELD = 'fldMnS4j40MkMRmsl';
+const QUEUE_FILTER_TONE_FIELD = 'fldZj8C8XDVpTR8qh';
+
+const TILE_TONES: Record<string, TileTone> = { Neutral: 'neutral', Positive: 'positive', Caution: 'caution' };
+
+type QueueFilterRule = FilterOption & { fieldId: string; showAsTile: boolean; tone: TileTone } & (
+  | { matchType: 'checkbox' }
+  | { matchType: 'has-value'; value: string }
+  | { matchType: 'at-least'; threshold: number }
+);
 
 const escapeFormulaString = (value: string): string => value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 
-// A malformed row yields no clause, so a config mistake hides that option
+// A malformed row yields no rule, so a config mistake hides that option
 // rather than breaking every filtered query.
-const toFilterClause = (fields: Record<string, unknown>): string | undefined => {
+const toRule = ({ id, fields }: AirtableRecord): QueueFilterRule | undefined => {
+  const label = str(fields[QUEUE_FILTER_LABEL_FIELD])?.trim();
   const fieldId = fields[QUEUE_FILTER_TARGET_FIELD];
-  if (typeof fieldId !== 'string' || !/^fld[A-Za-z0-9]{14}$/.test(fieldId)) return undefined;
+  if (!label || typeof fieldId !== 'string' || !/^fld[A-Za-z0-9]{14}$/.test(fieldId)) return undefined;
   const rawValue = fields[QUEUE_FILTER_VALUE_FIELD];
   const value = typeof rawValue === 'string' ? rawValue : '';
+  const base = {
+    id,
+    label,
+    fieldId,
+    showAsTile: fields[QUEUE_FILTER_SHOW_AS_TILE_FIELD] === true,
+    tone: TILE_TONES[str(fields[QUEUE_FILTER_TONE_FIELD]) ?? ''] ?? 'neutral',
+  };
 
   switch (fields[QUEUE_FILTER_MATCH_TYPE_FIELD]) {
     case 'Checkbox is ticked':
-      return `{${fieldId}}`;
+      return { ...base, matchType: 'checkbox' };
     case 'Has value':
-      return value.trim() ? `FIND("${escapeFormulaString(value)}", {${fieldId}} & "")` : undefined;
+      return value.trim() ? { ...base, matchType: 'has-value', value } : undefined;
     case 'Number is at least': {
-      // Written back from the parsed number, never the raw text.
       const threshold = Number(value);
-      return value.trim() && Number.isFinite(threshold) ? `{${fieldId}} >= ${threshold}` : undefined;
+      return value.trim() && Number.isFinite(threshold) ? { ...base, matchType: 'at-least', threshold } : undefined;
     }
 
     default:
@@ -260,7 +279,28 @@ const toFilterClause = (fields: Record<string, unknown>): string | undefined => 
   }
 };
 
-type QueueFilterRule = FilterOption & { clause: string };
+const ruleClause = (rule: QueueFilterRule): string => {
+  if (rule.matchType === 'checkbox') return `{${rule.fieldId}}`;
+  if (rule.matchType === 'has-value') return `FIND("${escapeFormulaString(rule.value)}", {${rule.fieldId}} & "")`;
+  // Written back from the parsed number, never the raw text.
+  return `{${rule.fieldId}} >= ${rule.threshold}`;
+};
+
+// Mirrors how each clause reads its field inside a formula, so a tile shows
+// exactly when the filter would match. Formulas read multiple selects and
+// lookups as their values joined by ", ".
+const formulaText = (value: unknown): string => {
+  if (Array.isArray(value)) return value.map(formulaText).join(', ');
+  return typeof value === 'string' || typeof value === 'number' ? String(value) : '';
+};
+
+const ruleMatches = (rule: QueueFilterRule, fields: Record<string, unknown>): boolean => {
+  const value = fields[rule.fieldId];
+  if (rule.matchType === 'checkbox') return Array.isArray(value) ? value.length > 0 : !!value;
+  if (rule.matchType === 'has-value') return formulaText(value).includes(rule.value);
+  // Formulas compare a blank number as 0.
+  return (typeof value === 'number' ? value : 0) >= rule.threshold;
+};
 
 const fetchQueueFilterRules = async (): Promise<QueueFilterRule[]> => {
   const records = await fetchAll(
@@ -271,14 +311,17 @@ const fetchQueueFilterRules = async (): Promise<QueueFilterRule[]> => {
       'sort[0][direction]': 'asc',
       returnFieldsByFieldId: 'true',
     },
-    [QUEUE_FILTER_LABEL_FIELD, QUEUE_FILTER_TARGET_FIELD, QUEUE_FILTER_MATCH_TYPE_FIELD, QUEUE_FILTER_VALUE_FIELD],
+    [
+      QUEUE_FILTER_LABEL_FIELD,
+      QUEUE_FILTER_TARGET_FIELD,
+      QUEUE_FILTER_MATCH_TYPE_FIELD,
+      QUEUE_FILTER_VALUE_FIELD,
+      QUEUE_FILTER_SHOW_AS_TILE_FIELD,
+      QUEUE_FILTER_TONE_FIELD,
+    ],
   );
 
-  return records.flatMap((record) => {
-    const label = str(record.fields[QUEUE_FILTER_LABEL_FIELD])?.trim();
-    const clause = toFilterClause(record.fields);
-    return label && clause ? [{ id: record.id, label, clause }] : [];
-  });
+  return records.flatMap((record) => toRule(record) ?? []);
 };
 
 export const fetchFilterOptions = async (): Promise<FilterOption[]> => {
@@ -287,16 +330,52 @@ export const fetchFilterOptions = async (): Promise<FilterOption[]> => {
   return rules.map(({ id, label }) => ({ id, label }));
 };
 
-const queueFilterFormula = async ({ optionIds, mode }: QueueFilters): Promise<string> => {
-  const clauses = new Map((await fetchQueueFilterRules()).map((rule) => [rule.id, rule.clause]));
-  // Sorted so every page of a session sends Airtable the same formula, which
-  // its pagination offsets depend on.
-  const selected = [...new Set(optionIds)].sort().map((id) => {
-    const clause = clauses.get(id);
-    if (!clause) throw createHttpError(400, 'A selected filter is no longer available. Choose your filters again.', { expose: true });
-    return clause;
-  });
-  return `${mode === 'all' ? 'AND' : 'OR'}(${selected.join(', ')})`;
+// Sorted so every page of a session sends Airtable the same formula, which
+// its pagination offsets depend on.
+const selectedRules = (rules: QueueFilterRule[], optionIds: string[]): QueueFilterRule[] => [...new Set(optionIds)].sort().map((id) => {
+  const rule = rules.find((candidate) => candidate.id === id);
+  if (!rule) throw createHttpError(400, 'A selected filter is no longer available. Choose your filters again.', { expose: true });
+  return rule;
+});
+
+const queueFilterFormula = (rules: QueueFilterRule[], { optionIds, mode }: QueueFilters): string => `${mode === 'all' ? 'AND' : 'OR'}(${selectedRules(rules, optionIds).map(ruleClause).join(', ')})`;
+
+// Tiles are decorative, so if they cannot be worked out the queue still loads
+// without them. The values they are worked out from never leave the server.
+const withTiles = async (applications: Application[], loadedRules?: QueueFilterRule[], filters?: QueueFilters): Promise<Application[]> => {
+  if (applications.length === 0) return applications;
+  try {
+    const rules = loadedRules ?? await fetchQueueFilterRules();
+    const tileRules = rules.filter((rule) => rule.showAsTile);
+    const checkedRules = filters?.optionIds.length ? selectedRules(rules, filters.optionIds) : [];
+    const fieldIds = [...new Set([...tileRules, ...checkedRules].map((rule) => rule.fieldId))].sort();
+    if (fieldIds.length === 0) return applications;
+
+    const records = await fetchAll(
+      APPLICATIONS_URL,
+      { filterByFormula: `OR(${applications.map((application) => `RECORD_ID() = "${application.id}"`).join(', ')})`, returnFieldsByFieldId: 'true' },
+      fieldIds,
+    );
+    const fieldsById = new Map(records.map((record) => [record.id, record.fields]));
+
+    return applications.map((application) => {
+      const fields = fieldsById.get(application.id) ?? {};
+      if (filters && checkedRules.length > 0) {
+        const hits = checkedRules.map((rule) => ruleMatches(rule, fields));
+        // Airtable already matched this application, so disagreement means the
+        // tile evaluation has drifted from the formula.
+        if (!(filters.mode === 'all' ? hits.every(Boolean) : hits.some(Boolean))) {
+          logger.warn(`queue filters: tile evaluation disagrees with Airtable for ${application.id} (options ${checkedRules.map((rule) => rule.id).join(',')})`);
+        }
+      }
+
+      const tiles: ApplicationTile[] = tileRules.filter((rule) => ruleMatches(rule, fields)).map(({ id, label, tone }) => ({ id, label, tone }));
+      return tiles.length > 0 ? { ...application, tiles } : application;
+    });
+  } catch (error) {
+    logger.warn(`queue filters: could not work out tiles, showing none: ${error instanceof Error ? error.message : String(error)}`);
+    return applications;
+  }
 };
 
 // Marks a pagination offset as belonging to the unscored phase. Airtable
@@ -310,7 +389,8 @@ export const fetchApplications = async (
   filters?: QueueFilters,
 ): Promise<{ applications: Application[]; nextOffset?: string }> => {
   if (isLocalPreview()) return previewData.fetchApplications(roundId, offset, direction, filters);
-  const queueFilter = filters?.optionIds.length ? await queueFilterFormula(filters) : undefined;
+  const rules = filters?.optionIds.length ? await fetchQueueFilterRules() : undefined;
+  const queueFilter = rules && filters ? queueFilterFormula(rules, filters) : undefined;
   const collected: Application[] = [];
   // Airtable pagination can return the same record across internal pages when
   // the filtered-on field is modified mid-iteration (every rating mutates the
@@ -352,7 +432,8 @@ export const fetchApplications = async (
         phase = 'unscored';
         currentOffset = undefined;
         if (collected.length >= RESPONSE_PAGE_SIZE) {
-          return { applications: collected, nextOffset: UNSCORED_OFFSET_PREFIX };
+          // eslint-disable-next-line no-await-in-loop -- returns, so it runs once
+          return { applications: await withTiles(collected, rules, filters), nextOffset: UNSCORED_OFFSET_PREFIX };
         }
 
         continue;
@@ -367,7 +448,7 @@ export const fetchApplications = async (
     nextOffset = phase === 'unscored' ? `${UNSCORED_OFFSET_PREFIX}${currentOffset}` : currentOffset;
   }
 
-  return { applications: collected, nextOffset };
+  return { applications: await withTiles(collected, rules, filters), nextOffset };
 };
 
 export type PreviousApplication = {

@@ -51,8 +51,12 @@ Options are configured in Airtable, in table `tblqMbr9KxusIrWA6` of the reviewer
 | Value | Text | For `Has value`, the select option name; the field matches when it contains this text. For `Number is at least`, the threshold as a plain number |
 | Enabled | Checkbox | Only enabled rows are offered |
 | Order | Number | Display order, ascending |
+| Show as tile | Checkbox | Also show the label as a tile on the review card of each application it matches |
+| Tone | Single select | Tile colour: `Neutral` (default), `Positive` or `Caution` |
 
 Rows with a malformed field ID, an unknown match type, or a missing or non-numeric value are skipped. The browser receives only each option's record ID and label, and sends back only record IDs. The server looks the rows up again, builds the formula clauses itself and ANDs them into the round's existing filters, so the round, undecided, participant and duplicate rules still apply. Filtered fields are not returned to the browser. A request naming an option that has since been disabled or removed is rejected with a 400.
+
+Tiles appear in every session, filtered or not. For each page of applications the server reads the tile options' fields, works out the matches itself and sends only each matching option's record ID, label and tone. It mirrors the formula clauses for checkbox, number, text, single select and multiple select fields; linked-record fields read as names in a formula but as record IDs through the API, so don't use them for tiles. In a filtered session, an application the tile evaluation would not have matched is logged by record and option ID. If tiles can't be worked out, the queue loads without them.
 
 The session summary's progress and decision email counts always cover the whole round, so a filtered session labels them **Whole round**. `start:preview` offers two sample options.
 

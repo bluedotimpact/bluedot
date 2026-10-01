@@ -23,3 +23,21 @@ test('shows no dual-role badge for participant-only applicants', () => {
   render(<ApplicationCard {...baseProps} application={{ id: 'recSolo', name: 'Solo applicant' }} />);
   expect(screen.queryByText('Also applied to facilitate')).toBeNull();
 });
+
+test('shows each matching option as a tile in its tone', () => {
+  render(<ApplicationCard {...baseProps} application={{
+    id: 'recTiles',
+    name: 'Tiled applicant',
+    tiles: [{ id: 'recSampleFilterA', label: 'Sample filter A', tone: 'caution' }, { id: 'recSampleFilterB', label: 'Sample filter B', tone: 'neutral' }],
+  }}
+  />);
+  const tiles = screen.getByRole('list', { name: 'Tags' }).querySelectorAll('li');
+  expect([...tiles].map((tile) => tile.textContent)).toEqual(['Sample filter A', 'Sample filter B']);
+  expect(tiles[0]!.className).toContain('bg-warning-bg');
+  expect(tiles[1]!.className).toContain('bg-tint');
+});
+
+test('shows no tile list when nothing matches', () => {
+  render(<ApplicationCard {...baseProps} application={{ id: 'recPlain', name: 'Plain applicant' }} />);
+  expect(screen.queryByRole('list', { name: 'Tags' })).toBeNull();
+});

@@ -4,6 +4,7 @@ import {
 
 vi.mock('./env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-airtable-credential' } }));
 
+import { logger } from '@bluedot/ui/src/api';
 import {
   fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToCourse, undoMoveToCourse,
   fetchDecisionEmailCounts, flagDecisionEmails, fetchFilterOptions,
@@ -15,6 +16,8 @@ beforeEach(() => {
   vi.stubEnv('NEXT_PUBLIC_LOCAL_PREVIEW', 'false');
   vi.stubGlobal('fetch', fetchMock);
   fetchMock.mockReset();
+  // Requests a test doesn't set up (such as the tile config read) see an empty table.
+  fetchMock.mockImplementation(async () => new Response(JSON.stringify({ records: [] })));
 });
 afterEach(() => {
   vi.unstubAllEnvs();
@@ -88,7 +91,7 @@ describe('real-data Airtable adapter', () => {
     })));
     const secondPage = await fetchApplications('recLiveRound', firstPage.nextOffset);
     expect(secondPage.applications.map((a) => a.name)).toEqual(['Unscored applicant']);
-    const request = new URL(fetchMock.mock.calls[1]?.[0] as string);
+    const request = fetchMock.mock.calls.map(([input]) => new URL(input as string)).filter((url) => url.pathname.endsWith('/tblXKnWoXK3R63F6D'))[1]!;
     expect(request.searchParams.get('filterByFormula')).toContain('OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK())');
     expect(request.searchParams.get('offset')).toBeNull();
   });
@@ -224,10 +227,10 @@ describe('queue filters', () => {
   const UNSCORED_FORMULA = 'AND(FIND("recLiveRound", {fldrmNLS764z8WEbR} & ""), AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK())))';
   const withQueueFilter = (formula: string, queueFilter: string) => `${formula.slice(0, -1)}, ${queueFilter})`;
 
-  const configRow = (id: string, label: string, fieldId: string, matchType: string, value?: string) => ({
+  const configRow = (id: string, label: string, fieldId: string, matchType: string, value?: string, extra: Record<string, unknown> = {}) => ({
     id,
     fields: {
-      flduOM83yebFthjm2: label, fldBal237GLenUbp0: fieldId, fldh5gt8w7cIHLfAO: matchType, ...(value === undefined ? {} : { fldZlRJXr9bUtOS4y: value }),
+      flduOM83yebFthjm2: label, fldBal237GLenUbp0: fieldId, fldh5gt8w7cIHLfAO: matchType, ...(value === undefined ? {} : { fldZlRJXr9bUtOS4y: value }), ...extra,
     },
   });
   const configRows = [
@@ -264,7 +267,7 @@ describe('queue filters', () => {
     expect(request.searchParams.get('sort[0][direction]')).toBe('asc');
   });
 
-  test('no filters leaves both round formulas byte-for-byte unchanged and skips the config table', async () => {
+  test('no filters leaves both round formulas byte-for-byte unchanged', async () => {
     await fetchApplications('recLiveRound');
     await fetchApplications('recLiveRound', undefined, 'top', { optionIds: [], mode: 'all' });
     expect(formulas()).toEqual([SCORED_FORMULA, UNSCORED_FORMULA, SCORED_FORMULA, UNSCORED_FORMULA]);
@@ -314,6 +317,85 @@ describe('queue filters', () => {
     await expect(fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleTicked', optionId], mode: 'any' }))
       .rejects.toMatchObject({ statusCode: 400, expose: true });
     expect(formulas()).toEqual([]);
+  });
+
+  describe('tiles', () => {
+    const tileConfig = [
+      configRow('recSampleTileA', 'Sample filter A', 'fldSampleTarget01', 'Checkbox is ticked', undefined, { fldMnS4j40MkMRmsl: true, fldZj8C8XDVpTR8qh: 'Caution' }),
+      configRow('recSampleTileB', 'Sample filter B', 'fldSampleTarget02', 'Has value', 'Sample value', { fldMnS4j40MkMRmsl: true, fldZj8C8XDVpTR8qh: 'Positive' }),
+      configRow('recSampleTileC', 'Sample filter C', 'fldSampleTarget03', 'Number is at least', '2.5', { fldMnS4j40MkMRmsl: true }),
+      configRow('recSampleFilterOnly', 'Sample filter D', 'fldSampleTarget04', 'Checkbox is ticked'),
+    ];
+    const inRound = (id: string, name: string) => ({ id, fields: { fldYaHSLqnvBXyjur: ['recLiveRound'], fld1rOZGAHBRcdJcM: name } });
+    const tileValues = [
+      { id: 'recApplicantOne', fields: { fldSampleTarget01: true, fldSampleTarget02: ['Sample other', 'Sample value'], fldSampleTarget03: 3 } },
+      { id: 'recApplicantTwo', fields: { fldSampleTarget02: 'Sample other', fldSampleTarget03: 2 } },
+    ];
+    const isTileValuesRequest = (url: URL) => url.searchParams.get('filterByFormula')?.startsWith('OR(RECORD_ID()') ?? false;
+
+    beforeEach(() => {
+      vi.spyOn(logger, 'warn').mockImplementation(() => logger);
+      fetchMock.mockImplementation(async (input) => {
+        const url = new URL(input as string);
+        if (url.pathname.endsWith('/tblqMbr9KxusIrWA6')) return new Response(JSON.stringify({ records: tileConfig }));
+        if (isTileValuesRequest(url)) return new Response(JSON.stringify({ records: tileValues }));
+        return new Response(JSON.stringify({ records: [inRound('recApplicantOne', 'First applicant'), inRound('recApplicantTwo', 'Second applicant')] }));
+      });
+    });
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    const requests = () => fetchMock.mock.calls.map(([input]) => new URL(input as string));
+
+    test('each application gets its matching tile options as label and tone only', async () => {
+      const result = await fetchApplications('recLiveRound');
+      expect(result.applications.map((application) => application.tiles)).toEqual([
+        [
+          { id: 'recSampleTileA', label: 'Sample filter A', tone: 'caution' },
+          { id: 'recSampleTileB', label: 'Sample filter B', tone: 'positive' },
+          { id: 'recSampleTileC', label: 'Sample filter C', tone: 'neutral' },
+        ],
+        undefined,
+      ]);
+
+      const valuesRequest = requests().find(isTileValuesRequest)!;
+      expect(valuesRequest.searchParams.get('filterByFormula')).toBe('OR(RECORD_ID() = "recApplicantOne", RECORD_ID() = "recApplicantTwo")');
+      // Only tile options' fields are read; the filter-only option's is not.
+      expect(valuesRequest.searchParams.getAll('fields[]')).toEqual(['fldSampleTarget01', 'fldSampleTarget02', 'fldSampleTarget03']);
+
+      // The queue request itself is unchanged, and no field value reaches the response.
+      const queueRequest = requests().find((url) => url.pathname.endsWith('/tblXKnWoXK3R63F6D'))!;
+      expect(queueRequest.searchParams.get('filterByFormula')).toBe(SCORED_FORMULA);
+      expect(queueRequest.searchParams.getAll('fields[]').some((field) => field.startsWith('fldSampleTarget'))).toBe(false);
+      const serialized = JSON.stringify(result);
+      expect(serialized).not.toContain('fldSampleTarget');
+      expect(serialized).not.toContain('Sample other');
+    });
+
+    test('a failure working out tiles still loads the queue, without tiles', async () => {
+      fetchMock.mockImplementation(async (input) => {
+        const url = new URL(input as string);
+        if (url.pathname.endsWith('/tblqMbr9KxusIrWA6')) return new Response('{}', { status: 500 });
+        return new Response(JSON.stringify({ records: [inRound('recApplicantOne', 'First applicant')] }));
+      });
+      const result = await fetchApplications('recLiveRound');
+      expect(result.applications).toEqual([expect.objectContaining({ id: 'recApplicantOne' })]);
+      expect(result.applications[0]!.tiles).toBeUndefined();
+      expect(logger.warn).toHaveBeenCalledWith(expect.stringContaining('could not work out tiles'));
+    });
+
+    test('logs, by ID only, a filtered application the tile evaluation would not have matched', async () => {
+      await fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleFilterOnly'], mode: 'any' });
+      const valuesRequest = requests().find(isTileValuesRequest)!;
+      expect(valuesRequest.searchParams.getAll('fields[]')).toContain('fldSampleTarget04');
+      const messages = vi.mocked(logger.warn).mock.calls.map(([message]) => (typeof message === 'string' ? message : ''));
+      expect(messages).toEqual([
+        expect.stringContaining('recApplicantOne'),
+        expect.stringContaining('recApplicantTwo'),
+      ]);
+      expect(messages.every((message) => message.includes('recSampleFilterOnly') && !message.includes('fldSampleTarget'))).toBe(true);
+    });
   });
 });
 

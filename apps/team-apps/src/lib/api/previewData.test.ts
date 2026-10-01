@@ -49,6 +49,9 @@ describe('isolated local preview', () => {
       .applications.map((application) => application.id);
     expect(await queueIds('any')).toEqual(['recSamplePerson01', 'recSamplePerson02', 'recSamplePerson03']);
     expect(await queueIds('all')).toEqual(['recSamplePerson03']);
+    const { applications } = await fetchApplications(round!.id);
+    expect(applications.find((application) => application.id === 'recSamplePerson03')?.tiles?.map((tile) => tile.label)).toEqual(['Sample filter A', 'Sample filter B']);
+    expect(applications.find((application) => application.id === 'recSamplePerson05')?.tiles).toBeUndefined();
     await expect(fetchApplications(round!.id, undefined, 'top', { optionIds: ['recPreviewUnknown'], mode: 'any' })).rejects.toMatchObject({ statusCode: 400 });
     expect(network).not.toHaveBeenCalled();
   });

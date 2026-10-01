@@ -114,6 +114,7 @@ try {
   await page.getByRole('link', { name: 'Speed Reviewer', exact: true }).click();
   await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).click();
   await page.getByText('Alex Morgan', { exact: true }).waitFor();
+  assert.deepEqual(await page.getByRole('list', { name: 'Tags' }).getByRole('listitem').allTextContents(), ['Sample filter A'], 'Matching tile options show on the person card');
   await page.getByRole('button', { name: 'Pause timer' }).click();
   // External tools leave the active reviewer and its queued application in place.
   await openExternalApp(page.getByRole('navigation', { name: 'Apps' }).getByRole('link', { name: externalName }));
@@ -158,7 +159,7 @@ try {
   await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).click();
   await page.getByText('Jordan Patel', { exact: true }).waitFor();
   assert.equal(await page.getByText('Filtered queue', { exact: true }).count(), 1);
-  assert.equal(await page.getByText('Sample filter A').count(), 0, 'Option labels stay in the picker');
+  assert.deepEqual(await page.getByRole('list', { name: 'Tags' }).getByRole('listitem').allTextContents(), ['Sample filter A', 'Sample filter B']);
   await page.getByRole('button', { name: 'Conclude session' }).click();
   await page.getByRole('button', { name: 'Review a different round', exact: true }).click();
   assert.equal(await page.getByRole('checkbox', { name: 'Sample filter B' }).isChecked(), true);

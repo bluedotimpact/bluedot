@@ -1,5 +1,7 @@
 import createHttpError from 'http-errors';
-import type { Application, FilterOption, QueueFilters } from '../client/types';
+import type {
+  Application, ApplicationTile, FilterOption, QueueFilters,
+} from '../client/types';
 import type { DecisionEmailCounts, Round, RoundStats } from './airtable';
 
 const rounds: Round[] = [
@@ -26,11 +28,21 @@ const people: Application[] = [
 ];
 
 // Each sample option matches a fixed set of sample applicants, so any and all
-// give different queues: any of both → 01, 02, 03; all of both → 03.
-const filterOptions: (FilterOption & { matches: string[] })[] = [
-  { id: 'recPreviewFilterA', label: 'Sample filter A', matches: ['recSamplePerson01', 'recSamplePerson03'] },
-  { id: 'recPreviewFilterB', label: 'Sample filter B', matches: ['recSamplePerson02', 'recSamplePerson03'] },
+// give different queues: any of both → 01, 02, 03; all of both → 03. Both
+// show as tiles, in different tones.
+const filterOptions: (ApplicationTile & { matches: string[] })[] = [
+  {
+    id: 'recPreviewFilterA', label: 'Sample filter A', tone: 'caution', matches: ['recSamplePerson01', 'recSamplePerson03'],
+  },
+  {
+    id: 'recPreviewFilterB', label: 'Sample filter B', tone: 'positive', matches: ['recSamplePerson02', 'recSamplePerson03'],
+  },
 ];
+
+const withTiles = (person: Application): Application => {
+  const tiles = filterOptions.filter((option) => option.matches.includes(person.id)).map(({ id, label, tone }) => ({ id, label, tone }));
+  return tiles.length > 0 ? { ...person, tiles } : person;
+};
 
 const matchesFilters = (person: Application, filters?: QueueFilters): boolean => {
   if (!filters?.optionIds.length) return true;
@@ -62,7 +74,7 @@ export const previewData = {
       if (a.totalScore === undefined) return 1;
       if (b.totalScore === undefined) return -1;
       return direction === 'bottom' ? a.totalScore - b.totalScore : b.totalScore - a.totalScore;
-    }),
+    }).map(withTiles),
   }),
   fetchApplicationHistory: async () => [],
   fetchRoundStats: async (): Promise<RoundStats> => ({ total: people.length, evaluated: Object.keys(state().opinions).length, accepted: Object.values(state().opinions).filter((opinion) => opinion.decision === 'Accept').length }),
