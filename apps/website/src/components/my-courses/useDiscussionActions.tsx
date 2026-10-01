@@ -2,8 +2,7 @@ import {
   CTALinkOrButton, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
-import { FaCheck } from 'react-icons/fa6';
-import { IoBan, IoCheckmark } from 'react-icons/io5';
+import { FaBan, FaCheck } from 'react-icons/fa6';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
@@ -110,7 +109,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       variant: 'inline',
       inline: (
         <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoCheckmark aria-hidden size={14} />
+          <FaCheck aria-hidden className="size-3.5" />
           Attended
         </span>
       ),
@@ -121,7 +120,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       variant: 'inline',
       inline: (
         <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
+          <FaBan aria-hidden className="size-3.5" />
           Absent
         </span>
       ),

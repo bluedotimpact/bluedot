@@ -2,8 +2,7 @@ import {
   CTALinkOrButton, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
-import { FaCheck, FaLock } from 'react-icons/fa6';
-import { IoBan } from 'react-icons/io5';
+import { FaBan, FaCheck, FaLock } from 'react-icons/fa6';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
@@ -352,7 +351,7 @@ const getParticipantActions = (
       variant: 'inline',
       inline: (
         <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
+          <FaBan aria-hidden className="size-3.5" />
           Dropped
         </span>
       ),
@@ -429,7 +428,7 @@ const getFacilitatorActions = (
       variant: 'inline',
       inline: (
         <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
+          <FaBan aria-hidden className="size-3.5" />
           Dropped
         </span>
       ),

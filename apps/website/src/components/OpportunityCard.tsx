@@ -5,25 +5,25 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useId, type ReactNode } from 'react';
 import {
-  LuArrowRight, LuArrowUpRight, LuBlocks, LuComponent, LuRoute, LuShield,
-} from 'react-icons/lu';
+  FaArrowRight, FaArrowUpRightFromSquare, FaCubes, FaPuzzlePiece, FaRoute, FaShieldHalved,
+} from 'react-icons/fa6';
 
 // Each opportunity keeps the same visual identity on the homepage and directories.
 const OPPORTUNITY_STYLES = {
   funding: {
-    icon: LuBlocks,
+    icon: FaCubes,
     gradient: 'radial-gradient(ellipse at 100% 110%, var(--marketing-hero-blue) 0%, var(--marketing-hero-indigo) 42%, var(--marketing-hero-midnight) 85%)',
   },
   careerTransition: {
-    icon: LuRoute,
+    icon: FaRoute,
     gradient: 'radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--marketing-hero-sky) 65%, var(--marketing-hero-indigo)) 0%, var(--marketing-hero-blue) 50%, var(--marketing-hero-indigo) 100%)',
   },
   programs: {
-    icon: LuComponent,
+    icon: FaPuzzlePiece,
     gradient: 'linear-gradient(130deg, var(--marketing-hero-indigo) 0%, var(--marketing-hero-blue) 62%, color-mix(in srgb, var(--marketing-hero-sky) 35%, var(--marketing-hero-blue)) 100%)',
   },
   securityBootcamp: {
-    icon: LuShield,
+    icon: FaShieldHalved,
     gradient: 'radial-gradient(ellipse at 0% 100%, color-mix(in srgb, var(--marketing-hero-sky) 55%, var(--marketing-hero-indigo)) 0%, var(--marketing-hero-indigo) 35%, var(--marketing-hero-midnight) 90%)',
   },
 } as const;
@@ -47,7 +47,7 @@ const OpportunityCard = ({
 }: OpportunityCardProps) => {
   const titleId = useId();
   const { icon: Icon, gradient } = OPPORTUNITY_STYLES[tone];
-  const Arrow = external ? LuArrowUpRight : LuArrowRight;
+  const Arrow = external ? FaArrowUpRightFromSquare : FaArrowRight;
   const Heading = { 2: H2, 3: H3, 4: H4 }[headingLevel];
   const className = clsx(
     'opportunity-card group relative flex h-full min-h-56 flex-col overflow-hidden rounded-surface border border-bluedot-navy/10 text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bluedot-normal',

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { RiCloseLine } from 'react-icons/ri';
+import { FaXmark } from 'react-icons/fa6';
 import { maskEmail } from '../../lib/utils';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { safeSessionStorage } from '../../utils/safeStorage';
@@ -110,7 +110,7 @@ export const ImpersonationBadge = () => {
           className="p-0.5 hover:bg-yellow-500 rounded"
           aria-label="Stop impersonating"
         >
-          <RiCloseLine size={16} />
+          <FaXmark aria-hidden="true" className="size-4" />
         </button>
       </div>
     </div>
