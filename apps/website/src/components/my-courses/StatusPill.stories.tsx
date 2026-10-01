@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { FaCheck } from 'react-icons/fa6';
 import { FaBan, FaCheck } from 'react-icons/fa6';
 import StatusPill from './StatusPill';
 
@@ -22,7 +21,7 @@ export const AllPills: Story = {
       <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Absent</StatusPill>
       <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Dropped</StatusPill>
       <StatusPill>3 Attending</StatusPill>
-      <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>
+      <StatusPill icon={<FaCheck aria-hidden className="size-3" />}>Facilitated</StatusPill>
     </div>
   ),
 };

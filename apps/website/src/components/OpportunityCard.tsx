@@ -68,7 +68,7 @@ const OpportunityCard = ({
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none" />
       <div className={clsx('relative flex items-start justify-between gap-4', compact ? 'mb-7' : 'mb-8 md:mb-10')}>
-        <Icon aria-hidden="true" className="size-7" strokeWidth={1.4} />
+        <Icon aria-hidden="true" className="size-6" />
         {!ctaLabel && <Arrow aria-hidden="true" className={arrowClassName} />}
       </div>
       <div className={clsx('relative flex flex-col gap-3', compact && 'mt-auto')}>

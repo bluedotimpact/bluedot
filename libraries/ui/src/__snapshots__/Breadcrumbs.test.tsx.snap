@@ -25,7 +25,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </a>
           <svg
             aria-hidden="true"
-            class="size-4 text-secondary shrink-0"
+            class="size-3 text-secondary shrink-0"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -45,7 +45,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
             ⋯
             <svg
               aria-hidden="true"
-              class="size-4 text-secondary shrink-0"
+              class="size-3 text-secondary shrink-0"
               fill="currentColor"
               height="1em"
               stroke="currentColor"
@@ -73,7 +73,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </a>
           <svg
             aria-hidden="true"
-            class="size-4 text-secondary shrink-0"
+            class="size-3 text-secondary shrink-0"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -100,7 +100,7 @@ exports[`Breadcrumbs > renders parent pages as links and the current page as pla
           </a>
           <svg
             aria-hidden="true"
-            class="size-4 text-secondary shrink-0"
+            class="size-3 text-secondary shrink-0"
             fill="currentColor"
             height="1em"
             stroke="currentColor"

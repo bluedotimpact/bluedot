@@ -221,7 +221,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
               <details key={courseName} open className="group">
                 <summary className="flex items-center justify-between cursor-pointer list-none [&::-webkit-details-marker]:hidden min-h-11">
                   <span className="text-size-xs font-semibold text-secondary">{courseName}</span>
-                  <FaChevronDown className="size-3.5 text-secondary transition-transform group-open:rotate-180 shrink-0" />
+                  <FaChevronDown className="size-2.5 text-secondary transition-transform group-open:rotate-180 shrink-0" />
                 </summary>
                 <div className="space-y-2 mt-2">
                   {grouped[courseName]!.slice(0, ROUNDS_PER_COURSE).map((round) => (

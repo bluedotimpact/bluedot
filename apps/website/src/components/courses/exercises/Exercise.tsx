@@ -233,7 +233,7 @@ const Exercise: React.FC<ExerciseProps> = ({
               )}
             >
               {(isCompleted || (checkboxHovered && !checkboxDisabled)) && (
-                <FaCheck aria-hidden="true" className={cn('size-3', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
+                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
               )}
             </button>
           </div>

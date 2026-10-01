@@ -710,7 +710,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </a>
                   <svg
                     aria-hidden="true"
-                    class="size-4 text-secondary shrink-0"
+                    class="size-3 text-secondary shrink-0"
                     fill="currentColor"
                     height="1em"
                     stroke="currentColor"
@@ -730,7 +730,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     ⋯
                     <svg
                       aria-hidden="true"
-                      class="size-4 text-secondary shrink-0"
+                      class="size-3 text-secondary shrink-0"
                       fill="currentColor"
                       height="1em"
                       stroke="currentColor"
@@ -758,7 +758,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </a>
                   <svg
                     aria-hidden="true"
-                    class="size-4 text-secondary shrink-0"
+                    class="size-3 text-secondary shrink-0"
                     fill="currentColor"
                     height="1em"
                     stroke="currentColor"

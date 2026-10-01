@@ -8,7 +8,7 @@ exports[`ListenToArticleButton > should render correctly 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="size-4 group-hover:text-bluedot-navy transition-colors duration-200"
+    class="size-2.5 group-hover:text-bluedot-navy transition-colors duration-200"
     fill="currentColor"
     height="1em"
     stroke="currentColor"

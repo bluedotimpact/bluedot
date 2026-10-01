@@ -51,7 +51,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </span>
           <svg
             aria-hidden="true"
-            class="size-4 flex-shrink-0 transition-transform duration-300 text-white rotate-45"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-white rotate-45"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -137,7 +137,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </span>
           <svg
             aria-hidden="true"
-            class="size-4 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -223,7 +223,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </span>
           <svg
             aria-hidden="true"
-            class="size-4 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
             fill="currentColor"
             height="1em"
             stroke="currentColor"

@@ -36,7 +36,7 @@ export const SidebarActionCard = ({
         {subtitle && <span className="text-size-xs leading-normal">{subtitle}</span>}
       </span>
       {tone === 'locked'
-        ? <FaLock aria-hidden="true" className="size-5 shrink-0" />
+        ? <FaLock aria-hidden="true" className="size-3.5 shrink-0" />
         : <FaArrowRight aria-hidden="true" className="size-5 shrink-0" />}
     </>
   );
