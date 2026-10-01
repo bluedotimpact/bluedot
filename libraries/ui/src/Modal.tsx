@@ -19,8 +19,10 @@ export type ModalProps = {
   ariaLabel?: string;
   /**
    * When false the dialog has no exit of its own: the close button is hidden and Escape, backdrop click
-   * and (on mobile) drag do nothing. Use it while a request is in flight or in a terminal state; the body
-   * must supply the way out, or close programmatically via `isOpen`.
+   * and (on mobile) drag-to-dismiss do nothing. The sheet can still be dragged up to expand. Use it while
+   * a request is in flight or in a terminal state; the body must supply the way out, or close
+   * programmatically via `isOpen`. Set it whenever `setIsOpen(false)` would be ignored: a mobile sheet
+   * whose close is refused after its exit animation is left as an invisible overlay.
    */
   isDismissable?: boolean;
 };
