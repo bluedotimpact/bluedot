@@ -18,4 +18,5 @@ export type { IconProps } from './types';
 
 export { BooksIcon } from './BooksIcon';
 export { ChunkIcon } from './ChunkIcon';
+export { LaurelWreathIcon } from './LaurelWreathIcon';
 export { ResizeHandleIcon } from './ResizeHandleIcon';
