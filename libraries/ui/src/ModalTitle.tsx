@@ -13,7 +13,7 @@ export const ModalTitle = forwardRef<HTMLHeadingElement, ModalTitleProps>(({ chi
       ref={ref}
       slot="title"
       level={2}
-      className={cn('text-size-md text-bluedot-black leading-snug font-medium tracking-normal', className)}
+      className={cn('text-size-md text-primary leading-snug font-semibold tracking-normal', className)}
       {...props}
     >
       {children}
