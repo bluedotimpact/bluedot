@@ -46,6 +46,7 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
 - Use Tailwind for new styles. Migrate BEM classes you touch.
 - Comments: write them only when the *why* is non-obvious. Don't narrate *what* the code does, and don't reference the current task or PR ("added for issue #123") — that belongs in the PR description.
 - Don't add features, abstractions, or error handling beyond what the task requires. Trust internal code; only validate at system boundaries.
+- Time values: when a number holds a time or duration, put the unit in its name (`startTimeSeconds`, `currentTimeMs`, `timeoutMs`). Airtable data (`@bluedot/db`) uses seconds and JavaScript `Date` uses milliseconds, so a bare `startTime` is ambiguous. Pass time values to functions as named parameters, so the unit shows at the call site: `formatTime({ startTimeSeconds })`, not `formatTime(startTime)`. Apply this to new and changed code; don't rename existing names just for this.
 
 ## Database / schema changes
 

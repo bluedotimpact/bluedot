@@ -716,6 +716,7 @@ The production website also needs:
 | React Testing Library best practices | Tests should resemble how users interact with the software |
 | Snapshot + functional tests | Catches regressions and ensures functionality |
 | Airtable + PostgreSQL architecture | Best of both worlds — CRM features + performance |
+| Units in time names (`startTimeSeconds`, `currentTimeMs`), passed as named parameters | Airtable data uses seconds and JavaScript uses milliseconds, so unitless times cause bugs. For new and changed code; existing names aren't renamed just for this |
 
 ### Appendix B: FAQ
 
