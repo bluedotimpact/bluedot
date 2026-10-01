@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Select > applies disabled styling to disabled options 1`] = `
+exports[`Select > marks disabled options 1`] = `
 <div
   inert=""
 >
@@ -8,36 +8,39 @@ exports[`Select > applies disabled styling to disabled options 1`] = `
     data-react-aria-hidden="true"
   />
   <div
-    class="w-full flex flex-col bg-raised border border-border-control rounded-surface transition-all text-size-sm"
+    class="group flex flex-col w-full"
     data-focus-visible="true"
     data-focused="true"
     data-open="true"
     data-rac=""
   >
     <button
-      aria-controls="react-aria-:r12:"
+      aria-controls="react-aria-:r1p:"
       aria-expanded="true"
       aria-haspopup="listbox"
       aria-label="Test select"
-      aria-labelledby="react-aria-:r18: react-aria-:r13:"
-      class="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
+      aria-labelledby="react-aria-:r1v: react-aria-:r1q:"
+      class="flex items-center gap-2 text-left cursor-pointer transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus group-data-[disabled]:cursor-not-allowed w-full h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary hover:bg-tint group-data-[disabled]:border-default group-data-[disabled]:bg-surface-disabled group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-surface-disabled group-data-[invalid]:border-error-fg"
       data-focus-visible="true"
       data-focused="true"
       data-pressed="true"
       data-rac=""
       data-react-aria-pressable="true"
-      id="react-aria-:r13:"
+      id="react-aria-:r1q:"
       tabindex="0"
       type="button"
     >
       <span
-        class="flex-1 min-w-0 text-primary"
+        class="flex-1 min-w-0 truncate text-placeholder group-data-[disabled]:text-disabled"
+        data-placeholder="true"
+        data-rac=""
+        id="react-aria-:r1v:"
       >
         Select an option
       </span>
       <svg
         aria-hidden="true"
-        class="size-3 -translate-y-px flex-shrink-0 transition-transform rotate-180"
+        class="size-4 shrink-0 text-secondary transition-transform group-data-[open]:rotate-180 group-data-[disabled]:text-disabled"
         fill="currentColor"
         height="1em"
         stroke="currentColor"
@@ -87,7 +90,7 @@ exports[`Select > renders with selected value 1`] = `
     data-react-aria-hidden="true"
   />
   <div
-    class="w-full flex flex-col bg-raised border border-border-control rounded-surface transition-all text-size-sm"
+    class="group flex flex-col w-full"
     data-rac=""
   >
     <button
@@ -95,7 +98,7 @@ exports[`Select > renders with selected value 1`] = `
       aria-haspopup="listbox"
       aria-label="Test select"
       aria-labelledby="react-aria-:r7: react-aria-:r2:"
-      class="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
+      class="flex items-center gap-2 text-left cursor-pointer transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus group-data-[disabled]:cursor-not-allowed w-full h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary hover:bg-tint group-data-[disabled]:border-default group-data-[disabled]:bg-surface-disabled group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-surface-disabled group-data-[invalid]:border-error-fg"
       data-rac=""
       data-react-aria-pressable="true"
       id="react-aria-:r2:"
@@ -103,13 +106,15 @@ exports[`Select > renders with selected value 1`] = `
       type="button"
     >
       <span
-        class="flex-1 min-w-0 text-primary"
+        class="flex-1 min-w-0 truncate"
+        data-rac=""
+        id="react-aria-:r7:"
       >
         Option 1
       </span>
       <svg
         aria-hidden="true"
-        class="size-3 -translate-y-px flex-shrink-0 transition-transform rotate-0"
+        class="size-4 shrink-0 text-secondary transition-transform group-data-[open]:rotate-180 group-data-[disabled]:text-disabled"
         fill="currentColor"
         height="1em"
         stroke="currentColor"

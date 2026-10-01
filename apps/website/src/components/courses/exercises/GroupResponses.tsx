@@ -56,7 +56,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
             options={groups.map((g) => ({ value: g.id, label: getGroupLabel(g) }))}
             value={selectedGroup.id}
             onChange={setSelectedGroupId}
-            ariaLabel="Select your group"
+            aria-label="Select your group"
           />
         </div>
       )}

@@ -208,8 +208,9 @@ export default function GroupSwitchModal({
         value={switchType}
         onChange={(value) => setSwitchType(value as SwitchType)}
         options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-        className="border-none text-size-md font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
-        ariaLabel="Select action"
+        variant="ghost"
+        className="mx-auto"
+        aria-label="Select action"
       />
     );
   };
@@ -291,7 +292,7 @@ export default function GroupSwitchModal({
           value={switchType}
           onChange={(value) => setSwitchType(value as SwitchType)}
           options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-          ariaLabel="Select action"
+          aria-label="Select action"
         />
       ),
     },
@@ -305,7 +306,7 @@ export default function GroupSwitchModal({
           onChange={(value) => setSelectedUnitNumber(value)}
           options={unitOptions}
           placeholder="Select a unit"
-          ariaLabel="Select unit"
+          aria-label="Select unit"
         />
       ),
     },
