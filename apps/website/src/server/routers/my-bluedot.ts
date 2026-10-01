@@ -21,7 +21,6 @@ import {
   type Unit,
   unitTable,
 } from '@bluedot/db';
-import z from 'zod';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
 import { hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
@@ -114,31 +113,9 @@ const fetchDropoutStatusByRegId = async (regIds: string[]): Promise<Map<string, 
 const isDeferredToAnotherRound = (status: RegistrationDropoutStatus, roundId: string | null): boolean =>
   status.isDeferred && !!roundId && !status.deferredIntoRoundIds.includes(roundId);
 
+const LIVE_ROUND_STATUSES = ['Active', 'Future'];
+
 export const myBluedotRouter = router({
-  // TODO: Superseded by hasFacilitatorNavItems, remove once old bundles no longer call it (after ~2026-09-07)
-  hasFacilitatorRegistrations: protectedProcedure
-    .input(z.object({ includeWithdrawn: z.boolean().optional() }).optional())
-    .query(async ({ ctx, input }) => {
-      const includeWithdrawn = input?.includeWithdrawn ?? false;
-      const user = await getUserFromAuthOrThrow(ctx.auth);
-
-      const rows = await db.pg
-        .select({ id: courseRegistrationTable.pg.id })
-        .from(courseRegistrationTable.pg)
-        .where(and(
-          eq(courseRegistrationTable.pg.userId, user.id),
-          eq(courseRegistrationTable.pg.role, COURSE_ROLE.FACILITATOR),
-          includeWithdrawn
-            ? undefined
-            : or(
-              ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
-              isNull(courseRegistrationTable.pg.decision),
-            ),
-        ))
-        .limit(1);
-      return { hasFacilitatorRegistrations: rows.length > 0 };
-    }),
-
   hasFacilitatorNavItems: protectedProcedure.query(async ({ ctx }) => {
     const user = await getUserFromAuthOrThrow(ctx.auth);
 
@@ -161,6 +138,10 @@ export const myBluedotRouter = router({
           or(
             ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
             isNull(courseRegistrationTable.pg.decision),
+          ),
+          or(
+            inArray(courseRegistrationTable.pg.roundStatus, LIVE_ROUND_STATUSES),
+            ne(meetPersonTable.pg.groupsAsFacilitator, []),
           ),
         ))
         .limit(1),
@@ -502,7 +483,9 @@ export const myBluedotRouter = router({
       const groupsForCr = facilitatedGroups.filter((g) => g.round === meetPerson.round && (g.facilitator ?? []).includes(meetPerson.id));
 
       if (groupsForCr.length === 0) {
-        return [emptyRow];
+        const isLive = LIVE_ROUND_STATUSES.includes(cr.roundStatus ?? '');
+        const hasGroup = (meetPerson.groupsAsFacilitator ?? []).length > 0;
+        return isLive || hasGroup ? [emptyRow] : [];
       }
 
       return groupsForCr.map((group): FacilitatorRowProps => {
