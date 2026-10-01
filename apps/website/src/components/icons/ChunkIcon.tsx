@@ -1,7 +1,7 @@
 import { cn } from '@bluedot/ui';
-import type { IconProps } from './types';
+import type { SVGProps } from 'react';
 
-type ChunkIconProps = IconProps & {
+type ChunkIconProps = SVGProps<SVGSVGElement> & {
   isActive?: boolean;
 };
 

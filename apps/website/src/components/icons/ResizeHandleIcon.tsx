@@ -1,8 +1,8 @@
 import { cn } from '@bluedot/ui';
-import type { IconProps } from './types';
+import type { SVGProps } from 'react';
 
 // clipPath id is stable since this icon is used at most once per page.
-export const ResizeHandleIcon = ({ className, ...props }: IconProps) => (
+export const ResizeHandleIcon = ({ className, ...props }: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 15 14"

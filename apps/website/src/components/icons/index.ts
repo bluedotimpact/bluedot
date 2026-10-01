@@ -5,11 +5,9 @@
  * Adding an icon? Use `react-icons/fa6` (Font Awesome 6, the design-system
  * family) and import it directly: `import { FaCheck } from 'react-icons/fa6'`.
  *
- * Only add a file here when the artwork is genuinely bespoke. New icons take
- * `IconProps` (see `types.ts`) and are re-exported from this barrel.
+ * Only add a file here when the artwork is genuinely bespoke; re-export it
+ * from this barrel.
  */
-
-export type { IconProps } from './types';
 
 export { BooksIcon } from './BooksIcon';
 export { ChunkIcon } from './ChunkIcon';
