@@ -87,7 +87,7 @@ const PersonasSection = ({
                   <FaPlus
                     aria-hidden="true"
                     className={cn(
-                      'size-4 flex-shrink-0 transition-transform duration-300',
+                      'size-5 flex-shrink-0 transition-transform duration-300',
                       isExpanded ? 'text-white rotate-45' : 'text-bluedot-navy',
                     )}
                   />

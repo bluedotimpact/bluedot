@@ -99,7 +99,7 @@ const CourseListRow = (row: CourseListRowProps) => {
       aria-label={isExpanded ? `Collapse ${course.title}` : `Expand ${course.title}`}
       className="flex size-[38px] cursor-pointer items-center justify-center text-bluedot-normal sm:size-5"
     >
-      <FaChevronRight aria-hidden="true" className={`size-5 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
+      <FaChevronRight aria-hidden="true" className={`size-3 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
     </button>
   ) : null;
 

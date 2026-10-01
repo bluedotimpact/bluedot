@@ -131,7 +131,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
       >
         <svg
           aria-hidden="true"
-          class="size-6"
+          class="size-4"
           fill="currentColor"
           height="1em"
           stroke="currentColor"
@@ -330,7 +330,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
       >
         <svg
           aria-hidden="true"
-          class="size-6"
+          class="size-4"
           fill="currentColor"
           height="1em"
           stroke="currentColor"
@@ -467,7 +467,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       >
         <svg
           aria-hidden="true"
-          class="size-6"
+          class="size-4"
           fill="currentColor"
           height="1em"
           stroke="currentColor"

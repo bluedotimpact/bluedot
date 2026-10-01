@@ -207,7 +207,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
           <div>
             <div className="mb-1 font-semibold">{groupName}</div>
             <div className="text-size-xs flex items-center gap-1.5 text-gray-500">
-              <FaUser aria-hidden="true" className="-translate-y-px" />
+              <FaUser aria-hidden="true" className="size-3 -translate-y-px" />
               <span>{spotsLabel}</span>
             </div>
           </div>

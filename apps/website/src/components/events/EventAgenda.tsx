@@ -26,18 +26,18 @@ const EventCard = ({ event, campaign, titleHeading: TitleHeading }: {
           {event.coverUrl && !imageFailed ? (
             <img src={event.coverUrl} alt="" width={112} height={112} loading="lazy" onError={() => setImageFailed(true)} className="size-full object-cover" />
           ) : (
-            <div className="flex size-full items-center justify-center text-bluedot-normal"><FaRegCalendarDays className="size-8" aria-hidden="true" /></div>
+            <div className="flex size-full items-center justify-center text-bluedot-normal"><FaRegCalendarDays className="size-6" aria-hidden="true" /></div>
           )}
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-size-xxs font-medium leading-relaxed text-bluedot-navy/65 sm:text-size-xs">{buildTimeDeltaString(event)}</p>
           <TitleHeading className="mt-1 text-size-sm font-semibold leading-snug tracking-tight text-bluedot-navy group-hover:text-bluedot-normal sm:text-size-md">{event.title}</TitleHeading>
           <p className="mt-2 flex items-center gap-1.5 text-size-xs leading-relaxed text-bluedot-navy/65">
-            <LocationIcon className="size-4 shrink-0" aria-hidden="true" />
+            <LocationIcon className="size-3 shrink-0" aria-hidden="true" />
             {formatLocationLabel(event.location)}
           </p>
         </div>
-        <FaArrowUpRightFromSquare className="hidden size-5 shrink-0 text-bluedot-navy/40 group-hover:text-bluedot-normal sm:block" aria-hidden="true" />
+        <FaArrowUpRightFromSquare className="hidden size-3.5 shrink-0 text-bluedot-navy/40 group-hover:text-bluedot-normal sm:block" aria-hidden="true" />
       </a>
     </li>
   );

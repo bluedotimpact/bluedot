@@ -119,7 +119,7 @@ export const PreviousApplicationsCard: React.FC<PreviousApplicationsCardProps> =
         <span className="text-size-sm font-medium">
           <BannerLabel verdict={verdict} />
         </span>
-        <FaChevronDown className="size-4 transition-transform group-open:rotate-180 shrink-0 opacity-70" />
+        <FaChevronDown className="size-2.5 transition-transform group-open:rotate-180 shrink-0 opacity-70" />
       </summary>
       <ul className="px-3 pb-3 space-y-2">
         {history.map((h) => (

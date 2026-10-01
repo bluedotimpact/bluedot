@@ -67,7 +67,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
   );
 };
 
-const Separator = () => <FaChevronRight aria-hidden="true" className="size-4 text-secondary shrink-0" />;
+const Separator = () => <FaChevronRight aria-hidden="true" className="size-3 text-secondary shrink-0" />;
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => (
   <div className={cn('bg-canvas border-subtle w-full border-b py-3', className)}>

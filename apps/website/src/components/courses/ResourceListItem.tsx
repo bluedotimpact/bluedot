@@ -257,7 +257,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               }`}
             >
               {(isCompleted || isHovered) && (
-                <FaCheck aria-hidden="true" className={cn('size-3', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
+                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
               )}
             </button>
           </div>

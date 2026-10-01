@@ -93,7 +93,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
           <details key={title} className="group">
             <summary className="flex items-center justify-between px-4 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
               <span className="text-size-sm font-semibold font-mono text-stone-300">{title}</span>
-              <FaChevronDown className="size-4 text-stone-500 transition-transform group-open:rotate-180 shrink-0" />
+              <FaChevronDown className="size-2.5 text-stone-500 transition-transform group-open:rotate-180 shrink-0" />
             </summary>
             <p className="px-4 pb-3 text-size-sm text-stone-300 leading-relaxed whitespace-pre-wrap">{content}</p>
           </details>

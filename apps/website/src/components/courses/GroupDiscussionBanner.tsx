@@ -299,7 +299,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           >
             <FaPlus
               aria-hidden="true"
-              className="size-6"
+              className="size-4"
               style={
                 isOpen
                   ? { transform: 'rotate(45deg)', transition: 'transform 200ms' }

@@ -478,7 +478,7 @@ export default function GroupSwitchModal({
 const SWITCH_TYPE_OPTIONS = [
   {
     value: 'Switch group for one unit',
-    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><FaUserClock aria-hidden="true" className="mx-auto size-5 -translate-y-px" /> Switch group for one unit</span>,
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><FaUserClock aria-hidden="true" className="mx-auto size-4 -translate-y-px" /> Switch group for one unit</span>,
   },
   {
     value: 'Switch group permanently',
@@ -600,14 +600,14 @@ const getGroupSwitchDescription = ({
   // Default: N spots left
   const hasAnySpotsLeft = spotsLeftIfKnown !== 0;
   if (!hasAnySpotsLeft) {
-    return <><FaUser aria-hidden="true" className="-translate-y-px" /><span>No spots left</span></>;
+    return <><FaUser aria-hidden="true" className="size-3 -translate-y-px" /><span>No spots left</span></>;
   }
 
   if (spotsLeftIfKnown === null) {
-    return <><FaUser aria-hidden="true" className="-translate-y-px" /><span>Spots available</span></>;
+    return <><FaUser aria-hidden="true" className="size-3 -translate-y-px" /><span>Spots available</span></>;
   }
 
-  return <><FaUser aria-hidden="true" className="-translate-y-px" /><span>{spotsLeftIfKnown} spot{spotsLeftIfKnown === 1 ? '' : 's'} left</span></>;
+  return <><FaUser aria-hidden="true" className="size-3 -translate-y-px" /><span>{spotsLeftIfKnown} spot{spotsLeftIfKnown === 1 ? '' : 's'} left</span></>;
 };
 
 type GroupSwitchOptionProps = {

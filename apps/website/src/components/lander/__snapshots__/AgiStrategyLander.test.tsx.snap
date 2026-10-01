@@ -112,7 +112,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         Courses
                         <svg
                           aria-hidden="true"
-                          class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                          class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                           fill="currentColor"
                           height="1em"
                           stroke="currentColor"
@@ -175,7 +175,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         Grants
                         <svg
                           aria-hidden="true"
-                          class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                          class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                           fill="currentColor"
                           height="1em"
                           stroke="currentColor"
@@ -238,7 +238,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         Programs
                         <svg
                           aria-hidden="true"
-                          class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                          class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                           fill="currentColor"
                           height="1em"
                           stroke="currentColor"
@@ -355,7 +355,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Courses
                   <svg
                     aria-hidden="true"
-                    class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                    class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                     fill="currentColor"
                     height="1em"
                     stroke="currentColor"
@@ -418,7 +418,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Grants
                   <svg
                     aria-hidden="true"
-                    class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                    class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                     fill="currentColor"
                     height="1em"
                     stroke="currentColor"
@@ -481,7 +481,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Programs
                   <svg
                     aria-hidden="true"
-                    class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                    class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                     fill="currentColor"
                     height="1em"
                     stroke="currentColor"
@@ -1536,7 +1536,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1585,7 +1585,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1634,7 +1634,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1683,7 +1683,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1732,7 +1732,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1781,7 +1781,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1837,7 +1837,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1886,7 +1886,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -1935,7 +1935,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </span>
                 <svg
                   aria-hidden="true"
-                  class="ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
+                  class="ease size-5 flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
