@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ListRow > renders the whole row as one link with the CTA inside it 1`] = `
+<div>
+  <a
+    class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+    href="/grants/rapid"
+    tabindex="0"
+  >
+    <div
+      class="flex min-w-0 flex-1 items-stretch gap-4"
+    >
+      <div
+        class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+      />
+      <div
+        class="min-w-0 flex-1"
+      >
+        <p
+          class="text-size-md leading-snug font-semibold text-primary"
+        >
+          Rapid Grants
+        </p>
+        <p
+          class="mt-1 text-size-sm leading-relaxed text-secondary"
+        >
+          Summary
+        </p>
+        <p
+          class="mt-1 text-size-xs leading-relaxed text-secondary"
+        >
+          Meta
+        </p>
+      </div>
+    </div>
+    <div
+      class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+    >
+      <span
+        class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+      >
+        Learn more
+      </span>
+      <span
+        aria-hidden="true"
+        class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+      >
+        →
+      </span>
+    </div>
+  </a>
+</div>
+`;
