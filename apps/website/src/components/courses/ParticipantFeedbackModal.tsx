@@ -70,8 +70,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
     <Modal
       isOpen
       setIsOpen={(v) => {
-        // Block dismissal while a save is in flight to prevent duplicates
-        if (!v && !savePeerFeedback.isPending) onClose();
+        if (!v) onClose();
       }}
       title={(
         <div className="flex items-center gap-3">
