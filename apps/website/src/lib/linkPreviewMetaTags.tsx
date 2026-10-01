@@ -19,6 +19,34 @@ type LinkPreviewMetaTagsProps = {
   imageType?: string;
 };
 
+type PageMetaTagsProps = {
+  /** Full page title, used for <title>, and for og:title and twitter:title unless `previewTitle` is set */
+  title: string;
+  /** Used for the description, og:description and twitter:description tags */
+  description?: string | null;
+  /** Title for link previews when it should differ from <title> (e.g. without the "| BlueDot Impact" suffix) */
+  previewTitle?: string | null;
+};
+
+/**
+ * Keyed title and description tags for a page: <title>, description, and their
+ * og: and twitter: copies, so link previews show the page's own title and
+ * description.
+ *
+ * Like `linkPreviewMetaTags`, call it as a function inside <Head>:
+ * `{pageMetaTags({ title, description })}`
+ */
+export const pageMetaTags = ({ title, description, previewTitle }: PageMetaTagsProps): ReactElement => (
+  <>
+    <title>{title}</title>
+    <meta key="og:title" property="og:title" content={previewTitle ?? title} />
+    <meta key="twitter:title" name="twitter:title" content={previewTitle ?? title} />
+    {description && <meta key="description" name="description" content={description} />}
+    {description && <meta key="og:description" property="og:description" content={description} />}
+    {description && <meta key="twitter:description" name="twitter:description" content={description} />}
+  </>
+);
+
 /**
  * Keyed link-preview meta tags: the og:image family plus twitter:card and
  * twitter:image (kept in sync with og:image by construction).

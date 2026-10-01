@@ -12,6 +12,7 @@ import { ROUTES } from '../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 type MissionPostPageProps = {
   slug: string;
@@ -30,8 +31,7 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
     <div>
       <Head>
         {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-        <title>{`${mission.title || 'Mission'} | BlueDot Impact`}</title>
-        <meta name="description" content={mission.subtitle ?? undefined} />
+        {pageMetaTags({ title: `${mission.title || 'Mission'} | BlueDot Impact`, description: mission.subtitle })}
       </Head>
       <MarketingHero title={currentRoute.title} subtitle={mission.subtitle ?? undefined} />
       <Breadcrumbs route={currentRoute} />

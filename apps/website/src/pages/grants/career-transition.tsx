@@ -20,6 +20,7 @@ import {
   type ProgramDetailPageProps,
 } from '../../lib/programDetailPage';
 import { type GrantTypeSlug } from '../../lib/grantTypes';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const GRANT_TYPE: GrantTypeSlug = 'career-transition';
 const FALLBACK_NAME = 'Career Transition Grants';
@@ -36,8 +37,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
   return (
     <div>
       <Head>
-        <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={programDescription} />
+        {pageMetaTags({ title: `${programName} | BlueDot Impact`, description: programDescription })}
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
       </Head>
       <MarketingHero

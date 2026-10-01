@@ -6,7 +6,7 @@ import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import OverviewSection from '../../components/context-week/OverviewSection';
 import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
-import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../../lib/linkPreviewMetaTags';
 import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
@@ -31,14 +31,9 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
   return (
     <div>
       <Head>
-        <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={`${programName} | BlueDot Impact`} />
-        <meta property="og:description" content={description} />
+        {pageMetaTags({ title: `${programName} | BlueDot Impact`, description })}
         <meta property="og:url" content={`${SITE_URL}/programs/context-week`} />
         {linkPreviewMetaTags({ imageUrl: LINK_PREVIEW_FALLBACK_IMAGE_URL, alt: 'BlueDot Impact logo' })}
-        <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
-        <meta name="twitter:description" content={description} />
       </Head>
       <MarketingHero
         title={programName}

@@ -9,7 +9,7 @@ import TestimonialSubSection, { type Testimonial } from '../homepage/CommunitySe
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import MarketingHero from '../MarketingHero';
 import { trpc } from '../../utils/trpc';
-import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string }) => {
   return (
@@ -36,10 +36,7 @@ const AiSafetyOpsLander = () => {
   return (
     <>
       <Head>
-        <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
-        <meta name="description" content="This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety." />
-        <meta property="og:title" content={`${PAGE_TITLE} | BlueDot Impact`} />
-        <meta property="og:description" content="This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety." />
+        {pageMetaTags({ title: `${PAGE_TITLE} | BlueDot Impact`, description: 'This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety.' })}
         {linkPreviewMetaTags({
           imageUrl: 'https://bluedot.org/images/courses/ops-bootcamp-og-image.png', alt: `${PAGE_TITLE} | BlueDot Impact`, width: 1200, height: 630, imageType: 'image/png',
         })}

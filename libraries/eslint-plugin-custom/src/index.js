@@ -4,5 +4,6 @@ module.exports = {
     'no-default-tailwind-tokens': require('./rules/no-default-tailwind-tokens'),
     'no-overflow-scroll': require('./rules/no-overflow-scroll'),
     'no-arbitrary-text-size': require('./rules/no-arbitrary-text-size'),
+    'require-page-meta-tags': require('./rules/require-page-meta-tags'),
   },
 };

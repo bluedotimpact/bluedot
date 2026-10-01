@@ -4,7 +4,7 @@ import {
 } from '@bluedot/ui';
 import { Nav } from '../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../lib/courseColors';
-import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const SITE_URL = 'https://bluedot.org';
 const PAGE_PATH = '/puzzles/technical-ai-safety';
@@ -206,17 +206,12 @@ const PuzzleTechnicalAiSafetyPage = () => {
   return (
     <>
       <Head>
-        <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
-        <meta name="description" content={PAGE_HOOK} />
+        {pageMetaTags({ title: `${PAGE_TITLE} | BlueDot Impact`, previewTitle: PAGE_TITLE, description: PAGE_HOOK })}
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
-        <meta property="og:title" content={PAGE_TITLE} />
-        <meta property="og:description" content={PAGE_HOOK} />
         <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
         {linkPreviewMetaTags({
           imageUrl: OG_IMAGE_URL, alt: PAGE_TITLE, width: 1200, height: 630, imageType: 'image/png',
         })}
-        <meta name="twitter:title" content={PAGE_TITLE} />
-        <meta name="twitter:description" content={PAGE_HOOK} />
       </Head>
 
       <div className="relative bg-white">

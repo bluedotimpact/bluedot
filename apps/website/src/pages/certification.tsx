@@ -26,7 +26,7 @@ import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { getCourseCtaColors } from '../lib/courseCtaColors';
 import { getCertificateAssetSlug } from '../lib/certificateAssets';
-import { linkPreviewMetaTags } from '../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags } from '../lib/linkPreviewMetaTags';
 import { getCertificateData } from '../server/routers/certificates';
 
 type Certificate = Awaited<ReturnType<typeof getCertificateData>>;
@@ -166,20 +166,14 @@ const CertificatePage = ({
     <main className="bluedot-base flex flex-col">
       <Nav />
       <Head>
-        <title>{`${certificate.recipientName} has completed ${certificate.courseName} | BlueDot Impact`}</title>
-        <meta name="description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
+        {pageMetaTags({ title: `${certificate.recipientName} has completed ${certificate.courseName} | BlueDot Impact`, previewTitle: `${certificate.recipientName} has completed the ${certificate.courseName} course`, description: certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}` })}
         <meta name="robots" content="noindex" />
 
-        <meta property="og:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
-        <meta property="og:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta key="og:type" property="og:type" content="article" />
         <meta property="og:url" content={`${siteUrl}/certification?id=${encodeURIComponent(certificateId)}`} />
         {linkPreviewMetaTags({
           imageUrl: linkPreviewAbsoluteUrl, alt: `${certificate.courseName} certification badge`, width: 1200, height: 630, imageType: 'image/png',
         })}
-
-        <meta name="twitter:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
-        <meta name="twitter:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
       </Head>
 
       {isOwner && <Breadcrumbs route={certificateRoute} />}

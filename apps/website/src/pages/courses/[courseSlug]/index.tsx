@@ -11,7 +11,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { ROUTES } from '../../../lib/routes';
 import { COURSE_CONFIG, ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { getCourseOgImage } from '../../../lib/courseOgImage';
-import { linkPreviewMetaTags } from '../../../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags } from '../../../lib/linkPreviewMetaTags';
 import { buildApplicationUrl } from '../../../lib/utils';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
@@ -145,10 +145,7 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
   return (
     <div>
       <Head>
-        <title>{`${course.title} | BlueDot Impact`}</title>
-        <meta name="description" content={course.shortDescription} />
-        <meta key="og:title" property="og:title" content={course.title} />
-        <meta key="og:description" property="og:description" content={course.shortDescription} />
+        {pageMetaTags({ title: `${course.title} | BlueDot Impact`, previewTitle: course.title, description: course.shortDescription })}
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
         {/* Dimensions omitted: course link-preview images are mixed sizes */}
         {linkPreviewMetaTags({ imageUrl: courseOgImage, alt: `${course.title} course preview` })}
@@ -223,10 +220,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
   return (
     <div>
       <Head>
-        <title>{`${course.title} | BlueDot Impact`}</title>
-        <meta name="description" content={course.shortDescription} />
-        <meta key="og:title" property="og:title" content={course.title} />
-        <meta key="og:description" property="og:description" content={course.shortDescription} />
+        {pageMetaTags({ title: `${course.title} | BlueDot Impact`, previewTitle: course.title, description: course.shortDescription })}
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
         {/* Dimensions omitted: course link-preview images are mixed sizes */}
         {linkPreviewMetaTags({ imageUrl: courseOgImage, alt: 'BlueDot Impact logo' })}

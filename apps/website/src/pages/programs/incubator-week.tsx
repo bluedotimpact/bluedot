@@ -9,7 +9,7 @@ import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSec
 import VideoSection from '../../components/incubator-week/VideoSection';
 import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 import { ROUTES } from '../../lib/routes';
-import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
@@ -35,16 +35,11 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
   return (
     <div>
       <Head>
-        <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={programDescription} />
-        <meta property="og:title" content={`${programName} | BlueDot Impact`} />
-        <meta property="og:description" content={programDescription} />
+        {pageMetaTags({ title: `${programName} | BlueDot Impact`, description: programDescription })}
         <meta property="og:url" content={`${SITE_URL}/programs/incubator-week`} />
         {linkPreviewMetaTags({
           imageUrl: LINK_PREVIEW_IMAGE, alt: `Incubator Week v6. 5 days. All expenses paid. Up to $100k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.`, width: 1200, height: 630, imageType: 'image/png',
         })}
-        <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
-        <meta name="twitter:description" content={programDescription} />
       </Head>
       <MarketingHero
         title={programName}

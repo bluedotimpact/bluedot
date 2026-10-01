@@ -13,7 +13,7 @@ import { ROUTES } from '../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
-import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../../lib/linkPreviewMetaTags';
 import { fileExists } from '../../utils/fileExists';
 
 type JobPostingPageProps = {
@@ -33,10 +33,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
   return (
     <div>
       <Head>
-        <title>{`${job.title} | BlueDot Impact`}</title>
-        <meta name="description" content={job.subtitle ?? undefined} />
-        <meta key="og:title" property="og:title" content={job.title ?? undefined} />
-        <meta key="og:description" property="og:description" content={job.subtitle ?? undefined} />
+        {pageMetaTags({ title: `${job.title} | BlueDot Impact`, previewTitle: job.title, description: job.subtitle })}
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
         {/* Dimensions/type omitted: custom Airtable uploads (proxied via
             /api/og-image) aren't resized or validated, so no claim is safe */}

@@ -9,6 +9,7 @@ import FAQSection from '../components/lander/components/FAQSection';
 import { grantTypePath } from '../lib/grantTypes';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const TITLE = 'Grants for AI safety and biosecurity | BlueDot Impact';
 const DESCRIPTION = 'Funding for people moving into AI safety and biosecurity, and for the projects they want to make happen. Find the right BlueDot grant for your next step.';
@@ -75,13 +76,8 @@ const GrantsPage = () => {
   return (
     <div>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        {pageMetaTags({ title: TITLE, description: DESCRIPTION })}
         <link rel="canonical" href={`${SITE_URL}/grants`} />
-        <meta key="og:title" property="og:title" content={TITLE} />
-        <meta key="og:description" property="og:description" content={DESCRIPTION} />
-        <meta key="twitter:title" name="twitter:title" content={TITLE} />
-        <meta key="twitter:description" name="twitter:description" content={DESCRIPTION} />
       </Head>
 
       <MarketingHero

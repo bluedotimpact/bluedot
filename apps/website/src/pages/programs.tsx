@@ -6,16 +6,13 @@ import MarketingHero from '../components/MarketingHero';
 import PageNewsletter from '../components/PageNewsletter';
 import { ProgramsList } from '../components/programs/ProgramsList';
 import { ROUTES } from '../lib/routes';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const ProgramsPage = () => {
   return (
     <div>
       <Head>
-        <title>Programs | BlueDot Impact</title>
-        <meta
-          name="description"
-          content="Explore BlueDot Impact's full-time, in-person programs, including Incubator Week and AI Security Bootcamp."
-        />
+        {pageMetaTags({ title: 'Programs | BlueDot Impact', description: 'Explore BlueDot Impact\'s full-time, in-person programs, including Incubator Week and AI Security Bootcamp.' })}
       </Head>
 
       <MarketingHero

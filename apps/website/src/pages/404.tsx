@@ -10,6 +10,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Rive, { Fit, Layout } from '@rive-app/react-canvas';
 import { ROUTES } from '../lib/routes';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const Error404Page = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const Error404Page = () => {
   return (
     <div>
       <Head>
-        <title>{`${currentRoute.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${currentRoute.title} | BlueDot Impact` })}
         <meta name="robots" content="noindex" />
       </Head>
       <HeroSection className="404-hero overflow-hidden">

@@ -6,6 +6,14 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
     <title>
       Account | BlueDot Impact
     </title>
+    <meta
+      content="Account | BlueDot Impact"
+      property="og:title"
+    />
+    <meta
+      content="Account | BlueDot Impact"
+      name="twitter:title"
+    />
     <div
       class="bg-canvas border-subtle w-full border-b py-3"
     >

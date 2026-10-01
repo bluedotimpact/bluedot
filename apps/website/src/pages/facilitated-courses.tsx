@@ -14,6 +14,7 @@ import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import { QuickApplyBanner } from '../components/my-courses/QuickApplyBanner';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.facilitatedCourses;
 
@@ -98,7 +99,7 @@ const FacilitatedCoursesPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
       </Head>
       <MyBlueDotLayout route={CURRENT_ROUTE}>
         <div className="flex min-h-[60vh] flex-col gap-6">
