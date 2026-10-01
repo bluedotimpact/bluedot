@@ -16,6 +16,7 @@ import {
   type ProgramDetailPageProps,
 } from '../../lib/programDetailPage';
 import { type GrantTypeSlug } from '../../lib/grantTypes';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const GRANT_TYPE: GrantTypeSlug = 'rapid';
 const FALLBACK_NAME = 'Rapid Grants';
@@ -37,8 +38,7 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
   return (
     <div className="bg-white text-bluedot-navy">
       <Head>
-        <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={PAGE_DESCRIPTION} />
+        {pageMetaTags({ title: `${programName} | BlueDot Impact`, description: PAGE_DESCRIPTION })}
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
       </Head>
       <MarketingHero title={programName} subtitle={PAGE_DESCRIPTION} />

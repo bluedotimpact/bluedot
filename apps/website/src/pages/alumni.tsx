@@ -6,6 +6,7 @@ import FeaturedAlumniStories from '../components/alumni/FeaturedAlumniStories';
 import RecentAlumniList from '../components/alumni/RecentAlumniList';
 import AlumniCta from '../components/alumni/AlumniCta';
 import { ROUTES } from '../lib/routes';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const TITLE = 'Alumni stories';
 const DESCRIPTION = 'Where BlueDot alumni go, and the work they do on AI safety.';
@@ -14,8 +15,7 @@ const AlumniPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${TITLE} | BlueDot Impact`}</title>
-        <meta name="description" content={DESCRIPTION} />
+        {pageMetaTags({ title: `${TITLE} | BlueDot Impact`, description: DESCRIPTION })}
       </Head>
       <MarketingHero title={TITLE} />
       <Breadcrumbs route={ROUTES.alumni} />

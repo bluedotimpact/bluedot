@@ -2,13 +2,14 @@ import { Breadcrumbs, Section } from '@bluedot/ui';
 import Head from 'next/head';
 import { withAdminGuard } from '../../components/admin/withAdminGuard';
 import { ROUTES } from '../../lib/routes';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.admin;
 
 const AdminHome = withAdminGuard(() => (
   <div>
     <Head>
-      <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+      {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
       <meta name="robots" content="noindex" />
     </Head>
     <Breadcrumbs route={CURRENT_ROUTE} />

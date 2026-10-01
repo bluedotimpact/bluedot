@@ -113,8 +113,9 @@ export async function processTableForInitialSync(
 
 /**
  * Performs full sync by discovering all tracked tables and processing each one.
+ * Returns failed tables so the caller can finish queued work before reporting failure.
  */
-export async function performFullSync(addToQueue: (actions: AirtableAction[], priority: 'low' | 'high') => void): Promise<void> {
+export async function performFullSync(addToQueue: (actions: AirtableAction[], priority: 'low' | 'high') => void): Promise<{ failedTables: string[] }> {
   logger.info('🚀 Starting full sync...');
 
   const tableFieldMappings = await db.pg
@@ -141,6 +142,7 @@ export async function performFullSync(addToQueue: (actions: AirtableAction[], pr
   logger.info(`Found ${tableKeys.length} tables to sync`);
 
   let totalRecords = 0;
+  const failedTables: string[] = [];
 
   const addToQueueSingle = (action: AirtableAction, priority: 'low' | 'high') => {
     addToQueue([action], priority);
@@ -178,9 +180,11 @@ export async function performFullSync(addToQueue: (actions: AirtableAction[], pr
       );
       totalRecords += recordCount;
     } catch (error) {
+      failedTables.push(tableKey);
       logger.error(`Error processing ${tableId}:`, error);
     }
   }
 
-  logger.info(`🎉 Full sync completed! Total records queued: ${totalRecords}`);
+  logger.info(`Full sync scan finished. Total records queued: ${totalRecords}; failed tables: ${failedTables.length}`);
+  return { failedTables };
 }

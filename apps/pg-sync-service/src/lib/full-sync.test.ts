@@ -1,15 +1,18 @@
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { syncMetadataTable, syncRequestsTable } from '@bluedot/db';
+import {
+  courseTable, getTableName, metaTable, syncMetadataTable, syncRequestsTable, unitTable,
+} from '@bluedot/db';
 import { db } from './db';
 import { FULL_SYNC_TIMEOUT_HOURS, isFullSyncRequired, runFullSync } from './full-sync';
 import { syncManager } from './sync-manager';
 import { performFullSync } from './scan';
 import { createSyncRequest } from './admin-dashboard-sync';
+import { addToQueue, waitForQueueToEmpty } from './pg-sync';
 
 vi.mock('./scan', () => ({
-  performFullSync: vi.fn().mockResolvedValue(undefined),
+  performFullSync: vi.fn().mockResolvedValue({ failedTables: [] }),
   fetchAllRecordsFromAirtable: vi.fn().mockResolvedValue([]),
 }));
 
@@ -232,5 +235,67 @@ describe('runFullSync', () => {
     const metadata = await syncManager.getSyncMetadata();
     expect(metadata?.lastFullSyncStatus).toBe('failed');
     expect(metadata?.lastFullSyncError).toContain('airtable unavailable');
+  });
+
+  describe('with the real scanner', () => {
+    beforeEach(async () => {
+      const actual = await vi.importActual<{ performFullSync: typeof performFullSync }>('./scan');
+      vi.mocked(performFullSync).mockImplementationOnce(actual.performFullSync);
+
+      await db.pg.insert(metaTable).values([courseTable, unitTable].map((table) => ({
+        airtableBaseId: table.airtable.baseId,
+        airtableTableId: table.airtable.tableId,
+        airtableFieldId: 'testField',
+        pgTable: getTableName(table.pg),
+        pgField: 'title',
+      })));
+      await seedQueuedRequest();
+    });
+
+    test('marks the request completed when all tables scan successfully, including empty tables', async () => {
+      const scan = vi.spyOn(db.airtableClient, 'scan').mockResolvedValue([]);
+
+      try {
+        await runFullSync();
+
+        expect(scan).toHaveBeenCalledTimes(2);
+        expect(await getRequestStatuses()).toEqual(['completed']);
+        expect((await syncManager.getSyncMetadata())?.lastFullSyncStatus).toBe('success');
+      } finally {
+        scan.mockRestore();
+      }
+    });
+
+    test.each([false, true])('marks exhausted table scans failed (all tables fail: %s)', async (allTablesFail) => {
+      const scan = vi.spyOn(db.airtableClient, 'scan').mockImplementation(async (table) => {
+        if (allTablesFail || table.tableId === courseTable.airtable.tableId) {
+          throw new Error('airtable unavailable');
+        }
+
+        return [{ id: 'healthy-record', title: 'Healthy table' }];
+      });
+
+      try {
+        await runFullSync();
+
+        expect(scan).toHaveBeenCalledTimes(allTablesFail ? 6 : 4);
+        expect(waitForQueueToEmpty).toHaveBeenCalledTimes(1);
+        if (!allTablesFail) {
+          expect(addToQueue).toHaveBeenCalledWith([expect.objectContaining({ recordId: 'healthy-record' })], 'low');
+        }
+
+        expect(await getRequestStatuses()).toEqual(['failed']);
+        const metadata = await syncManager.getSyncMetadata();
+        expect(metadata?.lastFullSyncStatus).toBe('failed');
+        expect(metadata?.lastFullSyncError).toContain(courseTable.airtable.tableId);
+        if (allTablesFail) {
+          expect(metadata?.lastFullSyncError).toContain(unitTable.airtable.tableId);
+        }
+
+        expect(metadata?.lastIncrementalSyncAt).toBeNull();
+      } finally {
+        scan.mockRestore();
+      }
+    });
   });
 });

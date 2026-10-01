@@ -63,4 +63,28 @@ describe('MissionPostPage SSR/SEO', () => {
     const metaDescription = document.querySelector('meta[name="description"]');
     expect(metaDescription?.getAttribute('content')).toBe(mockMission.subtitle);
   });
+
+  test('gives link previews the mission title and subtitle', () => {
+    renderWithHead(<TrpcProvider>
+      <MissionPostPage slug="ai-safety-eval-harness" mission={mockMission} />
+    </TrpcProvider>);
+
+    const content = (selector: string) => document.querySelector(selector)?.getAttribute('content');
+    expect(content('meta[property="og:title"]')).toBe('Open-source AI safety eval harness | BlueDot Impact');
+    expect(content('meta[name="twitter:title"]')).toBe('Open-source AI safety eval harness | BlueDot Impact');
+    expect(content('meta[property="og:description"]')).toBe(mockMission.subtitle);
+    expect(content('meta[name="twitter:description"]')).toBe(mockMission.subtitle);
+  });
+
+  test('leaves out description tags when the mission has no subtitle', () => {
+    renderWithHead(<TrpcProvider>
+      <MissionPostPage slug="ai-safety-eval-harness" mission={{ ...mockMission, subtitle: null }} />
+    </TrpcProvider>);
+
+    expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content'))
+      .toBe('Open-source AI safety eval harness | BlueDot Impact');
+    expect(document.querySelector('meta[name="description"]')).toBeNull();
+    expect(document.querySelector('meta[property="og:description"]')).toBeNull();
+    expect(document.querySelector('meta[name="twitter:description"]')).toBeNull();
+  });
 });

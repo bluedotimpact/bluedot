@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { H1 } from '@bluedot/ui';
 import { inter } from '../lib/fonts';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const SiteLoginPage = () => {
   const [error, setError] = useState('');
@@ -50,7 +51,7 @@ const SiteLoginPage = () => {
   return (
     <div className={`${inter.className} min-h-screen flex items-center justify-center bg-gray-100`}>
       <Head>
-        <title>Site Access | BlueDot Impact</title>
+        {pageMetaTags({ title: 'Site Access | BlueDot Impact' })}
         <meta name="robots" content="noindex" />
       </Head>
       <div className="bg-white p-8 rounded shadow-md w-[400px] max-w-full">

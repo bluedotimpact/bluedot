@@ -11,10 +11,10 @@ export type InputProps = {
 React.RefAttributes<HTMLInputElement>;
 
 const TEXT_INPUT_STYLES = [
-  'w-full h-11 px-3 rounded-surface border border-subtle bg-raised',
+  'w-full h-11 px-3 rounded-surface border border-border-control bg-raised',
   'text-size-sm leading-6 text-primary placeholder:text-placeholder',
   'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
-  'disabled:bg-tint disabled:text-disabled disabled:cursor-not-allowed',
+  'disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed',
   'aria-invalid:border-error-fg',
   '[&::-webkit-search-cancel-button]:appearance-none',
 ];

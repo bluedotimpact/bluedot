@@ -8,6 +8,7 @@ export default makeApiRoute({
   responseBody: z.object({
     reviewed: z.number(),
     alreadySent: z.number(),
+    confirmedSent: z.number(),
     pending: z.number(),
     pendingAccepted: z.number(),
     pendingRejected: z.number(),

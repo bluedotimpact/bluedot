@@ -526,6 +526,17 @@ describe('myCoursesPage.getOverview', () => {
       expect(result.courses[0]?.facilitatorNames.sort()).toEqual(['Firstonly', 'Full Name']);
     });
 
+    test('roundIntensity comes from the registration\'s round', async () => {
+      await seedCourse('course-tais');
+      await seedReg('reg-1', { courseId: 'course-tais', roundId: 'round-1' });
+      await testDb.insert(applicationsRoundTable, {
+        id: 'round-1', firstDiscussionDate: '2026-05-10', lastDiscussionDate: '2026-05-17', intensity: 'Intensive',
+      });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      expect(result.courses[0]?.roundIntensity).toBe('Intensive');
+    });
+
     test('discussion linked to a unit that no longer exists builds the row without crashing', async () => {
       await seedCourse('course-tais');
       await seedReg('reg-1', { courseId: 'course-tais' });
@@ -908,69 +919,6 @@ describe('myCoursesPage.getOverview', () => {
   });
 });
 
-describe('myBluedot.hasFacilitatorRegistrations', () => {
-  test('returns false when caller has no facilitator registrations', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-participant',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Participant',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: false });
-  });
-
-  test('returns true when caller has at least one facilitator registration', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-fac',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: true });
-  });
-
-  test('ignores withdrawn facilitator registrations', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-withdrawn',
-      email: CALLER_EMAIL,
-      userId: 'test-user',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      decision: 'Withdrawn',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: false });
-  });
-
-  test('ignores other users\' facilitator registrations', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-someone-else',
-      email: 'someone-else@example.com',
-      userId: 'user-other',
-      courseId: 'course-1',
-      role: 'Facilitator',
-      roundStatus: 'Active',
-    });
-
-    const result = await caller.myBluedot.hasFacilitatorRegistrations();
-
-    expect(result).toEqual({ hasFacilitatorRegistrations: false });
-  });
-});
-
 describe('myBluedot.hasFacilitatorNavItems', () => {
   const seedFacilitatorReg = (overrides: { id: string; userId: string; email: string; decision?: string }) =>
     testDb.insert(courseRegistrationTable, {
@@ -1012,6 +960,26 @@ describe('myBluedot.hasFacilitatorNavItems', () => {
       id: 'reg-fac', email: CALLER_EMAIL, userId: 'test-user', decision: 'Accept',
     });
     await seedMeetPerson('mp-fac', 'reg-fac', 'test-user');
+
+    expect(await caller.myBluedot.hasFacilitatorNavItems()).toEqual({ hasFacilitatedCourses: true, hasFacilitatorApplications: true });
+  });
+
+  test('a past round with no group is an application only', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-fac', email: CALLER_EMAIL, userId: 'test-user', courseId: 'course-1', role: 'Facilitator', decision: 'Accept', roundStatus: 'Past',
+    });
+    await seedMeetPerson('mp-fac', 'reg-fac', 'test-user');
+
+    expect(await caller.myBluedot.hasFacilitatorNavItems()).toEqual({ hasFacilitatedCourses: false, hasFacilitatorApplications: true });
+  });
+
+  test('a past round with a group is a facilitated course', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-fac', email: CALLER_EMAIL, userId: 'test-user', courseId: 'course-1', role: 'Facilitator', decision: 'Accept', roundStatus: 'Past',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-fac', userId: 'test-user', applicationsBaseRecordId: 'reg-fac', role: 'Facilitator', groupsAsFacilitator: ['group-1'],
+    });
 
     expect(await caller.myBluedot.hasFacilitatorNavItems()).toEqual({ hasFacilitatedCourses: true, hasFacilitatorApplications: true });
   });
@@ -1083,6 +1051,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
       applicationsBaseRecordId: REG_ID,
       round: ROUND_ID,
       role: 'Facilitator',
+      groupsAsFacilitator: [GROUP_ID],
       expectedDiscussionsFacilitator: ['disc-fac'],
     });
     await testDb.insert(groupTable, {
@@ -1156,6 +1125,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     });
     await testDb.update(meetPersonTable, {
       id: MEET_PERSON_ID,
+      groupsAsFacilitator: [GROUP_ID, 'group-fac-2'],
       expectedDiscussionsFacilitator: ['disc-fac', 'disc-fac-2'],
     });
 
@@ -1246,6 +1216,32 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect(result.nextDiscussions).toEqual([]);
   });
 
+  test('hides a past round where the facilitator had no group', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID, slug: 'tais', title: 'TAIS', shortDescription: 't', units: [], status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID, email: CALLER_EMAIL, userId: 'test-user', courseId: COURSE_ID, role: 'Facilitator', decision: 'Accept', roundStatus: 'Past', roundId: ROUND_ID,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: MEET_PERSON_ID, userId: 'test-user', applicationsBaseRecordId: REG_ID, round: ROUND_ID, role: 'Facilitator',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toEqual([]);
+  });
+
+  test('keeps a past round where the facilitator had a group, and shows the nav item', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.update(courseRegistrationTable, { id: REG_ID, roundStatus: 'Past' });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses.map((c) => c.group?.id)).toEqual([GROUP_ID]);
+    expect((await caller.myBluedot.hasFacilitatorNavItems()).hasFacilitatedCourses).toBe(true);
+  });
+
   test('filters out withdrawn registrations', async () => {
     await testDb.insert(courseTable, {
       id: COURSE_ID,
@@ -1325,6 +1321,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     });
     await testDb.update(meetPersonTable, {
       id: MEET_PERSON_ID,
+      groupsAsFacilitator: [GROUP_ID, 'group-later'],
       expectedDiscussionsFacilitator: ['disc-fac', 'disc-later'],
     });
 

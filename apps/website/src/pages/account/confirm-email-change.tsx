@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import type { LoginMethods } from '../../lib/api/keycloak';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.confirmEmailChange;
 
@@ -99,7 +100,7 @@ const ConfirmEmailChange = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
         <meta name="robots" content="noindex" />
       </Head>
       <Section className="min-h-[50vh]">

@@ -39,6 +39,7 @@ const mockAvailableGroups: DiscussionsAvailable = {
   ],
   discussionsAvailable: {},
   rescheduleEligibleUnits: [],
+  roundIntensity: null,
 };
 
 const mockNoSpotsGroups: DiscussionsAvailable = {
@@ -64,6 +65,7 @@ const mockNoSpotsGroups: DiscussionsAvailable = {
   ],
   discussionsAvailable: {},
   rescheduleEligibleUnits: [],
+  roundIntensity: null,
 };
 
 const mockManyGroups: DiscussionsAvailable = {
@@ -85,6 +87,7 @@ const mockManyGroups: DiscussionsAvailable = {
   })),
   discussionsAvailable: {},
   rescheduleEligibleUnits: [],
+  roundIntensity: null,
 };
 
 const meta = {
@@ -124,6 +127,7 @@ export const NoAvailableGroups: Story = {
           groupsAvailable: [],
           discussionsAvailable: {},
           rescheduleEligibleUnits: [],
+          roundIntensity: null,
         })),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
       ],

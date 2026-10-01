@@ -29,6 +29,7 @@ import { CAREER_LEVELS, PROFESSIONS } from '../../../lib/schemas/facilitatorAppl
 import { formatDateRange } from '../../../lib/utils';
 import type { QuickApplyPrefillData } from '../../../server/routers/facilitator-applications';
 import { trpc } from '../../../utils/trpc';
+import { pageMetaTags } from '../../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.quickApply;
 
@@ -168,7 +169,7 @@ const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
 const Shell = ({ subtitle, children }: { subtitle?: string; children: React.ReactNode }) => (
   <div className="bg-cream-normal min-h-screen">
     <Head>
-      <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+      {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
     </Head>
     <QuickApplyHeader subtitle={subtitle} />
     <div className="mx-auto flex max-w-[680px] flex-col gap-4 px-4 py-8 pb-16">{children}</div>
@@ -466,7 +467,7 @@ const QuickApplyForm = ({
               name="timezone"
               render={({ field }) => (
                 <Select
-                  ariaLabel="Timezone"
+                  aria-label="Timezone"
                   className="w-full"
                   options={offsets.map((offset) => ({ value: offset, label: offset }))}
                   value={field.value}
@@ -551,7 +552,7 @@ const QuickApplyForm = ({
                 rules={{ required: true }}
                 render={({ field }) => (
                   <Select
-                    ariaLabel="Career stage"
+                    aria-label="Career stage"
                     className="w-full"
                     options={CAREER_LEVELS.map((level) => ({ value: level, label: level }))}
                     value={field.value}
@@ -575,7 +576,7 @@ const QuickApplyForm = ({
                 name="profession"
                 render={({ field }) => (
                   <Select
-                    ariaLabel="Profession"
+                    aria-label="Profession"
                     className="w-full"
                     options={PROFESSIONS.map((option) => ({ value: option, label: option }))}
                     value={field.value}

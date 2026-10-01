@@ -3,6 +3,7 @@ import env from './env';
 import { isLocalPreview } from '../preview';
 import { previewData } from './previewData';
 import { type Application, type Direction } from '../client/types';
+import { type MoveTargetCourse, courseOfRoundName } from '../client/courseMoves';
 
 const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
 const APPLICATIONS_URL = `${AIRTABLE_BASE}/tblXKnWoXK3R63F6D`;
@@ -35,6 +36,7 @@ const APPLICATION_FIELDS = [
   'fld1rOZGAHBRcdJcM', // [*] Full name
   'fld7fzQNFhb7Oyy90', // [a] Role
   'fldooZSRRtcLSKKvo', // [TAIS] Allow to move to AGISC
+  'fldbaq4Nzv3ECsW9h', // [TAIS] Allow to move to TAIS
   'fldpYmO0PaZxRFL5v', // Previous courses (lookup)
   'fldL5K79cFu6Bju2N', // Commitment score
   'fldXdgD6to4gCs4Lj', // Commitment rationale
@@ -146,6 +148,7 @@ const toApplication = (record: AirtableRecord): Application => {
     aiSummary: str(f.fldRXdZQ0rnuVOcl7),
     alsoAppliedToFacilitate: isDualRoleApplicant(f),
     allowMoveToAgisc: !!f.fldooZSRRtcLSKKvo,
+    allowMoveToTais: !!f.fldbaq4Nzv3ECsW9h,
     previousCourses: Array.isArray(f.fldpYmO0PaZxRFL5v) ? [...new Set((f.fldpYmO0PaZxRFL5v as unknown[]).map(String).map((s) => s.trim()).filter(Boolean))] : undefined,
     commitmentScore: num(f.fldL5K79cFu6Bju2N),
     commitmentRationale: str(f.fldXdgD6to4gCs4Lj),
@@ -199,7 +202,12 @@ export const fetchRounds = async (): Promise<Round[]> => {
 // Fetches applications for a round, filtered by round record ID server-side.
 // Airtable paginates in pages of AIRTABLE_PAGE_SIZE; we collect until we have
 // RESPONSE_PAGE_SIZE matches and return the Airtable offset for the next call.
-const BASE_FILTER = 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK())';
+const UNDECIDED_PARTICIPANT_FILTER = '{fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94})';
+// Applications the AI pipeline has scored, served first and sorted by score.
+const BASE_FILTER = `AND(${UNDECIDED_PARTICIPANT_FILTER}, {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK())`;
+// The rest — the scoring pipeline skipped or hasn't reached them — are served
+// after every scored application, so the round can still be finished in-app.
+const UNSCORED_FILTER = `AND(${UNDECIDED_PARTICIPANT_FILTER}, OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK()))`;
 
 // Lookup of the linked Round's RECORD_ID() formula field. Filtering on it in
 // Airtable means each page is already round-specific, instead of paging
@@ -209,7 +217,11 @@ const ROUND_ID_LOOKUP_FIELD = 'fldrmNLS764z8WEbR';
 // FIND rather than = so applications linked to several rounds still match,
 // mirroring matchesRound's array-includes semantics. Record ids are unique
 // fixed-length strings, so a substring false-positive can't occur.
-const roundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${BASE_FILTER})`;
+const roundFilter = (roundId: string, scored: boolean): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${scored ? BASE_FILTER : UNSCORED_FILTER})`;
+
+// Marks a pagination offset as belonging to the unscored phase. Airtable
+// offsets never carry this prefix.
+const UNSCORED_OFFSET_PREFIX = 'unscored:';
 
 export const fetchApplications = async (
   roundId: string,
@@ -222,22 +234,22 @@ export const fetchApplications = async (
   // the filtered-on field is modified mid-iteration (every rating mutates the
   // Decision field). Track IDs to drop duplicates before they reach the queue.
   const seenIds = new Set<string>();
-  let currentOffset = offset;
+  let phase: 'scored' | 'unscored' = offset?.startsWith(UNSCORED_OFFSET_PREFIX) ? 'unscored' : 'scored';
+  let currentOffset = phase === 'unscored' ? (offset!.slice(UNSCORED_OFFSET_PREFIX.length) || undefined) : offset;
 
   while (collected.length < RESPONSE_PAGE_SIZE) {
+    const params: Record<string, string> = {
+      filterByFormula: roundFilter(roundId, phase === 'scored'),
+      pageSize: String(AIRTABLE_PAGE_SIZE),
+      returnFieldsByFieldId: 'true',
+    };
+    if (phase === 'scored') {
+      params['sort[0][field]'] = TOTAL_SCORE_FIELD_ID;
+      params['sort[0][direction]'] = direction === 'top' ? 'desc' : 'asc';
+    }
+
     // eslint-disable-next-line no-await-in-loop
-    const { records, nextOffset } = await fetchPage(
-      APPLICATIONS_URL,
-      {
-        filterByFormula: roundFilter(roundId),
-        pageSize: String(AIRTABLE_PAGE_SIZE),
-        returnFieldsByFieldId: 'true',
-        'sort[0][field]': TOTAL_SCORE_FIELD_ID,
-        'sort[0][direction]': direction === 'top' ? 'desc' : 'asc',
-      },
-      APPLICATION_FIELDS,
-      currentOffset,
-    );
+    const { records, nextOffset } = await fetchPage(APPLICATIONS_URL, params, APPLICATION_FIELDS, currentOffset);
 
     const matching = records
       .filter((r) => matchesRound(r, roundId))
@@ -250,13 +262,30 @@ export const fetchApplications = async (
     collected.push(...matching);
     currentOffset = nextOffset;
 
-    if (!nextOffset) break;
+    if (!nextOffset) {
+      // Scored applications exhausted — chain straight into the unscored
+      // phase so they appear at the end of the queue. If this response is
+      // already full, hand the phase switch to the next request instead.
+      if (phase === 'scored') {
+        phase = 'unscored';
+        currentOffset = undefined;
+        if (collected.length >= RESPONSE_PAGE_SIZE) {
+          return { applications: collected, nextOffset: UNSCORED_OFFSET_PREFIX };
+        }
+
+        continue;
+      }
+
+      break;
+    }
   }
 
-  return {
-    applications: collected,
-    nextOffset: currentOffset,
-  };
+  let nextOffset: string | undefined;
+  if (currentOffset) {
+    nextOffset = phase === 'unscored' ? `${UNSCORED_OFFSET_PREFIX}${currentOffset}` : currentOffset;
+  }
+
+  return { applications: collected, nextOffset };
 };
 
 export type PreviousApplication = {
@@ -398,32 +427,49 @@ const patchRecords = async (records: { id: string; fields: Record<string, unknow
 
 const patchSingle = async (id: string, fields: Record<string, unknown>): Promise<void> => patchRecords([{ id, fields }]);
 
-export const moveApplicationToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
-  if (isLocalPreview()) return previewData.moveApplicationToAgisc(applicationId, roundId);
+// Course and round arrive as separate request fields, so verify they agree
+// before writing — a mismatched pair would assign an application to a course
+// that contradicts its linked round.
+const assertRoundIsInCourse = async (roundId: string, course: string): Promise<void> => {
+  const { records } = await fetchPage(
+    ROUNDS_URL,
+    { filterByFormula: `RECORD_ID() = "${roundId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },
+    ['fldvOk9j9FbDV5aLl'],
+  );
+  const roundName = str(records[0]?.fields.fldvOk9j9FbDV5aLl) ?? '';
+  if (courseOfRoundName(roundName) !== course) {
+    throw createHttpError(400, `The selected round is not a ${course} round.`, { expose: true });
+  }
+};
+
+export const moveApplicationToCourse = async (applicationId: string, roundId: string, targetCourse: MoveTargetCourse): Promise<void> => {
+  if (isLocalPreview()) return previewData.moveApplication(applicationId, roundId);
+  await assertRoundIsInCourse(roundId, targetCourse);
   // Keep the course, round and automation trigger in one write so the move cannot stop halfway.
   await patchSingle(applicationId, {
-    fldkEQ0zBUhqpIuJn: 'AGI Strategy', // Course (single select)
+    fldkEQ0zBUhqpIuJn: targetCourse, // Course (single select)
     fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
     fldPkqPbeoIhERqSY: [], // Let automation refill [>] Course from the new course value
   });
 };
 
-// Moves only happen from Technical AI Safety rounds (see the render gate in
-// speed-review.tsx), so undoing one always restores that course.
-export const undoMoveToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
-  if (isLocalPreview()) return previewData.undoMoveToAgisc(applicationId);
+// Undo restores the round being reviewed, so the caller supplies its course
+// and the course the move had set (see COURSE_MOVES in courseMoves.ts).
+export const undoMoveToCourse = async (applicationId: string, roundId: string, movedToCourse: MoveTargetCourse, restoreCourse: string): Promise<void> => {
+  if (isLocalPreview()) return previewData.undoMove(applicationId);
+  await assertRoundIsInCourse(roundId, restoreCourse);
   const { records } = await fetchPage(
     APPLICATIONS_URL,
     { filterByFormula: `RECORD_ID() = "${applicationId.replace(/"/g, '\\"')}"`, returnFieldsByFieldId: 'true' },
     ['fldkEQ0zBUhqpIuJn'],
   );
   const course = str(records[0]?.fields.fldkEQ0zBUhqpIuJn);
-  if (course !== 'AGI Strategy') {
-    throw createHttpError(409, 'This application is not currently moved to AGI Strategy, so there is nothing to undo.', { expose: true });
+  if (course !== movedToCourse) {
+    throw createHttpError(409, `This application is not currently moved to ${movedToCourse}, so there is nothing to undo.`, { expose: true });
   }
 
   await patchSingle(applicationId, {
-    fldkEQ0zBUhqpIuJn: 'Technical AI Safety', // Course (single select)
+    fldkEQ0zBUhqpIuJn: restoreCourse, // Course (single select)
     fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
     fldPkqPbeoIhERqSY: [], // Let automation refill [>] Course from the restored course value
   });
@@ -460,14 +506,20 @@ const APPLICATION_ROLE_FIELD = 'fld52Y2AyWV8tECDy'; // Role (single select)
 
 export type DecisionEmailCounts = {
   reviewed: number;
+  // Sent, or flagged and about to send — the automation's queue.
   alreadySent: number;
+  // Only records the automation has confirmed sent ("[?] Decision email sent").
+  confirmedSent: number;
   pending: number;
   pendingAccepted: number;
   pendingRejected: number;
 };
 
-// Withdrawn is deliberately excluded: no decision email exists for it.
-const reviewedInRoundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), OR({${APPLICATION_DECISION_FIELD}} = "Accept", {${APPLICATION_DECISION_FIELD}} = "Reject"), NOT({${APPLICATION_DUPLICATE_FIELD}}))`;
+// Withdrawn is deliberately excluded: no decision email exists for it. The
+// participant clause mirrors BASE_FILTER: a round also links facilitator
+// applications with decisions, and their emails belong to the facilitator
+// review process, not Speed Review's send buttons.
+const reviewedInRoundFilter = (roundId: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), SEARCH("Participant", {fld7fzQNFhb7Oyy90}), OR({${APPLICATION_DECISION_FIELD}} = "Accept", {${APPLICATION_DECISION_FIELD}} = "Reject"), NOT({${APPLICATION_DUPLICATE_FIELD}}))`;
 
 // FIND could substring-match a partial round id, so records are also checked
 // against the linked Round field, mirroring fetchApplications' matchesRound
@@ -494,6 +546,7 @@ export const fetchDecisionEmailCounts = async (roundId: string): Promise<Decisio
   return {
     reviewed: records.length,
     alreadySent: records.length - pending.length,
+    confirmedSent: records.filter((r) => !!r.fields[DECISION_EMAIL_SENT_FIELD]).length,
     pending: pending.length,
     pendingAccepted,
     pendingRejected: pending.length - pendingAccepted,

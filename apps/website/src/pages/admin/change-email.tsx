@@ -8,6 +8,7 @@ import { UserSearchModal } from '../../components/admin/UserSearchModal';
 import { ROUTES } from '../../lib/routes';
 import type { UserSearchResult } from '../../server/routers/admin';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.adminChangeEmail;
 
@@ -33,7 +34,7 @@ const AdminChangeEmail = withAdminGuard(() => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
         <meta name="robots" content="noindex" />
       </Head>
       <Breadcrumbs route={CURRENT_ROUTE} />

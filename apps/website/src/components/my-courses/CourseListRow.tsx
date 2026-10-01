@@ -40,6 +40,7 @@ type CommonRowProps = {
   units: Record<string, Unit>;
   roundStartDate: string | null;
   roundEndDate: string | null;
+  roundIntensity: string | null;
   hasSubmittedFeedback: boolean;
   isDroppedOut: boolean;
   isDeferred: boolean;
@@ -63,7 +64,6 @@ export type ParticipantRowProps = CommonRowProps & {
 
 export type FacilitatorRowProps = CommonRowProps & {
   mode: 'facilitator';
-  roundIntensity: string | null;
 };
 
 export type CourseListRowProps = ParticipantRowProps | FacilitatorRowProps;
@@ -215,11 +215,12 @@ const CourseListRow = (row: CourseListRowProps) => {
   );
 };
 
-const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string | null => {
+const formatSchedule = (group: Pick<Group, 'startTimeUtc'> | null, intensity: string | null): string | null => {
   if (!group?.startTimeUtc) return null;
   const date = new Date(group.startTimeUtc * 1000);
-  const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
   const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  if (intensity === 'Intensive') return `Daily, ${time}`;
+  const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
   return `${weekday}s, ${time}`;
 };
 
@@ -289,7 +290,7 @@ const getFacilitatorSubtitle = (row: FacilitatorRowProps): ReactNode => {
 const getParticipantSubtitle = (row: ParticipantRowProps, isNotInGroup: boolean): ReactNode => {
   const {
     courseRegistration, group, facilitatorNames, numUnits, uniqueDiscussionAttendance, roundStartDate, roundEndDate,
-    isDroppedOut, isDeferred,
+    roundIntensity, isDroppedOut, isDeferred,
   } = row;
 
   const renderParts = (parts: ReactNode[]): ReactNode | null => {
@@ -368,7 +369,7 @@ const getParticipantSubtitle = (row: ParticipantRowProps, isNotInGroup: boolean)
   }
 
   // In-progress (default): recurring schedule + facilitator
-  return renderParts([formatWeeklySchedule(group), facilitatorDisplay]);
+  return renderParts([formatSchedule(group, roundIntensity), facilitatorDisplay]);
 };
 
 export default CourseListRow;

@@ -77,10 +77,14 @@ export async function runFullSync(): Promise<void> {
 
   try {
     await syncManager.markSyncStarted();
-    await performFullSync(addToQueue);
+    const { failedTables } = await performFullSync(addToQueue);
 
-    logger.info('[full-sync] Sync items queued successfully, waiting for the queue to empty...');
+    logger.info('[full-sync] Scan finished, waiting for the queue to empty...');
     await waitForQueueToEmpty();
+
+    if (failedTables.length > 0) {
+      throw new Error(`Full sync failed for ${failedTables.length} table(s): ${failedTables.join(', ')}`);
+    }
 
     await syncManager.markSyncCompleted();
     await setRequestsToCompleted(requestIds);

@@ -5,7 +5,7 @@ import {
 vi.mock('./env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-airtable-credential' } }));
 
 import {
-  fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToAgisc, undoMoveToAgisc,
+  fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToCourse, undoMoveToCourse,
   fetchDecisionEmailCounts, flagDecisionEmails,
 } from './airtable';
 
@@ -25,7 +25,7 @@ const bodyAt = (index: number) => JSON.parse(fetchMock.mock.calls[index]?.[1]?.b
 
 describe('real-data Airtable adapter', () => {
   test('loads and maps the selected round from Airtable rather than sample records', async () => {
-    fetchMock.mockResolvedValue(new Response(JSON.stringify({
+    fetchMock.mockImplementation(async () => new Response(JSON.stringify({
       records: [
         {
           id: 'recLiveApplicant', fields: {
@@ -45,8 +45,65 @@ describe('real-data Airtable adapter', () => {
     expect(fetchMock.mock.calls[0]?.[1]?.headers).toMatchObject({ Authorization: 'Bearer test-airtable-credential' });
   });
 
+  test('serves unscored applications after the scored queue is exhausted', async () => {
+    // Scored phase: one match, no further pages; unscored phase: one match.
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
+      records: [{
+        id: 'recScored', fields: {
+          fldYaHSLqnvBXyjur: ['recLiveRound'], fld1rOZGAHBRcdJcM: 'Scored applicant', fldEPZ0UfYoypB1mp: 9, fldRXdZQ0rnuVOcl7: 'Summary',
+        },
+      }],
+    })));
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
+      records: [{ id: 'recUnscored', fields: { fldYaHSLqnvBXyjur: ['recLiveRound'], fld1rOZGAHBRcdJcM: 'Unscored applicant' } }],
+    })));
+    const result = await fetchApplications('recLiveRound');
+    expect(result.applications.map((a) => a.name)).toEqual(['Scored applicant', 'Unscored applicant']);
+    expect(result.nextOffset).toBeUndefined();
+
+    const scoredRequest = new URL(fetchMock.mock.calls[0]?.[0] as string);
+    expect(scoredRequest.searchParams.get('filterByFormula')).toContain('{fldEPZ0UfYoypB1mp} != BLANK()');
+    expect(scoredRequest.searchParams.get('sort[0][field]')).toBe('fldEPZ0UfYoypB1mp');
+    const unscoredRequest = new URL(fetchMock.mock.calls[1]?.[0] as string);
+    expect(unscoredRequest.searchParams.get('filterByFormula')).toContain('OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK())');
+    expect(unscoredRequest.searchParams.get('sort[0][field]')).toBeNull();
+  });
+
+  test('a scored page that fills exactly hands the phase switch to the next request', async () => {
+    // 20 scored matches (one response page) and no further Airtable offset.
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
+      records: Array.from({ length: 20 }, (_, index) => ({
+        id: `recScored${index}`,
+        fields: {
+          fldYaHSLqnvBXyjur: ['recLiveRound'], fld1rOZGAHBRcdJcM: `Applicant ${index}`, fldEPZ0UfYoypB1mp: index, fldRXdZQ0rnuVOcl7: 'Summary',
+        },
+      })),
+    })));
+    const firstPage = await fetchApplications('recLiveRound');
+    expect(firstPage.applications).toHaveLength(20);
+    expect(firstPage.nextOffset).toBe('unscored:');
+
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
+      records: [{ id: 'recUnscored', fields: { fldYaHSLqnvBXyjur: ['recLiveRound'], fld1rOZGAHBRcdJcM: 'Unscored applicant' } }],
+    })));
+    const secondPage = await fetchApplications('recLiveRound', firstPage.nextOffset);
+    expect(secondPage.applications.map((a) => a.name)).toEqual(['Unscored applicant']);
+    const request = new URL(fetchMock.mock.calls[1]?.[0] as string);
+    expect(request.searchParams.get('filterByFormula')).toContain('OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK())');
+    expect(request.searchParams.get('offset')).toBeNull();
+  });
+
+  test('an unscored-phase offset resumes the unscored query', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
+    await fetchApplications('recLiveRound', 'unscored:itrToken/recCursor');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
+    expect(request.searchParams.get('filterByFormula')).toContain('OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK())');
+    expect(request.searchParams.get('offset')).toBe('itrToken/recCursor');
+  });
+
   test('filters applications to the selected round inside the Airtable query', async () => {
-    fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
+    fetchMock.mockImplementation(async () => new Response(JSON.stringify({ records: [] })));
     await fetchApplications('recLiveRound');
     const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
     expect(request.searchParams.get('filterByFormula')).toContain('FIND("recLiveRound", {fldrmNLS764z8WEbR} & "")');
@@ -85,51 +142,87 @@ describe('real-data Airtable adapter', () => {
     expect(bodyAt(0).records).toEqual([{ id: 'recTest', fields: { fldOm6fJcqhq78M71: 'TODO', fldWVKY5EFAGSRcDT: null } }]);
   });
 
-  test('moves course, round, and derived course link in one write', async () => {
+  const roundNamed = (name: string) => JSON.stringify({ records: [{ id: 'recRound', fields: { fldvOk9j9FbDV5aLl: name } }] });
+
+  test('moves course, round, and derived course link in one write after verifying the round', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('AGI Strategy (2026 Nov W48) - Intensive')));
     fetchMock.mockResolvedValue(new Response(JSON.stringify({ records: [] })));
-    await moveApplicationToAgisc('recTest', 'recNewRound');
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(bodyAt(0).records).toEqual([{
+    await moveApplicationToCourse('recTest', 'recNewRound', 'AGI Strategy');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(bodyAt(1).records).toEqual([{
       id: 'recTest',
       fields: { fldkEQ0zBUhqpIuJn: 'AGI Strategy', fldYaHSLqnvBXyjur: ['recNewRound'], fldPkqPbeoIhERqSY: [] },
     }]);
   });
 
-  test('does not clear the course link when the course move fails', async () => {
-    fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
-    await expect(moveApplicationToAgisc('recTest', 'recNewRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
+  test('refuses a move whose round belongs to a different course', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('Technical AI Safety Project (2026 Nov W47) - Part-time')));
+    await expect(moveApplicationToCourse('recTest', 'recNewRound', 'Technical AI Safety')).rejects.toMatchObject({ statusCode: 400, expose: true, message: expect.stringContaining('not a Technical AI Safety round') });
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  test('moves a project-round application to Technical AI Safety and undoes it back', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('Technical AI Safety (2026 Oct W44) - Part-time')));
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
+    await moveApplicationToCourse('recTest', 'recTaisRound', 'Technical AI Safety');
+    expect(bodyAt(1).records).toEqual([{
+      id: 'recTest',
+      fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety', fldYaHSLqnvBXyjur: ['recTaisRound'], fldPkqPbeoIhERqSY: [] },
+    }]);
+
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('Technical AI Safety Project (2026 Nov W47) - Part-time')));
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety' } }] })));
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
+    await undoMoveToCourse('recTest', 'recProjectRound', 'Technical AI Safety', 'Technical AI Safety Project');
+    expect(bodyAt(4).records).toEqual([{
+      id: 'recTest',
+      fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety Project', fldYaHSLqnvBXyjur: ['recProjectRound'], fldPkqPbeoIhERqSY: [] },
+    }]);
+  });
+
+  test('does not clear the course link when the course move fails', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed('AGI Strategy (2026 Nov W48) - Intensive')));
+    fetchMock.mockResolvedValue(new Response('{}', { status: 403 }));
+    await expect(moveApplicationToCourse('recTest', 'recNewRound', 'AGI Strategy')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
   const movedRecord = JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'AGI Strategy' } }] });
+  const taisRound = 'Technical AI Safety (2026 Oct W44) - Part-time';
 
   test('undoing a move restores course, round, and derived course link in one write', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed(taisRound)));
     fetchMock.mockResolvedValueOnce(new Response(movedRecord));
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [] })));
-    await undoMoveToAgisc('recTest', 'recOriginalRound');
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(bodyAt(1).records).toEqual([{
+    await undoMoveToCourse('recTest', 'recOriginalRound', 'AGI Strategy', 'Technical AI Safety');
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(bodyAt(2).records).toEqual([{
       id: 'recTest',
       fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety', fldYaHSLqnvBXyjur: ['recOriginalRound'], fldPkqPbeoIhERqSY: [] },
     }]);
   });
 
   test('refuses to undo an application that is not currently in AGI Strategy', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed(taisRound)));
     fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ records: [{ id: 'recTest', fields: { fldkEQ0zBUhqpIuJn: 'Technical AI Safety' } }] })));
-    await expect(undoMoveToAgisc('recTest', 'recOriginalRound')).rejects.toMatchObject({ statusCode: 409, expose: true, message: expect.stringContaining('not currently moved') });
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    await expect(undoMoveToCourse('recTest', 'recOriginalRound', 'AGI Strategy', 'Technical AI Safety')).rejects.toMatchObject({ statusCode: 409, expose: true, message: expect.stringContaining('not currently moved') });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   test('rejects a failed undo so the UI keeps the application in the moved list', async () => {
+    fetchMock.mockResolvedValueOnce(new Response(roundNamed(taisRound)));
     fetchMock.mockResolvedValueOnce(new Response(movedRecord));
     fetchMock.mockResolvedValueOnce(new Response('{}', { status: 403 }));
-    await expect(undoMoveToAgisc('recTest', 'recOriginalRound')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    await expect(undoMoveToCourse('recTest', 'recOriginalRound', 'AGI Strategy', 'Technical AI Safety')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 });
 
 describe('decision emails', () => {
-  const inRound = { fldYaHSLqnvBXyjur: ['recRound'] };
+  // The participant role mirrors the server-side filter: Airtable would never
+  // return a record without "Participant" in [a] Role. Dual-role records
+  // override the role key below.
+  const inRound = { fldYaHSLqnvBXyjur: ['recRound'], fld7fzQNFhb7Oyy90: ['Participant'] };
   const reviewedRecords = JSON.stringify({
     records: [
       { id: 'recSentAlready', fields: { ...inRound, fldWVKY5EFAGSRcDT: 'Accept', fldgseNhrqlQQesiA: true } },
@@ -154,11 +247,14 @@ describe('decision emails', () => {
   test('counts reviewed applications in the round, treating flagged-but-unsent as sent', async () => {
     fetchMock.mockResolvedValue(new Response(reviewedRecords));
     expect(await fetchDecisionEmailCounts('recRound')).toEqual({
-      reviewed: 5, alreadySent: 2, pending: 3, pendingAccepted: 2, pendingRejected: 1,
+      reviewed: 5, alreadySent: 2, confirmedSent: 1, pending: 3, pendingAccepted: 2, pendingRejected: 1,
     });
     const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
     const formula = request.searchParams.get('filterByFormula');
     expect(formula).toContain('FIND("recRound", {fldrmNLS764z8WEbR} & "")');
+    // Facilitator applications in the round have decisions too, but their
+    // emails are the facilitator process's to send.
+    expect(formula).toContain('SEARCH("Participant", {fld7fzQNFhb7Oyy90})');
     expect(formula).toContain('OR({fldWVKY5EFAGSRcDT} = "Accept", {fldWVKY5EFAGSRcDT} = "Reject")');
     expect(formula).toContain('NOT({fld1KQjHFGoDZKf94})');
   });

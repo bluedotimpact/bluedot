@@ -6,6 +6,7 @@ import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import { ROUTES } from '../lib/routes';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.contact;
 const SUBTITLE = 'How to reach us and details about our nonprofit entities.';
@@ -14,11 +15,7 @@ const ContactPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta
-          name="description"
-          content="Contact details and legal registration information for BlueDot Impact's UK and US entities."
-        />
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact`, description: 'Contact details and legal registration information for BlueDot Impact\'s UK and US entities.' })}
       </Head>
       <MarketingHero title={CURRENT_ROUTE.title} subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />

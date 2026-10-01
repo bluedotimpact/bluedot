@@ -23,9 +23,9 @@ export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' |
 // Glyph is always rendered and inherits the box colour, so it stays transparent until the box fills.
 const BOX_STYLES = [
   CHOICE_CONTROL_STYLES,
-  'rounded-surface border border-strong',
+  'rounded-surface border border-border-control',
   'peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark',
-  'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-tint',
+  'peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled',
   'peer-disabled:peer-checked:opacity-40',
   'peer-aria-invalid:not-peer-disabled:border-error-fg',
 ];

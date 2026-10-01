@@ -84,7 +84,7 @@ describe('DropoutModal', () => {
       expect(courseRegistrationsRequests).toBe(1);
     });
 
-    await user.click(screen.getByRole('button', { name: 'Action type' }));
+    await user.click(screen.getByRole('button', { name: /Action type/ }));
     const actionTypeListbox = await screen.findByRole('listbox');
     await user.click(within(actionTypeListbox).getByText('Drop out of the course'));
 
@@ -136,10 +136,10 @@ describe('DropoutModal', () => {
       { wrapper: TrpcProvider },
     );
 
-    await user.click(screen.getByRole('button', { name: 'Action type' }));
+    await user.click(screen.getByRole('button', { name: /Action type/ }));
     const listbox = await screen.findByRole('listbox');
     await waitFor(() => {
-      expect(within(listbox).getByRole('option', { name: 'Defer to a future round' })).toHaveClass('cursor-not-allowed');
+      expect(within(listbox).getByRole('option', { name: 'Defer to a future round' })).toHaveAttribute('aria-disabled', 'true');
     });
 
     await user.click(within(listbox).getByText('Drop out of the course'));
@@ -185,7 +185,7 @@ describe('DropoutModal', () => {
 
     // No chooser is rendered; just Cancel + Confirm.
     await waitFor(() => {
-      expect(screen.queryByRole('button', { name: 'Action type' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Action type/ })).not.toBeInTheDocument();
     });
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
 

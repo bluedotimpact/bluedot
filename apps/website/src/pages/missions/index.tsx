@@ -9,6 +9,7 @@ import PageNewsletter from '../../components/PageNewsletter';
 import MissionsListSection from '../../components/missions/MissionsListSection';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.missions;
 const MISSIONS_SUBTITLE = 'Concrete projects we\'d love someone to take on with our support.';
@@ -19,8 +20,7 @@ const MissionsPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content={MISSIONS_SUBTITLE} />
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact`, description: MISSIONS_SUBTITLE })}
       </Head>
       <MarketingHero title="Missions" subtitle={MISSIONS_SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />

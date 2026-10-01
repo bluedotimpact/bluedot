@@ -27,8 +27,8 @@ vi.mock('../components/RoundPicker', () => ({
   RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string) => void }) => <button type="button" onClick={() => onSelect({ id: 'recTestRound', name: testRound.name, course: (testRound.name.split('(')[0] ?? testRound.name).trim() }, 'top')}>Start test round</button>,
 }));
 vi.mock('../components/ApplicationCard', () => ({ ApplicationCard: ({ application }: { application: Application }) => <p>{application.name}</p> }));
-vi.mock('../components/MoveToAgiscControl', () => ({
-  MoveToAgiscControl: ({ onMoved }: { onMoved: (roundName: string) => void }) => <button type="button" onClick={() => onMoved('AGI Strategy (target)')}>Move to AGI Strategy</button>,
+vi.mock('../components/MoveCourseControl', () => ({
+  MoveCourseControl: ({ targetCourse, onMoved }: { targetCourse: string; onMoved: (roundName: string) => void }) => <button type="button" onClick={() => onMoved(`${targetCourse} (target)`)}>Move to {targetCourse}</button>,
 }));
 
 import { authFetch } from '../lib/client/api';
@@ -89,11 +89,30 @@ test('moving to AGI Strategy shows an undo toast that reverses the move', async 
   await act(async () => {
     fireEvent.click(screen.getByRole('button', { name: 'Undo move' }));
   });
-  expect(authFetch).toHaveBeenCalledWith('/api/undo-move-to-agisc', expect.objectContaining({
+  expect(authFetch).toHaveBeenCalledWith('/api/undo-move', expect.objectContaining({
     method: 'POST',
-    body: JSON.stringify({ applicationId: 'recOne', roundId: 'recTestRound' }),
+    body: JSON.stringify({ applicationId: 'recOne', roundId: 'recTestRound', restoreCourse: 'Technical AI Safety' }),
   }));
   expect(screen.getByText('First test applicant')).toBeTruthy();
+});
+
+test('reviewing a Technical AI Safety Project round offers a move to Technical AI Safety', async () => {
+  testRound.name = 'Technical AI Safety Project (test)';
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }, { id: 'recTwo', name: 'Second test applicant' }];
+  vi.mocked(authFetch).mockResolvedValue({ ok: true } as Response);
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Move to Technical AI Safety' }));
+  });
+  expect(screen.getByText('Moved First test applicant')).toBeTruthy();
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Undo move' }));
+  });
+  expect(authFetch).toHaveBeenCalledWith('/api/undo-move', expect.objectContaining({
+    method: 'POST',
+    body: JSON.stringify({ applicationId: 'recOne', roundId: 'recTestRound', restoreCourse: 'Technical AI Safety Project' }),
+  }));
 });
 
 test('a failed undo keeps the application moved and offers a retry', async () => {
@@ -117,22 +136,26 @@ test('a failed undo keeps the application moved and offers a retry', async () =>
   expect(screen.getByText('First test applicant')).toBeTruthy();
 });
 
-const mockSummaryApis = () => {
+const mockSummaryApis = ({ instantConfirm = true } = {}) => {
+  const counts = {
+    reviewed: 3, alreadySent: 1, confirmedSent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
+  };
   // The page only ever fetches string URLs, so the mock can treat input as one.
   vi.mocked(authFetch).mockImplementation(async (input, init) => {
     const url = input as string;
     if (url.startsWith('/api/send-decision-emails')) {
       const body = JSON.parse(init?.body as string) as { applicationIds?: string[] };
-      return { ok: true, json: async () => ({ flagged: body.applicationIds?.length ?? 2 }) } as Response;
+      const flagged = body.applicationIds?.length ?? counts.pending;
+      counts.alreadySent += flagged;
+      counts.pending -= flagged;
+      // The automation confirms sends asynchronously; instantConfirm mirrors it
+      // in the same request, otherwise the test bumps confirmedSent itself.
+      if (instantConfirm) counts.confirmedSent += flagged;
+      return { ok: true, json: async () => ({ flagged }) } as Response;
     }
 
     if (url.startsWith('/api/decision-email-counts')) {
-      return {
-        ok: true,
-        json: async () => ({
-          reviewed: 3, alreadySent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
-        }),
-      } as Response;
+      return { ok: true, json: async () => ({ ...counts }) } as Response;
     }
 
     if (url.startsWith('/api/round-stats')) {
@@ -141,6 +164,7 @@ const mockSummaryApis = () => {
 
     return { ok: true } as Response;
   });
+  return counts;
 };
 
 test('summary offers both send buttons and flags the session applications after confirmation', async () => {
@@ -166,7 +190,114 @@ test('summary offers both send buttons and flags the session applications after 
     method: 'POST',
     body: JSON.stringify({ roundId: 'recTestRound', applicationIds: ['recOne'] }),
   }));
-  expect(screen.getByText('Sending 1 decision email.')).toBeTruthy();
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
+});
+
+test('an in-flight queue from an earlier visit rehydrates the tracker on load', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  vi.mocked(authFetch).mockImplementation(async (input) => {
+    const url = input as string;
+    if (url.startsWith('/api/decision-email-counts')) {
+      return {
+        ok: true,
+        json: async () => ({
+          reviewed: 5, alreadySent: 4, confirmedSent: 1, pending: 1, pendingAccepted: 1, pendingRejected: 0,
+        }),
+      } as Response;
+    }
+
+    if (url.startsWith('/api/round-stats')) {
+      return { ok: true, json: async () => ({ total: 5, evaluated: 4, accepted: 2 }) } as Response;
+    }
+
+    return { ok: true } as Response;
+  });
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  expect(screen.getByText('Sending emails… (0 of 3) You can leave this page.')).toBeTruthy();
+});
+
+test('a large send shows queueing progress while the flags are being written', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  let releaseSend: (() => void) | undefined;
+  const counts = {
+    reviewed: 3, alreadySent: 1, confirmedSent: 1, pending: 2, pendingAccepted: 1, pendingRejected: 1,
+  };
+  vi.mocked(authFetch).mockImplementation(async (input) => {
+    const url = input as string;
+    if (url.startsWith('/api/send-decision-emails')) {
+      // Hold the flagging request open so the queueing state is observable.
+      await new Promise<void>((resolve) => {
+        releaseSend = resolve;
+      });
+      counts.alreadySent += 1;
+      counts.confirmedSent += 1;
+      return { ok: true, json: async () => ({ flagged: 1 }) } as Response;
+    }
+
+    if (url.startsWith('/api/decision-email-counts')) {
+      return { ok: true, json: async () => ({ ...counts }) } as Response;
+    }
+
+    if (url.startsWith('/api/round-stats')) {
+      return { ok: true, json: async () => ({ total: 3, evaluated: 1, accepted: 1 }) } as Response;
+    }
+
+    return { ok: true } as Response;
+  });
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  fireEvent.click(screen.getByRole('button', { name: 'Send for this session (1)' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Send 1 email' }));
+  });
+  expect(screen.getByText('Queueing emails… (0 of 1) Keep this page open.')).toBeTruthy();
+  expect(screen.queryByRole('dialog')).toBeNull();
+
+  // A flag batch lands (pending drops) while the request is still held.
+  counts.pending -= 1;
+  await act(async () => {
+    vi.advanceTimersByTime(5000);
+  });
+  expect(screen.getByText('Queueing emails… (1 of 1) Keep this page open.')).toBeTruthy();
+
+  await act(async () => {
+    releaseSend!();
+  });
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
+});
+
+test('the sent tracker counts up as the automation confirms, then reports done', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  const counts = mockSummaryApis({ instantConfirm: false });
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  fireEvent.click(screen.getByRole('button', { name: 'Send for this session (1)' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Send 1 email' }));
+  });
+  expect(screen.getByText('Sending emails… (0 of 1) You can leave this page.')).toBeTruthy();
+
+  counts.confirmedSent += 1;
+  await act(async () => {
+    vi.advanceTimersByTime(5000);
+  });
+  expect(screen.getByText('Decision email sent.')).toBeTruthy();
 });
 
 test('applications moved to AGI Strategy are excluded from the session send', async () => {

@@ -171,11 +171,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
     return (
       <Select
-        ariaLabel="Select action type"
+        aria-label="Select action type"
         value={modalType}
         onChange={(value) => setModalType(value as FacilitatorModalType)}
         options={MODAL_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-        className="text-size-md mx-auto w-fit border-none bg-transparent font-medium [&>button]:px-6 [&>button]:py-3"
+        variant="ghost"
+        className="mx-auto"
       />
     );
   };
@@ -248,7 +249,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <div className="flex flex-col gap-2">
             <p className="text-size-md font-medium text-black">1. What kind of update are you making?</p>
             <Select
-              ariaLabel="Action"
+              aria-label="Action"
               value={switchType}
               onChange={(value) => setSwitchType(value as FacilitatorSwitchType)}
               options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
@@ -259,7 +260,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <div className="flex flex-col gap-2">
             <p className="text-size-md font-medium text-black">2. For which group?</p>
             <Select
-              ariaLabel="Group"
+              aria-label="Group"
               value={selectedGroupId}
               onChange={(value) => {
                 setSelectedGroupId(value);
@@ -274,7 +275,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <div className="flex flex-col gap-2">
               <p className="text-size-md font-medium text-black">3. For which discussion?</p>
               <Select
-                ariaLabel="Discussion"
+                aria-label="Discussion"
                 options={discussionOptions}
                 value={selectedDiscussionId}
                 onChange={(value) => setSelectedDiscussionId(value)}
@@ -333,7 +334,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <div className="flex flex-col gap-2">
           <p className="text-size-md font-medium text-black">1. For which group?</p>
           <Select
-            ariaLabel="Group"
+            aria-label="Group"
             value={selectedGroupId}
             onChange={(value) => {
               setSelectedGroupId(value);
@@ -347,7 +348,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <div className="flex flex-col gap-2">
           <p className="text-size-md font-medium text-black">2. For which discussion?</p>
           <Select
-            ariaLabel="Discussion"
+            aria-label="Discussion"
             options={discussionOptions}
             value={selectedDiscussionId}
             onChange={(value) => setSelectedDiscussionId(value)}
@@ -363,7 +364,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             </P>
           )}
           <Select
-            ariaLabel="New facilitator"
+            aria-label="New facilitator"
             options={[...(facilitatorsQuery.data ?? [])].sort((a, b) => a.label.localeCompare(b.label))}
             value={selectedNewFacilitatorId}
             onChange={(value) => setSelectedNewFacilitatorId(value)}

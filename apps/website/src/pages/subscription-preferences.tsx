@@ -8,6 +8,7 @@ import { H3, P } from '@bluedot/ui/src/Text';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
 import type { SubscriptionTopic } from '../server/routers/subscription-preferences';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.subscriptionPreferences;
 
@@ -38,7 +39,7 @@ const SubscriptionPreferencesPage = ({ cid, token, topicId: highlightTopicId }: 
   return (
     <div className="min-h-screen bg-white">
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
         <meta name="robots" content="noindex" />
       </Head>
       <div className="mx-auto px-4 py-12 max-w-lg">

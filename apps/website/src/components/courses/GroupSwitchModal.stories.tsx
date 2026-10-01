@@ -117,6 +117,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
     ],
   },
   rescheduleEligibleUnits: ['1', '2'],
+  roundIntensity: null,
 };
 
 const manyGroupNames = [
@@ -169,6 +170,7 @@ const mockManyGroupsData: DiscussionsAvailable = {
     ],
   },
   rescheduleEligibleUnits: ['1'],
+  roundIntensity: null,
 };
 
 const meta = {
@@ -228,6 +230,26 @@ export const NoAvailableGroups: Story = {
   parameters: {
     msw: {
       handlers: commonHandlers,
+    },
+  },
+};
+
+export const PermanentSwitchIntensive: Story = {
+  args: {
+    handleClose() {},
+    initialSwitchType: 'Switch group permanently',
+    courseSlug: 'ai-safety',
+    roundId: 'round-1',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.users.getUser.query(() => mockUser),
+        trpcStorybookMsw.courses.getBySlug.query(() => mockCourseData),
+        trpcStorybookMsw.courseRegistrations.getByCourseId.query(() => mockCourseRegistration),
+        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => ({ ...mockAvailableGroupsAndDiscussions, roundIntensity: 'Intensive' })),
+        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
+      ],
     },
   },
 };
