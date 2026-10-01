@@ -51,7 +51,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   const duration = useReducedMotion() ? 0 : 0.3;
   const transition = { duration, ease: EASE };
 
-  // Ref to measure children content height
+  // Refs to measure the sheet's chrome and content for 'fit-content'
+  const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
@@ -78,8 +79,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
       // Calculate optimal opening position based on content height
       requestAnimationFrame(() => {
         const contentHeight = contentRef.current?.scrollHeight ?? 0;
-        const headerHeight = title ? 80 : 40;
-        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight + 16;
+        const headerHeight = headerRef.current?.offsetHeight ?? 0;
+        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight;
         const contentBasedY = availableHeight - totalNeededHeight;
 
         // Use the larger y value (less expansion) = min height
@@ -196,10 +197,12 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
               >
                 <div className="h-full flex flex-col rounded-t-sheet overflow-hidden">
                   {/* Header Section with Drag Handle */}
-                  <div className={clsx(
-                    'flex flex-col rounded-t-sheet transition-shadow duration-300 motion-reduce:transition-none',
-                    isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
-                  )}
+                  <div
+                    ref={headerRef}
+                    className={clsx(
+                      'flex flex-col rounded-t-sheet transition-shadow duration-300 motion-reduce:transition-none',
+                      isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
+                    )}
                   >
                     {/* Drag handle */}
                     <div
@@ -222,11 +225,11 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                   <div
                     data-modal-content
                     className={clsx(
-                      'flex-1 overflow-y-auto px-5 pt-4 pb-6',
+                      'flex-1 overflow-y-auto',
                       isDragging && 'pointer-events-none',
                     )}
                   >
-                    <div ref={contentRef}>
+                    <div ref={contentRef} className="px-5 pt-4 pb-6">
                       {children}
                     </div>
                   </div>
