@@ -131,7 +131,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
           {!isClosing && (
             <>
               <motion.div
-                className="fixed inset-0 bg-black/25 backdrop-blur-xs"
+                className="fixed inset-0 bg-scrim backdrop-blur-xs"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -140,7 +140,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
               />
               {/* Modal Container */}
               <motion.div
-                className="bg-canvas fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
+                className="bg-raised fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
                 transition={transition}
                 style={{
                   y,
@@ -197,13 +197,13 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 <div className="h-full flex flex-col rounded-t-sheet overflow-hidden">
                   {/* Header Section with Drag Handle */}
                   <div className={clsx(
-                    'flex flex-col bg-[#FCFAF7] border-b-hairline border-bluedot-navy/20 rounded-t-sheet transition-shadow duration-300',
+                    'flex flex-col rounded-t-sheet transition-shadow duration-300 motion-reduce:transition-none',
                     isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
                   )}
                   >
                     {/* Drag handle */}
                     <div
-                      className="flex justify-center pt-1 pb-4 cursor-grab active:cursor-grabbing touch-none"
+                      className="flex justify-center pt-2 pb-3 cursor-grab active:cursor-grabbing touch-none"
                       onPointerDown={(e) => dragControls.start(e)}
                     >
                       <div className="w-[30px] h-1 bg-bluedot-navy/30 rounded-xs" />
@@ -222,11 +222,11 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                   <div
                     data-modal-content
                     className={clsx(
-                      'flex flex-col flex-1 overflow-y-auto p-4 w-full items-center',
+                      'flex-1 overflow-y-auto px-5 pt-4 pb-6',
                       isDragging && 'pointer-events-none',
                     )}
                   >
-                    <div className="w-full flex justify-center" ref={contentRef}>
+                    <div ref={contentRef}>
                       {children}
                     </div>
                   </div>
