@@ -39,7 +39,7 @@ The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=tru
 
 ## Queue filters
 
-On the Speed Reviewer round picker, reviewers can tick optional queue filters before choosing a round. The session then serves only applications that match any (the default) or all of the ticked options. With nothing ticked, the queue is unchanged. The browser remembers the selection and drops options that are no longer offered.
+On the Speed Reviewer round picker, reviewers can tick optional queue filters before choosing a round. The session then serves only applications that match any (the default) or all of the ticked options. With nothing ticked, the queue is unchanged. Reviewers can tick up to 20 options, the same limit the API enforces. The browser remembers the selection and drops options that are no longer offered. If a filtered round fails to load, for example because an option's field was deleted, the picker reopens and says so.
 
 Options are configured in Airtable, in table `tblqMbr9KxusIrWA6` of the reviewer base, and loaded at runtime. Enabled rows are offered in ascending order:
 

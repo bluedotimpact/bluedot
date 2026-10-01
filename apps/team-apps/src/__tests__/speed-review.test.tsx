@@ -29,17 +29,18 @@ vi.mock('@bluedot/ui', () => ({
   CTALinkOrButton: ({ children, onClick }: { children: ReactNode; onClick?: () => void }) => <button type="button" onClick={onClick}>{children}</button>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   H2: ({ children }: { children: ReactNode }) => <h2>{children}</h2>,
-  Callout: ({ children }: { children?: ReactNode }) => <div>{children}</div>,
+  Callout: ({ children, role }: { children?: ReactNode; role?: string }) => <div role={role}>{children}</div>,
   Modal: ({ isOpen, title, children }: { isOpen: boolean; title?: ReactNode; children?: ReactNode }) => (
     isOpen ? <div role="dialog"><h2>{title}</h2>{children}</div> : null
   ),
   ProgressDots: () => <span>Loading</span>,
 }));
 vi.mock('../components/RoundPicker', () => ({
-  RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string, filters?: QueueFilters) => void }) => {
+  RoundPicker: ({ onSelect, notice }: { onSelect: (round: { id: string; name: string; course: string }, direction: string, filters?: QueueFilters) => void; notice?: string }) => {
     const round = { id: 'recTestRound', name: testRound.name, course: (testRound.name.split('(')[0] ?? testRound.name).trim() };
     return (
       <>
+        {notice && <p role="alert">{notice}</p>}
         <button type="button" onClick={() => onSelect(round, 'top')}>Start test round</button>
         <button type="button" onClick={() => onSelect(round, 'top', { optionIds: ['recSampleFilterA', 'recSampleFilterB'], mode: 'all' })}>Start filtered test round</button>
       </>
@@ -427,6 +428,17 @@ test('a filtered session with no matches says so instead of suggesting the round
   expect(screen.getByText('No matching applications')).toBeTruthy();
 });
 
+test('a filtered round that fails to load returns to the picker and says why', async () => {
+  axiosResults[`/api/applications?round=recTestRound&direction=top&${FILTERED_QUERY}`] = { data: undefined, loading: false, error: new Error('Request failed with status code 400') };
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+  render(<SpeedReviewPage />);
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Start filtered test round' }));
+  });
+  expect(screen.getByRole('alert').textContent).toContain('couldn\'t be loaded with the selected filters');
+  expect(screen.getByRole('button', { name: 'Start test round' })).toBeTruthy();
+});
+
 describe('round picker', () => {
   const pickerRound = { id: 'recPickerRound', name: 'AGI Strategy (sample round)', course: 'AGI Strategy' };
   const sampleOptions = [{ id: 'recSampleFilterA', label: 'Sample filter A' }, { id: 'recSampleFilterB', label: 'Sample filter B' }];
@@ -467,6 +479,28 @@ describe('round picker', () => {
     expect(screen.getAllByRole<HTMLInputElement>('checkbox').every((box) => !box.checked)).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
     expect(onSelect).toHaveBeenCalledWith(pickerRound, 'top', undefined);
+  });
+
+  test('stops new ticks at the API limit of 20 and says so', () => {
+    const manyOptions = Array.from({ length: 21 }, (_, index) => ({ id: `recSampleFilter${index}`, label: `Sample filter ${index + 1}` }));
+    offer({ data: { options: manyOptions }, loading: false, error: null });
+    const onSelect = vi.fn();
+    render(<RoundPicker onSelect={onSelect} />);
+    manyOptions.slice(0, 20).forEach(({ label }) => fireEvent.click(screen.getByRole('checkbox', { name: label })));
+    expect(screen.getByRole<HTMLInputElement>('checkbox', { name: 'Sample filter 21' }).disabled).toBe(true);
+    expect(screen.getByText('You can tick up to 20 at a time.')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter 1' }));
+    expect(screen.getByRole<HTMLInputElement>('checkbox', { name: 'Sample filter 21' }).disabled).toBe(false);
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter 1' }));
+    fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
+    expect(onSelect.mock.calls[0]?.[2]?.optionIds).toHaveLength(20);
+  });
+
+  test('shows why it is back, when told', () => {
+    offer({ data: { options: sampleOptions }, loading: false, error: null });
+    render(<RoundPicker onSelect={vi.fn()} notice="Sample notice" />);
+    expect(screen.getByRole('alert').textContent).toBe('Sample notice');
   });
 
   test.each([

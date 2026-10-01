@@ -42,6 +42,9 @@ export type FilterMatch = 'any' | 'all';
 // looks up what each option filters on.
 export type QueueFilters = { optionIds: string[]; mode: FilterMatch };
 
+// Shared by the picker and the API so the two limits always agree.
+export const MAX_QUEUE_FILTERS = 20;
+
 export type TileTone = 'neutral' | 'positive' | 'caution';
 
 export type ApplicationTile = { id: string; label: string; tone: TileTone };

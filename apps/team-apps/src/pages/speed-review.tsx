@@ -28,6 +28,8 @@ const buildApplicationsUrl = (roundId: string, direction: Direction, filters?: Q
   return `/api/applications?${params.toString()}`;
 };
 
+const FILTERED_LOAD_NOTICE = 'That round couldn\'t be loaded with the selected filters. Try again, or clear the filters and choose the round again.';
+
 const COUNTDOWN_MS = 30_000;
 // Fetch next batch when queue drops to this many remaining
 const PREFETCH_THRESHOLD = 10;
@@ -263,6 +265,7 @@ const SpeedReviewPage = () => {
   const [milestoneToast, setMilestoneToast] = useState<string | null>(null);
   const [undoToast, setUndoToast] = useState<{ name: string; kind: 'rated' | 'moved' } | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [loadNotice, setLoadNotice] = useState<string | null>(null);
   const failedUndoMove = useRef(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const milestoneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -281,6 +284,15 @@ const SpeedReviewPage = () => {
   const handleLoadError = useCallback((err: Error) => {
     // eslint-disable-next-line no-console
     console.error(err);
+    dispatch({ type: 'RESET' });
+  }, []);
+
+  // A filter that no longer works (e.g. its Airtable field was deleted) fails
+  // the whole load, so say why instead of silently showing the picker again.
+  const handleFilteredLoadError = useCallback((err: Error) => {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    setLoadNotice(FILTERED_LOAD_NOTICE);
     dispatch({ type: 'RESET' });
   }, []);
 
@@ -488,9 +500,14 @@ const SpeedReviewPage = () => {
 
   if (state.status === 'picking-round') {
     return (
-      <RoundPicker onSelect={(round, direction, filters) => dispatch({
-        type: 'ROUND_SELECTED', round, direction, filters,
-      })}
+      <RoundPicker
+        notice={loadNotice ?? undefined}
+        onSelect={(round, direction, filters) => {
+          setLoadNotice(null);
+          dispatch({
+            type: 'ROUND_SELECTED', round, direction, filters,
+          });
+        }}
       />
     );
   }
@@ -504,7 +521,7 @@ const SpeedReviewPage = () => {
         direction={state.direction}
         filters={state.filters}
         onLoaded={handleLoaded}
-        onError={handleLoadError}
+        onError={state.filters ? handleFilteredLoadError : handleLoadError}
       />
     );
   }

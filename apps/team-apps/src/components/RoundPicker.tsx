@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
-import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { Callout, CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { type Round } from '../lib/api/airtable';
 import {
-  type Direction, type FilterMatch, type FilterOption, type QueueFilters,
+  type Direction, type FilterMatch, type FilterOption, type QueueFilters, MAX_QUEUE_FILTERS,
 } from '../lib/client/types';
 
 const DIRECTION_STORAGE_KEY = 'speed-review:direction';
@@ -30,11 +30,13 @@ const loadFilterIds = (): string[] => {
 type RoundPickerProps = {
   // filters is undefined when nothing is ticked.
   onSelect: (round: Round, direction: Direction, filters?: QueueFilters) => void;
+  // Why the picker is showing again, e.g. a filtered round failed to load.
+  notice?: string;
 };
 
 const courseFromRoundName = (name: string): string => name.split('(')[0]?.trim() ?? '';
 
-export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
+export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) => {
   const [{ data, loading, error }] = useAxios<{ rounds: Round[] }>({
     method: 'get',
     url: '/api/rounds',
@@ -80,7 +82,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
   useEffect(() => {
     if (!filterOptions) return;
     const offered = new Set(filterOptions.map((option) => option.id));
-    const kept = loadFilterIds().filter((id) => offered.has(id));
+    const kept = loadFilterIds().filter((id) => offered.has(id)).slice(0, MAX_QUEUE_FILTERS);
     setFilterIds(kept);
     window.localStorage.setItem(FILTERS_STORAGE_KEY, kept.join(','));
   }, [filterOptions]);
@@ -130,6 +132,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
   );
 
   const offeredFilters = filterOptions ?? [];
+  const atFilterLimit = filterIds.length >= MAX_QUEUE_FILTERS;
   const toggleFilter = (id: string) => updateFilterIds(filterIds.includes(id) ? filterIds.filter((selected) => selected !== id) : [...filterIds, id]);
 
   const selectRound = (round: Round) => {
@@ -140,6 +143,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
   return (
     <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas flex items-start justify-center p-6 sm:p-10">
       <div className="bg-raised rounded-xl border border-subtle p-4 sm:p-8 max-w-3xl w-full space-y-6">
+        {notice && <Callout tone="error" role="alert">{notice}</Callout>}
         <p className="text-size-sm text-secondary">Choose a round to start reviewing applications.</p>
 
         <div>
@@ -157,16 +161,19 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
             <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto overscroll-contain">
               {offeredFilters.map((option) => {
                 const checked = filterIds.includes(option.id);
+                const blocked = !checked && atFilterLimit;
+                let stateClasses = 'border-subtle cursor-pointer hover:border-accent';
+                if (checked) stateClasses = 'border-accent bg-tint cursor-pointer';
+                else if (blocked) stateClasses = 'border-subtle cursor-not-allowed opacity-50';
                 return (
                   <label
                     key={option.id}
-                    className={`flex items-center gap-2 min-h-11 max-w-full px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
-                      checked ? 'border-accent bg-tint' : 'border-subtle hover:border-accent'
-                    }`}
+                    className={`flex items-center gap-2 min-h-11 max-w-full px-3 py-2 rounded-lg border transition-colors ${stateClasses}`}
                   >
                     <input
                       type="checkbox"
                       checked={checked}
+                      disabled={blocked}
                       onChange={() => toggleFilter(option.id)}
                       className="size-4 shrink-0 accent-accent"
                     />
@@ -193,6 +200,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
                 >
                   Clear
                 </button>
+                {atFilterLimit && <p className="text-size-xs text-secondary">You can tick up to {MAX_QUEUE_FILTERS} at a time.</p>}
               </div>
             )}
           </fieldset>
