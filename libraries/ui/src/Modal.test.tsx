@@ -36,6 +36,21 @@ describe('Modal', () => {
       expect(setIsOpen).toHaveBeenCalledWith(false);
     });
 
+    test('close button closes the dialog', () => {
+      const setIsOpen = vi.fn();
+      render(<Modal isOpen setIsOpen={setIsOpen} title="Title">Content</Modal>);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+
+      expect(setIsOpen).toHaveBeenCalledWith(false);
+    });
+
+    test('names the dialog from a string title', () => {
+      render(<Modal isOpen setIsOpen={vi.fn()} title="Leave course">Content</Modal>);
+
+      expect(screen.getByRole('dialog', { name: 'Leave course' })).toBeInTheDocument();
+    });
+
     test('cannot be dismissed with escape when isDismissable is false', () => {
       const setIsOpen = vi.fn();
       render(<Modal isOpen setIsOpen={setIsOpen} title="Title" isDismissable={false}>Content</Modal>);
@@ -46,13 +61,10 @@ describe('Modal', () => {
       expect(screen.getByText('Content')).toBeInTheDocument();
     });
 
-    test('close button still works when isDismissable is false', () => {
-      const setIsOpen = vi.fn();
-      render(<Modal isOpen setIsOpen={setIsOpen} title="Title" isDismissable={false}>Content</Modal>);
+    test('hides the close button when isDismissable is false', () => {
+      render(<Modal isOpen setIsOpen={vi.fn()} title="Title" isDismissable={false}>Content</Modal>);
 
-      fireEvent.click(screen.getByLabelText('Close'));
-
-      expect(setIsOpen).toHaveBeenCalledWith(false);
+      expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument();
     });
 
     test('can still be closed programmatically when isDismissable is false', () => {
