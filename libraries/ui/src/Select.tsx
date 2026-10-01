@@ -62,6 +62,8 @@ export const Select = ({
   ...rest
 }: SelectProps) => {
   const selectedOption = options.find((op) => op.value === value);
+  // A value with no matching option (e.g. a stored timezone no longer in the list) should still show
+  const showsPlaceholder = !selectedOption && !value;
   const isInvalid = ariaInvalid === true || ariaInvalid === 'true';
 
   return (
@@ -84,8 +86,8 @@ export const Select = ({
           TRIGGER_STYLES[variant],
         )}
       >
-        <SelectValue className={cn('flex-1 min-w-0 truncate', !selectedOption && 'text-placeholder group-data-[disabled]:text-disabled')}>
-          {selectedOption?.label ?? placeholder}
+        <SelectValue className={cn('flex-1 min-w-0 truncate', showsPlaceholder && 'text-placeholder group-data-[disabled]:text-disabled')}>
+          {selectedOption?.label ?? (showsPlaceholder ? placeholder : value)}
         </SelectValue>
         <FaChevronDown
           className="size-4 shrink-0 text-secondary transition-transform group-data-[open]:rotate-180 group-data-[disabled]:text-disabled"
