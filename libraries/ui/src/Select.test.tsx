@@ -5,6 +5,7 @@ import {
   describe, test, expect, vi,
 } from 'vitest';
 import { Select } from './Select';
+import { BottomDrawerModal } from './BottomDrawerModal';
 
 const mockOptions = [
   { value: 'option1', label: 'Option 1' },
@@ -98,5 +99,24 @@ describe('Select', () => {
     />);
 
     expect(container.querySelector('[data-rac]')).toHaveAttribute('data-invalid', 'true');
+  });
+
+  test('selects an option from inside a BottomDrawerModal without dismissing it', async () => {
+    const user = userEvent.setup();
+    const handleChange = vi.fn();
+    const setIsOpen = vi.fn();
+    render(<BottomDrawerModal isOpen setIsOpen={setIsOpen} title="Switch group" initialSize="fit-content">
+      <Select options={mockOptions} onChange={handleChange} aria-label="Test select" />
+    </BottomDrawerModal>);
+
+    await user.click(screen.getByRole('button', { name: 'Test select' }));
+    const option = screen.getByRole('option', { name: 'Option 2' });
+    expect(option).toBeVisible();
+    expect(option.closest('[aria-hidden="true"]')).toBeNull();
+
+    await user.click(option);
+
+    expect(handleChange).toHaveBeenCalledWith('option2');
+    expect(setIsOpen).not.toHaveBeenCalledWith(false);
   });
 });
