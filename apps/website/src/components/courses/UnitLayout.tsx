@@ -188,8 +188,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
               userRole={groupDiscussionWithZoomInfo.userRole}
               hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
-              hasPendingReschedule={groupDiscussionWithZoomInfo.hasPendingReschedule}
-              hasPendingGroupSwitchRequest={groupDiscussionWithZoomInfo.hasPendingGroupSwitchRequest}
+              pendingSwitchType={groupDiscussionWithZoomInfo.pendingSwitchType}
             />
           </div>
         )}

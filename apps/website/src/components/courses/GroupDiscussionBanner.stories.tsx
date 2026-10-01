@@ -101,18 +101,17 @@ export const FacilitatorNotStartingSoon: Story = {
 };
 
 export const ParticipantLiveRescheduling: Story = {
-  args: { ...ParticipantLive.args, hasPendingReschedule: true },
+  args: { ...ParticipantLive.args, pendingSwitchType: 'Switch group for one unit' },
 };
 
 export const ParticipantStartingSoonRescheduling: Story = {
-  args: { ...ParticipantStartingSoon.args, hasPendingReschedule: true },
+  args: { ...ParticipantStartingSoon.args, pendingSwitchType: 'Switch group for one unit' },
 };
 
 export const ParticipantNotStartingSoonRescheduling: Story = {
-  args: { ...ParticipantNotStartingSoon.args, hasPendingReschedule: true },
+  args: { ...ParticipantNotStartingSoon.args, pendingSwitchType: 'Switch group for one unit' },
 };
 
-// A permanent switch request is open: "Group switch requested" replaces "Can't make it?" when expanded
 export const ParticipantStartingSoonGroupSwitchRequested: Story = {
-  args: { ...ParticipantStartingSoon.args, hasPendingGroupSwitchRequest: true },
+  args: { ...ParticipantStartingSoon.args, pendingSwitchType: 'Switch group permanently' },
 };

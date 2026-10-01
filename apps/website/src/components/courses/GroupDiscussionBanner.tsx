@@ -17,7 +17,7 @@ import {
 } from '../icons';
 import StatusPill, { PendingIcon } from '../my-courses/StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
-import GroupSwitchModal from './GroupSwitchModal';
+import GroupSwitchModal, { type SwitchType } from './GroupSwitchModal';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },
@@ -51,8 +51,7 @@ type GroupDiscussionBannerProps = {
   groupDiscussion: GroupDiscussionWithEnd;
   userRole?: 'participant' | 'facilitator';
   hostKeyForFacilitators?: string;
-  hasPendingReschedule?: boolean;
-  hasPendingGroupSwitchRequest?: boolean;
+  pendingSwitchType?: SwitchType | null;
 };
 
 const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
@@ -60,8 +59,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   groupDiscussion,
   userRole,
   hostKeyForFacilitators,
-  hasPendingReschedule = false,
-  hasPendingGroupSwitchRequest = false,
+  pendingSwitchType = null,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
@@ -116,10 +114,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : '';
 
   const isFacilitator = userRole === 'facilitator';
-  const showPendingPill = (hasPendingReschedule || hasPendingGroupSwitchRequest) && !isFacilitator;
+  const showPendingPill = Boolean(pendingSwitchType) && !isFacilitator;
   const pendingPill = (
     <StatusPill icon={<PendingIcon />} className="bg-accent-subtle">
-      {hasPendingReschedule ? 'Rescheduling' : 'Group switch requested'}
+      {pendingSwitchType === 'Switch group for one unit' ? 'Rescheduling' : 'Group switch requested'}
     </StatusPill>
   );
 

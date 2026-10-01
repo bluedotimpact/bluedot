@@ -801,8 +801,7 @@ describe('myCoursesPage.getOverview', () => {
         expect(row.discussionIdsWithPendingReschedule).toEqual(['disc-sw-3']);
         expect(row.hasPendingGroupSwitchRequest).toBe(false);
         expect(nextDiscussion?.discussion.id).toBe('disc-sw-3');
-        expect(nextDiscussion?.hasPendingReschedule).toBe(true);
-        expect(nextDiscussion?.hasPendingGroupSwitchRequest).toBe(false);
+        expect(nextDiscussion?.pendingSwitchType).toBe('Switch group for one unit');
       });
 
       test('an open permanent request flags the course and the Next card, not individual discussions', async () => {
@@ -814,8 +813,7 @@ describe('myCoursesPage.getOverview', () => {
         const { row, nextDiscussion } = await getParticipantRow();
         expect(row.hasPendingGroupSwitchRequest).toBe(true);
         expect(row.discussionIdsWithPendingReschedule).toEqual([]);
-        expect(nextDiscussion?.hasPendingReschedule).toBe(false);
-        expect(nextDiscussion?.hasPendingGroupSwitchRequest).toBe(true);
+        expect(nextDiscussion?.pendingSwitchType).toBe('Switch group permanently');
       });
 
       test('open requests in a round that has ended are stale and ignored', async () => {

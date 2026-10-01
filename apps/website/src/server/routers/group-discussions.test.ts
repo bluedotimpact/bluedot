@@ -76,7 +76,7 @@ describe('groupDiscussions.getByCourseSlug', () => {
     expect(result?.userRole).toBe('facilitator');
   });
 
-  describe('hasPendingReschedule', () => {
+  describe('pendingSwitchType', () => {
     const startSecs = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60);
 
     const seedParticipant = async (overrides: { attendedDiscussions?: string[] } = {}) => {
@@ -105,7 +105,7 @@ describe('groupDiscussions.getByCourseSlug', () => {
       });
     };
 
-    test('true when the participant has an open one-unit request out of the shown discussion', async () => {
+    test('one-unit when the participant has an open one-unit request out of the shown discussion', async () => {
       await seedParticipant();
       await testDb.insert(groupSwitchingTable, {
         id: 'gs-1', participant: 'participant-1', requestStatus: 'Resolve', switchType: 'Switch group for one unit', oldDiscussion: ['disc-next'], manualRequest: true,
@@ -113,10 +113,10 @@ describe('groupDiscussions.getByCourseSlug', () => {
 
       const result = await caller.groupDiscussions.getByCourseSlug({ courseSlug: 'technical-ai-safety' });
       expect(result?.groupDiscussion?.id).toBe('disc-next');
-      expect(result?.hasPendingReschedule).toBe(true);
+      expect(result?.pendingSwitchType).toBe('Switch group for one unit');
     });
 
-    test('false for a completed request or a request about another discussion', async () => {
+    test('null for a completed request or a request about another discussion', async () => {
       await seedParticipant();
       await testDb.insert(groupSwitchingTable, {
         id: 'gs-done', participant: 'participant-1', requestStatus: 'Completed', switchType: 'Switch group for one unit', oldDiscussion: ['disc-next'],
@@ -126,18 +126,17 @@ describe('groupDiscussions.getByCourseSlug', () => {
       });
 
       const result = await caller.groupDiscussions.getByCourseSlug({ courseSlug: 'technical-ai-safety' });
-      expect(result?.hasPendingReschedule).toBe(false);
+      expect(result?.pendingSwitchType).toBeNull();
     });
 
-    test('an open permanent request sets hasPendingGroupSwitchRequest, not hasPendingReschedule', async () => {
+    test('permanent when the participant has an open permanent request', async () => {
       await seedParticipant();
       await testDb.insert(groupSwitchingTable, {
         id: 'gs-perm', participant: 'participant-1', requestStatus: 'Resolve', switchType: 'Switch group permanently',
       });
 
       const result = await caller.groupDiscussions.getByCourseSlug({ courseSlug: 'technical-ai-safety' });
-      expect(result?.hasPendingReschedule).toBe(false);
-      expect(result?.hasPendingGroupSwitchRequest).toBe(true);
+      expect(result?.pendingSwitchType).toBe('Switch group permanently');
     });
 
     test('a permanent request from another round of the course is ignored', async () => {
@@ -154,7 +153,7 @@ describe('groupDiscussions.getByCourseSlug', () => {
 
       const result = await caller.groupDiscussions.getByCourseSlug({ courseSlug: 'technical-ai-safety' });
       expect(result?.groupDiscussion?.id).toBe('disc-next');
-      expect(result?.hasPendingGroupSwitchRequest).toBe(false);
+      expect(result?.pendingSwitchType).toBeNull();
     });
   });
 });

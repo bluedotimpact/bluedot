@@ -394,7 +394,7 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          hasPendingReschedule
+          pendingSwitchType="Switch group for one unit"
         />,
         { wrapper: TrpcProvider },
       );
@@ -416,7 +416,7 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          hasPendingGroupSwitchRequest
+          pendingSwitchType="Switch group permanently"
         />,
         { wrapper: TrpcProvider },
       );
@@ -436,7 +436,7 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="facilitator"
-          hasPendingReschedule
+          pendingSwitchType="Switch group for one unit"
         />,
         { wrapper: TrpcProvider },
       );

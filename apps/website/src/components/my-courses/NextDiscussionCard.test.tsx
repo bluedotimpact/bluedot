@@ -85,7 +85,7 @@ describe('NextDiscussionCard', () => {
       startDateTime: NOW_SEC + 26 * ONE_HOUR_SECS,
       endDateTime: NOW_SEC + 27 * ONE_HOUR_SECS,
     });
-    render(<NextDiscussionCard {...baseProps} discussion={discussion} hasPendingReschedule />);
+    render(<NextDiscussionCard {...baseProps} discussion={discussion} pendingSwitchType="Switch group for one unit" />);
     expect(screen.getByText('Rescheduling')).toBeDefined();
     expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
     expect(screen.getByRole('link', { name: 'Prep for discussion' })).toBeDefined();
@@ -96,7 +96,7 @@ describe('NextDiscussionCard', () => {
       startDateTime: NOW_SEC + 26 * ONE_HOUR_SECS,
       endDateTime: NOW_SEC + 27 * ONE_HOUR_SECS,
     });
-    render(<NextDiscussionCard {...baseProps} discussion={discussion} hasPendingGroupSwitchRequest />);
+    render(<NextDiscussionCard {...baseProps} discussion={discussion} pendingSwitchType="Switch group permanently" />);
     expect(screen.getByText('Group switch requested')).toBeDefined();
     expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
     expect(screen.getByRole('link', { name: 'Prep for discussion' })).toBeDefined();

@@ -1,4 +1,5 @@
 import type { GroupSwitching } from '@bluedot/db';
+import type { SwitchType } from '../../components/courses/GroupSwitchModal';
 import { ONE_DAY_MS } from '../constants';
 
 export type SwitchRequestRow = Pick<GroupSwitching, 'requestStatus' | 'switchType' | 'oldDiscussion'>;
@@ -48,14 +49,12 @@ export const getPendingSwitchRequestState = ({
   };
 };
 
-export type DiscussionPendingSwitch = 'reschedule' | 'group-switch' | null;
-
 /** Which pending pill one discussion's actions show. A reschedule out of that discussion is the more specific of the two. */
 export const getDiscussionPendingSwitch = (
   state: PendingSwitchRequestState,
   discussionId: string,
-): DiscussionPendingSwitch => {
-  if (state.discussionIdsWithPendingReschedule.includes(discussionId)) return 'reschedule';
-  if (state.hasPendingGroupSwitchRequest) return 'group-switch';
+): SwitchType | null => {
+  if (state.discussionIdsWithPendingReschedule.includes(discussionId)) return 'Switch group for one unit';
+  if (state.hasPendingGroupSwitchRequest) return 'Switch group permanently';
   return null;
 };

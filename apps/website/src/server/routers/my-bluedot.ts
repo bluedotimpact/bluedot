@@ -25,6 +25,7 @@ import {
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
 import { hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
+import type { SwitchType } from '../../components/courses/GroupSwitchModal';
 import {
   getDiscussionPendingSwitch, getPendingSwitchRequestState, getRoundEndMs, OPEN_SWITCH_REQUEST_STATUSES,
 } from '../../lib/group-switching/pendingSwitchRequests';
@@ -388,19 +389,15 @@ export const myBluedotRouter = router({
     const perCourse = [...facilitatedRows, ...selfServeRows];
 
     // Step 3: Calculate results for NextDiscussionCard section
-    const courseByDiscussionId = new Map<string, {
-      slug: string; title: string; hasPendingReschedule: boolean; hasPendingGroupSwitchRequest: boolean;
-    }>();
+    const courseByDiscussionId = new Map<string, { slug: string; title: string; pendingSwitchType: SwitchType | null }>();
     for (const c of perCourse) {
       // Skip dropped-out registrations (but keep deferred — they still have a future track).
       if (c.isDroppedOut && !c.isDeferred) continue;
       for (const d of c.discussions) {
-        const pendingSwitch = getDiscussionPendingSwitch(c, d.id);
         courseByDiscussionId.set(d.id, {
           slug: c.course.slug,
           title: c.course.title,
-          hasPendingReschedule: pendingSwitch === 'reschedule',
-          hasPendingGroupSwitchRequest: pendingSwitch === 'group-switch',
+          pendingSwitchType: getDiscussionPendingSwitch(c, d.id),
         });
       }
     }
@@ -418,8 +415,7 @@ export const myBluedotRouter = router({
       discussion: GroupDiscussionWithEnd;
       unit: Unit | null;
       group: Group | null;
-      hasPendingReschedule: boolean;
-      hasPendingGroupSwitchRequest: boolean;
+      pendingSwitchType: SwitchType | null;
     } | null = null;
     if (soonest) {
       const owningCourse = courseByDiscussionId.get(soonest.id);
@@ -430,8 +426,7 @@ export const myBluedotRouter = router({
           discussion: soonest,
           unit: soonest.courseBuilderUnitRecordId ? unitById.get(soonest.courseBuilderUnitRecordId) ?? null : null,
           group: groups.find((g) => g.id === soonest.group) ?? null,
-          hasPendingReschedule: owningCourse.hasPendingReschedule,
-          hasPendingGroupSwitchRequest: owningCourse.hasPendingGroupSwitchRequest,
+          pendingSwitchType: owningCourse.pendingSwitchType,
         };
       }
     }

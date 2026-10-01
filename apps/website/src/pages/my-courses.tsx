@@ -117,8 +117,7 @@ const MyCoursesPage = () => {
                     courseTitle={nextDiscussion.courseTitle}
                     discussion={nextDiscussion.discussion}
                     unit={nextDiscussion.unit}
-                    hasPendingReschedule={nextDiscussion.hasPendingReschedule}
-                    hasPendingGroupSwitchRequest={nextDiscussion.hasPendingGroupSwitchRequest}
+                    pendingSwitchType={nextDiscussion.pendingSwitchType}
                   />
                 </div>
               )}

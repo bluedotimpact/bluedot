@@ -139,7 +139,7 @@ describe('getDiscussionPendingSwitch', () => {
     {
       rule: 'one-unit request out of this discussion',
       state: { discussionIdsWithPendingReschedule: ['disc-unit-3'], hasPendingGroupSwitchRequest: false },
-      expected: 'reschedule',
+      expected: 'Switch group for one unit',
     },
     {
       rule: 'one-unit request out of a different discussion only',
@@ -149,17 +149,17 @@ describe('getDiscussionPendingSwitch', () => {
     {
       rule: 'permanent request covers every discussion',
       state: { discussionIdsWithPendingReschedule: [], hasPendingGroupSwitchRequest: true },
-      expected: 'group-switch',
+      expected: 'Switch group permanently',
     },
     {
       rule: 'both open: the one-unit request out of this discussion wins',
       state: { discussionIdsWithPendingReschedule: ['disc-unit-3'], hasPendingGroupSwitchRequest: true },
-      expected: 'reschedule',
+      expected: 'Switch group for one unit',
     },
     {
       rule: 'both open, one-unit request is for another discussion',
       state: { discussionIdsWithPendingReschedule: ['disc-unit-4'], hasPendingGroupSwitchRequest: true },
-      expected: 'group-switch',
+      expected: 'Switch group permanently',
     },
   ])('$rule', ({ state, expected }) => {
     expect(getDiscussionPendingSwitch(state, 'disc-unit-3')).toBe(expected);

@@ -4,7 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
-import GroupSwitchModal from '../courses/GroupSwitchModal';
+import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import { TimeWidget } from './DiscussionListRow';
 import LiveBadge from './LiveBadge';
 import StatusPill, { PendingIcon } from './StatusPill';
@@ -49,8 +49,7 @@ export type NextDiscussionCardProps = {
   unit: Unit | null;
   group?: Group | null;
   facilitatorSubtitle?: string | null;
-  hasPendingReschedule?: boolean;
-  hasPendingGroupSwitchRequest?: boolean;
+  pendingSwitchType?: SwitchType | null;
 };
 
 /**
@@ -59,7 +58,7 @@ export type NextDiscussionCardProps = {
  */
 const NextDiscussionCard = ({
   mode = 'participant', courseSlug, courseTitle, discussion, unit, group, facilitatorSubtitle,
-  hasPendingReschedule = false, hasPendingGroupSwitchRequest = false,
+  pendingSwitchType = null,
 }: NextDiscussionCardProps) => {
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
   const [updateTimeOpen, setUpdateTimeOpen] = useState(false);
@@ -123,8 +122,7 @@ const NextDiscussionCard = ({
           {getActions({
             mode,
             isLive,
-            hasPendingReschedule,
-            hasPendingGroupSwitchRequest,
+            pendingSwitchType,
             roundId,
             primaryHref,
             primaryLabel,
@@ -158,8 +156,7 @@ const NextDiscussionCard = ({
 type NextDiscussionActionContext = {
   mode: NextDiscussionCardMode;
   isLive: boolean;
-  hasPendingReschedule: boolean;
-  hasPendingGroupSwitchRequest: boolean;
+  pendingSwitchType: SwitchType | null;
   roundId: string | null;
   primaryHref: string | undefined;
   primaryLabel: string;
@@ -214,14 +211,17 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
   }
 
   const {
-    isLive, hasPendingReschedule, hasPendingGroupSwitchRequest, roundId, primaryHref, primaryLabel, onOpenReschedule,
+    isLive, pendingSwitchType, roundId, primaryHref, primaryLabel, onOpenReschedule,
   } = ctx;
 
   return (
     <>
-      {hasPendingReschedule && <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>}
-      {hasPendingGroupSwitchRequest && <StatusPill icon={<PendingIcon />}>Group switch requested</StatusPill>}
-      {roundId && !hasPendingReschedule && !hasPendingGroupSwitchRequest && (
+      {pendingSwitchType && (
+        <StatusPill icon={<PendingIcon />}>
+          {pendingSwitchType === 'Switch group for one unit' ? 'Rescheduling' : 'Group switch requested'}
+        </StatusPill>
+      )}
+      {roundId && !pendingSwitchType && (
         <CTALinkOrButton
           variant="secondary"
           size="small"
