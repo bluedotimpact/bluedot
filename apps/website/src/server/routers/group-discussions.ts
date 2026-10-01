@@ -3,6 +3,7 @@ import {
   courseRegistrationTable,
   eq,
   groupDiscussionTable,
+  groupSwitchingTable,
   groupTable,
   inArray,
   isDiscussionFacilitator,
@@ -20,6 +21,9 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { getDiscussionTimeState, hasEndDateTime } from '../../lib/group-discussions/utils';
 import { getCourseBySlugOrThrow } from './courses';
+import {
+  getDiscussionPendingSwitch, getPendingSwitchRequestState, OPEN_SWITCH_REQUEST_STATUSES, type SwitchType,
+} from './group-switching';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -172,6 +176,7 @@ export const groupDiscussionsRouter = router({
       // Determine user role and get host key if facilitator
       let userRole: 'participant' | 'facilitator' | undefined;
       let hostKeyForFacilitators: string | undefined;
+      let pendingSwitchType: SwitchType | null = null;
 
       if (groupDiscussion) {
         const isFacilitator = expectedFacilitatorDiscussionIds.includes(groupDiscussion.id)
@@ -193,6 +198,20 @@ export const groupDiscussionsRouter = router({
           }
         } else if (isParticipant) {
           userRole = 'participant';
+
+          const openSwitchRequests = await db.pg
+            .select()
+            .from(groupSwitchingTable.pg)
+            .where(and(
+              inArray(groupSwitchingTable.pg.participant, participantIds),
+              inArray(groupSwitchingTable.pg.requestStatus, OPEN_SWITCH_REQUEST_STATUSES),
+            ));
+          // Only this round's requests, so a permanent request left open in an earlier round doesn't leak in.
+          const roundParticipantIds = new Set(participants.filter((p) => p.round === groupDiscussion.round).map((p) => p.id));
+          pendingSwitchType = getDiscussionPendingSwitch(getPendingSwitchRequestState(
+            openSwitchRequests.filter((r) => r.participant && roundParticipantIds.has(r.participant)),
+            participants.flatMap((p) => p.attendedDiscussions ?? []),
+          ), groupDiscussion.id);
         }
       }
 
@@ -200,6 +219,7 @@ export const groupDiscussionsRouter = router({
         groupDiscussion,
         userRole,
         hostKeyForFacilitators,
+        pendingSwitchType,
       };
     }),
 });

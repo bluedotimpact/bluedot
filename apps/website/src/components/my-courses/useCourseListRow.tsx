@@ -12,7 +12,7 @@ import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
 import type { CourseAction } from './DiscussionListRow';
-import StatusPill from './StatusPill';
+import StatusPill, { PendingIcon } from './StatusPill';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';
@@ -278,6 +278,7 @@ const getParticipantActions = (
 ): CourseAction[] => {
   const {
     course, courseRegistration, group, hasSubmittedActionPlan, feedbackFormUrl, meetPersonId, rescheduleEligibleUnits,
+    hasPendingGroupSwitchRequest,
   } = row;
   const {
     state, hasCert, showLockedCert, showActionPlan, certificateUrl, applyAgainUrl, docUrl, slackUrl,
@@ -285,6 +286,12 @@ const getParticipantActions = (
   const inProgressOrUpcoming = state === 'in-progress' || state === 'upcoming';
 
   return [
+    {
+      id: 'group-switch-requested-pill',
+      isVisible: inProgressOrUpcoming && hasPendingGroupSwitchRequest,
+      variant: 'inline',
+      inline: <StatusPill icon={<PendingIcon />}>Group switch requested</StatusPill>,
+    },
     {
       id: 'share-feedback',
       isVisible: Boolean(showLockedCert && feedbackFormUrl),
