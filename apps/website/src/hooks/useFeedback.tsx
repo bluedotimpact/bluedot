@@ -3,10 +3,13 @@ import dynamic from 'next/dynamic';
 import {
   createContext, useContext, useEffect, useState,
 } from 'react';
+import { ModalLoadingFallback } from '../components/ModalLoadingFallback';
 import { toBase64 } from '../utils/toBase64';
 import { trpc } from '../utils/trpc';
 
-const FeedbackModal = dynamic(() => import('@bluedot/ui/src/FeedbackModal').then((m) => m.FeedbackModal));
+const FeedbackModal = dynamic(() => import('@bluedot/ui/src/FeedbackModal').then((m) => m.FeedbackModal), {
+  loading: ModalLoadingFallback,
+});
 
 type FeedbackContextType = {
   openFeedback: () => void;

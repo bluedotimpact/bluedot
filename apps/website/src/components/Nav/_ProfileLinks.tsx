@@ -8,12 +8,15 @@ import {
   type ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
 } from './utils';
 import { ROUTES } from '../../lib/routes';
+import { ModalLoadingFallback } from '../ModalLoadingFallback';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { safeSessionStorage } from '../../utils/safeStorage';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import { useFeedback } from '../../hooks/useFeedback';
 
-const UserSearchModal = dynamic(() => import('../admin/UserSearchModal').then((m) => m.UserSearchModal));
+const UserSearchModal = dynamic(() => import('../admin/UserSearchModal').then((m) => m.UserSearchModal), {
+  loading: ModalLoadingFallback,
+});
 
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
