@@ -10,7 +10,7 @@ import WhatCouldYouBuildSection from '../../components/fieldbuilder-week/WhatCou
 import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
 import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
 import { ROUTES } from '../../lib/routes';
-import { linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags';
 import {
   getProgramDetailPageStaticProps,
   type ProgramDetailPageProps,
@@ -32,16 +32,11 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
   return (
     <div>
       <Head>
-        <title>{`${programName} | BlueDot Impact`}</title>
-        <meta name="description" content={programDescription} />
-        <meta property="og:title" content={`${programName} | BlueDot Impact`} />
-        <meta property="og:description" content={programDescription} />
+        {pageMetaTags({ title: `${programName} | BlueDot Impact`, description: programDescription })}
         <meta property="og:url" content={`${SITE_URL}/programs/fieldbuilder-week`} />
         {linkPreviewMetaTags({
           imageUrl: LINK_PREVIEW_IMAGE, alt: programDescription, width: 1200, height: 630, imageType: 'image/png',
         })}
-        <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
-        <meta name="twitter:description" content={programDescription} />
       </Head>
       <MarketingHero
         title={programName}

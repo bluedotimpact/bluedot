@@ -14,6 +14,7 @@ import { ROUTES } from '../../lib/routes';
 import { maskEmail } from '../../lib/utils';
 import type { UserExerciseResponseItem } from '../../server/routers/admin';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.adminUserExerciseResponses;
 const PAGE_SIZE = 20;
@@ -125,7 +126,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
         <meta name="robots" content="noindex" />
       </Head>
       <Breadcrumbs route={CURRENT_ROUTE} />

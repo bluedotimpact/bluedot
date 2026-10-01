@@ -79,6 +79,10 @@ describe('JobPostingPage SSR/SEO', () => {
     const ogDescription = document.querySelector('meta[property="og:description"]');
     expect(ogDescription?.getAttribute('content')).toBe(mockJob.subtitle);
 
+    // X/Twitter cards use the same preview title (without the site suffix) and description
+    expect(document.querySelector('meta[name="twitter:title"]')?.getAttribute('content')).toBe(mockJob.title);
+    expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe(mockJob.subtitle);
+
     const ogImage = document.querySelector('meta[property="og:image"]');
     expect(ogImage?.getAttribute('content')).toBe(`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`);
 

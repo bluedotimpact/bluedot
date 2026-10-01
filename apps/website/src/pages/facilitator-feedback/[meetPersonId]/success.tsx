@@ -11,6 +11,7 @@ import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { trpc } from '../../../utils/trpc';
 import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
 import { useFacilitatorFeedbackStorage } from '../../../hooks/useFacilitatorFeedbackStorage';
+import { pageMetaTags } from '../../../lib/linkPreviewMetaTags';
 
 const formatNames = (names: string[]): string => {
   if (names.length === 0) return '';
@@ -97,7 +98,7 @@ const FacilitatorFeedbackSuccessPage = () => {
   return (
     <div className="min-h-screen bg-cream-normal">
       <Head>
-        <title>{data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact</title>
+        {pageMetaTags({ title: `${data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact` })}
       </Head>
 
       <FacilitatorFeedbackHeader roundName={data.roundName || undefined} />

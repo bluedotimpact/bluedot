@@ -10,6 +10,7 @@ import { formatLocationLabel } from '../../components/events/eventsUtils';
 import EventAgenda from '../../components/events/EventAgenda';
 import type { Event } from '../../server/routers/luma';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const LUMA_CALENDAR_URL = 'https://lu.ma/bluedotevents';
 const PAGE_SIZE = 20;
@@ -42,8 +43,7 @@ const EventsPage = () => {
   return (
     <div>
       <Head>
-        <title>Events | BlueDot Impact</title>
-        <meta name="description" content="Meet the BlueDot community. Explore upcoming AI safety reading groups, workshops, socials, and meetups online and around the world." />
+        {pageMetaTags({ title: 'Events | BlueDot Impact', description: 'Meet the BlueDot community. Explore upcoming AI safety reading groups, workshops, socials, and meetups online and around the world.' })}
       </Head>
       <MarketingHero
         title="Events"

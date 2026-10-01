@@ -22,6 +22,7 @@ import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
 import { ROUTES } from '../../lib/routes';
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.facilitatorApplications;
 
@@ -119,7 +120,7 @@ const FacilitatorApplicationsPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
       </Head>
       <MyBlueDotLayout route={CURRENT_ROUTE}>
         <div className="flex min-h-[60vh] flex-col gap-6">

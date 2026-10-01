@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import MarketingHero from '../components/MarketingHero';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.privacyPolicy;
 
@@ -15,8 +16,7 @@ const PrivacyPolicyPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content="How BlueDot Impact collects, uses, and shares your personal information." />
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact`, description: 'How BlueDot Impact collects, uses, and shares your personal information.' })}
       </Head>
       <MarketingHero title="Privacy Policy" subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />

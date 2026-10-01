@@ -14,6 +14,7 @@ import { RiLoader4Line } from 'react-icons/ri';
 import MarketingHero from '../../components/MarketingHero';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.adminSyncDashboard;
 const HERO_SUBTITLE = 'Trigger a manual database sync and review the most recent activity.';
@@ -39,7 +40,7 @@ function formatTimeAgo(date: Date): string {
 const PageChrome = ({ children }: { children: React.ReactNode }) => (
   <div>
     <Head>
-      <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+      {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
       <meta name="robots" content="noindex" />
     </Head>
     <MarketingHero title={CURRENT_ROUTE.title} subtitle={HERO_SUBTITLE} />

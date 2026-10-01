@@ -8,6 +8,7 @@ import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import ProfileNameEditor from '../components/settings/ProfileNameEditor';
 import AccountSettingsSection from '../components/settings/AccountSettingsSection';
 import { trpc } from '../utils/trpc';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.account;
 
@@ -30,7 +31,7 @@ const AccountSettingsPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
       </Head>
       {userLoading && <ProgressDots className="py-8" />}
       {userError && <ErrorSection error={userError} />}

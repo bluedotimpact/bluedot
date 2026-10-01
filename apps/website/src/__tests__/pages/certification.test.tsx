@@ -85,4 +85,22 @@ describe('CertificatePage SSR/SEO', () => {
     const twitterImage = document.querySelector('meta[name="twitter:image"]');
     expect(twitterImage?.getAttribute('content')).toContain('/images/certificates/link-preview/link-preview-image.png');
   });
+
+  test('link previews use the certificate wording and the certificate address', () => {
+    renderWithHead(<TrpcProvider>
+      <CertificatePage
+        certificate={mockCertificate}
+        certificateId="cert123"
+        linkPreviewFilename="link-preview-image.png"
+        nextCohortText={null}
+      />
+    </TrpcProvider>);
+
+    const content = (selector: string) => document.querySelector(selector)?.getAttribute('content');
+    expect(content('meta[property="og:title"]')).toBe('Jane Smith has completed the AI Safety Fundamentals course');
+    expect(content('meta[name="twitter:title"]')).toBe('Jane Smith has completed the AI Safety Fundamentals course');
+    expect(content('meta[property="og:description"]')).toBe('Has successfully completed the course');
+    expect(content('meta[name="twitter:description"]')).toBe('Has successfully completed the course');
+    expect(content('meta[property="og:url"]')).toContain('/certification?id=cert123');
+  });
 });

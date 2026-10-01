@@ -10,6 +10,7 @@ import {
   useSortedCourses,
 } from '../../components/courses/CourseSchedule';
 import { ROUTES } from '../../lib/routes';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CoursesPage = () => {
   const {
@@ -23,8 +24,7 @@ const CoursesPage = () => {
   return (
     <div className="bd-md:pb-16 xl:pb-24">
       <Head>
-        <title>Online AI safety courses and project sprints</title>
-        <meta name="description" content="Online courses and project sprints that help you build the knowledge, community and experience needed to pursue a high-impact career." />
+        {pageMetaTags({ title: 'Online AI safety courses and project sprints', description: 'Online courses and project sprints that help you build the knowledge, community and experience needed to pursue a high-impact career.' })}
         {allDisplayed.length > 0 && (
           <script
             type="application/ld+json"

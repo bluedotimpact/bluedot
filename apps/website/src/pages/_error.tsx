@@ -4,6 +4,7 @@ import Head from 'next/head';
 import * as Sentry from '@sentry/nextjs';
 import { ErrorSection, Section } from '@bluedot/ui';
 import { reportClientError } from '../lib/reportClientError';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 type ErrorProps = {
   statusCode: number;
@@ -25,7 +26,7 @@ const ErrorPage = ({ statusCode, message }: ErrorProps) => {
   return (
     <>
       <Head>
-        <title>An Error Occurred | BlueDot Impact</title>
+        {pageMetaTags({ title: 'An Error Occurred | BlueDot Impact' })}
       </Head>
       <Section>
         <ErrorSection error={new Error(errorMessage)} />

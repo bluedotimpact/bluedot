@@ -13,6 +13,7 @@ import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
 import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
 import { trpc } from '../../utils/trpc';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 type ParticipantFeedback =
   | { status: 'no-strong-impression' }
@@ -169,7 +170,7 @@ const FacilitatorFeedbackPage = () => {
   return (
     <div className="min-h-screen bg-cream-normal">
       <Head>
-        <title>{roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact</title>
+        {pageMetaTags({ title: `${roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact` })}
       </Head>
 
       <FacilitatorFeedbackHeader roundName={roundName || undefined} />

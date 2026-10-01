@@ -4,6 +4,7 @@ import {
 import Head from 'next/head';
 import MarketingHero from '../MarketingHero';
 import { ROUTES } from '../../lib/routes';
+import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 type DraftGrantPageProps = {
   title: string;
@@ -24,8 +25,7 @@ export const DraftGrantPage = ({
 }: DraftGrantPageProps) => (
   <div>
     <Head>
-      <title>{`${title} | BlueDot Impact`}</title>
-      <meta name="description" content={description} />
+      {pageMetaTags({ title: `${title} | BlueDot Impact`, description })}
       <meta name="robots" content="noindex, nofollow" />
       <link rel="canonical" href={`${SITE_URL}${path}`} />
     </Head>

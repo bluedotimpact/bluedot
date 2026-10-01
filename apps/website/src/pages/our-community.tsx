@@ -7,6 +7,7 @@ import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import MarketingHero from '../components/MarketingHero';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE: BluedotRoute = {
   title: 'AI Safety Fundamentals Community',
@@ -20,8 +21,7 @@ const OurCommunityPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content={SUBTITLE} />
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact`, description: SUBTITLE })}
       </Head>
       <MarketingHero title={CURRENT_ROUTE.title} subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />

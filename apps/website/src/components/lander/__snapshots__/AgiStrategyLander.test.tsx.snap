@@ -9,16 +9,24 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       AGI Strategy Course | BlueDot Impact
     </title>
     <meta
-      content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
-      name="description"
-    />
-    <meta
       content="AGI Strategy Course | BlueDot Impact"
       property="og:title"
     />
     <meta
+      content="AGI Strategy Course | BlueDot Impact"
+      name="twitter:title"
+    />
+    <meta
+      content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
+      name="description"
+    />
+    <meta
       content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
       property="og:description"
+    />
+    <meta
+      content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
+      name="twitter:description"
     />
     <meta
       content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
@@ -39,14 +47,6 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
     <meta
       content="https://bluedot.org/courses/agi-strategy"
       property="og:url"
-    />
-    <meta
-      content="AGI Strategy Course | BlueDot Impact"
-      name="twitter:title"
-    />
-    <meta
-      content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
-      name="twitter:description"
     />
     <script
       type="application/ld+json"

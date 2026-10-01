@@ -8,6 +8,7 @@ import HistorySection from '../components/about/HistorySection';
 import TeamSection from '../components/about/TeamSection';
 import JoinUsCta from '../components/about/JoinUsCta';
 import { ROUTES } from '../lib/routes';
+import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.about;
 
@@ -15,8 +16,7 @@ const AboutPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content="Building the workforce that protects humanity. BlueDot Impact trains people in AI safety, governance, and biosecurity." />
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact`, description: 'Building the workforce that protects humanity. BlueDot Impact trains people in AI safety, governance, and biosecurity.' })}
       </Head>
       <MarketingHero
         title="About us"

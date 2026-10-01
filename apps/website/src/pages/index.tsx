@@ -5,7 +5,7 @@ import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
-import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
+import { pageMetaTags, linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
 
 const META_TITLE = 'BlueDot Impact | Have a positive impact on the trajectory of AI';
 const META_DESCRIPTION = 'Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 10,000+ alumni and start today.';
@@ -14,16 +14,11 @@ const HomePage = () => {
   return (
     <div>
       <Head>
-        <title>{META_TITLE}</title>
-        <meta name="description" content={META_DESCRIPTION} />
-        <meta property="og:title" content={META_TITLE} />
-        <meta property="og:description" content={META_DESCRIPTION} />
+        {pageMetaTags({ title: META_TITLE, description: META_DESCRIPTION })}
         <meta property="og:url" content="https://bluedot.org" />
         {linkPreviewMetaTags({
           imageUrl: LINK_PREVIEW_FALLBACK_IMAGE_URL, alt: 'BlueDot Impact logo', width: 1200, height: 630, imageType: 'image/png',
         })}
-        <meta name="twitter:title" content={META_TITLE} />
-        <meta name="twitter:description" content={META_DESCRIPTION} />
         <script
           type="application/ld+json"
 
