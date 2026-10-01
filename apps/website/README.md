@@ -93,7 +93,7 @@ npm run render-preview # render OG/preview images
 **Website-local reusables** (in `src/components/`):
 
 - `MarketingHero` — top-of-page hero with image background + Nav (used on /about, /our-community, /join-us, /grants).
-- `PageListRow` — list row with leading slot + CTA (used on /grants, /career-transition-grant). Compose with `PageListGroup` for divided lists.
+- `ListRow` (`@bluedot/ui`) — link row with accent bar or leading element, summary/meta and trailing CTA (used on /grants, /join-us, course pages). Compose with `ListGroup` for divided lists.
 - `Nav/Nav` — main site nav (variants: default, transparent).
 - `Header` — page header wrapper.
 
