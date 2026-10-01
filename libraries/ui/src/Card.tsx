@@ -21,7 +21,6 @@ export type CardProps = {
   ctaText: string;
   className?: string;
   imageSrc?: string;
-  isFullWidth?: boolean;
   subtitle?: string;
 };
 
@@ -31,7 +30,6 @@ export const Card: React.FC<CardProps> = ({
   ctaText,
   className,
   imageSrc,
-  isFullWidth = false,
   subtitle,
 }) => {
   return (
@@ -40,11 +38,10 @@ export const Card: React.FC<CardProps> = ({
         CARD_SHELL_STYLES,
         CARD_HOVER_STYLES,
         'relative flex flex-col gap-4',
-        isFullWidth && 'md:flex-row md:items-center md:justify-between md:gap-6',
         className,
       )}
     >
-      <div className={cn('flex flex-col gap-4', isFullWidth && 'md:flex-1')}>
+      <div className="flex flex-col gap-4">
         {imageSrc && (
           // Decorative: the title already names the card
           <img className="w-full rounded-surface object-cover" src={imageSrc} alt="" />
@@ -58,7 +55,7 @@ export const Card: React.FC<CardProps> = ({
         url={url}
         aria-label={`${ctaText}: ${title}`}
         // Stretched link: the ::after covers the card so the whole surface is the hit area
-        className={cn('after:absolute after:inset-0', isFullWidth && 'md:shrink-0')}
+        className="after:absolute after:inset-0"
       >
         {ctaText}
       </CTALinkOrButton>

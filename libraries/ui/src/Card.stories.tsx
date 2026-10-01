@@ -34,15 +34,3 @@ export const WithoutMedia: Story = {
   },
 };
 
-export const FullWidth: Story = {
-  args: {
-    title: 'Clickable card',
-    subtitle: 'This entire card is clickable.',
-    ctaText: 'Learn More',
-    url: 'https://example.com',
-    isFullWidth: true,
-  },
-  parameters: {
-    layout: 'padded',
-  },
-};
