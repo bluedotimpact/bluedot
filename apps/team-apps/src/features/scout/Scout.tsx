@@ -372,7 +372,7 @@ const Scout = () => {
             setConfirmation(undefined);
             setSaveError(undefined);
           }
-        }} isDismissable={!writing} desktopHeaderClassName="[&_button]:min-h-11 [&_button]:min-w-11" title={confirmation?.decision === 'invite' ? 'Invite to an evaluation call?' : 'Mark as don’t invite?'}>
+        }} isDismissable={!writing} title={confirmation?.decision === 'invite' ? 'Invite to an evaluation call?' : 'Mark as don’t invite?'}>
           {confirmation && <div className="max-w-md space-y-4 break-words text-size-sm">
             <p className="font-semibold">{confirmation.person.name}</p>
             <p>{confirmDescription}</p>

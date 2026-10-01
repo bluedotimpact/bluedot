@@ -215,12 +215,9 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
       isOpen={isOpen}
       setIsOpen={handleModalOpenChange}
       title={showSuccess ? 'Thank you' : 'Submit feedback'}
-      centerTitle
-      ariaLabel={showSuccess ? 'Thank you' : 'Submit feedback'}
       bottomDrawerOnMobile
-      desktopHeaderClassName="border-b border-charcoal-light py-4"
     >
-      <div className="w-full md:w-[560px]">
+      <div>
         {showSuccess ? (
           <div className="flex flex-col items-center gap-8">
             <div className="bg-bluedot-normal/10 mt-2 flex rounded-full p-4">

@@ -74,7 +74,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         if (!v && !savePeerFeedback.isPending) onClose();
       }}
       title={(
-        <div className="flex-1 flex items-center gap-3 pr-3">
+        <div className="flex items-center gap-3">
           <Avatar name={participant.name} />
           <ModalTitle>{participant.name}</ModalTitle>
           <button
@@ -87,12 +87,10 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           </button>
         </div>
       )}
-      desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
-      isDismissable={false}
     >
-      <div className="w-full max-w-modal pt-4">
+      <div>
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
         <p className="flex items-center gap-1.5 text-size-xs leading-snug text-bluedot-navy/60 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />

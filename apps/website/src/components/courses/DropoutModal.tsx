@@ -287,10 +287,8 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
       title={renderTitle()}
       bottomDrawerOnMobile
-      centerTitle
-      desktopHeaderClassName="border-b border-charcoal-light py-4"
     >
-      <div className="w-full md:w-[600px]">
+      <div>
         <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
           {dropoutMutation.isSuccess ? renderSuccess() : renderForm()}
         </form>
@@ -326,10 +324,8 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
       setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
       title={mutation.isSuccess ? 'Application withdrawn' : 'Withdraw application'}
       bottomDrawerOnMobile
-      centerTitle
-      desktopHeaderClassName="border-b border-charcoal-light pt-6 pb-3"
     >
-      <div className="flex w-full flex-col gap-4 md:w-[400px]">
+      <div className="flex flex-col gap-4">
         {mutation.isSuccess ? (
           <>
             <div className="bg-bluedot-normal/10 self-center rounded-full p-4">

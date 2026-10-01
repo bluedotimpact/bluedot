@@ -29,12 +29,10 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
         if (!v) onClose();
       }}
       title="Add a participant"
-      desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Add a participant"
-      isDismissable={false}
     >
-      <div className="w-full max-w-[480px] flex flex-col gap-4 pt-0 sm:pt-5 -mb-4">
+      <div className="flex flex-col gap-4">
         <p className="text-size-xs leading-normal text-bluedot-navy/60">
           Search for a participant enrolled in this course who isn't already on your list.
         </p>

@@ -208,8 +208,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
       title={requestDeletion.isSuccess ? 'Deletion requested' : formTitle}
       bottomDrawerOnMobile
     >
-      <div className="w-full max-w-modal">
-        <div className="h-0 w-[600px] max-w-full" />
+      <div>
         {renderBody()}
       </div>
     </Modal>
