@@ -73,12 +73,12 @@ export type CourseLanderContent = {
   courseInformationHeadingVariant?: 'default' | 'compact';
   /** Editorial prose "How the course works" — replaces the courseInformation registry block when set. Renders paragraphs with course-round unit counts interpolated from the database. */
   howTheCourseWorks?: HowTheCourseWorksSectionProps;
-  /** Standalone schedule section using PageListRow rows — renders alongside howTheCourseWorks instead of inside courseInformation's box. */
+  /** Standalone schedule section using ListRow rows — renders alongside howTheCourseWorks instead of inside courseInformation's box. */
   scheduleList?: ScheduleListSectionProps;
   /** Alumni story carousel - carousel with full story text */
   alumniStories?: AlumniStoryCarouselProps;
   pathways?: PathwaysSectionProps;
-  /** Editorial list variant of "What happens after" — PageListRow rows like /programs and /events */
+  /** Editorial list variant of "What happens after" — ListRow rows like /programs and /events */
   pathwaysList?: PathwaysListSectionProps;
   quotes?: QuoteSectionProps;
   testimonials?: TestimonialMember[];

@@ -1,12 +1,11 @@
 import {
-  CTALinkOrButton, ErrorSection, H2, H3, P, ProgressDots,
+  CTALinkOrButton, ErrorSection, H2, H3, P, ProgressDots, ListGroup, ListRow,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { PageListGroup, PageListRow } from '../PageListRow';
 
 type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
 
@@ -16,34 +15,13 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
     .filter(Boolean)
     .join(' · ');
 
-  if (grantee.link) {
-    return (
-      <PageListRow
-        href={grantee.link}
-        external
-        title={grantee.projectTitle}
-        summary={summary}
-        ctaLabel="View project"
-      />
-    );
-  }
-
   return (
-    <div className="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6">
-      <div className="flex items-stretch gap-4 min-w-0 flex-1">
-        <div className="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30" />
-        <div className="min-w-0 flex-1">
-          <p className="text-size-sm leading-normal font-semibold text-bluedot-navy">
-            {grantee.projectTitle}
-          </p>
-          {summary && (
-            <p className="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62">
-              {summary}
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
+    <ListRow
+      href={grantee.link ?? undefined}
+      title={grantee.projectTitle}
+      summary={summary}
+      ctaLabel="View project"
+    />
   );
 };
 
@@ -160,7 +138,7 @@ const GranteesListSection = ({
       )}
       {!!visibleGrantees?.length && (
         <div>
-          <PageListGroup>
+          <ListGroup>
             {visibleGrantees.map(({ grantee, key }) => (
               layout === 'editorial' ? (
                 <EditorialGranteeRow key={key} grantee={grantee} />
@@ -168,7 +146,7 @@ const GranteesListSection = ({
                 <GranteeRow key={key} grantee={grantee} />
               )
             ))}
-          </PageListGroup>
+          </ListGroup>
 
           {showCollapsedPreview && (
             <div className="mt-6 flex justify-center">

@@ -3,7 +3,7 @@ import {
   CTALinkOrButton,
   Eyebrow,
   H1,
-  useLatestUtmParams,
+  useLatestUtmParams, ListGroup, ListRow,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
@@ -15,7 +15,6 @@ import { pageMetaTags, linkPreviewMetaTags } from '../../../lib/linkPreviewMetaT
 import { buildApplicationUrl } from '../../../lib/utils';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
-import { PageListGroup, PageListRow } from '../../../components/PageListRow';
 import { CourseIcon } from '../../../components/courses/CourseIcon';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
@@ -245,9 +244,9 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
           </div>
 
           {units.length > 0 && (
-            <PageListGroup label="Curriculum">
+            <ListGroup label="Curriculum">
               {units.map((unit) => (
-                <PageListRow
+                <ListRow
                   key={unit.id}
                   href={`/courses/${course.slug}/${unit.unitNumber}`}
                   title={unit.title}
@@ -255,7 +254,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
                   ctaLabel="View unit"
                 />
               ))}
-            </PageListGroup>
+            </ListGroup>
           )}
         </div>
       </section>

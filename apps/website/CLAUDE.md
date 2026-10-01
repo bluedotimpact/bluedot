@@ -68,7 +68,7 @@ Always reuse existing components from `@bluedot/ui` and `apps/website/src/compon
 
 ### Component cheat sheet
 
-Before creating a new component, check `README.md` → "Reusing existing components first" for the full mapping of needs to existing components (`CTALinkOrButton`, `Section`, `HeroSection`, `MarketingHero`, `PageListRow`, etc.).
+Before creating a new component, check `README.md` → "Reusing existing components first" for the full mapping of needs to existing components (`CTALinkOrButton`, `Section`, `HeroSection`, `MarketingHero`, `ListRow`, etc.).
 
 ### Text Components Quick Reference
 
