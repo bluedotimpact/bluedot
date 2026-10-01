@@ -5,7 +5,7 @@ import {
 import { trpc } from '../../utils/trpc';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import ActionCards from './ActionCards';
-import { ArrowDownIcon } from '../icons';
+import { FaArrowDown } from 'react-icons/fa6';
 
 const FOAI = COURSE_COLORS['future-of-ai'];
 
@@ -186,7 +186,7 @@ const MergedLadder = () => {
           <CohortCard course={featuredCohort} featured />
         </div>
         <div className="flex justify-center">
-          <ArrowDownIcon aria-hidden="true" className="text-bluedot-navy/40" />
+          <FaArrowDown aria-hidden="true" className="size-6 text-bluedot-navy/40" />
         </div>
         <div className="grid grid-cols-1 bd-md:grid-cols-3 gap-4 md:gap-5">
           {otherCohorts.slice(0, 3).map((c) => (

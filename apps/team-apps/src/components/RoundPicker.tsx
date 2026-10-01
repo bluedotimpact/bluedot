@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { FaChevronDown } from 'react-icons/fa6';
 import { type Round } from '../lib/api/airtable';
 import { type Direction } from '../lib/client/types';
 
@@ -103,9 +104,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
               <details key={courseName} open className="group">
                 <summary className="flex items-center justify-between cursor-pointer list-none [&::-webkit-details-marker]:hidden min-h-11">
                   <span className="text-size-xs font-semibold text-secondary">{courseName}</span>
-                  <svg className="size-3.5 text-secondary transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                  <FaChevronDown className="size-3.5 text-secondary transition-transform group-open:rotate-180 shrink-0" />
                 </summary>
                 <div className="space-y-2 mt-2">
                   {grouped[courseName]!.slice(0, ROUNDS_PER_COURSE).map((round) => (

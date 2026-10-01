@@ -3,7 +3,7 @@ import {
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { PlusToggleIcon } from '../../icons';
+import { FaPlus } from 'react-icons/fa6';
 
 /**
  * Represents a single FAQ item with question and answer
@@ -82,7 +82,7 @@ const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' 
                 <details key={item.id} className="group">
                   <summary className="flex min-h-14 py-4 cursor-pointer list-none items-center justify-between gap-6 text-size-sm font-medium leading-relaxed [&::-webkit-details-marker]:hidden">
                     <span>{item.question}</span>
-                    <PlusToggleIcon className="shrink-0 text-secondary transition-transform group-open:rotate-45" />
+                    <FaPlus aria-hidden="true" className="size-4 shrink-0 text-secondary transition-transform group-open:rotate-45" />
                   </summary>
                   <div className="pb-5 max-w-[800px] text-size-sm leading-relaxed text-secondary">{item.answer}</div>
                 </details>
@@ -116,9 +116,10 @@ const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' 
                         <span className="text-bluedot-navy flex-grow text-size-md leading-snug font-semibold">
                           {item.question}
                         </span>
-                        <PlusToggleIcon
+                        <FaPlus
+                          aria-hidden="true"
                           className={cn(
-                            'ease flex-shrink-0 text-bluedot-darker transition-transform duration-300',
+                            'ease size-4 flex-shrink-0 text-bluedot-darker transition-transform duration-300',
                             isOpen && 'rotate-45',
                           )}
                         />

@@ -1,9 +1,9 @@
 import { CTALinkOrButton } from '@bluedot/ui';
 import type React from 'react';
 import { useRouter } from 'next/router';
+import { FaCircleCheck } from 'react-icons/fa6';
 import { getActionPlanUrl } from '../../../lib/utils';
 import { trpc } from '../../../utils/trpc';
-import { CircledCheckmarkIcon } from '../../icons';
 import { shouldShowCongratulations } from '../SidebarCertificatePanel';
 
 export type ProjectSubmissionProps = {
@@ -13,7 +13,7 @@ export type ProjectSubmissionProps = {
 // Matches how a completed free-text exercise reports itself, minus the undo affordance.
 const SubmittedIndicator = () => (
   <div className="flex items-center gap-2 h-[30px]">
-    <CircledCheckmarkIcon />
+    <FaCircleCheck aria-hidden="true" className="size-4 text-bluedot-normal" />
     <span className="font-medium text-size-xs leading-normal text-bluedot-normal">Project/action plan submitted</span>
   </div>
 );

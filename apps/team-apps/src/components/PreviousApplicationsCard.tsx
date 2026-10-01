@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { FaChevronDown } from 'react-icons/fa6';
 
 type PreviousApplication = {
   id: string;
@@ -118,9 +119,7 @@ export const PreviousApplicationsCard: React.FC<PreviousApplicationsCardProps> =
         <span className="text-size-sm font-medium">
           <BannerLabel verdict={verdict} />
         </span>
-        <svg className="size-4 transition-transform group-open:rotate-180 shrink-0 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <FaChevronDown className="size-4 transition-transform group-open:rotate-180 shrink-0 opacity-70" />
       </summary>
       <ul className="px-3 pb-3 space-y-2">
         {history.map((h) => (
