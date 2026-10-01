@@ -78,6 +78,17 @@ describe('Modal', () => {
       });
     });
 
+    test('has a close button', async () => {
+      const setIsOpen = vi.fn();
+      render(<Modal isOpen setIsOpen={setIsOpen} title="Title" bottomDrawerOnMobile>Content</Modal>);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+
+      await waitFor(() => {
+        expect(setIsOpen).toHaveBeenCalledWith(false);
+      });
+    });
+
     test('cannot be dismissed with escape when isDismissable is false', () => {
       const setIsOpen = vi.fn();
       render(<Modal isOpen setIsOpen={setIsOpen} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
