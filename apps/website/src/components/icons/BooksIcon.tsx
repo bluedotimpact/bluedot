@@ -1,16 +1,12 @@
-import { cn } from '@bluedot/ui';
 import type { IconProps } from './types';
 
-type BooksIconProps = Omit<IconProps, 'size'> & { size?: number };
-
-export const BooksIcon = ({ size = 80, className, ...props }: BooksIconProps) => (
+export const BooksIcon = (props: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 80 80"
     fill="none"
-    width={size}
-    height={size}
-    className={cn(className)}
+    width={80}
+    height={80}
     {...props}
   >
     <path

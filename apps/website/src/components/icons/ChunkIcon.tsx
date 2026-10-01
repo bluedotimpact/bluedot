@@ -5,13 +5,13 @@ type ChunkIconProps = IconProps & {
   isActive?: boolean;
 };
 
-export const ChunkIcon = ({ isActive, size = 24, className, ...props }: ChunkIconProps) => (
+export const ChunkIcon = ({ isActive, className, ...props }: ChunkIconProps) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
+    width={24}
+    height={24}
     className={cn('shrink-0', isActive ? 'text-primary' : 'text-secondary', className)}
     {...props}
   >
