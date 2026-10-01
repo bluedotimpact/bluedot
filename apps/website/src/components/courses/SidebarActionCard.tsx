@@ -1,7 +1,7 @@
 import { ClickTarget, cn } from '@bluedot/ui';
 import type { HTMLAttributeAnchorTarget, ReactNode } from 'react';
 import { FaArrowRight } from 'react-icons/fa6';
-import { FiLock } from 'react-icons/fi';
+import { FaLock } from 'react-icons/fa6';
 
 export type SidebarActionTone = 'solid' | 'success' | 'subtle' | 'outline' | 'locked';
 
@@ -36,7 +36,7 @@ export const SidebarActionCard = ({
         {subtitle && <span className="text-size-xs leading-normal">{subtitle}</span>}
       </span>
       {tone === 'locked'
-        ? <FiLock aria-hidden="true" className="size-5 shrink-0" />
+        ? <FaLock aria-hidden="true" className="size-3.5 shrink-0" />
         : <FaArrowRight aria-hidden="true" className="size-5 shrink-0" />}
     </>
   );

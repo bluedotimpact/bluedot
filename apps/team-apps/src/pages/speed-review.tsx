@@ -3,6 +3,7 @@ import {
 } from 'react';
 import useAxios from 'axios-hooks';
 import { H1, ProgressDots } from '@bluedot/ui';
+import { FaXmark } from 'react-icons/fa6';
 import {
   type Application, type RatedApplication, type RatingValue, type Direction, toHumanOpinion, toDecision,
 } from '../lib/client/types';
@@ -616,9 +617,7 @@ const SpeedReviewPage = () => {
             title="Conclude session (Esc)"
             aria-label="Conclude session"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="size-5">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <FaXmark className="size-5" />
           </button>
         </div>
 

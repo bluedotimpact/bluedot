@@ -25,16 +25,17 @@ exports[`Nav > renders with courses 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="fill-none stroke-2"
-                height="16"
-                viewBox="0 0 16 16"
-                width="16"
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M1 2H15M1 8H15M1 14H15"
-                  stroke="currentColor"
-                  stroke-linecap="round"
+                  d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
                 />
               </svg>
             </button>
@@ -59,18 +60,18 @@ exports[`Nav > renders with courses 1`] = `
                     >
                       Courses
                       <svg
+                        aria-hidden="true"
                         class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                        fill="none"
+                        fill="currentColor"
                         height="1em"
                         stroke="currentColor"
                         stroke-width="0"
-                        viewBox="0 0 24 24"
+                        viewBox="0 0 512 512"
                         width="1em"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                          fill="currentColor"
+                          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
                         />
                       </svg>
                     </button>
@@ -150,18 +151,18 @@ exports[`Nav > renders with courses 1`] = `
                     >
                       Grants
                       <svg
+                        aria-hidden="true"
                         class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                        fill="none"
+                        fill="currentColor"
                         height="1em"
                         stroke="currentColor"
                         stroke-width="0"
-                        viewBox="0 0 24 24"
+                        viewBox="0 0 512 512"
                         width="1em"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                          fill="currentColor"
+                          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
                         />
                       </svg>
                     </button>
@@ -212,18 +213,18 @@ exports[`Nav > renders with courses 1`] = `
                     >
                       Programs
                       <svg
+                        aria-hidden="true"
                         class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                        fill="none"
+                        fill="currentColor"
                         height="1em"
                         stroke="currentColor"
                         stroke-width="0"
-                        viewBox="0 0 24 24"
+                        viewBox="0 0 512 512"
                         width="1em"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                          fill="currentColor"
+                          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
                         />
                       </svg>
                     </button>
@@ -330,18 +331,18 @@ exports[`Nav > renders with courses 1`] = `
               >
                 Courses
                 <svg
+                  aria-hidden="true"
                   class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                  fill="none"
+                  fill="currentColor"
                   height="1em"
                   stroke="currentColor"
                   stroke-width="0"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 512 512"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                    fill="currentColor"
+                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
                   />
                 </svg>
               </button>
@@ -421,18 +422,18 @@ exports[`Nav > renders with courses 1`] = `
               >
                 Grants
                 <svg
+                  aria-hidden="true"
                   class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                  fill="none"
+                  fill="currentColor"
                   height="1em"
                   stroke="currentColor"
                   stroke-width="0"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 512 512"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                    fill="currentColor"
+                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
                   />
                 </svg>
               </button>
@@ -483,18 +484,18 @@ exports[`Nav > renders with courses 1`] = `
               >
                 Programs
                 <svg
+                  aria-hidden="true"
                   class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
-                  fill="none"
+                  fill="currentColor"
                   height="1em"
                   stroke="currentColor"
                   stroke-width="0"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 512 512"
                   width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
-                    fill="currentColor"
+                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
                   />
                 </svg>
               </button>

@@ -4,7 +4,7 @@ import {
   H3,
   Section,
 } from '@bluedot/ui';
-import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
+import { FaLaptop, FaRegCalendar, FaUserGroup } from 'react-icons/fa6';
 import TestimonialSubSection, { type Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import MarketingHero from '../MarketingHero';
@@ -49,13 +49,13 @@ const AiSafetyOpsLander = () => {
         <div className="ai-safety-ops-lander__intro flex flex-col gap-6 items-center text-center mx-auto max-w-3xl">
           <div className="flex flex-row flex-wrap justify-center gap-2 items-center">
             <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
-              <FaCalendarAlt /> 6 hours total
+              <FaRegCalendar aria-hidden="true" /> 6 hours total
             </div>
             <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
-              <FaUserFriends /> Group discussions
+              <FaUserGroup aria-hidden="true" /> Group discussions
             </div>
             <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
-              <FaLaptop /> Online
+              <FaLaptop aria-hidden="true" /> Online
             </div>
           </div>
           <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>

@@ -1,7 +1,7 @@
 import { maybePlural } from '@bluedot/ui';
 import type React from 'react';
 import { useState } from 'react';
-import { StarIcon } from '../icons';
+import { FaRegStar, FaStar } from 'react-icons/fa6';
 
 type StarRatingProps = {
   rating: number;
@@ -24,7 +24,9 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, onChange }) => {
           aria-label={`Rate ${maybePlural(i, 'star')}`}
           aria-pressed={(hoverRating || rating) >= i}
         >
-          <StarIcon filled={(hoverRating || rating) >= i} />
+          {(hoverRating || rating) >= i
+            ? <FaStar aria-hidden="true" className="size-9 text-[#FFC16A]" />
+            : <FaRegStar aria-hidden="true" className="size-9 text-[#FFAE36]" />}
         </button>
       ))}
     </div>

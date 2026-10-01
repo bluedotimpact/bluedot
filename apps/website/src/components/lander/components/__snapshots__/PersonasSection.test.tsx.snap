@@ -50,17 +50,18 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             Technical people considering governance
           </span>
           <svg
-            class="flex-shrink-0 transition-transform duration-300 text-white rotate-45"
-            fill="none"
-            height="17"
-            viewBox="0 0 16 17"
-            width="16"
+            aria-hidden="true"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-white rotate-45"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 448 512"
+            width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M0 8.5H16M8 0.5L8 16.5"
-              stroke="currentColor"
-              stroke-width="2"
+              d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
             />
           </svg>
         </button>
@@ -135,17 +136,18 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             High-potential people early in their careers
           </span>
           <svg
-            class="flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
-            fill="none"
-            height="17"
-            viewBox="0 0 16 17"
-            width="16"
+            aria-hidden="true"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 448 512"
+            width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M0 8.5H16M8 0.5L8 16.5"
-              stroke="currentColor"
-              stroke-width="2"
+              d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
             />
           </svg>
         </button>
@@ -220,17 +222,18 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             Policy professionals adding AI expertise
           </span>
           <svg
-            class="flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
-            fill="none"
-            height="17"
-            viewBox="0 0 16 17"
-            width="16"
+            aria-hidden="true"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 448 512"
+            width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M0 8.5H16M8 0.5L8 16.5"
-              stroke="currentColor"
-              stroke-width="2"
+              d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
             />
           </svg>
         </button>

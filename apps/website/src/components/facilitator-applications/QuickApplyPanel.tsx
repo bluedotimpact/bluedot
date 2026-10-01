@@ -1,4 +1,5 @@
 import { CTALinkOrButton, H2 } from '@bluedot/ui';
+import { FaChevronDown } from 'react-icons/fa6';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
@@ -35,15 +36,10 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
           <p className="text-size-md text-bluedot-navy min-w-0 flex-1 font-semibold text-pretty">
             {course.courseTitle ?? 'Course'}
           </p>
-          <svg
+          <FaChevronDown
             aria-hidden
-            className="text-bluedot-navy size-5 shrink-0 transition-transform group-open:rotate-180"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+            className="text-bluedot-navy size-3 shrink-0 transition-transform group-open:rotate-180"
+          />
         </summary>
         <ul className="border-charcoal-light flex flex-col border-t px-5 pb-5 sm:px-6 sm:pb-6">
           {course.rounds.map((round) => {

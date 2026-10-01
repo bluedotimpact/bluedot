@@ -1,32 +1,74 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 import { Eyebrow } from '@bluedot/ui';
+import type { IconType } from 'react-icons';
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaBan,
+  FaBars,
+  FaCalendarDays,
+  FaCheck,
+  FaChevronDown,
+  FaChevronLeft,
+  FaChevronRight,
+  FaChevronUp,
+  FaCircleCheck,
+  FaCircleInfo,
+  FaCircleXmark,
+  FaClock,
+  FaCopy,
+  FaEllipsisVertical,
+  FaEnvelope,
+  FaFacebook,
+  FaGithub,
+  FaLinkedin,
+  FaLock,
+  FaMagnifyingGlass,
+  FaPlus,
+  FaTriangleExclamation,
+  FaUser,
+  FaXTwitter,
+  FaXmark,
+} from 'react-icons/fa6';
 
 import {
-  ArrowDownIcon,
-  ArrowRightIcon,
-  CheckIcon,
-  CheckmarkIcon,
-  ChevronRightIcon,
+  BooksIcon,
   ChunkIcon,
-  CircledCheckmarkIcon,
-  ClockIcon,
-  ClockUserIcon,
-  DocumentIcon,
-  ErrorIcon,
-  ExternalLinkIcon,
-  MusicNoteIcon,
-  PlayCircleIcon,
-  PlusToggleIcon,
+  LaurelWreathIcon,
   ResizeHandleIcon,
-  SlackIcon,
-  StarIcon,
-  SwitchUserIcon,
-  ThumbIcon,
-  UndoIcon,
-  UserIcon,
-  VideoIcon,
 } from '.';
+
+// The 27 symbols on the Figma "Icons" page, in grid order, keyed by Figma name.
+const FIGMA_SET: [string, IconType][] = [
+  ['chevron-down', FaChevronDown],
+  ['chevron-right', FaChevronRight],
+  ['chevron-up', FaChevronUp],
+  ['xmark', FaXmark],
+  ['bars', FaBars],
+  ['ellipsis-vertical', FaEllipsisVertical],
+  ['check', FaCheck],
+  ['circle-info', FaCircleInfo],
+  ['arrow-right', FaArrowRight],
+  ['arrow-left', FaArrowLeft],
+  ['lock', FaLock],
+  ['plus', FaPlus],
+  ['magnifying-glass', FaMagnifyingGlass],
+  ['calendar', FaCalendarDays],
+  ['circle-check', FaCircleCheck],
+  ['chevron-left', FaChevronLeft],
+  ['warning', FaTriangleExclamation],
+  ['copy', FaCopy],
+  ['ban', FaBan],
+  ['clock', FaClock],
+  ['circle-xmark', FaCircleXmark],
+  ['linkedin', FaLinkedin],
+  ['x-twitter', FaXTwitter],
+  ['facebook', FaFacebook],
+  ['envelope', FaEnvelope],
+  ['github', FaGithub],
+  ['user', FaUser],
+];
 
 type IconCellProps = {
   name: string;
@@ -35,10 +77,10 @@ type IconCellProps = {
 };
 
 const IconCell = ({ name, children, note }: IconCellProps) => (
-  <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-4 text-center">
-    <div className="text-bluedot-navy flex min-h-12 items-center justify-center">{children}</div>
-    <div className="text-size-xs font-medium text-gray-800">{name}</div>
-    {note && <div className="text-size-xxs text-gray-500">{note}</div>}
+  <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-default bg-raised p-4 text-center">
+    <div className="text-primary flex min-h-12 items-center justify-center">{children}</div>
+    <div className="text-size-xs font-medium text-primary">{name}</div>
+    {note && <div className="text-size-xxs text-secondary">{note}</div>}
   </div>
 );
 
@@ -46,7 +88,7 @@ const Grid = ({ children }: { children: ReactNode }) => (
   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">{children}</div>
 );
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const Section = ({ title, children }: { title: string; children: ReactNode }) => (
   <section className="flex flex-col gap-3">
     <Eyebrow className="text-secondary">{title}</Eyebrow>
     {children}
@@ -54,136 +96,56 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 );
 
 const Gallery = () => (
-  <div className="flex min-h-screen flex-col gap-8 bg-gray-50 p-6">
-    <Section title="Single-color icons">
+  <div className="flex min-h-screen flex-col gap-8 bg-canvas p-6">
+    <Section title="Figma set (react-icons/fa6)">
       <Grid>
-        <IconCell name="ArrowDownIcon">
-          <ArrowDownIcon />
+        {FIGMA_SET.map(([name, Glyph]) => (
+          <IconCell key={name} name={name} note={`Fa${Glyph.name.replace(/^Fa/, '')}`}>
+            <Glyph className="size-6" />
+          </IconCell>
+        ))}
+      </Grid>
+    </Section>
+
+    <Section title="Sizing: 1em default, size-* to override (FaCheck)">
+      <Grid>
+        <IconCell name="1em in text-size-xs">
+          <span className="text-size-xs"><FaCheck /></span>
         </IconCell>
-        <IconCell name="ArrowRightIcon">
-          <ArrowRightIcon />
+        <IconCell name="1em in text-size-lg">
+          <span className="text-size-lg"><FaCheck /></span>
         </IconCell>
-        <IconCell name="CheckIcon">
-          <CheckIcon size={24} />
+        <IconCell name="size-3">
+          <FaCheck className="size-3" />
         </IconCell>
-        <IconCell name="ChevronRightIcon">
-          <ChevronRightIcon />
+        <IconCell name="size-4">
+          <FaCheck className="size-4" />
         </IconCell>
-        <IconCell name="CircledCheckmarkIcon">
-          <CircledCheckmarkIcon size={24} />
+        <IconCell name="size-6">
+          <FaCheck className="size-6" />
         </IconCell>
-        <IconCell name="ClockIcon">
-          <ClockIcon />
-        </IconCell>
-        <IconCell name="ClockUserIcon">
-          <ClockUserIcon />
-        </IconCell>
-        <IconCell name="DocumentIcon">
-          <DocumentIcon size={20} />
-        </IconCell>
-        <IconCell name="ErrorIcon">
-          <ErrorIcon size={24} />
-        </IconCell>
-        <IconCell name="ExternalLinkIcon">
-          <ExternalLinkIcon size={20} />
-        </IconCell>
-        <IconCell name="MusicNoteIcon">
-          <MusicNoteIcon />
-        </IconCell>
-        <IconCell name="PlayCircleIcon">
-          <PlayCircleIcon />
-        </IconCell>
-        <IconCell name="PlusToggleIcon">
-          <PlusToggleIcon className="text-bluedot-navy" />
-        </IconCell>
-        <IconCell name="ResizeHandleIcon">
-          <ResizeHandleIcon />
-        </IconCell>
-        <IconCell name="SlackIcon">
-          <SlackIcon />
-        </IconCell>
-        <IconCell name="SwitchUserIcon">
-          <SwitchUserIcon />
-        </IconCell>
-        <IconCell name="UndoIcon">
-          <UndoIcon />
-        </IconCell>
-        <IconCell name="UserIcon">
-          <UserIcon size={24} />
-        </IconCell>
-        <IconCell name="VideoIcon">
-          <VideoIcon size={24} />
+        <IconCell name="size-8">
+          <FaCheck className="size-8" />
         </IconCell>
       </Grid>
     </Section>
 
-    <Section title="Stateful / multi-variant icons">
+    <Section title="Bespoke artwork (apps/website/src/components/icons)">
       <Grid>
+        <IconCell name="BooksIcon" note="80px illustration">
+          <BooksIcon aria-hidden="true" />
+        </IconCell>
+        <IconCell name="LaurelWreathIcon" note="255×174 illustration">
+          <LaurelWreathIcon aria-hidden="true" className="w-full h-auto" />
+        </IconCell>
         <IconCell name="ChunkIcon" note="isActive">
-          <ChunkIcon isActive />
+          <ChunkIcon isActive aria-hidden="true" />
         </IconCell>
         <IconCell name="ChunkIcon" note="inactive">
-          <ChunkIcon />
+          <ChunkIcon aria-hidden="true" />
         </IconCell>
-        <IconCell name="CheckmarkIcon" note="completed">
-          <div className="bg-bluedot-normal rounded p-1">
-            <CheckmarkIcon variant="completed" />
-          </div>
-        </IconCell>
-        <IconCell name="CheckmarkIcon" note="hover">
-          <CheckmarkIcon variant="hover" />
-        </IconCell>
-        <IconCell name="StarIcon" note="filled">
-          <StarIcon filled size={24} />
-        </IconCell>
-        <IconCell name="StarIcon" note="empty">
-          <StarIcon size={24} />
-        </IconCell>
-        <IconCell name="ThumbIcon" note="filled=true">
-          <ThumbIcon filled />
-        </IconCell>
-        <IconCell name="ThumbIcon" note="filled=false">
-          <ThumbIcon filled={false} />
-        </IconCell>
-      </Grid>
-    </Section>
-
-    <Section title="Size sweep (ChevronRightIcon)">
-      <Grid>
-        <IconCell name="size=12">
-          <ChevronRightIcon size={12} />
-        </IconCell>
-        <IconCell name="size=16">
-          <ChevronRightIcon size={16} />
-        </IconCell>
-        <IconCell name="size=20">
-          <ChevronRightIcon />
-        </IconCell>
-        <IconCell name="size=32">
-          <ChevronRightIcon size={32} />
-        </IconCell>
-        <IconCell name="size=48">
-          <ChevronRightIcon size={48} />
-        </IconCell>
-        <IconCell name="size='2em'">
-          <ChevronRightIcon size="2em" />
-        </IconCell>
-      </Grid>
-    </Section>
-
-    <Section title="Color via text-* class (ClockIcon)">
-      <Grid>
-        <IconCell name="text-bluedot-navy">
-          <ClockIcon className="text-bluedot-navy" />
-        </IconCell>
-        <IconCell name="text-bluedot-normal">
-          <ClockIcon className="text-bluedot-normal" />
-        </IconCell>
-        <IconCell name="text-red-500">
-          <ClockIcon className="text-red-500" />
-        </IconCell>
-        <IconCell name="text-green-600">
-          <ClockIcon className="text-green-600" />
+        <IconCell name="ResizeHandleIcon">
+          <ResizeHandleIcon aria-hidden="true" />
         </IconCell>
       </Grid>
     </Section>

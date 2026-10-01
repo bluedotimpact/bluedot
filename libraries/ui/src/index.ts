@@ -14,12 +14,6 @@ export type { ListGroupProps, ListRowProps } from './ListRow';
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps } from './Checkbox';
 
-export { ChevronRightIcon } from './icons/ChevronRightIcon';
-
-export { CloseIcon } from './icons/CloseIcon';
-
-export { HamburgerIcon } from './icons/HamburgerIcon';
-
 export { ClickTarget } from './ClickTarget';
 export type { ClickTargetProps } from './ClickTarget';
 

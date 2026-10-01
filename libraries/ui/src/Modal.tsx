@@ -9,7 +9,7 @@ import { ClickTarget } from './ClickTarget';
 import { ModalTitle } from './ModalTitle';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
-import { CloseIcon } from './icons/CloseIcon';
+import { FaXmark } from 'react-icons/fa6';
 import { cn } from './utils';
 
 export type ModalProps = {
@@ -49,7 +49,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
           <div className={cn('flex justify-between items-center mb-4 pt-10 pl-8 pr-6', desktopHeaderClassName)}>
             {title && typeof title === 'string' ? <ModalTitle className={centerTitle ? 'mx-auto' : undefined}>{title}</ModalTitle> : title}
             <ClickTarget onClick={() => setIsOpen(false)} aria-label="Close" className="text-black rounded-full p-1 hover:bg-gray-100 cursor-pointer">
-              <CloseIcon size={20} />
+              <FaXmark aria-hidden="true" className="size-5" />
             </ClickTarget>
           </div>
 

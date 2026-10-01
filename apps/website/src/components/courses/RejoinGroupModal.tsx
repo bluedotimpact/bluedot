@@ -6,11 +6,11 @@ import { getQueryKey } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
 import type React from 'react';
 import { useMemo, useState } from 'react';
+import { FaCheck, FaUser } from 'react-icons/fa6';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatDateMonthAndDay, formatTime12HourClock, getGMTOffsetWithCity } from '../../lib/utils';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
-import { CheckIcon, UserIcon } from '../icons';
 
 export type RejoinGroupModalProps = {
   handleClose: () => void;
@@ -143,7 +143,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   </div>
                   <div className="text-size-xs text-bluedot-normal flex items-center gap-1">
                     <span>You joined this group</span>
-                    <CheckIcon size={12} />
+                    <FaCheck aria-hidden="true" className="size-3" />
                   </div>
                 </div>
               </div>
@@ -207,7 +207,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
           <div>
             <div className="mb-1 font-semibold">{groupName}</div>
             <div className="text-size-xs flex items-center gap-1.5 text-gray-500">
-              <UserIcon className="-translate-y-px" />
+              <FaUser aria-hidden="true" className="size-3 -translate-y-px" />
               <span>{spotsLabel}</span>
             </div>
           </div>

@@ -11,10 +11,8 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useEffect, useState } from 'react';
+import { FaCheck, FaClock, FaPeopleArrows } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
-import {
-  CheckIcon, ClockIcon, SwitchUserIcon,
-} from '../icons';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 
 const MODAL_TYPE_OPTIONS = [
@@ -22,7 +20,7 @@ const MODAL_TYPE_OPTIONS = [
     value: 'Update discussion time',
     label: (
       <span className="grid grid-cols-[20px_1fr] items-center gap-2">
-        <ClockIcon /> Update discussion time
+        <FaClock aria-hidden="true" className="size-5" /> Update discussion time
       </span>
     ),
   },
@@ -30,7 +28,7 @@ const MODAL_TYPE_OPTIONS = [
     value: 'Change facilitator',
     label: (
       <span className="grid grid-cols-[20px_1fr] items-center gap-2">
-        <SwitchUserIcon /> Change facilitator
+        <FaPeopleArrows aria-hidden="true" className="size-5" /> Change facilitator
       </span>
     ),
   },
@@ -199,7 +197,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-            <CheckIcon className="text-bluedot-normal" />
+            <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
             <P className="text-center text-bluedot-navy/80">
@@ -223,7 +221,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-            <CheckIcon className="text-bluedot-normal" />
+            <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
             <P className="text-center text-bluedot-navy/80">

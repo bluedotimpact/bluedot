@@ -1,3 +1,4 @@
+import { FaChevronDown } from 'react-icons/fa6';
 import { parseSummary } from '../lib/client/parseSummary';
 
 type ScoreRow = {
@@ -27,9 +28,7 @@ const PillContents: React.FC<ScoreRow & { hasRationale: boolean }> = ({ label, s
         {score !== undefined ? `${score}/${RATING_MAX}` : 'N/A'}
       </span>
       {hasRationale && (
-        <svg className="size-4 text-secondary transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <FaChevronDown className="size-2.5 text-secondary transition-transform group-open:rotate-180 shrink-0" />
       )}
     </span>
   </>

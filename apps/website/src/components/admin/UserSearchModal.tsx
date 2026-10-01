@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import {
   ErrorSection, Input, Modal, ProgressDots, useCurrentTimeMs,
 } from '@bluedot/ui';
-import { RiCloseLine, RiSearchLine } from 'react-icons/ri';
+import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
 import type { UserSearchResult } from '../../server/routers/admin';
@@ -58,7 +58,7 @@ export const UserSearchModal = ({
           placeholder="Search by name or email..."
           aria-label="Search by name or email"
           className="mb-4"
-          leading={<RiSearchLine aria-hidden />}
+          leading={<FaMagnifyingGlass aria-hidden />}
           trailing={searchTermInput ? (
             <button
               type="button"
@@ -69,7 +69,7 @@ export const UserSearchModal = ({
               }}
               className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
             >
-              <RiCloseLine aria-hidden />
+              <FaXmark aria-hidden />
             </button>
           ) : undefined}
         />

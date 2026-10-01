@@ -12,6 +12,7 @@ import {
   TimeAvailabilityGrid,
   toast,
 } from '@bluedot/ui';
+import { FaChevronDown } from 'react-icons/fa6';
 import {
   formatOffsetFromMinutesToString,
   gridToUtcIntervalString,
@@ -223,15 +224,10 @@ const QuestionCollapsible = ({
   >
     <summary className="text-size-xs text-bluedot-navy flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
       {title}
-      <svg
+      <FaChevronDown
         aria-hidden
-        className="size-5 shrink-0 transition-transform group-open:rotate-180"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-      </svg>
+        className="size-3 shrink-0 transition-transform group-open:rotate-180"
+      />
     </summary>
     <div className="flex flex-col gap-3 px-3 pb-4">
       <div className="text-size-xxs text-bluedot-navy/60 flex flex-col gap-1">

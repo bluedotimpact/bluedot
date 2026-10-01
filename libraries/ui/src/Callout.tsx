@@ -1,7 +1,7 @@
 import type React from 'react';
+import { FaXmark } from 'react-icons/fa6';
 import { CTALinkOrButton, type CTALinkOrButtonProps } from './CTALinkOrButton';
 import { IconButton } from './IconButton';
-import { CloseIcon } from './icons/CloseIcon';
 import { TONE_STYLES, type Tone } from './toneStyles';
 import { cn } from './utils';
 
@@ -59,7 +59,7 @@ export const Callout = ({
       </div>
       {onDismiss && (
         <IconButton aria-label="Dismiss" onClick={onDismiss} className={cn('-my-1.5 -mr-1.5', fg)}>
-          <CloseIcon size={16} aria-hidden="true" />
+          <FaXmark aria-hidden="true" className="size-4" />
         </IconButton>
       )}
     </div>

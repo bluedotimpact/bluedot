@@ -2,7 +2,6 @@ import {
   Button, Dialog, DialogTrigger, Keyboard, Popover,
 } from 'react-aria-components';
 import { ModalTitle } from '@bluedot/ui';
-import { FiCommand } from 'react-icons/fi';
 
 const DEFAULT_SHORTCUTS = [
   { action: 'Navigate sections', keys: ['←', '→', '1-9'] },
@@ -29,7 +28,7 @@ const KeyboardNavMenu = ({
         aria-label="Keyboard shortcuts"
         className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
       >
-        <FiCommand className="size-4" />
+        <span aria-hidden="true" className="text-size-sm leading-none">⌘</span>
         Shortcuts
       </Button>
       <Popover placement="top start">

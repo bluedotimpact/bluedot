@@ -26,13 +26,6 @@ vi.mock('@bluedot/ui', async () => {
 
 const mockedUseAuthStore = vi.mocked(useAuthStore, true);
 
-// Mock RiLoader4Line icon
-vi.mock('react-icons/ri', () => ({
-  RiLoader4Line: ({ className, size }: { className?: string; size?: number }) => (
-    <div data-testid="loader-icon" className={className} style={{ width: size, height: size }} />
-  ),
-}));
-
 // MarketingHero renders <Nav /> which calls next/router's useRouter
 vi.mock('next/router', () => ({
   useRouter: () => ({

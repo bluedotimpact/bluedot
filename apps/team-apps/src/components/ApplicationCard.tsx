@@ -1,4 +1,5 @@
 import { H1 } from '@bluedot/ui';
+import { FaChevronDown } from 'react-icons/fa6';
 import { type Application } from '../lib/client/types';
 import { SummaryCard } from './SummaryCard';
 import { PreviousApplicationsCard } from './PreviousApplicationsCard';
@@ -84,9 +85,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
           <details key={title} className="group">
             <summary className="min-h-11 flex items-center justify-between px-4 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
               <span className="text-size-sm font-semibold font-sans text-primary">{title}</span>
-              <svg className="size-4 text-secondary transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+              <FaChevronDown className="size-2.5 text-secondary transition-transform group-open:rotate-180 shrink-0" />
             </summary>
             <p className="px-4 pb-3 text-size-sm text-primary leading-relaxed whitespace-pre-wrap">{content}</p>
           </details>

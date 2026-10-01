@@ -3,7 +3,7 @@ import {
   cn, CTALinkOrButton, Eyebrow, H2, P,
   CardShell,
 } from '@bluedot/ui';
-import { PlusToggleIcon } from '../../icons';
+import { FaPlus } from 'react-icons/fa6';
 import { type IconType } from 'react-icons';
 
 export type Persona = {
@@ -84,9 +84,10 @@ const PersonasSection = ({
                   >
                     {persona.title}
                   </span>
-                  <PlusToggleIcon
+                  <FaPlus
+                    aria-hidden="true"
                     className={cn(
-                      'flex-shrink-0 transition-transform duration-300',
+                      'size-5 flex-shrink-0 transition-transform duration-300',
                       isExpanded ? 'text-white rotate-45' : 'text-bluedot-navy',
                     )}
                   />
