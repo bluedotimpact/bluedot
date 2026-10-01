@@ -139,7 +139,7 @@ describe('DropoutModal', () => {
     await user.click(screen.getByRole('button', { name: 'Action type' }));
     const listbox = await screen.findByRole('listbox');
     await waitFor(() => {
-      expect(within(listbox).getByRole('option', { name: 'Defer to a future round' })).toHaveClass('cursor-not-allowed');
+      expect(within(listbox).getByRole('option', { name: 'Defer to a future round' })).toHaveAttribute('aria-disabled', 'true');
     });
 
     await user.click(within(listbox).getByText('Drop out of the course'));

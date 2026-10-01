@@ -466,7 +466,7 @@ const QuickApplyForm = ({
               name="timezone"
               render={({ field }) => (
                 <Select
-                  ariaLabel="Timezone"
+                  aria-label="Timezone"
                   className="w-full"
                   options={offsets.map((offset) => ({ value: offset, label: offset }))}
                   value={field.value}
@@ -551,7 +551,7 @@ const QuickApplyForm = ({
                 rules={{ required: true }}
                 render={({ field }) => (
                   <Select
-                    ariaLabel="Career stage"
+                    aria-label="Career stage"
                     className="w-full"
                     options={CAREER_LEVELS.map((level) => ({ value: level, label: level }))}
                     value={field.value}
@@ -575,7 +575,7 @@ const QuickApplyForm = ({
                 name="profession"
                 render={({ field }) => (
                   <Select
-                    ariaLabel="Profession"
+                    aria-label="Profession"
                     className="w-full"
                     options={PROFESSIONS.map((option) => ({ value: option, label: option }))}
                     value={field.value}

@@ -187,7 +187,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         <div className="flex flex-col gap-1">
           <span className="text-size-sm font-medium text-bluedot-navy/80">Intensity</span>
           <Select
-            ariaLabel="Intensity"
+            aria-label="Intensity"
             value={effectiveIntensity}
             onChange={(value) => {
               setIntensity(value as Intensity);
@@ -204,7 +204,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         <div className="flex flex-col gap-1">
           <span className="text-size-sm font-medium text-bluedot-navy/80">Round</span>
           <Select
-            ariaLabel="Round"
+            aria-label="Round"
             value={hasRounds ? effectiveTargetRoundId : undefined}
             onChange={(value) => setTargetRoundId(value)}
             options={roundOptions}
@@ -231,7 +231,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       <div className="flex flex-col gap-2">
         <p className="text-size-md font-medium text-black">1. What would you like to do?</p>
         <Select
-          ariaLabel="Action type"
+          aria-label="Action type"
           value={dropoutType}
           onChange={(value) => setDropoutType(value as DropoutType)}
           options={TYPE_OPTIONS.map((opt) => ({
