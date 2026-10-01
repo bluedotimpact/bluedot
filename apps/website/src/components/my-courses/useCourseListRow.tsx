@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
+  CTALinkOrButton, Tag, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
@@ -351,10 +351,10 @@ const getParticipantActions = (
       isVisible: state === 'dropped',
       variant: 'inline',
       inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
+        <Tag shape="pill">
+          <IoBan aria-hidden />
           Dropped
-        </span>
+        </Tag>
       ),
     },
     {
@@ -428,10 +428,10 @@ const getFacilitatorActions = (
       isVisible: state === 'dropped',
       variant: 'inline',
       inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
+        <Tag shape="pill">
+          <IoBan aria-hidden />
           Dropped
-        </span>
+        </Tag>
       ),
     },
     {

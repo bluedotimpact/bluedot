@@ -1,4 +1,6 @@
-import { Eyebrow, OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
+import {
+  Eyebrow, OverflowMenu, Tag, type OverflowMenuItemProps,
+} from '@bluedot/ui';
 import type { ReactNode } from 'react';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
@@ -16,8 +18,6 @@ export type ApplicationRowProps = {
   inlineActions?: ReactNode[];
   overflowItems?: OverflowMenuItemProps[];
 };
-
-const STATUS_PILL_CLASS = 'text-size-xxs min-h-9 items-center justify-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] font-medium text-bluedot-navy';
 
 const ApplicationRow = ({
   courseTitle,
@@ -68,7 +68,7 @@ const ApplicationRow = ({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-3">
-          <span className={`hidden sm:inline-flex ${STATUS_PILL_CLASS}`}>{statusLabel}</span>
+          <Tag shape="pill" className="hidden sm:inline-flex">{statusLabel}</Tag>
           <span className="hidden sm:contents">{inlineActions}</span>
           {overflowItems.length > 0 && (
             <OverflowMenu ariaLabel="Application actions" items={overflowItems} />
@@ -76,7 +76,7 @@ const ApplicationRow = ({
         </div>
       </div>
       <div className="relative flex flex-wrap items-center gap-3 px-5 pb-5 sm:hidden">
-        <span className={`inline-flex ${STATUS_PILL_CLASS}`}>{statusLabel}</span>
+        <Tag shape="pill">{statusLabel}</Tag>
         {inlineActions}
       </div>
     </li>

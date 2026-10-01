@@ -118,7 +118,7 @@ describe('Nav', () => {
       expect(seeAllCourses?.getAttribute('href')).toBe('/courses');
 
       // Verify tags: one "Start Here" on FoAI, one "New" on new course
-      const tags = container.querySelectorAll(`${selector} .tag`);
+      const tags = container.querySelectorAll(`${selector} .nav-dropdown__dropdown-content a > span`);
       const tagTexts = Array.from(tags).map((t) => t.textContent);
       expect(tagTexts).toContain('Start Here');
       expect(tagTexts).toContain('New');

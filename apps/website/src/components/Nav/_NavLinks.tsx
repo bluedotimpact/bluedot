@@ -295,12 +295,12 @@ const NavDropdown: React.FC<{
                   >
                     {link.title}
                     {link.isNew && (
-                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                      <Tag tone="accent" className="ml-2 px-2 py-0.5">
                         New
                       </Tag>
                     )}
                     {link.title === FOAI_NAV_ENTRY.title && (
-                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                      <Tag tone="accent" className="ml-2 px-2 py-0.5">
                         Start Here
                       </Tag>
                     )}
