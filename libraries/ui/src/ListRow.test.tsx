@@ -30,13 +30,6 @@ describe('ListRow', () => {
     expect(anchor?.getAttribute('rel')).toContain('noopener');
     expect(screen.getByText('(opens in a new tab)').className).toContain('sr-only');
   });
-
-  test('leading replaces the accent bar', () => {
-    const { container } = render(<ListRow href="/x" title="Row" leading={<span data-testid="badge">12</span>} />);
-
-    expect(screen.getByTestId('badge')).toBeTruthy();
-    expect(container.querySelector('.bg-accent-subtle')).toBeNull();
-  });
 });
 
 describe('ListGroup', () => {

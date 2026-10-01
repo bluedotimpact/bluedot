@@ -28,19 +28,6 @@ export const Static: Story = {
   },
 };
 
-export const CustomLeading: Story = {
-  args: {
-    href: '/events/next',
-    title: 'Community call',
-    summary: 'A leading element replaces the accent bar.',
-    leading: (
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-accent text-size-xs font-semibold text-on-dark">
-        12
-      </div>
-    ),
-  },
-};
-
 export const InGroup: Story = {
   args: {
     href: '/grants/rapid',
