@@ -497,6 +497,24 @@ describe('round picker', () => {
     expect(onSelect.mock.calls[0]?.[2]?.optionIds).toHaveLength(20);
   });
 
+  test('still works when the browser blocks storage', () => {
+    const blocked = () => {
+      throw new Error('Storage is blocked');
+    };
+
+    const getItem = vi.spyOn(window.localStorage, 'getItem').mockImplementation(blocked);
+    const setItem = vi.spyOn(window.localStorage, 'setItem').mockImplementation(blocked);
+    offer({ data: { options: sampleOptions }, loading: false, error: null });
+    const onSelect = vi.fn();
+    render(<RoundPicker onSelect={onSelect} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Bottom of pile' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter A' }));
+    fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
+    expect(onSelect).toHaveBeenCalledWith(pickerRound, 'bottom', { optionIds: ['recSampleFilterA'], mode: 'any' });
+    expect(getItem).toHaveBeenCalled();
+    expect(setItem).toHaveBeenCalled();
+  });
+
   test('shows why it is back, when told', () => {
     offer({ data: { options: sampleOptions }, loading: false, error: null });
     render(<RoundPicker onSelect={vi.fn()} notice="Sample notice" />);

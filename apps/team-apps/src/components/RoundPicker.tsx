@@ -12,20 +12,32 @@ const FILTER_MATCH_STORAGE_KEY = 'speed-review:filter-match';
 const ROUNDS_PER_COURSE = 3;
 const ALLOWED_COURSES = ['AGI Strategy', 'Biosecurity', 'Technical AI Safety', 'Technical AI Safety Project'];
 
-const loadDirection = (): Direction => {
-  if (typeof window === 'undefined') return 'top';
-  return window.localStorage.getItem(DIRECTION_STORAGE_KEY) === 'bottom' ? 'bottom' : 'top';
+// Storage access throws when the browser blocks it (e.g. strict privacy
+// settings). These are only preferences, so fall back to defaults rather than
+// breaking the picker.
+const readStored = (key: string): string | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
 };
 
-const loadFilterMatch = (): FilterMatch => {
-  if (typeof window === 'undefined') return 'any';
-  return window.localStorage.getItem(FILTER_MATCH_STORAGE_KEY) === 'all' ? 'all' : 'any';
+const writeStored = (key: string, value: string): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // The preference just won't be remembered.
+  }
 };
 
-const loadFilterIds = (): string[] => {
-  if (typeof window === 'undefined') return [];
-  return window.localStorage.getItem(FILTERS_STORAGE_KEY)?.split(',').filter(Boolean) ?? [];
-};
+const loadDirection = (): Direction => (readStored(DIRECTION_STORAGE_KEY) === 'bottom' ? 'bottom' : 'top');
+
+const loadFilterMatch = (): FilterMatch => (readStored(FILTER_MATCH_STORAGE_KEY) === 'all' ? 'all' : 'any');
+
+const loadFilterIds = (): string[] => readStored(FILTERS_STORAGE_KEY)?.split(',').filter(Boolean) ?? [];
 
 type RoundPickerProps = {
   // filters is undefined when nothing is ticked.
@@ -58,23 +70,17 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
 
   const updateDirection = (next: Direction) => {
     setDirection(next);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(DIRECTION_STORAGE_KEY, next);
-    }
+    writeStored(DIRECTION_STORAGE_KEY, next);
   };
 
   const updateFilterIds = (next: string[]) => {
     setFilterIds(next);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(FILTERS_STORAGE_KEY, next.join(','));
-    }
+    writeStored(FILTERS_STORAGE_KEY, next.join(','));
   };
 
   const updateFilterMatch = (next: FilterMatch) => {
     setFilterMatch(next);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(FILTER_MATCH_STORAGE_KEY, next);
-    }
+    writeStored(FILTER_MATCH_STORAGE_KEY, next);
   };
 
   const filterOptions = filterData?.options;
@@ -84,7 +90,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
     const offered = new Set(filterOptions.map((option) => option.id));
     const kept = loadFilterIds().filter((id) => offered.has(id)).slice(0, MAX_QUEUE_FILTERS);
     setFilterIds(kept);
-    window.localStorage.setItem(FILTERS_STORAGE_KEY, kept.join(','));
+    writeStored(FILTERS_STORAGE_KEY, kept.join(','));
   }, [filterOptions]);
 
   // Wait for the filters too, so they can't appear late above the rounds and
