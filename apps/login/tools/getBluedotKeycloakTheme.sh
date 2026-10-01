@@ -10,7 +10,9 @@ ASSET_NAME="bluedot-keycloak-theme.jar"
 # sed reads the whole response: `grep -m 1` stopped reading early, so curl sometimes failed with exit 23
 # ("failed writing output") and pipefail broke the build. This is only a warning, so it never fails the build.
 LATEST_RELEASE_VERSION=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | sed -n -E 's/.*"tag_name": "([^"]+)".*/\1/p') || true
-if [ "$FIXED_RELEASE_VERSION" != "$LATEST_RELEASE_VERSION" ]; then
+if [ -z "$LATEST_RELEASE_VERSION" ]; then
+    echo "Warning: Couldn't check the latest release of $REPO, so the fixed version ($FIXED_RELEASE_VERSION) may be outdated."
+elif [ "$FIXED_RELEASE_VERSION" != "$LATEST_RELEASE_VERSION" ]; then
     echo "Warning: The fixed release version ($FIXED_RELEASE_VERSION) is not the latest version ($LATEST_RELEASE_VERSION)."
 fi
 
