@@ -44,7 +44,7 @@ export const MobileCourseModal = ({
       )}
       bottomDrawerOnMobile
     >
-      <div>
+      <>
         {/* The modal header already draws a bottom border; the first unit's divider would double it. */}
         <nav aria-label="Course content" className="[&>details:first-child]:border-t-0">
           {units.map((unit) => (
@@ -71,7 +71,7 @@ export const MobileCourseModal = ({
               />
             )}
         </div>
-      </div>
+      </>
     </Modal>
   );
 };

@@ -393,7 +393,7 @@ export default function GroupSwitchModal({
       bottomDrawerOnMobile
       ariaLabel="Group switching"
     >
-      <div>
+      <>
         {isLoading && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {userError && <ErrorSection error={userError} />}
@@ -461,7 +461,7 @@ export default function GroupSwitchModal({
             </CTALinkOrButton>
           </div>
         )}
-      </div>
+      </>
     </Modal>
   );
 }

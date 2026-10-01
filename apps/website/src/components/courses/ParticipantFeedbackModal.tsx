@@ -90,7 +90,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
     >
-      <div>
+      <>
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
         <p className="flex items-center gap-1.5 text-size-xs leading-snug text-bluedot-navy/60 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
@@ -193,7 +193,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             </button>
           </div>
         </div>
-      </div>
+      </>
     </Modal>
   );
 };

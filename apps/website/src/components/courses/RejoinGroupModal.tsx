@@ -80,7 +80,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
       title={rejoinMutation.isSuccess ? 'Success' : 'Rejoin a group'}
       bottomDrawerOnMobile
     >
-      <div>
+      <>
         {isLoading && <ProgressDots />}
         {error && <ErrorSection error={error} />}
         {rejoinMutation.isError && <ErrorSection error={rejoinMutation.error} />}
@@ -154,7 +154,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
             </CTALinkOrButton>
           </div>
         )}
-      </div>
+      </>
     </Modal>
   );
 }

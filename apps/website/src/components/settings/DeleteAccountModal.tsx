@@ -208,9 +208,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
       title={requestDeletion.isSuccess ? 'Deletion requested' : formTitle}
       bottomDrawerOnMobile
     >
-      <div>
-        {renderBody()}
-      </div>
+      {renderBody()}
     </Modal>
   );
 };

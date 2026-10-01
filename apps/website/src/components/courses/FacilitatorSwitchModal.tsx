@@ -402,9 +402,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       title={renderTitle()}
       bottomDrawerOnMobile
     >
-      <div>
-        <form className="flex flex-col gap-8">{renderContent()}</form>
-      </div>
+      <form className="flex flex-col gap-8">{renderContent()}</form>
     </Modal>
   );
 };

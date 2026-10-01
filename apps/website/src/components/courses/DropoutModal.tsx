@@ -288,11 +288,9 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       title={renderTitle()}
       bottomDrawerOnMobile
     >
-      <div>
-        <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
-          {dropoutMutation.isSuccess ? renderSuccess() : renderForm()}
-        </form>
-      </div>
+      <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
+        {dropoutMutation.isSuccess ? renderSuccess() : renderForm()}
+      </form>
     </Modal>
   );
 };
