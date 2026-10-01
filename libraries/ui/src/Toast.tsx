@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { IconType } from 'react-icons';
-import { CloseIcon } from './icons/CloseIcon';
+import { FaXmark } from 'react-icons/fa6';
 import {
   TOAST_EXIT_DURATION_MS, useToastStore, type ToastEntry, type ToastVariant,
 } from './toastStore';
@@ -111,7 +111,7 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
         )}
       >
-        <CloseIcon size={16} className="stroke-[1.5]" aria-hidden="true" />
+        <FaXmark aria-hidden="true" className="size-4" />
       </button>
     </div>
   );

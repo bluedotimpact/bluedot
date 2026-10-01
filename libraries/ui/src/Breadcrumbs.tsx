@@ -1,6 +1,6 @@
 import type React from 'react';
 import { A } from './Text';
-import { ChevronRightIcon } from './icons/ChevronRightIcon';
+import { FaChevronRight } from 'react-icons/fa6';
 import { cn } from './utils';
 
 export type BluedotRoute = {
@@ -67,7 +67,7 @@ export const BreadcrumbTrail: React.FC<BreadcrumbTrailProps> = ({ route, classNa
   );
 };
 
-const Separator = () => <ChevronRightIcon size={16} aria-hidden="true" className="text-secondary shrink-0" />;
+const Separator = () => <FaChevronRight aria-hidden="true" className="size-4 text-secondary shrink-0" />;
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => (
   <div className={cn('bg-canvas border-subtle w-full border-b py-3', className)}>

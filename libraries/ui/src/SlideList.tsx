@@ -2,6 +2,7 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import clsx from 'clsx';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 export type SlideListProps = {
   className?: string;
@@ -217,33 +218,9 @@ export const SlideListBtn: React.FC<{
     aria-label={ariaLabel}
   >
     {direction === 'previous' ? (
-      <svg
-        className="slide-list__nav-icon size-5"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M15 19l-7-7 7-7"
-        />
-      </svg>
+      <FaChevronLeft aria-hidden="true" className="size-5" />
     ) : (
-      <svg
-        className="slide-list__nav-icon size-5"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9 5l7 7-7 7"
-        />
-      </svg>
+      <FaChevronRight aria-hidden="true" className="size-5" />
     )}
   </button>
 );

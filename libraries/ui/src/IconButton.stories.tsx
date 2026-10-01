@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { FaEllipsisVertical } from 'react-icons/fa6';
+import { FaBars, FaEllipsisVertical, FaXmark } from 'react-icons/fa6';
 import { IconButton } from './IconButton';
-import { CloseIcon } from './icons/CloseIcon';
-import { HamburgerIcon } from './icons/HamburgerIcon';
 
 const meta = {
   title: 'ui/IconButton',
@@ -37,7 +35,7 @@ const ToggleExample = () => {
       aria-expanded={open}
       onClick={() => setOpen((prev) => !prev)}
     >
-      {open ? <CloseIcon size={16} aria-hidden="true" /> : <HamburgerIcon aria-hidden="true" />}
+      {open ? <FaXmark aria-hidden="true" className="size-4" /> : <FaBars aria-hidden="true" className="size-4" />}
     </IconButton>
   );
 };
