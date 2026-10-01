@@ -51,6 +51,22 @@ describe('ListGroup', () => {
     expect(container.querySelector('ul')?.className).toContain('divide-y');
   });
 
+  test('skips null and false children', () => {
+    const show = false;
+    const { container } = render(<ListGroup>
+      <ListRow href="/a" title="A" />
+      {show && <ListRow href="/b" title="B" />}
+      {null}
+    </ListGroup>);
+
+    expect(container.querySelectorAll('li')).toHaveLength(1);
+  });
+
+  test('renders nothing when every child is empty', () => {
+    const { container } = render(<ListGroup>{null}{false}</ListGroup>);
+    expect(container.firstChild).toBeNull();
+  });
+
   test('renders nothing when empty', () => {
     const { container } = render(<ListGroup>{[]}</ListGroup>);
     expect(container.firstChild).toBeNull();
