@@ -27,7 +27,7 @@ export const ModalHeader = ({
   // Move focus to the new title when the dialog swaps state in place (confirm -> success)
   const prevTitle = useRef(title);
   useEffect(() => {
-    if (titleIsString && prevTitle.current !== undefined && prevTitle.current !== title) {
+    if (titleIsString && prevTitle.current !== title) {
       headingRef.current?.focus();
     }
 
