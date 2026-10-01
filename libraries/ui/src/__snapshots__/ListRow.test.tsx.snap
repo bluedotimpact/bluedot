@@ -3,7 +3,7 @@
 exports[`ListRow > renders the whole row as one link with the CTA inside it 1`] = `
 <div>
   <a
-    class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+    class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
     href="/grants/rapid"
     tabindex="0"
   >

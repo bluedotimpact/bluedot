@@ -20,6 +20,7 @@ describe('ListRow', () => {
     expect(container.querySelector('a')).toBeNull();
     expect(container.textContent).not.toContain('Learn more');
     expect(container.firstElementChild?.tagName).toBe('DIV');
+    expect(container.firstElementChild?.className).not.toContain('group');
   });
 
   test('absolute URLs open in a new tab and announce it', () => {
