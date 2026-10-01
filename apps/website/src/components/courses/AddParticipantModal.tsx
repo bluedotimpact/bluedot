@@ -31,6 +31,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
       title="Add a participant"
       bottomDrawerOnMobile
       ariaLabel="Add a participant"
+      isDismissable={false}
     >
       <div className="flex flex-col gap-4">
         <p className="text-size-xs leading-normal text-bluedot-navy/60">

@@ -89,6 +89,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
       )}
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
+      isDismissable={false}
     >
       <>
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
