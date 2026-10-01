@@ -15,11 +15,17 @@ import {
   type Mock,
 } from 'vitest';
 import { useAuthStore } from '@bluedot/ui';
+import {
+  applicationsRoundTable, courseRegistrationTable, courseTable, groupDiscussionTable, groupTable, meetPersonTable, roundTable, unitTable,
+} from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import GroupSwitchModal, { sortGroupSwitchOptions, buildAvailabilityFormUrl } from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import {
+  createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
+} from '../../__tests__/dbTestUtils';
 import {
   createMockCourse, createMockCourseRegistration, createMockGroupDiscussion, createMockUnit, createMockGroup,
 } from '../../__tests__/testUtils';
@@ -218,35 +224,6 @@ describe('GroupSwitchModal', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Success')).toBeInTheDocument();
-      });
-    });
-
-    test('Permanent switch on an intensive round shows groups as daily', async () => {
-      server.use(trpcMsw.groupSwitching.discussionsAvailable.query(() => ({
-        ...mockAvailableGroupsAndDiscussions,
-        roundIntensity: 'Intensive',
-      })));
-
-      render(
-        <GroupSwitchModal
-          handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
-          courseSlug="ai-safety"
-          roundId="round-1"
-        />,
-        { wrapper: TrpcProvider },
-      );
-      await waitFor(() => {
-        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
-      });
-
-      fireEvent.click(screen.getByRole('button', { name: /Select action/i }));
-      const listbox = await screen.findByRole('listbox', { name: /Select action/i });
-      fireEvent.click(within(listbox).getByText(/Switch group permanently/i));
-
-      await waitFor(() => {
-        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
-        expect(screen.getAllByText('Daily')).toHaveLength(2);
       });
     });
 
@@ -1211,5 +1188,74 @@ describe('GroupSwitchModal', () => {
       expect(sorted[0]?.groupName).toBe('Earlier Discussion');
       expect(sorted[1]?.groupName).toBe('Later Discussion');
     });
+  });
+});
+
+describe('GroupSwitchModal (real tRPC via PGlite)', () => {
+  setupTestDb();
+  const MONDAY_9AM_UTC = new Date('2024-01-01T09:00:00Z').getTime() / 1000;
+  const SATURDAY_2PM_UTC = new Date('2024-01-06T14:00:00Z').getTime() / 1000;
+  // The modal renders weekdays in the test runner's local timezone
+  const weekdayOf = (sec: number) => new Date(sec * 1000).toLocaleDateString('en-US', { weekday: 'short' });
+  const renderInDb = (node: React.ReactElement) => render(node, { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) });
+
+  const seedParticipantInRound = async ({ intensity }: { intensity: string | null }) => {
+    const nowSec = Math.floor(Date.now() / 1000);
+    await seedLoggedInUser({ id: 'user-1' });
+    await testDb.insert(courseTable, {
+      id: 'course-1', slug: 'ai-safety', title: 'AI Safety', shortDescription: 'T', units: ['unit-1'],
+    });
+    await testDb.insert(unitTable, {
+      id: 'unit-1', courseId: 'course-1', courseSlug: 'ai-safety', courseTitle: 'AI Safety', title: 'Intro', unitNumber: '1', unitStatus: 'Active', chunks: [],
+    });
+    await testDb.insert(applicationsRoundTable, { id: 'applications-round-1', intensity });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1', userId: 'user-1', courseId: 'course-1', roundId: 'applications-round-1', decision: 'Accept',
+    });
+    await testDb.insert(roundTable, { id: 'round-1', course: 'course-1', maxParticipantsPerGroup: 5 });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-1', userId: 'user-1', applicationsBaseRecordId: 'reg-1', round: 'round-1', role: 'Participant', humanOpinion: 'Strong yes',
+    });
+    await testDb.insert(groupTable, {
+      id: 'group-a', groupName: 'Morning Group A', round: 'round-1', participants: ['mp-1'], whoCanSwitchIntoThisGroup: ['Strong yes'], startTimeUtc: MONDAY_9AM_UTC,
+    });
+    await testDb.insert(groupTable, {
+      id: 'group-b', groupName: 'Weekend Group B', round: 'round-1', participants: ['mp-2'], whoCanSwitchIntoThisGroup: ['Strong yes'], startTimeUtc: SATURDAY_2PM_UTC,
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-a', group: 'group-a', round: 'round-1', unitNumber: 1, unit: 'unit-1', startDateTime: nowSec + 3600, endDateTime: nowSec + 7200, participantsExpected: ['mp-1'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-b', group: 'group-b', round: 'round-1', unitNumber: 1, unit: 'unit-1', startDateTime: nowSec + 3600, endDateTime: nowSec + 7200, participantsExpected: ['mp-2'],
+    });
+  };
+
+  const renderPermanentSwitch = async () => {
+    renderInDb(<GroupSwitchModal
+      handleClose={() => {}}
+      initialSwitchType="Switch group permanently"
+      courseSlug="ai-safety"
+      roundId="round-1"
+    />);
+    await waitFor(() => {
+      expect(screen.getByText('Weekend Group B')).toBeInTheDocument();
+    });
+  };
+
+  test('on an intensive round, groups are labelled Daily', async () => {
+    await seedParticipantInRound({ intensity: 'Intensive' });
+    await renderPermanentSwitch();
+
+    expect(screen.getAllByText('Daily')).toHaveLength(2);
+    expect(screen.queryByText(weekdayOf(MONDAY_9AM_UTC))).not.toBeInTheDocument();
+  });
+
+  test('on a part-time round, groups are labelled by weekday', async () => {
+    await seedParticipantInRound({ intensity: 'Part-time' });
+    await renderPermanentSwitch();
+
+    expect(screen.getByText(weekdayOf(MONDAY_9AM_UTC))).toBeInTheDocument();
+    expect(screen.getByText(weekdayOf(SATURDAY_2PM_UTC))).toBeInTheDocument();
+    expect(screen.queryByText('Daily')).not.toBeInTheDocument();
   });
 });

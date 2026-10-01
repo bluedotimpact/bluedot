@@ -1,6 +1,5 @@
 import {
   type Group,
-  applicationsRoundTable,
   courseTable,
   courseRegistrationTable,
   meetPersonTable,
@@ -518,15 +517,6 @@ describe('groupSwitching.discussionsAvailable', () => {
     const myDisc = result.discussionsAvailable['1']!.find((d) => d.discussion.participantsExpected.includes('participant-1'));
     expect(myDisc!.userIsParticipant).toBe(true);
     expect(myDisc!.groupName).toBe('Group A');
-  });
-
-  test('returns roundIntensity from the registration\'s applications round', async () => {
-    await seedCourseWithGroups();
-    await testDb.insert(applicationsRoundTable, { id: 'applications-round-1', intensity: 'Intensive' });
-    await testDb.update(courseRegistrationTable, { id: 'reg-1', roundId: 'applications-round-1' });
-
-    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
-    expect(result.roundIntensity).toBe('Intensive');
   });
 
   test('throws NOT_FOUND when no participant found for round', async () => {
