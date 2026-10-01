@@ -28,7 +28,6 @@ export type DiscussionListRowProps = {
   unit: Unit | null;
   courseSlug: string;
   isAttended: boolean;
-  /** An open request to move out of this discussion: shows "Rescheduling" in place of Reschedule. */
   hasPendingReschedule?: boolean;
   canReschedule: boolean;
   onReschedule: () => void;

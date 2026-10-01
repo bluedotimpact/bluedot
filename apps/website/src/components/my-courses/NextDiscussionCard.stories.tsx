@@ -49,6 +49,7 @@ export const AllStates: Story = {
         <NextDiscussionCard {...args} discussion={liveDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} hasPendingReschedule />
+        <NextDiscussionCard {...args} discussion={nextDiscussion} hasPendingGroupSwitchRequest />
       </div>
     </div>
   ),
@@ -73,6 +74,10 @@ export const Next: Story = {
 
 export const NextRescheduling: Story = {
   args: { discussion: nextDiscussion, hasPendingReschedule: true },
+};
+
+export const NextGroupSwitchRequested: Story = {
+  args: { discussion: nextDiscussion, hasPendingGroupSwitchRequest: true },
 };
 
 export const Live: Story = {

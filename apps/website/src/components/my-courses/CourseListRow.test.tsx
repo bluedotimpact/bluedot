@@ -49,7 +49,7 @@ describe('getSubtitle precedence', () => {
       isDeferredToAnotherRound: false,
       facilitatorNames: ['Test Facilitator'],
       rescheduleEligibleUnits: [],
-      pendingRescheduleDiscussionIds: [],
+      discussionIdsWithPendingReschedule: [],
       hasPendingGroupSwitchRequest: false,
       numUnits: null,
       uniqueDiscussionAttendance: null,
@@ -309,7 +309,7 @@ describe('CourseListRow actions', () => {
     isDeferred: false,
     isDeferredToAnotherRound: false,
     rescheduleEligibleUnits: [],
-    pendingRescheduleDiscussionIds: [],
+    discussionIdsWithPendingReschedule: [],
     hasPendingGroupSwitchRequest: false,
     isExpanded: false,
     onToggleExpand: () => {},
@@ -394,7 +394,7 @@ describe('CourseListRow actions', () => {
     const discussionRow = (container: HTMLElement, index: number) => within(container.querySelectorAll<HTMLElement>('li')[index]!);
 
     test('one-unit request: that row shows "Rescheduling", the others keep Reschedule', () => {
-      const { container } = renderRow(expandedProps({ pendingRescheduleDiscussionIds: ['disc-3'] }));
+      const { container } = renderRow(expandedProps({ discussionIdsWithPendingReschedule: ['disc-3'] }));
       expect(discussionRow(container, 0).getByText('Rescheduling')).toBeInTheDocument();
       expect(discussionRow(container, 0).queryByRole('button', { name: 'Reschedule' })).toBeNull();
       expect(discussionRow(container, 1).getByRole('button', { name: 'Reschedule' })).toBeInTheDocument();
@@ -409,7 +409,7 @@ describe('CourseListRow actions', () => {
     });
 
     test('permanent and one-unit requests show together', () => {
-      const { container } = renderRow(expandedProps({ hasPendingGroupSwitchRequest: true, pendingRescheduleDiscussionIds: ['disc-3'] }));
+      const { container } = renderRow(expandedProps({ hasPendingGroupSwitchRequest: true, discussionIdsWithPendingReschedule: ['disc-3'] }));
       expect(screen.getAllByText('Group switch requested').length).toBeGreaterThan(0);
       expect(discussionRow(container, 0).getByText('Rescheduling')).toBeInTheDocument();
     });
@@ -774,7 +774,7 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     isDeferred: false,
     isDeferredToAnotherRound: false,
     rescheduleEligibleUnits: ['1'],
-    pendingRescheduleDiscussionIds: [],
+    discussionIdsWithPendingReschedule: [],
     hasPendingGroupSwitchRequest: false,
     isExpanded: false,
     onToggleExpand: () => {},

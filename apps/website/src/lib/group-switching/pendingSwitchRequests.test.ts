@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import {
-  getPendingSwitchRequestState, getRoundEndMs, type PendingSwitchRequestState, type SwitchRequestRow,
+  getDiscussionPendingSwitch, getPendingSwitchRequestState, getRoundEndMs, type PendingSwitchRequestState, type SwitchRequestRow,
 } from './pendingSwitchRequests';
 
 const NOW_MS = new Date('2026-09-23T10:00:00Z').getTime();
@@ -130,6 +130,39 @@ describe('getPendingSwitchRequestState', () => {
     expect(getPendingSwitchRequestState({
       switchRequests: [oneUnit()], attendedDiscussionIds: [], roundEndMs: null, nowMs: NOW_MS,
     }).discussionIdsWithPendingReschedule).toEqual(['disc-unit-3']);
+  });
+});
+
+describe('getDiscussionPendingSwitch', () => {
+  test.each<{ rule: string; state: PendingSwitchRequestState; expected: ReturnType<typeof getDiscussionPendingSwitch> }>([
+    { rule: 'nothing pending', state: NOTHING_PENDING, expected: null },
+    {
+      rule: 'one-unit request out of this discussion',
+      state: { discussionIdsWithPendingReschedule: ['disc-unit-3'], hasPendingGroupSwitchRequest: false },
+      expected: 'reschedule',
+    },
+    {
+      rule: 'one-unit request out of a different discussion only',
+      state: { discussionIdsWithPendingReschedule: ['disc-unit-4'], hasPendingGroupSwitchRequest: false },
+      expected: null,
+    },
+    {
+      rule: 'permanent request covers every discussion',
+      state: { discussionIdsWithPendingReschedule: [], hasPendingGroupSwitchRequest: true },
+      expected: 'group-switch',
+    },
+    {
+      rule: 'both open: the one-unit request out of this discussion wins',
+      state: { discussionIdsWithPendingReschedule: ['disc-unit-3'], hasPendingGroupSwitchRequest: true },
+      expected: 'reschedule',
+    },
+    {
+      rule: 'both open, one-unit request is for another discussion',
+      state: { discussionIdsWithPendingReschedule: ['disc-unit-4'], hasPendingGroupSwitchRequest: true },
+      expected: 'group-switch',
+    },
+  ])('$rule', ({ state, expected }) => {
+    expect(getDiscussionPendingSwitch(state, 'disc-unit-3')).toBe(expected);
   });
 });
 

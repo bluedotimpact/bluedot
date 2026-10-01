@@ -34,7 +34,7 @@ const stubProps = (overrides: Partial<ParticipantRowProps> = {}): ParticipantRow
   feedbackFormUrl: null,
   hasSubmittedFeedback: false,
   rescheduleEligibleUnits: [],
-  pendingRescheduleDiscussionIds: [],
+  discussionIdsWithPendingReschedule: [],
   hasPendingGroupSwitchRequest: false,
   isDroppedOut: false,
   isDeferred: false,
@@ -79,7 +79,6 @@ const inProgressArgs = stubProps({
   group: { startTimeUtc: wednesday4pm, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc' } as CourseListRowProps['group'],
 });
 
-// In-progress, expanded: attended unit 1, missed unit 2, units 3 and 4 still to come.
 // Discussion times are relative to real "now" because the rows read the live clock.
 const realNowSec = Math.floor(Date.now() / 1000);
 const DAY = 24 * 60 * 60;
@@ -414,16 +413,16 @@ export const AllFacilitatorStates: Story = {
 export const InProgress: Story = { args: inProgressArgs };
 export const InProgressWithDiscussions: Story = { args: inProgressWithDiscussionsArgs };
 export const InProgressWithDiscussionsRescheduling: Story = {
-  args: { ...inProgressWithDiscussionsArgs, pendingRescheduleDiscussionIds: ['disc-unit-3'] },
+  args: { ...inProgressWithDiscussionsArgs, discussionIdsWithPendingReschedule: ['disc-unit-3'] },
 };
 export const InProgressWithDiscussionsReschedulingAbsent: Story = {
-  args: { ...inProgressWithDiscussionsArgs, pendingRescheduleDiscussionIds: ['disc-unit-2'] },
+  args: { ...inProgressWithDiscussionsArgs, discussionIdsWithPendingReschedule: ['disc-unit-2'] },
 };
 export const InProgressGroupSwitchRequested: Story = {
   args: { ...inProgressWithDiscussionsArgs, hasPendingGroupSwitchRequest: true },
 };
 export const InProgressGroupSwitchRequestedAndRescheduling: Story = {
-  args: { ...inProgressWithDiscussionsArgs, hasPendingGroupSwitchRequest: true, pendingRescheduleDiscussionIds: ['disc-unit-3'] },
+  args: { ...inProgressWithDiscussionsArgs, hasPendingGroupSwitchRequest: true, discussionIdsWithPendingReschedule: ['disc-unit-3'] },
 };
 export const InProgressIntensive: Story = { args: inProgressIntensiveArgs };
 export const UpcomingAccepted: Story = { args: upcomingAcceptedArgs };

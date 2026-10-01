@@ -20,7 +20,7 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { getDiscussionTimeState, hasEndDateTime } from '../../lib/group-discussions/utils';
-import { getPendingSwitchRequestState } from '../../lib/group-switching/pendingSwitchRequests';
+import { getDiscussionPendingSwitch, getPendingSwitchRequestState, OPEN_SWITCH_REQUEST_STATUSES } from '../../lib/group-switching/pendingSwitchRequests';
 import { getCourseBySlugOrThrow } from './courses';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
@@ -175,6 +175,7 @@ export const groupDiscussionsRouter = router({
       let userRole: 'participant' | 'facilitator' | undefined;
       let hostKeyForFacilitators: string | undefined;
       let hasPendingReschedule = false;
+      let hasPendingGroupSwitchRequest = false;
 
       if (groupDiscussion) {
         const isFacilitator = expectedFacilitatorDiscussionIds.includes(groupDiscussion.id)
@@ -202,16 +203,19 @@ export const groupDiscussionsRouter = router({
             .from(groupSwitchingTable.pg)
             .where(and(
               inArray(groupSwitchingTable.pg.participant, participantIds),
-              inArray(groupSwitchingTable.pg.requestStatus, ['Requested', 'Resolve']),
+              inArray(groupSwitchingTable.pg.requestStatus, OPEN_SWITCH_REQUEST_STATUSES),
             ));
-          const { discussionIdsWithPendingReschedule } = getPendingSwitchRequestState({
-            switchRequests: openSwitchRequests,
+          // Only this round's requests, so a permanent request left open in an earlier round doesn't leak in.
+          const roundParticipantIds = new Set(participants.filter((p) => p.round === groupDiscussion.round).map((p) => p.id));
+          const pendingSwitch = getDiscussionPendingSwitch(getPendingSwitchRequestState({
+            switchRequests: openSwitchRequests.filter((r) => r.participant && roundParticipantIds.has(r.participant)),
             attendedDiscussionIds: participants.flatMap((p) => p.attendedDiscussions ?? []),
             // The banner only shows a discussion that hasn't ended, so its round hasn't ended either.
             roundEndMs: null,
             nowMs: currentTimeMs,
-          });
-          hasPendingReschedule = discussionIdsWithPendingReschedule.includes(groupDiscussion.id);
+          }), groupDiscussion.id);
+          hasPendingReschedule = pendingSwitch === 'reschedule';
+          hasPendingGroupSwitchRequest = pendingSwitch === 'group-switch';
         }
       }
 
@@ -220,6 +224,7 @@ export const groupDiscussionsRouter = router({
         userRole,
         hostKeyForFacilitators,
         hasPendingReschedule,
+        hasPendingGroupSwitchRequest,
       };
     }),
 });

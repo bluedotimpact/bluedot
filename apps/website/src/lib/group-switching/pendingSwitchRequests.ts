@@ -6,12 +6,12 @@ export type SwitchRequestRow = Pick<GroupSwitching, 'requestStatus' | 'switchTyp
 export type PendingSwitchRequestState = {
   /** Discussions the participant has an open one-unit reschedule request out of (and didn't attend anyway). */
   discussionIdsWithPendingReschedule: string[];
-  /** The participant has an open request to switch group permanently. */
   hasPendingGroupSwitchRequest: boolean;
 };
 
-/** A request that nobody has actioned yet. */
-export const isOpenSwitchRequest = (row: SwitchRequestRow): boolean => row.requestStatus === 'Requested' || row.requestStatus === 'Resolve';
+export const OPEN_SWITCH_REQUEST_STATUSES = ['Requested', 'Resolve'];
+
+export const isOpenSwitchRequest = (row: SwitchRequestRow): boolean => !!row.requestStatus && OPEN_SWITCH_REQUEST_STATUSES.includes(row.requestStatus);
 
 /** The round is over once its last discussion day is fully behind us. */
 export const getRoundEndMs = (lastDiscussionDate: string | null | undefined): number | null => {
@@ -46,4 +46,16 @@ export const getPendingSwitchRequestState = ({
     discussionIdsWithPendingReschedule,
     hasPendingGroupSwitchRequest: openRequests.some((r) => r.switchType === 'Switch group permanently'),
   };
+};
+
+export type DiscussionPendingSwitch = 'reschedule' | 'group-switch' | null;
+
+/** Which pending pill one discussion's actions show. A reschedule out of that discussion is the more specific of the two. */
+export const getDiscussionPendingSwitch = (
+  state: PendingSwitchRequestState,
+  discussionId: string,
+): DiscussionPendingSwitch => {
+  if (state.discussionIdsWithPendingReschedule.includes(discussionId)) return 'reschedule';
+  if (state.hasPendingGroupSwitchRequest) return 'group-switch';
+  return null;
 };

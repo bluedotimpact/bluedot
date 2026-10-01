@@ -798,13 +798,14 @@ describe('myCoursesPage.getOverview', () => {
         });
 
         const { row, nextDiscussion } = await getParticipantRow();
-        expect(row.pendingRescheduleDiscussionIds).toEqual(['disc-sw-3']);
+        expect(row.discussionIdsWithPendingReschedule).toEqual(['disc-sw-3']);
         expect(row.hasPendingGroupSwitchRequest).toBe(false);
         expect(nextDiscussion?.discussion.id).toBe('disc-sw-3');
         expect(nextDiscussion?.hasPendingReschedule).toBe(true);
+        expect(nextDiscussion?.hasPendingGroupSwitchRequest).toBe(false);
       });
 
-      test('an open permanent request flags the course only', async () => {
+      test('an open permanent request flags the course and the Next card, not individual discussions', async () => {
         await seedParticipantInRound();
         await testDb.insert(groupSwitchingTable, {
           id: 'gs-perm', participant: 'mp-sw', requestStatus: 'Requested', switchType: 'Switch group permanently',
@@ -812,8 +813,9 @@ describe('myCoursesPage.getOverview', () => {
 
         const { row, nextDiscussion } = await getParticipantRow();
         expect(row.hasPendingGroupSwitchRequest).toBe(true);
-        expect(row.pendingRescheduleDiscussionIds).toEqual([]);
+        expect(row.discussionIdsWithPendingReschedule).toEqual([]);
         expect(nextDiscussion?.hasPendingReschedule).toBe(false);
+        expect(nextDiscussion?.hasPendingGroupSwitchRequest).toBe(true);
       });
 
       test('open requests in a round that has ended are stale and ignored', async () => {
@@ -826,7 +828,7 @@ describe('myCoursesPage.getOverview', () => {
         });
 
         const { row } = await getParticipantRow();
-        expect(row.pendingRescheduleDiscussionIds).toEqual([]);
+        expect(row.discussionIdsWithPendingReschedule).toEqual([]);
         expect(row.hasPendingGroupSwitchRequest).toBe(false);
       });
 
@@ -837,7 +839,7 @@ describe('myCoursesPage.getOverview', () => {
         });
 
         const { row } = await getParticipantRow();
-        expect(row.pendingRescheduleDiscussionIds).toEqual([]);
+        expect(row.discussionIdsWithPendingReschedule).toEqual([]);
       });
     });
   });

@@ -129,7 +129,7 @@ describe('groupDiscussions.getByCourseSlug', () => {
       expect(result?.hasPendingReschedule).toBe(false);
     });
 
-    test('false when a permanent switch is pending (that shows on the course row only)', async () => {
+    test('an open permanent request sets hasPendingGroupSwitchRequest, not hasPendingReschedule', async () => {
       await seedParticipant();
       await testDb.insert(groupSwitchingTable, {
         id: 'gs-perm', participant: 'participant-1', requestStatus: 'Resolve', switchType: 'Switch group permanently',
@@ -137,6 +137,24 @@ describe('groupDiscussions.getByCourseSlug', () => {
 
       const result = await caller.groupDiscussions.getByCourseSlug({ courseSlug: 'technical-ai-safety' });
       expect(result?.hasPendingReschedule).toBe(false);
+      expect(result?.hasPendingGroupSwitchRequest).toBe(true);
+    });
+
+    test('a permanent request from another round of the course is ignored', async () => {
+      await seedParticipant();
+      await testDb.insert(courseRegistrationTable, {
+        id: 'reg-old', email: CALLER_EMAIL, userId: 'test-user', courseId: 'course-1', decision: 'Accept',
+      });
+      await testDb.insert(meetPersonTable, {
+        id: 'participant-old', applicationsBaseRecordId: 'reg-old', round: 'round-old', role: 'Participant',
+      });
+      await testDb.insert(groupSwitchingTable, {
+        id: 'gs-perm-old', participant: 'participant-old', requestStatus: 'Requested', switchType: 'Switch group permanently',
+      });
+
+      const result = await caller.groupDiscussions.getByCourseSlug({ courseSlug: 'technical-ai-safety' });
+      expect(result?.groupDiscussion?.id).toBe('disc-next');
+      expect(result?.hasPendingGroupSwitchRequest).toBe(false);
     });
   });
 });

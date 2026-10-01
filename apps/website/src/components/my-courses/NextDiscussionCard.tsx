@@ -7,7 +7,7 @@ import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { TimeWidget } from './DiscussionListRow';
 import LiveBadge from './LiveBadge';
-import { ReschedulingPill } from './StatusPill';
+import StatusPill, { PendingIcon } from './StatusPill';
 
 // The course name stays in the eyebrow in every state (incl. live); the live cue lives in the
 // left graphic. There's no "starting soon" state — a soon discussion reads as a normal upcoming one.
@@ -50,6 +50,7 @@ export type NextDiscussionCardProps = {
   group?: Group | null;
   facilitatorSubtitle?: string | null;
   hasPendingReschedule?: boolean;
+  hasPendingGroupSwitchRequest?: boolean;
 };
 
 /**
@@ -58,7 +59,7 @@ export type NextDiscussionCardProps = {
  */
 const NextDiscussionCard = ({
   mode = 'participant', courseSlug, courseTitle, discussion, unit, group, facilitatorSubtitle,
-  hasPendingReschedule = false,
+  hasPendingReschedule = false, hasPendingGroupSwitchRequest = false,
 }: NextDiscussionCardProps) => {
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
   const [updateTimeOpen, setUpdateTimeOpen] = useState(false);
@@ -123,6 +124,7 @@ const NextDiscussionCard = ({
             mode,
             isLive,
             hasPendingReschedule,
+            hasPendingGroupSwitchRequest,
             roundId,
             primaryHref,
             primaryLabel,
@@ -157,6 +159,7 @@ type NextDiscussionActionContext = {
   mode: NextDiscussionCardMode;
   isLive: boolean;
   hasPendingReschedule: boolean;
+  hasPendingGroupSwitchRequest: boolean;
   roundId: string | null;
   primaryHref: string | undefined;
   primaryLabel: string;
@@ -211,13 +214,14 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
   }
 
   const {
-    isLive, hasPendingReschedule, roundId, primaryHref, primaryLabel, onOpenReschedule,
+    isLive, hasPendingReschedule, hasPendingGroupSwitchRequest, roundId, primaryHref, primaryLabel, onOpenReschedule,
   } = ctx;
 
   return (
     <>
-      {hasPendingReschedule && <ReschedulingPill />}
-      {roundId && !hasPendingReschedule && (
+      {hasPendingReschedule && <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>}
+      {hasPendingGroupSwitchRequest && <StatusPill icon={<PendingIcon />}>Group switch requested</StatusPill>}
+      {roundId && !hasPendingReschedule && !hasPendingGroupSwitchRequest && (
         <CTALinkOrButton
           variant="secondary"
           size="small"

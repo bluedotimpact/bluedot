@@ -118,6 +118,7 @@ const MyCoursesPage = () => {
                     discussion={nextDiscussion.discussion}
                     unit={nextDiscussion.unit}
                     hasPendingReschedule={nextDiscussion.hasPendingReschedule}
+                    hasPendingGroupSwitchRequest={nextDiscussion.hasPendingGroupSwitchRequest}
                   />
                 </div>
               )}

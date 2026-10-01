@@ -100,7 +100,6 @@ export const FacilitatorNotStartingSoon: Story = {
   },
 };
 
-// A switch request out of this discussion is still open: "Rescheduling" replaces "Can't make it?" when expanded
 export const ParticipantLiveRescheduling: Story = {
   args: { ...ParticipantLive.args, hasPendingReschedule: true },
 };
@@ -111,4 +110,9 @@ export const ParticipantStartingSoonRescheduling: Story = {
 
 export const ParticipantNotStartingSoonRescheduling: Story = {
   args: { ...ParticipantNotStartingSoon.args, hasPendingReschedule: true },
+};
+
+// A permanent switch request is open: "Group switch requested" replaces "Can't make it?" when expanded
+export const ParticipantStartingSoonGroupSwitchRequested: Story = {
+  args: { ...ParticipantStartingSoon.args, hasPendingGroupSwitchRequest: true },
 };

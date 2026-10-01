@@ -7,7 +7,7 @@ import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
-import StatusPill, { ReschedulingPill } from './StatusPill';
+import StatusPill, { PendingIcon } from './StatusPill';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
@@ -95,7 +95,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'rescheduling-upcoming',
       isVisible: isFutureLike && hasPendingReschedule,
       variant: 'inline',
-      inline: <ReschedulingPill />,
+      inline: <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>,
       overflow: pendingRescheduleOverflow,
     },
     {
@@ -130,7 +130,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'rescheduling-absent',
       isVisible: status === 'absent' && hasPendingReschedule,
       variant: 'inline',
-      inline: <ReschedulingPill />,
+      inline: <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>,
       overflow: pendingRescheduleOverflow,
     },
     {

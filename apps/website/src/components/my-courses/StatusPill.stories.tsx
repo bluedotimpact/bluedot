@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
-import StatusPill, { GroupSwitchRequestedPill, ReschedulingPill } from './StatusPill';
+import StatusPill, { PendingIcon } from './StatusPill';
 
 const meta = {
   title: 'website/my-courses/StatusPill',
@@ -20,12 +20,11 @@ export const AllPills: Story = {
       <div className="flex flex-wrap gap-3">
         <StatusPill icon={<IoCheckmark aria-hidden size={14} />}>Attended</StatusPill>
         <StatusPill icon={<IoBan aria-hidden size={14} />}>Absent</StatusPill>
-        <ReschedulingPill />
-        <GroupSwitchRequestedPill />
+        <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>
+        <StatusPill icon={<PendingIcon />}>Group switch requested</StatusPill>
       </div>
-      {/* Same background as GroupDiscussionBanner */}
       <div className="flex gap-3 bg-[#E4EDFE] p-4">
-        <ReschedulingPill emphasis="strong" />
+        <StatusPill icon={<PendingIcon />} className="bg-accent-subtle">Rescheduling</StatusPill>
       </div>
     </div>
   ),
