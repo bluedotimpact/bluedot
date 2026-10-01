@@ -163,7 +163,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 onDragStart={() => {
                   setIsDragging(true);
                 }}
-                onDragEnd={(e, info) => {
+                onDragEnd={(_e, info) => {
                   setIsDragging(false);
 
                   if (isClosing) {
