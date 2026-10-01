@@ -1,14 +1,13 @@
-import { P } from '@bluedot/ui';
+import { P, ListGroup, ListRow } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
-import { PageListGroup, PageListRow } from '../PageListRow';
 
 type Missions = inferRouterOutputs<AppRouter>['missions']['getAll'];
 
 const MissionsListSection = ({ missions }: { missions: Missions }) => {
   const renderRow = (mission: Missions[number]) => (
-    <PageListRow
+    <ListRow
       key={mission.id}
       href={`${ROUTES.missions.url}/${mission.slug}`}
       title={mission.title ?? ''}
@@ -21,9 +20,9 @@ const MissionsListSection = ({ missions }: { missions: Missions }) => {
       {missions.length === 0 ? (
         <P>No missions are listed right now. Check back soon.</P>
       ) : (
-        <PageListGroup>
+        <ListGroup>
           {missions.map(renderRow)}
-        </PageListGroup>
+        </ListGroup>
       )}
     </section>
   );

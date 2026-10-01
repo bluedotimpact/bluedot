@@ -1,8 +1,7 @@
 import {
-  ErrorSection, H2, P, ProgressDots,
+  ErrorSection, H2, P, ProgressDots, ListGroup, ListRow,
 } from '@bluedot/ui';
 import type React from 'react';
-import { PageListGroup, PageListRow } from '../PageListRow';
 import { isDigitalMindsCourseSlug } from '../../lib/constants';
 import { formatAmountUsd } from '../../lib/utils';
 import { getGrantPath } from '../../lib/grantTypes';
@@ -136,9 +135,9 @@ const BlueDotNextStepsChunk: React.FC = () => {
       {error && <ErrorSection error={error} />}
       {isLoading && <ProgressDots />}
       {!isLoading && !error && (
-        <PageListGroup>
+        <ListGroup>
           {opportunities.map(({ program, href }) => (
-            <PageListRow
+            <ListRow
               key={program.id}
               href={href}
               title={program.name}
@@ -147,7 +146,7 @@ const BlueDotNextStepsChunk: React.FC = () => {
               ctaLabel={program.category === 'Funding' ? 'Explore grant' : 'Explore program'}
             />
           ))}
-        </PageListGroup>
+        </ListGroup>
       )}
     </div>
   );

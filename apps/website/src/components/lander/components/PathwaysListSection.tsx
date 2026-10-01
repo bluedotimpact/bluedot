@@ -1,13 +1,13 @@
-import { H3, P } from '@bluedot/ui';
+import {
+  H3, P, ListGroup, ListRow,
+} from '@bluedot/ui';
 import { type ReactNode } from 'react';
-import { PageListGroup, PageListRow } from '../../PageListRow';
 
 export type PathwaysListItem = {
   title: string;
   summary: ReactNode;
   href?: string;
   ctaLabel?: string;
-  external?: boolean;
 };
 
 export type PathwaysListSectionProps = {
@@ -32,18 +32,17 @@ const PathwaysListSection = ({
                 : <div className="text-size-sm leading-relaxed text-bluedot-navy/80">{intro}</div>
             )}
           </div>
-          <PageListGroup>
+          <ListGroup>
             {items.map((item) => (
-              <PageListRow
+              <ListRow
                 key={item.title}
                 href={item.href}
                 title={item.title}
                 summary={item.summary}
                 ctaLabel={item.ctaLabel ?? 'Explore the course'}
-                external={item.external}
               />
             ))}
-          </PageListGroup>
+          </ListGroup>
         </div>
       </div>
     </section>

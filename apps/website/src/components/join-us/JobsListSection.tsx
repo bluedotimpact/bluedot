@@ -1,8 +1,9 @@
-import { H3, P } from '@bluedot/ui';
+import {
+  H3, P, ListGroup, ListRow,
+} from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
-import { PageListGroup, PageListRow } from '../PageListRow';
 
 type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 
@@ -13,7 +14,7 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
   const contractorJobs = jobs.filter((job) => job.category === 'Contractor');
 
   const renderRow = (job: JobsListSectionProps[number]) => (
-    <PageListRow
+    <ListRow
       key={job.id}
       href={`${ROUTES.joinUs.url}/${job.slug}`}
       title={job.title ?? ''}
@@ -31,17 +32,17 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
             <P>We're not currently running any open hiring rounds at the moment.</P>
           </>
         ) : (
-          <PageListGroup label="Open roles">
+          <ListGroup label="Open roles">
             {regularJobs.map(renderRow)}
-          </PageListGroup>
+          </ListGroup>
         )}
       </section>
 
       {contractorJobs.length > 0 && (
         <section className="section section-body">
-          <PageListGroup label="Support our mission">
+          <ListGroup label="Support our mission">
             {contractorJobs.map(renderRow)}
-          </PageListGroup>
+          </ListGroup>
         </section>
       )}
     </>
