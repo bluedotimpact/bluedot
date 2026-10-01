@@ -2,8 +2,7 @@ import {
   CTALinkOrButton, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
-import { FaCheck } from 'react-icons/fa6';
-import { IoBan, IoCheckmark } from 'react-icons/io5';
+import { FaBan, FaCheck } from 'react-icons/fa6';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
@@ -109,13 +108,13 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attended-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: <StatusPill icon={<IoCheckmark aria-hidden size={14} />}>Attended</StatusPill>,
+      inline: <StatusPill icon={<FaCheck aria-hidden className="size-3.5" />}>Attended</StatusPill>,
     },
     {
       id: 'absent-pill',
       isVisible: status === 'absent',
       variant: 'inline',
-      inline: <StatusPill icon={<IoBan aria-hidden size={14} />}>Absent</StatusPill>,
+      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Absent</StatusPill>,
     },
     {
       id: 'reschedule-absent',

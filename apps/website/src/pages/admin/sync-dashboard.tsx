@@ -10,7 +10,7 @@ import {
   useAuthStore,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { RiLoader4Line } from 'react-icons/ri';
+import { FaCircleNotch } from 'react-icons/fa6';
 import MarketingHero from '../../components/MarketingHero';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
@@ -144,7 +144,7 @@ const SyncDashboard = () => {
             onClick={requestSync}
             disabled={requestTrpcSync.isPending}
           >
-            {requestTrpcSync.isPending && <RiLoader4Line className="animate-spin mr-2" size={16} />}
+            {requestTrpcSync.isPending && <FaCircleNotch aria-hidden="true" className="size-4 animate-spin mr-2" />}
             Request Full Sync
           </CTALinkOrButton>
           {hasSyncRunning && (
@@ -168,7 +168,7 @@ const SyncDashboard = () => {
           <H3 className="mb-4 flex items-center gap-2">
             Sync requests (last 24 hours)
             {isFetching && (
-              <RiLoader4Line className="animate-spin text-bluedot-normal" size={16} />
+              <FaCircleNotch aria-hidden="true" className="size-4 animate-spin text-bluedot-normal" />
             )}
           </H3>
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { addQueryParam } from '@bluedot/ui';
 import {
-  HiArrowUpRight, HiOutlineCalendarDays, HiOutlineMapPin, HiOutlineVideoCamera,
-} from 'react-icons/hi2';
+  FaArrowUpRightFromSquare, FaLocationDot, FaRegCalendarDays, FaVideo,
+} from 'react-icons/fa6';
 import { buildTimeDeltaString, formatEventDate, formatLocationLabel } from './eventsUtils';
 import type { Event } from '../../server/routers/luma';
 
@@ -13,7 +13,7 @@ const EventCard = ({ event, campaign, titleHeading: TitleHeading }: {
 }) => {
   const [imageFailed, setImageFailed] = useState(false);
   const online = event.location === 'ONLINE';
-  const LocationIcon = online ? HiOutlineVideoCamera : HiOutlineMapPin;
+  const LocationIcon = online ? FaVideo : FaLocationDot;
   return (
     <li>
       <a
@@ -26,18 +26,18 @@ const EventCard = ({ event, campaign, titleHeading: TitleHeading }: {
           {event.coverUrl && !imageFailed ? (
             <img src={event.coverUrl} alt="" width={112} height={112} loading="lazy" onError={() => setImageFailed(true)} className="size-full object-cover" />
           ) : (
-            <div className="flex size-full items-center justify-center text-bluedot-normal"><HiOutlineCalendarDays size={32} aria-hidden="true" /></div>
+            <div className="flex size-full items-center justify-center text-bluedot-normal"><FaRegCalendarDays className="size-8" aria-hidden="true" /></div>
           )}
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-size-xxs font-medium leading-relaxed text-bluedot-navy/65 sm:text-size-xs">{buildTimeDeltaString(event)}</p>
           <TitleHeading className="mt-1 text-size-sm font-semibold leading-snug tracking-tight text-bluedot-navy group-hover:text-bluedot-normal sm:text-size-md">{event.title}</TitleHeading>
           <p className="mt-2 flex items-center gap-1.5 text-size-xs leading-relaxed text-bluedot-navy/65">
-            <LocationIcon className="shrink-0" size={16} aria-hidden="true" />
+            <LocationIcon className="size-4 shrink-0" aria-hidden="true" />
             {formatLocationLabel(event.location)}
           </p>
         </div>
-        <HiArrowUpRight className="hidden shrink-0 text-bluedot-navy/40 group-hover:text-bluedot-normal sm:block" size={22} aria-hidden="true" />
+        <FaArrowUpRightFromSquare className="hidden size-5 shrink-0 text-bluedot-navy/40 group-hover:text-bluedot-normal sm:block" aria-hidden="true" />
       </a>
     </li>
   );
