@@ -5,7 +5,7 @@ import {
   Eyebrow, H3, OverflowMenu, Tooltip,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
-import { ChevronRightIcon } from '../icons';
+import { FaChevronRight } from 'react-icons/fa6';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
@@ -99,7 +99,7 @@ const CourseListRow = (row: CourseListRowProps) => {
       aria-label={isExpanded ? `Collapse ${course.title}` : `Expand ${course.title}`}
       className="flex size-[38px] cursor-pointer items-center justify-center text-bluedot-normal sm:size-5"
     >
-      <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
+      <FaChevronRight aria-hidden="true" className={`size-5 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
     </button>
   ) : null;
 

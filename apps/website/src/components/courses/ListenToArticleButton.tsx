@@ -1,5 +1,5 @@
 import type React from 'react';
-import { PlayCircleIcon } from '../icons';
+import { FaCirclePlay } from 'react-icons/fa6';
 
 type ListenToArticleButtonProps = {
   audioUrl: string;
@@ -19,7 +19,7 @@ const ListenToArticleButton: React.FC<ListenToArticleButtonProps> = ({ audioUrl,
       aria-label={`Listen to article: ${resourceTitle} (opens in Spotify)`}
       type="button"
     >
-      <PlayCircleIcon aria-hidden="true" className="group-hover:text-bluedot-navy transition-colors duration-200" />
+      <FaCirclePlay aria-hidden="true" className="size-4 group-hover:text-bluedot-navy transition-colors duration-200" />
 
       {/* Text */}
       <span className="text-size-xs font-medium leading-normal text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200">

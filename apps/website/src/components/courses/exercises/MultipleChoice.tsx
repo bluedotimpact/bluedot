@@ -2,7 +2,7 @@ import { CTALinkOrButton, Radio, type RadioTone } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { FaUndo } from 'react-icons/fa';
+import { FaRotateLeft } from 'react-icons/fa6';
 import { formatStringToArray } from '../../../lib/utils';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 
@@ -143,7 +143,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         <CTALinkOrButton onClick={handleTryAgain} variant="black">
           <span className="flex items-center gap-2">
             Try again
-            <FaUndo aria-hidden="true" />
+            <FaRotateLeft aria-hidden="true" />
           </span>
         </CTALinkOrButton>
       )}

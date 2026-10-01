@@ -1,7 +1,8 @@
 import { type ReactNode, useState } from 'react';
 import {
-  A, CardShell, ChevronRightIcon, cn, CTALinkOrButton, P,
+  A, CardShell, cn, CTALinkOrButton, P,
 } from '@bluedot/ui';
+import { FaChevronRight } from 'react-icons/fa6';
 import {
   type EvaluationCall, type FacilitatorFeedback, type GrantApplication, type OtherApplication, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
 } from './types';
@@ -69,7 +70,7 @@ const Disclosure: React.FC<{
     <details open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
       <summary className={cn('min-h-11 cursor-pointer select-none list-none rounded-surface marker:hidden [&::-webkit-details-marker]:hidden hover:bg-tint focus:outline-none focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-focus', summaryClassName)}>
         <span className="flex items-center gap-2 min-w-0 flex-wrap">
-          <ChevronRightIcon size={14} aria-hidden className={cn('shrink-0 text-disabled transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
+          <FaChevronRight aria-hidden className={cn('size-3.5 shrink-0 text-disabled transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
           {summary}
         </span>
         {!open && preview}
@@ -401,7 +402,7 @@ const TimelineRow: React.FC<{
       <span className="flex items-center justify-end gap-1">
         {more && (
           <button type="button" aria-expanded={open} aria-label={open ? 'Hide details' : 'Show details'} className="flex size-6 items-center justify-center rounded-surface text-disabled hover:bg-tint" onClick={() => setOpen((o) => !o)}>
-            <ChevronRightIcon size={14} aria-hidden className={cn('transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
+            <FaChevronRight aria-hidden className={cn('size-3.5 transition-transform motion-reduce:transition-none', open && 'rotate-90')} />
           </button>
         )}
         {url && (linkLabel ? <A href={url} target="_blank" className="whitespace-nowrap no-underline">{linkLabel} ↗</A> : <RecordLink url={url} />)}

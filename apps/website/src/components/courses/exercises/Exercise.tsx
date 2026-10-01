@@ -4,13 +4,13 @@ import {
   cn, ProgressDots, ToggleSwitch, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
+import { FaCheck } from 'react-icons/fa6';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 import { ProjectSubmission } from './ProjectSubmission';
 
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
-import { CheckmarkIcon } from '../../icons';
 import { FOAI_COURSE_SLUG } from '../../../lib/constants';
 import { trpc } from '../../../utils/trpc';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../../utils/optimisticCourseProgress';
@@ -233,7 +233,7 @@ const Exercise: React.FC<ExerciseProps> = ({
               )}
             >
               {(isCompleted || (checkboxHovered && !checkboxDisabled)) && (
-                <CheckmarkIcon variant={isCompleted ? 'completed' : 'hover'} />
+                <FaCheck aria-hidden="true" className={cn('size-3', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
               )}
             </button>
           </div>

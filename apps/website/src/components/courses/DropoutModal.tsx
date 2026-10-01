@@ -6,11 +6,11 @@ import {
  */
 import { COURSE_ROLE } from '@bluedot/db/src/schema';
 import { useMemo, useState } from 'react';
+import { FaCheck } from 'react-icons/fa6';
 import type { CourseRound, CourseRoundsData } from '../../server/routers/course-rounds';
 import { ONE_DAY_MS } from '../../lib/constants';
 import { formatMonthAndDay } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { CheckIcon } from '../icons';
 
 const TYPE_OPTIONS = [
   { value: 'Drop out', label: 'Drop out of the course' },
@@ -155,7 +155,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
     return (
       <div className="flex w-full flex-col items-center justify-center gap-8">
         <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-          <CheckIcon className="text-bluedot-normal" />
+          <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
         </div>
         <div className="flex max-w-narrow flex-col items-center gap-4">
           <P className="text-bluedot-navy/80 text-center">{message}</P>
@@ -327,7 +327,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
         {mutation.isSuccess ? (
           <>
             <div className="bg-bluedot-normal/10 self-center rounded-full p-4">
-              <CheckIcon className="text-bluedot-normal" />
+              <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
             </div>
             <P className="text-bluedot-navy/80 text-center text-pretty">
               Your application has been withdrawn. If this was a mistake, please email us.
