@@ -89,6 +89,12 @@ describe('Modal', () => {
       });
     });
 
+    test('names the dialog from a string title', () => {
+      render(<Modal isOpen setIsOpen={vi.fn()} title="Leave course" bottomDrawerOnMobile>Content</Modal>);
+
+      expect(screen.getByRole('dialog', { name: 'Leave course' })).toBeInTheDocument();
+    });
+
     test('cannot be dismissed with escape when isDismissable is false', () => {
       const setIsOpen = vi.fn();
       render(<Modal isOpen setIsOpen={setIsOpen} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
