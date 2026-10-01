@@ -856,38 +856,39 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-6"
           >
             <ul
-              class="list-none flex flex-col divide-y divide-bluedot-navy/10"
+              class="flex list-none flex-col divide-y divide-subtle"
             >
               <li
-                class="py-5 first:pt-0 last:pb-0"
+                class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
+                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/courses/technical-ai-safety"
+                  tabindex="0"
                 >
                   <div
-                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                    class="flex min-w-0 flex-1 items-stretch gap-4"
                   >
                     <div
-                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                      class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
                     />
                     <div
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
+                        class="text-size-md leading-snug font-semibold text-primary"
                       >
                         Technical AI Safety
                       </p>
                       <p
-                        class="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Interpretability, evals, alignment research. For people ready to work on the technical problems.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-size-sm leading-relaxed font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -895,6 +896,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       Explore the course
                     </span>
                     <span
+                      aria-hidden="true"
                       class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
                     >
                       →
@@ -903,35 +905,36 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </a>
               </li>
               <li
-                class="py-5 first:pt-0 last:pb-0"
+                class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
+                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/courses/ai-governance"
+                  tabindex="0"
                 >
                   <div
-                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                    class="flex min-w-0 flex-1 items-stretch gap-4"
                   >
                     <div
-                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                      class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
                     />
                     <div
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
+                        class="text-size-md leading-snug font-semibold text-primary"
                       >
                         AI Governance
                       </p>
                       <p
-                        class="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Policy, institutions, international coordination. For people shaping how these systems get governed.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-size-sm leading-relaxed font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -939,6 +942,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       Explore the course
                     </span>
                     <span
+                      aria-hidden="true"
                       class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
                     >
                       →
@@ -947,35 +951,36 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </a>
               </li>
               <li
-                class="py-5 first:pt-0 last:pb-0"
+                class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
+                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/courses/biosecurity"
+                  tabindex="0"
                 >
                   <div
-                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                    class="flex min-w-0 flex-1 items-stretch gap-4"
                   >
                     <div
-                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                      class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
                     />
                     <div
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
+                        class="text-size-md leading-snug font-semibold text-primary"
                       >
                         Biosecurity
                       </p>
                       <p
-                        class="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-size-sm leading-relaxed font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -983,6 +988,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       Explore the course
                     </span>
                     <span
+                      aria-hidden="true"
                       class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
                     >
                       →
@@ -991,35 +997,36 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </a>
               </li>
               <li
-                class="py-5 first:pt-0 last:pb-0"
+                class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
+                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/grants/rapid"
+                  tabindex="0"
                 >
                   <div
-                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                    class="flex min-w-0 flex-1 items-stretch gap-4"
                   >
                     <div
-                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                      class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
                     />
                     <div
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
+                        class="text-size-md leading-snug font-semibold text-primary"
                       >
                         Rapid Grants
                       </p>
                       <p
-                        class="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Small, fast funding for concrete AI safety work. 15-minute application, decisions in days, money upfront by default.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-size-sm leading-relaxed font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1027,6 +1034,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       Explore grant
                     </span>
                     <span
+                      aria-hidden="true"
                       class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
                     >
                       →
@@ -1035,35 +1043,36 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </a>
               </li>
               <li
-                class="py-5 first:pt-0 last:pb-0"
+                class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
+                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/grants/career-transition"
+                  tabindex="0"
                 >
                   <div
-                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                    class="flex min-w-0 flex-1 items-stretch gap-4"
                   >
                     <div
-                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                      class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
                     />
                     <div
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-size-sm leading-normal font-semibold text-bluedot-navy"
+                        class="text-size-md leading-snug font-semibold text-primary"
                       >
                         Career Transition Grants
                       </p>
                       <p
-                        class="mt-1 text-size-sm leading-relaxed text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Funding to enable you to work full-time on impactful AI safety work. Propose your plan and we'll back you.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-size-sm leading-relaxed font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1071,6 +1080,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       Explore grant
                     </span>
                     <span
+                      aria-hidden="true"
                       class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
                     >
                       →
