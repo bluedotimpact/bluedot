@@ -38,7 +38,7 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
           </p>
           <FaChevronDown
             aria-hidden
-            className="text-bluedot-navy size-5 shrink-0 transition-transform group-open:rotate-180"
+            className="text-bluedot-navy size-3 shrink-0 transition-transform group-open:rotate-180"
           />
         </summary>
         <ul className="border-charcoal-light flex flex-col border-t px-5 pb-5 sm:px-6 sm:pb-6">

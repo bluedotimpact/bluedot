@@ -252,7 +252,7 @@ const NavDropdown: React.FC<{
         <FaChevronDown
           aria-hidden="true"
           className={clsx(
-            'size-5 flex-shrink-0 transition-all duration-300 ease-in-out',
+            'size-3 flex-shrink-0 transition-all duration-300 ease-in-out',
             isExpanded ? 'rotate-180 opacity-70' : 'opacity-100',
           )}
         />
