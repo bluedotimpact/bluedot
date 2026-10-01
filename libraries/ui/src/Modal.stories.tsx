@@ -1,28 +1,30 @@
 import type React from 'react';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Modal } from './Modal';
+import { Modal, type ModalProps } from './Modal';
+import { ModalTitle } from './ModalTitle';
 import { CTALinkOrButton } from './CTALinkOrButton';
-import { H3 } from './Text';
+import { Input } from './Input';
+import { P } from './Text';
 
-// Wrapper component to handle the modal state
-type ModalDemoProps = {
-  title?: string;
+type ModalDemoProps = Omit<ModalProps, 'isOpen' | 'setIsOpen' | 'children'> & {
   children?: React.ReactNode;
   initialOpen?: boolean;
+  openLabel?: string;
 };
 
 const ModalDemo: React.FC<ModalDemoProps> = ({
-  title = 'Modal Title',
-  children = 'Modal Content',
   initialOpen = false,
+  openLabel = 'Open modal',
+  children,
+  ...props
 }) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   return (
     <div>
-      <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Modal</CTALinkOrButton>
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
+      <CTALinkOrButton onClick={() => setIsOpen(true)}>{openLabel}</CTALinkOrButton>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} {...props}>
         {children}
       </Modal>
     </div>
@@ -40,6 +42,8 @@ const meta = {
     title: { control: 'text' },
     children: { control: 'text' },
     initialOpen: { control: 'boolean' },
+    isDismissable: { control: 'boolean' },
+    bottomDrawerOnMobile: { control: 'boolean' },
   },
 } satisfies Meta<typeof ModalDemo>;
 
@@ -48,114 +52,92 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    title: 'Modal Title',
-    children: 'This is the modal content.',
+    title: 'Leave course',
+    initialOpen: true,
+    bottomDrawerOnMobile: true,
+    children: (
+      <div className="flex flex-col gap-6">
+        <P>You'll lose access to your discussion group and your progress. This can't be undone.</P>
+        <CTALinkOrButton className="w-full">Confirm drop out</CTALinkOrButton>
+      </div>
+    ),
+  },
+};
+
+export const LongTitle: Story = {
+  args: {
+    ...Default.args,
+    title: 'A long title that wraps onto a second line and still stays centred on the card',
   },
 };
 
 export const LongContent: Story = {
-  render() {
-    const LongContentDemo = () => {
-      const [isOpen, setIsOpen] = useState(false);
-
-      return (
-        <div>
-          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Modal with Long Content</CTALinkOrButton>
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Modal with Long Content">
-            <div>
-              <p>This modal contains a longer content section to demonstrate scrolling behavior.</p>
-              <p className="mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl.</p>
-              <p className="mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl.</p>
-              <p className="mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl. Nullam euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc quis nisl.</p>
-            </div>
-          </Modal>
-        </div>
-      );
-    };
-
-    return <LongContentDemo />;
-  },
-};
-
-export const WithFormContent: Story = {
-  render() {
-    const WithFormContentDemo = () => {
-      const [isOpen, setIsOpen] = useState(false);
-
-      return (
-        <div>
-          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Form Modal</CTALinkOrButton>
-          <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Form Modal">
-            <div>
-              <div className="mb-4">
-                <label htmlFor="name" className="block text-size-sm font-medium text-gray-700 mb-1">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-size-sm font-medium text-gray-700 mb-1">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div className="flex justify-end gap-2 mt-6">
-                <CTALinkOrButton className="bg-gray-100 text-gray-700" onClick={() => {}}>Cancel</CTALinkOrButton>
-                <CTALinkOrButton onClick={() => {}}>Submit</CTALinkOrButton>
-              </div>
-            </div>
-          </Modal>
-        </div>
-      );
-    };
-
-    return <WithFormContentDemo />;
-  },
-};
-
-export const InitiallyOpen: Story = {
   args: {
-    title: 'Initially Open Modal',
-    children: 'This modal is open by default when the story loads.',
+    title: 'Terms of participation',
     initialOpen: true,
+    bottomDrawerOnMobile: true,
+    children: (
+      <div className="flex flex-col gap-4">
+        {Array.from({ length: 12 }, (_, i) => (
+          <P key={i}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisl eget aliquam ultricies, nunc nisl
+            aliquet nunc, quis aliquam nisl nunc quis nisl. Nullam euismod, nisl eget aliquam ultricies.
+          </P>
+        ))}
+        <CTALinkOrButton className="w-full">I agree</CTALinkOrButton>
+      </div>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'The header stays fixed and the body scrolls; the card never exceeds the viewport.',
+      },
+    },
   },
 };
 
-export const CustomTitle: Story = {
+export const WithForm: Story = {
   args: {
-    title: 'Custom Modal Title with a Very Long Name That Might Wrap',
-    children: 'This modal demonstrates how a long title is displayed.',
+    title: 'Change email',
+    initialOpen: true,
+    bottomDrawerOnMobile: true,
+    children: (
+      <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="story-email" className="font-semibold">New email</label>
+          <Input id="story-email" type="email" />
+        </div>
+        <div className="flex flex-col-reverse gap-3 md:flex-row md:justify-end">
+          <CTALinkOrButton variant="secondary" className="w-full md:w-auto">Cancel</CTALinkOrButton>
+          <CTALinkOrButton type="submit" className="w-full md:w-auto">Send confirmation</CTALinkOrButton>
+        </div>
+      </form>
+    ),
   },
 };
 
 export const NotDismissable: Story = {
   render() {
     const NotDismissableDemo = () => {
-      const [isOpen, setIsOpen] = useState(false);
+      const [isOpen, setIsOpen] = useState(true);
 
       return (
         <div>
-          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Non-dismissable Modal</CTALinkOrButton>
+          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open non-dismissable modal</CTALinkOrButton>
           <Modal
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            title="Deleting your account"
+            title="Deletion requested"
             bottomDrawerOnMobile
             isDismissable={false}
           >
-            <div className="max-w-[600px]">
-              <p className="mb-4">
-                With <code>isDismissable={'{false}'}</code>, clicking the backdrop, pressing escape
-                and (on mobile) dragging the drawer down won't close this modal.
-              </p>
-              <p className="mb-4">
-                On desktop the header close button still works, but the mobile bottom drawer has no built-in
-                close button — supply your own, or close it programmatically by setting <code>isOpen</code> to false:
-              </p>
+            <div className="flex flex-col gap-6">
+              <P>
+                With <code>isDismissable={'{false}'}</code> there is no close button, and backdrop click, Escape and
+                dragging the sheet do nothing. The body supplies the exit, or the caller closes it by setting{' '}
+                <code>isOpen</code> to false.
+              </P>
               <CTALinkOrButton onClick={() => setIsOpen(false)}>Close programmatically</CTALinkOrButton>
             </div>
           </Modal>
@@ -167,44 +149,63 @@ export const NotDismissable: Story = {
   },
 };
 
-export const BottomDrawerOnMobile: Story = {
+export const StateSwap: Story = {
   render() {
-    const BottomDrawerOnMobileDemo = () => {
-      const [isOpen, setIsOpen] = useState(false);
+    const StateSwapDemo = () => {
+      const [isOpen, setIsOpen] = useState(true);
+      const [done, setDone] = useState(false);
 
       return (
         <div>
-          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Bottom Drawer Modal</CTALinkOrButton>
-          <Modal
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            title="Bottom Drawer Modal"
-            bottomDrawerOnMobile
+          <CTALinkOrButton
+            onClick={() => {
+              setDone(false);
+              setIsOpen(true);
+            }}
           >
-            <div className="max-w-[600px]">
-              <p className="mb-4">
-                This modal uses the <code>bottomDrawerOnMobile</code> prop.
-                On mobile devices (width &lt; 768px), it appears as a bottom drawer that can be dragged.
-                On desktop, it appears as a regular centered modal.
-              </p>
-              <p className="mb-4">
-                <strong>Try resizing your browser window</strong> or viewing this on a mobile device
-                to see the different behaviors.
-              </p>
-              <div className="bg-gray-100 p-4 rounded-lg">
-                <H3 className="mb-2">Features on mobile:</H3>
-                <ul className="list-disc list-inside space-y-1 text-size-sm">
-                  <li>Slides up from bottom</li>
-                  <li>Drag handle at the top</li>
-                  <li>Can be dragged to dismiss</li>
-                </ul>
-              </div>
+            Open modal
+          </CTALinkOrButton>
+          <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={done ? 'You’ve rejoined Group 4' : 'Rejoin a group'} bottomDrawerOnMobile>
+            <div className="flex flex-col gap-6">
+              <P>
+                {done
+                  ? 'We’ve emailed you the calendar invite. Your next discussion is Thursday at 6 PM.'
+                  : 'Pick a group that fits your availability. You’ll keep your progress and exercise answers.'}
+              </P>
+              {done
+                ? <CTALinkOrButton className="w-full" onClick={() => setIsOpen(false)}>Done</CTALinkOrButton>
+                : <CTALinkOrButton className="w-full" onClick={() => setDone(true)}>Rejoin group</CTALinkOrButton>}
             </div>
           </Modal>
         </div>
       );
     };
 
-    return <BottomDrawerOnMobileDemo />;
+    return <StateSwapDemo />;
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'One modal moves through confirm → success in place. When the string title changes, focus moves to the new heading so screen readers announce the new state.',
+      },
+    },
+  },
+};
+
+export const CustomTitle: Story = {
+  args: {
+    initialOpen: true,
+    bottomDrawerOnMobile: true,
+    title: (
+      <div className="flex items-center gap-3">
+        <span aria-hidden className="size-8 rounded-full bg-accent-subtle" />
+        <ModalTitle>Alex Participant</ModalTitle>
+        <button type="button" className="ml-auto text-size-xs font-medium text-secondary underline underline-offset-[3px]">
+          Skip
+        </button>
+      </div>
+    ),
+    ariaLabel: 'Participant feedback',
+    children: <P>A ReactNode title owns its own layout; the close button still sits at the trailing edge.</P>,
   },
 };
