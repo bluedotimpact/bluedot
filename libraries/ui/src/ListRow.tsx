@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Children } from 'react';
+import { Children, isValidElement } from 'react';
 import { ClickTarget } from './ClickTarget';
 import { H3 } from './Text';
 
@@ -69,7 +69,9 @@ export type ListGroupProps = {
 };
 
 export const ListGroup = ({ label, children }: ListGroupProps) => {
-  if (Children.count(children) === 0) {
+  const items = Children.toArray(children).filter(isValidElement);
+
+  if (items.length === 0) {
     return null;
   }
 
@@ -77,8 +79,8 @@ export const ListGroup = ({ label, children }: ListGroupProps) => {
     <div className="flex flex-col gap-6">
       {label && <H3>{label}</H3>}
       <ul className="flex list-none flex-col divide-y divide-subtle">
-        {Children.map(children, (child) => (
-          <li className="py-4 first:pt-0 last:pb-0">{child}</li>
+        {items.map((child) => (
+          <li key={child.key} className="py-4 first:pt-0 last:pb-0">{child}</li>
         ))}
       </ul>
     </div>
