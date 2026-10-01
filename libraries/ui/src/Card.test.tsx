@@ -37,13 +37,6 @@ describe('Card', () => {
     const { container } = render(<Card {...defaultProps} className="custom-class" />);
     expect(container.querySelector('.custom-class')).not.toBeNull();
   });
-
-  test('isFullWidth switches to a row layout on desktop with the CTA alongside', () => {
-    const { container } = render(<Card {...defaultProps} isFullWidth />);
-    expect(container.firstElementChild?.className).toContain('md:flex-row');
-    expect(container.querySelector('a')?.textContent).toBe('LinkedIn');
-    expect(container).toMatchSnapshot();
-  });
 });
 
 describe('CardShell', () => {

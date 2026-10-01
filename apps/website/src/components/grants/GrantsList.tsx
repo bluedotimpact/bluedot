@@ -1,5 +1,6 @@
-import { ErrorSection, ProgressDots } from '@bluedot/ui';
-import { PageListGroup, PageListRow } from '../PageListRow';
+import {
+  ErrorSection, ProgressDots, ListGroup, ListRow,
+} from '@bluedot/ui';
 import { getGrantPath } from '../../lib/grantTypes';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
@@ -38,9 +39,9 @@ export const GrantsList = ({ utmCampaign }: GrantsListProps) => {
   if (!grants) return null;
 
   return (
-    <PageListGroup>
+    <ListGroup>
       {grants.map((grant) => (
-        <PageListRow
+        <ListRow
           key={grant.id}
           href={buildHref(grant.slug)}
           title={grant.name}
@@ -49,6 +50,6 @@ export const GrantsList = ({ utmCampaign }: GrantsListProps) => {
           ctaLabel="Explore grant"
         />
       ))}
-    </PageListGroup>
+    </ListGroup>
   );
 };

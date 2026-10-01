@@ -8,6 +8,8 @@ export type { BreadcrumbsProps, BreadcrumbTrailProps } from './Breadcrumbs';
 
 export { Card, CardShell } from './Card';
 export type { CardProps, CardShellProps } from './Card';
+export { ListGroup, ListRow } from './ListRow';
+export type { ListGroupProps, ListRowProps } from './ListRow';
 
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps } from './Checkbox';
