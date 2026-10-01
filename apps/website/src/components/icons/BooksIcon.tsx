@@ -1,6 +1,6 @@
-import type { IconProps } from './types';
+import type { SVGProps } from 'react';
 
-export const BooksIcon = (props: IconProps) => (
+export const BooksIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 80 80"
