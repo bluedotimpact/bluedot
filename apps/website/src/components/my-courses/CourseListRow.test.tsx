@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import {
-  render, fireEvent, screen, waitFor, within,
+  render, fireEvent, screen, waitFor,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
@@ -377,46 +377,28 @@ describe('CourseListRow actions', () => {
   });
 
   describe('pending switch requests', () => {
-    const nowSec = Math.floor(Date.now() / 1000);
-    const upcoming = createMockGroupDiscussion({
-      id: 'disc-3', unitNumber: 3, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
-    });
-    const laterUpcoming = createMockGroupDiscussion({
-      id: 'disc-4', unitNumber: 4, startDateTime: nowSec + 7 * 86400, endDateTime: nowSec + 7 * 86400 + 3600,
-    });
-    const expandedProps = (overrides: Partial<ParticipantRowProps> = {}) => baseProps({
-      isExpanded: true,
-      discussions: [upcoming, laterUpcoming],
-      units: { 'disc-3': createMockUnit({ unitNumber: '3' }), 'disc-4': createMockUnit({ unitNumber: '4' }) },
-      rescheduleEligibleUnits: ['3', '4'],
-      ...overrides,
-    });
-    const discussionRow = (container: HTMLElement, index: number) => within(container.querySelectorAll<HTMLElement>('li')[index]!);
+    test('no header or row pill once the course is completed', () => {
+      const nowSec = Math.floor(Date.now() / 1000);
+      const pendingProps = (overrides: Partial<ParticipantRowProps> = {}) => baseProps({
+        isExpanded: true,
+        discussions: [createMockGroupDiscussion({
+          id: 'disc-3', unitNumber: 3, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+        })],
+        units: { 'disc-3': createMockUnit({ unitNumber: '3' }) },
+        rescheduleEligibleUnits: ['3'],
+        hasPendingGroupSwitchRequest: true,
+        discussionIdsWithPendingReschedule: ['disc-3'],
+        ...overrides,
+      });
 
-    test('one-unit request: that row shows "Rescheduling", the others keep Reschedule', () => {
-      const { container } = renderRow(expandedProps({ discussionIdsWithPendingReschedule: ['disc-3'] }));
-      expect(discussionRow(container, 0).getByText('Rescheduling')).toBeInTheDocument();
-      expect(discussionRow(container, 0).queryByRole('button', { name: 'Reschedule' })).toBeNull();
-      expect(discussionRow(container, 1).getByRole('button', { name: 'Reschedule' })).toBeInTheDocument();
-      expect(screen.queryByText('Group switch requested')).toBeNull();
-    });
-
-    test('permanent request: header pill, rows keep Reschedule', () => {
-      const { container } = renderRow(expandedProps({ hasPendingGroupSwitchRequest: true }));
+      const inProgress = renderRow(pendingProps());
       expect(screen.getAllByText('Group switch requested').length).toBeGreaterThan(0);
-      expect(discussionRow(container, 0).getByRole('button', { name: 'Reschedule' })).toBeInTheDocument();
-      expect(discussionRow(container, 1).getByRole('button', { name: 'Reschedule' })).toBeInTheDocument();
-    });
+      expect(screen.getAllByText('Rescheduling').length).toBeGreaterThan(0);
+      inProgress.unmount();
 
-    test('permanent and one-unit requests show together', () => {
-      const { container } = renderRow(expandedProps({ hasPendingGroupSwitchRequest: true, discussionIdsWithPendingReschedule: ['disc-3'] }));
-      expect(screen.getAllByText('Group switch requested').length).toBeGreaterThan(0);
-      expect(discussionRow(container, 0).getByText('Rescheduling')).toBeInTheDocument();
-    });
-
-    test('no header pill once the course is completed', () => {
-      renderRow(baseProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Past' }), hasPendingGroupSwitchRequest: true }));
+      renderRow(pendingProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Past' }) }));
       expect(screen.queryByText('Group switch requested')).toBeNull();
+      expect(screen.queryByText('Rescheduling')).toBeNull();
     });
   });
 

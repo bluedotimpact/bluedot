@@ -15,7 +15,10 @@ import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/test
 import {
   setupTestDb, createCaller, seedLoggedInUser, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
-import { calculateGroupAvailability, getAvailableGroupsAndDiscussions } from './group-switching';
+import {
+  calculateGroupAvailability, getAvailableGroupsAndDiscussions, getDiscussionPendingSwitch, getPendingSwitchRequestState,
+  type PendingSwitchRequestState,
+} from './group-switching';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 setupTestDb();
@@ -489,6 +492,72 @@ async function seedCourseWithGroups() {
     participantsExpected: ['other-participant-2'],
   });
 }
+
+describe('getPendingSwitchRequestState', () => {
+  const oneUnit = (oldDiscussion: string) => ({ switchType: 'Switch group for one unit', oldDiscussion: [oldDiscussion] });
+  const permanent = { switchType: 'Switch group permanently', oldDiscussion: null };
+
+  test('an open one-unit request flags its old discussion', () => {
+    expect(getPendingSwitchRequestState([oneUnit('disc-3')], [])).toEqual({
+      discussionIdsWithPendingReschedule: ['disc-3'],
+      hasPendingGroupSwitchRequest: false,
+    });
+  });
+
+  test('nothing is pending when the participant attended the old discussion anyway', () => {
+    expect(getPendingSwitchRequestState([oneUnit('disc-3')], ['disc-3'])).toEqual({
+      discussionIdsWithPendingReschedule: [],
+      hasPendingGroupSwitchRequest: false,
+    });
+  });
+
+  test('an open permanent request flags the course, not a discussion', () => {
+    expect(getPendingSwitchRequestState([permanent], [])).toEqual({
+      discussionIdsWithPendingReschedule: [],
+      hasPendingGroupSwitchRequest: true,
+    });
+  });
+
+  test('permanent and one-unit requests are independent', () => {
+    expect(getPendingSwitchRequestState([permanent, oneUnit('disc-3')], [])).toEqual({
+      discussionIdsWithPendingReschedule: ['disc-3'],
+      hasPendingGroupSwitchRequest: true,
+    });
+  });
+});
+
+describe('getDiscussionPendingSwitch', () => {
+  test.each<{ rule: string; state: PendingSwitchRequestState; expected: ReturnType<typeof getDiscussionPendingSwitch> }>([
+    { rule: 'nothing pending', state: { discussionIdsWithPendingReschedule: [], hasPendingGroupSwitchRequest: false }, expected: null },
+    {
+      rule: 'one-unit request out of this discussion',
+      state: { discussionIdsWithPendingReschedule: ['disc-3'], hasPendingGroupSwitchRequest: false },
+      expected: 'Switch group for one unit',
+    },
+    {
+      rule: 'one-unit request out of a different discussion only',
+      state: { discussionIdsWithPendingReschedule: ['disc-4'], hasPendingGroupSwitchRequest: false },
+      expected: null,
+    },
+    {
+      rule: 'permanent request covers every discussion',
+      state: { discussionIdsWithPendingReschedule: [], hasPendingGroupSwitchRequest: true },
+      expected: 'Switch group permanently',
+    },
+    {
+      rule: 'both open: the one-unit request out of this discussion wins',
+      state: { discussionIdsWithPendingReschedule: ['disc-3'], hasPendingGroupSwitchRequest: true },
+      expected: 'Switch group for one unit',
+    },
+    {
+      rule: 'both open, one-unit request is for another discussion',
+      state: { discussionIdsWithPendingReschedule: ['disc-4'], hasPendingGroupSwitchRequest: true },
+      expected: 'Switch group permanently',
+    },
+  ])('$rule', ({ state, expected }) => {
+    expect(getDiscussionPendingSwitch(state, 'disc-3')).toBe(expected);
+  });
+});
 
 describe('groupSwitching.discussionsAvailable', () => {
   const caller = createCaller(testAuthContextLoggedIn);

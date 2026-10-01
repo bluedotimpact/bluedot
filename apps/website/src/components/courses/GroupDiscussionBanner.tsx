@@ -11,13 +11,14 @@ import { FaCopy } from 'react-icons/fa6';
 import { IoAdd } from 'react-icons/io5';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
+import type { SwitchType } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
 import {
   ClockIcon, DocumentIcon, SlackIcon, SwitchUserIcon, VideoIcon,
 } from '../icons';
 import StatusPill, { PendingIcon } from '../my-courses/StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
-import GroupSwitchModal, { type SwitchType } from './GroupSwitchModal';
+import GroupSwitchModal from './GroupSwitchModal';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },

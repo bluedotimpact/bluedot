@@ -25,14 +25,12 @@ import {
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
 import { hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
-import type { SwitchType } from '../../components/courses/GroupSwitchModal';
-import {
-  getDiscussionPendingSwitch, getPendingSwitchRequestState, getRoundEndMs, OPEN_SWITCH_REQUEST_STATUSES,
-} from '../../lib/group-switching/pendingSwitchRequests';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
-import { getAvailableGroupsAndDiscussions } from './group-switching';
+import {
+  getAvailableGroupsAndDiscussions, getDiscussionPendingSwitch, getPendingSwitchRequestState, OPEN_SWITCH_REQUEST_STATUSES, type SwitchType,
+} from './group-switching';
 
 // Used for mapping self-serve registrations (where all these fields are empty) into the expected shape
 const EMPTY_PARTICIPANT_ROW = {
@@ -323,13 +321,10 @@ export const myBluedotRouter = router({
         ? Array.from(unitsEligibleToRescheduleByMeetPersonId.get(meetPerson.id) ?? [])
         : [];
       const attendedDiscussionIds = meetPerson?.attendedDiscussions ?? [];
-      const roundEndDate = cr.roundId ? roundById.get(cr.roundId)?.lastDiscussionDate ?? null : null;
-      const { discussionIdsWithPendingReschedule, hasPendingGroupSwitchRequest } = getPendingSwitchRequestState({
-        switchRequests: meetPerson ? openSwitchRequests.filter((s) => s.participant === meetPerson.id) : [],
+      const { discussionIdsWithPendingReschedule, hasPendingGroupSwitchRequest } = getPendingSwitchRequestState(
+        meetPerson ? openSwitchRequests.filter((s) => s.participant === meetPerson.id) : [],
         attendedDiscussionIds,
-        roundEndMs: getRoundEndMs(roundEndDate),
-        nowMs: Date.now(),
-      });
+      );
       const status = dropoutStatusByRegId.get(cr.id) ?? noDropouts();
 
       return [{
@@ -345,7 +340,7 @@ export const myBluedotRouter = router({
         attendedDiscussionIds,
         units: courseUnits,
         roundStartDate: cr.roundId ? roundById.get(cr.roundId)?.firstDiscussionDate ?? null : null,
-        roundEndDate,
+        roundEndDate: cr.roundId ? roundById.get(cr.roundId)?.lastDiscussionDate ?? null : null,
         roundIntensity: cr.roundId ? roundById.get(cr.roundId)?.intensity ?? null : null,
         rescheduleEligibleUnits,
         discussionIdsWithPendingReschedule,

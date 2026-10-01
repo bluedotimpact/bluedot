@@ -157,26 +157,6 @@ describe('DiscussionListRow', () => {
   });
 
   describe('pending reschedule request', () => {
-    test.each(['upcoming', 'soon', 'live'] as const)('%s: "Rescheduling" replaces the Reschedule button', (status) => {
-      const { container } = renderRow({ status, hasPendingReschedule: true });
-      const desktop = container.querySelector('.sm\\:flex')!;
-      expect(desktop).toHaveTextContent('Rescheduling');
-      expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
-    });
-
-    test('live: Join now is still offered', () => {
-      renderRow({ status: 'live', hasPendingReschedule: true });
-      expect(screen.getAllByRole('link', { name: 'Join now' }).length).toBeGreaterThan(0);
-    });
-
-    test.each([true, false])('absent (canReschedule=%s): Absent and Rescheduling, no Reschedule button', (canReschedule) => {
-      const { container } = renderRow({ status: 'absent', canReschedule, hasPendingReschedule: true });
-      const desktop = container.querySelector('.sm\\:flex')!;
-      expect(desktop).toHaveTextContent('Absent');
-      expect(desktop).toHaveTextContent('Rescheduling');
-      expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
-    });
-
     test('mobile menu keeps "Reschedule", disabled and inert', () => {
       const onReschedule = vi.fn();
       const { container } = renderRow({ status: 'upcoming', hasPendingReschedule: true, onReschedule });

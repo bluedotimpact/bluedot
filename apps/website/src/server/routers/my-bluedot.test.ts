@@ -749,14 +749,14 @@ describe('myCoursesPage.getOverview', () => {
     describe('pending switch requests', () => {
       const toDate = (sec: number) => new Date(sec * 1000).toISOString().slice(0, 10);
 
-      // Unit 3 next week, unit 4 the week after; round ends after unit 4 unless overridden.
-      const seedParticipantInRound = async (opts: { roundLastDiscussionDate?: string } = {}) => {
+      // Unit 3 next week, unit 4 the week after; round ends after unit 4.
+      const seedParticipantInRound = async () => {
         await seedCourse('course-tais');
         await seedReg('reg-sw', { courseId: 'course-tais', roundId: 'app-round-sw' });
         await testDb.insert(applicationsRoundTable, {
           id: 'app-round-sw',
           firstDiscussionDate: toDate(nowSec - 14 * ONE_DAY),
-          lastDiscussionDate: opts.roundLastDiscussionDate ?? toDate(inOneWeek + 7 * ONE_DAY),
+          lastDiscussionDate: toDate(inOneWeek + 7 * ONE_DAY),
         });
         await testDb.insert(meetPersonTable, {
           id: 'mp-sw',
@@ -814,20 +814,6 @@ describe('myCoursesPage.getOverview', () => {
         expect(row.hasPendingGroupSwitchRequest).toBe(true);
         expect(row.discussionIdsWithPendingReschedule).toEqual([]);
         expect(nextDiscussion?.pendingSwitchType).toBe('Switch group permanently');
-      });
-
-      test('open requests in a round that has ended are stale and ignored', async () => {
-        await seedParticipantInRound({ roundLastDiscussionDate: toDate(nowSec - 2 * ONE_DAY) });
-        await testDb.insert(groupSwitchingTable, {
-          id: 'gs-stale', participant: 'mp-sw', requestStatus: 'Requested', switchType: 'Switch group for one unit', oldDiscussion: ['disc-sw-3'],
-        });
-        await testDb.insert(groupSwitchingTable, {
-          id: 'gs-stale-perm', participant: 'mp-sw', requestStatus: 'Resolve', switchType: 'Switch group permanently',
-        });
-
-        const { row } = await getParticipantRow();
-        expect(row.discussionIdsWithPendingReschedule).toEqual([]);
-        expect(row.hasPendingGroupSwitchRequest).toBe(false);
       });
 
       test('another participant\'s open request does not leak onto this row', async () => {

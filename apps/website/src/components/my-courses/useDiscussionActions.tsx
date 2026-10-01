@@ -87,23 +87,21 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
+  const reschedulingPill = <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>;
   // Mobile keeps the menu item, greyed out, so the action is still recognisable.
-  const pendingRescheduleOverflow = { id: 'reschedule', label: 'Reschedule', isDisabled: true };
+  const rescheduleOverflow = hasPendingReschedule
+    ? { id: 'reschedule', label: 'Reschedule', isDisabled: true }
+    : { id: 'reschedule', label: 'Reschedule', onAction: onReschedule };
 
   return [
     {
-      id: 'rescheduling-upcoming',
-      isVisible: isFutureLike && hasPendingReschedule,
-      variant: 'inline',
-      inline: <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>,
-      overflow: pendingRescheduleOverflow,
-    },
-    {
       id: 'reschedule-upcoming',
-      isVisible: isFutureLike && !hasPendingReschedule,
+      isVisible: isFutureLike,
       variant: 'inline',
-      inline: <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
-      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
+      inline: hasPendingReschedule
+        ? reschedulingPill
+        : <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
+      overflow: rescheduleOverflow,
     },
     {
       id: 'join-now',
@@ -127,18 +125,13 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       inline: <StatusPill icon={<IoBan aria-hidden size={14} />}>Absent</StatusPill>,
     },
     {
-      id: 'rescheduling-absent',
-      isVisible: status === 'absent' && hasPendingReschedule,
-      variant: 'inline',
-      inline: <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>,
-      overflow: pendingRescheduleOverflow,
-    },
-    {
       id: 'reschedule-absent',
-      isVisible: status === 'absent' && canReschedule && !hasPendingReschedule,
+      isVisible: status === 'absent' && (canReschedule || hasPendingReschedule),
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
-      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
+      inline: hasPendingReschedule
+        ? reschedulingPill
+        : <CTALinkOrButton variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
+      overflow: rescheduleOverflow,
     },
     {
       id: 'calendar',

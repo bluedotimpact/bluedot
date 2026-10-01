@@ -20,9 +20,10 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { getDiscussionTimeState, hasEndDateTime } from '../../lib/group-discussions/utils';
-import type { SwitchType } from '../../components/courses/GroupSwitchModal';
-import { getDiscussionPendingSwitch, getPendingSwitchRequestState, OPEN_SWITCH_REQUEST_STATUSES } from '../../lib/group-switching/pendingSwitchRequests';
 import { getCourseBySlugOrThrow } from './courses';
+import {
+  getDiscussionPendingSwitch, getPendingSwitchRequestState, OPEN_SWITCH_REQUEST_STATUSES, type SwitchType,
+} from './group-switching';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
@@ -207,13 +208,10 @@ export const groupDiscussionsRouter = router({
             ));
           // Only this round's requests, so a permanent request left open in an earlier round doesn't leak in.
           const roundParticipantIds = new Set(participants.filter((p) => p.round === groupDiscussion.round).map((p) => p.id));
-          pendingSwitchType = getDiscussionPendingSwitch(getPendingSwitchRequestState({
-            switchRequests: openSwitchRequests.filter((r) => r.participant && roundParticipantIds.has(r.participant)),
-            attendedDiscussionIds: participants.flatMap((p) => p.attendedDiscussions ?? []),
-            // The banner only shows a discussion that hasn't ended, so its round hasn't ended either.
-            roundEndMs: null,
-            nowMs: currentTimeMs,
-          }), groupDiscussion.id);
+          pendingSwitchType = getDiscussionPendingSwitch(getPendingSwitchRequestState(
+            openSwitchRequests.filter((r) => r.participant && roundParticipantIds.has(r.participant)),
+            participants.flatMap((p) => p.attendedDiscussions ?? []),
+          ), groupDiscussion.id);
         }
       }
 

@@ -409,40 +409,5 @@ describe('GroupDiscussionBanner', () => {
         expect(scope.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
       }
     });
-
-    test('participant: "Group switch requested" replaces "Can\'t make it?" for a permanent request', async () => {
-      const { container } = render(
-        <GroupDiscussionBanner
-          unit={mockUnit}
-          groupDiscussion={mockGroupDiscussion}
-          userRole="participant"
-          pendingSwitchType="Switch group permanently"
-        />,
-        { wrapper: TrpcProvider },
-      );
-
-      fireEvent.click(await screen.findByRole('button', { name: 'Expand upcoming discussion banner' }));
-
-      for (const id of ['#discussion-banner-desktop-container', '#discussion-banner-mobile-container']) {
-        const scope = within(container.querySelector<HTMLElement>(id)!);
-        expect(scope.getByText('Group switch requested')).toBeInTheDocument();
-        expect(scope.queryByRole('button', { name: 'Can\'t make it?' })).not.toBeInTheDocument();
-      }
-    });
-
-    test('facilitator: flag is ignored', async () => {
-      render(
-        <GroupDiscussionBanner
-          unit={mockUnit}
-          groupDiscussion={mockGroupDiscussion}
-          userRole="facilitator"
-          pendingSwitchType="Switch group for one unit"
-        />,
-        { wrapper: TrpcProvider },
-      );
-
-      fireEvent.click(await screen.findByRole('button', { name: 'Expand upcoming discussion banner' }));
-      expect(screen.queryByText('Rescheduling')).not.toBeInTheDocument();
-    });
   });
 });

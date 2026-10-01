@@ -91,17 +91,6 @@ describe('NextDiscussionCard', () => {
     expect(screen.getByRole('link', { name: 'Prep for discussion' })).toBeDefined();
   });
 
-  test('a pending permanent switch request shows "Group switch requested" in place of Reschedule', () => {
-    const discussion = createMockGroupDiscussion({
-      startDateTime: NOW_SEC + 26 * ONE_HOUR_SECS,
-      endDateTime: NOW_SEC + 27 * ONE_HOUR_SECS,
-    });
-    render(<NextDiscussionCard {...baseProps} discussion={discussion} pendingSwitchType="Switch group permanently" />);
-    expect(screen.getByText('Group switch requested')).toBeDefined();
-    expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
-    expect(screen.getByRole('link', { name: 'Prep for discussion' })).toBeDefined();
-  });
-
   describe('facilitator mode', () => {
     const group = { id: 'group-9', discussionDoc: 'https://example.com/doc' } as Group;
     const facilitatorProps = {

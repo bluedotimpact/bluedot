@@ -199,7 +199,7 @@ const CourseListRow = (row: CourseListRowProps) => {
               courseSlug={course.slug}
               canReschedule={state !== 'dropped' && !courseRegistration.certificateCreatedAt}
               rescheduleEligibleUnits={row.mode === 'participant' ? row.rescheduleEligibleUnits : []}
-              discussionIdsWithPendingReschedule={row.mode === 'participant' ? row.discussionIdsWithPendingReschedule : []}
+              discussionIdsWithPendingReschedule={row.mode === 'participant' && (state === 'in-progress' || state === 'upcoming') ? row.discussionIdsWithPendingReschedule : []}
               onClickReschedule={modalCallbacks.onClickReschedule}
               onClickFacilitatorReschedule={modalCallbacks.onClickFacilitatorReschedule}
               onClickFacilitatorAssignSubstitute={modalCallbacks.onClickFacilitatorAssignSubstitute}
