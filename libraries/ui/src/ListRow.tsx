@@ -28,7 +28,7 @@ export const ListRow = ({
   ctaLabel = 'Learn more',
   leading,
 }: ListRowProps) => {
-  const isExternal = !!href && href.startsWith('http');
+  const isExternal = !!href && (href.startsWith('http://') || href.startsWith('https://'));
 
   const content = (
     <div className="flex min-w-0 flex-1 items-stretch gap-4">
