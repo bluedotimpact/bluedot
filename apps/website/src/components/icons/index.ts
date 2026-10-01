@@ -16,27 +16,6 @@
 
 export type { IconProps } from './types';
 
-export { ArrowDownIcon } from './ArrowDownIcon';
-export { ArrowRightIcon } from './ArrowRightIcon';
 export { BooksIcon } from './BooksIcon';
-export { CheckIcon } from './CheckIcon';
-export { CheckmarkIcon } from './CheckmarkIcon';
-export { ChevronRightIcon } from '@bluedot/ui';
 export { ChunkIcon } from './ChunkIcon';
-export { CircledCheckmarkIcon } from './CircledCheckmarkIcon';
-export { ClockIcon } from './ClockIcon';
-export { ClockUserIcon } from './ClockUserIcon';
-export { DocumentIcon } from './DocumentIcon';
-export { ErrorIcon } from './ErrorIcon';
-export { ExternalLinkIcon } from './ExternalLinkIcon';
-export { MusicNoteIcon } from './MusicNoteIcon';
-export { PlayCircleIcon } from './PlayCircleIcon';
-export { PlusToggleIcon } from './PlusToggleIcon';
 export { ResizeHandleIcon } from './ResizeHandleIcon';
-export { SlackIcon } from './SlackIcon';
-export { StarIcon } from './StarIcon';
-export { SwitchUserIcon } from './SwitchUserIcon';
-export { ThumbIcon } from './ThumbIcon';
-export { UndoIcon } from './UndoIcon';
-export { UserIcon } from './UserIcon';
-export { VideoIcon } from './VideoIcon';
