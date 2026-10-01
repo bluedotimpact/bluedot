@@ -515,7 +515,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         }}
         title="Send decision emails?"
       >
-        <div className="space-y-3 sm:min-w-96">
+        <div className="space-y-3">
           <p className="text-size-sm text-primary">
             {confirmingScope === 'session'
               ? 'For everyone you reviewed this session:'
