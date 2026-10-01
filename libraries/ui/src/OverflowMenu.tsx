@@ -20,7 +20,6 @@ export type OverflowMenuItemProps = {
   onAction?: () => void;
   href?: string;
   target?: string;
-  /** Shown greyed out and can't be chosen. */
   isDisabled?: boolean;
 };
 

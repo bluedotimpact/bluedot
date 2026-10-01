@@ -28,6 +28,7 @@ export type DiscussionListRowProps = {
   unit: Unit | null;
   courseSlug: string;
   isAttended: boolean;
+  hasPendingReschedule?: boolean;
   canReschedule: boolean;
   onReschedule: () => void;
   onClickFacilitatorReschedule?: (discussion: GroupDiscussionWithEnd) => void;

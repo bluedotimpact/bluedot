@@ -99,3 +99,19 @@ export const FacilitatorNotStartingSoon: Story = {
     },
   },
 };
+
+export const ParticipantLiveRescheduling: Story = {
+  args: { ...ParticipantLive.args, pendingSwitchType: 'Switch group for one unit' },
+};
+
+export const ParticipantStartingSoonRescheduling: Story = {
+  args: { ...ParticipantStartingSoon.args, pendingSwitchType: 'Switch group for one unit' },
+};
+
+export const ParticipantNotStartingSoonRescheduling: Story = {
+  args: { ...ParticipantNotStartingSoon.args, pendingSwitchType: 'Switch group for one unit' },
+};
+
+export const ParticipantStartingSoonGroupSwitchRequested: Story = {
+  args: { ...ParticipantStartingSoon.args, pendingSwitchType: 'Switch group permanently' },
+};

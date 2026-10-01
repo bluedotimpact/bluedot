@@ -10,6 +10,7 @@ import {
   type Group,
   type GroupDiscussion,
   groupDiscussionTable,
+  groupSwitchingTable,
   groupTable,
   inArray,
   isNull,
@@ -27,7 +28,9 @@ import { hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-dis
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
-import { getAvailableGroupsAndDiscussions } from './group-switching';
+import {
+  getAvailableGroupsAndDiscussions, getDiscussionPendingSwitch, getPendingSwitchRequestState, OPEN_SWITCH_REQUEST_STATUSES, type SwitchType,
+} from './group-switching';
 
 // Used for mapping self-serve registrations (where all these fields are empty) into the expected shape
 const EMPTY_PARTICIPANT_ROW = {
@@ -43,6 +46,8 @@ const EMPTY_PARTICIPANT_ROW = {
   roundEndDate: null,
   roundIntensity: null,
   rescheduleEligibleUnits: [],
+  discussionIdsWithPendingReschedule: [],
+  hasPendingGroupSwitchRequest: false,
   numUnits: null,
   uniqueDiscussionAttendance: null,
   hasSubmittedActionPlan: false,
@@ -212,7 +217,7 @@ export const myBluedotRouter = router({
     const allExpectedDiscussionIds = unique(meetPersons.flatMap((mp) => mp.expectedDiscussionsParticipant ?? []));
     const allRoundIds = unique(facilitatedRegistrations.map((cr) => cr.roundId));
 
-    const [facilitators, discussions, roundRows] = await Promise.all([
+    const [facilitators, discussions, roundRows, openSwitchRequests] = await Promise.all([
       facilitatorIds.length > 0
         ? db.pg
           .select({
@@ -231,6 +236,15 @@ export const myBluedotRouter = router({
           .then((rows) => rows.filter(hasEndDateTime))
         : Promise.resolve([] as GroupDiscussionWithEnd[]),
       fetchApplicationsRoundsByIds(allRoundIds),
+      meetPersons.length > 0
+        ? db.pg
+          .select()
+          .from(groupSwitchingTable.pg)
+          .where(and(
+            inArray(groupSwitchingTable.pg.participant, meetPersons.map((mp) => mp.id)),
+            inArray(groupSwitchingTable.pg.requestStatus, OPEN_SWITCH_REQUEST_STATUSES),
+          ))
+        : Promise.resolve([]),
     ]);
 
     // Units (from discussions) + round-wide groups/discussions/courseRounds (for reschedule eligibility — see Step 3).
@@ -306,6 +320,11 @@ export const myBluedotRouter = router({
       const rescheduleEligibleUnits = meetPerson
         ? Array.from(unitsEligibleToRescheduleByMeetPersonId.get(meetPerson.id) ?? [])
         : [];
+      const attendedDiscussionIds = meetPerson?.attendedDiscussions ?? [];
+      const { discussionIdsWithPendingReschedule, hasPendingGroupSwitchRequest } = getPendingSwitchRequestState(
+        meetPerson ? openSwitchRequests.filter((s) => s.participant === meetPerson.id) : [],
+        attendedDiscussionIds,
+      );
       const status = dropoutStatusByRegId.get(cr.id) ?? noDropouts();
 
       return [{
@@ -318,12 +337,14 @@ export const myBluedotRouter = router({
         groupsAsParticipant: meetPerson?.groupsAsParticipant ?? null,
         roundId: meetPerson?.round ?? cr.roundId ?? null,
         discussions: courseDiscussions,
-        attendedDiscussionIds: meetPerson?.attendedDiscussions ?? [],
+        attendedDiscussionIds,
         units: courseUnits,
         roundStartDate: cr.roundId ? roundById.get(cr.roundId)?.firstDiscussionDate ?? null : null,
         roundEndDate: cr.roundId ? roundById.get(cr.roundId)?.lastDiscussionDate ?? null : null,
         roundIntensity: cr.roundId ? roundById.get(cr.roundId)?.intensity ?? null : null,
         rescheduleEligibleUnits,
+        discussionIdsWithPendingReschedule,
+        hasPendingGroupSwitchRequest,
         numUnits: meetPerson?.numUnits ?? null,
         uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance ?? null,
         hasSubmittedActionPlan: (meetPerson?.projectSubmission?.length ?? 0) > 0,
@@ -363,12 +384,16 @@ export const myBluedotRouter = router({
     const perCourse = [...facilitatedRows, ...selfServeRows];
 
     // Step 3: Calculate results for NextDiscussionCard section
-    const courseByDiscussionId = new Map<string, { slug: string; title: string }>();
+    const courseByDiscussionId = new Map<string, { slug: string; title: string; pendingSwitchType: SwitchType | null }>();
     for (const c of perCourse) {
       // Skip dropped-out registrations (but keep deferred — they still have a future track).
       if (c.isDroppedOut && !c.isDeferred) continue;
       for (const d of c.discussions) {
-        courseByDiscussionId.set(d.id, { slug: c.course.slug, title: c.course.title });
+        courseByDiscussionId.set(d.id, {
+          slug: c.course.slug,
+          title: c.course.title,
+          pendingSwitchType: getDiscussionPendingSwitch(c, d.id),
+        });
       }
     }
 
@@ -385,6 +410,7 @@ export const myBluedotRouter = router({
       discussion: GroupDiscussionWithEnd;
       unit: Unit | null;
       group: Group | null;
+      pendingSwitchType: SwitchType | null;
     } | null = null;
     if (soonest) {
       const owningCourse = courseByDiscussionId.get(soonest.id);
@@ -395,6 +421,7 @@ export const myBluedotRouter = router({
           discussion: soonest,
           unit: soonest.courseBuilderUnitRecordId ? unitById.get(soonest.courseBuilderUnitRecordId) ?? null : null,
           group: groups.find((g) => g.id === soonest.group) ?? null,
+          pendingSwitchType: owningCourse.pendingSwitchType,
         };
       }
     }

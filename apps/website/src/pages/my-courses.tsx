@@ -117,6 +117,7 @@ const MyCoursesPage = () => {
                     courseTitle={nextDiscussion.courseTitle}
                     discussion={nextDiscussion.discussion}
                     unit={nextDiscussion.unit}
+                    pendingSwitchType={nextDiscussion.pendingSwitchType}
                   />
                 </div>
               )}
