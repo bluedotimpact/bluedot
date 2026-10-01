@@ -5,6 +5,7 @@ import {
   ListBoxItem,
   Popover,
   Select as AriaSelect,
+  SelectValue,
 } from 'react-aria-components';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import { cn } from './utils';
@@ -83,9 +84,9 @@ export const Select = ({
           TRIGGER_STYLES[variant],
         )}
       >
-        <span className={cn('flex-1 min-w-0 truncate', !selectedOption && 'text-placeholder group-data-[disabled]:text-disabled')}>
+        <SelectValue className={cn('flex-1 min-w-0 truncate', !selectedOption && 'text-placeholder group-data-[disabled]:text-disabled')}>
           {selectedOption?.label ?? placeholder}
-        </span>
+        </SelectValue>
         <FaChevronDown
           className="size-4 shrink-0 text-secondary transition-transform group-data-[open]:rotate-180 group-data-[disabled]:text-disabled"
           aria-hidden="true"

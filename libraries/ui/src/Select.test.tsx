@@ -110,7 +110,7 @@ describe('Select', () => {
       <Select options={mockOptions} onChange={handleChange} aria-label="Test select" />
     </BottomDrawerModal>);
 
-    await user.click(screen.getByRole('button', { name: 'Test select' }));
+    await user.click(screen.getByRole('button', { name: /Test select/ }));
     const option = screen.getByRole('option', { name: 'Option 2' });
     expect(option).toBeVisible();
     expect(option.closest('[aria-hidden="true"]')).toBeNull();

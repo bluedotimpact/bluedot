@@ -32,6 +32,9 @@ exports[`Select > marks disabled options 1`] = `
     >
       <span
         class="flex-1 min-w-0 truncate text-placeholder group-data-[disabled]:text-disabled"
+        data-placeholder="true"
+        data-rac=""
+        id="react-aria-:r1v:"
       >
         Select an option
       </span>
@@ -104,6 +107,8 @@ exports[`Select > renders with selected value 1`] = `
     >
       <span
         class="flex-1 min-w-0 truncate"
+        data-rac=""
+        id="react-aria-:r7:"
       >
         Option 1
       </span>
