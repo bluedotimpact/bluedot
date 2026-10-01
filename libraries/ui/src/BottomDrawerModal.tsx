@@ -6,7 +6,6 @@ import {
   Modal as AriaModal,
   ModalOverlay,
 } from 'react-aria-components';
-import { ModalTitle } from './ModalTitle';
 import {
   animate,
   AnimatePresence,
@@ -15,6 +14,7 @@ import {
   useDragControls,
 } from 'framer-motion';
 import clsx from 'clsx';
+import { ModalHeader } from './ModalHeader';
 import type { ModalProps } from './Modal';
 
 // Layout constants
@@ -41,7 +41,6 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   children,
   ariaLabel,
   isDismissable = true,
-  centerTitle,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -208,15 +207,13 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       <div className="w-[30px] h-1 bg-bluedot-navy/30 rounded-xs" />
                     </div>
 
-                    {title && (
-                      <div className="flex items-center justify-between px-5 pb-4">
-                        {titleIsString ? (
-                          <ModalTitle id="mobile-modal-title" className={centerTitle ? 'mx-auto' : undefined}>
-                            {title}
-                          </ModalTitle>
-                        ) : title}
-                      </div>
-                    )}
+                    <ModalHeader
+                      title={title}
+                      titleId={titleId}
+                      isDismissable={isDismissable}
+                      onClose={handleClose}
+                      className="px-5 pb-4"
+                    />
                   </div>
 
                   {/* Content / Scrollable Area */}
