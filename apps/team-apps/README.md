@@ -37,6 +37,25 @@ Choose **Explore local preview**. All applicants are synthetic. Ratings, resets,
 
 The preview requires both a development build and `NEXT_PUBLIC_LOCAL_PREVIEW=true`. Production rejects its synthetic identity even when the flag is accidentally set. This mode is bound to loopback and is not for publicly hosted preview environments.
 
+## Queue filters
+
+On the Speed Reviewer round picker, reviewers can tick optional queue filters before choosing a round. The session then serves only applications that match any (the default) or all of the ticked options. With nothing ticked, the queue is unchanged. The browser remembers the selection and drops options that are no longer offered.
+
+Options are configured in Airtable, in table `tblqMbr9KxusIrWA6` of the reviewer base, and loaded at runtime. Enabled rows are offered in ascending order:
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| Label | Text | Shown next to the tick box |
+| Field ID | Text | The applications-table field the option filters on (`fld…`) |
+| Match type | Single select | `Checkbox is ticked`, `Has value` or `Number is at least` |
+| Value | Text | For `Has value`, the select option name; the field matches when it contains this text. For `Number is at least`, the threshold as a plain number |
+| Enabled | Checkbox | Only enabled rows are offered |
+| Order | Number | Display order, ascending |
+
+Rows with a malformed field ID, an unknown match type, or a missing or non-numeric value are skipped. The browser receives only each option's record ID and label, and sends back only record IDs. The server looks the rows up again, builds the formula clauses itself and ANDs them into the round's existing filters, so the round, undecided, participant and duplicate rules still apply. Filtered fields are not returned to the browser. A request naming an option that has since been disabled or removed is rejected with a 400.
+
+The session summary's progress and decision email counts always cover the whole round, so a filtered session labels them **Whole round**. `start:preview` offers two sample options.
+
 ## Add or improve a tool
 
 1. Add its page under `src/pages/` and group its components and backend code by feature.

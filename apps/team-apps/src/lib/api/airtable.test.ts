@@ -6,7 +6,7 @@ vi.mock('./env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-airta
 
 import {
   fetchApplications, fetchRounds, writeOpinions, resetOpinion, moveApplicationToCourse, undoMoveToCourse,
-  fetchDecisionEmailCounts, flagDecisionEmails,
+  fetchDecisionEmailCounts, flagDecisionEmails, fetchFilterOptions,
 } from './airtable';
 
 const fetchMock = vi.fn<typeof fetch>();
@@ -215,6 +215,105 @@ describe('real-data Airtable adapter', () => {
     fetchMock.mockResolvedValueOnce(new Response('{}', { status: 403 }));
     await expect(undoMoveToCourse('recTest', 'recOriginalRound', 'AGI Strategy', 'Technical AI Safety')).rejects.toMatchObject({ statusCode: 503, expose: true, message: expect.stringContaining('write access') });
     expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+});
+
+describe('queue filters', () => {
+  // The unfiltered formulas as they were before queue filters existed.
+  const SCORED_FORMULA = 'AND(FIND("recLiveRound", {fldrmNLS764z8WEbR} & ""), AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK()))';
+  const UNSCORED_FORMULA = 'AND(FIND("recLiveRound", {fldrmNLS764z8WEbR} & ""), AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), OR({fldRXdZQ0rnuVOcl7} = "", {fldEPZ0UfYoypB1mp} = BLANK())))';
+  const withQueueFilter = (formula: string, queueFilter: string) => `${formula.slice(0, -1)}, ${queueFilter})`;
+
+  const configRow = (id: string, label: string, fieldId: string, matchType: string, value?: string) => ({
+    id,
+    fields: {
+      flduOM83yebFthjm2: label, fldBal237GLenUbp0: fieldId, fldh5gt8w7cIHLfAO: matchType, ...(value === undefined ? {} : { fldZlRJXr9bUtOS4y: value }),
+    },
+  });
+  const configRows = [
+    configRow('recSampleTicked', 'Sample filter A', 'fldSampleTarget01', 'Checkbox is ticked'),
+    configRow('recSampleValue', 'Sample filter B', 'fldSampleTarget02', 'Has value', 'Sample "quoted" \\ value'),
+    configRow('recSampleNumber', 'Sample filter C', 'fldSampleTarget03', 'Number is at least', ' 2.5 '),
+    configRow('recSampleBadField', 'Sample filter D', 'fldTooShort', 'Checkbox is ticked'),
+    configRow('recSampleBadType', 'Sample filter E', 'fldSampleTarget01', 'Sample unknown type'),
+    configRow('recSampleNoValue', 'Sample filter F', 'fldSampleTarget02', 'Has value', ''),
+    configRow('recSampleNotNumber', 'Sample filter G', 'fldSampleTarget03', 'Number is at least', 'not a number'),
+  ];
+
+  beforeEach(() => {
+    fetchMock.mockImplementation(async (input) => new Response(JSON.stringify({
+      records: (input as string).includes('/tblqMbr9KxusIrWA6') ? configRows : [],
+    })));
+  });
+
+  const formulas = () => fetchMock.mock.calls
+    .map(([input]) => new URL(input as string))
+    .filter((request) => request.pathname.endsWith('/tblXKnWoXK3R63F6D'))
+    .map((request) => request.searchParams.get('filterByFormula'));
+
+  test('offers enabled, well-formed options in Airtable order with only their record ID and label', async () => {
+    expect(await fetchFilterOptions()).toEqual([
+      { id: 'recSampleTicked', label: 'Sample filter A' },
+      { id: 'recSampleValue', label: 'Sample filter B' },
+      { id: 'recSampleNumber', label: 'Sample filter C' },
+    ]);
+    const request = new URL(fetchMock.mock.calls[0]?.[0] as string);
+    expect(request.pathname).toBe('/v0/appnJbsG1eWbAdEvf/tblqMbr9KxusIrWA6');
+    expect(request.searchParams.get('filterByFormula')).toBe('{fldf5DndPnkmoE732}');
+    expect(request.searchParams.get('sort[0][field]')).toBe('fldMt36keyZHntBDL');
+    expect(request.searchParams.get('sort[0][direction]')).toBe('asc');
+  });
+
+  test('no filters leaves both round formulas byte-for-byte unchanged and skips the config table', async () => {
+    await fetchApplications('recLiveRound');
+    await fetchApplications('recLiveRound', undefined, 'top', { optionIds: [], mode: 'all' });
+    expect(formulas()).toEqual([SCORED_FORMULA, UNSCORED_FORMULA, SCORED_FORMULA, UNSCORED_FORMULA]);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
+  test('a checkbox option is ANDed into both the scored and unscored round filters', async () => {
+    await fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleTicked'], mode: 'any' });
+    expect(formulas()).toEqual([
+      withQueueFilter(SCORED_FORMULA, 'OR({fldSampleTarget01})'),
+      withQueueFilter(UNSCORED_FORMULA, 'OR({fldSampleTarget01})'),
+    ]);
+  });
+
+  test('a has-value option escapes backslashes and quotes in its value', async () => {
+    await fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleValue'], mode: 'any' });
+    expect(formulas()[0]).toBe(withQueueFilter(SCORED_FORMULA, 'OR(FIND("Sample \\"quoted\\" \\\\ value", {fldSampleTarget02} & ""))'));
+  });
+
+  test('a number option writes the parsed threshold as a numeric literal', async () => {
+    await fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleNumber'], mode: 'any' });
+    expect(formulas()[0]).toBe(withQueueFilter(SCORED_FORMULA, 'OR({fldSampleTarget03} >= 2.5)'));
+  });
+
+  test('any combines options with OR, all with AND, in the same order however they were sent', async () => {
+    await fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleTicked', 'recSampleNumber'], mode: 'any' });
+    await fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleNumber', 'recSampleTicked'], mode: 'all' });
+    const [anyScored, , allScored] = formulas();
+    expect(anyScored).toBe(withQueueFilter(SCORED_FORMULA, 'OR({fldSampleTarget03} >= 2.5, {fldSampleTarget01})'));
+    expect(allScored).toBe(withQueueFilter(SCORED_FORMULA, 'AND({fldSampleTarget03} >= 2.5, {fldSampleTarget01})'));
+  });
+
+  test('a filtered unscored-phase offset resumes with the same filter', async () => {
+    await fetchApplications('recLiveRound', 'unscored:itrToken/recCursor', 'top', { optionIds: ['recSampleTicked'], mode: 'any' });
+    const request = new URL(fetchMock.mock.calls[1]?.[0] as string);
+    expect(request.searchParams.get('filterByFormula')).toBe(withQueueFilter(UNSCORED_FORMULA, 'OR({fldSampleTarget01})'));
+    expect(request.searchParams.get('offset')).toBe('itrToken/recCursor');
+  });
+
+  test.each([
+    ['an unknown option', 'recSampleUnknown'],
+    ['an option with a malformed field ID', 'recSampleBadField'],
+    ['an option with an unknown match type', 'recSampleBadType'],
+    ['a has-value option without a value', 'recSampleNoValue'],
+    ['a number option whose value is not a number', 'recSampleNotNumber'],
+  ])('rejects %s without querying applications', async (_, optionId) => {
+    await expect(fetchApplications('recLiveRound', undefined, 'top', { optionIds: ['recSampleTicked', optionId], mode: 'any' }))
+      .rejects.toMatchObject({ statusCode: 400, expose: true });
+    expect(formulas()).toEqual([]);
   });
 });
 

@@ -31,6 +31,14 @@ export type Application = {
 
 export type Direction = 'top' | 'bottom';
 
+export type FilterOption = { id: string; label: string };
+
+export type FilterMatch = 'any' | 'all';
+
+// Only record IDs of the chosen options travel from the browser; the server
+// looks up what each option filters on.
+export type QueueFilters = { optionIds: string[]; mode: FilterMatch };
+
 export type RatingValue = 'no' | 'neutral-accept' | 'neutral-reject' | 'yes' | 'strong-yes' | 'moved';
 
 export type RatedApplication = Application & {

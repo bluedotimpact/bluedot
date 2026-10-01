@@ -4,7 +4,7 @@ import {
 import useAxios from 'axios-hooks';
 import { H1, ProgressDots } from '@bluedot/ui';
 import {
-  type Application, type RatedApplication, type RatingValue, type Direction, toHumanOpinion, toDecision,
+  type Application, type RatedApplication, type RatingValue, type Direction, type QueueFilters, toHumanOpinion, toDecision,
 } from '../lib/client/types';
 import { type Round } from '../lib/api/airtable';
 import { ApplicationCard } from '../components/ApplicationCard';
@@ -17,8 +17,13 @@ import { moveFromCourse } from '../lib/client/courseMoves';
 import { authFetch } from '../lib/client/api';
 import { useNavigationState } from '../lib/client/navigation';
 
-const buildApplicationsUrl = (roundId: string, direction: Direction, offset?: string): string => {
+const buildApplicationsUrl = (roundId: string, direction: Direction, filters?: QueueFilters, offset?: string): string => {
   const params = new URLSearchParams({ round: roundId, direction });
+  if (filters) {
+    params.set('filters', filters.optionIds.join(','));
+    params.set('match', filters.mode);
+  }
+
   if (offset) params.set('offset', offset);
   return `/api/applications?${params.toString()}`;
 };
@@ -41,7 +46,8 @@ const MILESTONE_MESSAGES: Record<number, string> = {
 
 // ── State machine ──────────────────────────────────────────────────────────
 
-type RoundContext = { roundId: string; roundName: string; course: string; direction: Direction };
+// filters is undefined for an unfiltered session.
+type RoundContext = { roundId: string; roundName: string; course: string; direction: Direction; filters?: QueueFilters };
 
 type SessionState =
   | { status: 'picking-round' }
@@ -50,7 +56,7 @@ type SessionState =
   | ({ status: 'complete'; rated: RatedApplication[]; totalMs: number; totalLoaded: number } & RoundContext);
 
 type Action =
-  | { type: 'ROUND_SELECTED'; round: Round; direction: Direction }
+  | { type: 'ROUND_SELECTED'; round: Round; direction: Direction; filters?: QueueFilters }
   | { type: 'LOADED'; applications: Application[]; nextOffset?: string }
   | { type: 'MORE_LOADED'; applications: Application[]; nextOffset?: string }
   | { type: 'RATE'; rating: RatingValue }
@@ -73,13 +79,14 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       roundName: action.round.name,
       course: action.round.name.split('(')[0]?.trim() ?? '',
       direction: action.direction,
+      filters: action.filters,
     };
   }
 
   if (action.type === 'LOADED' && state.status === 'loading') {
     if (action.applications.length === 0) {
       return {
-        status: 'complete', roundId: state.roundId, roundName: state.roundName, course: state.course, direction: state.direction, rated: [], totalMs: 0, totalLoaded: 0,
+        status: 'complete', roundId: state.roundId, roundName: state.roundName, course: state.course, direction: state.direction, filters: state.filters, rated: [], totalMs: 0, totalLoaded: 0,
       };
     }
 
@@ -89,6 +96,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       roundName: state.roundName,
       course: state.course,
       direction: state.direction,
+      filters: state.filters,
       queue: action.applications,
       seen: [],
       timerPaused: false,
@@ -129,6 +137,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       roundName: state.roundName,
       course: state.course,
       direction: state.direction,
+      filters: state.filters,
       rated: state.seen,
       totalMs: Date.now() - state.startMs,
       totalLoaded: state.seen.length + state.queue.length,
@@ -168,6 +177,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
         roundName: state.roundName,
         course: state.course,
         direction: state.direction,
+        filters: state.filters,
         rated: newSeen,
         totalMs: Date.now() - state.startMs,
         totalLoaded: newSeen.length,
@@ -187,6 +197,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
         roundName: state.roundName,
         course: state.course,
         direction: state.direction,
+        filters: state.filters,
         rated: newSeen,
         totalMs: Date.now() - state.startMs,
         totalLoaded: newSeen.length,
@@ -204,16 +215,17 @@ const reduce = (state: SessionState, action: Action): SessionState => {
 type ApplicationLoaderProps = {
   round: string;
   direction: Direction;
+  filters?: QueueFilters;
   onLoaded: (applications: Application[], nextOffset?: string) => void;
   onError: (err: Error) => void;
 };
 
 const ApplicationLoader: React.FC<ApplicationLoaderProps> = ({
-  round, direction, onLoaded, onError,
+  round, direction, filters, onLoaded, onError,
 }) => {
   const [{ data, loading, error }] = useAxios<{ applications: Application[]; nextOffset?: string }>({
     method: 'get',
-    url: buildApplicationsUrl(round, direction),
+    url: buildApplicationsUrl(round, direction, filters),
   }, { useCache: false });
 
   useEffect(() => {
@@ -379,6 +391,7 @@ const SpeedReviewPage = () => {
   const nextOffset = state.status === 'reviewing' ? state.nextOffset : undefined;
   const roundId = state.status === 'reviewing' ? state.roundId : undefined;
   const direction = state.status === 'reviewing' ? state.direction : undefined;
+  const filters = state.status === 'reviewing' ? state.filters : undefined;
 
   useEffect(() => {
     if (state.status !== 'reviewing') return;
@@ -388,7 +401,7 @@ const SpeedReviewPage = () => {
 
     fetchingMoreRef.current = true;
 
-    authFetch(buildApplicationsUrl(roundId, direction, nextOffset))
+    authFetch(buildApplicationsUrl(roundId, direction, filters, nextOffset))
       .then((r) => r.json())
       .then((data: { applications: Application[]; nextOffset?: string; error?: unknown }) => {
         if (data.error) {
@@ -404,7 +417,7 @@ const SpeedReviewPage = () => {
       .finally(() => {
         fetchingMoreRef.current = false;
       });
-  }, [state.status, queueLength, nextOffset, roundId, direction]);
+  }, [state.status, queueLength, nextOffset, roundId, direction, filters]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -474,7 +487,12 @@ const SpeedReviewPage = () => {
   // ── Round picker ──────────────────────────────────────────────────────────
 
   if (state.status === 'picking-round') {
-    return <RoundPicker onSelect={(round, direction) => dispatch({ type: 'ROUND_SELECTED', round, direction })} />;
+    return (
+      <RoundPicker onSelect={(round, direction, filters) => dispatch({
+        type: 'ROUND_SELECTED', round, direction, filters,
+      })}
+      />
+    );
   }
 
   // ── Loading applications ──────────────────────────────────────────────────
@@ -484,6 +502,7 @@ const SpeedReviewPage = () => {
       <ApplicationLoader
         round={state.roundId}
         direction={state.direction}
+        filters={state.filters}
         onLoaded={handleLoaded}
         onError={handleLoadError}
       />
@@ -503,8 +522,11 @@ const SpeedReviewPage = () => {
             rated={state.rated}
             totalMs={state.totalMs}
             totalLoaded={state.totalLoaded}
+            filtered={!!state.filters}
             onReset={() => dispatch({ type: 'RESET' })}
-            onReviewRound={(roundId, roundName) => dispatch({ type: 'ROUND_SELECTED', round: { id: roundId, name: roundName, course: state.course }, direction: state.direction })}
+            onReviewRound={(roundId, roundName) => dispatch({
+              type: 'ROUND_SELECTED', round: { id: roundId, name: roundName, course: state.course }, direction: state.direction, filters: state.filters,
+            })}
           />
         </div>
       </div>
@@ -593,7 +615,7 @@ const SpeedReviewPage = () => {
   return (
     <div className="min-h-[calc(100dvh-4rem)] md:min-h-dvh bg-canvas py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-3xl mx-auto space-y-4">
-        <div className="bg-raised rounded-xl border border-subtle px-5 py-3 flex items-center gap-4">
+        <div className={`bg-raised rounded-xl border border-subtle px-5 py-3 flex items-center ${state.filters ? 'flex-wrap gap-x-4 gap-y-1' : 'gap-4'}`}>
           <div className="flex-1">
             <CountdownTimer
               ref={timerRef}
@@ -605,6 +627,12 @@ const SpeedReviewPage = () => {
               startMs={state.startMs}
             />
           </div>
+          {state.filters && (
+            // Below lg the timer needs the row's width, so the indicator takes a row of its own.
+            <span className="order-last basis-full lg:order-none lg:basis-auto shrink-0">
+              <span className="inline-block rounded-full border border-subtle px-2 py-0.5 text-size-xs text-secondary">Filtered queue</span>
+            </span>
+          )}
           <span className="font-mono text-size-xs text-secondary shrink-0">
             {state.seen.length}
           </span>

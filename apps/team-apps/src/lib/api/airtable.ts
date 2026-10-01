@@ -2,12 +2,15 @@ import createHttpError from 'http-errors';
 import env from './env';
 import { isLocalPreview } from '../preview';
 import { previewData } from './previewData';
-import { type Application, type Direction } from '../client/types';
+import {
+  type Application, type Direction, type FilterOption, type QueueFilters,
+} from '../client/types';
 import { type MoveTargetCourse, courseOfRoundName } from '../client/courseMoves';
 
 const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
 const APPLICATIONS_URL = `${AIRTABLE_BASE}/tblXKnWoXK3R63F6D`;
 const ROUNDS_URL = `${AIRTABLE_BASE}/tblt1XjyP5KPoVPfB`;
+const QUEUE_FILTERS_URL = `${AIRTABLE_BASE}/tblqMbr9KxusIrWA6`;
 
 // How many Airtable records to fetch per page when loading applications
 const AIRTABLE_PAGE_SIZE = 100;
@@ -217,7 +220,84 @@ const ROUND_ID_LOOKUP_FIELD = 'fldrmNLS764z8WEbR';
 // FIND rather than = so applications linked to several rounds still match,
 // mirroring matchesRound's array-includes semantics. Record ids are unique
 // fixed-length strings, so a substring false-positive can't occur.
-const roundFilter = (roundId: string, scored: boolean): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${scored ? BASE_FILTER : UNSCORED_FILTER})`;
+const roundFilter = (roundId: string, scored: boolean, queueFilter?: string): string => `AND(FIND("${roundId.replace(/"/g, '\\"')}", {${ROUND_ID_LOOKUP_FIELD}} & ""), ${scored ? BASE_FILTER : UNSCORED_FILTER}${queueFilter ? `, ${queueFilter}` : ''})`;
+
+// ── Queue filters ───────────────────────────────────────────────────────────
+// Reviewers pick options configured in Airtable. The browser only ever sends
+// option record IDs; each option's field and value are looked up here, so the
+// browser cannot choose what goes into filterByFormula.
+
+const QUEUE_FILTER_LABEL_FIELD = 'flduOM83yebFthjm2';
+const QUEUE_FILTER_TARGET_FIELD = 'fldBal237GLenUbp0'; // Applications-table field ID the option filters on
+const QUEUE_FILTER_MATCH_TYPE_FIELD = 'fldh5gt8w7cIHLfAO';
+const QUEUE_FILTER_VALUE_FIELD = 'fldZlRJXr9bUtOS4y';
+const QUEUE_FILTER_ENABLED_FIELD = 'fldf5DndPnkmoE732';
+const QUEUE_FILTER_ORDER_FIELD = 'fldMt36keyZHntBDL';
+
+const escapeFormulaString = (value: string): string => value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+
+// A malformed row yields no clause, so a config mistake hides that option
+// rather than breaking every filtered query.
+const toFilterClause = (fields: Record<string, unknown>): string | undefined => {
+  const fieldId = fields[QUEUE_FILTER_TARGET_FIELD];
+  if (typeof fieldId !== 'string' || !/^fld[A-Za-z0-9]{14}$/.test(fieldId)) return undefined;
+  const rawValue = fields[QUEUE_FILTER_VALUE_FIELD];
+  const value = typeof rawValue === 'string' ? rawValue : '';
+
+  switch (fields[QUEUE_FILTER_MATCH_TYPE_FIELD]) {
+    case 'Checkbox is ticked':
+      return `{${fieldId}}`;
+    case 'Has value':
+      return value.trim() ? `FIND("${escapeFormulaString(value)}", {${fieldId}} & "")` : undefined;
+    case 'Number is at least': {
+      // Written back from the parsed number, never the raw text.
+      const threshold = Number(value);
+      return value.trim() && Number.isFinite(threshold) ? `{${fieldId}} >= ${threshold}` : undefined;
+    }
+
+    default:
+      return undefined;
+  }
+};
+
+type QueueFilterRule = FilterOption & { clause: string };
+
+const fetchQueueFilterRules = async (): Promise<QueueFilterRule[]> => {
+  const records = await fetchAll(
+    QUEUE_FILTERS_URL,
+    {
+      filterByFormula: `{${QUEUE_FILTER_ENABLED_FIELD}}`,
+      'sort[0][field]': QUEUE_FILTER_ORDER_FIELD,
+      'sort[0][direction]': 'asc',
+      returnFieldsByFieldId: 'true',
+    },
+    [QUEUE_FILTER_LABEL_FIELD, QUEUE_FILTER_TARGET_FIELD, QUEUE_FILTER_MATCH_TYPE_FIELD, QUEUE_FILTER_VALUE_FIELD],
+  );
+
+  return records.flatMap((record) => {
+    const label = str(record.fields[QUEUE_FILTER_LABEL_FIELD])?.trim();
+    const clause = toFilterClause(record.fields);
+    return label && clause ? [{ id: record.id, label, clause }] : [];
+  });
+};
+
+export const fetchFilterOptions = async (): Promise<FilterOption[]> => {
+  if (isLocalPreview()) return previewData.fetchFilterOptions();
+  const rules = await fetchQueueFilterRules();
+  return rules.map(({ id, label }) => ({ id, label }));
+};
+
+const queueFilterFormula = async ({ optionIds, mode }: QueueFilters): Promise<string> => {
+  const clauses = new Map((await fetchQueueFilterRules()).map((rule) => [rule.id, rule.clause]));
+  // Sorted so every page of a session sends Airtable the same formula, which
+  // its pagination offsets depend on.
+  const selected = [...new Set(optionIds)].sort().map((id) => {
+    const clause = clauses.get(id);
+    if (!clause) throw createHttpError(400, 'A selected filter is no longer available. Choose your filters again.', { expose: true });
+    return clause;
+  });
+  return `${mode === 'all' ? 'AND' : 'OR'}(${selected.join(', ')})`;
+};
 
 // Marks a pagination offset as belonging to the unscored phase. Airtable
 // offsets never carry this prefix.
@@ -227,8 +307,10 @@ export const fetchApplications = async (
   roundId: string,
   offset?: string,
   direction: Direction = 'top',
+  filters?: QueueFilters,
 ): Promise<{ applications: Application[]; nextOffset?: string }> => {
-  if (isLocalPreview()) return previewData.fetchApplications(roundId, offset, direction);
+  if (isLocalPreview()) return previewData.fetchApplications(roundId, offset, direction, filters);
+  const queueFilter = filters?.optionIds.length ? await queueFilterFormula(filters) : undefined;
   const collected: Application[] = [];
   // Airtable pagination can return the same record across internal pages when
   // the filtered-on field is modified mid-iteration (every rating mutates the
@@ -239,7 +321,7 @@ export const fetchApplications = async (
 
   while (collected.length < RESPONSE_PAGE_SIZE) {
     const params: Record<string, string> = {
-      filterByFormula: roundFilter(roundId, phase === 'scored'),
+      filterByFormula: roundFilter(roundId, phase === 'scored', queueFilter),
       pageSize: String(AIRTABLE_PAGE_SIZE),
       returnFieldsByFieldId: 'true',
     };
