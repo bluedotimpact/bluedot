@@ -23,6 +23,7 @@ const SHEET_MARGIN = NAV_HEIGHT + 12;
 const CLOSE_VELOCITY_THRESHOLD = 500;
 const CLOSE_POSITION_THRESHOLD = 0.8;
 const MIN_CONTENT_HEIGHT = 100;
+const EASE = [0.32, 0.72, 0, 1] as const;
 
 export type BottomDrawerModalProps = Omit<ModalProps, 'bottomDrawerOnMobile'> & {
   /**
@@ -46,6 +47,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [isFullyExpanded, setIsFullyExpanded] = useState(false);
   const dragControls = useDragControls();
+  const duration = useReducedMotion() ? 0 : 0.3;
+  const transition = { duration, ease: EASE };
 
   // Ref to measure children content height
   const contentRef = useRef<HTMLDivElement>(null);
@@ -82,7 +85,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
         const targetY = initialSize === 'fit-screen' ? halfOpenY : Math.max(halfOpenY, contentBasedY);
 
         initialOpenY.current = targetY;
-        animate(y, targetY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+        animate(y, targetY, { duration, ease: EASE });
       });
     } else {
       setIsDragging(false);
@@ -90,7 +93,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
     }
 
     prevIsOpen.current = isOpen;
-  }, [halfOpenY, isOpen, y, availableHeight, title, initialSize]);
+  }, [halfOpenY, isOpen, y, availableHeight, title, initialSize, duration]);
 
   // Listen to y motion value changes to update isFullyExpanded (adds a drop shadow)
   useEffect(() => {
@@ -106,10 +109,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   const handleClose = () => {
     if (isDismissable && !isClosing) {
       setIsClosing(true);
-      animate(y, closedY, {
-        duration: 0.3,
-        ease: [0.32, 0.72, 0, 1],
-      });
+      animate(y, closedY, transition);
       // setIsOpen(false) will be called by AnimatePresence onExitComplete
     }
   };
@@ -134,16 +134,13 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={transition}
                 onClick={isDismissable ? handleClose : undefined}
               />
               {/* Modal Container */}
               <motion.div
                 className="bg-canvas fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
-                transition={{
-                  duration: 0.3,
-                  ease: [0.32, 0.72, 0, 1],
-                }}
+                transition={transition}
                 style={{
                   y,
                   height: availableHeight,
@@ -179,7 +176,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                   if (!isDismissable) {
                     // Any downward drag snaps back, otherwise the sheet can be parked off-screen with no way to recover
                     if (currentY > initialOpenY.current) {
-                      animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+                      animate(y, initialOpenY.current, transition);
                     }
 
                     return;
@@ -192,7 +189,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 onDragTransitionEnd={() => {
                   // Release momentum can glide the sheet below the open position after onDragEnd has run
                   if (!isDismissable && y.get() > initialOpenY.current) {
-                    animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+                    animate(y, initialOpenY.current, transition);
                   }
                 }}
               >
