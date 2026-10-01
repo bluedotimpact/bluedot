@@ -8,7 +8,7 @@ import {
   Menu,
   MenuItem,
 } from 'react-aria-components';
-import { HiDotsVertical } from 'react-icons/hi';
+import { FaEllipsisVertical } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
@@ -105,7 +105,7 @@ export const OverflowMenu: React.FC<OverflowMenuProps> = ({
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
       <Button className={cn(DEFAULT_BUTTON_CLASS, buttonClassName)} aria-label={ariaLabel}>
-        {trigger ?? <HiDotsVertical className="size-5" />}
+        {trigger ?? <FaEllipsisVertical aria-hidden="true" className="size-5" />}
       </Button>
       <MenuContent items={items} isOpen={isOpen} setIsOpen={setIsOpen} />
     </MenuTrigger>
