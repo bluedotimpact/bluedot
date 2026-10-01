@@ -42,6 +42,7 @@ describe('getSubtitle precedence', () => {
       units: {},
       roundStartDate: null,
       roundEndDate: null,
+      roundIntensity: null,
       hasSubmittedFeedback: false,
       isDroppedOut: false,
       isDeferred: false,
@@ -223,6 +224,13 @@ describe('getSubtitle precedence', () => {
     }))).toBe('Wednesdays, 4:00 PM · Facilitated by Test Facilitator');
   });
 
+  test('Active with group on an Intensive round → daily schedule', () => {
+    expect(renderText(callGetSubtitle({
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
+      roundIntensity: 'Intensive',
+    }))).toBe('Daily, 4:00 PM · Facilitated by Test Facilitator');
+  });
+
   test('Active without group/facilitators → empty', () => {
     expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
@@ -289,6 +297,7 @@ describe('CourseListRow actions', () => {
     units: {},
     roundStartDate: null,
     roundEndDate: null,
+    roundIntensity: null,
     numUnits: null,
     uniqueDiscussionAttendance: null,
     hasSubmittedActionPlan: false,
@@ -707,6 +716,7 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     units: {},
     roundStartDate: null,
     roundEndDate: null,
+    roundIntensity: null,
     numUnits: null,
     uniqueDiscussionAttendance: null,
     hasSubmittedActionPlan: false,

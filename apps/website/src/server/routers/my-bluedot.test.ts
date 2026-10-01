@@ -525,6 +525,17 @@ describe('myCoursesPage.getOverview', () => {
       expect(result.courses[0]?.facilitatorNames.sort()).toEqual(['Firstonly', 'Full Name']);
     });
 
+    test('roundIntensity comes from the registration\'s round', async () => {
+      await seedCourse('course-tais');
+      await seedReg('reg-1', { courseId: 'course-tais', roundId: 'round-1' });
+      await testDb.insert(applicationsRoundTable, {
+        id: 'round-1', firstDiscussionDate: '2026-05-10', lastDiscussionDate: '2026-05-17', intensity: 'Intensive',
+      });
+
+      const result = await caller.myBluedot.myCoursesPage();
+      expect(result.courses[0]?.roundIntensity).toBe('Intensive');
+    });
+
     test('discussion linked to a unit that no longer exists builds the row without crashing', async () => {
       await seedCourse('course-tais');
       await seedReg('reg-1', { courseId: 'course-tais' });

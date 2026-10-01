@@ -1,7 +1,10 @@
 import {
   and,
+  applicationsRoundTable,
   arrayContains,
   COURSE_ROLE,
+  courseRegistrationTable,
+  eq,
   groupDiscussionTable,
   groupSwitchingTable,
   groupTable, inArray, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, roundTable,
@@ -196,9 +199,17 @@ export const groupSwitchingRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
 
-      const [allGroupsInRound, allGroupDiscussionsInRound] = await Promise.all([
+      const [allGroupsInRound, allGroupDiscussionsInRound, [applicationsRound]] = await Promise.all([
         db.scan(groupTable, { round: roundId }),
         db.scan(groupDiscussionTable, { round: roundId }).then((rows) => rows.filter(hasEndDateTime)),
+        // `roundId` is a Course runner round; intensity lives on the registration's applications round
+        participant.applicationsBaseRecordId
+          ? db.pg
+            .select({ intensity: applicationsRoundTable.pg.intensity })
+            .from(courseRegistrationTable.pg)
+            .innerJoin(applicationsRoundTable.pg, eq(applicationsRoundTable.pg.id, courseRegistrationTable.pg.roundId))
+            .where(eq(courseRegistrationTable.pg.id, participant.applicationsBaseRecordId))
+          : [],
       ]);
 
       const result = getAvailableGroupsAndDiscussions({
@@ -218,6 +229,7 @@ export const groupSwitchingRouter = router({
         groupsAvailable: result.groupsAvailable,
         discussionsAvailable: result.discussionsAvailable,
         rescheduleEligibleUnits: result.rescheduleEligibleUnits,
+        roundIntensity: applicationsRound?.intensity ?? null,
       };
     }),
 
