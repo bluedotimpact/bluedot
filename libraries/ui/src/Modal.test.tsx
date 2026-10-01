@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import {
   describe, test, expect, vi, beforeEach,
 } from 'vitest';
-import { Modal } from './Modal';
+import { Modal, type ModalProps } from './Modal';
 import { useAboveBreakpoint } from './hooks/useBreakpoint';
 
 vi.mock('./hooks/useBreakpoint', async () => {
@@ -22,125 +22,68 @@ const pressEscape = () => {
   fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape', code: 'Escape' });
 };
 
-describe('Modal', () => {
-  describe('desktop', () => {
-    beforeEach(() => {
-      mockUseAboveBreakpoint.mockReturnValue(true);
-    });
-
-    test('is dismissable by default', () => {
-      const setIsOpen = vi.fn();
-      render(<Modal isOpen setIsOpen={setIsOpen} title="Title">Content</Modal>);
-
-      pressEscape();
-      expect(setIsOpen).toHaveBeenCalledWith(false);
-    });
-
-    test('close button closes the dialog', () => {
-      const setIsOpen = vi.fn();
-      render(<Modal isOpen setIsOpen={setIsOpen} title="Title">Content</Modal>);
-
-      fireEvent.click(screen.getByRole('button', { name: 'Close' }));
-
-      expect(setIsOpen).toHaveBeenCalledWith(false);
-    });
-
-    test('names the dialog from a string title', () => {
-      render(<Modal isOpen setIsOpen={vi.fn()} title="Leave course">Content</Modal>);
-
-      expect(screen.getByRole('dialog', { name: 'Leave course' })).toBeInTheDocument();
-    });
-
-    test('cannot be dismissed with escape when isDismissable is false', () => {
-      const setIsOpen = vi.fn();
-      render(<Modal isOpen setIsOpen={setIsOpen} title="Title" isDismissable={false}>Content</Modal>);
-
-      pressEscape();
-
-      expect(setIsOpen).not.toHaveBeenCalled();
-      expect(screen.getByText('Content')).toBeInTheDocument();
-    });
-
-    test('hides the close button when isDismissable is false', () => {
-      render(<Modal isOpen setIsOpen={vi.fn()} title="Title" isDismissable={false}>Content</Modal>);
-
-      expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument();
-    });
-
-    test('can still be closed programmatically when isDismissable is false', () => {
-      const { rerender } = render(<Modal isOpen setIsOpen={vi.fn()} title="Title" isDismissable={false}>Content</Modal>);
-      rerender(<Modal isOpen={false} setIsOpen={vi.fn()} title="Title" isDismissable={false}>Content</Modal>);
-
-      expect(screen.queryByText('Content')).not.toBeInTheDocument();
-    });
-
-    test('moves focus to the title when it changes while open', () => {
-      const { rerender } = render(<Modal isOpen setIsOpen={vi.fn()} title="Rejoin a group">Content</Modal>);
-      expect(screen.getByRole('heading', { name: 'Rejoin a group' })).not.toHaveFocus();
-
-      rerender(<Modal isOpen setIsOpen={vi.fn()} title="Success">Content</Modal>);
-
-      expect(screen.getByRole('heading', { name: 'Success' })).toHaveFocus();
-    });
+describe.each([
+  ['desktop dialog', true],
+  ['mobile bottom drawer', false],
+])('Modal (%s)', (_name, isDesktop) => {
+  beforeEach(() => {
+    mockUseAboveBreakpoint.mockReturnValue(isDesktop);
   });
 
-  describe('mobile bottom drawer', () => {
-    beforeEach(() => {
-      mockUseAboveBreakpoint.mockReturnValue(false);
-    });
+  const renderModal = (props: Partial<ModalProps> = {}) => {
+    const setIsOpen = vi.fn();
+    const result = render(<Modal isOpen setIsOpen={setIsOpen} title="Title" bottomDrawerOnMobile {...props}>Content</Modal>);
+    return { ...result, setIsOpen };
+  };
 
-    test('is dismissable by default', async () => {
-      render(<Modal isOpen setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile>Content</Modal>);
+  test('names the dialog from a string title', () => {
+    renderModal({ title: 'Leave course' });
 
-      pressEscape();
+    expect(screen.getByRole('dialog', { name: 'Leave course' })).toBeInTheDocument();
+  });
 
-      await waitFor(() => {
-        expect(screen.queryByText('Content')).not.toBeInTheDocument();
-      });
-    });
+  test('escape closes it by default', async () => {
+    const { setIsOpen } = renderModal();
 
-    test('has a close button', async () => {
-      const setIsOpen = vi.fn();
-      render(<Modal isOpen setIsOpen={setIsOpen} title="Title" bottomDrawerOnMobile>Content</Modal>);
+    pressEscape();
 
-      fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    await waitFor(() => expect(setIsOpen).toHaveBeenCalledWith(false));
+  });
 
-      await waitFor(() => {
-        expect(setIsOpen).toHaveBeenCalledWith(false);
-      });
-    });
+  test('close button closes it by default', async () => {
+    const { setIsOpen } = renderModal();
 
-    test('names the dialog from a string title', () => {
-      render(<Modal isOpen setIsOpen={vi.fn()} title="Leave course" bottomDrawerOnMobile>Content</Modal>);
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
-      expect(screen.getByRole('dialog', { name: 'Leave course' })).toBeInTheDocument();
-    });
+    await waitFor(() => expect(setIsOpen).toHaveBeenCalledWith(false));
+  });
 
-    test('cannot be dismissed with escape when isDismissable is false', () => {
-      const setIsOpen = vi.fn();
-      render(<Modal isOpen setIsOpen={setIsOpen} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
+  test('isDismissable={false} blocks escape and hides the close button', () => {
+    const { setIsOpen } = renderModal({ isDismissable: false });
 
-      pressEscape();
+    pressEscape();
 
-      expect(setIsOpen).not.toHaveBeenCalled();
-      expect(screen.getByText('Content')).toBeInTheDocument();
-    });
+    expect(setIsOpen).not.toHaveBeenCalled();
+    expect(screen.getByText('Content')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument();
+  });
 
-    test('hides the close button when isDismissable is false', () => {
-      render(<Modal isOpen setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
+  test('isDismissable={false} still closes programmatically', async () => {
+    const { rerender } = renderModal({ isDismissable: false });
 
-      expect(screen.queryByRole('button', { name: /close|dismiss/i })).not.toBeInTheDocument();
-    });
+    rerender(<Modal isOpen={false} setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
 
-    test('can still be closed programmatically when isDismissable is false', async () => {
-      const { rerender } = render(<Modal isOpen setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
-      rerender(<Modal isOpen={false} setIsOpen={vi.fn()} title="Title" bottomDrawerOnMobile isDismissable={false}>Content</Modal>);
+    await waitFor(() => expect(screen.queryByText('Content')).not.toBeInTheDocument());
+    // No orphaned overlay left behind blocking the page
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
 
-      await waitFor(() => {
-        expect(screen.queryByText('Content')).not.toBeInTheDocument();
-      });
-      // No orphaned overlay left behind blocking the page
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    });
+  test('moves focus to the title when it changes while open', () => {
+    const { rerender } = renderModal({ title: 'Rejoin a group' });
+    expect(screen.getByRole('heading', { name: 'Rejoin a group' })).not.toHaveFocus();
+
+    rerender(<Modal isOpen setIsOpen={vi.fn()} title="Success" bottomDrawerOnMobile>Content</Modal>);
+
+    expect(screen.getByRole('heading', { name: 'Success' })).toHaveFocus();
   });
 });
