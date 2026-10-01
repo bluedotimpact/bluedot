@@ -134,4 +134,27 @@ describe('Select', () => {
     expect(onSubmit).not.toHaveBeenCalled();
     expect(container.querySelector('[data-rac]')).toHaveAttribute('data-invalid', 'true');
   });
+
+  test('shows a value that has no matching option instead of the placeholder', () => {
+    render(<Select
+      options={mockOptions}
+      value="UTC+13:45"
+      onChange={() => {}}
+      aria-label="Test select"
+    />);
+
+    expect(screen.getByRole('button', { name: /Test select/ })).toHaveTextContent('UTC+13:45');
+  });
+
+  test('shows the placeholder for an empty string value', () => {
+    render(<Select
+      options={mockOptions}
+      value=""
+      onChange={() => {}}
+      placeholder="Pick one"
+      aria-label="Test select"
+    />);
+
+    expect(screen.getByRole('button', { name: /Test select/ })).toHaveTextContent('Pick one');
+  });
 });
