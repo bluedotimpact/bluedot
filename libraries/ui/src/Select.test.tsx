@@ -1,3 +1,4 @@
+import type React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -118,5 +119,19 @@ describe('Select', () => {
 
     expect(handleChange).toHaveBeenCalledWith('option2');
     expect(setIsOpen).not.toHaveBeenCalledWith(false);
+  });
+
+  test('shows native required validation on submit when aria-invalid is omitted', async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn((e: React.FormEvent) => e.preventDefault());
+    const { container } = render(<form onSubmit={onSubmit}>
+      <Select options={mockOptions} onChange={() => {}} name="course" required aria-label="Test select" />
+      <button type="submit">Submit</button>
+    </form>);
+
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(container.querySelector('[data-rac]')).toHaveAttribute('data-invalid', 'true');
   });
 });

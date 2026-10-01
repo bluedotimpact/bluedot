@@ -72,7 +72,7 @@ export const Select = ({
       }}
       isRequired={required}
       isDisabled={disabled}
-      isInvalid={isInvalid}
+      isInvalid={isInvalid || undefined}
       className={cn('group flex flex-col', variant === 'ghost' ? 'w-fit' : 'w-full', className)}
     >
       <Button
