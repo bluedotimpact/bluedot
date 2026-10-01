@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import { z } from 'zod';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';
 import { fetchApplications } from '../../lib/api/airtable';
-import { type Direction } from '../../lib/client/types';
+import { type Direction, type QueueFilters, MAX_QUEUE_FILTERS } from '../../lib/client/types';
 
 const ApplicationSchema = z.object({
   id: z.string(),
@@ -33,9 +33,20 @@ const ApplicationSchema = z.object({
   technicalSkillScore: z.number().optional(),
   technicalSkillRationale: z.string().optional(),
   totalScore: z.number().optional(),
+  tiles: z.array(z.object({ id: z.string(), label: z.string(), tone: z.enum(['neutral', 'positive', 'caution']) })).optional(),
 });
 
 const parseDirection = (raw: unknown): Direction => (raw === 'bottom' ? 'bottom' : 'top');
+
+const parseFilters = (rawFilters: unknown, rawMatch: unknown): QueueFilters | undefined => {
+  if (rawFilters === undefined || rawFilters === '') return undefined;
+  if (typeof rawFilters !== 'string') throw new createHttpError.BadRequest('Invalid filters');
+  const optionIds = rawFilters.split(',');
+  if (optionIds.length > MAX_QUEUE_FILTERS) throw new createHttpError.BadRequest(`At most ${MAX_QUEUE_FILTERS} filters can be applied`);
+  if (!optionIds.every((id) => /^rec[A-Za-z0-9]+$/.test(id))) throw new createHttpError.BadRequest('Invalid filter id');
+  if (rawMatch !== undefined && rawMatch !== 'any' && rawMatch !== 'all') throw new createHttpError.BadRequest('Invalid match: use any or all');
+  return { optionIds, mode: rawMatch === 'all' ? 'all' : 'any' };
+};
 
 export default makeApiRoute({
   requireAuth: true,
@@ -51,14 +62,15 @@ export default makeApiRoute({
   if (!/^rec[A-Za-z0-9]+$/.test(round)) throw new createHttpError.BadRequest('Invalid round id');
   const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;
   const direction = parseDirection(req.query.direction);
+  const filters = parseFilters(req.query.filters, req.query.match);
   try {
-    return await fetchApplications(round, offset, direction);
+    return await fetchApplications(round, offset, direction, filters);
   } catch (err) {
     if (err instanceof Error && err.message.includes('LIST_RECORDS_ITERATOR_NOT_AVAILABLE')) {
       // Offset expired — restart pagination from the beginning.
       // The filter excludes already-decided applications, so this
       // will return the next batch of unreviewed ones.
-      return fetchApplications(round, undefined, direction);
+      return fetchApplications(round, undefined, direction, filters);
     }
 
     throw err;

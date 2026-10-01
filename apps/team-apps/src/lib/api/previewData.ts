@@ -1,4 +1,7 @@
-import type { Application } from '../client/types';
+import createHttpError from 'http-errors';
+import type {
+  Application, ApplicationTile, FilterOption, QueueFilters,
+} from '../client/types';
 import type { DecisionEmailCounts, Round, RoundStats } from './airtable';
 
 const rounds: Round[] = [
@@ -24,6 +27,33 @@ const people: Application[] = [
   },
 ];
 
+// Each sample option matches a fixed set of sample applicants, so any and all
+// give different queues: any of both → 01, 02, 03; all of both → 03. Both
+// show as tiles, in different tones.
+const filterOptions: (ApplicationTile & { matches: string[] })[] = [
+  {
+    id: 'recPreviewFilterA', label: 'Sample filter A', tone: 'caution', matches: ['recSamplePerson01', 'recSamplePerson03'],
+  },
+  {
+    id: 'recPreviewFilterB', label: 'Sample filter B', tone: 'positive', matches: ['recSamplePerson02', 'recSamplePerson03'],
+  },
+];
+
+const withTiles = (person: Application): Application => {
+  const tiles = filterOptions.filter((option) => option.matches.includes(person.id)).map(({ id, label, tone }) => ({ id, label, tone }));
+  return tiles.length > 0 ? { ...person, tiles } : person;
+};
+
+const matchesFilters = (person: Application, filters?: QueueFilters): boolean => {
+  if (!filters?.optionIds.length) return true;
+  const hits = filters.optionIds.map((id) => {
+    const option = filterOptions.find((candidate) => candidate.id === id);
+    if (!option) throw createHttpError(400, 'A selected filter is no longer available. Choose your filters again.', { expose: true });
+    return option.matches.includes(person.id);
+  });
+  return filters.mode === 'all' ? hits.every(Boolean) : hits.some(Boolean);
+};
+
 type PreviewState = { opinions: Record<string, { opinion: string; decision: string }>; moved: Record<string, string>; emailsSent: Record<string, true> };
 const previewGlobal = globalThis as typeof globalThis & { blueDotAppsPreview?: PreviewState };
 const state = () => {
@@ -35,15 +65,16 @@ const state = () => {
 
 export const previewData = {
   fetchRounds: async () => rounds,
-  fetchApplications: async (_round: string, _offset?: string, direction = 'top') => ({
+  fetchFilterOptions: async (): Promise<FilterOption[]> => filterOptions.map(({ id, label }) => ({ id, label })),
+  fetchApplications: async (_round: string, _offset?: string, direction = 'top', filters?: QueueFilters) => ({
     // Unscored applications sort last in either direction, matching the real
     // adapter's scored-then-unscored phases.
-    applications: people.filter((person) => !state().opinions[person.id] && !state().moved[person.id]).sort((a, b) => {
+    applications: people.filter((person) => matchesFilters(person, filters) && !state().opinions[person.id] && !state().moved[person.id]).sort((a, b) => {
       if (a.totalScore === undefined && b.totalScore === undefined) return 0;
       if (a.totalScore === undefined) return 1;
       if (b.totalScore === undefined) return -1;
       return direction === 'bottom' ? a.totalScore - b.totalScore : b.totalScore - a.totalScore;
-    }),
+    }).map(withTiles),
   }),
   fetchApplicationHistory: async () => [],
   fetchRoundStats: async (): Promise<RoundStats> => ({ total: people.length, evaluated: Object.keys(state().opinions).length, accepted: Object.values(state().opinions).filter((opinion) => opinion.decision === 'Accept').length }),

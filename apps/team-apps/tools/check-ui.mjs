@@ -114,6 +114,7 @@ try {
   await page.getByRole('link', { name: 'Speed Reviewer', exact: true }).click();
   await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).click();
   await page.getByText('Alex Morgan', { exact: true }).waitFor();
+  assert.deepEqual(await page.getByRole('list', { name: 'Tags' }).getByRole('listitem').allTextContents(), ['Sample filter A'], 'Matching tile options show on the person card');
   await page.getByRole('button', { name: 'Pause timer' }).click();
   // External tools leave the active reviewer and its queued application in place.
   await openExternalApp(page.getByRole('navigation', { name: 'Apps' }).getByRole('link', { name: externalName }));
@@ -149,6 +150,34 @@ try {
   await page.getByRole('heading', { name: 'Apps', exact: true }).waitFor();
   console.log('PASS sign-in gate, deep link, preference, failed save/retry, navigation and browser Back guards');
   await reset();
+  // Queue filters narrow the session, say so while reviewing, and persist until cleared.
+  await page.getByRole('link', { name: 'Speed Reviewer', exact: true }).click();
+  await page.getByRole('checkbox', { name: 'Sample filter A' }).check();
+  assert.equal(await page.getByRole('button', { name: 'All', exact: true }).count(), 0, 'Any/All appears only with two or more ticked');
+  await page.getByRole('checkbox', { name: 'Sample filter B' }).check();
+  await page.getByRole('button', { name: 'All', exact: true }).click();
+  await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).click();
+  await page.getByText('Jordan Patel', { exact: true }).waitFor();
+  assert.equal(await page.getByText('Filtered queue', { exact: true }).count(), 1);
+  assert.deepEqual(await page.getByRole('list', { name: 'Tags' }).getByRole('listitem').allTextContents(), ['Sample filter A', 'Sample filter B']);
+  await page.getByRole('button', { name: 'Conclude session' }).click();
+  await page.getByRole('button', { name: 'Review a different round', exact: true }).click();
+  assert.equal(await page.getByRole('checkbox', { name: 'Sample filter B' }).isChecked(), true);
+  await page.getByRole('button', { name: 'Clear', exact: true }).click();
+  assert.equal(await page.getByRole('checkbox', { name: 'Sample filter A' }).isChecked(), false);
+  // A long option list scrolls inside the card instead of pushing the rounds off a phone screen.
+  await page.route('**/api/filter-options', (route) => route.fulfill({
+    json: { options: Array.from({ length: 15 }, (_, index) => ({ id: `recPreviewFilterExtra${index}`, label: `Sample filter ${String.fromCharCode(65 + index)}` })) },
+  }));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload({ waitUntil: 'networkidle' });
+  const firstRound = page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true });
+  await firstRound.waitFor();
+  assert.ok((await firstRound.boundingBox()).y + 44 <= 844, 'The first round stays on screen with many filter options');
+  assert.equal(await page.evaluate(() => globalThis.document.documentElement.scrollWidth <= globalThis.innerWidth), true, 'No horizontal scroll');
+  await page.unroute('**/api/filter-options');
+  await page.setViewportSize({ width: 1440, height: 900 });
+  console.log('PASS queue filters');
   // Confirming browser Back and Forward must preserve the requested destination.
   const startReview = async () => {
     await page.getByRole('button', { name: 'AGI Strategy (sample round)', exact: true }).click();

@@ -2,29 +2,50 @@ import {
   act, cleanup, fireEvent, render, screen,
 } from '@testing-library/react';
 import {
-  afterEach, beforeEach, expect, test, vi,
+  afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import type { ReactNode } from 'react';
-import type { Application } from '../lib/client/types';
+import type { Application, QueueFilters } from '../lib/client/types';
 import { useNavigationState } from '../lib/client/navigation';
 
-const { response, testRound } = vi.hoisted(() => ({
-  response: { applications: [] as Application[] },
+type AxiosResult = { data?: unknown; loading: boolean; error: Error | null };
+const {
+  response, testRound, axiosResults, axiosUrls,
+} = vi.hoisted(() => ({
+  response: { applications: [] as Application[], nextOffset: undefined as string | undefined },
   testRound: { name: 'AGI Strategy (test)' },
+  // Results for specific URLs; every other request gets the applications response.
+  axiosResults: {} as Record<string, AxiosResult>,
+  axiosUrls: [] as string[],
 }));
-vi.mock('axios-hooks', () => ({ default: () => [{ data: response, loading: false, error: null }] }));
+vi.mock('axios-hooks', () => ({
+  default: ({ url }: { url: string }) => {
+    axiosUrls.push(url);
+    return [axiosResults[url] ?? { data: response, loading: false, error: null }];
+  },
+}));
 vi.mock('../lib/client/api', () => ({ authFetch: vi.fn() }));
 vi.mock('@bluedot/ui', () => ({
+  CTALinkOrButton: ({ children, onClick }: { children: ReactNode; onClick?: () => void }) => <button type="button" onClick={onClick}>{children}</button>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   H2: ({ children }: { children: ReactNode }) => <h2>{children}</h2>,
-  Callout: ({ children }: { children?: ReactNode }) => <div>{children}</div>,
+  Callout: ({ children, role }: { children?: ReactNode; role?: string }) => <div role={role}>{children}</div>,
   Modal: ({ isOpen, title, children }: { isOpen: boolean; title?: ReactNode; children?: ReactNode }) => (
     isOpen ? <div role="dialog"><h2>{title}</h2>{children}</div> : null
   ),
   ProgressDots: () => <span>Loading</span>,
 }));
 vi.mock('../components/RoundPicker', () => ({
-  RoundPicker: ({ onSelect }: { onSelect: (round: { id: string; name: string; course: string }, direction: string) => void }) => <button type="button" onClick={() => onSelect({ id: 'recTestRound', name: testRound.name, course: (testRound.name.split('(')[0] ?? testRound.name).trim() }, 'top')}>Start test round</button>,
+  RoundPicker: ({ onSelect, notice }: { onSelect: (round: { id: string; name: string; course: string }, direction: string, filters?: QueueFilters) => void; notice?: string }) => {
+    const round = { id: 'recTestRound', name: testRound.name, course: (testRound.name.split('(')[0] ?? testRound.name).trim() };
+    return (
+      <>
+        {notice && <p role="alert">{notice}</p>}
+        <button type="button" onClick={() => onSelect(round, 'top')}>Start test round</button>
+        <button type="button" onClick={() => onSelect(round, 'top', { optionIds: ['recSampleFilterA', 'recSampleFilterB'], mode: 'all' })}>Start filtered test round</button>
+      </>
+    );
+  },
 }));
 vi.mock('../components/ApplicationCard', () => ({ ApplicationCard: ({ application }: { application: Application }) => <p>{application.name}</p> }));
 vi.mock('../components/MoveCourseControl', () => ({
@@ -33,10 +54,19 @@ vi.mock('../components/MoveCourseControl', () => ({
 
 import { authFetch } from '../lib/client/api';
 import SpeedReviewPage from '../pages/speed-review';
+import type * as RoundPickerModule from '../components/RoundPicker';
+
+const { RoundPicker } = await vi.importActual<typeof RoundPickerModule>('../components/RoundPicker');
 
 beforeEach(() => {
   vi.useFakeTimers();
   testRound.name = 'AGI Strategy (test)';
+  response.nextOffset = undefined;
+  axiosUrls.length = 0;
+  Object.keys(axiosResults).forEach((url) => {
+    delete axiosResults[url];
+  });
+  window.localStorage.clear();
   useNavigationState.setState({ sessionActive: false, pendingWrites: 0, promptOpen: false });
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
 });
@@ -345,4 +375,163 @@ test('expiry with only one application restarts the timer and explains why it st
   expect(screen.getByText('Only one application remains. Timer restarted.')).toBeTruthy();
   expire();
   expect(screen.getByRole('button', { name: 'Pause timer' }).textContent).toContain('30s');
+});
+
+const FILTERED_QUERY = 'filters=recSampleFilterA%2CrecSampleFilterB&match=all';
+
+test('an unfiltered session requests applications exactly as before', () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start test round' }));
+  expect(axiosUrls).toContain('/api/applications?round=recTestRound&direction=top');
+  expect(screen.queryByText('Filtered queue')).toBeNull();
+});
+
+test('a filtered session sends its selection with the first load and every prefetch, and says the queue is filtered', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }, { id: 'recTwo', name: 'Second test applicant' }];
+  response.nextOffset = 'itrNextPage';
+  vi.mocked(authFetch).mockResolvedValue({ ok: true, json: async () => ({ applications: [] }) } as Response);
+  render(<SpeedReviewPage />);
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Start filtered test round' }));
+  });
+  expect(axiosUrls).toContain(`/api/applications?round=recTestRound&direction=top&${FILTERED_QUERY}`);
+  expect(authFetch).toHaveBeenCalledWith(`/api/applications?round=recTestRound&direction=top&${FILTERED_QUERY}&offset=itrNextPage`);
+  expect(screen.getByText('Filtered queue')).toBeTruthy();
+});
+
+test('a filtered summary labels whole-round numbers and reviewing the round again keeps the filters', async () => {
+  response.applications = [{ id: 'recOne', name: 'First test applicant' }];
+  mockSummaryApis();
+  render(<SpeedReviewPage />);
+  fireEvent.click(screen.getByRole('button', { name: 'Start filtered test round' }));
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Yes →' }));
+  });
+  await act(async () => {});
+
+  expect(screen.getByText('Whole round: 1 of 3 reviewed')).toBeTruthy();
+  expect(screen.getByText('Whole round: 1 of 3 reviewed sent')).toBeTruthy();
+  expect(screen.getByRole('button', { name: 'Send all reviewed in round (2)' })).toBeTruthy();
+  axiosUrls.length = 0;
+  fireEvent.click(screen.getByRole('button', { name: 'Review same round again' }));
+  expect(axiosUrls).toContain(`/api/applications?round=recTestRound&direction=top&${FILTERED_QUERY}`);
+});
+
+test('a filtered session with no matches says so instead of suggesting the round is still open', async () => {
+  response.applications = [];
+  mockSummaryApis();
+  render(<SpeedReviewPage />);
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Start filtered test round' }));
+  });
+  expect(screen.getByText('No matching applications')).toBeTruthy();
+});
+
+test('a filtered round that fails to load returns to the picker and says why', async () => {
+  axiosResults[`/api/applications?round=recTestRound&direction=top&${FILTERED_QUERY}`] = { data: undefined, loading: false, error: new Error('Request failed with status code 400') };
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+  render(<SpeedReviewPage />);
+  await act(async () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Start filtered test round' }));
+  });
+  expect(screen.getByRole('alert').textContent).toContain('couldn\'t be loaded with the selected filters');
+  expect(screen.getByRole('button', { name: 'Start test round' })).toBeTruthy();
+});
+
+describe('round picker', () => {
+  const pickerRound = { id: 'recPickerRound', name: 'AGI Strategy (sample round)', course: 'AGI Strategy' };
+  const sampleOptions = [{ id: 'recSampleFilterA', label: 'Sample filter A' }, { id: 'recSampleFilterB', label: 'Sample filter B' }];
+  const offer = (filterOptions: AxiosResult) => {
+    axiosResults['/api/rounds'] = { data: { rounds: [pickerRound] }, loading: false, error: null };
+    axiosResults['/api/filter-options'] = filterOptions;
+  };
+
+  test('lists the options and sends the ticked ones with the chosen match', () => {
+    offer({ data: { options: sampleOptions }, loading: false, error: null });
+    const onSelect = vi.fn();
+    render(<RoundPicker onSelect={onSelect} />);
+    expect(screen.getByRole('group', { name: 'Only show applicants matching' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Clear' })).toBeNull();
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter A' }));
+    expect(screen.getByRole('button', { name: 'Clear' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'All' })).toBeNull();
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter B' }));
+    expect(screen.getByRole('button', { name: 'Any' }).getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(screen.getByRole('button', { name: 'All' }));
+
+    fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
+    expect(onSelect).toHaveBeenCalledWith(pickerRound, 'top', { optionIds: ['recSampleFilterA', 'recSampleFilterB'], mode: 'all' });
+    expect(window.localStorage.getItem('speed-review:filters')).toBe('recSampleFilterA,recSampleFilterB');
+    expect(window.localStorage.getItem('speed-review:filter-match')).toBe('all');
+  });
+
+  test('restores the stored selection minus options no longer offered, and Clear unticks everything', () => {
+    window.localStorage.setItem('speed-review:filters', 'recSampleFilterRetired,recSampleFilterB');
+    offer({ data: { options: sampleOptions }, loading: false, error: null });
+    const onSelect = vi.fn();
+    render(<RoundPicker onSelect={onSelect} />);
+    expect(screen.getByRole<HTMLInputElement>('checkbox', { name: 'Sample filter B' }).checked).toBe(true);
+    expect(window.localStorage.getItem('speed-review:filters')).toBe('recSampleFilterB');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    expect(screen.getAllByRole<HTMLInputElement>('checkbox').every((box) => !box.checked)).toBe(true);
+    fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
+    expect(onSelect).toHaveBeenCalledWith(pickerRound, 'top', undefined);
+  });
+
+  test('stops new ticks at the API limit of 20 and says so', () => {
+    const manyOptions = Array.from({ length: 21 }, (_, index) => ({ id: `recSampleFilter${index}`, label: `Sample filter ${index + 1}` }));
+    offer({ data: { options: manyOptions }, loading: false, error: null });
+    const onSelect = vi.fn();
+    render(<RoundPicker onSelect={onSelect} />);
+    manyOptions.slice(0, 20).forEach(({ label }) => fireEvent.click(screen.getByRole('checkbox', { name: label })));
+    expect(screen.getByRole<HTMLInputElement>('checkbox', { name: 'Sample filter 21' }).disabled).toBe(true);
+    expect(screen.getByText('You can tick up to 20 at a time.')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter 1' }));
+    expect(screen.getByRole<HTMLInputElement>('checkbox', { name: 'Sample filter 21' }).disabled).toBe(false);
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter 1' }));
+    fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
+    expect(onSelect.mock.calls[0]?.[2]?.optionIds).toHaveLength(20);
+  });
+
+  test('still works when the browser blocks storage', () => {
+    const blocked = () => {
+      throw new Error('Storage is blocked');
+    };
+
+    const getItem = vi.spyOn(window.localStorage, 'getItem').mockImplementation(blocked);
+    const setItem = vi.spyOn(window.localStorage, 'setItem').mockImplementation(blocked);
+    offer({ data: { options: sampleOptions }, loading: false, error: null });
+    const onSelect = vi.fn();
+    render(<RoundPicker onSelect={onSelect} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Bottom of pile' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Sample filter A' }));
+    fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
+    expect(onSelect).toHaveBeenCalledWith(pickerRound, 'bottom', { optionIds: ['recSampleFilterA'], mode: 'any' });
+    expect(getItem).toHaveBeenCalled();
+    expect(setItem).toHaveBeenCalled();
+  });
+
+  test('shows why it is back, when told', () => {
+    offer({ data: { options: sampleOptions }, loading: false, error: null });
+    render(<RoundPicker onSelect={vi.fn()} notice="Sample notice" />);
+    expect(screen.getByRole('alert').textContent).toBe('Sample notice');
+  });
+
+  test.each([
+    ['no options are offered', { data: { options: [] }, loading: false, error: null }],
+    ['the options fail to load', { data: undefined, loading: false, error: new Error('Request failed with status code 500') }],
+  ])('hides the section when %s and still starts an unfiltered round', (_, filterOptions) => {
+    window.localStorage.setItem('speed-review:filters', 'recSampleFilterA');
+    offer(filterOptions);
+    const onSelect = vi.fn();
+    render(<RoundPicker onSelect={onSelect} />);
+    expect(screen.queryByText('Only show applicants matching')).toBeNull();
+    expect(screen.queryAllByRole('checkbox')).toEqual([]);
+    fireEvent.click(screen.getByRole('button', { name: pickerRound.name }));
+    expect(onSelect).toHaveBeenCalledWith(pickerRound, 'top', undefined);
+  });
 });

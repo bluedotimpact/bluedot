@@ -20,6 +20,9 @@ type SessionCompleteProps = {
   // How many applications the session had available, distinguishing "you
   // rated none" from "the round had none to review".
   totalLoaded: number;
+  // Round stats and email counts always cover the whole round, so a filtered
+  // session labels them as such.
+  filtered: boolean;
   onReset: () => void;
   onReviewRound: (roundId: string, roundName: string) => void;
 };
@@ -43,7 +46,7 @@ const RATING_RANK: Record<RatingValue, number> = {
 };
 
 export const SessionComplete: React.FC<SessionCompleteProps> = ({
-  roundId, round, course, rated, totalMs, totalLoaded, onReset, onReviewRound,
+  roundId, round, course, rated, totalMs, totalLoaded, filtered, onReset, onReviewRound,
 }) => {
   const pendingWrites = useNavigationState((navigation) => navigation.pendingWrites);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -378,7 +381,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       <div>
         <H1 className="text-size-lg text-primary">{(() => {
           if (roundComplete) return 'You\'ve evaluated all the applications for the round!';
-          if (rated.length === 0 && totalLoaded === 0) return 'No scored applications available';
+          if (rated.length === 0 && totalLoaded === 0) return filtered ? 'No matching applications' : 'No scored applications available';
           if (rated.length === 0) return 'You haven\'t reviewed any applications';
           return 'Session complete';
         })()}
@@ -386,7 +389,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         <p className="text-size-sm text-secondary mt-1">{round}</p>
         {!roundComplete && rated.length === 0 && totalLoaded === 0 && (
           <p className="text-size-sm text-secondary mt-2">
-            Applications may still be open for this round. Try again later, or pick a different round.
+            {filtered
+              ? 'No unreviewed applications in this round match your filters. Try different filters, or pick a different round.'
+              : 'Applications may still be open for this round. Try again later, or pick a different round.'}
           </p>
         )}
       </div>
@@ -394,7 +399,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       {/* Progress bar */}
       <div>
         <div className="flex justify-between text-size-xs text-secondary mb-1.5">
-          <span>{reviewedCount ?? '…'} of {totalCount ?? '…'} reviewed</span>
+          <span>{filtered && 'Whole round: '}{reviewedCount ?? '…'} of {totalCount ?? '…'} reviewed</span>
           {totalCount && reviewedCount !== null && (
             <span>{Math.round((reviewedCount / totalCount) * 100)}%</span>
           )}
@@ -461,7 +466,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           <H2 className="text-size-sm uppercase tracking-wide text-secondary">Decision emails</H2>
           <span className="text-size-xs text-secondary">
             {(() => {
-              if (emailCounts) return `${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent`;
+              if (emailCounts) return `${filtered ? 'Whole round: ' : ''}${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent`;
               if (!countsError) return 'Loading counts…';
               return (
                 <button type="button" onClick={refreshEmailCounts} className="underline underline-offset-2 hover:text-primary">
@@ -503,7 +508,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             onClick={() => setConfirmingScope('round')}
             className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors disabled:opacity-40"
           >
-            Send all reviewed ({emailCounts?.pending ?? '…'})
+            {filtered ? 'Send all reviewed in round' : 'Send all reviewed'} ({emailCounts?.pending ?? '…'})
           </button>
         </div>
       </div>

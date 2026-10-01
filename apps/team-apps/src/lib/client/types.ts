@@ -27,9 +27,27 @@ export type Application = {
   technicalSkillScore?: number;
   technicalSkillRationale?: string;
   totalScore?: number;
+  // Config options marked as tiles that this application matches. Only the
+  // option's label and tone are sent, never the field values behind it.
+  tiles?: ApplicationTile[];
 };
 
 export type Direction = 'top' | 'bottom';
+
+export type FilterOption = { id: string; label: string };
+
+export type FilterMatch = 'any' | 'all';
+
+// Only record IDs of the chosen options travel from the browser; the server
+// looks up what each option filters on.
+export type QueueFilters = { optionIds: string[]; mode: FilterMatch };
+
+// Shared by the picker and the API so the two limits always agree.
+export const MAX_QUEUE_FILTERS = 20;
+
+export type TileTone = 'neutral' | 'positive' | 'caution';
+
+export type ApplicationTile = { id: string; label: string; tone: TileTone };
 
 export type RatingValue = 'no' | 'neutral-accept' | 'neutral-reject' | 'yes' | 'strong-yes' | 'moved';
 

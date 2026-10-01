@@ -1,7 +1,13 @@
 import { H1 } from '@bluedot/ui';
-import { type Application } from '../lib/client/types';
+import { type Application, type TileTone } from '../lib/client/types';
 import { SummaryCard } from './SummaryCard';
 import { PreviousApplicationsCard } from './PreviousApplicationsCard';
+
+const TILE_TONE_CLASSES: Record<TileTone, string> = {
+  neutral: 'border-subtle bg-tint text-secondary',
+  positive: 'border-info-border bg-info-bg text-info-fg',
+  caution: 'border-warning-border bg-warning-bg text-warning-fg',
+};
 
 type ApplicationCardProps = {
   application: Application;
@@ -33,6 +39,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
     impressivenessRationale,
     technicalSkillScore,
     technicalSkillRationale,
+    tiles,
   } = application;
 
   const subtitle = [jobTitle, organisation, careerLevel].filter(Boolean).join(' · ');
@@ -40,10 +47,19 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
-        <div>
+        <div className="min-w-0">
           <H1 className="text-size-lg text-primary">{name}</H1>
           {subtitle && (
             <p className="text-size-sm text-secondary mt-0.5">{subtitle}</p>
+          )}
+          {tiles && tiles.length > 0 && (
+            <ul aria-label="Tags" className="flex flex-wrap gap-1.5 mt-2">
+              {tiles.map((tile) => (
+                <li key={tile.id} className={`rounded-full border px-2 py-0.5 text-size-xs font-medium break-words ${TILE_TONE_CLASSES[tile.tone]}`}>
+                  {tile.label}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
