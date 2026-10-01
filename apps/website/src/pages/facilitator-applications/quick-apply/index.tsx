@@ -226,7 +226,7 @@ const QuestionCollapsible = ({
       {title}
       <FaChevronDown
         aria-hidden
-        className="size-5 shrink-0 transition-transform group-open:rotate-180"
+        className="size-3 shrink-0 transition-transform group-open:rotate-180"
       />
     </summary>
     <div className="flex flex-col gap-3 px-3 pb-4">
