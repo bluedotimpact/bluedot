@@ -12,6 +12,7 @@ import {
   motion,
   useMotionValue,
   useDragControls,
+  useReducedMotion,
 } from 'framer-motion';
 import clsx from 'clsx';
 import { ModalHeader } from './ModalHeader';
