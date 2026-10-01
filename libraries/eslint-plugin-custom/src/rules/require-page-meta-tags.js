@@ -5,6 +5,8 @@ const HELPER_META = ['description', 'og:title', 'og:description', 'twitter:title
 
 const MESSAGE = 'Use pageMetaTags({ title, description }) from \'lib/linkPreviewMetaTags\' instead of writing {{tag}} by hand. It writes the page title and description plus the og: and twitter: copies that link previews read.';
 
+const COMPUTED_MESSAGE = 'Use a fixed {{attrName}} on <meta>, so lint can check it isn\'t a tag that pageMetaTags() writes. For title and description tags, call pageMetaTags() instead.';
+
 const staticAttr = (node, attrName) => {
   const attr = node.attributes.find((a) => a.type === 'JSXAttribute' && a.name.name === attrName);
   if (!attr || !attr.value) return null;
@@ -52,7 +54,14 @@ module.exports = {
         if (node.name.name !== 'meta') return;
 
         for (const attrName of ['name', 'property']) {
+          const attr = node.attributes.find((a) => a.type === 'JSXAttribute' && a.name.name === attrName);
           const value = staticAttr(node, attrName);
+          // a computed name/property could be one of the helper's tags, and lint can't tell which
+          if (attr?.value && value === null) {
+            context.report({ node, message: COMPUTED_MESSAGE, data: { attrName } });
+            return;
+          }
+
           if (HELPER_META.includes(value)) {
             context.report({ node, message: MESSAGE, data: { tag: `<meta ${attrName}="${value}">` } });
             return;

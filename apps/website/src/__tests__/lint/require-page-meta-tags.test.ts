@@ -43,6 +43,17 @@ describe('require-page-meta-tags lint rule', () => {
     expect(errors[0]!.message).toContain('Use pageMetaTags({ title, description })');
   });
 
+  test.each([
+    ['<meta name={tagName} content="x" />'],
+    // A template with an expression: `og:${kind}` (built in two parts so this test file isn't one itself)
+    [['<meta property={`og:$', '{kind}`} content="x" />'].join('')],
+  ])('flags a computed name/property: %s', async (tag) => {
+    const errors = await ruleErrors(pageWithHead(tag).replace('const Page', 'const tagName = \'og:title\';\nconst kind = \'title\';\nconst Page'), 'src/pages/about.tsx');
+
+    expect(errors).toHaveLength(1);
+    expect(errors[0]!.message).toContain('Use a fixed');
+  });
+
   test('allows pageMetaTags() and tags the helper does not write', async () => {
     const head = '{pageMetaTags({ title: \'About\' })}\n    <meta property="og:url" content="x" />\n    <meta name="robots" content="noindex" />';
 
