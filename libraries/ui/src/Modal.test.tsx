@@ -61,6 +61,15 @@ describe('Modal', () => {
 
       expect(screen.queryByText('Content')).not.toBeInTheDocument();
     });
+
+    test('moves focus to the title when it changes while open', () => {
+      const { rerender } = render(<Modal isOpen setIsOpen={vi.fn()} title="Rejoin a group">Content</Modal>);
+      expect(screen.getByRole('heading', { name: 'Rejoin a group' })).not.toHaveFocus();
+
+      rerender(<Modal isOpen setIsOpen={vi.fn()} title="Success">Content</Modal>);
+
+      expect(screen.getByRole('heading', { name: 'Success' })).toHaveFocus();
+    });
   });
 
   describe('mobile bottom drawer', () => {
