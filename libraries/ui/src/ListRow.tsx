@@ -35,8 +35,8 @@ export const ListRow = ({
           {title}
           {isExternal && <span className="sr-only"> (opens in a new tab)</span>}
         </p>
-        {summary && <p className="mt-1 text-size-sm leading-relaxed text-secondary">{summary}</p>}
-        {meta && <p className="mt-1 text-size-xs leading-relaxed text-secondary">{meta}</p>}
+        {summary && <div className="mt-1 text-size-sm leading-relaxed text-secondary">{summary}</div>}
+        {meta && <div className="mt-1 text-size-xs leading-relaxed text-secondary">{meta}</div>}
       </div>
     </div>
   );

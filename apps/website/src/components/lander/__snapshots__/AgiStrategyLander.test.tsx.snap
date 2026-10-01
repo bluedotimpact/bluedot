@@ -862,7 +862,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                  class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/courses/technical-ai-safety"
                   tabindex="0"
                 >
@@ -880,11 +880,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       >
                         Technical AI Safety
                       </p>
-                      <p
+                      <div
                         class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Interpretability, evals, alignment research. For people ready to work on the technical problems.
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -908,7 +908,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                  class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/courses/ai-governance"
                   tabindex="0"
                 >
@@ -926,11 +926,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       >
                         AI Governance
                       </p>
-                      <p
+                      <div
                         class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Policy, institutions, international coordination. For people shaping how these systems get governed.
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -954,7 +954,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                  class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/courses/biosecurity"
                   tabindex="0"
                 >
@@ -972,11 +972,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       >
                         Biosecurity
                       </p>
-                      <p
+                      <div
                         class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1000,7 +1000,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                  class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/grants/rapid"
                   tabindex="0"
                 >
@@ -1018,11 +1018,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       >
                         Rapid Grants
                       </p>
-                      <p
+                      <div
                         class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Small, fast funding for concrete AI safety work. 15-minute application, decisions in days, money upfront by default.
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -1046,7 +1046,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="py-4 first:pt-0 last:pb-0"
               >
                 <a
-                  class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                  class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                   href="/grants/career-transition"
                   tabindex="0"
                 >
@@ -1064,11 +1064,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       >
                         Career Transition Grants
                       </p>
-                      <p
+                      <div
                         class="mt-1 text-size-sm leading-relaxed text-secondary"
                       >
                         Funding to enable you to work full-time on impactful AI safety work. Propose your plan and we'll back you.
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <div
