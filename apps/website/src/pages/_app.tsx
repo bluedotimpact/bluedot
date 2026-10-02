@@ -90,7 +90,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
     return (
       <>
         <AnnouncementBanner label="Service disruption" hideAfter={new Date('2026-10-04T18:00:00+00:00')}>
-          <b>We&apos;re having intermittent technical issues.</b> Some people can&apos;t sign in, or are signed out unexpectedly, and some changes may not save. We&apos;re working on a fix. If something fails, please wait a few minutes and try again.
+          Some parts of the site may fail intermittently, including sign-in and saving. We&apos;re working on a fix. If something fails, please try again in a few minutes.
         </AnnouncementBanner>
         {fromSite && (
           <AnnouncementBanner
