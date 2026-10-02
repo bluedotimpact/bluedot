@@ -85,21 +85,24 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   }, []);
 
   const getAnnouncementBanner = () => {
-    if (fromSite) {
-      const sourceSiteName = fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals';
+    const sourceSiteName = fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals';
 
-      return (
-        <AnnouncementBanner
-          label={`From ${sourceSiteName}`}
-          ctaText="What changed"
-          ctaUrl="/blog/course-website-consolidation"
-        >
-          You&apos;re in the right place. We&apos;ve moved the {sourceSiteName} experience into BlueDot Impact so your courses, account, and community now live on one platform.
+    return (
+      <>
+        <AnnouncementBanner label="Service disruption" hideAfter={new Date('2026-10-04T18:00:00+00:00')}>
+          Some parts of the site may fail intermittently, including sign-in and saving. We&apos;re working on a fix. If something fails, please try again in a few minutes.
         </AnnouncementBanner>
-      );
-    }
-
-    return undefined;
+        {fromSite && (
+          <AnnouncementBanner
+            label={`From ${sourceSiteName}`}
+            ctaText="What changed"
+            ctaUrl="/blog/course-website-consolidation"
+          >
+            You&apos;re in the right place. We&apos;ve moved the {sourceSiteName} experience into BlueDot Impact so your courses, account, and community now live on one platform.
+          </AnnouncementBanner>
+        )}
+      </>
+    );
   };
 
   return (
