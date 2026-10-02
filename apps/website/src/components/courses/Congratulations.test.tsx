@@ -36,6 +36,13 @@ const foaiProps = {
   courseId: FOAI_COURSE_ID,
 };
 
+const biosecurityProps = {
+  courseTitle: 'Biosecurity',
+  coursePath: '/courses/biosecurity',
+  courseSlug: 'biosecurity',
+  courseId: 'recBiosecurity',
+};
+
 const hasCertificateResponse = {
   status: 'has-certificate' as const,
   certificateId: 'cert-abc-123',
@@ -74,6 +81,21 @@ describe('Congratulations', () => {
       expect(screen.getByRole('link', { name: /Share on LinkedIn/ })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /Share on X/ })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /Copy Message/ })).toBeInTheDocument();
+      expect(screen.getByText(/Help more people discover AI safety today/)).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: /Refer someone/ })).toBeNull();
+    });
+
+    test('renders referral form card and cause-specific wording for courses that configure them', () => {
+      render(<Congratulations {...biosecurityProps} />, { wrapper: TrpcProvider });
+
+      expect(screen.getByText(/Help more people discover biosecurity today/)).toBeInTheDocument();
+      expect(screen.getByText(/raise awareness for pandemic preparedness/)).toBeInTheDocument();
+      expect(screen.getByText(/What happens next/)).toBeInTheDocument();
+
+      const referLink = screen.getByRole('link', { name: /Refer someone/ });
+      expect(referLink).toHaveAttribute('href', 'https://web.miniextensions.com/DN3PuxFG7kf50g5RTph4');
+      expect(referLink).toHaveAttribute('target', '_blank');
+      expect(screen.queryByRole('button', { name: /Copy Message/ })).toBeNull();
     });
 
     test('does not render certificate hero when courseId is absent', () => {
