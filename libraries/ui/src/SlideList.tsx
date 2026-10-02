@@ -218,9 +218,9 @@ export const SlideListBtn: React.FC<{
     aria-label={ariaLabel}
   >
     {direction === 'previous' ? (
-      <FaChevronLeft aria-hidden="true" className="size-3" />
+      <FaChevronLeft aria-hidden="true" className="size-4" />
     ) : (
-      <FaChevronRight aria-hidden="true" className="size-3" />
+      <FaChevronRight aria-hidden="true" className="size-4" />
     )}
   </button>
 );

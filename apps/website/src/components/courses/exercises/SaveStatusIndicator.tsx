@@ -26,7 +26,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
-    icon: <FaCircleNotch aria-hidden="true" className="size-4 animate-spin -translate-y-[0.5px] text-bluedot-normal" />,
+    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-bluedot-normal" />,
     text: 'Saving...',
   },
   saved: {

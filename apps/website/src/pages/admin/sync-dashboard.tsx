@@ -144,7 +144,7 @@ const SyncDashboard = () => {
             onClick={requestSync}
             disabled={requestTrpcSync.isPending}
           >
-            {requestTrpcSync.isPending && <FaCircleNotch aria-hidden="true" className="size-4 animate-spin mr-2" />}
+            {requestTrpcSync.isPending && <FaCircleNotch aria-hidden="true" className="size-3 animate-spin mr-2" />}
             Request Full Sync
           </CTALinkOrButton>
           {hasSyncRunning && (
@@ -168,7 +168,7 @@ const SyncDashboard = () => {
           <H3 className="mb-4 flex items-center gap-2">
             Sync requests (last 24 hours)
             {isFetching && (
-              <FaCircleNotch aria-hidden="true" className="size-4 animate-spin text-bluedot-normal" />
+              <FaCircleNotch aria-hidden="true" className="size-3 animate-spin text-bluedot-normal" />
             )}
           </H3>
 

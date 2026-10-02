@@ -109,7 +109,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       variant: 'inline',
       inline: (
         <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <FaCheck aria-hidden className="size-3.5" />
+          <FaCheck aria-hidden className="size-3" />
           Attended
         </span>
       ),

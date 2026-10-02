@@ -156,7 +156,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       url: discussionDocLink,
       target: '_blank',
       isVisible: (discussionIsSoonOrLive || isFacilitator) && Boolean(discussionDocLink),
-      overflowIcon: <FaFileLines aria-hidden="true" className="mx-auto size-5" />,
+      overflowIcon: <FaFileLines aria-hidden="true" className="mx-auto size-4" />,
     },
     {
       id: 'message-group',
@@ -177,7 +177,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         setFacilitatorSwitchModalType('Update discussion time');
       },
       isVisible: isFacilitator,
-      overflowIcon: <FaClock aria-hidden="true" className="mx-auto size-5" />,
+      overflowIcon: <FaClock aria-hidden="true" className="mx-auto size-4" />,
     },
     {
       id: 'change-facilitator',

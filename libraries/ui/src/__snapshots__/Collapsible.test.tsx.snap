@@ -15,7 +15,7 @@ exports[`Collapsible > renders to snapshot 1`] = `
       </span>
       <svg
         aria-hidden="true"
-        class="size-3.5 shrink-0 transition-transform motion-reduce:transition-none group-open:rotate-180"
+        class="size-4.5 shrink-0 transition-transform motion-reduce:transition-none group-open:rotate-180"
         fill="currentColor"
         height="1em"
         stroke="currentColor"

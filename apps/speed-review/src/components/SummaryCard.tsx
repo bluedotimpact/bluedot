@@ -28,7 +28,7 @@ const PillContents: React.FC<ScoreRow & { hasRationale: boolean }> = ({ label, s
         {score !== undefined ? `${score}/${RATING_MAX}` : '—'}
       </span>
       {hasRationale && (
-        <FaChevronDown className="size-2.5 text-stone-500 transition-transform group-open:rotate-180 shrink-0" />
+        <FaChevronDown className="size-3 text-stone-500 transition-transform group-open:rotate-180 shrink-0" />
       )}
     </span>
   </>
