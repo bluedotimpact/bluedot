@@ -10,7 +10,7 @@ import {
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { ClockUserIcon, UserIcon } from '../icons';
 import {
-  formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek, getGMTOffsetWithCity,
+  buildAvailabilityFormUrl, formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek, getGMTOffsetWithCity,
 } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -489,44 +489,6 @@ const SWITCH_TYPE_OPTIONS = [
 ] as const;
 
 export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
-
-export const buildAvailabilityFormUrl = ({
-  email,
-  utmSource,
-  courseRegistration,
-  roundId,
-}: {
-  email: string;
-  utmSource: string;
-  courseRegistration?: {
-    availabilityIntervalsUTC?: string | null;
-    availabilityTimezone?: string | null;
-    availabilityComments?: string | null;
-  } | null;
-  roundId: string;
-}): string => {
-  const params = new URLSearchParams();
-  params.set('email', email);
-  params.set('utm_source', utmSource);
-  params.set('roundId', roundId);
-
-  const { availabilityIntervalsUTC, availabilityTimezone, availabilityComments } = courseRegistration ?? {};
-
-  if (availabilityIntervalsUTC) {
-    params.set('prefill_intervals', availabilityIntervalsUTC);
-  }
-
-  if (availabilityTimezone) {
-    params.set('prefill_timezone', availabilityTimezone);
-  }
-
-  // Only include comments if they won't make the URL too long (2000 chars overall is generally considered safe)
-  if (availabilityComments && availabilityComments.length <= 1500) {
-    params.set('prefill_comment', availabilityComments);
-  }
-
-  return `https://availability.bluedot.org/form/bluedot-course?${params.toString()}`;
-};
 
 export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
   return [...options].sort((a, b) => {

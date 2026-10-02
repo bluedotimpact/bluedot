@@ -5,7 +5,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
 import DropoutModal from '../../components/courses/DropoutModal';
-import { buildAvailabilityFormUrl } from '../../components/courses/GroupSwitchModal';
 import ApplicationRow from '../../components/facilitator-applications/ApplicationRow';
 import {
   APPLICATION_TABS,
@@ -20,6 +19,7 @@ import MyBlueDotLayout from '../../components/my-bluedot/MyBlueDotLayout';
 import type { CourseAction } from '../../components/my-courses/DiscussionListRow';
 import EmptyCourseList from '../../components/my-courses/EmptyCourseList';
 import { ROUTES } from '../../lib/routes';
+import { buildAvailabilityFormUrl } from '../../lib/utils';
 import type { FacilitatorApplicationListItem } from '../../server/routers/facilitator-applications';
 import { trpc } from '../../utils/trpc';
 import { pageMetaTags } from '../../lib/linkPreviewMetaTags';

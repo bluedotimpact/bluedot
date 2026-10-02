@@ -19,7 +19,8 @@ import {
   applicationsRoundTable, courseRegistrationTable, courseTable, groupDiscussionTable, groupTable, meetPersonTable, roundTable, unitTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
-import GroupSwitchModal, { sortGroupSwitchOptions, buildAvailabilityFormUrl } from './GroupSwitchModal';
+import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
+import { buildAvailabilityFormUrl } from '../../lib/utils';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';

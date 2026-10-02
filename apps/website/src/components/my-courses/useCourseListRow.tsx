@@ -7,8 +7,10 @@ import { IoBan } from 'react-icons/io5';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
-import { buildApplicationUrl, buildGroupSlackChannelUrl, getActionPlanUrl } from '../../lib/utils';
-import { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
+import {
+  buildApplicationUrl, buildAvailabilityFormUrl, buildGroupSlackChannelUrl, getActionPlanUrl,
+} from '../../lib/utils';
+import type { SwitchType } from '../courses/GroupSwitchModal';
 import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
