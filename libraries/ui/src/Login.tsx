@@ -22,6 +22,34 @@ export type LoginOauthCallbackPageProps = LoginPageProps & {
   onBeforeAuthPersist?: (auth: Auth, redirectTo: string) => Promise<void>;
 };
 
+// Signing keys rotate rarely and issuers serve them with long cache headers,
+// so refetching them on every authenticated request adds a needless network
+// hop to every API call. Cache per issuer, refetching early only when a token
+// arrives signed by a key we haven't seen (rotation mid-TTL). The TTL also
+// bounds how long a key the issuer has removed keeps verifying tokens, so it
+// is kept short. Caching the in-flight promise (not just the resolved keys)
+// means concurrent requests on a cold or expired cache share one fetch; a
+// failed fetch is evicted so it isn't cached for the TTL.
+const JWKS_CACHE_TTL_MS = 10 * 60 * 1000;
+const jwksCache = new Map<string, { keys: Promise<JsonWebKey[]>; fetchedAt: number }>();
+
+const getJwks = (jwksUrl: string, forceRefresh = false): { keys: Promise<JsonWebKey[]>; fromCache: boolean } => {
+  const cached = jwksCache.get(jwksUrl);
+  if (!forceRefresh && cached && Date.now() - cached.fetchedAt < JWKS_CACHE_TTL_MS) {
+    return { keys: cached.keys, fromCache: true };
+  }
+
+  const keys = axios.get<{ keys: JsonWebKey[] }>(jwksUrl).then((response) => response.data.keys);
+  jwksCache.set(jwksUrl, { keys, fetchedAt: Date.now() });
+  keys.catch(() => {
+    if (jwksCache.get(jwksUrl)?.keys === keys) {
+      jwksCache.delete(jwksUrl);
+    }
+  });
+
+  return { keys, fromCache: false };
+};
+
 const verifyJwt = async (
   token: string,
   verifyConfig: { aud: string; iss: string; jwksUrl: string },
@@ -59,9 +87,17 @@ const verifyJwt = async (
     throw new Error('Token expired');
   }
 
-  // Find key
-  const { data: { keys } } = await axios.get<{ keys: JsonWebKey[] }>(verifyConfig.jwksUrl);
-  const key = keys.find((k) => k.kid === header.kid);
+  // Find key. Keys that came from the cache may predate a rotation, so an
+  // unknown kid earns one refetch; keys we just fetched are current, so an
+  // unknown kid there is simply not found.
+  const { keys: keysPromise, fromCache } = getJwks(verifyConfig.jwksUrl);
+  let keys = await keysPromise;
+  let key = keys.find((k) => k.kid === header.kid);
+  if (!key && fromCache) {
+    keys = await getJwks(verifyConfig.jwksUrl, true).keys;
+    key = keys.find((k) => k.kid === header.kid);
+  }
+
   if (!key) {
     throw new Error('Public key not found');
   }
