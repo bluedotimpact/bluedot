@@ -5,5 +5,6 @@ import './certManager';
 import './observability';
 import './pvc';
 import './inotifyPatch';
+import './corednsPatch';
 import './services';
 import './backups';
