@@ -133,6 +133,37 @@ describe('MarkdownExtendedRenderer', () => {
       expect(paragraphs[2]?.textContent).toBe('Hello World');
     });
 
+    test('GFM email autolinks still link bare addresses (vendored lookbehind-free pattern)', async () => {
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'Contact us at team@bluedot.org for help'}
+      </MarkdownExtendedRenderer>);
+
+      await waitFor(() => {
+        expect(container.querySelector('a[href="mailto:team@bluedot.org"]')).toBeTruthy();
+      });
+    });
+
+    test('vendored autolink boundary matches upstream: punctuation and symbols link', async () => {
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'(team@bluedot.org) and \u20ACteam@bluedot.org'}
+      </MarkdownExtendedRenderer>);
+
+      await waitFor(() => {
+        expect(container.querySelectorAll('a[href="mailto:team@bluedot.org"]')).toHaveLength(2);
+      });
+    });
+
+    test('vendored slash guard: slashes before @ stay text', async () => {
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'see foo/bar@baz.com today'}
+      </MarkdownExtendedRenderer>);
+
+      await waitFor(() => {
+        expect(container.querySelector('p')).toBeTruthy();
+      });
+      expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
+    });
+
     test('remark-breaks plugin: single newlines create line breaks', async () => {
       const { container } = render(<MarkdownExtendedRenderer>
         {'First line\nSecond line\nThird line'}
