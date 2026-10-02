@@ -48,12 +48,13 @@ const OpportunityCard = ({
   const titleId = useId();
   const { icon: Icon, gradient } = OPPORTUNITY_STYLES[tone];
   const Arrow = external ? FaArrowUpRightFromSquare : FaArrowRight;
+  const arrowSize = external ? 'size-3' : 'size-4.5';
   const Heading = { 2: H2, 3: H3, 4: H4 }[headingLevel];
   const className = clsx(
     'opportunity-card group relative flex h-full min-h-56 flex-col overflow-hidden rounded-surface border border-bluedot-navy/10 text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bluedot-normal',
     compact ? 'action-cards__card p-6 md:p-7' : 'p-6 md:p-8',
   );
-  const arrowClassName = 'size-6 shrink-0 opacity-70 transition-[transform,opacity] duration-200 group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100 motion-reduce:transform-none motion-reduce:transition-none';
+  const arrowClassName = clsx(arrowSize, 'shrink-0 opacity-70 transition-[transform,opacity] duration-200 group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100 motion-reduce:transform-none motion-reduce:transition-none');
 
   const content = (
     <>

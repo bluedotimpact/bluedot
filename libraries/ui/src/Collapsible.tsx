@@ -17,7 +17,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
         <span className="bluedot-h4">{title}</span>
         <FaChevronDown
           aria-hidden="true"
-          className="size-3.5 shrink-0 transition-transform motion-reduce:transition-none group-open:rotate-180"
+          className="size-4.5 shrink-0 transition-transform motion-reduce:transition-none group-open:rotate-180"
         />
       </summary>
       <div className="pb-6">

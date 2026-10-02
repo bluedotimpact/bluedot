@@ -280,7 +280,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                 {/* External link icon - inline so it flows with text on wrap */}
                 <FaArrowUpRightFromSquare
                   aria-hidden="true"
-                  className="inline-block size-4 align-middle ml-2 text-bluedot-navy"
+                  className="inline-block size-3 align-middle ml-2 text-bluedot-navy"
                 />
               </span>
             </a>

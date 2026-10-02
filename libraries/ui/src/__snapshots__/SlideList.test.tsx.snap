@@ -59,7 +59,7 @@ exports[`SlideList > renders correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="size-3"
+          class="size-4"
           fill="currentColor"
           height="1em"
           stroke="currentColor"
@@ -91,7 +91,7 @@ exports[`SlideList > renders correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="size-3"
+          class="size-4"
           fill="currentColor"
           height="1em"
           stroke="currentColor"

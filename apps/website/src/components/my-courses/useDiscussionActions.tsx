@@ -108,7 +108,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attended-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: <StatusPill icon={<FaCheck aria-hidden className="size-3.5" />}>Attended</StatusPill>,
+      inline: <StatusPill icon={<FaCheck aria-hidden className="size-3" />}>Attended</StatusPill>,
     },
     {
       id: 'absent-pill',

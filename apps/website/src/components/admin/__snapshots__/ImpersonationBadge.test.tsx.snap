@@ -20,16 +20,18 @@ exports[`ImpersonationBadge > displays masked email when impersonating 1`] = `
         type="button"
       >
         <svg
+          aria-hidden="true"
+          class="size-4"
           fill="currentColor"
-          height="16"
+          height="1em"
           stroke="currentColor"
           stroke-width="0"
-          viewBox="0 0 24 24"
-          width="16"
+          viewBox="0 0 384 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M11.9997 10.5865L16.9495 5.63672L18.3637 7.05093L13.4139 12.0007L18.3637 16.9504L16.9495 18.3646L11.9997 13.4149L7.04996 18.3646L5.63574 16.9504L10.5855 12.0007L5.63574 7.05093L7.04996 5.63672L11.9997 10.5865Z"
+            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
           />
         </svg>
       </button>
