@@ -228,13 +228,13 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           )}
         </main>
       </div>
-      <Modal desktopHeaderClassName="[&_button]:min-h-11 [&_button]:min-w-11" isOpen={auth !== null && mobileOpen} setIsOpen={(open) => {
+      <Modal isOpen={auth !== null && mobileOpen} setIsOpen={(open) => {
         setMobileOpen(open);
         if (!open) menuButton.current?.focus();
       }} title="BlueDot Apps">
         <div className="w-52 max-w-full space-y-5">{navigation(false)}{auth && <><p className="break-all text-size-xs text-secondary">{auth.email}</p><CTALinkOrButton variant="ghost" onClick={signOut}>Sign out</CTALinkOrButton></>}</div>
       </Modal>
-      <Modal desktopHeaderClassName="[&_button]:min-h-11 [&_button]:min-w-11" isOpen={auth !== null && leaveAction !== null} setIsOpen={(open) => {
+      <Modal isOpen={auth !== null && leaveAction !== null} setIsOpen={(open) => {
         if (!open) setLeaveAction(null);
       }} title={pendingWrites > 0 ? 'Saving your changes' : 'Leave this review session?'}>
         <div className="max-w-sm space-y-5">

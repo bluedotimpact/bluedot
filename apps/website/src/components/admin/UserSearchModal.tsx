@@ -47,9 +47,7 @@ export const UserSearchModal = ({
 
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
-      <div className="w-full max-w-modal mx-auto">
-        {/* Spacer to stop the desktop modal shrinking when there are no results */}
-        <div className="hidden md:block w-[600px] max-w-full h-0" />
+      <>
         <Input
           ref={inputRef}
           type="search"
@@ -101,7 +99,7 @@ export const UserSearchModal = ({
             </button>
           ))}
         </div>
-      </div>
+      </>
     </Modal>
   );
 };

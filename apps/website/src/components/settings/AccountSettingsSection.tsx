@@ -205,8 +205,7 @@ const ChangePasswordModal = ({
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Change password" bottomDrawerOnMobile>
-      <div className="w-full max-w-modal space-y-4">
-        <div className="h-0 w-[600px] max-w-full" />
+      <div className="space-y-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="current-password" className="font-semibold">Current password<span aria-hidden="true">*</span></label>
           <Input

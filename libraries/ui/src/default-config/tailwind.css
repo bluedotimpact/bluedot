@@ -149,7 +149,7 @@
     --container-section-wide: 1100px;
     --container-text: 840px;
     --container-text-narrow: 800px;
-    --container-modal: 600px;
+    --container-modal: 560px;
     --container-narrow: 512px;
 
     /* BlueDot-specific named breakpoint. Tailwind defaults (sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536) stay available.

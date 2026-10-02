@@ -197,21 +197,12 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
   return (
     <Modal
       isOpen={isOpen}
-      setIsOpen={(open) => {
-        if (requestDeletion.isPending || showsCountdown) {
-          return;
-        }
-
-        setIsOpen(open);
-      }}
-      isDismissable={!showsCountdown}
+      setIsOpen={setIsOpen}
+      isDismissable={!showsCountdown && !requestDeletion.isPending}
       title={requestDeletion.isSuccess ? 'Deletion requested' : formTitle}
       bottomDrawerOnMobile
     >
-      <div className="w-full max-w-modal">
-        <div className="h-0 w-[600px] max-w-full" />
-        {renderBody()}
-      </div>
+      {renderBody()}
     </Modal>
   );
 };

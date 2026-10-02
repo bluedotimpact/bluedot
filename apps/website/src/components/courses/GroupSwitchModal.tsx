@@ -193,17 +193,17 @@ export default function GroupSwitchModal({
           >
             <FaArrowLeft size={16} />
           </ClickTarget>
-          <ModalTitle className="py-3 mx-auto md:pr-0 pr-6">Request manual switch</ModalTitle>
+          <ModalTitle className="flex-1 text-center">Request manual switch</ModalTitle>
         </div>
       );
     }
 
     if (isManualRequest && showSuccess) {
-      return <ModalTitle className="py-3 mx-auto">We are working on your request</ModalTitle>;
+      return 'We are working on your request';
     }
 
     if (showSuccess) {
-      return <ModalTitle className="py-3 mx-auto">Success</ModalTitle>;
+      return 'Success';
     }
 
     return (
@@ -396,12 +396,9 @@ export default function GroupSwitchModal({
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={getModalTitle()}
       bottomDrawerOnMobile
-      desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
       ariaLabel="Group switching"
     >
-      <div className="w-full pt-6 max-w-modal">
-        {/* Spacer to stop the modal shrinking when there are no results */}
-        <div className="w-[600px] max-w-full h-0" />
+      <>
         {isLoading && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {userError && <ErrorSection error={userError} />}
@@ -469,7 +466,7 @@ export default function GroupSwitchModal({
             </CTALinkOrButton>
           </div>
         )}
-      </div>
+      </>
     </Modal>
   );
 }

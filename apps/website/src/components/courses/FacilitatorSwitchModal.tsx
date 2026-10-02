@@ -401,13 +401,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={renderTitle()}
-      centerTitle
       bottomDrawerOnMobile
-      desktopHeaderClassName="border-b border-charcoal-light py-4"
     >
-      <div className="w-full md:w-[600px]">
-        <form className="flex flex-col gap-8">{renderContent()}</form>
-      </div>
+      <form className="flex flex-col gap-8">{renderContent()}</form>
     </Modal>
   );
 };

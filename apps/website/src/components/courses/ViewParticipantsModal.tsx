@@ -23,11 +23,10 @@ const ViewParticipantsModal = ({ groupId, handleClose }: ViewParticipantsModalPr
         if (!v) handleClose();
       }}
       title="Participants"
-      desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Participants in your group"
     >
-      <div className="w-full md:w-[480px] flex flex-col gap-4 pt-0 sm:pt-5">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
           {isLoading && <ProgressDots />}
           {error && <ErrorSection error={error} />}

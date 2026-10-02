@@ -37,18 +37,14 @@ export const MobileCourseModal = ({
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       title={(
-        <div className="flex w-full flex-wrap items-center justify-between gap-4 pb-1">
-          <div className="flex items-center gap-4">
-            <CourseIcon courseSlug={courseSlug} />
-            <ModalTitle>
-              {courseTitle}
-            </ModalTitle>
-          </div>
+        <div className="flex items-center gap-4">
+          <CourseIcon courseSlug={courseSlug} />
+          <ModalTitle>{courseTitle}</ModalTitle>
         </div>
       )}
       bottomDrawerOnMobile
     >
-      <div className="w-full max-w-modal">
+      <>
         {/* The modal header already draws a bottom border; the first unit's divider would double it. */}
         <nav aria-label="Course content" className="[&>details:first-child]:border-t-0">
           {units.map((unit) => (
@@ -75,7 +71,7 @@ export const MobileCourseModal = ({
               />
             )}
         </div>
-      </div>
+      </>
     </Modal>
   );
 };

@@ -5,12 +5,9 @@ import {
   Modal as AriaModal,
   ModalOverlay,
 } from 'react-aria-components';
-import { ClickTarget } from './ClickTarget';
-import { ModalTitle } from './ModalTitle';
+import { ModalHeader } from './ModalHeader';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
-import { CloseIcon } from './icons/CloseIcon';
-import { cn } from './utils';
 
 export type ModalProps = {
   isOpen: boolean;
@@ -18,11 +15,16 @@ export type ModalProps = {
   title?: ReactNode;
   children: ReactNode;
   bottomDrawerOnMobile?: boolean;
-  desktopHeaderClassName?: string;
   /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
   ariaLabel?: string;
+  /**
+   * When false the dialog has no exit of its own: the close button is hidden and Escape, backdrop click
+   * and (on mobile) drag-to-dismiss do nothing. The sheet can still be dragged up to expand. Use it while
+   * a request is in flight or in a terminal state; the body must supply the way out, or close
+   * programmatically via `isOpen`. Set it whenever `setIsOpen(false)` would be ignored: a mobile sheet
+   * whose close is refused after its exit animation is left as an invisible overlay.
+   */
   isDismissable?: boolean;
-  centerTitle?: boolean;
 };
 
 const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
@@ -30,10 +32,8 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   setIsOpen,
   title,
   children,
-  desktopHeaderClassName,
   ariaLabel,
   isDismissable = true,
-  centerTitle,
 }) => {
   return (
     <ModalOverlay
@@ -42,18 +42,20 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       isKeyboardDismissDisabled={!isDismissable}
       isOpen={isOpen}
       onOpenChange={setIsOpen}
-      className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
+      className="fixed inset-0 z-60 flex items-center justify-center bg-scrim p-4 backdrop-blur-xs"
     >
-      <AriaModal>
-        <Dialog className="bg-white rounded-overlay shadow-xl w-full pb-8 outline-none" aria-label={ariaLabel}>
-          <div className={cn('flex justify-between items-center mb-4 pt-10 pl-8 pr-6', desktopHeaderClassName)}>
-            {title && typeof title === 'string' ? <ModalTitle className={centerTitle ? 'mx-auto' : undefined}>{title}</ModalTitle> : title}
-            <ClickTarget onClick={() => setIsOpen(false)} aria-label="Close" className="text-black rounded-full p-1 hover:bg-gray-100 cursor-pointer">
-              <CloseIcon size={20} />
-            </ClickTarget>
-          </div>
-
-          <div className="overflow-y-auto px-8 max-h-[600px]">
+      <AriaModal className="w-full max-w-modal">
+        <Dialog
+          className="flex max-h-[calc(100dvh-2rem)] flex-col rounded-overlay bg-raised shadow-xl outline-none"
+          aria-label={ariaLabel}
+        >
+          <ModalHeader
+            title={title}
+            isDismissable={isDismissable}
+            onClose={() => setIsOpen(false)}
+            className="px-8 pt-5 pb-4"
+          />
+          <div className="min-h-0 overflow-y-auto px-8 pt-4 pb-6">
             {children}
           </div>
         </Dialog>
@@ -68,10 +70,8 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   bottomDrawerOnMobile = false,
-  desktopHeaderClassName,
   ariaLabel,
   isDismissable,
-  centerTitle,
 }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
@@ -84,14 +84,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} isDismissable={isDismissable} centerTitle={centerTitle}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} isDismissable={isDismissable}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName} isDismissable={isDismissable} centerTitle={centerTitle}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} isDismissable={isDismissable}>
       {children}
     </DesktopModal>
   );

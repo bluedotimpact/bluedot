@@ -1,20 +1,21 @@
 import type React from 'react';
 import {
-  useState, useEffect, useRef,
+  useState, useEffect, useId, useRef,
 } from 'react';
 import {
   Modal as AriaModal,
   ModalOverlay,
 } from 'react-aria-components';
-import { ModalTitle } from './ModalTitle';
 import {
   animate,
   AnimatePresence,
   motion,
   useMotionValue,
   useDragControls,
+  useReducedMotion,
 } from 'framer-motion';
 import clsx from 'clsx';
+import { ModalHeader } from './ModalHeader';
 import type { ModalProps } from './Modal';
 
 // Layout constants
@@ -23,6 +24,7 @@ const SHEET_MARGIN = NAV_HEIGHT + 12;
 const CLOSE_VELOCITY_THRESHOLD = 500;
 const CLOSE_POSITION_THRESHOLD = 0.8;
 const MIN_CONTENT_HEIGHT = 100;
+const EASE = [0.32, 0.72, 0, 1] as const;
 
 export type BottomDrawerModalProps = Omit<ModalProps, 'bottomDrawerOnMobile'> & {
   /**
@@ -40,14 +42,17 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   children,
   ariaLabel,
   isDismissable = true,
-  centerTitle,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [isFullyExpanded, setIsFullyExpanded] = useState(false);
   const dragControls = useDragControls();
+  const titleId = useId();
+  const duration = useReducedMotion() ? 0 : 0.3;
+  const transition = { duration, ease: EASE };
 
-  // Ref to measure children content height
+  // Refs to measure the sheet's chrome and content for 'fit-content'
+  const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
@@ -74,15 +79,15 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
       // Calculate optimal opening position based on content height
       requestAnimationFrame(() => {
         const contentHeight = contentRef.current?.scrollHeight ?? 0;
-        const headerHeight = title ? 80 : 40;
-        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight + 16;
+        const headerHeight = headerRef.current?.offsetHeight ?? 0;
+        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight;
         const contentBasedY = availableHeight - totalNeededHeight;
 
         // Use the larger y value (less expansion) = min height
         const targetY = initialSize === 'fit-screen' ? halfOpenY : Math.max(halfOpenY, contentBasedY);
 
         initialOpenY.current = targetY;
-        animate(y, targetY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+        animate(y, targetY, { duration, ease: EASE });
       });
     } else {
       setIsDragging(false);
@@ -90,7 +95,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
     }
 
     prevIsOpen.current = isOpen;
-  }, [halfOpenY, isOpen, y, availableHeight, title, initialSize]);
+  }, [halfOpenY, isOpen, y, availableHeight, title, initialSize, duration]);
 
   // Listen to y motion value changes to update isFullyExpanded (adds a drop shadow)
   useEffect(() => {
@@ -106,10 +111,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   const handleClose = () => {
     if (isDismissable && !isClosing) {
       setIsClosing(true);
-      animate(y, closedY, {
-        duration: 0.3,
-        ease: [0.32, 0.72, 0, 1],
-      });
+      animate(y, closedY, transition);
       // setIsOpen(false) will be called by AnimatePresence onExitComplete
     }
   };
@@ -130,27 +132,24 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
           {!isClosing && (
             <>
               <motion.div
-                className="fixed inset-0 bg-black/25 backdrop-blur-xs"
+                className="fixed inset-0 bg-scrim backdrop-blur-xs"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={transition}
                 onClick={isDismissable ? handleClose : undefined}
               />
               {/* Modal Container */}
               <motion.div
-                className="bg-canvas fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
-                transition={{
-                  duration: 0.3,
-                  ease: [0.32, 0.72, 0, 1],
-                }}
+                className="bg-raised fixed bottom-0 inset-x-0 rounded-t-sheet shadow-lg will-change-transform flex flex-col"
+                transition={transition}
                 style={{
                   y,
                   height: availableHeight,
                 }}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby={titleIsString ? 'mobile-modal-title' : undefined}
+                aria-labelledby={titleIsString ? titleId : undefined}
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 aria-label={!titleIsString ? (ariaLabel || 'Dialog') : undefined}
                 tabIndex={-1}
@@ -165,7 +164,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 onDragStart={() => {
                   setIsDragging(true);
                 }}
-                onDragEnd={(e, info) => {
+                onDragEnd={(_e, info) => {
                   setIsDragging(false);
 
                   if (isClosing) {
@@ -179,7 +178,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                   if (!isDismissable) {
                     // Any downward drag snaps back, otherwise the sheet can be parked off-screen with no way to recover
                     if (currentY > initialOpenY.current) {
-                      animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+                      animate(y, initialOpenY.current, transition);
                     }
 
                     return;
@@ -192,45 +191,45 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 onDragTransitionEnd={() => {
                   // Release momentum can glide the sheet below the open position after onDragEnd has run
                   if (!isDismissable && y.get() > initialOpenY.current) {
-                    animate(y, initialOpenY.current, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+                    animate(y, initialOpenY.current, transition);
                   }
                 }}
               >
                 <div className="h-full flex flex-col rounded-t-sheet overflow-hidden">
                   {/* Header Section with Drag Handle */}
-                  <div className={clsx(
-                    'flex flex-col bg-[#FCFAF7] border-b-hairline border-bluedot-navy/20 rounded-t-sheet transition-shadow duration-300',
-                    isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
-                  )}
+                  <div
+                    ref={headerRef}
+                    className={clsx(
+                      'flex flex-col rounded-t-sheet transition-shadow duration-300 motion-reduce:transition-none',
+                      isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
+                    )}
                   >
                     {/* Drag handle */}
                     <div
-                      className="flex justify-center pt-1 pb-4 cursor-grab active:cursor-grabbing touch-none"
+                      className="flex justify-center pt-2 pb-3 cursor-grab active:cursor-grabbing touch-none"
                       onPointerDown={(e) => dragControls.start(e)}
                     >
                       <div className="w-[30px] h-1 bg-bluedot-navy/30 rounded-xs" />
                     </div>
 
-                    {title && (
-                      <div className="flex items-center justify-between px-5 pb-4">
-                        {titleIsString ? (
-                          <ModalTitle id="mobile-modal-title" className={centerTitle ? 'mx-auto' : undefined}>
-                            {title}
-                          </ModalTitle>
-                        ) : title}
-                      </div>
-                    )}
+                    <ModalHeader
+                      title={title}
+                      titleId={titleId}
+                      isDismissable={isDismissable}
+                      onClose={handleClose}
+                      className="px-5 pb-4"
+                    />
                   </div>
 
                   {/* Content / Scrollable Area */}
                   <div
                     data-modal-content
                     className={clsx(
-                      'flex flex-col flex-1 overflow-y-auto p-4 w-full items-center',
+                      'flex-1 overflow-y-auto',
                       isDragging && 'pointer-events-none',
                     )}
                   >
-                    <div className="w-full flex justify-center" ref={contentRef}>
+                    <div ref={contentRef} className="px-5 pt-4 pb-6">
                       {children}
                     </div>
                   </div>

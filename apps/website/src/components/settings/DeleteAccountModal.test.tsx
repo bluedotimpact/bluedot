@@ -192,19 +192,19 @@ describe('DeleteAccountModal', () => {
     expect(setIsOpen).toHaveBeenCalledWith(false);
   });
 
-  test('the countdown view ignores attempts to close it', async () => {
-    const { setIsOpen } = renderAsUser();
+  test('the countdown view has no close button', async () => {
+    renderAsUser();
 
     await waitFor(() => expect(screen.getByLabelText(/to confirm/i)).toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
+
     typeConfirmation('delete my account');
     await waitFor(() => expect(deleteMyAccountButton()).toBeEnabled());
     fireEvent.click(deleteMyAccountButton());
 
     await waitFor(() => expect(screen.getByText(/Your account will be deleted shortly/)).toBeInTheDocument());
 
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
-
-    expect(setIsOpen).not.toHaveBeenCalled();
+    expect(screen.queryByRole('button', { name: 'Close' })).not.toBeInTheDocument();
   });
 
   test('the countdown view cannot be dismissed with the escape key', async () => {

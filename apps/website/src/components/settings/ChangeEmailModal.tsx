@@ -57,8 +57,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Change email" bottomDrawerOnMobile>
-      <div className="w-full max-w-modal">
-        <div className="h-0 w-[600px] max-w-full" />
+      <>
         {requestEmailChange.isSuccess ? (
           <div className="space-y-4">
             <P>
@@ -145,7 +144,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
             </div>
           </form>
         )}
-      </div>
+      </>
     </Modal>
   );
 };
