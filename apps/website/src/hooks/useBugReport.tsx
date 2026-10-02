@@ -1,9 +1,15 @@
-import { BugReportModal, useAuthStore, type FeedbackData } from '@bluedot/ui';
+import { useAuthStore, type FeedbackData } from '@bluedot/ui';
+import dynamic from 'next/dynamic';
 import {
   createContext, useContext, useEffect, useState,
 } from 'react';
+import { ModalLoadingFallback } from '../components/ModalLoadingFallback';
 import { toBase64 } from '../utils/toBase64';
 import { trpc } from '../utils/trpc';
+
+const BugReportModal = dynamic(() => import('@bluedot/ui/src/BugReportModal').then((m) => m.BugReportModal), {
+  loading: ModalLoadingFallback,
+});
 
 type BugReportContextType = {
   openBugReport: () => void;
@@ -18,6 +24,10 @@ export default function BugReportProvider({ children }: { children: React.ReactN
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
   const [pageUrl, setPageUrl] = useState<string | undefined>();
+  // Mount on first open, then stay mounted: the modal keeps the draft across close/reopen
+  // (e.g. closing to record the screen with Birdie), which unmounting would discard.
+  const [hasOpened, setHasOpened] = useState(false);
+  if (isBugReportOpen && !hasOpened) setHasOpened(true);
 
   const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
   // The logged-in user's own email, which is the admin's rather than the target's when impersonating
@@ -88,14 +98,16 @@ export default function BugReportProvider({ children }: { children: React.ReactN
   return (
     <bugReportContext.Provider value={{ openBugReport }}>
       {children}
-      <BugReportModal
-        isOpen={isBugReportOpen}
-        setIsOpen={handleSetBugReportOpen}
-        onRecordScreen={handleRecordScreen}
-        onSubmit={handleBugReportSubmit}
-        recordingUrl={recordingUrl}
-        defaultEmail={authEmail}
-      />
+      {hasOpened && (
+        <BugReportModal
+          isOpen={isBugReportOpen}
+          setIsOpen={handleSetBugReportOpen}
+          onRecordScreen={handleRecordScreen}
+          onSubmit={handleBugReportSubmit}
+          recordingUrl={recordingUrl}
+          defaultEmail={authEmail}
+        />
+      )}
     </bugReportContext.Provider>
   );
 }

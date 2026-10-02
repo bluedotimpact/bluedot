@@ -69,6 +69,31 @@ describe('BugReportProvider page URL capture', () => {
   });
 });
 
+describe('BugReportProvider draft', () => {
+  afterEach(() => {
+    delete window.birdie;
+  });
+
+  it('keeps the draft when the modal closes to record the screen', async () => {
+    const user = userEvent.setup();
+    window.innerWidth = 1024;
+    renderProvider();
+    // Stub after render: the Birdie setup effect skips registering birdieSettings if birdie already exists.
+    window.birdie = { widget: { opened: () => false, open: () => {}, close: () => {} } };
+
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    await user.type(screen.getByLabelText('Description'), 'Something is broken');
+    await user.click(screen.getByRole('button', { name: 'Record my screen' }));
+    expect(screen.queryByLabelText('Description')).not.toBeInTheDocument();
+
+    act(() => {
+      window.birdieSettings?.onRecordingPosted?.('https://recording.example/xyz');
+    });
+
+    expect(await screen.findByLabelText('Description')).toHaveValue('Something is broken');
+  });
+});
+
 describe('BugReportProvider contact email', () => {
   afterEach(() => {
     useAuthStore.setState({ auth: null });
