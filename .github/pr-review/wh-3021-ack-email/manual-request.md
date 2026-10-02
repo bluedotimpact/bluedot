@@ -5,9 +5,9 @@ Subject: We've received your {{event.courseName}} group switching request
 We have received your request to switch groups:
 
 {% if event.switchType == "Switch group for one unit" %}- **Switch type:** One unit only
-{% if event.unitNumber != blank or event.unitTitle != blank %}- **Unit:** {% if event.unitNumber != blank %}Unit {{event.unitNumber}}{% if event.unitTitle != blank %}: {% endif %}{% endif %}{{event.unitTitle}}
-{% endif %}- **Current discussion:** {% if event.oldGroupName != blank %}{{event.oldGroupName}}, {% endif %}{{event.oldDiscussionStartTime | date: "%I:%M %p UTC, %B %e"}}
-{% else %}- **Switch type:** Permanent (all remaining discussions)
+{% if event.unitNumber != blank or event.unitTitle != blank %}- **Unit:** {% if event.unitNumber != blank %}Unit {{event.unitNumber}}{% if event.unitTitle != blank %}: {% endif %}{% endif %}{{event.unitTitle | default: ""}}
+{% endif %}{% if event.oldDiscussionStartTime != blank %}- **Current discussion:** {% if event.oldGroupName != blank %}{{event.oldGroupName}}, {% endif %}{{event.oldDiscussionStartTime | date: "%I:%M %p UTC, %B %e"}}
+{% endif %}{% else %}- **Switch type:** Permanent (all remaining discussions)
 {% if event.oldGroupName != blank %}- **Current group:** {{event.oldGroupName}}
 {% endif %}{% endif %}{% if event.notesFromParticipant != blank %}- **Your reason:** {{ event.notesFromParticipant | escape | newline_to_br }}
 {% endif %}{% if event.availabilityLink != blank %}- **Your availability:** [view or update]({{event.availabilityLink}})
