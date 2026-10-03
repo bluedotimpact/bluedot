@@ -1,11 +1,12 @@
 import type { SVGProps } from 'react';
 
-export type IconName = 'home' | 'scout' | 'review' | 'talent' | 'panel' | 'menu' | 'arrow' | 'external' | 'logout';
+export type IconName = 'home' | 'scout' | 'review' | 'talent' | 'paste' | 'panel' | 'menu' | 'arrow' | 'external' | 'logout';
 const paths: Record<IconName, React.ReactNode> = {
   scout: <><circle cx="10" cy="10" r="6" /><path d="m15 15 6 6M10 7v6M7 10h6" /></>,
   home: <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>,
   review: <><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4M15 3h6v6M21 3 11 13" /><path d="m7 15 2 2 5-5" /></>,
   talent: <><circle cx="9" cy="7" r="3" /><path d="M3 20v-2a6 6 0 0 1 10-4.5M16 4h5v16l-2.5-2-2.5 2V4Z" /></>,
+  paste: <><rect x="8" y="2" width="8" height="4" rx="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 12h6M9 16h4" /></>,
   external: <><path d="M14 3h7v7m0-7L10 14" /><path d="M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5" /></>,
   panel: <><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16m6-12-3 4 3 4" /></>,
   menu: <path d="M4 6h16M4 12h16M4 18h16" />,
