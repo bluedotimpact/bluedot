@@ -340,6 +340,8 @@ export const services: ServiceDefinition[] = [
           { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+          { name: 'ANTHROPIC_API_KEY', valueFrom: envVarSources.anthropicApiKey },
+          { name: 'AIRTABLE_AUTOMATION_TOKEN', valueFrom: envVarSources.airtableAutomationToken },
         ],
         resources: {
           requests: {

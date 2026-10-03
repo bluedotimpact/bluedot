@@ -7,6 +7,8 @@ const env = isLocalPreview() ? {
   PG_URL: '',
   ALERTS_SLACK_CHANNEL_ID: '',
   ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS',
+  ANTHROPIC_API_KEY: '',
+  AIRTABLE_AUTOMATION_TOKEN: '',
 } : validateEnv({
   required: [
     'APP_NAME',
@@ -15,6 +17,8 @@ const env = isLocalPreview() ? {
     'ALERTS_SLACK_CHANNEL_ID',
     'ALERTS_SLACK_BOT_TOKEN',
   ],
+  // Only the web-lookup route needs these; without them it answers 500 and the rest of the app runs
+  optional: ['ANTHROPIC_API_KEY', 'AIRTABLE_AUTOMATION_TOKEN'],
 });
 
 export default env;

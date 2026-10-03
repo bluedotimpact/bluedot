@@ -13,6 +13,10 @@ vi.mock('@bluedot/ui', () => ({ loginPresets: { googleBlueDot: { verifyAndDecode
 vi.mock('./index', () => ({
   fetchQueue, fetchInvitedThisWeek, fetchPerson, recordDecision,
 }));
+vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', AIRTABLE_AUTOMATION_TOKEN: 'automation-secret', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
+const { lookUpPeople, idsToLookUp } = vi.hoisted(() => ({ lookUpPeople: vi.fn(async () => undefined), idsToLookUp: vi.fn(async (body: { ids?: string[] }) => (body.ids ?? []).map((id) => ({ id, onlyIfMissing: false }))) }));
+vi.mock('../../../features/scout/server/lookup', () => ({ lookUpPeople, idsToLookUp }));
+import lookup from '../../../pages/api/scout/lookup';
 import queue from '../../../pages/api/scout/queue';
 import person from '../../../pages/api/scout/person/[id]';
 import decision from '../../../pages/api/scout/decision';
@@ -82,4 +86,18 @@ test('returns actionable save errors without exposing underlying credentials or 
   expect(res._getStatusCode()).toBe(503);
   expect(res._getJSONData().error).toContain('Could not confirm the save');
   expect(res._getJSONData().error).not.toContain('Private upstream details');
+});
+
+test('the lookup route accepts only the Airtable automation token and answers before the lookups run', async () => {
+  const body = { ids: ['recScoutSample001', 'recScoutSample002'] };
+  const denied = createMocks<NextApiRequest, NextApiResponse>({ method: 'POST', headers: { authorization: 'Bearer verified-staff' }, body });
+  await lookup(denied.req, denied.res);
+  expect(denied.res._getStatusCode()).toBe(401);
+  expect(lookUpPeople).not.toHaveBeenCalled();
+
+  const ok = createMocks<NextApiRequest, NextApiResponse>({ method: 'POST', headers: { authorization: 'Bearer automation-secret' }, body });
+  await lookup(ok.req, ok.res);
+  expect(ok.res._getStatusCode()).toBe(200);
+  expect(ok.res._getJSONData()).toEqual({ accepted: 2 });
+  expect(lookUpPeople).toHaveBeenCalledWith(body.ids.map((id) => ({ id, onlyIfMissing: false })));
 });
