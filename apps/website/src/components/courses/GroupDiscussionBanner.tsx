@@ -11,10 +11,12 @@ import { FaCopy } from 'react-icons/fa6';
 import { IoAdd } from 'react-icons/io5';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
+import type { SwitchType } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
 import {
   ClockIcon, DocumentIcon, SlackIcon, SwitchUserIcon, VideoIcon,
 } from '../icons';
+import StatusPill, { PendingIcon } from '../my-courses/StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
@@ -50,6 +52,7 @@ type GroupDiscussionBannerProps = {
   groupDiscussion: GroupDiscussionWithEnd;
   userRole?: 'participant' | 'facilitator';
   hostKeyForFacilitators?: string;
+  pendingSwitchType?: SwitchType | null;
 };
 
 const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
@@ -57,6 +60,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   groupDiscussion,
   userRole,
   hostKeyForFacilitators,
+  pendingSwitchType = null,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
@@ -111,6 +115,12 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : '';
 
   const isFacilitator = userRole === 'facilitator';
+  const showPendingPill = Boolean(pendingSwitchType) && !isFacilitator;
+  const pendingPill = (
+    <StatusPill icon={<PendingIcon />} className="bg-accent-subtle">
+      {pendingSwitchType === 'Switch group for one unit' ? 'Rescheduling' : 'Group switch requested'}
+    </StatusPill>
+  );
 
   const copyHostKeyIfFacilitator = async () => {
     if (isFacilitator && hostKeyForFacilitators) {
@@ -197,7 +207,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       label: 'Can\'t make it?',
       variant: 'ghost',
       onClick: () => setGroupSwitchModalOpen(true),
-      isVisible: !isFacilitator && Boolean(groupDiscussion.round), // Only show if the user has a group to switch from (indicated by round)
+      isVisible: !isFacilitator && !showPendingPill && Boolean(groupDiscussion.round), // Only show if the user has a group to switch from (indicated by round)
     },
   ];
   // Buttons should be in a slightly different order on mobile.
@@ -214,8 +224,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   // Collapse to mobile layout earlier if there are a lot of buttons
   // squashing the text. Use `visibleButtons.length > 2` as a rule of
   // thumb because exactly measuring the available space adds complexity.
-  const desktopShowContainerQuery = visibleButtons.length > 2 ? '@[900px]:flex' : '@[700px]:flex';
-  const desktopHideContainerQuery = visibleButtons.length > 2 ? '@[900px]:hidden' : '@[700px]:hidden';
+  const actionCount = visibleButtons.length + (showPendingPill ? 1 : 0);
+  const desktopShowContainerQuery = actionCount > 2 ? '@[900px]:flex' : '@[700px]:flex';
+  const desktopHideContainerQuery = actionCount > 2 ? '@[900px]:hidden' : '@[700px]:hidden';
 
   return (
     <>
@@ -253,7 +264,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   const style = BUTTON_STYLES[button.variant];
                   // Right-align "Can't make it?" (or last direct button if there's no overflow)
                   const isRightAligned = button.id === 'cant-make-it'
-                    || (!hasOverflow && button === desktopDirectButtons[desktopDirectButtons.length - 1]);
+                    || (!hasOverflow && !showPendingPill && button === desktopDirectButtons[desktopDirectButtons.length - 1]);
                   return (
                     <CTALinkOrButton
                       key={button.id}
@@ -268,6 +279,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     </CTALinkOrButton>
                   );
                 })}
+                {showPendingPill && <span className="ml-auto">{pendingPill}</span>}
                 {hasOverflow && (
                   <OverflowMenu
                     ariaLabel="More discussion options"
@@ -344,6 +356,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
               id="discussion-banner-mobile-container"
               className={`flex flex-col sm:flex-row ${desktopHideContainerQuery} gap-2`}
             >
+              {showPendingPill && <span className="flex">{pendingPill}</span>}
               {directButtons.map((button) => {
                 // On mobile, convert ghost to secondary
                 const mobileVariant = button.variant === 'ghost' ? 'secondary' : button.variant;

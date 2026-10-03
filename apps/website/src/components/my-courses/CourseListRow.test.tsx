@@ -49,6 +49,8 @@ describe('getSubtitle precedence', () => {
       isDeferredToAnotherRound: false,
       facilitatorNames: ['Test Facilitator'],
       rescheduleEligibleUnits: [],
+      discussionIdsWithPendingReschedule: [],
+      hasPendingGroupSwitchRequest: false,
       numUnits: null,
       uniqueDiscussionAttendance: null,
       hasSubmittedActionPlan: false,
@@ -307,6 +309,8 @@ describe('CourseListRow actions', () => {
     isDeferred: false,
     isDeferredToAnotherRound: false,
     rescheduleEligibleUnits: [],
+    discussionIdsWithPendingReschedule: [],
+    hasPendingGroupSwitchRequest: false,
     isExpanded: false,
     onToggleExpand: () => {},
     ...overrides,
@@ -369,6 +373,32 @@ describe('CourseListRow actions', () => {
       const completedReg = createMockCourseRegistration({ roundStatus: 'Past' });
       const { container } = renderRow(baseProps({ courseRegistration: completedReg, rescheduleEligibleUnits: ['1'] }));
       expect(openOverflowItems(container)).not.toContain('Switch group permanently');
+    });
+  });
+
+  describe('pending switch requests', () => {
+    test('no header or row pill once the course is completed', () => {
+      const nowSec = Math.floor(Date.now() / 1000);
+      const pendingProps = (overrides: Partial<ParticipantRowProps> = {}) => baseProps({
+        isExpanded: true,
+        discussions: [createMockGroupDiscussion({
+          id: 'disc-3', unitNumber: 3, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+        })],
+        units: { 'disc-3': createMockUnit({ unitNumber: '3' }) },
+        rescheduleEligibleUnits: ['3'],
+        hasPendingGroupSwitchRequest: true,
+        discussionIdsWithPendingReschedule: ['disc-3'],
+        ...overrides,
+      });
+
+      const inProgress = renderRow(pendingProps());
+      expect(screen.getAllByText('Group switch requested').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Rescheduling').length).toBeGreaterThan(0);
+      inProgress.unmount();
+
+      renderRow(pendingProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Past' }) }));
+      expect(screen.queryByText('Group switch requested')).toBeNull();
+      expect(screen.queryByText('Rescheduling')).toBeNull();
     });
   });
 
@@ -726,6 +756,8 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     isDeferred: false,
     isDeferredToAnotherRound: false,
     rescheduleEligibleUnits: ['1'],
+    discussionIdsWithPendingReschedule: [],
+    hasPendingGroupSwitchRequest: false,
     isExpanded: false,
     onToggleExpand: () => {},
     ...overrides,

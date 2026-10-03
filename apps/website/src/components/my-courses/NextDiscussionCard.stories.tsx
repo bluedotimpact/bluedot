@@ -48,6 +48,8 @@ export const AllStates: Story = {
       <div className="flex flex-col gap-3">
         <NextDiscussionCard {...args} discussion={liveDiscussion} />
         <NextDiscussionCard {...args} discussion={nextDiscussion} />
+        <NextDiscussionCard {...args} discussion={nextDiscussion} pendingSwitchType="Switch group for one unit" />
+        <NextDiscussionCard {...args} discussion={nextDiscussion} pendingSwitchType="Switch group permanently" />
       </div>
     </div>
   ),
@@ -70,8 +72,20 @@ export const Next: Story = {
   args: { discussion: nextDiscussion },
 };
 
+export const NextRescheduling: Story = {
+  args: { discussion: nextDiscussion, pendingSwitchType: 'Switch group for one unit' },
+};
+
+export const NextGroupSwitchRequested: Story = {
+  args: { discussion: nextDiscussion, pendingSwitchType: 'Switch group permanently' },
+};
+
 export const Live: Story = {
   args: { discussion: liveDiscussion },
+};
+
+export const LiveRescheduling: Story = {
+  args: { discussion: liveDiscussion, pendingSwitchType: 'Switch group for one unit' },
 };
 
 export const FacilitatorNext: Story = {

@@ -52,4 +52,24 @@ describe('OverflowMenu', () => {
     expect(screen.queryByText('View Details')).not.toBeInTheDocument();
     expect(screen.queryByText('Edit')).not.toBeInTheDocument();
   });
+
+  test('disabled option is marked disabled and does nothing when clicked', () => {
+    const onAction = vi.fn();
+    const mockItems = [
+      {
+        id: 'reschedule', label: 'Reschedule', onAction, isDisabled: true,
+      },
+      { id: 'download', label: 'Download', onAction: vi.fn() },
+    ];
+
+    render(<OverflowMenu items={mockItems} />);
+    fireEvent.click(screen.getByRole('button'));
+
+    const disabledOption = screen.getByRole('menuitem', { name: 'Reschedule' });
+    expect(disabledOption).toHaveAttribute('aria-disabled', 'true');
+
+    fireEvent.click(disabledOption);
+    expect(onAction).not.toHaveBeenCalled();
+    expect(screen.getByText('Download')).toBeInTheDocument();
+  });
 });
