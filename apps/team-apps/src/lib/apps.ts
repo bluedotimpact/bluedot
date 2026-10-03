@@ -28,4 +28,11 @@ export const apps: PortalApp[] = [{
   description: 'Save LinkedIn profiles to BlueDot\'s Top Talent CRM with our Chrome extension.',
   href: 'https://chromewebstore.google.com/detail/add-to-top-talent-crm/pabfnkpcbfplnhpccofejgmcbihlahjo',
   external: true,
+}, {
+  id: 'paste-into',
+  icon: 'paste',
+  name: 'Paste Into',
+  description: 'Convert text pasted from Docs, Notion or Claude into Markdown, Slack or email.',
+  href: 'https://chromewebstore.google.com/detail/paste-into/cafcglpffcdbmioicikgpiobcpfpkcge',
+  external: true,
 }];
