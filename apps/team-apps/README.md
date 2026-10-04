@@ -1,6 +1,6 @@
 # BlueDot Apps
 
-The team portal is a separate Next.js app (`@bluedot/team-apps`) with its own `bluedot-team-apps` deployment. Speed Reviewer is the first tool. During the trial, the existing `apps/speed-review` app stays at its original hostname with its original sign-in.
+The team portal is a separate Next.js app (`@bluedot/team-apps`) with its own `bluedot-team-apps` deployment. Speed Reviewer is the first tool. It replaced the standalone `apps/speed-review` app, whose old hostname now redirects here.
 
 Signed-out visitors see only a minimal Google sign-in page, including when opening an app directly. App names, navigation, and screens appear after sign-in. The signed-in home page lists published tools. A collapsible sidebar stays beside each tool; its preference is stored in the current browser. Toggle it with ⌘B on Mac or Ctrl+B on Windows/Linux, matching the course pages; typing in an input or editor leaves that shortcut alone. Speed Reviewer is the first app, at `/speed-review`. Talent Capture opens its Chrome Web Store listing in a new tab. External tools appear alongside internal apps after sign-in; opening one leaves the current portal page and any review session in place.
 
@@ -84,23 +84,15 @@ The browser regression check uses Playwright (install its headless Chromium with
 
 Tests cover staff access, rejected identities, validated writes, production rejection of preview tokens, and local data isolation. Browser verification also needs home/reviewer deep links, sidebar persistence, keyboard navigation, failed-save retry, browser Back, sign-out, and short/tall viewports.
 
-## Deployment and parallel trial
+## Deployment
 
-Merging to master automatically deploys the portal and its infrastructure. Keep the PR in draft until local acceptance and production setup are complete. The existing reviewer is preserved during the trial:
+Merging to master automatically deploys the portal and its infrastructure.
 
 | App | Package | Deployment | Hostname | Sign-in |
 | --- | --- | --- | --- | --- |
 | Portal | `@bluedot/team-apps` | `bluedot-team-apps` | `apps.bluedot.org` | BlueDot Google Workspace |
-| Existing reviewer | `@bluedot/speed-review` | `bluedot-speed-review` | `speed-review.k8s.bluedot.org` | Existing Keycloak/admin access |
 
-The deployments have separate images, services, ingress routes, and HTTPS certificates. The old hostname does not redirect during the trial. Both apps read and write the same Airtable records: a real rating made in either is shared. This is a trial of the interface and sign-in, not an isolated data sandbox. Avoid reviewing the same application concurrently in both apps; neither claims exclusive ownership of a loaded application.
-
-### In this PR
-
-- Add the `team-apps` package and its independent deployment at the new hostname.
-- Keep the legacy `speed-review` source and service definition unchanged.
-- Reuse the staff Google login preset and existing production secret references.
-- Request the new hostname's HTTPS certificate through the existing certificate manager.
+The portal reads and writes the same Airtable records as the rest of BlueDot: a rating made here is a real rating.
 
 ### Separate production settings
 
@@ -110,11 +102,11 @@ Before merging:
 2. In the existing staff Google OAuth client's settings, add exactly `https://apps.bluedot.org/login/oauth-callback` to its authorized redirect URIs. Preserve the existing callback entries. The code derives this callback from the current origin; it does not register the domain with Google.
 3. Verify the production Airtable credential permits reads and writes to the reviewer base and application fields. Local `.env.local` is ignored and is not deployed. Update production secrets through the existing Pulumi secret workflow only if needed.
 
-After deployment, verify HTTPS, a staff login, rejection of a non-staff login, sign-out, reviewer deep links, and a genuine rating or designated test record that persists after refresh. Confirm the old reviewer still loads and retains its existing sign-in. Check course moves and resets with designated test records before team rollout. The course move sends all three changed fields in one request; the existing Airtable automation still fills the derived course link.
+After deployment, verify HTTPS, a staff login, rejection of a non-staff login, sign-out, reviewer deep links, and a genuine rating or designated test record that persists after refresh. Check course moves and resets with designated test records before team rollout. The course move sends all three changed fields in one request; the existing Airtable automation still fills the derived course link.
 
 The normal app and infrastructure deployment jobs run independently. On first deployment, confirm both complete; if the image build finishes before the new deployment exists, rerun the portal deploy job after infrastructure is ready.
 
-If the portal fails verification, keep the old reviewer available and roll back only the portal changes. No database schema migration or data copy is required.
+If the portal fails verification, roll back the portal changes. No database schema migration or data copy is required.
 
 ### Ashby key for talent sourcing
 
@@ -138,9 +130,9 @@ For key rotation, update the GitHub secret, run the infrastructure deployment, t
 restart the team-apps deployment using the normal rollout procedure in the infra guide.
 Changing the GitHub secret alone does not update a running container.
 
-### End of trial
+### Retired standalone reviewer
 
-Dewi has a retirement task due 2 Oct 2026. Extend the trial if launch is delayed or regressions remain. After acceptance, use a separate PR to remove the old `apps/speed-review` package and service, and redirect its old hostname to `https://apps.bluedot.org/speed-review` so bookmarks keep working. Preserve the shared Airtable data, shared secrets, and the new portal deployment.
+The standalone `apps/speed-review` app ran alongside the portal during a two-week trial from 18 Sep 2026, then was removed. Its hostname, `speed-review.k8s.bluedot.org`, permanently redirects to `https://apps.bluedot.org/speed-review` so bookmarks keep working. The redirect is the `redirects` entry on `bluedot-team-apps` in `apps/infra/src/k8s/serviceDefinitions.ts`.
 
 ## Scout
 

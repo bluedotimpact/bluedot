@@ -30,7 +30,7 @@
 }
 
 /* Website-only opt-out from the shared `bluedot-base` utility's `min-h-screen`.
-   Other monorepo apps (meet, speed-review, editor, room, etc.) still rely on
+   Other monorepo apps (meet, team-apps, editor, room, etc.) still rely on
    `<main class="bluedot-base">` filling the viewport so their canvas backgrounds
    reach the bottom on short pages — keep that default in libraries/ui. The
    website overrides it here because we'd rather have content + footer flush

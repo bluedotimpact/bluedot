@@ -4,6 +4,43 @@ import { provider } from './provider';
 import { certManager } from './certManager';
 import { ingressNginx } from './ingress';
 
+// Redirect ingresses still need a backend, but nginx answers with the redirect before reaching it.
+function createIngress(name: string, hosts: string[], serviceName: string, extraAnnotations: Record<string, string> = {}) {
+  return new k8s.networking.v1.Ingress(`${name}-ingress`, {
+    metadata: {
+      name: `${name}-ingress`,
+      annotations: {
+        'kubernetes.io/ingress.class': 'nginx',
+        'cert-manager.io/cluster-issuer': 'cert-manager-issuer',
+        ...extraAnnotations,
+      },
+    },
+    spec: {
+      tls: [{
+        hosts,
+        secretName: `${name}-certificate`,
+      }],
+      rules: hosts.map((host) => ({
+        host,
+        http: {
+          paths: [{
+            path: '/',
+            pathType: 'Prefix',
+            backend: {
+              service: {
+                name: serviceName,
+                port: {
+                  name: 'default',
+                },
+              },
+            },
+          }],
+        },
+      })),
+    },
+  }, { provider, dependsOn: [ingressNginx, certManager] });
+}
+
 services.forEach((service) => {
   const labels = { app: service.name };
   new k8s.apps.v1.Deployment(`${service.name}-deployment`, {
@@ -36,37 +73,12 @@ services.forEach((service) => {
   }, { provider });
 
   if (service.hosts) {
-    new k8s.networking.v1.Ingress(`${service.name}-ingress`, {
-      metadata: {
-        name: `${service.name}-ingress`,
-        annotations: {
-          'kubernetes.io/ingress.class': 'nginx',
-          'cert-manager.io/cluster-issuer': 'cert-manager-issuer',
-        },
-      },
-      spec: {
-        tls: [{
-          hosts: service.hosts,
-          secretName: `${service.name}-certificate`,
-        }],
-        rules: service.hosts.map((host) => ({
-          host,
-          http: {
-            paths: [{
-              path: '/',
-              pathType: 'Prefix',
-              backend: {
-                service: {
-                  name: `${service.name}-svc`,
-                  port: {
-                    name: 'default',
-                  },
-                },
-              },
-            }],
-          },
-        })),
-      },
-    }, { provider, dependsOn: [ingressNginx, certManager] });
+    createIngress(service.name, service.hosts, `${service.name}-svc`);
   }
+
+  service.redirects?.forEach((redirect) => {
+    createIngress(redirect.name, redirect.hosts, `${service.name}-svc`, {
+      'nginx.ingress.kubernetes.io/permanent-redirect': redirect.to,
+    });
+  });
 });

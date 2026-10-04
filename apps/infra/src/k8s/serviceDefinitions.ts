@@ -305,30 +305,6 @@ export const services: ServiceDefinition[] = [
     hosts: ['course-demos.k8s.bluedot.org'],
   },
   {
-    name: 'bluedot-speed-review',
-    spec: {
-      containers: [{
-        name: 'bluedot-speed-review',
-        image: 'ghcr.io/bluedotimpact/bluedot-speed-review:latest',
-        env: [
-          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: appPgConnectionDetails.uri },
-          { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
-        ],
-        resources: {
-          requests: {
-            memory: '256Mi',
-          },
-          limits: {
-            memory: '512Mi',
-          },
-        },
-      }],
-    },
-    hosts: ['speed-review.k8s.bluedot.org'],
-  },
-  {
     name: 'bluedot-team-apps',
     spec: {
       containers: [{
@@ -352,6 +328,13 @@ export const services: ServiceDefinition[] = [
       }],
     },
     hosts: ['apps.bluedot.org'],
+    redirects: [{
+      // The retired standalone Speed Reviewer. Keeping its name means Pulumi updates the old
+      // ingress in place (same certificate, no duplicate-host clash) rather than replacing it.
+      name: 'bluedot-speed-review',
+      hosts: ['speed-review.k8s.bluedot.org'],
+      to: 'https://apps.bluedot.org/speed-review',
+    }],
   },
   {
     name: 'bluedot-login',
@@ -489,6 +472,14 @@ type ServiceDefinition = {
    * @example ['my-cool-app.k8s.bluedot.org']
    * */
   hosts?: string[];
+
+  /**
+   * Old hostnames that should permanently redirect to a URL, e.g. after this app replaced another one.
+   * Every request to these hosts goes to `to`, whatever its path.
+   *
+   * @example [{ name: 'bluedot-old-app', hosts: ['old-app.k8s.bluedot.org'], to: 'https://apps.bluedot.org/old-app' }]
+   * */
+  redirects?: { name: string; hosts: string[]; to: string }[];
 
   /**
    * The port the container serves requests on.
