@@ -9,7 +9,7 @@ const {
 } = vi.hoisted(() => ({
   verify: vi.fn(), fetchRounds: vi.fn(), writeOpinions: vi.fn(), fetchApplications: vi.fn(), fetchFilterOptions: vi.fn(),
 }));
-vi.mock('@bluedot/ui', () => ({ loginPresets: { googleBlueDot: { verifyAndDecodeToken: verify } } }));
+vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyGoogleBlueDotToken: verify }));
 vi.mock('./airtable', () => ({
   fetchRounds, writeOpinions, fetchApplications, fetchFilterOptions,
 }));

@@ -2,22 +2,12 @@ import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import { userTable } from '@bluedot/db';
-import { loginPresets } from '@bluedot/ui/src/Login';
+import { verifyKeycloakToken } from '@bluedot/ui/src/server/verifyToken';
 import { createContext } from './context';
 import { setupTestDb, testDb } from '../__tests__/dbTestUtils';
 import { ONE_HOUR_SECONDS } from '../lib/constants';
 
-vi.mock('@bluedot/ui/src/Login', async () => {
-  const actual = await vi.importActual('@bluedot/ui/src/Login');
-  return {
-    ...actual,
-    loginPresets: {
-      keycloak: {
-        verifyAndDecodeToken: vi.fn(),
-      },
-    },
-  };
-});
+vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyKeycloakToken: vi.fn() }));
 
 setupTestDb();
 
@@ -40,14 +30,14 @@ describe('createContext: Happy path', () => {
   });
 
   test('returns authenticated user when valid token is provided', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(mockAuth);
 
     const req = createMockReq({ authorization: 'Bearer valid-token' });
     const result = await createContext({ req } as Parameters<typeof createContext>[0]);
 
     expect(result.auth).toEqual(mockAuth);
     expect(result.impersonation).toBeNull();
-    expect(loginPresets.keycloak.verifyAndDecodeToken).toHaveBeenCalledWith('valid-token');
+    expect(verifyKeycloakToken).toHaveBeenCalledWith('valid-token');
   });
 });
 
@@ -65,7 +55,7 @@ describe('createContext: User impersonation', () => {
       id: 'target-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(adminAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -90,7 +80,7 @@ describe('createContext: User impersonation', () => {
     // Target has no keycloakIdentifier yet (e.g. hasn't logged in since the backfill).
     await testDb.insert(userTable, { id: 'target-id', email: 'target@example.com', name: 'Target User' });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(adminAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -110,7 +100,7 @@ describe('createContext: User impersonation', () => {
       id: 'allowed-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(scopedAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -135,7 +125,7 @@ describe('createContext: User impersonation', () => {
       id: 'other-id', email: 'other@example.com', name: 'Other User', keycloakIdentifier: 'other-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(scopedAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -156,7 +146,7 @@ describe('createContext: User impersonation', () => {
       id: 'some-target-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(mockAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -174,7 +164,7 @@ describe('createContext: User impersonation', () => {
       id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(adminAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
