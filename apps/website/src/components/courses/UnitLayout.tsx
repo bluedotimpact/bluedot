@@ -17,7 +17,7 @@ import {
   type Unit,
   type UnitResource,
 } from '@bluedot/db';
-import { useBugReport } from '../../hooks/useBugReport';
+import { useFeedback } from '../../hooks/useFeedback';
 import { NEXT_STEPS_CHUNK_ID } from '../../lib/constants';
 import { buildCourseUnitUrl } from '../../lib/utils';
 import type { BasicChunk } from '../../server/routers/courses';
@@ -59,7 +59,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
-  const { openBugReport } = useBugReport();
+  const { openFeedback } = useFeedback();
 
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
@@ -256,10 +256,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 <KeyboardNavMenu />
                 <button
                   type="button"
-                  onClick={() => openBugReport()}
+                  onClick={() => openFeedback()}
                   className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
                 >
-                  Report a bug
+                  Submit feedback
                 </button>
               </div>
             </div>

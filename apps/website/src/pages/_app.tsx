@@ -12,7 +12,7 @@ import { CookieBanner } from '../components/CookieBanner';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { Header } from '../components/Header';
 import '../globals.css';
-import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
+import FeedbackProvider, { useFeedback } from '../hooks/useFeedback';
 import '../lib/axios'; // Configure axios-hooks
 import { FOAI_COURSE_SLUG } from '../lib/constants';
 import { inter, interDisplay } from '../lib/fonts';
@@ -59,7 +59,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const { courses, loading } = useCourses();
   const { data: programs, isLoading: programsLoading } = trpc.programs.getInPerson.useQuery();
   const { data: grants, isLoading: grantsLoading } = trpc.programs.getGrants.useQuery();
-  const { openBugReport } = useBugReport();
+  const { openFeedback } = useFeedback();
 
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
@@ -138,7 +138,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
                 .concat([{ path: AI_SECURITY_BOOTCAMP.url, title: AI_SECURITY_BOOTCAMP.title }])}
               loading={loading || programsLoading || grantsLoading}
               logo="/images/logo/BlueDot_Impact_Logo_White.svg"
-              onReportBug={openBugReport}
+              onOpenFeedback={openFeedback}
             />
           )}
         </>
@@ -156,9 +156,9 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
 const App: React.FC<AppProps> = (props) => (
   <LatestUtmParamsProvider>
     <PostHogProvider>
-      <BugReportProvider>
+      <FeedbackProvider>
         <AppContent {...props} />
-      </BugReportProvider>
+      </FeedbackProvider>
     </PostHogProvider>
   </LatestUtmParamsProvider>
 );
