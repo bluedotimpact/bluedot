@@ -1617,7 +1617,7 @@ export const dropoutTable = pgAirtable('dropout', {
   },
 });
 
-export const bugReportsTable = pgAirtable('bug_reports', {
+export const feedbackSubmissionsTable = pgAirtable('bug_reports', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblbwt3oGJfwHmIAc',
   columns: {
@@ -1629,12 +1629,12 @@ export const bugReportsTable = pgAirtable('bug_reports', {
       pgColumn: text().array(),
       airtableId: 'fldwb2IJjBIpE4fJi',
     },
-    // Birdie URL for the recording of the bug report session, if any
+    // Birdie URL for the recording of the feedback session, if any
     recordingUrl: {
       pgColumn: text(),
       airtableId: 'fldSd9pPXP44Sho8G',
     },
-    // Page the bug was submitted from
+    // Page the feedback was submitted from
     pageUrl: {
       pgColumn: text(),
       airtableId: 'flduxQyQW2lFbi4S0',
@@ -1796,7 +1796,7 @@ export type ResourceCompletion = InferSelectModel<typeof resourceCompletionPgTab
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
 export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;
-export type BugReport = InferSelectModel<typeof bugReportsTable.pg>;
+export type FeedbackSubmission = InferSelectModel<typeof feedbackSubmissionsTable.pg>;
 export type CourseFeedback = InferSelectModel<typeof courseFeedbackTable.pg>;
 export type PeerFeedback = InferSelectModel<typeof peerFeedbackTable.pg>;
 export type VanityUrl = InferSelectModel<typeof vanityUrlsTable.pg>;
