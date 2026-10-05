@@ -20,8 +20,8 @@ describe('Footer', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('renders with "report a bug" when onReportBug is provided', () => {
-    const { container } = render(<Footer onReportBug={() => {}} />);
+  test('renders with "submit feedback" when onOpenFeedback is provided', () => {
+    const { container } = render(<Footer onOpenFeedback={() => {}} />);
     expect(container).toMatchSnapshot();
   });
 });
