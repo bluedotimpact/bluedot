@@ -80,6 +80,15 @@ Mixing schema additions and consumer code in one PR breaks staging because the t
 - Open a real PR with `gh pr create` — title + body. Don't leave a "create PR" link for the human to fill in.
 - **UI screenshots**: embed real `<img>` tags, not text descriptions. Commit screenshots to `.github/pr-screenshots/<n>/` (where `<n>` is the PR number or branch slug), push, then embed via SHA-pinned `raw.githubusercontent.com` URLs (`<img width="390">` for mobile, `<img width="1280">` for desktop). Dismiss any cookie banner before capturing. After embedding, push a follow-up commit deleting the screenshots from `.github/pr-screenshots/` so the folder doesn't grow. The SHA-pinned URLs will still work. If you can't take screenshots, note in the PR body that a human should take them.
 
+## Who merges what
+
+Never merge, enable auto-merge, or push to `master`. Let humans merge. Before handing a PR over, say which bucket it is in (the rule lives in `README.md` → "Who merges what"):
+
+- **Automated reviews are enough**: wording and course content (page text, emails, course materials), internal and team-app UI, small website UI changes checked in the Render preview.
+- **Engineer review first**: anything that touches data or infrastructure: database schema or sync (`libraries/db`, `apps/pg-sync-service`), `apps/infra`, user accounts and login, deploy and CI config, shared libraries used by several apps. Request an engineer's review on the PR (ask the user who, if they haven't said) and say in the body why it needs one. Don't present the bot reviews as sufficient.
+
+If a PR mixes both, or you're not sure, treat it as the second bucket and say so.
+
 ## After opening a PR — run the AI review loop
 
 Don't wait for the human to ask. As soon as the PR is open (with screenshots embedded if it's a UI change), run this loop autonomously.
