@@ -12,6 +12,7 @@ import {
   inArray,
   meetPersonTable,
   notInArray,
+  or,
   peerFeedbackTable,
   roundTable,
   unitTable,
@@ -82,11 +83,26 @@ async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { sub: s
 
 // A meetPerson maps to one application, but can facilitate several groups within the same round
 // (never across rounds). The feedback form spans all of them.
-async function getGroupsForFacilitator(facilitatorId: string) {
+// A group counts if the person is its current facilitator, or if they attended one of its discussions
+// under this facilitator registration: the group may since have been handed to someone else, or they
+// may have covered sessions as a substitute. Attendance is also what their pay is calculated from.
+async function getGroupsForFacilitator(meetPerson: { id: string; attendedDiscussions: string[] | null }) {
+  const attendedDiscussionIds = meetPerson.attendedDiscussions ?? [];
+  const attendedGroupIds = attendedDiscussionIds.length > 0
+    ? (await db.pg
+      .select({ group: groupDiscussionTable.pg.group })
+      .from(groupDiscussionTable.pg)
+      .where(inArray(groupDiscussionTable.pg.id, attendedDiscussionIds)))
+      .map((d) => d.group)
+    : [];
+
+  const isCurrentFacilitator = arrayContains(groupTable.pg.facilitator, [meetPerson.id]);
   const groups = await db.pg
     .select({ id: groupTable.pg.id, groupName: groupTable.pg.groupName, participants: groupTable.pg.participants })
     .from(groupTable.pg)
-    .where(arrayContains(groupTable.pg.facilitator, [facilitatorId]))
+    .where(attendedGroupIds.length > 0
+      ? or(isCurrentFacilitator, inArray(groupTable.pg.id, attendedGroupIds))
+      : isCurrentFacilitator)
     // Deterministic group order
     .orderBy(asc(groupTable.pg.groupName), asc(groupTable.pg.id));
   if (groups.length === 0) {
@@ -309,7 +325,7 @@ export const facilitatorRouter = router({
     .input(z.object({ meetPersonId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
-      const groups = await getGroupsForFacilitator(meetPerson.id);
+      const groups = await getGroupsForFacilitator(meetPerson);
       const groupIds = groups.map((g) => g.id);
       const participantIds = [...new Set(groups.flatMap((g) => g.participants ?? []))];
       const [dropInIds, followUpOptions] = await Promise.all([
@@ -391,7 +407,7 @@ export const facilitatorRouter = router({
     .input(z.object({ meetPersonId: z.string().min(1), searchTerm: z.string().max(200).optional() }))
     .query(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
-      const groups = await getGroupsForFacilitator(meetPerson.id);
+      const groups = await getGroupsForFacilitator(meetPerson);
       const participantIds = [...new Set(groups.flatMap((g) => g.participants ?? []))];
       const dropInIds = await getDropInIdsForGroups(groups.map((g) => g.id), participantIds);
       const excludeIds = [...participantIds, ...dropInIds];

@@ -143,6 +143,7 @@ export const myBluedotRouter = router({
           or(
             inArray(courseRegistrationTable.pg.roundStatus, LIVE_ROUND_STATUSES),
             ne(meetPersonTable.pg.groupsAsFacilitator, []),
+            ne(meetPersonTable.pg.attendedDiscussions, []),
           ),
         ))
         .limit(1),
@@ -429,30 +430,39 @@ export const myBluedotRouter = router({
     ]);
 
     // Groups + discussions (from meetPersons), rounds (from regs).
+    // A facilitator's discussions are the ones they were scheduled for plus the ones they attended,
+    // so someone whose group was handed over mid-round, or who substituted, still sees the sessions they ran.
     const meetPersonRoundIds = unique(meetPersons.map((mp) => mp.round));
-    const expectedDiscussionIds = unique(meetPersons.flatMap((mp) => mp.expectedDiscussionsFacilitator ?? []));
+    const discussionIdsForMeetPerson = (mp: { expectedDiscussionsFacilitator: string[] | null; attendedDiscussions: string[] | null }) => (
+      unique([...(mp.expectedDiscussionsFacilitator ?? []), ...(mp.attendedDiscussions ?? [])])
+    );
+    const expectedDiscussionIds = unique(meetPersons.flatMap(discussionIdsForMeetPerson));
 
-    const [allGroupsInRounds, allExpectedDiscussions, roundRows] = await Promise.all([
+    const [allGroupsInRounds, allDiscussionRows, roundRows] = await Promise.all([
       meetPersonRoundIds.length > 0
         ? db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.round, meetPersonRoundIds)) as Promise<Group[]>
         : Promise.resolve([] as Group[]),
       expectedDiscussionIds.length > 0
-        ? (db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds)) as Promise<GroupDiscussion[]>)
-          .then((rows) => rows.filter(hasEndDateTime))
-        : Promise.resolve([] as GroupDiscussionWithEnd[]),
+        ? db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds)) as Promise<GroupDiscussion[]>
+        : Promise.resolve([] as GroupDiscussion[]),
       fetchApplicationsRoundsByIds(unique(courseRegistrations.map((cr) => cr.roundId))),
     ]);
+    // Only discussions with an end time are displayed, but every row still counts towards which groups the person facilitated.
+    const allExpectedDiscussions = allDiscussionRows.filter(hasEndDateTime);
+    const groupIdByDiscussionId = new Map(allDiscussionRows.map((d) => [d.id, d.group] as const));
 
     // Units (from discussions).
     const units = await fetchUnitsByIds(unique(allExpectedDiscussions.map((d) => d.courseBuilderUnitRecordId)));
 
     // Step 2: Build one row per (registration × facilitated group)
-    const meetPersonIds = new Set(meetPersons.map((mp) => mp.id));
-    const facilitatedGroups = allGroupsInRounds.filter((g) => (g.facilitator ?? []).some((id) => meetPersonIds.has(id)));
-
     const roundById = new Map(roundRows.map((r) => [r.id, r] as const));
     const unitById = new Map(units.map((u) => [u.id, u] as const));
     const discussionById = new Map(allExpectedDiscussions.map((d) => [d.id, d] as const));
+
+    const facilitatesGroup = (group: Group, meetPerson: { id: string; attendedDiscussions: string[] | null }) => (
+      (group.facilitator ?? []).includes(meetPerson.id)
+      || (meetPerson.attendedDiscussions ?? []).some((id) => groupIdByDiscussionId.get(id) === group.id)
+    );
 
     const perRow: FacilitatorRowProps[] = courseRegistrations.flatMap((cr): FacilitatorRowProps[] => {
       const course = courses.find((c) => c.id === cr.courseId);
@@ -482,7 +492,7 @@ export const myBluedotRouter = router({
         ...baseRow, group: null, discussions: [], attendedDiscussionIds: [], units: {},
       };
 
-      const groupsForCr = facilitatedGroups.filter((g) => g.round === meetPerson.round && (g.facilitator ?? []).includes(meetPerson.id));
+      const groupsForCr = allGroupsInRounds.filter((g) => g.round === meetPerson.round && facilitatesGroup(g, meetPerson));
 
       if (groupsForCr.length === 0) {
         const isLive = LIVE_ROUND_STATUSES.includes(cr.roundStatus ?? '');
@@ -491,7 +501,7 @@ export const myBluedotRouter = router({
       }
 
       return groupsForCr.map((group): FacilitatorRowProps => {
-        const groupDiscussions = (meetPerson.expectedDiscussionsFacilitator ?? [])
+        const groupDiscussions = discussionIdsForMeetPerson(meetPerson)
           .map((id) => discussionById.get(id))
           .filter((d): d is GroupDiscussionWithEnd => !!d && d.group === group.id)
           .sort((a, b) => a.startDateTime - b.startDateTime);

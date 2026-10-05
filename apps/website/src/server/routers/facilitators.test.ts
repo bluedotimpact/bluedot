@@ -409,6 +409,37 @@ describe('facilitators.getFeedbackFormData', () => {
       .rejects.toThrow('Facilitator has no linked user');
   });
 
+  test('a facilitator whose group was handed to someone else can still open the form via attended discussions', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, { id: 'facilitator-2', round: ROUND_ID, role: 'Facilitator' });
+    await testDb.update(groupTable, { id: GROUP_ID, facilitator: ['facilitator-2'] });
+    await testDb.insert(groupDiscussionTable, {
+      id: DISCUSSION_ID,
+      group: GROUP_ID,
+      facilitators: [FACILITATOR_ID],
+      participantsExpected: [PARTICIPANT_1, PARTICIPANT_2],
+      attendees: [FACILITATOR_ID, PARTICIPANT_1],
+      startDateTime: 1000,
+      endDateTime: 2000,
+    });
+    await testDb.update(meetPersonTable, { id: FACILITATOR_ID, attendedDiscussions: [DISCUSSION_ID] });
+
+    const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
+
+    expect(result.groupIds).toEqual([GROUP_ID]);
+    expect(result.participants.map((p) => p.id).sort()).toEqual([PARTICIPANT_1, PARTICIPANT_2].sort());
+    expect(result.dropIns).toEqual([]);
+  });
+
+  test('rejects a facilitator with no current group and no attended discussions', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, { id: 'facilitator-2', round: ROUND_ID, role: 'Facilitator' });
+    await testDb.update(groupTable, { id: GROUP_ID, facilitator: ['facilitator-2'] });
+
+    await expect(caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID }))
+      .rejects.toThrow('No group found for this facilitator');
+  });
+
   test('returns drop-ins (attendees not in group.participants)', async () => {
     await seedFacilitatorGroup();
     await seedDropIn();
