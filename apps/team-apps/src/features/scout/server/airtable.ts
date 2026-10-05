@@ -227,6 +227,8 @@ const APP = {
   impressivenessRationale: 'fldYcDjhWaLDL2RyT',
   technicalSkillScore: 'fldtkropu9GZ7QLjr',
   technicalSkillRationale: 'fld7qoZTSBPjY3gzl',
+  pangramVerdict: 'fldKgZweXcilRhvwo',
+  pangramScore: 'fldvPBmzJwBwdMuoM',
 } as const;
 
 type AirtableRecord = { id: string; fields: Record<string, unknown> };
@@ -644,6 +646,8 @@ const toApplication = (r: AirtableRecord): Application => {
     impressivenessRationale: str(f[APP.impressivenessRationale]),
     technicalSkillScore: num(f[APP.technicalSkillScore]),
     technicalSkillRationale: str(f[APP.technicalSkillRationale]),
+    pangramVerdict: str(f[APP.pangramVerdict]),
+    pangramScore: num(f[APP.pangramScore]),
   };
 };
 
@@ -669,12 +673,13 @@ const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
 // Applications for this email that did not become a registration (the registrations'
 // own application IDs are excluded), so a lead sees rejections, withdrawals and pending applications.
 const fetchOtherApplications = async (email: string, registrationApplicationIds: Set<string>): Promise<OtherApplication[]> => {
-  const records = await fetchAll(APPLICATION_REGISTRATIONS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(APP_OUTCOME));
+  const records = await fetchAll(APPLICATION_REGISTRATIONS_URL, { filterByFormula: byEmailFormula('Email', email) }, [...Object.values(APP_OUTCOME), ...Object.values(APP)]);
   return records
     .filter((r) => !registrationApplicationIds.has(r.id))
     .map((r): OtherApplication => {
       const roundName = str(r.fields[APP_OUTCOME.roundName]) ?? '';
       return {
+        application: toApplication(r),
         id: r.id,
         recordUrl: recordLink(APPLICATION_REGISTRATIONS_URL, r.id),
         course: courseNameFrom(roundName) ?? 'Unknown course',
@@ -742,7 +747,8 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
 
   const history = email ? await fetchHistory(email, id, rounds) : [];
   const registrationApplicationIds = new Set(history.map((h) => h.applicationId).filter((x): x is string => !!x));
-  const [otherApplications, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId, sessions] = await Promise.all([
+  const pastApplicationIds = history.filter((h) => !h.isCurrent).map((h) => h.applicationId).filter((x): x is string => !!x);
+  const [otherApplications, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId, sessions, pastApplications] = await Promise.all([
     email ? fetchOtherApplications(email, registrationApplicationIds) : Promise.resolve([]),
     email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
     email ? fetchAll(CRM_RAPID_GRANTS_URL, { filterByFormula: byEmailFormula('Applicant email', email) }, Object.values(RAPID)) : Promise.resolve([]),
@@ -754,7 +760,9 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
     email ? fetchCrmPersonId(email) : Promise.resolve(undefined),
     fetchSessions(strList(f[REG.expectedDiscussions]), strList(f[REG.attendedDiscussions])),
+    fetchMany(APPLICATION_REGISTRATIONS_URL, pastApplicationIds, Object.values(APP)),
   ]);
+  const applicationById = new Map(pastApplications.map((r) => [r.id, toApplication(r)]));
   const facilitators = await fetchFacilitatorNames(reports);
   // Only the facilitator's rows; participants can also leave peer feedback
   const facilitatorFeedback = await Promise.all(peerFeedback
@@ -782,7 +790,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     crmPersonId,
     webFacts: parseWebFacts(f[REG.webFacts]),
     lookedUpOn: str(f[REG.lookedUpOn]),
-    history,
+    history: history.map((h) => (h.isCurrent || !h.applicationId ? h : { ...h, application: applicationById.get(h.applicationId) })),
     otherApplications,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),

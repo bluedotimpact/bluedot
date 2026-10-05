@@ -3,7 +3,7 @@ import {
   A, CardShell, ChevronRightIcon, cn, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import {
-  type EvaluationCall, type FacilitatorFeedback, type GrantApplication, type OtherApplication, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
+  type EvaluationCall, type FacilitatorFeedback, type GrantApplication, type OtherApplication, type Application, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
 } from './types';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
@@ -39,8 +39,10 @@ const NEXT_STEP_COLOUR: Record<string, string> = {
 
 const airtableStyle = (colour?: string) => (colour && AIRTABLE[colour] ? { backgroundColor: AIRTABLE[colour].bg, color: AIRTABLE[colour].fg } : undefined);
 
-const Badge: React.FC<{ children: ReactNode; className?: string; colour?: string }> = ({ children, className = 'bg-tint text-primary', colour }) => (
-  <span className={cn('inline-flex items-center max-w-full whitespace-normal break-words rounded-sm px-2 py-0.5 text-size-xxs font-medium', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
+const Badge: React.FC<{ children: ReactNode; className?: string; colour?: string; title?: string }> = ({
+  children, className = 'bg-tint text-primary', colour, title,
+}) => (
+  <span title={title} className={cn('inline-flex items-center max-w-full whitespace-normal break-words rounded-sm px-2 py-0.5 text-size-xxs font-medium', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
 );
 
 // Rapid grants store the same options in lower case ("strong yes"), so match by lower case
@@ -444,6 +446,44 @@ const CourseDetail: React.FC<{ course: string; roundName: string }> = ({ course,
   return <>{course}{intensity && ` · ${intensity}`}</>;
 };
 
+// What the applicant wrote and what the speed review made of it. In the Application section
+// the AI parts start open; behind a timeline row everything starts closed.
+const ApplicationDetails: React.FC<{ app: Application; open?: boolean }> = ({ app, open = false }) => {
+  const header = [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ');
+  const scores: [string, number][] = [];
+  if (app.commitmentScore !== undefined) scores.push(['Commitment', app.commitmentScore]);
+  if (app.impressivenessScore !== undefined) scores.push(['Impressiveness', app.impressivenessScore]);
+  if (app.technicalSkillScore !== undefined) scores.push(['Technical', app.technicalSkillScore]);
+  return (
+    <>
+      {header && <p className="pl-[22px] text-size-xs text-secondary">{header}</p>}
+      {(scores.length > 0 || app.pangramVerdict) && (
+        <div className="flex flex-wrap gap-1 pl-[22px]">
+          {scores.map(([label, score]) => <Badge key={label}>{label} {score}/5</Badge>)}
+          <PangramBadge verdict={app.pangramVerdict} score={app.pangramScore} />
+        </div>
+      )}
+      {app.commitmentScore !== undefined && <Answer ai defaultOpen={open} label={`Why commitment ${app.commitmentScore}/5`} text={app.commitmentRationale} />}
+      {app.impressivenessScore !== undefined && <Answer ai defaultOpen={open} label={`Why impressiveness ${app.impressivenessScore}/5`} text={app.impressivenessRationale} />}
+      {app.technicalSkillScore !== undefined && <Answer ai defaultOpen={open} label={`Why technical ${app.technicalSkillScore}/5`} text={app.technicalSkillRationale} />}
+      <Answer ai defaultOpen={open} label="Speed-review summary, at application time" text={app.aiSummary} />
+      <Answer label="Imagine you're at the end of the course, and it's been a wild success for you. How is your life different?" text={app.pathToImpact} />
+      <Answer label="How have you engaged with the field so far?" text={app.experience} />
+      <Answer label="What skills will you contribute?" text={app.skills} />
+      <Answer label="Tell us about one achievement you're most proud of." text={app.impressiveProject} />
+      <Answer label="What's the hardest tradeoff or tension you see in the field?" text={app.reasoning} />
+      <Answer label="Where did you hear about this course?" text={app.source} />
+    </>
+  );
+};
+
+// Pangram's AI-writing check: a scrutiny signal, not a judgement, so amber only for "AI"
+const PangramBadge: React.FC<{ verdict?: string; score?: number }> = ({ verdict, score }) => {
+  if (!verdict) return null;
+  const tone = /^ai$/i.test(verdict) ? 'bg-warning-bg text-warning-fg' : 'bg-tint text-primary';
+  return <Badge className={tone} title="Pangram AI-writing check over the whole application">Pangram: {verdict}{score !== undefined ? ` · ${score}` : ''}</Badge>;
+};
+
 const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
   <TimelineRow
     when={monthYear(r.roundStart)}
@@ -453,6 +493,7 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
     status={courseStatus(r)}
     url={r.recordUrl}
     current={r.isCurrent}
+    more={r.application && <div className="flex flex-col gap-2"><ApplicationDetails app={r.application} /></div>}
   />
 );
 
@@ -469,7 +510,7 @@ const OtherApplicationRow: React.FC<{ a: OtherApplication }> = ({ a }) => {
       status={status}
       url={a.recordUrl}
       quiet={status.tone === 'quiet'}
-      more={status.tone === 'bad' && hasText(a.aiSummary) && <More ai label="Speed-review summary, at application time" text={a.aiSummary} />}
+      more={a.application && <div className="flex flex-col gap-2"><ApplicationDetails app={a.application} /></div>}
     />
   );
 };
@@ -635,12 +676,6 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
   ].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''));
   const withBlueDotCount = person.history.length + person.otherApplications.length + person.grants.length + person.rapidGrants.length + person.calls.length;
   const app = person.application;
-  const appHeader = app ? [app.careerLevel, app.profession, app.fieldOfStudy?.join(', ')].filter(Boolean).join(' · ') : '';
-  // Speed-review scores (1-5), produced by the Applications-base automation at application time
-  const scores: [string, number][] = [];
-  if (app?.commitmentScore !== undefined) scores.push(['Commitment', app.commitmentScore]);
-  if (app?.impressivenessScore !== undefined) scores.push(['Impressiveness', app.impressivenessScore]);
-  if (app?.technicalSkillScore !== undefined) scores.push(['Technical', app.technicalSkillScore]);
   const roundLine = `ended ${formatDate(person.roundEnd)}`;
   // "(2026 Aug W36) - Part-time" → "2026 Aug W36 · Part-time"
   const roundLabel = shortRound(person.roundName).replace(/[()]/g, '').replace(' - ', ' · ');
@@ -693,26 +728,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           </>
         )}
       >
-        {app && (
-          <>
-            {appHeader && <p className="pl-[22px] text-size-xs text-secondary">{appHeader}</p>}
-            {scores.length > 0 && (
-              <div className="flex flex-wrap gap-1 pl-[22px]">
-                {scores.map(([label, score]) => <Badge key={label}>{label} {score}/5</Badge>)}
-              </div>
-            )}
-            {app.commitmentScore !== undefined && <Answer ai defaultOpen label={`Why commitment ${app.commitmentScore}/5`} text={app.commitmentRationale} />}
-            {app.impressivenessScore !== undefined && <Answer ai defaultOpen label={`Why impressiveness ${app.impressivenessScore}/5`} text={app.impressivenessRationale} />}
-            {app.technicalSkillScore !== undefined && <Answer ai defaultOpen label={`Why technical ${app.technicalSkillScore}/5`} text={app.technicalSkillRationale} />}
-            <Answer ai defaultOpen label="Speed-review summary, at application time" text={app.aiSummary} />
-            <Answer label="Imagine you're at the end of the course, and it's been a wild success for you. How is your life different?" text={app.pathToImpact} />
-            <Answer label="How have you engaged with the field so far?" text={app.experience} />
-            <Answer label="What skills will you contribute?" text={app.skills} />
-            <Answer label="Tell us about one achievement you're most proud of." text={app.impressiveProject} />
-            <Answer label="What's the hardest tradeoff or tension you see in the field?" text={app.reasoning} />
-            <Answer label="Where did you hear about this course?" text={app.source} />
-          </>
-        )}
+        {app && <ApplicationDetails app={app} open />}
       </Section>
 
       <Sessions sessions={person.sessions} />
