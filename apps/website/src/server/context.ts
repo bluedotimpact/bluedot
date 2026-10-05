@@ -1,12 +1,11 @@
 import { userTable } from '@bluedot/db';
-import { loginPresets } from '@bluedot/ui/src/Login';
-import { logger } from '@bluedot/ui/src/api';
+import { logger, verifyKeycloakToken } from '@bluedot/ui/src/api';
 import { TRPCError } from '@trpc/server';
 import type * as trpcNext from '@trpc/server/adapters/next';
 import db from '../lib/api/db';
 import { checkImpersonationAccess } from './trpc';
 
-export type AuthContext = Awaited<ReturnType<typeof loginPresets.keycloak.verifyAndDecodeToken>>;
+export type AuthContext = Awaited<ReturnType<typeof verifyKeycloakToken>>;
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
   const authHeader = req.headers.authorization;
@@ -20,7 +19,7 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
   const token = authHeader.slice('Bearer '.length).trim();
 
   try {
-    const auth = await loginPresets.keycloak.verifyAndDecodeToken(token);
+    const auth = await verifyKeycloakToken(token);
 
     // User impersonation spec:
     // - id of user to impersonate is stored client-side in sessionStorage. Using sessionStorage means the impersonation is cleared when the tab is closed.
