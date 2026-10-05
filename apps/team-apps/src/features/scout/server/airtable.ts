@@ -7,6 +7,7 @@ import { withAirtableRetry } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import env from '../../../lib/api/env';
 import {
+  COURSES,
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
   type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type OtherApplication, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type Session, type WebFacts,
 } from '../types';
@@ -344,7 +345,10 @@ const getRounds = async (): Promise<Map<string, Round>> => {
   return rounds;
 };
 
-const courseOf = (round: Round | undefined): Course | undefined => str(round?.course)?.trim();
+const courseOf = (round: Round | undefined): Course | undefined => {
+  const name = str(round?.course)?.trim();
+  return COURSES.find((c) => c === name);
+};
 
 // ---- Queue ----
 

@@ -1,5 +1,7 @@
-// Any course name from Course runner; which courses appear is decided by the Airtable view
-export type Course = string;
+// The courses the app reviews. Registrations from any other course are left out of the queue,
+// and these five always appear in the picker, with or without people.
+export const COURSES = ['Technical AI Safety', 'Technical AI Safety Project', 'Biosecurity', 'AGI Strategy', 'Frontier AI Governance'] as const;
+export type Course = (typeof COURSES)[number];
 
 export type QueueItem = {
   id: string;
@@ -15,7 +17,7 @@ export type QueueItem = {
 };
 
 // Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share
-export type InvitedThisWeek = Record<Course, { total: number; viaApp: number }>;
+export type InvitedThisWeek = Partial<Record<Course, { total: number; viaApp: number }>>;
 
 export type Registration = {
   id: string;
