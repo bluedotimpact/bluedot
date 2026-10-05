@@ -927,7 +927,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
                     type="button"
                   >
-                    Report a bug
+                    Submit feedback
                   </button>
                 </div>
               </div>
