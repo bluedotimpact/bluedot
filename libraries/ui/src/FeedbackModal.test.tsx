@@ -5,27 +5,27 @@ import '@testing-library/jest-dom';
 import {
   describe, it, expect, beforeEach, vi,
 } from 'vitest';
-import { BugReportModal } from './BugReportModal';
+import { FeedbackModal } from './FeedbackModal';
 
-describe('BugReportModal', () => {
+describe('FeedbackModal', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders correctly when open', () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
     expect(screen.getByText('Submit feedback')).toBeInTheDocument();
     expect(screen.getByLabelText('Description')).toBeInTheDocument();
   });
 
   it('does not render when closed', () => {
-    render(<BugReportModal isOpen={false} />);
+    render(<FeedbackModal isOpen={false} />);
     expect(screen.queryByText('Submit feedback')).not.toBeInTheDocument();
   });
 
   it('shows success state after submission', async () => {
     const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
-    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+    render(<FeedbackModal isOpen onSubmit={mockOnSubmit} />);
 
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Something is broken' },
@@ -48,7 +48,7 @@ describe('BugReportModal', () => {
 
   it('includes email in submission data', async () => {
     const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
-    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+    render(<FeedbackModal isOpen onSubmit={mockOnSubmit} />);
 
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Feedback' },
@@ -65,7 +65,7 @@ describe('BugReportModal', () => {
 
   it('shows an inline error and does not submit when email is invalid', async () => {
     const mockOnSubmit = vi.fn();
-    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+    render(<FeedbackModal isOpen onSubmit={mockOnSubmit} />);
 
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Feedback' },
@@ -82,7 +82,7 @@ describe('BugReportModal', () => {
   });
 
   it('shows an inline error on blur when email is invalid', async () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
 
     fireEvent.change(screen.getByPlaceholderText('Email'), {
       target: { value: 'bad-email' },
@@ -98,7 +98,7 @@ describe('BugReportModal', () => {
     const testError = new Error('Network error');
     const mockOnSubmit = vi.fn().mockRejectedValue(testError);
 
-    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+    render(<FeedbackModal isOpen onSubmit={mockOnSubmit} />);
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Test' },
     });
@@ -114,7 +114,7 @@ describe('BugReportModal', () => {
   });
 
   it('captures dropped files as attachments', async () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
 
     const file = new File(['screenshot'], 'screen.png', { type: 'image/png' });
     const dropTarget = screen.getByLabelText('Description').closest('div')!;
@@ -129,7 +129,7 @@ describe('BugReportModal', () => {
   });
 
   it('captures pasted files as attachments', async () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
 
     const file = new File(['image'], 'pasted.png', { type: 'image/png' });
     const textarea = screen.getByLabelText('Description');
@@ -144,7 +144,7 @@ describe('BugReportModal', () => {
   });
 
   it('removes an attachment when the remove button is clicked', async () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
 
     const file = new File(['image'], 'removeme.png', { type: 'image/png' });
     const dropTarget = screen.getByLabelText('Description').closest('div')!;
@@ -176,7 +176,7 @@ describe('BugReportModal', () => {
     };
 
     it('shows an error and does not add files that exceed the size limit', async () => {
-      render(<BugReportModal isOpen />);
+      render(<FeedbackModal isOpen />);
       dropFiles([makeFile('valid.txt', 1024), makeFile('large.txt', 11 * 1024 * 1024)]);
 
       await waitFor(() => {
@@ -187,7 +187,7 @@ describe('BugReportModal', () => {
     });
 
     it('shows an error and does not add files beyond the attachment limit', async () => {
-      render(<BugReportModal isOpen />);
+      render(<FeedbackModal isOpen />);
       dropFiles(Array.from({ length: 5 }, (_, i) => makeFile(`file${i}.txt`, 1024)));
       await waitFor(() => expect(screen.getByText('file4.txt')).toBeInTheDocument());
 
@@ -200,7 +200,7 @@ describe('BugReportModal', () => {
     });
 
     it('shows a combined error when files are both oversized and exceed the slot limit', async () => {
-      render(<BugReportModal isOpen />);
+      render(<FeedbackModal isOpen />);
       // Fill 4 of 5 slots, leaving 1 remaining
       dropFiles(Array.from({ length: 4 }, (_, i) => makeFile(`file${i}.txt`, 1024)));
       await waitFor(() => expect(screen.getByText('file3.txt')).toBeInTheDocument());
@@ -215,12 +215,12 @@ describe('BugReportModal', () => {
   });
 
   it('disables Submit when Description is empty', () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
     expect(screen.getByText('Submit').closest('button')).toBeDisabled();
   });
 
   it('disables Submit when Email is empty', () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Some feedback' },
     });
@@ -228,40 +228,40 @@ describe('BugReportModal', () => {
   });
 
   it('pre-fills the email with defaultEmail', () => {
-    render(<BugReportModal isOpen defaultEmail="user@example.com" />);
+    render(<FeedbackModal isOpen defaultEmail="user@example.com" />);
     expect(screen.getByPlaceholderText('Email')).toHaveValue('user@example.com');
   });
 
   it('does not overwrite an email the user has typed when defaultEmail arrives', () => {
-    const { rerender } = render(<BugReportModal isOpen />);
+    const { rerender } = render(<FeedbackModal isOpen />);
     fireEvent.change(screen.getByPlaceholderText('Email'), {
       target: { value: 'typed@example.com' },
     });
-    rerender(<BugReportModal isOpen defaultEmail="user@example.com" />);
+    rerender(<FeedbackModal isOpen defaultEmail="user@example.com" />);
     expect(screen.getByPlaceholderText('Email')).toHaveValue('typed@example.com');
   });
 
   it('clears the pre-filled email when defaultEmail goes away, e.g. on logout', () => {
-    const { rerender } = render(<BugReportModal isOpen defaultEmail="user@example.com" />);
-    rerender(<BugReportModal isOpen={false} />);
-    rerender(<BugReportModal isOpen />);
+    const { rerender } = render(<FeedbackModal isOpen defaultEmail="user@example.com" />);
+    rerender(<FeedbackModal isOpen={false} />);
+    rerender(<FeedbackModal isOpen />);
     expect(screen.getByPlaceholderText('Email')).toHaveValue('');
   });
 
   it('does not refill the email after the user clears it', () => {
-    render(<BugReportModal isOpen defaultEmail="user@example.com" />);
+    render(<FeedbackModal isOpen defaultEmail="user@example.com" />);
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: '' } });
     expect(screen.getByPlaceholderText('Email')).toHaveValue('');
   });
 
   it('does not render video section when onRecordScreen is not provided', () => {
-    render(<BugReportModal isOpen />);
+    render(<FeedbackModal isOpen />);
     expect(screen.queryByText('Could you show us with a video?')).not.toBeInTheDocument();
   });
 
   it('shows unrecorded video state and calls onRecordScreen', () => {
     const mockOnRecordScreen = vi.fn();
-    render(<BugReportModal isOpen onRecordScreen={mockOnRecordScreen} />);
+    render(<FeedbackModal isOpen onRecordScreen={mockOnRecordScreen} />);
     expect(screen.getByText('Could you show us with a video?')).toBeInTheDocument();
     expect(screen.getByText('Record my screen')).toBeInTheDocument();
     fireEvent.click(screen.getByText('Record my screen'));
@@ -270,7 +270,7 @@ describe('BugReportModal', () => {
 
   it('shows recorded state with Re-record button and editable URL, and calls onRecordScreen on re-record', () => {
     const mockOnRecordScreen = vi.fn();
-    render(<BugReportModal
+    render(<FeedbackModal
       isOpen
       onRecordScreen={mockOnRecordScreen}
       recordingUrl="https://app.birdie.so/recording/abc123"
@@ -285,7 +285,7 @@ describe('BugReportModal', () => {
 
   it('includes recordingUrl in submission data', async () => {
     const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
-    render(<BugReportModal
+    render(<FeedbackModal
       isOpen
       onSubmit={mockOnSubmit}
       onRecordScreen={() => {}}
@@ -309,7 +309,7 @@ describe('BugReportModal', () => {
 
   it('submits the edited recording URL when user changes it', async () => {
     const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
-    render(<BugReportModal
+    render(<FeedbackModal
       isOpen
       onSubmit={mockOnSubmit}
       onRecordScreen={() => {}}
