@@ -3,3 +3,4 @@ export { logger } from './utils/logger';
 export {
   makeMakeApiRoute, StreamingResponseSchema, type Handler, type MakeMakeApiRouteEnv, type RouteOptions,
 } from './utils/makeMakeApiRoute';
+export { verifyKeycloakToken, verifyGoogleBlueDotToken } from './server/verifyToken';
