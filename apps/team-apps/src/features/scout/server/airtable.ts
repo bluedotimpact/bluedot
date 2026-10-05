@@ -701,6 +701,16 @@ const courseNameFrom = (roundName: string) => {
   return name === '' ? undefined : name;
 };
 
+// A read that only adds context: on failure the card still loads, with a warning
+const optional = async <T>(read: Promise<T>, fallback: T): Promise<T> => {
+  try {
+    return await read;
+  } catch (error) {
+    logger.warn(`scout: optional read failed: ${error instanceof Error ? error.message : String(error)}`);
+    return fallback;
+  }
+};
+
 // The CRM Person record for this email, when exactly one matches (primary or secondary email)
 const fetchCrmPersonId = async (email: string): Promise<string | undefined> => {
   const formula = `OR(${byEmailFormula('Primary email', email)}, ${byEmailFormula('Secondary email', email)})`;
@@ -760,7 +770,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     applicationId ? fetchOne(APPLICATION_REGISTRATIONS_URL, applicationId, Object.values(APP)) : Promise.resolve(undefined),
     email ? fetchCrmPersonId(email) : Promise.resolve(undefined),
     fetchSessions(strList(f[REG.expectedDiscussions]), strList(f[REG.attendedDiscussions])),
-    fetchMany(APPLICATION_REGISTRATIONS_URL, pastApplicationIds, Object.values(APP)),
+    optional(fetchMany(APPLICATION_REGISTRATIONS_URL, pastApplicationIds, Object.values(APP)), []),
   ]);
   const applicationById = new Map(pastApplications.map((r) => [r.id, toApplication(r)]));
   const facilitators = await fetchFacilitatorNames(reports);
@@ -790,7 +800,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     crmPersonId,
     webFacts: parseWebFacts(f[REG.webFacts]),
     lookedUpOn: str(f[REG.lookedUpOn]),
-    history: history.map((h) => (h.isCurrent || !h.applicationId ? h : { ...h, application: applicationById.get(h.applicationId) })),
+    history: attachPastApplications(history, applicationById),
     otherApplications,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
@@ -803,6 +813,11 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     application: application ? toApplication(application) : undefined,
   };
 };
+
+// The current registration's application is the Application section; past ones hang off their rows
+export const attachPastApplications = (history: Registration[], applicationById: Map<string, Application>): Registration[] => (
+  history.map((h) => (h.isCurrent || !h.applicationId ? h : { ...h, application: applicationById.get(h.applicationId) }))
+);
 
 // ---- Web lookup ----
 

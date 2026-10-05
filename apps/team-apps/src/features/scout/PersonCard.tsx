@@ -463,9 +463,9 @@ const ApplicationDetails: React.FC<{ app: Application; open?: boolean }> = ({ ap
           <PangramBadge verdict={app.pangramVerdict} score={app.pangramScore} />
         </div>
       )}
-      {app.commitmentScore !== undefined && <Answer ai defaultOpen={open} label={`Why commitment ${app.commitmentScore}/5`} text={app.commitmentRationale} />}
-      {app.impressivenessScore !== undefined && <Answer ai defaultOpen={open} label={`Why impressiveness ${app.impressivenessScore}/5`} text={app.impressivenessRationale} />}
-      {app.technicalSkillScore !== undefined && <Answer ai defaultOpen={open} label={`Why technical ${app.technicalSkillScore}/5`} text={app.technicalSkillRationale} />}
+      <Answer ai defaultOpen={open} label={whyLabel('commitment', app.commitmentScore)} text={app.commitmentRationale} />
+      <Answer ai defaultOpen={open} label={whyLabel('impressiveness', app.impressivenessScore)} text={app.impressivenessRationale} />
+      <Answer ai defaultOpen={open} label={whyLabel('technical', app.technicalSkillScore)} text={app.technicalSkillRationale} />
       <Answer ai defaultOpen={open} label="Speed-review summary, at application time" text={app.aiSummary} />
       <Answer label="Imagine you're at the end of the course, and it's been a wild success for you. How is your life different?" text={app.pathToImpact} />
       <Answer label="How have you engaged with the field so far?" text={app.experience} />
@@ -476,6 +476,8 @@ const ApplicationDetails: React.FC<{ app: Application; open?: boolean }> = ({ ap
     </>
   );
 };
+
+const whyLabel = (what: string, score?: number) => `Why ${what}${score !== undefined ? ` ${score}/5` : ''}`;
 
 // Pangram's AI-writing check: a scrutiny signal, not a judgement, so amber only for "AI"
 const PangramBadge: React.FC<{ verdict?: string; score?: number }> = ({ verdict, score }) => {

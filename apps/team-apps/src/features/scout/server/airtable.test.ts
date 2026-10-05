@@ -4,8 +4,9 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  fetchQueue, inviteForReal, declineForReal, parseWebFacts,
+  attachPastApplications, fetchQueue, inviteForReal, declineForReal, parseWebFacts,
 } from './airtable';
+import type { Application, Registration } from '../types';
 
 const fetchMock = vi.fn<typeof fetch>();
 const id = 'recScoutSample001';
@@ -155,4 +156,16 @@ test('web facts: malformed cells read as not looked up, stray nulls are dropped,
   }));
   expect(good?.identity.confident).toBe(true);
   expect(good?.meta.searches).toBe(3);
+});
+
+test('past registrations get their own application attached; the current one and rows without an application id are left alone', () => {
+  const reg = (id: string, applicationId: string | undefined, isCurrent: boolean): Registration => ({
+    id, course: 'Biosecurity', roundName: 'Biosecurity (2026 Jan W02) - Part-time', facilitated: false, hasCertificate: true, droppedOut: false, applicationId, isCurrent,
+  });
+  const app = (id: string): Application => ({ id, skills: `skills from ${id}` });
+  const history = [reg('recCurrent00000001', 'recAppCurrent00001', true), reg('recPast000000000001', 'recAppPast00000001', false), reg('recPast000000000002', undefined, false)];
+  const attached = attachPastApplications(history, new Map([['recAppPast00000001', app('recAppPast00000001')], ['recAppCurrent00001', app('recAppCurrent00001')]]));
+  expect(attached[0]!.application).toBeUndefined();
+  expect(attached[1]!.application?.skills).toBe('skills from recAppPast00000001');
+  expect(attached[2]!.application).toBeUndefined();
 });
