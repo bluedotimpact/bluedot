@@ -1,10 +1,11 @@
 // Shared by Checkbox and Radio. The native input is visually hidden (`peer sr-only`); the label
 // (`group`, `has-*`) and the drawn control (`peer-*`) read its state.
+// `relative` keeps the input inside the label, so focusing it doesn't scroll an ancestor.
 //
 // Colour is split from layout so Radio can swap the neutral recipe for a tone (success/error)
 // without fighting the `has-disabled:` / `has-checked:` variants on specificity.
 
-export const CHOICE_ROOT_STYLES = 'group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed';
+export const CHOICE_ROOT_STYLES = 'group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed';
 
 export const CHOICE_ROOT_NEUTRAL_STYLES = 'text-primary has-disabled:text-disabled';
 
