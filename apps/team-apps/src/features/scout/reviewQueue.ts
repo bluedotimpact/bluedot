@@ -1,6 +1,6 @@
-import type { Course, QueueItem } from './types';
+import { COURSES, type Course, type QueueItem } from './types';
 
-export const courses: Course[] = ['Technical AI Safety', 'Technical AI Safety Project', 'Biosecurity'];
+export const courses: readonly Course[] = COURSES;
 export const roundKey = (item: QueueItem) => item.roundId ?? `${item.course}:${item.roundName}`;
 export const roundLabel = (item: QueueItem) => item.roundName.replace(`${item.course} `, '').replace(/^\((.*?)\)/, '$1');
 export const roundsFor = (items: QueueItem[], course: string) => {

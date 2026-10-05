@@ -1,4 +1,7 @@
-export type Course = 'Biosecurity' | 'Technical AI Safety' | 'Technical AI Safety Project';
+// The courses the app reviews. Registrations from any other course are left out of the queue,
+// and these five always appear in the picker, with or without people.
+export const COURSES = ['Technical AI Safety', 'Technical AI Safety Project', 'Biosecurity', 'AGI Strategy', 'Frontier AI Governance'] as const;
+export type Course = (typeof COURSES)[number];
 
 export type QueueItem = {
   id: string;
@@ -29,6 +32,8 @@ export type Registration = {
   droppedOut: boolean;
   applicationId?: string;
   isCurrent: boolean;
+  // The application behind a past registration, so a lead can read what they said back then
+  application?: Application;
 };
 
 // Facilitator's private feedback on a participant (Course runner › Peer feedback)
@@ -88,6 +93,7 @@ export type OtherApplication = {
   opinion?: string;
   // Speed-review summary written at application time
   aiSummary?: string;
+  application?: Application;
 };
 
 // CRM › Rapid grants: small project grants, separate from career transition grants
@@ -190,6 +196,9 @@ export type Application = {
   impressivenessRationale?: string;
   technicalSkillScore?: number;
   technicalSkillRationale?: string;
+  // Pangram AI-writing check over the whole application: verdict AI, Mixed or Human, and its score
+  pangramVerdict?: string;
+  pangramScore?: number;
 };
 
 // What the web-lookup job found for a person, as stored in "Talent scouting web facts".
