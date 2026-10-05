@@ -14,7 +14,7 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { QueueSource } from './QueueSource';
 import {
-  courses, roundKey, roundLabel, roundsFor,
+  coursesIn, roundKey, roundLabel, roundsFor,
 } from './reviewQueue';
 import {
   button, danger, dangerSolid, primary, panel,
@@ -115,7 +115,7 @@ const Scout = () => {
   const total = roundItems.length + decisions.length;
 
   // Next round in picker order that still has people
-  const nextRound = round ? courses.flatMap((course) => roundsFor(remaining, course)).find((item) => roundKey(item) !== roundKey(round)) : undefined;
+  const nextRound = round ? coursesIn(remaining).flatMap((course) => roundsFor(remaining, course)).find((item) => roundKey(item) !== roundKey(round)) : undefined;
 
   const chooseRound = (item: QueueItem) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;

@@ -1,4 +1,5 @@
-export type Course = 'Biosecurity' | 'Technical AI Safety' | 'Technical AI Safety Project';
+// Any course name from Course runner; which courses appear is decided by the Airtable view
+export type Course = string;
 
 export type QueueItem = {
   id: string;
@@ -14,7 +15,7 @@ export type QueueItem = {
 };
 
 // Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share
-export type InvitedThisWeek = Partial<Record<Course, { total: number; viaApp: number }>>;
+export type InvitedThisWeek = Record<Course, { total: number; viaApp: number }>;
 
 export type Registration = {
   id: string;
