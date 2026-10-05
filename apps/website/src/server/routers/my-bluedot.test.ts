@@ -1160,6 +1160,21 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect((await caller.myBluedot.hasFacilitatorNavItems()).hasFacilitatedCourses).toBe(true);
   });
 
+  test('still shows the handed-over row when the only attended discussion has no end time', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.update(groupDiscussionTable, { id: 'disc-fac', endDateTime: null });
+    await testDb.update(groupTable, { id: GROUP_ID, facilitator: ['mp-other'] });
+    await testDb.update(meetPersonTable, {
+      id: MEET_PERSON_ID, groupsAsFacilitator: [], expectedDiscussionsFacilitator: [], attendedDiscussions: ['disc-fac'],
+    });
+    await testDb.update(courseRegistrationTable, { id: REG_ID, roundStatus: 'Past' });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses.map((c) => c.group?.id)).toEqual([GROUP_ID]);
+    expect(result.courses[0]!.discussions).toEqual([]);
+  });
+
   test('keeps a past round where the facilitator had a group, and shows the nav item', async () => {
     await seedSingleGroupFacilitator();
     await testDb.update(courseRegistrationTable, { id: REG_ID, roundStatus: 'Past' });

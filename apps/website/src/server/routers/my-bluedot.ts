@@ -438,16 +438,18 @@ export const myBluedotRouter = router({
     );
     const expectedDiscussionIds = unique(meetPersons.flatMap(discussionIdsForMeetPerson));
 
-    const [allGroupsInRounds, allExpectedDiscussions, roundRows] = await Promise.all([
+    const [allGroupsInRounds, allDiscussionRows, roundRows] = await Promise.all([
       meetPersonRoundIds.length > 0
         ? db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.round, meetPersonRoundIds)) as Promise<Group[]>
         : Promise.resolve([] as Group[]),
       expectedDiscussionIds.length > 0
-        ? (db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds)) as Promise<GroupDiscussion[]>)
-          .then((rows) => rows.filter(hasEndDateTime))
-        : Promise.resolve([] as GroupDiscussionWithEnd[]),
+        ? db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds)) as Promise<GroupDiscussion[]>
+        : Promise.resolve([] as GroupDiscussion[]),
       fetchApplicationsRoundsByIds(unique(courseRegistrations.map((cr) => cr.roundId))),
     ]);
+    // Only discussions with an end time are displayed, but every row still counts towards which groups the person facilitated.
+    const allExpectedDiscussions = allDiscussionRows.filter(hasEndDateTime);
+    const groupIdByDiscussionId = new Map(allDiscussionRows.map((d) => [d.id, d.group] as const));
 
     // Units (from discussions).
     const units = await fetchUnitsByIds(unique(allExpectedDiscussions.map((d) => d.courseBuilderUnitRecordId)));
@@ -459,7 +461,7 @@ export const myBluedotRouter = router({
 
     const facilitatesGroup = (group: Group, meetPerson: { id: string; attendedDiscussions: string[] | null }) => (
       (group.facilitator ?? []).includes(meetPerson.id)
-      || (meetPerson.attendedDiscussions ?? []).some((id) => discussionById.get(id)?.group === group.id)
+      || (meetPerson.attendedDiscussions ?? []).some((id) => groupIdByDiscussionId.get(id) === group.id)
     );
 
     const perRow: FacilitatorRowProps[] = courseRegistrations.flatMap((cr): FacilitatorRowProps[] => {
