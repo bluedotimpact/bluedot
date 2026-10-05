@@ -506,93 +506,44 @@ You need to make two PRs:
 
 All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones when possible.**
 
-### Adding a New Icon
+### Icons
 
-Custom SVG icons live in `apps/website/src/components/icons/`. They share a common API via `IconProps` (see `icons/types.ts`) so callers can control size and color consistently.
-
-#### Interface
-
-All icons accept:
-
-- `size?: number | string` — defaults to a sensible value per icon (usually the viewBox dimension). Sets both width and height.
-- `className?: string` — Tailwind utility classes; use `text-*` to color (icons use `currentColor` internally).
-- All other SVG props (via `SVGProps<SVGSVGElement>`), spread onto the `<svg>` element.
-
-Color comes from `currentColor`, driven by the caller's `text-*` class or a parent with `color` set.
-
-#### Template (single-color icon)
+Use Font Awesome 6 from `react-icons/fa6`, imported directly. It is the design-system icon family, and Font Awesome names match the Figma symbol names (`Icon / xmark` → `FaXmark`). There is no wrapper component.
 
 ```tsx
-import type { IconProps } from './types';
+import { FaChevronDown } from 'react-icons/fa6';
 
-export const ExampleIcon = ({ size = 20, ...props }: IconProps) => (
-  <svg
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    {...props}
-  >
-    <path
-      d="..."
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+<FaChevronDown aria-hidden="true" className="size-4 text-secondary" />
+```
+
+- **Size**: the default is `1em`, so an icon beside text takes the text size. Override with a Tailwind `size-*` class rather than the `size` prop. Font Awesome glyphs fill more of their box than most outline icons, so match the drawn size of what you are replacing, not the box size.
+- **Colour**: icons use `currentColor`. Set a `text-*` class on the icon or its parent.
+- **Accessibility**: an icon inside a labelled control, or next to text that says the same thing, is decorative. Add `aria-hidden="true"`. A standalone icon that carries meaning needs `role="img"` and an `aria-label`. Icon-only buttons use `IconButton`, which requires an `aria-label`.
+- **Flex layouts**: add `shrink-0` where a long label could squash the icon.
+
+Lander and marketing content blocks still use Phosphor (`react-icons/pi`) for illustrative glyphs, pending a design decision. Don't use other icon families.
+
+#### Bespoke SVGs
+
+Only add a custom SVG when the artwork has no Font Awesome equivalent, such as an illustration or a stateful glyph. These live in `apps/website/src/components/icons/` and are re-exported from its `index.ts`. Type props as `SVGProps<SVGSVGElement>`, set `width`/`height` from the viewBox, draw with `currentColor`, and let callers resize with `className`:
+
+```tsx
+import type { SVGProps } from 'react';
+
+export const ExampleIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="..." stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 ```
 
-Usage:
+For extra state, intersect the props type (see `ChunkIcon`):
 
 ```tsx
-<ExampleIcon className="text-bluedot-navy" size={24} />
+type ChunkIconProps = SVGProps<SVGSVGElement> & { isActive?: boolean };
 ```
 
-#### When the base `IconProps` isn't enough
-
-Some icons need extra state (e.g., `isActive`, `filled`, `variant`) or multiple colors. Extend `IconProps` with an intersection:
-
-```tsx
-type ChunkIconProps = IconProps & {
-  isActive?: boolean;
-};
-
-export const ChunkIcon = ({ isActive, size = 24, className, ...props }: ChunkIconProps) => ( ... );
-```
-
-For dual-tone icons, `Omit` the conflicting SVG attribute so TypeScript catches misuse:
-
-```tsx
-type InfoIconProps = Omit<IconProps, 'fill'> & {
-  bgFill?: string;
-  fgFill?: string;
-};
-```
-
-For non-square icons with a fixed aspect ratio, narrow `size` to `number` so the height calculation is safe:
-
-```tsx
-type DocumentIconProps = Omit<IconProps, 'size'> & {
-  size?: number;
-};
-```
-
-#### Updating the gallery story
-
-All icons are previewed in `apps/website/src/components/icons/Icons.stories.tsx`. When adding an icon, register it in the appropriate section:
-
-1. Import the new icon at the top of the file.
-2. Add an `<IconCell name="YourIcon">...</IconCell>` to the right `<Section>`:
-   - **Single-color icons** — simple icons using only `currentColor`.
-   - **Compound icons** — icons wrapped in a `<div>` (e.g., bordered circles).
-   - **Stateful / multi-variant icons** — render one cell per state (e.g., active/inactive).
-   - **Dual-tone icons** — render the default, plus a variant showing custom colors.
-3. If the icon has a non-default size or color baked into the variant, pass those as props on the `<IconCell>` so the preview matches real usage.
-
-Run the gallery locally with `cd apps/storybook && npm start` and open **website/icons/Gallery → AllIcons**.
+Add each bespoke icon to the **Bespoke artwork** section of `apps/website/src/components/icons/Icons.stories.tsx`, with one cell per state. Run the gallery locally with `cd apps/storybook && npm start` and open **website/icons/Gallery → AllIcons**.
 
 ---
 
