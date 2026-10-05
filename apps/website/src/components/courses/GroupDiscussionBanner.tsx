@@ -7,14 +7,12 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { FaCopy } from 'react-icons/fa6';
-import { IoAdd } from 'react-icons/io5';
+import {
+  FaClock, FaCopy, FaFileLines, FaPeopleArrows, FaPlus, FaSlack, FaVideo,
+} from 'react-icons/fa6';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import {
-  ClockIcon, DocumentIcon, SlackIcon, SwitchUserIcon, VideoIcon,
-} from '../icons';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
@@ -130,7 +128,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       id: 'join-now',
       label: (
         <>
-          <VideoIcon size={20} />
+          <FaVideo aria-hidden="true" className="size-5" />
           <div className="translate-y-[0.5px]">Join now</div>
         </>
       ),
@@ -158,7 +156,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       url: discussionDocLink,
       target: '_blank',
       isVisible: (discussionIsSoonOrLive || isFacilitator) && Boolean(discussionDocLink),
-      overflowIcon: <DocumentIcon className="mx-auto" />,
+      overflowIcon: <FaFileLines aria-hidden="true" className="mx-auto size-4" />,
     },
     {
       id: 'message-group',
@@ -167,7 +165,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       url: slackChannelLink,
       target: '_blank',
       isVisible: discussionIsSoonOrLive,
-      overflowIcon: <SlackIcon className="mx-auto" />,
+      overflowIcon: <FaSlack aria-hidden="true" className="mx-auto size-5" />,
     },
     // Upcoming discussion buttons
     {
@@ -179,7 +177,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         setFacilitatorSwitchModalType('Update discussion time');
       },
       isVisible: isFacilitator,
-      overflowIcon: <ClockIcon className="mx-auto" size={20} />,
+      overflowIcon: <FaClock aria-hidden="true" className="mx-auto size-4" />,
     },
     {
       id: 'change-facilitator',
@@ -190,7 +188,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         setFacilitatorSwitchModalType('Change facilitator');
       },
       isVisible: isFacilitator,
-      overflowIcon: <SwitchUserIcon className="mx-auto" size={20} />,
+      overflowIcon: <FaPeopleArrows aria-hidden="true" className="mx-auto size-5" />,
     },
     {
       id: 'cant-make-it',
@@ -299,8 +297,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             onClick={() => setIsOpen(!isOpen)}
             className="text-bluedot-normal ml-auto cursor-pointer hover:opacity-80"
           >
-            <IoAdd
-              size={24}
+            <FaPlus
+              aria-hidden="true"
+              className="size-4"
               style={
                 isOpen
                   ? { transform: 'rotate(45deg)', transition: 'transform 200ms' }
@@ -419,7 +418,7 @@ const IndicatorIcon: React.FC<{ isLive: boolean }> = ({ isLive }) => (
     {isLive ? (
       <div className="text-white -translate-y-[0.5px]">LIVE</div>
     ) : (
-      <VideoIcon size={20} className="text-bluedot-normal" />
+      <FaVideo aria-hidden="true" className="size-5 text-bluedot-normal" />
     )}
   </div>
 );

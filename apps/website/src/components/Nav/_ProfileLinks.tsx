@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { FaCircleUser } from 'react-icons/fa6';
-import { A, CloseIcon, IconButton } from '@bluedot/ui';
+import { FaCircleUser, FaXmark } from 'react-icons/fa6';
+import { A, IconButton } from '@bluedot/ui';
 
 import {
   type ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
@@ -62,7 +62,7 @@ export const ProfileLinks: React.FC<{
           onColoredBackground && 'text-white hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
         )}
       >
-        {expandedSections.profile ? <CloseIcon size={20} aria-hidden="true" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}
+        {expandedSections.profile ? <FaXmark aria-hidden="true" className="size-5" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}
       </IconButton>
       <div
         className={clsx(

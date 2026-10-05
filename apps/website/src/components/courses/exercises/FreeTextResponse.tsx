@@ -5,9 +5,9 @@ import {
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
+import { FaRotateLeft } from 'react-icons/fa6';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 import RichTextAutoSaveEditor from './RichTextAutoSaveEditor';
-import { UndoIcon } from '../../icons';
 
 export type FreeTextResponseProps = {
   onExerciseSubmit: (exerciseResponse: string, complete?: boolean) => Promise<void>;
@@ -104,7 +104,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               <span className="font-medium text-size-xs leading-normal text-bluedot-normal">
                 Completed
               </span>
-              <UndoIcon className="text-bluedot-normal" />
+              <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-normal" />
             </button>
           )}
         </div>

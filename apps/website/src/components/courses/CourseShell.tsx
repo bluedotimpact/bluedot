@@ -3,11 +3,12 @@ import { BreadcrumbTrail, cn, IconButton } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import type React from 'react';
 import { type ReactNode, useEffect, useState } from 'react';
-import { FaBars, FaChevronDown } from 'react-icons/fa6';
+import {
+  FaArrowLeft, FaArrowRight, FaBars, FaChevronDown,
+} from 'react-icons/fa6';
 import { ROUTES } from '../../lib/routes';
 import type { CertificateData } from '../../server/routers/certificates';
 import type { BasicChunk, CourseProgress } from '../../server/routers/courses';
-import { ArrowRightIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 import { MobileCourseModal } from './MobileCourseModal';
 import { SideBar } from './SideBar';
@@ -71,7 +72,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             onClick={mobileNavigation.onPrevClick}
             aria-label={mobileNavigation.isFirstChunk && mobileNavigation.prevUnit ? 'Previous unit' : 'Previous section'}
           >
-            <ArrowRightIcon aria-hidden="true" className="rotate-180" />
+            <FaArrowLeft aria-hidden="true" className="size-3" />
           </IconButton>
           <IconButton
             className="text-primary"
@@ -79,7 +80,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             onClick={mobileNavigation.onNextClick}
             aria-label={mobileNavigation.isLastChunk && mobileNavigation.nextUnit ? 'Next unit' : 'Next section'}
           >
-            <ArrowRightIcon aria-hidden="true" />
+            <FaArrowRight aria-hidden="true" className="size-3" />
           </IconButton>
         </div>
       )}

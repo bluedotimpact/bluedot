@@ -1,7 +1,8 @@
 import type React from 'react';
-import { RiLoader4Line } from 'react-icons/ri';
+import {
+  FaCircleCheck, FaCircleNotch, FaCircleXmark, FaRotateLeft,
+} from 'react-icons/fa6';
 import { cn } from '@bluedot/ui';
-import { CircledCheckmarkIcon, ErrorIcon, UndoIcon } from '../../icons';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -25,15 +26,15 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
-    icon: <RiLoader4Line className="animate-spin -translate-y-[0.5px] text-bluedot-normal" size={16} />,
+    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-bluedot-normal" />,
     text: 'Saving...',
   },
   saved: {
-    icon: <CircledCheckmarkIcon className="-translate-y-[0.5px]" size={14} />,
+    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px] text-bluedot-normal" />,
     text: savedText,
   },
   error: {
-    icon: <ErrorIcon className="-translate-y-[0.5px]" />,
+    icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px] text-[#DC0000]" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
         <span style={{ color: '#DC0000' }}>Couldn't save answer.</span>
@@ -54,7 +55,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
           }}
         >
           Retry
-          <UndoIcon className="text-bluedot-navy ml-0.5" />
+          <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-navy ml-0.5" />
         </button>
       </span>
     ),

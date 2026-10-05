@@ -1,6 +1,6 @@
 import { Input, Modal, ProgressDots } from '@bluedot/ui';
 import { useRef, useState } from 'react';
-import { RiCloseLine, RiSearchLine } from 'react-icons/ri';
+import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 import ParticipantRow from './ParticipantRow';
 
@@ -45,7 +45,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search by name..."
           aria-label="Search participants by name"
-          leading={<RiSearchLine aria-hidden />}
+          leading={<FaMagnifyingGlass aria-hidden />}
           trailing={searchTerm ? (
             <button
               type="button"
@@ -56,7 +56,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
               }}
               className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
             >
-              <RiCloseLine aria-hidden />
+              <FaXmark aria-hidden />
             </button>
           ) : undefined}
         />

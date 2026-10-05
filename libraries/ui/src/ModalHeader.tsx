@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect, useRef } from 'react';
+import { FaXmark } from 'react-icons/fa6';
 import { IconButton } from './IconButton';
 import { ModalTitle } from './ModalTitle';
-import { CloseIcon } from './icons/CloseIcon';
 import { cn } from './utils';
 
 export type ModalHeaderProps = {
@@ -55,7 +55,7 @@ export const ModalHeader = ({
       )}
       {isDismissable && (
         <IconButton aria-label="Close" onClick={onClose} className="-mr-2">
-          <CloseIcon size={20} aria-hidden />
+          <FaXmark aria-hidden="true" className="size-5" />
         </IconButton>
       )}
     </div>

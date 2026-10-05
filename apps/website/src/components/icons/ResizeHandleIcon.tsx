@@ -1,19 +1,14 @@
 import { cn } from '@bluedot/ui';
-import type { IconProps } from './types';
+import type { SVGProps } from 'react';
 
-// Narrow `size` to number: viewBox is 15x14 (non-square).
 // clipPath id is stable since this icon is used at most once per page.
-type ResizeHandleIconProps = Omit<IconProps, 'size'> & {
-  size?: number;
-};
-
-export const ResizeHandleIcon = ({ size = 15, className, ...props }: ResizeHandleIconProps) => (
+export const ResizeHandleIcon = ({ className, ...props }: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 15 14"
     fill="none"
-    width={size}
-    height={size * (14 / 15)}
+    width={15}
+    height={14}
     className={cn('text-bluedot-navy', className)}
     {...props}
   >

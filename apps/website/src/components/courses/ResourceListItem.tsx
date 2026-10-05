@@ -5,9 +5,13 @@ import { useRouter } from 'next/router';
 import {
   A,
   addQueryParam,
+  cn,
   P,
   useAuthStore,
 } from '@bluedot/ui';
+import {
+  FaArrowUpRightFromSquare, FaCheck, FaRegThumbsDown, FaRegThumbsUp, FaRotateLeft, FaThumbsDown, FaThumbsUp,
+} from 'react-icons/fa6';
 /**
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
@@ -23,9 +27,6 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
 import RichTextAutoSaveEditor from './exercises/RichTextAutoSaveEditor';
 import { trpc } from '../../utils/trpc';
-import {
-  CheckmarkIcon, ExternalLinkIcon, ThumbIcon, UndoIcon,
-} from '../icons';
 import type { AppRouter } from '../../server/routers/_app';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../utils/optimisticCourseProgress';
 
@@ -56,8 +57,9 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
       textColorClass = 'text-bluedot-normal';
     }
 
-    // Flip vertically for dislike (thumbs down) by flipping on Y-axis
-    const transform = isLikeButton ? undefined : 'scale(1, -1) translate(0, -16)';
+    const likeGlyph = isActive ? FaThumbsUp : FaRegThumbsUp;
+    const dislikeGlyph = isActive ? FaThumbsDown : FaRegThumbsDown;
+    const ThumbGlyph = isLikeButton ? likeGlyph : dislikeGlyph;
 
     return (
       <button
@@ -67,7 +69,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
         aria-label={`${isLikeButton ? 'Like' : 'Dislike'} this resource${isActive ? ' (selected)' : ''}`}
         aria-pressed={isActive}
       >
-        <ThumbIcon filled={isActive} transform={transform} />
+        <ThumbGlyph aria-hidden="true" className="size-4" />
         {isLikeButton ? 'Like' : 'Dislike'}
       </button>
     );
@@ -255,7 +257,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               }`}
             >
               {(isCompleted || isHovered) && (
-                <CheckmarkIcon variant={isCompleted ? 'completed' : 'hover'} />
+                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
               )}
             </button>
           </div>
@@ -276,10 +278,9 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               <span className="leading-normal font-semibold text-inherit no-underline transition-colors hover:text-bluedot-normal hover:underline">
                 {resource.resourceName}
                 {/* External link icon - inline so it flows with text on wrap */}
-                <ExternalLinkIcon
-                  size={16}
+                <FaArrowUpRightFromSquare
                   aria-hidden="true"
-                  className="inline-block align-middle ml-2 text-bluedot-navy"
+                  className="inline-block size-3 align-middle ml-2 text-bluedot-navy"
                 />
               </span>
             </a>
@@ -359,7 +360,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                       <span className="font-medium text-size-xs leading-normal text-bluedot-normal">
                         Completed
                       </span>
-                      <UndoIcon className="text-bluedot-normal" />
+                      <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-normal" />
                     </button>
                   )}
 

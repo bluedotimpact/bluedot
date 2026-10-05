@@ -8,7 +8,7 @@ import {
   ProgressDots,
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
-import { CheckIcon } from '../icons';
+import { FaCheck } from 'react-icons/fa6';
 import { ONE_SECOND_MS } from '../../lib/constants';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
@@ -85,7 +85,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
   const renderRequestedView = () => (
     <div className="flex w-full flex-col items-center justify-center gap-8">
       <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-        <CheckIcon className="text-bluedot-normal" />
+        <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
       </div>
       <div className="flex w-full flex-col gap-4">
         {isUserInitiated ? (

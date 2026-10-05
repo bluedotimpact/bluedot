@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import { Tag, ProgressDots, A } from '@bluedot/ui';
-import { CgChevronDown } from 'react-icons/cg';
+import { FaChevronDown } from 'react-icons/fa6';
 
 import { ROUTES } from '../../lib/routes';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
@@ -249,9 +249,10 @@ const NavDropdown: React.FC<{
         )}
       >
         {title}
-        <CgChevronDown
+        <FaChevronDown
+          aria-hidden="true"
           className={clsx(
-            'size-5 flex-shrink-0 transition-all duration-300 ease-in-out',
+            'size-3 flex-shrink-0 transition-all duration-300 ease-in-out',
             isExpanded ? 'rotate-180 opacity-70' : 'opacity-100',
           )}
         />

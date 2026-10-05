@@ -2,8 +2,7 @@ import {
   CTALinkOrButton, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
-import { FaCheck, FaLock } from 'react-icons/fa6';
-import { IoBan } from 'react-icons/io5';
+import { FaBan, FaCheck, FaLock } from 'react-icons/fa6';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
@@ -351,7 +350,7 @@ const getParticipantActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <StatusPill icon={<IoBan aria-hidden size={14} />}>Dropped</StatusPill>,
+      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Dropped</StatusPill>,
     },
     {
       id: 'apply-again',
@@ -423,7 +422,7 @@ const getFacilitatorActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <StatusPill icon={<IoBan aria-hidden size={14} />}>Dropped</StatusPill>,
+      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Dropped</StatusPill>,
     },
     {
       id: 'share-feedback-facilitator',

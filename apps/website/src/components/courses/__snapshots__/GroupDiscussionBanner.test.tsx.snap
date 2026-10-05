@@ -12,26 +12,18 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
       >
         <svg
-          class="text-bluedot-normal"
-          fill="none"
-          height="20"
-          viewBox="0 0 14 14"
-          width="20"
+          aria-hidden="true"
+          class="size-5 text-bluedot-normal"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 576 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
-          />
-          <path
-            d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
+            d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"
           />
         </svg>
       </div>
@@ -67,25 +59,18 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           target="_blank"
         >
           <svg
-            fill="none"
-            height="20"
-            viewBox="0 0 14 14"
-            width="20"
+            aria-hidden="true"
+            class="size-5"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 576 512"
+            width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
-            />
-            <path
-              d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
+              d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"
             />
           </svg>
           <div
@@ -145,21 +130,19 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         type="button"
       >
         <svg
+          aria-hidden="true"
+          class="size-4"
           fill="currentColor"
-          height="24"
+          height="1em"
           stroke="currentColor"
           stroke-width="0"
           style="transition: transform 200ms; transform: rotate(45deg);"
-          viewBox="0 0 512 512"
-          width="24"
+          viewBox="0 0 448 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M256 112v288m144-144H112"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="32"
+            d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
           />
         </svg>
       </button>
@@ -176,25 +159,18 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         target="_blank"
       >
         <svg
-          fill="none"
-          height="20"
-          viewBox="0 0 14 14"
-          width="20"
+          aria-hidden="true"
+          class="size-5"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 576 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
-          />
-          <path
-            d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
+            d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"
           />
         </svg>
         <div
@@ -252,26 +228,18 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
       >
         <svg
-          class="text-bluedot-normal"
-          fill="none"
-          height="20"
-          viewBox="0 0 14 14"
-          width="20"
+          aria-hidden="true"
+          class="size-5 text-bluedot-normal"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 576 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
-          />
-          <path
-            d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
+            d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"
           />
         </svg>
       </div>
@@ -307,25 +275,18 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           target="_blank"
         >
           <svg
-            fill="none"
-            height="20"
-            viewBox="0 0 14 14"
-            width="20"
+            aria-hidden="true"
+            class="size-5"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 576 512"
+            width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
-            />
-            <path
-              d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
+              d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"
             />
           </svg>
           <div
@@ -368,21 +329,19 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         type="button"
       >
         <svg
+          aria-hidden="true"
+          class="size-4"
           fill="currentColor"
-          height="24"
+          height="1em"
           stroke="currentColor"
           stroke-width="0"
           style="transition: transform 200ms; transform: rotate(45deg);"
-          viewBox="0 0 512 512"
-          width="24"
+          viewBox="0 0 448 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M256 112v288m144-144H112"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="32"
+            d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
           />
         </svg>
       </button>
@@ -399,25 +358,18 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         target="_blank"
       >
         <svg
-          fill="none"
-          height="20"
-          viewBox="0 0 14 14"
-          width="20"
+          aria-hidden="true"
+          class="size-5"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 576 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
-          />
-          <path
-            d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.25"
+            d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"
           />
         </svg>
         <div
@@ -514,21 +466,19 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         type="button"
       >
         <svg
+          aria-hidden="true"
+          class="size-4"
           fill="currentColor"
-          height="24"
+          height="1em"
           stroke="currentColor"
           stroke-width="0"
           style="transition: transform 200ms; transform: rotate(45deg);"
-          viewBox="0 0 512 512"
-          width="24"
+          viewBox="0 0 448 512"
+          width="1em"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M256 112v288m144-144H112"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="32"
+            d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
           />
         </svg>
       </button>

@@ -8,7 +8,7 @@ import {
   OverlayArrow,
 } from 'react-aria-components';
 import { cn } from './utils';
-import { InfoCircleIcon } from './icons/InfoCircleIcon';
+import { FaCircleInfo } from 'react-icons/fa6';
 
 export type TooltipProps = {
   content: ReactNode;
@@ -27,7 +27,7 @@ export type TooltipProps = {
 export const Tooltip: React.FC<TooltipProps> = ({
   content,
   'aria-label': ariaLabel,
-  children = <InfoCircleIcon />,
+  children = <FaCircleInfo aria-hidden="true" className="size-4" />,
   placement = 'top',
   className,
 }) => {

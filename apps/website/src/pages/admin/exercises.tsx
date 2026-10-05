@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import {
   useEffect, useMemo, useRef, useState,
 } from 'react';
-import { RiCloseLine, RiSearchLine } from 'react-icons/ri';
+import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { withAdminGuard } from '../../components/admin/withAdminGuard';
 import { UserSearchModal } from '../../components/admin/UserSearchModal';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -193,7 +193,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search question or response..."
               aria-label="Search question or response"
-              leading={<RiSearchLine aria-hidden />}
+              leading={<FaMagnifyingGlass aria-hidden />}
               trailing={search ? (
                 <button
                   type="button"
@@ -204,7 +204,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
                   }}
                   className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
                 >
-                  <RiCloseLine aria-hidden />
+                  <FaXmark aria-hidden />
                 </button>
               ) : undefined}
             />

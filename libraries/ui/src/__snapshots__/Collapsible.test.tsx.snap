@@ -15,16 +15,17 @@ exports[`Collapsible > renders to snapshot 1`] = `
       </span>
       <svg
         aria-hidden="true"
-        class="size-6 shrink-0 transition-transform motion-reduce:transition-none group-open:rotate-180"
-        fill="none"
+        class="size-4.5 shrink-0 transition-transform motion-reduce:transition-none group-open:rotate-180"
+        fill="currentColor"
+        height="1em"
         stroke="currentColor"
-        viewBox="0 0 24 24"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M19 9l-7 7-7-7"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
         />
       </svg>
     </summary>
