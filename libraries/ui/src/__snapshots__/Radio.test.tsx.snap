@@ -3,7 +3,7 @@
 exports[`Radio > renders Card with tone as expected 1`] = `
 <div>
   <label
-    class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-success-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-success-border bg-success-bg"
+    class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-success-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-success-border bg-success-bg"
   >
     <input
       checked=""
@@ -29,7 +29,7 @@ exports[`Radio > renders Card with tone as expected 1`] = `
 exports[`Radio > renders Default as expected 1`] = `
 <div>
   <label
-    class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-start py-2.5"
+    class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-start py-2.5"
   >
     <input
       class="peer sr-only"

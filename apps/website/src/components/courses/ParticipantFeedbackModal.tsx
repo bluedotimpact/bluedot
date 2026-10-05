@@ -233,7 +233,7 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabell
         return (
           <label
             key={option.value}
-            className={`flex items-start cursor-pointer ${isLast ? '' : 'border-b border-[#edeef2]'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-bluedot-normal ${isSelected ? 'bg-[#e5edfe]' : 'bg-white'}`}
+            className={`relative flex items-start cursor-pointer ${isLast ? '' : 'border-b border-[#edeef2]'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-bluedot-normal ${isSelected ? 'bg-[#e5edfe]' : 'bg-white'}`}
           >
             <input
               type="radio"

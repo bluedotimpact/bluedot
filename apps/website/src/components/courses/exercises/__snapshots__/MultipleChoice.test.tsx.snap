@@ -14,7 +14,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         What drove the change?
       </legend>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -34,7 +34,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         The community's preference for low-tech fishing traditions
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -54,7 +54,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         Rising consumer demand for fish with more Omega-3s
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -74,7 +74,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         Environmental regulations and declining cod stocks
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -137,7 +137,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         What drove the change?
       </legend>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -156,7 +156,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         The community's preference for low-tech fishing traditions
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -175,7 +175,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         Rising consumer demand for fish with more Omega-3s
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -194,7 +194,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         Environmental regulations and declining cod stocks
       </label>
       <label
-        class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
+        class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-default bg-canvas hover:not-has-checked:not-has-disabled:bg-tint has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle has-disabled:bg-surface-disabled"
       >
         <input
           class="peer sr-only"
@@ -226,7 +226,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
 <label
-  class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-success-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-success-border bg-success-bg"
+  class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-success-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-success-border bg-success-bg"
 >
   <input
     class="peer sr-only"
@@ -249,7 +249,7 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
 
 exports[`MultipleChoice > updates styles for incorrect option 1`] = `
 <label
-  class="group flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-error-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-error-border bg-error-bg"
+  class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-error-fg items-center rounded-surface border-2 p-4 transition-colors motion-reduce:transition-none has-focus-visible:outline-2 has-focus-visible:outline-focus border-error-border bg-error-bg"
 >
   <input
     class="peer sr-only"
