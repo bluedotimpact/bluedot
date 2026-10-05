@@ -87,7 +87,7 @@ For detailed development patterns, standards, and best practices, see our [Devel
 
 #### Who merges what (team members)
 
-Merging to `master` needs one approving review. Certain people can bypass this and merge without one. If you end up being one of them, this means you own the judgement call on whether a review from someone is needed. Guidelines:
+Merging to `master` needs one approving review. Certain people can bypass this and merge without one. If you end up being one of them, this means you own the judgement call on whether someone else needs to review. Guidelines:
 
 - **Fine to merge with just the automated reviews (Claude bot, Greptile):** wording and course content (page text, emails, course materials), internal and team-app UI, small website UI changes you have checked in the Render preview.
 - **Get an engineer's review first:** anything that touches data or infrastructure: the database schema or sync (`libraries/db`, `apps/pg-sync-service`), `apps/infra`, user accounts and login, deploy and CI config, shared libraries used by several apps.

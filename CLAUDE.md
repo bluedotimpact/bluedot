@@ -53,15 +53,15 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
 `pgAirtable(...)` tables are synced from Airtable by `pg-sync-service`. Always ship schema changes in their own PR before any consumer code:
 
 - **Adding a column**: 2 PRs.
-  1. Add the column in `libraries/db/src/schema.ts` and merge. Wait for a sync to finish before merging PR 2.
+  1. Add the column in `libraries/db/src/schema.ts` and get it merged. Wait for a sync to finish before PR 2 is merged.
   2. Then PR the code that uses it.
 - **Removing a column**: 2 PRs.
-  1. Remove all usage and move the column to `deprecatedColumns` in `libraries/db/src/schema.ts`. If the column used `.notNull()`, remove that first — deprecated columns must be nullable because they stop receiving sync updates. Merge *and* deploy to production.
+  1. Remove all usage and move the column to `deprecatedColumns` in `libraries/db/src/schema.ts`. If the column used `.notNull()`, remove that first — deprecated columns must be nullable because they stop receiving sync updates. Get it merged *and* deployed to production.
   2. Then delete it fully from `schema.ts`. Don't delete before production deploy — `pg-sync-service` generates `SELECT` by column name (not `*`), so running code that still references the column will break.
 - **Renaming / updating a column**: 3–4 PRs depending on nullability.
-  1. Add the new column in `libraries/db/src/schema.ts` and merge. Wait for sync.
+  1. Add the new column in `libraries/db/src/schema.ts` and get it merged. Wait for sync.
   2. Move all application code to the new column.
-  3. Move the old column to `deprecatedColumns`. If it used `.notNull()`, you must remove that constraint first — but you can't do that until no code depends on it (removing `.notNull()` changes the type to `T | null`, breaking any code that assumes non-null). Merge and deploy to production.
+  3. Move the old column to `deprecatedColumns`. If it used `.notNull()`, you must remove that constraint first — but you can't do that until no code depends on it (removing `.notNull()` changes the type to `T | null`, breaking any code that assumes non-null). Get it merged and deployed to production.
   4. Delete the old column from `deprecatedColumns`.
 
 Mixing schema additions and consumer code in one PR breaks staging because the table hasn't been materialised yet. Full rules in [`DEVELOPMENT_HANDBOOK.md` — Database Guidelines](./DEVELOPMENT_HANDBOOK.md#43-database-guidelines).
@@ -82,7 +82,7 @@ Mixing schema additions and consumer code in one PR breaks staging because the t
 
 ## Who merges what
 
-Never merge, enable auto-merge, or push to `master`. Let humans merge. Before handing a PR over, say which bucket it is in (the rule lives in `README.md` → "Who merges what"):
+Never merge, enable auto-merge, or push to `master`. Let humans merge. Before handing a PR over, say which bucket it is in (the rule lives in [`README.md`](./README.md#who-merges-what-team-members) → "Who merges what"):
 
 - **Automated reviews are enough**: wording and course content (page text, emails, course materials), internal and team-app UI, small website UI changes checked in the Render preview.
 - **Engineer review first**: anything that touches data or infrastructure: database schema or sync (`libraries/db`, `apps/pg-sync-service`), `apps/infra`, user accounts and login, deploy and CI config, shared libraries used by several apps. Request an engineer's review on the PR (ask the user who, if they haven't said) and say in the body why it needs one. Don't present the bot reviews as sufficient.
