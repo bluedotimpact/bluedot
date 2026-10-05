@@ -577,7 +577,7 @@ exports[`Footer > renders default as expected 1`] = `
 </div>
 `;
 
-exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] = `
+exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided 1`] = `
 <div>
   <footer
     class="w-full bg-[#02051E]"
@@ -753,7 +753,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
                   class="text-size-sm leading-snug text-bluedot-lighter hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
                   type="button"
                 >
-                  Report a bug
+                  Submit feedback
                 </button>
               </li>
             </ul>
@@ -879,7 +879,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
                   class="text-size-sm leading-snug text-bluedot-lighter hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
                   type="button"
                 >
-                  Report a bug
+                  Submit feedback
                 </button>
               </li>
             </ul>
@@ -1086,7 +1086,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
                   class="text-size-sm leading-snug text-bluedot-lighter hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
                   type="button"
                 >
-                  Report a bug
+                  Submit feedback
                 </button>
               </li>
             </ul>

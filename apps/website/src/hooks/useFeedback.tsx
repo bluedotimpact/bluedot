@@ -1,25 +1,25 @@
-import { BugReportModal, useAuthStore, type FeedbackData } from '@bluedot/ui';
+import { FeedbackModal, useAuthStore, type FeedbackData } from '@bluedot/ui';
 import {
   createContext, useContext, useEffect, useState,
 } from 'react';
 import { toBase64 } from '../utils/toBase64';
 import { trpc } from '../utils/trpc';
 
-type BugReportContextType = {
-  openBugReport: () => void;
+type FeedbackContextType = {
+  openFeedback: () => void;
 };
 
-const bugReportContext = createContext<BugReportContextType | null>(null);
+const feedbackContext = createContext<FeedbackContextType | null>(null);
 
 const getPageUrl = () => window.location.origin + window.location.pathname;
 
 // eslint-disable-next-line react/function-component-definition
-export default function BugReportProvider({ children }: { children: React.ReactNode }) {
-  const [isBugReportOpen, setIsBugReportOpen] = useState(false);
+export default function FeedbackProvider({ children }: { children: React.ReactNode }) {
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
   const [pageUrl, setPageUrl] = useState<string | undefined>();
 
-  const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
+  const submitFeedbackMutation = trpc.feedback.submit.useMutation();
   // The logged-in user's own email, which is the admin's rather than the target's when impersonating
   const authEmail = useAuthStore((s) => s.auth?.email);
 
@@ -44,17 +44,17 @@ export default function BugReportProvider({ children }: { children: React.ReactN
     };
   }, []);
 
-  // Auto-open bug report modal when recording completes and recording URL is available.
+  // Auto-open feedback modal when recording completes and recording URL is available.
   // Recapture the page here: the page they stopped recording on is the most relevant one.
   useEffect(() => {
     if (recordingUrl) {
       setPageUrl(getPageUrl());
-      setIsBugReportOpen(true);
+      setIsFeedbackOpen(true);
     }
   }, [recordingUrl]);
 
-  const handleBugReportSubmit = async (data: FeedbackData) => {
-    await submitBugMutation.mutateAsync({
+  const handleFeedbackSubmit = async (data: FeedbackData) => {
+    await submitFeedbackMutation.mutateAsync({
       description: data.description,
       email: data.email,
       recordingUrl: data.recordingUrl,
@@ -67,45 +67,45 @@ export default function BugReportProvider({ children }: { children: React.ReactN
     });
   };
 
-  const handleSetBugReportOpen = (v: boolean) => {
-    setIsBugReportOpen(v);
+  const handleSetFeedbackOpen = (v: boolean) => {
+    setIsFeedbackOpen(v);
     if (!v) setRecordingUrl(undefined);
   };
 
-  const openBugReport = () => {
+  const openFeedback = () => {
     setPageUrl(getPageUrl());
-    setIsBugReportOpen(true);
+    setIsFeedbackOpen(true);
   };
 
   const handleRecordScreen = () => {
     if (!window.birdie) return;
-    setIsBugReportOpen(false);
-    // Use `setTimeout` to ensure the bug modal has closed before opening the Birdie widget (also a modal), preventing
+    setIsFeedbackOpen(false);
+    // Use `setTimeout` to ensure the feedback modal has closed before opening the Birdie widget (also a modal), preventing
     // potential UI and focus conflicts.
     setTimeout(() => window.birdie?.widget.open());
   };
 
   return (
-    <bugReportContext.Provider value={{ openBugReport }}>
+    <feedbackContext.Provider value={{ openFeedback }}>
       {children}
-      <BugReportModal
-        isOpen={isBugReportOpen}
-        setIsOpen={handleSetBugReportOpen}
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        setIsOpen={handleSetFeedbackOpen}
         onRecordScreen={handleRecordScreen}
-        onSubmit={handleBugReportSubmit}
+        onSubmit={handleFeedbackSubmit}
         recordingUrl={recordingUrl}
         defaultEmail={authEmail}
       />
-    </bugReportContext.Provider>
+    </feedbackContext.Provider>
   );
 }
 
-export const useBugReport = (): BugReportContextType => {
-  const context = useContext(bugReportContext);
+export const useFeedback = (): FeedbackContextType => {
+  const context = useContext(feedbackContext);
   if (!context) {
     // eslint-disable-next-line no-console
-    console.warn('useBugReport: No BugReportProvider found. Bug reporting will be unavailable.');
-    return { openBugReport: () => {} };
+    console.warn('useFeedback: No FeedbackProvider found. Feedback will be unavailable.');
+    return { openFeedback: () => {} };
   }
 
   return context;

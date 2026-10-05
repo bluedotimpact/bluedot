@@ -15,7 +15,7 @@ export type FooterProps = React.PropsWithChildren<{
   grants?: { path: string; title: string }[];
   programs?: { path: string; title: string }[];
   loading?: boolean;
-  onReportBug?: () => void;
+  onOpenFeedback?: () => void;
 }>;
 
 type FooterLinkItem =
@@ -84,7 +84,7 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 );
 
 export const Footer: React.FC<FooterProps> = ({
-  className, logo, courses = [], grants = [], programs = [], loading, onReportBug,
+  className, logo, courses = [], grants = [], programs = [], loading, onOpenFeedback,
 }) => {
   const bluedotLinks: FooterLinkItem[] = [
     { url: '/alumni', label: 'Alumni' },
@@ -94,7 +94,7 @@ export const Footer: React.FC<FooterProps> = ({
     { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
     { url: '/contact', label: 'Contact & legal' },
-    ...(onReportBug ? [{ onClick: onReportBug, label: 'Report a bug' }] : []),
+    ...(onOpenFeedback ? [{ onClick: onOpenFeedback, label: 'Submit feedback' }] : []),
   ];
 
   const courseLinks: FooterLinkItem[] = courses.map((course) => ({ url: course.path, label: course.title }));

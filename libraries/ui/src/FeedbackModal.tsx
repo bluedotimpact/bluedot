@@ -22,7 +22,7 @@ export type FeedbackData = {
 const MAX_ATTACHMENTS = 5;
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 
-export type BugReportModalProps = {
+export type FeedbackModalProps = {
   onSubmit?: (data: FeedbackData) => Promise<void>;
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
@@ -66,7 +66,7 @@ const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => vo
   );
 };
 
-export const BugReportModal: React.FC<BugReportModalProps> = ({
+export const FeedbackModal: React.FC<FeedbackModalProps> = ({
   onSubmit,
   isOpen = false,
   setIsOpen = () => {},
@@ -239,7 +239,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 We're here to help! Whether it's a bug or an idea on how to improve your experience, we're all ears.
               </p>
               <label
-                htmlFor="bug-description"
+                htmlFor="feedback-description"
                 className="text-bluedot-navy mt-2.5 text-size-xs leading-5.5 font-semibold"
               >
                 Description
@@ -266,7 +266,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 ) : (
                   <>
                     <textarea
-                      id="bug-description"
+                      id="feedback-description"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       onPaste={handlePaste}
@@ -365,14 +365,14 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             )}
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="bug-email" className="text-bluedot-navy text-size-xs leading-5.5 font-semibold">
+              <label htmlFor="feedback-email" className="text-bluedot-navy text-size-xs leading-5.5 font-semibold">
                 Your contact email
               </label>
               <p className="text-bluedot-navy/60 text-size-xs">
                 Please leave your email so we can contact you with follow-ups as needed.
               </p>
               <input
-                id="bug-email"
+                id="feedback-email"
                 type="email"
                 value={email}
                 className={cn(

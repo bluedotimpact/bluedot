@@ -11,7 +11,7 @@ import { UserSearchModal } from '../admin/UserSearchModal';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { safeSessionStorage } from '../../utils/safeStorage';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
-import { useBugReport } from '../../hooks/useBugReport';
+import { useFeedback } from '../../hooks/useFeedback';
 
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
@@ -23,7 +23,7 @@ export const ProfileLinks: React.FC<{
   onColoredBackground = false,
 }) => {
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
-  const { openBugReport } = useBugReport();
+  const { openFeedback } = useFeedback();
 
   const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
   const { data: isAdmin } = trpc.admin.isUserAdmin.useQuery();
@@ -131,12 +131,12 @@ export const ProfileLinks: React.FC<{
           <button
             type="button"
             onClick={() => {
-              openBugReport();
+              openFeedback();
               updateExpandedSections({ profile: false });
             }}
             className={clsx('bluedot-a', getNavLinkClasses())}
           >
-            Report a bug
+            Submit feedback
           </button>
         </div>
       </div>

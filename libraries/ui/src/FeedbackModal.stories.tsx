@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { BugReportModal, type BugReportModalProps } from './BugReportModal';
+import { FeedbackModal, type FeedbackModalProps } from './FeedbackModal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
-const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit' | 'onRecordScreen' | 'recordingUrl' | 'defaultEmail'>> = ({
+const FeedbackModalDemo: React.FC<Pick<FeedbackModalProps, 'onSubmit' | 'onRecordScreen' | 'recordingUrl' | 'defaultEmail'>> = ({
   onSubmit, onRecordScreen, recordingUrl, defaultEmail,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit' | 'onRec
       <CTALinkOrButton onClick={() => setIsOpen(true)}>
         Submit Feedback
       </CTALinkOrButton>
-      <BugReportModal
+      <FeedbackModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         onSubmit={onSubmit}
@@ -25,13 +25,13 @@ const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit' | 'onRec
 };
 
 const meta = {
-  title: 'ui/BugReportModal',
-  component: BugReportModalDemo,
+  title: 'ui/FeedbackModal',
+  component: FeedbackModalDemo,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof BugReportModalDemo>;
+} satisfies Meta<typeof FeedbackModalDemo>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -7,17 +7,17 @@ import {
 } from 'vitest';
 import { server, trpcMsw } from '../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../__tests__/trpcProvider';
-import BugReportProvider, { useBugReport } from './useBugReport';
+import FeedbackProvider, { useFeedback } from './useFeedback';
 
 const OpenButton = () => {
-  const { openBugReport } = useBugReport();
-  return <button type="button" onClick={openBugReport}>Open</button>;
+  const { openFeedback } = useFeedback();
+  return <button type="button" onClick={openFeedback}>Open</button>;
 };
 
 const renderProvider = () => render(<TrpcProvider>
-  <BugReportProvider>
+  <FeedbackProvider>
     <OpenButton />
-  </BugReportProvider>
+  </FeedbackProvider>
 </TrpcProvider>);
 
 const fillAndSubmit = async (user: ReturnType<typeof userEvent.setup>) => {
@@ -26,14 +26,14 @@ const fillAndSubmit = async (user: ReturnType<typeof userEvent.setup>) => {
   await user.click(screen.getByRole('button', { name: 'Submit' }));
 };
 
-describe('BugReportProvider page URL capture', () => {
+describe('FeedbackProvider page URL capture', () => {
   let capturedPageUrl: string | undefined;
 
   beforeEach(() => {
     capturedPageUrl = undefined;
     // Birdie setup only runs on wide viewports; ensure the effect registers window.birdieSettings.
     window.innerWidth = 1024;
-    server.use(trpcMsw.feedback.submitBugReport.mutation(({ input }) => {
+    server.use(trpcMsw.feedback.submit.mutation(({ input }) => {
       capturedPageUrl = input.pageUrl;
       return null;
     }));
@@ -69,7 +69,7 @@ describe('BugReportProvider page URL capture', () => {
   });
 });
 
-describe('BugReportProvider contact email', () => {
+describe('FeedbackProvider contact email', () => {
   afterEach(() => {
     useAuthStore.setState({ auth: null });
   });
