@@ -17,6 +17,7 @@ const APPLICATIONS = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
 
 const REGISTRATIONS_URL = `${COURSE_RUNNER}/tblBeMxAM1FAW06n4`;
 const ROUNDS_URL = `${COURSE_RUNNER}/tblu6u7F2NHfCMgsk`;
+const COURSE_LEADS_URL = `${COURSE_RUNNER}/tblYavwHtMMcn8Wt1`;
 const REPORTS_URL = `${COURSE_RUNNER}/tblRTbvkM5pMvWoEb`;
 const PROJECTS_URL = `${COURSE_RUNNER}/tblKo0mCsC7gfRGC7`;
 const FEEDBACK_URL = `${COURSE_RUNNER}/tblRFqRF2tKAqh7sp`;
@@ -95,6 +96,12 @@ const DISCUSSION = {
 
 // Stamped by the invite automations; read for the weekly count and the double-invite guard
 const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
+
+// Course leads: who leads which courses, as a comma-separated list of course names.
+const LEAD = {
+  email: 'fldybLwD2UCqXFeb8',
+  courses: 'fldwPw2PCIDfn1ZqE',
+} as const;
 
 const ROUND = {
   name: 'fldEBVjEF9l2IEyG7',
@@ -288,6 +295,16 @@ const fetchPage = async (
   return response.json() as Promise<AirtableListResponse>;
 };
 
+// A read that only adds context: on failure the card still loads, with a warning
+const optional = async <T>(read: Promise<T>, fallback: T): Promise<T> => {
+  try {
+    return await read;
+  } catch (error) {
+    logger.warn(`scout: optional read failed: ${error instanceof Error ? error.message : String(error)}`);
+    return fallback;
+  }
+};
+
 const fetchAll = async (tableUrl: string, params: Record<string, string>, fields: readonly string[]): Promise<AirtableRecord[]> => {
   const all: AirtableRecord[] = [];
   let offset: string | undefined;
@@ -409,6 +426,18 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
 // ---- Invites this week ----
 
 // Both invite flows stamp the same date on the registration, so one read covers them.
+// Exported for tests.
+export const parseLeadCourses = (text?: string): Course[] => (text ?? '').split(',').map((c) => c.trim()).filter((c): c is Course => COURSES.includes(c as Course));
+
+// The scouted courses the signed-in person leads, so the picker can open those first. Empty
+// when they lead none or the read fails.
+export const fetchLeadCourses = async (email: string): Promise<Course[]> => {
+  const wanted = normaliseEmail(email);
+  const leads = await optional(fetchAll(COURSE_LEADS_URL, {}, Object.values(LEAD)), []);
+  const own = leads.find((r) => normaliseEmail(str(r.fields[LEAD.email]) ?? '') === wanted);
+  return parseLeadCourses(str(own?.fields[LEAD.courses]));
+};
+
 export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThisWeek> => {
   const monday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - ((now.getUTCDay() + 6) % 7)));
   const sunday = new Date(monday.getTime() - 86400000).toISOString().slice(0, 10);
@@ -701,16 +730,6 @@ const fetchOtherApplications = async (email: string, registrationApplicationIds:
 const courseNameFrom = (roundName: string) => {
   const name = roundName.split(' (')[0];
   return name === '' ? undefined : name;
-};
-
-// A read that only adds context: on failure the card still loads, with a warning
-const optional = async <T>(read: Promise<T>, fallback: T): Promise<T> => {
-  try {
-    return await read;
-  } catch (error) {
-    logger.warn(`scout: optional read failed: ${error instanceof Error ? error.message : String(error)}`);
-    return fallback;
-  }
 };
 
 // The CRM Person record for this email, when exactly one matches (primary or secondary email)

@@ -394,8 +394,16 @@ const TimelineRow: React.FC<{
   when, kind, detail, opinion, status, url, linkLabel, current = false, quiet = false, more,
 }) => {
   const [open, setOpen] = useState(false);
+  // The whole row toggles the details; links, the chevron and the opened details keep their own clicks.
+  const onRowClick = (e: React.MouseEvent) => {
+    if (!(e.target as HTMLElement).closest('a, button, [data-details]')) setOpen((o) => !o);
+  };
+
   return (
-    <div className={cn('col-span-full grid grid-cols-subgrid items-center gap-y-1 py-1.5', current && '-mx-2 rounded-surface bg-info-bg/50 px-2 font-medium text-primary', quiet && 'text-disabled')}>
+    <div
+      onClick={more ? onRowClick : undefined}
+      className={cn('col-span-full grid grid-cols-subgrid items-center gap-y-1 py-1.5', more && 'cursor-pointer hover:bg-tint', current && '-mx-2 rounded-surface bg-info-bg/50 px-2 font-medium text-primary', quiet && 'text-disabled')}
+    >
       <span className="tabular-nums">{when}</span>
       <span>{kind}</span>
       <span className="min-w-0 break-words">{detail}</span>
@@ -409,7 +417,7 @@ const TimelineRow: React.FC<{
         )}
         {url && (linkLabel ? <A href={url} target="_blank" className="whitespace-nowrap no-underline">{linkLabel} ↗</A> : <RecordLink url={url} />)}
       </span>
-      {open && more && <div className="col-span-full pb-1 pl-[4.5rem] text-primary">{more}</div>}
+      {open && more && <div data-details className="col-span-full cursor-auto pb-1 pl-[4.5rem] text-primary">{more}</div>}
     </div>
   );
 };

@@ -161,6 +161,19 @@ test('skip moves the person to the end of the pass and is forgotten when the rou
   expect(decisions()).toHaveLength(0);
 });
 
+test('the picker opens only the courses the signed-in person leads, and everything when none are known', async () => {
+  render(<Scout />);
+  await screen.findByText('Biosecurity');
+  expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
+  expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(true);
+  cleanup();
+  mockFetch.mockImplementation(async (path) => (pathOf(path).endsWith('/queue') ? response({ items: realQueue, leadCourses: ['Biosecurity'] }) : read(path)));
+  render(<Scout />);
+  await screen.findByText('Biosecurity');
+  expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
+  expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(false);
+});
+
 test('chooses a round before loading people and never includes another round from the same course', async () => {
   const queue = realQueue.map((item, index) => index === 1 ? { ...item, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' } : item);
   mockFetch.mockImplementation(async (path) => pathOf(path).endsWith('/queue') ? response({ items: queue }) : read(path));

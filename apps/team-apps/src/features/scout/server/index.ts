@@ -2,6 +2,7 @@ import type { Decision } from '../types';
 import * as airtable from './airtable';
 
 export const fetchQueue = () => airtable.fetchQueue();
+export const fetchLeadCourses = (email: string) => airtable.fetchLeadCourses(email);
 export const fetchInvitedThisWeek = () => airtable.fetchInvitedThisWeek();
 export const fetchPerson = (id: string) => airtable.fetchPerson(id);
 

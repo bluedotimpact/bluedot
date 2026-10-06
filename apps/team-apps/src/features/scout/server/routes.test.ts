@@ -5,13 +5,13 @@ import {
 } from 'vitest';
 
 const {
-  verify, fetchQueue, fetchInvitedThisWeek, fetchPerson, recordDecision,
+  verify, fetchQueue, fetchInvitedThisWeek, fetchLeadCourses, fetchPerson, recordDecision,
 } = vi.hoisted(() => ({
-  verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchPerson: vi.fn(), recordDecision: vi.fn(),
+  verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchLeadCourses: vi.fn(async (_email: string): Promise<string[]> => []), fetchPerson: vi.fn(), recordDecision: vi.fn(),
 }));
 vi.mock('@bluedot/ui', () => ({ loginPresets: { googleBlueDot: { verifyAndDecodeToken: verify } } }));
 vi.mock('./index', () => ({
-  fetchQueue, fetchInvitedThisWeek, fetchPerson, recordDecision,
+  fetchQueue, fetchInvitedThisWeek, fetchLeadCourses, fetchPerson, recordDecision,
 }));
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', AIRTABLE_AUTOMATION_TOKEN: 'automation-secret', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
 const { lookUpPeople, idsToLookUp } = vi.hoisted(() => ({ lookUpPeople: vi.fn(async () => undefined), idsToLookUp: vi.fn(async (body: { ids?: string[] }) => (body.ids ?? []).map((id) => ({ id, onlyIfMissing: false }))) }));
@@ -52,6 +52,15 @@ test('any verified staff member can read and decide without an admin role', asyn
   await decision(writes.req, writes.res);
   expect(writes.res._getStatusCode()).toBe(200);
   expect(recordDecision).toHaveBeenCalledWith('recScoutSample001', 'invite');
+});
+
+test('the queue carries the courses led by the signed-in email', async () => {
+  fetchLeadCourses.mockResolvedValueOnce(['Biosecurity']);
+  const { req, res } = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers });
+  await queue(req, res);
+  expect(res._getStatusCode()).toBe(200);
+  expect(fetchLeadCourses).toHaveBeenCalledWith('staff@bluedot.org');
+  expect(res._getJSONData().leadCourses).toEqual(['Biosecurity']);
 });
 
 test('rejects non-staff identities, wrong methods and invalid decisions', async () => {
