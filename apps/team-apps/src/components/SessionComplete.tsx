@@ -27,6 +27,9 @@ type SessionCompleteProps = {
   onReviewRound: (roundId: string, roundName: string) => void;
 };
 
+// Action-row buttons: stacked full-width on mobile, equal columns from `sm`
+const ROW_BUTTON = 'w-full sm:w-auto sm:flex-1';
+
 const RATING_OPTIONS: { value: RatingValue; humanOpinion: string; decision: string }[] = [
   { value: 'strong-yes', humanOpinion: 'Strong yes', decision: 'Accept' },
   { value: 'yes', humanOpinion: 'Weak yes', decision: 'Accept' },
@@ -499,7 +502,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             variant="outline-black"
             disabled={pendingWrites > 0 || sessionEmailIds.length === 0}
             onClick={() => setConfirmingScope('session')}
-            className="w-full sm:w-auto sm:flex-1"
+            className={ROW_BUTTON}
           >
             Send for this session ({sessionEmailIds.length})
           </CTALinkOrButton>
@@ -507,7 +510,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             variant="outline-black"
             disabled={pendingWrites > 0 || !emailCounts || emailCounts.pending === 0}
             onClick={() => setConfirmingScope('round')}
-            className="w-full sm:w-auto sm:flex-1"
+            className={ROW_BUTTON}
           >
             {filtered ? 'Send all reviewed in round' : 'Send all reviewed'} ({emailCounts?.pending ?? '…'})
           </CTALinkOrButton>
@@ -541,7 +544,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             <CTALinkOrButton
               disabled={pendingWrites > 0 || confirmCount === 0 || !confirmingScope}
               onClick={() => confirmingScope && sendDecisionEmails(confirmingScope)}
-              className="w-full sm:w-auto sm:flex-1"
+              className={ROW_BUTTON}
             >
               Send {confirmCount} email{confirmCount === 1 ? '' : 's'}
             </CTALinkOrButton>
@@ -549,7 +552,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               variant="outline-black"
               disabled={pendingWrites > 0}
               onClick={closeConfirm}
-              className="w-full sm:w-auto sm:flex-1"
+              className={ROW_BUTTON}
             >
               Cancel
             </CTALinkOrButton>
@@ -561,7 +564,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         <CTALinkOrButton
           disabled={pendingWrites > 0}
           onClick={() => onReviewRound(roundId, round)}
-          className="w-full sm:w-auto sm:flex-1"
+          className={ROW_BUTTON}
         >
           Review same round again
         </CTALinkOrButton>
@@ -569,7 +572,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           variant="outline-black"
           disabled={pendingWrites > 0}
           onClick={onReset}
-          className="w-full sm:w-auto sm:flex-1"
+          className={ROW_BUTTON}
         >
           Review a different round
         </CTALinkOrButton>
