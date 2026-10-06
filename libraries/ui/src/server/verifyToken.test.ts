@@ -40,7 +40,8 @@ const signToken = ({
 
 // The JWKS cache is module state, so each test re-imports the module for an
 // empty cache and full independence from test order.
-const loadVerifier = async () => (await import('./verifyToken')).verifyKeycloakToken;
+const loadVerifiers = async () => import('./verifyToken');
+const loadVerifier = async () => (await loadVerifiers()).verifyKeycloakToken;
 
 const mockJwks = (...kids: string[]) => {
   vi.mocked(axios.get).mockResolvedValue({ data: { keys: kids.map(jwkFor) } });
@@ -95,6 +96,45 @@ describe('verifyKeycloakToken', () => {
     mockJwks(KID);
 
     await expect(verify(signToken({ header: { alg: 'HS256', typ: 'JWT', kid: KID } }))).rejects.toThrow('Unsupported token algorithm: HS256');
+  });
+});
+
+describe('verifyGoogleBlueDotToken', () => {
+  // eslint-disable-next-line no-useless-concat
+  const GOOGLE_AUD = '558012313311-ndfttio1u55baojf' + 'odrhiju4nvkakmqj.apps.googleusercontent.com';
+  const googleToken = (payload: Record<string, unknown> = {}) => signToken({
+    payload: {
+      iss: 'https://accounts.google.com', aud: GOOGLE_AUD, hd: 'bluedot.org', ...payload,
+    },
+  });
+
+  test('accepts a verified bluedot.org account', async () => {
+    const { verifyGoogleBlueDotToken } = await loadVerifiers();
+    mockJwks(KID);
+
+    await expect(verifyGoogleBlueDotToken(googleToken())).resolves.toMatchObject({ sub: 'user-123', hd: 'bluedot.org' });
+    expect(axios.get).toHaveBeenCalledWith('https://www.googleapis.com/oauth2/v3/certs');
+  });
+
+  test('rejects an account outside bluedot.org', async () => {
+    const { verifyGoogleBlueDotToken } = await loadVerifiers();
+    mockJwks(KID);
+
+    await expect(verifyGoogleBlueDotToken(googleToken({ hd: 'example.com' }))).rejects.toThrow('Not a verified bluedot.org account');
+  });
+
+  test('rejects a token with no hd claim', async () => {
+    const { verifyGoogleBlueDotToken } = await loadVerifiers();
+    mockJwks(KID);
+
+    await expect(verifyGoogleBlueDotToken(googleToken({ hd: undefined }))).rejects.toThrow('Not a verified bluedot.org account');
+  });
+
+  test('rejects an unverified email', async () => {
+    const { verifyGoogleBlueDotToken } = await loadVerifiers();
+    mockJwks(KID);
+
+    await expect(verifyGoogleBlueDotToken(googleToken({ email_verified: false }))).rejects.toThrow('Not a verified bluedot.org account');
   });
 });
 
