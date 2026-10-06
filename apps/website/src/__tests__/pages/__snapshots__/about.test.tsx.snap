@@ -269,7 +269,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
                     >
                       <a
-                        class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                        class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none h-11 on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover on-dark:hover:text-bluedot-darker mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
                         href="/login?register=true&redirect_to=%2Fabout"
                         tabindex="0"
                       >
@@ -513,14 +513,14 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="nav-cta flex flex-row items-center gap-4"
               >
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                  class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none h-11 on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover on-dark:hover:text-on-dark nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                   href="/login?redirect_to=%2Fabout"
                   tabindex="0"
                 >
                   Sign in
                 </a>
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs font-semibold cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                  class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none h-11 on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover on-dark:hover:text-bluedot-darker nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
                   href="/login?register=true&redirect_to=%2Fabout"
                   tabindex="0"
                 >
@@ -539,6 +539,7 @@ exports[`AboutPage > should render correctly 1`] = `
       />
       <div
         class="relative z-10 flex flex-col justify-center h-full min-h-[317px] bd-md:min-h-[366px] pt-[calc(var(--nav-height-mobile)+2rem)] lg:pt-[calc(var(--nav-height-desktop)+2rem)] pb-8"
+        data-on-dark="true"
       >
         <div
           class="section-base"
@@ -898,29 +899,26 @@ exports[`AboutPage > should render correctly 1`] = `
       class="join-us-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center"
     >
       <a
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
+        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none h-11 px-4 bg-accent text-on-dark hover:bg-accent-hover hover:text-on-dark on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover on-dark:hover:text-bluedot-darker join-us-cta__cta-button"
         href="/join-us"
         tabindex="0"
       >
         Join our team
-        <span
-          class="cta-button__chevron ml-3"
+        <svg
+          aria-hidden="true"
+          class="size-4"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 320 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            class="cta-button__chevron-icon size-2"
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 320 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-            />
-          </svg>
-        </span>
+          <path
+            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+          />
+        </svg>
       </a>
     </div>
   </div>
