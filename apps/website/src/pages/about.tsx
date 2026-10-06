@@ -1,4 +1,4 @@
-import { Breadcrumbs } from '@bluedot/ui';
+import { Breadcrumbs, CTALinkOrButton } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
 import IntroSection from '../components/about/IntroSection';
@@ -6,7 +6,6 @@ import BeliefsSection from '../components/about/BeliefsSection';
 import ValuesSection from '../components/about/ValuesSection';
 import HistorySection from '../components/about/HistorySection';
 import TeamSection from '../components/about/TeamSection';
-import JoinUsCta from '../components/about/JoinUsCta';
 import { ROUTES } from '../lib/routes';
 import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
@@ -28,7 +27,11 @@ const AboutPage = () => {
       <ValuesSection />
       <HistorySection />
       <TeamSection />
-      <JoinUsCta />
+      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center">
+        <CTALinkOrButton variant="primary" url={ROUTES.joinUs.url}>
+          Join our team
+        </CTALinkOrButton>
+      </div>
     </div>
   );
 };
