@@ -222,8 +222,8 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
               <span className="mb-6 size-4 rounded-full bg-accent" aria-hidden="true" />
               <H1 className="text-size-xl">BlueDot Apps</H1>
               <p className="mt-3 text-size-sm leading-relaxed text-secondary">Sign in with your BlueDot Google account to continue.</p>
-              <CTALinkOrButton url={`/login?redirect_to=${encodeURIComponent(router.asPath)}`} className="mt-7 min-h-11">Continue with Google</CTALinkOrButton>
-              {preview && <CTALinkOrButton variant="secondary" className="mt-3 min-h-11" onClick={() => setAuth({ token: PREVIEW_TOKEN, email: PREVIEW_EMAIL, expiresAt: Date.now() + 3_600_000 })}>Explore local preview</CTALinkOrButton>}
+              <CTALinkOrButton url={`/login?redirect_to=${encodeURIComponent(router.asPath)}`} className="mt-7">Continue with Google</CTALinkOrButton>
+              {preview && <CTALinkOrButton variant="secondary" className="mt-3" onClick={() => setAuth({ token: PREVIEW_TOKEN, email: PREVIEW_EMAIL, expiresAt: Date.now() + 3_600_000 })}>Explore local preview</CTALinkOrButton>}
             </div>
           )}
         </main>
@@ -241,7 +241,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           <p className="text-size-sm leading-relaxed text-secondary">{pendingWrites > 0 ? 'Please wait for your changes to finish saving before leaving.' : 'Saved decisions will be kept. Your place in this review session will reset.'}</p>
           <div className="flex flex-wrap gap-3">
             <CTALinkOrButton variant="secondary" onClick={() => setLeaveAction(null)}>Stay here</CTALinkOrButton>
-            <CTALinkOrButton disabled={pendingWrites > 0} onClick={() => {
+            <CTALinkOrButton tone="destructive" disabled={pendingWrites > 0} onClick={() => {
               const action = leaveAction;
               setLeaveAction(null);
               action?.();

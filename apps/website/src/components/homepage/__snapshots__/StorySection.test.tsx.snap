@@ -31,7 +31,7 @@ exports[`StorySection > renders default as expected 1`] = `
           </p>
         </div>
         <a
-          class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark h-11 px-[17px] py-4 text-size-xs font-normal leading-snug tracking-wide text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200"
+          class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover h-11 px-[17px] py-4 text-size-xs font-normal leading-snug tracking-wide text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200"
           href="/about"
           tabindex="0"
         >

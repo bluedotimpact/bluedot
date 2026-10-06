@@ -78,9 +78,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
           <CTALinkOrButton
             url={job.applicationUrl}
             target="_blank"
-            variant="unstyled"
             size="large"
-            className="bg-white text-bluedot-darker hover:bg-white/90"
           >
             Apply Now
           </CTALinkOrButton>

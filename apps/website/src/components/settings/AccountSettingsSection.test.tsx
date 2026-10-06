@@ -204,7 +204,8 @@ describe('AccountSettingsSection - User Journeys', () => {
     expect(screen.getByLabelText(/^new password/i)).toBeDisabled();
     expect(screen.getByLabelText(/confirm new password/i)).toBeDisabled();
     expect(screen.getByRole('button', { name: /cancel/i })).toBeDisabled();
-    expect(screen.getByRole('button', { name: /update password/i })).toBeDisabled();
+    // The submit button stays focusable while busy; it only ignores activation
+    expect(screen.getByRole('button', { name: /update password/i })).toHaveAttribute('aria-busy', 'true');
 
     // Loading state is shown
     expect(screen.getByText('Updating...')).toBeInTheDocument();

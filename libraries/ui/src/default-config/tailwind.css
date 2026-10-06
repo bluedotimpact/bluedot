@@ -27,6 +27,7 @@
     --color-dark: var(--bluedot-navy);
     --color-surface-on-dark: #ffffff26; /* white 15% */
     --color-surface-on-dark-subtle: #ffffff14; /* white 8% */
+    --color-surface-on-dark-hover: #ffffff33; /* white 20% */
 
     /* border/* */
     --color-subtle: #13132e1a; /* navy 10% */
@@ -40,6 +41,8 @@
     --color-accent-hover: var(--bluedot-dark);
     --color-accent-active: var(--bluedot-darker);
     --color-accent-subtle: var(--bluedot-lighter);
+    --color-accent-on-dark: #ffffff;
+    --color-accent-on-dark-hover: #ffffffe5; /* white 90% */
 
     /* system/<tone>/* — fg doubles as the solid fill for tone buttons */
     --color-info-fg: var(--bluedot-normal);
@@ -60,6 +63,7 @@
 
     /* focus/* and overlay/* */
     --color-focus: var(--bluedot-normal);
+    --color-focus-on-dark: #ffffff;
     --color-scrim: #00000080; /* black 50% */
     --color-overlay-image: #0000004d; /* black 30% */
 
@@ -139,11 +143,6 @@
     --spacing-spacing-y: var(--spacing-y);
     --spacing-space-between: var(--space-between);
 
-    /* Canonical CTA button height for the `large` size of CTALinkOrButton.
-     * Used directly as h-button-lg to vertically align other things with CTAs
-     * (e.g. responsive lg:h-button-lg on bespoke buttons in HeroSection). */
-    --spacing-button-lg: 50px;
-
     /* Section / content max-widths used 3+ times across the site.
      * Generates max-w-section-wide / max-w-text / max-w-text-narrow / max-w-modal / max-w-narrow. */
     --container-section-wide: 1100px;
@@ -158,6 +157,10 @@
      * in the cascade, so a named breakpoint above xl/2xl would lose to xl/2xl at the higher viewport. */
     --breakpoint-bd-md: 680px;
 }
+
+/* A dark surface (navy hero, transparent nav, footer) sets `data-on-dark` once; components inside
+ * switch to their on-dark recipe via `on-dark:` instead of threading a prop through every level. */
+@custom-variant on-dark (&:where([data-on-dark], [data-on-dark] *));
 
 @layer base {
     *,

@@ -121,7 +121,6 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
   const selectedRound = roundsForChosenIntensity.find((r) => r.id === effectiveTargetRoundId);
 
   const submitDisabled = !dropoutType
-    || dropoutMutation.isPending
     || (isDeferral && !effectiveTargetRoundId);
 
   const handleSubmit = () => {
@@ -160,7 +159,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         <div className="flex max-w-narrow flex-col items-center gap-4">
           <P className="text-bluedot-navy/80 text-center">{message}</P>
         </div>
-        <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
+        <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
           Close
         </CTALinkOrButton>
       </div>
@@ -263,18 +262,12 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       )}
 
       <CTALinkOrButton
-        className="bg-bluedot-normal w-full disabled:opacity-50"
+        className="w-full"
         onClick={handleSubmit}
+        loading={dropoutMutation.isPending}
         disabled={submitDisabled}
       >
-        {dropoutMutation.isPending ? (
-          <span className="flex items-center gap-2">
-            <ProgressDots className="my-0 text-on-dark" />
-            Submitting...
-          </span>
-        ) : (
-          <span>Submit</span>
-        )}
+        {dropoutMutation.isPending ? 'Submitting...' : 'Submit'}
       </CTALinkOrButton>
     </>
   );
@@ -332,7 +325,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
             <P className="text-bluedot-navy/80 text-center text-pretty">
               Your application has been withdrawn. If this was a mistake, please email us.
             </P>
-            <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
+            <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
               Close
             </CTALinkOrButton>
           </>
@@ -346,7 +339,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
               <CTALinkOrButton variant="secondary" className="w-full sm:w-auto" onClick={handleCloseWithInvalidation} disabled={mutation.isPending}>
                 Cancel
               </CTALinkOrButton>
-              <CTALinkOrButton className="bg-bluedot-normal w-full sm:w-auto" onClick={handleConfirm} disabled={mutation.isPending}>
+              <CTALinkOrButton className="w-full sm:w-auto" onClick={handleConfirm} disabled={mutation.isPending}>
                 Confirm
               </CTALinkOrButton>
             </div>

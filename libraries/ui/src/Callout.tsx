@@ -10,7 +10,7 @@ export type CalloutTone = Tone;
 export type CalloutAction = {
   label: string;
   emphasis?: 'primary' | 'secondary';
-} & Omit<CTALinkOrButtonProps, 'variant' | 'size' | 'children' | 'className' | 'style'>;
+} & Omit<CTALinkOrButtonProps, 'variant' | 'tone' | 'size' | 'children' | 'className' | 'style'>;
 
 export type CalloutProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> & {
   tone?: CalloutTone;
@@ -46,9 +46,10 @@ export const Callout = ({
             {actions.map(({ label, emphasis = 'primary', ...action }) => (
               <CTALinkOrButton
                 key={label}
-                variant="unstyled"
+                variant={emphasis}
+                tone={ACTION_TONES[tone]}
                 size="small"
-                className={cn('grow', ACTION_STYLES[emphasis][tone])}
+                className="grow"
                 {...action}
               >
                 {label}
@@ -66,17 +67,10 @@ export const Callout = ({
   );
 };
 
-const ACTION_STYLES: Record<'primary' | 'secondary', Record<CalloutTone, string>> = {
-  primary: {
-    info: 'bg-info-fg text-on-dark hover:bg-accent-hover',
-    success: 'bg-success-fg text-on-dark hover:bg-success-fg-hover',
-    warning: 'bg-warning-fg text-on-dark hover:bg-warning-fg-hover',
-    error: 'bg-error-fg text-on-dark hover:bg-error-fg-hover',
-  },
-  secondary: {
-    info: 'border border-info-fg text-info-fg hover:bg-info-fg/10',
-    success: 'border border-success-fg text-success-fg hover:bg-success-fg/10',
-    warning: 'border border-warning-fg text-warning-fg hover:bg-warning-fg/10',
-    error: 'border border-error-fg text-error-fg hover:bg-error-fg/10',
-  },
+// info/fg is the brand accent, so info actions are plain buttons
+const ACTION_TONES: Record<CalloutTone, CTALinkOrButtonProps['tone']> = {
+  info: undefined,
+  success: 'success',
+  warning: 'warning',
+  error: 'destructive',
 };

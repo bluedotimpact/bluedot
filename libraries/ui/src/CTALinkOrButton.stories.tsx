@@ -1,212 +1,100 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { CTALinkOrButton, type CTALinkOrButtonProps } from './CTALinkOrButton';
 
 const meta = {
   title: 'ui/CTALinkOrButton',
   component: CTALinkOrButton,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
+    layout: 'centered',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/BlueDot-design-system?node-id=1534-2',
+    },
   },
   args: {
-    children: 'Testing',
+    children: 'Get started',
     variant: 'primary',
-    withChevron: false,
-    url: '',
+    size: 'medium',
   },
 } satisfies Meta<typeof CTALinkOrButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Button: Story = {
-  args: {
-    children: 'Button',
-    variant: 'primary',
-    // eslint-disable-next-line no-console
-    onClick: (e) => console.log('Button click event: ', e),
-  },
-};
+const VARIANTS: NonNullable<CTALinkOrButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'black', 'outline-black'];
+const TONES: NonNullable<CTALinkOrButtonProps['tone']>[] = ['destructive', 'success', 'warning'];
+
+// One row per variant: default · disabled · loading · with chevron
+const StateRow = ({ variant, tone }: Pick<CTALinkOrButtonProps, 'variant' | 'tone'>) => (
+  <div className="flex items-center gap-4">
+    <span className="w-36 text-size-xs text-secondary on-dark:text-on-dark-secondary">{tone ? `${variant} · ${tone}` : variant}</span>
+    <CTALinkOrButton variant={variant} tone={tone}>Get started</CTALinkOrButton>
+    <CTALinkOrButton variant={variant} tone={tone} disabled>Get started</CTALinkOrButton>
+    <CTALinkOrButton variant={variant} tone={tone} loading>Getting started</CTALinkOrButton>
+    <CTALinkOrButton variant={variant} tone={tone} withChevron>Next</CTALinkOrButton>
+  </div>
+);
+
+export const Primary: Story = {};
 
 export const Link: Story = {
-  args: {
-    children: 'Link',
-    variant: 'primary',
-    url: 'https://www.google.com',
-  },
-  parameters: {
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura\'s-Working-File?node-id=7760-3365&',
-    },
-  },
+  args: { url: 'https://bluedot.org', children: 'Visit bluedot.org' },
 };
 
-export const Primary: Story = {
-  args: {
-    children: 'Primary Button',
-    variant: 'primary',
-  },
+export const Variants: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      {VARIANTS.map((variant) => <StateRow key={variant} variant={variant} />)}
+    </div>
+  ),
 };
 
-export const Secondary: Story = {
-  args: {
-    children: 'Secondary Button',
-    variant: 'secondary',
-  },
+// `tone` recolours primary/secondary; other variants ignore it
+export const Tones: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      {TONES.map((tone) => <StateRow key={tone} variant="primary" tone={tone} />)}
+      {TONES.map((tone) => <StateRow key={tone} variant="secondary" tone={tone} />)}
+    </div>
+  ),
 };
 
-export const Black: Story = {
-  args: {
-    children: 'Black Button',
-    variant: 'black',
-  },
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex items-end gap-4">
+      <CTALinkOrButton size="small">Small · 36</CTALinkOrButton>
+      <CTALinkOrButton size="medium">Medium · 44</CTALinkOrButton>
+      <CTALinkOrButton size="large">Large · 50</CTALinkOrButton>
+    </div>
+  ),
 };
 
-export const OutlineBlack: Story = {
-  args: {
-    children: 'Outline Black Button',
-    variant: 'outline-black',
-  },
+export const Loading: Story = {
+  args: { loading: true, children: 'Submitting…' },
 };
 
-export const WithChevron: Story = {
-  args: {
-    children: 'With Chevron',
-    variant: 'primary',
-    withChevron: true,
-  },
+export const Disabled: Story = {
+  args: { disabled: true },
 };
 
-export const WithBackChevron: Story = {
-  args: {
-    children: 'With Back Chevron',
-    variant: 'primary',
-    withBackChevron: true,
-  },
+export const WithChevrons: Story = {
+  render: () => (
+    <div className="flex gap-4">
+      <CTALinkOrButton withBackChevron variant="secondary">Back</CTALinkOrButton>
+      <CTALinkOrButton withChevron>Next</CTALinkOrButton>
+    </div>
+  ),
 };
 
-export const BlackWithChevron: Story = {
-  args: {
-    children: 'Black With Chevron',
-    variant: 'black',
-    withChevron: true,
-  },
-};
-
-export const BlackWithBackChevron: Story = {
-  args: {
-    children: 'Black With Back Chevron',
-    variant: 'black',
-    withBackChevron: true,
-  },
-};
-
-export const OutlineBlackWithChevron: Story = {
-  args: {
-    children: 'Outline Black With Chevron',
-    variant: 'outline-black',
-    withChevron: true,
-  },
-};
-
-export const OutlineBlackWithBackChevron: Story = {
-  args: {
-    children: 'Outline Black With Back Chevron',
-    variant: 'outline-black',
-    withBackChevron: true,
-  },
-};
-
-export const SmallPrimary: Story = {
-  args: {
-    children: 'Small Primary',
-    variant: 'primary',
-    size: 'small',
-  },
-};
-
-export const SmallSecondary: Story = {
-  args: {
-    children: 'Small Secondary',
-    variant: 'secondary',
-    size: 'small',
-  },
-};
-
-export const SmallBlack: Story = {
-  args: {
-    children: 'Small Black',
-    variant: 'black',
-    size: 'small',
-  },
-};
-
-export const SmallOutlineBlack: Story = {
-  args: {
-    children: 'Small Outline Black',
-    variant: 'outline-black',
-    size: 'small',
-  },
-};
-
-export const Ghost: Story = {
-  args: {
-    children: 'Ghost',
-    variant: 'ghost',
-  },
-};
-
-export const SmallGhost: Story = {
-  args: {
-    children: 'Small Ghost',
-    variant: 'ghost',
-    size: 'small',
-  },
-};
-
-export const SmallWithChevron: Story = {
-  args: {
-    children: 'Small With Chevron',
-    variant: 'primary',
-    size: 'small',
-    withChevron: true,
-  },
-};
-
-export const LargeWithChevron: Story = {
-  args: {
-    children: 'Large With Chevron',
-    variant: 'primary',
-    size: 'large',
-    withChevron: true,
-  },
-};
-
-export const DisabledButton: Story = {
-  args: {
-    children: 'Disabled Button',
-    variant: 'primary',
-    disabled: true,
-  },
-};
-
-export const DisabledLink: Story = {
-  args: {
-    children: 'Disabled Link',
-    variant: 'primary',
-    url: 'https://www.google.com',
-    disabled: true,
-  },
-};
-
-export const CustomStyles: Story = {
-  args: {
-    children: 'Custom Styles',
-    variant: 'primary',
-    className: 'bg-[#2244BB] hover:bg-[color-mix(in_oklab,#2244BB,#000_30%)] text-white hover:text-white',
-  },
+// A dark ancestor sets `data-on-dark`; no prop on the button
+export const OnDark: Story = {
+  render: () => (
+    <div data-on-dark className="flex flex-col gap-4 rounded-surface bg-dark p-8">
+      <StateRow variant="primary" />
+      <StateRow variant="secondary" />
+      <StateRow variant="ghost" />
+    </div>
+  ),
 };

@@ -115,8 +115,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     || !selectedGroupId
     || (isSingleUnitChange && !selectedDiscussionId)
     || (!selectedDate && !selectedDiscussionDateTime)
-    || (!selectedTime && !selectedDiscussionDateTime)
-    || updateDiscussionTimeMutation.isPending;
+    || (!selectedTime && !selectedDiscussionDateTime);
 
   const handleSubmit = () => {
     if (!switchType || !selectedGroupId) {
@@ -147,7 +146,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   // Change facilitator mode
-  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId || changeFacilitatorMutation.isPending;
+  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId;
 
   const handleFacilitatorChangeSubmit = () => {
     if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) {
@@ -210,7 +209,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             </P>
             <P className="text-center text-bluedot-navy/80">Please allow up to 10 minutes to see the changes.</P>
           </div>
-          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+          <CTALinkOrButton className="w-full" onClick={handleClose}>
             Close
           </CTALinkOrButton>
         </div>
@@ -233,7 +232,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               to see the changes.
             </P>
           </div>
-          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+          <CTALinkOrButton className="w-full" onClick={handleClose}>
             Close
           </CTALinkOrButton>
         </div>
@@ -309,18 +308,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           )}
 
           <CTALinkOrButton
-            className="bg-bluedot-normal w-full disabled:opacity-50"
+            className="w-full"
             onClick={handleSubmit}
+            loading={updateDiscussionTimeMutation.isPending}
             disabled={submitDisabled}
           >
-            {updateDiscussionTimeMutation.isPending ? (
-              <span className="flex items-center gap-2">
-                <ProgressDots className="my-0 text-on-dark" />
-                Submitting...
-              </span>
-            ) : (
-              <span>Submit</span>
-            )}
+            {updateDiscussionTimeMutation.isPending ? 'Submitting...' : 'Submit'}
           </CTALinkOrButton>
         </>
       );
@@ -377,18 +370,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         )}
 
         <CTALinkOrButton
-          className="bg-bluedot-normal w-full disabled:opacity-50"
+          className="w-full"
           onClick={handleFacilitatorChangeSubmit}
+          loading={changeFacilitatorMutation.isPending}
           disabled={facilitatorChangeSubmitDisabled}
         >
-          {changeFacilitatorMutation.isPending ? (
-            <span className="flex items-center gap-2">
-              <ProgressDots className="my-0 text-on-dark" />
-              Submitting...
-            </span>
-          ) : (
-            <span>Submit</span>
-          )}
+          {changeFacilitatorMutation.isPending ? 'Submitting...' : 'Submit'}
         </CTALinkOrButton>
       </>
     );

@@ -115,7 +115,8 @@ describe('ChangeEmailModal', () => {
     });
     expect(screen.getByLabelText(/new email/i)).toBeDisabled();
     expect(screen.getByRole('button', { name: /cancel email change/i })).toBeDisabled();
-    expect(screen.getByRole('button', { name: /send confirmation link/i })).toBeDisabled();
+    // The submit button stays focusable while busy; it only ignores activation
+    expect(screen.getByRole('button', { name: /send confirmation link/i })).toHaveAttribute('aria-busy', 'true');
     expect(successView()).not.toBeInTheDocument();
 
     resolveSend!();

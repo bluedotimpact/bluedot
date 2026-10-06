@@ -13,6 +13,8 @@ export type ClickTargetProps = React.PropsWithChildren<{
   'aria-label'?: string;
   'aria-describedby'?: string;
   'aria-current'?: React.AriaAttributes['aria-current'];
+  // A busy control ignores activation without the native `disabled` attribute, so it keeps focus
+  'aria-busy'?: boolean;
   type?: 'button' | 'submit' | 'reset';
 }>;
 
@@ -29,14 +31,16 @@ export const ClickTarget = ({
   'aria-label': ariaLabel,
   'aria-describedby': ariaDescribedBy,
   'aria-current': ariaCurrent,
+  'aria-busy': ariaBusy,
   type = 'button',
 }: ClickTargetProps) => {
   const safeRel = target === '_blank'
     ? Array.from(new Set(['noopener', 'noreferrer', ...(rel?.split(/\s+/).filter(Boolean) ?? [])])).join(' ')
     : rel;
+  const inert = disabled === true || ariaBusy === true;
 
   const handleInteraction = (e: React.MouseEvent) => {
-    if (disabled) {
+    if (inert) {
       e.preventDefault();
       return;
     }
@@ -55,6 +59,7 @@ export const ClickTarget = ({
         rel={safeRel}
         title={title}
         aria-disabled={disabled ? 'true' : undefined}
+        aria-busy={ariaBusy}
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
         aria-current={ariaCurrent}
@@ -72,6 +77,7 @@ export const ClickTarget = ({
       onClick={handleInteraction}
       disabled={disabled}
       title={title}
+      aria-busy={ariaBusy}
       aria-label={ariaLabel}
       aria-describedby={ariaDescribedBy}
       aria-current={ariaCurrent}

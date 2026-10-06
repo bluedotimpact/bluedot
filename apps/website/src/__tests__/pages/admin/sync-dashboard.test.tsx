@@ -95,7 +95,7 @@ describe('SyncDashboard - Main User Journeys', () => {
     const syncButton = screen.getByRole('button', { name: 'Request Full Sync' });
     expect(syncButton).toBeInTheDocument();
     expect(syncButton).toBeEnabled();
-    expect(syncButton).toHaveClass('cta-button--primary');
+    expect(syncButton).toHaveClass('bg-accent');
 
     // Click the button
     await act(async () => {
