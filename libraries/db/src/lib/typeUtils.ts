@@ -58,10 +58,6 @@ export type DeprecatedPgAirtableColumnInput = {
 export type PgIndexesConfig<TColumnsMap extends Record<string, PgColumnBuilderBase>> =
   (self: BuildExtraConfigColumns<string, TColumnsMap, 'pg'>) => IndexBuilder[];
 
-export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
-  [K in keyof T]: T[K]['pgColumn'];
-};
-
 export type PgAirtableConfig<
   TColumns extends Record<string, PgAirtableColumnInput>,
 > = {
@@ -69,7 +65,11 @@ export type PgAirtableConfig<
   tableId: string;
   columns: TColumns;
   deprecatedColumns?: Record<string, DeprecatedPgAirtableColumnInput>;
-  indexes?: PgIndexesConfig<ExtractPgColumns<TColumns> & { id: ReturnType<ReturnType<typeof text>['primaryKey']> }>;
+  indexes?: PgIndexesConfig<ExtractPgColumns<TColumns>>;
+};
+
+export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
+  [K in keyof T]: T[K]['pgColumn'];
 };
 
 export type AirtableItemFromColumnsMap<
