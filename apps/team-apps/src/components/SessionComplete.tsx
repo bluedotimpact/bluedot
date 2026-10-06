@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import {
-  Callout, H1, H2, Modal,
+  Callout, CTALinkOrButton, H1, H2, Modal,
 } from '@bluedot/ui';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
@@ -26,6 +26,9 @@ type SessionCompleteProps = {
   onReset: () => void;
   onReviewRound: (roundId: string, roundName: string) => void;
 };
+
+// Action-row buttons: stacked full-width on mobile, equal columns from `sm`
+const ROW_BUTTON = 'w-full sm:w-auto sm:flex-1';
 
 const RATING_OPTIONS: { value: RatingValue; humanOpinion: string; decision: string }[] = [
   { value: 'strong-yes', humanOpinion: 'Strong yes', decision: 'Accept' },
@@ -346,14 +349,15 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
                 {opt.humanOpinion} → {opt.decision}
               </button>
             ))}
-            <button
-              type="button"
+            <CTALinkOrButton
+              variant="secondary"
+              tone="warning"
+              size="small"
               disabled={pendingWrites > 0}
               onClick={() => saveChange(r.id)}
-              className="min-h-11 text-size-xs px-2 py-1 rounded border transition-colors bg-tint text-warning-fg border-warning-border hover:border-warning-border"
             >
               Rerate
-            </button>
+            </CTALinkOrButton>
           </div>
         )}
       </div>
@@ -494,22 +498,22 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           return <Callout tone="info" role="status">{`Sending emails… (${trackerConfirmed} of ${sendTracker.total}) You can leave this page.`}</Callout>;
         })()}
         <div className="flex flex-col sm:flex-row gap-2">
-          <button
-            type="button"
+          <CTALinkOrButton
+            variant="outline-black"
             disabled={pendingWrites > 0 || sessionEmailIds.length === 0}
             onClick={() => setConfirmingScope('session')}
-            className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors disabled:opacity-40"
+            className={ROW_BUTTON}
           >
             Send for this session ({sessionEmailIds.length})
-          </button>
-          <button
-            type="button"
+          </CTALinkOrButton>
+          <CTALinkOrButton
+            variant="outline-black"
             disabled={pendingWrites > 0 || !emailCounts || emailCounts.pending === 0}
             onClick={() => setConfirmingScope('round')}
-            className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors disabled:opacity-40"
+            className={ROW_BUTTON}
           >
             {filtered ? 'Send all reviewed in round' : 'Send all reviewed'} ({emailCounts?.pending ?? '…'})
-          </button>
+          </CTALinkOrButton>
         </div>
       </div>
 
@@ -537,43 +541,41 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 pt-1">
-            <button
-              type="button"
+            <CTALinkOrButton
               disabled={pendingWrites > 0 || confirmCount === 0 || !confirmingScope}
               onClick={() => confirmingScope && sendDecisionEmails(confirmingScope)}
-              className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm bg-accent text-white hover:bg-accent-hover transition-colors disabled:opacity-40"
+              className={ROW_BUTTON}
             >
               Send {confirmCount} email{confirmCount === 1 ? '' : 's'}
-            </button>
-            <button
-              type="button"
+            </CTALinkOrButton>
+            <CTALinkOrButton
+              variant="outline-black"
               disabled={pendingWrites > 0}
               onClick={closeConfirm}
-              className="min-h-11 flex-1 py-2 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors"
+              className={ROW_BUTTON}
             >
               Cancel
-            </button>
+            </CTALinkOrButton>
           </div>
         </div>
       </Modal>
 
       <div className="border-t border-subtle pt-5 flex flex-col sm:flex-row gap-3">
-        <button
-          type="button"
+        <CTALinkOrButton
           disabled={pendingWrites > 0}
           onClick={() => onReviewRound(roundId, round)}
-          className="min-h-11 flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm bg-accent text-white hover:bg-accent-hover transition-colors"
+          className={ROW_BUTTON}
         >
           Review same round again
-        </button>
-        <button
-          type="button"
+        </CTALinkOrButton>
+        <CTALinkOrButton
+          variant="outline-black"
           disabled={pendingWrites > 0}
           onClick={onReset}
-          className="min-h-11 flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors"
+          className={ROW_BUTTON}
         >
           Review a different round
-        </button>
+        </CTALinkOrButton>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { CTALinkOrButton } from '@bluedot/ui';
 import type React from 'react';
 import { useRouter } from 'next/router';
-import { FaCircleCheck } from 'react-icons/fa6';
+import { FaChevronRight, FaCircleCheck } from 'react-icons/fa6';
 import { getActionPlanUrl } from '../../../lib/utils';
 import { trpc } from '../../../utils/trpc';
 import { shouldShowCongratulations } from '../SidebarCertificatePanel';
@@ -51,10 +51,10 @@ export const ProjectSubmission: React.FC<ProjectSubmissionProps> = ({ courseId }
         <CTALinkOrButton
           url={getActionPlanUrl(meetPersonId)}
           target="_blank"
-          withChevron
           className="!w-auto !whitespace-normal text-center min-w-0"
         >
           Submit your project/action plan
+          <FaChevronRight aria-hidden className="size-4" />
         </CTALinkOrButton>
       </div>
     );
@@ -76,10 +76,10 @@ export const ProjectSubmission: React.FC<ProjectSubmissionProps> = ({ courseId }
     <div className="flex">
       <CTALinkOrButton
         url={`/courses/${courseSlug}/congratulations`}
-        withChevron
         className="!w-auto !whitespace-normal text-center min-w-0"
       >
         Join a facilitated cohort today
+        <FaChevronRight aria-hidden className="size-4" />
       </CTALinkOrButton>
     </div>
   );

@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
+import { CTALinkOrButton } from '@bluedot/ui';
 import type { Person, QueueItem } from './types';
 import { PersonCard } from './PersonCard';
-import { button, panel } from './reviewStyles';
+import { panel } from './reviewStyles';
 
 // The card is the whole evidence view: everything Airtable holds on the person,
 // in fixed slots. No summary layer sits in front of it.
@@ -14,7 +15,7 @@ export const ReviewEvidence = ({
       {error && (
         <div role="alert">
           <p className="text-size-sm">{error}</p>
-          <button type="button" className={`${button} mt-3`} onClick={onRetry}>Retry participant</button>
+          <CTALinkOrButton variant="outline-black" className="mt-3" onClick={onRetry}>Retry participant</CTALinkOrButton>
         </div>
       )}
       {person && <PersonCard person={person} showName />}

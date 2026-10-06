@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import type React from 'react';
 import { useCallback, useState } from 'react';
+import { FaChevronRight } from 'react-icons/fa6';
 
 import {
   type Chunk,
@@ -240,9 +241,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 className="unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
                 onClick={handleNextClick}
                 variant="primary"
-                withChevron
               >
                 {isLastChunk ? 'Complete unit and continue' : 'Continue'}
+                <FaChevronRight aria-hidden className="size-4" />
               </CTALinkOrButton>
             </div>
           )}
@@ -254,13 +255,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <hr className="mt-12 mb-4" />
               <div className="flex items-center justify-between">
                 <KeyboardNavMenu />
-                <button
-                  type="button"
-                  onClick={() => openFeedback()}
-                  className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
-                >
+                <CTALinkOrButton variant="ghost" size="small" onClick={() => openFeedback()}>
                   Submit feedback
-                </button>
+                </CTALinkOrButton>
               </div>
             </div>
           )}

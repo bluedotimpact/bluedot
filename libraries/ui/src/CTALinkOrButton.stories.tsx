@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
+
 import { CTALinkOrButton, type CTALinkOrButtonProps } from './CTALinkOrButton';
 
 const meta = {
@@ -26,14 +28,14 @@ type Story = StoryObj<typeof meta>;
 const VARIANTS: NonNullable<CTALinkOrButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'black', 'outline-black'];
 const TONES: NonNullable<CTALinkOrButtonProps['tone']>[] = ['destructive', 'success', 'warning'];
 
-// One row per variant: default · disabled · loading · with chevron
+// One row per variant: default · disabled · loading · with icon
 const StateRow = ({ variant, tone }: Pick<CTALinkOrButtonProps, 'variant' | 'tone'>) => (
   <div className="flex items-center gap-4">
     <span className="w-36 text-size-xs text-secondary on-dark:text-on-dark-secondary">{tone ? `${variant} · ${tone}` : variant}</span>
     <CTALinkOrButton variant={variant} tone={tone}>Get started</CTALinkOrButton>
     <CTALinkOrButton variant={variant} tone={tone} disabled>Get started</CTALinkOrButton>
     <CTALinkOrButton variant={variant} tone={tone} loading>Getting started</CTALinkOrButton>
-    <CTALinkOrButton variant={variant} tone={tone} withChevron>Next</CTALinkOrButton>
+    <CTALinkOrButton variant={variant} tone={tone}>Next <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
   </div>
 );
 
@@ -79,11 +81,12 @@ export const Disabled: Story = {
   args: { disabled: true },
 };
 
-export const WithChevrons: Story = {
+// Icons are plain children; the root `gap-2` spaces them
+export const WithIcons: Story = {
   render: () => (
     <div className="flex gap-4">
-      <CTALinkOrButton withBackChevron variant="secondary">Back</CTALinkOrButton>
-      <CTALinkOrButton withChevron>Next</CTALinkOrButton>
+      <CTALinkOrButton variant="secondary"><FaChevronLeft aria-hidden className="size-4" /> Back</CTALinkOrButton>
+      <CTALinkOrButton>Next <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
     </div>
   ),
 };

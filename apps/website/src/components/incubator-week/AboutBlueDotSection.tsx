@@ -1,4 +1,5 @@
 import { CTALinkOrButton, H3, P } from '@bluedot/ui';
+import { FaChevronRight } from 'react-icons/fa6';
 
 type Props = {
   applicationUrl: string | undefined;
@@ -31,11 +32,11 @@ const AboutBlueDotSection = ({
         {applicationUrl && (
           <CTALinkOrButton
             variant="primary"
-            withChevron
             url={applicationUrl}
             target="_blank"
           >
             {label}
+            <FaChevronRight aria-hidden className="size-4" />
           </CTALinkOrButton>
         )}
       </div>

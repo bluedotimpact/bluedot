@@ -16,7 +16,7 @@ const HomePage = () => {
         count is {count}
       </CTALinkOrButton>
       <P>You can test logging in below</P>
-      <CTALinkOrButton url="/authed" withChevron>View page requiring auth</CTALinkOrButton>
+      <CTALinkOrButton url="/authed">View page requiring auth</CTALinkOrButton>
     </div>
   );
 };

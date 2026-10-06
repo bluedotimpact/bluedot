@@ -4,7 +4,9 @@ import {
   H3,
   Section,
 } from '@bluedot/ui';
-import { FaLaptop, FaRegCalendar, FaUserGroup } from 'react-icons/fa6';
+import {
+  FaChevronRight, FaLaptop, FaRegCalendar, FaUserGroup,
+} from 'react-icons/fa6';
 import TestimonialSubSection, { type Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import MarketingHero from '../MarketingHero';
@@ -15,8 +17,9 @@ const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string })
   return (
     <div className="ai-safety-ops-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
       <H3 className="ai-safety-ops-lander__banner-title">{title}</H3>
-      <CTALinkOrButton className="ai-safety-ops-lander__banner-cta" url={ctaUrl} withChevron>
+      <CTALinkOrButton className="ai-safety-ops-lander__banner-cta" url={ctaUrl}>
         Apply now
+        <FaChevronRight aria-hidden className="size-4" />
       </CTALinkOrButton>
     </div>
   );
@@ -58,7 +61,7 @@ const AiSafetyOpsLander = () => {
               <FaLaptop aria-hidden="true" /> Online
             </div>
           </div>
-          <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
+          <CTALinkOrButton url={applicationUrl}>Apply now <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
         </div>
       </Section>
 

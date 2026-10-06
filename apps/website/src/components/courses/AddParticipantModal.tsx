@@ -1,4 +1,6 @@
-import { Input, Modal, ProgressDots } from '@bluedot/ui';
+import {
+  CTALinkOrButton, Input, Modal, ProgressDots,
+} from '@bluedot/ui';
 import { useRef, useState } from 'react';
 import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
@@ -76,26 +78,18 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
               key={person.id}
               name={person.name}
               rightHandNode={(
-                <button
-                  type="button"
-                  onClick={() => onAdd(person)}
-                  className="bg-bluedot-normal text-white h-8 px-3 rounded-md text-size-xs font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-                >
+                <CTALinkOrButton size="small" onClick={() => onAdd(person)}>
                   Add
-                </button>
+                </CTALinkOrButton>
               )}
             />
           ))}
         </div>
 
         <div className="flex justify-end pt-4 border-t border-gray-200 pb-4 sm:pb-0">
-          <button
-            type="button"
-            onClick={onClose}
-            className="bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-          >
+          <CTALinkOrButton variant="outline-black" onClick={onClose}>
             Cancel
-          </button>
+          </CTALinkOrButton>
         </div>
       </div>
     </Modal>

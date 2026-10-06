@@ -4,6 +4,7 @@ import {
   H2, H3, P, A, CTALinkOrButton, ProgressDots, ClickTarget, Textarea,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { CodeRenderer } from '../components/CodeRenderer';
 import { type SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
 import { ShareSavedDemoButton } from '../components/ShareSavedDemoButton';
@@ -124,7 +125,10 @@ const DemoPage: React.FC = () => {
             <CTALinkOrButton variant="secondary" onClick={() => {
               setView('prompt');
               setUserPrompt('');
-            }} withBackChevron>Start over</CTALinkOrButton>
+            }}
+            >
+              <FaChevronLeft aria-hidden className="size-4" /> Start over
+            </CTALinkOrButton>
           </div>
         </div>
       </main>
@@ -145,7 +149,7 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />
       <div className="flex gap-2 w-fit relative bottom-16 mt-1 -mb-12">
-        <CTALinkOrButton url={courseLink} withChevron>Start learning <span className="hidden md:inline">(and try this yourself)</span></CTALinkOrButton>
+        <CTALinkOrButton url={courseLink}>Start learning <span className="hidden md:inline">(and try this yourself)</span> <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
       </div>
     </div>
   );

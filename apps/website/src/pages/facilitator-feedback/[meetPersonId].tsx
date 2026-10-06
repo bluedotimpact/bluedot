@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
-  Callout, ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
+  Callout, CTALinkOrButton, ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -309,14 +309,10 @@ const FacilitatorFeedbackPage = () => {
             </div>
           )}
 
-          <button
-            type="button"
-            onClick={() => setIsAddModalOpen(true)}
-            className="self-start flex items-center gap-2 bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-          >
+          <CTALinkOrButton variant="outline-black" onClick={() => setIsAddModalOpen(true)}>
             <span aria-hidden>+</span>
             Add a participant
-          </button>
+          </CTALinkOrButton>
         </section>
 
         {/* Submit section */}
@@ -343,10 +339,10 @@ const FacilitatorFeedbackPage = () => {
             </>
           ) : (
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <button
-                type="button"
-                className="w-full sm:w-auto bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-                disabled={submitFeedback.isPending || overallRating === 0 || !mostValuable.trim() || !difficulties.trim()}
+              <CTALinkOrButton
+                className="w-full sm:w-auto"
+                loading={submitFeedback.isPending}
+                disabled={overallRating === 0 || !mostValuable.trim() || !difficulties.trim()}
                 onClick={() => {
                   if (completedCount < totalCount) {
                     setShowIncompleteWarning(true);
@@ -362,7 +358,7 @@ const FacilitatorFeedbackPage = () => {
                 }}
               >
                 {submitFeedback.isPending ? 'Saving...' : submitIdleLabel}
-              </button>
+              </CTALinkOrButton>
               <p className="text-size-xs text-bluedot-navy/60">
                 <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{totalCount}</span> participant feedback completed
               </p>

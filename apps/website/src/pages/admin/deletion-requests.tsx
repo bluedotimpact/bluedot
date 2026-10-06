@@ -53,8 +53,8 @@ const AdminDeletionRequests = withAdminGuard(() => {
           {selectedUser && (
             <CTALinkOrButton
               variant="secondary"
+              tone="destructive"
               onClick={() => setIsConfirmDeleteModalOpen(true)}
-              className="self-start whitespace-nowrap border-red-600 text-red-600 hover:bg-red-50"
             >
               Delete account (confirm modal opens)
             </CTALinkOrButton>

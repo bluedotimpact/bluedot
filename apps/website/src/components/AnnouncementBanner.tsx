@@ -5,6 +5,7 @@ import {
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useId } from 'react';
+import { FaChevronRight } from 'react-icons/fa6';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 
 /**
@@ -113,8 +114,9 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
           {(!!ctaUrl || dismissible) && (
             <div className="flex flex-wrap items-center gap-2">
               {ctaUrl && (
-                <CTALinkOrButton size="small" variant="primary" url={ctaUrl} withChevron>
+                <CTALinkOrButton size="small" variant="primary" url={ctaUrl}>
                   {ctaText}
+                  <FaChevronRight aria-hidden className="size-4" />
                 </CTALinkOrButton>
               )}
               {dismissible && (

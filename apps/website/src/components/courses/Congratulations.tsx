@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import type React from 'react';
 import { useState } from 'react';
 import {
+  FaChevronRight,
   FaCircleMinus,
   FaLink, FaLinkedinIn,
   FaRegCopy,
@@ -141,12 +142,6 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
   </div>
 );
 
-const primaryBtnClass
-  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-md px-4 py-3 text-size-xs font-semibold tracking-tighter hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
-
-const outlinedBtnClass
-  = 'flex items-center justify-center gap-2.5 bg-white border border-charcoal-mid/50 text-bluedot-navy rounded-md px-4 py-3 text-size-xs font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
-
 // --- Attendance ineligible card ---
 
 const AttendanceIneligibleCard = ({
@@ -262,14 +257,14 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
           certificateId={data.certificateId}
         />
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <a href={linkedInCertUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
-            <FaLinkedinIn className="size-4" />
+          <CTALinkOrButton url={linkedInCertUrl} target="_blank">
+            <FaLinkedinIn aria-hidden className="size-4" />
             Add certificate to LinkedIn
-          </a>
-          <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
-            <FaLink className="size-4" />
+          </CTALinkOrButton>
+          <CTALinkOrButton variant="outline-black" onClick={handleCopyLink}>
+            <FaLink aria-hidden className="size-4" />
             {copied ? 'Link copied!' : 'Copy link'}
-          </button>
+          </CTALinkOrButton>
         </div>
       </div>
     );
@@ -409,14 +404,14 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               preview={<PostPreviewPanel courseSlug={courseSlug} shareText={shareText} courseUrl={courseUrl} />}
               actions={
                 <>
-                  <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
-                    <FaLinkedinIn className="size-4" />
+                  <CTALinkOrButton url={linkedInUrl} target="_blank">
+                    <FaLinkedinIn aria-hidden className="size-4" />
                     Share on LinkedIn
-                  </a>
-                  <a href={xUrl} target="_blank" rel="noopener noreferrer" className={outlinedBtnClass}>
-                    <FaXTwitter className="size-4" />
+                  </CTALinkOrButton>
+                  <CTALinkOrButton variant="outline-black" url={xUrl} target="_blank">
+                    <FaXTwitter aria-hidden className="size-4" />
                     Share on X
-                  </a>
+                  </CTALinkOrButton>
                 </>
               }
             />
@@ -428,10 +423,10 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               }
               preview={<ChatPreviewPanel courseUrl={courseUrl} shareText={dmText} />}
               actions={
-                <button type="button" onClick={handleCopyShare} className={primaryBtnClass}>
-                  <FaRegCopy className="size-4" />
+                <CTALinkOrButton onClick={handleCopyShare}>
+                  <FaRegCopy aria-hidden className="size-4" />
                   {copied ? 'Copied!' : 'Copy Message'}
-                </button>
+                </CTALinkOrButton>
               }
             />
           </div>
@@ -448,8 +443,9 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               every month.
             </P>
           </div>
-          <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
+          <CTALinkOrButton url="/courses/agi-strategy" variant="primary">
             Apply now
+            <FaChevronRight aria-hidden className="size-4" />
           </CTALinkOrButton>
         </div>
       )}

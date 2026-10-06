@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useReducer, useRef, useState,
 } from 'react';
 import useAxios from 'axios-hooks';
-import { H1, ProgressDots } from '@bluedot/ui';
+import { CTALinkOrButton, H1, ProgressDots } from '@bluedot/ui';
 import { FaXmark } from 'react-icons/fa6';
 import {
   type Application, type RatedApplication, type RatingValue, type Direction, type QueueFilters, toHumanOpinion, toDecision,
@@ -565,25 +565,25 @@ const SpeedReviewPage = () => {
           </p>
           <p role="alert" className="text-size-xs text-secondary break-words">{saveError}</p>
           <div className="flex gap-3 pt-2">
-            <button
-              type="button"
+            <CTALinkOrButton
+              variant="outline-black"
               onClick={() => {
                 if (failedRating.current) void handleRate(failedRating.current);
                 else if (failedUndoMove.current) void handleUndoMove();
               }}
-              className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm border border-strong text-primary hover:bg-tint transition-colors"
+              className="flex-1"
             >
               Retry save
-            </button>
-            <button
-              type="button"
+            </CTALinkOrButton>
+            <CTALinkOrButton
+              variant="secondary"
               onClick={() => {
                 setSaveError(null);
               }}
-              className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm bg-error-bg border border-error-border text-error-fg"
+              className="flex-1"
             >
               Return to application
-            </button>
+            </CTALinkOrButton>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import type React from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 import { Dots } from './ProgressDots';
 import { cn } from './utils';
@@ -12,8 +11,6 @@ export type CTALinkOrButtonProps = {
   // Semantic colour for primary/secondary; the other variants ignore it
   tone?: CTALinkOrButtonTone;
   size?: 'small' | 'medium' | 'large';
-  withChevron?: boolean;
-  withBackChevron?: boolean;
   // Leading dots + blocks activation without taking focus away. The label stays as passed; swap it yourself if the copy should change.
   // `loading` is the only way to set aria-busy, so the two cannot disagree
   loading?: boolean;
@@ -61,8 +58,6 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   variant = 'primary',
   tone,
   size = 'medium',
-  withChevron = false,
-  withBackChevron = false,
   loading = false,
   children,
   ...rest
@@ -81,9 +76,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
       {...rest}
     >
       {loading && <Dots />}
-      {withBackChevron && <FaChevronLeft aria-hidden className="size-4" />}
       {children}
-      {withChevron && <FaChevronRight aria-hidden className="size-4" />}
     </ClickTarget>
   );
 };

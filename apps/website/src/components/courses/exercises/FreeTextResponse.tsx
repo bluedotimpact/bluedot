@@ -5,7 +5,7 @@ import {
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
-import { FaRotateLeft } from 'react-icons/fa6';
+import { FaChevronRight, FaRotateLeft } from 'react-icons/fa6';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 import RichTextAutoSaveEditor from './RichTextAutoSaveEditor';
 
@@ -68,36 +68,31 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           <CTALinkOrButton
             variant="primary"
             url={getLoginUrl(router.asPath, true)}
-            withChevron
             className="!w-auto !whitespace-normal text-center min-w-0"
           >
             Create a free account to save your answers
+            <FaChevronRight aria-hidden className="size-4 shrink-0" />
           </CTALinkOrButton>
         </div>
       )}
 
       {/* "Complete" button */}
       {showCompleteButton && (
-        <div>
+        // Keep focus in the editor so the pending autosave fires before the completion toggle
+        <div onMouseDown={(e) => e.preventDefault()}>
           {!isCompleted ? (
-            <button
-              type="button"
+            <CTALinkOrButton
+              size="small"
               onClick={handleMarkComplete}
-              onMouseDown={(e) => e.preventDefault()}
               disabled={isDisabled}
-              className={cn(
-                'flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-size-xs leading-normal transition-all duration-200 bg-bluedot-normal text-white cursor-pointer',
-                isDisabled && 'opacity-60 cursor-not-allowed',
-              )}
               aria-label="Mark exercise as complete"
             >
               Complete
-            </button>
+            </CTALinkOrButton>
           ) : (
             <button
               type="button"
               onClick={handleMarkIncomplete}
-              onMouseDown={(e) => e.preventDefault()}
               className="flex items-center gap-2 h-[30px] transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
               aria-label="Mark exercise as incomplete"
             >

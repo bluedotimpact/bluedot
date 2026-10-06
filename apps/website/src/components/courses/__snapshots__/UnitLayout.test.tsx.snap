@@ -908,7 +908,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     Shortcuts
                   </button>
                   <button
-                    class="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
+                    class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark"
                     type="button"
                   >
                     Submit feedback

@@ -1,5 +1,5 @@
 import {
-  Avatar, Callout, Checkbox, ErrorSection, Modal, ModalTitle, Textarea,
+  Avatar, Callout, Checkbox, CTALinkOrButton, ErrorSection, Modal, ModalTitle, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
@@ -175,22 +175,16 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
           <p className="text-size-xxs text-bluedot-navy/50">Changes save when you click "Done"</p>
           <div className="flex gap-2.5">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={savePeerFeedback.isPending}
-              className="bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-            >
+            <CTALinkOrButton variant="outline-black" onClick={onClose} disabled={savePeerFeedback.isPending}>
               Cancel
-            </button>
-            <button
-              type="button"
-              className="bg-bluedot-normal text-white px-6 py-2.5 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            </CTALinkOrButton>
+            <CTALinkOrButton
               onClick={handleSave}
-              disabled={showUpRating === null || engageRating === null || !hasFollowUp || savePeerFeedback.isPending}
+              loading={savePeerFeedback.isPending}
+              disabled={showUpRating === null || engageRating === null || !hasFollowUp}
             >
               Done
-            </button>
+            </CTALinkOrButton>
           </div>
         </div>
       </>
