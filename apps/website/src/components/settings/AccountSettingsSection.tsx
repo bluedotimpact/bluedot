@@ -49,7 +49,7 @@ const AccountSettingsSection = () => {
           </CTALinkOrButton>
           <CTALinkOrButton
             variant="secondary"
-            className="border-red-600 text-red-600 hover:bg-red-50"
+            tone="destructive"
             onClick={() => setShowDeleteAccountModal(true)}
             aria-label="Delete account"
           >

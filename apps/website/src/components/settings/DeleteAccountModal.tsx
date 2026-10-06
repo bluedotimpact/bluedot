@@ -168,8 +168,8 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
           </CTALinkOrButton>
           <CTALinkOrButton
             variant="primary"
+            tone="destructive"
             type="submit"
-            className="bg-red-600 hover:bg-red-700"
             disabled={requestDeletion.isPending || !confirmed || blockedAsFacilitator || alreadyRequested || eligibility.isLoading}
             aria-label={submitLabel}
           >
