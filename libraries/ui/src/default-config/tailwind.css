@@ -163,6 +163,10 @@
     --breakpoint-bd-md: 680px;
 }
 
+/* A dark surface (navy hero, transparent nav, footer) sets `data-on-dark` once; components inside
+ * switch to their on-dark recipe via `on-dark:` instead of threading a prop through every level. */
+@custom-variant on-dark (&:where([data-on-dark], [data-on-dark] *));
+
 @layer base {
     *,
     ::after,
