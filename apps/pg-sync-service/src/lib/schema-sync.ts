@@ -62,8 +62,7 @@ export function statementsRequireFullSync(statements: string[]): boolean {
   // SET DEFAULT / DROP DEFAULT statements are filtered out: drizzle-kit emits
   // them non-idempotently (e.g. for `gen_random_uuid()::text` defaults).
   // Index DDL is filtered out because it never changes stored data.
-  return statements.some((statement) => !/\s(SET|DROP)\sDEFAULT\b/i.test(statement)
-    && !/^\s*(CREATE\s+(UNIQUE\s+)?INDEX|DROP\s+INDEX)\b/i.test(statement));
+  return statements.some((statement) => !/\s(SET|DROP)\sDEFAULT\b|^\s*(CREATE\s+(UNIQUE\s+)?INDEX|DROP\s+INDEX)\b/i.test(statement));
 }
 
 /**
