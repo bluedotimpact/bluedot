@@ -29,11 +29,11 @@ const SIZE_STYLES = {
 } as const;
 
 const VARIANT_STYLES: Record<CTALinkOrButtonVariant, string> = {
-  primary: 'bg-accent text-on-dark hover:bg-accent-hover hover:text-on-dark on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover on-dark:hover:text-bluedot-darker',
-  secondary: 'border border-accent text-accent hover:bg-accent-subtle hover:text-accent on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover on-dark:hover:text-on-dark',
+  primary: 'bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover',
+  secondary: 'border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover',
   ghost: 'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
-  black: 'bg-dark text-on-dark hover:bg-bluedot-black hover:text-on-dark',
-  'outline-black': 'border border-strong font-medium text-primary hover:bg-tint hover:text-primary',
+  black: 'bg-dark text-on-dark hover:bg-bluedot-black',
+  'outline-black': 'border border-strong font-medium text-primary hover:bg-tint',
   unstyled: '', // No colour/hover styles: fully controlled by className/style
 };
 
@@ -45,9 +45,9 @@ const TONE_STYLES: Record<'primary' | 'secondary', Record<CTALinkOrButtonTone, s
     warning: 'bg-warning-fg hover:bg-warning-fg-hover',
   },
   secondary: {
-    destructive: 'border-error-fg text-error-fg hover:bg-error-bg hover:text-error-fg',
-    success: 'border-success-fg text-success-fg hover:bg-success-bg hover:text-success-fg',
-    warning: 'border-warning-fg text-warning-fg hover:bg-warning-bg hover:text-warning-fg',
+    destructive: 'border-error-fg text-error-fg hover:bg-error-bg',
+    success: 'border-success-fg text-success-fg hover:bg-success-bg',
+    warning: 'border-warning-fg text-warning-fg hover:bg-warning-bg',
   },
 };
 
