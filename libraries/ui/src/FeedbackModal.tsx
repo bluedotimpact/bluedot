@@ -333,14 +333,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                         <FaCheck className="size-3.5 shrink-0" />
                         <span className="text-size-xs">Recording saved</span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={onRecordScreen}
-                        className="border-bluedot-normal text-bluedot-normal flex h-9 cursor-pointer items-center gap-2.5 rounded-md border px-3 text-size-xs font-medium"
-                      >
-                        <FaVideo className="size-4 shrink-0" />
+                      <CTALinkOrButton variant="secondary" size="small" onClick={onRecordScreen}>
+                        <FaVideo aria-hidden className="size-4 shrink-0" />
                         Re-record
-                      </button>
+                      </CTALinkOrButton>
                     </div>
                     <input
                       type="url"
@@ -351,14 +347,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                     />
                   </div>
                 ) : (
-                  <button
-                    type="button"
-                    onClick={onRecordScreen}
-                    className="bg-bluedot-normal flex h-9 cursor-pointer items-center gap-2.5 self-start rounded-md px-3 text-size-xs font-medium text-white"
-                  >
-                    <FaVideo className="size-4 shrink-0" />
+                  <CTALinkOrButton size="small" onClick={onRecordScreen}>
+                    <FaVideo aria-hidden className="size-4 shrink-0" />
                     Record my screen
-                  </button>
+                  </CTALinkOrButton>
                 )}
               </div>
             )}
