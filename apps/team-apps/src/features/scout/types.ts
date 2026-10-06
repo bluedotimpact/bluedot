@@ -32,6 +32,9 @@ export type Registration = {
   droppedOut: boolean;
   applicationId?: string;
   isCurrent: boolean;
+  // Sessions attended out of those expected, as Course runner counts them
+  attended?: number;
+  expected?: number;
   // The application behind a past registration, so a lead can read what they said back then
   application?: Application;
 };

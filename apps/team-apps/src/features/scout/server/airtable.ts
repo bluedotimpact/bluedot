@@ -78,6 +78,8 @@ const REG = {
   sendInviteEmail: 'flddylvIrOk9DunGQ',
   expectedDiscussions: 'fldPsZbe9s5jtkQRn',
   attendedDiscussions: 'fldTEkxGZQxTqHhdX',
+  numAttended: 'fldObmJR3eMFoSIfF',
+  numExpected: 'fldPq8IHeoXBkD8nE',
 } as const;
 
 // Course runner › Group discussion: one row per session a group holds
@@ -651,7 +653,7 @@ const toApplication = (r: AirtableRecord): Application => {
   };
 };
 
-const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut, REG.applicationId];
+const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut, REG.applicationId, REG.numAttended, REG.numExpected];
 
 const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   id: r.id,
@@ -737,6 +739,8 @@ const fetchHistory = async (email: string, currentId: string, rounds: Map<string
         droppedOut: !!r.fields[REG.droppedOut],
         applicationId: str(r.fields[REG.applicationId])?.trim(),
         isCurrent: r.id === currentId,
+        attended: num(r.fields[REG.numAttended]),
+        expected: num(r.fields[REG.numExpected]),
       };
     })
     .sort((a, b) => (a.roundStart ?? '').localeCompare(b.roundStart ?? ''));

@@ -442,9 +442,12 @@ const DecisionLine: React.FC<{ by?: string; on?: string; projectUrl?: string }> 
   ) : null
 );
 
-const CourseDetail: React.FC<{ course: string; roundName: string }> = ({ course, roundName }) => {
+const CourseDetail: React.FC<{ course: string; roundName: string; attended?: number; expected?: number }> = ({
+  course, roundName, attended, expected,
+}) => {
   const intensity = intensityOf(roundName);
-  return <>{course}{intensity && ` · ${intensity}`}</>;
+  const sessions = attended !== undefined && expected !== undefined ? ` · ${attended}/${expected}` : '';
+  return <>{course}{intensity && ` · ${intensity}`}{sessions && <span title="Sessions attended out of those expected">{sessions}</span>}</>;
 };
 
 // What the applicant wrote and what the speed review made of it. In the Application section
@@ -491,7 +494,7 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
   <TimelineRow
     when={monthYear(r.roundStart)}
     kind={r.facilitated ? 'Facilitator' : 'Participant'}
-    detail={<CourseDetail course={r.course} roundName={r.roundName} />}
+    detail={<CourseDetail course={r.course} roundName={r.roundName} attended={r.attended} expected={r.expected} />}
     opinion={r.opinion}
     status={courseStatus(r)}
     url={r.recordUrl}
@@ -668,6 +671,10 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
     .filter((u): u is string => !!u)
     .map((u) => [normalise(u), u] as const)).values()];
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
+  // Profiles the lookup found with high confidence, next to the ones the person gave us. LinkedIn
+  // is never added here (unreadable, and usually the one they gave).
+  const givenSet = new Set(profileLinks.map(normalise));
+  const foundLinks = sortedFoundLinks((person.webFacts?.links ?? []).filter((l) => l.confidence === 'high' && l.kind !== 'linkedin' && !givenSet.has(normalise(l.url))));
   // Everything with BlueDot as one list, newest first: registrations by round start,
   // applications, grants and calls by their own dates. Undated items go last.
   const timeline = [
@@ -694,10 +701,13 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         </div>
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
         {/* Line 1: where they are online. Line 2: our own records about them. */}
-        {profileLinks.length > 0 && (
+        {(profileLinks.length > 0 || foundLinks.length > 0) && (
           <div className="flex flex-wrap gap-2 pt-1">
             {profileLinks.map((u) => (
               <Button key={u} variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</Button>
+            ))}
+            {foundLinks.map((l) => (
+              <Button key={l.url} variant="outline-black" url={openUrl(l.url)} target="_blank"><AiMark />{foundLinkLabel(l)} ↗</Button>
             ))}
           </div>
         )}
