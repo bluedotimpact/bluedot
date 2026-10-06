@@ -112,7 +112,9 @@ const EventsPage = () => {
               )}
               {visibleCount < filteredEvents.length && (
                 <div className="mt-8 flex justify-center">
-                  <button type="button" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)} className="rounded-lg border border-bluedot-navy/20 bg-white px-6 py-3 text-size-sm font-medium hover:border-bluedot-normal">Show more events ({filteredEvents.length - visibleCount} remaining)</button>
+                  <CTALinkOrButton variant="outline-black" size="large" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}>
+                    Show more events ({filteredEvents.length - visibleCount} remaining)
+                  </CTALinkOrButton>
                 </div>
               )}
             </>

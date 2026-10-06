@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { CTALinkOrButton } from '@bluedot/ui';
 import { authFetch } from '../lib/client/api';
 import { pickMoveTargets } from '../lib/client/moveTargets';
 import { type MoveTargetCourse, courseOfRoundName } from '../lib/client/courseMoves';
@@ -90,14 +91,16 @@ export const MoveCourseControl: React.FC<MoveCourseControlProps> = ({
             <option key={r.id} value={r.id}>{r.name}</option>
           ))}
         </select>
-        <button
-          type="button"
-          disabled={!allowed || !selectedRoundId || status === 'loading' || pendingWrites > 0}
+        <CTALinkOrButton
+          variant="secondary"
+          tone="warning"
+          disabled={!allowed || !selectedRoundId || pendingWrites > 0}
+          loading={status === 'loading'}
           onClick={handleMove}
-          className="shrink-0 min-h-11 px-4 py-2 rounded-lg text-size-sm font-semibold border border-warning-border text-warning-fg bg-warning-bg disabled:opacity-40 disabled:cursor-not-allowed"
+          className="shrink-0"
         >
           {status === 'loading' ? 'Moving…' : `Move to ${targetCourse}`}
-        </button>
+        </CTALinkOrButton>
       </div>
 
       {error && (

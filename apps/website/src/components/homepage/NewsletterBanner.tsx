@@ -1,5 +1,5 @@
 import React from 'react';
-import { Eyebrow, H3 } from '@bluedot/ui';
+import { CTALinkOrButton, Eyebrow, H3 } from '@bluedot/ui';
 import { getCioAnalytics } from '../analytics/CustomerioAnalytics';
 
 const NewsletterBanner = () => {
@@ -121,13 +121,14 @@ const NewsletterBanner = () => {
               }}
             />
 
-            <button
+            <CTALinkOrButton
               type="submit"
-              disabled={isSubmitting}
-              className="w-full lg:w-auto h-11 px-[17px] flex items-center justify-center rounded-md text-size-sm leading-tight tracking-wide text-white bg-white/15 border border-white/15 backdrop-blur-[2px] hover:bg-white/20 hover:border-white/20 disabled:hover:bg-white/15 disabled:hover:border-white/15 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="secondary"
+              loading={isSubmitting}
+              className="w-full lg:w-auto"
             >
               {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-            </button>
+            </CTALinkOrButton>
           </form>
 
           {/* Success Message */}

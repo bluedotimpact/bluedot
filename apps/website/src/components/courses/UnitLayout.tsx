@@ -255,13 +255,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <hr className="mt-12 mb-4" />
               <div className="flex items-center justify-between">
                 <KeyboardNavMenu />
-                <button
-                  type="button"
-                  onClick={() => openFeedback()}
-                  className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
-                >
+                <CTALinkOrButton variant="ghost" size="small" onClick={() => openFeedback()}>
                   Submit feedback
-                </button>
+                </CTALinkOrButton>
               </div>
             </div>
           )}

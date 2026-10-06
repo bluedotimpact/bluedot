@@ -2,7 +2,6 @@ import {
   Breadcrumbs,
   type BluedotRoute,
   CTALinkOrButton,
-  ClickTarget,
   Footer,
   H1,
   P,
@@ -63,29 +62,28 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
   const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
   const xUrl = `https://x.com/intent/post?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
 
-  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-md flex items-center justify-center gap-2 font-medium text-size-xs leading-relaxed transition-opacity hover:opacity-90';
-
   return (
     <div className="flex flex-col sm:flex-row gap-2 justify-center">
-      <ClickTarget
+      <CTALinkOrButton
         url={linkedInUrl}
         target="_blank"
-        className={clsx(baseButtonClasses, 'bg-bluedot-normal text-white w-full sm:w-auto')}
+        className="w-full sm:w-auto"
         aria-label="Share on LinkedIn"
       >
-        <FaLinkedin size={16} />
+        <FaLinkedin aria-hidden size={16} />
         <span>Share on LinkedIn</span>
-      </ClickTarget>
+      </CTALinkOrButton>
 
-      <ClickTarget
+      <CTALinkOrButton
         url={xUrl}
         target="_blank"
-        className={clsx(baseButtonClasses, 'bg-bluedot-navy/5 text-bluedot-navy w-full sm:w-auto')}
+        variant="outline-black"
+        className="w-full sm:w-auto"
         aria-label="Share on X"
       >
-        <FaXTwitter size={16} />
+        <FaXTwitter aria-hidden size={16} />
         <span>Share on X</span>
-      </ClickTarget>
+      </CTALinkOrButton>
     </div>
   );
 };
