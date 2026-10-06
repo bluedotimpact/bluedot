@@ -4,8 +4,13 @@ import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 import { Dots } from './ProgressDots';
 import { cn } from './utils';
 
+export type CTALinkOrButtonVariant = 'primary' | 'secondary' | 'ghost' | 'black' | 'outline-black' | 'unstyled';
+export type CTALinkOrButtonTone = 'destructive' | 'success' | 'warning';
+
 export type CTALinkOrButtonProps = {
-  variant?: 'primary' | 'secondary' | 'black' | 'outline-black' | 'ghost' | 'unstyled';
+  variant?: CTALinkOrButtonVariant;
+  // Semantic colour for primary/secondary; the other variants ignore it
+  tone?: CTALinkOrButtonTone;
   size?: 'small' | 'medium' | 'large';
   withChevron?: boolean;
   withBackChevron?: boolean;
@@ -37,6 +42,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   className,
   style,
   variant = 'primary',
+  tone,
   size = 'medium',
   withChevron = false,
   withBackChevron = false,
