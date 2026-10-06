@@ -96,6 +96,24 @@ test('runLookup collects seen URLs from tool results only, counts the calls, and
   expect(facts.meta.pages_fetched).toBe(2);
 });
 
+test('runLookup asks the model to repair a reply that is not valid JSON, without tools, and fails if it is still broken', async () => {
+  const steps = [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant' }] }] }];
+  const broken = JSON.stringify(modelJson).replace('"confident":true', '"confident":true,');
+  generateText
+    .mockResolvedValueOnce({ text: broken, steps })
+    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [] });
+  const facts = await runLookup(anchors);
+  expect(facts.identity.confident).toBe(true);
+  expect(generateText).toHaveBeenCalledTimes(2);
+  expect(generateText.mock.calls[1]![0].tools).toBeUndefined();
+  expect(generateText.mock.calls[1]![0].prompt).toBe(broken);
+
+  generateText.mockReset();
+  generateText.mockResolvedValue({ text: broken, steps });
+  await expect(runLookup(anchors)).rejects.toThrow();
+  expect(generateText).toHaveBeenCalledTimes(2);
+});
+
 test('lookUpPeople writes each success, alerts on a failure, and carries on with the next person', async () => {
   generateText
     .mockRejectedValueOnce(new Error('model unavailable'))
