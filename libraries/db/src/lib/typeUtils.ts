@@ -1,7 +1,7 @@
 import { type ColumnBuilderRuntimeConfig } from 'drizzle-orm';
-import { type BuildColumns } from 'drizzle-orm/column-builder';
+import { type BuildColumns, type BuildExtraConfigColumns } from 'drizzle-orm/column-builder';
 import {
-  type numeric, type boolean as pgBoolean, type PgTableWithColumns, type text,
+  type numeric, type boolean as pgBoolean, type IndexBuilder, type PgColumnBuilderBase, type PgTableWithColumns, type text,
 } from 'drizzle-orm/pg-core';
 
 // BEGIN vendored from airtable-ts/src/mapping/typeUtils.ts
@@ -50,6 +50,18 @@ export type DeprecatedPgAirtableColumnInput = {
   deprecated: true;
 };
 
+/**
+ * Same shape as the third argument to drizzle's `pgTable`, narrowed to indexes.
+ * Indexes are pushed to Postgres by pg-sync-service alongside columns, and any
+ * index not declared here is dropped on the next push.
+ */
+export type PgIndexesConfig<TColumnsMap extends Record<string, PgColumnBuilderBase>> =
+  (self: BuildExtraConfigColumns<string, TColumnsMap, 'pg'>) => IndexBuilder[];
+
+export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
+  [K in keyof T]: T[K]['pgColumn'];
+};
+
 export type PgAirtableConfig<
   TColumns extends Record<string, PgAirtableColumnInput>,
 > = {
@@ -57,10 +69,7 @@ export type PgAirtableConfig<
   tableId: string;
   columns: TColumns;
   deprecatedColumns?: Record<string, DeprecatedPgAirtableColumnInput>;
-};
-
-export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
-  [K in keyof T]: T[K]['pgColumn'];
+  indexes?: PgIndexesConfig<ExtractPgColumns<TColumns> & { id: ReturnType<ReturnType<typeof text>['primaryKey']> }>;
 };
 
 export type AirtableItemFromColumnsMap<
