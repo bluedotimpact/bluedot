@@ -115,8 +115,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     || !selectedGroupId
     || (isSingleUnitChange && !selectedDiscussionId)
     || (!selectedDate && !selectedDiscussionDateTime)
-    || (!selectedTime && !selectedDiscussionDateTime)
-    || updateDiscussionTimeMutation.isPending;
+    || (!selectedTime && !selectedDiscussionDateTime);
 
   const handleSubmit = () => {
     if (!switchType || !selectedGroupId) {
@@ -147,7 +146,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   // Change facilitator mode
-  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId || changeFacilitatorMutation.isPending;
+  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId;
 
   const handleFacilitatorChangeSubmit = () => {
     if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) {
