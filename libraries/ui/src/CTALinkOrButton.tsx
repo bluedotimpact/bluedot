@@ -29,9 +29,12 @@ const SIZE_STYLES = {
 } as const;
 
 const VARIANT_STYLES: Record<CTALinkOrButtonVariant, string> = {
-  primary: 'bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover',
-  secondary: 'border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover',
-  ghost: 'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
+  primary:
+    'bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover',
+  secondary:
+    'border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover',
+  ghost:
+    'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
   black: 'bg-dark text-on-dark hover:bg-bluedot-black',
   'outline-black': 'border border-strong font-medium text-primary hover:bg-tint',
   unstyled: '', // No colour/hover styles: fully controlled by className/style
@@ -65,7 +68,13 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
 }) => {
   return (
     <ClickTarget
-      className={cn(BASE_STYLES, SIZE_STYLES[size], VARIANT_STYLES[variant], tone && TONE_STYLES[variant]?.[tone], className)}
+      className={cn(
+        BASE_STYLES,
+        SIZE_STYLES[size],
+        VARIANT_STYLES[variant],
+        tone && TONE_STYLES[variant]?.[tone],
+        className,
+      )}
       style={style}
       aria-busy={loading || undefined}
       {...rest}
