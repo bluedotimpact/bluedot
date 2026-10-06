@@ -113,7 +113,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
               class="flex flex-col bd-md:flex-row gap-3"
             >
               <a
-                class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 w-full bd-md:w-auto text-bluedot-navy hover:brightness-90"
+                class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 w-full bd-md:w-auto bg-accent-on-dark text-bluedot-navy hover:brightness-90"
                 href="https://example.com/apply"
                 style="background-color: #91cfff;"
                 tabindex="0"

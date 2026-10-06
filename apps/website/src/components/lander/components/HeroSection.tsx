@@ -43,6 +43,7 @@ const HeroSection = ({
   const useConstrainedImageLayout = hasGradient && !!imageAspectRatio;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const effectiveCategoryLabelColor = categoryLabelColor || accentColor;
+  // Gradient primary CTAs fall back to the on-dark fill when a lander sets no accentColor; the inline style wins otherwise
 
   const getLayoutType = () => {
     if (useConstrainedImageLayout) {
@@ -101,7 +102,7 @@ const HeroSection = ({
                   url={primaryCta.url}
                   variant="unstyled"
                   size="large"
-                  className="text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
+                  className="bg-accent-on-dark text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -146,7 +147,7 @@ const HeroSection = ({
                     url={primaryCta.url}
                     variant="unstyled"
                     size="large"
-                    className="text-bluedot-navy hover:brightness-90"
+                    className="bg-accent-on-dark text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -210,7 +211,7 @@ const HeroSection = ({
                     url={primaryCta.url}
                     variant="unstyled"
                     size="large"
-                    className="w-full bd-md:w-auto text-bluedot-navy hover:brightness-90"
+                    className="w-full bd-md:w-auto bg-accent-on-dark text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
