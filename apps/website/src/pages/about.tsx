@@ -28,7 +28,7 @@ const AboutPage = () => {
       <HistorySection />
       <TeamSection />
       <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center">
-        <CTALinkOrButton variant="primary" url={ROUTES.joinUs.url}>
+        <CTALinkOrButton url={ROUTES.joinUs.url}>
           Join our team
         </CTALinkOrButton>
       </div>
