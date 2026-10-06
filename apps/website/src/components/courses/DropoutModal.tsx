@@ -263,7 +263,6 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
 
       <CTALinkOrButton
         className="w-full"
-        tone={isDeferral ? undefined : 'destructive'}
         onClick={handleSubmit}
         loading={dropoutMutation.isPending}
         disabled={submitDisabled}
