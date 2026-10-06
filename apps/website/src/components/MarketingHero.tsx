@@ -20,7 +20,8 @@ const MarketingHero = ({ title, subtitle, cta }: MarketingHeroProps) => {
       />
       {/* Center the text between the nav's bottom border and the hero's bottom edge so the
           gaps above and below stay equal whether the title wraps to one line or two */}
-      <div className="relative z-10 flex flex-col justify-center h-full min-h-[317px] bd-md:min-h-[366px] pt-[calc(var(--nav-height-mobile)+2rem)] lg:pt-[calc(var(--nav-height-desktop)+2rem)] pb-8">
+      {/* data-on-dark sits below the Nav on purpose: the navbar owns its own on-dark treatment */}
+      <div data-on-dark className="relative z-10 flex flex-col justify-center h-full min-h-[317px] bd-md:min-h-[366px] pt-[calc(var(--nav-height-mobile)+2rem)] lg:pt-[calc(var(--nav-height-desktop)+2rem)] pb-8">
         <div className="section-base">
           <div className="flex flex-col gap-6 max-w-[780px]">
             <HeroH1 className="text-left">
