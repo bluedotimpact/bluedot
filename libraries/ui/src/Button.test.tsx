@@ -3,11 +3,11 @@ import {
   vi,
 } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 
-describe('CTALinkOrButton', () => {
+describe('Button', () => {
   test('renders a primary medium button by default', () => {
-    render(<CTALinkOrButton>Click me</CTALinkOrButton>);
+    render(<Button>Click me</Button>);
     const button = screen.getByRole('button');
     expect(button.tagName).toBe('BUTTON');
     expect(button.className).includes('bg-accent');
@@ -16,7 +16,7 @@ describe('CTALinkOrButton', () => {
   });
 
   test('renders as a link when url is provided, even with onClick', () => {
-    render(<CTALinkOrButton url="https://example.com" onClick={() => vi.fn()} variant="secondary">Click me</CTALinkOrButton>);
+    render(<Button url="https://example.com" onClick={() => vi.fn()} variant="secondary">Click me</Button>);
     const link = screen.getByRole('link');
     expect(link.tagName).toBe('A');
     expect(link.getAttribute('href')).toBe('https://example.com');
@@ -28,12 +28,12 @@ describe('CTALinkOrButton', () => {
     ['black', 'bg-dark'],
     ['outline-black', 'border-strong'],
   ] as const)('%s variant uses its token', (variant, token) => {
-    render(<CTALinkOrButton variant={variant}>Click me</CTALinkOrButton>);
+    render(<Button variant={variant}>Click me</Button>);
     expect(screen.getByRole('button').className).includes(token);
   });
 
   test('unstyled variant adds no colour classes', () => {
-    render(<CTALinkOrButton variant="unstyled">Click me</CTALinkOrButton>);
+    render(<Button variant="unstyled">Click me</Button>);
     const button = screen.getByRole('button');
     expect(button.className).not.toMatch(/\bbg-|\btext-(accent|on-dark|primary|secondary)|\bborder-/);
   });
@@ -43,7 +43,7 @@ describe('CTALinkOrButton', () => {
     ['medium', 'h-11'],
     ['large', 'h-[50px]'],
   ] as const)('%s size sets the height', (size, height) => {
-    render(<CTALinkOrButton size={size}>Click me</CTALinkOrButton>);
+    render(<Button size={size}>Click me</Button>);
     const button = screen.getByRole('button');
     expect(button.className).includes(height);
     expect(button.className).includes('text-size-xs');
@@ -52,7 +52,7 @@ describe('CTALinkOrButton', () => {
 
   describe('tone', () => {
     test('destructive primary swaps the fill', () => {
-      render(<CTALinkOrButton tone="destructive">Delete</CTALinkOrButton>);
+      render(<Button tone="destructive">Delete</Button>);
       const button = screen.getByRole('button');
       expect(button.className).includes('bg-error-fg');
       expect(button.className).not.includes('bg-accent ');
@@ -60,7 +60,7 @@ describe('CTALinkOrButton', () => {
     });
 
     test('success secondary swaps border and text, keeps the outline chrome', () => {
-      render(<CTALinkOrButton variant="secondary" tone="success">Keep</CTALinkOrButton>);
+      render(<Button variant="secondary" tone="success">Keep</Button>);
       const button = screen.getByRole('button');
       expect(button.className).includes('border-success-fg');
       expect(button.className).includes('text-success-fg');
@@ -69,14 +69,14 @@ describe('CTALinkOrButton', () => {
     });
 
     test('is ignored by variants without a tone recipe', () => {
-      render(<CTALinkOrButton variant="ghost" tone="warning">Hmm</CTALinkOrButton>);
+      render(<Button variant="ghost" tone="warning">Hmm</Button>);
       expect(screen.getByRole('button').className).not.includes('warning');
     });
   });
 
   describe('loading', () => {
     test('marks the button busy, shows dots and keeps the label', () => {
-      render(<CTALinkOrButton loading>Saving…</CTALinkOrButton>);
+      render(<Button loading>Saving…</Button>);
       const button = screen.getByRole('button');
       expect(button.getAttribute('aria-busy')).toBe('true');
       expect(button.hasAttribute('disabled')).toBe(false);
@@ -87,13 +87,13 @@ describe('CTALinkOrButton', () => {
 
     test('ignores activation while busy', () => {
       const onClick = vi.fn();
-      render(<CTALinkOrButton loading onClick={onClick}>Saving…</CTALinkOrButton>);
+      render(<Button loading onClick={onClick}>Saving…</Button>);
       fireEvent.click(screen.getByRole('button'));
       expect(onClick).not.toHaveBeenCalled();
     });
 
     test('dims like disabled while busy', () => {
-      render(<CTALinkOrButton loading>Saving…</CTALinkOrButton>);
+      render(<Button loading>Saving…</Button>);
       expect(screen.getByRole('button').className).includes('aria-busy:opacity-50');
     });
   });
@@ -103,9 +103,9 @@ describe('CTALinkOrButton', () => {
   // silently dropping `text-size-*` from the size config because `text-size-*`
   // wasn't registered as a font-size class group. The fix lives in `cn()`.
   test('keeps its font-size when caller adds a text colour class', () => {
-    render(<CTALinkOrButton variant="unstyled" size="large" className="text-bluedot-navy">
+    render(<Button variant="unstyled" size="large" className="text-bluedot-navy">
       Click me
-    </CTALinkOrButton>);
+    </Button>);
     const button = screen.getByRole('button');
     expect(button.className).includes('text-size-xs');
     expect(button.className).includes('text-bluedot-navy');

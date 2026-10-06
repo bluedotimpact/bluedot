@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
-import { CTALinkOrButton, type CTALinkOrButtonProps } from './CTALinkOrButton';
+import { Button, type ButtonProps } from './Button';
 
 const meta = {
-  title: 'ui/CTALinkOrButton',
-  component: CTALinkOrButton,
+  title: 'ui/Button',
+  component: Button,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -20,22 +20,22 @@ const meta = {
     variant: 'primary',
     size: 'medium',
   },
-} satisfies Meta<typeof CTALinkOrButton>;
+} satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const VARIANTS: NonNullable<CTALinkOrButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'black', 'outline-black'];
-const TONES: NonNullable<CTALinkOrButtonProps['tone']>[] = ['destructive', 'success', 'warning'];
+const VARIANTS: NonNullable<ButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'black', 'outline-black'];
+const TONES: NonNullable<ButtonProps['tone']>[] = ['destructive', 'success', 'warning'];
 
 // One row per variant: default · disabled · loading · with icon
-const StateRow = ({ variant, tone }: Pick<CTALinkOrButtonProps, 'variant' | 'tone'>) => (
+const StateRow = ({ variant, tone }: Pick<ButtonProps, 'variant' | 'tone'>) => (
   <div className="flex items-center gap-4">
     <span className="w-36 text-size-xs text-secondary on-dark:text-on-dark-secondary">{tone ? `${variant} · ${tone}` : variant}</span>
-    <CTALinkOrButton variant={variant} tone={tone}>Get started</CTALinkOrButton>
-    <CTALinkOrButton variant={variant} tone={tone} disabled>Get started</CTALinkOrButton>
-    <CTALinkOrButton variant={variant} tone={tone} loading>Getting started</CTALinkOrButton>
-    <CTALinkOrButton variant={variant} tone={tone}>Next <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
+    <Button variant={variant} tone={tone}>Get started</Button>
+    <Button variant={variant} tone={tone} disabled>Get started</Button>
+    <Button variant={variant} tone={tone} loading>Getting started</Button>
+    <Button variant={variant} tone={tone}>Next <FaChevronRight aria-hidden className="size-4" /></Button>
   </div>
 );
 
@@ -66,9 +66,9 @@ export const Tones: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="flex items-end gap-4">
-      <CTALinkOrButton size="small">Small · 36</CTALinkOrButton>
-      <CTALinkOrButton size="medium">Medium · 44</CTALinkOrButton>
-      <CTALinkOrButton size="large">Large · 50</CTALinkOrButton>
+      <Button size="small">Small · 36</Button>
+      <Button size="medium">Medium · 44</Button>
+      <Button size="large">Large · 50</Button>
     </div>
   ),
 };
@@ -85,8 +85,8 @@ export const Disabled: Story = {
 export const WithIcons: Story = {
   render: () => (
     <div className="flex gap-4">
-      <CTALinkOrButton variant="secondary"><FaChevronLeft aria-hidden className="size-4" /> Back</CTALinkOrButton>
-      <CTALinkOrButton>Next <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
+      <Button variant="secondary"><FaChevronLeft aria-hidden className="size-4" /> Back</Button>
+      <Button>Next <FaChevronRight aria-hidden className="size-4" /></Button>
     </div>
   ),
 };

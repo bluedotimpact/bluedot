@@ -3,13 +3,13 @@ import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 import { Dots } from './ProgressDots';
 import { cn } from './utils';
 
-export type CTALinkOrButtonVariant = 'primary' | 'secondary' | 'ghost' | 'black' | 'outline-black' | 'unstyled';
-export type CTALinkOrButtonTone = 'destructive' | 'success' | 'warning';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'black' | 'outline-black' | 'unstyled';
+export type ButtonTone = 'destructive' | 'success' | 'warning';
 
-export type CTALinkOrButtonProps = {
-  variant?: CTALinkOrButtonVariant;
+export type ButtonProps = {
+  variant?: ButtonVariant;
   // Semantic colour for primary/secondary; the other variants ignore it
-  tone?: CTALinkOrButtonTone;
+  tone?: ButtonTone;
   size?: 'small' | 'medium' | 'large';
   // Leading dots + blocks activation without taking focus away. The label stays as passed; swap it yourself if the copy should change.
   // `loading` is the only way to set aria-busy, so the two cannot disagree
@@ -26,7 +26,7 @@ const SIZE_STYLES = {
   large: 'h-[50px] px-5',
 } as const;
 
-const VARIANT_STYLES: Record<CTALinkOrButtonVariant, string> = {
+const VARIANT_STYLES: Record<ButtonVariant, string> = {
   primary:
     'bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover',
   secondary:
@@ -39,7 +39,7 @@ const VARIANT_STYLES: Record<CTALinkOrButtonVariant, string> = {
 };
 
 // Tone swaps the colour family; the primary/secondary chrome stays. Later classes win via cn()
-const TONE_STYLES: Partial<Record<CTALinkOrButtonVariant, Record<CTALinkOrButtonTone, string>>> = {
+const TONE_STYLES: Partial<Record<ButtonVariant, Record<ButtonTone, string>>> = {
   primary: {
     destructive: 'bg-error-fg hover:bg-error-fg-hover',
     success: 'bg-success-fg hover:bg-success-fg-hover',
@@ -52,7 +52,7 @@ const TONE_STYLES: Partial<Record<CTALinkOrButtonVariant, Record<CTALinkOrButton
   },
 };
 
-export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   className,
   style,
   variant = 'primary',
