@@ -14,7 +14,8 @@ const corefile = `.:53 {
     }
     autopath @kubernetes
     prometheus :9153
-    forward . 8.8.8.8 8.8.4.4 {
+    forward . 8.8.8.8 8.8.4.4 1.1.1.1 {
+      policy sequential
       max_concurrent 1000
     }
     cache 1800
@@ -31,4 +32,6 @@ new k8s.core.v1.ConfigMapPatch('coredns', {
     annotations: { 'pulumi.com/patchForce': 'true' },
   },
   data: { Corefile: corefile },
+// Deleting this patch would strip `Corefile` from the ConfigMap (and break cluster DNS), not restore
+// Vultr's. To roll back, change `forward` to `/etc/resolv.conf` and `pulumi up`; don't delete the resource.
 }, { provider, retainOnDelete: true });
