@@ -6,7 +6,7 @@ exports[`JoinUsCta > renders default as expected 1`] = `
     class="join-us-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center"
   >
     <a
-      class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none h-11 px-4 bg-accent text-on-dark hover:bg-accent-hover hover:text-on-dark on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover on-dark:hover:text-bluedot-darker join-us-cta__cta-button"
+      class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none h-11 px-4 bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover join-us-cta__cta-button"
       href="/join-us"
       tabindex="0"
     >
