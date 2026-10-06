@@ -697,7 +697,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         {profileLinks.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-1">
             {profileLinks.map((u) => (
-              <CTALinkOrButton key={u} size="small" className="min-h-11 text-size-xs" variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</CTALinkOrButton>
+              <CTALinkOrButton key={u} variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</CTALinkOrButton>
             ))}
           </div>
         )}

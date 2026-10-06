@@ -385,7 +385,7 @@ const Scout = () => {
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
             <div className="flex flex-wrap justify-end gap-2">
               {confirmation.decision === 'invite' ? (
-                <CTALinkOrButton className="min-h-11" variant="secondary" disabled={writing} onClick={() => {
+                <CTALinkOrButton variant="secondary" disabled={writing} onClick={() => {
                   setConfirmation(undefined);
                   setSaveError(undefined);
                 }}>Cancel</CTALinkOrButton>
@@ -396,7 +396,7 @@ const Scout = () => {
                 }}>Cancel</button>
               )}
               {confirmation.decision === 'invite' ? (
-                <CTALinkOrButton className="min-h-11" disabled={writing} onClick={() => {
+                <CTALinkOrButton disabled={writing} onClick={() => {
                   void confirm();
                 }}>{confirmLabel}</CTALinkOrButton>
               ) : (
