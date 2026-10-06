@@ -63,15 +63,11 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   children,
   ...rest
 }) => {
-  const chevronClassName = cn('cta-button__chevron-icon', size === 'large' ? 'size-3' : 'size-2');
+  const toneStyles = tone && (variant === 'primary' || variant === 'secondary') ? TONE_STYLES[variant][tone] : undefined;
+
   return (
     <ClickTarget
-      className={cn(
-        CTA_BASE_STYLES,
-        CTA_SIZE_STYLES[size],
-        CTA_VARIANT_STYLES[variant],
-        className,
-      )}
+      className={cn(BASE_STYLES, SIZE_STYLES[size], VARIANT_STYLES[variant], toneStyles, className)}
       style={style}
       aria-busy={loading || undefined}
       {...rest}
