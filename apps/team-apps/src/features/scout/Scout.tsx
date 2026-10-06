@@ -18,7 +18,7 @@ import {
 } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
-  Decision, InvitedThisWeek, Person, QueueItem,
+  Course, Decision, InvitedThisWeek, Person, QueueItem,
 } from './types';
 
 type Loaded = { person: Person } | { error: string };
@@ -50,6 +50,7 @@ const PreviewNotice = () => (
 
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
+  const [leadCourses, setLeadCourses] = useState<Course[]>([]);
   const [invited, setInvited] = useState<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
@@ -84,10 +85,11 @@ const Scout = () => {
     setSaveError(undefined);
     setConflict(false);
     try {
-      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek }>('queue');
+      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[] }>('queue');
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
       setInvited(data.invitedThisWeek ?? {});
+      setLeadCourses(data.leadCourses ?? []);
       setSkipOrder([]);
       setPeople({});
       requested.current.clear();
@@ -318,7 +320,7 @@ const Scout = () => {
           <>
             {notice && <Callout role="status">{notice}</Callout>}
             <PersonSearch items={remaining} query={search} onQueryChange={setSearch} onSelect={openLookup} />
-            <RoundPicker items={remaining} invited={invited} onSelect={chooseRound} />
+            <RoundPicker items={remaining} invited={invited} leadCourses={leadCourses} onSelect={chooseRound} />
           </>
         ) : <>
           <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>

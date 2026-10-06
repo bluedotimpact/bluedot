@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, fetchQueue, inviteForReal, declineForReal, parseWebFacts, toHistoryRow,
+  attachPastApplications, fetchLeadCourses, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -20,6 +20,7 @@ const reads = async (input: RequestInfo | URL, init?: RequestInit) => {
   if (init?.method === 'PATCH') return json({ id, fields: JSON.parse(init.body as string).fields });
 
   if (url.pathname.endsWith(id)) return json({ id, fields: currentFields });
+  if (url.pathname.endsWith('tblYavwHtMMcn8Wt1')) return json({ records: [{ id: 'recLeadExample01', fields: { fldybLwD2UCqXFeb8: 'Lead@example.org', fldwPw2PCIDfn1ZqE: 'Biosecurity, Pandemics' } }] });
   if (url.pathname.endsWith('tblu6u7F2NHfCMgsk')) return json({ records: [{ id: 'recRoundExample01', fields: { fldEBVjEF9l2IEyG7: 'Test round', fldvorW4UVmRTihB9: ['Technical AI Safety'] } }] });
   return json({ records: eligible ? [{ id, fields: untouched }] : [] });
 };
@@ -181,4 +182,11 @@ test('a history row carries the sessions attended and expected when the registra
   expect(withoutCounts.attended).toBeUndefined();
   expect(withoutCounts.expected).toBeUndefined();
   expect(withoutCounts.isCurrent).toBe(true);
+});
+
+test('lead courses: only scouted courses count, matched by email regardless of case; nobody known means none', async () => {
+  expect(parseLeadCourses('Biosecurity, Pandemics, AGI Strategy ')).toEqual(['Biosecurity', 'AGI Strategy']);
+  expect(parseLeadCourses(undefined)).toEqual([]);
+  expect(await run(fetchLeadCourses('lead@EXAMPLE.org'))).toEqual(['Biosecurity']);
+  expect(await run(fetchLeadCourses('someone.else@example.org'))).toEqual([]);
 });
