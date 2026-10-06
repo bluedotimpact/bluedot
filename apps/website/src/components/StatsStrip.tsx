@@ -1,5 +1,6 @@
 import type React from 'react';
 import { CTALinkOrButton, Eyebrow } from '@bluedot/ui';
+import { FaChevronRight } from 'react-icons/fa6';
 import { type ApplicationSlug, useApplicationUrl } from '../lib/hooks/useApplicationUrl';
 
 export type Stat = {
@@ -54,22 +55,22 @@ const StatsStrip = ({
           {primary.url && (
             <CTALinkOrButton
               variant="primary"
-              withChevron
               url={primary.url}
               target="_blank"
               onClick={primary.onClick}
             >
               {primary.label}
+              <FaChevronRight aria-hidden className="size-4" />
             </CTALinkOrButton>
           )}
           {secondaryAction?.url && (
             <CTALinkOrButton
               variant="secondary"
-              withChevron
               url={secondaryAction.url}
               onClick={secondaryAction.onClick}
             >
               {secondaryAction.label}
+              <FaChevronRight aria-hidden className="size-4" />
             </CTALinkOrButton>
           )}
         </div>

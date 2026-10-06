@@ -6,6 +6,7 @@ import {
   ProgressDots,
   useCurrentTimeMs,
 } from '@bluedot/ui';
+import { FaChevronRight } from 'react-icons/fa6';
 import { type PageState } from '../lib/client/pageState';
 import { type MeetingParticipantsRequest, type MeetingParticipantsResponse } from '../pages/api/public/meeting-participants';
 import { Page } from './Page';
@@ -77,7 +78,6 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
           <CTALinkOrButton
             key={participant.id}
             variant="secondary"
-            withChevron
             disabled={recordingAttendance}
             onClick={async () => {
               try {
@@ -99,6 +99,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
             }}
           >
             {participant.name}
+            <FaChevronRight aria-hidden className="size-4" />
           </CTALinkOrButton>
         ))}
       </div>

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
+import { FaChevronRight } from 'react-icons/fa6';
 
 import {
   HeroSection, HeroH1, HeroCTAContainer,
@@ -24,8 +25,9 @@ export const Default: Story = {
     <HeroSection>
       <HeroH1>Make AI go well</HeroH1>
       <HeroCTAContainer>
-        <CTALinkOrButton variant="primary" withChevron url="https://example.com">
+        <CTALinkOrButton variant="primary" url="https://example.com">
           Explore our courses
+          <FaChevronRight aria-hidden className="size-4" />
         </CTALinkOrButton>
       </HeroCTAContainer>
     </HeroSection>
@@ -37,8 +39,9 @@ export const WithCustomClasses: Story = {
     <HeroSection className="min-h-[500px]">
       <HeroH1 className="text-size-2xl">Custom Hero Title</HeroH1>
       <HeroCTAContainer className="gap-4">
-        <CTALinkOrButton variant="primary" withChevron>
+        <CTALinkOrButton variant="primary">
           Primary CTA
+          <FaChevronRight aria-hidden className="size-4" />
         </CTALinkOrButton>
         <CTALinkOrButton variant="secondary">
           Secondary CTA
@@ -55,10 +58,10 @@ export const WithLink: Story = {
       <HeroCTAContainer>
         <CTALinkOrButton
           variant="primary"
-          withChevron
           url="https://example.com"
         >
           Learn More
+          <FaChevronRight aria-hidden className="size-4" />
         </CTALinkOrButton>
       </HeroCTAContainer>
     </HeroSection>

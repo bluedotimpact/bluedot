@@ -5,7 +5,7 @@ import {
   useState,
 } from 'react';
 import { useRouter } from 'next/router';
-import { FaRotateLeft } from 'react-icons/fa6';
+import { FaChevronRight, FaRotateLeft } from 'react-icons/fa6';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 import RichTextAutoSaveEditor from './RichTextAutoSaveEditor';
 
@@ -68,10 +68,10 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           <CTALinkOrButton
             variant="primary"
             url={getLoginUrl(router.asPath, true)}
-            withChevron
             className="!w-auto !whitespace-normal text-center min-w-0"
           >
             Create a free account to save your answers
+            <FaChevronRight aria-hidden className="size-4 shrink-0" />
           </CTALinkOrButton>
         </div>
       )}

@@ -2,7 +2,7 @@ import { CTALinkOrButton, Radio, type RadioTone } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { FaRotateLeft } from 'react-icons/fa6';
+import { FaChevronRight, FaRotateLeft } from 'react-icons/fa6';
 import { formatStringToArray } from '../../../lib/utils';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 
@@ -124,9 +124,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           className="!bg-bluedot-normal !whitespace-normal"
           variant="primary"
           url={getLoginUrl(router.asPath, true)}
-          withChevron
         >
           Create a free account to check your answer
+          <FaChevronRight aria-hidden className="size-4" />
         </CTALinkOrButton>
       )}
       {isLoggedIn && !hasResult && (

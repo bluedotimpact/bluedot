@@ -6,6 +6,7 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
+import { FaChevronLeft } from 'react-icons/fa6';
 import { type Mission, missionTable } from '@bluedot/db';
 import MarketingHero from '../../components/MarketingHero';
 import { ROUTES } from '../../lib/routes';
@@ -40,7 +41,8 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
           {mission.description ?? undefined}
         </MarkdownExtendedRenderer>
         <div className="my-8 border-t border-default pt-8">
-          <CTALinkOrButton url={ROUTES.missions.url} variant="secondary" withBackChevron>
+          <CTALinkOrButton url={ROUTES.missions.url} variant="secondary">
+            <FaChevronLeft aria-hidden className="size-4" />
             See other missions
           </CTALinkOrButton>
         </div>

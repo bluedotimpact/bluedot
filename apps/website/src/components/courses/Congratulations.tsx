@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import type React from 'react';
 import { useState } from 'react';
 import {
+  FaChevronRight,
   FaCircleMinus,
   FaLink, FaLinkedinIn,
   FaRegCopy,
@@ -448,8 +449,9 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               every month.
             </P>
           </div>
-          <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
+          <CTALinkOrButton url="/courses/agi-strategy" variant="primary">
             Apply now
+            <FaChevronRight aria-hidden className="size-4" />
           </CTALinkOrButton>
         </div>
       )}

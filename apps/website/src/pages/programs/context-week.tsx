@@ -3,6 +3,7 @@ import {
 } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { FaChevronRight } from 'react-icons/fa6';
 import MarketingHero from '../../components/MarketingHero';
 import OverviewSection from '../../components/context-week/OverviewSection';
 import { useApplicationUrl } from '../../lib/hooks/useApplicationUrl';
@@ -40,11 +41,11 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
         subtitle={PROGRAM_DESCRIPTION}
         cta={applicationUrl && (
           <CTALinkOrButton
-            withChevron
             url={applicationUrl}
             target="_blank"
           >
             Express interest
+            <FaChevronRight aria-hidden className="size-4" />
           </CTALinkOrButton>
         )}
       />
@@ -57,12 +58,12 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
           {applicationUrl && (
             <CTALinkOrButton
               variant="primary"
-              withChevron
               url={applicationUrl}
               target="_blank"
               className="min-h-11"
             >
               Express interest
+              <FaChevronRight aria-hidden className="size-4" />
             </CTALinkOrButton>
           )}
         </div>

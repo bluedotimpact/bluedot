@@ -7,6 +7,7 @@ import {
 import Link from 'next/link';
 import { CTALinkOrButton, H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
+import { FaChevronRight } from 'react-icons/fa6';
 
 export type TestimonialMember = {
   name: string;
@@ -284,8 +285,9 @@ const TestimonialCarousel = ({
 
       {cta && (
         <div className="flex justify-center mt-10 bd-md:mt-12">
-          <CTALinkOrButton variant="secondary" withChevron url={cta.url}>
+          <CTALinkOrButton variant="secondary" url={cta.url}>
             {cta.label}
+            <FaChevronRight aria-hidden className="size-4" />
           </CTALinkOrButton>
         </div>
       )}

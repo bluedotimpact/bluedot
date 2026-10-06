@@ -7,6 +7,7 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
+import { FaChevronRight } from 'react-icons/fa6';
 
 import { ROUTES } from '../../../lib/routes';
 import { COURSE_CONFIG, ONE_MINUTE_SECONDS } from '../../../lib/constants';
@@ -180,8 +181,9 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
 
           <div className="flex flex-wrap gap-3">
             {curriculumUrl && (
-              <CTALinkOrButton url={curriculumUrl} withChevron>
+              <CTALinkOrButton url={curriculumUrl}>
                 {externalCoursePage.curriculumCtaLabel}
+                <FaChevronRight aria-hidden className="size-4" />
               </CTALinkOrButton>
             )}
             <CTALinkOrButton url={externalCoursePage.detailsUrl} target="_blank" variant="secondary">
