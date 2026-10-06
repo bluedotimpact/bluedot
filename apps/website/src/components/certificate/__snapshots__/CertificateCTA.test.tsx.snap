@@ -41,7 +41,7 @@ exports[`CertificateCTA > renders correctly with valid props 1`] = `
             </p>
           </div>
           <a
-            class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover h-9 px-4 py-[7px] rounded-md text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
+            class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-4 py-[7px] rounded-md text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
             href="https://bluedot.org/courses/ai-governance"
             tabindex="0"
           >
