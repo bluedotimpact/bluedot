@@ -309,7 +309,7 @@ const FacilitatorFeedbackPage = () => {
             </div>
           )}
 
-          <CTALinkOrButton variant="outline-black" className="self-start" onClick={() => setIsAddModalOpen(true)}>
+          <CTALinkOrButton variant="outline-black" onClick={() => setIsAddModalOpen(true)}>
             <span aria-hidden>+</span>
             Add a participant
           </CTALinkOrButton>

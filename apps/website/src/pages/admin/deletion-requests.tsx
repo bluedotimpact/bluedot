@@ -55,7 +55,6 @@ const AdminDeletionRequests = withAdminGuard(() => {
               variant="secondary"
               tone="destructive"
               onClick={() => setIsConfirmDeleteModalOpen(true)}
-              className="self-start"
             >
               Delete account (confirm modal opens)
             </CTALinkOrButton>

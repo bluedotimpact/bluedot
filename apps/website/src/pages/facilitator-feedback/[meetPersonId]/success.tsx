@@ -164,7 +164,7 @@ const FacilitatorFeedbackSuccessPage = () => {
               <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
                 You can submit your bank details below and expect to receive your compensation within a week. We'll also send you a link by email.
               </p>
-              <CTALinkOrButton url={invoiceUrl} target="_blank" className="self-start mt-2">
+              <CTALinkOrButton url={invoiceUrl} target="_blank" className="mt-2">
                 Submit invoice
               </CTALinkOrButton>
             </div>
