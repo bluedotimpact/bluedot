@@ -37,7 +37,7 @@ export const ClickTarget = ({
   const safeRel = target === '_blank'
     ? Array.from(new Set(['noopener', 'noreferrer', ...(rel?.split(/\s+/).filter(Boolean) ?? [])])).join(' ')
     : rel;
-  const inert = disabled || ariaBusy;
+  const inert = disabled === true || ariaBusy === true;
 
   const handleInteraction = (e: React.MouseEvent) => {
     if (inert) {
