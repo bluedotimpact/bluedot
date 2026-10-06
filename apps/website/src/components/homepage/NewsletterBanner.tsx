@@ -92,6 +92,7 @@ const NewsletterBanner = () => {
         <div className="relative w-full lg:w-[480px]">
           {/* Form */}
           <form
+            data-on-dark
             onSubmit={handleSubmit}
             className={`flex flex-col lg:flex-row gap-3 w-full transition-opacity duration-300 ${
               successMessage || errorMessage ? 'opacity-0 pointer-events-none' : 'opacity-100'
