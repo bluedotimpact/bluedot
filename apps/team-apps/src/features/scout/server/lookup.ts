@@ -102,6 +102,40 @@ const extractJson = (text: string): unknown => {
   return JSON.parse(text.slice(start, end + 1));
 };
 
+// A repair may drop a value but never change or add one: every leaf of the repaired object
+// must occur in the original reply, ignoring quotes, backslashes and whitespace.
+const squash = (s: string) => s.replace(/[\\"'\s]/g, '');
+const leavesOf = (value: unknown): string[] => {
+  if (value === null || value === undefined) return [];
+  if (typeof value === 'object') return Object.values(value as Record<string, unknown>).flatMap(leavesOf);
+
+  return [typeof value === 'string' ? value : JSON.stringify(value)];
+};
+
+export const preservesValues = (original: string, repaired: unknown): boolean => {
+  const haystack = squash(original.replace(/\\[nrt]/g, ''));
+
+  return leavesOf(repaired).every((leaf) => haystack.includes(squash(leaf)));
+};
+
+// A long reply occasionally has a syntax slip; one tool-free call fixes it, and every URL
+// still has to pass the whitelist afterwards.
+const extractJsonOrRepair = async (text: string): Promise<unknown> => {
+  try {
+    return extractJson(text);
+  } catch (error) {
+    logger.warn(`scout lookup: reply was not valid JSON (${error instanceof Error ? error.message : String(error)}), asking for a repair`);
+    const repaired = await generateText({
+      model: anthropic(LOOKUP_MODEL),
+      system: 'Return the JSON object in the message as valid JSON and nothing else: no markdown fences, no commentary. Fix only the syntax (quotes, commas, brackets, escaping) and change no values.',
+      prompt: text,
+    });
+    const parsed = extractJson(repaired.text);
+    if (!preservesValues(text, parsed)) throw new Error('lookup JSON repair changed values');
+    return parsed;
+  }
+};
+
 // Drops every URL the tools never returned (links, sources, and the paper and post links
 // inside a source) and caps the lists. Exported for tests.
 export const sanitise = (raw: unknown, seen: Set<string>, meta: WebFacts['meta']): WebFacts => {
@@ -147,7 +181,7 @@ export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
     }
   }
 
-  return sanitise(extractJson(result.text), seen, { searches, pages_fetched: pagesFetched });
+  return sanitise(await extractJsonOrRepair(result.text), seen, { searches, pages_fetched: pagesFetched });
 };
 
 // Looks people up one after another and writes each result as it lands. A failure is

@@ -26,7 +26,7 @@ vi.mock('./airtable', async (importOriginal) => ({
   fetchLookedUpOn,
 }));
 import {
-  idsToLookUp, lookUpPeople, runLookup, sanitise,
+  idsToLookUp, lookUpPeople, preservesValues, runLookup, sanitise,
 } from './lookup';
 
 const anchors = {
@@ -94,6 +94,35 @@ test('runLookup collects seen URLs from tool results only, counts the calls, and
   expect(facts.sources.map((s) => s.url)).toEqual(['https://code.example.org/sample-participant']);
   expect(facts.meta.searches).toBe(1);
   expect(facts.meta.pages_fetched).toBe(2);
+});
+
+test('runLookup asks the model to repair a reply that is not valid JSON, without tools, and keeps only a faithful repair', async () => {
+  const steps = [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant' }] }] }];
+  const broken = JSON.stringify(modelJson).replace('"confident":true', '"confident":true,');
+  generateText
+    .mockResolvedValueOnce({ text: broken, steps })
+    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [] });
+  const facts = await runLookup(anchors);
+  expect(facts.identity.confident).toBe(true);
+  expect(generateText).toHaveBeenCalledTimes(2);
+  expect(generateText.mock.calls[1]![0].tools).toBeUndefined();
+  expect(generateText.mock.calls[1]![0].prompt).toBe(broken);
+
+  // Still broken after the repair: the lookup fails.
+  generateText.mockResolvedValueOnce({ text: broken, steps }).mockResolvedValueOnce({ text: broken, steps: [] });
+  await expect(runLookup(anchors)).rejects.toThrow();
+
+  // Valid JSON but a value the original reply never contained: the lookup fails too.
+  const altered = { ...modelJson, identity: { ...modelJson.identity, matched_on: ['an anchor the model made up'] } };
+  generateText.mockResolvedValueOnce({ text: broken, steps }).mockResolvedValueOnce({ text: JSON.stringify(altered), steps: [] });
+  await expect(runLookup(anchors)).rejects.toThrow('changed values');
+});
+
+test('preservesValues accepts dropped values and escaping differences, and rejects new or changed ones', () => {
+  const original = '{"a": "He said \\"hi\\"\\nthere", "n": 3, "list": ["x", "y"]}';
+  expect(preservesValues(original, { a: 'He said "hi"\nthere', n: 3, list: ['x'] })).toBe(true);
+  expect(preservesValues(original, { a: 'He said "bye"', n: 3 })).toBe(false);
+  expect(preservesValues(original, { a: 'He said "hi"\nthere', n: 4 })).toBe(false);
 });
 
 test('lookUpPeople writes each success, alerts on a failure, and carries on with the next person', async () => {
