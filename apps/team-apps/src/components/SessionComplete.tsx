@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import {
-  Callout, CTALinkOrButton, H1, H2, Modal,
+  Callout, Button, H1, H2, Modal,
 } from '@bluedot/ui';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
@@ -349,7 +349,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
                 {opt.humanOpinion} → {opt.decision}
               </button>
             ))}
-            <CTALinkOrButton
+            <Button
               variant="secondary"
               tone="warning"
               size="small"
@@ -357,7 +357,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               onClick={() => saveChange(r.id)}
             >
               Rerate
-            </CTALinkOrButton>
+            </Button>
           </div>
         )}
       </div>
@@ -498,22 +498,22 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           return <Callout tone="info" role="status">{`Sending emails… (${trackerConfirmed} of ${sendTracker.total}) You can leave this page.`}</Callout>;
         })()}
         <div className="flex flex-col sm:flex-row gap-2">
-          <CTALinkOrButton
+          <Button
             variant="outline-black"
             disabled={pendingWrites > 0 || sessionEmailIds.length === 0}
             onClick={() => setConfirmingScope('session')}
             className={ROW_BUTTON}
           >
             Send for this session ({sessionEmailIds.length})
-          </CTALinkOrButton>
-          <CTALinkOrButton
+          </Button>
+          <Button
             variant="outline-black"
             disabled={pendingWrites > 0 || !emailCounts || emailCounts.pending === 0}
             onClick={() => setConfirmingScope('round')}
             className={ROW_BUTTON}
           >
             {filtered ? 'Send all reviewed in round' : 'Send all reviewed'} ({emailCounts?.pending ?? '…'})
-          </CTALinkOrButton>
+          </Button>
         </div>
       </div>
 
@@ -541,41 +541,41 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 pt-1">
-            <CTALinkOrButton
+            <Button
               disabled={pendingWrites > 0 || confirmCount === 0 || !confirmingScope}
               onClick={() => confirmingScope && sendDecisionEmails(confirmingScope)}
               className={ROW_BUTTON}
             >
               Send {confirmCount} email{confirmCount === 1 ? '' : 's'}
-            </CTALinkOrButton>
-            <CTALinkOrButton
+            </Button>
+            <Button
               variant="outline-black"
               disabled={pendingWrites > 0}
               onClick={closeConfirm}
               className={ROW_BUTTON}
             >
               Cancel
-            </CTALinkOrButton>
+            </Button>
           </div>
         </div>
       </Modal>
 
       <div className="border-t border-subtle pt-5 flex flex-col sm:flex-row gap-3">
-        <CTALinkOrButton
+        <Button
           disabled={pendingWrites > 0}
           onClick={() => onReviewRound(roundId, round)}
           className={ROW_BUTTON}
         >
           Review same round again
-        </CTALinkOrButton>
-        <CTALinkOrButton
+        </Button>
+        <Button
           variant="outline-black"
           disabled={pendingWrites > 0}
           onClick={onReset}
           className={ROW_BUTTON}
         >
           Review a different round
-        </CTALinkOrButton>
+        </Button>
       </div>
     </div>
   );

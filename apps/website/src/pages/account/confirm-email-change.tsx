@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, H3, P, ProgressDots, Section,
+  Button, H3, P, ProgressDots, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -85,14 +85,14 @@ const ConfirmEmailChange = () => {
       <>
         <H3>Confirm your new email address</H3>
         <P>Confirming moves your BlueDot Impact account over to this email address.</P>
-        <CTALinkOrButton
+        <Button
           variant="primary"
           className="self-start"
           disabled={confirmMutation.isPending}
           onClick={() => confirmMutation.mutate({ token })}
         >
           {confirmMutation.isPending ? 'Confirming...' : 'Confirm email change'}
-        </CTALinkOrButton>
+        </Button>
       </>
     );
   };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  H1, H2, P, Input, Card, CTALinkOrButton,
+  H1, H2, P, Input, Card, Button,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { type GetPeopleResponse } from './api/public/people';
@@ -27,8 +27,8 @@ const HomePage = () => {
 
       <P>Value is {value}</P>
       <div className="flex gap-2">
-        <CTALinkOrButton onClick={() => setValue((c) => c + incrementBy)}>+</CTALinkOrButton>
-        <CTALinkOrButton onClick={() => setValue((c) => c - incrementBy)}>-</CTALinkOrButton>
+        <Button onClick={() => setValue((c) => c + incrementBy)}>+</Button>
+        <Button onClick={() => setValue((c) => c - incrementBy)}>-</Button>
       </div>
 
       <H2>People</H2>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Avatar, CTALinkOrButton, Eyebrow, H2, P,
+  Avatar, Button, Eyebrow, H2, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { trpc } from '../../utils/trpc';
@@ -43,12 +43,12 @@ const RecentAlumniList = () => {
         </ul>
         {hasMore && (
           <div className="flex justify-center mt-10">
-            <CTALinkOrButton
+            <Button
               variant="secondary"
               onClick={() => setExpanded((v) => !v)}
             >
               {expanded ? 'See fewer' : `See more (${alumni.length - collapsedCount})`}
-            </CTALinkOrButton>
+            </Button>
           </div>
         )}
       </div>

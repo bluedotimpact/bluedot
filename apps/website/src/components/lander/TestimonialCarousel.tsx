@@ -5,7 +5,7 @@ import {
   useCallback,
 } from 'react';
 import Link from 'next/link';
-import { CTALinkOrButton, H2, P } from '@bluedot/ui';
+import { Button, H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import { FaChevronRight } from 'react-icons/fa6';
 
@@ -285,10 +285,10 @@ const TestimonialCarousel = ({
 
       {cta && (
         <div className="flex justify-center mt-10 bd-md:mt-12">
-          <CTALinkOrButton variant="secondary" url={cta.url}>
+          <Button variant="secondary" url={cta.url}>
             {cta.label}
             <FaChevronRight aria-hidden className="size-4" />
-          </CTALinkOrButton>
+          </Button>
         </div>
       )}
     </section>

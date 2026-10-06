@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import {
-  CTALinkOrButton, ErrorSection, Eyebrow, Input, H1, P, ProgressDots, Section, Textarea,
+  Button, ErrorSection, Eyebrow, Input, H1, P, ProgressDots, Section, Textarea,
 } from '@bluedot/ui';
 import {
   type TimeAvailabilityMap,
@@ -123,12 +123,12 @@ const Form: React.FC<{
                 && <>* Fill out at least one interval of length at least {minLength} minutes.</>}
 
               </P>
-              <CTALinkOrButton
+              <Button
                 onClick={() => handleSubmit(onSubmit)()}
                 disabled={!isValidEmail() || !longEnoughInterval()}
               >
                 Submit
-              </CTALinkOrButton>
+              </Button>
             </>
           )}
         </div>

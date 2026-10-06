@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { CTALinkOrButton, H1 } from '@bluedot/ui';
+import { Button, H1 } from '@bluedot/ui';
 import { inter } from '../lib/fonts';
 import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
@@ -69,13 +69,13 @@ const SiteLoginPage = () => {
               autoFocus
               className="flex-1 p-3 border border-gray-300 rounded text-size-sm outline-none focus:border-blue-600"
             />
-            <CTALinkOrButton variant="outline-black" size="small" onClick={() => setShowPassword((prev) => !prev)}>
+            <Button variant="outline-black" size="small" onClick={() => setShowPassword((prev) => !prev)}>
               {showPassword ? 'Hide' : 'Show'}
-            </CTALinkOrButton>
+            </Button>
           </div>
-          <CTALinkOrButton type="submit" loading={loading} className="w-full">
+          <Button type="submit" loading={loading} className="w-full">
             {loading ? 'Checking...' : 'Enter'}
-          </CTALinkOrButton>
+          </Button>
           {error && (
             <p className="text-red-600 text-center text-size-sm">{error}</p>
           )}

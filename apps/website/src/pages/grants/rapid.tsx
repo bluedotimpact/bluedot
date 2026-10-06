@@ -1,4 +1,4 @@
-import { Breadcrumbs, CTALinkOrButton } from '@bluedot/ui';
+import { Breadcrumbs, Button } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { FaChevronRight } from 'react-icons/fa6';
@@ -62,7 +62,7 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
         <div className="section-base">
           <div className="flex flex-col items-start gap-5 border-t border-bluedot-navy/15 py-10 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:py-12">
             <p className="text-size-lg tracking-tight">Have something in mind?</p>
-            <CTALinkOrButton url={applicationUrl} target="_blank">Apply for a Rapid Grant <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
+            <Button url={applicationUrl} target="_blank">Apply for a Rapid Grant <FaChevronRight aria-hidden className="size-4" /></Button>
           </div>
         </div>
       )}

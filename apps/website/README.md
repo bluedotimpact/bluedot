@@ -77,7 +77,7 @@ npm run render-preview # render OG/preview images
 
 | Need | Use |
 | --- | --- |
-| Button or link CTA | `CTALinkOrButton` (variants: primary, secondary, black, outline-black, ghost; sizes: default, small) |
+| Button or link CTA | `Button` (variants: primary, secondary, black, outline-black, ghost; sizes: default, small) |
 | Page section / card | `Section`, `SectionHeading`, `Card` |
 | Heading / paragraph / link | `H1`–`H4`, `P`, `A` (or `bluedot-h1` / `bluedot-p` / `bluedot-a` utility classes) |
 | Hero (page top) | `HeroSection` + `HeroH1` / `HeroCTAContainer` |
@@ -118,7 +118,7 @@ Prefer the semantic role tokens (`text-primary`, `text-secondary`, `bg-canvas`, 
 2. Add a Storybook story `.stories.tsx` — autodocs tag, at least 2 variants, args/argTypes
 3. Write tests in `.test.tsx` and run snapshots via `npm run test:update`
 4. Use Tailwind classes for styling and BEM classes for identification
-5. Add a `parameters.design.figma` URL pointing at the Figma node (see [`CTALinkOrButton.stories.tsx`](../../libraries/ui/src/CTALinkOrButton.stories.tsx) for an example)
+5. Add a `parameters.design.figma` URL pointing at the Figma node (see [`Button.stories.tsx`](../../libraries/ui/src/Button.stories.tsx) for an example)
 
 ### Making API Changes
 

@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, ErrorSection, H2, ProgressDots, TabPills,
+  Button, ErrorSection, H2, ProgressDots, TabPills,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -57,7 +57,7 @@ const getApplicationActions = (
       isVisible: isPending && Boolean(app.email),
       variant: 'inline',
       inline: (
-        <CTALinkOrButton
+        <Button
           variant="primary"
           size="small"
           url={buildAvailabilityFormUrl({
@@ -70,7 +70,7 @@ const getApplicationActions = (
           className="text-size-xxs"
         >
           {app.availabilityIntervalsUTC ? 'Edit availability' : 'Share availability'}
-        </CTALinkOrButton>
+        </Button>
       ),
     },
     {
@@ -166,9 +166,9 @@ const FacilitatorApplicationsPage = () => {
                   </ul>
                   {hiddenCount > 0 && (
                     <div className="flex justify-center">
-                      <CTALinkOrButton variant="secondary" size="small" onClick={() => setShowAll(true)}>
+                      <Button variant="secondary" size="small" onClick={() => setShowAll(true)}>
                         Load more
-                      </CTALinkOrButton>
+                      </Button>
                     </div>
                   )}
                 </>

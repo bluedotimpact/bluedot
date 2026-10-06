@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { Button } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import { getLoginUrl } from '../../utils/getLoginUrl';
@@ -61,20 +61,20 @@ export const NavCta: React.FC<{
         />
       ) : (
         <>
-          <CTALinkOrButton
+          <Button
             className={clsx('nav-cta__secondary-cta flex', getButtonClasses('secondary'))}
             variant="secondary"
             url={loginUrl}
           >
             Sign in
-          </CTALinkOrButton>
-          <CTALinkOrButton
+          </Button>
+          <Button
             className={clsx('nav-cta__primary-cta hidden bd-md:flex', getButtonClasses('primary'))}
             variant="primary"
             url={joinUrl}
           >
             Start for free
-          </CTALinkOrButton>
+          </Button>
         </>
       )}
     </div>

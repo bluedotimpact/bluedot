@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, CTALinkOrButton, ProgressDots, Section,
+  Breadcrumbs, Button, ProgressDots, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -51,13 +51,13 @@ const AdminDeletionRequests = withAdminGuard(() => {
           </div>
 
           {selectedUser && (
-            <CTALinkOrButton
+            <Button
               variant="secondary"
               tone="destructive"
               onClick={() => setIsConfirmDeleteModalOpen(true)}
             >
               Delete account (confirm modal opens)
-            </CTALinkOrButton>
+            </Button>
           )}
 
           <div className="flex flex-col gap-2">

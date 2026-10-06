@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  addQueryParam, Breadcrumbs, CTALinkOrButton, ProgressDots,
+  addQueryParam, Breadcrumbs, Button, ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
@@ -85,7 +85,7 @@ const EventsPage = () => {
                   </select>
                 </label>
               )}
-              <CTALinkOrButton url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</CTALinkOrButton>
+              <Button url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</Button>
             </div>
           </div>
           <div className="mb-6 flex flex-col gap-1 text-size-xxs leading-relaxed text-bluedot-navy/60 sm:flex-row sm:justify-between">
@@ -112,9 +112,9 @@ const EventsPage = () => {
               )}
               {visibleCount < filteredEvents.length && (
                 <div className="mt-8 flex justify-center">
-                  <CTALinkOrButton variant="outline-black" size="large" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}>
+                  <Button variant="outline-black" size="large" onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}>
                     Show more events ({filteredEvents.length - visibleCount} remaining)
-                  </CTALinkOrButton>
+                  </Button>
                 </div>
               )}
             </>

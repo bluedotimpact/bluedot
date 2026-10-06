@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
-  Callout, CTALinkOrButton, ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
+  Callout, Button, ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -309,10 +309,10 @@ const FacilitatorFeedbackPage = () => {
             </div>
           )}
 
-          <CTALinkOrButton variant="outline-black" onClick={() => setIsAddModalOpen(true)}>
+          <Button variant="outline-black" onClick={() => setIsAddModalOpen(true)}>
             <span aria-hidden>+</span>
             Add a participant
-          </CTALinkOrButton>
+          </Button>
         </section>
 
         {/* Submit section */}
@@ -339,7 +339,7 @@ const FacilitatorFeedbackPage = () => {
             </>
           ) : (
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <CTALinkOrButton
+              <Button
                 className="w-full sm:w-auto"
                 loading={submitFeedback.isPending}
                 disabled={overallRating === 0 || !mostValuable.trim() || !difficulties.trim()}
@@ -358,7 +358,7 @@ const FacilitatorFeedbackPage = () => {
                 }}
               >
                 {submitFeedback.isPending ? 'Saving...' : submitIdleLabel}
-              </CTALinkOrButton>
+              </Button>
               <p className="text-size-xs text-bluedot-navy/60">
                 <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{totalCount}</span> participant feedback completed
               </p>

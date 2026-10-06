@@ -1,4 +1,4 @@
-import { CTALinkOrButton, H3, P } from '@bluedot/ui';
+import { Button, H3, P } from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { getCourseAccentColor } from '../../../lib/courseColors';
 import { trpc } from '../../../utils/trpc';
@@ -53,9 +53,9 @@ const ScheduleListSection = ({
             <div className="flex flex-col items-start gap-4">
               <P>{fallbackText}</P>
               {applicationUrl && (
-                <CTALinkOrButton url={applicationUrl} target="_blank">
+                <Button url={applicationUrl} target="_blank">
                   {fallbackCtaText}
-                </CTALinkOrButton>
+                </Button>
               )}
             </div>
           )}

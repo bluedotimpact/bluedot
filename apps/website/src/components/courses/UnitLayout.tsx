@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton,
+  Button,
   ErrorSection,
   Eyebrow,
   H1,
@@ -237,14 +237,14 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {(nextUnit || !isLastChunk) && (
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
             <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
-              <CTALinkOrButton
+              <Button
                 className="unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
                 onClick={handleNextClick}
                 variant="primary"
               >
                 {isLastChunk ? 'Complete unit and continue' : 'Continue'}
                 <FaChevronRight aria-hidden className="size-4" />
-              </CTALinkOrButton>
+              </Button>
             </div>
           )}
 
@@ -255,9 +255,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <hr className="mt-12 mb-4" />
               <div className="flex items-center justify-between">
                 <KeyboardNavMenu />
-                <CTALinkOrButton variant="ghost" size="small" onClick={() => openFeedback()}>
+                <Button variant="ghost" size="small" onClick={() => openFeedback()}>
                   Submit feedback
-                </CTALinkOrButton>
+                </Button>
               </div>
             </div>
           )}

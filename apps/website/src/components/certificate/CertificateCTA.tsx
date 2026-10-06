@@ -1,5 +1,5 @@
 import type React from 'react';
-import { CTALinkOrButton, Eyebrow } from '@bluedot/ui';
+import { Button, Eyebrow } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 
 type CertificateCTAProps = {
@@ -58,14 +58,14 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
               </p>
             </div>
 
-            <CTALinkOrButton
+            <Button
               url={courseUrl}
               // Course-coloured fill with a darkening overlay on hover; unstyled so primary's hover fill cannot override it
               variant="unstyled"
               className="h-9 px-4 py-[7px] rounded-md text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
             >
               Start for free
-            </CTALinkOrButton>
+            </Button>
           </div>
         </div>
 

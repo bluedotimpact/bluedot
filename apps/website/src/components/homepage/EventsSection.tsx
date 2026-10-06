@@ -1,4 +1,4 @@
-import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { Button, ProgressDots } from '@bluedot/ui';
 import EventAgenda from '../events/EventAgenda';
 import { trpc } from '../../utils/trpc';
 import { ROUTES } from '../../lib/routes';
@@ -37,7 +37,7 @@ const EventsSection = () => {
           <p className="py-6 text-size-sm leading-relaxed text-bluedot-navy/70">More events are on the way. Explore our calendar for the latest updates.</p>
         )}
         <div className="mt-8 flex justify-center">
-          <CTALinkOrButton url={EVENTS_SECTION_URL} variant="secondary">See all events →</CTALinkOrButton>
+          <Button url={EVENTS_SECTION_URL} variant="secondary">See all events →</Button>
         </div>
       </div>
     </section>

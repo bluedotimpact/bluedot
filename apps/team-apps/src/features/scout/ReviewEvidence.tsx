@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { Button } from '@bluedot/ui';
 import type { Person, QueueItem } from './types';
 import { PersonCard } from './PersonCard';
 import { panel } from './reviewStyles';
@@ -15,7 +15,7 @@ export const ReviewEvidence = ({
       {error && (
         <div role="alert">
           <p className="text-size-sm">{error}</p>
-          <CTALinkOrButton variant="outline-black" className="mt-3" onClick={onRetry}>Retry participant</CTALinkOrButton>
+          <Button variant="outline-black" className="mt-3" onClick={onRetry}>Retry participant</Button>
         </div>
       )}
       {person && <PersonCard person={person} showName />}

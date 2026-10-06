@@ -1,6 +1,6 @@
 import { type ReactNode, useState } from 'react';
 import {
-  A, CardShell, cn, CTALinkOrButton, P,
+  A, CardShell, cn, Button, P,
 } from '@bluedot/ui';
 import { FaChevronRight } from 'react-icons/fa6';
 import {
@@ -697,7 +697,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         {profileLinks.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-1">
             {profileLinks.map((u) => (
-              <CTALinkOrButton key={u} variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</CTALinkOrButton>
+              <Button key={u} variant="outline-black" url={u} target="_blank">{hostLabel(u)} ↗</Button>
             ))}
           </div>
         )}

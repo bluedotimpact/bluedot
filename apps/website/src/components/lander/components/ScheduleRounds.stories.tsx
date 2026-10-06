@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { Button } from '@bluedot/ui';
 import { ScheduleRounds } from './ScheduleRounds';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
 import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
@@ -60,12 +60,12 @@ const FallbackContent = (
       Check above for upcoming rounds and application deadlines.
     </p>
     <div className="flex justify-start">
-      <CTALinkOrButton
+      <Button
         url="https://example.com/apply"
         className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
       >
         Apply now
-      </CTALinkOrButton>
+      </Button>
     </div>
   </div>
 );

@@ -4,7 +4,7 @@ import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import {
-  Callout, CTALinkOrButton, Modal, ProgressDots,
+  Callout, Button, Modal, ProgressDots,
 } from '@bluedot/ui';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
@@ -288,9 +288,9 @@ const Scout = () => {
           <>
             <header className="flex flex-wrap items-start justify-between gap-3">
               <div><h1 className="text-size-lg font-semibold">Course talent scouting</h1><p className="mt-1 text-size-sm text-secondary">Which course participant should get an evaluation call?</p></div>
-              <CTALinkOrButton variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
+              <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
                 void loadQueue();
-              }}>Refresh queue</CTALinkOrButton>
+              }}>Refresh queue</Button>
             </header>
             {!loading && !queueError && <QueueSource count={remaining.length} />}
           </>
@@ -301,14 +301,14 @@ const Scout = () => {
           <>
             <section aria-label="Looking up one participant" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
               <p className="text-size-xs text-secondary">Opened from search · {lookup.course} · {roundLabel(lookup)}</p>
-              <CTALinkOrButton variant="outline-black" disabled={controlsDisabled} onClick={closeLookup}>Back to search</CTALinkOrButton>
+              <Button variant="outline-black" disabled={controlsDisabled} onClick={closeLookup}>Back to search</Button>
             </section>
             {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
             <ReviewEvidence key={lookup.id} item={lookup} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(lookup.id)} actions={
               <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <CTALinkOrButton variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</CTALinkOrButton>
-                  <CTALinkOrButton disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></CTALinkOrButton>
+                  <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
+                  <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
                 </div>
               </div>
             } />
@@ -328,15 +328,15 @@ const Scout = () => {
               <p className="text-size-xs text-secondary">{decisions.length} of {total} reviewed{skippedItems.length > 0 && ` · ${skippedItems.length} skipped for now`}</p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <CTALinkOrButton variant="outline-black" disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
+              <Button variant="outline-black" disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
                 setSkipOrder((state) => state.slice(0, -1));
                 setNotice(undefined);
-              }}>Undo skip</CTALinkOrButton>
-              <CTALinkOrButton variant="outline-black" disabled={controlsDisabled} onClick={() => {
+              }}>Undo skip</Button>
+              <Button variant="outline-black" disabled={controlsDisabled} onClick={() => {
                 setRound(undefined);
                 setSkipOrder([]);
                 setNotice(undefined);
-              }}>Change round</CTALinkOrButton>
+              }}>Change round</Button>
             </div>
           </section>
           <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
@@ -345,9 +345,9 @@ const Scout = () => {
           {current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
             <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <CTALinkOrButton variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</CTALinkOrButton>
-                <CTALinkOrButton variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></CTALinkOrButton>
-                <CTALinkOrButton disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></CTALinkOrButton>
+                <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
+                <Button variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></Button>
+                <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
               </div>
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
@@ -356,12 +356,12 @@ const Scout = () => {
             <SessionDecisions decisions={decisions} />
             {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Decisions are saved in Airtable; the invite emails are sent from there.</p>}
             <div className="flex flex-wrap gap-2">
-              {nextRound && <CTALinkOrButton disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></CTALinkOrButton>}
-              <CTALinkOrButton variant="outline-black" disabled={controlsDisabled} onClick={() => {
+              {nextRound && <Button disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></Button>}
+              <Button variant="outline-black" disabled={controlsDisabled} onClick={() => {
                 setRound(undefined);
                 setSkipOrder([]);
                 setNotice(undefined);
-              }}>Back to main page</CTALinkOrButton>
+              }}>Back to main page</Button>
             </div>
           </section>}
         </>)}
@@ -382,13 +382,13 @@ const Scout = () => {
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
             <div className="flex flex-wrap justify-end gap-2">
-              <CTALinkOrButton variant="secondary" disabled={writing} onClick={() => {
+              <Button variant="secondary" disabled={writing} onClick={() => {
                 setConfirmation(undefined);
                 setSaveError(undefined);
-              }}>Cancel</CTALinkOrButton>
-              <CTALinkOrButton tone={confirmation.decision === 'invite' ? undefined : 'destructive'} loading={writing} onClick={() => {
+              }}>Cancel</Button>
+              <Button tone={confirmation.decision === 'invite' ? undefined : 'destructive'} loading={writing} onClick={() => {
                 void confirm();
-              }}>{confirmLabel}</CTALinkOrButton>
+              }}>{confirmLabel}</Button>
             </div>
           </div>}
         </Modal>

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FaClock, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { Select, type SelectProps } from './Select';
 import { BottomDrawerModal } from './BottomDrawerModal';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 
 const meta: Meta<typeof Select> = {
   title: 'ui/Select',
@@ -113,7 +113,7 @@ const InBottomDrawer = () => {
   const [value, setValue] = useState<string | undefined>(undefined);
   return (
     <>
-      <CTALinkOrButton onClick={() => setIsOpen(true)}>Open drawer</CTALinkOrButton>
+      <Button onClick={() => setIsOpen(true)}>Open drawer</Button>
       <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title="Switch group" initialSize="fit-content">
         <div className="flex flex-col gap-4 p-4">
           <p className="text-size-sm text-primary">Pick a new discussion time.</p>
@@ -124,7 +124,7 @@ const InBottomDrawer = () => {
             placeholder="Select a time slot"
             aria-label="Time slot"
           />
-          <CTALinkOrButton className="w-full">Confirm</CTALinkOrButton>
+          <Button className="w-full">Confirm</Button>
         </div>
       </BottomDrawerModal>
     </>

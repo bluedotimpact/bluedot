@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton,
+  Button,
   H2,
   H3,
   P,
@@ -91,12 +91,12 @@ const CourseInformationSection = ({
                               {detail.scheduleDescription}
                             </P>
                             <div className="flex justify-start">
-                              <CTALinkOrButton
+                              <Button
                                 url={applicationUrl}
                                 className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-bluedot-dark cursor-pointer transition-colors"
                               >
                                 {scheduleCtaText}
-                              </CTALinkOrButton>
+                              </Button>
                             </div>
                           </div>
                         )}

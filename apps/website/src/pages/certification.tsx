@@ -1,7 +1,7 @@
 import {
   Breadcrumbs,
   type BluedotRoute,
-  CTALinkOrButton,
+  Button,
   Footer,
   H1,
   P,
@@ -64,7 +64,7 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
 
   return (
     <div className="flex flex-col sm:flex-row gap-2 justify-center">
-      <CTALinkOrButton
+      <Button
         url={linkedInUrl}
         target="_blank"
         className="w-full sm:w-auto"
@@ -72,9 +72,9 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
       >
         <FaLinkedin aria-hidden size={16} />
         <span>Share on LinkedIn</span>
-      </CTALinkOrButton>
+      </Button>
 
-      <CTALinkOrButton
+      <Button
         url={xUrl}
         target="_blank"
         variant="outline-black"
@@ -83,7 +83,7 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
       >
         <FaXTwitter aria-hidden size={16} />
         <span>Share on X</span>
-      </CTALinkOrButton>
+      </Button>
     </div>
   );
 };
@@ -109,8 +109,8 @@ const CertificatePage = ({
             <H1>Missing certificate id</H1>
             <P>Check the link you were sent and try again.</P>
             <div className="flex flex-row gap-4">
-              <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
-              <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
+              <Button url={ROUTES.courses.url}>Back to Courses</Button>
+              <Button url={ROUTES.contact.url} variant="secondary">Contact us</Button>
             </div>
           </div>
         </Section>
@@ -128,8 +128,8 @@ const CertificatePage = ({
             <H1>Certificate not found</H1>
             <P>We couldn't find the certificate you're looking for.</P>
             <div className="flex flex-row gap-4">
-              <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
-              <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
+              <Button url={ROUTES.courses.url}>Back to Courses</Button>
+              <Button url={ROUTES.contact.url} variant="secondary">Contact us</Button>
             </div>
           </div>
         </Section>

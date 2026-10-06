@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import {
-  CTALinkOrButton, Eyebrow, H1, P,
+  Button, Eyebrow, H1, P,
 } from '@bluedot/ui';
 import { Nav } from '../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../lib/courseColors';
@@ -280,14 +280,14 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 ))}
               </ol>
               <div className="mt-6 flex justify-center">
-                <CTALinkOrButton
+                <Button
                   url={PUZZLE_URL}
                   size="small"
                   className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-white hover:brightness-110"
                   style={{ backgroundColor: TAS.full }}
                 >
                   See the puzzle
-                </CTALinkOrButton>
+                </Button>
               </div>
             </div>
           </div>

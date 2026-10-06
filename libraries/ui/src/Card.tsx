@@ -1,5 +1,5 @@
 import type React from 'react';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 import { cn } from './utils';
 
 const CARD_SHELL_STYLES = 'rounded-surface border border-subtle bg-raised p-6';
@@ -51,14 +51,14 @@ export const Card: React.FC<CardProps> = ({
           {subtitle && <p>{subtitle}</p>}
         </div>
       </div>
-      <CTALinkOrButton
+      <Button
         url={url}
         aria-label={`${ctaText}: ${title}`}
         // Stretched link: the ::after covers the card so the whole surface is the hit area
         className="after:absolute after:inset-0"
       >
         {ctaText}
-      </CTALinkOrButton>
+      </Button>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
-  H3, P, A, Input, withAuth, ErrorSection, CTALinkOrButton,
+  H3, P, A, Input, withAuth, ErrorSection, Button,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
@@ -110,9 +110,9 @@ const RoomControlPage = withAuth(({ auth }) => {
             room.status.currentUrl === defaultDisplayUrl ? (
               <div className="grid md:grid-cols-[1fr_0_1fr] gap-4 md:gap-8 items-center">
                 <div>
-                  <CTALinkOrButton onClick={() => setPiCurrentUrl('https://meet.google.com/landing?instantMeeting=true')}>
+                  <Button onClick={() => setPiCurrentUrl('https://meet.google.com/landing?instantMeeting=true')}>
                     <div className="flex gap-1.5 items-center"><FaPlus /> Start instant meeting</div>
-                  </CTALinkOrButton>
+                  </Button>
                 </div>
                 <div className="flex md:flex-col gap-1.5 items-center h-full">
                   <div className="border-t md:border-l border-stone-500 flex-1" />
@@ -129,23 +129,23 @@ const RoomControlPage = withAuth(({ auth }) => {
                       placeholder="Meeting code or URL"
                       className="flex-1"
                     />
-                    <CTALinkOrButton
+                    <Button
                       onClick={() => setPiCurrentUrl(meetingUrl)}
                       disabled={!meetingUrl}
                       variant="secondary"
                       className="h-9"
                     >
                       Join
-                    </CTALinkOrButton>
+                    </Button>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="flex flex-col gap-4">
                 <P>Currently viewing <A href={room.status.currentUrl}>{room.status.currentUrl}</A></P>
-                <CTALinkOrButton onClick={() => setPiCurrentUrl(defaultDisplayUrl)}>
+                <Button onClick={() => setPiCurrentUrl(defaultDisplayUrl)}>
                   Leave {room.status.currentUrl.includes('meet') ? 'meeting' : 'page'}
-                </CTALinkOrButton>
+                </Button>
               </div>
             )
           )}

@@ -1,4 +1,4 @@
-import { cn, CTALinkOrButton } from '@bluedot/ui';
+import { cn, Button } from '@bluedot/ui';
 import type React from 'react';
 import {
   useCallback, useEffect,
@@ -65,14 +65,14 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
       {!isLoggedIn && (
         <div className="w-full flex">
-          <CTALinkOrButton
+          <Button
             variant="primary"
             url={getLoginUrl(router.asPath, true)}
             className="!w-auto !whitespace-normal text-center min-w-0"
           >
             Create a free account to save your answers
             <FaChevronRight aria-hidden className="size-4 shrink-0" />
-          </CTALinkOrButton>
+          </Button>
         </div>
       )}
 
@@ -81,14 +81,14 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         // Keep focus in the editor so the pending autosave fires before the completion toggle
         <div onMouseDown={(e) => e.preventDefault()}>
           {!isCompleted ? (
-            <CTALinkOrButton
+            <Button
               size="small"
               onClick={handleMarkComplete}
               disabled={isDisabled}
               aria-label="Mark exercise as complete"
             >
               Complete
-            </CTALinkOrButton>
+            </Button>
           ) : (
             <button
               type="button"

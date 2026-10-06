@@ -1,7 +1,7 @@
 import {
   Breadcrumbs,
   type BluedotRoute,
-  CTALinkOrButton,
+  Button,
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -41,10 +41,10 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
           {mission.description ?? undefined}
         </MarkdownExtendedRenderer>
         <div className="my-8 border-t border-default pt-8">
-          <CTALinkOrButton url={ROUTES.missions.url} variant="secondary">
+          <Button url={ROUTES.missions.url} variant="secondary">
             <FaChevronLeft aria-hidden className="size-4" />
             See other missions
-          </CTALinkOrButton>
+          </Button>
         </div>
       </Section>
     </div>

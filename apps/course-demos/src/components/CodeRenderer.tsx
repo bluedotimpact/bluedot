@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import {
   SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider,
 } from '@codesandbox/sandpack-react';
-import { P, CTALinkOrButton } from '@bluedot/ui';
+import { P, Button } from '@bluedot/ui';
 
 type CodeRendererProps = {
   code: string;
@@ -89,8 +89,8 @@ export default function App() {
       {!hidePreview && (
         <nav className="justify-end items-center flex gap-2">
           <P className="!my-0">Show:</P>
-          <CTALinkOrButton variant={view === 'code' ? 'primary' : 'secondary'} onClick={() => setView('code')}>Code</CTALinkOrButton>
-          <CTALinkOrButton variant={view === 'preview' ? 'primary' : 'secondary'} onClick={() => setView('load_preview')}>Preview</CTALinkOrButton>
+          <Button variant={view === 'code' ? 'primary' : 'secondary'} onClick={() => setView('code')}>Code</Button>
+          <Button variant={view === 'preview' ? 'primary' : 'secondary'} onClick={() => setView('load_preview')}>Preview</Button>
         </nav>
       )}
     </>

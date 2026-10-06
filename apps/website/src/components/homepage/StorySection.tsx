@@ -1,4 +1,4 @@
-import { CTALinkOrButton, H2, P } from '@bluedot/ui';
+import { Button, H2, P } from '@bluedot/ui';
 import { ROUTES } from '../../lib/routes';
 
 const StorySection = () => {
@@ -20,13 +20,13 @@ const StorySection = () => {
             </P>
           </div>
 
-          <CTALinkOrButton
+          <Button
             size="small"
             url={ROUTES.about.url}
             className="h-11 px-[17px] py-4 text-size-xs font-normal leading-snug tracking-wide text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200"
           >
             Learn more
-          </CTALinkOrButton>
+          </Button>
         </div>
       </div>
     </section>

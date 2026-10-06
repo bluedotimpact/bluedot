@@ -1,5 +1,5 @@
 import {
-  addQueryParam, cn, CTALinkOrButton, Eyebrow, H2, H3, P, ProgressDots, useAuthStore,
+  addQueryParam, cn, Button, Eyebrow, H2, H3, P, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
@@ -208,9 +208,9 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
     return (
       <div className="flex flex-col items-center gap-4">
         <ErrorView error={error} />
-        <CTALinkOrButton variant="primary" onClick={() => refetch()}>
+        <Button variant="primary" onClick={() => refetch()}>
           Retry
-        </CTALinkOrButton>
+        </Button>
       </div>
     );
   }
@@ -257,14 +257,14 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
           certificateId={data.certificateId}
         />
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <CTALinkOrButton url={linkedInCertUrl} target="_blank">
+          <Button url={linkedInCertUrl} target="_blank">
             <FaLinkedinIn aria-hidden className="size-4" />
             Add certificate to LinkedIn
-          </CTALinkOrButton>
-          <CTALinkOrButton variant="outline-black" onClick={handleCopyLink}>
+          </Button>
+          <Button variant="outline-black" onClick={handleCopyLink}>
             <FaLink aria-hidden className="size-4" />
             {copied ? 'Link copied!' : 'Copy link'}
-          </CTALinkOrButton>
+          </Button>
         </div>
       </div>
     );
@@ -285,14 +285,14 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   if (data?.status === 'action-plan-pending') {
     const actionPlanUrl = getActionPlanUrl(data.meetPersonId);
     cta = (
-      <CTALinkOrButton
+      <Button
         url={actionPlanUrl}
         variant="primary"
         target="_blank"
         disabled={data.hasSubmittedActionPlan ?? false}
       >
         {data.hasSubmittedActionPlan ? 'Submitted!' : 'Submit your plan here'}
-      </CTALinkOrButton>
+      </Button>
     );
   }
 
@@ -316,9 +316,9 @@ const CertificateHero = ({ courseId, courseSlug, courseTitle }: CertificateHeroP
         <p className="max-w-[480px] text-center text-size-xs text-charcoal-mid">
           Create a free account to earn your course certificate.
         </p>
-        <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">
+        <Button url={getLoginUrl(router.asPath)} variant="primary">
           Log in
-        </CTALinkOrButton>
+        </Button>
       </div>
     );
   }
@@ -404,14 +404,14 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               preview={<PostPreviewPanel courseSlug={courseSlug} shareText={shareText} courseUrl={courseUrl} />}
               actions={
                 <>
-                  <CTALinkOrButton url={linkedInUrl} target="_blank">
+                  <Button url={linkedInUrl} target="_blank">
                     <FaLinkedinIn aria-hidden className="size-4" />
                     Share on LinkedIn
-                  </CTALinkOrButton>
-                  <CTALinkOrButton variant="outline-black" url={xUrl} target="_blank">
+                  </Button>
+                  <Button variant="outline-black" url={xUrl} target="_blank">
                     <FaXTwitter aria-hidden className="size-4" />
                     Share on X
-                  </CTALinkOrButton>
+                  </Button>
                 </>
               }
             />
@@ -423,10 +423,10 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               }
               preview={<ChatPreviewPanel courseUrl={courseUrl} shareText={dmText} />}
               actions={
-                <CTALinkOrButton onClick={handleCopyShare}>
+                <Button onClick={handleCopyShare}>
                   <FaRegCopy aria-hidden className="size-4" />
                   {copied ? 'Copied!' : 'Copy Message'}
-                </CTALinkOrButton>
+                </Button>
               }
             />
           </div>
@@ -443,10 +443,10 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               every month.
             </P>
           </div>
-          <CTALinkOrButton url="/courses/agi-strategy" variant="primary">
+          <Button url="/courses/agi-strategy" variant="primary">
             Apply now
             <FaChevronRight aria-hidden className="size-4" />
-          </CTALinkOrButton>
+          </Button>
         </div>
       )}
     </div>

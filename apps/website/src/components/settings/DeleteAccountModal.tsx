@@ -1,7 +1,7 @@
 import {
   A,
   cn,
-  CTALinkOrButton,
+  Button,
   ErrorSection,
   Modal,
   P,
@@ -157,7 +157,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
         )}
 
         <div className="flex gap-3 justify-end pt-4">
-          <CTALinkOrButton
+          <Button
             variant="secondary"
             type="button"
             onClick={() => setIsOpen(false)}
@@ -165,8 +165,8 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
             aria-label="Cancel"
           >
             Cancel
-          </CTALinkOrButton>
-          <CTALinkOrButton
+          </Button>
+          <Button
             variant="primary"
             tone="destructive"
             type="submit"
@@ -174,7 +174,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
             aria-label={submitLabel}
           >
             {submitLabel}
-          </CTALinkOrButton>
+          </Button>
         </div>
       </form>
     );

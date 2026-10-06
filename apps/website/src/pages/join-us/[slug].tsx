@@ -2,7 +2,7 @@ import {
   Section,
   Breadcrumbs,
   type BluedotRoute,
-  CTALinkOrButton,
+  Button,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
@@ -75,13 +75,13 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         title={currentRoute.title}
         subtitle={job.subtitle ?? undefined}
         cta={job.applicationUrl && (
-          <CTALinkOrButton
+          <Button
             url={job.applicationUrl}
             target="_blank"
             size="large"
           >
             Apply Now
-          </CTALinkOrButton>
+          </Button>
         )}
       />
       <Breadcrumbs route={currentRoute} />
@@ -91,7 +91,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         </MarkdownExtendedRenderer>
         {job.applicationUrl && (
           <div className="my-8">
-            <CTALinkOrButton url={job.applicationUrl} target="_blank">Apply Now</CTALinkOrButton>
+            <Button url={job.applicationUrl} target="_blank">Apply Now</Button>
           </div>
         )}
       </Section>

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import {
-  ErrorSection, H1, H2, P, A, withAuth, CTALinkOrButton, Card, ProgressDots,
+  ErrorSection, H1, H2, P, A, withAuth, Button, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { type personTable } from '@bluedot/db';
@@ -20,14 +20,14 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
       <H2>People</H2>
       <PeopleListView />
       <H2>Logout</H2>
-      <CTALinkOrButton onClick={() => {
+      <Button onClick={() => {
         // This is a little jank: if we immediately setAuth to false the withAuth HOC will redirect us to login first
         router.push('/');
         setTimeout(() => setAuth(null), 1000);
       }}
       >
         Logout
-      </CTALinkOrButton>
+      </Button>
     </div>
   );
 });

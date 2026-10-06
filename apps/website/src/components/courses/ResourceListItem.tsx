@@ -6,7 +6,7 @@ import {
   A,
   addQueryParam,
   cn,
-  CTALinkOrButton,
+  Button,
   P,
   useAuthStore,
 } from '@bluedot/ui';
@@ -343,13 +343,13 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                 <div className="flex flex-wrap items-center p-0 gap-2 min-h-[30px]">
                   {/* Complete/Completed button */}
                   {!isCompleted ? (
-                    <CTALinkOrButton
+                    <Button
                       size="small"
                       onClick={() => handleToggleComplete(true)}
                       aria-label="Mark resource as complete"
                     >
                       Complete
-                    </CTALinkOrButton>
+                    </Button>
                   ) : (
                     <button
                       type="button"

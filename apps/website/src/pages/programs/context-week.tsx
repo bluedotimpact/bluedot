@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, CTALinkOrButton, H3, P, type BluedotRoute,
+  Breadcrumbs, Button, H3, P, type BluedotRoute,
 } from '@bluedot/ui';
 import type { GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -40,13 +40,13 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
         title={programName}
         subtitle={PROGRAM_DESCRIPTION}
         cta={applicationUrl && (
-          <CTALinkOrButton
+          <Button
             url={applicationUrl}
             target="_blank"
           >
             Express interest
             <FaChevronRight aria-hidden className="size-4" />
-          </CTALinkOrButton>
+          </Button>
         )}
       />
       <Breadcrumbs route={currentRoute} />
@@ -56,7 +56,7 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
           <H3>Express interest</H3>
           <P>{APPLICATION_NOTICE}</P>
           {applicationUrl && (
-            <CTALinkOrButton
+            <Button
               variant="primary"
               url={applicationUrl}
               target="_blank"
@@ -64,7 +64,7 @@ const ContextWeekProgramPage = ({ programName }: ProgramDetailPageProps) => {
             >
               Express interest
               <FaChevronRight aria-hidden className="size-4" />
-            </CTALinkOrButton>
+            </Button>
           )}
         </div>
       </section>

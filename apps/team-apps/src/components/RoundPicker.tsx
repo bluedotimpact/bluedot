@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
-import { Callout, CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { Callout, Button, ProgressDots } from '@bluedot/ui';
 import { FaChevronDown } from 'react-icons/fa6';
 import { type Round } from '../lib/api/airtable';
 import {
@@ -240,14 +240,14 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
           </div>
         )}
 
-        <CTALinkOrButton
+        <Button
           variant="ghost"
           size="small"
           className="min-h-11"
           onClick={() => window.location.reload()}
         >
           Refresh
-        </CTALinkOrButton>
+        </Button>
       </div>
     </div>
   );

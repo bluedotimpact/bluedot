@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
+  Button, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
 import { FaBan, FaCheck, FaLock } from 'react-icons/fa6';
@@ -290,33 +290,33 @@ const getParticipantActions = (
       isVisible: Boolean(showLockedCert && feedbackFormUrl),
       variant: 'inline',
       inline: feedbackFormUrl ? (
-        <CTALinkOrButton variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5 text-size-xxs">
+        <Button variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5 text-size-xxs">
           <FaLock />
           <span>Share feedback<span className="hidden sm:inline"> to view your certificate</span></span>
-        </CTALinkOrButton>
+        </Button>
       ) : null,
     },
     {
       id: 'view-certificate',
       isVisible: state === 'completed' && hasCert && !showLockedCert,
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" url={certificateUrl} className="text-size-xxs">View certificate</CTALinkOrButton>,
+      inline: <Button variant="primary" size="small" url={certificateUrl} className="text-size-xxs">View certificate</Button>,
     },
     {
       id: 'action-plan',
       isVisible: Boolean(showActionPlan),
       variant: 'inline',
       inline: hasSubmittedActionPlan ? (
-        <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 text-size-xxs disabled:opacity-80">
+        <Button variant="primary" size="small" disabled className="gap-1.5 text-size-xxs disabled:opacity-80">
           <span>Action plan submitted</span>
           <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
             <FaCheck className="size-1.5 text-bluedot-darker" />
           </span>
-        </CTALinkOrButton>
+        </Button>
       ) : (
-        <CTALinkOrButton variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank" className="text-size-xxs">
+        <Button variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank" className="text-size-xxs">
           Submit action plan
-        </CTALinkOrButton>
+        </Button>
       ),
     },
     {
@@ -324,7 +324,7 @@ const getParticipantActions = (
       isVisible: state === 'upcoming' && courseRegistration.decision !== 'Reject' && !!courseRegistration.email,
       variant: 'inline',
       inline: (
-        <CTALinkOrButton
+        <Button
           variant="primary"
           size="small"
           url={buildAvailabilityFormUrl({
@@ -337,14 +337,14 @@ const getParticipantActions = (
           className="text-size-xxs"
         >
           {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
-        </CTALinkOrButton>
+        </Button>
       ),
     },
     {
       id: 'view-curriculum',
       isVisible: state === 'upcoming' && Boolean(course.slug),
       variant: 'inline',
-      inline: <CTALinkOrButton variant="outline-black" size="small" url={`/courses/${course.slug}/1/1`} className="text-size-xxs">View curriculum</CTALinkOrButton>,
+      inline: <Button variant="outline-black" size="small" url={`/courses/${course.slug}/1/1`} className="text-size-xxs">View curriculum</Button>,
     },
     {
       id: 'dropped-pill',
@@ -356,7 +356,7 @@ const getParticipantActions = (
       id: 'apply-again',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl} target="_blank" className="text-size-xxs">Apply again</CTALinkOrButton>,
+      inline: <Button variant="primary" size="small" url={applyAgainUrl} target="_blank" className="text-size-xxs">Apply again</Button>,
     },
     {
       id: 'open-doc',
@@ -429,7 +429,7 @@ const getFacilitatorActions = (
       isVisible: isPast && Boolean(meetPersonId),
       variant: 'inline',
       inline: meetPersonId ? (
-        <CTALinkOrButton
+        <Button
           variant="primary"
           size="small"
           url={`/facilitator-feedback/${meetPersonId}`}
@@ -437,7 +437,7 @@ const getFacilitatorActions = (
           className="text-size-xxs"
         >
           {hasSubmittedFeedback ? 'Edit feedback' : 'Share feedback'}
-        </CTALinkOrButton>
+        </Button>
       ) : null,
     },
     {

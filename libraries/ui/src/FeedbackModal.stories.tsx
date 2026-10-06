@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { FeedbackModal, type FeedbackModalProps } from './FeedbackModal';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 
 const FeedbackModalDemo: React.FC<Pick<FeedbackModalProps, 'onSubmit' | 'onRecordScreen' | 'recordingUrl' | 'defaultEmail'>> = ({
   onSubmit, onRecordScreen, recordingUrl, defaultEmail,
@@ -9,9 +9,9 @@ const FeedbackModalDemo: React.FC<Pick<FeedbackModalProps, 'onSubmit' | 'onRecor
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <CTALinkOrButton onClick={() => setIsOpen(true)}>
+      <Button onClick={() => setIsOpen(true)}>
         Submit Feedback
-      </CTALinkOrButton>
+      </Button>
       <FeedbackModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}

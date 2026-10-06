@@ -1,5 +1,5 @@
 import type React from 'react';
-import { CTALinkOrButton, Eyebrow } from '@bluedot/ui';
+import { Button, Eyebrow } from '@bluedot/ui';
 import { FaChevronRight } from 'react-icons/fa6';
 import { type ApplicationSlug, useApplicationUrl } from '../lib/hooks/useApplicationUrl';
 
@@ -53,7 +53,7 @@ const StatsStrip = ({
         </div>
         <div className="flex flex-wrap gap-3">
           {primary.url && (
-            <CTALinkOrButton
+            <Button
               variant="primary"
               url={primary.url}
               target="_blank"
@@ -61,17 +61,17 @@ const StatsStrip = ({
             >
               {primary.label}
               <FaChevronRight aria-hidden className="size-4" />
-            </CTALinkOrButton>
+            </Button>
           )}
           {secondaryAction?.url && (
-            <CTALinkOrButton
+            <Button
               variant="secondary"
               url={secondaryAction.url}
               onClick={secondaryAction.onClick}
             >
               {secondaryAction.label}
               <FaChevronRight aria-hidden className="size-4" />
-            </CTALinkOrButton>
+            </Button>
           )}
         </div>
       </div>

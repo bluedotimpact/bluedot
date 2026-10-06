@@ -1,6 +1,6 @@
 import {
   Callout,
-  CTALinkOrButton,
+  Button,
   DatePicker,
   Modal,
   P,
@@ -209,9 +209,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             </P>
             <P className="text-center text-bluedot-navy/80">Please allow up to 10 minutes to see the changes.</P>
           </div>
-          <CTALinkOrButton className="w-full" onClick={handleClose}>
+          <Button className="w-full" onClick={handleClose}>
             Close
-          </CTALinkOrButton>
+          </Button>
         </div>
       );
     }
@@ -232,9 +232,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               to see the changes.
             </P>
           </div>
-          <CTALinkOrButton className="w-full" onClick={handleClose}>
+          <Button className="w-full" onClick={handleClose}>
             Close
-          </CTALinkOrButton>
+          </Button>
         </div>
       );
     }
@@ -307,14 +307,14 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             </P>
           )}
 
-          <CTALinkOrButton
+          <Button
             className="w-full"
             onClick={handleSubmit}
             loading={updateDiscussionTimeMutation.isPending}
             disabled={submitDisabled}
           >
             {updateDiscussionTimeMutation.isPending ? 'Submitting...' : 'Submit'}
-          </CTALinkOrButton>
+          </Button>
         </>
       );
     }
@@ -369,14 +369,14 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </P>
         )}
 
-        <CTALinkOrButton
+        <Button
           className="w-full"
           onClick={handleFacilitatorChangeSubmit}
           loading={changeFacilitatorMutation.isPending}
           disabled={facilitatorChangeSubmitDisabled}
         >
           {changeFacilitatorMutation.isPending ? 'Submitting...' : 'Submit'}
-        </CTALinkOrButton>
+        </Button>
       </>
     );
   };

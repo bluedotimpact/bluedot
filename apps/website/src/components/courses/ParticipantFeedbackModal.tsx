@@ -1,5 +1,5 @@
 import {
-  Avatar, Callout, Checkbox, CTALinkOrButton, ErrorSection, Modal, ModalTitle, Textarea,
+  Avatar, Callout, Checkbox, Button, ErrorSection, Modal, ModalTitle, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
@@ -175,16 +175,16 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
           <p className="text-size-xxs text-bluedot-navy/50">Changes save when you click "Done"</p>
           <div className="flex gap-2.5">
-            <CTALinkOrButton variant="outline-black" onClick={onClose} disabled={savePeerFeedback.isPending}>
+            <Button variant="outline-black" onClick={onClose} disabled={savePeerFeedback.isPending}>
               Cancel
-            </CTALinkOrButton>
-            <CTALinkOrButton
+            </Button>
+            <Button
               onClick={handleSave}
               loading={savePeerFeedback.isPending}
               disabled={showUpRating === null || engageRating === null || !hasFollowUp}
             >
               Done
-            </CTALinkOrButton>
+            </Button>
           </div>
         </div>
       </>

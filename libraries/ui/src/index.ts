@@ -6,6 +6,9 @@ export type { AvatarProps } from './Avatar';
 export { Breadcrumbs, BreadcrumbTrail, type BluedotRoute } from './Breadcrumbs';
 export type { BreadcrumbsProps, BreadcrumbTrailProps } from './Breadcrumbs';
 
+export { Button } from './Button';
+export type { ButtonProps } from './Button';
+
 export { Card, CardShell } from './Card';
 export type { CardProps, CardShellProps } from './Card';
 export { ListGroup, ListRow } from './ListRow';
@@ -19,9 +22,6 @@ export type { ClickTargetProps } from './ClickTarget';
 
 export { Collapsible } from './Collapsible';
 export type { CollapsibleProps } from './Collapsible';
-
-export { CTALinkOrButton } from './CTALinkOrButton';
-export type { CTALinkOrButtonProps } from './CTALinkOrButton';
 
 export { DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';

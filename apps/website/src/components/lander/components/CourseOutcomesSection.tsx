@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, H2, H3, P,
+  Button, H2, H3, P,
   CardShell,
 } from '@bluedot/ui';
 import { type ReactNode } from 'react';
@@ -89,13 +89,13 @@ const CourseOutcomesSection = ({
 
           {cta && (
             <div className="flex justify-center mt-10 md:mt-12">
-              <CTALinkOrButton
+              <Button
                 url={cta.url}
                 variant="primary"
                 className="!px-8 !py-3 !text-base"
               >
                 {cta.text}
-              </CTALinkOrButton>
+              </Button>
             </div>
           )}
         </div>

@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import {
-  cn, CTALinkOrButton, Eyebrow, H2, P,
+  cn, Button, Eyebrow, H2, P,
   CardShell,
 } from '@bluedot/ui';
 import { FaPlus } from 'react-icons/fa6';
@@ -134,13 +134,13 @@ const PersonasSection = ({
 
         {cta && (
           <div className="flex justify-center mt-10 md:mt-12">
-            <CTALinkOrButton
+            <Button
               url={cta.url}
               variant="primary"
               className="!px-8 !py-3 !text-base"
             >
               {cta.text}
-            </CTALinkOrButton>
+            </Button>
           </div>
         )}
         {footerText && (

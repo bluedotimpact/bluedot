@@ -1,6 +1,6 @@
 import {
   Checkbox,
-  CTALinkOrButton,
+  Button,
   ErrorSection,
   H1,
   H2,
@@ -599,9 +599,9 @@ const QuickApplyForm = ({
       </Section>
 
       <div className="border-charcoal-light rounded-lg border bg-white p-5">
-        <CTALinkOrButton onClick={handleSubmit(onSubmit)} disabled={quickApply.isPending}>
+        <Button onClick={handleSubmit(onSubmit)} disabled={quickApply.isPending}>
           {quickApply.isPending ? 'Submitting…' : 'Submit'}
-        </CTALinkOrButton>
+        </Button>
       </div>
     </Shell>
   );

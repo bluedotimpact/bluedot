@@ -4,7 +4,7 @@ import {
   FaCheck, FaImage, FaPaperclip, FaVideo, FaXmark,
 } from 'react-icons/fa6';
 import { z } from 'zod';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
 import { cn } from './utils';
@@ -225,9 +225,9 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
             <p className="text-bluedot-navy/60 max-w-[500px] text-center text-size-xs leading-relaxed">
               Your feedback has been sent! We'll be in touch if we have follow-up questions.
             </p>
-            <CTALinkOrButton className="mt-4 w-full" onClick={() => handleModalOpenChange(false)}>
+            <Button className="mt-4 w-full" onClick={() => handleModalOpenChange(false)}>
               Close
-            </CTALinkOrButton>
+            </Button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
@@ -333,10 +333,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                         <FaCheck className="size-3.5 shrink-0" />
                         <span className="text-size-xs">Recording saved</span>
                       </div>
-                      <CTALinkOrButton variant="secondary" size="small" onClick={onRecordScreen}>
+                      <Button variant="secondary" size="small" onClick={onRecordScreen}>
                         <FaVideo aria-hidden className="size-4 shrink-0" />
                         Re-record
-                      </CTALinkOrButton>
+                      </Button>
                     </div>
                     <input
                       type="url"
@@ -347,10 +347,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                     />
                   </div>
                 ) : (
-                  <CTALinkOrButton size="small" onClick={onRecordScreen}>
+                  <Button size="small" onClick={onRecordScreen}>
                     <FaVideo aria-hidden className="size-4 shrink-0" />
                     Record my screen
-                  </CTALinkOrButton>
+                  </Button>
                 )}
               </div>
             )}
@@ -386,14 +386,14 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
               )}
             </div>
 
-            <CTALinkOrButton
+            <Button
               type="submit"
               className="w-full"
               loading={isSubmitting}
               disabled={!description.trim() || !email.trim()}
             >
               {isSubmitting ? 'Submitting' : 'Submit'}
-            </CTALinkOrButton>
+            </Button>
           </form>
         )}
       </div>

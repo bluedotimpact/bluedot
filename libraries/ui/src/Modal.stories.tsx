@@ -3,7 +3,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Modal, type ModalProps } from './Modal';
 import { ModalTitle } from './ModalTitle';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 import { Input } from './Input';
 import { P } from './Text';
 
@@ -23,7 +23,7 @@ const ModalDemo: React.FC<ModalDemoProps> = ({
 
   return (
     <div>
-      <CTALinkOrButton onClick={() => setIsOpen(true)}>{openLabel}</CTALinkOrButton>
+      <Button onClick={() => setIsOpen(true)}>{openLabel}</Button>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} {...props}>
         {children}
       </Modal>
@@ -58,7 +58,7 @@ export const Default: Story = {
     children: (
       <div className="flex flex-col gap-6">
         <P>You'll lose access to your discussion group and your progress. This can't be undone.</P>
-        <CTALinkOrButton className="w-full">Confirm drop out</CTALinkOrButton>
+        <Button className="w-full">Confirm drop out</Button>
       </div>
     ),
   },
@@ -84,7 +84,7 @@ export const LongContent: Story = {
             aliquet nunc, quis aliquam nisl nunc quis nisl. Nullam euismod, nisl eget aliquam ultricies.
           </P>
         ))}
-        <CTALinkOrButton className="w-full">I agree</CTALinkOrButton>
+        <Button className="w-full">I agree</Button>
       </div>
     ),
   },
@@ -109,8 +109,8 @@ export const WithForm: Story = {
           <Input id="story-email" type="email" />
         </div>
         <div className="flex flex-col-reverse gap-3 md:flex-row md:justify-end">
-          <CTALinkOrButton variant="secondary" className="w-full md:w-auto">Cancel</CTALinkOrButton>
-          <CTALinkOrButton type="submit" className="w-full md:w-auto">Send confirmation</CTALinkOrButton>
+          <Button variant="secondary" className="w-full md:w-auto">Cancel</Button>
+          <Button type="submit" className="w-full md:w-auto">Send confirmation</Button>
         </div>
       </form>
     ),
@@ -124,7 +124,7 @@ export const NotDismissable: Story = {
 
       return (
         <div>
-          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open non-dismissable modal</CTALinkOrButton>
+          <Button onClick={() => setIsOpen(true)}>Open non-dismissable modal</Button>
           <Modal
             isOpen={isOpen}
             setIsOpen={setIsOpen}
@@ -138,7 +138,7 @@ export const NotDismissable: Story = {
                 dragging the sheet do nothing. The body supplies the exit, or the caller closes it by setting{' '}
                 <code>isOpen</code> to false.
               </P>
-              <CTALinkOrButton onClick={() => setIsOpen(false)}>Close programmatically</CTALinkOrButton>
+              <Button onClick={() => setIsOpen(false)}>Close programmatically</Button>
             </div>
           </Modal>
         </div>
@@ -157,14 +157,14 @@ export const StateSwap: Story = {
 
       return (
         <div>
-          <CTALinkOrButton
+          <Button
             onClick={() => {
               setDone(false);
               setIsOpen(true);
             }}
           >
             Open modal
-          </CTALinkOrButton>
+          </Button>
           <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={done ? 'You’ve rejoined Group 4' : 'Rejoin a group'} bottomDrawerOnMobile>
             <div className="flex flex-col gap-6">
               <P>
@@ -173,8 +173,8 @@ export const StateSwap: Story = {
                   : 'Pick a group that fits your availability. You’ll keep your progress and exercise answers.'}
               </P>
               {done
-                ? <CTALinkOrButton className="w-full" onClick={() => setIsOpen(false)}>Done</CTALinkOrButton>
-                : <CTALinkOrButton className="w-full" onClick={() => setDone(true)}>Rejoin group</CTALinkOrButton>}
+                ? <Button className="w-full" onClick={() => setIsOpen(false)}>Done</Button>
+                : <Button className="w-full" onClick={() => setDone(true)}>Rejoin group</Button>}
             </div>
           </Modal>
         </div>

@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, Eyebrow, HeroH1, P,
+  Button, Eyebrow, HeroH1, P,
 } from '@bluedot/ui';
 
 type CtaProps = {
@@ -98,7 +98,7 @@ const HeroSection = ({
 
               {/* CTA Buttons - stacked on mobile, side-by-side on tablet */}
               <div className="flex flex-col bd-md:flex-row gap-3 w-full bd-md:w-auto bd-md:justify-center">
-                <CTALinkOrButton
+                <Button
                   url={primaryCta.url}
                   variant="unstyled"
                   size="large"
@@ -106,10 +106,10 @@ const HeroSection = ({
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
-                </CTALinkOrButton>
+                </Button>
 
                 {secondaryCta && (
-                  <CTALinkOrButton
+                  <Button
                     url={secondaryCta.url}
                     variant="unstyled"
                     size="large"
@@ -117,7 +117,7 @@ const HeroSection = ({
                     style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                   >
                     {secondaryCta.text}
-                  </CTALinkOrButton>
+                  </Button>
                 )}
               </div>
             </div>
@@ -143,7 +143,7 @@ const HeroSection = ({
                 </div>
 
                 <div className="flex gap-3">
-                  <CTALinkOrButton
+                  <Button
                     url={primaryCta.url}
                     variant="unstyled"
                     size="large"
@@ -151,10 +151,10 @@ const HeroSection = ({
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
-                  </CTALinkOrButton>
+                  </Button>
 
                   {secondaryCta && (
-                    <CTALinkOrButton
+                    <Button
                       url={secondaryCta.url}
                       variant="unstyled"
                       size="large"
@@ -162,7 +162,7 @@ const HeroSection = ({
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
-                    </CTALinkOrButton>
+                    </Button>
                   )}
                 </div>
               </div>
@@ -207,7 +207,7 @@ const HeroSection = ({
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col bd-md:flex-row gap-3">
-                  <CTALinkOrButton
+                  <Button
                     url={primaryCta.url}
                     variant="unstyled"
                     size="large"
@@ -215,10 +215,10 @@ const HeroSection = ({
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
-                  </CTALinkOrButton>
+                  </Button>
 
                   {secondaryCta && (
-                    <CTALinkOrButton
+                    <Button
                       url={secondaryCta.url}
                       variant="unstyled"
                       size="large"
@@ -226,7 +226,7 @@ const HeroSection = ({
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
-                    </CTALinkOrButton>
+                    </Button>
                   )}
                 </div>
               </div>
@@ -267,24 +267,24 @@ const HeroSection = ({
 
                 {/* CTA Buttons */}
                 <div className="flex flex-col bd-md:flex-row gap-3">
-                  <CTALinkOrButton
+                  <Button
                     url={primaryCta.url}
                     variant="primary"
                     size="large"
                     className="w-full bd-md:w-auto"
                   >
                     {primaryCta.text}
-                  </CTALinkOrButton>
+                  </Button>
 
                   {secondaryCta && (
-                    <CTALinkOrButton
+                    <Button
                       url={secondaryCta.url}
                       variant="outline-black"
                       size="large"
                       className="w-full bd-md:w-auto"
                     >
                       {secondaryCta.text}
-                    </CTALinkOrButton>
+                    </Button>
                   )}
                 </div>
               </div>
