@@ -571,7 +571,7 @@ const SpeedReviewPage = () => {
                 if (failedRating.current) void handleRate(failedRating.current);
                 else if (failedUndoMove.current) void handleUndoMove();
               }}
-              className="w-full flex-1"
+              className="flex-1"
             >
               Retry save
             </CTALinkOrButton>
@@ -580,7 +580,7 @@ const SpeedReviewPage = () => {
               onClick={() => {
                 setSaveError(null);
               }}
-              className="w-full flex-1"
+              className="flex-1"
             >
               Return to application
             </CTALinkOrButton>
