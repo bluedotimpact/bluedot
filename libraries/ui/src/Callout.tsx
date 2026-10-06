@@ -33,13 +33,13 @@ export const Callout = ({
   const hasActions = actions.length > 0;
 
   return (
-    <div {...rest} className={cn('flex items-start gap-3 rounded-surface border p-4', surface, className)}>
-      <Icon size={20} className={cn('mt-px shrink-0', fg)} aria-hidden="true" />
+    <div {...rest} className={cn('flex items-start gap-3 rounded-surface border p-4', surface, fg, className)}>
+      <Icon size={20} className="mt-px shrink-0" aria-hidden="true" />
       {/* Figma: actions stay beside the body while it keeps 220px, then wrap below it and fill the width */}
       <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3">
         <div className="flex min-w-0 grow-[999] basis-[220px] flex-col gap-0.5 break-words">
-          {title && <p className={cn('text-size-sm font-semibold leading-snug', fg)}>{title}</p>}
-          {children && <div className="text-size-xs leading-normal text-primary [&>*+*]:mt-2">{children}</div>}
+          {title && <p className="text-size-sm font-semibold leading-snug">{title}</p>}
+          {children && <div className="text-size-xs leading-normal [&>*+*]:mt-2">{children}</div>}
         </div>
         {hasActions && (
           <div className="flex grow flex-wrap gap-2">
@@ -59,7 +59,7 @@ export const Callout = ({
         )}
       </div>
       {onDismiss && (
-        <IconButton aria-label="Dismiss" onClick={onDismiss} className={cn('-my-1.5 -mr-1.5', fg)}>
+        <IconButton aria-label="Dismiss" onClick={onDismiss} className="-my-1.5 -mr-1.5">
           <FaXmark aria-hidden="true" className="size-4" />
         </IconButton>
       )}
