@@ -100,9 +100,9 @@ describe('CTALinkOrButton', () => {
       expect(onClick).not.toHaveBeenCalled();
     });
 
-    test('is not dimmed like disabled', () => {
+    test('dims like disabled while busy', () => {
       render(<CTALinkOrButton loading>Saving…</CTALinkOrButton>);
-      expect(screen.getByRole('button').className).not.includes('aria-busy:opacity');
+      expect(screen.getByRole('button').className).includes('aria-busy:opacity-50');
     });
   });
 
