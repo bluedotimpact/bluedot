@@ -16,6 +16,7 @@ import {
   type AirtableItemFromColumnsMap,
   type PgAirtableConfig,
   type ExtractPgColumns,
+  type PgIndexesConfig,
 } from './typeUtils';
 
 /**
@@ -52,6 +53,7 @@ export type DeprecationSafePgTableConfig<
 > = {
   columns: TColumnsMap;
   deprecatedColumns?: DeprecationSafePgColumnsMap;
+  indexes?: PgIndexesConfig<TColumnsMap>;
 };
 
 /**
@@ -71,7 +73,7 @@ export class DeprecationSafePgTable<
   public readonly pgWithDeprecatedColumns?: DeprecationSafeTable['pg'];
 
   constructor(name: TTableName, config: DeprecationSafePgTableConfig<TColumnsMap>) {
-    this.pg = pgTable(name, config.columns) as DeprecationSafePgTablePg<TTableName, TColumnsMap>;
+    this.pg = pgTable(name, config.columns, config.indexes) as DeprecationSafePgTablePg<TTableName, TColumnsMap>;
 
     if (config.deprecatedColumns && Object.keys(config.deprecatedColumns).length > 0) {
       for (const [columnName, columnBuilder] of Object.entries(config.deprecatedColumns)) {
@@ -90,7 +92,7 @@ export class DeprecationSafePgTable<
       this.pgWithDeprecatedColumns = pgTable(name, {
         ...config.columns,
         ...config.deprecatedColumns,
-      }) as unknown as DeprecationSafeTable['pg'];
+      }, config.indexes as PgIndexesConfig<DeprecationSafePgColumnsMap> | undefined) as unknown as DeprecationSafeTable['pg'];
     }
   }
 }
@@ -136,7 +138,8 @@ export class PgAirtableTable<
 
     const finalPgColumns: ExtractPgColumns<TColumnsMap> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap>;
 
-    this.pg = pgTable(name, finalPgColumns) as typeof this.pg;
+    const indexes = config.indexes as PgIndexesConfig<Record<string, AllowedPgColumn>> | undefined;
+    this.pg = pgTable(name, finalPgColumns, indexes) as typeof this.pg;
     // Initialise pgWithDeprecatedColumns if there are deprecated columns
     if (config.deprecatedColumns && Object.keys(config.deprecatedColumns).length > 0) {
       // Deprecated columns will stop being synced, validate they are nullable so we can handle this
@@ -165,7 +168,7 @@ export class PgAirtableTable<
         combinedColsBuilder[columnName] = columnConfig.pgColumn;
       }
 
-      this.pgWithDeprecatedColumns = pgTable(name, combinedColsBuilder) as unknown as typeof this.pgWithDeprecatedColumns;
+      this.pgWithDeprecatedColumns = pgTable(name, combinedColsBuilder, indexes) as unknown as typeof this.pgWithDeprecatedColumns;
     }
 
     // Initialise Airtable
