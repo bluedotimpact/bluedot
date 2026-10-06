@@ -16,7 +16,7 @@ const HomePage = () => {
       <P>
         Edit <code>src/pages/index.tsx</code> and save to test HMR
       </P>
-      <CTALinkOrButton url="/authed" withChevron>View page requiring auth</CTALinkOrButton>
+      <CTALinkOrButton url="/authed">View page requiring auth</CTALinkOrButton>
     </div>
   );
 };
