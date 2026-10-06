@@ -1,6 +1,6 @@
 import {
   pgTable, text, boolean, numeric, timestamp,
-  serial,
+  serial, index,
 } from 'drizzle-orm/pg-core';
 import { type InferSelectModel, sql } from 'drizzle-orm';
 
@@ -157,6 +157,11 @@ export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response
     completedAt: text(),
     userId: text().array(),
   },
+  indexes: (t) => [
+    // userId is an array queried with `@>`, which only a GIN index can serve
+    index('exercise_response_userId_idx').using('gin', t.userId),
+    index('exercise_response_exerciseId_idx').on(t.exerciseId),
+  ],
 });
 
 export const formConfigurationTable = pgAirtable('form_configuration', {
@@ -534,6 +539,9 @@ export const meetPersonTable = pgAirtable('meet_person', {
       deprecated: true,
     },
   },
+  indexes: (t) => [
+    index('meet_person_userId_idx').on(t.userId),
+  ],
 });
 
 export const zoomAccountTable = pgAirtable('zoom_account', {
@@ -1386,6 +1394,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       airtableId: 'fldCqp2Yp3xD9VGmK',
     },
   },
+  indexes: (t) => [
+    index('course_registration_userId_idx').on(t.userId),
+    index('course_registration_certificateId_idx').on(t.certificateId),
+  ],
 });
 
 export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_registration', {
@@ -1441,6 +1453,9 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
       deprecated: true,
     },
   },
+  indexes: (t) => [
+    index('self_serve_course_registration_userId_idx').on(t.userId),
+  ],
 });
 
 export const userTable = pgAirtable('user', {
@@ -1505,6 +1520,11 @@ export const userTable = pgAirtable('user', {
       airtableId: 'fldsMtibz4pDg0ztQ',
     },
   },
+  indexes: (t) => [
+    // Looked up on every authenticated request (trpc.ts getUserFromAuth)
+    index('user_keycloakIdentifier_idx').on(t.keycloakIdentifier),
+    index('user_email_idx').on(t.email),
+  ],
 });
 
 export const deletionRequestTable = pgAirtable('deletion_request', {
@@ -1568,6 +1588,10 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     createdAt: text(),
     completedAt: text(),
   },
+  indexes: (t) => [
+    // userId is an array queried with `@>`, which only a GIN index can serve
+    index('resource_completion_userId_idx').using('gin', t.userId),
+  ],
 });
 
 export const teamMemberTable = pgAirtable('team_member', {
