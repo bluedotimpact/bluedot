@@ -1,9 +1,15 @@
-import { FeedbackModal, useAuthStore, type FeedbackData } from '@bluedot/ui';
+import { useAuthStore, type FeedbackData } from '@bluedot/ui';
+import dynamic from 'next/dynamic';
 import {
   createContext, useContext, useEffect, useState,
 } from 'react';
+import { ModalLoadingFallback } from '../components/ModalLoadingFallback';
 import { toBase64 } from '../utils/toBase64';
 import { trpc } from '../utils/trpc';
+
+const FeedbackModal = dynamic(() => import('@bluedot/ui/src/FeedbackModal').then((m) => m.FeedbackModal), {
+  loading: ModalLoadingFallback,
+});
 
 type FeedbackContextType = {
   openFeedback: () => void;
@@ -18,6 +24,10 @@ export default function FeedbackProvider({ children }: { children: React.ReactNo
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
   const [pageUrl, setPageUrl] = useState<string | undefined>();
+  // Mount on first open, then stay mounted: the modal keeps the draft across close/reopen
+  // (e.g. closing to record the screen with Birdie), which unmounting would discard.
+  const [hasOpened, setHasOpened] = useState(false);
+  if (isFeedbackOpen && !hasOpened) setHasOpened(true);
 
   const submitFeedbackMutation = trpc.feedback.submit.useMutation();
   // The logged-in user's own email, which is the admin's rather than the target's when impersonating
@@ -88,14 +98,16 @@ export default function FeedbackProvider({ children }: { children: React.ReactNo
   return (
     <feedbackContext.Provider value={{ openFeedback }}>
       {children}
-      <FeedbackModal
-        isOpen={isFeedbackOpen}
-        setIsOpen={handleSetFeedbackOpen}
-        onRecordScreen={handleRecordScreen}
-        onSubmit={handleFeedbackSubmit}
-        recordingUrl={recordingUrl}
-        defaultEmail={authEmail}
-      />
+      {hasOpened && (
+        <FeedbackModal
+          isOpen={isFeedbackOpen}
+          setIsOpen={handleSetFeedbackOpen}
+          onRecordScreen={handleRecordScreen}
+          onSubmit={handleFeedbackSubmit}
+          recordingUrl={recordingUrl}
+          defaultEmail={authEmail}
+        />
+      )}
     </feedbackContext.Provider>
   );
 }
