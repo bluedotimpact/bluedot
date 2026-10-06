@@ -22,11 +22,10 @@ export type CTALinkOrButtonProps = {
 // `disabled:` attributes apply to buttons, `aria-disabled:` to links
 const CTA_BASE_STYLES = 'cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none';
 
-const CTA_SIZE_STYLES = {
-  small: 'text-size-sm bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md font-semibold',
-  medium: 'text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-semibold',
-  // 50px-tall hero/landing CTA, used by lander HeroSection variants.
-  large: 'text-size-sm px-5 py-2.5 h-button-lg rounded-md font-medium',
+const SIZE_STYLES = {
+  small: 'h-9 px-3',
+  medium: 'h-11 px-4',
+  large: 'h-[50px] px-5',
 } as const;
 
 const CTA_VARIANT_STYLES = {
