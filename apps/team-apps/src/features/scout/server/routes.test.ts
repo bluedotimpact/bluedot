@@ -54,6 +54,15 @@ test('any verified staff member can read and decide without an admin role', asyn
   expect(recordDecision).toHaveBeenCalledWith('recScoutSample001', 'invite');
 });
 
+test('the queue carries the courses led by the signed-in email', async () => {
+  fetchLeadCourses.mockResolvedValueOnce(['Biosecurity']);
+  const { req, res } = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers });
+  await queue(req, res);
+  expect(res._getStatusCode()).toBe(200);
+  expect(fetchLeadCourses).toHaveBeenCalledWith('staff@bluedot.org');
+  expect(res._getJSONData().leadCourses).toEqual(['Biosecurity']);
+});
+
 test('rejects non-staff identities, wrong methods and invalid decisions', async () => {
   verify.mockRejectedValueOnce(new Error('Not a verified bluedot.org account'));
   const denied = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers });
