@@ -87,7 +87,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         Create a free account to save your answers
         <svg
           aria-hidden="true"
-          class="size-4"
+          class="size-4 shrink-0"
           fill="currentColor"
           height="1em"
           stroke="currentColor"
@@ -201,7 +201,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
     <div>
       <button
         aria-label="Mark exercise as complete"
-        class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-size-xs leading-normal transition-all duration-200 bg-bluedot-normal text-white opacity-60 cursor-not-allowed"
+        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
         disabled=""
         type="button"
       >
@@ -302,7 +302,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
     <div>
       <button
         aria-label="Mark exercise as complete"
-        class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-size-xs leading-normal transition-all duration-200 bg-bluedot-normal text-white cursor-pointer"
+        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
         type="button"
       >
         Complete
