@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import {
-  CTALinkOrButton,
+  Button,
   H3,
   Section,
 } from '@bluedot/ui';
@@ -17,10 +17,10 @@ const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string })
   return (
     <div className="ai-safety-ops-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
       <H3 className="ai-safety-ops-lander__banner-title">{title}</H3>
-      <CTALinkOrButton className="ai-safety-ops-lander__banner-cta" url={ctaUrl}>
+      <Button className="ai-safety-ops-lander__banner-cta" url={ctaUrl}>
         Apply now
         <FaChevronRight aria-hidden className="size-4" />
-      </CTALinkOrButton>
+      </Button>
     </div>
   );
 };
@@ -61,7 +61,7 @@ const AiSafetyOpsLander = () => {
               <FaLaptop aria-hidden="true" /> Online
             </div>
           </div>
-          <CTALinkOrButton url={applicationUrl}>Apply now <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
+          <Button url={applicationUrl}>Apply now <FaChevronRight aria-hidden className="size-4" /></Button>
         </div>
       </Section>
 

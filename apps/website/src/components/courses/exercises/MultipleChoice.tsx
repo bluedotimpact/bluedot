@@ -1,4 +1,4 @@
-import { CTALinkOrButton, Radio, type RadioTone } from '@bluedot/ui';
+import { Button, Radio, type RadioTone } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -120,32 +120,32 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         ))}
       </fieldset>
       {!isLoggedIn && (
-        <CTALinkOrButton
+        <Button
           className="!bg-bluedot-normal !whitespace-normal"
           variant="primary"
           url={getLoginUrl(router.asPath, true)}
         >
           Create a free account to check your answer
           <FaChevronRight aria-hidden className="size-4" />
-        </CTALinkOrButton>
+        </Button>
       )}
       {isLoggedIn && !hasResult && (
-        <CTALinkOrButton
+        <Button
           className="!bg-bluedot-normal"
           variant="primary"
           type="submit"
           disabled={!currentAnswer}
         >
           {getSubmitButtonText()}
-        </CTALinkOrButton>
+        </Button>
       )}
       {isLoggedIn && isIncorrect && (
-        <CTALinkOrButton onClick={handleTryAgain} variant="black">
+        <Button onClick={handleTryAgain} variant="black">
           <span className="flex items-center gap-2">
             Try again
             <FaRotateLeft aria-hidden="true" />
           </span>
-        </CTALinkOrButton>
+        </Button>
       )}
     </form>
   );

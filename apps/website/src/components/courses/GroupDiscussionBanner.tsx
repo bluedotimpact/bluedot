@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  CTALinkOrButton, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
+  Button, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -253,7 +253,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   const isRightAligned = button.id === 'cant-make-it'
                     || (!hasOverflow && button === desktopDirectButtons[desktopDirectButtons.length - 1]);
                   return (
-                    <CTALinkOrButton
+                    <Button
                       key={button.id}
                       variant={style.variant}
                       size="small"
@@ -263,7 +263,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                       className={clsx(style.className, 'flex items-center gap-1.5', isRightAligned && 'ml-auto')}
                     >
                       {button.label}
-                    </CTALinkOrButton>
+                    </Button>
                   );
                 })}
                 {hasOverflow && (
@@ -349,7 +349,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                 const style = BUTTON_STYLES[mobileVariant];
 
                 return (
-                  <CTALinkOrButton
+                  <Button
                     key={button.id}
                     variant={style.variant}
                     size="small"
@@ -359,7 +359,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     className={clsx(style.className, 'w-full flex-1 gap-1.5')}
                   >
                     {button.label}
-                  </CTALinkOrButton>
+                  </Button>
                 );
               })}
 

@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import { Modal } from './Modal';
 import { ClickTarget } from './ClickTarget';
 import { ErrorView } from './ErrorView';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 
 type SocialButtonProps = {
   icon: ReactNode;
@@ -108,9 +108,9 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
 
   return (
     <>
-      <CTALinkOrButton onClick={handleShare} disabled={isSharing}>
+      <Button onClick={handleShare} disabled={isSharing}>
         {isSharing ? 'Sharing...' : children}
-      </CTALinkOrButton>
+      </Button>
 
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Share">
         {shareError ? <ErrorView error={shareError} /> : (

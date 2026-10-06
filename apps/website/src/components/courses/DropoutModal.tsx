@@ -1,5 +1,5 @@
 import {
-  Callout, CTALinkOrButton, ErrorSection, Modal, P, ProgressDots, Select, Textarea,
+  Callout, Button, ErrorSection, Modal, P, ProgressDots, Select, Textarea,
 } from '@bluedot/ui';
 /**
  * Prevents barrel file import errors when importing COURSE_ROLE from @bluedot/db
@@ -159,9 +159,9 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         <div className="flex max-w-narrow flex-col items-center gap-4">
           <P className="text-bluedot-navy/80 text-center">{message}</P>
         </div>
-        <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
+        <Button className="w-full" onClick={handleCloseWithInvalidation}>
           Close
-        </CTALinkOrButton>
+        </Button>
       </div>
     );
   };
@@ -261,14 +261,14 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         <P className="text-red-600">{dropoutMutation.error?.message || 'An error occurred. Please try again.'}</P>
       )}
 
-      <CTALinkOrButton
+      <Button
         className="w-full"
         onClick={handleSubmit}
         loading={dropoutMutation.isPending}
         disabled={submitDisabled}
       >
         {dropoutMutation.isPending ? 'Submitting...' : 'Submit'}
-      </CTALinkOrButton>
+      </Button>
     </>
   );
 
@@ -325,9 +325,9 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
             <P className="text-bluedot-navy/80 text-center text-pretty">
               Your application has been withdrawn. If this was a mistake, please email us.
             </P>
-            <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
+            <Button className="w-full" onClick={handleCloseWithInvalidation}>
               Close
-            </CTALinkOrButton>
+            </Button>
           </>
         ) : (
           <>
@@ -336,12 +336,12 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
             </P>
             {mutation.isError && <ErrorSection error={mutation.error} />}
             <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-              <CTALinkOrButton variant="secondary" className="w-full sm:w-auto" onClick={handleCloseWithInvalidation} disabled={mutation.isPending}>
+              <Button variant="secondary" className="w-full sm:w-auto" onClick={handleCloseWithInvalidation} disabled={mutation.isPending}>
                 Cancel
-              </CTALinkOrButton>
-              <CTALinkOrButton className="w-full sm:w-auto" onClick={handleConfirm} disabled={mutation.isPending}>
+              </Button>
+              <Button className="w-full sm:w-auto" onClick={handleConfirm} disabled={mutation.isPending}>
                 Confirm
-              </CTALinkOrButton>
+              </Button>
             </div>
           </>
         )}

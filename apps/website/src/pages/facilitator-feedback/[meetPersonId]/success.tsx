@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import {
-  Callout, CTALinkOrButton, ErrorSection, H1, ProgressDots,
+  Callout, Button, ErrorSection, H1, ProgressDots,
 } from '@bluedot/ui';
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
@@ -164,9 +164,9 @@ const FacilitatorFeedbackSuccessPage = () => {
               <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
                 You can submit your bank details below and expect to receive your compensation within a week. We'll also send you a link by email.
               </p>
-              <CTALinkOrButton url={invoiceUrl} target="_blank" className="mt-2">
+              <Button url={invoiceUrl} target="_blank" className="mt-2">
                 Submit invoice
-              </CTALinkOrButton>
+              </Button>
             </div>
           )}
         </section>

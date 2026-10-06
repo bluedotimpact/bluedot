@@ -1,4 +1,4 @@
-import { CTALinkOrButton, H1 } from '@bluedot/ui';
+import { Button, H1 } from '@bluedot/ui';
 import { FaChevronDown } from 'react-icons/fa6';
 import { type Application, type TileTone } from '../lib/client/types';
 import { SummaryCard } from './SummaryCard';
@@ -65,14 +65,14 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {profileUrl && (
-            <CTALinkOrButton variant="outline-black" size="small" url={profileUrl} target="_blank" onClick={onProfileOpen}>
+            <Button variant="outline-black" size="small" url={profileUrl} target="_blank" onClick={onProfileOpen}>
               LinkedIn
-            </CTALinkOrButton>
+            </Button>
           )}
           {otherProfileUrl && (
-            <CTALinkOrButton variant="outline-black" size="small" url={otherProfileUrl} target="_blank" onClick={onProfileOpen}>
+            <Button variant="outline-black" size="small" url={otherProfileUrl} target="_blank" onClick={onProfileOpen}>
               Profile
-            </CTALinkOrButton>
+            </Button>
           )}
         </div>
       </div>

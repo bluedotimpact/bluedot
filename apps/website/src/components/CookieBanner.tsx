@@ -1,6 +1,6 @@
 import type React from 'react';
 import clsx from 'clsx';
-import { A, CTALinkOrButton, P } from '@bluedot/ui';
+import { A, Button, P } from '@bluedot/ui';
 import { useConsentStore } from './analytics/consent';
 
 export type CookieBannerProps = {
@@ -26,18 +26,18 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
         <A href="https://bluedot.org/privacy-policy">Privacy Policy</A>.
       </P>
       <div className="flex flex-wrap gap-space-between justify-center">
-        <CTALinkOrButton
+        <Button
           variant="primary"
           onClick={() => useConsentStore.getState().accept()}
         >
           Accept all
-        </CTALinkOrButton>
-        <CTALinkOrButton
+        </Button>
+        <Button
           variant="primary"
           onClick={() => useConsentStore.getState().reject()}
         >
           Reject all
-        </CTALinkOrButton>
+        </Button>
       </div>
     </div>
   );

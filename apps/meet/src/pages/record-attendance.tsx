@@ -2,7 +2,7 @@ import { useSearchParams } from 'next/navigation';
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
 import {
-  CTALinkOrButton, ErrorSection, Input, H1,
+  Button, ErrorSection, Input, H1,
 } from '@bluedot/ui';
 import { Page } from '../components/Page';
 import { type RecordAttendanceRequest, type RecordAttendanceResponse } from './api/public/record-attendance';
@@ -70,13 +70,13 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string; participantId:
           'Joined with a custom name',
           'Not sure, but I attended',
         ].map((reason) => (
-          <CTALinkOrButton
+          <Button
             key={reason}
             variant="secondary"
             onClick={() => recordAttendance({ reason })}
           >
             {reason}
-          </CTALinkOrButton>
+          </Button>
         ))}
       </div>
 
@@ -84,7 +84,7 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string; participantId:
         <label className="flex items-center flex-1">Other:
           <Input type="text" value={otherReason} onChange={(value) => setOtherReason(value.target.value)} className="ml-2" />
         </label>
-        <CTALinkOrButton variant="secondary" onClick={() => recordAttendance({ reason: otherReason })} disabled={!otherReason.length}>Submit</CTALinkOrButton>
+        <Button variant="secondary" onClick={() => recordAttendance({ reason: otherReason })} disabled={!otherReason.length}>Submit</Button>
       </div>
     </Page>
   );

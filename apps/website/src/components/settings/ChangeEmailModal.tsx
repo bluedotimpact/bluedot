@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton,
+  Button,
   ErrorSection,
   Input,
   Modal,
@@ -67,12 +67,12 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               Until then, you'll keep signing in with your current email. The link is valid for 48 hours.
             </P>
             <div className="flex justify-end pt-4">
-              <CTALinkOrButton
+              <Button
                 variant="primary"
                 onClick={() => setIsOpen(false)}
               >
                 Done
-              </CTALinkOrButton>
+              </Button>
             </div>
           </div>
         ) : (
@@ -117,22 +117,22 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
             </div>
 
             <div className="flex gap-3 justify-end pt-4">
-              <CTALinkOrButton
+              <Button
                 variant="secondary"
                 onClick={() => setIsOpen(false)}
                 disabled={requestEmailChange.isPending}
                 aria-label="Cancel email change"
               >
                 Cancel
-              </CTALinkOrButton>
-              <CTALinkOrButton
+              </Button>
+              <Button
                 variant="primary"
                 type="submit"
                 loading={requestEmailChange.isPending}
                 aria-label="Send confirmation link"
               >
                 {requestEmailChange.isPending ? 'Sending...' : 'Send confirmation link'}
-              </CTALinkOrButton>
+              </Button>
             </div>
           </form>
         )}

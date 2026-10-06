@@ -2,7 +2,7 @@ import type { SyncStatus } from '@bluedot/db';
 import {
   Breadcrumbs,
   Callout,
-  CTALinkOrButton,
+  Button,
   H3,
   P,
   ProgressDots,
@@ -139,14 +139,14 @@ const SyncDashboard = () => {
       <Section className="max-w-3xl">
         {/* Single action button */}
         <div className="mb-8">
-          <CTALinkOrButton
+          <Button
             variant="primary"
             onClick={requestSync}
             disabled={requestTrpcSync.isPending}
           >
             {requestTrpcSync.isPending && <FaCircleNotch aria-hidden="true" className="size-3 animate-spin mr-2" />}
             Request Full Sync
-          </CTALinkOrButton>
+          </Button>
           {hasSyncRunning && (
             <P className="mt-2 text-size-sm text-gray-600">
               A sync is currently running. Your request will be queued.

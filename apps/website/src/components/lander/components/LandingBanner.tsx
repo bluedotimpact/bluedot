@@ -1,4 +1,4 @@
-import { CTALinkOrButton, H3 } from '@bluedot/ui';
+import { Button, H3 } from '@bluedot/ui';
 
 export type LandingBannerProps = {
   title: React.ReactNode;
@@ -43,13 +43,13 @@ const LandingBanner = ({
               {title}
             </H3>
 
-            <CTALinkOrButton
+            <Button
               variant="ghost"
               className="text-size-sm font-medium leading-relaxed px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
               url={ctaUrl}
             >
               {ctaText}
-            </CTALinkOrButton>
+            </Button>
           </div>
         </div>
       </div>

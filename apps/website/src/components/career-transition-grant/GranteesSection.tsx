@@ -1,5 +1,5 @@
 import {
-  Avatar, CardShell, ClickTarget, cn, CTALinkOrButton, H3, H4, P,
+  Avatar, CardShell, ClickTarget, cn, Button, H3, H4, P,
 } from '@bluedot/ui';
 import { useEffect, useState } from 'react';
 import { trpc } from '../../utils/trpc';
@@ -118,12 +118,12 @@ const GranteesSection = () => {
         </ul>
         {isCollapsible && (
           <div className="flex justify-center">
-            <CTALinkOrButton
+            <Button
               variant="secondary"
               onClick={() => setExpanded((prev) => !prev)}
             >
               {expanded ? 'Show fewer' : `Show ${allGrantees.length - collapsedCount} more`}
-            </CTALinkOrButton>
+            </Button>
           </div>
         )}
       </div>

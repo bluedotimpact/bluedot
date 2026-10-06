@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, CTALinkOrButton, Input, P, Section,
+  Breadcrumbs, Button, Input, P, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -82,14 +82,14 @@ const AdminChangeEmail = withAdminGuard(() => {
                   placeholder="new@example.com"
                   aria-label={`New email address for ${selectedUser.email}`}
                 />
-                <CTALinkOrButton
+                <Button
                   variant="primary"
                   onClick={submit}
                   disabled={requestMutation.isPending || !newEmail.trim()}
                   className="whitespace-nowrap"
                 >
                   {requestMutation.isPending ? 'Sending...' : 'Send confirmation email'}
-                </CTALinkOrButton>
+                </Button>
               </div>
               {requestMutation.isSuccess && (
                 <p role="status" className="text-size-xs text-success-fg">

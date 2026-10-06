@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import {
   HeroSection, HeroH1, HeroCTAContainer,
 } from './HeroSection';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 
 describe('HeroSection', () => {
   test('renders default as expected', () => {
@@ -22,7 +22,7 @@ describe('HeroSection', () => {
     const { container } = render(<HeroSection>
       <HeroH1>This is the title</HeroH1>
       <HeroCTAContainer>
-        <CTALinkOrButton url="https://example.com">Do a thing</CTALinkOrButton>
+        <Button url="https://example.com">Do a thing</Button>
       </HeroCTAContainer>
     </HeroSection>);
     expect(container).toMatchSnapshot();

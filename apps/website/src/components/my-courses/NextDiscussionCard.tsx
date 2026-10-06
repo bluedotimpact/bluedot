@@ -1,5 +1,5 @@
 import type { Group, Unit } from '@bluedot/db';
-import { CTALinkOrButton, H3, useCurrentTimeMs } from '@bluedot/ui';
+import { Button, H3, useCurrentTimeMs } from '@bluedot/ui';
 import { useState, type ReactNode } from 'react';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
@@ -168,7 +168,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
     } = ctx;
     return (
       <>
-        <CTALinkOrButton
+        <Button
           variant="secondary"
           size="small"
           url={discussionDocUrl}
@@ -177,9 +177,9 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
           className="text-size-xxs"
         >
           Open discussion doc
-        </CTALinkOrButton>
+        </Button>
         {!isLive && (
-          <CTALinkOrButton
+          <Button
             variant="secondary"
             size="small"
             onClick={onOpenUpdateTime}
@@ -187,10 +187,10 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
             className="text-size-xxs"
           >
             Update discussion time
-          </CTALinkOrButton>
+          </Button>
         )}
         {isLive && (
-          <CTALinkOrButton
+          <Button
             variant="primary"
             size="small"
             url={zoomLink}
@@ -199,7 +199,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
             className="flex-1 text-size-xxs sm:flex-none"
           >
             Join discussion
-          </CTALinkOrButton>
+          </Button>
         )}
       </>
     );
@@ -212,16 +212,16 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
   return (
     <>
       {roundId && (
-        <CTALinkOrButton
+        <Button
           variant="secondary"
           size="small"
           onClick={onOpenReschedule}
           className="text-size-xxs"
         >
           Reschedule
-        </CTALinkOrButton>
+        </Button>
       )}
-      <CTALinkOrButton
+      <Button
         variant="primary"
         size="small"
         url={primaryHref}
@@ -229,7 +229,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
         className="flex-1 text-size-xxs sm:flex-none"
       >
         {primaryLabel}
-      </CTALinkOrButton>
+      </Button>
     </>
   );
 };

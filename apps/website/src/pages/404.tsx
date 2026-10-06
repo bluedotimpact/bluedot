@@ -4,7 +4,7 @@ import {
   Breadcrumbs,
   H1,
   HeroCTAContainer,
-  CTALinkOrButton,
+  Button,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -41,8 +41,8 @@ const Error404Page = () => {
         <H1 className="text-cream-normal text-size-lg font-normal tracking-normal text-center mt-4">Sorry, this page does not exist.</H1>
         <HeroCTAContainer>
           <div className="flex flex-col sm:flex-row gap-3">
-            <CTALinkOrButton url={ROUTES.courses.url} variant="primary">Browse courses</CTALinkOrButton>
-            <CTALinkOrButton url={ROUTES.joinUs.url} variant="primary">Open roles</CTALinkOrButton>
+            <Button url={ROUTES.courses.url} variant="primary">Browse courses</Button>
+            <Button url={ROUTES.joinUs.url} variant="primary">Open roles</Button>
           </div>
         </HeroCTAContainer>
       </HeroSection>

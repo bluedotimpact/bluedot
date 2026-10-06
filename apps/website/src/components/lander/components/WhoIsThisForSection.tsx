@@ -1,5 +1,5 @@
 import {
-  CardShell, CTALinkOrButton, H2, P,
+  CardShell, Button, H2, P,
 } from '@bluedot/ui';
 import { type IconType } from 'react-icons';
 
@@ -63,13 +63,13 @@ const WhoIsThisForSection = ({
               <span> {bottomCta.text}</span>
             </P>
             {bottomCta.buttonText && bottomCta.buttonUrl && (
-              <CTALinkOrButton
+              <Button
                 url={bottomCta.buttonUrl}
                 variant="outline-black"
                 size="medium"
               >
                 {bottomCta.buttonText}
-              </CTALinkOrButton>
+              </Button>
             )}
           </div>
         )}

@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  CTALinkOrButton, Eyebrow, P, useCurrentTimeMs,
+  Button, Eyebrow, P, useCurrentTimeMs,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useId } from 'react';
@@ -114,13 +114,13 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
           {(!!ctaUrl || dismissible) && (
             <div className="flex flex-wrap items-center gap-2">
               {ctaUrl && (
-                <CTALinkOrButton size="small" variant="primary" url={ctaUrl}>
+                <Button size="small" variant="primary" url={ctaUrl}>
                   {ctaText}
                   <FaChevronRight aria-hidden className="size-4" />
-                </CTALinkOrButton>
+                </Button>
               )}
               {dismissible && (
-                <CTALinkOrButton
+                <Button
                   variant="outline-black"
                   size="small"
                   aria-label="Dismiss announcement"
@@ -128,7 +128,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
                   onClick={() => dismissBanner(bannerKey)}
                 >
                   Dismiss
-                </CTALinkOrButton>
+                </Button>
               )}
             </div>
           )}

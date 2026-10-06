@@ -1,5 +1,5 @@
 import {
-  cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots,
+  cn, Button, ErrorSection, Modal, ProgressDots,
 } from '@bluedot/ui';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
@@ -149,9 +149,9 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
               </p>
             </div>
 
-            <CTALinkOrButton className="w-full" onClick={handleCloseWithCacheUpdate}>
+            <Button className="w-full" onClick={handleCloseWithCacheUpdate}>
               Close
-            </CTALinkOrButton>
+            </Button>
           </div>
         )}
       </>
@@ -208,7 +208,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
               <span>{spotsLabel}</span>
             </div>
           </div>
-          <CTALinkOrButton
+          <Button
             onClick={onJoin}
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             disabled={isDisabled || isSubmitting}
@@ -216,7 +216,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
             className="my-auto h-fit"
           >
             {isSubmitting ? '...' : 'Join'}
-          </CTALinkOrButton>
+          </Button>
         </div>
       </div>
     </div>

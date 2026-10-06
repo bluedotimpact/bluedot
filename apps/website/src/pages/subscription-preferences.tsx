@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { type GetServerSideProps } from 'next';
 import { useState } from 'react';
 import {
-  Checkbox, CTALinkOrButton, ErrorSection, ProgressDots,
+  Checkbox, Button, ErrorSection, ProgressDots,
 } from '@bluedot/ui';
 import { H3, P } from '@bluedot/ui/src/Text';
 import { ROUTES } from '../lib/routes';
@@ -117,13 +117,13 @@ const PreferencesForm = ({
         {saveMutation.error && (
           <P className="text-red-600 text-size-sm">Failed to save. Please try again.</P>
         )}
-        <CTALinkOrButton
+        <Button
           variant="primary"
           onClick={handleSave}
           disabled={saveMutation.isPending}
         >
           {saveMutation.isPending ? 'Saving...' : 'Save preferences'}
-        </CTALinkOrButton>
+        </Button>
       </div>
     </div>
   );

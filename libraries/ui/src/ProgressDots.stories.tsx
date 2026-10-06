@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 import { ProgressDots } from './ProgressDots';
 
 const meta = {
@@ -31,9 +31,9 @@ export const OnDark: Story = {
   ],
 };
 
-// Buttons own their busy state; see CTALinkOrButton `loading`
+// Buttons own their busy state; see Button `loading`
 export const InButton: Story = {
   render: () => (
-    <CTALinkOrButton loading>Submitting</CTALinkOrButton>
+    <Button loading>Submitting</Button>
   ),
 };

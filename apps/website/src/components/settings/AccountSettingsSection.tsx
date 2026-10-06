@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton,
+  Button,
   Input,
   Modal,
   P,
@@ -33,28 +33,28 @@ const AccountSettingsSection = () => {
       <div className="mb-6">
         <P className="font-semibold mb-2">Account settings</P>
         <div className="flex flex-col items-start gap-3">
-          <CTALinkOrButton
+          <Button
             variant="secondary"
             onClick={() => setShowChangeEmailModal(true)}
             aria-label="Change email"
           >
             Change email
-          </CTALinkOrButton>
-          <CTALinkOrButton
+          </Button>
+          <Button
             variant="secondary"
             onClick={() => setShowChangePasswordModal(true)}
             aria-label="Change password"
           >
             Change password
-          </CTALinkOrButton>
-          <CTALinkOrButton
+          </Button>
+          <Button
             variant="secondary"
             tone="destructive"
             onClick={() => setShowDeleteAccountModal(true)}
             aria-label="Delete account"
           >
             Delete account
-          </CTALinkOrButton>
+          </Button>
         </div>
         {passwordUpdateSuccess && (
           <p
@@ -311,22 +311,22 @@ const ChangePasswordModal = ({
         </div>
 
         <div className="flex gap-3 justify-end pt-4">
-          <CTALinkOrButton
+          <Button
             variant="secondary"
             onClick={() => setIsOpen(false)}
             disabled={isLoading}
             aria-label="Cancel password change"
           >
             Cancel
-          </CTALinkOrButton>
-          <CTALinkOrButton
+          </Button>
+          <Button
             variant="primary"
             onClick={handleSubmit}
             loading={isLoading}
             aria-label="Update password"
           >
             {isLoading ? 'Updating...' : 'Update password'}
-          </CTALinkOrButton>
+          </Button>
         </div>
       </div>
     </Modal>

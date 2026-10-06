@@ -2,7 +2,7 @@ import useAxios from 'axios-hooks';
 import {
   Callout,
   ClickTarget,
-  CTALinkOrButton, ErrorSection, H1,
+  Button, ErrorSection, H1,
   ProgressDots,
   useCurrentTimeMs,
 } from '@bluedot/ui';
@@ -63,19 +63,19 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
         </Callout>
       )}
       {data.activityDoc && (
-        <CTALinkOrButton
+        <Button
           className="mb-2"
           variant="primary"
           url={data.activityDoc}
           target="_blank"
         >
           Open Discussion Doc
-        </CTALinkOrButton>
+        </Button>
       )}
       {recordAttendanceError && <ErrorSection error={recordAttendanceError} />}
       <div className="grid gap-2 sm:w-1/2">
         {data.participants.map((participant) => (
-          <CTALinkOrButton
+          <Button
             key={participant.id}
             variant="secondary"
             disabled={recordingAttendance}
@@ -100,7 +100,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
           >
             {participant.name}
             <FaChevronRight aria-hidden className="size-4" />
-          </CTALinkOrButton>
+          </Button>
         ))}
       </div>
       <div className="mt-4">

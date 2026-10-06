@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CTALinkOrButton, H3, P } from '@bluedot/ui';
+import { Button, H3, P } from '@bluedot/ui';
 
 type Builder = {
   slug: string;
@@ -155,12 +155,12 @@ const FieldBuildersSection = () => {
         </div>
 
         <div className="flex justify-center">
-          <CTALinkOrButton
+          <Button
             variant="secondary"
             onClick={() => setShowAll((v) => !v)}
           >
             {showAll ? 'Show fewer' : `Show ${hiddenCount} more`}
-          </CTALinkOrButton>
+          </Button>
         </div>
       </div>
     </section>

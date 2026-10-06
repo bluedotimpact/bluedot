@@ -1,4 +1,4 @@
-import { Breadcrumbs, CTALinkOrButton } from '@bluedot/ui';
+import { Breadcrumbs, Button } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
 import IntroSection from '../components/about/IntroSection';
@@ -28,9 +28,9 @@ const AboutPage = () => {
       <HistorySection />
       <TeamSection />
       <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center">
-        <CTALinkOrButton url={ROUTES.joinUs.url}>
+        <Button url={ROUTES.joinUs.url}>
           Join our team
-        </CTALinkOrButton>
+        </Button>
       </div>
     </div>
   );

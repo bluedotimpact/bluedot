@@ -1,4 +1,4 @@
-import { CTALinkOrButton, H2 } from '@bluedot/ui';
+import { Button, H2 } from '@bluedot/ui';
 import { FaChevronDown } from 'react-icons/fa6';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
@@ -53,9 +53,9 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
                   <p className="text-size-md text-bluedot-navy font-semibold">{round.label}</p>
                   {dateRange && <p className="text-size-xs text-bluedot-navy/80">{dateRange}</p>}
                 </div>
-                <CTALinkOrButton size="small" variant="secondary" url={`${ROUTES.quickApply.url}?round=${round.id}`}>
+                <Button size="small" variant="secondary" url={`${ROUTES.quickApply.url}?round=${round.id}`}>
                   Quick apply
-                </CTALinkOrButton>
+                </Button>
               </li>
             );
           })}

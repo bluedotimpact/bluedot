@@ -3,7 +3,7 @@ import {
   useState, useMemo, useEffect,
 } from 'react';
 import {
-  Checkbox, cn, ClickTarget, CTALinkOrButton,
+  Checkbox, cn, ClickTarget, Button,
   ErrorSection, H3, Modal, ModalTitle, ProgressDots,
   Select, Textarea,
 } from '@bluedot/ui';
@@ -419,14 +419,14 @@ export default function GroupSwitchModal({
               </div>
             ))}
             {isManualRequest && (
-              <CTALinkOrButton
+              <Button
                 className="w-full"
                 onClick={handleSubmit}
                 disabled={isSubmitDisabled}
                 aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
               >
                 {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
-              </CTALinkOrButton>
+              </Button>
             )}
           </form>
         )}
@@ -440,14 +440,14 @@ export default function GroupSwitchModal({
                   listed above, and we'll do our best to accommodate you.
                 </p>
               </div>
-              <CTALinkOrButton
+              <Button
                 variant="secondary"
                 className="border-bluedot-navy text-bluedot-navy hover:bg-blue-50"
                 onClick={() => setIsManualRequest(true)}
                 aria-label="Request manual group switch"
               >
                 Request manual switch
-              </CTALinkOrButton>
+              </Button>
             </div>
           </div>
         )}
@@ -459,12 +459,12 @@ export default function GroupSwitchModal({
             <p className="text-size-sm text-center max-w-[500px] text-charcoal-mid">
               {getSuccessMessage()}
             </p>
-            <CTALinkOrButton
+            <Button
               className="w-full mt-4"
               onClick={handleClose}
             >
               Close
-            </CTALinkOrButton>
+            </Button>
           </div>
         )}
       </>
@@ -702,7 +702,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
             </div>
           </div>
           {isSelected && !userIsParticipant && (
-            <CTALinkOrButton
+            <Button
               onClick={(e) => {
                 e.stopPropagation(); // Avoid triggering parent onClick
                 onConfirm?.();
@@ -713,7 +713,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               className="h-fit my-auto"
             >
               {isSubmitting ? '...' : 'Confirm'}
-            </CTALinkOrButton>
+            </Button>
           )}
         </div>
       </div>

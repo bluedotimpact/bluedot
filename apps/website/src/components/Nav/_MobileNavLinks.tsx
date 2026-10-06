@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { CTALinkOrButton, IconButton } from '@bluedot/ui';
+import { Button, IconButton } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { FaBars, FaXmark } from 'react-icons/fa6';
 
@@ -108,13 +108,13 @@ export const MobileNavLinks: React.FC<{
           {!isLoggedIn && (
             <div className="flex flex-col gap-4 pt-6 mt-6 border-t border-default">
               {/* Start for free button: Show when screen < 680px */}
-              <CTALinkOrButton
+              <Button
                 className={clsx('mobile-nav-cta__join hidden max-[679px]:flex', getPrimaryButtonClasses())}
                 variant="primary"
                 url={joinUrl}
               >
                 Start for free
-              </CTALinkOrButton>
+              </Button>
             </div>
           )}
         </div>

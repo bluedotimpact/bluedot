@@ -2,7 +2,7 @@ import type React from 'react';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { BottomDrawerModal } from './BottomDrawerModal';
-import { CTALinkOrButton } from './CTALinkOrButton';
+import { Button } from './Button';
 
 type BottomDrawerModalDemoProps = {
   initialSize: 'fit-content' | 'fit-screen';
@@ -17,9 +17,9 @@ const BottomDrawerModalDemo: React.FC<BottomDrawerModalDemoProps> = ({
 
   return (
     <div>
-      <CTALinkOrButton onClick={() => setIsOpen(true)}>
+      <Button onClick={() => setIsOpen(true)}>
         Open Bottom Drawer ({initialSize})
-      </CTALinkOrButton>
+      </Button>
       <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} initialSize={initialSize} title={title}>
         <div className="space-y-3">
           <p className="text-size-sm text-gray-600">

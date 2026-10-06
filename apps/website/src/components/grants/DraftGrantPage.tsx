@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, CTALinkOrButton, P, Section,
+  Breadcrumbs, Button, P, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../MarketingHero';
@@ -56,9 +56,9 @@ export const DraftGrantPage = ({
         <P>
           Applications are not yet open. We&apos;ll add eligibility, funding, and process details here before launch.
         </P>
-        <CTALinkOrButton disabled>
+        <Button disabled>
           Applications not yet open
-        </CTALinkOrButton>
+        </Button>
       </div>
     </Section>
   </div>

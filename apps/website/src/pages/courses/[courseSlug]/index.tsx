@@ -1,6 +1,6 @@
 import {
   Breadcrumbs,
-  CTALinkOrButton,
+  Button,
   Eyebrow,
   H1,
   useLatestUtmParams, ListGroup, ListRow,
@@ -181,14 +181,14 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
 
           <div className="flex flex-wrap gap-3">
             {curriculumUrl && (
-              <CTALinkOrButton url={curriculumUrl}>
+              <Button url={curriculumUrl}>
                 {externalCoursePage.curriculumCtaLabel}
                 <FaChevronRight aria-hidden className="size-4" />
-              </CTALinkOrButton>
+              </Button>
             )}
-            <CTALinkOrButton url={externalCoursePage.detailsUrl} target="_blank" variant="secondary">
+            <Button url={externalCoursePage.detailsUrl} target="_blank" variant="secondary">
               {externalCoursePage.detailsCtaLabel}
-            </CTALinkOrButton>
+            </Button>
           </div>
 
           <p className="text-size-xs leading-relaxed text-bluedot-navy/60">
@@ -240,9 +240,9 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
       <section className="section section-body">
         <div className="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8">
           <div className="flex flex-wrap gap-3">
-            <CTALinkOrButton url={applyUrl} target="_blank">
+            <Button url={applyUrl} target="_blank">
               {ctaLabel}
-            </CTALinkOrButton>
+            </Button>
           </div>
 
           {units.length > 0 && (

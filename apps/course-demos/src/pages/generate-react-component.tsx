@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import {
-  H2, H3, P, A, CTALinkOrButton, ProgressDots, ClickTarget, Textarea,
+  H2, H3, P, A, Button, ProgressDots, ClickTarget, Textarea,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
@@ -62,13 +62,13 @@ const DemoPage: React.FC = () => {
               }}
               rows={1}
             />
-            <CTALinkOrButton
+            <Button
               onClick={() => handleSubmit()}
               disabled={loading || !userPrompt.trim()}
               className="absolute right-1.5 top-1/2 -translate-y-1/2"
             >
               {loading ? 'Creating...' : 'Create'}
-            </CTALinkOrButton>
+            </Button>
           </div>
           <p>
             Examples:
@@ -95,7 +95,7 @@ const DemoPage: React.FC = () => {
             <P>
               Errors sometime happen when too many people are taking our course at once. You can try again later, or try <A href="https://web.lmarena.ai/">WebDev Arena</A> to see a similar demo.
             </P>
-            <CTALinkOrButton onClick={() => handleSubmit()}>Try again</CTALinkOrButton>
+            <Button onClick={() => handleSubmit()}>Try again</Button>
           </>
         )}
       </main>
@@ -122,13 +122,13 @@ const DemoPage: React.FC = () => {
           <CodeRenderer code={generatedCode} height="calc(100vh - 90px)" />
           <div className="flex gap-2 w-fit relative bottom-16 mt-1 -mb-12">
             <ShareSavedDemoButton type="generate-react-component" data={JSON.stringify({ prompt: userPrompt, code: generatedCode })} text={`I just created an app with AI - using the prompt "${userPrompt}". You can check it out at this link:`} />
-            <CTALinkOrButton variant="secondary" onClick={() => {
+            <Button variant="secondary" onClick={() => {
               setView('prompt');
               setUserPrompt('');
             }}
             >
               <FaChevronLeft aria-hidden className="size-4" /> Start over
-            </CTALinkOrButton>
+            </Button>
           </div>
         </div>
       </main>
@@ -149,7 +149,7 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />
       <div className="flex gap-2 w-fit relative bottom-16 mt-1 -mb-12">
-        <CTALinkOrButton url={courseLink}>Start learning <span className="hidden md:inline">(and try this yourself)</span> <FaChevronRight aria-hidden className="size-4" /></CTALinkOrButton>
+        <Button url={courseLink}>Start learning <span className="hidden md:inline">(and try this yourself)</span> <FaChevronRight aria-hidden className="size-4" /></Button>
       </div>
     </div>
   );

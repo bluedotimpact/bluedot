@@ -4,7 +4,7 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
-  CTALinkOrButton, H1, Modal, useAuthStore,
+  Button, H1, Modal, useAuthStore,
 } from '@bluedot/ui';
 import { apps } from '../lib/apps';
 import { isLocalPreview, PREVIEW_EMAIL, PREVIEW_TOKEN } from '../lib/preview';
@@ -222,8 +222,8 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
               <span className="mb-6 size-4 rounded-full bg-accent" aria-hidden="true" />
               <H1 className="text-size-xl">BlueDot Apps</H1>
               <p className="mt-3 text-size-sm leading-relaxed text-secondary">Sign in with your BlueDot Google account to continue.</p>
-              <CTALinkOrButton url={`/login?redirect_to=${encodeURIComponent(router.asPath)}`} className="mt-7">Continue with Google</CTALinkOrButton>
-              {preview && <CTALinkOrButton variant="secondary" className="mt-3" onClick={() => setAuth({ token: PREVIEW_TOKEN, email: PREVIEW_EMAIL, expiresAt: Date.now() + 3_600_000 })}>Explore local preview</CTALinkOrButton>}
+              <Button url={`/login?redirect_to=${encodeURIComponent(router.asPath)}`} className="mt-7">Continue with Google</Button>
+              {preview && <Button variant="secondary" className="mt-3" onClick={() => setAuth({ token: PREVIEW_TOKEN, email: PREVIEW_EMAIL, expiresAt: Date.now() + 3_600_000 })}>Explore local preview</Button>}
             </div>
           )}
         </main>
@@ -232,7 +232,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
         setMobileOpen(open);
         if (!open) menuButton.current?.focus();
       }} title="BlueDot Apps">
-        <div className="w-52 max-w-full space-y-5">{navigation(false)}{auth && <><p className="break-all text-size-xs text-secondary">{auth.email}</p><CTALinkOrButton variant="ghost" onClick={signOut}>Sign out</CTALinkOrButton></>}</div>
+        <div className="w-52 max-w-full space-y-5">{navigation(false)}{auth && <><p className="break-all text-size-xs text-secondary">{auth.email}</p><Button variant="ghost" onClick={signOut}>Sign out</Button></>}</div>
       </Modal>
       <Modal isOpen={auth !== null && leaveAction !== null} setIsOpen={(open) => {
         if (!open) setLeaveAction(null);
@@ -240,12 +240,12 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
         <div className="max-w-sm space-y-5">
           <p className="text-size-sm leading-relaxed text-secondary">{pendingWrites > 0 ? 'Please wait for your changes to finish saving before leaving.' : 'Saved decisions will be kept. Your place in this review session will reset.'}</p>
           <div className="flex flex-wrap gap-3">
-            <CTALinkOrButton variant="secondary" onClick={() => setLeaveAction(null)}>Stay here</CTALinkOrButton>
-            <CTALinkOrButton tone="destructive" disabled={pendingWrites > 0} onClick={() => {
+            <Button variant="secondary" onClick={() => setLeaveAction(null)}>Stay here</Button>
+            <Button tone="destructive" disabled={pendingWrites > 0} onClick={() => {
               const action = leaveAction;
               setLeaveAction(null);
               action?.();
-            }}>Leave session</CTALinkOrButton>
+            }}>Leave session</Button>
           </div>
         </div>
       </Modal>

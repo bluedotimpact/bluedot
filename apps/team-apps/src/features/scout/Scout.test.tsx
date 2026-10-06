@@ -18,7 +18,7 @@ vi.mock('@bluedot/ui', () => ({
   Callout: ({ children, role }: { children: ReactNode; role?: string }) => <div role={role}>{children}</div>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   ProgressDots: () => <span>Loading</span>,
-  CTALinkOrButton: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
+  Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
 }));
 import Scout from './Scout';

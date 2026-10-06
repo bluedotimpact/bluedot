@@ -1,6 +1,6 @@
 import type React from 'react';
 import { FaXmark } from 'react-icons/fa6';
-import { CTALinkOrButton, type CTALinkOrButtonProps } from './CTALinkOrButton';
+import { Button, type ButtonProps } from './Button';
 import { IconButton } from './IconButton';
 import { TONE_STYLES, type Tone } from './toneStyles';
 import { cn } from './utils';
@@ -10,7 +10,7 @@ export type CalloutTone = Tone;
 export type CalloutAction = {
   label: string;
   emphasis?: 'primary' | 'secondary';
-} & Omit<CTALinkOrButtonProps, 'variant' | 'tone' | 'size' | 'children' | 'className' | 'style'>;
+} & Omit<ButtonProps, 'variant' | 'tone' | 'size' | 'children' | 'className' | 'style'>;
 
 export type CalloutProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> & {
   tone?: CalloutTone;
@@ -44,7 +44,7 @@ export const Callout = ({
         {hasActions && (
           <div className="flex grow flex-wrap gap-2">
             {actions.map(({ label, emphasis = 'primary', ...action }) => (
-              <CTALinkOrButton
+              <Button
                 key={label}
                 variant={emphasis}
                 tone={ACTION_TONES[tone]}
@@ -53,7 +53,7 @@ export const Callout = ({
                 {...action}
               >
                 {label}
-              </CTALinkOrButton>
+              </Button>
             ))}
           </div>
         )}
@@ -68,7 +68,7 @@ export const Callout = ({
 };
 
 // info/fg is the brand accent, so info actions are plain buttons
-const ACTION_TONES: Record<CalloutTone, CTALinkOrButtonProps['tone']> = {
+const ACTION_TONES: Record<CalloutTone, ButtonProps['tone']> = {
   info: undefined,
   success: 'success',
   warning: 'warning',

@@ -1,7 +1,7 @@
 import { useId, useState } from 'react';
 import clsx from 'clsx';
 import {
-  CTALinkOrButton,
+  Button,
   Input,
 } from '@bluedot/ui';
 import type { User } from '@bluedot/db';
@@ -114,7 +114,7 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
           </div>
           {/* Always rendered so the column keeps its width; the top margin centres the buttons on the inputs rather than on label + input */}
           <div className={clsx('flex gap-2 sm:mt-8', !showButtons && 'max-sm:hidden sm:invisible')}>
-            <CTALinkOrButton
+            <Button
               variant="primary"
               onClick={handleSave}
               disabled={isSaving}
@@ -126,15 +126,15 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
                 <span className={clsx('col-start-1 row-start-1', isSaving && 'invisible')} aria-hidden={isSaving}>Save</span>
                 <span className={clsx('col-start-1 row-start-1', !isSaving && 'invisible')} aria-hidden={!isSaving}>Saving...</span>
               </span>
-            </CTALinkOrButton>
-            <CTALinkOrButton
+            </Button>
+            <Button
               variant="secondary"
               onClick={handleCancel}
               disabled={isSaving}
               aria-label="Cancel profile name changes"
             >
               Cancel
-            </CTALinkOrButton>
+            </Button>
           </div>
         </div>
         {nameError && (

@@ -10,7 +10,7 @@ export const maybePlural = (count: number, base: string, pluralEnding = 's'): st
  * Tailwind's defaults (`text-xs`, `text-sm`, …). Out of the box `tailwind-merge`
  * doesn't recognise these as font-size classes, so it groups them with
  * `text-{color}` and silently drops one when both appear in the same merge —
- * e.g. a `<CTALinkOrButton>` that sets `text-size-sm` via its size config and
+ * e.g. a `<Button>` that sets `text-size-sm` via its size config and
  * `text-bluedot-navy` via `className` ends up with no font-size at all.
  *
  * Register the custom scale so font-size and text-color stay in distinct

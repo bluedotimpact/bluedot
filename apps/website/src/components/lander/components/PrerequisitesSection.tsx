@@ -1,5 +1,5 @@
 import {
-  H2, H3, P, CTALinkOrButton,
+  H2, H3, P, Button,
   CardShell,
 } from '@bluedot/ui';
 import { type ReactNode } from 'react';
@@ -67,13 +67,13 @@ const PrerequisitesSection = ({
                   </div>
                   {prereq.ctaText && prereq.ctaUrl && (
                     <div className="mt-auto pt-2">
-                      <CTALinkOrButton
+                      <Button
                         url={prereq.ctaUrl}
                         variant="secondary"
                         size="small"
                       >
                         {prereq.ctaText}
-                      </CTALinkOrButton>
+                      </Button>
                     </div>
                   )}
                 </CardShell>
@@ -83,13 +83,13 @@ const PrerequisitesSection = ({
 
           {cta && (
             <div className="flex justify-center mt-10 md:mt-12">
-              <CTALinkOrButton
+              <Button
                 url={cta.url}
                 variant="primary"
                 className="!px-8 !py-3 !text-base"
               >
                 {cta.text}
-              </CTALinkOrButton>
+              </Button>
             </div>
           )}
         </div>

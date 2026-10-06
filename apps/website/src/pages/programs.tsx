@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, CTALinkOrButton,
+  Breadcrumbs, Button,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
@@ -26,12 +26,12 @@ const ProgramsPage = () => {
         <ProgramsList />
 
         <div className="flex justify-center pt-6 bd-md:pt-8 lg:pt-10">
-          <CTALinkOrButton
+          <Button
             url={ROUTES.courses.url}
             className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-size-sm font-medium tracking-tighter rounded-md hover:bg-bluedot-navy/15"
           >
             Explore courses instead
-          </CTALinkOrButton>
+          </Button>
         </div>
       </section>
 

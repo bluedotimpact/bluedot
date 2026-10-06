@@ -1,4 +1,4 @@
-import { CTALinkOrButton } from '@bluedot/ui';
+import { Button } from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { BooksIcon } from '../icons';
 
@@ -17,9 +17,9 @@ const EmptyCourseList = ({
     <p className="text-size-md font-semibold text-bluedot-navy">{title}</p>
     {description && <p className="max-w-[40ch] text-size-sm text-bluedot-navy/60">{description}</p>}
     {cta && (
-      <CTALinkOrButton variant="primary" size="small" url={cta.href} className="text-size-xxs">
+      <Button variant="primary" size="small" url={cta.href} className="text-size-xxs">
         {cta.label}
-      </CTALinkOrButton>
+      </Button>
     )}
   </div>
 );

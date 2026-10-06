@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, Input, Modal, ProgressDots,
+  Button, Input, Modal, ProgressDots,
 } from '@bluedot/ui';
 import { useRef, useState } from 'react';
 import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
@@ -78,18 +78,18 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
               key={person.id}
               name={person.name}
               rightHandNode={(
-                <CTALinkOrButton size="small" onClick={() => onAdd(person)}>
+                <Button size="small" onClick={() => onAdd(person)}>
                   Add
-                </CTALinkOrButton>
+                </Button>
               )}
             />
           ))}
         </div>
 
         <div className="flex justify-end pt-4 border-t border-gray-200 pb-4 sm:pb-0">
-          <CTALinkOrButton variant="outline-black" onClick={onClose}>
+          <Button variant="outline-black" onClick={onClose}>
             Cancel
-          </CTALinkOrButton>
+          </Button>
         </div>
       </div>
     </Modal>

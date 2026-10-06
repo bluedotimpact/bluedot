@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, ErrorSection, H2, H3, P, ProgressDots, ListGroup, ListRow,
+  Button, ErrorSection, H2, H3, P, ProgressDots, ListGroup, ListRow,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { useState } from 'react';
@@ -107,13 +107,13 @@ const GranteesListSection = ({
             </label>
           )}
           {hasHiddenGrantees && showAll && (
-            <CTALinkOrButton
+            <Button
               variant="secondary"
               onClick={() => setShowAll(false)}
               className="shrink-0"
             >
               Close
-            </CTALinkOrButton>
+            </Button>
           )}
         </div>
       )}
@@ -150,24 +150,24 @@ const GranteesListSection = ({
 
           {showCollapsedPreview && (
             <div className="mt-6 flex justify-center">
-              <CTALinkOrButton
+              <Button
                 variant="secondary"
                 onClick={() => setShowAll(true)}
               >
                 {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
-              </CTALinkOrButton>
+              </Button>
             </div>
           )}
         </div>
       )}
       {hasHiddenGrantees && showAll && (
         <div className="mt-8 flex justify-center">
-          <CTALinkOrButton
+          <Button
             variant="secondary"
             onClick={() => setShowAll(false)}
           >
             Show fewer projects
-          </CTALinkOrButton>
+          </Button>
         </div>
       )}
     </div>

@@ -1,5 +1,5 @@
 import {
-  CTALinkOrButton, useCurrentTimeMs, type OverflowMenuItemProps,
+  Button, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
 import { FaBan, FaCheck } from 'react-icons/fa6';
@@ -92,14 +92,14 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'reschedule-upcoming',
       isVisible: isFutureLike,
       variant: 'inline',
-      inline: <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
+      inline: <Button variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
       overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
     },
     {
       id: 'join-now',
       isVisible: status === 'live' && Boolean(discussionMeetLink),
       variant: 'inline',
-      inline: discussionMeetLink ? <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</CTALinkOrButton> : null,
+      inline: discussionMeetLink ? <Button variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</Button> : null,
       overflow: {
         id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
       },
@@ -120,7 +120,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'reschedule-absent',
       isVisible: status === 'absent' && canReschedule,
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
+      inline: <Button variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
       overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
     },
     {
@@ -152,7 +152,7 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: status === 'live' && Boolean(discussionMeetLink),
       variant: 'inline',
       inline: discussionMeetLink ? (
-        <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</CTALinkOrButton>
+        <Button variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</Button>
       ) : null,
       overflow: {
         id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
