@@ -721,28 +721,31 @@ const fetchCrmPersonId = async (email: string): Promise<string | undefined> => {
 };
 
 // Every registration this email has with BlueDot, in any course, oldest first.
+// Exported for tests.
+export const toHistoryRow = (r: AirtableRecord, rounds: Map<string, { name: string; start?: string; end?: string; course?: string }>, currentId: string): Registration => {
+  const round = rounds.get(first(r.fields[REG.round]) ?? '');
+  return {
+    id: r.id,
+    recordUrl: recordLink(REGISTRATIONS_URL, r.id),
+    course: round?.course ?? 'Unknown course',
+    roundName: round?.name ?? '',
+    roundStart: round?.start,
+    roundEnd: round?.end,
+    facilitated: str(r.fields[REG.role]) === 'Facilitator',
+    opinion: str(r.fields[REG.opinion]),
+    hasCertificate: !!r.fields[REG.certificateCreatedAt],
+    droppedOut: !!r.fields[REG.droppedOut],
+    applicationId: str(r.fields[REG.applicationId])?.trim(),
+    isCurrent: r.id === currentId,
+    attended: num(r.fields[REG.numAttended]),
+    expected: num(r.fields[REG.numExpected]),
+  };
+};
+
 const fetchHistory = async (email: string, currentId: string, rounds: Map<string, Round>): Promise<Registration[]> => {
   const records = await fetchAll(REGISTRATIONS_URL, { filterByFormula: byEmailFormula('email', email) }, HISTORY_FIELDS);
   return records
-    .map((r): Registration => {
-      const round = rounds.get(first(r.fields[REG.round]) ?? '');
-      return {
-        id: r.id,
-        recordUrl: recordLink(REGISTRATIONS_URL, r.id),
-        course: round?.course ?? 'Unknown course',
-        roundName: round?.name ?? '',
-        roundStart: round?.start,
-        roundEnd: round?.end,
-        facilitated: str(r.fields[REG.role]) === 'Facilitator',
-        opinion: str(r.fields[REG.opinion]),
-        hasCertificate: !!r.fields[REG.certificateCreatedAt],
-        droppedOut: !!r.fields[REG.droppedOut],
-        applicationId: str(r.fields[REG.applicationId])?.trim(),
-        isCurrent: r.id === currentId,
-        attended: num(r.fields[REG.numAttended]),
-        expected: num(r.fields[REG.numExpected]),
-      };
-    })
+    .map((r) => toHistoryRow(r, rounds, currentId))
     .sort((a, b) => (a.roundStart ?? '').localeCompare(b.roundStart ?? ''));
 };
 

@@ -666,15 +666,14 @@ const feedbackSummary = (fb: FacilitatorFeedback) => {
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
   // LinkedIn sometimes lives only on the application record, so merge both sources
-  const normalise = (u: string) => u.replace(/\/+$/, '').toLowerCase();
   const profileLinks = [...new Map([person.profileUrl, person.application?.profileUrl, person.application?.otherProfileUrl]
     .filter((u): u is string => !!u)
-    .map((u) => [normalise(u), u] as const)).values()];
+    .map((u) => [normaliseUrl(u), u] as const)).values()];
   const summaryLine = [person.jobTitle, person.organisation, person.country].filter(Boolean).join(' · ');
   // Profiles the lookup found with high confidence, next to the ones the person gave us. LinkedIn
   // is never added here (unreadable, and usually the one they gave).
-  const givenSet = new Set(profileLinks.map(normalise));
-  const foundLinks = sortedFoundLinks((person.webFacts?.links ?? []).filter((l) => l.confidence === 'high' && l.kind !== 'linkedin' && !givenSet.has(normalise(l.url))));
+  const givenSet = new Set(profileLinks.map(normaliseUrl));
+  const foundLinks = sortedFoundLinks((person.webFacts?.links ?? []).filter((l) => l.confidence === 'high' && l.kind !== 'linkedin' && !givenSet.has(normaliseUrl(l.url))));
   // Everything with BlueDot as one list, newest first: registrations by round start,
   // applications, grants and calls by their own dates. Undated items go last.
   const timeline = [
