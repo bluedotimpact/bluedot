@@ -31,13 +31,9 @@ export const OnDark: Story = {
   ],
 };
 
+// Buttons own their busy state; see CTALinkOrButton `loading`
 export const InButton: Story = {
   render: () => (
-    <CTALinkOrButton disabled>
-      <span className="flex items-center gap-2">
-        Submitting
-        <ProgressDots className="my-0 text-on-dark" />
-      </span>
-    </CTALinkOrButton>
+    <CTALinkOrButton loading>Submitting</CTALinkOrButton>
   ),
 };
