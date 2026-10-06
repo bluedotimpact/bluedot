@@ -28,14 +28,28 @@ const SIZE_STYLES = {
   large: 'h-[50px] px-5',
 } as const;
 
-const CTA_VARIANT_STYLES = {
-  primary: 'cta-button--primary bg-bluedot-normal link-on-dark',
-  secondary: 'cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter',
-  black: 'cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest',
-  'outline-black': 'cta-button--outline-black bg-transparent border border-bluedot-navy/30 text-black hover:bg-gray-50 font-medium',
-  ghost: 'text-bluedot-navy/60 hover:text-bluedot-navy hover:bg-bluedot-navy/10',
-  unstyled: '', // No color/hover styles - fully controlled by className/style props
-} as const;
+const VARIANT_STYLES: Record<CTALinkOrButtonVariant, string> = {
+  primary: 'bg-accent text-on-dark hover:bg-accent-hover hover:text-on-dark on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover on-dark:hover:text-bluedot-darker',
+  secondary: 'border border-accent text-accent hover:bg-accent-subtle hover:text-accent on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover on-dark:hover:text-on-dark',
+  ghost: 'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
+  black: 'bg-dark text-on-dark hover:bg-bluedot-black hover:text-on-dark',
+  'outline-black': 'border border-strong font-medium text-primary hover:bg-tint hover:text-primary',
+  unstyled: '', // No colour/hover styles: fully controlled by className/style
+};
+
+// Tone swaps the colour family; the primary/secondary chrome stays. Later classes win via cn()
+const TONE_STYLES: Record<'primary' | 'secondary', Record<CTALinkOrButtonTone, string>> = {
+  primary: {
+    destructive: 'bg-error-fg hover:bg-error-fg-hover',
+    success: 'bg-success-fg hover:bg-success-fg-hover',
+    warning: 'bg-warning-fg hover:bg-warning-fg-hover',
+  },
+  secondary: {
+    destructive: 'border-error-fg text-error-fg hover:bg-error-bg hover:text-error-fg',
+    success: 'border-success-fg text-success-fg hover:bg-success-bg hover:text-success-fg',
+    warning: 'border-warning-fg text-warning-fg hover:bg-warning-bg hover:text-warning-fg',
+  },
+};
 
 export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   className,
