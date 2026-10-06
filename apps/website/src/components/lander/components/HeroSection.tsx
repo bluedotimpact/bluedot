@@ -208,8 +208,9 @@ const HeroSection = ({
                 <div className="flex gap-3">
                   <CTALinkOrButton
                     url={primaryCta.url}
-                    size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
+                    variant="unstyled"
+                    size="large"
+                    className="text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -218,8 +219,9 @@ const HeroSection = ({
                   {secondaryCta && (
                     <CTALinkOrButton
                       url={secondaryCta.url}
-                      size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
+                      variant="unstyled"
+                      size="large"
+                      className="bg-transparent border hover:bg-white/10"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
@@ -266,8 +268,8 @@ const HeroSection = ({
                 <div className="flex gap-3">
                   <CTALinkOrButton
                     url={primaryCta.url}
-                    size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-bluedot-dark focus:bg-bluedot-dark"
+                    variant="primary"
+                    size="large"
                   >
                     {primaryCta.text}
                   </CTALinkOrButton>
@@ -275,8 +277,8 @@ const HeroSection = ({
                   {secondaryCta && (
                     <CTALinkOrButton
                       url={secondaryCta.url}
-                      size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
+                      variant="outline-black"
+                      size="large"
                     >
                       {secondaryCta.text}
                     </CTALinkOrButton>
