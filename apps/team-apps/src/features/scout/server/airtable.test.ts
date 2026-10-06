@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, fetchQueue, inviteForReal, declineForReal, parseWebFacts,
+  attachPastApplications, fetchQueue, inviteForReal, declineForReal, parseWebFacts, toHistoryRow,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -168,4 +168,17 @@ test('past registrations get their own application attached; the current one and
   expect(attached[0]!.application).toBeUndefined();
   expect(attached[1]!.application?.skills).toBe('skills from recAppPast00000001');
   expect(attached[2]!.application).toBeUndefined();
+});
+
+test('a history row carries the sessions attended and expected when the registration has them', () => {
+  const rounds = new Map([['recRoundExample01', { name: 'Test round', course: 'Biosecurity', start: '2026-06-01' }]]);
+  const counted = { ...untouched, fldObmJR3eMFoSIfF: 4, fldPq8IHeoXBkD8nE: 5 };
+  const withCounts = toHistoryRow({ id, fields: counted }, rounds, 'recOther');
+  expect(withCounts).toMatchObject({
+    course: 'Biosecurity', roundStart: '2026-06-01', attended: 4, expected: 5, isCurrent: false,
+  });
+  const withoutCounts = toHistoryRow({ id, fields: untouched }, rounds, id);
+  expect(withoutCounts.attended).toBeUndefined();
+  expect(withoutCounts.expected).toBeUndefined();
+  expect(withoutCounts.isCurrent).toBe(true);
 });
