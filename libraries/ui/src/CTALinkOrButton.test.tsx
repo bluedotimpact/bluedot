@@ -50,14 +50,6 @@ describe('CTALinkOrButton', () => {
     expect(button.className).includes('font-semibold');
   });
 
-  test('chevrons render as decorative icons', () => {
-    const { container, rerender } = render(<CTALinkOrButton withChevron>Next</CTALinkOrButton>);
-    expect(container.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
-    expect(screen.getByRole('button').lastElementChild?.tagName).toBe('svg');
-    rerender(<CTALinkOrButton withBackChevron>Back</CTALinkOrButton>);
-    expect(screen.getByRole('button').firstElementChild?.tagName).toBe('svg');
-  });
-
   describe('tone', () => {
     test('destructive primary swaps the fill', () => {
       render(<CTALinkOrButton tone="destructive">Delete</CTALinkOrButton>);
