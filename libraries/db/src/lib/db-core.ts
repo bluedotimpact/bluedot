@@ -92,7 +92,7 @@ export class DeprecationSafePgTable<
       this.pgWithDeprecatedColumns = pgTable(name, {
         ...config.columns,
         ...config.deprecatedColumns,
-      }, config.indexes as PgIndexesConfig<DeprecationSafePgColumnsMap> | undefined) as unknown as DeprecationSafeTable['pg'];
+      }, config.indexes) as unknown as DeprecationSafeTable['pg'];
     }
   }
 }
@@ -138,8 +138,7 @@ export class PgAirtableTable<
 
     const finalPgColumns: ExtractPgColumns<TColumnsMap> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap>;
 
-    const indexes = config.indexes as PgIndexesConfig<Record<string, AllowedPgColumn>> | undefined;
-    this.pg = pgTable(name, finalPgColumns, indexes) as typeof this.pg;
+    this.pg = pgTable(name, finalPgColumns, config.indexes) as typeof this.pg;
     // Initialise pgWithDeprecatedColumns if there are deprecated columns
     if (config.deprecatedColumns && Object.keys(config.deprecatedColumns).length > 0) {
       // Deprecated columns will stop being synced, validate they are nullable so we can handle this
@@ -168,6 +167,7 @@ export class PgAirtableTable<
         combinedColsBuilder[columnName] = columnConfig.pgColumn;
       }
 
+      const indexes = config.indexes as PgIndexesConfig<typeof combinedColsBuilder> | undefined;
       this.pgWithDeprecatedColumns = pgTable(name, combinedColsBuilder, indexes) as unknown as typeof this.pgWithDeprecatedColumns;
     }
 
