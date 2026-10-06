@@ -63,18 +63,10 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
       aria-busy={loading || undefined}
       {...rest}
     >
-      {withBackChevron && (
-        <span className="cta-button__chevron mr-3">
-          <FaChevronLeft className={chevronClassName} />
-        </span>
-      )}
       {loading && <Dots />}
+      {withBackChevron && <FaChevronLeft aria-hidden className="size-4" />}
       {children}
-      {withChevron && (
-        <span className="cta-button__chevron ml-3">
-          <FaChevronRight className={chevronClassName} />
-        </span>
-      )}
+      {withChevron && <FaChevronRight aria-hidden className="size-4" />}
     </ClickTarget>
   );
 };
