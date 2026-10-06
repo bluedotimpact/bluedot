@@ -7,7 +7,7 @@ import {
 const {
   verify, fetchQueue, fetchInvitedThisWeek, fetchLeadCourses, fetchPerson, recordDecision,
 } = vi.hoisted(() => ({
-  verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchLeadCourses: vi.fn(async () => []), fetchPerson: vi.fn(), recordDecision: vi.fn(),
+  verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchLeadCourses: vi.fn(async (_email: string): Promise<string[]> => []), fetchPerson: vi.fn(), recordDecision: vi.fn(),
 }));
 vi.mock('@bluedot/ui', () => ({ loginPresets: { googleBlueDot: { verifyAndDecodeToken: verify } } }));
 vi.mock('./index', () => ({
