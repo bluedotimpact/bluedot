@@ -54,6 +54,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
         className,
       )}
       style={style}
+      aria-busy={loading || undefined}
       {...rest}
     >
       {withBackChevron && (
