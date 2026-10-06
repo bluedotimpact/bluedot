@@ -14,7 +14,8 @@ export type CTALinkOrButtonProps = {
   size?: 'small' | 'medium' | 'large';
   withChevron?: boolean;
   withBackChevron?: boolean;
-  // Leading dots + blocks activation without taking focus away. The label stays as passed; swap it yourself if the copy should change
+  // Leading dots + blocks activation without taking focus away. The label stays as passed; swap it yourself if the copy should change.
+  // `loading` is the only way to set aria-busy, so the two cannot disagree
   loading?: boolean;
   style?: React.CSSProperties;
 } & Omit<ClickTargetProps, 'aria-busy'>;
