@@ -97,7 +97,7 @@ export const MoveCourseControl: React.FC<MoveCourseControlProps> = ({
           disabled={!allowed || !selectedRoundId || pendingWrites > 0}
           loading={status === 'loading'}
           onClick={handleMove}
-          className="shrink-0"
+          className="shrink-0 w-full sm:w-auto"
         >
           {status === 'loading' ? 'Moving…' : `Move to ${targetCourse}`}
         </CTALinkOrButton>
