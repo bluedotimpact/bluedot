@@ -19,8 +19,8 @@ export type CTALinkOrButtonProps = {
   style?: React.CSSProperties;
 } & ClickTargetProps;
 
-// `disabled:` applies to buttons, `aria-disabled:` to links. A busy control stays at full opacity but ignores input
-const BASE_STYLES = 'not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none';
+// `disabled:` applies to buttons, `aria-disabled:` to links. A busy control dims like disabled but keeps focus
+const BASE_STYLES = 'not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50';
 
 const SIZE_STYLES = {
   small: 'h-9 px-3',
