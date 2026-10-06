@@ -174,7 +174,9 @@ test('a history row carries the sessions attended and expected when the registra
   const rounds = new Map([['recRoundExample01', { name: 'Test round', course: 'Biosecurity', start: '2026-06-01' }]]);
   const counted = { ...untouched, fldObmJR3eMFoSIfF: 4, fldPq8IHeoXBkD8nE: 5 };
   const withCounts = toHistoryRow({ id, fields: counted }, rounds, 'recOther');
-  expect(withCounts).toMatchObject({ course: 'Biosecurity', roundStart: '2026-06-01', attended: 4, expected: 5, isCurrent: false });
+  expect(withCounts).toMatchObject({
+    course: 'Biosecurity', roundStart: '2026-06-01', attended: 4, expected: 5, isCurrent: false,
+  });
   const withoutCounts = toHistoryRow({ id, fields: untouched }, rounds, id);
   expect(withoutCounts.attended).toBeUndefined();
   expect(withoutCounts.expected).toBeUndefined();
