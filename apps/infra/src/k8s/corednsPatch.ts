@@ -14,8 +14,7 @@ const corefile = `.:53 {
     }
     autopath @kubernetes
     prometheus :9153
-    forward . 8.8.8.8 8.8.4.4 1.1.1.1 {
-      policy sequential
+    forward . 8.8.8.8 8.8.4.4 {
       max_concurrent 1000
     }
     cache 1800
