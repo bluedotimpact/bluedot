@@ -159,7 +159,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         <div className="flex max-w-narrow flex-col items-center gap-4">
           <P className="text-bluedot-navy/80 text-center">{message}</P>
         </div>
-        <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
+        <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
           Close
         </CTALinkOrButton>
       </div>
@@ -325,7 +325,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
             <P className="text-bluedot-navy/80 text-center text-pretty">
               Your application has been withdrawn. If this was a mistake, please email us.
             </P>
-            <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
+            <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
               Close
             </CTALinkOrButton>
           </>
@@ -339,7 +339,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
               <CTALinkOrButton variant="secondary" className="w-full sm:w-auto" onClick={handleCloseWithInvalidation} disabled={mutation.isPending}>
                 Cancel
               </CTALinkOrButton>
-              <CTALinkOrButton className="bg-bluedot-normal w-full sm:w-auto" onClick={handleConfirm} disabled={mutation.isPending}>
+              <CTALinkOrButton className="w-full sm:w-auto" onClick={handleConfirm} disabled={mutation.isPending}>
                 Confirm
               </CTALinkOrButton>
             </div>

@@ -209,7 +209,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             </P>
             <P className="text-center text-bluedot-navy/80">Please allow up to 10 minutes to see the changes.</P>
           </div>
-          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+          <CTALinkOrButton className="w-full" onClick={handleClose}>
             Close
           </CTALinkOrButton>
         </div>
@@ -232,7 +232,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               to see the changes.
             </P>
           </div>
-          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+          <CTALinkOrButton className="w-full" onClick={handleClose}>
             Close
           </CTALinkOrButton>
         </div>
