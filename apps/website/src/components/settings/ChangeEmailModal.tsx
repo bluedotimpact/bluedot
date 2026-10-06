@@ -4,7 +4,6 @@ import {
   Input,
   Modal,
   P,
-  ProgressDots,
 } from '@bluedot/ui';
 import { TRPCClientError } from '@trpc/client';
 import { useEffect, useState } from 'react';
@@ -129,17 +128,10 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               <CTALinkOrButton
                 variant="primary"
                 type="submit"
-                disabled={requestEmailChange.isPending}
+                loading={requestEmailChange.isPending}
                 aria-label="Send confirmation link"
               >
-                {requestEmailChange.isPending ? (
-                  <span className="flex items-center gap-2">
-                    <ProgressDots className="my-0 text-on-dark" />
-                    <span>Sending...</span>
-                  </span>
-                ) : (
-                  'Send confirmation link'
-                )}
+                {requestEmailChange.isPending ? 'Sending...' : 'Send confirmation link'}
               </CTALinkOrButton>
             </div>
           </form>

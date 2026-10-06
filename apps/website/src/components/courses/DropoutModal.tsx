@@ -121,7 +121,6 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
   const selectedRound = roundsForChosenIntensity.find((r) => r.id === effectiveTargetRoundId);
 
   const submitDisabled = !dropoutType
-    || dropoutMutation.isPending
     || (isDeferral && !effectiveTargetRoundId);
 
   const handleSubmit = () => {
@@ -263,18 +262,13 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       )}
 
       <CTALinkOrButton
-        className="bg-bluedot-normal w-full disabled:opacity-50"
+        className="w-full"
+        tone={isDeferral ? undefined : 'destructive'}
         onClick={handleSubmit}
+        loading={dropoutMutation.isPending}
         disabled={submitDisabled}
       >
-        {dropoutMutation.isPending ? (
-          <span className="flex items-center gap-2">
-            <ProgressDots className="my-0 text-on-dark" />
-            Submitting...
-          </span>
-        ) : (
-          <span>Submit</span>
-        )}
+        {dropoutMutation.isPending ? 'Submitting...' : 'Submit'}
       </CTALinkOrButton>
     </>
   );

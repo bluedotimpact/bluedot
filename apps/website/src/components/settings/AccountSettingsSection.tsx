@@ -3,7 +3,6 @@ import {
   Input,
   Modal,
   P,
-  ProgressDots,
 } from '@bluedot/ui';
 import { TRPCClientError } from '@trpc/client';
 import { useEffect, useRef, useState } from 'react';
@@ -323,17 +322,10 @@ const ChangePasswordModal = ({
           <CTALinkOrButton
             variant="primary"
             onClick={handleSubmit}
-            disabled={isLoading}
+            loading={isLoading}
             aria-label="Update password"
           >
-            {isLoading ? (
-              <span className="flex items-center gap-2">
-                <ProgressDots className="my-0 text-on-dark" />
-                <span>Updating...</span>
-              </span>
-            ) : (
-              'Update password'
-            )}
+            {isLoading ? 'Updating...' : 'Update password'}
           </CTALinkOrButton>
         </div>
       </div>

@@ -7,7 +7,6 @@ import { z } from 'zod';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
-import { ProgressDots } from './ProgressDots';
 import { cn } from './utils';
 
 const emailSchema = z.string().min(1, 'Email is required.').email('Please enter a valid email address.');
@@ -398,16 +397,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
             <CTALinkOrButton
               type="submit"
               className="w-full"
-              disabled={isSubmitting || !description.trim() || !email.trim()}
+              loading={isSubmitting}
+              disabled={!description.trim() || !email.trim()}
             >
-              {isSubmitting ? (
-                <span className="flex items-center gap-2">
-                  Submitting
-                  <ProgressDots className="my-0 text-on-dark" />
-                </span>
-              ) : (
-                'Submit'
-              )}
+              {isSubmitting ? 'Submitting' : 'Submit'}
             </CTALinkOrButton>
           </form>
         )}
