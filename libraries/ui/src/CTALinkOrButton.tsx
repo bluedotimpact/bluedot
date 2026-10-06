@@ -38,7 +38,7 @@ const VARIANT_STYLES: Record<CTALinkOrButtonVariant, string> = {
 };
 
 // Tone swaps the colour family; the primary/secondary chrome stays. Later classes win via cn()
-const TONE_STYLES: Record<'primary' | 'secondary', Record<CTALinkOrButtonTone, string>> = {
+const TONE_STYLES: Partial<Record<CTALinkOrButtonVariant, Record<CTALinkOrButtonTone, string>>> = {
   primary: {
     destructive: 'bg-error-fg hover:bg-error-fg-hover',
     success: 'bg-success-fg hover:bg-success-fg-hover',
@@ -63,11 +63,9 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   children,
   ...rest
 }) => {
-  const toneStyles = tone && (variant === 'primary' || variant === 'secondary') ? TONE_STYLES[variant][tone] : undefined;
-
   return (
     <ClickTarget
-      className={cn(BASE_STYLES, SIZE_STYLES[size], VARIANT_STYLES[variant], toneStyles, className)}
+      className={cn(BASE_STYLES, SIZE_STYLES[size], VARIANT_STYLES[variant], tone && TONE_STYLES[variant]?.[tone], className)}
       style={style}
       aria-busy={loading || undefined}
       {...rest}
