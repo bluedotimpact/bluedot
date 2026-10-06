@@ -205,12 +205,12 @@ const HeroSection = ({
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex gap-3">
+                <div className="flex flex-col bd-md:flex-row gap-3">
                   <CTALinkOrButton
                     url={primaryCta.url}
                     variant="unstyled"
                     size="large"
-                    className="text-bluedot-navy hover:brightness-90"
+                    className="w-full bd-md:w-auto text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -221,7 +221,7 @@ const HeroSection = ({
                       url={secondaryCta.url}
                       variant="unstyled"
                       size="large"
-                      className="bg-transparent border hover:bg-white/10"
+                      className="w-full bd-md:w-auto bg-transparent border hover:bg-white/10"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
@@ -265,11 +265,12 @@ const HeroSection = ({
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex gap-3">
+                <div className="flex flex-col bd-md:flex-row gap-3">
                   <CTALinkOrButton
                     url={primaryCta.url}
                     variant="primary"
                     size="large"
+                    className="w-full bd-md:w-auto"
                   >
                     {primaryCta.text}
                   </CTALinkOrButton>
@@ -279,6 +280,7 @@ const HeroSection = ({
                       url={secondaryCta.url}
                       variant="outline-black"
                       size="large"
+                      className="w-full bd-md:w-auto"
                     >
                       {secondaryCta.text}
                     </CTALinkOrButton>
