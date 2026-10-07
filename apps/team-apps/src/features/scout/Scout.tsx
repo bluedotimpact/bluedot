@@ -13,9 +13,7 @@ import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { QueueSource } from './QueueSource';
-import {
-  courses, roundKey, roundLabel, roundsFor,
-} from './reviewQueue';
+import { roundKey, roundLabel, roundsFor } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
   Course, Decision, InvitedThisWeek, Person, QueueItem,
@@ -114,8 +112,8 @@ const Scout = () => {
   const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
   const total = roundItems.length + decisions.length;
 
-  // Next round in picker order that still has people
-  const nextRound = round ? courses.flatMap((course) => roundsFor(remaining, course)).find((item) => roundKey(item) !== roundKey(round)) : undefined;
+  // Next round of the same course that still has people; other courses are a deliberate choice on the main page
+  const nextRound = round ? roundsFor(remaining, round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
 
   const chooseRound = (item: QueueItem) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;

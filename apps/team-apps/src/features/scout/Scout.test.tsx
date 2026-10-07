@@ -174,6 +174,33 @@ test('the picker opens only the courses the signed-in person leads, and everythi
   expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(false);
 });
 
+test('after a round, "Review next round" only offers another round of the same course; otherwise only the main page', async () => {
+  const otherCourse = realQueue[3]!;
+  const sameCourseOtherRound = { ...realQueue[1]!, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' };
+  const withQueue = (items: typeof realQueue) => mockFetch.mockImplementation(async (path, init) => {
+    if (init?.method === 'POST') return response({ ok: true });
+    return pathOf(path).endsWith('/queue') ? response({ items }) : read(path);
+  });
+
+  withQueue([realQueue[0]!, otherCourse]);
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+  await screen.findByRole('heading', { name: /Round done/ });
+  expect(screen.queryByRole('button', { name: /Review next round/ })).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Back to main page' }));
+  await screen.findByTestId('choose-round-sample-Biosecurity');
+  cleanup();
+
+  withQueue([realQueue[0]!, sameCourseOtherRound, otherCourse]);
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+  await screen.findByRole('heading', { name: /Round done/ });
+  fireEvent.click(screen.getByRole('button', { name: /Review next round/ }));
+  await screen.findByText('Sam Chen');
+});
+
 test('chooses a round before loading people and never includes another round from the same course', async () => {
   const queue = realQueue.map((item, index) => index === 1 ? { ...item, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' } : item);
   mockFetch.mockImplementation(async (path) => pathOf(path).endsWith('/queue') ? response({ items: queue }) : read(path));
