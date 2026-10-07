@@ -116,7 +116,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const showPendingPill = Boolean(pendingSwitchType) && !isFacilitator;
   const pendingPill = (
     <StatusPill icon={<PendingIcon />} className="bg-accent-subtle">
-      {pendingSwitchType === 'Switch group for one unit' ? 'Rescheduling' : 'Group switch requested'}
+      {pendingSwitchType === 'Switch group for one unit' ? 'Reschedule requested' : 'Group switch requested'}
     </StatusPill>
   );
 

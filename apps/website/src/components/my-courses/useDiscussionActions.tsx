@@ -86,10 +86,10 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
-  const reschedulingPill = <StatusPill icon={<PendingIcon />}>Rescheduling</StatusPill>;
-  // Mobile keeps the menu item, greyed out, so the action is still recognisable.
+  const rescheduleRequestedPill = <StatusPill icon={<PendingIcon />}>Reschedule requested</StatusPill>;
+  // Mobile keeps the menu item, greyed out, labelled so the user knows why.
   const rescheduleOverflow = hasPendingReschedule
-    ? { id: 'reschedule', label: 'Reschedule', isDisabled: true }
+    ? { id: 'reschedule', label: 'Reschedule requested', isDisabled: true }
     : { id: 'reschedule', label: 'Reschedule', onAction: onReschedule };
 
   return [
@@ -98,7 +98,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: isFutureLike,
       variant: 'inline',
       inline: hasPendingReschedule
-        ? reschedulingPill
+        ? rescheduleRequestedPill
         : <Button variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
       overflow: rescheduleOverflow,
     },
@@ -128,7 +128,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: status === 'absent' && (canReschedule || hasPendingReschedule),
       variant: 'inline',
       inline: hasPendingReschedule
-        ? reschedulingPill
+        ? rescheduleRequestedPill
         : <Button variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
       overflow: rescheduleOverflow,
     },

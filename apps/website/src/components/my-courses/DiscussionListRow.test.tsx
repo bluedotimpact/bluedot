@@ -157,11 +157,11 @@ describe('DiscussionListRow', () => {
   });
 
   describe('pending reschedule request', () => {
-    test('mobile menu keeps "Reschedule", disabled and inert', () => {
+    test('mobile menu shows "Reschedule requested", disabled and inert', () => {
       const onReschedule = vi.fn();
       const { container } = renderRow({ status: 'upcoming', hasPendingReschedule: true, onReschedule });
-      expect(openOverflowAndGetLabels(container, 'mobile')).toEqual(['Reschedule', 'Download calendar file']);
-      const item = screen.getByRole('menuitem', { name: 'Reschedule' });
+      expect(openOverflowAndGetLabels(container, 'mobile')).toEqual(['Reschedule requested', 'Download calendar file']);
+      const item = screen.getByRole('menuitem', { name: 'Reschedule requested' });
       expect(item).toHaveAttribute('aria-disabled', 'true');
       fireEvent.click(item);
       expect(onReschedule).not.toHaveBeenCalled();

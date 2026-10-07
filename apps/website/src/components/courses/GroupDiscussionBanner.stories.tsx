@@ -100,15 +100,15 @@ export const FacilitatorNotStartingSoon: Story = {
   },
 };
 
-export const ParticipantLiveRescheduling: Story = {
+export const ParticipantLiveRescheduleRequested: Story = {
   args: { ...ParticipantLive.args, pendingSwitchType: 'Switch group for one unit' },
 };
 
-export const ParticipantStartingSoonRescheduling: Story = {
+export const ParticipantStartingSoonRescheduleRequested: Story = {
   args: { ...ParticipantStartingSoon.args, pendingSwitchType: 'Switch group for one unit' },
 };
 
-export const ParticipantNotStartingSoonRescheduling: Story = {
+export const ParticipantNotStartingSoonRescheduleRequested: Story = {
   args: { ...ParticipantNotStartingSoon.args, pendingSwitchType: 'Switch group for one unit' },
 };
 

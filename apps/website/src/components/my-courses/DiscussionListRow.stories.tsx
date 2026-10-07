@@ -102,9 +102,9 @@ export const Live: Story = { args: { ...baseArgs, discussion: live } };
 export const Attended: Story = { args: { ...baseArgs, discussion: past, isAttended: true } };
 export const Absent: Story = { args: { ...baseArgs, discussion: past } };
 export const AbsentNoReschedule: Story = { args: { ...baseArgs, discussion: past, canReschedule: false } };
-export const Rescheduling: Story = { args: { ...baseArgs, discussion: upcoming, hasPendingReschedule: true } };
-export const ReschedulingLive: Story = { args: { ...baseArgs, discussion: live, hasPendingReschedule: true } };
-export const ReschedulingAbsent: Story = { args: { ...baseArgs, discussion: past, hasPendingReschedule: true } };
+export const RescheduleRequested: Story = { args: { ...baseArgs, discussion: upcoming, hasPendingReschedule: true } };
+export const RescheduleRequestedLive: Story = { args: { ...baseArgs, discussion: live, hasPendingReschedule: true } };
+export const RescheduleRequestedAbsent: Story = { args: { ...baseArgs, discussion: past, hasPendingReschedule: true } };
 
 export const FacilitatorUpcoming: Story = { args: { ...facBaseArgs, discussion: upcomingFac } };
 export const FacilitatorSoon: Story = { args: { ...facBaseArgs, discussion: soonFac } };

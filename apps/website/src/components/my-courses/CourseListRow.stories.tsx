@@ -412,16 +412,16 @@ export const AllFacilitatorStates: Story = {
 
 export const InProgress: Story = { args: inProgressArgs };
 export const InProgressWithDiscussions: Story = { args: inProgressWithDiscussionsArgs };
-export const InProgressWithDiscussionsRescheduling: Story = {
+export const InProgressWithDiscussionsRescheduleRequested: Story = {
   args: { ...inProgressWithDiscussionsArgs, discussionIdsWithPendingReschedule: ['disc-unit-3'] },
 };
-export const InProgressWithDiscussionsReschedulingAbsent: Story = {
+export const InProgressWithDiscussionsRescheduleRequestedAbsent: Story = {
   args: { ...inProgressWithDiscussionsArgs, discussionIdsWithPendingReschedule: ['disc-unit-2'] },
 };
 export const InProgressGroupSwitchRequested: Story = {
   args: { ...inProgressWithDiscussionsArgs, hasPendingGroupSwitchRequest: true },
 };
-export const InProgressGroupSwitchRequestedAndRescheduling: Story = {
+export const InProgressGroupSwitchRequestedAndRescheduleRequested: Story = {
   args: { ...inProgressWithDiscussionsArgs, hasPendingGroupSwitchRequest: true, discussionIdsWithPendingReschedule: ['disc-unit-3'] },
 };
 export const InProgressIntensive: Story = { args: inProgressIntensiveArgs };

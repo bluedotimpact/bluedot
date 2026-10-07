@@ -72,7 +72,7 @@ export const Next: Story = {
   args: { discussion: nextDiscussion },
 };
 
-export const NextRescheduling: Story = {
+export const NextRescheduleRequested: Story = {
   args: { discussion: nextDiscussion, pendingSwitchType: 'Switch group for one unit' },
 };
 
@@ -84,7 +84,7 @@ export const Live: Story = {
   args: { discussion: liveDiscussion },
 };
 
-export const LiveRescheduling: Story = {
+export const LiveRescheduleRequested: Story = {
   args: { discussion: liveDiscussion, pendingSwitchType: 'Switch group for one unit' },
 };
 

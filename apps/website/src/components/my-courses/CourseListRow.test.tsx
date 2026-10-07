@@ -393,12 +393,12 @@ describe('CourseListRow actions', () => {
 
       const inProgress = renderRow(pendingProps());
       expect(screen.getAllByText('Group switch requested').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('Rescheduling').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Reschedule requested').length).toBeGreaterThan(0);
       inProgress.unmount();
 
       renderRow(pendingProps({ courseRegistration: createMockCourseRegistration({ roundStatus: 'Past' }) }));
       expect(screen.queryByText('Group switch requested')).toBeNull();
-      expect(screen.queryByText('Rescheduling')).toBeNull();
+      expect(screen.queryByText('Reschedule requested')).toBeNull();
     });
   });
 

@@ -219,7 +219,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
     <>
       {pendingSwitchType && (
         <StatusPill icon={<PendingIcon />}>
-          {pendingSwitchType === 'Switch group for one unit' ? 'Rescheduling' : 'Group switch requested'}
+          {pendingSwitchType === 'Switch group for one unit' ? 'Reschedule requested' : 'Group switch requested'}
         </StatusPill>
       )}
       {roundId && !pendingSwitchType && (
