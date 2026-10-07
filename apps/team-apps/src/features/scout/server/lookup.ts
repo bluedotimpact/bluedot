@@ -16,6 +16,8 @@ export const LOOKUP_MODEL = 'claude-opus-5-5';
 const MAX_SEARCHES = 8;
 const MAX_PAGE_READS = 6;
 const MAX_LINKS = 5;
+// The SDK's default is 4096 tokens, which a reply with several well-documented sources exceeds.
+const MAX_OUTPUT_TOKENS = 16_000;
 
 // Facts only, tied to URLs. Judgement happens elsewhere, reading this output.
 const SYSTEM_PROMPT = `You are looking up the public professional presence of one person who took a BlueDot Impact course. Your job is to find pages that are about this person and record what they say, verbatim or as structured facts. You do not summarise, interpret, rate or recommend. Someone else will do that later, reading only what you return.
@@ -127,9 +129,11 @@ const extractJsonOrRepair = async (text: string): Promise<unknown> => {
     logger.warn(`scout lookup: reply was not valid JSON (${error instanceof Error ? error.message : String(error)}), asking for a repair`);
     const repaired = await generateText({
       model: anthropic(LOOKUP_MODEL),
+      maxOutputTokens: MAX_OUTPUT_TOKENS,
       system: 'Return the JSON object in the message as valid JSON and nothing else: no markdown fences, no commentary. Fix only the syntax (quotes, commas, brackets, escaping) and change no values.',
       prompt: text,
     });
+    if (repaired.finishReason === 'length') throw new Error(`lookup repair was cut off at ${MAX_OUTPUT_TOKENS} output tokens`);
     const parsed = extractJson(repaired.text);
     if (!preservesValues(text, parsed)) throw new Error('lookup JSON repair changed values');
     return parsed;
@@ -170,7 +174,9 @@ export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
       web_fetch: anthropic.tools.webFetch_20250910({ maxUses: MAX_PAGE_READS, maxContentTokens: 20_000 }),
     },
     stopWhen: stepCountIs(MAX_SEARCHES + MAX_PAGE_READS + 2),
+    maxOutputTokens: MAX_OUTPUT_TOKENS,
   });
+  if (result.finishReason === 'length') throw new Error(`lookup reply was cut off at ${MAX_OUTPUT_TOKENS} output tokens`);
   const seen = urlsSeen(result.steps);
   let searches = 0;
   let pagesFetched = 0;
