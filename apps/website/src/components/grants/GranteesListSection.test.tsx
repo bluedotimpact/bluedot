@@ -10,7 +10,7 @@ import {
   expect,
   test,
 } from 'vitest';
-import { rapidGrantTable } from '@bluedot/db';
+import { publishedRapidGrantTable } from '@bluedot/db';
 import { createTrpcDbProvider, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 import GranteesListSection from './GranteesListSection';
 
@@ -22,7 +22,7 @@ describe('GranteesListSection', () => {
       { amountUsd: 100, grantDate: '2026-09-19' },
       { amountUsd: 200, grantDate: '2026-09-18' },
       { amountUsd: 300, grantDate: '2026-09-17' },
-    ].map((grant) => testDb.insert(rapidGrantTable, {
+    ].map((grant) => testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Repeat recipient', projectTitle: 'Repeat project', ...grant,
     })));
 
@@ -41,11 +41,11 @@ describe('GranteesListSection', () => {
 
   test('sorts all projects before limiting and preserves the selected order when expanded', async () => {
     await Promise.all([
-      { projectTitle: 'Newest project', amountUsd: null, grantDate: '2026-09-19' },
+      { projectTitle: 'Newest project', amountUsd: 0, grantDate: '2026-09-19' },
       { projectTitle: 'Zero amount project', amountUsd: 0, grantDate: '2026-09-18' },
       { projectTitle: 'Large recent project', amountUsd: 20000, grantDate: '2026-09-17' },
       { projectTitle: 'Large older project', amountUsd: 20000, grantDate: '2026-09-16' },
-    ].map((grant) => testDb.insert(rapidGrantTable, { granteeName: 'Grantee', ...grant })));
+    ].map((grant) => testDb.insert(publishedRapidGrantTable, { granteeName: 'Grantee', ...grant })));
 
     render(<GranteesListSection heading="Projects we've funded" layout="editorial" limit={1} />, { wrapper: createTrpcDbProvider() });
 
@@ -58,7 +58,7 @@ describe('GranteesListSection', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Show 3 more projects' }));
     expect(screen.getAllByRole('heading', { level: 3 }).map((heading) => heading.textContent)).toEqual([
-      'Large recent project', 'Large older project', 'Zero amount project', 'Newest project',
+      'Large recent project', 'Large older project', 'Newest project', 'Zero amount project',
     ]);
 
     fireEvent.change(sort, { target: { value: 'newest' } });
@@ -71,14 +71,14 @@ describe('GranteesListSection', () => {
   });
 
   test('renders grantees from DB and toggles show all', async () => {
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Alice',
       projectTitle: 'Alpha Project',
       amountUsd: 1000,
       projectSummary: 'Alpha summary',
       link: 'https://example.com/alpha',
     });
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Bob',
       projectTitle: 'Beta Project',
       amountUsd: 2000,

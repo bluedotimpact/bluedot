@@ -1,9 +1,9 @@
-import type { CareerTransitionGrant, CareerTransitionGrantApplication, RapidGrant } from '@bluedot/db';
+import type { CareerTransitionGrant, CareerTransitionGrantApplication, PublishedRapidGrant } from '@bluedot/db';
 import {
   careerTransitionGrantApplicationTable,
   careerTransitionGrantTable,
   rapidGrantApplicationTable,
-  rapidGrantTable,
+  publishedRapidGrantTable,
 } from '@bluedot/db';
 import { z } from 'zod';
 import db from '../../lib/api/db';
@@ -96,11 +96,12 @@ const formatMonthLabel = (date: Date): string => date.toLocaleDateString('en-US'
   timeZone: 'UTC',
 });
 
-const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
+const mapPublicRapidGrants = (all: PublishedRapidGrant[]): PublicRapidGrant[] => {
   const enriched = all
     .filter((grant) => grant.granteeName?.trim()
-      && grant.projectTitle?.trim())
-    .map((grant: RapidGrant) => {
+      && grant.projectTitle?.trim()
+      && grant.amountUsd != null)
+    .map((grant: PublishedRapidGrant) => {
       const date = parseGrantDate(grant.grantDate);
       const publicGrant: PublicRapidGrant = {
         granteeName: grant.granteeName!.trim(),
@@ -167,7 +168,7 @@ const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCa
 
 export const grantsRouter = router({
   getAllPublicRapidGrantees: publicProcedure.query(async (): Promise<PublicRapidGrant[]> => {
-    const all = await db.scan(rapidGrantTable);
+    const all = await db.scan(publishedRapidGrantTable);
     return mapPublicRapidGrants(all);
   }),
 
