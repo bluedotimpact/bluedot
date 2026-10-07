@@ -590,9 +590,6 @@ The production website also needs:
 #### Login App
 - See: `apps/login#deployment`
 
-#### Keycloak Theme Updates
-- Edit the theme in `apps/login/theme/`; it deploys with the login app. See `apps/login#login-theme`
-
 #### Postgres Deployment
 - Undocumented
 
@@ -672,9 +669,6 @@ The production website also needs:
 ### Appendix B: FAQ
 
 #### Development Issues
-
-**Q: How do I update the Keycloak login theme?**  
-A: Edit `apps/login/theme/` and merge to master; it deploys with the login app
 
 **Q: What about local development without production data?**  
 A: Currently requires production Airtable. Local setup is a known limitation.
