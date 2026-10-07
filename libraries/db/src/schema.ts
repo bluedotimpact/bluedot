@@ -882,6 +882,39 @@ export const rapidGrantTable = pgAirtable('rapid_grant', {
   },
 });
 
+// Keep the legacy rapid_grant table available until consumers have migrated and deployed.
+export const publishedRapidGrantTable = pgAirtable('published_rapid_grant', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblMdCTHEqQuC4YAQ',
+  columns: {
+    granteeName: {
+      pgColumn: text(),
+      airtableId: 'fldNOkzgsAahpTACT',
+    },
+    projectTitle: {
+      pgColumn: text(),
+      airtableId: 'fld5YcbLe1I5omAuw',
+    },
+    amountUsd: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld5DkWxQHSWbkJjF',
+    },
+    projectSummary: {
+      pgColumn: text(),
+      airtableId: 'fld8YkiEipSQ4vBg7',
+    },
+    link: {
+      pgColumn: text(),
+      airtableId: 'fld7p27fEfI3ZNLCj',
+    },
+    grantDate: {
+      pgColumn: text(),
+      // Submitted at preserves the original chronology across the base migration.
+      airtableId: 'fldeT7wUpklU6vDKO',
+    },
+  },
+});
+
 export const careerTransitionGrantTable = pgAirtable('career_transition_grant', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tbln76u7AsVnWAKZo',
@@ -1779,6 +1812,7 @@ export type Mission = InferSelectModel<typeof missionTable.pg>;
 export type Program = InferSelectModel<typeof programTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
 export type RapidGrant = InferSelectModel<typeof rapidGrantTable.pg>;
+export type PublishedRapidGrant = InferSelectModel<typeof publishedRapidGrantTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
 export type CareerTransitionGrantApplication = InferSelectModel<typeof careerTransitionGrantApplicationTable.pg>;
 export type RapidGrantApplication = InferSelectModel<typeof rapidGrantApplicationTable.pg>;
