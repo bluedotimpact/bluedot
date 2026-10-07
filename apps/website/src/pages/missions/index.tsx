@@ -41,7 +41,7 @@ const MissionsPage = () => {
             Please contact the team member listed on each mission page to get started.
           </P>
           <P>
-            If you are interested in submitting new projects, please fill out <A href={SUBMIT_MISSION_FORM_URL}>this form</A> to start working with us.
+            If you are interested in submitting new projects, please fill out <A href={SUBMIT_MISSION_FORM_URL} target="_blank">this form</A> to start working with us.
             This list is initially scoped to projects in biosecurity, with AI safety projects coming soon.
             Both are open for submissions.
           </P>
