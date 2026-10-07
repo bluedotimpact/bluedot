@@ -1,12 +1,15 @@
 FROM quay.io/keycloak/keycloak:26.2@sha256:9869b88191392727f0be7301e53573cc39c13c9d9b9b08492c97d1ea40366eae AS base
 
-### Compile custom providers against the jars shipped in the Keycloak image
-# (the Keycloak image has no javac, hence the separate JDK stage)
+### Package our custom providers and login theme into one jar
+# Providers compile against the jars shipped in the Keycloak image, which has no javac, hence the separate JDK stage
 FROM eclipse-temurin:21-jdk@sha256:85f00967bcc624fc19fa9c2cf124ea426a5363898e267141726f31f358c2e14b AS providers-builder
 COPY --from=base /opt/keycloak/lib/lib/main /kc-lib/main
 COPY --from=base /opt/keycloak/lib/lib/boot /kc-lib/boot
 COPY ./src /build/src
-RUN mkdir -p /build/classes \
+COPY ./theme/META-INF /build/classes/META-INF
+COPY ./theme/login /build/classes/theme/bluedot-keycloak-theme/login
+# theme/login/resources/dist is the Vite output from `npm run build`
+RUN test -f /build/classes/theme/bluedot-keycloak-theme/login/resources/dist/index.css \
     && javac --release 21 -cp "/kc-lib/main/*:/kc-lib/boot/*" -d /build/classes $(find /build/src/main/java -name '*.java') \
     && cp -r /build/src/main/resources/. /build/classes/ \
     && jar --create --file /build/bluedot-keycloak-providers.jar --date 2025-04-01T00:00:00Z -C /build/classes .
@@ -20,7 +23,6 @@ ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 ENV KC_FEATURES=admin-api,admin:v2,authorization,impersonation
 ENV KC_FEATURES_DISABLED=account-api,account,ciba,client-policies,device-flow,kerberos,par,step-up-authentication,web-authn
-ADD --chown=keycloak:keycloak --chmod=644 ./dist/bluedot-keycloak-theme.jar /opt/keycloak/providers/
 RUN touch -m --date=@1743465600 /opt/keycloak/providers/*
 RUN /opt/keycloak/bin/kc.sh build
 

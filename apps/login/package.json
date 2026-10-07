@@ -4,11 +4,27 @@
     "private": true,
     "scripts": {
         "deploy:cd": "docker-scripts deploy",
-        "build": "tools/getBluedotKeycloakTheme.sh",
+        "build": "tsc && vite build",
         "start": "docker-scripts start",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+        "lint:fix": "npm run lint -- --fix",
         "test": "docker-scripts test"
     },
     "dependencies": {
-        "@bluedot/docker-scripts": "*"
+        "@bluedot/docker-scripts": "*",
+        "alpinejs": "^3.13.0",
+        "rfc4648": "^1.5.2"
+    },
+    "devDependencies": {
+        "@bluedot/eslint-config": "*",
+        "@tailwindcss/forms": "^0.5.6",
+        "@types/alpinejs": "^3.13.2",
+        "autoprefixer": "^10.4.16",
+        "eslint": "^9.39.2",
+        "postcss": "^8.4.38",
+        "tailwindcss": "^3.3.3",
+        "typescript": "^5.8.3",
+        "vite": "^6.4.1"
     }
 }
