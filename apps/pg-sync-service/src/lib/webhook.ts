@@ -93,6 +93,7 @@ export class AirtableWebhook {
       return;
     }
 
+    // 1. Get all webhooks for this base
     const webhooks = await this.listWebhooks().catch((error: unknown) => {
       const webhookListError = `Failed to list webhooks for base ${this.baseId}`;
       if (isAxiosError(error)) {
@@ -106,10 +107,14 @@ export class AirtableWebhook {
       throw e;
     });
 
+    // 2. Drop any fields that have been deleted in Airtable
     const requestedFieldIds = this.fieldIds;
     this.fieldIds = await this.filterToValidFieldIds(this.fieldIds);
 
-    // A webhook made before some requested fields were deleted in Airtable is still ours, but needs recreating
+    // 3. Find a webhook that:
+    //   a. Has a dataTypes filter containing 'tableData' or 'tableFields'
+    //   b. Watches all our valid fields, plus at most some since-deleted ones
+    //      (or has no field filter if we have no fields)
     const candidates = webhooks.filter((wh) => {
       const dataTypes = wh.specification?.options?.filters?.dataTypes ?? [];
       const watchedFieldIds = getWatchedFieldIds(wh);
@@ -120,11 +125,13 @@ export class AirtableWebhook {
     const exactMatch = candidates.find((wh) => getWatchedFieldIds(wh).length === this.fieldIds.length);
     const matchingWebhook = exactMatch ?? candidates[0];
 
+    // 4. Create a new webhook if none matches
     if (!matchingWebhook) {
       await this.createWebhookWithRetry();
       return;
     }
 
+    // 5. Otherwise reuse it, recreating it if it watches deleted fields or its last payload was INVALID_HOOK
     this.webhookId = matchingWebhook.id;
     this.nextPayloadCursor = matchingWebhook.cursorForNextPayload;
     logger.info(`[AirtableWebhook] Found existing webhook ${this.webhookId} for base ${this.baseId}`);
