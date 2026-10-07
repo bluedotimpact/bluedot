@@ -15,16 +15,12 @@ const MissionsListSection = ({ missions }: { missions: Missions }) => {
     />
   );
 
-  return (
-    <section className="section section-body">
-      {missions.length === 0 ? (
-        <P>No missions are listed right now. Check back soon.</P>
-      ) : (
-        <ListGroup>
-          {missions.map(renderRow)}
-        </ListGroup>
-      )}
-    </section>
+  return missions.length === 0 ? (
+    <P>No missions are listed right now. Check back soon.</P>
+  ) : (
+    <ListGroup>
+      {missions.map(renderRow)}
+    </ListGroup>
   );
 };
 
