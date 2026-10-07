@@ -113,8 +113,8 @@ export class AirtableWebhook {
 
     // 3. Find a webhook that:
     //   a. Has a dataTypes filter containing 'tableData' or 'tableFields'
-    //   b. Watches all our valid fields, plus at most some since-deleted ones
-    //      (or has no field filter if we have no fields)
+    //   b. Watches every field we want, and otherwise only fields that have since been deleted
+    //      (one watching deleted fields is recreated in step 5)
     const candidates = webhooks.filter((wh) => {
       const dataTypes = wh.specification?.options?.filters?.dataTypes ?? [];
       const watchedFieldIds = getWatchedFieldIds(wh);
