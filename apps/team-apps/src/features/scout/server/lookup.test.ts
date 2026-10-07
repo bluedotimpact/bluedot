@@ -101,6 +101,12 @@ test('runLookup raises the output cap and fails plainly when the reply was cut o
   await expect(runLookup(anchors)).rejects.toThrow('cut off');
   expect(generateText).toHaveBeenCalledTimes(1);
   expect(generateText.mock.calls[0]![0].maxOutputTokens).toBeGreaterThan(4096);
+
+  // The repair reply can be cut off too
+  const broken = JSON.stringify(modelJson).slice(0, 200);
+  generateText.mockResolvedValueOnce({ text: broken, steps: [] }).mockResolvedValueOnce({ text: broken, finishReason: 'length', steps: [] });
+  await expect(runLookup(anchors)).rejects.toThrow('repair was cut off');
+  expect(generateText.mock.calls[2]![0].maxOutputTokens).toBeGreaterThan(4096);
 });
 
 test('runLookup asks the model to repair a reply that is not valid JSON, without tools, and keeps only a faithful repair', async () => {

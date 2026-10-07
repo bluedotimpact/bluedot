@@ -133,6 +133,7 @@ const extractJsonOrRepair = async (text: string): Promise<unknown> => {
       system: 'Return the JSON object in the message as valid JSON and nothing else: no markdown fences, no commentary. Fix only the syntax (quotes, commas, brackets, escaping) and change no values.',
       prompt: text,
     });
+    if (repaired.finishReason === 'length') throw new Error(`lookup repair was cut off at ${MAX_OUTPUT_TOKENS} output tokens`);
     const parsed = extractJson(repaired.text);
     if (!preservesValues(text, parsed)) throw new Error('lookup JSON repair changed values');
     return parsed;
