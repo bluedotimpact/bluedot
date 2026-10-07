@@ -2,7 +2,7 @@ import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, rapidGrantApplicationTable, rapidGrantTable,
+  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, rapidGrantApplicationTable, rapidGrantTable, publishedRapidGrantTable,
 } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
@@ -11,41 +11,48 @@ setupTestDb();
 describe('grants.getAllPublicRapidGrantees', () => {
   test('filters incomplete rows, trims fields, sanitizes links, sorts dated rows newest-first then undated alphabetically, and exposes a month label', async () => {
     // Dated rows — should sort newest first.
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Recent Person', projectTitle: 'Recent Project', amountUsd: 5000, projectSummary: 'Recent work', link: 'https://example.com/recent', grantDate: '2026-04-15',
     });
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Mid Person', projectTitle: 'Mid Project', amountUsd: 3000, projectSummary: 'Mid work', link: 'https://example.com/mid', grantDate: '2026-01-02',
     });
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Older Person', projectTitle: 'Older Project', amountUsd: 1000, projectSummary: 'Older work', link: 'https://example.com/older', grantDate: '2025-09-20',
     });
 
     // Undated rows — should fall to the bottom, alphabetised.
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: '  Alice  ', projectTitle: '  Zebra Project ', amountUsd: 5000, projectSummary: '  Useful work  ', link: ' https://example.com/zebra ',
     });
-    await testDb.insert(rapidGrantTable, {
-      granteeName: 'Bob', projectTitle: 'Alpha Project', amountUsd: null, projectSummary: '', link: '   ',
+    await testDb.insert(publishedRapidGrantTable, {
+      granteeName: 'Bob', projectTitle: 'Alpha Project', amountUsd: 0, projectSummary: '', link: '   ',
     });
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Missing Summary', projectTitle: 'No Summary Project', amountUsd: 1000, projectSummary: '   ', link: '',
     });
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Mallory', projectTitle: 'Javascript Link', amountUsd: 10, projectSummary: 'Unsafe link should be dropped', link: ['javascript', 'alert(1)'].join(':'),
     });
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Eve', projectTitle: 'Mailto Link', amountUsd: 20, projectSummary: 'Unsupported protocol should be dropped', link: 'mailto:test@example.com',
     });
 
     // Unparseable date — should be treated as undated and fall to the bottom, no monthLabel.
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: 'Garbled Person', projectTitle: 'Garbled Date Project', amountUsd: 500, projectSummary: 'Garbage date', link: '', grantDate: 'not a date',
     });
 
     // Dropped — empty grantee name.
-    await testDb.insert(rapidGrantTable, {
+    await testDb.insert(publishedRapidGrantTable, {
       granteeName: '   ', projectTitle: 'Should Drop', amountUsd: 1000, projectSummary: 'Has summary', link: '',
+    });
+
+    await testDb.insert(publishedRapidGrantTable, {
+      granteeName: 'Missing Amount', projectTitle: 'Unconfirmed Award', amountUsd: null,
+    });
+    await testDb.insert(publishedRapidGrantTable, {
+      granteeName: 'Missing Title', projectTitle: '   ', amountUsd: 1000,
     });
 
     const caller = createCaller();
@@ -81,7 +88,7 @@ describe('grants.getAllPublicRapidGrantees', () => {
       {
         granteeName: 'Bob',
         projectTitle: 'Alpha Project',
-        amountUsd: null,
+        amountUsd: 0,
         projectSummary: undefined,
         link: undefined,
         monthLabel: undefined,
@@ -127,6 +134,29 @@ describe('grants.getAllPublicRapidGrantees', () => {
         monthLabel: undefined,
       },
     ]);
+  });
+
+  test('reads only the migrated feed and preserves anonymous names and pseudonyms', async () => {
+    await testDb.insert(rapidGrantTable, {
+      granteeName: 'Legacy Only', projectTitle: 'Old Feed', amountUsd: 1000,
+    });
+    await Promise.all(['Anonymous', 'Public Pseudonym'].map(async (granteeName) => {
+      // The old feed remains populated during rollout but must not duplicate the new feed.
+      const grant = { granteeName, projectTitle: `${granteeName} Project`, amountUsd: 500 };
+      await Promise.all([testDb.insert(rapidGrantTable, grant), testDb.insert(publishedRapidGrantTable, grant)]);
+    }));
+
+    const result = await createCaller().grants.getAllPublicRapidGrantees();
+
+    expect(result.map(({ granteeName }) => granteeName)).toEqual(['Anonymous', 'Public Pseudonym']);
+  });
+
+  test('does not fall back to legacy records when the migrated feed is empty', async () => {
+    await testDb.insert(rapidGrantTable, {
+      granteeName: 'Legacy Only', projectTitle: 'Old Feed', amountUsd: 1000,
+    });
+
+    expect(await createCaller().grants.getAllPublicRapidGrantees()).toEqual([]);
   });
 });
 
