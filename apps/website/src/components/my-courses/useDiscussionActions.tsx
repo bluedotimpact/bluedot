@@ -6,7 +6,7 @@ import { FaBan, FaCheck } from 'react-icons/fa6';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
-import StatusPill from './StatusPill';
+import StatusPill, { PendingIcon } from './StatusPill';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
@@ -80,20 +80,27 @@ type BuildInput = DiscussionListRowProps & {
 
 const participantActions = (ctx: BuildInput): CourseAction[] => {
   const {
-    status, discussion, canReschedule, isDownloadingCalendar, onReschedule, onDownloadCalendar,
+    status, discussion, canReschedule, hasPendingReschedule = false, isDownloadingCalendar, onReschedule, onDownloadCalendar,
   } = ctx;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
+  const rescheduleRequestedPill = <StatusPill icon={<PendingIcon />}>Reschedule requested</StatusPill>;
+  // Mobile keeps the menu item, greyed out, labelled so the user knows why.
+  const rescheduleOverflow = hasPendingReschedule
+    ? { id: 'reschedule', label: 'Reschedule requested', isDisabled: true }
+    : { id: 'reschedule', label: 'Reschedule', onAction: onReschedule };
 
   return [
     {
       id: 'reschedule-upcoming',
       isVisible: isFutureLike,
       variant: 'inline',
-      inline: <Button variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
-      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
+      inline: hasPendingReschedule
+        ? rescheduleRequestedPill
+        : <Button variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
+      overflow: rescheduleOverflow,
     },
     {
       id: 'join-now',
@@ -118,10 +125,12 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
     },
     {
       id: 'reschedule-absent',
-      isVisible: status === 'absent' && canReschedule,
+      isVisible: status === 'absent' && (canReschedule || hasPendingReschedule),
       variant: 'inline',
-      inline: <Button variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
-      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
+      inline: hasPendingReschedule
+        ? rescheduleRequestedPill
+        : <Button variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
+      overflow: rescheduleOverflow,
     },
     {
       id: 'calendar',

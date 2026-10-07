@@ -386,4 +386,28 @@ describe('GroupDiscussionBanner', () => {
       expect(unitLink).toHaveAttribute('href', '/courses/page-course/2/1');
     });
   });
+
+  describe('pending reschedule request', () => {
+    test('participant: "Reschedule requested" replaces "Can\'t make it?" once expanded, other actions stay', async () => {
+      const { container } = render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={mockGroupDiscussion}
+          userRole="participant"
+          pendingSwitchType="Switch group for one unit"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      expect(screen.queryByText('Reschedule requested')).not.toBeInTheDocument();
+      fireEvent.click(await screen.findByRole('button', { name: 'Expand upcoming discussion banner' }));
+
+      for (const id of ['#discussion-banner-desktop-container', '#discussion-banner-mobile-container']) {
+        const scope = within(container.querySelector<HTMLElement>(id)!);
+        expect(scope.getByText('Reschedule requested')).toBeInTheDocument();
+        expect(scope.queryByRole('button', { name: 'Can\'t make it?' })).not.toBeInTheDocument();
+        expect(scope.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
+      }
+    });
+  });
 });

@@ -73,9 +73,12 @@ export default function GroupSwitchModal({
     },
   );
 
+  const utils = trpc.useUtils();
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
     onSuccess() {
       setShowSuccess(true);
+      void utils.myBluedot.myCoursesPage.invalidate();
+      void utils.groupDiscussions.getByCourseSlug.invalidate();
     },
   });
 

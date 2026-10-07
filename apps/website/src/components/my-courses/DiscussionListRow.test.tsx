@@ -61,6 +61,7 @@ const renderRow = ({
   discussion?: GroupDiscussionWithEnd;
   unit?: Unit | null;
   canReschedule?: boolean;
+  hasPendingReschedule?: boolean;
   onReschedule?: () => void;
 } = {}) => {
   const statusProps = propsForStatus(status, discussion);
@@ -152,6 +153,23 @@ describe('DiscussionListRow', () => {
     test('hidden when canReschedule=false', () => {
       renderRow({ status: 'absent', canReschedule: false });
       expect(screen.queryByRole('button', { name: 'Reschedule' })).toBeNull();
+    });
+  });
+
+  describe('pending reschedule request', () => {
+    test('mobile menu shows "Reschedule requested", disabled and inert', () => {
+      const onReschedule = vi.fn();
+      const { container } = renderRow({ status: 'upcoming', hasPendingReschedule: true, onReschedule });
+      expect(openOverflowAndGetLabels(container, 'mobile')).toEqual(['Reschedule requested', 'Download calendar file']);
+      const item = screen.getByRole('menuitem', { name: 'Reschedule requested' });
+      expect(item).toHaveAttribute('aria-disabled', 'true');
+      fireEvent.click(item);
+      expect(onReschedule).not.toHaveBeenCalled();
+    });
+
+    test('desktop overflow does not duplicate the pill', () => {
+      const { container } = renderRow({ status: 'upcoming', hasPendingReschedule: true });
+      expect(openOverflowAndGetLabels(container, 'desktop')).toEqual(['Download calendar file']);
     });
   });
 

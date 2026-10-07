@@ -9,14 +9,27 @@ import {
   groupSwitchingTable,
   groupTable, inArray, isDiscussionFacilitator, isDiscussionParticipant, meetPersonTable, roundTable,
   type Group,
+  type GroupSwitching,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { getDiscussionTimeState, hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
+import { unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 
 export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
+
+const switchTypeSchema = z.enum(['Switch group for one unit', 'Switch group permanently']);
+export type SwitchType = z.infer<typeof switchTypeSchema>;
+
+export const OPEN_SWITCH_REQUEST_STATUSES = ['Requested', 'Resolve'];
+
+export type PendingSwitchRequestState = {
+  /** Discussions the participant has an open one-unit reschedule request out of (and didn't attend anyway). */
+  discussionIdsWithPendingReschedule: string[];
+  hasPendingGroupSwitchRequest: boolean;
+};
 
 type DiscussionsByUnit = Record<string, {
   discussion: GroupDiscussionWithEnd;
@@ -183,6 +196,27 @@ export function getAvailableGroupsAndDiscussions({
   };
 }
 
+export function getPendingSwitchRequestState(
+  openSwitchRequests: Pick<GroupSwitching, 'switchType' | 'oldDiscussion'>[],
+  attendedDiscussionIds: string[],
+): PendingSwitchRequestState {
+  const attended = new Set(attendedDiscussionIds);
+  return {
+    discussionIdsWithPendingReschedule: unique(openSwitchRequests
+      .filter((r) => r.switchType === 'Switch group for one unit')
+      .flatMap((r) => r.oldDiscussion ?? []))
+      .filter((id) => !attended.has(id)),
+    hasPendingGroupSwitchRequest: openSwitchRequests.some((r) => r.switchType === 'Switch group permanently'),
+  };
+}
+
+/** A reschedule out of this discussion is the more specific of the two, so it wins. */
+export function getDiscussionPendingSwitch(state: PendingSwitchRequestState, discussionId: string): SwitchType | null {
+  if (state.discussionIdsWithPendingReschedule.includes(discussionId)) return 'Switch group for one unit';
+  if (state.hasPendingGroupSwitchRequest) return 'Switch group permanently';
+  return null;
+}
+
 export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
@@ -235,7 +269,7 @@ export const groupSwitchingRouter = router({
 
   switchGroup: protectedProcedure
     .input(z.object({
-      switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
+      switchType: switchTypeSchema,
       notesFromParticipant: z.string().optional(),
       oldGroupId: z.string().optional(),
       newGroupId: z.string().optional(),
