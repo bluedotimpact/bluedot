@@ -44,12 +44,11 @@ export const Toggle: Story = {
   render: () => <ToggleExample />,
 };
 
-// The design has no on-dark variant. Hover and focus tokens vanish on navy; callers override for now
+// A `data-on-dark` ancestor (or the button itself) switches hover and focus to the on-dark recipe
 export const OnDark: Story = {
-  args: { className: 'text-on-dark hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark' },
   decorators: [
     (Story) => (
-      <div className="bg-bluedot-navy p-6">
+      <div data-on-dark className="bg-bluedot-navy p-6">
         <Story />
       </div>
     ),
