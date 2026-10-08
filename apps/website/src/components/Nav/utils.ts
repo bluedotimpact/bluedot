@@ -1,21 +1,13 @@
 import clsx from 'clsx';
 
-export const TRANSITION_DURATION_CLASS = 'duration-300';
 export const MOBILE_NAV_DRAWER_ID = 'mobile-nav-drawer';
 export const PROFILE_DRAWER_ID = 'profile-menu-drawer';
 
-export const DRAWER_Z_DEFAULT = 'z-40' as const;
-export const DRAWER_Z_PROFILE = 'z-50' as const;
 export const NAV_LINK_CLASS = 'no-underline text-size-sm font-medium leading-relaxed align-middle';
 // Desktop only: hover is meaningless on touch and the underline needs a text-width element
 export const NAV_LINK_ANIMATION_CLASS = 'nav-link-animation w-fit';
 // Full-width rows would stretch the underline across the drawer, so current page uses weight + colour
 export const DRAWER_ROW_CLASS = 'flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent';
-
-// Class names used for nav components - referenced by useClickOutside hook
-export const NAV_DROPDOWN_CLASS = 'nav-dropdown' as const;
-export const MOBILE_NAV_CLASS = 'mobile-nav-links' as const;
-export const PROFILE_DROPDOWN_CLASS = 'profile-links' as const;
 
 // z-40 sits inside the nav's own z-50 stacking context; Modal is 60, Toast 70
 export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
