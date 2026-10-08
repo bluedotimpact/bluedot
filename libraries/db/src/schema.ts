@@ -915,6 +915,34 @@ export const publishedRapidGrantTable = pgAirtable('published_rapid_grant', {
   },
 });
 
+// Aggregate program metrics only; application-level data stays in Grantmaking.
+export const grantProgramStatsTable = pgAirtable('grant_program_stats', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblAprZt6KufrewNt',
+  columns: {
+    name: {
+      pgColumn: text(),
+      airtableId: 'fldpGVlHM0JzCqdN5',
+    },
+    approvedCount: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldUUwZg0pwwCKj0v',
+    },
+    awardedAmountUsd: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldIOwOUYWvICz3ON',
+    },
+    averageDaysToDecision: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldFkWk93Yawg1Pf6',
+    },
+    timedDecisionCount: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldD8AgOHWLKc1xmS',
+    },
+  },
+});
+
 export const careerTransitionGrantTable = pgAirtable('career_transition_grant', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tbln76u7AsVnWAKZo',
@@ -1813,6 +1841,7 @@ export type Program = InferSelectModel<typeof programTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
 export type RapidGrant = InferSelectModel<typeof rapidGrantTable.pg>;
 export type PublishedRapidGrant = InferSelectModel<typeof publishedRapidGrantTable.pg>;
+export type GrantProgramStats = InferSelectModel<typeof grantProgramStatsTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
 export type CareerTransitionGrantApplication = InferSelectModel<typeof careerTransitionGrantApplicationTable.pg>;
 export type RapidGrantApplication = InferSelectModel<typeof rapidGrantApplicationTable.pg>;
