@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
-  Callout, Button, ErrorSection, Eyebrow, getInitials, H1, H2, ProgressDots, Textarea,
+  Callout, Button, ErrorSection, Eyebrow, Field, getInitials, H1, H2, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -203,43 +203,38 @@ const FacilitatorFeedbackPage = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <p className="text-size-xs font-semibold text-bluedot-navy">
-              Overall rating <span className="text-red-600">*</span>
+          {/* StarRating names each star itself, so it can't be wired to a Field; the heading matches Field's label. */}
+          <div className="flex flex-col gap-2">
+            <p className="text-size-sm font-semibold leading-normal text-primary">
+              Overall rating <span aria-hidden className="text-error-fg">*</span>
             </p>
             <StarRating rating={overallRating} onChange={setOverallRating} />
           </div>
 
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="most-valuable" className="text-size-xs font-semibold text-bluedot-navy">
-                What did you find most valuable? <span className="text-red-600">*</span>
-              </label>
-              <p className="text-size-xs text-bluedot-navy/60">Describe a specific moment or element that stands out.</p>
-            </div>
+          <Field
+            label="What did you find most valuable?"
+            description="Describe a specific moment or element that stands out."
+            required
+          >
             <Textarea
-              id="most-valuable"
               value={mostValuable}
               onChange={(e) => setMostValuable(e.target.value)}
               rows={4}
             />
-          </div>
+          </Field>
 
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="difficulties" className="text-size-xs font-semibold text-bluedot-navy">
-                Where did you face difficulties? <span className="text-red-600">*</span>
-              </label>
-              <p className="text-size-xs text-bluedot-navy/60">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
-            </div>
+          <Field
+            label="Where did you face difficulties?"
+            description="Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges."
+            required
+          >
             <Textarea
-              id="difficulties"
               value={difficulties}
               onChange={(e) => setDifficulties(e.target.value)}
               placeholder="The more specific your feedback is, the easier it is for us to take action on it."
               rows={4}
             />
-          </div>
+          </Field>
         </section>
 
         {/* Participant insights card */}
