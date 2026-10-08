@@ -79,7 +79,7 @@ export const Field = ({
     }}
     >
       <div className={cn('flex w-full flex-col gap-2', className)}>
-        {(label ?? description) && (
+        {(Boolean(label) || Boolean(description)) && (
           <div className="flex flex-col gap-1">
             {label && (
               <label id={labelId} htmlFor={id} className={LABEL_STYLES}>
