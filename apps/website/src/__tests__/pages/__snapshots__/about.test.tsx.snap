@@ -47,7 +47,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   </svg>
                 </button>
                 <div
-                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                   id="mobile-nav-drawer"
                 >
                   <div
@@ -60,7 +60,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <button
                           aria-controls="courses-dropdown-mobile"
                           aria-expanded="false"
-                          class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent justify-between"
+                          class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                           type="button"
                         >
                           Courses
@@ -88,7 +88,7 @@ exports[`AboutPage > should render correctly 1`] = `
                             class="flex flex-col text-pretty w-full"
                           >
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-primary hover:text-primary"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                               href="/courses/future-of-ai"
                               tabindex="0"
                             >
@@ -101,7 +101,7 @@ exports[`AboutPage > should render correctly 1`] = `
                               </span>
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
                               href="/courses"
                               tabindex="0"
                             >
@@ -119,7 +119,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <button
                           aria-controls="grants-dropdown-mobile"
                           aria-expanded="false"
-                          class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent justify-between"
+                          class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                           type="button"
                         >
                           Grants
@@ -147,21 +147,21 @@ exports[`AboutPage > should render correctly 1`] = `
                             class="flex flex-col text-pretty w-full"
                           >
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-primary hover:text-primary"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                               href="/grants/rapid"
                               tabindex="0"
                             >
                               Rapid Grants
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-primary hover:text-primary"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                               href="/grants/career-transition"
                               tabindex="0"
                             >
                               Career Transition Grants
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
                               href="/grants"
                               tabindex="0"
                             >
@@ -179,7 +179,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <button
                           aria-controls="programs-dropdown-mobile"
                           aria-expanded="false"
-                          class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent justify-between"
+                          class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                           type="button"
                         >
                           Programs
@@ -207,14 +207,14 @@ exports[`AboutPage > should render correctly 1`] = `
                             class="flex flex-col text-pretty w-full"
                           >
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-primary hover:text-primary"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                               href="/programs/incubator-week"
                               tabindex="0"
                             >
                               Incubator Week
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-primary hover:text-primary"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                               href="https://aisb.dev/"
                               rel="noopener noreferrer"
                               tabindex="0"
@@ -223,7 +223,7 @@ exports[`AboutPage > should render correctly 1`] = `
                               AI Security Bootcamp
                             </a>
                             <a
-                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent text-link hover:text-link"
+                              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
                               href="/programs?utm_source=website&utm_campaign=nav"
                               tabindex="0"
                             >
@@ -238,7 +238,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         </div>
                       </div>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                         href="/alumni"
                         tabindex="0"
                       >
@@ -246,14 +246,14 @@ exports[`AboutPage > should render correctly 1`] = `
                       </a>
                       <a
                         aria-current="page"
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                         href="/about"
                         tabindex="0"
                       >
                         About
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                         href="/join-us"
                         tabindex="0"
                       >
@@ -317,7 +317,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     </svg>
                   </button>
                   <div
-                    class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                     id="courses-dropdown"
                   >
                     <div
@@ -376,7 +376,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     </svg>
                   </button>
                   <div
-                    class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                     id="grants-dropdown"
                   >
                     <div
@@ -436,7 +436,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     </svg>
                   </button>
                   <div
-                    class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                     id="programs-dropdown"
                   >
                     <div
