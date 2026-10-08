@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Button, IconButton } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { FaBars, FaXmark } from 'react-icons/fa6';
@@ -5,6 +6,7 @@ import { FaBars, FaXmark } from 'react-icons/fa6';
 import { NavLinks } from './_NavLinks';
 import { DRAWER_CLASSES, MOBILE_NAV_DRAWER_ID, type NavMenu } from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
+import { ROUTES } from '../../lib/routes';
 import { useDismissible } from '../../lib/hooks/useDismissible';
 
 type MobileNavLinksProps = {
@@ -15,7 +17,10 @@ type MobileNavLinksProps = {
 
 export const MobileNavLinks = ({ menu, isLoggedIn, onColoredBackground = false }: MobileNavLinksProps) => {
   const router = useRouter();
-  const joinUrl = getLoginUrl(router.asPath, true);
+  const [joinUrl, setJoinUrl] = useState(ROUTES.join.url);
+  useEffect(() => {
+    setJoinUrl(getLoginUrl(router.asPath, true));
+  }, [router.asPath]);
   const { containerRef, triggerRef } = useDismissible(menu.closeAll, menu.mobileNavOpen);
 
   return (
