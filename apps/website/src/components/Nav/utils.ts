@@ -39,4 +39,4 @@ export type NavMenu = NavMenuState & {
   closeAll: () => void;
 };
 
-};
+export const CLOSED_MENU: NavMenuState = { mobileNavOpen: false, openSection: null };
