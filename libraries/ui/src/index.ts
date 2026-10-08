@@ -26,6 +26,9 @@ export type { CollapsibleProps } from './Collapsible';
 export { DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 
+export { Field, FieldSet } from './Field';
+export type { FieldProps, FieldSetProps } from './Field';
+
 export { ErrorSection } from './ErrorSection';
 export type { ErrorSectionProps } from './ErrorSection';
 
