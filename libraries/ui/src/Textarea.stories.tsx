@@ -28,3 +28,7 @@ export const Disabled: Story = {
 export const ReadOnly: Story = {
   args: { defaultValue: SAMPLE, readOnly: true },
 };
+
+export const Invalid: Story = {
+  args: { defaultValue: SAMPLE, 'aria-invalid': true },
+};
