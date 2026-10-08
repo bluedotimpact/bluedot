@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { useFieldControlProps } from './Field';
 import { cn } from './utils';
 
 export type TextareaProps = {
@@ -7,7 +8,8 @@ export type TextareaProps = {
 & React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
 & React.RefAttributes<HTMLTextAreaElement>;
 
-export const Textarea: React.ForwardRefExoticComponent<TextareaProps> = forwardRef(({ className, ...props }, ref) => {
+export const Textarea: React.ForwardRefExoticComponent<TextareaProps> = forwardRef(({ className, ...rest }, ref) => {
+  const props = useFieldControlProps(rest);
   return (
     <textarea
       className={cn(
