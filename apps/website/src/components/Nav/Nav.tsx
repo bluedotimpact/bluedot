@@ -50,21 +50,22 @@ export const Nav: React.FC<NavProps> = (props) => {
     return (
       <nav aria-label="Main" className={clsx(NAV_BAR_CLASS, 'sticky top-0 bg-canvas border-b border-strong')}>
         <div className="section-base">
-          <div className={clsx(NAV_ROW_CLASS, 'gap-4')}>
-            <div className="flex items-center gap-4 min-w-0">
+          {/* Tight gaps below bd-md: logo + title + avatar only just fit in 390 − 2×24 page padding */}
+          <div className={clsx(NAV_ROW_CLASS, 'gap-3 bd-md:gap-4')}>
+            <div className="flex items-center gap-3 bd-md:gap-4 min-w-0">
               <NavLogo onColoredBackground={false} />
               <div className="h-[18px] w-px bg-strong shrink-0" aria-hidden="true" />
               <div className="flex items-center gap-2 text-size-xs min-w-0">
-                <span className="font-semibold text-primary shrink-0">{props.title}</span>
+                <span className="font-semibold text-primary truncate">{props.title}</span>
                 {props.context && (
                   <>
-                    <span className="text-placeholder shrink-0" aria-hidden="true">·</span>
-                    <span className="font-medium text-secondary truncate" title={props.context}>{props.context}</span>
+                    <span className="text-placeholder shrink-0 hidden bd-md:inline" aria-hidden="true">·</span>
+                    <span className="font-medium text-secondary truncate hidden bd-md:inline" title={props.context}>{props.context}</span>
                   </>
                 )}
               </div>
             </div>
-            {isLoggedIn && <ProfileLinks menu={menu} />}
+            {isLoggedIn && <div className="shrink-0"><ProfileLinks menu={menu} /></div>}
           </div>
         </div>
       </nav>
