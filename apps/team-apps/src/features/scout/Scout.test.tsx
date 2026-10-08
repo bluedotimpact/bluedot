@@ -148,8 +148,13 @@ test('skip moves the person to the end of the pass and is forgotten when the rou
   act(() => useNavigationState.setState({ promptOpen: false }));
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
   await screen.findByText('Sam Chen');
-  // Everyone skipped once: the pass starts again from the first skip, no dead end
+  // Everyone skipped once: say so, then the pass starts again from the first skip, no dead end
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  await screen.findByRole('heading', { name: /Everyone seen once/ });
+  expect(screen.getByText('2 skipped · 0 decided')).toBeTruthy();
+  fireEvent.keyDown(document.body, { key: 'ArrowRight' });
+  expect(screen.queryByRole('dialog')).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Go through the skipped again' }));
   await screen.findByText('Alex Morgan');
   expect(screen.queryByRole('heading', { name: /Round done/ })).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
@@ -201,6 +206,25 @@ test('after a round, "Review next round" only offers another round of the same c
   await screen.findByText('Sam Chen');
 });
 
+test('a one-person round shows the pass-done screen after one skip; L opens LinkedIn; Esc returns to the main page', async () => {
+  const open = vi.spyOn(window, 'open').mockImplementation(() => null);
+  const withLinkedIn = { ...samplePeople[0]!, profileUrl: 'https://www.linkedin.com/in/sample-participant' };
+  mockFetch.mockImplementation(async (path) => {
+    if (pathOf(path).endsWith('/queue')) return response({ items: [realQueue[0]!, realQueue[3]!] });
+    return pathOf(path).endsWith(withLinkedIn.id) ? response({ person: withLinkedIn }) : read(path);
+  });
+  await start();
+  fireEvent.keyDown(document.body, { key: 'l' });
+  expect(open).toHaveBeenCalledWith('https://www.linkedin.com/in/sample-participant', '_blank', 'noopener');
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  await screen.findByRole('heading', { name: /Everyone seen once/ });
+  expect(screen.getByText('1 skipped · 0 decided')).toBeTruthy();
+  expect(screen.queryByRole('button', { name: /Review next round/ })).toBeNull();
+  fireEvent.keyDown(document.body, { key: 'Escape' });
+  await screen.findByTestId('choose-round-sample-Biosecurity');
+  open.mockRestore();
+});
+
 test('chooses a round before loading people and never includes another round from the same course', async () => {
   const queue = realQueue.map((item, index) => index === 1 ? { ...item, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' } : item);
   mockFetch.mockImplementation(async (path) => pathOf(path).endsWith('/queue') ? response({ items: queue }) : read(path));
@@ -210,11 +234,10 @@ test('chooses a round before loading people and never includes another round fro
   fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
   await screen.findByText('Alex Morgan');
   fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
-  // The only person in this round: skipping brings them straight back rather than borrowing from another round
-  await screen.findByText('Alex Morgan');
+  // The only person in this round: the pass is over, and the other round is offered rather than borrowed from
+  await screen.findByRole('heading', { name: /Everyone seen once/ });
   expect(screen.queryByText('Sam Chen')).toBeNull();
-  fireEvent.click(screen.getByRole('button', { name: 'Change round' }));
-  fireEvent.click(screen.getByTestId('choose-round-another-round'));
+  fireEvent.click(screen.getByRole('button', { name: /Review next round/ }));
   await screen.findByText('Sam Chen');
   expect(decisions()).toHaveLength(0);
 });
