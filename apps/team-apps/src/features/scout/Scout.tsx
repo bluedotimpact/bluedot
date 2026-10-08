@@ -117,7 +117,8 @@ const Scout = () => {
   const nextRound = round ? roundsFor(remaining, round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
   // Everyone left in the round has been skipped once: say so instead of silently showing the first skip again
   const allSkipped = roundItems.length > 0 && roundItems.every((item) => skipOrder.includes(item.id));
-  const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u && /linkedin\.com/i.test(u));
+  const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u !== undefined && isLinkedIn(u));
+  const cardOpen = lookup !== undefined || (round !== undefined && !allSkipped && current !== undefined);
 
   const leaveRound = useCallback(() => {
     setRound(undefined);
@@ -265,7 +266,7 @@ const Scout = () => {
     const onKey = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.repeat || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
       const target = event.target instanceof HTMLElement ? event.target : undefined;
-      if (target?.isContentEditable === true || target?.closest('input, textarea, select, button, a, summary')) return;
+      if (target?.isContentEditable === true || target?.closest('input, textarea, select')) return;
       // Enter confirms the open dialog; Esc is handled by the dialog itself
       if (confirmation !== undefined) {
         if (event.key === 'Enter' && !writingRef.current) {
@@ -277,14 +278,14 @@ const Scout = () => {
       }
 
       if (target?.closest('[role="dialog"]')) return;
-      if (writingRef.current || confirmation !== undefined || promptOpen || loading || queueError !== undefined) return;
+      // Esc still works with a button focused, e.g. right after clicking Skip; the other keys yield to the control
+      if (event.key !== 'Escape' && target?.closest('button, a, summary')) return;
+      if (writingRef.current || promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
         ArrowRight: () => ask('invite'),
         ArrowLeft: () => ask('decline'),
         ArrowDown: skip,
-        ' ': () => {
-          if (round !== undefined || lookup !== undefined) openNextSection();
-        },
+        ...(cardOpen ? { ' ': openNextSection } : {}),
         l: () => {
           if (linkedInUrl) window.open(linkedInUrl, '_blank', 'noopener');
         },
@@ -302,7 +303,7 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, confirm, confirmation, promptOpen, loading, queueError, linkedInUrl, lookup, round, closeLookup, leaveRound]);
+  }, [ask, skip, confirm, confirmation, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
 
   const controlsDisabled = writing || confirmation !== undefined || promptOpen;
   let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
@@ -435,6 +436,15 @@ const Scout = () => {
       </div>
     </div>
   );
+};
+
+const isLinkedIn = (u: string) => {
+  try {
+    const { protocol, hostname } = new URL(u);
+    return (protocol === 'https:' || protocol === 'http:') && (hostname === 'linkedin.com' || hostname.endsWith('.linkedin.com'));
+  } catch {
+    return false;
+  }
 };
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (

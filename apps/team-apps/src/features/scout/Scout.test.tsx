@@ -216,12 +216,29 @@ test('a one-person round shows the pass-done screen after one skip; L opens Link
   await start();
   fireEvent.keyDown(document.body, { key: 'l' });
   expect(open).toHaveBeenCalledWith('https://www.linkedin.com/in/sample-participant', '_blank', 'noopener');
-  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  const skipButton = screen.getByRole('button', { name: 'Skip' });
+  fireEvent.click(skipButton);
   await screen.findByRole('heading', { name: /Everyone seen once/ });
   expect(screen.getByText('1 skipped · 0 decided')).toBeTruthy();
   expect(screen.queryByRole('button', { name: /Review next round/ })).toBeNull();
-  fireEvent.keyDown(document.body, { key: 'Escape' });
+  // Space is not consumed where there is no card to walk
+  expect(fireEvent.keyDown(document.body, { key: ' ' })).toBe(true);
+  // Esc works even with a button focused, as it is right after clicking one
+  const back = screen.getByRole('button', { name: 'Back to main page' });
+  back.focus();
+  fireEvent.keyDown(back, { key: 'Escape' });
   await screen.findByTestId('choose-round-sample-Biosecurity');
+  expect(fireEvent.keyDown(document.body, { key: ' ' })).toBe(true);
+  open.mockRestore();
+});
+
+test('L only opens a link whose host really is LinkedIn', async () => {
+  const open = vi.spyOn(window, 'open').mockImplementation(() => null);
+  const lookalike = { ...samplePeople[0]!, profileUrl: 'https://example.org/?site=linkedin.com' };
+  mockFetch.mockImplementation(async (path) => (pathOf(path).endsWith(lookalike.id) ? response({ person: lookalike }) : read(path)));
+  await start();
+  fireEvent.keyDown(document.body, { key: 'l' });
+  expect(open).not.toHaveBeenCalled();
   open.mockRestore();
 });
 
