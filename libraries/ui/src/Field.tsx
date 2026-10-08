@@ -39,8 +39,8 @@ const joinIds = (...ids: (string | undefined)[]): string | undefined => {
   return joined === '' ? undefined : joined;
 };
 
-const LABEL_STYLES = 'text-size-xs font-semibold leading-normal text-primary';
-const DESCRIPTION_STYLES = 'text-size-xxs leading-normal text-secondary';
+const LABEL_STYLES = 'text-size-sm font-semibold leading-normal text-primary';
+const DESCRIPTION_STYLES = 'text-size-xs leading-normal text-secondary';
 const ERROR_STYLES = 'text-size-xs leading-normal text-error-fg';
 
 // Decorative; native `required` on the control carries the semantics.
