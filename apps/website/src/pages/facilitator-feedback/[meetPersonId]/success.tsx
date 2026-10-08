@@ -61,16 +61,22 @@ const FacilitatorFeedbackSuccessPage = () => {
 
   if (isLoading || shouldShow404 || !router.isReady || notSubmitted) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center">
-        <ProgressDots />
+      <div className="min-h-screen bg-cream-normal">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center py-16">
+          <ProgressDots />
+        </div>
       </div>
     );
   }
 
   if (error ?? !data) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
-        <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+      <div className="min-h-screen bg-cream-normal">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center px-4 py-16">
+          <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+        </div>
       </div>
     );
   }
