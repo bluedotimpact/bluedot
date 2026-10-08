@@ -97,7 +97,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
             type="button"
             onClick={() => {
               openFeedback();
-              close();
+              menu.closeSection();
             }}
             className={PROFILE_LINK_CLASSES}
           >
