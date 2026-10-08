@@ -13,6 +13,7 @@ import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { QueueSource } from './QueueSource';
+import { openNextSection } from './sectionNav';
 import { roundKey, roundLabel, roundsFor } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
@@ -114,6 +115,16 @@ const Scout = () => {
 
   // Next round of the same course that still has people; other courses are a deliberate choice on the main page
   const nextRound = round ? roundsFor(remaining, round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
+  // Everyone left in the round has been skipped once: say so instead of silently showing the first skip again
+  const allSkipped = roundItems.length > 0 && roundItems.every((item) => skipOrder.includes(item.id));
+  const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u !== undefined && isLinkedIn(u));
+  const cardOpen = lookup !== undefined || (round !== undefined && !allSkipped && current !== undefined);
+
+  const leaveRound = useCallback(() => {
+    setRound(undefined);
+    setSkipOrder([]);
+    setNotice(undefined);
+  }, []);
 
   const chooseRound = (item: QueueItem) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
@@ -140,11 +151,11 @@ const Scout = () => {
     setPersonInUrl(item.id);
   };
 
-  const closeLookup = () => {
+  const closeLookup = useCallback(() => {
     setLookup(undefined);
     setSearch('');
     setPersonInUrl(undefined);
-  };
+  }, [setPersonInUrl]);
 
   // ?person=rec… opens that registration, if it is in the queue: on load, and whenever the
   // parameter changes underneath an open card (a pasted link, browser back). Removing it
@@ -207,19 +218,19 @@ const Scout = () => {
   }, [loading, queueError, roundItems.length, lookup, confirmation, setSessionActive]);
 
   const skip = useCallback(() => {
-    if (!current || lookup !== undefined || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
+    if (!current || lookup !== undefined || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSkipOrder((state) => [...state.filter((id) => id !== current.id), current.id]);
     setNotice(undefined);
     setSaveError(undefined);
-  }, [current, lookup, confirmation, promptOpen, conflict]);
+  }, [current, lookup, allSkipped, confirmation, promptOpen, conflict]);
 
   const ask = useCallback((decision: Decision) => {
-    if (!current || person?.id !== current.id || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
+    if (!current || person?.id !== current.id || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSaveError(undefined);
     setConfirmation({ person, decision, item: current });
-  }, [person, current, confirmation, promptOpen, conflict]);
+  }, [person, current, allSkipped, confirmation, promptOpen, conflict]);
 
-  const confirm = async () => {
+  const confirm = useCallback(async () => {
     if (!confirmation || writingRef.current) return;
     // Capture the person before awaiting; a keystroke or double-click must never
     // change who this request applies to or submit it twice.
@@ -249,15 +260,38 @@ const Scout = () => {
       writingRef.current = false;
       setWriting(false);
     }
-  };
+  }, [confirmation, lookup, closeLookup]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.repeat || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
-      if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest('input, textarea, select, button, a, summary, [role="dialog"]'))) return;
-      if (writingRef.current || confirmation !== undefined || promptOpen || loading || queueError !== undefined) return;
+      const target = event.target instanceof HTMLElement ? event.target : undefined;
+      if (target?.isContentEditable === true || target?.closest('input, textarea, select')) return;
+      // Enter confirms the open dialog; Esc is handled by the dialog itself
+      if (confirmation !== undefined) {
+        if (event.key === 'Enter' && !writingRef.current) {
+          event.preventDefault();
+          void confirm();
+        }
+
+        return;
+      }
+
+      // Esc still works with a button focused, e.g. right after clicking Skip; the other keys yield to the control
+      if (event.key !== 'Escape' && target?.closest('button, a, summary')) return;
+      if (writingRef.current || promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
-        ArrowRight: () => ask('invite'), ArrowLeft: () => ask('decline'), ArrowDown: skip,
+        ArrowRight: () => ask('invite'),
+        ArrowLeft: () => ask('decline'),
+        ArrowDown: skip,
+        ...(cardOpen ? { ' ': openNextSection } : {}),
+        l: () => {
+          if (linkedInUrl) window.open(linkedInUrl, '_blank', 'noopener');
+        },
+        Escape: () => {
+          if (lookup) closeLookup();
+          else if (round) leaveRound();
+        },
       };
       const action = actions[event.key];
       if (action) {
@@ -268,7 +302,7 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, confirmation, promptOpen, loading, queueError]);
+  }, [ask, skip, confirm, confirmation, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
 
   const controlsDisabled = writing || confirmation !== undefined || promptOpen;
   let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
@@ -310,6 +344,7 @@ const Scout = () => {
                   <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                   <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
                 </div>
+                <KeyHints back="back to search" />
               </div>
             } />
           </>
@@ -332,23 +367,31 @@ const Scout = () => {
                 setSkipOrder((state) => state.slice(0, -1));
                 setNotice(undefined);
               }}>Undo skip</Button>
-              <Button variant="outline-black" disabled={controlsDisabled} onClick={() => {
-                setRound(undefined);
-                setSkipOrder([]);
-                setNotice(undefined);
-              }}>Change round</Button>
+              <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>Change round</Button>
             </div>
           </section>
           <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
           {notice && <Callout role="status">{notice}</Callout>}
           {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
-          {current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
+          {allSkipped && (
+            <section className={`${panel} space-y-4 p-6`}>
+              <h2 className="text-size-lg font-semibold">Everyone seen once <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
+              <p className="text-size-sm text-secondary">{skippedItems.length} skipped · {decisions.length} decided</p>
+              <div className="flex flex-wrap gap-2">
+                <Button disabled={controlsDisabled} onClick={() => setSkipOrder([])}>Go through the skipped again</Button>
+                {nextRound && <Button variant="outline-black" disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></Button>}
+                <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>Back to main page</Button>
+              </div>
+            </section>
+          )}
+          {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
             <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                 <Button variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></Button>
                 <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
               </div>
+              <KeyHints back="main page" />
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
             <h2 className="text-size-lg font-semibold">Round done <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
@@ -357,13 +400,9 @@ const Scout = () => {
             {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Decisions are saved in Airtable; the invite emails are sent from there.</p>}
             <div className="flex flex-wrap gap-2">
               {nextRound && <Button disabled={controlsDisabled} onClick={() => chooseRound(nextRound)}>Review next round <span aria-hidden>→</span></Button>}
-              <Button variant="outline-black" disabled={controlsDisabled} onClick={() => {
-                setRound(undefined);
-                setSkipOrder([]);
-                setNotice(undefined);
-              }}>Back to main page</Button>
+              <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>Back to main page</Button>
             </div>
-          </section>}
+          </section>)}
         </>)}
         <Modal isOpen={confirmation !== undefined} setIsOpen={(open) => {
           if (!open && !writingRef.current) {
@@ -381,6 +420,7 @@ const Scout = () => {
               </div>
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
+            <p className="text-size-xxs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="secondary" disabled={writing} onClick={() => {
                 setConfirmation(undefined);
@@ -396,6 +436,19 @@ const Scout = () => {
     </div>
   );
 };
+
+const isLinkedIn = (u: string) => {
+  try {
+    const { protocol, hostname } = new URL(u);
+    return (protocol === 'https:' || protocol === 'http:') && (hostname === 'linkedin.com' || hostname.endsWith('.linkedin.com'));
+  } catch {
+    return false;
+  }
+};
+
+const KeyHints: React.FC<{ back: string }> = ({ back }) => (
+  <p className="mt-2 text-size-xxs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Esc</kbd> {back}</p>
+);
 
 const SessionDecisions: React.FC<{ decisions: Done[] }> = ({ decisions }) => {
   const [copyStatus, setCopyStatus] = useState<string>();
