@@ -84,7 +84,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
                 setIsImpersonateModalOpen(true);
                 close();
               }}
-              className={clsx('bluedot-a', PROFILE_LINK_CLASSES)}
+              className={PROFILE_LINK_CLASSES}
             >
               Impersonate a user
             </button>
@@ -100,7 +100,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
               openFeedback();
               close();
             }}
-            className={clsx('bluedot-a', PROFILE_LINK_CLASSES)}
+            className={PROFILE_LINK_CLASSES}
           >
             Submit feedback
           </button>
