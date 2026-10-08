@@ -171,16 +171,16 @@ describe('Nav', () => {
     const mobileNavDrawer = getMobileDrawer();
     const profileDrawer = getProfileDrawer();
 
-    // Initially, both drawers should have a max height of 0 (closed state).
-    expect(mobileNavDrawer.className).toMatch(/max-h-0/);
-    expect(profileDrawer.className).toMatch(/max-h-0/);
+    // Closed drawers are invisible, which also removes their links from the tab order
+    expect(mobileNavDrawer.className).toMatch(/invisible/);
+    expect(profileDrawer.className).toMatch(/invisible/);
     expect(hamburgerButton.getAttribute('aria-expanded')).toBe('false');
 
     fireEvent.click(hamburgerButton);
 
     await waitFor(() => {
-      expect(mobileNavDrawer.className).not.toMatch(/max-h-0/);
-      expect(profileDrawer.className).toMatch(/max-h-0/); // Profile drawer remains closed
+      expect(mobileNavDrawer.className).not.toMatch(/invisible/);
+      expect(profileDrawer.className).toMatch(/invisible/); // Profile drawer remains closed
       expect(hamburgerButton.getAttribute('aria-expanded')).toBe('true');
     });
   });
@@ -193,14 +193,14 @@ describe('Nav', () => {
     const mobileNavDrawer = getMobileDrawer();
     const profileDrawer = getProfileDrawer();
 
-    expect(mobileNavDrawer.className).toMatch(/max-h-0/);
-    expect(profileDrawer.className).toMatch(/max-h-0/);
+    expect(mobileNavDrawer.className).toMatch(/invisible/);
+    expect(profileDrawer.className).toMatch(/invisible/);
 
     fireEvent.click(profileButton);
 
     await waitFor(() => {
-      expect(profileDrawer.className).not.toMatch(/max-h-0/);
-      expect(mobileNavDrawer.className).toMatch(/max-h-0/); // Mobile nav drawer remains closed
+      expect(profileDrawer.className).not.toMatch(/invisible/);
+      expect(mobileNavDrawer.className).toMatch(/invisible/); // Mobile nav drawer remains closed
     });
   });
 
@@ -211,14 +211,14 @@ describe('Nav', () => {
     fireEvent.click(getHamburger());
 
     await waitFor(() => {
-      expect(mobileNavDrawer.className).not.toMatch(/max-h-0/);
+      expect(mobileNavDrawer.className).not.toMatch(/invisible/);
     });
 
-    // Simulate clicking outside the nav drawer (useClickOutside uses mousedown)
+    // Simulate clicking outside the nav drawer (useDismissible listens for mousedown)
     fireEvent.mouseDown(document.body);
 
     await waitFor(() => {
-      expect(mobileNavDrawer.className).toMatch(/max-h-0/);
+      expect(mobileNavDrawer.className).toMatch(/invisible/);
     });
   });
 
@@ -229,7 +229,7 @@ describe('Nav', () => {
     const mobileNavDrawer = getMobileDrawer();
     fireEvent.click(hamburgerButton);
     await waitFor(() => {
-      expect(mobileNavDrawer.className).not.toMatch(/max-h-0/);
+      expect(mobileNavDrawer.className).not.toMatch(/invisible/);
     });
 
     const aboutLink = within(mobileNavDrawer).getByRole('link', { name: 'About' });
@@ -237,7 +237,7 @@ describe('Nav', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
 
     await waitFor(() => {
-      expect(mobileNavDrawer.className).toMatch(/max-h-0/);
+      expect(mobileNavDrawer.className).toMatch(/invisible/);
     });
     expect(document.activeElement).toBe(hamburgerButton);
   });
