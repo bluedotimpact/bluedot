@@ -50,7 +50,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 id="mobile-nav-drawer"
               >
                 <div
-                  class="flex flex-col grow font-medium pb-8 xl:hidden"
+                  class="flex flex-col grow font-medium xl:hidden"
                 >
                   <div
                     class="flex flex-col"
