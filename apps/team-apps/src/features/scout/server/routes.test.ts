@@ -1,5 +1,6 @@
 import { createMocks } from 'node-mocks-http';
 import { type NextApiRequest, type NextApiResponse } from 'next';
+import { InvalidTokenError } from '@bluedot/ui/src/Login';
 import {
   beforeEach, expect, test, vi,
 } from 'vitest';
@@ -64,7 +65,7 @@ test('the queue carries the courses led by the signed-in email', async () => {
 });
 
 test('rejects non-staff identities, wrong methods and invalid decisions', async () => {
-  verify.mockRejectedValueOnce(new Error('Not a verified bluedot.org account'));
+  verify.mockRejectedValueOnce(new InvalidTokenError('Not a verified bluedot.org account'));
   const denied = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers });
   await queue(denied.req, denied.res);
   expect(denied.res._getStatusCode()).toBe(401);

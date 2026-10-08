@@ -1,6 +1,6 @@
 import { courseRegistrationTable, userTable } from '@bluedot/db';
 import type { TRPCError } from '@trpc/server';
-import { loginPresets } from '@bluedot/ui/src/Login';
+import { InvalidTokenError, loginPresets } from '@bluedot/ui/src/Login';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import db from '../../lib/api/db';
 import {
@@ -180,10 +180,17 @@ describe('users.changePassword', () => {
 
 describe('users.ensureExists', () => {
   test('rejects invalid tokens with UNAUTHORIZED', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new Error('bad token'));
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new InvalidTokenError('Invalid signature'));
 
     await expect(createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'bad-token' }))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+  });
+
+  test('surfaces a signing-key fetch failure as a server error, not UNAUTHORIZED', async () => {
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new Error('getaddrinfo ENOTFOUND login.bluedot.org'));
+
+    await expect(createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' }))
+      .rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
   });
 
   test('creates a new user and persists initial UTM fields', async () => {

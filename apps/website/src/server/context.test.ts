@@ -1,9 +1,14 @@
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
+import { createServer, request } from 'http';
+import type { AddressInfo } from 'net';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { userTable } from '@bluedot/db';
-import { loginPresets } from '@bluedot/ui/src/Login';
+import { InvalidTokenError, loginPresets } from '@bluedot/ui/src/Login';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { createContext } from './context';
+import trpcHandler from '../pages/api/trpc/[trpc]';
 import { setupTestDb, testDb } from '../__tests__/dbTestUtils';
 import { ONE_HOUR_SECONDS } from '../lib/constants';
 
@@ -18,6 +23,10 @@ vi.mock('@bluedot/ui/src/Login', async () => {
     },
   };
 });
+
+vi.mock('@bluedot/utils/src/slackNotifications', () => ({
+  slackAlert: vi.fn(async () => {}),
+}));
 
 setupTestDb();
 
@@ -184,5 +193,85 @@ describe('createContext: User impersonation', () => {
 
     expect(result.auth?.email).toBe('admin@example.com');
     expect(result.impersonation).toBeNull();
+  });
+});
+
+describe('createContext: Token verification failures', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test('a rejected token yields a logged-out context', async () => {
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new InvalidTokenError('Token expired'));
+
+    const req = createMockReq({ authorization: 'Bearer expired-token' });
+    const result = await createContext({ req } as Parameters<typeof createContext>[0]);
+
+    expect(result.auth).toBeNull();
+  });
+
+  test('any other verification failure propagates', async () => {
+    const networkError = new Error('getaddrinfo ENOTFOUND login.bluedot.org');
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(networkError);
+
+    const req = createMockReq({ authorization: 'Bearer valid-token' });
+
+    await expect(createContext({ req } as Parameters<typeof createContext>[0])).rejects.toBe(networkError);
+  });
+});
+
+describe('tRPC handler: Token verification failures', () => {
+  // Runs the real Next API handler over HTTP so createContext errors go through tRPC's own error handling and onError
+  const callProcedure = async (procedurePath: string, headers: Record<string, string>) => {
+    const server = createServer((req, res) => {
+      Object.assign(req, { query: { trpc: procedurePath } });
+      trpcHandler(req as NextApiRequest, res as NextApiResponse);
+    });
+    await new Promise<void>((resolve) => {
+      server.listen(0, '127.0.0.1', resolve);
+    });
+
+    try {
+      const { port } = server.address() as AddressInfo;
+      return await new Promise<{ status: number; body: string }>((resolve, reject) => {
+        request({
+          host: '127.0.0.1', port, path: `/api/trpc/${procedurePath}`, headers,
+        }, (res) => {
+          let body = '';
+          res.on('data', (chunk: Buffer) => {
+            body += chunk.toString();
+          });
+          res.on('end', () => resolve({ status: res.statusCode!, body }));
+        }).on('error', reject).end();
+      });
+    } finally {
+      server.close();
+    }
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test('an expired token on a protected procedure is a 401 with no Slack alert', async () => {
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new InvalidTokenError('Token expired'));
+
+    const { status } = await callProcedure('users.getUser', { authorization: 'Bearer expired-token' });
+
+    expect(status).toBe(401);
+    expect(slackAlert).not.toHaveBeenCalled();
+  });
+
+  test('a signing-key fetch failure is a 500 that alerts Slack', async () => {
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new Error('getaddrinfo ENOTFOUND login.bluedot.org'));
+
+    const { status } = await callProcedure('users.getUser', { authorization: 'Bearer valid-token' });
+
+    expect(status).toBe(500);
+    expect(slackAlert).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.arrayContaining([expect.stringContaining('ENOTFOUND')]),
+      expect.anything(),
+    );
   });
 });
