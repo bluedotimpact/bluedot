@@ -34,7 +34,7 @@ export type NavMenuState = {
 
 export type NavMenu = NavMenuState & {
   toggleSection: (section: NavSection) => void;
-  closeSection: (section: NavSection) => void;
+  closeSection: () => void;
   toggleMobileNav: () => void;
   closeAll: () => void;
 };
