@@ -1,80 +1,34 @@
-import { useState, useEffect } from 'react';
 import { Button } from '@bluedot/ui';
 import { useRouter } from 'next/router';
-import clsx from 'clsx';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 
 import { ProfileLinks } from './_ProfileLinks';
-import { ROUTES } from '../../lib/routes';
-import { type ExpandedSectionsState } from './utils';
+import { type NavMenu } from './utils';
 
 export const NavCta: React.FC<{
-  // Required
-  expandedSections: ExpandedSectionsState;
-  updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
-  // Optional
+  menu: NavMenu;
   isLoggedIn?: boolean;
   onColoredBackground?: boolean;
 }> = ({
+  menu,
   isLoggedIn,
-  expandedSections,
-  updateExpandedSections,
   onColoredBackground = false,
 }) => {
   const router = useRouter();
-  const [loginUrl, setLoginUrl] = useState(ROUTES.login.url);
-  const [joinUrl, setJoinUrl] = useState(ROUTES.join.url);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setLoginUrl(getLoginUrl(router.asPath));
-      setJoinUrl(getLoginUrl(router.asPath, true));
-    }
-  }, [router.asPath]);
-  const getButtonClasses = (type: 'primary' | 'secondary') => {
-    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed';
+  if (isLoggedIn) {
+    return <ProfileLinks menu={menu} onColoredBackground={onColoredBackground} />;
+  }
 
-    if (type === 'primary') {
-      return clsx(
-        baseClasses,
-        onColoredBackground && 'bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker',
-      );
-    }
-
-    return clsx(
-      baseClasses,
-      onColoredBackground
-        ? 'bg-surface-on-dark border border-border-on-dark text-on-dark hover:bg-surface-on-dark-hover backdrop-blur-sm'
-        : 'border text-primary hover:bg-tint',
-    );
-  };
-
+  // data-on-dark stays on this wrapper, not the <nav>: the drawers are DOM-nested inside the bar and sit on canvas
   return (
-    <div className="nav-cta flex flex-row items-center gap-4">
-      {isLoggedIn ? (
-        <ProfileLinks
-          expandedSections={expandedSections}
-          updateExpandedSections={updateExpandedSections}
-          onColoredBackground={onColoredBackground}
-        />
-      ) : (
-        <>
-          <Button
-            className={getButtonClasses('secondary')}
-            variant="secondary"
-            url={loginUrl}
-          >
-            Sign in
-          </Button>
-          <Button
-            className={clsx('hidden bd-md:flex', getButtonClasses('primary'))}
-            variant="primary"
-            url={joinUrl}
-          >
-            Start for free
-          </Button>
-        </>
-      )}
+    <div className="flex flex-row items-center gap-4" data-on-dark={onColoredBackground || undefined}>
+      <Button variant="secondary" url={getLoginUrl(router.asPath)}>
+        Sign in
+      </Button>
+      <Button className="hidden bd-md:flex" url={getLoginUrl(router.asPath, true)}>
+        Start for free
+      </Button>
     </div>
   );
 };
