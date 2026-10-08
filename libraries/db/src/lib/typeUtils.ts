@@ -50,11 +50,7 @@ export type DeprecatedPgAirtableColumnInput = {
   deprecated: true;
 };
 
-/**
- * Same shape as the third argument to drizzle's `pgTable`, narrowed to indexes.
- * Indexes are pushed to Postgres by pg-sync-service alongside columns, and any
- * index not declared here is dropped on the next push.
- */
+/** Third argument of drizzle's `pgTable`, narrowed to indexes. */
 export type PgIndexesConfig<TColumnsMap extends Record<string, PgColumnBuilderBase>> =
   (self: BuildExtraConfigColumns<string, TColumnsMap, 'pg'>) => IndexBuilder[];
 
