@@ -46,7 +46,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </svg>
               </button>
               <div
-                class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="mobile-nav-drawer"
               >
                 <div
@@ -59,7 +59,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="courses-dropdown-mobile"
                         aria-expanded="false"
-                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent justify-between"
+                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                         type="button"
                       >
                         Courses
@@ -118,7 +118,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="grants-dropdown-mobile"
                         aria-expanded="false"
-                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent justify-between"
+                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                         type="button"
                       >
                         Grants
@@ -177,7 +177,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="programs-dropdown-mobile"
                         aria-expanded="false"
-                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent justify-between"
+                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                         type="button"
                       >
                         Programs
@@ -233,21 +233,21 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       </div>
                     </div>
                     <a
-                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent"
+                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                       href="/alumni"
                       tabindex="0"
                     >
                       Alumni
                     </a>
                     <a
-                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent"
+                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                       href="/about"
                       tabindex="0"
                     >
                       About
                     </a>
                     <a
-                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent"
+                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                       href="/join-us"
                       tabindex="0"
                     >
@@ -311,7 +311,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   </svg>
                 </button>
                 <div
-                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                   id="courses-dropdown"
                 >
                   <div
@@ -370,7 +370,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   </svg>
                 </button>
                 <div
-                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                   id="grants-dropdown"
                 >
                   <div
@@ -429,7 +429,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   </svg>
                 </button>
                 <div
-                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                   id="programs-dropdown"
                 >
                   <div
