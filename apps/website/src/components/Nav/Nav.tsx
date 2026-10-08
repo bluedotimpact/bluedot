@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import type React from 'react';
 import { useState } from 'react';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
@@ -16,7 +15,7 @@ import {
 const NAV_BAR_CLASS = 'z-50 w-full';
 const NAV_ROW_CLASS = 'w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)';
 
-type NavProps =
+export type NavProps =
   | {
     // Omitted: derived from the route (homepage → transparent)
     variant?: 'default' | 'transparent';
@@ -28,7 +27,7 @@ type NavProps =
     context?: string;
   };
 
-export const Nav: React.FC<NavProps> = (props) => {
+export const Nav = (props: NavProps) => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const isHomepage = router.pathname === '/' || router.pathname === '/courses';
