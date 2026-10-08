@@ -1,118 +1,45 @@
-'use client';
-
-import clsx from 'clsx';
 import { Button, IconButton } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { FaBars, FaXmark } from 'react-icons/fa6';
 
 import { NavLinks } from './_NavLinks';
-import {
-  DRAWER_CLASSES,
-  type ExpandedSectionsState,
-  MOBILE_NAV_CLASS,
-} from './utils';
+import { DRAWER_CLASSES, MOBILE_NAV_DRAWER_ID, type NavMenu } from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
-import { useClickOutside } from '../../lib/hooks/useClickOutside';
+import { useDismissible } from '../../lib/hooks/useDismissible';
 
 export const MobileNavLinks: React.FC<{
-  expandedSections: ExpandedSectionsState;
-  updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
+  menu: NavMenu;
   isLoggedIn: boolean;
   onColoredBackground?: boolean;
 }> = ({
-  expandedSections,
-  updateExpandedSections,
+  menu,
   isLoggedIn,
   onColoredBackground = false,
 }) => {
   const router = useRouter();
   const joinUrl = getLoginUrl(router.asPath, true);
-  const mobileNavRef = useClickOutside(
-    () => updateExpandedSections({ mobileNav: false }),
-    expandedSections.mobileNav,
-    `.${MOBILE_NAV_CLASS}`,
-  );
-
-  const getPrimaryButtonClasses = () => {
-    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center';
-
-    return clsx(
-      baseClasses,
-      'bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white',
-    );
-  };
-
-  const onToggleMobileNav = () => {
-    updateExpandedSections({
-      mobileNav: !expandedSections.mobileNav,
-      courses: false,
-      grants: false,
-      programs: false,
-      explore: false,
-      profile: false,
-    });
-  };
+  const { containerRef, triggerRef } = useDismissible(menu.closeAll, menu.mobileNavOpen);
 
   return (
-    <div ref={mobileNavRef} className={`${MOBILE_NAV_CLASS} xl:hidden`}>
+    <div ref={containerRef} className="xl:hidden">
       <IconButton
-        aria-label={expandedSections.mobileNav ? 'Close menu' : 'Open menu'}
-        aria-expanded={expandedSections.mobileNav}
-        onClick={onToggleMobileNav}
-        className={clsx(
-          'mobile-nav-links__btn',
-          onColoredBackground && 'text-white hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
-        )}
+        ref={triggerRef}
+        aria-label={menu.mobileNavOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menu.mobileNavOpen}
+        aria-controls={MOBILE_NAV_DRAWER_ID}
+        onClick={menu.toggleMobileNav}
+        data-on-dark={onColoredBackground || undefined}
       >
-        {expandedSections.mobileNav ? <FaXmark aria-hidden="true" className="size-5" /> : <FaBars aria-hidden="true" className="size-4" />}
+        {menu.mobileNavOpen ? <FaXmark aria-hidden="true" className="size-5" /> : <FaBars aria-hidden="true" className="size-4" />}
       </IconButton>
-      <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(expandedSections.mobileNav))}>
-        <div
-          className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
-          onClick={(e) => {
-            // Close mobile nav when any link is clicked
-            if ((e.target as HTMLElement).tagName === 'A') {
-              updateExpandedSections({
-                courses: false,
-                grants: false,
-                programs: false,
-                explore: false,
-                mobileNav: false,
-                profile: false,
-              });
-            }
-          }}
-          onKeyDown={(e) => {
-            // Also handle keyboard navigation
-            if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'A') {
-              updateExpandedSections({
-                courses: false,
-                grants: false,
-                programs: false,
-                explore: false,
-                mobileNav: false,
-                profile: false,
-              });
-            }
-          }}
-          role="presentation"
-        >
-          <NavLinks
-            className="mobile-nav-links__nav-links flex-col"
-            expandedSections={expandedSections}
-            updateExpandedSections={updateExpandedSections}
-            onColoredBackground={onColoredBackground}
-          />
+      <div id={MOBILE_NAV_DRAWER_ID} className={DRAWER_CLASSES(menu.mobileNavOpen)}>
+        <div className="flex flex-col grow font-medium pb-8 xl:hidden">
+          <NavLinks menu={menu} inMobileDrawer />
 
-          {/* CTA Buttons for mobile - prevent duplication with navbar buttons */}
+          {/* The bar shows this CTA from bd-md up; the drawer carries it below that */}
           {!isLoggedIn && (
-            <div className="flex flex-col gap-4 pt-6 mt-6 border-t border-default">
-              {/* Start for free button: Show when screen < 680px */}
-              <Button
-                className={clsx('mobile-nav-cta__join hidden max-[679px]:flex', getPrimaryButtonClasses())}
-                variant="primary"
-                url={joinUrl}
-              >
+            <div className="pt-6 mt-6 border-t border-subtle bd-md:hidden">
+              <Button className="w-full" url={joinUrl}>
                 Start for free
               </Button>
             </div>
