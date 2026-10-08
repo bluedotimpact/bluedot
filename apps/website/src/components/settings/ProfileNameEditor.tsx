@@ -1,7 +1,8 @@
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import {
   Button,
+  Field,
   Input,
 } from '@bluedot/ui';
 import type { User } from '@bluedot/db';
@@ -77,19 +78,16 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
     }
   };
 
-  const firstNameId = useId();
-  const lastNameId = useId();
   const hasChanges = trimmed.firstName !== savedNames.firstName.trim() || trimmed.lastName !== savedNames.lastName.trim();
   const showButtons = alwaysShowButtons || hasChanges;
 
   return (
     <div className="mb-6">
       <div className="flex flex-col gap-4">
-        <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center">
-          <div className="flex flex-col gap-2">
-            <label htmlFor={firstNameId} className="font-semibold">First name<span aria-hidden="true">*</span></label>
+        <div className="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+          {/* One error covers both names, so it sits below the row rather than inside either Field */}
+          <Field label="First name" required>
             <Input
-              id={firstNameId}
               value={names.firstName}
               onChange={(e) => setNames({ ...names, firstName: e.target.value })}
               onFocus={handleFocus}
@@ -98,11 +96,9 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
               aria-describedby={nameError ? 'profile-name-error' : undefined}
               aria-invalid={!!nameError}
             />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor={lastNameId} className="font-semibold">Last name<span aria-hidden="true">*</span></label>
+          </Field>
+          <Field label="Last name" required>
             <Input
-              id={lastNameId}
               value={names.lastName}
               onChange={(e) => setNames({ ...names, lastName: e.target.value })}
               onFocus={handleFocus}
@@ -111,9 +107,9 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
               aria-describedby={nameError ? 'profile-name-error' : undefined}
               aria-invalid={!!nameError}
             />
-          </div>
-          {/* Always rendered so the column keeps its width; the top margin centres the buttons on the inputs rather than on label + input */}
-          <div className={clsx('flex gap-2 sm:mt-8', !showButtons && 'max-sm:hidden sm:invisible')}>
+          </Field>
+          {/* Always rendered so the column keeps its width */}
+          <div className={clsx('flex gap-2', !showButtons && 'max-sm:hidden sm:invisible')}>
             <Button
               variant="primary"
               onClick={handleSave}
@@ -138,12 +134,7 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
           </div>
         </div>
         {nameError && (
-          <p
-            className="text-error-fg text-size-sm"
-            id="profile-name-error"
-            role="alert"
-            aria-live="polite"
-          >
+          <p className="text-size-xs leading-normal text-error-fg" id="profile-name-error" role="alert">
             {nameError}
           </p>
         )}
