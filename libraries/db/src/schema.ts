@@ -1521,7 +1521,6 @@ export const userTable = pgAirtable('user', {
     },
   },
   indexes: (t) => [
-    // Looked up on every authenticated request (trpc.ts getUserFromAuth)
     index('user_keycloakIdentifier_idx').on(t.keycloakIdentifier),
     index('user_email_idx').on(t.email),
   ],
