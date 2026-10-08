@@ -7,7 +7,7 @@ export const NAV_LINK_CLASS = 'no-underline text-size-sm font-medium leading-rel
 // Desktop only: hover is meaningless on touch and the underline needs a text-width element
 export const NAV_LINK_ANIMATION_CLASS = 'nav-link-animation w-fit';
 // Full-width rows would stretch the underline across the drawer, so current page uses weight + colour
-export const DRAWER_ROW_CLASS = 'flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent';
+export const DRAWER_ROW_CLASS = 'flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent';
 
 // z-40 sits inside the nav's own z-50 stacking context; Modal is 60, Toast 70
 export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
