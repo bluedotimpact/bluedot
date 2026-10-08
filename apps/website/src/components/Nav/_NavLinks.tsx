@@ -134,6 +134,7 @@ export const NavLinks = ({
           onToggle={() => toggleSection(section)}
           onClose={menu.closeSection}
           onNavigate={menu.closeAll}
+          isCurrent={isCurrent}
           toneClass={toneClass}
           inMobileDrawer={inMobileDrawer}
         />
@@ -154,6 +155,7 @@ type NavDropdownProps = {
   onToggle: () => void;
   onClose: () => void;
   onNavigate: () => void;
+  isCurrent: (url: string) => boolean;
   toneClass: string;
   inMobileDrawer: boolean;
 };
@@ -167,6 +169,7 @@ const NavDropdown = ({
   onToggle,
   onClose,
   onNavigate,
+  isCurrent,
   toneClass,
   inMobileDrawer,
 }: NavDropdownProps) => {
@@ -210,6 +213,7 @@ const NavDropdown = ({
                 key={link.url}
                 href={link.url}
                 {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                aria-current={!link.footer && isCurrent(link.url) ? 'page' : undefined}
                 className={clsx(
                   NAV_LINK_CLASS,
                   inMobileDrawer ? DRAWER_ROW_CLASS : clsx(NAV_LINK_ANIMATION_CLASS, 'flex min-h-11 items-center'),
