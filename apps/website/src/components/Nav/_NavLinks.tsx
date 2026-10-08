@@ -44,7 +44,7 @@ export const NavLinks = ({
   inMobileDrawer = false,
 }: NavLinksProps) => {
   const router = useRouter();
-  const { courses, loading } = useCourses();
+  const { courses, loading: coursesLoading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
   const { data: programs, isLoading: programsLoading } = trpc.programs.getInPerson.useQuery();
   const { data: grants, isLoading: grantsLoading } = trpc.programs.getGrants.useQuery();
@@ -52,7 +52,7 @@ export const NavLinks = ({
   // Filter FoAI from the dynamic list at the slug level (not URL): getPrimaryCourseURL
   // returns deep-link URLs like /courses/future-of-ai/1/1 for enrolled users, so a URL-based
   // filter would let those slip through and double-list FoAI.
-  const allCourses = loading ? [] : (courses || [])
+  const courseLinks = (courses ?? [])
     .filter((course) => course.slug !== FOAI_COURSE_SLUG)
     .map((course) => ({
       title: course.title,
@@ -60,32 +60,41 @@ export const NavLinks = ({
       isNew: course.isNew ?? false,
     }));
 
-  const navCourses: NavDropdownLink[] = [
-    { title: 'Future of AI', url: `/courses/${FOAI_COURSE_SLUG}`, startHere: true },
-    ...allCourses,
-    { title: 'See all courses', url: ROUTES.courses.url, footer: true },
-  ];
-
-  const navGrants: NavDropdownLink[] = [
-    ...(grants ?? [])
-      .map((grant) => ({ grant, url: getGrantPath(grant.slug) }))
-      .filter((entry): entry is typeof entry & { url: string } => Boolean(entry.url))
-      .map(({ grant, url }) => ({
-        title: grant.name,
-        url,
-      })),
-    { title: 'See all grants', url: ROUTES.grants.url, footer: true },
-  ];
-
-  const navPrograms: NavDropdownLink[] = [
-    ...(programs ?? [])
-      .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
-      .map((program) => ({
-        title: program.name,
-        url: `/programs/${program.slug}`,
-      })),
-    { title: AI_SECURITY_BOOTCAMP.title, url: AI_SECURITY_BOOTCAMP.url, external: true },
-    { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav`, footer: true },
+  const sections: { section: NavSection; title: string; links: NavDropdownLink[]; loading: boolean }[] = [
+    {
+      section: 'courses',
+      title: 'Courses',
+      loading: coursesLoading,
+      links: [
+        { title: 'Future of AI', url: `/courses/${FOAI_COURSE_SLUG}`, startHere: true },
+        ...courseLinks,
+        { title: 'See all courses', url: ROUTES.courses.url, footer: true },
+      ],
+    },
+    {
+      section: 'grants',
+      title: 'Grants',
+      loading: grantsLoading,
+      links: [
+        ...(grants ?? [])
+          .map((grant) => ({ grant, url: getGrantPath(grant.slug) }))
+          .filter((entry): entry is typeof entry & { url: string } => Boolean(entry.url))
+          .map(({ grant, url }) => ({ title: grant.name, url })),
+        { title: 'See all grants', url: ROUTES.grants.url, footer: true },
+      ],
+    },
+    {
+      section: 'programs',
+      title: 'Programs',
+      loading: programsLoading,
+      links: [
+        ...(programs ?? [])
+          .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
+          .map((program) => ({ title: program.name, url: `/programs/${program.slug}` })),
+        { title: AI_SECURITY_BOOTCAMP.title, url: AI_SECURITY_BOOTCAMP.url, external: true },
+        { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav`, footer: true },
+      ],
+    },
   ];
 
   const toneClass = isOnDark ? 'text-on-dark hover:text-on-dark nav-link-animation-dark' : 'text-primary hover:text-primary';
@@ -111,26 +120,23 @@ export const NavLinks = ({
     ? (section: NavSection) => setDrawerSection((prev) => (prev === section ? null : section))
     : menu.toggleSection;
 
-  const renderDropdown = (section: NavSection, title: string, links: NavDropdownLink[], loading: boolean) => (
-    <NavDropdown
-      title={title}
-      panelId={`${section}-dropdown${inMobileDrawer ? '-mobile' : ''}`}
-      links={links}
-      loading={loading}
-      isExpanded={openSection === section}
-      onToggle={() => toggleSection(section)}
-      onClose={menu.closeSection}
-      onNavigate={menu.closeAll}
-      toneClass={toneClass}
-      inMobileDrawer={inMobileDrawer}
-    />
-  );
-
   return (
     <div className={clsx('flex', inMobileDrawer ? 'flex-col' : 'gap-9', className)}>
-      {renderDropdown('courses', 'Courses', navCourses, loading)}
-      {renderDropdown('grants', 'Grants', navGrants, grantsLoading)}
-      {renderDropdown('programs', 'Programs', navPrograms, programsLoading)}
+      {sections.map(({ section, title, links, loading }) => (
+        <NavDropdown
+          key={section}
+          title={title}
+          panelId={`${section}-dropdown${inMobileDrawer ? '-mobile' : ''}`}
+          links={links}
+          loading={loading}
+          isExpanded={openSection === section}
+          onToggle={() => toggleSection(section)}
+          onClose={menu.closeSection}
+          onNavigate={menu.closeAll}
+          toneClass={toneClass}
+          inMobileDrawer={inMobileDrawer}
+        />
+      ))}
       {renderTopLevelLink('Alumni', ROUTES.alumni.url)}
       {renderTopLevelLink('About', ROUTES.about.url)}
       {renderTopLevelLink('Join us', ROUTES.joinUs.url)}
