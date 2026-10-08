@@ -39,6 +39,7 @@ exports[`Field > renders Default as expected 1`] = `
     <p
       class="text-size-xs leading-normal text-error-fg"
       id="email-error"
+      role="alert"
     >
       Enter a valid email.
     </p>
@@ -104,6 +105,7 @@ exports[`FieldSet > renders Default as expected 1`] = `
     <p
       class="text-size-xs leading-normal text-error-fg"
       id=":rk:-error"
+      role="alert"
     >
       Pick at least one.
     </p>

@@ -91,7 +91,7 @@ export const Field = ({
           </div>
         )}
         {children}
-        {invalid && <p id={errorId} className={ERROR_STYLES}>{error}</p>}
+        {invalid && <p id={errorId} role="alert" className={ERROR_STYLES}>{error}</p>}
       </div>
     </FieldContext.Provider>
   );
@@ -134,7 +134,7 @@ export const FieldSet = ({
         </legend>
         {description && <p id={descriptionId} className={DESCRIPTION_STYLES}>{description}</p>}
         {children}
-        {invalid && <p id={errorId} className={ERROR_STYLES}>{error}</p>}
+        {invalid && <p id={errorId} role="alert" className={ERROR_STYLES}>{error}</p>}
       </fieldset>
     </FieldContext.Provider>
   );

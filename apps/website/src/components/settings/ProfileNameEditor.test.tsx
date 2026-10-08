@@ -118,6 +118,7 @@ describe('ProfileNameEditor', () => {
       expect(errorMessage).toBeInTheDocument();
       expect(errorMessage?.textContent).toContain('Last name is required');
     });
+    expect(getInput(container, 'Last name')).toHaveAccessibleDescription(expect.stringContaining('Last name is required'));
   });
 
   test('should show validation error for names exceeding maximum length', async () => {
