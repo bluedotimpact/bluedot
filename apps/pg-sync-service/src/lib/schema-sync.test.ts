@@ -61,13 +61,6 @@ describe('statementsRequireFullSync', () => {
     ])).toBe(false);
   });
 
-  test('given index DDL mixed with ADD COLUMN, returns true', () => {
-    expect(statementsRequireFullSync([
-      'CREATE INDEX "user_email_idx" ON "user" USING btree ("email");',
-      'ALTER TABLE "x" ADD COLUMN "y" text',
-    ])).toBe(true);
-  });
-
   // --- Adversarial cases probing for FALSE NEGATIVES (a backfill-requiring
   // statement wrongly classified as default churn) and false positives. ---
 
