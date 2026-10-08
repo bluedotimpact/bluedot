@@ -49,7 +49,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
         {isOpen ? <FaXmark aria-hidden="true" className="size-5" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}
       </IconButton>
       <div id={PROFILE_DRAWER_ID} className={DRAWER_CLASSES(isOpen)}>
-        <div className="flex flex-col w-fit overflow-hidden mx-auto">
+        <div className="flex flex-col w-fit mx-auto">
           <A href={ROUTES.myCourses.url} className={PROFILE_LINK_CLASSES} onClick={close}>
             My Courses
           </A>
