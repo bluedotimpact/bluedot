@@ -225,6 +225,17 @@ test('a one-person round shows the pass-done screen after one skip; L opens Link
   open.mockRestore();
 });
 
+test('Enter confirms the open dialog', async () => {
+  mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: true }) : read(path)));
+  await start();
+  fireEvent.keyDown(document.body, { key: 'ArrowRight' });
+  await screen.findByRole('dialog');
+  fireEvent.keyDown(document.body, { key: 'Enter' });
+  await waitFor(() => expect(decisions()).toHaveLength(1));
+  await screen.findByText('Sam Chen');
+  expect(JSON.parse(decisions()[0]![1]!.body as string)).toEqual({ id: samplePeople[0]!.id, decision: 'invite' });
+});
+
 test('chooses a round before loading people and never includes another round from the same course', async () => {
   const queue = realQueue.map((item, index) => index === 1 ? { ...item, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' } : item);
   mockFetch.mockImplementation(async (path) => pathOf(path).endsWith('/queue') ? response({ items: queue }) : read(path));

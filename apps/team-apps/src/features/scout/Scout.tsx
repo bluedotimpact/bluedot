@@ -229,7 +229,7 @@ const Scout = () => {
     setConfirmation({ person, decision, item: current });
   }, [person, current, allSkipped, confirmation, promptOpen, conflict]);
 
-  const confirm = async () => {
+  const confirm = useCallback(async () => {
     if (!confirmation || writingRef.current) return;
     // Capture the person before awaiting; a keystroke or double-click must never
     // change who this request applies to or submit it twice.
@@ -259,12 +259,24 @@ const Scout = () => {
       writingRef.current = false;
       setWriting(false);
     }
-  };
+  }, [confirmation, lookup, closeLookup]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.repeat || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
-      if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest('input, textarea, select, button, a, summary, [role="dialog"]'))) return;
+      const target = event.target instanceof HTMLElement ? event.target : undefined;
+      if (target?.isContentEditable === true || target?.closest('input, textarea, select, button, a, summary')) return;
+      // Enter confirms the open dialog; Esc is handled by the dialog itself
+      if (confirmation !== undefined) {
+        if (event.key === 'Enter' && !writingRef.current) {
+          event.preventDefault();
+          void confirm();
+        }
+
+        return;
+      }
+
+      if (target?.closest('[role="dialog"]')) return;
       if (writingRef.current || confirmation !== undefined || promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
         ArrowRight: () => ask('invite'),
@@ -288,7 +300,7 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, confirmation, promptOpen, loading, queueError, linkedInUrl, lookup, round, closeLookup, leaveRound]);
+  }, [ask, skip, confirm, confirmation, promptOpen, loading, queueError, linkedInUrl, lookup, round, closeLookup, leaveRound]);
 
   const controlsDisabled = writing || confirmation !== undefined || promptOpen;
   let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
@@ -406,6 +418,7 @@ const Scout = () => {
               </div>
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
+            <p className="text-size-xxs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="secondary" disabled={writing} onClick={() => {
                 setConfirmation(undefined);
