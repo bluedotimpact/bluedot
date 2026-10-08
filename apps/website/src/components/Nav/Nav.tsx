@@ -1,109 +1,109 @@
 import clsx from 'clsx';
 import type React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
 import { NavLogo } from './_NavLogo';
 import { NavCta } from './_NavCta';
 import { MobileNavLinks } from './_MobileNavLinks';
-import { DesktopNavLinks } from './_DesktopNavLinks';
-import { type ExpandedSectionsState } from './utils';
+import { NavLinks } from './_NavLinks';
+import { ProfileLinks } from './_ProfileLinks';
+import {
+  CLOSED_MENU, type NavMenu, type NavMenuState, type NavSection,
+} from './utils';
 
-type NavProps = {
-  variant?: 'default' | 'transparent';
-};
+const NAV_BAR_CLASS = 'z-50 w-full';
+const NAV_ROW_CLASS = 'w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)';
 
-export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
+type NavProps =
+  | {
+    // Omitted: derived from the route (homepage → transparent)
+    variant?: 'default' | 'transparent';
+  }
+  | {
+    // Form pages: logo + title only. Profile menu still shows when logged in; auth CTAs never do.
+    variant: 'minimal';
+    title: string;
+    context?: string;
+  };
+
+export const Nav: React.FC<NavProps> = (props) => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const isHomepage = router.pathname === '/' || router.pathname === '/courses';
 
-  // Determine variant: prop > homepage detection > default
-  const variant = variantProp ?? (isHomepage ? 'transparent' : 'default');
+  const [menuState, setMenuState] = useState<NavMenuState>(CLOSED_MENU);
+
+  const menu: NavMenu = {
+    ...menuState,
+    toggleSection: (section: NavSection) => setMenuState((prev) => ({
+      mobileNavOpen: section === 'profile' ? false : prev.mobileNavOpen,
+      openSection: prev.openSection === section ? null : section,
+    })),
+    closeSection: () => setMenuState((prev) => ({ ...prev, openSection: null })),
+    toggleMobileNav: () => setMenuState((prev) => ({ mobileNavOpen: !prev.mobileNavOpen, openSection: null })),
+    closeAll: () => setMenuState(CLOSED_MENU),
+  };
+
+  if (props.variant === 'minimal') {
+    return (
+      <nav aria-label="Main" className={clsx(NAV_BAR_CLASS, 'sticky top-0 bg-canvas border-b border-strong')}>
+        <div className="section-base">
+          <div className={clsx(NAV_ROW_CLASS, 'gap-4')}>
+            <div className="flex items-center gap-4 min-w-0">
+              <NavLogo onColoredBackground={false} />
+              <div className="h-[18px] w-px bg-strong shrink-0" aria-hidden="true" />
+              <div className="flex items-center gap-2 text-size-xs min-w-0">
+                <span className="font-semibold text-primary shrink-0">{props.title}</span>
+                {props.context && (
+                  <>
+                    <span className="text-placeholder shrink-0" aria-hidden="true">·</span>
+                    <span className="font-medium text-secondary truncate" title={props.context}>{props.context}</span>
+                  </>
+                )}
+              </div>
+            </div>
+            {isLoggedIn && <ProfileLinks menu={menu} />}
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
+  const variant = props.variant ?? (isHomepage ? 'transparent' : 'default');
   const isOnColoredBackground = variant === 'transparent';
 
-  const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
-    courses: false,
-    grants: false,
-    programs: false,
-    explore: false,
-    mobileNav: false,
-    profile: false,
-  });
-
-  const updateExpandedSections = (updates: Partial<ExpandedSectionsState>) => {
-    setExpandedSections((prev: ExpandedSectionsState) => ({ ...prev, ...updates }));
-  };
-
-  // Handle viewport breakpoint changes to reset dropdown states on mobile/desktop transitions
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 1280px)');
-
-    const handleBreakpointChange = () => {
-      setExpandedSections({
-        courses: false,
-        grants: false,
-        programs: false,
-        explore: false,
-        mobileNav: false,
-        profile: false,
-      });
-    };
-
-    mediaQuery.addEventListener('change', handleBreakpointChange);
-    return () => mediaQuery.removeEventListener('change', handleBreakpointChange);
-  }, []);
-
-  const getNavClasses = () => {
-    if (variant === 'transparent') {
-      return clsx(
-        'nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300',
-        'bg-transparent',
-        'border-b border-white/15',
-      );
-    }
-
-    return clsx(
-      'nav sticky top-0 z-50 w-full transition-all duration-300',
-      'bg-white',
-      'border-b border-default',
-    );
-  };
-
   return (
-    <nav className={getNavClasses()}>
-      <div className="nav__container section-base">
-        <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)">
-          {/* Left side: Logo */}
+    <nav
+      aria-label="Main"
+      className={clsx(
+        NAV_BAR_CLASS,
+        isOnColoredBackground
+          ? 'absolute top-0 inset-x-0 bg-transparent border-b border-on-dark/15'
+          : 'sticky top-0 bg-canvas border-b border-strong',
+      )}
+    >
+      <div className="section-base">
+        <div className={NAV_ROW_CLASS}>
           <div className="flex items-center gap-1.5">
-            {/* Mobile & Tablet: Hamburger Button */}
             <MobileNavLinks
-              expandedSections={expandedSections}
-              updateExpandedSections={updateExpandedSections}
+              menu={menu}
               isLoggedIn={isLoggedIn}
               onColoredBackground={isOnColoredBackground}
             />
-
-            {/* Logo */}
             <NavLogo onColoredBackground={isOnColoredBackground} />
           </div>
-
-          {/* Center/Right side: Nav Links and CTA */}
           <div className="flex items-center gap-12">
-            {/* Desktop: Nav Links */}
-            <DesktopNavLinks
-              expandedSections={expandedSections}
-              updateExpandedSections={updateExpandedSections}
-              onColoredBackground={isOnColoredBackground}
+            <NavLinks
+              menu={menu}
+              isOnDark={isOnColoredBackground}
+              className="hidden xl:flex"
             />
-
-            {/* CTA Buttons */}
             <NavCta
+              menu={menu}
               isLoggedIn={isLoggedIn}
               onColoredBackground={isOnColoredBackground}
-              expandedSections={expandedSections}
-              updateExpandedSections={updateExpandedSections}
             />
           </div>
         </div>
@@ -111,5 +111,3 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
     </nav>
   );
 };
-
-export default Nav;
