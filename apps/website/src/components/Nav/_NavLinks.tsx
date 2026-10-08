@@ -30,17 +30,19 @@ type NavDropdownLink = {
   startHere?: boolean;
 };
 
-export const NavLinks: React.FC<{
+type NavLinksProps = {
   menu: NavMenu;
   className?: string;
   isOnDark?: boolean;
   inMobileDrawer?: boolean;
-}> = ({
+};
+
+export const NavLinks = ({
   menu,
   className,
   isOnDark = false,
   inMobileDrawer = false,
-}) => {
+}: NavLinksProps) => {
   const router = useRouter();
   const { courses, loading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
@@ -136,7 +138,7 @@ export const NavLinks: React.FC<{
   );
 };
 
-const NavDropdown: React.FC<{
+type NavDropdownProps = {
   title: string;
   panelId: string;
   links: NavDropdownLink[];
@@ -147,7 +149,9 @@ const NavDropdown: React.FC<{
   onNavigate: () => void;
   toneClass: string;
   inMobileDrawer: boolean;
-}> = ({
+};
+
+const NavDropdown = ({
   title,
   panelId,
   links,
@@ -158,7 +162,7 @@ const NavDropdown: React.FC<{
   onNavigate,
   toneClass,
   inMobileDrawer,
-}) => {
+}: NavDropdownProps) => {
   // Inside the drawer, dismissal belongs to the drawer
   const { containerRef, triggerRef } = useDismissible(onClose, isExpanded && !inMobileDrawer);
 
