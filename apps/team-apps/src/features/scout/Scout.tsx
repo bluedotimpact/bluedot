@@ -282,7 +282,9 @@ const Scout = () => {
         ArrowRight: () => ask('invite'),
         ArrowLeft: () => ask('decline'),
         ArrowDown: skip,
-        ' ': () => openNextSection(),
+        ' ': () => {
+          if (round !== undefined || lookup !== undefined) openNextSection();
+        },
         l: () => {
           if (linkedInUrl) window.open(linkedInUrl, '_blank', 'noopener');
         },
