@@ -5,7 +5,7 @@ import { FaCircleUser, FaXmark } from 'react-icons/fa6';
 import { A, IconButton } from '@bluedot/ui';
 
 import {
-  DRAWER_CLASSES, NAV_LINK_ANIMATION_CLASS, NAV_LINK_CLASS, type NavMenu, PROFILE_DRAWER_ID,
+  DRAWER_CLASSES, NAV_LINK_CLASS, type NavMenu, PROFILE_DRAWER_ID,
 } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { ModalLoadingFallback } from '../ModalLoadingFallback';
@@ -18,7 +18,8 @@ const UserSearchModal = dynamic(() => import('../admin/UserSearchModal').then((m
   loading: ModalLoadingFallback,
 });
 
-const PROFILE_LINK_CLASSES = clsx(NAV_LINK_CLASS, NAV_LINK_ANIMATION_CLASS, 'flex min-h-11 items-center text-primary hover:text-primary');
+// Full-width rows like the mobile drawer below xl; a centred animated column under the desktop bar from xl
+const PROFILE_LINK_CLASSES = clsx(NAV_LINK_CLASS, 'flex min-h-11 items-center text-primary hover:text-primary xl:w-fit xl:nav-link-animation');
 
 type ProfileLinksProps = {
   menu: NavMenu;
@@ -49,7 +50,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
         {isOpen ? <FaXmark aria-hidden="true" className="size-5" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}
       </IconButton>
       <div id={PROFILE_DRAWER_ID} className={DRAWER_CLASSES(isOpen)}>
-        <div className="flex flex-col w-fit mx-auto">
+        <div className="flex flex-col xl:w-fit xl:mx-auto">
           <A href={ROUTES.myCourses.url} className={PROFILE_LINK_CLASSES} onClick={close}>
             My Courses
           </A>
