@@ -21,10 +21,10 @@ import {
   utcIntervalStringToGrid,
 } from '@bluedot/utils';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Nav } from '../../../components/Nav/Nav';
 import { ROUTES } from '../../../lib/routes';
 import { CAREER_LEVELS, PROFESSIONS } from '../../../lib/schemas/facilitatorApplications/applicantDetails.schema';
 import { formatDateRange } from '../../../lib/utils';
@@ -147,32 +147,12 @@ const formatMonthAndYear = (isoDate: string): string => new Date(isoDate).toLoca
   month: 'long', year: 'numeric', timeZone: 'UTC',
 });
 
-const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
-  <header className="flex items-center gap-4 border-b bg-raised px-5 py-5 sm:pr-5 sm:pl-10">
-    <Link href="/" className="shrink-0">
-      <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-5" />
-    </Link>
-    <div className="bg-default h-[18px] w-px shrink-0" aria-hidden />
-    <div className="text-size-xs flex min-w-0 items-center gap-2">
-      <span className="text-primary shrink-0 font-semibold">Quick Apply</span>
-      {subtitle && (
-        <>
-          <span className="text-secondary shrink-0" aria-hidden>
-            &middot;
-          </span>
-          <span className="text-secondary truncate font-medium">{subtitle}</span>
-        </>
-      )}
-    </div>
-  </header>
-);
-
 const Shell = ({ subtitle, children }: { subtitle?: string; children: React.ReactNode }) => (
   <div className="bg-canvas min-h-screen">
     <Head>
       {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
     </Head>
-    <QuickApplyHeader subtitle={subtitle} />
+    <Nav variant="minimal" title={CURRENT_ROUTE.title} context={subtitle} />
     <div className="mx-auto flex max-w-[680px] flex-col gap-4 px-4 py-8 pb-16">{children}</div>
   </div>
 );
