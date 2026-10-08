@@ -5,141 +5,102 @@ import { FaCircleUser, FaXmark } from 'react-icons/fa6';
 import { A, IconButton } from '@bluedot/ui';
 
 import {
-  type ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
+  DRAWER_CLASSES, NAV_LINK_ANIMATION_CLASS, NAV_LINK_CLASS, type NavMenu, PROFILE_DRAWER_ID,
 } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { ModalLoadingFallback } from '../ModalLoadingFallback';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { safeSessionStorage } from '../../utils/safeStorage';
-import { useClickOutside } from '../../lib/hooks/useClickOutside';
+import { useDismissible } from '../../lib/hooks/useDismissible';
 import { useFeedback } from '../../hooks/useFeedback';
 
 const UserSearchModal = dynamic(() => import('../admin/UserSearchModal').then((m) => m.UserSearchModal), {
   loading: ModalLoadingFallback,
 });
 
+const PROFILE_LINK_CLASSES = clsx(NAV_LINK_CLASS, NAV_LINK_ANIMATION_CLASS, 'flex min-h-11 items-center text-primary hover:text-primary');
+
 export const ProfileLinks: React.FC<{
-  expandedSections: ExpandedSectionsState;
-  updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
+  menu: NavMenu;
   onColoredBackground?: boolean;
 }> = ({
-  expandedSections,
-  updateExpandedSections,
+  menu,
   onColoredBackground = false,
 }) => {
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { openFeedback } = useFeedback();
-
   const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
   const { data: isAdmin } = trpc.admin.isUserAdmin.useQuery();
   const { data: facilitatorNavItems } = trpc.myBluedot.hasFacilitatorNavItems.useQuery();
-  const profileRef = useClickOutside(
-    () => updateExpandedSections({ profile: false }),
-    expandedSections.profile,
-    `.${PROFILE_DROPDOWN_CLASS}`,
-  );
 
-  const onToggleProfile = () => updateExpandedSections({
-    courses: false,
-    grants: false,
-    programs: false,
-    explore: false,
-    mobileNav: false,
-    profile: !expandedSections.profile,
-  });
-
-  const getNavLinkClasses = () => {
-    // Profile dropdown links: always dark text on white background
-    return clsx(
-      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
-      'text-bluedot-darker hover:text-bluedot-darker',
-    );
-  };
+  const isOpen = menu.openSection === 'profile';
+  const close = menu.closeSection;
+  const { containerRef, triggerRef } = useDismissible(close, isOpen);
 
   return (
-    <div ref={profileRef} className={PROFILE_DROPDOWN_CLASS}>
+    <div ref={containerRef}>
       <IconButton
-        aria-label={expandedSections.profile ? 'Close profile menu' : 'Open profile menu'}
-        aria-expanded={expandedSections.profile}
-        onClick={onToggleProfile}
-        className={clsx(
-          'profile-links__btn',
-          onColoredBackground && 'text-white hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
-        )}
+        ref={triggerRef}
+        aria-label={isOpen ? 'Close profile menu' : 'Open profile menu'}
+        aria-expanded={isOpen}
+        aria-controls={PROFILE_DRAWER_ID}
+        onClick={() => menu.toggleSection('profile')}
+        data-on-dark={onColoredBackground || undefined}
       >
-        {expandedSections.profile ? <FaXmark aria-hidden="true" className="size-5" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}
+        {isOpen ? <FaXmark aria-hidden="true" className="size-5" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}
       </IconButton>
-      <div
-        className={clsx(
-          'profile-links__drawer',
-          DRAWER_CLASSES(expandedSections.profile, DRAWER_Z_PROFILE),
-        )}
-      >
-        <div className="profile-links__links flex flex-col gap-4 w-fit overflow-hidden mx-auto">
-          <A
-            href={ROUTES.myCourses.url}
-            className={getNavLinkClasses()}
-            onClick={onToggleProfile}
-          >My Courses
+      <div id={PROFILE_DRAWER_ID} className={DRAWER_CLASSES(isOpen)}>
+        <div className="flex flex-col w-fit overflow-hidden mx-auto">
+          <A href={ROUTES.myCourses.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+            My Courses
           </A>
           {facilitatorNavItems?.hasFacilitatedCourses && (
-            <A
-              href={ROUTES.facilitatedCourses.url}
-              className={getNavLinkClasses()}
-              onClick={onToggleProfile}
-            >Facilitated Courses
+            <A href={ROUTES.facilitatedCourses.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+              Facilitated Courses
             </A>
           )}
           {facilitatorNavItems?.hasFacilitatorApplications && (
-            <A
-              href={ROUTES.facilitatorApplications.url}
-              className={getNavLinkClasses()}
-              onClick={onToggleProfile}
-            >Facilitator Applications
+            <A href={ROUTES.facilitatorApplications.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+              Facilitator Applications
             </A>
           )}
-          <A
-            href={ROUTES.account.url}
-            className={getNavLinkClasses()}
-            onClick={onToggleProfile}
-          >Account
+          <A href={ROUTES.account.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+            Account
           </A>
           <A
             href={typeof window !== 'undefined'
               ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(window.location.pathname + window.location.search + window.location.hash)}`
               : ROUTES.logout.url}
-            className={getNavLinkClasses()}
-            onClick={onToggleProfile}
-          >Log out
+            className={PROFILE_LINK_CLASSES}
+            onClick={close}
+          >
+            Log out
           </A>
-          <div className="border-t border-gray-200 my-2" />
+          <div className="border-t border-subtle my-2" />
           {impersonationAccess && impersonationAccess !== 'none' && (
             <button
               type="button"
               onClick={() => {
                 setIsImpersonateModalOpen(true);
-                updateExpandedSections({ profile: false });
+                close();
               }}
-              className={clsx('bluedot-a', getNavLinkClasses())}
+              className={clsx('bluedot-a', PROFILE_LINK_CLASSES)}
             >
               Impersonate a user
             </button>
           )}
           {isAdmin && (
-            <A
-              href={ROUTES.admin.url}
-              className={getNavLinkClasses()}
-              onClick={onToggleProfile}
-            >Admin tools
+            <A href={ROUTES.admin.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+              Admin tools
             </A>
           )}
           <button
             type="button"
             onClick={() => {
               openFeedback();
-              updateExpandedSections({ profile: false });
+              close();
             }}
-            className={clsx('bluedot-a', getNavLinkClasses())}
+            className={clsx('bluedot-a', PROFILE_LINK_CLASSES)}
           >
             Submit feedback
           </button>
