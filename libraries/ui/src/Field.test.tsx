@@ -49,6 +49,15 @@ describe('Field', () => {
     expect(input).toHaveAccessibleDescription('External hint Hint Bad');
   });
 
+  test('renders the description when the label is an empty string', () => {
+    render(<Field label="" description="Shown without a label">
+      <Input aria-label="Name" />
+    </Field>);
+
+    expect(screen.getByText('Shown without a label')).toBeInTheDocument();
+    expect(screen.getByRole('textbox', { name: 'Name' })).toHaveAccessibleDescription('Shown without a label');
+  });
+
   test('uses an explicit id for both label and control', () => {
     render(<Field id="profile-url" label="Profile URL">
       <Input />
