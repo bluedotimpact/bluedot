@@ -29,7 +29,7 @@ const MissionsPage = () => {
       <MarketingHero title="Missions" subtitle={MISSIONS_SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <section className="section section-body gap-8">
-        <div className="flex max-w-prose flex-col gap-4">
+        <div className="flex flex-col gap-4">
           <P>
             Each mission is a project, organization, or company that an entrepreneur could take on full-time.
             We only list a mission here once our team or one of our expert partner organizations has put at least 100 hours of research into it, and we think it would make a meaningful impact.
