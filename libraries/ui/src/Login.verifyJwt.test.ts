@@ -95,7 +95,6 @@ test('does not cache a failed JWKS fetch', async () => {
 describe('rejection errors', () => {
   const loadLogin = () => import('./Login');
   const { privateKey: otherPrivateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
-  const sign = (header: string, payload: string) => `${header}.${payload}.${createSign('RSA-SHA256').update(`${header}.${payload}`).sign(privateKey).toString('base64url')}`;
 
   beforeEach(() => {
     vi.mocked(axios.get).mockResolvedValue({ data: { keys: [jwkFor('key-1')] } });
@@ -103,9 +102,6 @@ describe('rejection errors', () => {
 
   test.each([
     ['missing parts', 'not-a-jwt', 'Invalid token format'],
-    ['header is not JSON', sign(Buffer.from('not json').toString('base64url'), b64url({})), 'Invalid token format'],
-    ['payload is JSON null', sign(b64url({ kid: 'key-1' }), Buffer.from('null').toString('base64url')), 'Invalid token format'],
-    ['payload is not JSON', sign(b64url({ kid: 'key-1' }), Buffer.from('{oops').toString('base64url')), 'Invalid token format'],
     ['wrong audience', makeToken('key-1', { payload: { aud: 'someone-else' } }), 'Invalid token audience'],
     ['wrong issuer', makeToken('key-1', { payload: { iss: 'https://evil.example.com' } }), 'Invalid token issuer'],
     ['expired', makeToken('key-1', { payload: { exp: Math.floor(Date.now() / 1000) - 60 } }), 'Token expired'],

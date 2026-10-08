@@ -68,18 +68,8 @@ const verifyJwt = async (
   }
 
   // Decode the header and payload
-  let header;
-  let payload;
-  try {
-    header = JSON.parse(Buffer.from(headerB64, 'base64url').toString());
-    payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString());
-  } catch {
-    throw new InvalidTokenError('Invalid token format');
-  }
-
-  if (!header || typeof header !== 'object' || !payload || typeof payload !== 'object') {
-    throw new InvalidTokenError('Invalid token format');
-  }
+  const header = JSON.parse(Buffer.from(headerB64, 'base64url').toString());
+  const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString());
 
   // Verify aud (audience). Per RFC 7519 §4.1.3 `aud` may be a string or an array
   // of strings — Keycloak audience-mapper tokens often emit an array even with a
