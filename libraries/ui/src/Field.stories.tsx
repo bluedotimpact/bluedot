@@ -11,6 +11,22 @@ const meta = {
   title: 'ui/Field',
   component: Field,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Wraps one form control with its label, description and error, and wires them together for assistive tech.
+
+- **Controls wire themselves.** \`Input\`, \`Textarea\`, \`Select\`, \`Checkbox\` and \`Radio\` pick up \`id\`, \`aria-describedby\`, \`aria-invalid\` and \`required\` from the surrounding Field.
+- **\`error\` marks the field invalid.** Pass the message when there is one, nothing otherwise.
+- **Put \`id\` on Field, not the control**, or the label detaches.
+- **Single checkbox:** omit \`label\`. The Checkbox text is the label; Field adds the error.
+- **Groups of checkboxes or radios:** use \`FieldSet\` with a \`legend\`. Its \`required\` draws the marker only; validate "pick at least one" in the form.
+- Stack Fields with \`gap-6\`.
+`,
+      },
+    },
+  },
   decorators: [
     (Story) => (
       <div style={{ width: 360 }}>
