@@ -27,8 +27,7 @@ beforeEach(() => {
     trpcMsw.grants.getRapidGrantStats.query(() => ({
       count: 104,
       totalAmountUsd: 105000,
-      averageHoursToDecision: null,
-      p90DaysToDecision: null,
+      averageDaysToDecision: null,
     })),
     trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({
       count: 8,

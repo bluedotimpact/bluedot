@@ -38,7 +38,7 @@ describe('HomePage', () => {
     server.use(trpcMsw.programs.getInPerson.query(() => []));
     server.use(trpcMsw.programs.getGrants.query(() => []));
     server.use(trpcMsw.grants.getRapidGrantStats.query(() => ({
-      count: 0, totalAmountUsd: 0, averageHoursToDecision: null, p90DaysToDecision: null,
+      count: 0, totalAmountUsd: 0, averageDaysToDecision: null,
     })));
     server.use(trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({
       count: 0, totalAmountUsd: 0, averageDaysToDecision: null,

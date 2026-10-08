@@ -26,9 +26,10 @@ const PAGE_DESCRIPTION = 'Funding of up to $20,000 for time and resources to mak
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const PAGE_PATH = '/grants/rapid';
 
-const formatDecisionTime = (hours: number | null | undefined): string => {
-  if (hours === null || hours === undefined) return '—';
-  const days = Math.max(1, Math.round(hours / 24));
+const formatDecisionTime = ({ averageDays }: { averageDays: number | null | undefined }): string => {
+  if (averageDays == null) return '—';
+  if (averageDays < 1) return 'Under 1 day';
+  const days = Math.round(averageDays);
   return days === 1 ? '1 day' : `${days} days`;
 };
 
@@ -49,9 +50,9 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
         compact
         stats={[
           { label: 'Grant funding', value: 'Up to $20k' },
-          { label: 'Avg decision time', value: formatDecisionTime(stats?.averageHoursToDecision) },
+          { label: 'Avg decision time', value: formatDecisionTime({ averageDays: stats?.averageDaysToDecision }) },
           { label: 'Grants made', value: stats ? String(stats.count) : '—' },
-          { label: 'Funding given', value: stats ? formatAmountUsd(stats.totalAmountUsd) : '—' },
+          { label: 'Funding awarded', value: stats ? formatAmountUsd(stats.totalAmountUsd) : '—' },
         ]}
       />
       <WhatThisIsForSection />
