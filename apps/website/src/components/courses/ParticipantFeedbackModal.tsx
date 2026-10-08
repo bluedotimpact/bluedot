@@ -99,10 +99,10 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
 
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
-            <p id="show-up-label" className="text-size-xs font-semibold leading-normal text-primary">
+            <p id="show-up-label" className="text-size-sm font-semibold leading-normal text-primary">
               How did they show up across discussions? <span aria-hidden className="text-error-fg">*</span>
             </p>
-            <p className="text-size-xxs leading-normal text-secondary">
+            <p className="text-size-xs leading-normal text-secondary">
               Think about preparation, initiative, and engagement between sessions.
             </p>
           </div>
@@ -117,10 +117,10 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
 
         <div className="mt-8 flex flex-col gap-2">
           <div className="flex flex-col gap-1">
-            <p id="engage-label" className="text-size-xs font-semibold leading-normal text-primary">
+            <p id="engage-label" className="text-size-sm font-semibold leading-normal text-primary">
               How did they engage with ideas during discussions? <span aria-hidden className="text-error-fg">*</span>
             </p>
-            <p className="text-size-xxs leading-normal text-secondary">
+            <p className="text-size-xs leading-normal text-secondary">
               Think about quality of thinking, willingness to challenge, and depth of engagement.
             </p>
           </div>

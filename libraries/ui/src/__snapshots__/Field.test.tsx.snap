@@ -9,7 +9,7 @@ exports[`Field > renders Default as expected 1`] = `
       class="flex flex-col gap-1"
     >
       <label
-        class="text-size-xs font-semibold leading-normal text-primary"
+        class="text-size-sm font-semibold leading-normal text-primary"
         for="email"
         id="email-label"
       >
@@ -22,7 +22,7 @@ exports[`Field > renders Default as expected 1`] = `
         </span>
       </label>
       <p
-        class="text-size-xxs leading-normal text-secondary"
+        class="text-size-xs leading-normal text-secondary"
         id="email-description"
       >
         Cohort logistics only.
@@ -53,7 +53,7 @@ exports[`FieldSet > renders Default as expected 1`] = `
     class="m-0 flex w-full min-w-0 flex-col gap-2 border-0 p-0"
   >
     <legend
-      class="text-size-xs font-semibold leading-normal text-primary p-0 mb-1"
+      class="text-size-sm font-semibold leading-normal text-primary p-0 mb-1"
     >
       Topics
       <span
@@ -64,7 +64,7 @@ exports[`FieldSet > renders Default as expected 1`] = `
       </span>
     </legend>
     <p
-      class="text-size-xxs leading-normal text-secondary"
+      class="text-size-xs leading-normal text-secondary"
       id=":rk:-description"
     >
       Pick all that apply.
