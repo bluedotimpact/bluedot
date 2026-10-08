@@ -53,14 +53,13 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
 
     return { auth, impersonation: null, userAgent };
   } catch (error) {
-    // Deliberate rejections (e.g. impersonating an ineligible target) propagate as-is; tRPC reports anything else as a 500.
-    if (!(error instanceof InvalidTokenError)) {
-      throw error;
+    if (error instanceof InvalidTokenError) {
+      logger.warn('Rejected access token', error);
+      return { auth: null, impersonation: null, userAgent };
     }
 
-    // Bad token - return null and let protectedProcedure handle it
-    logger.warn('Rejected access token', error);
-    return { auth: null, impersonation: null, userAgent };
+    // e.g. impersonation rejections (passed through as-is), or failing to reach the login service (becomes a 500)
+    throw error;
   }
 };
 
