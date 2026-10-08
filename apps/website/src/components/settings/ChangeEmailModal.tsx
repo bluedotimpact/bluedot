@@ -1,12 +1,13 @@
 import {
   Button,
   ErrorSection,
+  Field,
   Input,
   Modal,
   P,
 } from '@bluedot/ui';
 import { TRPCClientError } from '@trpc/client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { newEmailSchema } from '../../lib/schemas/user/changeEmail.schema';
 import { trpc } from '../../utils/trpc';
 
@@ -22,6 +23,7 @@ type ChangeEmailModalProps = {
 const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
   const [newEmail, setNewEmail] = useState('');
   const [validationError, setValidationError] = useState('');
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const requestEmailChange = trpc.users.requestOwnEmailChange.useMutation();
   const { reset: resetMutation } = requestEmailChange;
@@ -54,6 +56,11 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
   const emailTaken = isEmailTakenError(requestEmailChange.error);
   const inlineError = validationError || (emailTaken ? EMAIL_TAKEN_MESSAGE : '');
 
+  // Move focus to the field in error so screen readers announce the message via aria-describedby
+  useEffect(() => {
+    if (inlineError) emailRef.current?.focus();
+  }, [inlineError]);
+
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Change email" bottomDrawerOnMobile>
       <>
@@ -82,10 +89,9 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               We'll send a confirmation link to your new email address.
               Your email won't change until you click it.
             </P>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="new-email" className="font-semibold">New email<span aria-hidden="true">*</span></label>
+            <Field label="New email" required error={inlineError}>
               <Input
-                id="new-email"
+                ref={emailRef}
                 autoFocus
                 type="email"
                 value={newEmail}
@@ -100,21 +106,9 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
                   }
                 }}
                 placeholder="Enter new email address"
-                aria-describedby={inlineError ? 'new-email-error' : undefined}
-                aria-invalid={!!inlineError}
                 disabled={requestEmailChange.isPending}
               />
-              {inlineError && (
-                <p
-                  className="text-red-600 text-size-sm mt-1"
-                  id="new-email-error"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {inlineError}
-                </p>
-              )}
-            </div>
+            </Field>
 
             <div className="flex gap-3 justify-end pt-4">
               <Button
