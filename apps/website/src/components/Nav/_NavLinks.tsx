@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useState } from 'react';
 import { A, ProgressDots, Tag } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { FaChevronDown } from 'react-icons/fa6';
@@ -112,8 +113,13 @@ export const NavLinks = ({
     </A>
   );
 
-  const openSection = inMobileDrawer ? menu.drawerSection : menu.openSection;
-  const toggleSection = inMobileDrawer ? menu.toggleDrawerSection : menu.toggleSection;
+  // Local, not menu.openSection: the hidden desktop twin would otherwise treat drawer clicks as click-outside.
+  // Persists across drawer open/close on purpose.
+  const [drawerSection, setDrawerSection] = useState<NavSection | null>(null);
+  const openSection = inMobileDrawer ? drawerSection : menu.openSection;
+  const toggleSection = inMobileDrawer
+    ? (section: NavSection) => setDrawerSection((prev) => (prev === section ? null : section))
+    : menu.toggleSection;
 
   return (
     <div className={clsx('flex', inMobileDrawer ? 'flex-col' : 'gap-9', className)}>
