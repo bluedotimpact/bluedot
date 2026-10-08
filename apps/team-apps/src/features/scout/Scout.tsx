@@ -277,7 +277,6 @@ const Scout = () => {
         return;
       }
 
-      if (target?.closest('[role="dialog"]')) return;
       // Esc still works with a button focused, e.g. right after clicking Skip; the other keys yield to the control
       if (event.key !== 'Escape' && target?.closest('button, a, summary')) return;
       if (writingRef.current || promptOpen || loading || queueError !== undefined) return;
