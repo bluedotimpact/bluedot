@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 
 export const TRANSITION_DURATION_CLASS = 'duration-300';
+export const MOBILE_NAV_DRAWER_ID = 'mobile-nav-drawer';
+export const PROFILE_DRAWER_ID = 'profile-menu-drawer';
 
 export const DRAWER_Z_DEFAULT = 'z-40' as const;
 export const DRAWER_Z_PROFILE = 'z-50' as const;
