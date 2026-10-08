@@ -9,7 +9,7 @@ import {
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { trpc } from '../../../utils/trpc';
-import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
+import { Nav } from '../../../components/Nav/Nav';
 import { useFacilitatorFeedbackStorage } from '../../../hooks/useFacilitatorFeedbackStorage';
 import { pageMetaTags } from '../../../lib/linkPreviewMetaTags';
 
@@ -101,7 +101,7 @@ const FacilitatorFeedbackSuccessPage = () => {
         {pageMetaTags({ title: `${data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact` })}
       </Head>
 
-      <FacilitatorFeedbackHeader roundName={data.roundName || undefined} />
+      <Nav variant="minimal" title="Course Feedback" context={data.roundName || undefined} />
 
       {showConfetti && windowSize.width > 0 && (
         <div className="fixed inset-0 pointer-events-none z-50">

@@ -10,7 +10,7 @@ import {
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
-import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
+import { Nav } from '../../components/Nav/Nav';
 import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
 import { trpc } from '../../utils/trpc';
 import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
@@ -173,7 +173,7 @@ const FacilitatorFeedbackPage = () => {
         {pageMetaTags({ title: `${roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact` })}
       </Head>
 
-      <FacilitatorFeedbackHeader roundName={roundName || undefined} />
+      <Nav variant="minimal" title="Course Feedback" context={roundName || undefined} />
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
         {(submitFeedback.isError || unsubmitFeedback.isError) && (
