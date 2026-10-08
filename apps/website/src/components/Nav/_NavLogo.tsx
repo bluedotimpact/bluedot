@@ -1,6 +1,6 @@
 import { A } from '@bluedot/ui';
 
-export const NavLogo: React.FC<{ onColoredBackground: boolean }> = ({ onColoredBackground }) => {
+export const NavLogo = ({ onColoredBackground }: { onColoredBackground: boolean }) => {
   const logo = onColoredBackground
     ? '/images/logo/BlueDot_Impact_Logo_White.svg'
     : '/images/logo/BlueDot_Impact_Logo.svg';

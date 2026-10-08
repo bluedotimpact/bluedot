@@ -5,15 +5,13 @@ import { getLoginUrl } from '../../utils/getLoginUrl';
 import { ProfileLinks } from './_ProfileLinks';
 import { type NavMenu } from './utils';
 
-export const NavCta: React.FC<{
+type NavCtaProps = {
   menu: NavMenu;
   isLoggedIn?: boolean;
   onColoredBackground?: boolean;
-}> = ({
-  menu,
-  isLoggedIn,
-  onColoredBackground = false,
-}) => {
+};
+
+export const NavCta = ({ menu, isLoggedIn, onColoredBackground = false }: NavCtaProps) => {
   const router = useRouter();
 
   if (isLoggedIn) {

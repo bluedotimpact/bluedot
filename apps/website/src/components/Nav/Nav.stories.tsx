@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { RequestHandler } from 'msw';
 import { loggedInStory, loggedOutStory } from '@bluedot/ui';
 
-import { Nav } from './Nav';
+import { Nav, type NavProps } from './Nav';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import { createMockCourse, MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS } from '../../__tests__/testUtils';
 
@@ -32,9 +32,9 @@ type NavStoryProps = {
 };
 
 // -m-8 cancels the global story padding; min-height keeps the open drawers visible
-const NavWrapper: React.FC<NavStoryProps> = (props) => (
+const NavWrapper = (props: NavStoryProps) => (
   <div className="-m-8 min-h-96">
-    <Nav {...(props as React.ComponentProps<typeof Nav>)} />
+    <Nav {...(props as NavProps)} />
   </div>
 );
 

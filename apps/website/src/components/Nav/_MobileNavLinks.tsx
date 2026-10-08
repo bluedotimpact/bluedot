@@ -7,15 +7,13 @@ import { DRAWER_CLASSES, MOBILE_NAV_DRAWER_ID, type NavMenu } from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { useDismissible } from '../../lib/hooks/useDismissible';
 
-export const MobileNavLinks: React.FC<{
+type MobileNavLinksProps = {
   menu: NavMenu;
   isLoggedIn: boolean;
   onColoredBackground?: boolean;
-}> = ({
-  menu,
-  isLoggedIn,
-  onColoredBackground = false,
-}) => {
+};
+
+export const MobileNavLinks = ({ menu, isLoggedIn, onColoredBackground = false }: MobileNavLinksProps) => {
   const router = useRouter();
   const joinUrl = getLoginUrl(router.asPath, true);
   const { containerRef, triggerRef } = useDismissible(menu.closeAll, menu.mobileNavOpen);

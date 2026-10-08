@@ -20,13 +20,12 @@ const UserSearchModal = dynamic(() => import('../admin/UserSearchModal').then((m
 
 const PROFILE_LINK_CLASSES = clsx(NAV_LINK_CLASS, NAV_LINK_ANIMATION_CLASS, 'flex min-h-11 items-center text-primary hover:text-primary');
 
-export const ProfileLinks: React.FC<{
+type ProfileLinksProps = {
   menu: NavMenu;
   onColoredBackground?: boolean;
-}> = ({
-  menu,
-  onColoredBackground = false,
-}) => {
+};
+
+export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinksProps) => {
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { openFeedback } = useFeedback();
   const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
