@@ -51,6 +51,19 @@ const typeEmail = (value: string) => {
   fireEvent.change(screen.getByLabelText(/new email/i), { target: { value } });
 };
 
+const emailInput = () => screen.getByLabelText(/new email/i);
+
+const expectEmailError = async (message: string) => {
+  expect(await screen.findByRole('alert')).toHaveTextContent(message);
+  expect(emailInput()).toHaveAccessibleDescription(message);
+  expect(emailInput()).toHaveAttribute('aria-invalid', 'true');
+};
+
+const expectNoEmailError = () => {
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  expect(emailInput()).not.toHaveAttribute('aria-invalid');
+};
+
 const submit = () => {
   fireEvent.click(screen.getByRole('button', { name: /send confirmation link/i }));
 };
@@ -93,11 +106,11 @@ describe('ChangeEmailModal', () => {
     typeEmail('not-an-email');
     submit();
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Please enter a valid email address');
+    await expectEmailError('Please enter a valid email address');
     expect(sendEmailChangeVerification).not.toHaveBeenCalled();
 
     typeEmail('valid@example.com');
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expectNoEmailError();
   });
 
   test('User sees an in-flight state while the request runs, and no success view yet', async () => {
@@ -130,7 +143,7 @@ describe('ChangeEmailModal', () => {
     typeEmail('Taken@Example.com');
     submit();
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('That email address is already linked to another BlueDot account.');
+    await expectEmailError('That email address is already linked to another BlueDot account.');
     expect(genericErrorView()).not.toBeInTheDocument();
     expect(successView()).not.toBeInTheDocument();
     expect(screen.getByLabelText(/new email/i)).toBeEnabled();
@@ -186,10 +199,10 @@ describe('ChangeEmailModal', () => {
 
     typeEmail('taken@example.com');
     submit();
-    await screen.findByRole('alert');
+    await expectEmailError('That email address is already linked to another BlueDot account.');
 
     typeEmail('new@example.com');
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expectNoEmailError();
 
     submit();
     expect(await screen.findByText('new@example.com')).toBeInTheDocument();
@@ -198,7 +211,7 @@ describe('ChangeEmailModal', () => {
     rerender(<ChangeEmailModal isOpen setIsOpen={setIsOpen} />);
 
     expect(screen.getByLabelText(/new email/i)).toHaveValue('');
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expectNoEmailError();
     expect(successView()).not.toBeInTheDocument();
   });
 });
