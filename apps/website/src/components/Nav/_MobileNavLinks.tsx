@@ -31,7 +31,7 @@ export const MobileNavLinks = ({ menu, isLoggedIn, onColoredBackground = false }
         {menu.mobileNavOpen ? <FaXmark aria-hidden="true" className="size-5" /> : <FaBars aria-hidden="true" className="size-4" />}
       </IconButton>
       <div id={MOBILE_NAV_DRAWER_ID} className={DRAWER_CLASSES(menu.mobileNavOpen)}>
-        <div className="flex flex-col grow font-medium pb-8 xl:hidden">
+        <div className="flex flex-col grow font-medium xl:hidden">
           <NavLinks menu={menu} inMobileDrawer />
 
           {/* The bar shows this CTA from bd-md up; the drawer carries it below that */}

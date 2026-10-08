@@ -15,7 +15,7 @@ export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
   'px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none',
   'bg-canvas',
   isOpen
-    ? 'max-h-[calc(100dvh-var(--nav-height-mobile))] lg:max-h-[calc(100dvh-var(--nav-height-desktop))] opacity-100 pt-4 pb-10 border-b border-strong z-40 overflow-y-auto'
+    ? 'max-h-[calc(100dvh-var(--nav-height-mobile))] lg:max-h-[calc(100dvh-var(--nav-height-desktop))] opacity-100 pt-4 pb-6 border-b border-strong z-40 overflow-y-auto'
     : 'max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden',
 );
 
