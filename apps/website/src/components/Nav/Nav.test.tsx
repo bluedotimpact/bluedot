@@ -4,7 +4,7 @@ import {
   vi,
 } from 'vitest';
 import {
-  render, screen, waitFor, fireEvent,
+  render, screen, waitFor, fireEvent, within,
 } from '@testing-library/react';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
@@ -76,50 +76,49 @@ const withLoggedOutUser = () => {
   });
 };
 
+/** Desktop and mobile each render a "Courses" trigger; mobile's lives inside the drawer. */
+const getCoursesTrigger = (variant: 'mobile' | 'desktop') => {
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const trigger = screen.getAllByRole('button', { name: 'Courses' })
+    .find((btn) => (variant === 'mobile' ? drawer?.contains(btn) : !drawer?.contains(btn)));
+  expect(trigger).toBeDefined();
+  return trigger!;
+};
+
+const getControlledPanel = (trigger: HTMLElement) => {
+  const panel = document.getElementById(trigger.getAttribute('aria-controls')!);
+  expect(panel).not.toBeNull();
+  return panel!;
+};
+
+const getHamburger = () => screen.getByRole('button', { name: /^(Open|Close) menu$/ });
+const getMobileDrawer = () => document.getElementById('mobile-nav-drawer')!;
+const getProfileDrawer = () => document.getElementById('profile-menu-drawer')!;
+
 describe('Nav', () => {
-  const testDropdownLinks = async (container: HTMLElement, variant: 'mobile' | 'desktop') => {
-    const selector = variant === 'mobile' ? '.mobile-nav-links' : '.nav-links:not(.mobile-nav-links__nav-links)';
+  const testDropdownLinks = async (variant: 'mobile' | 'desktop') => {
+    const coursesButton = getCoursesTrigger(variant);
+    fireEvent.click(coursesButton);
 
-    // Find the correct button based on variant
-    const coursesButton = screen.getAllByText('Courses')
-      .find((btn) => (variant === 'mobile'
-        ? btn.closest('.mobile-nav-links')
-        : !btn.closest('.mobile-nav-links')));
-    expect(coursesButton).not.toBeNull();
-
-    // Click to open dropdown
-    fireEvent.click(coursesButton!);
-
-    // Wait for and verify course links
     await waitFor(() => {
-      const courseLinks = container.querySelectorAll(`${selector} .nav-dropdown__dropdown-content a`);
+      const panel = within(getControlledPanel(coursesButton));
+      const courseLinks = panel.getAllByRole('link');
 
-      // Check specific course links and their URLs
-      const foaiCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Future of AI'));
-      const featuredCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Featured Course'));
-      const newCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('New Course'));
-      const projectSprint = Array.from(courseLinks).find((link) => link.textContent?.includes('Project Sprint'));
-      const seeAllCourses = Array.from(courseLinks).find((link) => link.textContent === 'See all courses');
+      const foaiCourse = courseLinks.find((link) => link.textContent?.includes('Future of AI'));
+      const featuredCourse = courseLinks.find((link) => link.textContent?.includes('Featured Course'));
+      const newCourse = courseLinks.find((link) => link.textContent?.includes('New Course'));
+      const projectSprint = courseLinks.find((link) => link.textContent?.includes('Project Sprint'));
+      const seeAllCourses = courseLinks.find((link) => link.textContent?.startsWith('See all courses'));
 
       // FoAI is hardcoded as the orient course at the top of the dropdown
-      expect(foaiCourse).toBeDefined();
       expect(foaiCourse?.getAttribute('href')).toBe('/courses/future-of-ai');
-
-      expect(featuredCourse).toBeDefined();
       expect(featuredCourse?.getAttribute('href')).toBe('/courses/agi-strategy');
-
-      expect(newCourse).toBeDefined();
       expect(newCourse?.getAttribute('href')).toBe('/courses/ops');
-
-      expect(projectSprint).toBeDefined();
       expect(projectSprint?.getAttribute('href')).toBe('/courses/project-sprint');
-
-      expect(seeAllCourses).toBeDefined();
       expect(seeAllCourses?.getAttribute('href')).toBe('/courses');
 
       // Verify tags: one "Start Here" on FoAI, one "New" on new course
-      const tags = container.querySelectorAll(`${selector} .tag`);
-      const tagTexts = Array.from(tags).map((t) => t.textContent);
+      const tagTexts = panel.getAllByRole('status').map((t) => t.textContent);
       expect(tagTexts).toContain('Start Here');
       expect(tagTexts).toContain('New');
     });
@@ -141,13 +140,13 @@ describe('Nav', () => {
   });
 
   test('renders course links in mobile dropdown', async () => {
-    const { container } = render(<Nav />, { wrapper: TrpcProvider });
-    await testDropdownLinks(container, 'mobile');
+    render(<Nav />, { wrapper: TrpcProvider });
+    await testDropdownLinks('mobile');
   });
 
   test('renders course links in desktop dropdown', async () => {
-    const { container } = render(<Nav />, { wrapper: TrpcProvider });
-    await testDropdownLinks(container, 'desktop');
+    render(<Nav />, { wrapper: TrpcProvider });
+    await testDropdownLinks('desktop');
   });
 
   test('uses Grants and Programs as separate top-level menus', async () => {
@@ -166,96 +165,104 @@ describe('Nav', () => {
 
   test('clicking the hamburger button expands the mobile nav drawer', async () => {
     withLoggedInUser();
+    render(<Nav />, { wrapper: TrpcProvider });
 
-    const { container } = render(
-      <Nav />,
-      { wrapper: TrpcProvider },
-    );
-
-    const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
-    expect(hamburgerButton).not.toBeNull();
-
-    const mobileNavDrawer = container.querySelector('.mobile-nav-links__drawer');
-    const profileDrawer = container.querySelector('.profile-links__drawer');
-    expect(mobileNavDrawer).not.toBeNull();
-    expect(profileDrawer).not.toBeNull();
+    const hamburgerButton = getHamburger();
+    const mobileNavDrawer = getMobileDrawer();
+    const profileDrawer = getProfileDrawer();
 
     // Initially, both drawers should have a max height of 0 (closed state).
-    expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
-    expect(profileDrawer!.className).toMatch(/max-h-0/);
+    expect(mobileNavDrawer.className).toMatch(/max-h-0/);
+    expect(profileDrawer.className).toMatch(/max-h-0/);
+    expect(hamburgerButton.getAttribute('aria-expanded')).toBe('false');
 
-    fireEvent.click(hamburgerButton!);
+    fireEvent.click(hamburgerButton);
 
-    // The mobile nav drawer now has a max height that is not 0 (expanded state).
     await waitFor(() => {
-      expect(mobileNavDrawer!.className).not.toMatch(/max-h-0/);
-      expect(profileDrawer!.className).toMatch(/max-h-0/); // Profile drawer remains closed
+      expect(mobileNavDrawer.className).not.toMatch(/max-h-0/);
+      expect(profileDrawer.className).toMatch(/max-h-0/); // Profile drawer remains closed
+      expect(hamburgerButton.getAttribute('aria-expanded')).toBe('true');
     });
   });
 
   test('clicking the profile menu button expands the profile drawer', async () => {
     withLoggedInUser();
+    render(<Nav />, { wrapper: TrpcProvider });
 
-    const { container } = render(
-      <Nav />,
-      { wrapper: TrpcProvider },
-    );
+    const profileButton = screen.getByRole('button', { name: 'Open profile menu' });
+    const mobileNavDrawer = getMobileDrawer();
+    const profileDrawer = getProfileDrawer();
 
-    const profileButton = container.querySelector('.profile-links__btn');
-    expect(profileButton).not.toBeNull();
+    expect(mobileNavDrawer.className).toMatch(/max-h-0/);
+    expect(profileDrawer.className).toMatch(/max-h-0/);
 
-    const mobileNavDrawer = container.querySelector('.mobile-nav-links__drawer');
-    const profileDrawer = container.querySelector('.profile-links__drawer');
-    expect(mobileNavDrawer).not.toBeNull();
-    expect(profileDrawer).not.toBeNull();
+    fireEvent.click(profileButton);
 
-    // Initially, both drawers should have a max height of 0 (closed state).
-    expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
-    expect(profileDrawer!.className).toMatch(/max-h-0/);
-
-    fireEvent.click(profileButton!);
-
-    // The profile drawer now has a max height that is not 0 (expanded state).
     await waitFor(() => {
-      expect(profileDrawer!.className).not.toMatch(/max-h-0/);
-      expect(mobileNavDrawer!.className).toMatch(/max-h-0/); // Mobile nav drawer remains closed
+      expect(profileDrawer.className).not.toMatch(/max-h-0/);
+      expect(mobileNavDrawer.className).toMatch(/max-h-0/); // Mobile nav drawer remains closed
     });
-
-    vi.clearAllMocks();
   });
 
   test('clicking outside the nav closes the drawer', async () => {
-    const { container } = render(
-      <Nav />,
-      { wrapper: TrpcProvider },
-    );
+    render(<Nav />, { wrapper: TrpcProvider });
 
-    const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
-    expect(hamburgerButton).not.toBeNull();
-
-    const mobileNavDrawer = container.querySelector('.mobile-nav-links__drawer');
-    expect(mobileNavDrawer).not.toBeNull();
-
-    fireEvent.click(hamburgerButton!);
+    const mobileNavDrawer = getMobileDrawer();
+    fireEvent.click(getHamburger());
 
     await waitFor(() => {
-      expect(mobileNavDrawer!.className).not.toMatch(/max-h-0/);
+      expect(mobileNavDrawer.className).not.toMatch(/max-h-0/);
     });
 
     // Simulate clicking outside the nav drawer (useClickOutside uses mousedown)
     fireEvent.mouseDown(document.body);
 
-    // Ensure the nav drawer is closed
     await waitFor(() => {
-      expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
+      expect(mobileNavDrawer.className).toMatch(/max-h-0/);
     });
+  });
+
+  test('Escape closes the drawer and returns focus to the hamburger', async () => {
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    const hamburgerButton = getHamburger();
+    const mobileNavDrawer = getMobileDrawer();
+    fireEvent.click(hamburgerButton);
+    await waitFor(() => {
+      expect(mobileNavDrawer.className).not.toMatch(/max-h-0/);
+    });
+
+    const aboutLink = within(mobileNavDrawer).getByRole('link', { name: 'About' });
+    aboutLink.focus();
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    await waitFor(() => {
+      expect(mobileNavDrawer.className).toMatch(/max-h-0/);
+    });
+    expect(document.activeElement).toBe(hamburgerButton);
+  });
+
+  test('Escape closes an open dropdown and returns focus to its trigger', async () => {
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    const coursesButton = getCoursesTrigger('desktop');
+    fireEvent.click(coursesButton);
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
+    });
+
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
+    });
+    expect(document.activeElement).toBe(coursesButton);
   });
 
   test('user can click a course link in the dropdown', async () => {
     render(<Nav />, { wrapper: TrpcProvider });
 
-    // Multiple "Courses" buttons exist (desktop + mobile), use first (desktop)
-    const coursesButton = screen.getAllByRole('button', { name: 'Courses' })[0]!;
+    const coursesButton = getCoursesTrigger('desktop');
     expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
 
     fireEvent.click(coursesButton);
@@ -264,23 +271,27 @@ describe('Nav', () => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
     });
 
-    // Multiple "Courses menu" regions exist (desktop + mobile), use first (desktop)
-    const dropdowns = screen.getAllByRole('region', { name: 'Courses menu' });
-    expect(dropdowns[0]).toBeDefined();
-
-    const featuredCourseLinks = await screen.findAllByRole('link', { name: /Featured Course/i });
-    const desktopFeaturedCourseLink = featuredCourseLinks[0]!;
+    const desktopFeaturedCourseLink = await within(getControlledPanel(coursesButton)).findByRole('link', { name: /Featured Course/i });
 
     // Mousedown should not close the dropdown prematurely
     fireEvent.mouseDown(desktopFeaturedCourseLink);
     expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
-    expect(screen.getAllByRole('link', { name: /Featured Course/i })).toHaveLength(2);
 
     fireEvent.click(desktopFeaturedCourseLink);
 
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
     });
+  });
+
+  test('marks the current section with aria-current, including on child routes', () => {
+    (useRouter as unknown as Mock).mockReturnValue({ ...mockRouter, pathname: '/join-us/[slug]' });
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    const joinUsLinks = screen.getAllByRole('link', { name: 'Join us' });
+    expect(joinUsLinks.length).toBeGreaterThan(0);
+    joinUsLinks.forEach((link) => expect(link.getAttribute('aria-current')).toBe('page'));
+    screen.getAllByRole('link', { name: 'About' }).forEach((link) => expect(link.getAttribute('aria-current')).toBeNull());
   });
 
   test('login button includes redirect_to parameter with current path', () => {
@@ -301,6 +312,28 @@ describe('Nav', () => {
     expect(loginButtons.length).toBeGreaterThanOrEqual(1);
     loginButtons.forEach((loginButton) => {
       expect(loginButton.getAttribute('href')).toContain(`redirect_to=${encodeURIComponent(mockPathname)}`);
+    });
+  });
+
+  describe('minimal variant', () => {
+    test('renders title and context without site links or auth CTAs', () => {
+      withLoggedOutUser();
+      render(<Nav variant="minimal" title="Course Feedback" context="Technical AI Safety (2026 Feb W08)" />, { wrapper: TrpcProvider });
+
+      expect(screen.getByText('Course Feedback')).toBeDefined();
+      expect(screen.getByText('Technical AI Safety (2026 Feb W08)')).toBeDefined();
+      expect(screen.queryByRole('button', { name: 'Courses' })).toBeNull();
+      expect(screen.queryByText('Sign in')).toBeNull();
+      expect(screen.queryByText('Start for free')).toBeNull();
+      expect(screen.queryByRole('button', { name: /profile menu/i })).toBeNull();
+    });
+
+    test('shows the profile menu when logged in', () => {
+      withLoggedInUser();
+      render(<Nav variant="minimal" title="Quick Apply" />, { wrapper: TrpcProvider });
+
+      expect(screen.getByRole('button', { name: 'Open profile menu' })).toBeDefined();
+      expect(screen.queryByRole('button', { name: /^(Open|Close) menu$/ })).toBeNull();
     });
   });
 });
