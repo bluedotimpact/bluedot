@@ -34,8 +34,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
   const { data: facilitatorNavItems } = trpc.myBluedot.hasFacilitatorNavItems.useQuery();
 
   const isOpen = menu.openSection === 'profile';
-  const close = menu.closeSection;
-  const { containerRef, triggerRef } = useDismissible(close, isOpen);
+  const { containerRef, triggerRef } = useDismissible(menu.closeSection, isOpen);
 
   return (
     <div ref={containerRef}>
@@ -51,20 +50,20 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
       </IconButton>
       <div id={PROFILE_DRAWER_ID} className={DRAWER_CLASSES(isOpen)}>
         <div className="flex flex-col xl:w-fit xl:mx-auto">
-          <A href={ROUTES.myCourses.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+          <A href={ROUTES.myCourses.url} className={PROFILE_LINK_CLASSES} onClick={menu.closeSection}>
             My Courses
           </A>
           {facilitatorNavItems?.hasFacilitatedCourses && (
-            <A href={ROUTES.facilitatedCourses.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+            <A href={ROUTES.facilitatedCourses.url} className={PROFILE_LINK_CLASSES} onClick={menu.closeSection}>
               Facilitated Courses
             </A>
           )}
           {facilitatorNavItems?.hasFacilitatorApplications && (
-            <A href={ROUTES.facilitatorApplications.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+            <A href={ROUTES.facilitatorApplications.url} className={PROFILE_LINK_CLASSES} onClick={menu.closeSection}>
               Facilitator Applications
             </A>
           )}
-          <A href={ROUTES.account.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+          <A href={ROUTES.account.url} className={PROFILE_LINK_CLASSES} onClick={menu.closeSection}>
             Account
           </A>
           <A
@@ -72,7 +71,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
               ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(window.location.pathname + window.location.search + window.location.hash)}`
               : ROUTES.logout.url}
             className={PROFILE_LINK_CLASSES}
-            onClick={close}
+            onClick={menu.closeSection}
           >
             Log out
           </A>
@@ -82,7 +81,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
               type="button"
               onClick={() => {
                 setIsImpersonateModalOpen(true);
-                close();
+                menu.closeSection();
               }}
               className={PROFILE_LINK_CLASSES}
             >
@@ -90,7 +89,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
             </button>
           )}
           {isAdmin && (
-            <A href={ROUTES.admin.url} className={PROFILE_LINK_CLASSES} onClick={close}>
+            <A href={ROUTES.admin.url} className={PROFILE_LINK_CLASSES} onClick={menu.closeSection}>
               Admin tools
             </A>
           )}
