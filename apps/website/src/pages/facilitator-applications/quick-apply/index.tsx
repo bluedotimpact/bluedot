@@ -417,7 +417,7 @@ const QuickApplyForm = ({
         label="Your availability"
         title={(
           <>
-            Share your availability <span className="text-red-600">*</span>
+            Share your availability <span aria-hidden className="text-error-fg">*</span>
           </>
         )}
         description="Provide your availability so we can schedule your discussions at times that suit you. It'll be saved as a default for your next application."
@@ -452,7 +452,7 @@ const QuickApplyForm = ({
             rules={{ validate: (v) => Object.values(v).some(Boolean) || 'Select at least one time slot.' }}
             render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
           />
-          {errors.timeAv && <p className="text-size-xs text-red-600">{errors.timeAv.message}</p>}
+          {errors.timeAv && <p className="text-size-xs leading-normal text-error-fg">{errors.timeAv.message}</p>}
         </div>
 
         <Field label="Additional comments">
