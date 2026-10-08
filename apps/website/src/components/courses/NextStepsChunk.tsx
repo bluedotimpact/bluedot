@@ -103,7 +103,7 @@ const BlueDotNextStepsChunk: React.FC = () => {
 
   const getMeta = (slug: string | null): string | null => {
     if (slug === 'rapid' && rapidStats) {
-      return `${formatAmountUsd(rapidStats.totalAmountUsd)} deployed so far across ${pluralizeGrants(rapidStats.count)}.`;
+      return `${formatAmountUsd(rapidStats.totalAmountUsd)} awarded so far across ${pluralizeGrants(rapidStats.count)}.`;
     }
 
     if (slug === 'career-transition' && ctStats) {

@@ -72,7 +72,7 @@ describe('MergedLadder', () => {
       trpcMsw.programs.getInPerson.query(() => mockPrograms.filter((program) => program.slug === 'incubator-week')),
       trpcMsw.programs.getGrants.query(() => mockPrograms.filter((program) => program.category === 'Funding')),
       trpcMsw.grants.getRapidGrantStats.query(() => ({
-        totalAmountUsd: 0, count: 0, averageHoursToDecision: null, p90DaysToDecision: null,
+        totalAmountUsd: 0, count: 0, averageDaysToDecision: null,
       })),
       trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ totalAmountUsd: 0, count: 0, averageDaysToDecision: null })),
     );

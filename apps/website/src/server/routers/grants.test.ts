@@ -2,7 +2,7 @@ import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
-  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, rapidGrantApplicationTable, rapidGrantTable, publishedRapidGrantTable,
+  type CareerTransitionGrant, careerTransitionGrantApplicationTable, careerTransitionGrantTable, rapidGrantApplicationTable, rapidGrantTable, publishedRapidGrantTable, grantProgramStatsTable, type GrantProgramStats,
 } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
@@ -328,97 +328,84 @@ describe('grants.getAllPublicCareerTransitionGrantees', () => {
 });
 
 describe('grants.getRapidGrantStats', () => {
-  const inProgram = '2026-04-01T12:00:00Z';
+  const rapidId = 'recOrUgz1rbHJt40w';
+  const eventsId = 'recxYhu9AmnAfP1NX';
 
-  test('counts accepted rows, sums their amounts, and summarises decision time across all decided rows in-program', async () => {
-    // Pre-launch (2025-06-01) — entirely excluded.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Accept', grantedAmountUsd: 9999, createdAt: '2025-05-01T00:00:00Z', decidedAt: '2025-05-02T00:00:00Z',
-    });
-    // In-program accepts — counted in count + totalAmountUsd + decision-time sample.
-    // 24h after createdAt.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Accept', grantedAmountUsd: 5000, createdAt: inProgram, decidedAt: '2026-04-02T12:00:00Z',
-    });
-    // 72h after createdAt.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Accept', grantedAmountUsd: 2000, createdAt: inProgram, decidedAt: '2026-04-04T12:00:00Z',
-    });
-    // In-program rejects — excluded from count/total but their decision time still feeds the median.
-    // 6h after createdAt.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Reject', grantedAmountUsd: 0, createdAt: inProgram, decidedAt: '2026-04-01T18:00:00Z',
-    });
-    // 36h after createdAt.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Reject', grantedAmountUsd: 0, createdAt: inProgram, decidedAt: '2026-04-03T00:00:00Z',
-    });
-    // In-program undecided — no decision yet, excluded from everything.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: null, createdAt: inProgram, decidedAt: null,
-    });
-
-    const caller = createCaller();
-    const result = await caller.grants.getRapidGrantStats();
-
-    // Decision hours across decided rows = [24, 36, 6, 72]. Sorted = [6, 24, 36, 72].
-    // 10%-trimmed mean: floor(4 * 0.1) = 0 cut, so mean of all four = 138/4 = 34.5.
-    // p90 (nearest-rank, ceil(0.9*4)-1 = 3) = 72h = 3 days.
-    expect(result).toEqual({
-      count: 2,
-      totalAmountUsd: 7000,
-      averageHoursToDecision: 34.5,
-      p90DaysToDecision: 3,
-    });
-  });
-
-  test('trims the fastest and slowest 10% before averaging when there are enough rows', async () => {
-    // 10 decided rows with decision hours [1, 1000, 5, 6, 7, 8, 9, 10, 11, 12]. Sorted = [1, 5, 6, 7, 8, 9, 10, 11, 12, 1000].
-    // 10% trim drops the fastest (1) and slowest (1000). Inner = [5,6,7,8,9,10,11,12] → mean = 8.5.
-    // Without trimming the mean would be 106.9 — dominated by the outlier.
-    const decisionHours = [1, 1000, 5, 6, 7, 8, 9, 10, 11, 12];
-    await Promise.all(decisionHours.map((h) => testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Reject', grantedAmountUsd: 0, createdAt: inProgram, decidedAt: new Date(new Date(inProgram).getTime() + h * 3_600_000).toISOString(),
+  beforeEach(async () => {
+    await Promise.all([rapidId, eventsId].map((id) => testDb.insert(grantProgramStatsTable, {
+      id, approvedCount: 0, awardedAmountUsd: 0, averageDaysToDecision: null, timedDecisionCount: 0,
     })));
-
-    const caller = createCaller();
-    const result = await caller.grants.getRapidGrantStats();
-
-    expect(result.averageHoursToDecision).toBe(8.5);
   });
 
-  test('returns null decision-time fields when no in-program rows have a valid decision delta', async () => {
-    // Pre-launch — excluded.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Accept', grantedAmountUsd: 1000, createdAt: '2025-01-01T00:00:00Z', decidedAt: '2025-01-02T00:00:00Z',
-    });
-    // In-program but undecided — no decidedAt.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: null, createdAt: inProgram, decidedAt: null,
-    });
-    // In-program with decidedAt before createdAt (data corruption / lastModifiedTime quirk) — excluded.
-    await testDb.insert(rapidGrantApplicationTable, {
-      grantDecision: 'Accept', grantedAmountUsd: 4000, createdAt: inProgram, decidedAt: '2026-03-15T00:00:00Z',
-    });
+  const updateRapid = (values: Partial<GrantProgramStats>) => testDb.update(grantProgramStatsTable, { id: rapidId, ...values });
 
-    const caller = createCaller();
-    const result = await caller.grants.getRapidGrantStats();
+  test('combines only RG and Events all-time aggregates, preserves cents, and weights by timed decisions rather than approvals', async () => {
+    await updateRapid({
+      name: 'Renamed program', approvedCount: 3, awardedAmountUsd: 15000.25, averageDaysToDecision: 2, timedDecisionCount: 10,
+    });
+    await testDb.update(grantProgramStatsTable, {
+      id: eventsId, approvedCount: 2, awardedAmountUsd: 6000.5, averageDaysToDecision: 8, timedDecisionCount: 2,
+    });
+    await testDb.insert(grantProgramStatsTable, {
+      name: 'Career Transition Grants', approvedCount: 100, awardedAmountUsd: 500000, averageDaysToDecision: 50, timedDecisionCount: 1000,
+    });
+    await testDb.insert(rapidGrantApplicationTable, {
+      grantDecision: 'Accept', grantedAmountUsd: 99999, createdAt: '2026-04-01T00:00:00Z', decidedAt: '2026-04-02T00:00:00Z',
+    });
+    await testDb.insert(publishedRapidGrantTable, { amountUsd: 99999 });
 
-    expect(result).toEqual({
-      count: 1,
-      totalAmountUsd: 4000,
-      averageHoursToDecision: null,
-      p90DaysToDecision: null,
+    expect(await createCaller().grants.getRapidGrantStats()).toEqual({
+      count: 5, totalAmountUsd: 21000.75, averageDaysToDecision: 3,
     });
   });
 
-  test('returns zeros and null when the table is empty', async () => {
-    const caller = createCaller();
-    const result = await caller.grants.getRapidGrantStats();
+  test('includes genuine zero-day decisions in the weighted mean', async () => {
+    await updateRapid({ averageDaysToDecision: 0, timedDecisionCount: 9 });
+    await testDb.update(grantProgramStatsTable, { id: eventsId, averageDaysToDecision: 10, timedDecisionCount: 1 });
+    expect((await createCaller().grants.getRapidGrantStats())?.averageDaysToDecision).toBe(1);
+  });
 
-    expect(result).toEqual({
-      count: 0, totalAmountUsd: 0, averageHoursToDecision: null, p90DaysToDecision: null,
+  test('preserves a zero average and ignores a program with no timed decisions', async () => {
+    await updateRapid({ averageDaysToDecision: 0, timedDecisionCount: 5 });
+    expect((await createCaller().grants.getRapidGrantStats())?.averageDaysToDecision).toBe(0);
+  });
+
+  test('returns valid zero funding/counts and an unknown average when both programs have no timed decisions', async () => {
+    expect(await createCaller().grants.getRapidGrantStats()).toEqual({
+      count: 0, totalAmountUsd: 0, averageDaysToDecision: null,
     });
+  });
+
+  test.each([null, -1, 1.5])('keeps funding visible but withholds the combined average for an invalid timed-decision count (%s)', async (timedDecisionCount) => {
+    await updateRapid({
+      approvedCount: 1, awardedAmountUsd: 250, averageDaysToDecision: 2, timedDecisionCount,
+    });
+    await testDb.update(grantProgramStatsTable, { id: eventsId, averageDaysToDecision: 8, timedDecisionCount: 2 });
+    expect(await createCaller().grants.getRapidGrantStats()).toEqual({
+      count: 1, totalAmountUsd: 250, averageDaysToDecision: null,
+    });
+  });
+
+  test.each([null, -1])('does not present a partial average when a program with timed decisions has an invalid average (%s)', async (averageDaysToDecision) => {
+    await updateRapid({ averageDaysToDecision, timedDecisionCount: 10 });
+    await testDb.update(grantProgramStatsTable, { id: eventsId, averageDaysToDecision: 8, timedDecisionCount: 2 });
+    expect((await createCaller().grants.getRapidGrantStats())?.averageDaysToDecision).toBeNull();
+  });
+
+  test.each(['approvedCount', 'awardedAmountUsd'] as const)('does not turn a missing %s into zero', async (field) => {
+    await updateRapid({ [field]: null });
+    expect(await createCaller().grants.getRapidGrantStats()).toBeNull();
+  });
+
+  test('does not show partial totals or fall back to old applications when a program is missing', async () => {
+    await updateRapid({ approvedCount: 1, awardedAmountUsd: 500 });
+    await testDb.remove(grantProgramStatsTable, eventsId);
+    await testDb.insert(rapidGrantApplicationTable, {
+      grantDecision: 'Accept', grantedAmountUsd: 99999, createdAt: '2026-04-01T00:00:00Z', decidedAt: '2026-04-02T00:00:00Z',
+    });
+    expect(await createCaller().grants.getRapidGrantStats()).toBeNull();
+    await testDb.remove(grantProgramStatsTable, rapidId);
+    expect(await createCaller().grants.getRapidGrantStats()).toBeNull();
   });
 });
 

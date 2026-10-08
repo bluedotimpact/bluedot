@@ -2,7 +2,7 @@ import type { CareerTransitionGrant, CareerTransitionGrantApplication, Published
 import {
   careerTransitionGrantApplicationTable,
   careerTransitionGrantTable,
-  rapidGrantApplicationTable,
+  grantProgramStatsTable,
   publishedRapidGrantTable,
 } from '@bluedot/db';
 import { z } from 'zod';
@@ -21,10 +21,8 @@ export type CareerTransitionGrantStats = GrantStats & {
 };
 
 export type RapidGrantStatsWithDecision = GrantStats & {
-  /** 10%-trimmed mean of decision hours (fastest 10% + slowest 10% dropped). Robust to long-tail outliers without losing the "average" framing applicants expect. Null when no decided rows exist. */
-  averageHoursToDecision: number | null;
-  /** 90th-percentile days from submission to decision, rounded up. Null when no decided rows exist. */
-  p90DaysToDecision: number | null;
+  /** Mean of the program averages weighted by the number of timed decisions. */
+  averageDaysToDecision: number | null;
 };
 
 export type PublicRapidGrant = {
@@ -45,24 +43,6 @@ export type PublicCareerTransitionGrant = {
   grantPlan?: string;
   /** Optional LinkedIn or personal URL. When present the whole card links to it. */
   profileUrl?: string;
-};
-
-// Nearest-rank percentile on a numeric array. Sorts a copy so the caller's array isn't mutated.
-// p must be in [0, 1]. Returns the value at index ceil(p * n) - 1, clamped to [0, n - 1].
-const percentile = (values: number[], p: number): number => {
-  const sorted = [...values].sort((a, b) => a - b);
-  const index = Math.max(0, Math.min(sorted.length - 1, Math.ceil(p * sorted.length) - 1));
-  return sorted[index]!;
-};
-
-// Mean of the values after dropping the fastest and slowest `trimPct` from each end.
-// For small n the floor() can leave cut=0 — that's fine; trimmed mean degrades gracefully
-// to the arithmetic mean rather than producing a misleading value from too few rows.
-const trimmedMean = (values: number[], trimPct: number): number => {
-  const sorted = [...values].sort((a, b) => a - b);
-  const cut = Math.floor(sorted.length * trimPct);
-  const inner = sorted.slice(cut, sorted.length - cut);
-  return inner.reduce((sum, v) => sum + v, 0) / inner.length;
 };
 
 // Rounded mean of the time-to-decision day counts, over decided rows only.
@@ -185,36 +165,28 @@ export const grantsRouter = router({
       && publishableApplicationIds.has(grant.applicationId)));
   }),
 
-  getRapidGrantStats: publicProcedure.query(async (): Promise<RapidGrantStatsWithDecision> => {
-    const all = await db.scan(rapidGrantApplicationTable);
-    // Scope to the current program launched 2025-06-01. pgAirtable does not support
-    // timestamp columns, so createdAt is stored as text; parse to Date here so the
-    // comparison is not a brittle string compare. Records with an unparseable value
-    // (malformed or empty) are excluded.
-    const programLaunch = new Date('2025-06-01T00:00:00Z');
-    const inProgram = all.filter((g) => {
-      if (!g.createdAt) return false;
-      const createdAt = new Date(g.createdAt);
-      if (Number.isNaN(createdAt.getTime())) return false;
-      return createdAt >= programLaunch;
+  getRapidGrantStats: publicProcedure.query(async (): Promise<RapidGrantStatsWithDecision | null> => {
+    // Synced program IDs stay stable when program names change. Include Events RFE
+    // alongside Rapid Grants; the aggregates cover each program's full history.
+    const programs = await db.scan(grantProgramStatsTable, {
+      OR: [{ id: 'recOrUgz1rbHJt40w' }, { id: 'recxYhu9AmnAfP1NX' }],
     });
-    const accepted = inProgram.filter((g) => g.grantDecision === 'Accept');
-    // Decision times across every decided row (Accept + Reject + call), not just accepts —
-    // the marketing claim is "we respond fast," which applies to all applicants.
-    const decisionHours = inProgram
-      .filter((g) => g.grantDecision && g.createdAt && g.decidedAt)
-      .map((g) => {
-        const createdMs = new Date(g.createdAt!).getTime();
-        const decidedMs = new Date(g.decidedAt!).getTime();
-        if (Number.isNaN(createdMs) || Number.isNaN(decidedMs) || decidedMs < createdMs) return null;
-        return (decidedMs - createdMs) / 3_600_000;
-      })
-      .filter((h): h is number => h !== null);
+    // An incomplete sync must not appear as zero funding or omit a sub-program.
+    if (programs.length !== 2 || programs.some((program) => program.approvedCount == null
+      || program.awardedAmountUsd == null)) return null;
+
+    const timingComplete = programs.every(({ timedDecisionCount, averageDaysToDecision }) => timedDecisionCount != null
+      && Number.isInteger(timedDecisionCount) && timedDecisionCount >= 0
+      && (timedDecisionCount === 0 || (averageDaysToDecision != null
+        && Number.isFinite(averageDaysToDecision) && averageDaysToDecision >= 0)));
+    const timedDecisionCount = programs.reduce((sum, program) => sum + (program.timedDecisionCount ?? 0), 0);
+    const totalDecisionDays = programs.reduce((sum, program) => sum
+      + (program.averageDaysToDecision ?? 0) * (program.timedDecisionCount ?? 0), 0);
+
     return {
-      count: accepted.length,
-      totalAmountUsd: accepted.reduce((sum, g) => sum + (g.grantedAmountUsd ?? 0), 0),
-      averageHoursToDecision: decisionHours.length ? trimmedMean(decisionHours, 0.1) : null,
-      p90DaysToDecision: decisionHours.length ? Math.ceil(percentile(decisionHours, 0.9) / 24) : null,
+      count: programs.reduce((sum, program) => sum + program.approvedCount!, 0),
+      totalAmountUsd: programs.reduce((sum, program) => sum + program.awardedAmountUsd!, 0),
+      averageDaysToDecision: timingComplete && timedDecisionCount > 0 ? totalDecisionDays / timedDecisionCount : null,
     };
   }),
 
