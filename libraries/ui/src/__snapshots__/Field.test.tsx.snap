@@ -1,0 +1,112 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Field > renders Default as expected 1`] = `
+<div>
+  <div
+    class="flex w-full flex-col gap-2"
+  >
+    <div
+      class="flex flex-col gap-1"
+    >
+      <label
+        class="text-size-xs font-semibold leading-normal text-primary"
+        for="email"
+        id="email-label"
+      >
+        Email
+        <span
+          aria-hidden="true"
+          class="text-error-fg"
+        >
+           *
+        </span>
+      </label>
+      <p
+        class="text-size-xxs leading-normal text-secondary"
+        id="email-description"
+      >
+        Cohort logistics only.
+      </p>
+    </div>
+    <input
+      aria-describedby="email-description email-error"
+      aria-invalid="true"
+      class="w-full h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
+      id="email"
+      required=""
+      type="email"
+    />
+    <p
+      class="text-size-xs leading-normal text-error-fg"
+      id="email-error"
+    >
+      Enter a valid email.
+    </p>
+  </div>
+</div>
+`;
+
+exports[`FieldSet > renders Default as expected 1`] = `
+<div>
+  <fieldset
+    aria-describedby=":rk:-description :rk:-error"
+    class="m-0 flex w-full min-w-0 flex-col gap-2 border-0 p-0"
+  >
+    <legend
+      class="text-size-xs font-semibold leading-normal text-primary p-0 mb-1"
+    >
+      Topics
+      <span
+        aria-hidden="true"
+        class="text-error-fg"
+      >
+         *
+      </span>
+    </legend>
+    <p
+      class="text-size-xxs leading-normal text-secondary"
+      id=":rk:-description"
+    >
+      Pick all that apply.
+    </p>
+    <label
+      class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-start py-2.5"
+    >
+      <input
+        aria-describedby=":rk:-description :rk:-error"
+        aria-invalid="true"
+        class="peer sr-only"
+        name="topics"
+        type="checkbox"
+        value="a"
+      />
+      <span
+        aria-hidden="true"
+        class="flex size-6 shrink-0 items-center justify-center bg-raised text-transparent transition-colors motion-reduce:transition-none rounded-surface border border-border-control peer-checked:border-accent peer-checked:bg-accent peer-checked:text-on-dark peer-disabled:not-peer-checked:border-default peer-disabled:not-peer-checked:bg-surface-disabled peer-disabled:peer-checked:opacity-40 peer-aria-invalid:not-peer-disabled:border-error-fg group-hover:not-peer-disabled:border-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus"
+      >
+        <svg
+          class="size-3.5"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 448 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
+          />
+        </svg>
+      </span>
+      Alignment
+    </label>
+    <p
+      class="text-size-xs leading-normal text-error-fg"
+      id=":rk:-error"
+    >
+      Pick at least one.
+    </p>
+  </fieldset>
+</div>
+`;
