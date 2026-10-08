@@ -246,6 +246,7 @@ describe('Nav', () => {
     render(<Nav />, { wrapper: TrpcProvider });
 
     const coursesButton = getCoursesTrigger('desktop');
+    coursesButton.focus();
     fireEvent.click(coursesButton);
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
@@ -257,6 +258,24 @@ describe('Nav', () => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
     });
     expect(document.activeElement).toBe(coursesButton);
+  });
+
+  test('Escape with focus outside the menu closes it without moving focus', async () => {
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    const coursesButton = getCoursesTrigger('desktop');
+    fireEvent.click(coursesButton);
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
+    });
+
+    document.body.focus();
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
+    });
+    expect(document.activeElement).not.toBe(coursesButton);
   });
 
   test('user can click a course link in the dropdown', async () => {
