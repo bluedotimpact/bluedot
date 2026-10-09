@@ -59,12 +59,15 @@ test('openNextSection walks the top-level sections one at a time: closes the ope
   expect(openIndexes()).toEqual([0]);
 });
 
-test('the AI summary sits at the top of the card with the AI mark, and is absent when there is none', () => {
-  render(<PersonCard person={{ ...person, aiSummary: 'Built a thing last month.', aiTake: 'Worth a look: yes\nWhy: Built a thing.' }} showName />);
-  const summary = screen.getByText('Built a thing last month.');
-  expect(summary.textContent).toBe('AIBuilt a thing last month.');
-  expect(screen.getByText(/Worth a look: yes/).textContent).toContain('Why: Built a thing.');
+test('the AI summary sits at the top of the card as a list, an older prose summary as a paragraph, and the AI take is not shown', () => {
+  render(<PersonCard person={{ ...person, aiSummary: '- Built a thing last month\n- Wants to work on evals', aiTake: 'Worth a look: yes\nWhy: Built a thing.' }} showName />);
+  expect(screen.getByText('Built a thing last month').tagName).toBe('LI');
+  expect(screen.getByText('Wants to work on evals').tagName).toBe('LI');
+  expect(screen.queryByText(/Worth a look/)).toBeNull();
+  cleanup();
+  render(<PersonCard person={{ ...person, aiSummary: 'Built a thing last month.' }} showName />);
+  expect(screen.getByText('Built a thing last month.').textContent).toBe('AIBuilt a thing last month.');
   cleanup();
   render(<PersonCard person={person} showName />);
-  expect(screen.queryByText('Built a thing last month.')).toBeNull();
+  expect(screen.queryByText(/Built a thing/)).toBeNull();
 });
