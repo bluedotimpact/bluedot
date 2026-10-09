@@ -5,8 +5,9 @@ import { logger } from '@bluedot/ui/src/api';
 import env from '../../../lib/api/env';
 import type { WebFacts } from '../types';
 import {
-  fetchIdsNeedingLookup, fetchLookedUpOn, fetchLookupAnchors, parseWebFacts, writeWebFacts, type LookupAnchors,
+  fetchIdsNeedingLookup, fetchLookupAnchors, fetchLookupState, fetchPerson, parseWebFacts, writeAiSummary, writeWebFacts, type LookupAnchors,
 } from './airtable';
+import { summarise } from './summary';
 
 // Named ids always run (ticking the box is how a re-lookup is asked for); ids collected as
 // "everyone missing" are re-checked first, so two overlapping runs do not pay twice.
@@ -196,24 +197,37 @@ export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
 export const lookUpPeople = async (jobs: LookupJob[]): Promise<void> => {
   for (const { id, onlyIfMissing } of jobs) {
     try {
+      // A conditional job only fills what is still missing: the lookup, the summary, or both
       // eslint-disable-next-line no-await-in-loop
-      if (onlyIfMissing && await fetchLookedUpOn(id)) {
-        logger.info(`scout lookup: ${id} was looked up by another run meanwhile, skipped`);
+      const state = onlyIfMissing ? await fetchLookupState(id) : undefined;
+      if (state?.lookedUpOn && state.summarised) {
+        logger.info(`scout lookup: ${id} was done by another run meanwhile, skipped`);
         continue;
       }
 
-      // eslint-disable-next-line no-await-in-loop
-      const anchors = await fetchLookupAnchors(id);
-      if (!anchors) {
-        logger.warn(`scout lookup: ${id} is not a registration in a scouted course, skipped`);
-        continue;
+      if (!state?.lookedUpOn) {
+        // eslint-disable-next-line no-await-in-loop
+        const anchors = await fetchLookupAnchors(id);
+        if (!anchors) {
+          logger.warn(`scout lookup: ${id} is not a registration in a scouted course, skipped`);
+          continue;
+        }
+
+        // eslint-disable-next-line no-await-in-loop
+        const facts = await runLookup(anchors);
+        // eslint-disable-next-line no-await-in-loop
+        await writeWebFacts(id, facts);
+        logger.info(`scout lookup: ${id} done, ${facts.links.length} links, ${facts.sources.length} sources, identity ${facts.identity.confident ? 'confident' : 'unconfirmed'}`);
       }
 
       // eslint-disable-next-line no-await-in-loop
-      const facts = await runLookup(anchors);
+      const person = await fetchPerson(id);
+      if (!person) throw new Error('registration could not be loaded for the summary');
       // eslint-disable-next-line no-await-in-loop
-      await writeWebFacts(id, facts);
-      logger.info(`scout lookup: ${id} done, ${facts.links.length} links, ${facts.sources.length} sources, identity ${facts.identity.confident ? 'confident' : 'unconfirmed'}`);
+      const summary = await summarise(person);
+      // eslint-disable-next-line no-await-in-loop
+      await writeAiSummary(id, summary);
+      logger.info(`scout lookup: ${id} summarised`);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       logger.error(`scout lookup: ${id} failed: ${message}`);

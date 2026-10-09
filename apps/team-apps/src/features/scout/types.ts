@@ -266,6 +266,8 @@ export type Person = {
   // Present once the lookup job has run for this registration
   webFacts?: WebFacts;
   lookedUpOn?: string;
+  // Three sentences written by the model after the lookup, from everything on the card
+  aiSummary?: string;
 };
 
 export type Decision = 'invite' | 'decline';

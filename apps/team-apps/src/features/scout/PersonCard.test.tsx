@@ -58,3 +58,12 @@ test('openNextSection walks the top-level sections one at a time: closes the ope
   openNextSection(document);
   expect(openIndexes()).toEqual([0]);
 });
+
+test('the AI summary sits at the top of the card with the AI mark, and is absent when there is none', () => {
+  render(<PersonCard person={{ ...person, aiSummary: 'Built a thing last month.' }} showName />);
+  const summary = screen.getByText('Built a thing last month.');
+  expect(summary.textContent).toBe('AIBuilt a thing last month.');
+  cleanup();
+  render(<PersonCard person={person} showName />);
+  expect(screen.queryByText('Built a thing last month.')).toBeNull();
+});

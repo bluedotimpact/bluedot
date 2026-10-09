@@ -4,13 +4,15 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
 const {
-  generateText, fetchLookupAnchors, writeWebFacts, fetchIdsNeedingLookup, fetchLookedUpOn, slackAlert,
+  generateText, fetchLookupAnchors, writeWebFacts, fetchIdsNeedingLookup, fetchLookupState, fetchPerson, writeAiSummary, slackAlert,
 } = vi.hoisted(() => ({
   generateText: vi.fn(),
   fetchLookupAnchors: vi.fn(),
   writeWebFacts: vi.fn(),
   fetchIdsNeedingLookup: vi.fn(),
-  fetchLookedUpOn: vi.fn(),
+  fetchLookupState: vi.fn(),
+  fetchPerson: vi.fn(),
+  writeAiSummary: vi.fn(),
   slackAlert: vi.fn(async (_env: unknown, _messages: string[]) => undefined),
 }));
 vi.mock('ai', () => ({ generateText, stepCountIs: () => () => false }));
@@ -23,7 +25,9 @@ vi.mock('./airtable', async (importOriginal) => ({
   fetchLookupAnchors,
   writeWebFacts,
   fetchIdsNeedingLookup,
-  fetchLookedUpOn,
+  fetchLookupState,
+  fetchPerson,
+  writeAiSummary,
 }));
 import {
   idsToLookUp, lookUpPeople, preservesValues, runLookup, sanitise,
@@ -63,7 +67,11 @@ beforeEach(() => {
   fetchLookupAnchors.mockResolvedValue(anchors);
   writeWebFacts.mockResolvedValue(undefined);
   fetchIdsNeedingLookup.mockResolvedValue(['recScoutSample002', 'recScoutSample003']);
-  fetchLookedUpOn.mockResolvedValue(undefined);
+  fetchLookupState.mockResolvedValue({ lookedUpOn: undefined, summarised: false });
+  fetchPerson.mockResolvedValue({
+    id: 'recScoutSample001', name: 'Sample Participant', course: 'Technical AI Safety', email: 'sample.participant@example.org',
+  });
+  writeAiSummary.mockResolvedValue(undefined);
 });
 
 test('sanitise keeps only URLs the tools returned, ignoring scheme and trailing slash but not the query string, and caps the lists', () => {
@@ -138,15 +146,30 @@ test('preservesValues accepts dropped values and escaping differences, and rejec
   expect(preservesValues(original, { a: 'He said "hi"\nthere', n: 4 })).toBe(false);
 });
 
-test('lookUpPeople writes each success, alerts on a failure, and carries on with the next person', async () => {
+test('lookUpPeople writes the facts then the summary for each success, alerts on a failure, and carries on with the next person', async () => {
   generateText
     .mockRejectedValueOnce(new Error('model unavailable'))
-    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant' }] }] }] });
+    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant' }] }] }] })
+    .mockResolvedValueOnce({ text: ' A fine summary. ', steps: [] });
   await lookUpPeople([{ id: 'recScoutSample001', onlyIfMissing: false }, { id: 'recScoutSample002', onlyIfMissing: false }]);
   expect(writeWebFacts).toHaveBeenCalledTimes(1);
   expect(writeWebFacts.mock.calls[0]![0]).toBe('recScoutSample002');
+  expect(writeAiSummary).toHaveBeenCalledTimes(1);
+  expect(writeAiSummary).toHaveBeenCalledWith('recScoutSample002', 'A fine summary.');
+  // The summary call carries the record, not tools, and never the email
+  expect(generateText.mock.calls[2]![0].tools).toBeUndefined();
+  expect(generateText.mock.calls[2]![0].prompt).not.toContain('@');
   expect(slackAlert).toHaveBeenCalledTimes(1);
   expect(slackAlert.mock.calls[0]![1][0]).toContain('recScoutSample001');
+});
+
+test('a conditional job with the lookup already done only writes the missing summary', async () => {
+  fetchLookupState.mockResolvedValue({ lookedUpOn: '2026-09-25', summarised: false });
+  generateText.mockResolvedValueOnce({ text: 'Only a summary.', steps: [] });
+  await lookUpPeople([{ id: 'recScoutSample002', onlyIfMissing: true }]);
+  expect(writeWebFacts).not.toHaveBeenCalled();
+  expect(writeAiSummary).toHaveBeenCalledWith('recScoutSample002', 'Only a summary.');
+  expect(generateText).toHaveBeenCalledTimes(1);
 });
 
 test('idsToLookUp merges explicit ids with everyone still missing a lookup; only the latter are conditional', async () => {
@@ -159,11 +182,12 @@ test('idsToLookUp merges explicit ids with everyone still missing a lookup; only
   expect(fetchIdsNeedingLookup).toHaveBeenCalledTimes(1);
 });
 
-test('a conditional job is skipped when another run has written the date meanwhile; a named one still runs', async () => {
-  fetchLookedUpOn.mockResolvedValue('2026-09-25');
+test('a conditional job is skipped when another run has done both meanwhile; a named one still runs both steps', async () => {
+  fetchLookupState.mockResolvedValue({ lookedUpOn: '2026-09-25', summarised: true });
   generateText.mockResolvedValue({ text: JSON.stringify(modelJson), steps: [] });
   await lookUpPeople([{ id: 'recScoutSample002', onlyIfMissing: true }, { id: 'recScoutSample003', onlyIfMissing: false }]);
   expect(writeWebFacts).toHaveBeenCalledTimes(1);
   expect(writeWebFacts.mock.calls[0]![0]).toBe('recScoutSample003');
-  expect(generateText).toHaveBeenCalledTimes(1);
+  expect(writeAiSummary).toHaveBeenCalledTimes(1);
+  expect(generateText).toHaveBeenCalledTimes(2);
 });
