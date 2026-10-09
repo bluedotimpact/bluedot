@@ -268,6 +268,8 @@ export type Person = {
   lookedUpOn?: string;
   // Three sentences written by the model after the lookup, from everything on the card
   aiSummary?: string;
+  // "Worth a look: yes/no" and why, written by the AI take automation
+  aiTake?: string;
 };
 
 export type Decision = 'invite' | 'decline';

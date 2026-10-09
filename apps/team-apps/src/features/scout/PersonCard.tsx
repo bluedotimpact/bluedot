@@ -708,6 +708,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         </div>
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
         {person.aiSummary && <p className="max-w-prose text-size-sm leading-relaxed"><AiMark />{person.aiSummary}</p>}
+        {person.aiTake && <p className="max-w-prose whitespace-pre-wrap text-size-sm leading-relaxed text-secondary"><AiMark />{person.aiTake}</p>}
         {/* Line 1: where they are online. Line 2: our own records about them. */}
         {(profileLinks.length > 0 || foundLinks.length > 0) && (
           <div className="flex flex-wrap gap-2 pt-1">

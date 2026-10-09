@@ -21,9 +21,10 @@ Bad summary: "An experienced software engineer with a strong technical backgroun
 
 At most three sentences and about 70 words. That is a ceiling, not a target: do not add padding just to reach it. Reply with the summary only, as plain text.`;
 
-// The record as the model sees it: the card's data minus the email and the lookup's URL log. Exported for tests.
-export const recordForSummary = (person: Person): string => {
-  const { email, crmPersonId, aiSummary, webFacts, ...rest } = person;
+// The record as the model sees it: the card's data minus the email, the lookup's URL log and
+// earlier AI output. Exported for tests.
+export const recordForModel = (person: Person): string => {
+  const { email, crmPersonId, aiSummary, aiTake, webFacts, ...rest } = person;
   const facts = webFacts ? { ...webFacts, meta: { ...webFacts.meta, all_urls_seen: undefined } } : undefined;
   return JSON.stringify({ ...rest, webFacts: facts }, null, 1);
 };
@@ -32,7 +33,7 @@ export const summarise = async (person: Person): Promise<string> => {
   const result = await generateText({
     model: anthropic(SUMMARY_MODEL),
     system: SUMMARY_PROMPT(person.course),
-    prompt: recordForSummary(person),
+    prompt: recordForModel(person),
     maxOutputTokens: MAX_OUTPUT_TOKENS,
   });
   if (result.finishReason === 'length') throw new Error(`summary was cut off at ${MAX_OUTPUT_TOKENS} output tokens`);

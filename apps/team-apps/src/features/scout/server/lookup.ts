@@ -9,10 +9,6 @@ import {
 } from './airtable';
 import { summarise } from './summary';
 
-// Named ids always run (ticking the box is how a re-lookup is asked for); ids collected as
-// "everyone missing" are re-checked first, so two overlapping runs do not pay twice.
-export type LookupJob = { id: string; onlyIfMissing: boolean };
-
 export const LOOKUP_MODEL = 'claude-opus-5-5';
 const MAX_SEARCHES = 8;
 const MAX_PAGE_READS = 6;
@@ -191,21 +187,19 @@ export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
   return sanitise(await extractJsonOrRepair(result.text), seen, { searches, pages_fetched: pagesFetched });
 };
 
-// Looks people up one after another and writes each result as it lands. A failure is
-// logged and alerted, and the person is picked up again by the next scheduled run
-// because their "looked up on" stays empty.
-export const lookUpPeople = async (jobs: LookupJob[]): Promise<void> => {
-  for (const { id, onlyIfMissing } of jobs) {
+// Fills what a registration still lacks: the lookup, then the summary. A fresh lookup always
+// gets a fresh summary; clearing a field in Airtable and ticking the box asks for a re-run.
+export const lookUpPeople = async (ids: string[]): Promise<void> => {
+  for (const id of ids) {
     try {
-      // A conditional job only fills what is still missing: the lookup, the summary, or both
       // eslint-disable-next-line no-await-in-loop
-      const state = onlyIfMissing ? await fetchLookupState(id) : undefined;
-      if (state?.lookedUpOn && state.summarised) {
-        logger.info(`scout lookup: ${id} was done by another run meanwhile, skipped`);
+      const state = await fetchLookupState(id);
+      if (state.lookedUpOn && state.summarised) {
+        logger.info(`scout lookup: ${id} already looked up and summarised, skipped`);
         continue;
       }
 
-      if (!state?.lookedUpOn) {
+      if (!state.lookedUpOn) {
         // eslint-disable-next-line no-await-in-loop
         const anchors = await fetchLookupAnchors(id);
         if (!anchors) {
@@ -237,14 +231,9 @@ export const lookUpPeople = async (jobs: LookupJob[]): Promise<void> => {
   }
 };
 
-export const idsToLookUp = async (request: { ids?: string[]; everyoneMissing?: boolean }): Promise<LookupJob[]> => {
-  const jobs = new Map<string, LookupJob>();
-  (request.ids ?? []).forEach((id) => jobs.set(id, { id, onlyIfMissing: false }));
-  if (request.everyoneMissing) {
-    (await fetchIdsNeedingLookup()).forEach((id) => {
-      if (!jobs.has(id)) jobs.set(id, { id, onlyIfMissing: true });
-    });
-  }
-
-  return [...jobs.values()];
+// Named ids first, then everyone in the scouting view still missing something, without repeats
+export const idsToLookUp = async (request: { ids?: string[]; everyoneMissing?: boolean }): Promise<string[]> => {
+  const ids = [...(request.ids ?? [])];
+  if (request.everyoneMissing) ids.push(...await fetchIdsNeedingLookup());
+  return [...new Set(ids)];
 };

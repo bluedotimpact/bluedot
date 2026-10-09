@@ -60,9 +60,10 @@ test('openNextSection walks the top-level sections one at a time: closes the ope
 });
 
 test('the AI summary sits at the top of the card with the AI mark, and is absent when there is none', () => {
-  render(<PersonCard person={{ ...person, aiSummary: 'Built a thing last month.' }} showName />);
+  render(<PersonCard person={{ ...person, aiSummary: 'Built a thing last month.', aiTake: 'Worth a look: yes\nWhy: Built a thing.' }} showName />);
   const summary = screen.getByText('Built a thing last month.');
   expect(summary.textContent).toBe('AIBuilt a thing last month.');
+  expect(screen.getByText(/Worth a look: yes/).textContent).toContain('Why: Built a thing.');
   cleanup();
   render(<PersonCard person={person} showName />);
   expect(screen.queryByText('Built a thing last month.')).toBeNull();
