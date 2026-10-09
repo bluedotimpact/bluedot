@@ -75,6 +75,7 @@ const REG = {
   scoutingStatus: 'fldr09njoFMHdDD1F',
   webFacts: 'fld4LNE1wrVOeUVXZ',
   lookedUpOn: 'fldaqAtUqaY0A1wO6',
+  aiSummary: 'fldFtE1TGgUVNOeCd',
   inviteSource: 'fldCWl2plmCdiykLb',
   sendInviteEmail: 'flddylvIrOk9DunGQ',
   expectedDiscussions: 'fldPsZbe9s5jtkQRn',
@@ -249,6 +250,7 @@ const headers = () => ({
 });
 
 const str = (v: unknown): string | undefined => (typeof v === 'string' && v.trim().length > 0 ? v : undefined);
+const nonEmpty = (text?: string) => (text?.trim() ? text.trim() : undefined);
 const num = (v: unknown): number | undefined => (typeof v === 'number' ? v : undefined);
 const strList = (v: unknown): string[] => (Array.isArray(v) ? v.map(String).filter((s) => s.trim()) : []);
 const first = (v: unknown): string | undefined => strList(v)[0];
@@ -826,6 +828,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     crmPersonId,
     webFacts: parseWebFacts(f[REG.webFacts]),
     lookedUpOn: str(f[REG.lookedUpOn]),
+    aiSummary: nonEmpty(str(f[REG.aiSummary])),
     history: attachPastApplications(history, applicationById),
     otherApplications,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
@@ -883,15 +886,17 @@ export const fetchLookupAnchors = async (id: string): Promise<LookupAnchors | un
   };
 };
 
-// Everyone in the scouting view who has not been looked up yet
+// Everyone in the scouting view still missing the lookup or the summary
 export const fetchIdsNeedingLookup = async (): Promise<string[]> => {
-  const records = await fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: '{Talent scouting looked up on}=BLANK()' }, [REG.lookedUpOn]);
+  const records = await fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: 'OR({Talent scouting looked up on}=BLANK(), {Talent scouting AI summary}=BLANK())' }, [REG.lookedUpOn]);
   return records.map((r) => r.id);
 };
 
-export const fetchLookedUpOn = async (id: string): Promise<string | undefined> => {
-  const record = await fetchOne(REGISTRATIONS_URL, id, [REG.lookedUpOn]);
-  return record ? str(record.fields[REG.lookedUpOn]) : undefined;
+export type LookupState = { lookedUpOn?: string; summarised: boolean };
+
+export const fetchLookupState = async (id: string): Promise<LookupState> => {
+  const record = await fetchOne(REGISTRATIONS_URL, id, [REG.lookedUpOn, REG.aiSummary]);
+  return { lookedUpOn: record ? str(record.fields[REG.lookedUpOn]) : undefined, summarised: nonEmpty(str(record?.fields[REG.aiSummary])) !== undefined };
 };
 
 export const writeWebFacts = async (id: string, facts: WebFacts): Promise<void> => {
@@ -899,6 +904,10 @@ export const writeWebFacts = async (id: string, facts: WebFacts): Promise<void> 
     [REG.webFacts]: JSON.stringify(facts, null, 1),
     [REG.lookedUpOn]: new Date().toISOString().slice(0, 10),
   });
+};
+
+export const writeAiSummary = async (id: string, summary: string): Promise<void> => {
+  await patchRegistration(id, { [REG.aiSummary]: summary });
 };
 
 // ---- Invite ----

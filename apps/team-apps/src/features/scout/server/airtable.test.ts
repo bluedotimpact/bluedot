@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, fetchLeadCourses, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow,
+  attachPastApplications, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -189,4 +189,16 @@ test('lead courses: only scouted courses count, matched by email regardless of c
   expect(parseLeadCourses(undefined)).toEqual([]);
   expect(await run(fetchLeadCourses('lead@EXAMPLE.org'))).toEqual(['Biosecurity']);
   expect(await run(fetchLeadCourses('someone.else@example.org'))).toEqual([]);
+});
+
+test('the summary is one write; the lookup state reads both fields; the sweep asks for anyone missing either', async () => {
+  await run(writeAiSummary(id, 'Built a thing.'));
+  expect(JSON.parse(patches()[0]![1]!.body as string)).toEqual({ fields: { fldFtE1TGgUVNOeCd: 'Built a thing.' } });
+  expect(await run(fetchLookupState(id))).toEqual({ lookedUpOn: undefined, summarised: false });
+  currentFields = { ...untouched, fldaqAtUqaY0A1wO6: '2026-10-01', fldFtE1TGgUVNOeCd: 'Built a thing.' };
+  expect(await run(fetchLookupState(id))).toEqual({ lookedUpOn: '2026-10-01', summarised: true });
+  await run(fetchIdsNeedingLookup());
+  const sweep = decodeURIComponent((fetchMock.mock.calls.at(-1)![0] as string).replace(/\+/g, ' '));
+  expect(sweep).toContain('{Talent scouting looked up on}=BLANK()');
+  expect(sweep).toContain('{Talent scouting AI summary}=BLANK()');
 });
