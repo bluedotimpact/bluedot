@@ -72,6 +72,20 @@ test('refuses a participant who has left the locked view', async () => {
   expect(patches()).toHaveLength(0);
 });
 
+test('a person marked Waiting for review can still be invited or passed; any other status refuses the write', async () => {
+  currentFields = { ...untouched, fldr09njoFMHdDD1F: 'Waiting for review' };
+  expect(await run(inviteForReal(id))).toEqual({ ok: true });
+  expect(JSON.parse(patches()[0]![1]!.body as string)).toEqual({ fields: { fldr09njoFMHdDD1F: 'Invited', flddylvIrOk9DunGQ: true } });
+
+  currentFields = { ...untouched, fldr09njoFMHdDD1F: 'Waiting for review' };
+  expect(await run(declineForReal(id))).toEqual({ ok: true });
+  expect(JSON.parse(patches()[1]![1]!.body as string)).toEqual({ fields: { fldr09njoFMHdDD1F: 'Pass' } });
+
+  currentFields = { ...untouched, fldr09njoFMHdDD1F: 'Below bar' };
+  expect(await run(inviteForReal(id))).toMatchObject({ ok: false, reason: expect.stringContaining('Below bar') });
+  expect(patches()).toHaveLength(2);
+});
+
 test('preserves queue order from Airtable and follows pagination', async () => {
   const first = 'recScoutSample002';
   fetchMock.mockImplementation(async (input, init) => {
