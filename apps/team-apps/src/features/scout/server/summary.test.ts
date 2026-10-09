@@ -55,7 +55,9 @@ test('summarise names the course in the instructions, sends the record, and retu
   expect(call.tools).toBeUndefined();
 });
 
-test('an empty reply is a failure, not an empty summary', async () => {
+test('an empty or cut-off reply is a failure, not a summary', async () => {
   generateText.mockResolvedValueOnce({ text: '   ' });
   await expect(summarise(person)).rejects.toThrow('empty');
+  generateText.mockResolvedValueOnce({ text: 'Built a thing and then', finishReason: 'length' });
+  await expect(summarise(person)).rejects.toThrow('cut off');
 });

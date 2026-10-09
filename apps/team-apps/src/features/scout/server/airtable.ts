@@ -888,7 +888,7 @@ export const fetchLookupAnchors = async (id: string): Promise<LookupAnchors | un
 
 // Everyone in the scouting view still missing the lookup or the summary
 export const fetchIdsNeedingLookup = async (): Promise<string[]> => {
-  const records = await fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: 'OR({Talent scouting looked up on}=BLANK(), {Talent scouting AI summary}=BLANK())' }, [REG.lookedUpOn]);
+  const records = await fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: 'OR({Talent scouting looked up on}=BLANK(), TRIM({Talent scouting AI summary})="")' }, [REG.lookedUpOn]);
   return records.map((r) => r.id);
 };
 

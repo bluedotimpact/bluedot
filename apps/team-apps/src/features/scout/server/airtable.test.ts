@@ -200,5 +200,5 @@ test('the summary is one write; the lookup state reads both fields; the sweep as
   await run(fetchIdsNeedingLookup());
   const sweep = decodeURIComponent((fetchMock.mock.calls.at(-1)![0] as string).replace(/\+/g, ' '));
   expect(sweep).toContain('{Talent scouting looked up on}=BLANK()');
-  expect(sweep).toContain('{Talent scouting AI summary}=BLANK()');
+  expect(sweep).toContain('TRIM({Talent scouting AI summary})=""');
 });

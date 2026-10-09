@@ -3,7 +3,8 @@ import { generateText } from 'ai';
 import type { Person } from '../types';
 
 export const SUMMARY_MODEL = 'claude-opus-5-5';
-const MAX_OUTPUT_TOKENS = 400;
+// Generous: the model's own thinking counts towards it, and a cut-off reply is refused below
+const MAX_OUTPUT_TOKENS = 4000;
 
 // Written with the course leads: what a three-sentence introduction to a participant should carry.
 const SUMMARY_PROMPT = (course: string) => `You are given everything BlueDot holds on one person who took the ${course} course: their application and its speed review, facilitator feedback and 1:1 reports, session attendance, course history with BlueDot, grants and evaluation calls, their project submission (title, evaluation and evaluators' notes, not the project itself), and what we found about them online. The reader sees their name, job title, organisation and country, and every score, right next to your summary, so do not repeat those.
@@ -34,6 +35,7 @@ export const summarise = async (person: Person): Promise<string> => {
     prompt: recordForSummary(person),
     maxOutputTokens: MAX_OUTPUT_TOKENS,
   });
+  if (result.finishReason === 'length') throw new Error(`summary was cut off at ${MAX_OUTPUT_TOKENS} output tokens`);
   const summary = result.text.trim();
   if (!summary) throw new Error('summary came back empty');
   return summary;
