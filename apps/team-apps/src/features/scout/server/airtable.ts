@@ -917,6 +917,8 @@ export const writeAiSummary = async (id: string, summary: string): Promise<void>
 const REG_EMAIL_SENT = 'fldTuKceN6K8fDrvH';
 const REG_EMAIL_SENT_IN_APPLICATIONS = 'fldBPgPLpZ1oL4KiT';
 
+const WAITING_FOR_REVIEW = 'Waiting for review';
+
 export type WriteResult = { ok: true } | { ok: false; reason: string };
 export type InviteResult = WriteResult;
 
@@ -928,8 +930,9 @@ const untouchedOrReason = async (id: string): Promise<{ ok: true; fields: Record
   const f = record.fields;
   const alreadyContacted = [REG_INVITE_DATE, REG_EMAIL_SENT, REG_EMAIL_SENT_IN_APPLICATIONS, REG.sendInviteEmail].some((field) => !!f[field]);
   if (alreadyContacted) return { ok: false, reason: 'This person has already been invited to a call' };
+  // "Waiting for review" is set by the AI take and still leaves the decision to the lead
   const status = str(f[REG.scoutingStatus]);
-  if (status) return { ok: false, reason: `This person already has the status "${status}"` };
+  if (status && status !== WAITING_FOR_REVIEW) return { ok: false, reason: `This person already has the status "${status}"` };
   const eligible = await fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: `RECORD_ID()='${id}'` }, [REG.round]);
   if (eligible.length === 0 || !courseOf((await getRounds()).get(first(f[REG.round]) ?? ''))) {
     return { ok: false, reason: 'This participant is no longer in the review queue. Refresh the queue to continue.' };
