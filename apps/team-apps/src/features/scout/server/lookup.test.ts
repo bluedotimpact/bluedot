@@ -151,7 +151,7 @@ test('lookUpPeople writes the facts then the summary for each success, alerts on
     .mockRejectedValueOnce(new Error('model unavailable'))
     .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [{ content: [{ type: 'tool-result', toolName: 'web_search', output: [{ url: 'https://code.example.org/sample-participant' }] }] }] })
     .mockResolvedValueOnce({ text: ' A fine summary. ', steps: [] });
-  await lookUpPeople([{ id: 'recScoutSample001', onlyIfMissing: false }, { id: 'recScoutSample002', onlyIfMissing: false }]);
+  await lookUpPeople(['recScoutSample001', 'recScoutSample002']);
   expect(writeWebFacts).toHaveBeenCalledTimes(1);
   expect(writeWebFacts.mock.calls[0]![0]).toBe('recScoutSample002');
   expect(writeAiSummary).toHaveBeenCalledTimes(1);
@@ -163,31 +163,25 @@ test('lookUpPeople writes the facts then the summary for each success, alerts on
   expect(slackAlert.mock.calls[0]![1][0]).toContain('recScoutSample001');
 });
 
-test('a conditional job with the lookup already done only writes the missing summary', async () => {
+test('a registration already looked up only gets the missing summary', async () => {
   fetchLookupState.mockResolvedValue({ lookedUpOn: '2026-09-25', summarised: false });
   generateText.mockResolvedValueOnce({ text: 'Only a summary.', steps: [] });
-  await lookUpPeople([{ id: 'recScoutSample002', onlyIfMissing: true }]);
+  await lookUpPeople(['recScoutSample002']);
   expect(writeWebFacts).not.toHaveBeenCalled();
   expect(writeAiSummary).toHaveBeenCalledWith('recScoutSample002', 'Only a summary.');
   expect(generateText).toHaveBeenCalledTimes(1);
 });
 
-test('idsToLookUp merges explicit ids with everyone still missing a lookup; only the latter are conditional', async () => {
-  expect(await idsToLookUp({ ids: ['recScoutSample002', 'recScoutSample009'], everyoneMissing: true })).toEqual([
-    { id: 'recScoutSample002', onlyIfMissing: false },
-    { id: 'recScoutSample009', onlyIfMissing: false },
-    { id: 'recScoutSample003', onlyIfMissing: true },
-  ]);
-  expect(await idsToLookUp({ ids: ['recScoutSample009'] })).toEqual([{ id: 'recScoutSample009', onlyIfMissing: false }]);
+test('idsToLookUp puts explicit ids first, then everyone still missing something, without repeats', async () => {
+  expect(await idsToLookUp({ ids: ['recScoutSample002', 'recScoutSample009'], everyoneMissing: true })).toEqual(['recScoutSample002', 'recScoutSample009', 'recScoutSample003']);
+  expect(await idsToLookUp({ ids: ['recScoutSample009'] })).toEqual(['recScoutSample009']);
   expect(fetchIdsNeedingLookup).toHaveBeenCalledTimes(1);
 });
 
-test('a conditional job is skipped when another run has done both meanwhile; a named one still runs both steps', async () => {
+test('a registration with both the lookup and the summary is left alone, even when named', async () => {
   fetchLookupState.mockResolvedValue({ lookedUpOn: '2026-09-25', summarised: true });
-  generateText.mockResolvedValue({ text: JSON.stringify(modelJson), steps: [] });
-  await lookUpPeople([{ id: 'recScoutSample002', onlyIfMissing: true }, { id: 'recScoutSample003', onlyIfMissing: false }]);
-  expect(writeWebFacts).toHaveBeenCalledTimes(1);
-  expect(writeWebFacts.mock.calls[0]![0]).toBe('recScoutSample003');
-  expect(writeAiSummary).toHaveBeenCalledTimes(1);
-  expect(generateText).toHaveBeenCalledTimes(2);
+  await lookUpPeople(['recScoutSample002']);
+  expect(writeWebFacts).not.toHaveBeenCalled();
+  expect(writeAiSummary).not.toHaveBeenCalled();
+  expect(generateText).not.toHaveBeenCalled();
 });

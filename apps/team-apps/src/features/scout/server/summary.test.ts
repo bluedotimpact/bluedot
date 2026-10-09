@@ -6,7 +6,7 @@ import type { Person } from '../types';
 const { generateText } = vi.hoisted(() => ({ generateText: vi.fn() }));
 vi.mock('ai', () => ({ generateText }));
 vi.mock('@ai-sdk/anthropic', () => ({ anthropic: () => 'model' }));
-import { recordForSummary, summarise } from './summary';
+import { recordForModel, summarise } from './summary';
 
 const person: Person = {
   id: 'recScoutSample001',
@@ -25,6 +25,8 @@ const person: Person = {
   projects: [],
   feedback: [],
   crmPersonId: 'recCrmSample0001',
+  aiSummary: 'An earlier summary.',
+  aiTake: 'Worth a look: yes\nWhy: an earlier take.',
   webFacts: {
     identity: { confident: true, matched_on: ['given GitHub URL'], note: '' },
     links: [{ url: 'https://code.example.org/sample-participant', kind: 'github', confidence: 'high' }],
@@ -37,13 +39,15 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-test('the record given to the model keeps the card data but drops the email, the CRM id and the lookup URL log', () => {
-  const record = recordForSummary(person);
+test('the record given to the model keeps the card data but drops the email, the CRM id, the lookup URL log and earlier AI output', () => {
+  const record = recordForModel(person);
   expect(record).toContain('Sample Participant');
   expect(record).toContain('code.example.org/sample-participant');
   expect(record).not.toContain('@');
   expect(record).not.toContain('recCrmSample0001');
   expect(record).not.toContain('unrelated.example.org');
+  expect(record).not.toContain('earlier summary');
+  expect(record).not.toContain('earlier take');
 });
 
 test('summarise names the course in the instructions, sends the record, and returns the trimmed text', async () => {
@@ -51,7 +55,7 @@ test('summarise names the course in the instructions, sends the record, and retu
   expect(await summarise(person)).toBe('Built a thing.');
   const call = generateText.mock.calls[0]![0];
   expect(call.system).toContain('took the Biosecurity course');
-  expect(call.prompt).toBe(recordForSummary(person));
+  expect(call.prompt).toBe(recordForModel(person));
   expect(call.tools).toBeUndefined();
 });
 

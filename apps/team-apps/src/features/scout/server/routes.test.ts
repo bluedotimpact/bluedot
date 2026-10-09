@@ -14,9 +14,15 @@ vi.mock('./index', () => ({
   fetchQueue, fetchInvitedThisWeek, fetchLeadCourses, fetchPerson, recordDecision,
 }));
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', AIRTABLE_AUTOMATION_TOKEN: 'automation-secret', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
-const { lookUpPeople, idsToLookUp } = vi.hoisted(() => ({ lookUpPeople: vi.fn(async () => undefined), idsToLookUp: vi.fn(async (body: { ids?: string[] }) => (body.ids ?? []).map((id) => ({ id, onlyIfMissing: false }))) }));
+const { lookUpPeople, idsToLookUp, assess } = vi.hoisted(() => ({
+  lookUpPeople: vi.fn(async () => undefined),
+  idsToLookUp: vi.fn(async (body: { ids?: string[] }) => body.ids ?? []),
+  assess: vi.fn(async () => ({ decision: 'yes', reasoning: 'Shipped something real.' })),
+}));
 vi.mock('../../../features/scout/server/lookup', () => ({ lookUpPeople, idsToLookUp }));
+vi.mock('../../../features/scout/server/assess', () => ({ assess }));
 import lookup from '../../../pages/api/scout/lookup';
+import assessRoute from '../../../pages/api/scout/assess';
 import queue from '../../../pages/api/scout/queue';
 import person from '../../../pages/api/scout/person/[id]';
 import decision from '../../../pages/api/scout/decision';
@@ -108,5 +114,24 @@ test('the lookup route accepts only the Airtable automation token and answers be
   await lookup(ok.req, ok.res);
   expect(ok.res._getStatusCode()).toBe(200);
   expect(ok.res._getJSONData()).toEqual({ accepted: 2 });
-  expect(lookUpPeople).toHaveBeenCalledWith(body.ids.map((id) => ({ id, onlyIfMissing: false })));
+  expect(lookUpPeople).toHaveBeenCalledWith(body.ids);
+});
+
+test('the assess route accepts only the automation token, assesses the loaded person with the given prompt, and answers in the same request', async () => {
+  const body = { id: 'recScoutSample001', prompt: 'Say whether this person is worth a course lead\'s look.' };
+  const denied = createMocks<NextApiRequest, NextApiResponse>({ method: 'POST', headers, body });
+  await assessRoute(denied.req, denied.res);
+  expect(denied.res._getStatusCode()).toBe(401);
+  expect(assess).not.toHaveBeenCalled();
+
+  const ok = createMocks<NextApiRequest, NextApiResponse>({ method: 'POST', headers: { authorization: 'Bearer automation-secret' }, body });
+  await assessRoute(ok.req, ok.res);
+  expect(ok.res._getStatusCode()).toBe(200);
+  expect(ok.res._getJSONData()).toEqual({ decision: 'yes', reasoning: 'Shipped something real.' });
+  expect(assess).toHaveBeenCalledWith(expect.objectContaining({ id: 'recScoutSample001' }), body.prompt);
+
+  fetchPerson.mockResolvedValueOnce(undefined);
+  const missing = createMocks<NextApiRequest, NextApiResponse>({ method: 'POST', headers: { authorization: 'Bearer automation-secret' }, body });
+  await assessRoute(missing.req, missing.res);
+  expect(missing.res._getStatusCode()).toBe(404);
 });
