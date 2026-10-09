@@ -150,6 +150,18 @@ const Section: React.FC<{
 
 const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
 
+// "- " lines become a list; a summary written before the bullet format stays a paragraph
+const AiSummary: React.FC<{ text: string }> = ({ text }) => {
+  const bullets = text.split('\n').map((line) => line.trim()).filter((line) => line.startsWith('- ')).map((line) => line.slice(2));
+  if (bullets.length === 0) return <p className="max-w-prose text-size-sm leading-relaxed"><AiMark />{text}</p>;
+  return (
+    <div className="flex max-w-prose items-start gap-0.5 text-size-sm leading-relaxed">
+      <AiMark />
+      <ul className="list-disc space-y-0.5 pl-4">{bullets.map((b, i) => <li key={i}>{b}</li>)}</ul>
+    </div>
+  );
+};
+
 // Quiet label between groups of sections: what is about the person, what is about this round
 const GroupLabel: React.FC<{ children: ReactNode; spaced?: boolean }> = ({ children, spaced = false }) => (
   <p className={cn('px-1 text-size-xxs uppercase tracking-wide text-secondary', spaced ? 'pt-6' : 'pt-2')}>{children}</p>
@@ -707,8 +719,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           {person.email && <CopyEmail email={person.email} />}
         </div>
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
-        {person.aiSummary && <p className="max-w-prose text-size-sm leading-relaxed"><AiMark />{person.aiSummary}</p>}
-        {person.aiTake && <p className="max-w-prose whitespace-pre-wrap text-size-sm leading-relaxed text-secondary"><AiMark />{person.aiTake}</p>}
+        {person.aiSummary && <AiSummary text={person.aiSummary} />}
         {/* Line 1: where they are online. Line 2: our own records about them. */}
         {(profileLinks.length > 0 || foundLinks.length > 0) && (
           <div className="flex flex-wrap gap-2 pt-1">
