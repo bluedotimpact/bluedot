@@ -11,6 +11,7 @@ import {
   CHOICE_ROOT_STYLES,
   CHOICE_ROW_STYLES,
 } from './choiceStyles';
+import { useFieldControlProps } from './Field';
 import { cn } from './utils';
 
 export type RadioTone = 'success' | 'error';
@@ -55,8 +56,9 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({
   tone,
   children,
   className,
-  ...props
+  ...rest
 }, ref) => {
+  const props = useFieldControlProps(rest);
   const toneStyles = TONE_STYLES[tone ?? 'neutral'];
 
   return (
