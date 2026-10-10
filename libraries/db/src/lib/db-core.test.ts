@@ -1,6 +1,8 @@
-import { text } from 'drizzle-orm/pg-core';
+import { getTableConfig, index, text } from 'drizzle-orm/pg-core';
 import { describe, expect, test } from 'vitest';
 import { PgAirtableTable, DeprecationSafePgTable } from './db-core';
+
+const indexNames = (table: Parameters<typeof getTableConfig>[0]) => getTableConfig(table).indexes.map((i) => i.config.name);
 
 describe('PgAirtableTable', () => {
   test('throws if deprecated column uses notNull', () => {
@@ -31,6 +33,18 @@ describe('PgAirtableTable', () => {
       columns: { duplicateCol: { pgColumn: text(), airtableId: 'fld1' } },
       deprecatedColumns: { duplicateCol: { pgColumn: text(), airtableId: 'fld2', deprecated: true } },
     })).toThrow(/appears in both columns and deprecatedColumns/);
+  });
+
+  test('applies indexes to both pg and pgWithDeprecatedColumns', () => {
+    const table = new PgAirtableTable('test', {
+      baseId: 'base',
+      tableId: 'table',
+      columns: { active: { pgColumn: text(), airtableId: 'fld1' } },
+      deprecatedColumns: { old: { pgColumn: text(), airtableId: 'fld2', deprecated: true } },
+      indexes: (t) => [index('test_active_idx').on(t.active)],
+    });
+    expect(indexNames(table.pg)).toEqual(['test_active_idx']);
+    expect(indexNames(table.pgWithDeprecatedColumns!)).toEqual(['test_active_idx']);
   });
 });
 
@@ -63,5 +77,15 @@ describe('DeprecationSafePgTable', () => {
       columns: { duplicateCol: text() },
       deprecatedColumns: { duplicateCol: text() },
     })).toThrow(/appears in both columns and deprecatedColumns/);
+  });
+
+  test('applies indexes to both pg and pgWithDeprecatedColumns', () => {
+    const table = new DeprecationSafePgTable('test', {
+      columns: { tags: text().array() },
+      deprecatedColumns: { old: text() },
+      indexes: (t) => [index('test_tags_idx').using('gin', t.tags)],
+    });
+    expect(indexNames(table.pg)).toEqual(['test_tags_idx']);
+    expect(indexNames(table.pgWithDeprecatedColumns!)).toEqual(['test_tags_idx']);
   });
 });
