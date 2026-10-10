@@ -8,11 +8,14 @@ COPY --from=base /opt/keycloak/lib/lib/boot /kc-lib/boot
 COPY ./src /build/src
 COPY ./theme/META-INF /build/classes/META-INF
 COPY ./theme/login /build/classes/theme/bluedot-keycloak-theme/login
+COPY ./theme/test /build/test
 # theme/login/resources/dist is the Vite output from `npm run build`
 RUN test -f /build/classes/theme/bluedot-keycloak-theme/login/resources/dist/index.css \
     && javac --release 21 -cp "/kc-lib/main/*:/kc-lib/boot/*" -d /build/classes $(find /build/src/main/java -name '*.java') \
     && cp -r /build/src/main/resources/. /build/classes/ \
     && jar --create --file /build/bluedot-keycloak-providers.jar --date 2025-04-01T00:00:00Z -C /build/classes .
+# Run the jar's tests (see theme/test/run.sh); a failing test fails the build
+RUN THEME_DIR=/build/classes/theme/bluedot-keycloak-theme/login /build/test/run.sh
 
 ### Build
 FROM base AS builder
