@@ -184,7 +184,7 @@ jobs:
             ${{ runner.os }}-turbo-test-
 
       - name: Test affected apps
-        run: npx turbo test ${{ needs.setup.outputs.turbo_filter }}
+        run: npx turbo test --concurrency=6 ${{ needs.setup.outputs.turbo_filter }}
 
   ci:
     # Aggregator job: branch protection requires a check named "ci", so we keep
