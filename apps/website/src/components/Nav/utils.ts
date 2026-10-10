@@ -1,30 +1,36 @@
 import clsx from 'clsx';
 
-export const TRANSITION_DURATION_CLASS = 'duration-300';
+export const MOBILE_NAV_DRAWER_ID = 'mobile-nav-drawer';
+export const PROFILE_DRAWER_ID = 'profile-menu-drawer';
 
-export const DRAWER_Z_DEFAULT = 'z-40' as const;
-export const DRAWER_Z_PROFILE = 'z-50' as const;
+export const NAV_LINK_CLASS = 'no-underline text-size-sm font-medium leading-relaxed align-middle';
+// Desktop only: hover is meaningless on touch and the underline needs a text-width element
+export const NAV_LINK_ANIMATION_CLASS = 'nav-link-animation w-fit';
+// Full-width rows would stretch the underline across the drawer, so current page uses weight + colour
+export const DRAWER_ROW_CLASS = 'flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent';
 
-// Class names used for nav components - referenced by useClickOutside hook
-export const NAV_DROPDOWN_CLASS = 'nav-dropdown' as const;
-export const MOBILE_NAV_CLASS = 'mobile-nav-links' as const;
-export const PROFILE_DROPDOWN_CLASS = 'profile-links' as const;
-
-export const DRAWER_CLASSES = (isOpen: boolean, zIndex: typeof DRAWER_Z_DEFAULT | typeof DRAWER_Z_PROFILE = DRAWER_Z_DEFAULT) => clsx(
-  'absolute top-[60px] lg:top-[76px] left-0 w-full',
-  'xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))]',
-  'px-spacing-x transition-all duration-300 ease-in-out',
-  'bg-white',
+// z-40 sits inside the nav's own z-50 stacking context; Modal is 60, Toast 70
+export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
+  'absolute top-full inset-x-0 w-full',
+  'px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none',
+  'bg-canvas',
   isOpen
-    ? `max-h-[calc(100vh-60px)] lg:max-h-[calc(100vh-76px)] opacity-100 pt-4 pb-10 border-b border-default ${zIndex} overflow-y-auto`
-    : 'max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden',
+    ? 'max-h-[calc(100dvh-var(--nav-height-mobile))] lg:max-h-[calc(100dvh-var(--nav-height-desktop))] opacity-100 pt-4 pb-6 border-b border-strong z-40 overflow-y-auto'
+    : 'max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible',
 );
 
-export type ExpandedSectionsState = {
-  courses: boolean;
-  grants: boolean;
-  programs: boolean;
-  explore: boolean;
-  mobileNav: boolean;
-  profile: boolean;
+export type NavSection = 'courses' | 'grants' | 'programs' | 'profile';
+
+export type NavMenuState = {
+  mobileNavOpen: boolean;
+  openSection: NavSection | null;
 };
+
+export type NavMenu = NavMenuState & {
+  toggleSection: (section: NavSection) => void;
+  closeSection: () => void;
+  toggleMobileNav: () => void;
+  closeAll: () => void;
+};
+
+export const CLOSED_MENU: NavMenuState = { mobileNavOpen: false, openSection: null };

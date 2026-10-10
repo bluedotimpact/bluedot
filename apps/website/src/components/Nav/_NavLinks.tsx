@@ -1,48 +1,50 @@
 import clsx from 'clsx';
-import React from 'react';
-import { Tag, ProgressDots, A } from '@bluedot/ui';
+import { useState } from 'react';
+import { A, ProgressDots, Tag } from '@bluedot/ui';
+import { useRouter } from 'next/router';
 import { FaChevronDown } from 'react-icons/fa6';
 
 import { ROUTES } from '../../lib/routes';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
-import { useClickOutside } from '../../lib/hooks/useClickOutside';
+import { useDismissible } from '../../lib/hooks/useDismissible';
 import { AI_SECURITY_BOOTCAMP } from '../../lib/publicPrograms';
 import { getGrantPath } from '../../lib/grantTypes';
 import { trpc } from '../../utils/trpc';
 import {
   DRAWER_CLASSES,
-  type ExpandedSectionsState,
-  NAV_DROPDOWN_CLASS,
+  DRAWER_ROW_CLASS,
+  NAV_LINK_ANIMATION_CLASS,
+  NAV_LINK_CLASS,
+  type NavMenu,
+  type NavSection,
 } from './utils';
 
-const FOAI_NAV_ENTRY = {
-  title: 'Future of AI',
-  url: `/courses/${FOAI_COURSE_SLUG}`,
+type NavDropdownLink = {
+  title: string;
+  url: string;
+  isNew?: boolean | null;
+  external?: boolean;
+  footer?: boolean;
+  startHere?: boolean;
 };
 
-const isCurrentPath = (url: string): boolean => {
-  if (typeof window === 'undefined') {
-    return false;
-  }
-
-  const currentPath = window.location.pathname;
-  return url === currentPath || (url !== '/' && currentPath.startsWith(url));
-};
-
-export const NavLinks: React.FC<{
-  expandedSections: ExpandedSectionsState;
-  updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
+type NavLinksProps = {
+  menu: NavMenu;
   className?: string;
-  onColoredBackground?: boolean;
-}> = ({
-  expandedSections,
-  updateExpandedSections,
+  isOnDark?: boolean;
+  inMobileDrawer?: boolean;
+};
+
+export const NavLinks = ({
+  menu,
   className,
-  onColoredBackground = false,
-}) => {
-  const { courses, loading } = useCourses();
+  isOnDark = false,
+  inMobileDrawer = false,
+}: NavLinksProps) => {
+  const router = useRouter();
+  const { courses, loading: coursesLoading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
   const { data: programs, isLoading: programsLoading } = trpc.programs.getInPerson.useQuery();
   const { data: grants, isLoading: grantsLoading } = trpc.programs.getGrants.useQuery();
@@ -50,268 +52,189 @@ export const NavLinks: React.FC<{
   // Filter FoAI from the dynamic list at the slug level (not URL): getPrimaryCourseURL
   // returns deep-link URLs like /courses/future-of-ai/1/1 for enrolled users, so a URL-based
   // filter would let those slip through and double-list FoAI.
-  const allCourses = loading ? [] : (courses || [])
+  const courseLinks = (courses ?? [])
     .filter((course) => course.slug !== FOAI_COURSE_SLUG)
     .map((course) => ({
       title: course.title,
       url: getPrimaryCourseURL(course.slug),
       isNew: course.isNew ?? false,
-      type: course.type ?? null,
     }));
 
-  const navCourses = [
-    FOAI_NAV_ENTRY,
-    ...allCourses,
-    { title: 'See all courses', url: ROUTES.courses.url },
+  const sections: { section: NavSection; title: string; links: NavDropdownLink[]; loading: boolean }[] = [
+    {
+      section: 'courses',
+      title: 'Courses',
+      loading: coursesLoading,
+      links: [
+        { title: 'Future of AI', url: `/courses/${FOAI_COURSE_SLUG}`, startHere: true },
+        ...courseLinks,
+        { title: 'See all courses', url: ROUTES.courses.url, footer: true },
+      ],
+    },
+    {
+      section: 'grants',
+      title: 'Grants',
+      loading: grantsLoading,
+      links: [
+        ...(grants ?? [])
+          .map((grant) => ({ grant, url: getGrantPath(grant.slug) }))
+          .filter((entry): entry is typeof entry & { url: string } => Boolean(entry.url))
+          .map(({ grant, url }) => ({ title: grant.name, url })),
+        { title: 'See all grants', url: ROUTES.grants.url, footer: true },
+      ],
+    },
+    {
+      section: 'programs',
+      title: 'Programs',
+      loading: programsLoading,
+      links: [
+        ...(programs ?? [])
+          .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
+          .map((program) => ({ title: program.name, url: `/programs/${program.slug}` })),
+        { title: AI_SECURITY_BOOTCAMP.title, url: AI_SECURITY_BOOTCAMP.url, external: true },
+        { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav`, footer: true },
+      ],
+    },
   ];
 
-  const navGrants = [
-    ...(grants ?? [])
-      .map((grant) => ({ grant, url: getGrantPath(grant.slug) }))
-      .filter((entry): entry is typeof entry & { url: string } => Boolean(entry.url))
-      .map(({ grant, url }) => ({
-        title: grant.name,
-        url,
-      })),
-    { title: 'See all grants', url: ROUTES.grants.url },
-  ];
+  const toneClass = isOnDark ? 'text-on-dark hover:text-on-dark nav-link-animation-dark' : 'text-primary hover:text-primary';
+  const topLevelLinkClasses = clsx(NAV_LINK_CLASS, toneClass, inMobileDrawer ? DRAWER_ROW_CLASS : NAV_LINK_ANIMATION_CLASS);
 
-  const navPrograms = [
-    ...(programs ?? [])
-      .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
-      .map((program) => ({
-        title: program.name,
-        url: `/programs/${program.slug}`,
-      })),
-    { title: AI_SECURITY_BOOTCAMP.title, url: AI_SECURITY_BOOTCAMP.url, external: true },
-    { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav` },
-  ];
+  const isCurrent = (url: string) => router.pathname === url || router.pathname.startsWith(`${url}/`);
 
-  const getLinkClasses = (isCurrentPathValue?: boolean) => {
-    // Mobile drawer always has white background, so always use dark text
-    // Desktop navbar uses white text on colored background, dark text elsewhere
-    let textColor = 'text-primary hover:text-primary';
-    if (!expandedSections.mobileNav && onColoredBackground) {
-      textColor = 'text-white hover:text-white nav-link-animation-dark';
-    }
+  const renderTopLevelLink = (title: string, url: string) => (
+    <A
+      href={url}
+      className={topLevelLinkClasses}
+      aria-current={isCurrent(url) ? 'page' : undefined}
+      onClick={menu.closeAll}
+    >
+      {title}
+    </A>
+  );
 
-    return clsx(
-      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
-      textColor,
-      isCurrentPathValue && 'font-bold',
-    );
-  };
+  // Local, not menu.openSection: the hidden desktop twin would otherwise treat drawer clicks as click-outside.
+  // Persists across drawer open/close on purpose.
+  const [drawerSection, setDrawerSection] = useState<NavSection | null>(null);
+  const openSection = inMobileDrawer ? drawerSection : menu.openSection;
+  const toggleSection = inMobileDrawer
+    ? (section: NavSection) => setDrawerSection((prev) => (prev === section ? null : section))
+    : menu.toggleSection;
 
   return (
-    <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
-      <NavDropdown
-        expandedSections={expandedSections}
-        isExpanded={expandedSections.courses}
-        onColoredBackground={onColoredBackground}
-        links={navCourses}
-        onToggle={() => updateExpandedSections({
-          courses: !expandedSections.courses,
-          grants: false,
-          programs: false,
-          explore: false,
-          mobileNav: expandedSections.mobileNav,
-          profile: false,
-        })}
-        onClose={() => updateExpandedSections({ courses: false })}
-        title="Courses"
-        loading={loading}
-      />
-      <NavDropdown
-        expandedSections={expandedSections}
-        isExpanded={expandedSections.grants}
-        onColoredBackground={onColoredBackground}
-        links={navGrants}
-        onToggle={() => updateExpandedSections({
-          courses: false,
-          grants: !expandedSections.grants,
-          programs: false,
-          explore: false,
-          mobileNav: expandedSections.mobileNav,
-          profile: false,
-        })}
-        onClose={() => updateExpandedSections({ grants: false })}
-        title="Grants"
-        loading={grantsLoading}
-      />
-      <NavDropdown
-        expandedSections={expandedSections}
-        isExpanded={expandedSections.programs}
-        onColoredBackground={onColoredBackground}
-        links={navPrograms}
-        onToggle={() => updateExpandedSections({
-          courses: false,
-          grants: false,
-          programs: !expandedSections.programs,
-          explore: false,
-          mobileNav: expandedSections.mobileNav,
-          profile: false,
-        })}
-        onClose={() => updateExpandedSections({ programs: false })}
-        title="Programs"
-        loading={programsLoading}
-      />
-      <A
-        href={ROUTES.alumni.url}
-        className={getLinkClasses(isCurrentPath(ROUTES.alumni.url))}
-      >
-        Alumni
-      </A>
-      <A
-        href={ROUTES.about.url}
-        className={getLinkClasses(isCurrentPath(ROUTES.about.url))}
-      >
-        About
-      </A>
-      <A
-        href={ROUTES.joinUs.url}
-        className={getLinkClasses(isCurrentPath(ROUTES.joinUs.url))}
-      >
-        Join us
-      </A>
+    <div className={clsx('flex', inMobileDrawer ? 'flex-col' : 'gap-9', className)}>
+      {sections.map(({ section, title, links, loading }) => (
+        <NavDropdown
+          key={section}
+          title={title}
+          panelId={`${section}-dropdown${inMobileDrawer ? '-mobile' : ''}`}
+          links={links}
+          loading={loading}
+          isExpanded={openSection === section}
+          onToggle={() => toggleSection(section)}
+          onClose={menu.closeSection}
+          onNavigate={menu.closeAll}
+          isCurrent={isCurrent}
+          toneClass={toneClass}
+          inMobileDrawer={inMobileDrawer}
+        />
+      ))}
+      {renderTopLevelLink('Alumni', ROUTES.alumni.url)}
+      {renderTopLevelLink('About', ROUTES.about.url)}
+      {renderTopLevelLink('Join us', ROUTES.joinUs.url)}
     </div>
   );
 };
 
-const NavDropdown: React.FC<{
-  // Required
-  expandedSections: ExpandedSectionsState;
+type NavDropdownProps = {
+  title: string;
+  panelId: string;
+  links: NavDropdownLink[];
+  loading: boolean;
   isExpanded: boolean;
-  onColoredBackground: boolean;
-  links: { title: string; url: string; isNew?: boolean | null; external?: boolean }[];
   onToggle: () => void;
   onClose: () => void;
-  title: string;
-  // Optional
-  className?: string;
-  loading?: boolean;
-}> = ({
-  expandedSections,
-  isExpanded,
-  onColoredBackground,
+  onNavigate: () => void;
+  isCurrent: (url: string) => boolean;
+  toneClass: string;
+  inMobileDrawer: boolean;
+};
+
+const NavDropdown = ({
+  title,
+  panelId,
   links,
+  loading,
+  isExpanded,
   onToggle,
   onClose,
-  title,
-  className,
-  loading = false,
-}) => {
-  const dropdownRef = useClickOutside(
-    onClose,
-    isExpanded,
-    `.${NAV_DROPDOWN_CLASS}`,
-  );
-
-  const getDropdownButtonClasses = () => {
-    // Mobile drawer always has white background, so always use dark text
-    // Desktop navbar uses white text on colored background, dark text elsewhere
-    if (expandedSections.mobileNav) {
-      return 'text-primary hover:text-primary';
-    }
-
-    if (onColoredBackground) {
-      return 'text-white hover:text-white nav-link-animation-dark';
-    }
-
-    return 'text-primary hover:text-primary';
-  };
-
-  const getDropdownContentClasses = () => {
-    if (!expandedSections.mobileNav) {
-      // Desktop dropdowns: always white background
-      return DRAWER_CLASSES(isExpanded);
-    }
-
-    // Mobile dropdowns: apply collapse/expand classes
-    return clsx(
-      'transition-all duration-300 ease-in-out',
-      isExpanded
-        ? 'max-h-[500px] opacity-100 pt-4'
-        : 'max-h-0 opacity-0 pt-0',
-    );
-  };
+  onNavigate,
+  isCurrent,
+  toneClass,
+  inMobileDrawer,
+}: NavDropdownProps) => {
+  // Inside the drawer, dismissal belongs to the drawer
+  const { containerRef, triggerRef } = useDismissible(onClose, isExpanded && !inMobileDrawer);
 
   return (
-    <div ref={dropdownRef} className={NAV_DROPDOWN_CLASS}>
+    <div ref={containerRef}>
       <button
+        ref={triggerRef}
         type="button"
         onClick={onToggle}
         aria-expanded={isExpanded}
-        aria-controls={`${title.toLowerCase()}-dropdown`}
+        aria-controls={panelId}
         className={clsx(
-          'nav-dropdown__btn flex items-center gap-2 cursor-pointer',
-          'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
-          getDropdownButtonClasses(),
+          'flex items-center cursor-pointer',
+          NAV_LINK_CLASS,
+          toneClass,
+          inMobileDrawer ? clsx(DRAWER_ROW_CLASS, 'justify-between') : clsx(NAV_LINK_ANIMATION_CLASS, 'gap-2'),
         )}
       >
         {title}
         <FaChevronDown
           aria-hidden="true"
           className={clsx(
-            'size-3 flex-shrink-0 transition-all duration-300 ease-in-out',
-            isExpanded ? 'rotate-180 opacity-70' : 'opacity-100',
+            'size-3 shrink-0 transition-transform duration-300 ease-in-out motion-reduce:transition-none',
+            isExpanded && 'rotate-180',
           )}
         />
       </button>
       <div
-        id={`${title.toLowerCase()}-dropdown`}
-        role="region"
-        aria-label={`${title} menu`}
-        className={clsx(
-          'nav-dropdown__content-wrapper',
-          isExpanded ? 'z-40' : 'pointer-events-none',
-          getDropdownContentClasses(),
-          className,
-        )}
+        id={panelId}
+        className={inMobileDrawer ? clsx('pl-4', !isExpanded && 'hidden') : DRAWER_CLASSES(isExpanded)}
       >
-        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty')}>
+        <div className={clsx('flex flex-col text-pretty', inMobileDrawer ? 'w-full' : 'w-fit mx-auto')}>
           {loading ? (
             <ProgressDots className="py-2" />
           ) : (
-            links?.map((link) => {
-              // Dropdown links: always dark text on white background
-              const linkTextColor = 'text-bluedot-darker hover:text-bluedot-darker';
-
-              return (
-                <React.Fragment key={link.url}>
-                  {/* Add separator before footer links */}
-                  {(link.title === 'See all courses' || link.title === 'See all grants' || link.title === 'See all programs') && (
-                    <div className="border-t border-gray-200 my-2" />
-                  )}
-                  <A
-                    href={link.url}
-                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className={clsx(
-                      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
-                      'pt-1',
-                      linkTextColor,
-                    )}
-                    onClick={() => {
-                      onClose();
-                    }}
-                  >
-                    {link.title}
-                    {link.isNew && (
-                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                        New
-                      </Tag>
-                    )}
-                    {link.title === FOAI_NAV_ENTRY.title && (
-                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                        Start Here
-                      </Tag>
-                    )}
-                  </A>
-                  {link.title === FOAI_NAV_ENTRY.title && (
-                    <div className="border-t border-gray-200 my-2" />
-                  )}
-                </React.Fragment>
-              );
-            })
+            links.map((link) => (
+              <A
+                key={link.url}
+                href={link.url}
+                {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                aria-current={!link.footer && isCurrent(link.url) ? 'page' : undefined}
+                className={clsx(
+                  NAV_LINK_CLASS,
+                  inMobileDrawer ? DRAWER_ROW_CLASS : clsx(NAV_LINK_ANIMATION_CLASS, 'flex min-h-11 items-center'),
+                  link.footer ? 'text-link hover:text-link' : 'text-primary hover:text-primary',
+                )}
+                onClick={onNavigate}
+              >
+                {link.title}
+                {link.footer && <span aria-hidden="true">&nbsp;→</span>}
+                {link.isNew && (
+                  <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                    New
+                  </Tag>
+                )}
+                {link.startHere && (
+                  <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                    Start Here
+                  </Tag>
+                )}
+              </A>
+            ))
           )}
         </div>
       </div>

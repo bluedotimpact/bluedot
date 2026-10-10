@@ -10,7 +10,7 @@ import {
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
-import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
+import { Nav } from '../../components/Nav/Nav';
 import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
 import { trpc } from '../../utils/trpc';
 import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
@@ -98,16 +98,22 @@ const FacilitatorFeedbackPage = () => {
 
   if (isLoading || shouldShow404 || !router.isReady) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center">
-        <ProgressDots />
+      <div className="min-h-screen bg-cream-normal">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center py-16">
+          <ProgressDots />
+        </div>
       </div>
     );
   }
 
   if (error ?? !formData) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
-        <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+      <div className="min-h-screen bg-cream-normal">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center px-4 py-16">
+          <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+        </div>
       </div>
     );
   }
@@ -173,7 +179,7 @@ const FacilitatorFeedbackPage = () => {
         {pageMetaTags({ title: `${roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact` })}
       </Head>
 
-      <FacilitatorFeedbackHeader roundName={roundName || undefined} />
+      <Nav variant="minimal" title="Course Feedback" context={roundName || undefined} />
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
         {(submitFeedback.isError || unsubmitFeedback.isError) && (

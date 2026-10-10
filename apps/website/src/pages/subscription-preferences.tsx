@@ -5,6 +5,7 @@ import {
   Checkbox, Button, ErrorSection, ProgressDots,
 } from '@bluedot/ui';
 import { H3, P } from '@bluedot/ui/src/Text';
+import { Nav } from '../components/Nav/Nav';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
 import type { SubscriptionTopic } from '../server/routers/subscription-preferences';
@@ -24,9 +25,20 @@ const SubscriptionPreferencesPage = ({ cid, token, topicId: highlightTopicId }: 
     { enabled: !!cid && !!token, retry: false },
   );
 
-  if (isLoading) return <ProgressDots className="py-16" />;
-  if (error) return <GenericError />;
-  if (!data) return null;
+  const renderPage = (content: React.ReactNode) => (
+    <div className="min-h-screen bg-white">
+      <Head>
+        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
+        <meta name="robots" content="noindex" />
+      </Head>
+      <Nav variant="minimal" title="Email Preferences" />
+      {content}
+    </div>
+  );
+
+  if (isLoading) return renderPage(<ProgressDots className="py-16" />);
+  if (error) return renderPage(<GenericError />);
+  if (!data) return renderPage(null);
 
   const sortedTopics = highlightTopicId
     ? [...data.topics].sort((a, b) => {
@@ -36,20 +48,11 @@ const SubscriptionPreferencesPage = ({ cid, token, topicId: highlightTopicId }: 
     })
     : data.topics;
 
-  return (
-    <div className="min-h-screen bg-white">
-      <Head>
-        {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
-        <meta name="robots" content="noindex" />
-      </Head>
-      <div className="mx-auto px-4 py-12 max-w-lg">
-        <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-8 mb-8" />
-        <H3 className="mb-2">Email Preferences</H3>
-        <P className="text-gray-500 mb-8">Choose which emails you&apos;d like to receive from BlueDot Impact.</P>
-        <PreferencesForm cid={cid} token={token} topics={sortedTopics} highlightTopicId={highlightTopicId} />
-      </div>
-    </div>
-  );
+  return renderPage(<div className="mx-auto px-4 py-12 max-w-lg">
+    <H3 className="mb-2">Email Preferences</H3>
+    <P className="text-gray-500 mb-8">Choose which emails you&apos;d like to receive from BlueDot Impact.</P>
+    <PreferencesForm cid={cid} token={token} topics={sortedTopics} highlightTopicId={highlightTopicId} />
+  </div>);
 };
 
 // Bypasses the site header, footer, and bluedot-base wrapper from _app.tsx
