@@ -590,9 +590,6 @@ The production website also needs:
 #### Login App
 - See: `apps/login#deployment`
 
-#### Keycloak Theme Updates
-- Update version in: `apps/login/tools/getBluedotKeycloakTheme.sh`
-
 #### Postgres Deployment
 - Undocumented
 
@@ -600,7 +597,7 @@ The production website also needs:
 - Production Keycloak instance for auth/password management
 - No password info stored in Airtable
 - Can run locally through "login" app
-- Custom theme available in bluedot-keycloak-theme repo which can be used instead of the "login" app
+- Custom login theme lives in `apps/login/theme`
 
 ### Observability Stack Data Flow
 
@@ -672,9 +669,6 @@ The production website also needs:
 ### Appendix B: FAQ
 
 #### Development Issues
-
-**Q: How do I update bluedot-keycloak-theme?**  
-A: Update the version in `apps/login/tools/getBluedotKeycloakTheme.sh`
 
 **Q: What about local development without production data?**  
 A: Currently requires production Airtable. Local setup is a known limitation.

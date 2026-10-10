@@ -1,0 +1,8 @@
+{
+  "themes": [
+    {
+      "name": "bluedot-keycloak-theme",
+      "types": ["login"]
+    }
+  ]
+}

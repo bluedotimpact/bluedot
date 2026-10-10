@@ -43,7 +43,6 @@ The following key parts of our software are _not_ in this repository because the
 - Various Airtable extensions
   - [AI evaluator](https://github.com/bluedotimpact/ai-evaluator-extension)
   - [Cohort scheduling](https://github.com/bluedotimpact/cohort-scheduling-extension)
-- [Keycloak theme](https://github.com/bluedotimpact/bluedot-keycloak-theme)
 - [Airtable standards](https://github.com/bluedotimpact/airtable-standards)
 
 ## Get started
