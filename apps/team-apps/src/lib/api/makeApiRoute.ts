@@ -1,11 +1,10 @@
-import { loginPresets } from '@bluedot/ui';
-import { makeMakeApiRoute } from '@bluedot/ui/src/api';
+import { makeMakeApiRoute, verifyGoogleBlueDotToken } from '@bluedot/ui/src/api';
 import env from './env';
 import { isLocalPreview, PREVIEW_EMAIL, PREVIEW_TOKEN } from '../preview';
 
 export const verifyStaffToken = async (token: string) => {
   if (isLocalPreview() && token === PREVIEW_TOKEN) return { sub: 'local-preview', email: PREVIEW_EMAIL };
-  return loginPresets.googleBlueDot.verifyAndDecodeToken(token);
+  return verifyGoogleBlueDotToken(token);
 };
 
 const staffApiRoute = makeMakeApiRoute({ env, verifyAndDecodeToken: verifyStaffToken });

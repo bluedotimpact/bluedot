@@ -54,16 +54,15 @@ console.log(`Is this the Krusty Krab? NO,THIS IS ${env.APP_NAME}!!!!`);
 In `src/lib/api/makeApiRoute.ts`, you'll have something like:
 
 ```typescript
-import { loginPresets } from '@bluedot/ui';
-import { makeMakeApiRoute } from '@bluedot/ui/src/api';
+import { makeMakeApiRoute, verifyKeycloakToken } from '@bluedot/ui/src/api';
 import env from './env';
 
 export const makeApiRoute = makeMakeApiRoute({
   env,
   // Two options:
-  // 1. keycloak, for BlueDot customers via login.bluedot.org
-  // 2. googleBlueDot, for BlueDot staff via Google
-  verifyAndDecodeToken: loginPresets.keycloak.verifyAndDecodeToken,
+  // 1. verifyKeycloakToken, for BlueDot customers via login.bluedot.org
+  // 2. verifyGoogleBlueDotToken, for BlueDot staff via Google
+  verifyAndDecodeToken: verifyKeycloakToken,
 });
 ```
 

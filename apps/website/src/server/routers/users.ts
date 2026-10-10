@@ -1,7 +1,6 @@
 import { courseRegistrationTable, sql, userTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
-import { logger } from '@bluedot/ui/src/api';
-import { loginPresets } from '@bluedot/ui/src/Login';
+import { logger, verifyKeycloakToken } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
@@ -174,7 +173,7 @@ export const usersRouter = router({
       let auth;
       try {
         // Must verify against the same login preset the oauth-callback page authenticates with
-        auth = await loginPresets.keycloak.verifyAndDecodeToken(input.token);
+        auth = await verifyKeycloakToken(input.token);
       } catch {
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid login token' });
       }
