@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance, isAxiosError } from 'axios';
+import axios, { type AxiosError, type AxiosInstance, isAxiosError } from 'axios';
 import { logger } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import env from '../env';
@@ -30,7 +30,7 @@ type AirtableEventPayload = {
       fields: Record<string, unknown>;
     }>;
     changedRecordsById?: Record<string, {
-      current: Record<string, unknown>;
+      current: { cellValuesByFieldId?: Record<string, unknown> };
       previous?: Record<string, unknown>;
       unchanged?: Record<string, unknown>;
     }>;
@@ -94,77 +94,52 @@ export class AirtableWebhook {
     }
 
     // 1. Get all webhooks for this base
-    await this.rateLimiter.acquire();
-    const response = await this.axiosInstance.get<ListWebhooksApiResponse>(`/bases/${this.baseId}/webhooks`).catch(async (error: unknown) => {
+    const webhooks = await this.listWebhooks().catch((error: unknown) => {
       const webhookListError = `Failed to list webhooks for base ${this.baseId}`;
       if (isAxiosError(error)) {
-        const errorDetails = {
-          baseId: this.baseId,
-          statusCode: error.response?.status,
-          errorType: error.response?.data?.error?.type,
-          errorMessage: error.response?.data?.error?.message,
-          feedbackMessage: `*${getAirtableFeedbackMessage(error.response?.status)}*`,
-        };
-
-        logger.error(`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`);
-        slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${formatForSlack(errorDetails)}`]);
+        this.reportAxiosError(webhookListError, error);
         throw error;
-      } else {
-        const e = new Error(`${webhookListError}. Check your Airtable PAT has webhook:manage permissions.`, { cause: error });
-        logger.error(e);
-        slackAlert(env, [`[WEBHOOK] ${e.message}`]);
-        throw e;
       }
-    });
-    const { webhooks } = response.data;
 
-    // 2. Try to find a matching webhook that matches the desired criteria:
-    //   a. The dataTypes filter contains 'tableData' or 'tableFields'
-    //   b. The watchDataInFieldIds matches our field IDs (or no field filter if we have no fields)
-    const matchingWebhook = webhooks.find((wh) => {
-      const filters = wh?.specification?.options?.filters ?? {};
-      const dataTypes = filters.dataTypes ?? [];
-      const webhookFieldIds = filters.watchDataInFieldIds ?? [];
-
-      // Check dataTypes filter
-      const hasRequiredDataTypes = dataTypes.includes('tableData') || dataTypes.includes('tableFields');
-
-      // Check field IDs match
-      const fieldIdsMatch = this.fieldIds.length === 0
-        ? webhookFieldIds.length === 0 // No fields specified, should have no field filter
-        : this.fieldIds.length === webhookFieldIds.length
-          && this.fieldIds.every((id) => webhookFieldIds.includes(id));
-
-      return hasRequiredDataTypes && fieldIdsMatch;
+      const e = new Error(`${webhookListError}. Check your Airtable PAT has webhook:manage permissions.`, { cause: error });
+      logger.error(e);
+      slackAlert(env, [`[WEBHOOK] ${e.message}`]);
+      throw e;
     });
 
-    if (matchingWebhook) {
-      // Use existing webhook but check its health first
-      this.webhookId = matchingWebhook.id;
-      this.nextPayloadCursor = matchingWebhook.cursorForNextPayload;
-      logger.info(`[AirtableWebhook] Found existing webhook ${this.webhookId} for base ${this.baseId}`);
+    // 2. Drop any fields that have been deleted in Airtable
+    const requestedFieldIds = this.fieldIds;
+    this.fieldIds = await this.filterToValidFieldIds(this.fieldIds);
 
-      // Check if the last payload was an INVALID_HOOK error
-      const lastPayloadError = await this.getLastPayloadIfError();
-      if (lastPayloadError?.code === 'INVALID_HOOK') {
-        logger.error('[WEBHOOK] Last payload was INVALID_HOOK error, recreating webhook...');
-        const deletedFields = this.extractDeletedFieldsFromPayload(lastPayloadError);
-        await this.recreateWebhookWithoutDeletedFields(deletedFields);
-      }
-    } else {
-      // Remove any fields that have been deleted in Airtable to avoid UNKNOWN_FIELD_NAME errors
-      // Note: duplicate functionality with `extractDeletedFieldsFromPayload`, see https://github.com/bluedotimpact/bluedot/issues/1464
-      const validatedFieldIds = await this.filterToValidFieldIds(this.fieldIds);
-      const invalidFieldIds = this.fieldIds.filter((id) => !validatedFieldIds.includes(id));
+    // 3. Find a webhook that:
+    //   a. Has a dataTypes filter containing 'tableData' or 'tableFields'
+    //   b. Watches every field we want, and otherwise only fields that have since been deleted
+    //      (one watching deleted fields is recreated in step 5)
+    const candidates = webhooks.filter((wh) => {
+      const dataTypes = wh.specification?.options?.filters?.dataTypes ?? [];
+      const watchedFieldIds = getWatchedFieldIds(wh);
+      return (dataTypes.includes('tableData') || dataTypes.includes('tableFields'))
+        && watchedFieldIds.every((id) => requestedFieldIds.includes(id))
+        && this.fieldIds.every((id) => watchedFieldIds.includes(id));
+    });
+    const exactMatch = candidates.find((wh) => getWatchedFieldIds(wh).length === this.fieldIds.length);
+    const matchingWebhook = exactMatch ?? candidates[0];
 
-      if (invalidFieldIds.length > 0) {
-        logger.warn(`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs before webhook creation for base ${this.baseId}: ${invalidFieldIds.join(', ')}`);
-        await slackAlert(env, [`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs from base ${this.baseId}: ${invalidFieldIds.join(', ')}. These fields may have been deleted in Airtable.`]);
-        this.fieldIds = validatedFieldIds;
-      }
-
-      // Create new webhook with retry logic
+    // 4. Create a new webhook if none matches
+    if (!matchingWebhook) {
       await this.createWebhookWithRetry();
+      return;
+    }
+
+    // 5. Otherwise reuse it, recreating it if it watches deleted fields or its last payload was INVALID_HOOK
+    this.webhookId = matchingWebhook.id;
+    this.nextPayloadCursor = matchingWebhook.cursorForNextPayload;
+    logger.info(`[AirtableWebhook] Found existing webhook ${this.webhookId} for base ${this.baseId}`);
+
+    const watchesDeletedFields = !exactMatch;
+    if (watchesDeletedFields || (await this.getLastPayloadIfError())?.code === 'INVALID_HOOK') {
+      logger.error(`[WEBHOOK] ${watchesDeletedFields ? 'Existing webhook watches deleted fields' : 'Last payload was INVALID_HOOK error'}, recreating webhook...`);
+      await this.recreateWebhook();
     }
   }
 
@@ -180,110 +155,57 @@ export class AirtableWebhook {
     let currentCursor = this.nextPayloadCursor;
     let mightHaveMore = true;
 
-    // Page through all available data
     while (mightHaveMore && currentCursor !== null) {
       // eslint-disable-next-line no-await-in-loop
-      await this.rateLimiter.acquire();
-      // eslint-disable-next-line no-await-in-loop
-      const response = await this.axiosInstance.get<ListWebhookPayloadsApiResponse>(
-        `/bases/${this.baseId}/webhooks/${this.webhookId}/payloads`,
-        {
-          params: {
-            cursor: currentCursor,
-          },
-        },
-      );
+      const { payloads, cursor, mightHaveMore: hasMore } = await this.fetchPayloads(currentCursor);
 
-      const { payloads, cursor, mightHaveMore: hasMore } = response.data;
-
-      // Transform payloads into AirtableUpdate objects
       for (const payload of payloads) {
-        // Check for any error in the payload
-        if (payload.error === true) {
-          const errorPayload = `[WEBHOOK] Error payload detected: code=${payload.code} for base ${this.baseId}`;
-          logger.error(errorPayload);
-          slackAlert(env, [errorPayload]);
-
-          if (payload.code === 'INVALID_HOOK') {
-            // Webhook is invalid due to deleted fields - need to recreate it
-            const deletedFields = this.extractDeletedFieldsFromPayload(payload);
-            // eslint-disable-next-line no-await-in-loop
-            await this.recreateWebhookWithoutDeletedFields(deletedFields);
-          } else {
-            // Log other error types but don't crash - just skip the payload
-            logger.warn(`[WEBHOOK] Unhandled error type '${payload.code}', skipping payload...`);
-          }
-
-          continue; // Skip processing this error payload
-        }
-
-        const { changedTablesById } = payload;
-
-        // Only process payloads with table changes (non-error payloads)
-        if (!changedTablesById || typeof changedTablesById !== 'object') {
+        if (payload.error !== true) {
+          allUpdates.push(...payloadToActions(this.baseId, payload));
           continue;
         }
 
-        // Iterate through each table that had changes
-        for (const [tableId, tableChanges] of Object.entries(changedTablesById)) {
-          const {
-            createdRecordsById,
-            changedRecordsById,
-            destroyedRecordIds,
-          } = tableChanges;
+        const errorPayload = `[WEBHOOK] Error payload detected: code=${payload.code} for base ${this.baseId}`;
+        logger.error(errorPayload);
+        slackAlert(env, [errorPayload]);
 
-          // Handle created records
-          if (createdRecordsById && typeof createdRecordsById === 'object') {
-            for (const recordId of Object.keys(createdRecordsById)) { // eslint-disable-line max-depth
-              allUpdates.push({
-                baseId: this.baseId,
-                tableId,
-                recordId,
-                isDelete: false,
-              });
-            }
-          }
-
-          // Handle updated records
-          if (changedRecordsById && typeof changedRecordsById === 'object') {
-            for (const [recordId, recordChanges] of Object.entries(changedRecordsById)) { // eslint-disable-line max-depth
-              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              const changedFields = recordChanges.current.cellValuesByFieldId || {};
-              const fieldIds = Object.keys(changedFields);
-
-              allUpdates.push({
-                baseId: this.baseId,
-                tableId,
-                recordId,
-                fieldIds: fieldIds.length > 0 ? fieldIds : undefined,
-                isDelete: false,
-              });
-            }
-          }
-
-          // Handle deleted records
-          if (Array.isArray(destroyedRecordIds)) {
-            for (const recordId of destroyedRecordIds) { // eslint-disable-line max-depth
-              allUpdates.push({
-                baseId: this.baseId,
-                tableId,
-                recordId,
-                isDelete: true,
-              });
-            }
-          }
+        if (payload.code === 'INVALID_HOOK') {
+          // eslint-disable-next-line no-await-in-loop
+          await this.recreateWebhook();
+          // The old webhook's cursor means nothing to the new one, so don't write it back
+          return allUpdates;
         }
+
+        logger.warn(`[WEBHOOK] Unhandled error type '${payload.code}', skipping payload...`);
       }
 
-      // Update cursor and continue if there's more data
       currentCursor = cursor;
       mightHaveMore = hasMore;
     }
 
-    // Update the cursor for the next call to this method
     this.nextPayloadCursor = currentCursor;
 
     return allUpdates;
+  }
+
+  private async listWebhooks(): Promise<AirtableWebhookDescription[]> {
+    await this.rateLimiter.acquire();
+    const response = await this.axiosInstance.get<ListWebhooksApiResponse>(`/bases/${this.baseId}/webhooks`);
+    return response.data.webhooks;
+  }
+
+  private async deleteWebhook(webhookId: string): Promise<void> {
+    await this.rateLimiter.acquire();
+    await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${webhookId}`);
+  }
+
+  private async fetchPayloads(cursor: number, limit?: number): Promise<ListWebhookPayloadsApiResponse> {
+    await this.rateLimiter.acquire();
+    const response = await this.axiosInstance.get<ListWebhookPayloadsApiResponse>(
+      `/bases/${this.baseId}/webhooks/${this.webhookId}/payloads`,
+      { params: { cursor, limit } },
+    );
+    return response.data;
   }
 
   private async createWebhook(): Promise<void> {
@@ -318,32 +240,20 @@ export class AirtableWebhook {
         await this.createWebhook();
         return; // Success
       } catch (error) {
-        // Check if we hit the webhook limit
         if (isAxiosError(error) && error.response?.data?.error?.type === 'TOO_MANY_WEBHOOKS_IN_BASE') {
           logger.warn(`[WEBHOOK] Hit webhook limit for base ${this.baseId}, attempting cleanup...`);
           // eslint-disable-next-line no-await-in-loop
           await this.cleanupOldWebhooks();
-          // Continue to retry after cleanup
         }
 
         if (attempt === maxRetries) {
-          const webhookCreationError = `Failed to create webhook after ${maxRetries} attempts for base ${this.baseId}:`;
+          const webhookCreationError = `Failed to create webhook after ${maxRetries} attempts for base ${this.baseId}`;
           if (isAxiosError(error)) {
-            const errorDetails = {
-              baseId: this.baseId,
-              fieldIds: this.fieldIds,
-              statusCode: error.response?.status,
-              errorType: error.response?.data?.error?.type,
-              errorMessage: error.response?.data?.error?.message,
-              feedbackMessage: `*${getAirtableFeedbackMessage(error.response?.status)}*`,
-            };
-
-            logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
-            slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${formatForSlack(errorDetails)}`]);
+            this.reportAxiosError(webhookCreationError, error, { fieldIds: this.fieldIds });
             throw error;
-          } else {
-            throw new Error(webhookCreationError, { cause: error });
           }
+
+          throw new Error(webhookCreationError, { cause: error });
         }
 
         logger.warn(`[WEBHOOK] Webhook creation attempt ${attempt} failed for base ${this.baseId}, retrying in ${attempt} seconds...`);
@@ -354,10 +264,11 @@ export class AirtableWebhook {
   }
 
   /**
-   * Validates field IDs by fetching the base schema from Airtable and filtering to only existing fields
-   * Returns an array of valid field IDs that exist in Airtable
+   * Validates field IDs by fetching the base schema from Airtable and filtering to only existing fields,
+   * so webhooks never filter on a deleted field (which Airtable rejects, or answers with INVALID_HOOK).
    */
   private async filterToValidFieldIds(fieldIdsToValidate: string[]): Promise<string[]> {
+    let validFieldIds: Set<string>;
     try {
       await this.rateLimiter.acquire();
       const response = await this.axiosInstance.get<{
@@ -371,38 +282,20 @@ export class AirtableWebhook {
           }[];
         }[];
       }>(`/meta/bases/${this.baseId}/tables`);
-
-      // Collect all valid field IDs from all tables in the base
-      const validFieldIds = new Set<string>();
-      for (const table of response.data.tables) {
-        for (const field of table.fields) {
-          validFieldIds.add(field.id);
-        }
-      }
-
-      const validatedIds = fieldIdsToValidate.filter((id) => validFieldIds.has(id));
-
-      return validatedIds;
+      validFieldIds = new Set(response.data.tables.flatMap((table) => table.fields.map((field) => field.id)));
     } catch (error) {
       logger.error(`[WEBHOOK] Failed to validate field IDs for base ${this.baseId}:`, error);
       // If validation fails, return all field IDs as-is to avoid breaking existing functionality
       return fieldIdsToValidate;
     }
-  }
 
-  private extractDeletedFieldsFromPayload(payload: AirtableEventPayload): string[] {
-    const deletedFields: string[] = [];
-    if (payload.changedTablesById) {
-      for (const [tableId, changes] of Object.entries(payload.changedTablesById)) {
-        if (changes.destroyedFieldIds) {
-          const destroyedIds = changes.destroyedFieldIds;
-          deletedFields.push(...destroyedIds);
-          logger.info(`[WEBHOOK] Found ${destroyedIds.length} destroyed fields in table ${tableId}`);
-        }
-      }
+    const invalidFieldIds = fieldIdsToValidate.filter((id) => !validFieldIds.has(id));
+    if (invalidFieldIds.length > 0) {
+      logger.warn(`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs for base ${this.baseId}: ${invalidFieldIds.join(', ')}`);
+      await slackAlert(env, [`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs from base ${this.baseId}: ${invalidFieldIds.join(', ')}. These fields may have been deleted in Airtable.`]);
     }
 
-    return deletedFields;
+    return fieldIdsToValidate.filter((id) => validFieldIds.has(id));
   }
 
   private async getLastPayloadIfError(): Promise<AirtableEventPayload | null> {
@@ -413,21 +306,9 @@ export class AirtableWebhook {
     try {
       // Check the LAST consumed payload (cursor - 1) for errors
       const checkCursor = Math.max(0, this.nextPayloadCursor - 1);
-
-      await this.rateLimiter.acquire();
-      const response = await this.axiosInstance.get<ListWebhookPayloadsApiResponse>(
-        `/bases/${this.baseId}/webhooks/${this.webhookId}/payloads`,
-        {
-          params: {
-            cursor: checkCursor, // Check one position back to find the error
-            limit: 1,
-          },
-        },
-      );
-
-      const { payloads } = response.data;
+      const { payloads } = await this.fetchPayloads(checkCursor, 1);
       const firstPayload = payloads[0];
-      if (payloads.length > 0 && firstPayload?.error === true) {
+      if (firstPayload?.error === true) {
         logger.warn(`[WEBHOOK] Found error payload at cursor ${checkCursor}: code=${firstPayload.code}`);
         return firstPayload;
       }
@@ -438,28 +319,28 @@ export class AirtableWebhook {
     return null;
   }
 
-  private async recreateWebhookWithoutDeletedFields(deletedFieldIds: string[]): Promise<void> {
-    if (deletedFieldIds.length > 0) {
-      // Remove deleted fields from our configuration
-      const originalCount = this.fieldIds.length;
-      this.fieldIds = this.fieldIds.filter((id) => !deletedFieldIds.includes(id));
-      logger.warn(`[WEBHOOK] Removed ${originalCount - this.fieldIds.length} deleted fields from configuration for base ${this.baseId}`);
-    }
+  /**
+   * Replaces the current (invalid) webhook with one filtered to the fields that still exist.
+   * If creation fails, the next popActions re-runs initialisation from scratch.
+   */
+  private async recreateWebhook(): Promise<void> {
+    this.fieldIds = await this.filterToValidFieldIds(this.fieldIds);
 
-    // Delete the invalid webhook
-    if (this.webhookId) {
+    const invalidWebhookId = this.webhookId;
+    this.webhookId = null;
+    this.nextPayloadCursor = null;
+
+    if (invalidWebhookId) {
       try {
-        await this.rateLimiter.acquire();
-        await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${this.webhookId}`);
-        const deleteMessage = `[WEBHOOK] Deleted invalid webhook ${this.webhookId} for base ${this.baseId}`;
+        await this.deleteWebhook(invalidWebhookId);
+        const deleteMessage = `[WEBHOOK] Deleted invalid webhook ${invalidWebhookId} for base ${this.baseId}`;
         logger.info(deleteMessage);
         slackAlert(env, [deleteMessage]);
       } catch (error) {
-        logger.warn(`[WEBHOOK] Failed to delete invalid webhook ${this.webhookId}:`, error);
+        logger.warn(`[WEBHOOK] Failed to delete invalid webhook ${invalidWebhookId}:`, error);
       }
     }
 
-    // Create new webhook with filtered fields, using retry logic
     await this.createWebhookWithRetry();
   }
 
@@ -477,20 +358,15 @@ export class AirtableWebhook {
     }
 
     try {
-      await this.rateLimiter.acquire();
-      const response = await this.axiosInstance.get<ListWebhooksApiResponse>(`/bases/${this.baseId}/webhooks`);
-      const { webhooks } = response.data;
+      const webhooks = await this.listWebhooks();
 
       logger.warn(`[WEBHOOK] PROD cleanup mode: Found ${webhooks.length} existing webhooks for base ${this.baseId}, deleting ALL to make room...`);
 
-      // Delete ALL existing webhooks
       let deletedCount = 0;
       for (const webhook of webhooks) {
         try {
           // eslint-disable-next-line no-await-in-loop
-          await this.rateLimiter.acquire();
-          // eslint-disable-next-line no-await-in-loop
-          await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${webhook.id}`);
+          await this.deleteWebhook(webhook.id);
           logger.info(`[WEBHOOK] Deleted webhook ${webhook.id} for base ${this.baseId}`);
           deletedCount += 1;
         } catch (deleteError) {
@@ -503,7 +379,49 @@ export class AirtableWebhook {
       logger.error('[WEBHOOK] Failed to clean up webhooks:', error);
     }
   }
+
+  private reportAxiosError(message: string, error: AxiosError<{ error?: { type?: string; message?: string } }>, extraDetails: Record<string, unknown> = {}): void {
+    const errorDetails = {
+      baseId: this.baseId,
+      ...extraDetails,
+      statusCode: error.response?.status,
+      errorType: error.response?.data?.error?.type,
+      errorMessage: error.response?.data?.error?.message,
+      feedbackMessage: `*${getAirtableFeedbackMessage(error.response?.status)}*`,
+    };
+
+    logger.error(`[WEBHOOK] ${message}: ${JSON.stringify(errorDetails)}`);
+    slackAlert(env, [`[WEBHOOK] ${message}: ${formatForSlack(errorDetails)}`]);
+  }
 }
+
+const getWatchedFieldIds = (webhook: AirtableWebhookDescription): string[] => webhook.specification?.options?.filters?.watchDataInFieldIds ?? [];
+
+const payloadToActions = (baseId: string, payload: AirtableEventPayload): AirtableAction[] => {
+  const actions: AirtableAction[] = [];
+  for (const [tableId, tableChanges] of Object.entries(payload.changedTablesById ?? {})) {
+    for (const recordId of Object.keys(tableChanges.createdRecordsById ?? {})) {
+      actions.push({
+        baseId, tableId, recordId, isDelete: false,
+      });
+    }
+
+    for (const [recordId, recordChanges] of Object.entries(tableChanges.changedRecordsById ?? {})) {
+      const fieldIds = Object.keys(recordChanges.current.cellValuesByFieldId ?? {});
+      actions.push({
+        baseId, tableId, recordId, fieldIds: fieldIds.length > 0 ? fieldIds : undefined, isDelete: false,
+      });
+    }
+
+    for (const recordId of tableChanges.destroyedRecordIds ?? []) {
+      actions.push({
+        baseId, tableId, recordId, isDelete: true,
+      });
+    }
+  }
+
+  return actions;
+};
 
 export const createAirtableAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
