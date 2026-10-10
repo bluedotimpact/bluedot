@@ -9,6 +9,9 @@ import { ErrorSection } from './ErrorSection';
 import { getQueryParam } from './utils/getQueryParam';
 import { ProgressDots } from './ProgressDots';
 import { useLatestUtmParams } from './hooks/useLatestUtmParams';
+import { InvalidTokenError } from './utils/InvalidTokenError';
+
+export { InvalidTokenError };
 
 export type LoginPageProps = {
   loginPreset: LoginPreset;
@@ -61,7 +64,7 @@ const verifyJwt = async (
   // Split the JWT into its parts
   const [headerB64, payloadB64, signatureB64] = token.split('.');
   if (!headerB64 || !payloadB64 || !signatureB64) {
-    throw new Error('Invalid token format');
+    throw new InvalidTokenError('Invalid token format');
   }
 
   // Decode the header and payload
@@ -73,18 +76,18 @@ const verifyJwt = async (
   // single entry — so accept the expected audience in either form.
   const auds = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
   if (!auds.includes(verifyConfig.aud)) {
-    throw new Error('Invalid token audience');
+    throw new InvalidTokenError('Invalid token audience');
   }
 
   // Verify iss (issuer)
   if (payload.iss !== verifyConfig.iss) {
-    throw new Error('Invalid token issuer');
+    throw new InvalidTokenError('Invalid token issuer');
   }
 
   // Verify exp (expiration time)
   const now = Math.floor(Date.now() / 1000);
   if (payload.exp && payload.exp < now) {
-    throw new Error('Token expired');
+    throw new InvalidTokenError('Token expired');
   }
 
   // Find key. Keys that came from the cache may predate a rotation, so an
@@ -99,7 +102,7 @@ const verifyJwt = async (
   }
 
   if (!key) {
-    throw new Error('Public key not found');
+    throw new InvalidTokenError('Public key not found');
   }
 
   const publicKey = createPublicKey({
@@ -117,19 +120,19 @@ const verifyJwt = async (
   const verify = createVerify('RSA-SHA256').update(signatureInput);
   const isValid = verify.verify(publicKey, signature);
   if (!isValid) {
-    throw new Error('Invalid signature');
+    throw new InvalidTokenError('Invalid signature');
   }
 
   if (!payload.sub) {
-    throw new Error('Missing sub on payload');
+    throw new InvalidTokenError('Missing sub on payload');
   }
 
   if (!payload.email) {
-    throw new Error('Missing email on payload - ensure you included \'email\' in scope');
+    throw new InvalidTokenError('Missing email on payload - ensure you included \'email\' in scope');
   }
 
   if (typeof payload.email_verified !== 'boolean') {
-    throw new Error(`Expected email_verified to be a boolean on payload, but got ${typeof payload.email_verified}`);
+    throw new InvalidTokenError(`Expected email_verified to be a boolean on payload, but got ${typeof payload.email_verified}`);
   }
 
   return payload;
@@ -194,7 +197,7 @@ export const loginPresets = {
       });
 
       if (payload.hd !== 'bluedot.org' || !payload.email_verified) {
-        throw new Error('Not a verified bluedot.org account');
+        throw new InvalidTokenError('Not a verified bluedot.org account');
       }
 
       return payload as typeof payload & { hd: 'bluedot.org'; email_verified: true };

@@ -46,7 +46,9 @@ export type { IconButtonProps } from './IconButton';
 export { Input } from './Input';
 export type { InputProps } from './Input';
 
-export { LoginRedirectPage, LoginOauthCallbackPage, loginPresets } from './Login';
+export {
+  LoginRedirectPage, LoginOauthCallbackPage, loginPresets, InvalidTokenError,
+} from './Login';
 export type { LoginPageProps, LoginOauthCallbackPageProps } from './Login';
 
 export { Modal } from './Modal';
