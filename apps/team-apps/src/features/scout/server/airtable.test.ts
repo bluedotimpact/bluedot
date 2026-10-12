@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow, writeAiSummary,
+  attachPastApplications, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -20,6 +20,16 @@ const reads = async (input: RequestInfo | URL, init?: RequestInit) => {
   if (init?.method === 'PATCH') return json({ id, fields: JSON.parse(init.body as string).fields });
 
   if (url.pathname.endsWith(id)) return json({ id, fields: currentFields });
+  if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) {
+    return json({
+      records: [
+        { id: 'recGrantSample001', fields: { fldlfnNiJnis63fOR: 'Sámple', fldx6Irt51pDkL9lq: 'Participant ', fldAIKWJz3O3IzyH2: 'other.address@example.org' } },
+        { id: 'recGrantSample002', fields: { fldlfnNiJnis63fOR: 'Sample', fldx6Irt51pDkL9lq: 'Participant', fldAIKWJz3O3IzyH2: 'Sample.Participant@example.org' } },
+        { id: 'recGrantSample003', fields: { fldlfnNiJnis63fOR: 'Someone', fldx6Irt51pDkL9lq: 'Else', fldAIKWJz3O3IzyH2: 'someone.else@example.org' } },
+      ],
+    });
+  }
+
   if (url.pathname.endsWith('tblYavwHtMMcn8Wt1')) return json({ records: [{ id: 'recLeadExample01', fields: { fldybLwD2UCqXFeb8: 'Lead@example.org', fldwPw2PCIDfn1ZqE: 'Biosecurity, Pandemics' } }] });
   if (url.pathname.endsWith('tblu6u7F2NHfCMgsk')) return json({ records: [{ id: 'recRoundExample01', fields: { fldEBVjEF9l2IEyG7: 'Test round', fldvorW4UVmRTihB9: ['Technical AI Safety'] } }] });
   return json({ records: eligible ? [{ id, fields: untouched }] : [] });
@@ -215,4 +225,11 @@ test('the summary is one write; the lookup state reads both fields; the sweep as
   const sweep = decodeURIComponent((fetchMock.mock.calls.at(-1)![0] as string).replace(/\+/g, ' '));
   expect(sweep).toContain('{Talent scouting looked up on}=BLANK()');
   expect(sweep).toContain('TRIM({Talent scouting AI summary})=""');
+});
+
+test('grants under another email: same full name ignoring accents, case and spacing, and only when the email differs', async () => {
+  expect(await run(fetchGrantsUnderOtherEmail('Sample  participant', 'sample.participant@example.org'))).toEqual([
+    { recordUrl: 'https://airtable.com/appnJbsG1eWbAdEvf/tblh5zr4jRdrndKnC/recGrantSample001', email: 'other.address@example.org' },
+  ]);
+  expect(await run(fetchGrantsUnderOtherEmail('Nobody Here', 'nobody@example.org'))).toEqual([]);
 });

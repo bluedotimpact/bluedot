@@ -3,9 +3,9 @@ import { generateText, stepCountIs } from 'ai';
 import { slackAlert } from '@bluedot/utils';
 import { logger } from '@bluedot/ui/src/api';
 import env from '../../../lib/api/env';
-import type { WebFacts } from '../types';
+import type { Person, WebFacts } from '../types';
 import {
-  fetchIdsNeedingLookup, fetchLookupAnchors, fetchLookupState, fetchPerson, parseWebFacts, writeAiSummary, writeWebFacts, type LookupAnchors,
+  fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLookupAnchors, fetchLookupState, fetchPerson, parseWebFacts, writeAiSummary, writeWebFacts, type LookupAnchors,
 } from './airtable';
 import { summarise } from './summary';
 
@@ -189,6 +189,21 @@ export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
 
 // Fills what a registration still lacks: the lookup, then the summary. A fresh lookup always
 // gets a fresh summary; clearing a field in Airtable and ticking the box asks for a re-run.
+const UPDATE_COURSES_CHANNEL_ID = 'C04CSNYF5QX';
+
+// Runs once per registration, after its summary, so each possible match is flagged once
+const flagGrantUnderOtherEmail = async (person: Person) => {
+  try {
+    const grants = await fetchGrantsUnderOtherEmail(person.name, person.email);
+    if (grants.length === 0) return;
+    const card = `<https://apps.bluedot.org/scout?person=${person.id}|${person.name}>`;
+    const grantLinks = grants.map((g) => `<${g.recordUrl}|${g.email ?? 'grant record'}>`).join(', ');
+    await slackAlert(env, [`Possible grant under another email: ${card} (${person.roundName}) has an approved career transition grant under a different email: ${grantLinks}. Registration email: ${person.email}. If you think it is the same person, set their scouting status to Pass.`], { channelId: UPDATE_COURSES_CHANNEL_ID });
+  } catch (error) {
+    logger.warn(`scout lookup: grant name check failed for ${person.id}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+};
+
 export const lookUpPeople = async (ids: string[]): Promise<void> => {
   for (const id of ids) {
     try {
@@ -222,6 +237,8 @@ export const lookUpPeople = async (ids: string[]): Promise<void> => {
       // eslint-disable-next-line no-await-in-loop
       await writeAiSummary(id, summary);
       logger.info(`scout lookup: ${id} summarised`);
+      // eslint-disable-next-line no-await-in-loop
+      await flagGrantUnderOtherEmail(person);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       logger.error(`scout lookup: ${id} failed: ${message}`);
