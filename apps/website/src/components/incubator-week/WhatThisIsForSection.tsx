@@ -34,7 +34,7 @@ const WhatThisIsForSection = () => {
             Incubator Week is a 5-day sprint for experts considering founding in AI safety.
           </P>
           <P>
-            We&apos;ll launch you into the field, help you lock in on a problem, find a co-founder. If we back your pitch, we will fund your immediate needs on the spot and—if you make good progress—give you up to $100k in grant funding within two weeks. The week is held in San Francisco.
+            We&apos;ll launch you into the field, help you lock in on a problem, find a co-founder. If we back your pitch, we will fund your immediate needs on the spot and—if you make good progress—give you up to $200k in grant funding within two weeks. The week is held in San Francisco.
           </P>
         </div>
 
