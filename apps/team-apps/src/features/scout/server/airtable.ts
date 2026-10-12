@@ -178,6 +178,8 @@ const PEER = {
 // Applications › Career transition grants
 const GRANT = {
   email: 'fldAIKWJz3O3IzyH2',
+  firstName: 'fldlfnNiJnis63fOR',
+  lastName: 'fldx6Irt51pDkL9lq',
   createdAt: 'fldE84yZkPAzBL2gl',
   status: 'fldnfK6Wgb1CAuvFE',
   decisionDate: 'fld3eJ88BBBQHgcmJ',
@@ -394,6 +396,20 @@ const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
 };
 
 const normaliseEmail = (email: string) => email.trim().toLowerCase();
+const normaliseName = (name: string) => name.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+export type GrantUnderOtherEmail = { recordUrl: string; email?: string };
+
+// Approved grants under the same full name but another email: maybe the same person, for a lead to check
+export const fetchGrantsUnderOtherEmail = async (name: string, email: string): Promise<GrantUnderOtherEmail[]> => {
+  const wanted = normaliseName(name);
+  if (!wanted) return [];
+  const grants = await fetchAll(GRANTS_URL, { filterByFormula: '{Status}=\'Approve\'' }, [GRANT.firstName, GRANT.lastName, GRANT.email]);
+  return grants
+    .filter((r) => normaliseName(`${str(r.fields[GRANT.firstName]) ?? ''} ${str(r.fields[GRANT.lastName]) ?? ''}`) === wanted)
+    .filter((r) => normaliseEmail(str(r.fields[GRANT.email]) ?? '') !== normaliseEmail(email))
+    .map((r) => ({ recordUrl: recordLink(GRANTS_URL, r.id), email: str(r.fields[GRANT.email]) }));
+};
 
 export const fetchQueue = async (): Promise<QueueItem[]> => {
   const [records, rounds, alreadySupported] = await Promise.all([

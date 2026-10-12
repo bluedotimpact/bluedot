@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
 const {
-  generateText, fetchLookupAnchors, writeWebFacts, fetchIdsNeedingLookup, fetchLookupState, fetchPerson, writeAiSummary, slackAlert,
+  generateText, fetchLookupAnchors, writeWebFacts, fetchIdsNeedingLookup, fetchLookupState, fetchPerson, writeAiSummary, fetchGrantsUnderOtherEmail, slackAlert,
 } = vi.hoisted(() => ({
   generateText: vi.fn(),
   fetchLookupAnchors: vi.fn(),
@@ -13,6 +13,7 @@ const {
   fetchLookupState: vi.fn(),
   fetchPerson: vi.fn(),
   writeAiSummary: vi.fn(),
+  fetchGrantsUnderOtherEmail: vi.fn(),
   slackAlert: vi.fn(async (_env: unknown, _messages: string[]) => undefined),
 }));
 vi.mock('ai', () => ({ generateText, stepCountIs: () => () => false }));
@@ -28,6 +29,7 @@ vi.mock('./airtable', async (importOriginal) => ({
   fetchLookupState,
   fetchPerson,
   writeAiSummary,
+  fetchGrantsUnderOtherEmail,
 }));
 import {
   idsToLookUp, lookUpPeople, preservesValues, runLookup, sanitise,
@@ -72,6 +74,7 @@ beforeEach(() => {
     id: 'recScoutSample001', name: 'Sample Participant', course: 'Technical AI Safety', email: 'sample.participant@example.org',
   });
   writeAiSummary.mockResolvedValue(undefined);
+  fetchGrantsUnderOtherEmail.mockResolvedValue([]);
 });
 
 test('sanitise keeps only URLs the tools returned, ignoring scheme and trailing slash but not the query string, and caps the lists', () => {
@@ -170,6 +173,25 @@ test('a registration already looked up only gets the missing summary', async () 
   expect(writeWebFacts).not.toHaveBeenCalled();
   expect(writeAiSummary).toHaveBeenCalledWith('recScoutSample002', 'Only a summary.');
   expect(generateText).toHaveBeenCalledTimes(1);
+});
+
+test('after a summary, an approved grant under the same name but another email is flagged once in #update_courses; a failed check never fails the summary', async () => {
+  fetchLookupState.mockResolvedValue({ lookedUpOn: '2026-09-25', summarised: false });
+  generateText.mockResolvedValue({ text: '- Built a thing', steps: [] });
+  fetchGrantsUnderOtherEmail.mockResolvedValueOnce([{ recordUrl: 'https://airtable.example.org/recGrantSample001', email: 'other.address@example.org' }]);
+  await lookUpPeople(['recScoutSample001']);
+  expect(fetchGrantsUnderOtherEmail).toHaveBeenCalledWith('Sample Participant', 'sample.participant@example.org');
+  expect(slackAlert).toHaveBeenCalledTimes(1);
+  const [, messages, options] = slackAlert.mock.calls[0]! as unknown as [unknown, string[], { channelId: string }];
+  expect(options.channelId).toBe('C04CSNYF5QX');
+  expect(messages[0]).toContain('other.address@example.org');
+  expect(messages[0]).toContain('If you think it is the same person, set their scouting status to Pass.');
+
+  slackAlert.mockClear();
+  fetchGrantsUnderOtherEmail.mockRejectedValueOnce(new Error('grants table unavailable'));
+  await lookUpPeople(['recScoutSample001']);
+  expect(writeAiSummary).toHaveBeenCalledTimes(2);
+  expect(slackAlert).not.toHaveBeenCalled();
 });
 
 test('idsToLookUp puts explicit ids first, then everyone still missing something, without repeats', async () => {
