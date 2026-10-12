@@ -49,7 +49,8 @@ describe('GrantsPage', () => {
     expect(screen.getByRole('heading', { name: 'Rapid Grants', level: 2 })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'Career Transition Grants', level: 2 })).toBeVisible();
     expect(screen.queryByRole('heading', { name: 'Media Grants' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('heading', { name: 'Seed Grants' })).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Seed Grants', level: 2 })).toBeVisible();
+    expect(screen.getByRole('link', { name: 'Seed Grants' })).toHaveAttribute('href', '/grants/seed');
     expect(screen.getByRole('link', { name: 'Rapid Grants' })).toHaveAttribute('href', '/grants/rapid');
     expect(screen.getByRole('link', { name: 'Career Transition Grants' })).toHaveAttribute('href', '/grants/career-transition');
     expect(document.getElementById('find-your-grant')).toBeInTheDocument();
@@ -73,7 +74,7 @@ describe('GrantsPage', () => {
     expect(screen.getByRole('link', { name: 'Career Transition Grants' })).toBeInTheDocument();
   });
 
-  test('opens funding guidance and provides contact routes', async () => {
+  test('opens funding guidance and routes organization funding to Seed Grants', async () => {
     const user = userEvent.setup();
     render(<GrantsPage />, { wrapper: TrpcProvider });
 
@@ -86,7 +87,7 @@ describe('GrantsPage', () => {
       await user.click(question);
     });
     expect(question).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByRole('link', { name: 'Contact us' })).toHaveAttribute('href', '/contact');
+    expect(screen.getByRole('link', { name: 'Seed Grant' })).toHaveAttribute('href', '/grants/seed');
 
     const restrictions = screen.getByRole('button', { name: 'What funding restrictions apply?' });
     await act(async () => {

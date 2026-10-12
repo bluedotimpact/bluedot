@@ -7,7 +7,7 @@ import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
-type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
+export type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
 
 const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   const amount = grantee.amountUsd !== null ? formatAmountUsd(grantee.amountUsd) : null;
@@ -25,7 +25,7 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   );
 };
 
-const EditorialGranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => (
+export const EditorialGranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => (
   <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 bd-md:gap-8">
     <div className="min-w-0">
       <h3 className="text-size-sm bd-md:text-size-md font-medium leading-snug tracking-tight break-words">

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useId, type ReactNode } from 'react';
 import {
-  FaArrowRight, FaArrowUpRightFromSquare, FaCubes, FaPuzzlePiece, FaRoute, FaShieldHalved,
+  FaArrowRight, FaArrowUpRightFromSquare, FaCubes, FaPuzzlePiece, FaRoute, FaSeedling, FaShieldHalved,
 } from 'react-icons/fa6';
 
 // Each opportunity keeps the same visual identity on the homepage and directories.
@@ -17,6 +17,10 @@ const OPPORTUNITY_STYLES = {
   careerTransition: {
     icon: FaRoute,
     gradient: 'radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--marketing-hero-sky) 65%, var(--marketing-hero-indigo)) 0%, var(--marketing-hero-blue) 50%, var(--marketing-hero-indigo) 100%)',
+  },
+  seed: {
+    icon: FaSeedling,
+    gradient: 'radial-gradient(ellipse at 0% 0%, color-mix(in srgb, var(--marketing-hero-sky) 45%, var(--marketing-hero-blue)) 0%, var(--marketing-hero-indigo) 55%, var(--marketing-hero-midnight) 100%)',
   },
   programs: {
     icon: FaPuzzlePiece,

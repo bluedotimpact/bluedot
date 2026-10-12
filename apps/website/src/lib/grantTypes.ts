@@ -1,7 +1,7 @@
 // Grant types with launched public pages. Each slug matches the `slug` of the
 // grant type's row in the Airtable `program` table and its page URL
 // (`/grants/<slug>`). Draft grant types stay unlinked until they're added here.
-export const GRANT_TYPE_SLUGS = ['rapid', 'career-transition'] as const;
+export const GRANT_TYPE_SLUGS = ['rapid', 'career-transition', 'seed'] as const;
 
 export type GrantTypeSlug = typeof GRANT_TYPE_SLUGS[number];
 

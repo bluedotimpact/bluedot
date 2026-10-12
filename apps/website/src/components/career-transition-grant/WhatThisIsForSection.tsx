@@ -1,4 +1,5 @@
-import { H3, P } from '@bluedot/ui';
+import { A, H3, P } from '@bluedot/ui';
+import { grantTypePath } from '../../lib/grantTypes';
 
 const EXAMPLE_USES = [
   'Produce research, policy work, technical work or another substantial output',
@@ -26,7 +27,7 @@ const WhatThisIsForSection = () => {
             We expect plans to change. What matters is that you can make progress, learn from evidence and produce something valuable even if your original path does not work.
           </P>
           <P>
-            This program is primarily for personal, full-time transitions. If your main request is to fund a discrete project, event or organizational activity, another BlueDot funding route may be a better fit. You can still apply if you are unsure—we will help route the request.
+            This program is primarily for personal, full-time transitions. If your main request is to fund a new project or organization, a <A href={grantTypePath('seed')}>Seed Grant</A> may be a better fit. You can still apply if you are unsure—we will help route the request.
           </P>
         </div>
       </div>
