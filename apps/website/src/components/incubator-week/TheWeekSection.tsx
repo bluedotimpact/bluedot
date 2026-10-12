@@ -1,4 +1,6 @@
-import { A, H3, H4, P } from '@bluedot/ui';
+import {
+  A, H3, H4, P,
+} from '@bluedot/ui';
 import { Pill } from '../Pill';
 
 const SCHEDULE = [
