@@ -25,6 +25,7 @@ vi.mock('../../../features/scout/server/assess', () => ({ assess }));
 import lookup from '../../../pages/api/scout/lookup';
 import assessRoute from '../../../pages/api/scout/assess';
 import queue from '../../../pages/api/scout/queue';
+import counts from '../../../pages/api/scout/counts';
 import person from '../../../pages/api/scout/person/[id]';
 import decision from '../../../pages/api/scout/decision';
 
@@ -135,4 +136,20 @@ test('the assess route accepts only the automation token, assesses the loaded pe
   const missing = createMocks<NextApiRequest, NextApiResponse>({ method: 'POST', headers: { authorization: 'Bearer automation-secret' }, body });
   await assessRoute(missing.req, missing.res);
   expect(missing.res._getStatusCode()).toBe(404);
+});
+
+test('the counts route accepts only the automation token and returns the round picker numbers per course', async () => {
+  const denied = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers });
+  await counts(denied.req, denied.res);
+  expect(denied.res._getStatusCode()).toBe(401);
+  expect(fetchQueue).not.toHaveBeenCalled();
+
+  fetchQueue.mockResolvedValueOnce([{ id: 'recScoutSample001', course: 'Biosecurity' }, { id: 'recScoutSample002', course: 'Biosecurity' }, { id: 'recScoutSample003', course: 'AGI Strategy' }]);
+  fetchInvitedThisWeek.mockResolvedValueOnce({ Biosecurity: { total: 3, viaApp: 2 } });
+  const ok = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers: { authorization: 'Bearer automation-secret' } });
+  await counts(ok.req, ok.res);
+  expect(ok.res._getStatusCode()).toBe(200);
+  const data = ok.res._getJSONData();
+  expect(data.toReview).toMatchObject({ Biosecurity: 2, 'AGI Strategy': 1 });
+  expect(data.invitedThisWeek).toEqual({ Biosecurity: { total: 3, viaApp: 2 } });
 });
