@@ -161,8 +161,11 @@ export const sanitise = (raw: unknown, seen: Set<string>, meta: WebFacts['meta']
   };
 };
 
+// The model service now and then returns a body that is not JSON; one more try usually works
+const isUnreadableResponse = (error: unknown) => error instanceof Error && error.message.includes('Invalid JSON response');
+
 export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
-  const result = await generateText({
+  const call = () => generateText({
     model: anthropic(LOOKUP_MODEL),
     system: SYSTEM_PROMPT,
     prompt: anchorText(anchors),
@@ -172,6 +175,11 @@ export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
     },
     stopWhen: stepCountIs(MAX_SEARCHES + MAX_PAGE_READS + 2),
     maxOutputTokens: MAX_OUTPUT_TOKENS,
+  });
+  const result = await call().catch(async (error: unknown) => {
+    if (!isUnreadableResponse(error)) throw error;
+    logger.warn(`scout lookup: unreadable response for ${anchors.id}, trying once more`);
+    return call();
   });
   if (result.finishReason === 'length') throw new Error(`lookup reply was cut off at ${MAX_OUTPUT_TOKENS} output tokens`);
   const seen = urlsSeen(result.steps);
@@ -242,8 +250,9 @@ export const lookUpPeople = async (ids: string[]): Promise<void> => {
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       logger.error(`scout lookup: ${id} failed: ${message}`);
+      // Failures are grouped by error text, so a run that hits the same problem posts once
       // eslint-disable-next-line no-await-in-loop
-      await slackAlert(env, [`Error: scout web lookup failed for registration ${id}: ${message}`]).catch(() => undefined);
+      await slackAlert(env, [`Error: scout web lookup failed for registration ${id}: ${message}`], { batchKey: 'scout-lookup', flushIntervalMs: 10 * 60_000 }).catch(() => undefined);
     }
   }
 };

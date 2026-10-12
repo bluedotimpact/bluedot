@@ -107,6 +107,24 @@ test('runLookup collects seen URLs from tool results only, counts the calls, and
   expect(facts.meta.pages_fetched).toBe(2);
 });
 
+test('runLookup tries once more when the model service returns an unreadable response, and gives up on a second one', async () => {
+  generateText
+    .mockRejectedValueOnce(new Error('Invalid JSON response'))
+    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [] });
+  await runLookup(anchors);
+  expect(generateText).toHaveBeenCalledTimes(2);
+
+  generateText.mockReset();
+  generateText.mockRejectedValue(new Error('Invalid JSON response'));
+  await expect(runLookup(anchors)).rejects.toThrow('Invalid JSON response');
+  expect(generateText).toHaveBeenCalledTimes(2);
+
+  generateText.mockReset();
+  generateText.mockRejectedValueOnce(new Error('model unavailable'));
+  await expect(runLookup(anchors)).rejects.toThrow('model unavailable');
+  expect(generateText).toHaveBeenCalledTimes(1);
+});
+
 test('runLookup raises the output cap and fails plainly when the reply was cut off instead of parsing a fragment', async () => {
   generateText.mockResolvedValueOnce({ text: JSON.stringify(modelJson).slice(0, 200), finishReason: 'length', steps: [] });
   await expect(runLookup(anchors)).rejects.toThrow('cut off');
@@ -164,6 +182,7 @@ test('lookUpPeople writes the facts then the summary for each success, alerts on
   expect(generateText.mock.calls[2]![0].prompt).not.toContain('@');
   expect(slackAlert).toHaveBeenCalledTimes(1);
   expect(slackAlert.mock.calls[0]![1][0]).toContain('recScoutSample001');
+  expect((slackAlert.mock.calls[0] as unknown as [unknown, string[], { batchKey?: string }])[2]).toMatchObject({ batchKey: 'scout-lookup' });
 });
 
 test('a registration already looked up only gets the missing summary', async () => {
