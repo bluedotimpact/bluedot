@@ -17,12 +17,12 @@ import {
 
 const PROGRAM_SLUG = 'incubator-week';
 const FALLBACK_NAME = 'Incubator Week';
-const PROGRAM_DESCRIPTION = '5 days in San Francisco. All expenses paid. Up to $100k in funding if we back your pitch.';
-const APPLICATION_DEADLINE = 'October 28';
-const PROGRAM_DATES = 'November 2–6';
+const PROGRAM_DESCRIPTION = '5 days in San Francisco. All expenses paid. Up to $200k in funding if we back your pitch.';
+const APPLICATION_DEADLINE = 'November 11';
+const PROGRAM_DATES = 'November 16–20';
 const CONTACT_EMAIL = 'joshua@bluedot.org';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
-const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/incubator-week-november-2026.png`;
+const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/incubator-week-november-16-2026.png`;
 
 const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const applicationUrl = useApplicationUrl('incubator-week');
@@ -38,7 +38,7 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         {pageMetaTags({ title: `${programName} | BlueDot Impact`, description: programDescription })}
         <meta property="og:url" content={`${SITE_URL}/programs/incubator-week`} />
         {linkPreviewMetaTags({
-          imageUrl: LINK_PREVIEW_IMAGE, alt: `Incubator Week v6. 5 days. All expenses paid. Up to $100k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.`, width: 1200, height: 630, imageType: 'image/png',
+          imageUrl: LINK_PREVIEW_IMAGE, alt: `Incubator Week v6. 5 days. All expenses paid. Up to $200k in funding. San Francisco, ${PROGRAM_DATES}. Apply by ${APPLICATION_DEADLINE}. BlueDot Impact.`, width: 1200, height: 630, imageType: 'image/png',
         })}
       </Head>
       <MarketingHero
@@ -56,7 +56,7 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
         stats={[
           { label: 'Cohort', value: 'v6' },
           { label: 'Runs', value: PROGRAM_DATES },
-          { label: 'Funding', value: 'Up to $100k in grants' },
+          { label: 'Funding', value: 'Up to $200k in grants' },
           { label: 'Covered', value: 'All expenses paid' },
         ]}
       />

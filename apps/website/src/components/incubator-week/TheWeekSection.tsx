@@ -1,4 +1,6 @@
-import { H3, H4, P } from '@bluedot/ui';
+import {
+  A, H3, H4, P,
+} from '@bluedot/ui';
 import { Pill } from '../Pill';
 
 const SCHEDULE = [
@@ -20,7 +22,11 @@ const SCHEDULE = [
   {
     cadence: 'Friday',
     title: 'Pitch for funding',
-    body: 'Pitch to us. If we back your pitch, we will fund your immediate needs on the spot and—if you make good progress—give you up to $100k in grant funding within two weeks.',
+    body: (
+      <>
+        Pitch to us. If we back your pitch, we will fund your immediate needs on the spot and—if you make good progress—give you up to $200k in grant funding within two weeks. Learn more about our <A href="/grants/seed">Seed Grants</A>.
+      </>
+    ),
   },
 ];
 
