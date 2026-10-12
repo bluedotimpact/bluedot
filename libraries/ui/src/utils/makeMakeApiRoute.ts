@@ -7,6 +7,7 @@ import {
 } from '@opentelemetry/api';
 import { slackAlert } from '@bluedot/utils';
 import { logger } from './logger';
+import { InvalidTokenError } from './InvalidTokenError';
 
 export type RouteOptions<ReqZT extends ZodType, ResZT extends ZodType, RequiresAuth extends boolean> = {
   /** The shape of the request body. @default ZodLiteral<null> */
@@ -156,7 +157,7 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
     slackAlert(env, [
       `Error: Failed request on route ${req.method} ${req.url}: ${err instanceof Error ? err.message : String(err)}`,
       ...(err instanceof Error ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
-    ]);
+    ], { batchKey: 'api-route-server-errors' });
 
     res.status(statusCode).json({
       error: 'Internal Server Error',
@@ -185,7 +186,11 @@ const getAuth = async <RequiresAuth extends boolean, AuthResult extends BaseAuth
   try {
     return await verifyAndDecodeToken(token) as RequiresAuth extends true ? AuthResult : null;
   } catch (err) {
-    logger.error('Error verifying token', err);
-    throw new createHttpError.Unauthorized('Invalid access token');
+    if (err instanceof InvalidTokenError) {
+      logger.warn('Rejected access token', err);
+      throw new createHttpError.Unauthorized('Invalid access token');
+    }
+
+    throw err;
   }
 };

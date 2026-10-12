@@ -1,5 +1,5 @@
 import { userTable } from '@bluedot/db';
-import { loginPresets } from '@bluedot/ui/src/Login';
+import { InvalidTokenError, loginPresets } from '@bluedot/ui/src/Login';
 import { logger } from '@bluedot/ui/src/api';
 import { TRPCError } from '@trpc/server';
 import type * as trpcNext from '@trpc/server/adapters/next';
@@ -53,14 +53,13 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
 
     return { auth, impersonation: null, userAgent };
   } catch (error) {
-    // Deliberate rejections (e.g. impersonating an ineligible target) propagate as-is.
-    if (error instanceof TRPCError) {
-      throw error;
+    if (error instanceof InvalidTokenError) {
+      logger.warn('Rejected access token', error);
+      return { auth: null, impersonation: null, userAgent };
     }
 
-    // Token verification failed - return null and let protectedProcedure handle it
-    logger.error('Error verifying token', error);
-    return { auth: null, impersonation: null, userAgent };
+    // e.g. impersonation rejections (passed through as-is), or failing to reach the login service (becomes a 500)
+    throw error;
   }
 };
 

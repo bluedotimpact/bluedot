@@ -1,5 +1,6 @@
 import { createMocks } from 'node-mocks-http';
 import { type NextApiRequest, type NextApiResponse } from 'next';
+import { InvalidTokenError } from '@bluedot/ui/src/Login';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
@@ -39,7 +40,7 @@ describe('staff access', () => {
     expect(fetchRounds).not.toHaveBeenCalled();
   });
   test('rejects a token that Google verification rejects', async () => {
-    verify.mockRejectedValue(new Error('Not a verified bluedot.org account'));
+    verify.mockRejectedValue(new InvalidTokenError('Not a verified bluedot.org account'));
     const { req, res } = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers: { authorization: 'Bearer personal-account' } });
     await rounds(req, res);
     expect(res._getStatusCode()).toBe(401);

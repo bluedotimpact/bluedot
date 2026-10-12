@@ -4,7 +4,14 @@ import {
 import { z } from 'zod';
 import { type NextApiRequest, type NextApiResponse } from 'next';
 import createHttpError from 'http-errors';
+import { slackAlert } from '@bluedot/utils';
 import { makeMakeApiRoute } from './makeMakeApiRoute';
+import { InvalidTokenError } from './InvalidTokenError';
+
+vi.mock('@bluedot/utils', async (importOriginal) => ({
+  ...await importOriginal<object>(),
+  slackAlert: vi.fn(),
+}));
 
 const mockEnv = {
   APP_NAME: 'test-app',
@@ -17,7 +24,15 @@ const mockVerifyToken = vi.fn().mockImplementation((token: string) => {
     return { sub: 'test123', email: 'test@bluedot.org' };
   }
 
-  throw new Error('bah');
+  if (token === 'expired-token') {
+    throw new InvalidTokenError('Token expired');
+  }
+
+  if (token === 'unreachable-keys-token') {
+    throw Object.assign(new Error('getaddrinfo ENOTFOUND login.bluedot.org'), { code: 'ENOTFOUND' });
+  }
+
+  throw new InvalidTokenError('Invalid signature');
 });
 
 const createMockReq = (overrides?: Partial<NextApiRequest>): NextApiRequest => ({
@@ -343,6 +358,53 @@ describe('makeMakeApiRoute', () => {
       expect(res.json).toHaveBeenCalledWith({
         error: 'Invalid access token',
       });
+      expect(slackAlert).not.toHaveBeenCalled();
+    });
+
+    test('should return 401 without alerting when auth token is expired', async () => {
+      const makeApiRoute = makeMakeApiRoute({
+        env: mockEnv,
+        verifyAndDecodeToken: mockVerifyToken,
+      });
+
+      const handler = makeApiRoute(
+        { requireAuth: true, responseBody: z.object({ userId: z.string() }) },
+        async (_, { auth }) => ({ userId: auth.sub }),
+      );
+
+      const req = createMockReq({
+        headers: { authorization: 'Bearer expired-token' },
+      });
+      const res = createMockRes();
+
+      await handler(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(401);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Invalid access token' });
+      expect(slackAlert).not.toHaveBeenCalled();
+    });
+
+    test('should return 500 and alert when token verification fails for a non-token reason', async () => {
+      const makeApiRoute = makeMakeApiRoute({
+        env: mockEnv,
+        verifyAndDecodeToken: mockVerifyToken,
+      });
+
+      const handler = makeApiRoute(
+        { requireAuth: true, responseBody: z.object({ userId: z.string() }) },
+        async (_, { auth }) => ({ userId: auth.sub }),
+      );
+
+      const req = createMockReq({
+        headers: { authorization: 'Bearer unreachable-keys-token' },
+      });
+      const res = createMockRes();
+
+      await handler(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(500);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Internal Server Error' });
+      expect(slackAlert).toHaveBeenCalledWith(mockEnv, expect.arrayContaining([expect.stringContaining('ENOTFOUND')]), { batchKey: 'api-route-server-errors' });
     });
 
     test.each(['', 'short', 'does not match any format', 'Bearer', 'Bearer '])('should return 401 when auth token header is corrupted: `%s`', async (authHeaderValue) => {
