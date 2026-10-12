@@ -2,6 +2,26 @@ import type { FAQItem } from '../lander/components/FAQSection';
 import type { GrantTypeSlug } from '../../lib/grantTypes';
 import { FUNDING_RESTRICTIONS_FAQ } from './fundingRestrictions';
 
+const CTG_GRANT_STRUCTURE_FAQ: FAQItem = {
+  id: 'grant-structure',
+  question: 'How is the grant structured?',
+  answer: (
+    <>
+      The grant is a fellowship grant in support of your AI safety or biosecurity transition. It is not a salary or a contract for services. BlueDot is a UK entity, so we don't issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us.
+      <br />
+      <br />
+      We can't give tax advice, so please check the tax implications with a qualified advisor in your country.
+    </>
+  ),
+  answerText: 'The grant is a fellowship grant in support of your AI safety or biosecurity transition. It is not a salary or a contract for services. BlueDot is a UK entity, so we don\'t issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us. We can\'t give tax advice, so please check the tax implications with a qualified advisor in your country.',
+};
+
+const SEED_GRANT_STRUCTURE_FAQ: FAQItem = {
+  id: 'grant-structure',
+  question: 'How is the grant structured?',
+  answer: 'The grant is paid to you to support your AI safety or biosecurity project. It isn\'t a salary, an investment or a contract for services. Grants are often taxable income, and we can\'t give tax advice, so please check with a qualified advisor in your country.',
+};
+
 export const GRANT_TYPE_FAQS: Record<GrantTypeSlug, FAQItem[]> = {
   rapid: [
     {
@@ -107,18 +127,50 @@ export const GRANT_TYPE_FAQS: Record<GrantTypeSlug, FAQItem[]> = {
       question: 'Will you fund a Master\'s or PhD?',
       answer: 'Generally, no. For most people, a Master\'s or PhD isn\'t the most direct route to impactful AI safety or biosecurity work. There are exceptions. Mention it in your application if you think yours is one.',
     },
+    CTG_GRANT_STRUCTURE_FAQ,
+  ],
+  seed: [
     {
-      id: 'grant-structure',
-      question: 'How is the grant structured?',
-      answer: (
-        <>
-          The grant is a fellowship grant in support of your AI safety or biosecurity transition. It is not a salary or a contract for services. BlueDot is a UK entity, so we don't issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us.
-          <br />
-          <br />
-          We can't give tax advice, so please check the tax implications with a qualified advisor in your country.
-        </>
-      ),
-      answerText: 'The grant is a fellowship grant in support of your AI safety or biosecurity transition. It is not a salary or a contract for services. BlueDot is a UK entity, so we don\'t issue W-2s or 1099s, and the agreement explicitly states there is no employment, worker, or contractor relationship between us. We can\'t give tax advice, so please check the tax implications with a qualified advisor in your country.',
+      id: 'which-grant',
+      question: 'How is this different from Career Transition Grants and Rapid Grants?',
+      answer: 'Rapid Grants fund smaller pieces of work, up to $20k, with a quick decision. Career Transition Grants fund you personally as you move into full-time AI safety or biosecurity work. Seed Grants are for starting something new: a project or organization that you plan to grow beyond yourself. If you\'re not sure which fits, pick the closest one and we\'ll move your application to the right route.',
     },
+    {
+      id: 'pay-organization',
+      question: 'Can you pay the grant to my organization?',
+      answer: 'Right now we pay Seed Grants to individual founders. If you need the grant paid to an organization, say so in your application and we\'ll work out what\'s possible.',
+    },
+    {
+      id: 'for-profit',
+      question: 'Can you fund a for-profit company?',
+      answer: 'In some cases, where the work clearly serves the public good. Tell us about your plans in your application. These grants take longer to approve.',
+    },
+    {
+      id: 'co-founder',
+      question: 'Do I need a co-founder?',
+      answer: 'No. Solo founders are welcome.',
+    },
+    {
+      id: 'bluedot-course',
+      question: 'Do I need to have taken a BlueDot course?',
+      answer: 'No. Anyone can apply.',
+    },
+    {
+      id: 'missions',
+      question: 'Does my project need to be one of your missions?',
+      answer: 'No. Missions are ideas we\'d love to see someone take on, but we fund strong projects in any area of AI safety or biosecurity.',
+    },
+    {
+      id: 'second-grant',
+      question: 'Can I get a second Seed Grant?',
+      answer: 'We make one Seed Grant per project. For the next stage, we\'ll introduce you to larger funders.',
+    },
+    {
+      id: 'does-not-work-out',
+      question: 'What if the project doesn\'t work out?',
+      answer: 'Most new projects change direction, and some stop. Tell us early. If you stop, you return the unspent funds.',
+    },
+    FUNDING_RESTRICTIONS_FAQ,
+    SEED_GRANT_STRUCTURE_FAQ,
   ],
 };

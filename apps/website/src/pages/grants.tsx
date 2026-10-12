@@ -37,7 +37,20 @@ const FUNDING_ROUTES = [
     description: 'Funding to move full-time into AI safety or biosecurity. Build experience, produce useful work or test a career path.',
     application: 'About 45 minutes to apply',
   },
+  {
+    slug: 'seed',
+    name: 'Seed Grants',
+    amount: '$20k-$200k',
+    description: 'Funding for the first 6-12 months of a new AI safety or biosecurity project or organization.',
+    application: 'Decision in about 4 weeks',
+  },
 ] as const;
+
+const CARD_TONES = {
+  rapid: 'funding',
+  'career-transition': 'careerTransition',
+  seed: 'seed',
+} as const;
 
 const FAQ_ITEMS = [
   {
@@ -48,7 +61,7 @@ const FAQ_ITEMS = [
   {
     id: 'bluedot-course',
     question: 'Do I need to have taken a BlueDot course?',
-    answer: 'No. You do not need to have taken a BlueDot course to apply for either grant.',
+    answer: 'No. You do not need to have taken a BlueDot course to apply for any of our grants.',
   },
   FUNDING_RESTRICTIONS_FAQ,
   {
@@ -61,11 +74,10 @@ const FAQ_ITEMS = [
     question: 'What about a larger project or funding for an organization?',
     answer: (
       <>
-        <A href={ROUTES.contact.url}>Contact us</A> with your plan, the amount you need and what funding would enable.
-        CTGs fund personal transitions; other requests may need a different route.
+        Apply for a <A href={grantTypePath('seed')}>Seed Grant</A>. It funds the first 6-12 months of a new project or organization.
       </>
     ),
-    answerText: 'Contact us with your plan, the amount you need and what funding would enable. CTGs fund personal transitions; other requests may need a different route.',
+    answerText: 'Apply for a Seed Grant. It funds the first 6-12 months of a new project or organization.',
   },
 ];
 
@@ -89,9 +101,9 @@ const GrantsPage = () => {
 
       <section id="find-your-grant" aria-label="Find your grant" className="scroll-mt-28 bg-canvas">
         <div className="section-base py-10 sm:py-12">
-          <ul className="grid list-none gap-5 bd-md:grid-cols-2 lg:gap-6">
+          <ul className="grid list-none gap-5 bd-md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             {FUNDING_ROUTES.map((route) => {
-              const stats = route.slug === 'rapid' ? rapidStats : careerTransitionStats;
+              const stats = { rapid: rapidStats, 'career-transition': careerTransitionStats, seed: undefined }[route.slug];
 
               return (
                 <li key={route.slug} className="min-w-0">
@@ -99,7 +111,7 @@ const GrantsPage = () => {
                     href={grantTypePath(route.slug)}
                     title={route.name}
                     description={route.description}
-                    tone={route.slug === 'rapid' ? 'funding' : 'careerTransition'}
+                    tone={CARD_TONES[route.slug]}
                     ctaLabel="Explore grant"
                     details={(
                       <div>

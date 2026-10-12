@@ -5,10 +5,10 @@ describe('getGrantPath', () => {
   test('returns the canonical path for a launched grant type', () => {
     expect(getGrantPath('career-transition')).toBe('/grants/career-transition');
     expect(getGrantPath('rapid')).toBe('/grants/rapid');
+    expect(getGrantPath('seed')).toBe('/grants/seed');
   });
 
   test('returns undefined for unlaunched or unknown slugs', () => {
-    expect(getGrantPath('seed')).toBeUndefined();
     expect(getGrantPath('rapid-grants')).toBeUndefined();
     expect(getGrantPath('toString')).toBeUndefined();
     expect(getGrantPath('constructor')).toBeUndefined();

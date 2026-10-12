@@ -9,7 +9,13 @@ import { trpc } from '../../utils/trpc';
 const HOMEPAGE_DESCRIPTIONS: Record<string, string> = {
   rapid: 'Get funding to run a project, host an event, or test an idea in AI safety or biosecurity.',
   'career-transition': 'Get the funding and support to move into AI safety or biosecurity full-time.',
+  seed: 'Get funding to start a new AI safety or biosecurity project or organization.',
   'incubator-week': 'Five days in San Francisco to build your idea. All expenses paid. Up to $100k if we back your pitch.',
+};
+
+const GRANT_TONES: Record<string, OpportunityCardTone> = {
+  'career-transition': 'careerTransition',
+  seed: 'seed',
 };
 
 const withHomepageTracking = (href: string, campaign: string) => (
@@ -39,7 +45,7 @@ const ActionCards = () => {
       title: grant.name,
       description: HOMEPAGE_DESCRIPTIONS[grant.slug ?? ''] ?? grant.description,
       href: withHomepageTracking(href, 'homepage-grants'),
-      tone: grant.slug === 'career-transition' ? 'careerTransition' : 'funding',
+      tone: GRANT_TONES[grant.slug ?? ''] ?? 'funding',
     }];
   });
 

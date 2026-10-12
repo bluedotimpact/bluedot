@@ -4,7 +4,6 @@ import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import MediaGrantsPage from '../../pages/grants/media';
-import SeedGrantsPage from '../../pages/grants/seed';
 import { renderWithHead } from '../testUtils';
 import { server, trpcMsw } from '../trpcMswSetup';
 import { TrpcProvider } from '../trpcProvider';
@@ -38,7 +37,6 @@ afterEach(() => cleanup());
 describe('unlisted grant placeholders', () => {
   test.each([
     ['Media Grants', MediaGrantsPage, '/grants/media'],
-    ['Seed Grants', SeedGrantsPage, '/grants/seed'],
   ])('%s exists at a direct URL but is marked noindex', (title, Page, path) => {
     renderWithHead(<TrpcProvider><Page /></TrpcProvider>);
 
