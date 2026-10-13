@@ -16,7 +16,7 @@ const {
   fetchGrantsUnderOtherEmail: vi.fn(),
   slackAlert: vi.fn(async (_env: unknown, _messages: string[]) => undefined),
 }));
-vi.mock('ai', () => ({ generateText, stepCountIs: () => () => false }));
+vi.mock('ai', async (importOriginal) => ({ ...(await importOriginal<Record<string, unknown>>()), generateText, stepCountIs: () => () => false }));
 vi.mock('@ai-sdk/anthropic', () => ({
   anthropic: Object.assign(() => 'model', { tools: { webSearch_20250305: () => 'search-tool', webFetch_20250910: () => 'fetch-tool' } }),
 }));
@@ -31,6 +31,7 @@ vi.mock('./airtable', async (importOriginal) => ({
   writeAiSummary,
   fetchGrantsUnderOtherEmail,
 }));
+import { APICallError, JSONParseError, TypeValidationError } from 'ai';
 import {
   idsToLookUp, lookUpPeople, preservesValues, runLookup, sanitise,
 } from './lookup';
@@ -107,6 +108,35 @@ test('runLookup collects seen URLs from tool results only, counts the calls, and
   expect(facts.meta.pages_fetched).toBe(2);
 });
 
+test('runLookup tries once more when the model service returns an unreadable response, and gives up on a second one', async () => {
+  const unreadable = () => new APICallError({
+    message: 'Invalid JSON response', url: 'https://api.example.org', requestBodyValues: {}, cause: new JSONParseError({ text: '<html>', cause: new Error('Unexpected token') }),
+  });
+  generateText
+    .mockRejectedValueOnce(unreadable())
+    .mockResolvedValueOnce({ text: JSON.stringify(modelJson), steps: [] });
+  await runLookup(anchors);
+  expect(generateText).toHaveBeenCalledTimes(2);
+
+  generateText.mockReset();
+  generateText.mockRejectedValue(unreadable());
+  await expect(runLookup(anchors)).rejects.toThrow('Invalid JSON response');
+  expect(generateText).toHaveBeenCalledTimes(2);
+
+  // JSON of an unexpected shape would fail the same way again, so it is not retried
+  generateText.mockReset();
+  generateText.mockRejectedValueOnce(new APICallError({
+    message: 'Invalid JSON response', url: 'https://api.example.org', requestBodyValues: {}, cause: new TypeValidationError({ value: {}, cause: new Error('unexpected block type') }),
+  }));
+  await expect(runLookup(anchors)).rejects.toThrow('Invalid JSON response');
+  expect(generateText).toHaveBeenCalledTimes(1);
+
+  generateText.mockReset();
+  generateText.mockRejectedValueOnce(new Error('model unavailable'));
+  await expect(runLookup(anchors)).rejects.toThrow('model unavailable');
+  expect(generateText).toHaveBeenCalledTimes(1);
+});
+
 test('runLookup raises the output cap and fails plainly when the reply was cut off instead of parsing a fragment', async () => {
   generateText.mockResolvedValueOnce({ text: JSON.stringify(modelJson).slice(0, 200), finishReason: 'length', steps: [] });
   await expect(runLookup(anchors)).rejects.toThrow('cut off');
@@ -164,6 +194,7 @@ test('lookUpPeople writes the facts then the summary for each success, alerts on
   expect(generateText.mock.calls[2]![0].prompt).not.toContain('@');
   expect(slackAlert).toHaveBeenCalledTimes(1);
   expect(slackAlert.mock.calls[0]![1][0]).toContain('recScoutSample001');
+  expect((slackAlert.mock.calls[0] as unknown as [unknown, string[], { batchKey?: string; flushIntervalMs?: number }])[2]).toMatchObject({ batchKey: 'scout-lookup', flushIntervalMs: 10 * 60_000 });
 });
 
 test('a registration already looked up only gets the missing summary', async () => {
