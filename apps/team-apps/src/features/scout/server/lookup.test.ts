@@ -194,7 +194,7 @@ test('lookUpPeople writes the facts then the summary for each success, alerts on
   expect(generateText.mock.calls[2]![0].prompt).not.toContain('@');
   expect(slackAlert).toHaveBeenCalledTimes(1);
   expect(slackAlert.mock.calls[0]![1][0]).toContain('recScoutSample001');
-  expect((slackAlert.mock.calls[0] as unknown as [unknown, string[], { batchKey?: string; flushIntervalMs?: number }])[2]).toMatchObject({ batchKey: 'scout-lookup', flushIntervalMs: 10 * 60_000 });
+  expect((slackAlert.mock.calls[0] as unknown as [unknown, string[], { batchKey?: string; flushIntervalMs?: number }])[2]).toMatchObject({ batchKey: 'scout-lookup', flushIntervalMs: 60 * 60_000 });
 });
 
 test('a registration already looked up only gets the missing summary', async () => {
