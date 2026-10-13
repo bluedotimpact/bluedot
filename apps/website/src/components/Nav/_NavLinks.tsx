@@ -73,6 +73,7 @@ export const NavLinks: React.FC<{
         title: grant.name,
         url,
       })),
+    { title: ROUTES.missions.title, url: ROUTES.missions.url },
     { title: 'See all grants', url: ROUTES.grants.url },
   ];
 

@@ -166,6 +166,13 @@ exports[`AboutPage > should render correctly 1`] = `
                             >
                               Career Transition Grants
                             </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/missions"
+                              tabindex="0"
+                            >
+                              Missions
+                            </a>
                             <div
                               class="border-t border-gray-200 my-2"
                             />
@@ -409,6 +416,13 @@ exports[`AboutPage > should render correctly 1`] = `
                         tabindex="0"
                       >
                         Career Transition Grants
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/missions"
+                        tabindex="0"
+                      >
+                        Missions
                       </a>
                       <div
                         class="border-t border-gray-200 my-2"

@@ -159,6 +159,7 @@ describe('Nav', () => {
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Grants' })[0]!);
     expect((await screen.findAllByRole('link', { name: /Rapid Grants/i }))[0]?.getAttribute('href')).toBe('/grants/rapid');
+    expect((await screen.findAllByRole('link', { name: 'Missions' }))[0]?.getAttribute('href')).toBe('/missions');
 
     fireEvent.click(screen.getAllByRole('button', { name: 'Programs' })[0]!);
     expect((await screen.findAllByRole('link', { name: /AI Security Bootcamp/i }))[0]?.getAttribute('href')).toBe('https://aisb.dev/');
