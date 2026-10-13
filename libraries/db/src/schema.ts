@@ -158,8 +158,8 @@ export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response
     userId: text().array(),
   },
   indexes: (t) => [
-    // userId is an array queried with `@>`, which only a GIN index can serve
-    index('exercise_response_userId_idx').using('gin', t.userId),
+    // userId is an array queried with `@>`, which only a GIN index can serve.
+    index('exercise_response_userId_idx').using('gin', t.userId).with({ fastupdate: 'off' }),
     index('exercise_response_exerciseId_idx').on(t.exerciseId),
   ],
 });
@@ -1588,8 +1588,8 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     completedAt: text(),
   },
   indexes: (t) => [
-    // userId is an array queried with `@>`, which only a GIN index can serve
-    index('resource_completion_userId_idx').using('gin', t.userId),
+    // userId is an array queried with `@>`, which only a GIN index can serve.
+    index('resource_completion_userId_idx').using('gin', t.userId).with({ fastupdate: 'off' }),
   ],
 });
 

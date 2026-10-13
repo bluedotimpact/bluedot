@@ -507,6 +507,7 @@ export const userTable = pgAirtable('user', {
 - Name indexes `<table>_<column>_idx`, matching what Postgres would generate for `CREATE INDEX ON <table> (<column>)`.
 - Use plain `CREATE INDEX` (the default).
 - Array columns (`text().array()`) queried with `arrayContains` / `@>` need a GIN index: `index('x_userId_idx').using('gin', t.userId)`. A btree on an array column is never used for `@>`.
+- On GIN indexes, add `.with({ fastupdate: 'off' })` unless the table takes heavy writes. With the default, new entries wait in a pending list (up to 4 MB) that every lookup scans, and only vacuum or a full list clears it. Autovacuum rarely runs on our low-write tables, so lookups would stay slow.
 - Index DDL does not trigger a full Airtable resync (see `statementsRequireFullSync` in `apps/pg-sync-service/src/lib/schema-sync.ts`).
 - Unique indexes are usually not possible on Airtable-synced tables because Airtable does not enforce uniqueness; check for duplicates on prod before adding one.
 
