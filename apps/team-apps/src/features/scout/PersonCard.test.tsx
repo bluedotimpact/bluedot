@@ -71,3 +71,18 @@ test('the AI summary sits at the top of the card as a list, an older prose summa
   render(<PersonCard person={person} showName />);
   expect(screen.queryByText(/Built a thing/)).toBeNull();
 });
+
+test('a dropped-out course shows their reason when the row is opened', () => {
+  render(<PersonCard
+    person={{
+      ...person,
+      history: [{
+        id: 'recScoutSample002', course: 'AGI Strategy', roundName: 'AGI Strategy (2026 May W20) - Part-time', roundStart: '2026-05-11', facilitated: false, hasCertificate: false, droppedOut: true, dropOutReason: 'Started a new job', isCurrent: false,
+      }],
+    }}
+    showName
+  />);
+  expect(screen.queryByText('Started a new job')).toBeNull();
+  fireEvent.click(screen.getByText('Dropped out'));
+  expect(screen.getByText('Started a new job')).toBeTruthy();
+});

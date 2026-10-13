@@ -25,6 +25,7 @@ const PEER_FEEDBACK_URL = `${COURSE_RUNNER}/tbl8KC4Q1i5YlCGhm`;
 const GRANTS_URL = `${APPLICATIONS}/tblh5zr4jRdrndKnC`;
 const CALLS_URL = `${APPLICATIONS}/tblVstbJehu8wew93`;
 const APPLICATION_REGISTRATIONS_URL = `${APPLICATIONS}/tblXKnWoXK3R63F6D`;
+const DROP_OUTS_URL = `${APPLICATIONS}/tblmxqYXX1RaDvunu`;
 // CRM › Person: one record per human across courses, calls and notes
 const CRM_PERSON_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tblMYYK8bL2fRJmv7';
 const CRM_RAPID_GRANTS_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tbl3ftXbbaVDRGGLP';
@@ -242,6 +243,14 @@ const APP = {
   technicalSkillRationale: 'fld7qoZTSBPjY3gzl',
   pangramVerdict: 'fldKgZweXcilRhvwo',
   pangramScore: 'fldvPBmzJwBwdMuoM',
+  dropOuts: 'fldaEk9K3m25Hs4Ga',
+} as const;
+
+// Applications › Drop out / Deferral, filled in from the course hub
+const DROP_OUT = {
+  type: 'fldDiWfBa7r9x3C1B',
+  reason: 'fld46PnSM2D9naqtK',
+  createdAt: 'fld3p5UUEwIg0eTPQ',
 } as const;
 
 type AirtableRecord = { id: string; fields: Record<string, unknown> };
@@ -818,6 +827,9 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     optional(fetchMany(APPLICATION_REGISTRATIONS_URL, pastApplicationIds, Object.values(APP)), []),
   ]);
   const applicationById = new Map(pastApplications.map((r) => [r.id, toApplication(r)]));
+  const applications = [...(application ? [application] : []), ...pastApplications];
+  const dropOuts = await optional(fetchMany(DROP_OUTS_URL, applications.flatMap((r) => strList(r.fields[APP.dropOuts])), Object.values(DROP_OUT)), []);
+  const reasonByApplication = dropOutReasons(applications, dropOuts);
   const facilitators = await fetchFacilitatorNames(reports);
   // Only the facilitator's rows; participants can also leave peer feedback
   const facilitatorFeedback = await Promise.all(peerFeedback
@@ -847,7 +859,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     lookedUpOn: str(f[REG.lookedUpOn]),
     aiSummary: nonEmpty(str(f[REG.aiSummary])),
     aiTake: nonEmpty(str(f[REG.aiTake])),
-    history: attachPastApplications(history, applicationById),
+    history: attachPastApplications(history, applicationById).map((h) => ({ ...h, dropOutReason: h.droppedOut && h.applicationId ? reasonByApplication.get(h.applicationId) : undefined })),
     otherApplications,
     grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
@@ -859,6 +871,23 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     feedback: feedback.map(toFeedback),
     application: application ? toApplication(application) : undefined,
   };
+};
+
+// The reason given on each application's latest drop-out (not deferral), keyed by application.
+// Placeholders like "-" count as no reason. Exported for tests.
+export const dropOutReasons = (applications: AirtableRecord[], dropOuts: AirtableRecord[]): Map<string, string> => {
+  const byId = new Map(dropOuts.map((d) => [d.id, d]));
+  const reasons = new Map<string, string>();
+  for (const app of applications) {
+    const latest = strList(app.fields[APP.dropOuts])
+      .map((id) => byId.get(id))
+      .filter((d): d is AirtableRecord => str(d?.fields[DROP_OUT.type]) === 'Drop out')
+      .sort((a, b) => (str(b.fields[DROP_OUT.createdAt]) ?? '').localeCompare(str(a.fields[DROP_OUT.createdAt]) ?? ''))[0];
+    const reason = nonEmpty(str(latest?.fields[DROP_OUT.reason]));
+    if (reason && /[A-Za-z0-9]/.test(reason)) reasons.set(app.id, reason);
+  }
+
+  return reasons;
 };
 
 // The current registration's application is the Application section; past ones hang off their rows

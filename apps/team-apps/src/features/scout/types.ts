@@ -30,6 +30,8 @@ export type Registration = {
   opinion?: string;
   hasCertificate: boolean;
   droppedOut: boolean;
+  // Their reason in their own words, given when they dropped out on the course hub
+  dropOutReason?: string;
   applicationId?: string;
   isCurrent: boolean;
   // Sessions attended out of those expected, as Course runner counts them

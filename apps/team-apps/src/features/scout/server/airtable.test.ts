@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow, writeAiSummary,
+  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -232,4 +232,22 @@ test('grants under another email: same full name ignoring accents, case and spac
     { recordUrl: 'https://airtable.com/appnJbsG1eWbAdEvf/tblh5zr4jRdrndKnC/recGrantSample001', email: 'other.address@example.org' },
   ]);
   expect(await run(fetchGrantsUnderOtherEmail('Nobody Here', 'nobody@example.org'))).toEqual([]);
+});
+
+test('the drop-out reason is the latest drop-out on the application, never a deferral or a placeholder', () => {
+  const applications = [
+    { id: 'recAppSample00001', fields: { fldaEk9K3m25Hs4Ga: ['recDropSample0001', 'recDropSample0002', 'recDropSample0003'] } },
+    { id: 'recAppSample00002', fields: { fldaEk9K3m25Hs4Ga: ['recDropSample0004'] } },
+    { id: 'recAppSample00003', fields: {} },
+  ];
+  const dropOuts = [
+    { id: 'recDropSample0001', fields: { fldDiWfBa7r9x3C1B: 'Drop out', fld46PnSM2D9naqtK: 'Busy at work', fld3p5UUEwIg0eTPQ: '2026-05-01T10:00:00.000Z' } },
+    { id: 'recDropSample0002', fields: { fldDiWfBa7r9x3C1B: 'Drop out', fld46PnSM2D9naqtK: 'Started a new job', fld3p5UUEwIg0eTPQ: '2026-06-01T10:00:00.000Z' } },
+    { id: 'recDropSample0003', fields: { fldDiWfBa7r9x3C1B: 'Deferral', fld46PnSM2D9naqtK: 'Travelling', fld3p5UUEwIg0eTPQ: '2026-07-01T10:00:00.000Z' } },
+    { id: 'recDropSample0004', fields: { fldDiWfBa7r9x3C1B: 'Drop out', fld46PnSM2D9naqtK: '-', fld3p5UUEwIg0eTPQ: '2026-07-01T10:00:00.000Z' } },
+  ];
+  const reasons = dropOutReasons(applications, dropOuts);
+  expect(reasons.get('recAppSample00001')).toBe('Started a new job');
+  expect(reasons.has('recAppSample00002')).toBe(false);
+  expect(reasons.has('recAppSample00003')).toBe(false);
 });
