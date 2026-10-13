@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, toHistoryRow, writeAiSummary,
+  attachPastApplications, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, ratingOutOf, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -232,4 +232,9 @@ test('grants under another email: same full name ignoring accents, case and spac
     { recordUrl: 'https://airtable.com/appnJbsG1eWbAdEvf/tblh5zr4jRdrndKnC/recGrantSample001', email: 'other.address@example.org' },
   ]);
   expect(await run(fetchGrantsUnderOtherEmail('Nobody Here', 'nobody@example.org'))).toEqual([]);
+});
+
+test('facilitator ratings are out of 10 only when the two sub-scores exist, otherwise out of 5', () => {
+  expect(ratingOutOf({ fldPpQJJWyWvNP97T: 8, fldNXTpmIxyKvYdZH: 4, fldUBSY6rZ1Oyf1bd: 4 })).toBe(10);
+  expect(ratingOutOf({ fldPpQJJWyWvNP97T: 5, fldRpafPvaOloutyP: 5 })).toBe(5);
 });

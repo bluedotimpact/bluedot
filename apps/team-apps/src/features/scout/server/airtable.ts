@@ -615,13 +615,18 @@ const fetchSessions = async (expectedIds: string[], attendedIds: string[]): Prom
     .sort((a, b) => (a.unit ?? 99) - (b.unit ?? 99) || (a.startAt ?? '').localeCompare(b.startAt ?? ''));
 };
 
+// The total is the two sub-scores added up when they exist, otherwise the older single score
+// out of 5. Exported for tests.
+export const ratingOutOf = (fields: AirtableRecord['fields']): 5 | 10 => (num(fields[PEER.ratingReasoning]) === undefined ? 5 : 10);
+
 // How this facilitator rated everyone in the same round, so a lead can read an 8/10 against
-// the facilitator's own scale ("gave 8 or more to 3 of 8"). Matched by reviewer name.
-const fetchReviewerRoundStats = async (reviewer: string, roundName: string, rating: number): Promise<{ rated: number; atOrAbove: number }> => {
+// the facilitator's own scale ("gave 8 or more to 3 of 8"). Matched by reviewer name; only
+// ratings on the same scale are compared.
+const fetchReviewerRoundStats = async (reviewer: string, roundName: string, rating: number, outOf: 5 | 10): Promise<{ rated: number; atOrAbove: number }> => {
   const quote = (v: string) => `'${v.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')}'`;
   const formula = `AND(ARRAYJOIN({[>] Reviewer name})=${quote(reviewer)}, FIND(${quote(roundName)}, ARRAYJOIN({[>] Round})))`;
-  const records = await fetchAll(PEER_FEEDBACK_URL, { filterByFormula: formula }, [PEER.totalRating]);
-  const ratings = records.map((r) => num(r.fields[PEER.totalRating])).filter((x): x is number => x !== undefined);
+  const records = await fetchAll(PEER_FEEDBACK_URL, { filterByFormula: formula }, [PEER.totalRating, PEER.ratingReasoning]);
+  const ratings = records.filter((r) => ratingOutOf(r.fields) === outOf).map((r) => num(r.fields[PEER.totalRating])).filter((x): x is number => x !== undefined);
   return { rated: ratings.length, atOrAbove: ratings.filter((x) => x >= rating).length };
 };
 
@@ -631,6 +636,7 @@ const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord
   reviewer: first(r.fields[PEER.reviewer]),
   round: rounds.get(first(r.fields[PEER.round]) ?? '')?.name,
   rating: num(r.fields[PEER.totalRating]),
+  ratingOutOf: num(r.fields[PEER.totalRating]) === undefined ? undefined : ratingOutOf(r.fields),
   ratingReasoning: num(r.fields[PEER.ratingReasoning]),
   ratingInitiative: num(r.fields[PEER.ratingInitiative]),
   feedback: str(r.fields[PEER.feedback]),
@@ -823,9 +829,9 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   const facilitatorFeedback = await Promise.all(peerFeedback
     .filter((r) => strList(r.fields[PEER.reviewerRole]).includes('Facilitator'))
     .map(toFacilitatorFeedback(rounds))
-    .map(async (fb) => (fb.reviewer && fb.round && fb.rating !== undefined
+    .map(async (fb) => (fb.reviewer && fb.round && fb.rating !== undefined && fb.ratingOutOf
       // Context only: if the stats read fails (renamed field, rate limit) the feedback still shows
-      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating).catch(() => undefined) }
+      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating, fb.ratingOutOf).catch(() => undefined) }
       : fb)));
 
   return {
