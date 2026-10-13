@@ -55,7 +55,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="courses-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Courses
@@ -146,7 +146,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="grants-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Grants
@@ -208,7 +208,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="programs-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Programs
@@ -267,21 +267,28 @@ exports[`Nav > renders with courses 1`] = `
                     </div>
                   </div>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    href="/missions"
+                    tabindex="0"
+                  >
+                    Missions
+                  </a>
+                  <a
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/alumni"
                     tabindex="0"
                   >
                     Alumni
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/about"
                     tabindex="0"
                   >
                     About
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/join-us"
                     tabindex="0"
                   >
@@ -318,7 +325,7 @@ exports[`Nav > renders with courses 1`] = `
           class="flex items-center gap-12"
         >
           <div
-            class="nav-links flex gap-9 [&>*]:w-fit hidden xl:flex"
+            class="nav-links flex gap-9 [&>*]:w-fit hidden xl:flex max-[1360px]:gap-6"
           >
             <div
               class="nav-dropdown"
@@ -326,7 +333,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="courses-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Courses
@@ -417,7 +424,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="grants-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Grants
@@ -479,7 +486,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="programs-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Programs
@@ -538,21 +545,28 @@ exports[`Nav > renders with courses 1`] = `
               </div>
             </div>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              href="/missions"
+              tabindex="0"
+            >
+              Missions
+            </a>
+            <a
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/alumni"
               tabindex="0"
             >
               Alumni
             </a>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/about"
               tabindex="0"
             >
               About
             </a>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/join-us"
               tabindex="0"
             >
