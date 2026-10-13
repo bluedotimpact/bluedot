@@ -117,6 +117,6 @@ test('a dropped-out course shows their reason when the row is opened, and a dash
     showName
   />);
   fireEvent.click(screen.getByText('Dropped out'));
-  expect(screen.getByText('Why they dropped out, in their words')).toBeTruthy();
+  expect(screen.getByText('Drop out reason')).toBeTruthy();
   expect(screen.getByText('–')).toBeTruthy();
 });
