@@ -96,8 +96,9 @@ const plain = (text: string) => text
 
 // Amber with an "AI" mark means a model wrote it; everything else is what people wrote
 const AiMark: React.FC = () => <span className="mr-1.5 rounded-sm bg-warning-bg px-1 py-px text-size-xxs font-semibold text-warning-fg">AI</span>;
-const Caption: React.FC<{ children: ReactNode; ai?: boolean }> = ({ children, ai = false }) => (
-  <span className={cn('text-size-xs font-medium', ai ? 'text-warning-fg' : 'text-accent')}>{ai && <AiMark />}{children}</span>
+// `bad` matches the red status badges, eg the drop-out reason under "Dropped out"
+const Caption: React.FC<{ children: ReactNode; ai?: boolean; bad?: boolean }> = ({ children, ai = false, bad = false }) => (
+  <span className={cn('text-size-xs font-medium', ai && 'text-warning-fg', bad && 'text-error-fg', !ai && !bad && 'text-accent')}>{ai && <AiMark />}{children}</span>
 );
 
 const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean; ai?: boolean }> = ({
@@ -436,13 +437,13 @@ const TimelineRow: React.FC<{
 
 // Free text behind a row, shown when the row is opened
 // `always` shows the label with a dash when there is no text, so "nothing recorded" is visible
-const More: React.FC<{ label: string; text?: string; ai?: boolean; always?: boolean }> = ({
-  label, text, ai = false, always = false,
+const More: React.FC<{ label: string; text?: string; ai?: boolean; always?: boolean; bad?: boolean }> = ({
+  label, text, ai = false, always = false, bad = false,
 }) => {
   if (!text && !always) return null;
   return (
     <div className="flex flex-col gap-1">
-      <Caption ai={ai}>{label}</Caption>
+      <Caption ai={ai} bad={bad}>{label}</Caption>
       {text ? <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{plain(text)}</P> : <span className="text-size-sm text-disabled">–</span>}
     </div>
   );
@@ -521,7 +522,7 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
     current={r.isCurrent}
     more={(r.droppedOut || r.application) && (
       <div className="flex flex-col gap-2">
-        {r.droppedOut && <More always label="Why they dropped out, in their words" text={r.dropOutReason} />}
+        {r.droppedOut && <More always bad label="Drop out reason" text={r.dropOutReason} />}
         {r.application && <ApplicationDetails app={r.application} />}
       </div>
     )}
