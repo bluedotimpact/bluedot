@@ -1,5 +1,7 @@
 import { anthropic } from '@ai-sdk/anthropic';
-import { generateText, stepCountIs } from 'ai';
+import {
+  APICallError, JSONParseError, generateText, stepCountIs,
+} from 'ai';
 import { slackAlert } from '@bluedot/utils';
 import { logger } from '@bluedot/ui/src/api';
 import env from '../../../lib/api/env';
@@ -161,8 +163,9 @@ export const sanitise = (raw: unknown, seen: Set<string>, meta: WebFacts['meta']
   };
 };
 
-// The model service now and then returns a body that is not JSON; one more try usually works
-const isUnreadableResponse = (error: unknown) => error instanceof Error && error.message.includes('Invalid JSON response');
+// The model service now and then returns a body that is not JSON; one more try usually works.
+// A body that is JSON but not the shape the SDK expects would fail the same way again.
+const isUnreadableResponse = (error: unknown) => APICallError.isInstance(error) && JSONParseError.isInstance(error.cause);
 
 export const runLookup = async (anchors: LookupAnchors): Promise<WebFacts> => {
   const call = () => generateText({
