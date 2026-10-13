@@ -255,7 +255,7 @@ export const lookUpPeople = async (ids: string[]): Promise<void> => {
       logger.error(`scout lookup: ${id} failed: ${message}`);
       // Failures are grouped by error text, so a run that hits the same problem posts once
       // eslint-disable-next-line no-await-in-loop
-      await slackAlert(env, [`Error: scout web lookup failed for registration ${id}: ${message}`], { batchKey: 'scout-lookup', flushIntervalMs: 10 * 60_000 }).catch(() => undefined);
+      await slackAlert(env, [`Error: scout web lookup failed for registration ${id}: ${message}`], { batchKey: 'scout-lookup', flushIntervalMs: 60 * 60_000 }).catch(() => undefined);
     }
   }
 };
