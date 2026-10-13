@@ -300,21 +300,6 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               />
             </div>
           </div>
-
-          {updateDiscussionTimeMutation.isError && (
-            <P className="text-red-600">
-              {updateDiscussionTimeMutation.error?.message || 'An error occurred. Please try again.'}
-            </P>
-          )}
-
-          <Button
-            className="w-full"
-            onClick={handleSubmit}
-            loading={updateDiscussionTimeMutation.isPending}
-            disabled={submitDisabled}
-          >
-            {updateDiscussionTimeMutation.isPending ? 'Submitting...' : 'Submit'}
-          </Button>
         </>
       );
     }
@@ -381,12 +366,34 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     );
   };
 
+  const showUpdateTimeFooter = modalType === 'Update discussion time'
+    && !isLoading
+    && !isError
+    && !updateDiscussionTimeMutation.isSuccess;
+
   return (
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={renderTitle()}
       bottomDrawerOnMobile
+      footer={showUpdateTimeFooter && (
+        <div className="flex flex-col gap-2">
+          {updateDiscussionTimeMutation.isError && (
+            <P className="text-red-600">
+              {updateDiscussionTimeMutation.error?.message || 'An error occurred. Please try again.'}
+            </P>
+          )}
+          <Button
+            className="w-full"
+            onClick={handleSubmit}
+            loading={updateDiscussionTimeMutation.isPending}
+            disabled={submitDisabled}
+          >
+            {updateDiscussionTimeMutation.isPending ? 'Submitting...' : 'Submit'}
+          </Button>
+        </div>
+      )}
     >
       <form className="flex flex-col gap-8">{renderContent()}</form>
     </Modal>

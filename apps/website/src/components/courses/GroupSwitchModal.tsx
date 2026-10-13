@@ -401,6 +401,16 @@ export default function GroupSwitchModal({
       title={getModalTitle()}
       bottomDrawerOnMobile
       ariaLabel="Group switching"
+      footer={!isLoading && !showSuccess && isManualRequest && (
+        <Button
+          className="w-full"
+          onClick={handleSubmit}
+          disabled={isSubmitDisabled}
+          aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+        >
+          {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
+        </Button>
+      )}
     >
       <>
         {isLoading && <ProgressDots />}
@@ -421,16 +431,6 @@ export default function GroupSwitchModal({
                 {section.control}
               </div>
             ))}
-            {isManualRequest && (
-              <Button
-                className="w-full"
-                onClick={handleSubmit}
-                disabled={isSubmitDisabled}
-                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-              >
-                {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
-              </Button>
-            )}
           </form>
         )}
         {!isLoading && !showSuccess && !isManualRequest && (

@@ -324,6 +324,7 @@ describe('GroupSwitchModal', () => {
         .toHaveAttribute('href', expect.stringContaining('email=registration%40bluedot.org'));
 
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
+      expect(screen.getByRole('button', { name: /Submit group switch request/i })).toBeDisabled();
       fireEvent.change(reasonTextarea, {
         target: { value: 'None of the available times work for my schedule' },
       });
@@ -333,6 +334,9 @@ describe('GroupSwitchModal', () => {
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       expect(submitButton).not.toBeDisabled();
+      // Outside the scrolling form, so it stays in view on small screens
+      expect(screen.getByRole('dialog')).toContainElement(submitButton);
+      expect(submitButton.closest('form')).toBeNull();
       fireEvent.click(submitButton);
 
       // Verify the API was called with correct data

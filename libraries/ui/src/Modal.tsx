@@ -25,6 +25,11 @@ export type ModalProps = {
    * whose close is refused after its exit animation is left as an invisible overlay.
    */
   isDismissable?: boolean;
+  /**
+   * Actions that stay in view below the scrolling body. Use it for a form long enough to push its submit
+   * button off small screens. It takes height from the body, so keep it to the action buttons.
+   */
+  footer?: ReactNode;
 };
 
 const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
@@ -34,6 +39,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   children,
   ariaLabel,
   isDismissable = true,
+  footer,
 }) => {
   return (
     <ModalOverlay
@@ -58,6 +64,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
           <div className="min-h-0 overflow-y-auto px-8 pt-4 pb-6">
             {children}
           </div>
+          {footer && <div className="border-t border-subtle px-8 py-3">{footer}</div>}
         </Dialog>
       </AriaModal>
     </ModalOverlay>
@@ -72,6 +79,7 @@ export const Modal: React.FC<ModalProps> = ({
   bottomDrawerOnMobile = false,
   ariaLabel,
   isDismissable,
+  footer,
 }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
@@ -84,14 +92,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} isDismissable={isDismissable}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} isDismissable={isDismissable} footer={footer}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} isDismissable={isDismissable}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} isDismissable={isDismissable} footer={footer}>
       {children}
     </DesktopModal>
   );
