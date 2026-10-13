@@ -12,6 +12,7 @@ import Italic from '@tiptap/extension-italic';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 import ListItem from '@tiptap/extension-list-item';
+import HardBreak from '@tiptap/extension-hard-break';
 import History from '@tiptap/extension-history';
 import { Markdown } from 'tiptap-markdown';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -70,6 +71,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
       BulletList,
       OrderedList,
       ListItem,
+      HardBreak,
       History,
       // Type assertion needed due to tiptap-markdown version conflicts
       Markdown as never,
