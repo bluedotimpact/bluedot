@@ -48,6 +48,8 @@ export type FacilitatorFeedback = {
   reviewer?: string;
   round?: string;
   rating?: number;
+  // Older forms give one score out of 5; newer ones add two sub-scores out of 5 into one out of 10
+  ratingOutOf?: 5 | 10;
   ratingReasoning?: number;
   ratingInitiative?: number;
   feedback?: string;

@@ -684,7 +684,7 @@ const ProjectSection: React.FC<{ projects: Project[] }> = ({ projects }) => {
 // "10/10 · Aline gave 10 or more to 1 of the 7 they rated this round"
 const feedbackSummary = (fb: FacilitatorFeedback) => {
   const who = fb.reviewer?.split(' ')[0] ?? 'The facilitator';
-  const score = fb.rating !== undefined ? <><span className="font-semibold text-primary">{fb.rating}/10</span> · </> : null;
+  const score = fb.rating !== undefined ? <><span className="font-semibold text-primary">{fb.rating}/{fb.ratingOutOf ?? 10}</span> · </> : null;
   if (fb.roundStats && fb.rating !== undefined) return <>{score}{who} gave {fb.rating} or more to {fb.roundStats.atOrAbove} of the {fb.roundStats.rated} they rated this round.</>;
   return <>{score}{who}{fb.round ? ` · ${shortRound(fb.round)}` : ''}</>;
 };
@@ -813,7 +813,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
         emptyText="the facilitator left none"
         meta={person.facilitatorFeedback.map((fb) => (
           <span key={fb.id} className="flex items-center gap-2 font-normal">
-            {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/10</span>}
+            {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/{fb.ratingOutOf ?? 10}</span>}
             <Meta>{fb.reviewer ?? 'facilitator not recorded'}</Meta>
             <RecordLink url={fb.recordUrl} />
           </span>

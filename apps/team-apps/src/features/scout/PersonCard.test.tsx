@@ -72,6 +72,26 @@ test('the AI summary sits at the top of the card as a list, an older prose summa
   expect(screen.queryByText(/Built a thing/)).toBeNull();
 });
 
+test('each facilitator rating shows on its own scale', () => {
+  render(<PersonCard
+    person={{
+      ...person,
+      facilitatorFeedback: [
+        {
+          id: 'recFeedbackSample1', reviewer: 'Sample Facilitator', rating: 5, ratingOutOf: 5, nextSteps: [], recommendToFacilitate: false,
+        },
+        {
+          id: 'recFeedbackSample2', reviewer: 'Other Facilitator', rating: 8, ratingOutOf: 10, nextSteps: [], recommendToFacilitate: false,
+        },
+      ],
+    }}
+    showName
+  />);
+  expect(screen.getAllByText('5/5').length).toBeGreaterThan(0);
+  expect(screen.getAllByText('8/10').length).toBeGreaterThan(0);
+  expect(screen.queryByText('5/10')).toBeNull();
+});
+
 test('a dropped-out course shows their reason when the row is opened', () => {
   render(<PersonCard
     person={{
