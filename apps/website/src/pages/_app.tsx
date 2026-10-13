@@ -21,7 +21,6 @@ import { linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/lin
 import { useCourses } from '../lib/hooks/useCourses';
 import { AI_SECURITY_BOOTCAMP } from '../lib/publicPrograms';
 import { reportClientError } from '../lib/reportClientError';
-import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
 
 const FOAI_FOOTER_ENTRY = {
@@ -129,8 +128,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
               grants={(grants ?? [])
                 .map((grant) => ({ grant, path: getGrantPath(grant.slug) }))
                 .filter((entry): entry is typeof entry & { path: string } => Boolean(entry.path))
-                .map(({ grant, path }) => ({ path, title: grant.name }))
-                .concat([{ path: ROUTES.missions.url, title: ROUTES.missions.title }])}
+                .map(({ grant, path }) => ({ path, title: grant.name }))}
               programs={(programs ?? [])
                 .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
                 .map((program) => ({

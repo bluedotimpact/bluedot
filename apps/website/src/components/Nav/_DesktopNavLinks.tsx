@@ -15,7 +15,8 @@ export const DesktopNavLinks: React.FC<{
       expandedSections={expandedSections}
       updateExpandedSections={updateExpandedSections}
       onColoredBackground={onColoredBackground}
-      className="hidden xl:flex"
+      // Tighter gaps just above the xl breakpoint stop the links wrapping
+      className="hidden xl:flex max-[1360px]:gap-6"
     />
   );
 };

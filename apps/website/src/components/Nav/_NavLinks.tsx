@@ -73,7 +73,6 @@ export const NavLinks: React.FC<{
         title: grant.name,
         url,
       })),
-    { title: ROUTES.missions.title, url: ROUTES.missions.url },
     { title: 'See all grants', url: ROUTES.grants.url },
   ];
 
@@ -97,7 +96,7 @@ export const NavLinks: React.FC<{
     }
 
     return clsx(
-      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
+      'nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle',
       textColor,
       isCurrentPathValue && 'font-bold',
     );
@@ -156,6 +155,12 @@ export const NavLinks: React.FC<{
         title="Programs"
         loading={programsLoading}
       />
+      <A
+        href={ROUTES.missions.url}
+        className={getLinkClasses(isCurrentPath(ROUTES.missions.url))}
+      >
+        {ROUTES.missions.title}
+      </A>
       <A
         href={ROUTES.alumni.url}
         className={getLinkClasses(isCurrentPath(ROUTES.alumni.url))}
@@ -244,7 +249,7 @@ const NavDropdown: React.FC<{
         aria-expanded={isExpanded}
         aria-controls={`${title.toLowerCase()}-dropdown`}
         className={clsx(
-          'nav-dropdown__btn flex items-center gap-2 cursor-pointer',
+          'nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap',
           'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
           getDropdownButtonClasses(),
         )}

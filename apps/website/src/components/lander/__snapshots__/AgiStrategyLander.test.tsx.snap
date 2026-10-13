@@ -106,7 +106,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <button
                         aria-controls="courses-dropdown"
                         aria-expanded="false"
-                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
                         Courses
@@ -169,7 +169,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <button
                         aria-controls="grants-dropdown"
                         aria-expanded="false"
-                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
                         Grants
@@ -232,7 +232,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <button
                         aria-controls="programs-dropdown"
                         aria-expanded="false"
-                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
                         Programs
@@ -290,21 +290,28 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       </div>
                     </div>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                      href="/missions"
+                      tabindex="0"
+                    >
+                      Missions
+                    </a>
+                    <a
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/alumni"
                       tabindex="0"
                     >
                       Alumni
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/about"
                       tabindex="0"
                     >
                       About
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/join-us"
                       tabindex="0"
                     >
@@ -341,7 +348,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex items-center gap-12"
           >
             <div
-              class="nav-links flex gap-9 [&>*]:w-fit hidden xl:flex"
+              class="nav-links flex gap-9 [&>*]:w-fit hidden xl:flex max-[1360px]:gap-6"
             >
               <div
                 class="nav-dropdown"
@@ -349,7 +356,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <button
                   aria-controls="courses-dropdown"
                   aria-expanded="false"
-                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
                   Courses
@@ -412,7 +419,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <button
                   aria-controls="grants-dropdown"
                   aria-expanded="false"
-                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
                   Grants
@@ -475,7 +482,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <button
                   aria-controls="programs-dropdown"
                   aria-expanded="false"
-                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
                   Programs
@@ -533,21 +540,28 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </div>
               </div>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                href="/missions"
+                tabindex="0"
+              >
+                Missions
+              </a>
+              <a
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/alumni"
                 tabindex="0"
               >
                 Alumni
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/about"
                 tabindex="0"
               >
                 About
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/join-us"
                 tabindex="0"
               >
