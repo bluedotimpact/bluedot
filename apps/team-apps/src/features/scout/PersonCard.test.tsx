@@ -92,7 +92,7 @@ test('each facilitator rating shows on its own scale', () => {
   expect(screen.queryByText('5/10')).toBeNull();
 });
 
-test('a dropped-out course shows their reason when the row is opened', () => {
+test('a dropped-out course shows their reason when the row is opened, and a dash when they gave none', () => {
   render(<PersonCard
     person={{
       ...person,
@@ -105,4 +105,18 @@ test('a dropped-out course shows their reason when the row is opened', () => {
   expect(screen.queryByText('Started a new job')).toBeNull();
   fireEvent.click(screen.getByText('Dropped out'));
   expect(screen.getByText('Started a new job')).toBeTruthy();
+
+  cleanup();
+  render(<PersonCard
+    person={{
+      ...person,
+      history: [{
+        id: 'recScoutSample002', course: 'AGI Strategy', roundName: 'AGI Strategy (2026 May W20) - Part-time', roundStart: '2026-05-11', facilitated: false, hasCertificate: false, droppedOut: true, isCurrent: false,
+      }],
+    }}
+    showName
+  />);
+  fireEvent.click(screen.getByText('Dropped out'));
+  expect(screen.getByText('Why they dropped out, in their words')).toBeTruthy();
+  expect(screen.getByText('–')).toBeTruthy();
 });

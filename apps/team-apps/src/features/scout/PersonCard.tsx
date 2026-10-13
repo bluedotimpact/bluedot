@@ -519,9 +519,9 @@ const HistoryRow: React.FC<{ r: Registration }> = ({ r }) => (
     status={courseStatus(r)}
     url={r.recordUrl}
     current={r.isCurrent}
-    more={(r.dropOutReason ?? r.application) && (
+    more={(r.droppedOut || r.application) && (
       <div className="flex flex-col gap-2">
-        <More label="Why they dropped out, in their words" text={r.dropOutReason} />
+        {r.droppedOut && <More always label="Why they dropped out, in their words" text={r.dropOutReason} />}
         {r.application && <ApplicationDetails app={r.application} />}
       </div>
     )}
