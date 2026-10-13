@@ -157,6 +157,12 @@ function getAllowedGroupsForParticipant({
   ));
 }
 
+/**
+ * A unit is eligible if it has any discussion the user isn't in, including full ones.
+ * This is on purpose. Full discussions are greyed out in the switch modal and the server
+ * rejects them, but an eligible unit keeps its reschedule and switch-group buttons, so the
+ * user can still open the modal and request a manual switch into a full group.
+ */
 function calculateRescheduleEligibleUnits(discussionsAvailable: DiscussionsByUnit): Set<string> {
   const eligible = new Set<string>();
   for (const [unitKey, list] of Object.entries(discussionsAvailable)) {

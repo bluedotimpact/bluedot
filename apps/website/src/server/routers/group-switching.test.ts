@@ -986,6 +986,22 @@ describe('groupSwitching.discussionsAvailable', () => {
     expect(result.rescheduleEligibleUnits).toEqual(['1']);
   });
 
+  test('keeps a unit eligible when its only alternative is full, so a manual switch can still be requested', async () => {
+    await seedCourseWithGroups();
+
+    // Group B's unit 1 discussion already has 1 participant, so a max of 1 makes it full.
+    await testDb.update(roundTable, {
+      id: 'round-1',
+      maxParticipantsPerGroup: 1,
+    });
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
+    const alternative = result.discussionsAvailable['1']?.find((d) => d.discussion.id === 'disc-b1');
+    expect(alternative?.spotsLeftIfKnown).toBe(0);
+    expect(result.rescheduleEligibleUnits).toEqual(['1']);
+  });
+
   test('excludes units whose only alternative is in a humanOpinion-blocked group', async () => {
     await testDb.insert(courseTable, {
       id: 'course-1',
