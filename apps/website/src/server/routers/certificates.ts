@@ -23,6 +23,7 @@ import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 import type { AppRouter } from './_app';
+import { getAcceptedCourseRegistration } from './course-registrations';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
@@ -213,9 +214,7 @@ export const certificatesRouter = router({
       return { status: 'exercises-incomplete' } as const;
     }
 
-    const courseRegistration = await db.getFirst(courseRegistrationTable, {
-      filter: { userId: user.id, courseId, decision: 'Accept' },
-    });
+    const courseRegistration = await getAcceptedCourseRegistration({ userId: user.id, courseId });
 
     if (!courseRegistration) {
       const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
