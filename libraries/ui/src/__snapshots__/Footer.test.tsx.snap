@@ -154,6 +154,15 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -276,6 +285,15 @@ exports[`Footer > renders default as expected 1`] = `
                   tabindex="0"
                 >
                   Missions
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
                 </a>
               </li>
               <li>
@@ -484,6 +502,15 @@ exports[`Footer > renders default as expected 1`] = `
                   tabindex="0"
                 >
                   Missions
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
                 </a>
               </li>
               <li>
@@ -758,6 +785,15 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -888,6 +924,15 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
                   tabindex="0"
                 >
                   Missions
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
                 </a>
               </li>
               <li>
@@ -1104,6 +1149,15 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
                   tabindex="0"
                 >
                   Missions
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
                 </a>
               </li>
               <li>
@@ -1386,6 +1440,15 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -1518,6 +1581,15 @@ exports[`Footer > renders with optional args 1`] = `
                   tabindex="0"
                 >
                   Missions
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
                 </a>
               </li>
               <li>
@@ -1736,6 +1808,15 @@ exports[`Footer > renders with optional args 1`] = `
                   tabindex="0"
                 >
                   Missions
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  href="/research"
+                  tabindex="0"
+                >
+                  Research
                 </a>
               </li>
               <li>

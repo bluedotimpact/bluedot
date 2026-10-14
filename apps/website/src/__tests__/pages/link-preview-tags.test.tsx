@@ -8,6 +8,7 @@ import CodeOfConductPage from '../../pages/code-of-conduct';
 import ContactPage from '../../pages/contact';
 import PrivacyPolicyPage from '../../pages/privacy-policy';
 import ProgramsPage from '../../pages/programs';
+import ResearchPage from '../../pages/research';
 import { renderWithHead } from '../testUtils';
 import { TrpcProvider } from '../trpcProvider';
 
@@ -43,6 +44,7 @@ describe('public pages give link previews their own title and description', () =
     ['/contact', ContactPage],
     ['/privacy-policy', PrivacyPolicyPage],
     ['/programs', ProgramsPage],
+    ['/research', ResearchPage],
   ])('%s', (path, Page) => {
     (useRouter as unknown as Mock).mockReturnValue({ asPath: path, pathname: path, push: vi.fn() });
 
