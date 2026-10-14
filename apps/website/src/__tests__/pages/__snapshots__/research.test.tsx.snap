@@ -2543,7 +2543,7 @@ exports[`ResearchPage > renders every research area with one link per item 1`] =
             >
               <a
                 class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
-                href="/grants/rapid"
+                href="/grants/rapid#grants-made"
                 tabindex="0"
               >
                 <div
@@ -2589,7 +2589,7 @@ exports[`ResearchPage > renders every research area with one link per item 1`] =
             >
               <a
                 class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
-                href="https://blog.bluedot.org"
+                href="https://blog.bluedot.org/s/projects"
                 rel="noopener noreferrer"
                 tabindex="0"
                 target="_blank"

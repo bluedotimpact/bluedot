@@ -307,13 +307,13 @@ export const RESEARCH_SUPPORT: ResearchSupportLink[] = [
   },
   {
     title: 'Rapid Grants',
-    url: '/grants/rapid',
+    url: '/grants/rapid#grants-made',
     summary: 'Fast grants for compute, research tools and travel to present research. Grantees design and run their own projects.',
     ctaLabel: 'See funded projects',
   },
   {
     title: 'Participant projects',
-    url: ROUTES.blog.url,
+    url: 'https://blog.bluedot.org/s/projects',
     summary: 'Course participants publish their end-of-course projects on our blog, from interpretability experiments to biosecurity analyses.',
     ctaLabel: 'Read on our blog',
   },

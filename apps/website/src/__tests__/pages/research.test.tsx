@@ -56,7 +56,7 @@ describe('ResearchPage', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('opens write-ups elsewhere in a new tab and keeps bluedot.org links in the same tab', () => {
+  test('opens write-ups elsewhere in a new tab and keeps internal links in the same tab', () => {
     const { container } = render(<ResearchPage />, { wrapper: TrpcProvider });
     const fieldStrategy = getSection(container, 'field-strategy');
 
