@@ -60,6 +60,12 @@ describe('ContractorPrivacyNoticePage', () => {
     details.forEach((d) => expect(d).not.toHaveAttribute('open'));
   });
 
+  test('table rows are labelled by a row header', () => {
+    render(<ContractorPrivacyNoticePage />, { wrapper: TrpcProvider });
+
+    expect(screen.getByRole('rowheader', { name: 'You set up payment or submit an invoice' })).toBeInTheDocument();
+  });
+
   test('keeps the Juro credit required by its licence', () => {
     render(<ContractorPrivacyNoticePage />, { wrapper: TrpcProvider });
 

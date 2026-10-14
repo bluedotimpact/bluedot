@@ -147,7 +147,11 @@ const Block = ({ block }: { block: ContentBlock }) => {
             <tbody>
               {block.rows.map((row) => (
                 <tr key={row[0]}>
-                  {row.map((cell, cellIndex) => (
+                  {/* Prose only styles tbody td, so the row header copies a first-column td's spacing */}
+                  <th scope="row" className="ps-0 pe-[0.5714286em] py-[0.5714286em] text-start align-baseline font-normal">
+                    <InlineText text={row[0] ?? ''} />
+                  </th>
+                  {row.slice(1).map((cell, cellIndex) => (
                     // Cells in a row can repeat (e.g. two ticks), so key by column
                     <td key={cellIndex}><InlineText text={cell} /></td>
                   ))}
