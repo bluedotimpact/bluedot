@@ -2,7 +2,7 @@ import {
   and, eq, gte, isNotNull, inArray,
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable, exerciseTable, exerciseResponsePgTable,
-  unitResourceTable, resourceCompletionPgTable, projectSubmissionTable, dropoutTable, userTable,
+  unitResourceTable, resourceCompletionPgTable, chunkTable, projectSubmissionTable, dropoutTable, userTable,
   type PgAirtableDb,
   type CourseRegistration,
 } from '@bluedot/db';
@@ -418,11 +418,12 @@ export const eventProjectionRules: EventProjectionRule[] = [
         .where(filterGteOrNull(resourceCompletionPgTable.pg.completedAt, since)); // completedAt is ISO text
       if (completions.length === 0) return [];
 
-      const [unitResources, units, keycloakIdentifierByUserId] = await Promise.all([
+      const [unitResources, chunks, units, keycloakIdentifierByUserId] = await Promise.all([
         db.pg.select({
           id: unitResourceTable.pg.id, resourceName: unitResourceTable.pg.resourceName,
-          unitId: unitResourceTable.pg.unitId, coreFurtherMaybe: unitResourceTable.pg.coreFurtherMaybe,
+          coreFurtherMaybe: unitResourceTable.pg.coreFurtherMaybe,
         }).from(unitResourceTable.pg),
+        db.pg.select({ unitId: chunkTable.pg.unitId, chunkResources: chunkTable.pg.chunkResources }).from(chunkTable.pg),
         db.pg.select({
           id: unitTable.pg.id, courseId: unitTable.pg.courseId, courseTitle: unitTable.pg.courseTitle,
           courseSlug: unitTable.pg.courseSlug, title: unitTable.pg.title, unitNumber: unitTable.pg.unitNumber,
@@ -431,10 +432,21 @@ export const eventProjectionRules: EventProjectionRule[] = [
       ]);
       const unitResourceById = new Map(unitResources.map((ur) => [ur.id, ur]));
       const unitById = new Map(units.map((u) => [u.id, u]));
+      // A resource shared by chunks in several units has no single unit, so it gets none.
+      const unitIdsByUnitResourceId = new Map<string, Set<string>>();
+      for (const chunk of chunks) {
+        for (const unitResourceId of chunk.chunkResources ?? []) {
+          const unitIds = unitIdsByUnitResourceId.get(unitResourceId) ?? new Set<string>();
+          unitIds.add(chunk.unitId);
+          unitIdsByUnitResourceId.set(unitResourceId, unitIds);
+        }
+      }
 
       return completions.map((c) => {
         const unitResource = c.unitResourceId ? unitResourceById.get(c.unitResourceId) : undefined;
-        const unit = unitResource?.unitId ? unitById.get(unitResource.unitId) : undefined;
+        const unitIds = c.unitResourceId ? unitIdsByUnitResourceId.get(c.unitResourceId) : undefined;
+        const unitId = unitIds?.size === 1 ? [...unitIds][0] : undefined;
+        const unit = unitId ? unitById.get(unitId) : undefined;
         const unitNumber = unit ? Number(unit.unitNumber) : null;
         return {
           internalUniqueKey: c.id,
@@ -447,7 +459,7 @@ export const eventProjectionRules: EventProjectionRule[] = [
             ...(c.unitResourceId ? { unit_resource_id: c.unitResourceId } : {}),
             ...(unitResource?.resourceName ? { resource_name: unitResource.resourceName } : {}),
             ...(unitResource?.coreFurtherMaybe ? { core_further_maybe: unitResource.coreFurtherMaybe } : {}),
-            ...(unitResource?.unitId ? { unit_id: unitResource.unitId } : {}),
+            ...(unitId ? { unit_id: unitId } : {}),
             ...(unitNumber != null && Number.isFinite(unitNumber) ? { unit_number: unitNumber } : {}),
             ...(unit?.title ? { unit_name: unit.title } : {}),
             ...(unit ? { course_id: unit.courseId, course_name: unit.courseTitle, course_slug: unit.courseSlug } : {}),
