@@ -321,9 +321,10 @@ describe('certificates.getStatus', () => {
      * hasn't been scheduled yet.
      */
     const seedParticipant = async ({
-      endOffsets, attended, numUnits, lastDiscussionDate,
+      endOffsets, unitNumbers, attended, numUnits, lastDiscussionDate,
     }: {
       endOffsets?: (number | null)[];
+      unitNumbers?: number[];
       attended: number | null;
       numUnits: number;
       lastDiscussionDate: string;
@@ -334,9 +335,10 @@ describe('certificates.getStatus', () => {
       });
       await testDb.insert(roundTable, { id: 'round1', lastDiscussionDate });
 
-      const discussions = (endOffsets ?? []).map((offset, index) => ({ id: `disc-${index + 1}`, offset }));
-      await Promise.all(discussions.map(({ id, offset }) => testDb.insert(groupDiscussionTable, {
+      const discussions = (endOffsets ?? []).map((offset, index) => ({ id: `disc-${index + 1}`, offset, unitNumber: unitNumbers?.[index] }));
+      await Promise.all(discussions.map(({ id, offset, unitNumber }) => testDb.insert(groupDiscussionTable, {
         id,
+        unitNumber,
         group: 'group1',
         round: 'round1',
         startDateTime: nowSeconds + (offset ?? 0) - ONE_HOUR_SECONDS,
@@ -425,6 +427,19 @@ describe('certificates.getStatus', () => {
         status: 'action-plan-pending',
         hasAtMostOneDiscussionLeft: true,
       });
+    });
+
+    test('counts a unit once when a group switch left the old group\'s discussion linked', async () => {
+      // Six units held; unit 1 also has the old group's discussion, which they missed after switching.
+      await seedParticipant({
+        endOffsets: [-7, -6, -5, -4, -3, -2, -1].map((days) => days * 24 * ONE_HOUR_SECONDS),
+        unitNumbers: [1, 1, 2, 3, 4, 5, 6],
+        attended: 5,
+        numUnits: 6,
+        lastDiscussionDate: '2020-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending', hasAtMostOneDiscussionLeft: true });
     });
 
     test('counts every held discussion once the round is over', async () => {
