@@ -212,6 +212,49 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
   return { coreResourceIds, requiredExerciseIds };
 };
 
+const OPTION_CHUNK_PATTERN = /option\s+\d+/i;
+
+// "Option N" chunks in a unit are alternatives (learners do one), as in the duration estimate.
+// Only the option the learner has done the largest share of counts, so finishing any one option
+// can reach 100%. Before any option is started, the largest one counts.
+export const countCourseProgress = (
+  chunksByUnit: Pick<Chunk, 'chunkTitle' | 'chunkResources' | 'chunkExercises'>[][],
+  requiredIds: Set<string>,
+  completedIds: Set<string>,
+) => {
+  type CourseChunk = (typeof chunksByUnit)[number][number];
+  const requiredIdsIn = (chunk: CourseChunk) => [...(chunk.chunkResources ?? []), ...(chunk.chunkExercises ?? [])]
+    .filter((id) => requiredIds.has(id));
+  const isOptionChunk = (chunk: CourseChunk) => OPTION_CHUNK_PATTERN.test(chunk.chunkTitle);
+
+  // Items outside Option chunks always count, once, even if they also appear in an option.
+  const regularIds = new Set(chunksByUnit.flat().filter((c) => !isOptionChunk(c)).flatMap(requiredIdsIn));
+  let totalCount = regularIds.size;
+  let completedCount = [...regularIds].filter((id) => completedIds.has(id)).length;
+
+  for (const chunks of chunksByUnit) {
+    const options = chunks
+      .filter(isOptionChunk)
+      .map((c) => {
+        const ids = [...new Set(requiredIdsIn(c))].filter((id) => !regularIds.has(id));
+        return { total: ids.length, completed: ids.filter((id) => completedIds.has(id)).length };
+      })
+      .filter((o) => o.total > 0);
+
+    if (options.length > 0) {
+      const counted = options.reduce((best, o) => {
+        const share = o.completed / o.total;
+        const bestShare = best.completed / best.total;
+        return share > bestShare || (share === bestShare && o.total > best.total) ? o : best;
+      });
+      totalCount += counted.total;
+      completedCount += counted.completed;
+    }
+  }
+
+  return { totalCount, completedCount };
+};
+
 export const coursesRouter = router({
   getUnit: publicProcedure
     .input(z.object({
@@ -353,8 +396,13 @@ export const coursesRouter = router({
         });
       }
 
-      const courseTotalCount = coreResourceIds.length + requiredExerciseIds.length;
-      const courseCompletedCount = completedResourceIdSet.size + completedExerciseIdSet.size;
+      const requiredIdSet = new Set([...coreResourceIds, ...requiredExerciseIds]);
+      const completedIdSet = new Set([...completedResourceIdSet, ...completedExerciseIdSet]);
+      const { totalCount: courseTotalCount, completedCount: courseCompletedCount } = countCourseProgress(
+        units.map((unit) => allChunks.filter((c) => c.unitId === unit.id)),
+        requiredIdSet,
+        completedIdSet,
+      );
       const percentage = courseTotalCount > 0 ? Math.round((courseCompletedCount / courseTotalCount) * 100) : 0;
 
       return {

@@ -14,6 +14,7 @@ import {
   testAuthContextLoggedIn,
   testDb,
 } from '../../__tests__/dbTestUtils';
+import { countCourseProgress } from './courses';
 
 setupTestDb();
 
@@ -201,6 +202,33 @@ describe('courses.getCurriculumMetadata', () => {
 });
 
 describe('courses.getCourseProgress', () => {
+  test('a unit\'s Option sections count as one: finishing one option reaches 100%', async () => {
+    await seedLoggedInUser();
+    await seedCourse('options-prog');
+    await seedUnit('uop', 'options-prog', '1');
+    await seedChunk('uop-intro', 'uop', { title: 'Introduction', exercises: ['ex-intro'] });
+    await seedChunk('uop-1', 'uop', { title: 'Option 1: Anthropic', exercises: ['ex-opt1'] });
+    await seedChunk('uop-2', 'uop', { title: 'Option 2: OpenAI', exercises: ['ex-opt2'] });
+    await seedExercise('ex-intro');
+    await seedExercise('ex-opt1');
+    await seedExercise('ex-opt2');
+
+    const before = await caller.courses.getCourseProgress({ courseSlug: 'options-prog' });
+    expect(before.courseProgress).toEqual({ totalCount: 2, completedCount: 0, percentage: 0 });
+
+    await testDb.pg.insert(exerciseResponsePgTable.pg).values([
+      {
+        id: 'r-intro', userId: ['test-user'], exerciseId: 'ex-intro', response: 'x', completedAt: '2026-01-01',
+      },
+      {
+        id: 'r-opt2', userId: ['test-user'], exerciseId: 'ex-opt2', response: 'x', completedAt: '2026-01-01',
+      },
+    ]);
+
+    const after = await caller.courses.getCourseProgress({ courseSlug: 'options-prog' });
+    expect(after.courseProgress).toEqual({ totalCount: 2, completedCount: 2, percentage: 100 });
+  });
+
   test('Core-status exercises count toward progress', async () => {
     await seedLoggedInUser();
     await seedCourse('core-prog');
@@ -280,5 +308,43 @@ describe('courses.getCourseProgress', () => {
     const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'untyped-prog' });
 
     expect(courseProgress).toEqual({ totalCount: 1, completedCount: 0, percentage: 0 });
+  });
+});
+
+describe('countCourseProgress', () => {
+  const chunk = (chunkTitle: string, chunkResources: string[], chunkExercises: string[] = []) => ({ chunkTitle, chunkResources, chunkExercises });
+
+  test('counts the option with the largest share done, and the largest option before any is started', () => {
+    const units = [[
+      chunk('Reading', ['r1']),
+      chunk('Option 1: Short', ['a1']),
+      chunk('Option 2: Long', ['b1', 'b2', 'b3']),
+    ]];
+    const required = new Set(['r1', 'a1', 'b1', 'b2', 'b3']);
+
+    expect(countCourseProgress(units, required, new Set())).toEqual({ totalCount: 4, completedCount: 0 });
+    expect(countCourseProgress(units, required, new Set(['a1']))).toEqual({ totalCount: 2, completedCount: 1 });
+    expect(countCourseProgress(units, required, new Set(['b1']))).toEqual({ totalCount: 4, completedCount: 1 });
+  });
+
+  test('an item in an option that is also a regular item in another unit still counts', () => {
+    const units = [
+      [chunk('Option 1: A', ['a']), chunk('Option 2: X', ['x'])],
+      [chunk('Reading', ['x', 'r'])],
+    ];
+
+    expect(countCourseProgress(units, new Set(['a', 'x', 'r']), new Set())).toEqual({ totalCount: 3, completedCount: 0 });
+  });
+
+  test('counts a resource shared by two units once', () => {
+    const units = [[chunk('Reading', ['shared'])], [chunk('Reading', ['shared'])]];
+
+    expect(countCourseProgress(units, new Set(['shared']), new Set(['shared']))).toEqual({ totalCount: 1, completedCount: 1 });
+  });
+
+  test('ignores items that are not required', () => {
+    const units = [[chunk('Reading', ['core', 'further'])]];
+
+    expect(countCourseProgress(units, new Set(['core']), new Set(['further']))).toEqual({ totalCount: 1, completedCount: 0 });
   });
 });
