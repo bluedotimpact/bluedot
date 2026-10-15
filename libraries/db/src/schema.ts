@@ -86,7 +86,7 @@ export type CalendarProvider = 'google';
  */
 export const calendarConnectionTable = deprecationSafePgTable('calendar_connection', {
   columns: {
-    id: text().primaryKey().default(sql`gen_random_uuid()::text`),
+    id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
     slackUserId: text().notNull(),
     // Points at userTable: the BlueDot account that connected the calendar
     userId: text().notNull(),
