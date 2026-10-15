@@ -178,7 +178,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
     >
       <button
         aria-label="Previous quote"
-        class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
         type="button"
       >
         <span
@@ -214,7 +214,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
       </div>
       <button
         aria-label="Next quote"
-        class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
         type="button"
       >
         <span

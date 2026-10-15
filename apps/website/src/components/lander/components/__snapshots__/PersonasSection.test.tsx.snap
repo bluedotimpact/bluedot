@@ -16,11 +16,11 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
       class="max-w-text-narrow mx-auto flex flex-col gap-4"
     >
       <div
-        class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
+        class="rounded-surface border border-default bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="true"
-          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
           style="background-color: #1F588A;"
           type="button"
         >
@@ -85,7 +85,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You understand the technology - how the systems work, what scaling means.
               </p>
               <div
-                class="pt-4 border-t border-bluedot-navy/10"
+                class="pt-4 border-t border-subtle"
               >
                 <p
                   class="text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
@@ -103,11 +103,11 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
         </div>
       </div>
       <div
-        class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
+        class="rounded-surface border border-default bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="false"
-          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
           type="button"
         >
           <div
@@ -171,7 +171,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You're at a top university or recently graduated.
               </p>
               <div
-                class="pt-4 border-t border-bluedot-navy/10"
+                class="pt-4 border-t border-subtle"
               >
                 <p
                   class="text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
@@ -189,11 +189,11 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
         </div>
       </div>
       <div
-        class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
+        class="rounded-surface border border-default bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="false"
-          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
           type="button"
         >
           <div
@@ -257,7 +257,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You already work in government, a think tank, or policy.
               </p>
               <div
-                class="pt-4 border-t border-bluedot-navy/10"
+                class="pt-4 border-t border-subtle"
               >
                 <p
                   class="text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"

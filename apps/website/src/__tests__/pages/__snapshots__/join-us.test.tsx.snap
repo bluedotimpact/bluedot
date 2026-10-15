@@ -102,10 +102,10 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               </span>
                             </a>
                             <div
-                              class="border-t border-gray-200 my-2"
+                              class="border-t border-subtle my-2"
                             />
                             <div
-                              class="border-t border-gray-200 my-2"
+                              class="border-t border-subtle my-2"
                             />
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -167,7 +167,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               Career Transition Grants
                             </a>
                             <div
-                              class="border-t border-gray-200 my-2"
+                              class="border-t border-subtle my-2"
                             />
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -231,7 +231,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                               AI Security Bootcamp
                             </a>
                             <div
-                              class="border-t border-gray-200 my-2"
+                              class="border-t border-subtle my-2"
                             />
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -353,10 +353,10 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </span>
                       </a>
                       <div
-                        class="border-t border-gray-200 my-2"
+                        class="border-t border-subtle my-2"
                       />
                       <div
-                        class="border-t border-gray-200 my-2"
+                        class="border-t border-subtle my-2"
                       />
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -418,7 +418,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         Career Transition Grants
                       </a>
                       <div
-                        class="border-t border-gray-200 my-2"
+                        class="border-t border-subtle my-2"
                       />
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -482,7 +482,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         AI Security Bootcamp
                       </a>
                       <div
-                        class="border-t border-gray-200 my-2"
+                        class="border-t border-subtle my-2"
                       />
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"

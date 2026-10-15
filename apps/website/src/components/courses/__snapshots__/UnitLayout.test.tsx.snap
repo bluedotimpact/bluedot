@@ -653,7 +653,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="md:min-w-0 md:flex-1"
       >
         <div
-          class="border-bluedot-navy/20 bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
+          class="border-default bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
         >
           <div
             class="flex size-full flex-row items-center justify-between gap-2 px-6"
@@ -687,7 +687,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </span>
               </button>
               <span
-                class="h-[18px] w-px bg-charcoal-mid opacity-50"
+                class="h-[18px] w-px bg-default"
               />
             </div>
             <nav
@@ -892,7 +892,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   <button
                     aria-expanded="false"
                     aria-label="Keyboard shortcuts"
-                    class="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-secondary transition-colors hover:bg-gray-200 hover:text-primary aria-expanded:bg-gray-200 aria-expanded:text-primary"
+                    class="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-secondary transition-colors hover:bg-tint hover:text-primary aria-expanded:bg-active aria-expanded:text-primary"
                     data-rac=""
                     data-react-aria-pressable="true"
                     id="react-aria-:r1:"
