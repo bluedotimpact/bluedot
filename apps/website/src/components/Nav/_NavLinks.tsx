@@ -139,6 +139,7 @@ export const NavLinks = ({
           inMobileDrawer={inMobileDrawer}
         />
       ))}
+      {renderTopLevelLink(ROUTES.missions.title, ROUTES.missions.url)}
       {renderTopLevelLink('Alumni', ROUTES.alumni.url)}
       {renderTopLevelLink('About', ROUTES.about.url)}
       {renderTopLevelLink('Join us', ROUTES.joinUs.url)}
