@@ -78,6 +78,14 @@ describe.each([
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
+  test('footer renders inside the dialog, outside the scrolling body', () => {
+    renderModal({ footer: <button type="button">Submit</button> });
+
+    const submit = screen.getByRole('button', { name: 'Submit' });
+    expect(screen.getByRole('dialog')).toContainElement(submit);
+    expect(screen.getByText('Content')).not.toContainElement(submit);
+  });
+
   test('moves focus to the title when it changes while open', () => {
     const { rerender } = renderModal({ title: 'Rejoin a group' });
     expect(screen.getByRole('heading', { name: 'Rejoin a group' })).not.toHaveFocus();

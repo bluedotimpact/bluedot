@@ -178,6 +178,26 @@ export const WithFetchedDiscussions: Story = {
   },
 };
 
+export const SubmitError: Story = {
+  args: {
+    handleClose() {},
+    roundId: 'mock-round-id',
+    initialDiscussion: { id: 'discussion-2', group: 'group-1' },
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          return mockDiscussions;
+        }),
+        trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
+        }),
+      ],
+    },
+  },
+};
+
 export const Loading: Story = {
   args: {
     handleClose() {},

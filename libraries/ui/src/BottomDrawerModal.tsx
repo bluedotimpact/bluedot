@@ -42,6 +42,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   children,
   ariaLabel,
   isDismissable = true,
+  footer,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -54,6 +55,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   // Refs to measure the sheet's chrome and content for 'fit-content'
   const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
 
@@ -80,7 +82,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
       requestAnimationFrame(() => {
         const contentHeight = contentRef.current?.scrollHeight ?? 0;
         const headerHeight = headerRef.current?.offsetHeight ?? 0;
-        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight;
+        const footerHeight = footerRef.current?.offsetHeight ?? 0;
+        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight + footerHeight;
         const contentBasedY = availableHeight - totalNeededHeight;
 
         // Use the larger y value (less expansion) = min height
@@ -233,6 +236,11 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       {children}
                     </div>
                   </div>
+                  {footer && (
+                    <div ref={footerRef} className="border-t border-subtle px-5 py-3">
+                      {footer}
+                    </div>
+                  )}
                   {/*
                     * Spacer div: The parent can overflow off the screen, fill the off-screen space
                     * so the content fills exactly the on-screen area.
