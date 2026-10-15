@@ -52,7 +52,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
   const iconPath = getCertificateIconPath(courseSlug);
 
   return (
-    <div className="w-full max-w-text-narrow bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
+    <div className="w-full max-w-text-narrow bg-white rounded-lg border border-default overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
       <div className="relative">
         {iconPath && (
           /* Decorative pattern overlay: a 1248x450 grid of icon-masked dots,
@@ -146,7 +146,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
         </div>
       </div>
 
-      <div className="mt-16 mx-5 md:mx-16 border-t border-slate-200 pt-[25px] pb-6">
+      <div className="mt-16 mx-5 md:mx-16 border-t border-subtle pt-[25px] pb-6">
         <div className="flex justify-between items-end">
           <div className="w-[156px] md:w-[240px]">
             <Eyebrow className="text-secondary">

@@ -36,7 +36,7 @@ const TheWeekSection = () => {
       <div className="w-full flex flex-col gap-6">
         <H3>The week</H3>
 
-        <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
+        <ul className="flex flex-col divide-y divide-subtle border-y border-subtle">
           {SCHEDULE.map((item) => (
             <li
               key={item.title}

@@ -202,7 +202,7 @@ export const CourseScheduleList = ({ courses }: CourseScheduleListProps) => {
         <div key={course.id} id={`course-${course.slug}`}>
           <CourseScheduleCard course={course} />
           {index < courses.length - 1 && (
-            <div className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
+            <div className="my-12 lg:my-16 xl:my-20 border-t border-subtle" />
           )}
         </div>
       ))}
@@ -261,7 +261,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
         )}
 
         {!roundsLoading && !showRounds && (
-          <div className="flex items-center min-h-12 border-l-4 border-bluedot-navy/20 pl-5">
+          <div className="flex items-center min-h-12 border-l-4 border-default pl-5">
             <p className="text-size-sm leading-relaxed font-normal text-secondary">
               No upcoming rounds.{' '}
               <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">

@@ -112,7 +112,7 @@ export const ProfileLinks: React.FC<{
             onClick={onToggleProfile}
           >Log out
           </A>
-          <div className="border-t border-gray-200 my-2" />
+          <div className="border-t border-subtle my-2" />
           {impersonationAccess && impersonationAccess !== 'none' && (
             <button
               type="button"

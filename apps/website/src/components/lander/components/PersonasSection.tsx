@@ -115,7 +115,7 @@ const PersonasSection = ({
 
                       {/* What this looks like */}
                       {persona.valueProposition && (
-                        <div className="pt-4 border-t border-bluedot-navy/10">
+                        <div className="pt-4 border-t border-subtle">
                           <Eyebrow className="text-secondary mb-2">
                             What this looks like
                           </Eyebrow>

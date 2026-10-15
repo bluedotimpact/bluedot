@@ -45,7 +45,7 @@ const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => vo
   return (
     <div className="relative shrink-0">
       {isImage && objectUrl ? (
-        <div className="border-bluedot-navy/20 size-12 overflow-hidden rounded-sm border">
+        <div className="border-default size-12 overflow-hidden rounded-sm border">
           <img src={objectUrl} alt={file.name} className="size-full object-cover" />
         </div>
       ) : (

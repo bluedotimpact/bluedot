@@ -94,7 +94,7 @@ const styledLinkClass = 'font-semibold text-bluedot-navy underline underline-off
 
 const BuilderRow = ({ builder }: { builder: Builder }) => {
   return (
-    <div className="grid grid-cols-1 bd-md:grid-cols-[140px_1fr] gap-5 bd-md:gap-12 py-7 bd-md:py-9 items-center border-t border-bluedot-navy/10 first:border-t-0">
+    <div className="grid grid-cols-1 bd-md:grid-cols-[140px_1fr] gap-5 bd-md:gap-12 py-7 bd-md:py-9 items-center border-t border-subtle first:border-t-0">
       <a
         href={builder.program.url}
         target="_blank"
@@ -148,7 +148,7 @@ const FieldBuildersSection = () => {
           Most AI safety programs started because someone saw a talent gap and decided to do something about it.
         </H3>
 
-        <div className="flex flex-col border-t border-b border-bluedot-navy/10">
+        <div className="flex flex-col border-t border-b border-subtle">
           {visibleBuilders.map((builder) => (
             <BuilderRow key={builder.slug} builder={builder} />
           ))}

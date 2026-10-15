@@ -40,7 +40,7 @@ const TheWeekSection = () => {
           Incubator Week helps people found orgs. Fieldbuilder Week helps people found programs.
         </H3>
 
-        <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
+        <ul className="flex flex-col divide-y divide-subtle border-y border-subtle">
           {SCHEDULE.map((item) => (
             <li
               key={item.title}

@@ -34,7 +34,7 @@ const KeyboardNavMenu = ({
       <Popover placement="top start">
         <Dialog
           aria-label={popoverTitle || 'Keyboard shortcuts'}
-          className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
+          className="w-fit rounded-lg border border-default bg-white p-4 shadow-sm"
         >
           {popoverTitle && (
             <ModalTitle className="mb-3">

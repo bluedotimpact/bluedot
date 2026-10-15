@@ -172,7 +172,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
+        <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-subtle">
           <p className="text-size-xxs text-secondary">Changes save when you click "Done"</p>
           <div className="flex gap-2.5">
             <Button variant="outline-black" onClick={onClose} disabled={savePeerFeedback.isPending}>
@@ -220,14 +220,14 @@ const BUBBLE_COLORS: Record<number, string> = {
 
 export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabelledBy, options, value, onChange }) => {
   return (
-    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-md border-[0.5px] border-charcoal-mid/50 overflow-clip">
+    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-md border-[0.5px] border-default overflow-clip">
       {options.map((option, idx) => {
         const isSelected = value === option.value;
         const isLast = idx === options.length - 1;
         return (
           <label
             key={option.value}
-            className={`relative flex items-start cursor-pointer ${isLast ? '' : 'border-b border-[#edeef2]'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-bluedot-normal ${isSelected ? 'bg-[#e5edfe]' : 'bg-white'}`}
+            className={`relative flex items-start cursor-pointer ${isLast ? '' : 'border-b border-subtle'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-bluedot-normal ${isSelected ? 'bg-[#e5edfe]' : 'bg-white'}`}
           >
             <input
               type="radio"

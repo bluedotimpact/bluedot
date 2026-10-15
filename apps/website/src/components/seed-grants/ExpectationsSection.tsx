@@ -21,7 +21,7 @@ const ExpectationsSection = () => {
         <H3>What we expect from you</H3>
         <P className="text-secondary">We keep this light.</P>
 
-        <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
+        <ul className="flex flex-col divide-y divide-subtle border-y border-subtle">
           {EXPECTATIONS.map((item) => (
             <li
               key={item.title}

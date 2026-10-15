@@ -253,7 +253,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                     return 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]';
                   }
 
-                  return 'bg-bluedot-lightest border border-bluedot-navy/20';
+                  return 'bg-bluedot-lightest border border-default';
                 })()
               }`}
             >
@@ -336,7 +336,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {auth && (
             <div className="lg:hidden">
               {/* Separator line */}
-              <div className="w-full h-0 border-[0.5px] border-bluedot-navy/20 my-4" />
+              <div className="w-full h-0 border-[0.5px] border-subtle my-4" />
 
               {/* Bottom action bar */}
               <div className="flex flex-col gap-3">
@@ -398,7 +398,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
         {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
-              className={`hidden lg:flex flex-col transition-all duration-200 pt-[23px] px-4 gap-2 w-full bg-bluedot-navy/5 border-[0.5px] border-bluedot-navy/15 rounded-b-[10px] -mt-4 relative z-0 ${resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback ? 'pb-4' : 'pb-[9px]'}`}
+              className={`hidden lg:flex flex-col transition-all duration-200 pt-[23px] px-4 gap-2 w-full bg-tint border-[0.5px] border-subtle rounded-b-[10px] -mt-4 relative z-0 ${resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback ? 'pb-4' : 'pb-[9px]'}`}
               role="region"
               aria-label="Resource feedback section"
             >

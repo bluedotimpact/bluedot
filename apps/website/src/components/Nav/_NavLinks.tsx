@@ -286,7 +286,7 @@ const NavDropdown: React.FC<{
                 <React.Fragment key={link.url}>
                   {/* Add separator before footer links */}
                   {(link.title === 'See all courses' || link.title === 'See all grants' || link.title === 'See all programs') && (
-                    <div className="border-t border-gray-200 my-2" />
+                    <div className="border-t border-subtle my-2" />
                   )}
                   <A
                     href={link.url}
@@ -313,7 +313,7 @@ const NavDropdown: React.FC<{
                     )}
                   </A>
                   {link.title === FOAI_NAV_ENTRY.title && (
-                    <div className="border-t border-gray-200 my-2" />
+                    <div className="border-t border-subtle my-2" />
                   )}
                 </React.Fragment>
               );

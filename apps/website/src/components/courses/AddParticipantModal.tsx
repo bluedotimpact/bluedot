@@ -86,7 +86,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
           ))}
         </div>
 
-        <div className="flex justify-end pt-4 border-t border-gray-200 pb-4 sm:pb-0">
+        <div className="flex justify-end pt-4 border-t border-subtle pb-4 sm:pb-0">
           <Button variant="outline-black" onClick={onClose}>
             Cancel
           </Button>

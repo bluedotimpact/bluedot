@@ -348,7 +348,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
     </>
   );
 
-  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-xl overflow-hidden w-[276px] bd-md:w-[288px] xl:w-[320px]';
+  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-default rounded-xl overflow-hidden w-[276px] bd-md:w-[288px] xl:w-[320px]';
 
   if (testimonial.url) {
     return (

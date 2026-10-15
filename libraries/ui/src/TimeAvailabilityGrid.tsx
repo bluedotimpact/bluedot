@@ -180,7 +180,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
             ))}
         </div>
         <div className="w-full">
-          <div ref={mainGrid} className="grid w-full grid-cols-7 border-t border-l border-gray-800 bg-white">
+          <div ref={mainGrid} className="grid w-full grid-cols-7 border-t border-l border-border-control bg-white">
             {cellCoords.map((coord, i) => {
               const isBlocked = value[serializeCoord(coord)];
 

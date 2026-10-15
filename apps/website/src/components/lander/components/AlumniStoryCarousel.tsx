@@ -301,12 +301,12 @@ const AlumniStoryCarousel = ({
   );
 };
 
-const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-bluedot-navy/20 hover:shadow-lg transition-all duration-200';
+const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-white border border-default rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-strong hover:shadow-lg transition-all duration-200';
 
 const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
     {/* Top section with image and info */}
-    <div className="flex items-start gap-4 p-5 bd-md:p-6 border-b border-bluedot-navy/6">
+    <div className="flex items-start gap-4 p-5 bd-md:p-6 border-b border-subtle">
       {/* One-off: the static size ramp can't express 64px → 80px at bd-md, so
           className preserves the exact pre-Avatar responsive rendering. */}
       <Avatar

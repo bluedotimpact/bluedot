@@ -30,7 +30,7 @@ const Embed: React.FC<EmbedProps> = ({
     }
 
     return (
-      <div className={clsx('embed rounded-xl bg-gray-100 shadow-md flex flex-col min-h-fit', className)}>
+      <div className={clsx('embed rounded-xl border border-default bg-raised shadow-md flex flex-col min-h-fit', className)}>
         <div className="p-5 pb-4">
           <div className="flex items-center gap-4">
             <div className="size-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">

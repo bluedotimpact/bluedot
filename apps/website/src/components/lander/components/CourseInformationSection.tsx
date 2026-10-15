@@ -64,7 +64,7 @@ const CourseInformationSection = ({
         )}
 
         {/* White Card Container — capped to the same 840px column as ScheduleListSection. */}
-        <div className="w-full bd-md:max-w-text bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
+        <div className="w-full bd-md:max-w-text bg-white border border-default rounded-xl py-8 flex flex-col items-center gap-6">
           {/* Course Details List */}
           <div className="flex flex-col w-full">
             {details.map((detail, index) => (

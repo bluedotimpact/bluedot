@@ -431,7 +431,7 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
     <button
       type="button"
       onClick={onClick}
-      className="w-full flex items-center gap-3 border border-gray-300 rounded-lg px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+      className="w-full flex items-center gap-3 border border-default rounded-lg px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-tint active:bg-active focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
     >
       <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-size-xs font-bold ${feedback ? 'bg-bluedot-normal' : 'bg-bluedot-navy'}`}>
         {feedback ? '✓' : getInitials(participant.name)}
