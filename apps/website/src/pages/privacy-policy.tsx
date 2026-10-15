@@ -10,7 +10,7 @@ import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.privacyPolicy;
 
-const SUBTITLE = 'Effective date: 30 August, 2024.';
+const SUBTITLE = 'Effective date: 15 October, 2026.';
 
 const PrivacyPolicyPage = () => {
   return (
