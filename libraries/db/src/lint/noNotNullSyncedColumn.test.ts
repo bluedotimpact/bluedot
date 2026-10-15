@@ -5,10 +5,15 @@ import path from 'node:path';
 import { describe, expect, test } from 'vitest';
 
 // Runs the real ESLint with this package's config on the real schema.ts, so it also proves the rule and its allow
-// list are switched on for that file
+// list are switched on for that file. Only this rule runs, without type info: the rest of the config is slow on a
+// file this size (it timed out on CI) and isn't what's being tested.
 const packageRoot = path.resolve(__dirname, '../..');
-const eslint = new ESLint({ cwd: packageRoot });
 const RULE = '@bluedot/custom/no-not-null-synced-column';
+const eslint = new ESLint({
+  cwd: packageRoot,
+  ruleFilter: ({ ruleId }) => ruleId === RULE,
+  overrideConfig: { languageOptions: { parserOptions: { projectService: false, project: null } } },
+});
 const SCHEMA = 'src/schema.ts';
 const schema = fs.readFileSync(path.join(packageRoot, SCHEMA), 'utf8');
 
