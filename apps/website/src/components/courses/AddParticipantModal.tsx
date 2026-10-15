@@ -36,7 +36,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
       isDismissable={false}
     >
       <div className="flex flex-col gap-4">
-        <p className="text-size-xs leading-normal text-bluedot-navy/60">
+        <p className="text-size-xs leading-normal text-secondary">
           Search for a participant enrolled in this course who isn't already on your list.
         </p>
 
@@ -71,7 +71,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
             </p>
           )}
           {!isLoading && !isError && results.length === 0 && (
-            <p className="text-size-xs text-bluedot-navy/60 py-2">No participants found.</p>
+            <p className="text-size-xs text-secondary py-2">No participants found.</p>
           )}
           {results.map((person) => (
             <ParticipantRow

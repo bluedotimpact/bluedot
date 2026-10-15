@@ -64,7 +64,7 @@ const ApplicationRow = ({
             {roundName ?? 'Round'}
           </p>
           {dateRange && (
-            <p className="mt-1 text-size-xs text-bluedot-navy/60">{dateRange}</p>
+            <p className="mt-1 text-size-xs text-secondary">{dateRange}</p>
           )}
         </div>
         <div className="flex shrink-0 items-center gap-3">

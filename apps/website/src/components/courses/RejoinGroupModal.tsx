@@ -88,7 +88,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <span className="text-size-sm text-bluedot-navy font-medium">Select a group</span>
-              <p className="text-size-xs text-charcoal-mid">
+              <p className="text-size-xs text-secondary">
                 Select the group you want to rejoin. The displayed time is in your time zone:
                 <span className="font-medium"> {getGMTOffsetWithCity()}</span>
               </p>
@@ -144,7 +144,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   </div>
                 </div>
               </div>
-              <p className="text-size-xs text-bluedot-navy/70 max-w-[320px] text-center leading-relaxed">
+              <p className="text-size-xs text-secondary max-w-[320px] text-center leading-relaxed">
                 You <strong>will receive a calendar invite shortly</strong> and be added to the group's Slack channel.
               </p>
             </div>
@@ -196,14 +196,14 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
           {displayDate && displayTime && (
             <>
               <div className="mt-px mb-[3px] font-medium whitespace-nowrap">{displayDate}</div>
-              <div className="text-size-xs whitespace-nowrap text-gray-500">{displayTime}</div>
+              <div className="text-size-xs whitespace-nowrap text-secondary">{displayTime}</div>
             </>
           )}
         </div>
         <div className="flex justify-between gap-4">
           <div>
             <div className="mb-1 font-semibold">{groupName}</div>
-            <div className="text-size-xs flex items-center gap-1.5 text-gray-500">
+            <div className="text-size-xs flex items-center gap-1.5 text-secondary">
               <FaUser aria-hidden="true" className="size-2.5 -translate-y-px" />
               <span>{spotsLabel}</span>
             </div>

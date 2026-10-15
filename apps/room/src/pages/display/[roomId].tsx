@@ -31,7 +31,7 @@ const DisplayPage = () => {
           <P>Or hit <kbd className="font-mono bg-stone-50 border shadow px-2 mx-1 py-1 rounded">Enter</kbd> to start an instant meeting</P>
         </div>
 
-        <div className="text-size-sm text-gray-500 flex gap-2 justify-center">
+        <div className="text-size-sm text-secondary flex gap-2 justify-center">
           <span>Room ID: <span className="select-all">{roomId}</span></span>
         </div>
       </div>
@@ -48,7 +48,7 @@ const Clock = () => {
       <div className="text-7xl font-bold mb-2">
         {new Date(currentTimeMs).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </div>
-      <div className="text-3xl text-gray-600">
+      <div className="text-3xl text-secondary">
         {new Date(currentTimeMs).toLocaleDateString()}
       </div>
     </>

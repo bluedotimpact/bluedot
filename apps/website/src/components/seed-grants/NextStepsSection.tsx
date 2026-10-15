@@ -45,7 +45,7 @@ const NextStepsSection = () => {
                 {index + 1}
               </span>
               <H4>{step.title}</H4>
-              <P className="text-bluedot-navy/80">{step.body}</P>
+              <P className="text-secondary">{step.body}</P>
             </li>
           ))}
         </ol>

@@ -197,7 +197,7 @@ const TestimonialCarousel = ({
               </H2>
             )}
             {subtitle && (
-              <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 max-w-full">
+              <P className="bd-md:text-size-md leading-relaxed text-secondary max-w-full">
                 {subtitle}
               </P>
             )}
@@ -313,7 +313,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
       <P className="font-semibold leading-snug text-left w-full">
         {testimonial.name}
       </P>
-      <P className="text-size-xs leading-relaxed text-bluedot-navy/80 text-left w-full">
+      <P className="text-size-xs leading-relaxed text-secondary text-left w-full">
         {testimonial.jobTitle}
       </P>
     </div>

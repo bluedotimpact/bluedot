@@ -50,11 +50,11 @@ const AdminChangeEmail = withAdminGuard(() => {
               <>
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 <p className="font-semibold text-bluedot-navy break-words">{selectedUser.name || '(no name)'}</p>
-                <p className="text-size-xs text-bluedot-navy/70 break-words">{selectedUser.email}</p>
-                <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{selectedUser.id}</code></p>
+                <p className="text-size-xs text-secondary break-words">{selectedUser.email}</p>
+                <p className="text-size-xxs text-secondary">User ID: <code>{selectedUser.id}</code></p>
               </>
             ) : (
-              <p className="text-size-xs text-bluedot-navy/70">No user selected.</p>
+              <p className="text-size-xs text-secondary">No user selected.</p>
             )}
             <button
               type="button"

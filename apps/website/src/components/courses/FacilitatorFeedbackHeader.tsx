@@ -10,8 +10,8 @@ const FacilitatorFeedbackHeader: React.FC<{ roundName?: string }> = ({ roundName
       <span className="font-semibold text-bluedot-navy shrink-0">Course Feedback</span>
       {roundName && (
         <>
-          <span className="text-gray-400 shrink-0" aria-hidden>·</span>
-          <span className="font-medium text-bluedot-navy/60 truncate">{roundName}</span>
+          <span className="text-secondary shrink-0" aria-hidden>·</span>
+          <span className="font-medium text-secondary truncate">{roundName}</span>
         </>
       )}
     </div>

@@ -260,7 +260,7 @@ const ChangePasswordModal = ({
           />
           {!errors.new && (
             <p
-              className="text-charcoal-mid text-size-sm mt-1"
+              className="text-secondary text-size-sm mt-1"
               id="new-password-hint"
             >
               Password must be at least 8 characters

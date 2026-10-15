@@ -93,7 +93,7 @@ const HeroSection = ({
                 <P className="bd-md:text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                   {description}
                 </P>
-                {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-bluedot-navy/85'}`}>{quickFacts}</P>}
+                {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
               </div>
 
               {/* CTA Buttons - stacked on mobile, side-by-side on tablet */}
@@ -139,7 +139,7 @@ const HeroSection = ({
                   <P className="text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                     {description}
                   </P>
-                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-bluedot-navy/85'}`}>{quickFacts}</P>}
+                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
                 </div>
 
                 <div className="flex gap-3">
@@ -202,7 +202,7 @@ const HeroSection = ({
                   <P className="sm:text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                     {description}
                   </P>
-                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-bluedot-navy/85'}`}>{quickFacts}</P>}
+                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
                 </div>
 
                 {/* CTA Buttons */}
@@ -259,10 +259,10 @@ const HeroSection = ({
                     {title}
                   </HeroH1>
 
-                  <P className="sm:text-size-md leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
+                  <P className="sm:text-size-md leading-relaxed text-secondary whitespace-pre-line">
                     {description}
                   </P>
-                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-bluedot-navy/85'}`}>{quickFacts}</P>}
+                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
                 </div>
 
                 {/* CTA Buttons */}

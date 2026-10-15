@@ -37,12 +37,12 @@ const Embed: React.FC<EmbedProps> = ({
               <FaMusic aria-hidden="true" className="size-5 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="text-size-lg font-semibold text-gray-800">Suno AI Music</h3>
+              <h3 className="text-size-lg font-semibold text-primary">Suno AI Music</h3>
               <a
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-size-sm text-gray-600 hover:text-purple-600 transition-colors inline-flex items-center gap-1"
+                className="text-size-sm text-secondary hover:text-purple-600 transition-colors inline-flex items-center gap-1"
               >
                 AI-generated music from Suno
                 <FaArrowUpRightFromSquare aria-hidden="true" className="size-2.5" />

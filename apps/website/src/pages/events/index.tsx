@@ -64,13 +64,13 @@ const EventsPage = () => {
                     setLocation('all');
                     setVisibleCount(PAGE_SIZE);
                   }}
-                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal sm:flex-none sm:px-4 ${filter === key ? 'bg-bluedot-navy text-white' : 'text-bluedot-navy/70 hover:bg-slate-100'}`}
+                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal sm:flex-none sm:px-4 ${filter === key ? 'bg-bluedot-navy text-white' : 'text-secondary hover:bg-slate-100'}`}
                 >{label}</button>
               ))}
             </div>
             <div className="flex flex-wrap items-center gap-4">
               {filter !== 'online' && locations.length > 0 && (
-                <label className="flex items-center gap-3 text-size-xs text-bluedot-navy/70">
+                <label className="flex items-center gap-3 text-size-xs text-secondary">
                   Location
                   <select
                     value={location}
@@ -88,7 +88,7 @@ const EventsPage = () => {
               <Button url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</Button>
             </div>
           </div>
-          <div className="mb-6 flex flex-col gap-1 text-size-xxs leading-relaxed text-bluedot-navy/60 sm:flex-row sm:justify-between">
+          <div className="mb-6 flex flex-col gap-1 text-size-xxs leading-relaxed text-secondary sm:flex-row sm:justify-between">
             <p role="status">{!isLoading && !error ? `${filteredEvents.length} upcoming ${filteredEvents.length === 1 ? 'event' : 'events'}` : 'Upcoming events'}</p>
             <p>Online events in your time. In-person events in venue time.</p>
           </div>
@@ -100,7 +100,7 @@ const EventsPage = () => {
               {filteredEvents.length === 0 && (
                 <div className="rounded-2xl border border-bluedot-navy/10 bg-white p-8 text-center">
                   <p className="text-size-md font-semibold">{upcomingEvents.length ? 'No events match these filters.' : 'More events are on the way.'}</p>
-                  <p className="mt-3 text-size-sm text-bluedot-navy/70">{upcomingEvents.length ? 'Try another location or browse all upcoming events.' : 'Follow our Luma calendar to hear about the next one.'}</p>
+                  <p className="mt-3 text-size-sm text-secondary">{upcomingEvents.length ? 'Try another location or browse all upcoming events.' : 'Follow our Luma calendar to hear about the next one.'}</p>
                   {upcomingEvents.length > 0 ? (
                     <button type="button" className="mt-5 text-bluedot-normal underline" onClick={() => {
                       setFilter('all');

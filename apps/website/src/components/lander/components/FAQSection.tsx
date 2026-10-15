@@ -134,7 +134,7 @@ const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' 
                       >
                         <div className="overflow-hidden">
                           <div className="px-8 pb-6">
-                            <P className="text-bluedot-navy/80 text-size-md">{item.answer}</P>
+                            <P className="text-secondary text-size-md">{item.answer}</P>
                           </div>
                         </div>
                       </div>

@@ -56,8 +56,8 @@ const SiteLoginPage = () => {
       </Head>
       <div className="bg-white p-8 rounded shadow-md w-[400px] max-w-full">
         <H1 className="text-size-lg mb-2 text-center">Site Access</H1>
-        <p className="text-size-sm text-gray-500 text-center mb-6">
-          <a href="https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=stgchk2vz4wbectnrh4v7gdsmu&i=aledjayhetmqgd4h64fg4kn3hy&h=bluedotimpact.1password.com" className="underline hover:text-gray-700" target="_blank" rel="noopener noreferrer">Here in 1Password</a> if you have access.
+        <p className="text-size-sm text-secondary text-center mb-6">
+          <a href="https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=stgchk2vz4wbectnrh4v7gdsmu&i=aledjayhetmqgd4h64fg4kn3hy&h=bluedotimpact.1password.com" className="underline hover:text-primary" target="_blank" rel="noopener noreferrer">Here in 1Password</a> if you have access.
         </p>
         <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex gap-2">

@@ -234,7 +234,7 @@ const AlumniStoryCarousel = ({
               {title}
             </H2>
             {subtitle && (
-              <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 italic">
+              <P className="bd-md:text-size-md leading-relaxed text-secondary italic">
                 {subtitle}
               </P>
             )}
@@ -318,7 +318,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
         <P className="text-size-md font-semibold leading-snug truncate">
           {story.name}
         </P>
-        <P className="text-size-xs bd-md:text-size-sm leading-relaxed text-bluedot-navy/80">
+        <P className="text-size-xs bd-md:text-size-sm leading-relaxed text-secondary">
           {story.role}
         </P>
       </div>
@@ -326,7 +326,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
 
     {/* Story content */}
     <div className="p-5 bd-md:p-6 flex-grow flex flex-col gap-3">
-      <P className="text-bluedot-navy/80 line-clamp-5">
+      <P className="text-primary line-clamp-5">
         {story.story}
       </P>
       {story.storyUrl && (

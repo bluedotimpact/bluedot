@@ -258,7 +258,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               }`}
             >
               {(isCompleted || isHovered) && (
-                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
+                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-white' : 'text-secondary')} />
               )}
             </button>
           </div>
@@ -292,7 +292,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {/* Resource guide */}
           {resource.resourceGuide && (
             <div className="resource-item__guide mt-4">
-              <MarkdownExtendedRenderer className="text-gray-700 text-size-sm font-normal leading-relaxed">
+              <MarkdownExtendedRenderer className="text-primary text-size-sm font-normal leading-relaxed">
                 {resource.resourceGuide}
               </MarkdownExtendedRenderer>
             </div>
@@ -302,7 +302,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(resource.authors || resource.year || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
             <div className="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">
-              <P className="text-gray-600 text-size-xs font-medium leading-normal">
+              <P className="text-secondary text-size-xs font-medium leading-normal">
                 {resource.authors && <span>{resource.authors}</span>}
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {resource.authors && (resource.year || resource.timeFocusOnMins) && <span> · </span>}
@@ -403,7 +403,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               aria-label="Resource feedback section"
             >
               <div className="flex items-center gap-3 px-2">
-                <P className="font-medium text-size-xs leading-normal text-bluedot-navy/80">
+                <P className="font-medium text-size-xs leading-normal text-secondary">
                   Was this resource useful?
                 </P>
                 <FeedbackSection

@@ -87,7 +87,7 @@ const CourseInformationSection = ({
                         accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
-                            <P className="text-bluedot-navy/80">
+                            <P className="text-secondary">
                               {detail.scheduleDescription}
                             </P>
                             <div className="flex justify-start">
@@ -114,7 +114,7 @@ const CourseInformationSection = ({
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                      <div className="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal">
+                      <div className="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal">
                         {detail.description}
                       </div>
                     </div>

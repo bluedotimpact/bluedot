@@ -112,7 +112,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
     if (!userId) return null;
     if (exerciseResponseQuery.error && !exerciseResponseQuery.data) return <ErrorSection error={exerciseResponseQuery.error} />;
     if (!exerciseResponseQuery.data) return <ProgressDots className="py-8" />;
-    if (items.length === 0) return <p className="text-bluedot-navy/60 py-8 text-center">No exercise responses match these filters.</p>;
+    if (items.length === 0) return <p className="text-secondary py-8 text-center">No exercise responses match these filters.</p>;
 
     return (
       <ol className="flex flex-col gap-3">
@@ -139,14 +139,14 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               {user && (
                 <>
                   <p className="font-semibold text-bluedot-navy break-words">{user.name || '(no name)'}</p>
-                  <p className="text-size-xs text-bluedot-navy/70 break-words" title={user.email}>{maskEmail(user.email)}</p>
+                  <p className="text-size-xs text-secondary break-words" title={user.email}>{maskEmail(user.email)}</p>
                   {user.lastSeenAt && (
-                    <p className="text-size-xxs text-bluedot-navy/50 mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
+                    <p className="text-size-xxs text-secondary mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
                   )}
                 </>
               )}
-              {!user && userId && <p className="text-size-xs text-bluedot-navy/50">Loading user...</p>}
-              {userId && <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{userId}</code></p>}
+              {!user && userId && <p className="text-size-xs text-secondary">Loading user...</p>}
+              {userId && <p className="text-size-xxs text-secondary">User ID: <code>{userId}</code></p>}
               <button
                 type="button"
                 onClick={() => setIsSelectUserModalOpen(true)}
@@ -212,7 +212,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
             {renderResults()}
 
             {items.length > 0 && (
-              <div ref={infiniteScrollSentinelRef} className="py-4 text-center text-size-xs text-bluedot-navy/50">
+              <div ref={infiniteScrollSentinelRef} className="py-4 text-center text-size-xs text-secondary">
                 {exerciseResponseQuery.isFetchingNextPage && 'Loading...'}
                 {!exerciseResponseQuery.hasNextPage && 'End of responses'}
               </div>
@@ -251,7 +251,7 @@ const ResponseCard = ({
           <p className="font-semibold text-bluedot-navy break-words">
             {exercise?.title ?? '(unknown exercise)'}
           </p>
-          <p className="text-bluedot-navy/60 break-words">
+          <p className="text-secondary break-words">
             {unit?.courseSlug ? (
               <a
                 href={`/courses/${unit.courseSlug}`}
@@ -287,7 +287,7 @@ const ResponseCard = ({
             )}
           </p>
         </div>
-        <p className="text-bluedot-navy/50 whitespace-nowrap">
+        <p className="text-secondary whitespace-nowrap">
           {response.completedAt ? (
             new Date(response.completedAt).toLocaleString()
           ) : (

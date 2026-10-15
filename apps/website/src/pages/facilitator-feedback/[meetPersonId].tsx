@@ -186,7 +186,7 @@ const FacilitatorFeedbackPage = () => {
             <H1 className="text-size-lg mb-2">Course Feedback</H1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
-          <div className="flex flex-col gap-2 text-size-xs text-bluedot-navy/60">
+          <div className="flex flex-col gap-2 text-size-xs text-secondary">
             <div className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support participants.</div>
             <div className="flex items-center gap-2"><PiClock className="shrink-0" aria-hidden />8–10 min for course questions + a few min per participant.</div>
             <div className="flex items-center gap-2"><PiLockSimple className="shrink-0" aria-hidden />Your responses are only seen by BlueDot staff.</div>
@@ -199,7 +199,7 @@ const FacilitatorFeedbackPage = () => {
             <Eyebrow>Course feedback</Eyebrow>
             <div className="flex flex-col gap-1">
               <H2 className="text-size-lg">How did the course go?</H2>
-              <p className="text-size-xs text-bluedot-navy/60 leading-relaxed">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
+              <p className="text-size-xs text-secondary leading-relaxed">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
             </div>
           </div>
 
@@ -215,7 +215,7 @@ const FacilitatorFeedbackPage = () => {
               <label htmlFor="most-valuable" className="text-size-xs font-semibold text-bluedot-navy">
                 What did you find most valuable? <span className="text-red-600">*</span>
               </label>
-              <p className="text-size-xs text-bluedot-navy/60">Describe a specific moment or element that stands out.</p>
+              <p className="text-size-xs text-secondary">Describe a specific moment or element that stands out.</p>
             </div>
             <Textarea
               id="most-valuable"
@@ -230,7 +230,7 @@ const FacilitatorFeedbackPage = () => {
               <label htmlFor="difficulties" className="text-size-xs font-semibold text-bluedot-navy">
                 Where did you face difficulties? <span className="text-red-600">*</span>
               </label>
-              <p className="text-size-xs text-bluedot-navy/60">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
+              <p className="text-size-xs text-secondary">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
             </div>
             <Textarea
               id="difficulties"
@@ -248,10 +248,10 @@ const FacilitatorFeedbackPage = () => {
             <Eyebrow>Participant insights</Eyebrow>
             <div className="flex flex-col gap-2">
               <H2 className="text-size-lg">Share your insights on each participant</H2>
-              <p className="text-size-xs text-bluedot-navy/60 leading-relaxed">
+              <p className="text-size-xs text-secondary leading-relaxed">
                 We use it to identify the most promising participants in your cohort and decide how to back them — whether that's career introductions, grants, or an invitation to facilitate.
               </p>
-              <p className="text-size-xs text-bluedot-navy/60 leading-relaxed">
+              <p className="text-size-xs text-secondary leading-relaxed">
                 We recommend starting with participants who stood out in the course.
               </p>
             </div>
@@ -276,7 +276,7 @@ const FacilitatorFeedbackPage = () => {
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-0.5">
                 <Eyebrow className="text-secondary">Drop-ins</Eyebrow>
-                <p className="text-size-xs text-bluedot-navy/60">Joined one or more of your group's discussions.</p>
+                <p className="text-size-xs text-secondary">Joined one or more of your group's discussions.</p>
               </div>
               <div className="flex flex-col gap-2">
                 {dropIns.map((participant) => (
@@ -325,7 +325,7 @@ const FacilitatorFeedbackPage = () => {
               </Callout>
               <button
                 type="button"
-                className="self-start text-size-xs text-bluedot-navy/50 underline cursor-pointer transition-colors hover:text-bluedot-navy/80 disabled:opacity-50 disabled:pointer-events-none"
+                className="self-start text-size-xs text-secondary underline cursor-pointer transition-colors hover:text-primary disabled:opacity-50 disabled:pointer-events-none"
                 disabled={submitFeedback.isPending}
                 onClick={() => submitFeedback.mutate(submitPayload, {
                   onSuccess: async () => {
@@ -359,7 +359,7 @@ const FacilitatorFeedbackPage = () => {
               >
                 {submitFeedback.isPending ? 'Saving...' : submitIdleLabel}
               </Button>
-              <p className="text-size-xs text-bluedot-navy/60">
+              <p className="text-size-xs text-secondary">
                 <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{totalCount}</span> participant feedback completed
               </p>
             </div>
@@ -367,7 +367,7 @@ const FacilitatorFeedbackPage = () => {
           {isAdmin && formData?.existingCourseFeedback?.completed === true && (
             <button
               type="button"
-              className="self-start text-size-xxs text-bluedot-navy/40 underline cursor-pointer"
+              className="self-start text-size-xxs text-secondary underline cursor-pointer"
               onClick={() => unsubmitFeedback.mutate({ meetPersonId }, {
                 onSuccess: () => window.location.reload(),
               })}
@@ -438,7 +438,7 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
-        <p className="text-size-xxs text-bluedot-navy/50">{getSubtitle(feedback)}</p>
+        <p className="text-size-xxs text-secondary">{getSubtitle(feedback)}</p>
         {showNudge && !feedback && (
           <p className="flex items-center gap-1 text-size-xxs leading-normal font-medium text-[#cc6b11]">
             <PiWarningCircle className="size-[11px] shrink-0" aria-hidden />

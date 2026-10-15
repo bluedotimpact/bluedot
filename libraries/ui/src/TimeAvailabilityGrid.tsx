@@ -161,7 +161,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
   }, [value, cellRefs, dragState, mainGrid, onChange]);
 
   return (
-    <div className="text-size-xs w-full touch-none text-stone-500">
+    <div className="text-size-xs w-full touch-none text-secondary">
       <div className="flex">
         <div className="w-12" />
         <div className="grid w-full grid-cols-7 text-center">

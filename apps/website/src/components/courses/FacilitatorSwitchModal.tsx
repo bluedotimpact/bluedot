@@ -204,15 +204,15 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make
               sure you communicate this with them. You should see the changes reflected in the calendar event and Course
               Hub.
             </P>
-            <P className="text-center text-bluedot-navy/80">Please allow up to 10 minutes to see the changes.</P>
+            <P className="text-center text-primary">Please allow up to 10 minutes to see the changes.</P>
           </div>
           <Button className="w-full" onClick={handleClose}>
             Close
@@ -228,11 +228,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
               {groupOptions.find((g) => g.value === selectedGroupId)?.label}.
             </P>
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes
               to see the changes.
             </P>

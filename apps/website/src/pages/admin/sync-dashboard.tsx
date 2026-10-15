@@ -148,7 +148,7 @@ const SyncDashboard = () => {
             Request Full Sync
           </Button>
           {hasSyncRunning && (
-            <P className="mt-2 text-size-sm text-gray-600">
+            <P className="mt-2 text-size-sm text-secondary">
               A sync is currently running. Your request will be queued.
             </P>
           )}
@@ -173,7 +173,7 @@ const SyncDashboard = () => {
           </H3>
 
           {!syncData || syncData.length === 0 ? (
-            <P className="text-gray-600">No sync requests in the last 24 hours</P>
+            <P className="text-secondary">No sync requests in the last 24 hours</P>
           ) : (
             <div className="container-lined overflow-hidden">
               <table className="w-full">

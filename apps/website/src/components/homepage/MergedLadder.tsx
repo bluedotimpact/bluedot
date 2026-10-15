@@ -186,7 +186,7 @@ const MergedLadder = () => {
           <CohortCard course={featuredCohort} featured />
         </div>
         <div className="flex justify-center">
-          <FaArrowDown aria-hidden="true" className="size-6 text-bluedot-navy/40" />
+          <FaArrowDown aria-hidden="true" className="size-6 text-secondary" />
         </div>
         <div className="grid grid-cols-1 bd-md:grid-cols-3 gap-4 md:gap-5">
           {otherCohorts.slice(0, 3).map((c) => (

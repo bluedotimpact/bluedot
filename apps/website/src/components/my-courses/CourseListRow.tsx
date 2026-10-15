@@ -206,7 +206,7 @@ const CourseListRow = (row: CourseListRowProps) => {
               onClickViewAttendees={modalCallbacks.onClickViewAttendees}
             />
           ) : (
-            <p className="px-5 py-4 text-size-xs text-gray-500 sm:px-6">No discussions to show.</p>
+            <p className="px-5 py-4 text-size-xs text-secondary sm:px-6">No discussions to show.</p>
           )}
         </div>
       )}

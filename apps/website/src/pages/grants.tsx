@@ -129,7 +129,7 @@ const GrantsPage = () => {
               );
             })}
           </ul>
-          <P className="mt-6 text-center text-size-xs text-bluedot-navy/65">Career Transition Grants generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
+          <P className="mt-6 text-center text-size-xs text-secondary">Career Transition Grants generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
         </div>
       </section>
 
