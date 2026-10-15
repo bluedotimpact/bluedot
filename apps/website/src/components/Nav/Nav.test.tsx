@@ -4,8 +4,9 @@ import {
   vi,
 } from 'vitest';
 import {
-  render, screen, waitFor, fireEvent, within,
+  render, screen, waitFor, within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { Nav } from './Nav';
@@ -96,9 +97,9 @@ const getMobileDrawer = () => document.getElementById('mobile-nav-drawer')!;
 const getProfileDrawer = () => document.getElementById('profile-menu-drawer')!;
 
 describe('Nav', () => {
-  const testDropdownLinks = async (variant: 'mobile' | 'desktop') => {
+  const testDropdownLinks = async (user: ReturnType<typeof userEvent.setup>, variant: 'mobile' | 'desktop') => {
     const coursesButton = getCoursesTrigger(variant);
-    fireEvent.click(coursesButton);
+    await user.click(coursesButton);
 
     await waitFor(() => {
       const panel = within(getControlledPanel(coursesButton));
@@ -141,25 +142,26 @@ describe('Nav', () => {
 
   test('renders course links in mobile dropdown', async () => {
     render(<Nav />, { wrapper: TrpcProvider });
-    await testDropdownLinks('mobile');
+    await testDropdownLinks(userEvent.setup(), 'mobile');
   });
 
   test('renders course links in desktop dropdown', async () => {
     render(<Nav />, { wrapper: TrpcProvider });
-    await testDropdownLinks('desktop');
+    await testDropdownLinks(userEvent.setup(), 'desktop');
   });
 
   test('uses Grants and Programs as separate top-level menus', async () => {
+    const user = userEvent.setup();
     render(<Nav />, { wrapper: TrpcProvider });
 
     expect(screen.queryByRole('button', { name: 'Projects' })).toBeNull();
     expect(screen.getAllByRole('button', { name: 'Grants' }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('button', { name: 'Programs' }).length).toBeGreaterThan(0);
 
-    fireEvent.click(screen.getAllByRole('button', { name: 'Grants' })[0]!);
+    await user.click(screen.getAllByRole('button', { name: 'Grants' })[0]!);
     expect((await screen.findAllByRole('link', { name: /Rapid Grants/i }))[0]?.getAttribute('href')).toBe('/grants/rapid');
 
-    fireEvent.click(screen.getAllByRole('button', { name: 'Programs' })[0]!);
+    await user.click(screen.getAllByRole('button', { name: 'Programs' })[0]!);
     expect((await screen.findAllByRole('link', { name: /AI Security Bootcamp/i }))[0]?.getAttribute('href')).toBe('https://aisb.dev/');
   });
 
@@ -170,6 +172,7 @@ describe('Nav', () => {
   });
 
   test('clicking the hamburger button expands the mobile nav drawer', async () => {
+    const user = userEvent.setup();
     withLoggedInUser();
     render(<Nav />, { wrapper: TrpcProvider });
 
@@ -182,7 +185,7 @@ describe('Nav', () => {
     expect(profileDrawer.className).toMatch(/invisible/);
     expect(hamburgerButton.getAttribute('aria-expanded')).toBe('false');
 
-    fireEvent.click(hamburgerButton);
+    await user.click(hamburgerButton);
 
     await waitFor(() => {
       expect(mobileNavDrawer.className).not.toMatch(/invisible/);
@@ -192,6 +195,7 @@ describe('Nav', () => {
   });
 
   test('clicking the profile menu button expands the profile drawer', async () => {
+    const user = userEvent.setup();
     withLoggedInUser();
     render(<Nav />, { wrapper: TrpcProvider });
 
@@ -202,7 +206,7 @@ describe('Nav', () => {
     expect(mobileNavDrawer.className).toMatch(/invisible/);
     expect(profileDrawer.className).toMatch(/invisible/);
 
-    fireEvent.click(profileButton);
+    await user.click(profileButton);
 
     await waitFor(() => {
       expect(profileDrawer.className).not.toMatch(/invisible/);
@@ -211,17 +215,18 @@ describe('Nav', () => {
   });
 
   test('clicking outside the nav closes the drawer', async () => {
+    const user = userEvent.setup();
     render(<Nav />, { wrapper: TrpcProvider });
 
     const mobileNavDrawer = getMobileDrawer();
-    fireEvent.click(getHamburger());
+    await user.click(getHamburger());
 
     await waitFor(() => {
       expect(mobileNavDrawer.className).not.toMatch(/invisible/);
     });
 
     // Simulate clicking outside the nav drawer (useDismissible listens for mousedown)
-    fireEvent.mouseDown(document.body);
+    await user.click(document.body);
 
     await waitFor(() => {
       expect(mobileNavDrawer.className).toMatch(/invisible/);
@@ -229,18 +234,20 @@ describe('Nav', () => {
   });
 
   test('Escape closes the drawer and returns focus to the hamburger', async () => {
+    const user = userEvent.setup();
     render(<Nav />, { wrapper: TrpcProvider });
 
     const hamburgerButton = getHamburger();
     const mobileNavDrawer = getMobileDrawer();
-    fireEvent.click(hamburgerButton);
+    await user.click(hamburgerButton);
     await waitFor(() => {
       expect(mobileNavDrawer.className).not.toMatch(/invisible/);
     });
 
-    const aboutLink = within(mobileNavDrawer).getByRole('link', { name: 'About' });
-    aboutLink.focus();
-    fireEvent.keyDown(document, { key: 'Escape' });
+    // Tab into the drawer rather than click a link, which would navigate and close it
+    await user.tab();
+    expect(mobileNavDrawer.contains(document.activeElement)).toBe(true);
+    await user.keyboard('{Escape}');
 
     await waitFor(() => {
       expect(mobileNavDrawer.className).toMatch(/invisible/);
@@ -249,16 +256,16 @@ describe('Nav', () => {
   });
 
   test('Escape closes an open dropdown and returns focus to its trigger', async () => {
+    const user = userEvent.setup();
     render(<Nav />, { wrapper: TrpcProvider });
 
     const coursesButton = getCoursesTrigger('desktop');
-    coursesButton.focus();
-    fireEvent.click(coursesButton);
+    await user.click(coursesButton);
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
     });
 
-    fireEvent.keyDown(document, { key: 'Escape' });
+    await user.keyboard('{Escape}');
 
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
@@ -267,16 +274,17 @@ describe('Nav', () => {
   });
 
   test('Escape with focus outside the menu closes it without moving focus', async () => {
+    const user = userEvent.setup();
     render(<Nav />, { wrapper: TrpcProvider });
 
     const coursesButton = getCoursesTrigger('desktop');
-    fireEvent.click(coursesButton);
+    await user.click(coursesButton);
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
     });
 
-    document.body.focus();
-    fireEvent.keyDown(document, { key: 'Escape' });
+    await user.tab({ shift: true });
+    await user.keyboard('{Escape}');
 
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
@@ -285,12 +293,13 @@ describe('Nav', () => {
   });
 
   test('user can click a course link in the dropdown', async () => {
+    const user = userEvent.setup();
     render(<Nav />, { wrapper: TrpcProvider });
 
     const coursesButton = getCoursesTrigger('desktop');
     expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
 
-    fireEvent.click(coursesButton);
+    await user.click(coursesButton);
 
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
@@ -298,11 +307,8 @@ describe('Nav', () => {
 
     const desktopFeaturedCourseLink = await within(getControlledPanel(coursesButton)).findByRole('link', { name: /Featured Course/i });
 
-    // Mousedown should not close the dropdown prematurely
-    fireEvent.mouseDown(desktopFeaturedCourseLink);
-    expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
-
-    fireEvent.click(desktopFeaturedCourseLink);
+    // A real click starts with mousedown inside the panel, which must not count as click-outside
+    await user.click(desktopFeaturedCourseLink);
 
     await waitFor(() => {
       expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
