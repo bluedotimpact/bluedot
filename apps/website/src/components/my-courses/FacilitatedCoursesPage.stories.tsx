@@ -4,9 +4,9 @@ import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import FacilitatedCoursesPage from '../../pages/facilitated-courses';
 import type { FacilitatorRowProps } from './CourseListRow';
 
-// Discussion times are relative to real "now" because the rows read the live clock.
-const nowSec = Math.floor(Date.now() / 1000);
+// Discussion times are relative to real "now" because the rows read the live clock; rounded to the hour so screenshots are stable.
 const HOUR = 60 * 60;
+const nowSec = Math.floor(Date.now() / 1000 / HOUR) * HOUR;
 const DAY = 24 * HOUR;
 
 const ALICE = 'mp-alice';
