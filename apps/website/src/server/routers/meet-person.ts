@@ -89,9 +89,9 @@ export const meetPersonRouter = router({
         .select({ facilitators: groupDiscussionTable.pg.facilitators })
         .from(groupDiscussionTable.pg)
         .where(eq(groupDiscussionTable.pg.group, group.id));
-      const facilitatorIdsArr = [...new Set([...(group.facilitator ?? []), ...discussions.flatMap((d) => d.facilitators ?? [])])];
+      const facilitatorIdsArr = group.facilitator ?? [];
       const participantIdsArr = group.participants ?? [];
-      const callerIsMember = facilitatorIdsArr.some((id) => callerMeetPersonIds.has(id))
+      const callerIsMember = [...facilitatorIdsArr, ...discussions.flatMap((d) => d.facilitators ?? [])].some((id) => callerMeetPersonIds.has(id))
         || participantIdsArr.some((id) => callerMeetPersonIds.has(id));
       if (!callerIsMember) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'group not found' });

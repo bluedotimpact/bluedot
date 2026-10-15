@@ -101,7 +101,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   } = trpc.facilitators.discussionsAvailable.useQuery({ roundId });
   const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
   // Substitutes can only change the time of the discussion they cover
-  const ownGroupIds = new Set(discussions.filter((d) => d.isGroupFacilitator).map((d) => d.group));
+  const switchOptions = SWITCH_OPTIONS.map((opt) => ({
+    ...opt,
+    disabled: opt.value === 'Change permanently' && discussions.some((d) => d.group === selectedGroupId && !d.isGroupFacilitator),
+  }));
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
@@ -251,11 +254,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               aria-label="Action"
               value={switchType}
               onChange={(value) => setSwitchType(value as FacilitatorSwitchType)}
-              options={SWITCH_OPTIONS.map((opt) => ({
-                value: opt.value,
-                label: opt.label,
-                disabled: opt.value === 'Change permanently' && !!selectedGroupId && !ownGroupIds.has(selectedGroupId),
-              }))}
+              options={switchOptions}
               placeholder="Choose an option"
             />
           </div>
@@ -269,7 +268,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
                 setSelectedGroupId(value);
                 setSelectedDiscussionId(undefined);
               }}
-              options={groupOptions.map((opt) => ({ ...opt, disabled: !isSingleUnitChange && !ownGroupIds.has(opt.value) }))}
+              options={groupOptions.map((opt) => ({ ...opt, disabled: !isSingleUnitChange && discussions.some((d) => d.group === opt.value && !d.isGroupFacilitator) }))}
               placeholder="Choose a group"
             />
           </div>
