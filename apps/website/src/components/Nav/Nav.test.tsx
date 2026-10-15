@@ -309,6 +309,12 @@ describe('Nav', () => {
     });
   });
 
+  test('links to Missions as a top-level item', () => {
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    expect(screen.getAllByRole('link', { name: 'Missions' })[0]?.getAttribute('href')).toBe('/missions');
+  });
+
   test('marks the current section with aria-current, including on child routes', () => {
     (useRouter as unknown as Mock).mockReturnValue({ ...mockRouter, pathname: '/join-us/[slug]' });
     render(<Nav />, { wrapper: TrpcProvider });
