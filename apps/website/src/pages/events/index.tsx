@@ -50,7 +50,7 @@ const EventsPage = () => {
         subtitle="Meet, learn, and work on AI safety with the BlueDot community."
       />
       <Breadcrumbs route={ROUTES.events} />
-      <main className="bg-slate-50/70 pb-16">
+      <main className="pb-16">
         <section aria-label="Upcoming events" className="section-base pt-6 sm:pt-8">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div className="flex flex-wrap gap-1 rounded-xl border border-default bg-white p-1" aria-label="Event format">
