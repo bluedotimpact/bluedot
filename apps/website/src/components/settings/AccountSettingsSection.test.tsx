@@ -16,6 +16,13 @@ describe('AccountSettingsSection - User Journeys', () => {
   };
 
   // Helper functions
+  const expectFieldError = async (label: RegExp, message: string) => {
+    const alerts = await screen.findAllByRole('alert');
+    expect(alerts.some((alert) => alert.textContent === message)).toBe(true);
+    expect(screen.getByLabelText(label)).toHaveAccessibleDescription(expect.stringContaining(message));
+    expect(screen.getByLabelText(label)).toHaveAttribute('aria-invalid', 'true');
+  };
+
   const openPasswordModal = () => {
     const changePasswordButton = screen.getByRole('button', { name: /change password/i });
     fireEvent.click(changePasswordButton);
@@ -77,8 +84,7 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees error message
-    const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent('Incorrect password');
+    await expectFieldError(/current password/i, 'Incorrect password');
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -90,6 +96,7 @@ describe('AccountSettingsSection - User Journeys', () => {
 
     // Error clears when user types
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/current password/i)).not.toHaveAttribute('aria-invalid');
   });
 
   test('User sees validation errors for invalid inputs', async () => {
@@ -101,29 +108,23 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees all required field errors
-    const errors = await screen.findAllByRole('alert');
-    expect(errors).toHaveLength(3);
-    expect(errors[0]).toHaveTextContent('Current password is required');
-    expect(errors[1]).toHaveTextContent('Password must be at least 8 characters');
-    expect(errors[2]).toHaveTextContent('Please confirm your new password');
+    await expectFieldError(/current password/i, 'Current password is required');
+    await expectFieldError(/^new password/i, 'Password must be at least 8 characters');
+    await expectFieldError(/confirm new password/i, 'Please confirm your new password');
 
     // User fills current password and short new password
     fillPasswordForm(validPasswords.current, 'short', 'short');
     submitForm();
 
     // User sees password length error
-    const lengthError = await screen.findByText('Password must be at least 8 characters', {
-      selector: '[role="alert"]',
-    });
-    expect(lengthError).toBeInTheDocument();
+    await expectFieldError(/^new password/i, 'Password must be at least 8 characters');
 
     // User fixes password but confirms don't match
     fillPasswordForm(validPasswords.current, validPasswords.new, 'DifferentPassword123!');
     submitForm();
 
     // User sees mismatch error
-    const mismatchError = await screen.findByText('Passwords do not match');
-    expect(mismatchError).toHaveAttribute('role', 'alert');
+    await expectFieldError(/confirm new password/i, 'Passwords do not match');
   });
 
   test('User can cancel password change', async () => {
@@ -177,10 +178,9 @@ describe('AccountSettingsSection - User Journeys', () => {
 
     openPasswordModal();
 
-    // User sees password requirement hint
-    const hint = screen.getByText('Password must be at least 8 characters');
-    expect(hint).toBeInTheDocument();
-    expect(hint).toHaveAttribute('id', 'new-password-hint');
+    // User sees password requirement hint, attached to the field
+    expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument();
+    expect(screen.getByLabelText(/^new password/i)).toHaveAccessibleDescription('Password must be at least 8 characters');
   });
 
   test('Form is properly disabled during submission', async () => {
@@ -259,8 +259,7 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees the configuration error message
-    const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent('Failed to update password: Authentication service not configured. Please contact support.');
+    await expectFieldError(/current password/i, 'Failed to update password: Authentication service not configured. Please contact support.');
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -284,8 +283,7 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees the error message
-    const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent('Failed to update password: An unexpected error occurred during authentication.');
+    await expectFieldError(/current password/i, 'Failed to update password: An unexpected error occurred during authentication.');
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -318,8 +316,7 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees the fallback error message
-    const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent('Failed to update password: Please try again.');
+    await expectFieldError(/current password/i, 'Failed to update password: Please try again.');
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();

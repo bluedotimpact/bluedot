@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, Checkbox, ErrorSection, Input, ProgressDots, Radio, Section,
+  Breadcrumbs, Checkbox, ErrorSection, FieldSet, Input, ProgressDots, Radio, Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -161,8 +161,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
             </Checkbox>
 
             {courses.length > 0 && (
-              <fieldset className="flex flex-col border-0 m-0 p-0 min-w-0">
-                <legend className="mb-2 text-size-xs font-semibold text-bluedot-navy">Course</legend>
+              <FieldSet legend="Course">
                 <Radio
                   name="course"
                   checked={!courseId}
@@ -180,7 +179,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
                     {c.title ?? '(untitled)'}
                   </Radio>
                 ))}
-              </fieldset>
+              </FieldSet>
             )}
           </div>
 

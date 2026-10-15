@@ -20,7 +20,8 @@ describe('Field', () => {
     expect(input).toBeRequired();
     expect(input).toHaveAttribute('aria-invalid', 'true');
     expect(input).toHaveAccessibleDescription('Cohort logistics only. Enter a valid email.');
-    expect(screen.getByText('Enter a valid email.')).toBeInTheDocument();
+    // The error appears as an alert so it is announced without moving focus
+    expect(screen.getByRole('alert')).toHaveTextContent('Enter a valid email.');
   });
 
   test('omits aria-describedby, aria-invalid and the error node when nothing is set', () => {

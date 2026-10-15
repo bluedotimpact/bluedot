@@ -1,5 +1,6 @@
 import {
   Button,
+  Field,
   Input,
   Modal,
   P,
@@ -205,10 +206,8 @@ const ChangePasswordModal = ({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Change password" bottomDrawerOnMobile>
       <div className="space-y-4">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="current-password" className="font-semibold">Current password<span aria-hidden="true">*</span></label>
+        <Field label="Current password" required error={errors.current}>
           <Input
-            id="current-password"
             ref={currentPasswordRef}
             type="password"
             value={currentPassword}
@@ -220,28 +219,17 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter current password"
-            aria-describedby={
-              errors.current ? 'current-password-error' : undefined
-            }
-            aria-invalid={!!errors.current}
             disabled={isLoading}
           />
-          {errors.current && (
-            <p
-              className="text-red-600 text-size-sm mt-1"
-              id="current-password-error"
-              role="alert"
-              aria-live="polite"
-            >
-              {errors.current}
-            </p>
-          )}
-        </div>
+        </Field>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="new-password" className="font-semibold">New password<span aria-hidden="true">*</span></label>
+        <Field
+          label="New password"
+          description="Password must be at least 8 characters"
+          required
+          error={errors.new}
+        >
           <Input
-            id="new-password"
             type="password"
             value={newPassword}
             onChange={(e) => {
@@ -252,36 +240,12 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter new password"
-            aria-describedby={
-              errors.new ? 'new-password-error' : 'new-password-hint'
-            }
-            aria-invalid={!!errors.new}
             disabled={isLoading}
           />
-          {!errors.new && (
-            <p
-              className="text-charcoal-mid text-size-sm mt-1"
-              id="new-password-hint"
-            >
-              Password must be at least 8 characters
-            </p>
-          )}
-          {errors.new && (
-            <p
-              className="text-red-600 text-size-sm mt-1"
-              id="new-password-error"
-              role="alert"
-              aria-live="polite"
-            >
-              {errors.new}
-            </p>
-          )}
-        </div>
+        </Field>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="confirm-password" className="font-semibold">Confirm new password<span aria-hidden="true">*</span></label>
+        <Field label="Confirm new password" required error={errors.confirm}>
           <Input
-            id="confirm-password"
             type="password"
             value={confirmPassword}
             onChange={(e) => {
@@ -292,23 +256,9 @@ const ChangePasswordModal = ({
             }}
             onKeyDown={handleKeyDown}
             placeholder="Confirm new password"
-            aria-describedby={
-              errors.confirm ? 'confirm-password-error' : undefined
-            }
-            aria-invalid={!!errors.confirm}
             disabled={isLoading}
           />
-          {errors.confirm && (
-            <p
-              className="text-red-600 text-size-sm mt-1"
-              id="confirm-password-error"
-              role="alert"
-              aria-live="polite"
-            >
-              {errors.confirm}
-            </p>
-          )}
-        </div>
+        </Field>
 
         <div className="flex gap-3 justify-end pt-4">
           <Button
