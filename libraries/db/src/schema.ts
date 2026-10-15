@@ -1,6 +1,6 @@
 import {
   pgTable, text, boolean, numeric, timestamp,
-  serial, index,
+  serial, index, uniqueIndex,
 } from 'drizzle-orm/pg-core';
 import { type InferSelectModel, sql } from 'drizzle-orm';
 
@@ -75,6 +75,43 @@ export const posthogEmittedEventsTable = pgTable('posthog_emitted_events', {
   distinctId: text().notNull(), // a row exists only after a successful emit, which always has a distinct_id
   eventTimestamp: timestamp({ mode: 'string', withTimezone: true }).notNull(),
   sentAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+});
+
+export type CalendarProvider = 'google';
+
+/**
+ * Calendars that Slack members have connected so Dot-to-Dot can find times when both people in a pair are free.
+ * NOTE: This is a Postgres-only table, NOT synced from Airtable, because it holds OAuth refresh tokens.
+ * One row per connected provider account; a member can connect several (e.g. work and personal).
+ */
+export const calendarConnectionTable = deprecationSafePgTable('calendar_connection', {
+  columns: {
+    id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
+    slackUserId: text().notNull(),
+    // Points at userTable: the BlueDot account that connected the calendar
+    userId: text().notNull(),
+    provider: text().$type<CalendarProvider>().notNull(),
+    // The provider's stable account id (Google's `sub`), which survives the account changing its email
+    providerAccountId: text().notNull(),
+    providerAccountEmail: text().notNull(),
+    // Encrypted by the application before insert. Never store a plaintext token here.
+    encryptedRefreshToken: text().notNull(),
+    // Space-separated, as returned by the provider's token endpoint
+    scopes: text().notNull(),
+    // IANA time zone from the browser when the calendar was connected, e.g. 'Europe/London'
+    timeZone: text(),
+    // Set when a busy-times lookup fails, e.g. because the user revoked access. Cleared on success.
+    lastError: text(),
+    lastErrorAt: timestamp({ mode: 'string', withTimezone: true }),
+    createdAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+  },
+  indexes: (t) => [
+    // Reconnecting the same account updates its row rather than adding a duplicate.
+    // Leading with slackUserId also serves busy-times lookups by Slack member.
+    uniqueIndex('calendar_connection_slackUserId_provider_providerAccountId_idx').on(t.slackUserId, t.provider, t.providerAccountId),
+    index('calendar_connection_userId_idx').on(t.userId),
+  ],
 });
 
 export const courseTable = pgAirtable('course', {
@@ -1844,6 +1881,7 @@ export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable.pg>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
+export type CalendarConnection = InferSelectModel<typeof calendarConnectionTable.pg>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
 export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable.pg>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
