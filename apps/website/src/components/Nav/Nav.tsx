@@ -98,7 +98,8 @@ export const Nav = (props: NavProps) => {
             <NavLinks
               menu={menu}
               isOnDark={isOnColoredBackground}
-              className="hidden xl:flex"
+              // Tighter gaps just above the xl breakpoint stop the links wrapping
+              className="hidden xl:flex max-[1360px]:gap-6"
             />
             <NavCta
               menu={menu}
