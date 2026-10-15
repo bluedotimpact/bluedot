@@ -24,7 +24,9 @@ import {
 } from '@bluedot/db';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
-import { hasEndDateTime, isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
+import {
+  hasEndDateTime, isDiscussionFacilitator, isGroupFacilitator, type GroupDiscussionWithEnd,
+} from '../../lib/group-discussions/utils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
@@ -77,6 +79,17 @@ const fetchApplicationsRoundsByIds = async (ids: string[]) => {
     })
     .from(applicationsRoundTable.pg)
     .where(inArray(applicationsRoundTable.pg.id, ids));
+};
+
+const fullName = (p: { firstName: string | null; lastName: string | null }) => `${p.firstName ?? ''} ${p.lastName ?? ''}`.trim();
+
+const fetchFacilitatorNamesById = async (meetPersonIds: string[]): Promise<Record<string, string>> => {
+  if (meetPersonIds.length === 0) return {};
+  const rows = await db.pg
+    .select({ id: meetPersonTable.pg.id, firstName: meetPersonTable.pg.firstName, lastName: meetPersonTable.pg.lastName })
+    .from(meetPersonTable.pg)
+    .where(inArray(meetPersonTable.pg.id, meetPersonIds));
+  return Object.fromEntries(rows.flatMap((r) => (fullName(r) ? [[r.id, fullName(r)] as const] : [])));
 };
 
 const fetchUnitsByIds = async (ids: string[]): Promise<Unit[]> => {
@@ -475,22 +488,31 @@ export const myBluedotRouter = router({
         : Promise.resolve([] as GroupDiscussion[]),
       fetchApplicationsRoundsByIds(unique(courseRegistrations.map((cr) => cr.roundId))),
     ]);
-    // Only discussions with an end time are displayed, but every row still counts towards which groups the person facilitated.
-    const allExpectedDiscussions = allDiscussionRows.filter(hasEndDateTime);
     const groupIdByDiscussionId = new Map(allDiscussionRows.map((d) => [d.id, d.group] as const));
-
-    // Units (from discussions).
-    const units = await fetchUnitsByIds(unique(allExpectedDiscussions.map((d) => d.courseBuilderUnitRecordId)));
-
-    // Step 2: Build one row per (registration × facilitated group)
-    const roundById = new Map(roundRows.map((r) => [r.id, r] as const));
-    const unitById = new Map(units.map((u) => [u.id, u] as const));
-    const discussionById = new Map(allExpectedDiscussions.map((d) => [d.id, d] as const));
 
     const facilitatesGroup = (group: Group, meetPerson: { id: string; expectedDiscussionsFacilitator: string[] | null; attendedDiscussions: string[] | null }) => (
       isGroupFacilitator(group, meetPerson.id)
       || discussionIdsForMeetPerson(meetPerson).some((id) => groupIdByDiscussionId.get(id) === group.id)
     );
+
+    // Every discussion of each facilitated group, including the ones a substitute runs.
+    const facilitatedGroups = allGroupsInRounds.filter((g) => meetPersons.some((mp) => g.round === mp.round && facilitatesGroup(g, mp)));
+    const facilitatedGroupIds = facilitatedGroups.map((g) => g.id);
+    const facilitatedGroupDiscussions = facilitatedGroupIds.length > 0
+      ? (await db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.group, facilitatedGroupIds)) as GroupDiscussion[])
+        .filter(hasEndDateTime)
+      : [];
+    const [facilitatorNamesByMeetPersonId, units] = await Promise.all([
+      fetchFacilitatorNamesById(unique([
+        ...facilitatedGroups.flatMap((g) => g.facilitator ?? []),
+        ...facilitatedGroupDiscussions.flatMap((d) => d.facilitators),
+      ])),
+      fetchUnitsByIds(unique(facilitatedGroupDiscussions.map((d) => d.courseBuilderUnitRecordId))),
+    ]);
+
+    // Step 2: Build one row per (registration × facilitated group)
+    const roundById = new Map(roundRows.map((r) => [r.id, r] as const));
+    const unitById = new Map(units.map((u) => [u.id, u] as const));
 
     const perRow: FacilitatorRowProps[] = courseRegistrations.flatMap((cr): FacilitatorRowProps[] => {
       const course = courses.find((c) => c.id === cr.courseId);
@@ -517,7 +539,7 @@ export const myBluedotRouter = router({
       };
 
       const emptyRow: FacilitatorRowProps = {
-        ...baseRow, group: null, discussions: [], attendedDiscussionIds: [], units: {},
+        ...baseRow, group: null, discussions: [], attendedDiscussionIds: [], units: {}, facilitatorNamesByMeetPersonId: {},
       };
 
       const groupsForCr = allGroupsInRounds.filter((g) => g.round === meetPerson.round && facilitatesGroup(g, meetPerson));
@@ -529,9 +551,8 @@ export const myBluedotRouter = router({
       }
 
       return groupsForCr.map((group): FacilitatorRowProps => {
-        const groupDiscussions = discussionIdsForMeetPerson(meetPerson)
-          .map((id) => discussionById.get(id))
-          .filter((d): d is GroupDiscussionWithEnd => !!d && d.group === group.id)
+        const groupDiscussions = facilitatedGroupDiscussions
+          .filter((d) => d.group === group.id)
           .sort((a, b) => a.startDateTime - b.startDateTime);
 
         const courseUnits: Record<string, Unit> = {};
@@ -546,6 +567,7 @@ export const myBluedotRouter = router({
           discussions: groupDiscussions,
           attendedDiscussionIds: meetPerson.attendedDiscussions ?? [],
           units: courseUnits,
+          facilitatorNamesByMeetPersonId,
         };
       });
     });
@@ -556,7 +578,7 @@ export const myBluedotRouter = router({
       .flatMap((row) => {
         if (!row.group) return [];
         if (row.isDroppedOut && !row.isDeferred) return [];
-        const soonest = row.discussions.find((d) => d.endDateTime > nowSec);
+        const soonest = row.discussions.find((d) => d.endDateTime > nowSec && !!row.meetPersonId && isDiscussionFacilitator(d, row.meetPersonId));
         if (!soonest) return [];
 
         const unit = soonest.courseBuilderUnitRecordId ? unitById.get(soonest.courseBuilderUnitRecordId) ?? null : null;

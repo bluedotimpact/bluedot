@@ -1218,7 +1218,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect(result.courses).toEqual([]);
   });
 
-  test('keeps a past round where the group was handed over, showing only the discussions the facilitator attended', async () => {
+  test('keeps a past round where the group was handed over, listing every discussion of the group', async () => {
     await seedSingleGroupFacilitator();
     await testDb.insert(groupDiscussionTable, {
       id: 'disc-fac-2',
@@ -1238,8 +1238,32 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     const result = await caller.myBluedot.facilitatedCoursesPage();
 
     expect(result.courses.map((c) => c.group?.id)).toEqual([GROUP_ID]);
-    expect(result.courses[0]!.discussions.map((d) => d.id)).toEqual(['disc-fac']);
+    expect(result.courses[0]!.discussions.map((d) => d.id)).toEqual(['disc-fac', 'disc-fac-2']);
     expect((await caller.myBluedot.hasFacilitatorNavItems()).hasFacilitatedCourses).toBe(true);
+  });
+
+  test('exposes facilitator names for the group\'s discussions', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-other', round: ROUND_ID, role: 'Facilitator', firstName: 'Bob', lastName: 'Baker',
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-covered',
+      group: GROUP_ID,
+      round: ROUND_ID,
+      startDateTime: inOneWeek + ONE_DAY,
+      endDateTime: inOneWeek + ONE_DAY + 60 * 60,
+      facilitators: ['mp-other'],
+      participantsExpected: ['mp-p-a', 'mp-p-b'],
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    const row = result.courses[0]!;
+    expect(row.discussions.map((d) => d.id)).toEqual(['disc-fac', 'disc-covered']);
+    expect(row.facilitatorNamesByMeetPersonId).toEqual({ 'mp-other': 'Bob Baker' });
+    // The next-discussion card only picks discussions the current user runs.
+    expect(result.nextDiscussions.map((n) => n.discussion.id)).toEqual(['disc-fac']);
   });
 
   test('shows a cover row for an upcoming discussion the person is substituting on, before it happens', async () => {

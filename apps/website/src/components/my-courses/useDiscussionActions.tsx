@@ -147,13 +147,27 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
 
 const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
   const {
-    status, discussion, isDownloadingCalendar, onDownloadCalendar,
+    status, discussion, isDownloadingCalendar, onDownloadCalendar, isFacilitatedByCurrentUser = true,
     onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
   } = ctx;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const attendingCount = discussion.participantsExpected?.length ?? 0;
+
+  const attendingPill = <StatusPill>{attendingCount} Attending</StatusPill>;
+  const facilitatedPill = <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>;
+
+  if (!isFacilitatedByCurrentUser) {
+    return [
+      {
+        id: 'attending-pill', isVisible: !isPast, variant: 'inline', inline: attendingPill,
+      },
+      {
+        id: 'facilitated-pill', isVisible: isPast, variant: 'inline', inline: facilitatedPill,
+      },
+    ];
+  }
 
   return [
     {
@@ -171,13 +185,13 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attending-pill',
       isVisible: !isPast && status !== 'live',
       variant: 'inline',
-      inline: <StatusPill>{attendingCount} Attending</StatusPill>,
+      inline: attendingPill,
     },
     {
       id: 'facilitated-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>,
+      inline: facilitatedPill,
     },
     {
       id: 'absent-pill-facilitator',

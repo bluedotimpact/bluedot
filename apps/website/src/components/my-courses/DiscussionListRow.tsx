@@ -29,6 +29,10 @@ export type DiscussionListRowProps = {
   courseSlug: string;
   isAttended: boolean;
   hasPendingReschedule?: boolean;
+  /** Facilitator mode: false when someone else runs this discussion, so the row is read-only. */
+  isFacilitatedByCurrentUser?: boolean;
+  /** Facilitator mode: "Covering for Alice" / "Covered by Bob", shown under the title. */
+  substituteFacilitatorNote?: string | null;
   canReschedule: boolean;
   onReschedule: () => void;
   onClickFacilitatorReschedule?: (discussion: GroupDiscussionWithEnd) => void;
@@ -37,7 +41,9 @@ export type DiscussionListRowProps = {
 };
 
 const DiscussionListRow = (row: DiscussionListRowProps) => {
-  const { discussion, unit, courseSlug } = row;
+  const {
+    discussion, unit, courseSlug, isFacilitatedByCurrentUser = true, substituteFacilitatorNote = null,
+  } = row;
   const {
     status, inlineActions, desktopOverflowItems, mobileOverflowItems, downloadError,
   } = useDiscussionActions(row);
@@ -46,11 +52,12 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
   const unitLabel = unitNumber !== null ? `UNIT ${unitNumber}` : 'UNIT';
   const title = unit?.title ?? 'Discussion';
   const discussionPrepareLink = unitNumber !== null ? `/courses/${courseSlug}/${unitNumber}` : null;
+  const mutedClass = isFacilitatedByCurrentUser ? '' : 'opacity-60';
 
   return (
     <li className="flex items-center gap-5 py-4 not-last:border-b">
-      <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} />
-      <div className="min-w-0 flex-1">
+      <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} className={mutedClass} />
+      <div className={`min-w-0 flex-1 ${mutedClass}`}>
         <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
         {discussionPrepareLink ? (
           <a
@@ -62,13 +69,16 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
         ) : (
           <p className="text-size-sm font-semibold leading-relaxed text-bluedot-black">{title}</p>
         )}
+        {substituteFacilitatorNote && (
+          <p className="line-clamp-2 text-size-xxs font-medium leading-snug text-secondary" title={substituteFacilitatorNote}>{substituteFacilitatorNote}</p>
+        )}
         {downloadError && (
           <p className="mt-1 text-size-xxs text-red-600" role="alert" aria-live="polite">{downloadError}</p>
         )}
       </div>
       <div className="flex shrink-0 items-center gap-3">
         {/* Desktop: inline buttons/pills + overflow menu containing only `overflow`-variant items. */}
-        <div className="hidden shrink-0 items-center gap-3 sm:flex">
+        <div className={`hidden shrink-0 items-center gap-3 sm:flex ${mutedClass}`}>
           {inlineActions}
           {desktopOverflowItems.length > 0 && (
             <OverflowMenu aria-label="Discussion actions" items={desktopOverflowItems} />
@@ -85,8 +95,8 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
   );
 };
 
-export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateTimeSeconds: number }) => (
-  <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-md border">
+export const TimeWidget = ({ isLive, dateTimeSeconds, className = '' }: { isLive: boolean; dateTimeSeconds: number; className?: string }) => (
+  <div className={`flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-md border ${className}`}>
     {isLive ? <LiveBadge /> : (
       <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
         <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>

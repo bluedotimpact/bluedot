@@ -241,12 +241,16 @@ describe('DiscussionListRow', () => {
       onClickFacilitatorReschedule = () => {},
       onClickFacilitatorAssignSubstitute = () => {},
       onClickViewAttendees = () => {},
+      isFacilitatedByCurrentUser,
+      substituteFacilitatorNote,
     }: {
       status?: DisplayStatus;
       discussion?: GroupDiscussionWithEnd;
       onClickFacilitatorReschedule?: (d: GroupDiscussionWithEnd) => void;
       onClickFacilitatorAssignSubstitute?: (d: GroupDiscussionWithEnd) => void;
       onClickViewAttendees?: () => void;
+      isFacilitatedByCurrentUser?: boolean;
+      substituteFacilitatorNote?: string;
     } = {}) => {
       const statusProps = propsForStatus(status, discussion);
       return render(<ul>
@@ -259,6 +263,8 @@ describe('DiscussionListRow', () => {
           onClickFacilitatorReschedule={onClickFacilitatorReschedule}
           onClickFacilitatorAssignSubstitute={onClickFacilitatorAssignSubstitute}
           onClickViewAttendees={onClickViewAttendees}
+          isFacilitatedByCurrentUser={isFacilitatedByCurrentUser}
+          substituteFacilitatorNote={substituteFacilitatorNote}
           {...statusProps}
         />
       </ul>);
@@ -330,6 +336,37 @@ describe('DiscussionListRow', () => {
       clickOverflowItem(container, 'Change facilitator');
       expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledTimes(1);
       expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledWith(expect.objectContaining({ id: baseDiscussion.id }));
+    });
+
+    describe('discussions involving a substitute', () => {
+      test('covered by a substitute: greyed row with "Covered by" note, the attending pill and no actions', () => {
+        const { container } = renderFacRow({
+          status: 'upcoming', discussion: withAttendees(3), isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker',
+        });
+        expect(screen.getByText('Covered by Bob Baker')).toBeInTheDocument();
+        expect(screen.getByText('3 Attending')).toBeInTheDocument();
+        expect(openOverflowAndGetLabels(container, 'desktop')).toEqual([]);
+        expect(openOverflowAndGetLabels(container, 'mobile')).toEqual([]);
+      });
+
+      test('covered and past: keeps the "Facilitated" pill', () => {
+        renderFacRow({ status: 'absent', isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker' });
+        expect(screen.getByText('Facilitated')).toBeInTheDocument();
+      });
+
+      test('not facilitated by the current user and no note: read-only row with no actions', () => {
+        const { container } = renderFacRow({ status: 'live', isFacilitatedByCurrentUser: false });
+        expect(screen.queryByText(/Covered by|Covering for/)).toBeNull();
+        expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
+        expect(openOverflowAndGetLabels(container, 'desktop')).toEqual([]);
+      });
+
+      test('covering for someone: "Covering for" note with the full facilitator actions', () => {
+        const { container } = renderFacRow({ status: 'upcoming', discussion: withAttendees(3), substituteFacilitatorNote: 'Covering for Alice Archer' });
+        expect(screen.getByText('Covering for Alice Archer')).toBeInTheDocument();
+        expect(screen.getByText('3 Attending')).toBeInTheDocument();
+        expect(openOverflowAndGetLabels(container, 'desktop')).toEqual(expect.arrayContaining(['View attendees', 'Reschedule', 'Change facilitator']));
+      });
     });
   });
 });

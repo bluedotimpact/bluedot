@@ -10,7 +10,7 @@ import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { formatMonthAndDay, parseWeekFromRoundName } from '../../lib/utils';
-import DiscussionList from './DiscussionList';
+import DiscussionList, { type FacilitatorViewContext } from './DiscussionList';
 import { classifyCourseRegistration, useCourseListRow } from './useCourseListRow';
 
 export type CourseListRowMode = 'participant' | 'facilitator';
@@ -64,6 +64,8 @@ export type ParticipantRowProps = CommonRowProps & {
 
 export type FacilitatorRowProps = CommonRowProps & {
   mode: 'facilitator';
+  /** Names of the group's facilitators and of any substitutes on its discussions, by meetPerson id. */
+  facilitatorNamesByMeetPersonId: Record<string, string>;
 };
 
 export type CourseListRowProps = ParticipantRowProps | FacilitatorRowProps;
@@ -90,6 +92,10 @@ const CourseListRow = (row: CourseListRowProps) => {
   const toggleExpand = () => {
     if (canExpand) onToggleExpand?.();
   };
+
+  const facilitatorViewContext: FacilitatorViewContext | undefined = row.mode === 'facilitator' && row.group
+    ? { currentUserMeetPersonId: meetPersonId, group: row.group, facilitatorNamesByMeetPersonId: row.facilitatorNamesByMeetPersonId }
+    : undefined;
 
   const hasInlineActions = inlineActions.length > 0;
 
@@ -200,6 +206,7 @@ const CourseListRow = (row: CourseListRowProps) => {
               canReschedule={state !== 'dropped' && !courseRegistration.certificateCreatedAt}
               rescheduleEligibleUnits={row.mode === 'participant' ? row.rescheduleEligibleUnits : []}
               discussionIdsWithPendingReschedule={row.mode === 'participant' && (state === 'in-progress' || state === 'upcoming') ? row.discussionIdsWithPendingReschedule : []}
+              facilitatorViewContext={facilitatorViewContext}
               onClickReschedule={modalCallbacks.onClickReschedule}
               onClickFacilitatorReschedule={modalCallbacks.onClickFacilitatorReschedule}
               onClickFacilitatorAssignSubstitute={modalCallbacks.onClickFacilitatorAssignSubstitute}

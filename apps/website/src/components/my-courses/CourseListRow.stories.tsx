@@ -67,6 +67,7 @@ const stubFacilitator = (overrides: Partial<FacilitatorRowProps> = {}): Facilita
   isDroppedOut: false,
   isDeferred: false,
   isDeferredToAnotherRound: false,
+  facilitatorNamesByMeetPersonId: {},
   isExpanded: false,
   onToggleExpand: () => {},
   ...overrides,
@@ -355,6 +356,38 @@ const facilitatorPastFeedbackSubmittedArgs: FacilitatorRowProps = {
   hasSubmittedFeedback: true,
 };
 
+// A substitution: Alice runs Group 7, Bob covers Unit 3 for her.
+const ALICE = 'mp-fac-1';
+const BOB = 'mp-fac-bob';
+const facilitatorNamesByMeetPersonId = { [ALICE]: 'Alice Archer', [BOB]: 'Bob Baker' };
+const group7Discussions = [-7, -3, 2, 9].map((offsetDays, i) => createMockGroupDiscussion({
+  id: `disc-g7-unit-${i + 1}`,
+  group: 'group-7',
+  unitNumber: i + 1,
+  startDateTime: realNowSec + offsetDays * DAY,
+  endDateTime: realNowSec + offsetDays * DAY + 60 * 60,
+  facilitators: [i + 1 === 3 ? BOB : ALICE],
+  participantsExpected: ['p-1', 'p-2', 'p-3', 'p-4', 'p-5'],
+}));
+const group7Units = Object.fromEntries(group7Discussions.map((d, i) => [d.id, createMockUnit({ unitNumber: `${i + 1}`, title: unitTitles[i] })]));
+
+const groupFacilitatorWithCoveredDiscussionArgs = stubFacilitator({
+  ...facilitatorInProgressIntensiveArgs,
+  meetPersonId: ALICE,
+  discussions: group7Discussions,
+  attendedDiscussionIds: ['disc-g7-unit-1', 'disc-g7-unit-2'],
+  units: group7Units,
+  facilitatorNamesByMeetPersonId,
+  isExpanded: true,
+});
+
+const substituteCoveringOneDiscussionArgs = stubFacilitator({
+  ...groupFacilitatorWithCoveredDiscussionArgs,
+  courseRegistration: { ...groupFacilitatorWithCoveredDiscussionArgs.courseRegistration, id: 'reg-fac-bob' },
+  meetPersonId: BOB,
+  attendedDiscussionIds: [],
+});
+
 const meta = {
   title: 'website/my-courses/CourseListRow',
   component: CourseListRow,
@@ -444,3 +477,8 @@ export const FacilitatorUpcoming: Story = { args: facilitatorUpcomingArgs };
 export const FacilitatorAwaitingGroup: Story = { args: facilitatorAwaitingGroupArgs };
 export const FacilitatorPastNeedFeedback: Story = { args: facilitatorPastNeedFeedbackArgs };
 export const FacilitatorPastFeedbackSubmitted: Story = { args: facilitatorPastFeedbackSubmittedArgs };
+
+/** The group facilitator's view: a substitute runs Unit 3. */
+export const GroupFacilitatorWithCoveredDiscussion: Story = { args: groupFacilitatorWithCoveredDiscussionArgs };
+/** The substitute's view of the same group: they run Unit 3, the group facilitator runs the rest. */
+export const SubstituteCoveringOneDiscussion: Story = { args: substituteCoveringOneDiscussionArgs };
