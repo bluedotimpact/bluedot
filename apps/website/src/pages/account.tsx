@@ -7,6 +7,7 @@ import { ROUTES } from '../lib/routes';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import ProfileNameEditor from '../components/settings/ProfileNameEditor';
 import AccountSettingsSection from '../components/settings/AccountSettingsSection';
+import CalendarConnectionsSection from '../components/settings/CalendarConnectionsSection';
 import { trpc } from '../utils/trpc';
 import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
@@ -52,6 +53,8 @@ const AccountSettingsPage = () => {
             </div>
 
             <div className="border-t border-default my-6" />
+
+            <CalendarConnectionsSection />
 
             <AccountSettingsSection />
           </MyBlueDotLayout>

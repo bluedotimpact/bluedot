@@ -177,6 +177,12 @@ const confirmEmailChange: BluedotRoute = {
   parentPages: [home],
 };
 
+const calendarConnect: BluedotRoute = {
+  title: 'Connect your calendar',
+  url: '/account/calendars/connect',
+  parentPages: [home, account],
+};
+
 export const ROUTES = {
   about,
   admin,
@@ -185,6 +191,7 @@ export const ROUTES = {
   adminSyncDashboard,
   adminUserExerciseResponses,
   confirmEmailChange,
+  calendarConnect,
   alumni,
   blog,
   certification,

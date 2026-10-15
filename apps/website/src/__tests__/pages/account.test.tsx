@@ -28,7 +28,9 @@ vi.mock('@bluedot/ui', async () => {
 vi.mock('next/router', () => ({
   useRouter: () => ({
     pathname: '/account',
+    query: {},
     push: vi.fn(),
+    replace: vi.fn(),
   }),
 }));
 

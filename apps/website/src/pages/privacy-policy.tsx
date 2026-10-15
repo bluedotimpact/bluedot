@@ -37,6 +37,16 @@ This policy describes how we collect, use, and share your personal information w
 - Activity on our Platforms, such as applications to our courses, attendance at discussions, or exercise responses on our Course Hub.
 - Communications between us, such as emails or Slack messages to our staff.
 
+### Calendar availability, if you connect a calendar
+
+Some of our programs pair members for 1-1 chats. If you choose to connect a calendar (through "Calendar Connect" on your account page), we use it to schedule those chats at times you're free.
+
+- We only see when you're busy ("free/busy" information). We can't see event names, descriptions, guests or locations.
+- We store an access token from your calendar provider so we can check your availability each week. It's encrypted, and we never share it.
+- We also store the email address of the calendar account, your Slack user ID, and your time zone, so we know whose calendar it is and when to suggest chats.
+- You can disconnect a calendar at any time from your account page. This deletes what we stored and asks your provider to revoke our access. Deleting your BlueDot account does the same for every calendar you connected.
+- Our use of information received from Google APIs follows the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.
+
 ### Personal information we collect from your devices
 
 - Usage data, associated with technical identifiers such as a cookie on your web browser.
