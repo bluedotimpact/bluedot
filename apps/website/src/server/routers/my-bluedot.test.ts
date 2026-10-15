@@ -1242,6 +1242,20 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect((await caller.myBluedot.hasFacilitatorNavItems()).hasFacilitatedCourses).toBe(true);
   });
 
+  test('shows a cover row for an upcoming discussion the person is substituting on, before it happens', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.update(groupTable, { id: GROUP_ID, facilitator: ['mp-other'] });
+    await testDb.update(meetPersonTable, {
+      id: MEET_PERSON_ID, groupsAsFacilitator: [], expectedDiscussionsFacilitator: ['disc-fac'], attendedDiscussions: [],
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses.map((c) => c.group?.id)).toEqual([GROUP_ID]);
+    expect(result.courses[0]!.discussions.map((d) => d.id)).toEqual(['disc-fac']);
+    expect(result.nextDiscussions.map((n) => n.discussion.id)).toEqual(['disc-fac']);
+  });
+
   test('still shows the handed-over row when the only attended discussion has no end time', async () => {
     await seedSingleGroupFacilitator();
     await testDb.update(groupDiscussionTable, { id: 'disc-fac', endDateTime: null });

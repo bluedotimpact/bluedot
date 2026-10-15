@@ -266,7 +266,7 @@ const facilitatorInProgressIntensiveArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: {
-    id: 'group-7', groupNumber: 7, groupName: 'Group 7', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc',
+    id: 'group-7', facilitator: ['mp-fac-1'], groupNumber: 7, groupName: 'Group 7', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-03-10',
   roundEndDate: '2026-03-17',
@@ -284,7 +284,7 @@ const facilitatorInProgressPartTimeArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'agi-strategy', title: 'AGI Strategy', applyUrl: null },
   group: {
-    id: 'group-10', groupNumber: 10, groupName: 'Group 10', startTimeUtc: monday2pmPartTime, slackChannelId: 'C01XYZ', discussionDoc: 'https://example.com/discussion-doc',
+    id: 'group-10', facilitator: ['mp-fac-2'], groupNumber: 10, groupName: 'Group 10', startTimeUtc: monday2pmPartTime, slackChannelId: 'C01XYZ', discussionDoc: 'https://example.com/discussion-doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-03-10',
   roundEndDate: '2026-04-14',
@@ -302,7 +302,7 @@ const facilitatorUpcomingArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: {
-    id: 'group-9', groupNumber: 9, groupName: 'Group 9', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABC', discussionDoc: 'https://example.com/doc',
+    id: 'group-9', facilitator: ['mp-fac-3'], groupNumber: 9, groupName: 'Group 9', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABC', discussionDoc: 'https://example.com/doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-05-04',
   roundEndDate: '2026-05-11',
@@ -336,7 +336,7 @@ const facilitatorPastNeedFeedbackArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'agi-strategy', title: 'AGI Strategy', applyUrl: null },
   group: {
-    id: 'group-3', groupNumber: 3, groupName: 'Group 3', startTimeUtc: monday2pmPartTime, slackChannelId: 'C0123', discussionDoc: 'https://example.com/doc',
+    id: 'group-3', facilitator: ['mp-fac-past-1'], groupNumber: 3, groupName: 'Group 3', startTimeUtc: monday2pmPartTime, slackChannelId: 'C0123', discussionDoc: 'https://example.com/doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-02-23',
   roundEndDate: '2026-03-23',

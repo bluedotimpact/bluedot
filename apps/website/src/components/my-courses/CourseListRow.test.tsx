@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  courseTable, meetPersonTable, roundTable, unitTable,
+  courseTable, groupDiscussionTable, groupTable, meetPersonTable, roundTable, unitTable,
 } from '@bluedot/db';
 import {
   createMockCourseRegistration, createMockGroup, createMockGroupDiscussion, createMockUnit,
@@ -516,6 +516,7 @@ describe('CourseListRow actions', () => {
       course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active', role: 'Facilitator' }),
       group: createMockGroup({
+        facilitator: ['mp-fac'],
         startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000),
         slackChannelId: 'C01ABCDEF',
         discussionDoc: 'https://example.com/doc',
@@ -564,6 +565,13 @@ describe('CourseListRow actions', () => {
       test('shown when active + group present', () => {
         const { container } = renderFacRow(facProps());
         expect(openOverflowItems(container)).toContain('Update discussion time');
+      });
+
+      test('hidden on a cover row where the person is only substituting', () => {
+        const { container } = renderFacRow(facProps({
+          group: createMockGroup({ facilitator: ['mp-other'] }),
+        }));
+        expect(openOverflowItems(container)).not.toContain('Update discussion time');
       });
 
       test('hidden when the facilitator has no group yet', () => {
@@ -711,7 +719,7 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     course: { slug: COURSE_SLUG, title: 'Technical AI Safety', applyUrl: null },
     courseRegistration: createMockCourseRegistration({ roundStatus: 'Active', role: 'Facilitator' }),
     group: createMockGroup({
-      id: GROUP, startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000), slackChannelId: 'C01', discussionDoc: 'https://example.com/doc',
+      id: GROUP, facilitator: ['mp-fac'], startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000), slackChannelId: 'C01', discussionDoc: 'https://example.com/doc',
     }),
     meetPersonId: 'mp-fac',
     roundId: ROUND,
@@ -812,6 +820,39 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Select action type/i })).toHaveTextContent('Change facilitator');
     });
+  });
+
+  test('substitute reschedule: "Change permanently" is greyed out for the covered group', async () => {
+    const nowSec = Math.floor(Date.now() / 1000);
+    await seedLoggedInUser({ id: 'user-1' });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-fac', userId: 'user-1', round: ROUND, role: 'Facilitator', expectedDiscussionsFacilitator: ['disc-cover'],
+    });
+    await testDb.insert(groupTable, {
+      id: GROUP, groupName: 'Group 1', round: ROUND, facilitator: ['mp-owner'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-cover', group: GROUP, facilitators: ['mp-fac'], startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+    });
+    const discussion = createMockGroupDiscussion({
+      id: 'disc-cover', group: GROUP, facilitators: ['mp-fac'], unitNumber: 1, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+    });
+    const { container } = renderInDb(<CourseListRow {...facProps({
+      group: createMockGroup({ id: GROUP, facilitator: ['mp-owner'] }),
+      isExpanded: true,
+      discussions: [discussion],
+      units: { 'disc-cover': createMockUnit({ unitNumber: '1', title: 'Intro' }) },
+    })}
+    />);
+
+    clickMenuItem(container.querySelector('button[aria-label="Discussion actions"]'), 'Reschedule');
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /Group/ })).toHaveTextContent('Group 1');
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Action/ }));
+
+    expect(await screen.findByRole('option', { name: 'Change permanently' })).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('option', { name: 'Change for one unit' })).not.toHaveAttribute('aria-disabled', 'true');
   });
 
   test('participant "Switch group permanently" opens GroupSwitchModal with that switch type pre-selected', async () => {

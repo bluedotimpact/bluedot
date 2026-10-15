@@ -21,7 +21,7 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { hasEndDateTime } from '../../lib/group-discussions/utils';
+import { hasEndDateTime, isGroupFacilitator } from '../../lib/group-discussions/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
@@ -203,7 +203,12 @@ export const facilitatorRouter = router({
           throw new TRPCError({ code: 'NOT_FOUND', message: `Related group not found for discussion ${discussion.id}` });
         }
 
-        return { ...discussion, groupDetails: group, unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null };
+        return {
+          ...discussion,
+          groupDetails: group,
+          unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null,
+          isGroupFacilitator: isGroupFacilitator(group, facilitator.id),
+        };
       });
     }),
 
@@ -249,6 +254,11 @@ export const facilitatorRouter = router({
           .where(and(eq(groupDiscussionTable.pg.group, groupId), inArray(groupDiscussionTable.pg.id, allowedDiscussions)));
         if (groupDiscussions.length === 0) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions in this group' });
+        }
+
+        const group = await db.getFirst(groupTable, { filter: { id: groupId } });
+        if (!group || !isGroupFacilitator(group, facilitator.id)) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Only the group\'s facilitator can change its discussion time permanently' });
         }
       }
 

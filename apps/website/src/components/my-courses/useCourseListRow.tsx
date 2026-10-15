@@ -4,7 +4,7 @@ import {
 import { Fragment, type ReactNode } from 'react';
 import { FaBan, FaCheck, FaLock } from 'react-icons/fa6';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
-import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
+import { isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
 import {
   buildApplicationUrl, buildAvailabilityFormUrl, buildGroupSlackChannelUrl, getActionPlanUrl,
@@ -475,7 +475,7 @@ const getFacilitatorActions = (
     },
     {
       id: 'reschedule-recurring',
-      isVisible: isActive && Boolean(group),
+      isVisible: isActive && !!group && !!meetPersonId && isGroupFacilitator(group, meetPersonId),
       variant: 'overflow',
       overflow: {
         id: 'reschedule-recurring',

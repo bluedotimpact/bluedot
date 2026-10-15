@@ -4,6 +4,7 @@ import {
   courseTable,
   dropoutTable,
   eq,
+  groupDiscussionTable,
   groupTable,
   inArray,
   meetPersonTable,
@@ -83,7 +84,12 @@ export const meetPersonRouter = router({
         .where(eq(meetPersonTable.pg.userId, user.id));
       const callerMeetPersonIds = new Set(callerMeetPersons.map((m) => m.id));
 
-      const facilitatorIdsArr = group.facilitator ?? [];
+      // Substitutes are on a discussion's facilitators, not the group's
+      const discussions = await db.pg
+        .select({ facilitators: groupDiscussionTable.pg.facilitators })
+        .from(groupDiscussionTable.pg)
+        .where(eq(groupDiscussionTable.pg.group, group.id));
+      const facilitatorIdsArr = [...new Set([...(group.facilitator ?? []), ...discussions.flatMap((d) => d.facilitators ?? [])])];
       const participantIdsArr = group.participants ?? [];
       const callerIsMember = facilitatorIdsArr.some((id) => callerMeetPersonIds.has(id))
         || participantIdsArr.some((id) => callerMeetPersonIds.has(id));
