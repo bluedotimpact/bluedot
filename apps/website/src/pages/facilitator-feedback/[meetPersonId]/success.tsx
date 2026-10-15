@@ -9,7 +9,7 @@ import {
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { trpc } from '../../../utils/trpc';
-import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
+import { Nav } from '../../../components/Nav/Nav';
 import { useFacilitatorFeedbackStorage } from '../../../hooks/useFacilitatorFeedbackStorage';
 import { pageMetaTags } from '../../../lib/linkPreviewMetaTags';
 
@@ -61,16 +61,22 @@ const FacilitatorFeedbackSuccessPage = () => {
 
   if (isLoading || shouldShow404 || !router.isReady || notSubmitted) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center">
-        <ProgressDots />
+      <div className="min-h-screen bg-cream-normal">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center py-16">
+          <ProgressDots />
+        </div>
       </div>
     );
   }
 
   if (error ?? !data) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
-        <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+      <div className="min-h-screen bg-cream-normal">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center px-4 py-16">
+          <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+        </div>
       </div>
     );
   }
@@ -101,7 +107,7 @@ const FacilitatorFeedbackSuccessPage = () => {
         {pageMetaTags({ title: `${data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact` })}
       </Head>
 
-      <FacilitatorFeedbackHeader roundName={data.roundName || undefined} />
+      <Nav variant="minimal" title="Course Feedback" context={data.roundName || undefined} />
 
       {showConfetti && windowSize.width > 0 && (
         <div className="fixed inset-0 pointer-events-none z-50">
