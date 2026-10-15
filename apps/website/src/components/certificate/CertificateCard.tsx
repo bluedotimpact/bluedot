@@ -137,7 +137,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
 
           <div className="mt-12 md:max-w-[672px]">
             <p
-              className="text-size-sm md:text-base leading-relaxed tracking-tighter text-charcoal-mid text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
+              className="text-size-sm md:text-base leading-relaxed tracking-tighter text-secondary text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
 
               dangerouslySetInnerHTML={{ __html: description }}

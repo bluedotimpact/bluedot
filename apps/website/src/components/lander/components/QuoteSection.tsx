@@ -258,7 +258,7 @@ const QuoteSection = ({
                       <div className="text-size-sm bd-md:text-size-md font-semibold leading-normal text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
                         {quote.name}
                       </div>
-                      <div className="text-size-sm leading-relaxed text-bluedot-navy/60">
+                      <div className="text-size-sm leading-relaxed text-secondary">
                         {quote.role}
                       </div>
                     </div>
@@ -330,7 +330,7 @@ const QuoteSection = ({
                 <span className="text-bluedot-navy text-size-sm leading-none">→</span>
               </button>
 
-              <span className="text-size-xs text-bluedot-navy/50 ml-auto tabular-nums">
+              <span className="text-size-xs text-secondary ml-auto tabular-nums">
                 {activeIndex + 1} / {quotes.length}
               </span>
             </div>

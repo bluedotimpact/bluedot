@@ -51,7 +51,7 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
               >
                 <div className="min-w-0 flex flex-col gap-1">
                   <p className="text-size-md text-bluedot-navy font-semibold">{round.label}</p>
-                  {dateRange && <p className="text-size-xs text-bluedot-navy/80">{dateRange}</p>}
+                  {dateRange && <p className="text-size-xs text-secondary">{dateRange}</p>}
                 </div>
                 <Button size="small" variant="secondary" url={`${ROUTES.quickApply.url}?round=${round.id}`}>
                   Quick apply

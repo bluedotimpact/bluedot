@@ -156,7 +156,7 @@ const AttendanceIneligibleCard = ({
   return (
     <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-charcoal-mid/50 bg-bluedot-lightest px-5 py-6">
       <div className="flex items-center gap-3">
-        <FaCircleMinus className="size-8 shrink-0 text-charcoal-mid" />
+        <FaCircleMinus className="size-8 shrink-0 text-secondary" />
         <span className="text-bluedot-navy text-size-sm leading-5 font-semibold">
           Certificate requirement not met
         </span>
@@ -299,7 +299,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   return (
     <div className="flex w-full flex-col items-center gap-6">
       <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-      {description && <p className="max-w-[480px] text-center text-size-xs text-charcoal-mid">{description}</p>}
+      {description && <p className="max-w-[480px] text-center text-size-xs text-secondary">{description}</p>}
       {cta}
     </div>
   );
@@ -313,7 +313,7 @@ const CertificateHero = ({ courseId, courseSlug, courseTitle }: CertificateHeroP
     return (
       <div className="flex w-full flex-col items-center gap-6">
         <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-        <p className="max-w-[480px] text-center text-size-xs text-charcoal-mid">
+        <p className="max-w-[480px] text-center text-size-xs text-secondary">
           Create a free account to earn your course certificate.
         </p>
         <Button url={getLoginUrl(router.asPath)} variant="primary">

@@ -224,7 +224,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
               <H1>
                 {PAGE_TITLE}
               </H1>
-              <P className="text-size-md leading-relaxed text-bluedot-navy/80">
+              <P className="text-size-md leading-relaxed text-secondary">
                 {PAGE_SUBTITLE}
               </P>
             </div>
@@ -264,7 +264,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
               <h2 className={EYEBROW_CLASS}>Your three tasks</h2>
               <ol className="mt-4 space-y-3">
                 {TASKS.map((task) => (
-                  <li key={task.n} className="flex gap-3 text-size-sm text-bluedot-navy/80 leading-relaxed">
+                  <li key={task.n} className="flex gap-3 text-size-sm text-secondary leading-relaxed">
                     <span
                       className="font-semibold shrink-0 tabular-nums"
                       style={{ color: TAS.full }}
@@ -341,13 +341,13 @@ const PuzzleTechnicalAiSafetyPage = () => {
                   {CORRECT_SUBMISSIONS.map((name) => (
                     <li
                       key={name}
-                      className="break-inside-avoid text-size-sm text-bluedot-navy/80 leading-relaxed"
+                      className="break-inside-avoid text-size-sm text-secondary leading-relaxed"
                     >
                       {name}
                     </li>
                   ))}
                 </ul>
-                <p className="mt-4 text-size-xs text-bluedot-navy/50 leading-relaxed">
+                <p className="mt-4 text-size-xs text-secondary leading-relaxed">
                   ...and {UNNAMED_SUBMISSIONS_COUNT} others who chose not to be named.
                 </p>
               </div>

@@ -142,10 +142,10 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
             </div>
 
             <div className="mt-10 flex max-w-xs">
-              <p className="w-full px-3 py-2 border rounded-md text-gray-700 select-all mr-2 whitespace-nowrap overflow-x-auto">{shareUrl}</p>
+              <p className="w-full px-3 py-2 border rounded-md text-primary select-all mr-2 whitespace-nowrap overflow-x-auto">{shareUrl}</p>
               <ClickTarget
                 onClick={handleCopyToClipboard}
-                className={clsx('bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md', isCopied && '!bg-success-bg')}
+                className={clsx('bg-gray-100 hover:bg-gray-200 text-primary px-3 py-2 rounded-md', isCopied && '!bg-success-bg')}
               >
                 {isCopied ? <span className="inline-flex items-center gap-1.5 text-size-sm"><FaCheck className="text-success-fg" /> Copied</span> : <FaCopy />}
               </ClickTarget>

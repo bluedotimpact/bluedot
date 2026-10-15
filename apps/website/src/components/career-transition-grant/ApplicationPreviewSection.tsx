@@ -39,7 +39,7 @@ const ApplicationPreviewSection = () => {
             {PREPARATION_ITEMS.map((item) => (
               <li key={item.title} className="flex flex-col gap-1">
                 <strong className="text-size-sm text-bluedot-navy">{item.title}</strong>
-                <P className="text-bluedot-navy/80">{item.body}</P>
+                <P className="text-secondary">{item.body}</P>
               </li>
             ))}
           </ul>

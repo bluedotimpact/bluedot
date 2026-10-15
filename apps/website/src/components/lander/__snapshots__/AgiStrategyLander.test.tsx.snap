@@ -1146,7 +1146,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <div
-                    class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
                   >
                     Intensive (~5 days at ~5h/day) or part-time (~5 weeks at ~5h/week). Same content, different pace.
                   </div>
@@ -1173,7 +1173,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <div
-                    class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
                   >
                     Each day or week, you will:
                     <br />
@@ -1213,7 +1213,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <div
-                    class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
                   >
                     All discussions will be facilitated by an AI safety expert.
                   </div>
@@ -1240,7 +1240,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <div
-                    class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
                   >
                     Completely free. No hidden costs.
                   </div>
@@ -1333,7 +1333,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     Ursula von der Leyen
                   </div>
                   <div
-                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-secondary"
                   >
                     President, European Commission
                   </div>
@@ -1369,7 +1369,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     Sundar Pichai
                   </div>
                   <div
-                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-secondary"
                   >
                     CEO, Google
                   </div>
@@ -1405,7 +1405,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     Dario Amodei
                   </div>
                   <div
-                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-secondary"
                   >
                     CEO, Anthropic
                   </div>
@@ -1441,7 +1441,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     David Sacks
                   </div>
                   <div
-                    class="text-size-sm leading-relaxed text-bluedot-navy/60"
+                    class="text-size-sm leading-relaxed text-secondary"
                   >
                     White House AI and Crypto Czar
                   </div>
@@ -1508,7 +1508,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </span>
             </button>
             <span
-              class="text-size-xs text-bluedot-navy/50 ml-auto tabular-nums"
+              class="text-size-xs text-secondary ml-auto tabular-nums"
             >
               1
                / 
@@ -1585,7 +1585,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       We don't care about your CV. We care about what you'll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action.
                     </p>
@@ -1634,7 +1634,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       It's for people new to working on AI safety, not new to thinking hard. If you've been reading and thinking, and are ready to act, this is where you start.
                     </p>
@@ -1683,7 +1683,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place.
                     </p>
@@ -1732,7 +1732,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       We run discussions across a wide range of timezones. You'll tell us your availability and we'll put you in a group that works for your current schedule.
                     </p>
@@ -1781,7 +1781,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       That's what the course is for. You'll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work.
                     </p>
@@ -1830,7 +1830,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       Yes. See 
                       <a
@@ -1886,7 +1886,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers.
                     </p>
@@ -1935,7 +1935,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       Yes.
                     </p>
@@ -1984,7 +1984,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-bluedot-navy/80 text-size-md"
+                      class="bluedot-p not-prose text-secondary text-size-md"
                     >
                       BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained over 10,000 people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI.
                     </p>

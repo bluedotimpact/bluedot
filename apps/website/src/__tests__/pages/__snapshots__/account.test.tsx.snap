@@ -233,7 +233,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               Email*
             </p>
             <p
-              class="bluedot-p not-prose text-gray-600"
+              class="bluedot-p not-prose text-primary"
             >
               john.doe@example.com
             </p>

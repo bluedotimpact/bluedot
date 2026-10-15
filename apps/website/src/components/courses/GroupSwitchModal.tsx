@@ -341,8 +341,8 @@ export default function GroupSwitchModal({
       control: (
         <div className="flex flex-col gap-2">
           {currentDiscussionAsGroupSwitchOption && <GroupSwitchOption {...currentDiscussionAsGroupSwitchOption} />}
-          <p className="text-size-xs mt-1 text-charcoal-mid">{alternativeCountMessage}</p>
-          <p className="text-size-xs text-charcoal-mid">Times are in your time zone: {getGMTOffsetWithCity()}</p>
+          <p className="text-size-xs mt-1 text-secondary">{alternativeCountMessage}</p>
+          <p className="text-size-xs text-secondary">Times are in your time zone: {getGMTOffsetWithCity()}</p>
           <div className="flex flex-col gap-2 mt-2">
             {visibleOptions.map((option) => (
               <GroupSwitchOption key={option.id} {...option} />
@@ -425,7 +425,7 @@ export default function GroupSwitchModal({
                 <div className="flex flex-col gap-2">
                   <span className="text-size-sm font-medium text-bluedot-navy">{index + 1}. {section.title}</span>
                   {section.subtitle && (
-                    <p className="text-size-xs text-charcoal-mid">{section.subtitle}</p>
+                    <p className="text-size-xs text-secondary">{section.subtitle}</p>
                   )}
                 </div>
                 {section.control}
@@ -438,7 +438,7 @@ export default function GroupSwitchModal({
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
                 <H3 className="text-size-sm">Don't see a group that works?</H3>
-                <p className="text-size-xs text-charcoal-mid">
+                <p className="text-size-xs text-secondary">
                   You can request a manual switch to join a group that's full or a group that is not
                   listed above, and we'll do our best to accommodate you.
                 </p>
@@ -459,7 +459,7 @@ export default function GroupSwitchModal({
             {!isManualRequest && selectedOption && (
               <GroupSwitchOption {...selectedOption} userIsParticipant />
             )}
-            <p className="text-size-sm text-center max-w-[500px] text-charcoal-mid">
+            <p className="text-size-sm text-center max-w-[500px] text-secondary">
               {getSuccessMessage()}
             </p>
             <Button
@@ -653,7 +653,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           {displayDate && displayTime && (
             <>
               <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
-              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-bluedot-normal' : 'text-gray-500'}`}>{displayTime}</div>
+              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-bluedot-normal' : 'text-secondary'}`}>{displayTime}</div>
             </>
           )}
         </div>
@@ -662,7 +662,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
             <div className="font-semibold mb-1">
               {groupName}
             </div>
-            <div className="flex items-center gap-1.5 text-size-xs text-gray-500">
+            <div className="flex items-center gap-1.5 text-size-xs text-secondary">
               {description}
             </div>
           </div>

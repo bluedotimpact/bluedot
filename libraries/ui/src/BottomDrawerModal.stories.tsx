@@ -22,7 +22,7 @@ const BottomDrawerModalDemo: React.FC<BottomDrawerModalDemoProps> = ({
       </Button>
       <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} initialSize={initialSize} title={title}>
         <div className="space-y-3">
-          <p className="text-size-sm text-gray-600">
+          <p className="text-size-sm text-secondary">
             <strong>Note:</strong> This is an internal component used by <code>Modal</code> and <code>OverflowMenu</code>. At
             time of writing (2025-11-18) I don't recommend using this directly in app code.
           </p>

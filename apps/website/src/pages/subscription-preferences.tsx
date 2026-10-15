@@ -45,7 +45,7 @@ const SubscriptionPreferencesPage = ({ cid, token, topicId: highlightTopicId }: 
       <div className="mx-auto px-4 py-12 max-w-lg">
         <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-8 mb-8" />
         <H3 className="mb-2">Email Preferences</H3>
-        <P className="text-gray-500 mb-8">Choose which emails you&apos;d like to receive from BlueDot Impact.</P>
+        <P className="text-secondary mb-8">Choose which emails you&apos;d like to receive from BlueDot Impact.</P>
         <PreferencesForm cid={cid} token={token} topics={sortedTopics} highlightTopicId={highlightTopicId} />
       </div>
     </div>
@@ -105,7 +105,7 @@ const PreferencesForm = ({
             <div>
               <P className="font-semibold text-black leading-snug">{topic.name}</P>
               {topic.description && (
-                <P className="text-gray-500 text-size-sm mt-0.5">{topic.description}</P>
+                <P className="text-secondary text-size-sm mt-0.5">{topic.description}</P>
               )}
             </div>
           </Checkbox>

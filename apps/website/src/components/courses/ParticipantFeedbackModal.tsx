@@ -80,7 +80,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             type="button"
             onClick={onNoStrongImpression}
             disabled={savePeerFeedback.isPending}
-            className="ml-auto text-size-xs font-medium text-bluedot-navy/50 underline underline-offset-[3px] cursor-pointer disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed"
+            className="ml-auto text-size-xs font-medium text-secondary underline underline-offset-[3px] cursor-pointer disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed"
           >
             No strong impression
           </button>
@@ -92,7 +92,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
     >
       <>
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
-        <p className="flex items-center gap-1.5 text-size-xs leading-snug text-bluedot-navy/60 mb-6">
+        <p className="flex items-center gap-1.5 text-size-xs leading-snug text-secondary mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
           Your responses are only seen by BlueDot staff
         </p>
@@ -102,7 +102,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
               How did they show up across discussions? <span className="text-red-600">*</span>
             </p>
-            <p className="text-size-xs text-bluedot-navy/60">
+            <p className="text-size-xs text-secondary">
               Think about preparation, initiative, and engagement between sessions.
             </p>
           </div>
@@ -120,7 +120,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
               How did they engage with ideas during discussions? <span className="text-red-600">*</span>
             </p>
-            <p className="text-size-xs text-bluedot-navy/60">
+            <p className="text-size-xs text-secondary">
               Think about quality of thinking, willingness to challenge, and depth of engagement.
             </p>
           </div>
@@ -137,7 +137,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           <legend className="p-0 text-size-xs font-semibold text-bluedot-navy">
             How should we follow up with them? <span className="text-red-600">*</span>
           </legend>
-          <p className="text-size-xs text-bluedot-navy/60">Check all that apply.</p>
+          <p className="text-size-xs text-secondary">Check all that apply.</p>
           <div className="mt-2.5 flex flex-col gap-2">
             {followUpOptions.map((option) => (
               <Checkbox
@@ -159,7 +159,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <label htmlFor="investment-note" className="text-size-xs font-semibold text-bluedot-navy">
               In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
             </label>
-            <p className="text-size-xs text-bluedot-navy/60">Feel free to paste this from your 1:1 report.</p>
+            <p className="text-size-xs text-secondary">Feel free to paste this from your 1:1 report.</p>
           </div>
           <Textarea
             id="investment-note"
@@ -173,7 +173,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
-          <p className="text-size-xxs text-bluedot-navy/50">Changes save when you click "Done"</p>
+          <p className="text-size-xxs text-secondary">Changes save when you click "Done"</p>
           <div className="flex gap-2.5">
             <Button variant="outline-black" onClick={onClose} disabled={savePeerFeedback.isPending}>
               Cancel

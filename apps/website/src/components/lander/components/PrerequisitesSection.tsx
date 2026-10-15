@@ -61,7 +61,7 @@ const PrerequisitesSection = ({
                     <H3 className="text-size-md">
                       {prereq.title}
                     </H3>
-                    <P className="text-bluedot-navy/80">
+                    <P className="text-secondary">
                       {prereq.description}
                     </P>
                   </div>

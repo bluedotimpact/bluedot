@@ -229,7 +229,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
     <article className="flex flex-col">
       <CourseScheduleHeader course={course} />
 
-      <p className="mt-6 text-size-md leading-relaxed font-normal text-bluedot-navy/80">
+      <p className="mt-6 text-size-md leading-relaxed font-normal text-secondary">
         {course.shortDescription}
       </p>
 
@@ -262,7 +262,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
 
         {!roundsLoading && !showRounds && (
           <div className="flex items-center min-h-12 border-l-4 border-bluedot-navy/20 pl-5">
-            <p className="text-size-sm leading-relaxed font-normal text-bluedot-navy/50">
+            <p className="text-size-sm leading-relaxed font-normal text-secondary">
               No upcoming rounds.{' '}
               <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course

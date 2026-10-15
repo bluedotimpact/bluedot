@@ -134,7 +134,7 @@ const FacilitatorFeedbackSuccessPage = () => {
             </div>
             <div className="flex flex-col gap-2">
               <H1 className="text-size-lg">Feedback submitted!</H1>
-              <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
+              <p className="text-size-xs text-secondary leading-relaxed">
                 Your insights help BlueDot support the most engaged participants and improve every future cohort.
               </p>
             </div>
@@ -148,7 +148,7 @@ const FacilitatorFeedbackSuccessPage = () => {
 
           <Link
             href={`/facilitator-feedback/${meetPersonId}`}
-            className="self-start text-size-xs font-medium text-bluedot-navy/60 underline underline-offset-[2px] hover:opacity-80"
+            className="self-start text-size-xs font-medium text-secondary underline underline-offset-[2px] hover:opacity-80"
           >
             Edit response
           </Link>
@@ -161,7 +161,7 @@ const FacilitatorFeedbackSuccessPage = () => {
                 </div>
                 <p className="text-size-xs font-semibold text-bluedot-navy">Ready to submit your invoice?</p>
               </div>
-              <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
+              <p className="text-size-xs text-secondary leading-relaxed">
                 You can submit your bank details below and expect to receive your compensation within a week. We'll also send you a link by email.
               </p>
               <Button url={invoiceUrl} target="_blank" className="mt-2">

@@ -29,7 +29,7 @@ const PathwaysListSection = ({
             {intro && (
               typeof intro === 'string'
                 ? <P>{intro}</P>
-                : <div className="text-size-sm leading-relaxed text-bluedot-navy/80">{intro}</div>
+                : <div className="text-size-sm leading-relaxed text-secondary">{intro}</div>
             )}
           </div>
           <ListGroup>

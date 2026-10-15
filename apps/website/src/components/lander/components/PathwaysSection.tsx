@@ -44,7 +44,7 @@ const PathwaysSection = ({
             {title}
           </H2>
           {intro && (
-            <div className="text-size-sm bd-md:text-size-md leading-relaxed text-bluedot-navy/70 text-center mb-12 md:mb-16 max-w-[860px] mx-auto">
+            <div className="text-size-sm bd-md:text-size-md leading-relaxed text-secondary text-center mb-12 md:mb-16 max-w-[860px] mx-auto">
               {intro}
             </div>
           )}
@@ -67,7 +67,7 @@ const PathwaysSection = ({
                     <H3 className="text-size-md">
                       {pathway.title}
                     </H3>
-                    <P className="text-bluedot-navy/80">
+                    <P className="text-secondary">
                       {pathway.description}
                     </P>
                     {pathway.linkUrl && pathway.linkText && (
@@ -87,7 +87,7 @@ const PathwaysSection = ({
 
           {callout && (
             <CardShell className="mt-10 md:mt-12 bg-bluedot-navy/[0.03]">
-              <div className="text-size-sm leading-relaxed text-bluedot-navy/80">
+              <div className="text-size-sm leading-relaxed text-secondary">
                 {callout}
               </div>
             </CardShell>

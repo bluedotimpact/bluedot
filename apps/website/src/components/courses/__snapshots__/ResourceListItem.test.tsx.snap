@@ -5,7 +5,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-size-xs font-medium leading-normal"
+    class="bluedot-p not-prose text-secondary text-size-xs font-medium leading-normal"
   >
     <span>
       Alice Brown
@@ -27,7 +27,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -41,7 +41,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -54,7 +54,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-size-xs font-medium leading-normal"
+    class="bluedot-p not-prose text-secondary text-size-xs font-medium leading-normal"
   >
     <span>
       2024
@@ -77,7 +77,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -91,7 +91,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -104,7 +104,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-size-xs font-medium leading-normal"
+    class="bluedot-p not-prose text-secondary text-size-xs font-medium leading-normal"
   >
     <span>
       John Doe
@@ -133,7 +133,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -147,7 +147,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -160,7 +160,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-size-xs font-medium leading-normal"
+    class="bluedot-p not-prose text-secondary text-size-xs font-medium leading-normal"
   >
     <span>
       2024
@@ -176,7 +176,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -190,7 +190,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -203,7 +203,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-size-xs font-medium leading-normal"
+    class="bluedot-p not-prose text-secondary text-size-xs font-medium leading-normal"
   >
     <span>
       Jane Smith
@@ -232,7 +232,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -246,7 +246,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -259,7 +259,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render metadata w
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-size-xs font-medium leading-normal"
+    class="bluedot-p not-prose text-secondary text-size-xs font-medium leading-normal"
   >
     <span>
       John Doe

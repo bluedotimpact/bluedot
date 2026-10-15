@@ -80,7 +80,7 @@ export const createTechnicalAiSafetyContent = (
         <p className="mb-5">This course doesn&apos;t end at Unit 6. Here&apos;s where our alumni go - and how we help them get there.</p>
         <CardShell className="bg-bluedot-navy/[0.03] text-left">
           <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">We don&apos;t just teach</p>
-          <p className="text-size-sm leading-relaxed text-bluedot-navy/80">
+          <p className="text-size-sm leading-relaxed text-secondary">
             BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run
             {' '}
             <a href="/grants/rapid" className={externalLinkClassName}>Rapid Grants</a>
@@ -164,7 +164,7 @@ export const createTechnicalAiSafetyContent = (
     callout: (
       <>
         <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">Technical AI Safety Project Sprint</p>
-        <p className="text-size-sm leading-relaxed text-bluedot-navy/80">
+        <p className="text-size-sm leading-relaxed text-secondary">
           After completing this course, you can apply for our
           {' '}
           <a href="/courses/technical-ai-safety-project" className={externalLinkClassName}>Project Sprint</a>

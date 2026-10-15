@@ -75,7 +75,7 @@ export const UserSearchModal = ({
         <div className="md:h-[400px] overflow-y-auto">
           {error && <ErrorSection error={error} />}
           {isLoading && <ProgressDots />}
-          {showNoResults && <p className="text-gray-500 text-center py-4">No users found</p>}
+          {showNoResults && <p className="text-secondary text-center py-4">No users found</p>}
           {searchResults && searchResults.length > 0 && searchResults.map((user) => (
             <button
               key={user.id}
@@ -87,9 +87,9 @@ export const UserSearchModal = ({
                 <div className="min-w-0">
                   {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                   <div className="font-medium truncate">{user.name || '(No name)'}</div>
-                  <div className="text-size-sm text-gray-500 truncate">{user.email}</div>
+                  <div className="text-size-sm text-secondary truncate">{user.email}</div>
                 </div>
-                <div className="text-size-sm text-gray-400 md:flex-shrink-0 md:text-right">
+                <div className="text-size-sm text-secondary md:flex-shrink-0 md:text-right">
                   {user.courseCount > 0 && <div>{user.courseCount} course{user.courseCount !== 1 ? 's' : ''}</div>}
                   {user.lastSeenAt && (
                     <div>Last seen: {formatDateTimeRelative({ dateTimeMs: new Date(user.lastSeenAt).getTime(), currentTimeMs })}</div>

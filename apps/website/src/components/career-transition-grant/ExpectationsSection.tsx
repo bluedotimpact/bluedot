@@ -43,7 +43,7 @@ const ExpectationsSection = () => {
                 <H4>
                   {item.title}
                 </H4>
-                <P className="text-bluedot-navy/80">
+                <P className="text-secondary">
                   {item.body}
                 </P>
               </div>

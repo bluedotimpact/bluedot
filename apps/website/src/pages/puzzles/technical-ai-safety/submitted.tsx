@@ -132,7 +132,7 @@ const PuzzleSubmittedPage = () => (
                     >
                       {o.name}
                     </a>
-                    <P className="mt-1 text-bluedot-navy/80">
+                    <P className="mt-1 text-secondary">
                       {o.description}
                     </P>
                   </div>

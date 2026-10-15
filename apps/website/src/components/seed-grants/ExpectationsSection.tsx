@@ -19,7 +19,7 @@ const ExpectationsSection = () => {
     <section className="section section-body seed-grant-expectations-section">
       <div className="w-full flex flex-col gap-6">
         <H3>What we expect from you</H3>
-        <P className="text-bluedot-navy/80">We keep this light.</P>
+        <P className="text-secondary">We keep this light.</P>
 
         <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
           {EXPECTATIONS.map((item) => (
@@ -32,13 +32,13 @@ const ExpectationsSection = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <H4>{item.title}</H4>
-                <P className="text-bluedot-navy/80">{item.body}</P>
+                <P className="text-secondary">{item.body}</P>
               </div>
             </li>
           ))}
         </ul>
 
-        <P className="text-bluedot-navy/80">
+        <P className="text-secondary">
           If you stop working on the project before the grant ends, tell us and return the unspent funds.
         </P>
       </div>

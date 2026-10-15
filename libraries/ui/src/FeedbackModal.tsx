@@ -222,7 +222,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
             <div className="bg-bluedot-normal/10 mt-2 flex rounded-full p-4">
               <FaCheck className="text-bluedot-normal size-8" />
             </div>
-            <p className="text-bluedot-navy/60 max-w-[500px] text-center text-size-xs leading-relaxed">
+            <p className="text-secondary max-w-[500px] text-center text-size-xs leading-relaxed">
               Your feedback has been sent! We'll be in touch if we have follow-up questions.
             </p>
             <Button className="mt-4 w-full" onClick={() => handleModalOpenChange(false)}>
@@ -307,7 +307,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="text-bluedot-navy/60 flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xxs hover:bg-gray-100"
+                        className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xxs hover:bg-gray-100"
                       >
                         <FaPaperclip className="size-3.5 shrink-0" />
                         <span>Add, drag, or paste attachments here</span>
@@ -342,7 +342,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="border-default text-bluedot-navy/60 rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
+                      className="border-default text-secondary rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -359,7 +359,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
               <label htmlFor="feedback-email" className="text-bluedot-navy text-size-xs leading-5.5 font-semibold">
                 Your contact email
               </label>
-              <p className="text-bluedot-navy/60 text-size-xs">
+              <p className="text-secondary text-size-xs">
                 Please leave your email so we can contact you with follow-ups as needed.
               </p>
               <input

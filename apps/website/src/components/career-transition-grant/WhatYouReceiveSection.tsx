@@ -42,7 +42,7 @@ const WhatYouReceiveSection = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <H4>{title}</H4>
-                <P className="text-bluedot-navy/80">{description}</P>
+                <P className="text-secondary">{description}</P>
               </div>
             </div>
           ))}
