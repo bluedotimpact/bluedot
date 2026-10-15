@@ -205,7 +205,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
                     cellRefs[i] = { ref, coord };
                   }}
                   className={clsx(
-                    `relative h-4 border-r border-b border-gray-800 ${borderStyle}`,
+                    `relative h-4 border-r border-b border-border-control ${borderStyle}`,
                     isBlocked && 'bg-green-400',
                   )}
                   onPointerDown={(e) => {

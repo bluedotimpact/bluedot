@@ -78,7 +78,7 @@ const EventsPage = () => {
                       setLocation(e.target.value);
                       setVisibleCount(PAGE_SIZE);
                     }}
-                    className="min-w-0 flex-1 rounded-lg border border-bluedot-navy/15 bg-white px-3 py-2.5 text-bluedot-navy sm:min-w-44"
+                    className="min-w-0 flex-1 rounded-lg border border-border-control bg-white px-3 py-2.5 text-bluedot-navy sm:min-w-44"
                   >
                     <option value="all">Everywhere</option>
                     {locations.map((value) => <option key={value} value={value}>{formatLocationLabel(value)}</option>)}
