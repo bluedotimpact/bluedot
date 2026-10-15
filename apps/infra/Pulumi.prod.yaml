@@ -46,3 +46,13 @@ config:
     secure: v1:6tP/YKX2E+Gb4R26:Wrz1cPwU10jp4aydNBZG89RZRHcKEhUkDHlh+XiYebdh69+RWWRaaZpBrdlSD4O1
   infra:emailChangeTokenSecret:
     secure: v1:VtFjt+4/HVPIqCye:sEpK3xzXgn6hWPFGE8TH34PS6iOsTnIBqMPdAypUpQBiBAHkZ82tMnwY1vRJ4dq20n7dAjMAwHHOBpq3R/7FWEiOc5mDZFLJEdUbXWyDa+k=
+  infra:googleCalendarClientId:
+    secure: v1:qHgRc5HvfpfxXlDY:14yQFSGoQ/sgK6Q/NKbllmoDSioo8Xfsq7PThEMAAWFsHK6C4Qbd96GWz+5lpoOTRCLnhlzRkCPHORCEWWmyDmbrno/lOR25JQXZKpzsk2LZ2VBq9i6Y5Q==
+  infra:googleCalendarClientSecret:
+    secure: v1:i/9tG9YsbWB/JzQb:AaXUcpWuar5a7uHWf48anqQWKbkHquZTvYeFbqewqIhhC+dr/MDaWyt8wYxG3jvprP8o
+  infra:calendarConnectLinkSecret:
+    secure: v1:ujoL4B+tEV3aSV4j:oRqPZ/j96R6Uxpsj+3criGMXhOtBZAHIaf6zLBqSQC8uIBjt0JlTtJ1YR2MTrc88Ql3iJUdWYti5aOWxAcfwGu8HJUOZNVbfuQ8X8SDyF5I=
+  infra:calendarConnectEncryptionKey:
+    secure: v1:ihsBNwOLFQkxfXdO:NwmrPxGbs7zyZh+31xRDaItRJI1mAl+UdZVfebSaQDHHkpz8bZwQ8Kblck4CCS2RSFXNjmYDXikhsb/S
+  infra:calendarConnectBusyApiSecret:
+    secure: v1:Z/5YYZKpbIpDYYhk:hARZXijbNqUJX99IXrimIAhE9HqUiJgzp4mTCQxTuagLqDI0t9G8/q1UqJD8zanuoc70+GK+V/6BgDZ1YNtZrwBXSf5A5JhjxXbzccyeYBc=
