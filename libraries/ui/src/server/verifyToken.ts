@@ -89,7 +89,7 @@ const verifyJwt = async (
   }
 
   if (key.kty !== 'RSA') {
-    throw new Error(`Unsupported public key type: ${String(key.kty)}`);
+    throw new InvalidTokenError(`Unsupported public key type: ${String(key.kty)}`);
   }
 
   const publicKey = createPublicKey({
