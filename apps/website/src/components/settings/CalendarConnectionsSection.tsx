@@ -70,7 +70,14 @@ const CalendarConnectionsSection = () => {
 
         {connections && connections.length > 0 && (
           <div className="flex flex-col items-start gap-2">
-            <Button variant="secondary" onClick={addAnother} loading={isStarting} aria-label="Add another calendar">
+            {/* The label is long for a 320px screen, so let it wrap */}
+            <Button
+              variant="secondary"
+              onClick={addAnother}
+              loading={isStarting}
+              aria-label="Add another calendar"
+              className="h-auto min-h-11 max-w-full whitespace-normal py-2 text-left"
+            >
               Add another calendar (e.g. your work one)
             </Button>
             {startError && <p className="text-size-sm text-error-fg" role="alert">{startError}</p>}
