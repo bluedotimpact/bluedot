@@ -29,6 +29,7 @@ const mockDiscussions = [
       endDateTime: Math.floor(Date.now() / 1000) - 30 * ONE_MINUTE_SECONDS,
     }),
     groupDetails: mockGroup1,
+    isGroupFacilitator: true,
     unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
   },
   {
@@ -39,6 +40,7 @@ const mockDiscussions = [
       endDateTime: Math.floor(Date.now() / 1000) + 1.5 * ONE_HOUR_SECONDS,
     }),
     groupDetails: mockGroup1,
+    isGroupFacilitator: true,
     unitRecord: createMockUnit({ unitNumber: '2', title: 'Advanced Topics' }),
   },
   {
@@ -49,6 +51,7 @@ const mockDiscussions = [
       endDateTime: Math.floor(Date.now() / 1000) + 2 * ONE_HOUR_SECONDS,
     }),
     groupDetails: mockGroup1,
+    isGroupFacilitator: true,
     unitRecord: createMockUnit({ unitNumber: '3', title: 'Conclusion' }),
   },
   // Group 2 discussions
@@ -60,6 +63,7 @@ const mockDiscussions = [
       endDateTime: Math.floor(Date.now() / 1000) + 2.5 * ONE_HOUR_SECONDS,
     }),
     groupDetails: mockGroup2,
+    isGroupFacilitator: true,
     unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
   },
   {
@@ -70,6 +74,7 @@ const mockDiscussions = [
       endDateTime: Math.floor(Date.now() / 1000) + ONE_DAY_SECONDS + 30 * ONE_MINUTE_SECONDS,
     }),
     groupDetails: mockGroup2,
+    isGroupFacilitator: true,
     unitRecord: createMockUnit({ unitNumber: '2', title: 'Advanced Topics' }),
   },
 ];
@@ -126,6 +131,26 @@ export const ChangeFacilitatorView: Story = {
           return mockFacilitators;
         }),
         trpcStorybookMsw.facilitators.requestFacilitatorChange.mutation(async () => {
+          return null;
+        }),
+      ],
+    },
+  },
+};
+
+export const SubstituteForOneGroup: Story = {
+  args: {
+    handleClose() {},
+    roundId: 'mock-round-id',
+    initialDiscussion: { id: 'discussion-4', group: 'group-2' },
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          return mockDiscussions.map((d) => ({ ...d, isGroupFacilitator: d.group !== 'group-2' }));
+        }),
+        trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
           return null;
         }),
       ],

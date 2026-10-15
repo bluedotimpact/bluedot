@@ -24,7 +24,7 @@ import {
 } from '@bluedot/db';
 import type { FacilitatorRowProps, ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
-import { hasEndDateTime, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
+import { hasEndDateTime, isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { parseWeekFromRoundName, unique } from '../../lib/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
@@ -148,6 +148,7 @@ export const myBluedotRouter = router({
           or(
             inArray(courseRegistrationTable.pg.roundStatus, LIVE_ROUND_STATUSES),
             ne(meetPersonTable.pg.groupsAsFacilitator, []),
+            ne(meetPersonTable.pg.expectedDiscussionsFacilitator, []),
             ne(meetPersonTable.pg.attendedDiscussions, []),
           ),
         ))
@@ -486,9 +487,9 @@ export const myBluedotRouter = router({
     const unitById = new Map(units.map((u) => [u.id, u] as const));
     const discussionById = new Map(allExpectedDiscussions.map((d) => [d.id, d] as const));
 
-    const facilitatesGroup = (group: Group, meetPerson: { id: string; attendedDiscussions: string[] | null }) => (
-      (group.facilitator ?? []).includes(meetPerson.id)
-      || (meetPerson.attendedDiscussions ?? []).some((id) => groupIdByDiscussionId.get(id) === group.id)
+    const facilitatesGroup = (group: Group, meetPerson: { id: string; expectedDiscussionsFacilitator: string[] | null; attendedDiscussions: string[] | null }) => (
+      isGroupFacilitator(group, meetPerson.id)
+      || discussionIdsForMeetPerson(meetPerson).some((id) => groupIdByDiscussionId.get(id) === group.id)
     );
 
     const perRow: FacilitatorRowProps[] = courseRegistrations.flatMap((cr): FacilitatorRowProps[] => {
