@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { useFieldControlProps } from './Field';
 import { cn } from './utils';
 
 export type InputProps = {
@@ -21,10 +22,11 @@ const TEXT_INPUT_STYLES = [
 
 export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
   {
-    className, leading, trailing, type = 'text', ...props
+    className, leading, trailing, type = 'text', ...rest
   },
   ref,
 ) => {
+  const props = useFieldControlProps(rest);
   const input = (
     <input
       {...props}

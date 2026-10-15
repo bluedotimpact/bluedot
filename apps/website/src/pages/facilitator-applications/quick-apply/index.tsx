@@ -2,6 +2,7 @@ import {
   Checkbox,
   Button,
   ErrorSection,
+  Field,
   H1,
   H2,
   Input,
@@ -246,32 +247,6 @@ const QuestionCollapsible = ({
   </details>
 );
 
-const DetailsField = ({
-  label,
-  hint,
-  htmlFor,
-  required,
-  error,
-  children,
-}: {
-  label: string;
-  hint?: string;
-  htmlFor?: string;
-  required?: boolean;
-  error?: string;
-  children: React.ReactNode;
-}) => (
-  <div className="flex flex-col gap-1.5">
-    <label htmlFor={htmlFor} className="text-size-xs text-bluedot-navy font-semibold">
-      {label}
-      {required && <span className="text-error-fg"> *</span>}
-    </label>
-    {hint && <p className="text-size-xxs text-bluedot-navy/60">{hint}</p>}
-    {children}
-    {error && <p className="text-size-xxs text-error-fg">{error}</p>}
-  </div>
-);
-
 const QuickApplyForm = ({
   roundId,
   round,
@@ -387,13 +362,13 @@ const QuickApplyForm = ({
         description="We'll do our best to match your preference."
       >
         <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-3">
-            <label htmlFor="numGroupsToFacilitate" className="text-size-xs text-bluedot-navy font-semibold">
-              # groups to facilitate <span className="text-red-600">*</span>
-            </label>
+          <Field
+            label="# groups to facilitate"
+            required
+            error={errors.numGroupsToFacilitate && 'Enter how many groups you can facilitate (1 to 10).'}
+          >
             <div className="flex items-center gap-2">
               <Input
-                id="numGroupsToFacilitate"
                 type="number"
                 min={1}
                 max={10}
@@ -407,20 +382,14 @@ const QuickApplyForm = ({
               />
               <span className="text-size-xs text-bluedot-navy/60">group(s)</span>
             </div>
-            {errors.numGroupsToFacilitate && (
-              <p className="text-size-xs text-red-600">Enter how many groups you can facilitate (1 to 10).</p>
-            )}
-          </div>
+          </Field>
 
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="formFeedback" className="text-size-xs text-bluedot-navy font-semibold">
-                Any requests or special information?
-              </label>
-              <p className="text-size-xxs text-bluedot-navy/60">e.g. on the desired amount/composition of groups</p>
-            </div>
-            <Textarea id="formFeedback" className="min-h-24" {...register('formFeedback')} />
-          </div>
+          <Field
+            label="Any requests or special information?"
+            description="e.g. on the desired amount/composition of groups"
+          >
+            <Textarea className="min-h-24" {...register('formFeedback')} />
+          </Field>
         </div>
       </Section>
 
@@ -448,30 +417,25 @@ const QuickApplyForm = ({
         label="Your availability"
         title={(
           <>
-            Share your availability <span className="text-red-600">*</span>
+            Share your availability <span aria-hidden className="text-error-fg">*</span>
           </>
         )}
         description="Provide your availability so we can schedule your discussions at times that suit you. It'll be saved as a default for your next application."
       >
         <div className="flex items-end justify-between gap-4">
-          <div className="flex w-56 flex-col gap-1.5">
-            <label htmlFor="timezone" className="text-size-xs text-bluedot-navy font-semibold">
-              Timezone
-            </label>
+          <Field label="Timezone" className="w-56">
             <Controller
               control={control}
               name="timezone"
               render={({ field }) => (
                 <Select
-                  aria-label="Timezone"
-                  className="w-full"
                   options={offsets.map((offset) => ({ value: offset, label: offset }))}
                   value={field.value}
                   onChange={field.onChange}
                 />
               )}
             />
-          </div>
+          </Field>
           <button
             type="button"
             onClick={() => setValue('timeAv', {})}
@@ -488,15 +452,12 @@ const QuickApplyForm = ({
             rules={{ validate: (v) => Object.values(v).some(Boolean) || 'Select at least one time slot.' }}
             render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
           />
-          {errors.timeAv && <p className="text-size-xs text-red-600">{errors.timeAv.message}</p>}
+          {errors.timeAv && <p className="text-size-xs leading-normal text-error-fg">{errors.timeAv.message}</p>}
         </div>
 
-        <div className="flex flex-col gap-3">
-          <label htmlFor="availabilityComments" className="text-size-xs text-bluedot-navy font-semibold">
-            Additional comments
-          </label>
-          <Textarea id="availabilityComments" className="min-h-24" {...register('availabilityComments')} />
-        </div>
+        <Field label="Additional comments">
+          <Textarea className="min-h-24" {...register('availabilityComments')} />
+        </Field>
       </Section>
 
       <Section
@@ -519,25 +480,23 @@ const QuickApplyForm = ({
           )}
         >
           <div className="flex flex-col gap-5">
-            <DetailsField
+            <Field
               label="Profile URL"
-              hint="Provide a link for your LinkedIn profile or your CV. We prefer LinkedIn."
-              htmlFor="profileUrl"
+              description="Provide a link for your LinkedIn profile or your CV. We prefer LinkedIn."
               required
               error={errors.profileUrl && 'Add a link we can look you up on.'}
             >
-              <Input id="profileUrl" {...register('profileUrl', { validate: (value) => !!value.trim() })} />
-            </DetailsField>
+              <Input {...register('profileUrl', { validate: (value) => !!value.trim() })} />
+            </Field>
 
-            <DetailsField
+            <Field
               label="Link to any other profile"
-              hint="E.g. your CV, GitHub, personal website, blog."
-              htmlFor="otherProfileUrl"
+              description="E.g. your CV, GitHub, personal website, blog."
             >
-              <Input id="otherProfileUrl" {...register('otherProfileUrl')} />
-            </DetailsField>
+              <Input {...register('otherProfileUrl')} />
+            </Field>
 
-            <DetailsField
+            <Field
               label="What is your current career stage?"
               required
               error={errors.careerLevel && 'Select your career stage.'}
@@ -548,39 +507,35 @@ const QuickApplyForm = ({
                 rules={{ required: true }}
                 render={({ field }) => (
                   <Select
-                    aria-label="Career stage"
-                    className="w-full"
                     options={CAREER_LEVELS.map((level) => ({ value: level, label: level }))}
                     value={field.value}
                     onChange={field.onChange}
                   />
                 )}
               />
-            </DetailsField>
+            </Field>
 
-            <DetailsField label="What organisation do you work at?" htmlFor="organisation">
-              <Input id="organisation" {...register('organisation')} />
-            </DetailsField>
+            <Field label="What organisation do you work at?">
+              <Input {...register('organisation')} />
+            </Field>
 
-            <DetailsField label="What’s your job title?" htmlFor="jobTitle">
-              <Input id="jobTitle" {...register('jobTitle')} />
-            </DetailsField>
+            <Field label="What’s your job title?">
+              <Input {...register('jobTitle')} />
+            </Field>
 
-            <DetailsField label="Which of the following most closely describes your profession?">
+            <Field label="Which of the following most closely describes your profession?">
               <Controller
                 control={control}
                 name="profession"
                 render={({ field }) => (
                   <Select
-                    aria-label="Profession"
-                    className="w-full"
                     options={PROFESSIONS.map((option) => ({ value: option, label: option }))}
                     value={field.value}
                     onChange={field.onChange}
                   />
                 )}
               />
-            </DetailsField>
+            </Field>
           </div>
         </QuestionCollapsible>
 
