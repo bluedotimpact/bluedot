@@ -86,7 +86,7 @@ const PathwaysSection = ({
           </div>
 
           {callout && (
-            <CardShell className="mt-10 md:mt-12 bg-bluedot-navy/[0.03]">
+            <CardShell className="mt-10 md:mt-12 bg-tint">
               <div className="text-size-sm leading-relaxed text-secondary">
                 {callout}
               </div>

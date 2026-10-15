@@ -36,9 +36,9 @@ const RoomControlPage = withAuth(({ auth }) => {
         <div className="max-w-2xl mx-auto">
           <div className="container-lined p-8 my-4">
             <div className="animate-pulse">
-              <div className="h-8 bg-stone-200 rounded w-1/3 mb-4" />
-              <div className="h-4 bg-stone-200 rounded w-1/2 mb-2" />
-              <div className="h-4 bg-stone-200 rounded w-1/4" />
+              <div className="h-8 bg-active rounded w-1/3 mb-4" />
+              <div className="h-4 bg-active rounded w-1/2 mb-2" />
+              <div className="h-4 bg-active rounded w-1/4" />
             </div>
           </div>
         </div>

@@ -45,8 +45,8 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
     const isActive = feedbackValue === resourceFeedback;
     const isLikeButton = feedbackValue === RESOURCE_FEEDBACK.LIKE;
 
-    const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-bluedot-navy/10';
-    const hoverBackground = 'hover:bg-bluedot-navy/8';
+    const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-active';
+    const hoverBackground = 'hover:bg-tint';
 
     const baseClasses = 'flex flex-row justify-center items-center px-2 py-1.5 h-[30px] rounded-md border-none transition-all duration-200 font-medium text-size-xs leading-normal cursor-pointer';
     const buttonGapClass = variant === 'mobile' ? 'gap-2' : 'gap-1.5';

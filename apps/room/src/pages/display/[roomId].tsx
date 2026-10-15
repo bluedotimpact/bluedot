@@ -27,8 +27,8 @@ const DisplayPage = () => {
           <p className="text-size-lg mt-16 mb-8">
             This room is ready for your meeting.
           </p>
-          <P className="mb-4">Control it at <span className="font-mono bg-stone-200 px-2 py-1 rounded select-all">{window.location.host}/{roomId}</span></P>
-          <P>Or hit <kbd className="font-mono bg-stone-50 border shadow px-2 mx-1 py-1 rounded">Enter</kbd> to start an instant meeting</P>
+          <P className="mb-4">Control it at <span className="font-mono bg-tint px-2 py-1 rounded select-all">{window.location.host}/{roomId}</span></P>
+          <P>Or hit <kbd className="font-mono bg-tint border shadow px-2 mx-1 py-1 rounded">Enter</kbd> to start an instant meeting</P>
         </div>
 
         <div className="text-size-sm text-secondary flex gap-2 justify-center">

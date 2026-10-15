@@ -49,7 +49,7 @@ const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => vo
           <img src={objectUrl} alt={file.name} className="size-full object-cover" />
         </div>
       ) : (
-        <div className="border-default text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-gray-50 px-2">
+        <div className="border-default text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-tint px-2">
           {file.name}
         </div>
       )}
@@ -307,7 +307,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xxs hover:bg-gray-100"
+                        className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xxs hover:bg-tint"
                       >
                         <FaPaperclip className="size-3.5 shrink-0" />
                         <span>Add, drag, or paste attachments here</span>

@@ -70,10 +70,10 @@ const PostPreviewPanel = ({
   <div className="flex h-full flex-col gap-4 border-t border-subtle bg-tint p-5 md:border-t-0 md:border-l">
     <Eyebrow className="text-secondary">Post Preview</Eyebrow>
     <div className="flex items-center gap-3">
-      <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
+      <div className="bg-active size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">
-        <div className="bg-bluedot-navy/15 h-2.5 w-24 rounded-full" />
-        <div className="bg-bluedot-navy/15 h-2.5 w-14 rounded-full" />
+        <div className="bg-active h-2.5 w-24 rounded-full" />
+        <div className="bg-active h-2.5 w-14 rounded-full" />
       </div>
     </div>
     <p className="text-bluedot-navy line-clamp-3 text-size-sm leading-relaxed">

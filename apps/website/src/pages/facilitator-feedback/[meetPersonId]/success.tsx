@@ -154,7 +154,7 @@ const FacilitatorFeedbackSuccessPage = () => {
           </Link>
 
           {showInvoiceCard && invoiceUrl && (
-            <div className="bg-[#f8f9fb] border border-default rounded-md p-6 flex flex-col gap-2">
+            <div className="bg-tint border border-default rounded-md p-6 flex flex-col gap-2">
               <div className="flex items-center gap-2.5">
                 <div className="size-8 rounded-md bg-bluedot-normal/10 flex items-center justify-center shrink-0">
                   <PiCreditCard className="text-bluedot-normal" aria-hidden />

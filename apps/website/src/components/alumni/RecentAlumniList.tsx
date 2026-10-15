@@ -80,7 +80,7 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
         rel="noopener noreferrer"
         className={clsx(
           'block group',
-          'hover:bg-bluedot-navy/[0.02] transition-colors',
+          'hover:bg-tint transition-colors',
         )}
       >
         {content}

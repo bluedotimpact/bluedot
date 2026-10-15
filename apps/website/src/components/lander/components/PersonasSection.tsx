@@ -63,7 +63,7 @@ const PersonasSection = ({
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}
-                  className="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+                  className="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
                   style={isExpanded ? { backgroundColor: accentColor } : {}}
                   aria-expanded={isExpanded}
                 >

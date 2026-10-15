@@ -49,7 +49,7 @@ const SiteLoginPage = () => {
   );
 
   return (
-    <div className={`${inter.className} min-h-screen flex items-center justify-center bg-gray-100`}>
+    <div className={`${inter.className} min-h-screen flex items-center justify-center bg-tint`}>
       <Head>
         {pageMetaTags({ title: 'Site Access | BlueDot Impact' })}
         <meta name="robots" content="noindex" />

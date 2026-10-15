@@ -373,9 +373,9 @@ const NavigationButton = ({
     onClick={onClick}
     className={clsx(
       'size-[44px] rounded-full flex items-center justify-center',
-      'bg-bluedot-navy/8',
+      'bg-tint',
       'transition-all duration-200',
-      'opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer',
+      'opacity-80 hover:opacity-100 hover:bg-active cursor-pointer',
     )}
     aria-label={`Scroll ${direction}`}
   >

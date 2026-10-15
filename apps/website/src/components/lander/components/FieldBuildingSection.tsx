@@ -65,7 +65,7 @@ const FieldBuildingSection = ({
                 </div>
               </div>
 
-              {index < roles.length - 1 && <div className="w-full h-px bg-bluedot-navy/10" />}
+              {index < roles.length - 1 && <div className="w-full h-px bg-subtle" />}
             </div>
           ))}
         </div>

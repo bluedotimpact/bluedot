@@ -192,7 +192,7 @@ export default function GroupSwitchModal({
         <div className="flex items-center w-full">
           <ClickTarget
             onClick={() => setIsManualRequest(false)}
-            className="text-black rounded-full p-1.5 hover:bg-gray-100 cursor-pointer"
+            className="text-black rounded-full p-1.5 hover:bg-tint cursor-pointer"
             aria-label="Back to group selection"
           >
             <FaArrowLeft size={16} />

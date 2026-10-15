@@ -64,7 +64,7 @@ const EventsPage = () => {
                     setLocation('all');
                     setVisibleCount(PAGE_SIZE);
                   }}
-                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal sm:flex-none sm:px-4 ${filter === key ? 'bg-bluedot-navy text-white' : 'text-secondary hover:bg-slate-100'}`}
+                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal sm:flex-none sm:px-4 ${filter === key ? 'bg-bluedot-navy text-white' : 'text-secondary hover:bg-tint'}`}
                 >{label}</button>
               ))}
             </div>

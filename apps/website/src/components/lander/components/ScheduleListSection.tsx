@@ -44,8 +44,8 @@ const ScheduleListSection = ({
 
           {isLoading && (
             <div className="flex flex-col gap-3">
-              <div className="h-16 w-full animate-pulse rounded bg-gray-200" />
-              <div className="h-16 w-full animate-pulse rounded bg-gray-200" />
+              <div className="h-16 w-full animate-pulse rounded bg-active" />
+              <div className="h-16 w-full animate-pulse rounded bg-active" />
             </div>
           )}
 

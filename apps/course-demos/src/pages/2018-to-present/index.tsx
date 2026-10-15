@@ -46,7 +46,7 @@ const AIModelResponse: React.FC<{
           <span tabIndex={response.correctness_reason ? 0 : undefined} className={`px-2 py-0.5 text-xs font-medium rounded-full ${response.correct ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} group ${response.correctness_reason ? 'underline decoration-dotted cursor-help' : ''}`}>
             {response.correct ? 'Correct' : 'Incorrect'}
             {response.correctness_reason && (
-              <div role="tooltip" className="absolute left-0 bottom-full mb-2 bg-gray-800 text-white p-2 rounded text-size-sm w-full hidden opacity-0 group-hover:block group-focus:block group-hover:opacity-100 group-focus:opacity-100 transition-opacity z-10">
+              <div role="tooltip" className="absolute left-0 bottom-full mb-2 bg-dark text-white p-2 rounded text-size-sm w-full hidden opacity-0 group-hover:block group-focus:block group-hover:opacity-100 group-focus:opacity-100 transition-opacity z-10">
                 {response.correctness_reason}
               </div>
             )}
@@ -99,7 +99,7 @@ const DemoPage: React.FC = () => {
 
               key={index}
               onClick={() => setSelectedPromptIndex(index)}
-              className={`text-sm border rounded p-2 hover:bg-stone-100 cursor-pointer ${index === selectedPromptIndex ? 'bg-stone-200' : ''}`}
+              className={`text-sm border rounded p-2 hover:bg-tint cursor-pointer ${index === selectedPromptIndex ? 'bg-accent-subtle' : ''}`}
             >
               {prompt.shortText ?? prompt.text}
             </ClickTarget>
