@@ -52,6 +52,7 @@ export function verifyConnectToken({ token, secret, nowMs }: { token: string; se
   const [data, signature, ...rest] = token.split('.');
   if (!data || !signature || rest.length > 0) return null;
 
+  // Compares the base64url text of the two signatures, which is equivalent to comparing the raw HMACs
   const expected = Buffer.from(createHmac('sha256', secret).update(data).digest('base64url'));
   const given = Buffer.from(signature);
   if (expected.length !== given.length || !timingSafeEqual(expected, given)) return null;

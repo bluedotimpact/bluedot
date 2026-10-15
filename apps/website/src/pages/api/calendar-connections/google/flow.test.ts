@@ -84,10 +84,10 @@ const mockRes = () => {
   return res;
 };
 
-const start = async ({ body, authorization = 'Bearer sub:kc-robin' }: { body: unknown; authorization?: string }) => {
+const start = async ({ body, authorization = 'Bearer sub:kc-robin', impersonate }: { body: unknown; authorization?: string; impersonate?: string }) => {
   const res = mockRes();
   await startHandler({
-    method: 'POST', headers: { authorization }, body, url: '/api/calendar-connections/google/start',
+    method: 'POST', headers: { authorization, ...(impersonate ? { 'x-impersonate-user': impersonate } : {}) }, body, url: '/api/calendar-connections/google/start',
   } as unknown as NextApiRequest, res as unknown as NextApiResponse);
   return res as MockRes;
 };
@@ -128,6 +128,12 @@ describe('start', () => {
 
     const res = await start({ body: { connectToken: CONNECT_TOKEN } });
     expect(res.headers['Set-Cookie']).toMatch(/HttpOnly; SameSite=Lax/);
+  });
+
+  test('is blocked while impersonating, so an admin can\'t attach a calendar to their own account by mistake', async () => {
+    const res = await start({ body: { connectToken: CONNECT_TOKEN }, impersonate: 'rec-someone' });
+    expect(res.statusCode).toBe(403);
+    expect(res.headers['Set-Cookie']).toBeUndefined();
   });
 
   test('requires login', async () => {

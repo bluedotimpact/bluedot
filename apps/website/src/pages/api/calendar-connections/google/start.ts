@@ -21,6 +21,11 @@ export default makeApiRoute({
     throw new createHttpError.MethodNotAllowed('Method not allowed');
   }
 
+  // This route only sees the real login, not tRPC's impersonation, so it would attach the calendar to the admin
+  if (req.headers['x-impersonate-user']) {
+    throw new createHttpError.Forbidden('You can\'t connect calendars while impersonating someone');
+  }
+
   const user = await getUserFromAuth(auth);
   if (!user) {
     throw new createHttpError.Unauthorized('No user record for this account. Please log in again.');
