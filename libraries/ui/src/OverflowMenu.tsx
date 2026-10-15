@@ -65,7 +65,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
             'block px-4 py-3 outline-none',
             item.isDisabled && 'cursor-default text-disabled',
             !item.isDisabled && 'cursor-pointer',
-            !item.isDisabled && (isDesktop ? 'hover:bg-tint' : 'active:bg-active rounded-lg'),
+            !item.isDisabled && (isDesktop ? 'hover:bg-tint' : 'hover:bg-tint active:bg-active rounded-lg'),
           )}
         >
           {item.label}
