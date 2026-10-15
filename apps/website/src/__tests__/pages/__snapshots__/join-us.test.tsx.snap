@@ -720,7 +720,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   Email address
                 </label>
                 <input
-                  class="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-tight tracking-wide text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                  class="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-tight tracking-wide text-bluedot-navy placeholder:text-placeholder border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
                   id="newsletter-email"
                   placeholder="Email"
                   required=""
