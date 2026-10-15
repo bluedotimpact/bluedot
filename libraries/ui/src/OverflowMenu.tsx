@@ -38,7 +38,7 @@ type MenuContentProps = {
 };
 
 // Trigger button styled as secondary. Menu items are the primary actions
-const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md hover:bg-gray-100 border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
+const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
 
 const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
