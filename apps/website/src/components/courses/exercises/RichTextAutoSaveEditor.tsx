@@ -270,7 +270,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
               '[&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1',
               '[&_.ProseMirror_li]:my-0.5',
               '[&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]',
-              '[&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999]',
+              '[&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder',
               '[&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left',
               '[&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none',
               '[&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0',
