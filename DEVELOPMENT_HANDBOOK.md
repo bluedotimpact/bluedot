@@ -525,7 +525,7 @@ export const userTable = pgAirtable('user', {
 
 ### Usage Guidelines
 
-All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones.** The cheat sheet and override rules are in [`libraries/ui/README.md`](./libraries/ui/README.md). In short: use defaults, use `className` for layout only (text primitives can also take colour and size tokens), and propose a variant on the shared component instead of a callsite override.
+All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones.** See the cheat sheet in [`libraries/ui/README.md`](./libraries/ui/README.md) and the override rules in [`CLAUDE.md`](./CLAUDE.md#before-you-start-a-task).
 
 ### Icons
 
