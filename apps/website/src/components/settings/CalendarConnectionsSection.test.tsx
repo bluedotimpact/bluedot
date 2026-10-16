@@ -15,16 +15,9 @@ import CalendarConnectionsSection from './CalendarConnectionsSection';
 
 vi.mock('../../lib/api/env', async () => ({ default: (await import('../../__tests__/fakeGoogle')).TEST_CALENDAR_ENV }));
 
-const routerQuery: { current: Record<string, string> } = { current: {} };
-const replace = vi.fn();
-vi.mock('next/router', () => ({
-  useRouter: () => ({ pathname: '/account', query: routerQuery.current, replace }),
-}));
-
 setupTestDb();
 
 beforeEach(async () => {
-  routerQuery.current = {};
   vi.stubGlobal('fetch', vi.fn(createFakeGoogle().fetch));
   await seedLoggedInUser();
 });
@@ -69,21 +62,11 @@ describe('CalendarConnectionsSection', () => {
     expect(screen.getByText('work@gmail.example')).toBeInTheDocument();
     expect(screen.getAllByText(/Connected 15 Oct 2026/)).toHaveLength(2);
     expect(screen.getAllByText(/can't read this calendar any more/)).toHaveLength(1);
-    expect(screen.getByRole('button', { name: 'Add another calendar' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Add or manage calendars' })).toHaveAttribute('href', '/account/calendars');
 
     fireEvent.click(screen.getByRole('button', { name: 'Disconnect personal@gmail.example' }));
 
     await waitFor(() => expect(screen.queryByText('personal@gmail.example')).not.toBeInTheDocument());
     expect((await testDb.pg.select().from(calendarConnectionTable.pg)).map((r) => r.id)).toEqual(['work']);
-  });
-
-  test('confirms a new connection and tidies the URL', async () => {
-    routerQuery.current = { calendar: 'connected' };
-    await seed('personal');
-
-    renderSection();
-
-    expect(await screen.findByText('Calendar connected')).toBeInTheDocument();
-    expect(replace).toHaveBeenCalledWith('/account', undefined, { shallow: true });
   });
 });

@@ -1,5 +1,5 @@
 import {
-  and, calendarConnectionTable, eq, inArray, userTable, type CalendarConnection,
+  and, calendarConnectionTable, eq, inArray, isNull, ne, sql, userTable, type CalendarConnection,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { decryptRefreshToken, encryptRefreshToken } from './calendarConnect';
@@ -11,10 +11,28 @@ import {
 
 const BUSY_CONCURRENCY = 5;
 
-export async function upsertGoogleConnection({
-  userId, slackUserId, timeZone, exchange,
-}: { userId: string; slackUserId: string; timeZone: string | null; exchange: GoogleTokenExchange }): Promise<void> {
-  const now = new Date().toISOString();
+/**
+ * Saves a Google connection for this BlueDot user.
+ * With a Slack member from a signed link, that member is claimed for all of this user's calendars, and taken off any other
+ * user's calendars (the newest link wins). Without one, the new calendar inherits whatever Slack member the user's
+ * other calendars have, or none, in which case Dot-to-Dot matches the user by account email.
+ */
+export async function saveGoogleConnection({
+  userId, linkedSlackUserId, timeZone, exchange,
+}: { userId: string; linkedSlackUserId: string | null; timeZone: string | null; exchange: GoogleTokenExchange }): Promise<void> {
+  let slackUserId: string | null;
+  if (linkedSlackUserId) {
+    slackUserId = linkedSlackUserId;
+    await db.pg.update(calendarConnectionTable.pg)
+      .set({ slackUserId: null })
+      .where(and(eq(calendarConnectionTable.pg.slackUserId, slackUserId), ne(calendarConnectionTable.pg.userId, userId)));
+    await db.pg.update(calendarConnectionTable.pg)
+      .set({ slackUserId })
+      .where(eq(calendarConnectionTable.pg.userId, userId));
+  } else {
+    slackUserId = await getSlackUserIdForUser(userId);
+  }
+
   const values = {
     slackUserId,
     providerAccountEmail: exchange.email,
@@ -23,7 +41,7 @@ export async function upsertGoogleConnection({
     timeZone,
     lastError: null,
     lastErrorAt: null,
-    updatedAt: now,
+    updatedAt: new Date().toISOString(),
   };
 
   await db.pg
@@ -45,16 +63,18 @@ export async function listConnectionsForUser(userId: string): Promise<CalendarCo
     .orderBy(calendarConnectionTable.pg.createdAt);
 }
 
-/** The Slack member this account last connected a calendar for, so "Add another calendar" needs no new link. */
-export async function getSlackUserIdForUser(userId: string): Promise<string | null> {
+/** The Slack member this user's calendars are linked to, if any. */
+async function getSlackUserIdForUser(userId: string): Promise<string | null> {
   const connections = await listConnectionsForUser(userId);
-  const latest = connections.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+  const latest = connections
+    .filter((c) => c.slackUserId)
+    .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
   return latest?.slackUserId ?? null;
 }
 
 /**
  * Deletes the given connections, and revokes each Google grant unless another row still uses it.
- * Google grants are per Google account, so revoking one would break the same account connected for another Slack member.
+ * Google grants are per Google account, so revoking one would break the same account connected by another BlueDot user.
  */
 export async function deleteConnections(connections: CalendarConnection[]): Promise<number> {
   if (connections.length === 0) return 0;
@@ -91,46 +111,94 @@ export async function disconnectConnection({ userId, connectionId }: { userId: s
   return (await deleteConnections(connections)) > 0;
 }
 
+export type BusyMember = { slackUserId: string; email: string | null };
+
 export type BusyUser = {
   connected: boolean;
   timeZone: string | null;
   email: string | null;
   busy: BusyInterval[];
   errors: string[];
+  matchedBy: 'slack' | 'email' | null;
 };
 
-/** Busy times per Slack member, merged across every calendar they connected. Shape matches dot-to-dot src/bluedot.ts. */
-export async function getBusyTimes({ slackUserIds, timeMin, timeMax }: { slackUserIds: string[]; timeMin: string; timeMax: string }): Promise<Record<string, BusyUser>> {
-  const uniqueIds = [...new Set(slackUserIds)];
-  const connections = uniqueIds.length === 0 ? [] : await db.pg
+const normaliseEmail = (email: string) => email.trim().toLowerCase();
+
+/**
+ * Busy times per Slack member, merged across every calendar they connected. Shape matches dot-to-dot src/bluedot.ts.
+ * A member matches the calendars linked to their Slack ID. Failing that, they match the calendars of the BlueDot user
+ * with the same email, but only calendars not linked to any Slack member, so an explicit link always wins.
+ */
+export async function getBusyTimes({ members, timeMin, timeMax }: { members: BusyMember[]; timeMin: string; timeMax: string }): Promise<Record<string, BusyUser>> {
+  const byId = new Map<string, BusyMember>();
+  for (const member of members) {
+    byId.set(member.slackUserId, member);
+  }
+
+  const slackIds = [...byId.keys()];
+  const linked = slackIds.length === 0 ? [] : await db.pg
     .select()
     .from(calendarConnectionTable.pg)
-    .where(inArray(calendarConnectionTable.pg.slackUserId, uniqueIds));
+    .where(inArray(calendarConnectionTable.pg.slackUserId, slackIds));
+  const linkedIds = new Set(linked.map((c) => c.slackUserId));
 
-  const userIds = [...new Set(connections.map((c) => c.userId))];
-  const users = userIds.length === 0 ? [] : await db.pg
+  const emailsToMatch = [...new Set([...byId.values()]
+    .filter((m) => !linkedIds.has(m.slackUserId) && m.email?.trim())
+    .map((m) => normaliseEmail(m.email!)))];
+  const emailUsers = emailsToMatch.length === 0 ? [] : await db.pg
     .select({ id: userTable.pg.id, email: userTable.pg.email })
     .from(userTable.pg)
-    .where(inArray(userTable.pg.id, userIds));
-  const emailByUserId = new Map(users.map((u) => [u.id, u.email]));
+    .where(inArray(sql<string>`lower(trim(${userTable.pg.email}))`, emailsToMatch));
+  const unlinked = emailUsers.length === 0 ? [] : await db.pg
+    .select()
+    .from(calendarConnectionTable.pg)
+    .where(and(inArray(calendarConnectionTable.pg.userId, emailUsers.map((u) => u.id)), isNull(calendarConnectionTable.pg.slackUserId)));
+
+  const userIdsByEmail = new Map<string, string[]>();
+  for (const user of emailUsers) {
+    const key = normaliseEmail(user.email);
+    userIdsByEmail.set(key, [...(userIdsByEmail.get(key) ?? []), user.id]);
+  }
+
+  const matches = new Map<string, { connections: CalendarConnection[]; matchedBy: 'slack' | 'email' | null }>();
+  for (const member of byId.values()) {
+    const bySlack = linked.filter((c) => c.slackUserId === member.slackUserId);
+    if (bySlack.length > 0) {
+      matches.set(member.slackUserId, { connections: bySlack, matchedBy: 'slack' });
+      continue;
+    }
+
+    const userIds = member.email ? userIdsByEmail.get(normaliseEmail(member.email)) ?? [] : [];
+    const byEmail = unlinked.filter((c) => userIds.includes(c.userId));
+    matches.set(member.slackUserId, { connections: byEmail, matchedBy: byEmail.length > 0 ? 'email' : null });
+  }
+
+  const connections = [...new Map([...matches.values()].flatMap((m) => m.connections).map((c) => [c.id, c])).values()];
+  const ownerIds = [...new Set(connections.map((c) => c.userId))];
+  const owners = ownerIds.length === 0 ? [] : await db.pg
+    .select({ id: userTable.pg.id, email: userTable.pg.email })
+    .from(userTable.pg)
+    .where(inArray(userTable.pg.id, ownerIds));
+  const emailByUserId = new Map(owners.map((u) => [u.id, u.email]));
 
   const results = await mapWithConcurrency(connections, BUSY_CONCURRENCY, (connection) => fetchConnectionBusy({ connection, timeMin, timeMax }));
+  const resultById = new Map(connections.map((c, i) => [c.id, results[i]!]));
 
   const out: Record<string, BusyUser> = {};
-  for (const slackUserId of uniqueIds) {
-    const mine = connections
-      .map((connection, i) => ({ connection, result: results[i]! }))
-      .filter(({ connection }) => connection.slackUserId === slackUserId)
+  for (const [slackUserId, { connections: mine, matchedBy }] of matches) {
+    const withResults = mine
+      .map((connection) => ({ connection, result: resultById.get(connection.id)! }))
       .sort((a, b) => b.connection.updatedAt.localeCompare(a.connection.updatedAt));
-    const working = mine.filter(({ result }) => result.ok);
-    const latestUserId = mine[0]?.connection.userId;
+    const working = withResults.filter(({ result }) => result.ok);
+    const latestUserId = withResults[0]?.connection.userId;
 
     out[slackUserId] = {
       connected: working.length > 0,
-      timeZone: mine.find(({ connection }) => connection.timeZone)?.connection.timeZone ?? null,
+      timeZone: withResults.find(({ connection }) => connection.timeZone)?.connection.timeZone ?? null,
       email: latestUserId ? emailByUserId.get(latestUserId) ?? null : null,
       busy: mergeIntervals(working.flatMap(({ result }) => (result.ok ? result.busy : []))),
-      errors: mine.flatMap(({ result }) => (result.ok ? [] : [result.error])),
+      errors: withResults.flatMap(({ result }) => (result.ok ? [] : [result.error])),
+      matchedBy,
     };
   }
 
@@ -157,7 +225,7 @@ async function fetchConnectionBusy({ connection, timeMin, timeMax }: { connectio
       await db.pg.update(calendarConnectionTable.pg)
         .set({ lastError: error instanceof GoogleInvalidGrantError ? 'invalid_grant' : error.message, lastErrorAt: new Date().toISOString() })
         .where(eq(calendarConnectionTable.pg.id, connection.id));
-      return { ok: false, error: `${label}: ${error.message}. They need to reconnect it on their BlueDot account page.` };
+      return { ok: false, error: `${label}: ${error.message}. They need to reconnect it at bluedot.org/account/calendars.` };
     }
 
     logger.warn(`[CalendarConnect] Busy lookup failed for connection ${connection.id}`, error);

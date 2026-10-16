@@ -11,7 +11,7 @@ import env from './env';
 export const GOOGLE_FREEBUSY_SCOPE = 'https://www.googleapis.com/auth/calendar.freebusy';
 export const GOOGLE_SCOPES = ['openid', 'email', GOOGLE_FREEBUSY_SCOPE];
 
-export const CONNECT_PAGE_PATH = '/account/calendars/connect';
+export const CALENDARS_PAGE_PATH = '/account/calendars';
 export const GOOGLE_CALLBACK_PATH = '/api/calendar-connections/google/callback';
 
 // Binds the OAuth round trip to the browser that started it. Scoped to the callback path so it's sent nowhere else.
@@ -104,7 +104,8 @@ export function decryptRefreshToken(encrypted: string): string {
 // OAuth `state`: encrypted so the browser can't read or alter it, and bound to a nonce in an httpOnly cookie.
 export type OAuthState = {
   userId: string;
-  slackUserId: string;
+  // From a signed Slack link. Null when connecting from the plain page.
+  slackUserId: string | null;
   timeZone: string | null;
   nonce: string;
   // Lets the callback send the person back to the connect page with their link if something goes wrong
@@ -139,7 +140,7 @@ export async function verifyOAuthState({ state, cookieNonce }: { state: string; 
     throw new InvalidOAuthStateError(error instanceof errors.JWTExpired ? 'expired' : 'invalid');
   }
 
-  if (typeof payload.userId !== 'string' || typeof payload.slackUserId !== 'string' || typeof payload.nonce !== 'string') {
+  if (typeof payload.userId !== 'string' || typeof payload.nonce !== 'string') {
     throw new InvalidOAuthStateError('invalid');
   }
 
@@ -149,7 +150,7 @@ export async function verifyOAuthState({ state, cookieNonce }: { state: string; 
 
   return {
     userId: payload.userId,
-    slackUserId: payload.slackUserId,
+    slackUserId: typeof payload.slackUserId === 'string' ? payload.slackUserId : null,
     timeZone: typeof payload.timeZone === 'string' ? payload.timeZone : null,
     nonce: payload.nonce,
     connectToken: typeof payload.connectToken === 'string' ? payload.connectToken : null,
