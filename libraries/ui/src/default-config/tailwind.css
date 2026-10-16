@@ -197,7 +197,7 @@
 }
 
 @utility container-lined {
-    @apply border border-default rounded-surface;
+    @apply border rounded-surface;
 }
 
 @utility container-active {
