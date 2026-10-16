@@ -13,7 +13,7 @@ const WhatThisIsForSection = () => {
 
   return (
     <section className="section-base rapid-grants-what-section">
-      <div className="flex flex-col gap-6 border-b border-bluedot-navy/15 py-10 bd-md:py-12">
+      <div className="flex flex-col gap-6 border-b border-subtle py-10 bd-md:py-12">
         <h2 className="text-size-lg font-medium tracking-tight">What we fund</h2>
         <div>
           <dl className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-x-8 gap-y-6 mb-7">

@@ -60,7 +60,7 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
   const linkHref = alum.storyUrl ?? alum.url;
 
   const content = (
-    <div className="flex items-center gap-3 py-3.5 border-b border-bluedot-navy/10">
+    <div className="flex items-center gap-3 py-3.5 border-b border-subtle">
       <Avatar name={alum.name} imageSrc={alum.imageSrc} />
       <div className="flex-1 min-w-0">
         <P className="font-semibold leading-tight truncate">{alum.name}</P>
@@ -80,7 +80,7 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
         rel="noopener noreferrer"
         className={clsx(
           'block group',
-          'hover:bg-bluedot-navy/[0.02] transition-colors',
+          'hover:bg-tint transition-colors',
         )}
       >
         {content}

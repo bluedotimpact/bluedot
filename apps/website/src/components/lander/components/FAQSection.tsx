@@ -77,7 +77,7 @@ const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' 
         <section id={id} className="section-base">
           <div className="py-10 bd-md:py-12">
             <h2 className="mb-7 text-size-lg font-medium tracking-tight">{title}</h2>
-            <div className="divide-y divide-bluedot-navy/15 border-t border-bluedot-navy/15">
+            <div className="divide-y divide-subtle border-t border-subtle">
               {items.map((item) => (
                 <details key={item.id} className="group">
                   <summary className="flex min-h-14 py-4 cursor-pointer list-none items-center justify-between gap-6 text-size-sm font-medium leading-relaxed [&::-webkit-details-marker]:hidden">
@@ -109,7 +109,7 @@ const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' 
                         onClick={() => handleToggle(item.id)}
                         className={`ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 ${
                           isOpen ? 'pt-6 pb-4' : 'py-6'
-                        } ${!isOpen ? 'hover:bg-gray-50' : ''}`}
+                        } ${!isOpen ? 'hover:bg-tint' : ''}`}
                         aria-expanded={isOpen}
                         aria-controls={`faq-answer-${item.id}`}
                       >

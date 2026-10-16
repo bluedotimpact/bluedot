@@ -299,7 +299,7 @@ const QuoteSection = ({
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
                 aria-label="Previous quote"
               >
                 <span className="text-bluedot-navy text-size-sm leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
@@ -324,7 +324,7 @@ const QuoteSection = ({
               <button
                 type="button"
                 onClick={handleNext}
-                className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
                 aria-label="Next quote"
               >
                 <span className="text-bluedot-navy text-size-sm leading-none">→</span>
@@ -382,7 +382,7 @@ const QuoteSection = ({
             <button
               type="button"
               onClick={handlePrevious}
-              className="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
               aria-label="Previous quote"
             >
               <span
@@ -422,7 +422,7 @@ const QuoteSection = ({
             <button
               type="button"
               onClick={handleNext}
-              className="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
               aria-label="Next quote"
             >
               <span

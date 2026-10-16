@@ -67,13 +67,13 @@ const PostPreviewPanel = ({
   shareText: string;
   courseUrl: string;
 }) => (
-  <div className="flex h-full flex-col gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l">
+  <div className="flex h-full flex-col gap-4 border-t border-subtle bg-tint p-5 md:border-t-0 md:border-l">
     <Eyebrow className="text-secondary">Post Preview</Eyebrow>
     <div className="flex items-center gap-3">
-      <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
+      <div className="bg-active size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">
-        <div className="bg-bluedot-navy/15 h-2.5 w-24 rounded-full" />
-        <div className="bg-bluedot-navy/15 h-2.5 w-14 rounded-full" />
+        <div className="bg-active h-2.5 w-24 rounded-full" />
+        <div className="bg-active h-2.5 w-14 rounded-full" />
       </div>
     </div>
     <p className="text-bluedot-navy line-clamp-3 text-size-sm leading-relaxed">
@@ -91,7 +91,7 @@ const PostPreviewPanel = ({
 );
 
 const ChatPreviewPanel = ({ courseUrl, shareText }: { courseUrl: string; shareText: string }) => (
-  <div className="flex h-full flex-col items-center justify-center border-l border-[#e5e9f2] bg-[#fbfbfd] p-8">
+  <div className="flex h-full flex-col items-center justify-center border-l border-subtle bg-tint p-8">
     <div className="bg-bluedot-normal relative max-w-[280px] rounded-lg px-4 py-3 shadow-sm">
       <p className="text-size-xs leading-normal text-white">
         {shareText}
@@ -128,7 +128,7 @@ type ShareCardProps = {
 };
 
 const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => (
-  <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
+  <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] border-default bg-white md:min-h-[327px] md:flex-row">
     <div className="flex flex-col gap-8 p-6 md:w-1/2 md:px-10 md:py-8">
       <div className="flex flex-col gap-3">
         <H3 className="text-size-md">{title}</H3>
@@ -154,7 +154,7 @@ const AttendanceIneligibleCard = ({
   const missed = discussionsHeld - uniqueDiscussionAttendance;
 
   return (
-    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-charcoal-mid/50 bg-bluedot-lightest px-5 py-6">
+    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-default bg-bluedot-lightest px-5 py-6">
       <div className="flex items-center gap-3">
         <FaCircleMinus className="size-8 shrink-0 text-secondary" />
         <span className="text-bluedot-navy text-size-sm leading-5 font-semibold">
@@ -183,7 +183,7 @@ const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: strin
   const badgeSrc = getCertificateBadgePath(courseSlug);
 
   return (
-    <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-slate-200 bg-white px-6 py-10 shadow-sm">
+    <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-default bg-white px-6 py-10 shadow-sm">
       <img src={badgeSrc} alt="" className="h-[160px] w-auto object-contain" />
       <Eyebrow className="text-secondary">Professional Certification</Eyebrow>
       {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
@@ -434,7 +434,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       </div>
 
       {courseId === FOAI_COURSE_ID && (
-        <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
+        <div className="border-hairline border-default flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
           <div className="flex flex-col gap-3">
             <H3 className="text-size-md">Want to go deeper?</H3>
             <P>

@@ -66,7 +66,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
         <span>{pendingCount} Pending</span>
       </p>
 
-      <div className="flex flex-col divide-y divide-gray-200">
+      <div className="flex flex-col divide-y divide-subtle">
         {responses.map((r, i) => (
           <ResponseBlock
 

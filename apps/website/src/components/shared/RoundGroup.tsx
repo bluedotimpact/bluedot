@@ -46,7 +46,7 @@ export default function RoundGroup({
               href={buildRoundApplyUrl(applicationUrl, round.id)}
               accentColor={accentColor}
             />
-            {index < displayedRounds.length - 1 && <div className="border-bluedot-navy/10 my-4 border-t" />}
+            {index < displayedRounds.length - 1 && <div className="border-subtle my-4 border-t" />}
           </li>
         ))}
       </ul>

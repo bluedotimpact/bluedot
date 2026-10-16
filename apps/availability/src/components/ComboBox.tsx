@@ -33,7 +33,7 @@ export const ComboBox = <
         },
       })}
       classNames={{
-        control: (state) => clsx('!border-2 !rounded-sm !min-h-0 !shadow-none', state.isFocused ? '!border-bluedot-normal' : '!border-stone-200'),
+        control: (state) => clsx('!border-2 !rounded-sm !min-h-0 !shadow-none', state.isFocused ? '!border-bluedot-normal' : '!border-border-control'),
         valueContainer: () => '!py-0',
         dropdownIndicator: () => '!py-0',
       }}

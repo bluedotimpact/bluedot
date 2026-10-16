@@ -148,7 +148,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
                 placeholder={confirmationPhrase}
                 disabled={requestDeletion.isPending || alreadyRequested}
                 className={cn(
-                  'w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-placeholder',
+                  'w-full border border-border-control rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-placeholder',
                   requestDeletion.isPending && 'cursor-not-allowed',
                 )}
               />

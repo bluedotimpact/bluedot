@@ -6,7 +6,7 @@ export type PillProps = React.PropsWithChildren<{
 
 export const Pill = ({ children, className }: PillProps) => {
   return (
-    <span className={clsx('inline-flex items-center rounded-full bg-bluedot-navy/[0.06] px-3 py-1 text-size-xxs font-semibold uppercase tracking-widest text-secondary', className)}>
+    <span className={clsx('inline-flex items-center rounded-full bg-tint px-3 py-1 text-size-xxs font-semibold uppercase tracking-widest text-secondary', className)}>
       {children}
     </span>
   );

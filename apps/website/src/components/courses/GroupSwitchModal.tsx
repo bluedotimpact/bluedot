@@ -192,7 +192,7 @@ export default function GroupSwitchModal({
         <div className="flex items-center w-full">
           <ClickTarget
             onClick={() => setIsManualRequest(false)}
-            className="text-black rounded-full p-1.5 hover:bg-gray-100 cursor-pointer"
+            className="text-black rounded-full p-1.5 hover:bg-tint cursor-pointer"
             aria-label="Back to group selection"
           >
             <FaArrowLeft size={16} />
@@ -625,7 +625,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   return (
     <div
       className={cn(
-        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300',
+        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-default hover:border-strong',
         isSelected && 'border-bluedot-normal hover:border-bluedot-normal bg-blue-50',
         isDisabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
         userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',

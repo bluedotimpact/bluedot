@@ -30,7 +30,7 @@ export const EditorialGranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) 
     <div className="min-w-0">
       <h3 className="text-size-sm bd-md:text-size-md font-medium leading-snug tracking-tight break-words">
         {grantee.link ? (
-          <a href={grantee.link} target="_blank" rel="noopener noreferrer" className="hover:text-bluedot-normal underline decoration-bluedot-navy/25 underline-offset-4 hover:decoration-bluedot-normal">
+          <a href={grantee.link} target="_blank" rel="noopener noreferrer" className="hover:text-bluedot-normal underline decoration-default underline-offset-4 hover:decoration-bluedot-normal">
             {grantee.projectTitle}
           </a>
         ) : grantee.projectTitle}

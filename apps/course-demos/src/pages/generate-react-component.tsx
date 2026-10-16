@@ -74,7 +74,7 @@ const DemoPage: React.FC = () => {
             Examples:
             {EXAMPLES.map((example) => (
               <ClickTarget
-                className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-stone-200"
+                className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-tint"
                 key={example}
                 onClick={() => {
                   setUserPrompt(example);
@@ -144,7 +144,7 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
 
   return (
     <div className="flex flex-col gap-4 mt-2">
-      <div className="bg-stone-200 p-4 rounded-md">
+      <div className="bg-tint p-4 rounded-md">
         <P className="font-medium"><A href={courseLink}>The Future of AI Course</A> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</P>
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />

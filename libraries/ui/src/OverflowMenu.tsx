@@ -38,7 +38,7 @@ type MenuContentProps = {
 };
 
 // Trigger button styled as secondary. Menu items are the primary actions
-const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md hover:bg-gray-100 border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
+const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
 
 const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
@@ -65,7 +65,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
             'block px-4 py-3 outline-none',
             item.isDisabled && 'cursor-default text-disabled',
             !item.isDisabled && 'cursor-pointer',
-            !item.isDisabled && (isDesktop ? 'hover:bg-gray-100' : 'hover:bg-gray-200 rounded-lg'),
+            !item.isDisabled && (isDesktop ? 'hover:bg-tint' : 'hover:bg-tint active:bg-active rounded-lg'),
           )}
         >
           {item.label}
@@ -80,7 +80,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         placement="bottom end"
-        className="bg-white rounded-surface shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-charcoal-light overflow-hidden min-w-[200px]"
+        className="bg-white rounded-surface shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-default overflow-hidden min-w-[200px]"
       >
         {menuContent}
       </Popover>

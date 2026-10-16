@@ -35,7 +35,7 @@ const ApplicationRow = ({
   const statusLabel = APPLICATION_STATUS_LABEL[status];
 
   return (
-    <li className="relative overflow-hidden rounded-xl border border-charcoal-light bg-white">
+    <li className="relative overflow-hidden rounded-xl border border-default bg-white">
       {tint && (
         <div
           aria-hidden

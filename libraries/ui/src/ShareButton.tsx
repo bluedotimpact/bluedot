@@ -25,7 +25,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
       onClick={onClick}
       className="flex flex-col items-center cursor-pointer group p-4 -m-4"
     >
-      <div className={`size-12 rounded-full border flex items-center justify-center ${color} group-hover:bg-slate-100`}>
+      <div className={`size-12 rounded-full border flex items-center justify-center ${color} group-hover:bg-tint`}>
         {icon}
       </div>
       <span className="mt-2 text-size-sm">{children}</span>
@@ -145,7 +145,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
               <p className="w-full px-3 py-2 border rounded-md text-primary select-all mr-2 whitespace-nowrap overflow-x-auto">{shareUrl}</p>
               <ClickTarget
                 onClick={handleCopyToClipboard}
-                className={clsx('bg-gray-100 hover:bg-gray-200 text-primary px-3 py-2 rounded-md', isCopied && '!bg-success-bg')}
+                className={clsx('bg-tint hover:bg-active text-primary px-3 py-2 rounded-md', isCopied && '!bg-success-bg')}
               >
                 {isCopied ? <span className="inline-flex items-center gap-1.5 text-size-sm"><FaCheck className="text-success-fg" /> Copied</span> : <FaCopy />}
               </ClickTarget>

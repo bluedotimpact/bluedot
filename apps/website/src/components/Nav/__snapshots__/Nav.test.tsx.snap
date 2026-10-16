@@ -98,7 +98,7 @@ exports[`Nav > renders with courses 1`] = `
                           </span>
                         </a>
                         <div
-                          class="border-t border-gray-200 my-2"
+                          class="border-t border-subtle my-2"
                         />
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -128,7 +128,7 @@ exports[`Nav > renders with courses 1`] = `
                           Project Sprint
                         </a>
                         <div
-                          class="border-t border-gray-200 my-2"
+                          class="border-t border-subtle my-2"
                         />
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -190,7 +190,7 @@ exports[`Nav > renders with courses 1`] = `
                           Career Transition Grants
                         </a>
                         <div
-                          class="border-t border-gray-200 my-2"
+                          class="border-t border-subtle my-2"
                         />
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -254,7 +254,7 @@ exports[`Nav > renders with courses 1`] = `
                           AI Security Bootcamp
                         </a>
                         <div
-                          class="border-t border-gray-200 my-2"
+                          class="border-t border-subtle my-2"
                         />
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -376,7 +376,7 @@ exports[`Nav > renders with courses 1`] = `
                     </span>
                   </a>
                   <div
-                    class="border-t border-gray-200 my-2"
+                    class="border-t border-subtle my-2"
                   />
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -406,7 +406,7 @@ exports[`Nav > renders with courses 1`] = `
                     Project Sprint
                   </a>
                   <div
-                    class="border-t border-gray-200 my-2"
+                    class="border-t border-subtle my-2"
                   />
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -468,7 +468,7 @@ exports[`Nav > renders with courses 1`] = `
                     Career Transition Grants
                   </a>
                   <div
-                    class="border-t border-gray-200 my-2"
+                    class="border-t border-subtle my-2"
                   />
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -532,7 +532,7 @@ exports[`Nav > renders with courses 1`] = `
                     AI Security Bootcamp
                   </a>
                   <div
-                    class="border-t border-gray-200 my-2"
+                    class="border-t border-subtle my-2"
                   />
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -577,7 +577,7 @@ exports[`Nav > renders with courses 1`] = `
             class="nav-cta flex flex-row items-center gap-4"
           >
             <a
-              class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center border border-default text-primary hover:text-primary hover:bg-gray-50"
+              class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center border border-default text-primary hover:text-primary hover:bg-tint"
               href="/login?redirect_to=%2Ftest-page"
               tabindex="0"
             >

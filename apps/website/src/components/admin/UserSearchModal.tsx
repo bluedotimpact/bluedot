@@ -81,7 +81,7 @@ export const UserSearchModal = ({
               key={user.id}
               type="button"
               onClick={() => handleSelectUser(user)}
-              className="w-full cursor-pointer text-left px-3 py-2 hover:bg-gray-100 rounded"
+              className="w-full cursor-pointer text-left px-3 py-2 hover:bg-tint rounded"
             >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 md:gap-4">
                 <div className="min-w-0">

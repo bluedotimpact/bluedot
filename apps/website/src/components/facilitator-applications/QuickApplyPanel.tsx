@@ -12,7 +12,7 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
   const tint = course.courseSlug ? COURSE_COLORS[course.courseSlug as CourseColorSlug]?.bright : undefined;
 
   return (
-    <li className="border-charcoal-light relative overflow-hidden rounded-xl border bg-white">
+    <li className="border-default relative overflow-hidden rounded-xl border bg-white">
       {tint && (
         <div
           aria-hidden
@@ -41,13 +41,13 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
             className="text-bluedot-navy size-4 shrink-0 transition-transform group-open:rotate-180"
           />
         </summary>
-        <ul className="border-charcoal-light flex flex-col border-t px-5 pb-5 sm:px-6 sm:pb-6">
+        <ul className="border-subtle flex flex-col border-t px-5 pb-5 sm:px-6 sm:pb-6">
           {course.rounds.map((round) => {
             const dateRange = formatDateRange(round.firstDiscussionDate, round.lastDiscussionDate);
             return (
               <li
                 key={round.id}
-                className="border-charcoal-light flex flex-wrap items-center justify-between gap-3 border-b py-4 last:border-b-0 last:pb-0"
+                className="border-subtle flex flex-wrap items-center justify-between gap-3 border-b py-4 last:border-b-0 last:pb-0"
               >
                 <div className="min-w-0 flex flex-col gap-1">
                   <p className="text-size-md text-bluedot-navy font-semibold">{round.label}</p>

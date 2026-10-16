@@ -49,7 +49,7 @@ const SiteLoginPage = () => {
   );
 
   return (
-    <div className={`${inter.className} min-h-screen flex items-center justify-center bg-gray-100`}>
+    <div className={`${inter.className} min-h-screen flex items-center justify-center bg-tint`}>
       <Head>
         {pageMetaTags({ title: 'Site Access | BlueDot Impact' })}
         <meta name="robots" content="noindex" />
@@ -67,7 +67,7 @@ const SiteLoginPage = () => {
               placeholder="Enter password"
               autoComplete="current-password"
               autoFocus
-              className="flex-1 p-3 border border-gray-300 rounded text-size-sm outline-none focus:border-blue-600"
+              className="flex-1 p-3 border border-border-control rounded text-size-sm outline-none focus:border-blue-600"
             />
             <Button variant="outline-black" size="small" onClick={() => setShowPassword((prev) => !prev)}>
               {showPassword ? 'Hide' : 'Show'}

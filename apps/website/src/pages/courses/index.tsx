@@ -100,7 +100,7 @@ const CoursesPage = () => {
             />
 
             {/* Horizontal divider - only visible on stacked layout (below 1280px) */}
-            <div className="xl:hidden mt-16 pt-16 border-t border-bluedot-navy/10" />
+            <div className="xl:hidden mt-16 pt-16 border-t border-subtle" />
 
             {/* Course Cards Section */}
             <div className="flex-1 max-w-[780px] xl:max-w-none">
@@ -111,7 +111,7 @@ const CoursesPage = () => {
                   <CourseScheduleList courses={displayedCourses} />
                   {displayedProjects.length > 0 && (
                     <>
-                      <div id="projects" className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
+                      <div id="projects" className="my-12 lg:my-16 xl:my-20 border-t border-subtle" />
                       <H2 className="text-size-xxs leading-snug font-medium text-accent uppercase tracking-wide mb-12 xl:hidden">
                         Project sprints
                       </H2>

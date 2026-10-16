@@ -176,7 +176,7 @@ export default function CourseCompletionSection({
                 {detailsWithoutSchedule.map((detail) => (
                   <div
                     key={detail.label}
-                    className="flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-5 border-t border-bluedot-navy/10"
+                    className="flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-5 border-t border-subtle"
                   >
                     <div className="md:w-[160px] shrink-0">
                       <P className="font-semibold leading-snug">

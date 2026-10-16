@@ -122,7 +122,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
           <div className="flex flex-col items-center gap-8">
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-4">
-                <div className="shrink-0 rounded-md border border-gray-200 px-3 py-[7px] text-center">
+                <div className="shrink-0 rounded-md border border-default px-3 py-[7px] text-center">
                   {joinedGroup.group.startTimeUtc && (
                     <>
                       <div className="text-size-sm font-semibold whitespace-nowrap">
@@ -190,9 +190,9 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
     = spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
 
   return (
-    <div className={cn('rounded-lg border border-gray-200 bg-white p-3', isDisabled && 'opacity-50')}>
+    <div className={cn('rounded-lg border border-default bg-white p-3', isDisabled && 'opacity-50')}>
       <div className="grid grid-cols-[80px_1fr] items-center gap-4">
-        <div className="self-center border-r border-gray-200 text-center">
+        <div className="self-center border-r border-subtle text-center">
           {displayDate && displayTime && (
             <>
               <div className="mt-px mb-[3px] font-medium whitespace-nowrap">{displayDate}</div>

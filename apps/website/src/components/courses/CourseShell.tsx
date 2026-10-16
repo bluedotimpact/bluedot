@@ -227,7 +227,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
         <div className="md:min-w-0 md:flex-1">
           {/* Breadcrumbs bar */}
-          <div className="border-bluedot-navy/20 bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
+          <div className="border-default bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
             <div className="flex size-full flex-row items-center justify-between gap-2 px-6">
               {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-2">
@@ -240,7 +240,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
                   <FaBars className="size-[16px]" />
                   <span className="">{isSidebarHidden ? 'Show' : 'Hide'}</span>
                 </button>
-                <span className="h-[18px] w-px bg-charcoal-mid opacity-50" />
+                <span className="h-[18px] w-px bg-default" />
               </div>
 
               <nav className="flex min-h-[18px] min-w-0 flex-1 items-center" aria-label="Breadcrumbs">
