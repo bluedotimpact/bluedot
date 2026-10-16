@@ -33,6 +33,12 @@ const privacyPolicy: BluedotRoute = {
   parentPages: [home],
 };
 
+const contractorPrivacyNotice: BluedotRoute = {
+  title: 'Contractor Privacy Notice',
+  url: '/privacy',
+  parentPages: [home],
+};
+
 const joinUs: BluedotRoute = {
   title: 'Work with us',
   url: '/join-us',
@@ -196,6 +202,7 @@ export const ROUTES = {
   blog,
   certification,
   contact,
+  contractorPrivacyNotice,
   courses,
   events,
   home,
