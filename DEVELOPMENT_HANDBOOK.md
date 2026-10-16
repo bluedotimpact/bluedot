@@ -229,7 +229,7 @@ See `src/components/settings/PasswordSection.tsx` for a complete real-world exam
 
 #### Error Handling
 
-Errors are handled inline per component using tRPC error codes. There is no centralized toast system — each component manages its own error UI with local state.
+Errors are handled inline per component using tRPC error codes. Show persistent errors with `Callout` and transient feedback with `toast()` from `@bluedot/ui`.
 
 **Pattern**:
 - Use `useState` for field-level error strings
@@ -525,7 +525,7 @@ export const userTable = pgAirtable('user', {
 
 ### Usage Guidelines
 
-All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones when possible.**
+All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones.** See the cheat sheet in [`libraries/ui/README.md`](./libraries/ui/README.md) and the override rules in [`CLAUDE.md`](./CLAUDE.md#before-you-start-a-task).
 
 ### Icons
 
