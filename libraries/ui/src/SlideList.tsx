@@ -209,7 +209,7 @@ export const SlideListBtn: React.FC<{
     className={clsx(
       'slide-list__nav-button',
       'p-3 border rounded-surface transition-colors m-[3px] mt-0',
-      'border-default text-black',
+      'text-black',
       'hover:bg-tint hover:cursor-pointer',
       'active:bg-active',
       'disabled:opacity-50 disabled:cursor-not-allowed',

@@ -434,7 +434,7 @@ export default function GroupSwitchModal({
           </form>
         )}
         {!isLoading && !showSuccess && !isManualRequest && (
-          <div className="border-t border-default pt-8 mt-8 mb-2">
+          <div className="border-t pt-8 mt-8 mb-2">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
                 <H3 className="text-size-sm">Don't see a group that works?</H3>
@@ -625,7 +625,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   return (
     <div
       className={cn(
-        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-default hover:border-strong',
+        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 hover:border-strong',
         isSelected && 'border-bluedot-normal hover:border-bluedot-normal bg-blue-50',
         isDisabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
         userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',

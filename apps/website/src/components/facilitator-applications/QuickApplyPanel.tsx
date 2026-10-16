@@ -12,7 +12,7 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
   const tint = course.courseSlug ? COURSE_COLORS[course.courseSlug as CourseColorSlug]?.bright : undefined;
 
   return (
-    <li className="border-default relative overflow-hidden rounded-xl border bg-white">
+    <li className="relative overflow-hidden rounded-xl border bg-white">
       {tint && (
         <div
           aria-hidden

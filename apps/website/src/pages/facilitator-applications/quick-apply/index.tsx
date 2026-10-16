@@ -148,7 +148,7 @@ const formatMonthAndYear = (isoDate: string): string => new Date(isoDate).toLoca
 });
 
 const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
-  <header className="border-default flex items-center gap-4 border-b bg-white px-5 py-5 sm:pr-5 sm:pl-10">
+  <header className="flex items-center gap-4 border-b bg-white px-5 py-5 sm:pr-5 sm:pl-10">
     <Link href="/" className="shrink-0">
       <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-5" />
     </Link>
@@ -188,7 +188,7 @@ const Section = ({
   description?: string;
   children: React.ReactNode;
 }) => (
-  <section className="border-default flex flex-col gap-7 rounded-lg border bg-white p-6 sm:p-9">
+  <section className="flex flex-col gap-7 rounded-lg border bg-white p-6 sm:p-9">
     <div className="flex flex-col gap-4">
       <Eyebrow>{label}</Eyebrow>
       <div className="flex flex-col gap-1.5">
@@ -220,7 +220,7 @@ const QuestionCollapsible = ({
   <details
     open={open}
     onToggle={onToggle && ((e) => onToggle(e.currentTarget.open))}
-    className="group border-default rounded-md border bg-white [&_summary::-webkit-details-marker]:hidden"
+    className="group rounded-md border bg-white [&_summary::-webkit-details-marker]:hidden"
   >
     <summary className="text-size-xs text-bluedot-navy flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
       {title}
@@ -373,7 +373,7 @@ const QuickApplyForm = ({
 
   return (
     <Shell subtitle={roundLine || undefined}>
-      <div className="border-default overflow-hidden rounded-lg border">
+      <div className="overflow-hidden rounded-lg border">
         <div className="bg-bluedot-normal h-[9px]" />
         <div className="flex flex-col gap-3 bg-white p-6 sm:p-9">
           {roundLine && <p className="text-size-xs text-bluedot-normal font-medium">{roundLine}</p>}
@@ -598,7 +598,7 @@ const QuickApplyForm = ({
         </Checkbox>
       </Section>
 
-      <div className="border-default rounded-lg border bg-white p-5">
+      <div className="rounded-lg border bg-white p-5">
         <Button onClick={handleSubmit(onSubmit)} disabled={quickApply.isPending}>
           {quickApply.isPending ? 'Submitting…' : 'Submit'}
         </Button>

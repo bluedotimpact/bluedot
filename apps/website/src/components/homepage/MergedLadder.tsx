@@ -51,7 +51,7 @@ const RungHeader = ({ rung }: { rung: Rung }) => (
 const FoaiRungCard = () => (
   <a
     href="/courses/future-of-ai"
-    className="relative rounded-surface border border-default overflow-hidden group cursor-pointer block w-full lg:max-w-[50%] mx-auto"
+    className="relative rounded-surface border overflow-hidden group cursor-pointer block w-full lg:max-w-[50%] mx-auto"
   >
     <div className="absolute inset-0 pointer-events-none" style={{ background: FOAI.gradient }} />
     <div
@@ -104,7 +104,7 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
   return (
     <a
       href={`/courses/${course.slug}`}
-      className="relative rounded-surface border border-default overflow-hidden group cursor-pointer block h-full"
+      className="relative rounded-surface border overflow-hidden group cursor-pointer block h-full"
     >
       <div className="absolute inset-0 pointer-events-none" style={{ background: colors.gradient }} />
       <div

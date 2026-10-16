@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const FacilitatorFeedbackHeader: React.FC<{ roundName?: string }> = ({ roundName }) => (
-  <header className="bg-white border-b border-default flex items-center gap-4 px-5 sm:pl-10 sm:pr-5 py-5">
+  <header className="bg-white border-b flex items-center gap-4 px-5 sm:pl-10 sm:pr-5 py-5">
     <Link href="/" className="shrink-0">
       <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-5" />
     </Link>

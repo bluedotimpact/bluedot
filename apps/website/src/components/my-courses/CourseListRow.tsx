@@ -106,7 +106,7 @@ const CourseListRow = (row: CourseListRowProps) => {
   ) : null;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-default bg-white">
+    <div className="overflow-hidden rounded-xl border bg-white">
       <div className="relative">
         {tint && (
           <div
@@ -189,7 +189,7 @@ const CourseListRow = (row: CourseListRowProps) => {
         )}
       </div>
       {isExpanded && canExpand && (
-        <div className="border-t border-default">
+        <div className="border-t">
           {discussions.length > 0 ? (
             <DiscussionList
               mode={mode}

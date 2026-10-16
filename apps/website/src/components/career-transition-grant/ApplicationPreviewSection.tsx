@@ -30,7 +30,7 @@ const ApplicationPreviewSection = () => {
       <div className="w-full flex flex-col gap-6">
         <H3>Application preview</H3>
         <P className="max-w-3xl">The application takes around 45 minutes. You can prepare the main evidence before you begin.</P>
-        <details className="group overflow-hidden rounded-xl border border-default bg-white">
+        <details className="group overflow-hidden rounded-xl border bg-white">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 font-semibold text-bluedot-navy [&::-webkit-details-marker]:hidden">
             What to prepare
             <PiCaretDown aria-hidden className="size-5 shrink-0 transition-transform group-open:rotate-180" />

@@ -45,20 +45,20 @@ const HomePage = () => {
       </Head>
       <HomeHeroContent />
       {/* Divider */}
-      <div className="border-t-hairline border-default" />
+      <div className="border-t-hairline" />
       <CourseValueProps />
       {/* Divider */}
-      <div className="border-t-hairline border-default" />
+      <div className="border-t-hairline" />
       <MergedLadder />
       {/* Divider */}
-      <div className="border-t-hairline border-default" />
+      <div className="border-t-hairline" />
       {/* Community carousel temporarily hidden until alumni profiles are refreshed and verified. */}
       <EventsSection />
       {/* Divider */}
-      <div className="border-t-hairline border-default" />
+      <div className="border-t-hairline" />
       <StorySection />
       {/* Divider */}
-      <div className="border-t-hairline border-default" />
+      <div className="border-t-hairline" />
       {/* Newsletter Section */}
       <section className="w-full bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20">
         <div className="mx-auto max-w-screen-xl">

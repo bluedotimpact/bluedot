@@ -52,7 +52,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
   const iconPath = getCertificateIconPath(courseSlug);
 
   return (
-    <div className="w-full max-w-text-narrow bg-white rounded-lg border border-default overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
+    <div className="w-full max-w-text-narrow bg-white rounded-lg border overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
       <div className="relative">
         {iconPath && (
           /* Decorative pattern overlay: a 1248x450 grid of icon-masked dots,

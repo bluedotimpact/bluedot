@@ -77,7 +77,7 @@ type IconCellProps = {
 };
 
 const IconCell = ({ name, children, note }: IconCellProps) => (
-  <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-default bg-raised p-4 text-center">
+  <div className="flex flex-col items-center justify-center gap-2 rounded-lg border bg-raised p-4 text-center">
     <div className="text-primary flex min-h-12 items-center justify-center">{children}</div>
     <div className="text-size-xs font-medium text-primary">{name}</div>
     {note && <div className="text-size-xxs text-secondary">{note}</div>}

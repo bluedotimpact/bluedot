@@ -45,11 +45,11 @@ const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => vo
   return (
     <div className="relative shrink-0">
       {isImage && objectUrl ? (
-        <div className="border-default size-12 overflow-hidden rounded-sm border">
+        <div className="size-12 overflow-hidden rounded-sm border">
           <img src={objectUrl} alt={file.name} className="size-full object-cover" />
         </div>
       ) : (
-        <div className="border-default text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-tint px-2">
+        <div className="text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-tint px-2">
           {file.name}
         </div>
       )}
@@ -249,7 +249,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                   'flex flex-col gap-3 rounded-surface border p-3 transition-colors',
                   isDragging
                     ? 'border-bluedot-normal bg-bluedot-normal/[8%] border-dashed'
-                    : 'border-default focus-within:border-bluedot-normal bg-white',
+                    : 'focus-within:border-bluedot-normal bg-white',
                 )}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -342,7 +342,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="border-default text-secondary rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
+                      className="text-secondary rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -367,7 +367,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 type="email"
                 value={email}
                 className={cn(
-                  'border-default rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
+                  'rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
                   emailError && 'border-red-500',
                 )}
                 placeholder="Email"

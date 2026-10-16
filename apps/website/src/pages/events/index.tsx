@@ -53,7 +53,7 @@ const EventsPage = () => {
       <main className="pb-16">
         <section aria-label="Upcoming events" className="section-base pt-6 sm:pt-8">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-            <div className="flex flex-wrap gap-1 rounded-xl border border-default bg-white p-1" aria-label="Event format">
+            <div className="flex flex-wrap gap-1 rounded-xl border bg-white p-1" aria-label="Event format">
               {Object.entries(FILTERS).map(([key, label]) => (
                 <button
                   key={key}
@@ -98,7 +98,7 @@ const EventsPage = () => {
             <>
               <EventAgenda events={visibleEvents} />
               {filteredEvents.length === 0 && (
-                <div className="rounded-2xl border border-default bg-white p-8 text-center">
+                <div className="rounded-2xl border bg-white p-8 text-center">
                   <p className="text-size-md font-semibold">{upcomingEvents.length ? 'No events match these filters.' : 'More events are on the way.'}</p>
                   <p className="mt-3 text-size-sm text-secondary">{upcomingEvents.length ? 'Try another location or browse all upcoming events.' : 'Follow our Luma calendar to hear about the next one.'}</p>
                   {upcomingEvents.length > 0 ? (

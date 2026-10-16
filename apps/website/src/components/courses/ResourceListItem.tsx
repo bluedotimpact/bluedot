@@ -253,7 +253,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                     return 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]';
                   }
 
-                  return 'bg-bluedot-lightest border border-default';
+                  return 'bg-bluedot-lightest border';
                 })()
               }`}
             >
