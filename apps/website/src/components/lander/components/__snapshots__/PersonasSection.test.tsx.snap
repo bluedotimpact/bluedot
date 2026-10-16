@@ -16,7 +16,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
       class="max-w-text-narrow mx-auto flex flex-col gap-4"
     >
       <div
-        class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+        class="rounded-surface border bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="true"
@@ -103,7 +103,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
         </div>
       </div>
       <div
-        class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+        class="rounded-surface border bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="false"
@@ -189,7 +189,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
         </div>
       </div>
       <div
-        class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+        class="rounded-surface border bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="false"

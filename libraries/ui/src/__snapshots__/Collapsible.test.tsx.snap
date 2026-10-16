@@ -3,7 +3,7 @@
 exports[`Collapsible > renders to snapshot 1`] = `
 <div>
   <details
-    class="max-w-max-width border-b border-default py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+    class="max-w-max-width border-b py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
   >
     <summary
       class="flex items-center justify-between cursor-pointer py-6 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"

@@ -13,7 +13,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
       Course information
     </h2>
     <div
-      class="w-full bd-md:max-w-text bg-white border border-default rounded-xl py-8 flex flex-col items-center gap-6"
+      class="w-full bd-md:max-w-text bg-white border rounded-xl py-8 flex flex-col items-center gap-6"
     >
       <div
         class="flex flex-col w-full"
