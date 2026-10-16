@@ -99,17 +99,6 @@ Use these instead of Tailwind's default text sizes:
 | `text-size-lg` | 24px | |
 | `text-size-xl` | 32-48px | |
 
-### Button size override
-
-The component applies its own font size per variant (`medium` uses `text-sm`, `small` uses `text-[13px]`), which can override custom text sizes. To force a specific size:
-
-```tsx
-<Button className="text-[16px]">  {/* overrides medium's text-sm */}
-<Button size="small" className="text-[16px]">  {/* overrides small's text-[13px] */}
-```
-
-This is the one case where a raw `text-[Xpx]` value is acceptable.
-
 ### globals.css scope
 
 `globals.css` is for: CSS reset, base typography, CSS variables, and utilities used site-wide.
