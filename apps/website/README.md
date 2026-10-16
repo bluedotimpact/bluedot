@@ -80,19 +80,6 @@ npm run render-preview # render OG/preview images
 
 If you find yourself duplicating one of these, stop and reuse instead.
 
-### Use named tokens/utilities, not raw colour or size literals
-
-The token system is documented in `apps/storybook/src/GettingStarted.mdx` (browse it via Storybook's "Getting Started" intro page).
-
-| Don't write | Write instead |
-| --- | --- |
-| `text-[#0037ff]`, `bg-[#f5f5f5]` (raw hex) | the semantic role token, e.g. `text-primary`, `bg-canvas`, `bg-accent`; fall back to a palette utility (`bg-bluedot-lighter`) only when no role fits |
-| `text-red-600`, `border-gray-300` (Tailwind default palette) | the status/border role: `text-error-fg`, `border-default` |
-| `bg-color-primary-accent`, `border-color-divider` (removed legacy `color-*` tokens) | `bg-accent`, `border-default`, `text-secondary` |
-| `text-[16px]`, `text-[18px]`, `text-[24px]` | `text-size-sm`, `text-size-md`, `text-size-lg` |
-
-Prefer the semantic role tokens (`text-primary`, `text-secondary`, `bg-canvas`, `border-default`, `bg-accent`; names mirror the Figma variables) and fall back to the `bluedot-*` palette (`bg-bluedot-lighter`) only when no role fits. Size tokens (`text-size-*`) are still preferred over raw px, though exact pixel values for spacing (e.g. `gap-[3px]`) are sometimes OK.
-
 ### Creating a New Component
 
 1. Create the component `.tsx` file in `src/components/`
