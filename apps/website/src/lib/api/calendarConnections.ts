@@ -16,7 +16,7 @@ export async function upsertGoogleConnection({
 }: { userId: string; slackUserId: string; timeZone: string | null; exchange: GoogleTokenExchange }): Promise<void> {
   const now = new Date().toISOString();
   const values = {
-    userId,
+    slackUserId,
     providerAccountEmail: exchange.email,
     encryptedRefreshToken: encryptRefreshToken(exchange.refreshToken),
     scopes: exchange.scopes.join(' '),
@@ -29,10 +29,10 @@ export async function upsertGoogleConnection({
   await db.pg
     .insert(calendarConnectionTable.pg)
     .values({
-      slackUserId, provider: 'google', providerAccountId: exchange.accountId, ...values,
+      userId, provider: 'google', providerAccountId: exchange.accountId, ...values,
     })
     .onConflictDoUpdate({
-      target: [calendarConnectionTable.pg.slackUserId, calendarConnectionTable.pg.provider, calendarConnectionTable.pg.providerAccountId],
+      target: [calendarConnectionTable.pg.userId, calendarConnectionTable.pg.provider, calendarConnectionTable.pg.providerAccountId],
       set: values,
     });
 }

@@ -88,7 +88,7 @@ describe('calendarConnections.disconnect', () => {
   test('leaves the grant alone while the same Google account is still connected for another Slack member', async () => {
     await seed({ id: 'mine', providerAccountId: 'shared-sub' });
     await seed({
-      id: 'other-slack', slackUserId: 'U2', providerAccountId: 'shared-sub', refreshToken: 'rt-other',
+      id: 'other-slack', userId: 'someone-else', slackUserId: 'U2', providerAccountId: 'shared-sub', refreshToken: 'rt-other',
     });
     await createCaller(testAuthContextLoggedIn).calendarConnections.disconnect({ id: 'mine' });
     expect(await ids()).toEqual(['other-slack']);

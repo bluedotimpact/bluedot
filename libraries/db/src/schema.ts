@@ -80,14 +80,15 @@ export const posthogEmittedEventsTable = pgTable('posthog_emitted_events', {
 export type CalendarProvider = 'google';
 
 /**
- * Calendars that Slack members have connected so Dot-to-Dot can find times when both people in a pair are free.
+ * Calendars that BlueDot users have connected so Dot-to-Dot can find times when both people in a pair are free.
  * NOTE: This is a Postgres-only table, NOT synced from Airtable, because it holds OAuth refresh tokens.
- * One row per connected provider account; a member can connect several (e.g. work and personal).
+ * One row per connected provider account per user; a user can connect several (e.g. work and personal).
  */
 export const calendarConnectionTable = deprecationSafePgTable('calendar_connection', {
   columns: {
     id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
-    slackUserId: text().notNull(),
+    // Set when the user connected through a signed Slack link. Null means Dot-to-Dot matches them by account email instead.
+    slackUserId: text(),
     // Points at userTable: the BlueDot account that connected the calendar
     userId: text().notNull(),
     provider: text().$type<CalendarProvider>().notNull(),
@@ -108,9 +109,9 @@ export const calendarConnectionTable = deprecationSafePgTable('calendar_connecti
   },
   indexes: (t) => [
     // Reconnecting the same account updates its row rather than adding a duplicate.
-    // Leading with slackUserId also serves busy-times lookups by Slack member.
-    uniqueIndex('calendar_connection_slackUserId_provider_providerAccountId_idx').on(t.slackUserId, t.provider, t.providerAccountId),
-    index('calendar_connection_userId_idx').on(t.userId),
+    // Leading with userId also serves "this user's calendars" lookups.
+    uniqueIndex('calendar_connection_userId_provider_providerAccountId_idx').on(t.userId, t.provider, t.providerAccountId),
+    index('calendar_connection_slackUserId_idx').on(t.slackUserId),
   ],
 });
 
