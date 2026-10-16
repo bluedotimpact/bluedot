@@ -164,7 +164,7 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-stone-200, currentColor);
+        border-color: var(--color-default, currentColor);
     }
 
     /* h1 and h2 use Inter Display */
