@@ -68,7 +68,7 @@ Always reuse existing components from `@bluedot/ui` and `apps/website/src/compon
 
 ### Component cheat sheet
 
-Before creating a new component, check the shared cheat sheet and override rules in [`libraries/ui/README.md`](../../libraries/ui/README.md), then the website-local list in `README.md` → "Reusing existing components first".
+Before creating a new component, check the shared cheat sheet in [`libraries/ui/README.md`](../../libraries/ui/README.md), then the website-local list in `README.md` → "Reusing existing components first".
 
 ### Text Components Quick Reference
 
