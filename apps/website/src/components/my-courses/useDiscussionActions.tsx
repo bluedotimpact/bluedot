@@ -175,9 +175,15 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
     },
     {
       id: 'facilitated-pill',
-      isVisible: isPast,
+      isVisible: status === 'attended',
       variant: 'inline',
       inline: <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>,
+    },
+    {
+      id: 'absent-pill-facilitator',
+      isVisible: status === 'absent',
+      variant: 'inline',
+      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Absent</StatusPill>,
     },
     {
       id: 'view-attendees',

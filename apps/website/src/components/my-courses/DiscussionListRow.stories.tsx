@@ -91,10 +91,13 @@ export const AllFacilitatorStates: Story = {
       <DiscussionListRow {...args} discussion={upcomingFac} />
       <DiscussionListRow {...args} discussion={soonFac} />
       <DiscussionListRow {...args} discussion={liveFac} />
+      <DiscussionListRow {...args} discussion={pastFac} isAttended />
       <DiscussionListRow {...args} discussion={pastFac} />
     </>
   ),
 };
+
+export const FacilitatorPastAttended: Story = { args: { ...facBaseArgs, discussion: pastFac, isAttended: true } };
 
 export const Upcoming: Story = { args: { ...baseArgs, discussion: upcoming } };
 export const Soon: Story = { args: { ...baseArgs, discussion: soon } };

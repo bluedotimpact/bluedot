@@ -292,9 +292,16 @@ describe('DiscussionListRow', () => {
       expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
     });
 
+    test('past and absent: shows the "Absent" pill instead of "Facilitated"', () => {
+      renderFacRow({ status: 'absent' });
+      expect(screen.getByText('Absent')).toBeInTheDocument();
+      expect(screen.queryByText('Facilitated')).toBeNull();
+    });
+
     test('past: shows the "Facilitated" pill; overflow keeps "View attendees" but drops the mutating actions', () => {
       const { container } = renderFacRow({ status: 'attended' });
       expect(screen.getByText('Facilitated')).toBeInTheDocument();
+      expect(screen.queryByText('Absent')).toBeNull();
       const items = openOverflowAndGetLabels(container, 'desktop');
       expect(items).toContain('View attendees');
       expect(items).not.toContain('Reschedule');
