@@ -30,13 +30,8 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
 
 ## Before you start a task
 
-- **Use `@bluedot/ui` components; don't build bespoke UI.** Find the component in the cheat sheet in [`libraries/ui/README.md`](./libraries/ui/README.md) before you write markup. Rules:
-  1. Use component defaults.
-  2. Text primitives (`H1`–`H4`, `P`, `A`, `Eyebrow`) can take colour and size tokens. Other components take `className` for layout only (margin, width, placement). Colour comes from `variant`/`tone`, and `data-on-dark` on dark surfaces.
-  3. Need any other visual change? Stop and ask the user. Propose a variant on the shared component, not a callsite override.
-  4. Build bespoke only after the user confirms nothing fits. Use tokens only.
+- **Use `@bluedot/ui` components; don't build bespoke UI.** Follow the cheat sheet and override rules in [`libraries/ui/README.md`](./libraries/ui/README.md). Need a visual change the rules don't allow? Stop and ask the user before you build it.
 - Colour: pick the semantic role token first (`text-primary`, `text-secondary`, `bg-canvas`, `bg-raised`, `border-default`, `bg-accent`, `text-error-fg`, `ring-focus`). Names mirror the Figma variables. Fall back to the raw `bluedot-*` palette (`bg-bluedot-lighter`) only when no role fits. Avoid raw hex (`text-[#0037ff]`) and Tailwind's default palette (`text-red-600`, `border-gray-300`). Type uses the size tokens (`text-size-md`). Exact pixel values like `gap-[3px]` are sometimes ok. Tokens are documented in `apps/storybook/src/GettingStarted.mdx` and defined in `libraries/ui/src/default-config/tailwind.css`.
-- Check existing components in Storybook (`apps/storybook/` or [storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org)) before building new ones.
 - **Keep Storybook stories in sync with components.** When you touch a component, update its story in the same PR:
   - **Add** a user-facing component (marketing/landing section, shared primitive, reusable UI piece) → add a `ComponentName.stories.tsx` alongside it with at least a `Default` story plus any variants the component supports. Stories pay off when they expose something the live page doesn't easily show: multiple states (loading/empty/error), prop API surfaces (variants, emphasis levels), auth-gated render paths, or MSW-driven data variations. Skip stories for: pure-logic/utility/admin-internal components; components fully rendered inside an existing parent story (the parent covers them); pure-static marketing sections with no props, no data fetching, and no variants — the live page at the corresponding route is already the canonical preview.
   - **Modify** props or variants of a component that already has a story → update the story's `args` and add a new variant if you introduced one.
