@@ -2,12 +2,11 @@ import { userTable } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
-  CONNECT_PAGE_PATH, GOOGLE_FREEBUSY_SCOPE, InvalidOAuthStateError, STATE_COOKIE_NAME, clearStateCookie, verifyOAuthState,
+  CALENDARS_PAGE_PATH, GOOGLE_FREEBUSY_SCOPE, InvalidOAuthStateError, STATE_COOKIE_NAME, clearStateCookie, verifyOAuthState,
 } from '../../../../lib/api/calendarConnect';
-import { upsertGoogleConnection } from '../../../../lib/api/calendarConnections';
+import { saveGoogleConnection } from '../../../../lib/api/calendarConnections';
 import db from '../../../../lib/api/db';
 import { exchangeGoogleCode } from '../../../../lib/api/googleCalendar';
-import { ROUTES } from '../../../../lib/routes';
 
 export type CalendarConnectError = 'cancelled' | 'missing_scope' | 'expired' | 'failed';
 
@@ -24,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { code, state: rawState, error: googleError } = req.query;
 
   if (typeof rawState !== 'string') {
-    res.redirect(303, connectPageUrl({ error: 'failed', connectToken: null }));
+    res.redirect(303, calendarsPageUrl({ error: 'failed', connectToken: null }));
     return;
   }
 
@@ -34,11 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     if (!(error instanceof InvalidOAuthStateError)) throw error;
     logger.warn(`[CalendarConnect] Rejected OAuth state: ${error.message}`);
-    res.redirect(303, connectPageUrl({ error: error.message === 'expired' ? 'expired' : 'failed', connectToken: null }));
+    res.redirect(303, calendarsPageUrl({ error: error.message === 'expired' ? 'expired' : 'failed', connectToken: null }));
     return;
   }
 
-  const fail = (error: CalendarConnectError) => res.redirect(303, connectPageUrl({ error, connectToken: state.connectToken }));
+  const fail = (error: CalendarConnectError) => res.redirect(303, calendarsPageUrl({ error, connectToken: state.connectToken }));
 
   if (googleError !== undefined || typeof code !== 'string') {
     fail(googleError === 'access_denied' ? 'cancelled' : 'failed');
@@ -59,8 +58,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return;
     }
 
-    await upsertGoogleConnection({
-      userId: user.id, slackUserId: state.slackUserId, timeZone: state.timeZone, exchange,
+    await saveGoogleConnection({
+      userId: user.id, linkedSlackUserId: state.slackUserId, timeZone: state.timeZone, exchange,
     });
   } catch (error) {
     logger.error('[CalendarConnect] Google callback failed', error);
@@ -68,11 +67,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  res.redirect(303, `${ROUTES.account.url}?calendar=connected`);
+  res.redirect(303, `${CALENDARS_PAGE_PATH}?calendar=connected`);
 }
 
-function connectPageUrl({ error, connectToken }: { error: CalendarConnectError; connectToken: string | null }): string {
+function calendarsPageUrl({ error, connectToken }: { error: CalendarConnectError; connectToken: string | null }): string {
   const params = new URLSearchParams({ error });
   if (connectToken) params.set('s', connectToken);
-  return `${CONNECT_PAGE_PATH}?${params.toString()}`;
+  return `${CALENDARS_PAGE_PATH}?${params.toString()}`;
 }

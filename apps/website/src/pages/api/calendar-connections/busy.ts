@@ -8,11 +8,24 @@ const MAX_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
 
 const intervalSchema = z.object({ start: z.string(), end: z.string() });
 
-const requestSchema = z.object({
-  slackUserIds: z.array(z.string().min(1).max(50)).max(500),
+const MAX_MEMBERS = 500;
+const slackUserIdSchema = z.string().min(1).max(50);
+const windowSchema = {
   timeMin: z.string().datetime({ offset: true }),
   timeMax: z.string().datetime({ offset: true }),
-});
+};
+
+// `members` carries each Slack member's email for matching. The older `slackUserIds` shape still works, with no email.
+const requestSchema = z.union([
+  z.object({
+    members: z.array(z.object({ slackUserId: slackUserIdSchema, email: z.string().max(320).nullable() }))
+      .max(MAX_MEMBERS)
+      .refine((members) => new Set(members.map((m) => m.slackUserId)).size === members.length, 'Each slackUserId may appear only once'),
+    ...windowSchema,
+  }),
+  z.object({ slackUserIds: z.array(slackUserIdSchema).max(MAX_MEMBERS), ...windowSchema })
+    .transform(({ slackUserIds, ...rest }) => ({ members: slackUserIds.map((slackUserId) => ({ slackUserId, email: null })), ...rest })),
+]);
 
 // Private endpoint for Dot-to-Dot (bluedotimpact/dot-to-dot src/bluedot.ts). Authenticated by a shared bearer secret,
 // not a user login. Returns only busy intervals; tokens never leave the website.
@@ -27,6 +40,8 @@ export default makeApiRoute({
       email: z.string().nullable(),
       busy: z.array(intervalSchema),
       errors: z.array(z.string()),
+      // How the calendars were found, for Dot-to-Dot's logs
+      matchedBy: z.enum(['slack', 'email']).nullable(),
     })),
   }),
 }, async (rawBody, { raw: { req, res } }) => {
@@ -59,7 +74,7 @@ export default makeApiRoute({
   }
 
   const users = await getBusyTimes({
-    slackUserIds: body.slackUserIds,
+    members: body.members,
     timeMin: new Date(timeMinMs).toISOString(),
     timeMax: new Date(timeMaxMs).toISOString(),
   });

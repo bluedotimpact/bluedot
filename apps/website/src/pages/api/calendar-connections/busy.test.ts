@@ -28,13 +28,13 @@ afterEach(() => {
 });
 
 const seedConnection = async ({
-  id, slackUserId = 'U-ROBIN', refreshToken, email = `${id}@gmail.example`, timeZone = 'Europe/Berlin', updatedAt = '2026-10-15T00:00:00Z',
-}: { id: string; slackUserId?: string; refreshToken: string; email?: string; timeZone?: string | null; updatedAt?: string }) => {
+  id, slackUserId = 'U-ROBIN', userId = 'rec-robin', refreshToken, email = `${id}@gmail.example`, timeZone = 'Europe/Berlin', updatedAt = '2026-10-15T00:00:00Z',
+}: { id: string; slackUserId?: string | null; userId?: string; refreshToken: string; email?: string; timeZone?: string | null; updatedAt?: string }) => {
   google.accounts.set(refreshToken, google.accounts.get(refreshToken) ?? {});
   await testDb.pg.insert(calendarConnectionTable.pg).values({
     id,
     slackUserId,
-    userId: 'rec-robin',
+    userId,
     provider: 'google',
     providerAccountId: `sub-${id}`,
     providerAccountEmail: email,
@@ -117,9 +117,10 @@ describe('POST /api/calendar-connections/busy', () => {
             { start: '2026-10-21T15:00:00.000Z', end: '2026-10-21T16:00:00.000Z' },
           ],
           errors: [],
+          matchedBy: 'slack',
         },
         'U-NOBODY': {
-          connected: false, timeZone: null, email: null, busy: [], errors: [],
+          connected: false, timeZone: null, email: null, busy: [], errors: [], matchedBy: null,
         },
       },
     });
@@ -182,5 +183,81 @@ describe('POST /api/calendar-connections/busy', () => {
 
     const [row] = await testDb.pg.select().from(calendarConnectionTable.pg);
     expect(row?.lastError).toBeNull();
+  });
+
+  describe('matching by email', () => {
+    const members = (list: { slackUserId: string; email: string | null }[]) => ({ members: list, ...WINDOW });
+    type Users = { users: Record<string, { connected: boolean; email: string | null; busy: unknown[]; matchedBy: string | null }> };
+
+    beforeEach(async () => {
+      await testDb.insert(userTable, { id: 'rec-wey', email: 'Wey@BlueDot.example', name: 'Wey' });
+    });
+
+    test('finds an unlinked calendar by account email, ignoring case and spaces', async () => {
+      await seedConnection({
+        id: 'wey', userId: 'rec-wey', slackUserId: null, refreshToken: 'rt-wey',
+      });
+      google.accounts.get('rt-wey')!.busy = [{ start: '2026-10-20T09:00:00Z', end: '2026-10-20T10:00:00Z' }];
+
+      const res = await call({ body: members([{ slackUserId: 'U-WEY', email: '  wey@bluedot.EXAMPLE ' }]) });
+
+      expect(res.statusCode).toBe(200);
+      expect((res.body as Users).users['U-WEY']).toEqual({
+        connected: true,
+        timeZone: 'Europe/Berlin',
+        email: 'Wey@BlueDot.example',
+        busy: [{ start: '2026-10-20T09:00:00.000Z', end: '2026-10-20T10:00:00.000Z' }],
+        errors: [],
+        matchedBy: 'email',
+      });
+    });
+
+    test('a Slack link wins over email', async () => {
+      // Robin's calendar is linked to U-WEY's Slack ID; Wey's own unlinked calendar must not be used for U-WEY
+      await seedConnection({ id: 'robin', slackUserId: 'U-WEY', refreshToken: 'rt-robin' });
+      await seedConnection({
+        id: 'wey', userId: 'rec-wey', slackUserId: null, refreshToken: 'rt-wey',
+      });
+
+      const res = await call({ body: members([{ slackUserId: 'U-WEY', email: 'wey@bluedot.example' }]) });
+      const wey = (res.body as Users).users['U-WEY']!;
+
+      expect(wey.matchedBy).toBe('slack');
+      expect(wey.email).toBe('robin@bluedot.example');
+      expect(google.freeBusyRequests.map((r) => r.accessToken)).toEqual(['access:rt-robin']);
+    });
+
+    test('ignores calendars already linked to a different Slack member', async () => {
+      await seedConnection({
+        id: 'wey', userId: 'rec-wey', slackUserId: 'U-SOMEONE-ELSE', refreshToken: 'rt-wey',
+      });
+
+      const res = await call({ body: members([{ slackUserId: 'U-WEY', email: 'wey@bluedot.example' }]) });
+
+      expect((res.body as Users).users['U-WEY']).toMatchObject({ connected: false, matchedBy: null, email: null });
+      expect(google.freeBusyRequests).toEqual([]);
+    });
+
+    test('a null or unknown email matches nothing', async () => {
+      await seedConnection({
+        id: 'wey', userId: 'rec-wey', slackUserId: null, refreshToken: 'rt-wey',
+      });
+
+      const res = await call({
+        body: members([{ slackUserId: 'U-A', email: null }, { slackUserId: 'U-B', email: 'nobody@example.com' }]),
+      });
+
+      expect((res.body as Users).users).toMatchObject({
+        'U-A': { connected: false, matchedBy: null },
+        'U-B': { connected: false, matchedBy: null },
+      });
+    });
+
+    test('rejects a member without an email field, too many members, and repeated members', async () => {
+      expect((await call({ body: { members: [{ slackUserId: 'U1' }], ...WINDOW } })).statusCode).toBe(400);
+      const many = Array.from({ length: 501 }, (_, i) => ({ slackUserId: `U${i}`, email: null }));
+      expect((await call({ body: members(many) })).statusCode).toBe(400);
+      expect((await call({ body: members([{ slackUserId: 'U1', email: 'a@x.com' }, { slackUserId: 'U1', email: 'b@x.com' }]) })).statusCode).toBe(400);
+    });
   });
 });

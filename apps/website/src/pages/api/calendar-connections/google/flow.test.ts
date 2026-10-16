@@ -111,6 +111,19 @@ const startFlow = async (body: unknown = { connectToken: CONNECT_TOKEN, timeZone
 
 const connections = () => testDb.pg.select().from(calendarConnectionTable.pg);
 
+const seedExisting = ({
+  id = 'existing', userId = 'rec-robin', slackUserId, providerAccountId = 'sub-existing',
+}: { id?: string; userId?: string; slackUserId: string | null; providerAccountId?: string }) => testDb.pg.insert(calendarConnectionTable.pg).values({
+  id,
+  slackUserId,
+  userId,
+  provider: 'google',
+  providerAccountId,
+  providerAccountEmail: `${id}@gmail.example`,
+  encryptedRefreshToken: 'v1.x.y.z',
+  scopes: FULL_SCOPE,
+});
+
 describe('start', () => {
   test('builds the Google consent URL and sets an httpOnly state cookie', async () => {
     const { authUrl } = await startFlow();
@@ -147,31 +160,80 @@ describe('start', () => {
     expect((await start({ body: { connectToken: `${CONNECT_TOKEN.split('.')[0]}.forged` } })).statusCode).toBe(400);
   });
 
-  test('without a link, only works when the account already has a connection to take the Slack member from', async () => {
-    expect((await start({ body: {} })).statusCode).toBe(400);
-
-    await testDb.pg.insert(calendarConnectionTable.pg).values({
-      slackUserId: 'U-EXISTING',
-      userId: 'rec-robin',
-      provider: 'google',
-      providerAccountId: 'sub-1',
-      providerAccountEmail: 'robin@gmail.example',
-      encryptedRefreshToken: 'v1.x.y.z',
-      scopes: FULL_SCOPE,
+  test('works without a link, leaving the calendar unlinked for email matching', async () => {
+    google.codes.set('code-1', {
+      refreshToken: 'rt-personal', sub: 'sub-1', email: 'robin@gmail.example', scope: FULL_SCOPE,
     });
+    const { state, cookie } = await startFlow({ timeZone: 'Europe/Berlin' });
+    const res = await callback({ query: { code: 'code-1', state }, cookie });
+    expect(res.redirectedTo).toBe('/account/calendars?calendar=connected');
+    expect((await connections())[0]).toMatchObject({ userId: 'rec-robin', slackUserId: null, timeZone: 'Europe/Berlin' });
+  });
+
+  test('without a link, a new calendar takes the Slack member the user\'s other calendars are linked to', async () => {
+    await seedExisting({ slackUserId: 'U-EXISTING' });
     google.codes.set('code-work', {
       refreshToken: 'rt-work', sub: 'sub-work', email: 'robin@work.example', scope: FULL_SCOPE,
     });
 
     const { state, cookie } = await startFlow({});
-    const res = await callback({ query: { code: 'code-work', state }, cookie });
-    expect(res.redirectedTo).toBe('/account?calendar=connected');
+    await callback({ query: { code: 'code-work', state }, cookie });
     expect((await connections()).find((c) => c.providerAccountId === 'sub-work')?.slackUserId).toBe('U-EXISTING');
+  });
+
+  test('with a link, claims the Slack member for all the user\'s calendars and takes it off anyone else\'s', async () => {
+    await seedExisting({ id: 'robin-old', slackUserId: null });
+    await testDb.insert(userTable, { id: 'rec-other', email: 'other@bluedot.example', name: 'Other' });
+    await seedExisting({
+      id: 'other-row', userId: 'rec-other', slackUserId: 'U0BASQRM0H2', providerAccountId: 'sub-other',
+    });
+    google.codes.set('code-1', {
+      refreshToken: 'rt-new', sub: 'sub-new', email: 'robin@work.example', scope: FULL_SCOPE,
+    });
+
+    const { state, cookie } = await startFlow();
+    await callback({ query: { code: 'code-1', state }, cookie });
+
+    const rows = await connections();
+    expect(rows.filter((r) => r.userId === 'rec-robin').map((r) => r.slackUserId)).toEqual(['U0BASQRM0H2', 'U0BASQRM0H2']);
+    expect(rows.find((r) => r.id === 'other-row')?.slackUserId).toBeNull();
+  });
+
+  test('if saving fails, the Slack member stays with whoever had it', async () => {
+    await testDb.insert(userTable, { id: 'rec-other', email: 'other@bluedot.example', name: 'Other' });
+    await seedExisting({
+      id: 'other-row', userId: 'rec-other', slackUserId: 'U0BASQRM0H2', providerAccountId: 'sub-other',
+    });
+    google.codes.set('code-1', {
+      refreshToken: 'rt-new', sub: 'sub-new', email: 'robin@work.example', scope: FULL_SCOPE,
+    });
+    const { state, cookie } = await startFlow();
+    // Let the claim updates run inside the transaction, then make the insert fail
+    const realTransaction = testDb.pg.transaction.bind(testDb.pg);
+    vi.spyOn(testDb.pg, 'transaction').mockImplementationOnce(((fn: (tx: object) => Promise<unknown>) => realTransaction((tx) => fn(new Proxy(tx, {
+      get(target, prop) {
+        if (prop === 'insert') {
+          return () => {
+            throw new Error('insert failed');
+          };
+        }
+
+        const value = Reflect.get(target, prop) as unknown;
+        return typeof value === 'function' ? (value as (...args: unknown[]) => unknown).bind(target) : value;
+      },
+    })))) as never);
+
+    const res = await callback({ query: { code: 'code-1', state }, cookie });
+
+    expect(res.redirectedTo).toBe(`/account/calendars?error=failed&s=${CONNECT_TOKEN}`);
+    const rows = await connections();
+    expect(rows.find((r) => r.id === 'other-row')?.slackUserId).toBe('U0BASQRM0H2');
+    expect(rows.filter((r) => r.userId === 'rec-robin')).toEqual([]);
   });
 });
 
 describe('callback', () => {
-  test('stores the connection with an encrypted refresh token, then sends the member to /account', async () => {
+  test('stores the connection with an encrypted refresh token, then sends the member to /account/calendars', async () => {
     google.codes.set('code-1', {
       refreshToken: 'rt-personal', sub: 'google-sub-1', email: 'robin@gmail.example', scope: FULL_SCOPE,
     });
@@ -180,7 +242,7 @@ describe('callback', () => {
     const res = await callback({ query: { code: 'code-1', state }, cookie });
 
     expect(res.statusCode).toBe(303);
-    expect(res.redirectedTo).toBe('/account?calendar=connected');
+    expect(res.redirectedTo).toBe('/account/calendars?calendar=connected');
     expect(res.headers['Set-Cookie']).toContain('Max-Age=0');
     const [row, ...rest] = await connections();
     expect(rest).toEqual([]);
@@ -225,19 +287,19 @@ describe('callback', () => {
     const { state } = await startFlow();
 
     const noCookie = await callback({ query: { code: 'code-1', state } });
-    expect(noCookie.redirectedTo).toBe('/account/calendars/connect?error=failed');
+    expect(noCookie.redirectedTo).toBe('/account/calendars?error=failed');
     const wrongCookie = await callback({ query: { code: 'code-1', state }, cookie: 'someone-elses-nonce' });
-    expect(wrongCookie.redirectedTo).toBe('/account/calendars/connect?error=failed');
+    expect(wrongCookie.redirectedTo).toBe('/account/calendars?error=failed');
     expect(await connections()).toEqual([]);
   });
 
   test('rejects missing, forged and expired state', async () => {
-    expect((await callback({ query: { code: 'c' } })).redirectedTo).toBe('/account/calendars/connect?error=failed');
-    expect((await callback({ query: { code: 'c', state: 'forged' }, cookie: 'n' })).redirectedTo).toBe('/account/calendars/connect?error=failed');
+    expect((await callback({ query: { code: 'c' } })).redirectedTo).toBe('/account/calendars?error=failed');
+    expect((await callback({ query: { code: 'c', state: 'forged' }, cookie: 'n' })).redirectedTo).toBe('/account/calendars?error=failed');
 
     const { state, cookie } = await startFlow();
     vi.setSystemTime(Date.parse('2026-10-19T15:11:00Z'));
-    expect((await callback({ query: { code: 'c', state }, cookie })).redirectedTo).toBe('/account/calendars/connect?error=expired');
+    expect((await callback({ query: { code: 'c', state }, cookie })).redirectedTo).toBe('/account/calendars?error=expired');
   });
 
   test('rejects a state naming a user who no longer exists', async () => {
@@ -247,7 +309,7 @@ describe('callback', () => {
     google.codes.set('code-1', {
       refreshToken: 'rt', sub: 's', email: 'e@example.com', scope: FULL_SCOPE,
     });
-    expect((await callback({ query: { code: 'code-1', state }, cookie: 'n' })).redirectedTo).toBe('/account/calendars/connect?error=failed');
+    expect((await callback({ query: { code: 'code-1', state }, cookie: 'n' })).redirectedTo).toBe('/account/calendars?error=failed');
     expect(await connections()).toEqual([]);
   });
 
@@ -259,19 +321,19 @@ describe('callback', () => {
 
     const res = await callback({ query: { code: 'code-1', state }, cookie });
 
-    expect(res.redirectedTo).toBe(`/account/calendars/connect?error=missing_scope&s=${CONNECT_TOKEN}`);
+    expect(res.redirectedTo).toBe(`/account/calendars?error=missing_scope&s=${CONNECT_TOKEN}`);
     expect(await connections()).toEqual([]);
   });
 
   test('handles cancelling on the Google screen', async () => {
     const { state, cookie } = await startFlow();
     const res = await callback({ query: { error: 'access_denied', state }, cookie });
-    expect(res.redirectedTo).toBe(`/account/calendars/connect?error=cancelled&s=${CONNECT_TOKEN}`);
+    expect(res.redirectedTo).toBe(`/account/calendars?error=cancelled&s=${CONNECT_TOKEN}`);
   });
 
   test('handles a code Google rejects', async () => {
     const { state, cookie } = await startFlow();
     const res = await callback({ query: { code: 'unknown-code', state }, cookie });
-    expect(res.redirectedTo).toBe(`/account/calendars/connect?error=failed&s=${CONNECT_TOKEN}`);
+    expect(res.redirectedTo).toBe(`/account/calendars?error=failed&s=${CONNECT_TOKEN}`);
   });
 });
