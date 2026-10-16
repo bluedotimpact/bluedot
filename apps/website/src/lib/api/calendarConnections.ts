@@ -20,19 +20,7 @@ const BUSY_CONCURRENCY = 5;
 export async function saveGoogleConnection({
   userId, linkedSlackUserId, timeZone, exchange,
 }: { userId: string; linkedSlackUserId: string | null; timeZone: string | null; exchange: GoogleTokenExchange }): Promise<void> {
-  let slackUserId: string | null;
-  if (linkedSlackUserId) {
-    slackUserId = linkedSlackUserId;
-    await db.pg.update(calendarConnectionTable.pg)
-      .set({ slackUserId: null })
-      .where(and(eq(calendarConnectionTable.pg.slackUserId, slackUserId), ne(calendarConnectionTable.pg.userId, userId)));
-    await db.pg.update(calendarConnectionTable.pg)
-      .set({ slackUserId })
-      .where(eq(calendarConnectionTable.pg.userId, userId));
-  } else {
-    slackUserId = await getSlackUserIdForUser(userId);
-  }
-
+  const slackUserId = linkedSlackUserId ?? await getSlackUserIdForUser(userId);
   const values = {
     slackUserId,
     providerAccountEmail: exchange.email,
@@ -44,15 +32,27 @@ export async function saveGoogleConnection({
     updatedAt: new Date().toISOString(),
   };
 
-  await db.pg
-    .insert(calendarConnectionTable.pg)
-    .values({
-      userId, provider: 'google', providerAccountId: exchange.accountId, ...values,
-    })
-    .onConflictDoUpdate({
-      target: [calendarConnectionTable.pg.userId, calendarConnectionTable.pg.provider, calendarConnectionTable.pg.providerAccountId],
-      set: values,
-    });
+  // One transaction, so a failed save never leaves the Slack member taken off someone else without landing here
+  await db.pg.transaction(async (tx) => {
+    if (linkedSlackUserId) {
+      await tx.update(calendarConnectionTable.pg)
+        .set({ slackUserId: null })
+        .where(and(eq(calendarConnectionTable.pg.slackUserId, linkedSlackUserId), ne(calendarConnectionTable.pg.userId, userId)));
+      await tx.update(calendarConnectionTable.pg)
+        .set({ slackUserId: linkedSlackUserId })
+        .where(eq(calendarConnectionTable.pg.userId, userId));
+    }
+
+    await tx
+      .insert(calendarConnectionTable.pg)
+      .values({
+        userId, provider: 'google', providerAccountId: exchange.accountId, ...values,
+      })
+      .onConflictDoUpdate({
+        target: [calendarConnectionTable.pg.userId, calendarConnectionTable.pg.provider, calendarConnectionTable.pg.providerAccountId],
+        set: values,
+      });
+  });
 }
 
 export async function listConnectionsForUser(userId: string): Promise<CalendarConnection[]> {

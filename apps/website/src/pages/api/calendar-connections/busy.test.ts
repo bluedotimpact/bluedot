@@ -253,10 +253,11 @@ describe('POST /api/calendar-connections/busy', () => {
       });
     });
 
-    test('rejects a member without an email field, and too many members', async () => {
+    test('rejects a member without an email field, too many members, and repeated members', async () => {
       expect((await call({ body: { members: [{ slackUserId: 'U1' }], ...WINDOW } })).statusCode).toBe(400);
       const many = Array.from({ length: 501 }, (_, i) => ({ slackUserId: `U${i}`, email: null }));
       expect((await call({ body: members(many) })).statusCode).toBe(400);
+      expect((await call({ body: members([{ slackUserId: 'U1', email: 'a@x.com' }, { slackUserId: 'U1', email: 'b@x.com' }]) })).statusCode).toBe(400);
     });
   });
 });

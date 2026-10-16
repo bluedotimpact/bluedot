@@ -18,7 +18,9 @@ const windowSchema = {
 // `members` carries each Slack member's email for matching. The older `slackUserIds` shape still works, with no email.
 const requestSchema = z.union([
   z.object({
-    members: z.array(z.object({ slackUserId: slackUserIdSchema, email: z.string().max(320).nullable() })).max(MAX_MEMBERS),
+    members: z.array(z.object({ slackUserId: slackUserIdSchema, email: z.string().max(320).nullable() }))
+      .max(MAX_MEMBERS)
+      .refine((members) => new Set(members.map((m) => m.slackUserId)).size === members.length, 'Each slackUserId may appear only once'),
     ...windowSchema,
   }),
   z.object({ slackUserIds: z.array(slackUserIdSchema).max(MAX_MEMBERS), ...windowSchema })

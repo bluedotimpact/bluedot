@@ -198,6 +198,38 @@ describe('start', () => {
     expect(rows.filter((r) => r.userId === 'rec-robin').map((r) => r.slackUserId)).toEqual(['U0BASQRM0H2', 'U0BASQRM0H2']);
     expect(rows.find((r) => r.id === 'other-row')?.slackUserId).toBeNull();
   });
+
+  test('if saving fails, the Slack member stays with whoever had it', async () => {
+    await testDb.insert(userTable, { id: 'rec-other', email: 'other@bluedot.example', name: 'Other' });
+    await seedExisting({
+      id: 'other-row', userId: 'rec-other', slackUserId: 'U0BASQRM0H2', providerAccountId: 'sub-other',
+    });
+    google.codes.set('code-1', {
+      refreshToken: 'rt-new', sub: 'sub-new', email: 'robin@work.example', scope: FULL_SCOPE,
+    });
+    const { state, cookie } = await startFlow();
+    // Let the claim updates run inside the transaction, then make the insert fail
+    const realTransaction = testDb.pg.transaction.bind(testDb.pg);
+    vi.spyOn(testDb.pg, 'transaction').mockImplementationOnce(((fn: (tx: object) => Promise<unknown>) => realTransaction((tx) => fn(new Proxy(tx, {
+      get(target, prop) {
+        if (prop === 'insert') {
+          return () => {
+            throw new Error('insert failed');
+          };
+        }
+
+        const value = Reflect.get(target, prop) as unknown;
+        return typeof value === 'function' ? (value as (...args: unknown[]) => unknown).bind(target) : value;
+      },
+    })))) as never);
+
+    const res = await callback({ query: { code: 'code-1', state }, cookie });
+
+    expect(res.redirectedTo).toBe(`/account/calendars?error=failed&s=${CONNECT_TOKEN}`);
+    const rows = await connections();
+    expect(rows.find((r) => r.id === 'other-row')?.slackUserId).toBe('U0BASQRM0H2');
+    expect(rows.filter((r) => r.userId === 'rec-robin')).toEqual([]);
+  });
 });
 
 describe('callback', () => {
