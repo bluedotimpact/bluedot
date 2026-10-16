@@ -6,7 +6,7 @@ Website-specific rules for LLM assistants. Read the root `CLAUDE.md` first (codi
 
 - [Deployment guardrails](#deployment-guardrails) — staging vs production, what "merged" means
 - [Component architecture guardrails](#component-architecture-guardrails) — self-containment, no prop drilling
-- [Implementing UI](#implementing-ui) — text components, design tokens, globals.css, images
+- [Implementing UI](#implementing-ui) — existing styles, globals.css, images
 - [Comments](#comments) — when and how to comment
 - [Working with data](#working-with-data) — tRPC, schema changes, testing
 - [Preparing a PR](#preparing-a-pr) — test, nginx route, deploy reminders
@@ -55,7 +55,6 @@ const isHomepage = router.pathname === '/';
 
 - Use semantic names: `activeUserItems` not `temp`, `hasActiveItems` not `flag`.
 - Extract repeated logic into well-named functions or components.
-- Apply consistent patterns — prefer Tailwind. Only use inline styles when you can't do it in tailwind
 - Avoid `!important` in CSS — use Tailwind's `!` prefix only when overriding third-party styles.
 
 ---
@@ -64,40 +63,7 @@ const isHomepage = router.pathname === '/';
 
 ### Match existing styles — don't invent new ones
 
-Always reuse existing components from `@bluedot/ui` and `apps/website/src/components/` rather than building from scratch. Don't invent new styles. Ask the user if they have a Figma mockup or a specific page to reference — or if they'd prefer you to just match the existing website styles.
-
-### Component cheat sheet
-
-Before creating a new component, check the shared cheat sheet in [`libraries/ui/README.md`](../../libraries/ui/README.md), then the website-local list in `README.md` → "Reusing existing components first".
-
-### Text Components Quick Reference
-
-Import: `import { H1, H2, H3, H4, P, A } from '@bluedot/ui';`
-(Also available via `@bluedot/ui/src/Text` if you prefer a direct import.)
-
-| Component | Size | Weight | Use for |
-|---|---|---|---|
-| `H1` | 40-56px (`text-size-2xl`) | semibold | Page titles (auto-applies Inter Display) |
-| `H2` | 32-48px (`text-size-xl`) | semibold | Section titles (auto-applies Inter Display) |
-| `H3` | 24px (`text-size-lg`) | semibold | Subsections |
-| `H4` | 18px (`text-size-md`) | semibold | Card titles / labels |
-| `P` | 16px (`text-size-sm`) | normal | Body text (`leading-relaxed` baked in) |
-| `A` | — | — | Links with proper styling |
-
-Prefer bare components — the defaults are the design system. Override only for a genuine semantic reason (on-dark color, smaller card-title size role); don't re-add weight/leading/tracking the default already sets. Marketing heroes use `HeroH1` from `@bluedot/ui`. Leading tokens: `tight` 1.1 / `snug` 1.25 / `normal` 1.4 / `relaxed` 1.6. Tracking tokens: `tighter` -0.02em / `tight` -0.01em / `normal` 0 / `wide` 0.04em — use these, never arbitrary `leading-[...]`/`tracking-[...]` values.
-
-### Custom text size tokens
-
-Use these instead of Tailwind's default text sizes:
-
-| Token | Size | Note |
-|---|---|---|
-| `text-size-xxs` | 12px | |
-| `text-size-xs` | 14px | |
-| `text-size-sm` | 16px | Not the same as Tailwind's `text-sm` |
-| `text-size-md` | 18px | |
-| `text-size-lg` | 24px | |
-| `text-size-xl` | 32-48px | |
+Follow root `CLAUDE.md` → "Before you start a task" for shared components and tokens. Website-local components are listed in `README.md` → "Reusing existing components first". Typography (`H1`–`H4`, `P`, `HeroH1`, size, leading and tracking tokens) is documented in `apps/storybook/src/GettingStarted.mdx`. Ask the user if they have a Figma mockup or a specific page to reference — or if they'd prefer you to just match the existing website styles.
 
 ### globals.css scope
 
