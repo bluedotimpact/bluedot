@@ -18,11 +18,11 @@ export type ButtonProps = {
 } & Omit<ClickTargetProps, 'aria-busy'>;
 
 // `disabled:` applies to buttons, `aria-disabled:` to links. A busy control dims like disabled but keeps focus
-const BASE_STYLES = 'not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50';
+const BASE_STYLES = 'not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50';
 
 const SIZE_STYLES = {
-  small: 'h-9 px-3',
-  medium: 'h-11 px-4',
+  small: 'h-9 px-3 text-size-xs font-semibold',
+  medium: 'h-11 px-4 text-size-xs font-semibold',
   large: 'h-[50px] px-5 text-size-sm font-medium',
 } as const;
 
