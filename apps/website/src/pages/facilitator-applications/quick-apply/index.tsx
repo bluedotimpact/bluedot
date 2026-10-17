@@ -389,7 +389,7 @@ const QuickApplyForm = ({
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-3">
             <label htmlFor="numGroupsToFacilitate" className="text-size-xs text-bluedot-navy font-semibold">
-              # groups to facilitate <span className="text-red-600">*</span>
+              # groups to facilitate <span className="text-error-fg">*</span>
             </label>
             <div className="flex items-center gap-2">
               <Input

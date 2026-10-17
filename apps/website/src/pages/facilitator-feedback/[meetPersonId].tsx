@@ -205,7 +205,7 @@ const FacilitatorFeedbackPage = () => {
 
           <div className="flex flex-col gap-4">
             <p className="text-size-xs font-semibold text-bluedot-navy">
-              Overall rating <span className="text-red-600">*</span>
+              Overall rating <span className="text-error-fg">*</span>
             </p>
             <StarRating rating={overallRating} onChange={setOverallRating} />
           </div>
@@ -213,7 +213,7 @@ const FacilitatorFeedbackPage = () => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label htmlFor="most-valuable" className="text-size-xs font-semibold text-bluedot-navy">
-                What did you find most valuable? <span className="text-red-600">*</span>
+                What did you find most valuable? <span className="text-error-fg">*</span>
               </label>
               <p className="text-size-xs text-secondary">Describe a specific moment or element that stands out.</p>
             </div>
@@ -228,7 +228,7 @@ const FacilitatorFeedbackPage = () => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label htmlFor="difficulties" className="text-size-xs font-semibold text-bluedot-navy">
-                Where did you face difficulties? <span className="text-red-600">*</span>
+                Where did you face difficulties? <span className="text-error-fg">*</span>
               </label>
               <p className="text-size-xs text-secondary">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
             </div>
