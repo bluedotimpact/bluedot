@@ -39,15 +39,15 @@ describe('Button', () => {
   });
 
   test.each([
-    ['small', 'h-9'],
-    ['medium', 'h-11'],
-    ['large', 'h-[50px]'],
-  ] as const)('%s size sets the height', (size, height) => {
+    ['small', 'h-9', 'text-size-xs', 'font-semibold'],
+    ['medium', 'h-11', 'text-size-xs', 'font-semibold'],
+    ['large', 'h-[50px]', 'text-size-sm', 'font-medium'],
+  ] as const)('%s size sets the height and type', (size, height, textSize, weight) => {
     render(<Button size={size}>Click me</Button>);
     const button = screen.getByRole('button');
     expect(button.className).includes(height);
-    expect(button.className).includes('text-size-xs');
-    expect(button.className).includes('font-semibold');
+    expect(button.className).includes(textSize);
+    expect(button.className).includes(weight);
   });
 
   describe('tone', () => {
@@ -107,7 +107,7 @@ describe('Button', () => {
       Click me
     </Button>);
     const button = screen.getByRole('button');
-    expect(button.className).includes('text-size-xs');
+    expect(button.className).includes('text-size-sm');
     expect(button.className).includes('text-bluedot-navy');
   });
 });
