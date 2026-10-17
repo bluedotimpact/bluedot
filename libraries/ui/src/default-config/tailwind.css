@@ -223,6 +223,22 @@
     }
 }
 
+/* Textarea resize grip, drawn inset because the native one sits flush in the corner and can't be moved.
+   Only where the native grip can be hidden (not Firefox). Stroke is text-secondary; data URIs can't read CSS vars.
+   Registered as a bg-image class in cn(), so a caller's `bg-none` removes it. */
+@utility bg-resize-grip {
+    @supports selector(::-webkit-resizer) {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 14' fill='none' stroke='%2313132eb2' stroke-linecap='round'%3E%3Cpath d='M11.875 7L7.5 11.375'/%3E%3Cpath d='M11 2.1875L2.6875 10.5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 4px bottom 4px;
+        background-size: 16px;
+
+        &::-webkit-resizer {
+            display: none;
+        }
+    }
+}
+
 /* Base section class that just applies padding and centering, suitable for nav, footer etc */
 @utility section-base {
     @apply w-full max-w-max-width mx-auto px-spacing-x;
