@@ -126,7 +126,7 @@ const TeamMemberCards = ({ members, subteam }: { members: TeamMembers; subteam?:
               )}
             </div>
             <div className="w-full pt-2 text-left md:pt-3">
-              <NameHeading className="bluedot-h4 not-prose text-size-sm mb-1">{member.name}</NameHeading>
+              <NameHeading className="bluedot-h4 not-prose text-size-xs mb-1 md:text-size-sm">{member.name}</NameHeading>
               <p className="text-size-xs text-secondary">{member.jobTitle}</p>
             </div>
           </div>
