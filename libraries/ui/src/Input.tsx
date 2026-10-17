@@ -44,7 +44,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
   }
 
   return (
-    <div className="relative w-full">
+    <div className={cn('relative w-full', className)}>
       {leading && (
         <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-secondary">
           {leading}
