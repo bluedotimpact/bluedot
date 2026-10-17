@@ -80,6 +80,7 @@ export type { SlideListProps } from './SlideList';
 export { Tag } from './Tag';
 export type { TagProps } from './Tag';
 
+export { ResizeHandleIcon } from './ResizeHandleIcon';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 
