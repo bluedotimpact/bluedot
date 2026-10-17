@@ -1,5 +1,5 @@
 import {
-  H2, ProgressDots, useLatestUtmParams,
+  Eyebrow, H2, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
 import type { Course } from '@bluedot/db';
 import clsx from 'clsx';
@@ -180,9 +180,9 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
       {sections.map((section, index) => (
         section.items.length > 0 && (
           <div key={section.label} className={index > 0 ? 'mt-8' : undefined}>
-            <H2 className="text-size-xxs font-medium text-accent uppercase tracking-wide mb-[30px]">
-              {section.label}
-            </H2>
+            <h2 className="mb-[30px]">
+              <Eyebrow>{section.label}</Eyebrow>
+            </h2>
             {renderItems(section.items)}
           </div>
         )

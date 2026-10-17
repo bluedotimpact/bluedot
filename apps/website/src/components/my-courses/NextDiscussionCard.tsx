@@ -8,7 +8,7 @@ import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { TimeWidget } from './DiscussionListRow';
 import LiveBadge from './LiveBadge';
-import StatusPill, { PendingIcon } from './StatusPill';
+import StatusPill, { PendingIcon } from '../StatusPill';
 
 // The course name stays in the eyebrow in every state (incl. live); the live cue lives in the
 // left graphic. There's no "starting soon" state — a soon discussion reads as a normal upcoming one.

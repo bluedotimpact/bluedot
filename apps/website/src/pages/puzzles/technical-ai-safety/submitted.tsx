@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { H1, P } from '@bluedot/ui';
+import { Eyebrow, H1, P } from '@bluedot/ui';
 import { Nav } from '../../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 import { pageMetaTags, linkPreviewMetaTags } from '../../../lib/linkPreviewMetaTags';
@@ -15,7 +15,6 @@ const TAS = COURSE_COLORS['technical-ai-safety'];
 
 const SECTION_CONTAINER_CLASS = 'max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x';
 const SECTION_PADDING_CLASS = `${SECTION_CONTAINER_CLASS} py-4 bd-md:py-5 lg:py-6`;
-const EYEBROW_CLASS = 'text-size-xxs font-medium uppercase tracking-wide text-secondary';
 
 const BOOKS_URL = 'https://impactbooks.store/collections/bluedot-impact-ai-safety';
 
@@ -94,7 +93,7 @@ const PuzzleSubmittedPage = () => (
       <section>
         <div className={SECTION_PADDING_CLASS}>
           <div className="max-w-text mx-auto">
-            <h2 className={EYEBROW_CLASS}>A free book</h2>
+            <h2><Eyebrow className="text-secondary">A free book</Eyebrow></h2>
             <P className="mt-4 text-size-md leading-relaxed">
               Firstly, claim a
               {' '}
@@ -117,7 +116,7 @@ const PuzzleSubmittedPage = () => (
       <section className="bg-canvas">
         <div className={SECTION_PADDING_CLASS}>
           <div className="max-w-text mx-auto">
-            <h2 className={EYEBROW_CLASS}>What we offer (all for free)</h2>
+            <h2><Eyebrow className="text-secondary">What we offer (all for free)</Eyebrow></h2>
             <ul className="mt-4 space-y-4">
               {OFFERINGS.map((o) => (
                 <li key={o.name} className="flex items-start gap-3">

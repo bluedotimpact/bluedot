@@ -829,14 +829,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               <div
                 class="unit__title-container"
               >
-                <p
-                  class="text-size-xxs font-medium uppercase tracking-wide text-accent mb-2"
+                <span
+                  class="block text-size-xxs font-medium uppercase tracking-wide text-accent mb-2"
                 >
                   Unit 
                   1
                   : 
                   Basic Principles of Fish
-                </p>
+                </span>
                 <h1
                   class="bluedot-h1 not-prose unit__title text-[32px] leading-snug"
                 >

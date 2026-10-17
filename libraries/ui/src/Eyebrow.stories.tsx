@@ -42,3 +42,12 @@ export const DynamicAccent: Story = {
     style: { color: '#a32e00' },
   },
 };
+
+// When the eyebrow is the section heading, wrap it in a bare heading element.
+export const AsHeading: Story = {
+  render: () => (
+    <h2>
+      <Eyebrow className="text-secondary">The puzzle</Eyebrow>
+    </h2>
+  ),
+};

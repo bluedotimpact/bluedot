@@ -10,8 +10,8 @@ export const Eyebrow = ({
   children, className, id, style,
 }: EyebrowProps) => {
   return (
-    <p id={id} style={style} className={cn('text-size-xxs font-medium uppercase tracking-wide text-accent', className)}>
+    <span id={id} style={style} className={cn('block text-size-xxs font-medium uppercase tracking-wide text-accent', className)}>
       {children}
-    </p>
+    </span>
   );
 };

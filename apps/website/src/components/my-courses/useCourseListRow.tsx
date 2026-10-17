@@ -14,7 +14,7 @@ import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
 import type { CourseAction } from './DiscussionListRow';
-import StatusPill, { PendingIcon } from './StatusPill';
+import StatusPill, { PendingIcon } from '../StatusPill';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';

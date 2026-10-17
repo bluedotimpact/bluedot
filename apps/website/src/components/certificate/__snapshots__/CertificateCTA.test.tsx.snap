@@ -12,12 +12,12 @@ exports[`CertificateCTA > renders correctly with valid props 1`] = `
       <div
         class="pt-8 px-6 md:p-10 w-full md:w-[450px] flex flex-col gap-[21px] md:gap-6"
       >
-        <p
-          class="text-size-xxs font-medium uppercase tracking-wide text-accent"
+        <span
+          class="block text-size-xxs font-medium uppercase tracking-wide text-accent"
           style="color: #ff9900;"
         >
           NEXT COHORT
-        </p>
+        </span>
         <div
           class="flex flex-col gap-8"
         >

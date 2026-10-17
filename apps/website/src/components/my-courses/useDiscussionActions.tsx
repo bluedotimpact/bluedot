@@ -6,7 +6,7 @@ import { FaBan, FaCheck } from 'react-icons/fa6';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
-import StatusPill, { PendingIcon } from './StatusPill';
+import StatusPill, { PendingIcon } from '../StatusPill';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
