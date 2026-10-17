@@ -165,7 +165,6 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             id="investment-note"
             value={investmentNote}
             onChange={(e) => setInvestmentNote(e.target.value)}
-            className="min-h-[106px] resize-none"
           />
           {isStandout && (
             <Callout>Sounds like they are a standout – a short note here would help us act on this.</Callout>

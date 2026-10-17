@@ -419,7 +419,7 @@ const QuickApplyForm = ({
               </label>
               <p className="text-size-xxs text-secondary">e.g. on the desired amount/composition of groups</p>
             </div>
-            <Textarea id="formFeedback" className="min-h-24" {...register('formFeedback')} />
+            <Textarea id="formFeedback" {...register('formFeedback')} />
           </div>
         </div>
       </Section>
@@ -438,7 +438,7 @@ const QuickApplyForm = ({
               bullets={question.bullets}
               outro={question.outro}
             >
-              <Textarea aria-label={question.label} className="min-h-24" {...register(question.name)} />
+              <Textarea aria-label={question.label} {...register(question.name)} />
             </QuestionCollapsible>
           ))}
         </div>
@@ -495,7 +495,7 @@ const QuickApplyForm = ({
           <label htmlFor="availabilityComments" className="text-size-xs text-bluedot-navy font-semibold">
             Additional comments
           </label>
-          <Textarea id="availabilityComments" className="min-h-24" {...register('availabilityComments')} />
+          <Textarea id="availabilityComments" {...register('availabilityComments')} />
         </div>
       </Section>
 
