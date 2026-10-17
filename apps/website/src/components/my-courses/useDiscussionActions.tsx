@@ -147,13 +147,15 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
 
 const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
   const {
-    status, discussion, isDownloadingCalendar, onDownloadCalendar,
+    status, discussion, isDownloadingCalendar, onDownloadCalendar, isFacilitatedByCurrentUser = true,
     onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
   } = ctx;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const attendingCount = discussion.participantsExpected?.length ?? 0;
+
+  if (!isFacilitatedByCurrentUser) return [];
 
   return [
     {

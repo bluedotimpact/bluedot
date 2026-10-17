@@ -1242,8 +1242,41 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect((await caller.myBluedot.hasFacilitatorNavItems()).hasFacilitatedCourses).toBe(true);
   });
 
-  test('shows a cover row for an upcoming discussion the person is substituting on, before it happens', async () => {
+  test('exposes facilitator names for the group\'s discussions', async () => {
     await seedSingleGroupFacilitator();
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-other', round: ROUND_ID, role: 'Facilitator', firstName: 'Bob', lastName: 'Baker',
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-covered',
+      group: GROUP_ID,
+      round: ROUND_ID,
+      startDateTime: inOneWeek + ONE_DAY,
+      endDateTime: inOneWeek + ONE_DAY + 60 * 60,
+      facilitators: ['mp-other'],
+      participantsExpected: ['mp-p-a', 'mp-p-b'],
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    const row = result.courses[0]!;
+    expect(row.discussions.map((d) => d.id)).toEqual(['disc-fac', 'disc-covered']);
+    expect(row.facilitatorNamesByMeetPersonId).toEqual({ 'mp-other': 'Bob Baker' });
+    // The next-discussion card only picks discussions the current user runs.
+    expect(result.nextDiscussions.map((n) => n.discussion.id)).toEqual(['disc-fac']);
+  });
+
+  test('shows a substitute only the upcoming discussion they cover, before it happens', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-other',
+      group: GROUP_ID,
+      round: ROUND_ID,
+      startDateTime: inOneWeek + ONE_DAY,
+      endDateTime: inOneWeek + ONE_DAY + 60 * 60,
+      facilitators: ['mp-other'],
+      participantsExpected: ['mp-p-a', 'mp-p-b'],
+    });
     await testDb.update(groupTable, { id: GROUP_ID, facilitator: ['mp-other'] });
     await testDb.update(meetPersonTable, {
       id: MEET_PERSON_ID, groupsAsFacilitator: [], expectedDiscussionsFacilitator: ['disc-fac'], attendedDiscussions: [],

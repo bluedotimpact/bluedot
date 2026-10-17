@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import {
-  render, fireEvent, screen, waitFor,
+  render, fireEvent, screen, waitFor, cleanup,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
@@ -533,6 +533,7 @@ describe('CourseListRow actions', () => {
       isDroppedOut: false,
       isDeferred: false,
       isDeferredToAnotherRound: false,
+      facilitatorNamesByMeetPersonId: {},
       isExpanded: false,
       onToggleExpand: () => {},
       ...overrides,
@@ -630,6 +631,46 @@ describe('CourseListRow actions', () => {
         const items = openOverflowItems(container);
         expect(items).toEqual(expect.arrayContaining(['Open discussion doc', 'Open Slack group', 'View participants']));
         expect(items).not.toContain('Update discussion time');
+      });
+    });
+
+    describe('discussions run by a substitute', () => {
+      const nowSec = Math.floor(Date.now() / 1000);
+      const discussions = [['disc-1', 'mp-alice'], ['disc-2', 'mp-bob']].map(([id, facilitator], i) => createMockGroupDiscussion({
+        id, unitNumber: i + 1, startDateTime: nowSec + (i + 1) * 86400, endDateTime: nowSec + (i + 1) * 86400 + 3600, facilitators: [facilitator!],
+      }));
+      const substitutionProps = (currentUser: string, overrides: Partial<FacilitatorRowProps> = {}) => facProps({
+        isExpanded: true,
+        meetPersonId: currentUser,
+        group: createMockGroup({ facilitator: ['mp-alice'] }),
+        discussions,
+        units: { 'disc-1': createMockUnit({ unitNumber: '1', title: 'Intro' }), 'disc-2': createMockUnit({ unitNumber: '2', title: 'Risks' }) },
+        facilitatorNamesByMeetPersonId: { 'mp-alice': 'Alice Archer', 'mp-bob': 'Bob Baker' },
+        ...overrides,
+      });
+      const discussionRow = (title: string) => screen.getByRole('link', { name: title }).closest('li')!;
+
+      test('group facilitator sees the covered discussion faded, with who covers it', () => {
+        renderFacRow(substitutionProps('mp-alice'));
+        expect(screen.getByText('Covered by Bob Baker')).toBeInTheDocument();
+        expect(screen.queryByText(/Covering for/)).toBeNull();
+        expect(discussionRow('Risks').querySelector('.opacity-60')).not.toBeNull();
+        expect(discussionRow('Intro').querySelector('.opacity-60')).toBeNull();
+      });
+
+      test('substitute sees the discussion they cover, not faded', () => {
+        renderFacRow(substitutionProps('mp-bob', { discussions: discussions.filter((d) => d.facilitators.includes('mp-bob')) }));
+        expect(screen.getByText('Covering for Alice Archer')).toBeInTheDocument();
+        expect(screen.queryByText(/Covered by/)).toBeNull();
+        expect(discussionRow('Risks').querySelector('.opacity-60')).toBeNull();
+      });
+
+      test('falls back to generic wording when no facilitator name is known', () => {
+        renderFacRow(substitutionProps('mp-alice', { facilitatorNamesByMeetPersonId: {} }));
+        expect(screen.getByText('Covered by a substitute')).toBeInTheDocument();
+        cleanup();
+        renderFacRow(substitutionProps('mp-bob', { facilitatorNamesByMeetPersonId: {} }));
+        expect(screen.getByText('Covering as substitute')).toBeInTheDocument();
       });
     });
 
@@ -733,6 +774,7 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     isDroppedOut: false,
     isDeferred: false,
     isDeferredToAnotherRound: false,
+    facilitatorNamesByMeetPersonId: {},
     isExpanded: false,
     onToggleExpand: () => {},
     ...overrides,
@@ -805,10 +847,13 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
     await seedFacilitator();
     const nowSec = Math.floor(Date.now() / 1000);
     const discussion = createMockGroupDiscussion({
-      id: 'disc-1', group: GROUP, unitNumber: 1, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+      id: 'disc-1', group: GROUP, unitNumber: 1, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600, facilitators: ['mp-fac'],
     });
     const { container } = renderInDb(<CourseListRow {...facProps({
       isExpanded: true,
+      group: createMockGroup({
+        id: GROUP, facilitator: ['mp-fac'], slackChannelId: 'C01', discussionDoc: 'https://example.com/doc',
+      }),
       discussions: [discussion],
       units: { 'disc-1': createMockUnit({ unitNumber: '1', title: 'Intro' }) },
     })}
