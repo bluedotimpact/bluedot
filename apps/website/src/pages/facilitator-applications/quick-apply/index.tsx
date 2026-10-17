@@ -448,7 +448,7 @@ const QuickApplyForm = ({
         label="Your availability"
         title={(
           <>
-            Share your availability <span className="text-red-600">*</span>
+            Share your availability <span className="text-error-fg">*</span>
           </>
         )}
         description="Provide your availability so we can schedule your discussions at times that suit you. It'll be saved as a default for your next application."

@@ -100,7 +100,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
-              How did they show up across discussions? <span className="text-red-600">*</span>
+              How did they show up across discussions? <span className="text-error-fg">*</span>
             </p>
             <p className="text-size-xs text-secondary">
               Think about preparation, initiative, and engagement between sessions.
@@ -118,7 +118,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
-              How did they engage with ideas during discussions? <span className="text-red-600">*</span>
+              How did they engage with ideas during discussions? <span className="text-error-fg">*</span>
             </p>
             <p className="text-size-xs text-secondary">
               Think about quality of thinking, willingness to challenge, and depth of engagement.
@@ -135,7 +135,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
 
         <fieldset className="m-0 mt-8 flex flex-col gap-1.5 border-0 p-0">
           <legend className="p-0 text-size-xs font-semibold text-bluedot-navy">
-            How should we follow up with them? <span className="text-red-600">*</span>
+            How should we follow up with them? <span className="text-error-fg">*</span>
           </legend>
           <p className="text-size-xs text-secondary">Check all that apply.</p>
           <div className="mt-2.5 flex flex-col gap-2">

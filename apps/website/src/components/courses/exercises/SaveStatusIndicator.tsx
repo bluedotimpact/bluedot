@@ -59,7 +59,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
         </button>
       </span>
     ),
-    className: 'text-red-600',
+    className: 'text-error-fg',
   },
 });
 
