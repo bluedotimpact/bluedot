@@ -240,6 +240,36 @@ describe('facilitators.savePeerFeedback', () => {
     })).rejects.toThrow('Participant is not in your round');
   });
 
+  test('allows feedback for a participant of another round\'s group the facilitator substituted in', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'other-round-participant',
+      round: 'different-round',
+      role: 'Participant',
+    });
+    await testDb.insert(groupTable, {
+      id: 'other-round-group',
+      groupName: 'Other Round Group',
+      round: 'different-round',
+      facilitator: ['someone-else'],
+      participants: ['other-round-participant'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'other-round-discussion',
+      group: 'other-round-group',
+      facilitators: [FACILITATOR_ID],
+      startDateTime: 1000,
+      endDateTime: 2000,
+    });
+    await testDb.update(meetPersonTable, { id: FACILITATOR_ID, attendedDiscussions: ['other-round-discussion'] });
+
+    await caller.facilitators.savePeerFeedback({ ...baseInput, participantId: 'other-round-participant' });
+
+    const pfs = await testDb.scan(peerFeedbackTable);
+    expect(pfs).toHaveLength(1);
+    expect(pfs[0]!.feedbackRecipient).toEqual(['other-round-participant']);
+  });
+
   test('rejects a Facilitator as a feedback recipient', async () => {
     await seedFacilitatorGroup();
 
