@@ -23,6 +23,13 @@ describe('Input', () => {
     expect(screen.getByRole('textbox', { name: 'Groups' })).toHaveClass('w-16', 'h-11');
   });
 
+  test('applies className to the wrapper when adornments are set', () => {
+    const { container } = render(<Input aria-label="Search" className="mb-4" leading={<span>🔍</span>} />);
+
+    expect(container.firstChild).toHaveClass('mb-4');
+    expect(screen.getByRole('textbox', { name: 'Search' })).not.toHaveClass('mb-4');
+  });
+
   test('disabled blocks input and focus', async () => {
     const user = userEvent.setup();
     render(<Input aria-label="Email" disabled defaultValue="fixed" />);

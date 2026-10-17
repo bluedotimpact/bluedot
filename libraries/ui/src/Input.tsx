@@ -25,6 +25,9 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
   },
   ref,
 ) => {
+  // With adornments the wrapper is the root, so layout classes in className belong on it
+  const isWrapped = !!leading || !!trailing;
+
   const input = (
     <input
       {...props}
@@ -34,17 +37,17 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
         TEXT_INPUT_STYLES,
         leading && 'pl-10',
         trailing && 'pr-11',
-        className,
+        !isWrapped && className,
       )}
     />
   );
 
-  if (!leading && !trailing) {
+  if (!isWrapped) {
     return input;
   }
 
   return (
-    <div className="relative w-full">
+    <div className={cn('relative w-full', className)}>
       {leading && (
         <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-secondary">
           {leading}
