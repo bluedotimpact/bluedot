@@ -111,7 +111,6 @@ export const RescheduleRequestedAbsent: Story = { args: { ...baseArgs, discussio
 
 const coveredByBob = { isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker' };
 const coveringForAlice = { substituteFacilitatorNote: 'Covering for Alice Archer' };
-const readOnly = { isFacilitatedByCurrentUser: false };
 
 /** Rows involved in a substitution, on both sides: the group facilitator's view, then the substitute's. */
 export const AllSubstituteStates: Story = {
@@ -123,7 +122,6 @@ export const AllSubstituteStates: Story = {
       <DiscussionListRow {...args} discussion={upcomingFac} {...coveringForAlice} />
       <DiscussionListRow {...args} discussion={liveFac} {...coveringForAlice} />
       <DiscussionListRow {...args} discussion={pastFac} isAttended {...coveringForAlice} />
-      <DiscussionListRow {...args} discussion={upcomingFac} {...readOnly} />
     </>
   ),
 };
@@ -132,9 +130,7 @@ export const FacilitatorUpcoming: Story = { args: { ...facBaseArgs, discussion: 
 export const FacilitatorSoon: Story = { args: { ...facBaseArgs, discussion: soonFac } };
 export const FacilitatorLive: Story = { args: { ...facBaseArgs, discussion: liveFac } };
 export const FacilitatorPast: Story = { args: { ...facBaseArgs, discussion: pastFac } };
-/** The group facilitator's view of a discussion a substitute runs. */
+/** The group facilitator's view of a discussion a substitute runs: greyed out, no status pill. */
 export const CoveredBySubstitute: Story = { args: { ...facBaseArgs, discussion: upcomingFac, ...coveredByBob } };
 /** The substitute's view of the discussion they cover. */
 export const CoveringForGroupFacilitator: Story = { args: { ...facBaseArgs, discussion: upcomingFac, ...coveringForAlice } };
-/** The substitute's view of the group's other discussions, which the group facilitator runs. */
-export const ReadOnlyRunByGroupFacilitator: Story = { args: { ...facBaseArgs, discussion: upcomingFac, ...readOnly } };

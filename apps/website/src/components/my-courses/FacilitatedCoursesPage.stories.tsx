@@ -101,7 +101,7 @@ const aliceCourses = [
 ];
 const bobCourses = [
   makeRow({
-    viewer: BOB, group: group1, discussions: group1Discussions, registrationId: 'reg-bob',
+    viewer: BOB, group: group1, discussions: group1Discussions.filter((d) => d.facilitators.includes(BOB)), registrationId: 'reg-bob',
   }),
 ];
 
@@ -126,12 +126,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Alice runs Group 1; Bob covers Unit 5 for her. */
+/** Alice runs Group 1; Bob covers Unit 5 for her, so it shows greyed out with no status pill. */
 export const GroupFacilitatorWithCoveredDiscussion: Story = {
   parameters: { msw: { handlers: pageHandlers(aliceCourses) } },
 };
 
-/** Bob has no group of his own and covers Unit 5 of Alice's Group 1. */
+/** Bob has no group of his own and covers Unit 5 of Alice's Group 1, so that is the only discussion he sees. */
 export const SubstituteCoveringOneDiscussion: Story = {
   parameters: { msw: { handlers: pageHandlers(bobCourses) } },
 };

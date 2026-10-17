@@ -658,12 +658,11 @@ describe('CourseListRow actions', () => {
         expect(discussionRow('Intro').querySelector('.opacity-60')).toBeNull();
       });
 
-      test('substitute sees the discussion they cover, and the rest faded with no subtitle', () => {
-        renderFacRow(substitutionProps('mp-bob'));
+      test('substitute sees the discussion they cover, not faded', () => {
+        renderFacRow(substitutionProps('mp-bob', { discussions: discussions.filter((d) => d.facilitators.includes('mp-bob')) }));
         expect(screen.getByText('Covering for Alice Archer')).toBeInTheDocument();
         expect(screen.queryByText(/Covered by/)).toBeNull();
         expect(discussionRow('Risks').querySelector('.opacity-60')).toBeNull();
-        expect(discussionRow('Intro').querySelector('.opacity-60')).not.toBeNull();
       });
 
       test('falls back to generic wording when no facilitator name is known', () => {

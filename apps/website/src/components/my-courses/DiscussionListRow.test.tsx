@@ -339,26 +339,19 @@ describe('DiscussionListRow', () => {
     });
 
     describe('discussions involving a substitute', () => {
-      test('covered by a substitute: greyed row with "Covered by" note, the attending pill and no actions', () => {
+      test('covered by a substitute: greyed row with "Covered by" note, no status pill and no actions', () => {
         const { container } = renderFacRow({
           status: 'upcoming', discussion: withAttendees(3), isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker',
         });
         expect(screen.getByText('Covered by Bob Baker')).toBeInTheDocument();
-        expect(screen.getByText('3 Attending')).toBeInTheDocument();
+        expect(screen.queryByText('3 Attending')).toBeNull();
         expect(openOverflowAndGetLabels(container, 'desktop')).toEqual([]);
         expect(openOverflowAndGetLabels(container, 'mobile')).toEqual([]);
       });
 
-      test('covered and past: keeps the "Facilitated" pill', () => {
+      test('covered and past: no "Facilitated" pill', () => {
         renderFacRow({ status: 'absent', isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker' });
-        expect(screen.getByText('Facilitated')).toBeInTheDocument();
-      });
-
-      test('not facilitated by the current user and no note: read-only row with no actions', () => {
-        const { container } = renderFacRow({ status: 'live', isFacilitatedByCurrentUser: false });
-        expect(screen.queryByText(/Covered by|Covering for/)).toBeNull();
-        expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
-        expect(openOverflowAndGetLabels(container, 'desktop')).toEqual([]);
+        expect(screen.queryByText('Facilitated')).toBeNull();
       });
 
       test('covering for someone: "Covering for" note with the full facilitator actions', () => {

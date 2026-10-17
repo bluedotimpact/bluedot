@@ -1218,7 +1218,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect(result.courses).toEqual([]);
   });
 
-  test('keeps a past round where the group was handed over, listing every discussion of the group', async () => {
+  test('keeps a past round where the group was handed over, showing only the discussions the facilitator attended', async () => {
     await seedSingleGroupFacilitator();
     await testDb.insert(groupDiscussionTable, {
       id: 'disc-fac-2',
@@ -1238,7 +1238,7 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     const result = await caller.myBluedot.facilitatedCoursesPage();
 
     expect(result.courses.map((c) => c.group?.id)).toEqual([GROUP_ID]);
-    expect(result.courses[0]!.discussions.map((d) => d.id)).toEqual(['disc-fac', 'disc-fac-2']);
+    expect(result.courses[0]!.discussions.map((d) => d.id)).toEqual(['disc-fac']);
     expect((await caller.myBluedot.hasFacilitatorNavItems()).hasFacilitatedCourses).toBe(true);
   });
 
@@ -1266,8 +1266,17 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect(result.nextDiscussions.map((n) => n.discussion.id)).toEqual(['disc-fac']);
   });
 
-  test('shows a cover row for an upcoming discussion the person is substituting on, before it happens', async () => {
+  test('shows a substitute only the upcoming discussion they cover, before it happens', async () => {
     await seedSingleGroupFacilitator();
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-other',
+      group: GROUP_ID,
+      round: ROUND_ID,
+      startDateTime: inOneWeek + ONE_DAY,
+      endDateTime: inOneWeek + ONE_DAY + 60 * 60,
+      facilitators: ['mp-other'],
+      participantsExpected: ['mp-p-a', 'mp-p-b'],
+    });
     await testDb.update(groupTable, { id: GROUP_ID, facilitator: ['mp-other'] });
     await testDb.update(meetPersonTable, {
       id: MEET_PERSON_ID, groupsAsFacilitator: [], expectedDiscussionsFacilitator: ['disc-fac'], attendedDiscussions: [],

@@ -385,6 +385,7 @@ const substituteCoveringOneDiscussionArgs = stubFacilitator({
   ...groupFacilitatorWithCoveredDiscussionArgs,
   courseRegistration: { ...groupFacilitatorWithCoveredDiscussionArgs.courseRegistration, id: 'reg-fac-bob' },
   meetPersonId: BOB,
+  discussions: group7Discussions.filter((d) => d.facilitators.includes(BOB)),
   attendedDiscussionIds: [],
 });
 
@@ -478,7 +479,7 @@ export const FacilitatorAwaitingGroup: Story = { args: facilitatorAwaitingGroupA
 export const FacilitatorPastNeedFeedback: Story = { args: facilitatorPastNeedFeedbackArgs };
 export const FacilitatorPastFeedbackSubmitted: Story = { args: facilitatorPastFeedbackSubmittedArgs };
 
-/** The group facilitator's view: a substitute runs Unit 3. */
+/** The group facilitator's view: a substitute runs Unit 3, which shows greyed out with no status pill. */
 export const GroupFacilitatorWithCoveredDiscussion: Story = { args: groupFacilitatorWithCoveredDiscussionArgs };
-/** The substitute's view of the same group: they run Unit 3, the group facilitator runs the rest. */
+/** The substitute's view of the same group: only Unit 3, the discussion they cover. */
 export const SubstituteCoveringOneDiscussion: Story = { args: substituteCoveringOneDiscussionArgs };

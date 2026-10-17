@@ -550,9 +550,12 @@ export const myBluedotRouter = router({
         return isLive || hasGroup ? [emptyRow] : [];
       }
 
+      const ownDiscussionIds = new Set(discussionIdsForMeetPerson(meetPerson));
+
       return groupsForCr.map((group): FacilitatorRowProps => {
+        const seesWholeGroup = isGroupFacilitator(group, meetPerson.id);
         const groupDiscussions = facilitatedGroupDiscussions
-          .filter((d) => d.group === group.id)
+          .filter((d) => d.group === group.id && (seesWholeGroup || ownDiscussionIds.has(d.id)))
           .sort((a, b) => a.startDateTime - b.startDateTime);
 
         const courseUnits: Record<string, Unit> = {};

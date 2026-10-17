@@ -155,19 +155,7 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
   const isPast = status === 'attended' || status === 'absent';
   const attendingCount = discussion.participantsExpected?.length ?? 0;
 
-  const attendingPill = <StatusPill>{attendingCount} Attending</StatusPill>;
-  const facilitatedPill = <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>;
-
-  if (!isFacilitatedByCurrentUser) {
-    return [
-      {
-        id: 'attending-pill', isVisible: !isPast, variant: 'inline', inline: attendingPill,
-      },
-      {
-        id: 'facilitated-pill', isVisible: isPast, variant: 'inline', inline: facilitatedPill,
-      },
-    ];
-  }
+  if (!isFacilitatedByCurrentUser) return [];
 
   return [
     {
@@ -185,13 +173,13 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attending-pill',
       isVisible: !isPast && status !== 'live',
       variant: 'inline',
-      inline: attendingPill,
+      inline: <StatusPill>{attendingCount} Attending</StatusPill>,
     },
     {
       id: 'facilitated-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: facilitatedPill,
+      inline: <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>,
     },
     {
       id: 'absent-pill-facilitator',
