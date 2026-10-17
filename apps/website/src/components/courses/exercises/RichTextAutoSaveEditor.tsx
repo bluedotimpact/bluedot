@@ -279,9 +279,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
           />
         </div>
         {/* Custom drag notches overlay */}
-        <div className="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
-          <ResizeHandleIcon className="text-bluedot-navy/60" />
-        </div>
+        <ResizeHandleIcon className="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary" />
       </div>
       {!disabled && (
         <SaveStatusIndicator
