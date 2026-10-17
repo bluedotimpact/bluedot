@@ -40,7 +40,7 @@ type MenuContentProps = {
 // Trigger button styled as secondary. Menu items are the primary actions
 const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
 
-const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) => {
+const MenuContent = ({ items, isOpen, setIsOpen }: MenuContentProps) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
   const handleAction = (key: React.Key) => {
@@ -98,12 +98,12 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
   return null;
 };
 
-export const OverflowMenu: React.FC<OverflowMenuProps> = ({
+export const OverflowMenu = ({
   items,
   buttonClassName,
   'aria-label': ariaLabel = 'More options',
   trigger,
-}) => {
+}: OverflowMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

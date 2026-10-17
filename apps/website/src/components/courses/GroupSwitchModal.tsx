@@ -588,7 +588,7 @@ type GroupSwitchOptionProps = {
   canSubmit?: boolean;
 };
 
-const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
+const GroupSwitchOption = ({
   groupName,
   dateTime,
   disabled,
@@ -601,7 +601,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   onConfirm,
   isSubmitting,
   canSubmit,
-}) => {
+}: GroupSwitchOptionProps) => {
   const displayDate = useMemo(() => {
     if (!dateTime) {
       return null;

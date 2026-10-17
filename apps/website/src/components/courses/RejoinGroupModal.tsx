@@ -4,7 +4,6 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
-import type React from 'react';
 import { useMemo, useState } from 'react';
 import { FaCheck, FaUser } from 'react-icons/fa6';
 import type { AppRouter } from '../../server/routers/_app';
@@ -168,14 +167,14 @@ type RejoinGroupOptionProps = {
   onJoin: () => void;
 };
 
-const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
+const RejoinGroupOption = ({
   groupName,
   dateTime,
   spotsLeftIfKnown,
   disabled,
   isSubmitting,
   onJoin,
-}) => {
+}: RejoinGroupOptionProps) => {
   const displayDate = useMemo(() => {
     if (!dateTime) return null;
     return formatDateMonthAndDay(dateTime);

@@ -52,13 +52,13 @@ type GroupDiscussionBannerProps = {
   pendingSwitchType?: SwitchType | null;
 };
 
-const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
+const GroupDiscussionBanner = ({
   unit,
   groupDiscussion,
   userRole,
   hostKeyForFacilitators,
   pendingSwitchType = null,
-}) => {
+}: GroupDiscussionBannerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
@@ -421,7 +421,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   );
 };
 
-const IndicatorIcon: React.FC<{ isLive: boolean }> = ({ isLive }) => (
+const IndicatorIcon = ({ isLive }: { isLive: boolean }) => (
   <div className={clsx(
     'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
     isLive ? 'bg-bluedot-normal font-bold border-4 rounded-lg' : 'bg-white border rounded',

@@ -1,5 +1,4 @@
 import { type ReactNode } from 'react';
-import type React from 'react';
 import {
   Dialog,
   Modal as AriaModal,
@@ -32,7 +31,7 @@ export type ModalProps = {
   footer?: ReactNode;
 };
 
-const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
+const DesktopModal = ({
   isOpen,
   setIsOpen,
   title,
@@ -40,7 +39,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   'aria-label': ariaLabel,
   isDismissable = true,
   footer,
-}) => {
+}: Omit<ModalProps, 'bottomDrawerOnMobile'>) => {
   return (
     <ModalOverlay
       isDismissable={isDismissable}
@@ -71,7 +70,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   );
 };
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal = ({
   isOpen,
   setIsOpen,
   title,
@@ -80,7 +79,7 @@ export const Modal: React.FC<ModalProps> = ({
   'aria-label': ariaLabel,
   isDismissable,
   footer,
-}) => {
+}: ModalProps) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
   // Don't render anything until breakpoint is determined to avoid desktop flicker

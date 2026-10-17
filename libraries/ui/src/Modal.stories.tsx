@@ -13,12 +13,12 @@ type ModalDemoProps = Omit<ModalProps, 'isOpen' | 'setIsOpen' | 'children'> & {
   openLabel?: string;
 };
 
-const ModalDemo: React.FC<ModalDemoProps> = ({
+const ModalDemo = ({
   initialOpen = false,
   openLabel = 'Open modal',
   children,
   ...props
-}) => {
+}: ModalDemoProps) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   return (

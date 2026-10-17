@@ -13,7 +13,7 @@ type AddParticipantModalProps = {
   onClose: () => void;
 };
 
-const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId, excludeIds, onAdd, onClose }) => {
+const AddParticipantModal = ({ meetPersonId, excludeIds, onAdd, onClose }: AddParticipantModalProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { data, isLoading, isError } = trpc.facilitators.searchAddableParticipants.useQuery({
