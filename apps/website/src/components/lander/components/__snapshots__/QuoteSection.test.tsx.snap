@@ -21,72 +21,135 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
           class="flex justify-center w-full"
         >
           <div
-            class="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10"
+            class="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10 grid"
           >
             <div
-              class="w-full rounded-xl overflow-hidden"
-              style="background-color: var(--bluedot-lightest);"
+              aria-hidden="false"
+              class="[grid-area:1/1] visible"
             >
               <div
-                class="flex flex-col lg:flex-row-reverse w-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
+                class="w-full h-full rounded-xl overflow-hidden"
+                style="background-color: var(--bluedot-lightest);"
               >
                 <div
-                  class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
+                  class="flex flex-col lg:flex-row-reverse w-full h-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
                 >
-                  <blockquote
-                    class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                    style="color: var(--bluedot-navy);"
-                  >
-                    "AI could surpass almost all humans at almost everything shortly after 2027."
-                  </blockquote>
                   <div
-                    class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                    class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
+                  >
+                    <blockquote
+                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                      style="color: var(--bluedot-navy);"
+                    >
+                      "AI could surpass almost all humans at almost everything shortly after 2027."
+                    </blockquote>
+                    <div
+                      class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                    >
+                      <a
+                        class="cursor-pointer"
+                        href="https://example.com/source"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          alt="Dario Amodei"
+                          class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                          src="/images/lander/foai/dario.webp"
+                        />
+                      </a>
+                      <div
+                        class="flex flex-col items-center lg:items-start"
+                      >
+                        <div
+                          class="text-size-md leading-tight font-semibold"
+                          style="color: var(--bluedot-navy);"
+                        >
+                          Dario Amodei
+                        </div>
+                        <div
+                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
+                          style="color: var(--bluedot-navy);"
+                        >
+                          CEO, Anthropic
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
                   >
                     <a
-                      class="cursor-pointer"
+                      class="block size-full cursor-pointer"
                       href="https://example.com/source"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <img
                         alt="Dario Amodei"
-                        class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        class="size-full object-cover rounded-l-xl"
                         src="/images/lander/foai/dario.webp"
                       />
                     </a>
-                    <div
-                      class="flex flex-col items-center lg:items-start"
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              aria-hidden="true"
+              class="[grid-area:1/1] invisible"
+            >
+              <div
+                class="w-full h-full rounded-xl overflow-hidden"
+                style="background-color: var(--bluedot-lightest);"
+              >
+                <div
+                  class="flex flex-col lg:flex-row-reverse w-full h-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
+                >
+                  <div
+                    class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
+                  >
+                    <blockquote
+                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                      style="color: var(--bluedot-navy);"
                     >
+                      "The downside is, at some point, humanity loses control."
+                    </blockquote>
+                    <div
+                      class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                    >
+                      <img
+                        alt="Sundar Pichai"
+                        class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        src="/images/agi-strategy/sundar.webp"
+                      />
                       <div
-                        class="text-size-md leading-tight font-semibold"
-                        style="color: var(--bluedot-navy);"
+                        class="flex flex-col items-center lg:items-start"
                       >
-                        Dario Amodei
-                      </div>
-                      <div
-                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                        style="color: var(--bluedot-navy);"
-                      >
-                        CEO, Anthropic
+                        <div
+                          class="text-size-md leading-tight font-semibold"
+                          style="color: var(--bluedot-navy);"
+                        >
+                          Sundar Pichai
+                        </div>
+                        <div
+                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
+                          style="color: var(--bluedot-navy);"
+                        >
+                          CEO, Google
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
-                >
-                  <a
-                    class="block size-full cursor-pointer"
-                    href="https://example.com/source"
-                    rel="noopener noreferrer"
-                    target="_blank"
+                  <div
+                    class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
                   >
                     <img
-                      alt="Dario Amodei"
+                      alt="Sundar Pichai"
                       class="size-full object-cover rounded-l-xl"
-                      src="/images/lander/foai/dario.webp"
+                      src="/images/agi-strategy/sundar.webp"
                     />
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -103,11 +166,11 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
             class="lg:w-[928px] xl:w-[1120px] relative z-10"
           >
             <div
-              class="w-full rounded-xl overflow-hidden"
+              class="w-full h-full rounded-xl overflow-hidden"
               style="background-color: var(--bluedot-lightest);"
             >
               <div
-                class="flex flex-col lg:flex-row-reverse w-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
+                class="flex flex-col lg:flex-row-reverse w-full h-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
               >
                 <div
                   class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
