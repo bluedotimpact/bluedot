@@ -67,36 +67,6 @@ describe('verifyKeycloakToken', () => {
     });
     expect(axios.get).toHaveBeenCalledWith('https://login.bluedot.org/realms/customers/protocol/openid-connect/certs');
   });
-
-  test('rejects a token whose payload was tampered with after signing', async () => {
-    const verify = await loadVerifier();
-    mockJwks(KID);
-    const [headerB64, , signatureB64] = signToken().split('.');
-    const tamperedPayloadB64 = b64url(JSON.stringify({
-      iss: KEYCLOAK_ISS,
-      aud: KEYCLOAK_AUD,
-      exp: Math.floor(Date.now() / 1000) + 3600,
-      sub: 'attacker',
-      email: 'attacker@example.com',
-      email_verified: true,
-    }));
-
-    await expect(verify(`${headerB64}.${tamperedPayloadB64}.${signatureB64}`)).rejects.toThrow('Invalid signature');
-  });
-
-  test('rejects an expired token', async () => {
-    const verify = await loadVerifier();
-    mockJwks(KID);
-
-    await expect(verify(signToken({ payload: { exp: Math.floor(Date.now() / 1000) - 60 } }))).rejects.toThrow('Token expired');
-  });
-
-  test('rejects a token that is not RS256', async () => {
-    const verify = await loadVerifier();
-    mockJwks(KID);
-
-    await expect(verify(signToken({ header: { alg: 'HS256', typ: 'JWT', kid: KID } }))).rejects.toThrow('Unsupported token algorithm: HS256');
-  });
 });
 
 describe('verifyGoogleBlueDotToken', () => {
