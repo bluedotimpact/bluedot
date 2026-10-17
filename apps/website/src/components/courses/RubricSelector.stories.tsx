@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type React from 'react';
 import { useState } from 'react';
 import { RubricSelector } from './ParticipantFeedbackModal';
 
@@ -11,7 +10,7 @@ const SAMPLE_OPTIONS = [
   { value: 1, label: 'Frequently unprepared or disengaged', description: 'Little evidence of investment in the material or the cohort beyond showing up.' },
 ];
 
-const RubricSelectorWrapper: React.FC = () => {
+const RubricSelectorWrapper = () => {
   const [value, setValue] = useState<number | null>(null);
 
   return (
