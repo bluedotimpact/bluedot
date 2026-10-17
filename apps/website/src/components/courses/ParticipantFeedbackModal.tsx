@@ -172,7 +172,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-subtle">
-          <p className="text-size-xxs text-secondary">Changes save when you click "Done"</p>
+          <p className="text-size-xs text-secondary">Changes save when you click "Done"</p>
           <div className="flex gap-2.5">
             <Button variant="outline-black" onClick={onClose} disabled={savePeerFeedback.isPending}>
               Cancel
@@ -242,7 +242,7 @@ export const RubricSelector = ({ name, 'aria-labelledby': ariaLabelledBy, option
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
               <p className="text-size-xs leading-normal text-bluedot-navy">{option.label}</p>
               {isSelected && (
-                <p className="text-size-xxs leading-relaxed text-bluedot-navy mt-1.5">{option.description}</p>
+                <p className="text-size-xs leading-relaxed text-bluedot-navy mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (

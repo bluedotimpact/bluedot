@@ -98,7 +98,7 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
       {Icon && <Icon size={20} className="shrink-0 self-start" aria-hidden="true" />}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="text-size-xs font-semibold break-words">{toast.message}</p>
-        {toast.description && <p className="text-size-xxs font-normal break-words">{toast.description}</p>}
+        {toast.description && <p className="text-size-xs font-normal break-words">{toast.description}</p>}
       </div>
       <button
         type="button"

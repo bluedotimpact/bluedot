@@ -36,7 +36,7 @@ const AdminDeletionRequests = withAdminGuard(() => {
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 <p className="font-semibold text-bluedot-navy break-words">{selectedUser.name || '(no name)'}</p>
                 <p className="text-size-xs text-secondary break-words">{selectedUser.email}</p>
-                <p className="text-size-xxs text-secondary">User ID: <code>{selectedUser.id}</code></p>
+                <p className="text-size-xs text-secondary">User ID: <code>{selectedUser.id}</code></p>
               </>
             ) : (
               <p className="text-size-xs text-secondary">No user selected.</p>
@@ -44,7 +44,7 @@ const AdminDeletionRequests = withAdminGuard(() => {
             <button
               type="button"
               onClick={() => setIsSelectUserModalOpen(true)}
-              className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
+              className="self-start text-size-xs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
             >
               {selectedUser ? 'Select a different user' : 'Select user'}
             </button>

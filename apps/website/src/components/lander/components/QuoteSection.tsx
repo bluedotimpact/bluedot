@@ -48,7 +48,7 @@ const FONT_SIZE_THRESHOLDS = {
 } as const;
 
 const FONT_SIZE_CLASSES = {
-  EXTRA_LONG: 'text-size-xxs sm:text-size-xs bd-md:text-size-sm xl:text-size-md', // For quotes > 400 chars
+  EXTRA_LONG: 'text-size-xs bd-md:text-size-sm xl:text-size-md', // For quotes > 400 chars
   LONG: 'text-size-sm sm:text-size-md xl:text-size-lg', // For quotes 200-400 chars
   DEFAULT: 'text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
 } as const;

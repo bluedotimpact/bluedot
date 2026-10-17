@@ -63,7 +63,7 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
           <p className="text-size-sm font-semibold leading-relaxed text-bluedot-black">{title}</p>
         )}
         {downloadError && (
-          <p className="mt-1 text-size-xxs text-red-600" role="alert" aria-live="polite">{downloadError}</p>
+          <p className="mt-1 text-size-xs text-error-fg" role="alert" aria-live="polite">{downloadError}</p>
         )}
       </div>
       <div className="flex shrink-0 items-center gap-3">
@@ -90,7 +90,7 @@ export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateT
     {isLive ? <LiveBadge /> : (
       <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
         <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>
-        <div className="text-size-xxs font-medium leading-normal text-secondary">{formatTime12HourClock(dateTimeSeconds)}</div>
+        <div className="text-size-xs font-medium leading-normal text-secondary">{formatTime12HourClock(dateTimeSeconds)}</div>
       </div>
     )}
   </div>

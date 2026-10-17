@@ -30,7 +30,7 @@ const EventCard = ({ event, campaign, titleHeading: TitleHeading }: {
           )}
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-size-xxs font-medium leading-relaxed text-secondary sm:text-size-xs">{buildTimeDeltaString(event)}</p>
+          <p className="text-size-xs font-medium leading-relaxed text-secondary">{buildTimeDeltaString(event)}</p>
           <TitleHeading className="mt-1 text-size-sm font-semibold leading-snug tracking-tight text-bluedot-navy group-hover:text-bluedot-normal sm:text-size-md">{event.title}</TitleHeading>
           <p className="mt-2 flex items-center gap-1.5 text-size-xs leading-relaxed text-secondary">
             <LocationIcon className="size-3 shrink-0" aria-hidden="true" />

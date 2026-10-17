@@ -141,16 +141,16 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
                   <p className="font-semibold text-bluedot-navy break-words">{user.name || '(no name)'}</p>
                   <p className="text-size-xs text-secondary break-words" title={user.email}>{maskEmail(user.email)}</p>
                   {user.lastSeenAt && (
-                    <p className="text-size-xxs text-secondary mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
+                    <p className="text-size-xs text-secondary mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
                   )}
                 </>
               )}
               {!user && userId && <p className="text-size-xs text-secondary">Loading user...</p>}
-              {userId && <p className="text-size-xxs text-secondary">User ID: <code>{userId}</code></p>}
+              {userId && <p className="text-size-xs text-secondary">User ID: <code>{userId}</code></p>}
               <button
                 type="button"
                 onClick={() => setIsSelectUserModalOpen(true)}
-                className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
+                className="self-start text-size-xs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
               >
                 Select user
               </button>

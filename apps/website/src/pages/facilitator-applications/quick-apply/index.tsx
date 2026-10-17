@@ -230,7 +230,7 @@ const QuestionCollapsible = ({
       />
     </summary>
     <div className="flex flex-col gap-3 px-3 pb-4">
-      <div className="text-size-xxs text-secondary flex flex-col gap-1">
+      <div className="text-size-xs text-secondary flex flex-col gap-1">
         {intro && <p>{intro}</p>}
         {bullets && (
           <ul className="list-disc space-y-0.5 pl-[18px]">
@@ -266,9 +266,9 @@ const DetailsField = ({
       {label}
       {required && <span className="text-error-fg"> *</span>}
     </label>
-    {hint && <p className="text-size-xxs text-secondary">{hint}</p>}
+    {hint && <p className="text-size-xs text-secondary">{hint}</p>}
     {children}
-    {error && <p className="text-size-xxs text-error-fg">{error}</p>}
+    {error && <p className="text-size-xs text-error-fg">{error}</p>}
   </div>
 );
 
@@ -417,7 +417,7 @@ const QuickApplyForm = ({
               <label htmlFor="formFeedback" className="text-size-xs text-bluedot-navy font-semibold">
                 Any requests or special information?
               </label>
-              <p className="text-size-xxs text-secondary">e.g. on the desired amount/composition of groups</p>
+              <p className="text-size-xs text-secondary">e.g. on the desired amount/composition of groups</p>
             </div>
             <Textarea id="formFeedback" {...register('formFeedback')} />
           </div>
@@ -475,7 +475,7 @@ const QuickApplyForm = ({
           <button
             type="button"
             onClick={() => setValue('timeAv', {})}
-            className="text-size-xxs text-secondary cursor-pointer font-medium underline"
+            className="text-size-xs text-secondary cursor-pointer font-medium underline"
           >
             Clear availability selection
           </button>
@@ -513,7 +513,7 @@ const QuickApplyForm = ({
             <span className="flex min-w-0 flex-col gap-0.5">
               <span>{hasPriorDetails ? 'Update your details' : 'Your details'}</span>
               {detailsLine && (
-                <span className="text-size-xxs text-secondary truncate font-medium">{detailsLine}</span>
+                <span className="text-size-xs text-secondary truncate font-medium">{detailsLine}</span>
               )}
             </span>
           )}
@@ -589,7 +589,7 @@ const QuickApplyForm = ({
             <span className="text-size-xs text-bluedot-navy font-semibold">
               Share my data with third-party AI safety organisations
             </span>
-            <span className="text-size-xxs text-secondary">
+            <span className="text-size-xs text-secondary">
               If you opt in, we may share parts of this application and your course participation with
               organisations we trust. They sometimes email people about jobs or other opportunities. It
               won’t affect your application decision.

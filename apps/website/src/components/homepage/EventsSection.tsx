@@ -29,7 +29,7 @@ const EventsSection = () => {
         )}
         {!isLoading && !error && displayEvents.length > 0 && (
           <>
-            <p className="mb-6 text-size-xxs leading-relaxed text-secondary">Online events in your time. In-person events in venue time.</p>
+            <p className="mb-6 text-size-xs leading-relaxed text-secondary">Online events in your time. In-person events in venue time.</p>
             <EventAgenda events={displayEvents} campaign="events-section" />
           </>
         )}

@@ -17,7 +17,7 @@ const EmptyCourseList = ({
     <p className="text-size-md font-semibold text-bluedot-navy">{title}</p>
     {description && <p className="max-w-[40ch] text-size-sm text-secondary">{description}</p>}
     {cta && (
-      <Button variant="primary" size="small" url={cta.href} className="text-size-xxs">
+      <Button variant="primary" size="small" url={cta.href}>
         {cta.label}
       </Button>
     )}

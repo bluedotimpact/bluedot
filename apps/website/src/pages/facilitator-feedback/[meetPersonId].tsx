@@ -367,7 +367,7 @@ const FacilitatorFeedbackPage = () => {
           {isAdmin && formData?.existingCourseFeedback?.completed === true && (
             <button
               type="button"
-              className="self-start text-size-xxs text-secondary underline cursor-pointer"
+              className="self-start text-size-xs text-secondary underline cursor-pointer"
               onClick={() => unsubmitFeedback.mutate({ meetPersonId }, {
                 onSuccess: () => window.location.reload(),
               })}
@@ -438,9 +438,9 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
-        <p className="text-size-xxs text-secondary">{getSubtitle(feedback)}</p>
+        <p className="text-size-xs text-secondary">{getSubtitle(feedback)}</p>
         {showNudge && !feedback && (
-          <p className="flex items-center gap-1 text-size-xxs leading-normal font-medium text-[#cc6b11]">
+          <p className="flex items-center gap-1 text-size-xs leading-normal font-medium text-[#cc6b11]">
             <PiWarningCircle className="size-[11px] shrink-0" aria-hidden />
             Even just a star rating helps
           </p>
