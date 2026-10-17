@@ -43,7 +43,7 @@ const airtableStyle = (colour?: string) => (colour && AIRTABLE[colour] ? { backg
 const Badge: React.FC<{ children: ReactNode; className?: string; colour?: string; title?: string }> = ({
   children, className = 'bg-tint text-primary', colour, title,
 }) => (
-  <span title={title} className={cn('inline-flex items-center max-w-full whitespace-normal break-words rounded-sm px-2 py-0.5 text-size-xxs font-medium', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
+  <span title={title} className={cn('inline-flex items-center max-w-full whitespace-normal break-words rounded-sm px-2 py-0.5 text-size-xxs font-semibold', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
 );
 
 // Rapid grants store the same options in lower case ("strong yes"), so match by lower case
