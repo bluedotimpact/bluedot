@@ -23,7 +23,7 @@ const BASE_STYLES = 'not-prose flex w-fit cursor-pointer items-center justify-ce
 const SIZE_STYLES = {
   small: 'h-9 px-3',
   medium: 'h-11 px-4',
-  large: 'h-[50px] px-5',
+  large: 'h-[50px] px-5 text-size-sm font-medium',
 } as const;
 
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
