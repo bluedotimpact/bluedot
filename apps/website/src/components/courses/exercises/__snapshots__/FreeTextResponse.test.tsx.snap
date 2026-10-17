@@ -110,7 +110,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-bluedot-normal"
         />
       </div>
     </div>
@@ -169,7 +169,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-bluedot-normal"
         />
       </div>
     </div>
