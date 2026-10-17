@@ -12,7 +12,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden cursor-not-allowed opacity-60 min-h-[140px]"
+          class="resize-y overflow-auto relative box-border w-full bg-white bg-resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 cursor-not-allowed opacity-60 min-h-[140px]"
         >
           <div
             aria-label="Rich text input area"
@@ -32,27 +32,6 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
             </div>
           </div>
         </div>
-        <svg
-          class="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary"
-          fill="none"
-          height="14"
-          viewBox="0 0 15 14"
-          width="15"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M11.875 7L7.5 11.375"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M11 2.1875L2.6875 10.5"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
       </div>
     </div>
     <div
@@ -97,7 +76,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white bg-resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
@@ -122,27 +101,6 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
             </div>
           </div>
         </div>
-        <svg
-          class="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary"
-          fill="none"
-          height="14"
-          viewBox="0 0 15 14"
-          width="15"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M11.875 7L7.5 11.375"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M11 2.1875L2.6875 10.5"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
       </div>
       <div
         aria-atomic="true"
@@ -182,7 +140,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white bg-resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
@@ -202,27 +160,6 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
             </div>
           </div>
         </div>
-        <svg
-          class="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary"
-          fill="none"
-          height="14"
-          viewBox="0 0 15 14"
-          width="15"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M11.875 7L7.5 11.375"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M11 2.1875L2.6875 10.5"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
       </div>
       <div
         aria-atomic="true"

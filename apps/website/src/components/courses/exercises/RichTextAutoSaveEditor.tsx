@@ -2,7 +2,7 @@ import type React from 'react';
 import {
   useCallback, useEffect, useState, useRef,
 } from 'react';
-import { cn, ResizeHandleIcon } from '@bluedot/ui';
+import { cn } from '@bluedot/ui';
 import { useEditor, EditorContent } from '@tiptap/react';
 import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
@@ -244,11 +244,10 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
   const editorContainerClasses = cn(
     'resize-y overflow-auto relative cursor-text',
-    'box-border w-full bg-white rounded-md z-[1] p-4',
+    'box-border w-full bg-white bg-resize-grip rounded-md z-[1] p-4',
     'border-[0.5px] border-border-control',
     'focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'transition-all duration-200',
-    '[&::-webkit-resizer]:hidden',
     disabled && 'cursor-not-allowed opacity-60',
     EDITOR_HEIGHT_STYLES[height],
     className,
@@ -278,8 +277,6 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
             aria-describedby={!disabled ? 'save-status-message' : undefined}
           />
         </div>
-        {/* Custom drag notches overlay */}
-        <ResizeHandleIcon className="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary" />
       </div>
       {!disabled && (
         <SaveStatusIndicator

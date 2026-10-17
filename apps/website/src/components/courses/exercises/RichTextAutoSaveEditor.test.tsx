@@ -40,7 +40,7 @@ describe('RichTextAutoSaveEditor', () => {
 
     // Basic structure exists
     expect(container.querySelector('.custom-class')).toBeTruthy();
-    expect(container.querySelector('svg')).toBeTruthy(); // drag notches
+    expect(container.querySelector('.bg-resize-grip')).toBeTruthy(); // drag notches
     expect(container.querySelector('[aria-label="Rich text input area"]')).toBeTruthy();
     // Note: SaveStatusIndicator returns null when status is 'idle' (initial state)
     // It only renders when saving/saved/error - tested via integration
