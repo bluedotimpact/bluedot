@@ -29,7 +29,7 @@ Colour tokens mirror the Figma design-system variables and are used through Tail
 
 - Text: `text-primary`, `text-secondary`, `text-placeholder`, `text-disabled`, `text-link` (+ `-hover`, `-active`), `text-on-dark` (+ `-hover` for white controls on dark), `text-on-dark-secondary`, `text-on-dark-link` (+ `-hover`, `-active`), `text-on-dark-disabled`
 - Surface: `bg-canvas` (cream by default, white on bluedot.org), `bg-raised`, `bg-tint` (hover wash), `bg-active` (pressed / selected), `bg-surface-disabled`, `bg-surface-control` (toggle track off), `bg-dark`, `bg-surface-on-dark`, `bg-surface-on-dark-subtle`
-- Border: `border-subtle` (dividers inside a container), `border-default` (container edge, disabled controls), `border-strong` (hover / selected container), `border-border-control` (the line is the control: input, select, checkbox, radio), `border-border-on-dark`
+- Border: `border-subtle` (dividers inside a container), `border-default` (container edge, disabled controls; bare `border` already uses it, so don't write the class), `border-strong` (hover / selected container), `border-border-control` (the line is the control: input, select, checkbox, radio), `border-border-on-dark`
 - Accent (interactive): `bg-accent`, `hover:bg-accent-hover`, `active:bg-accent-active`, `bg-accent-subtle`
 - Status: `text-{info|success|warning|error}-fg`, `bg-…-bg`, `border-…-border`, plus `hover:bg-{success|warning|error}-fg-hover` for solid tone fills. Never hand-pick a red or green.
 - Focus & overlay: `ring-focus`, `bg-scrim`, `bg-overlay-image`

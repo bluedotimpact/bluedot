@@ -10,7 +10,7 @@ import { cn } from './utils';
 
 // Unlike Callout, Toast tints the description as well as the title
 const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType; role: 'status' | 'alert' }> = {
-  default: { container: 'border-default bg-raised text-primary', role: 'status' },
+  default: { container: 'bg-raised text-primary', role: 'status' },
   success: { container: cn(TONE_STYLES.success.surface, TONE_STYLES.success.fg), Icon: TONE_STYLES.success.Icon, role: 'status' },
   warning: { container: cn(TONE_STYLES.warning.surface, TONE_STYLES.warning.fg), Icon: TONE_STYLES.warning.Icon, role: 'status' },
   error: { container: cn(TONE_STYLES.error.surface, TONE_STYLES.error.fg), Icon: TONE_STYLES.error.Icon, role: 'alert' },

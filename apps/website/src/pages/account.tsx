@@ -45,14 +45,14 @@ const AccountSettingsPage = () => {
               onSave={() => utils.users.getUser.invalidate()}
             />
 
-            <div className="border-t border-default my-6" />
+            <div className="border-t my-6" />
 
             <div className="mb-6">
               <P className="font-semibold mb-2">Email*</P>
               <P className="text-primary">{user.email}</P>
             </div>
 
-            <div className="border-t border-default my-6" />
+            <div className="border-t my-6" />
 
             <CalendarConnectionsSection />
 

@@ -261,7 +261,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
         )}
 
         {!roundsLoading && !showRounds && (
-          <div className="flex items-center min-h-12 border-l-4 border-default pl-5">
+          <div className="flex items-center min-h-12 border-l-4 pl-5">
             <p className="text-size-sm leading-relaxed font-normal text-secondary">
               No upcoming rounds.{' '}
               <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">

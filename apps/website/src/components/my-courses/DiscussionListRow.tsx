@@ -48,7 +48,7 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
   const discussionPrepareLink = unitNumber !== null ? `/courses/${courseSlug}/${unitNumber}` : null;
 
   return (
-    <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-default">
+    <li className="flex items-center gap-5 py-4 not-last:border-b">
       <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} />
       <div className="min-w-0 flex-1">
         <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
@@ -86,7 +86,7 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
 };
 
 export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateTimeSeconds: number }) => (
-  <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-md border border-default">
+  <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-md border">
     {isLive ? <LiveBadge /> : (
       <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
         <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>

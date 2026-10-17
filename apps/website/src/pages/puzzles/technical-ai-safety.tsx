@@ -299,7 +299,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
             <div className="max-w-text mx-auto">
               <h2 className={EYEBROW_CLASS}>Winners</h2>
               <div
-                className="mt-5 rounded-lg border border-default p-6 lg:p-8 text-center"
+                className="mt-5 rounded-lg border p-6 lg:p-8 text-center"
                 style={{ backgroundColor: TAS.bright }}
               >
                 <p className="text-size-xl leading-none">{FIRST_PRIZE.medal}</p>
@@ -312,7 +312,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
               </div>
               <div className="mt-4 grid bd-md:grid-cols-3 gap-4">
                 {RUNNER_UP_PRIZES.map((p) => (
-                  <div key={p.place} className="rounded-lg border border-default p-5 text-center">
+                  <div key={p.place} className="rounded-lg border p-5 text-center">
                     <p className="text-size-lg leading-none">{p.medal}</p>
                     <Eyebrow className="mt-3 text-secondary">
                       {p.place} · {p.amount}
@@ -336,7 +336,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
               <h2 className={EYEBROW_CLASS}>Correct submissions</h2>
-              <div className="mt-4 rounded-lg border border-default p-6 lg:p-8">
+              <div className="mt-4 rounded-lg border p-6 lg:p-8">
                 <ul className="columns-2 bd-md:columns-3 lg:columns-4 gap-x-6 space-y-1.5">
                   {CORRECT_SUBMISSIONS.map((name) => (
                     <li

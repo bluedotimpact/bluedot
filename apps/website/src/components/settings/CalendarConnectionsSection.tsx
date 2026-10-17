@@ -24,7 +24,7 @@ const CalendarConnectionsSection = () => {
         <CalendarConnectionList connections={connections} />
       </section>
 
-      <div className="border-t border-default my-6" />
+      <div className="border-t my-6" />
     </>
   );
 };

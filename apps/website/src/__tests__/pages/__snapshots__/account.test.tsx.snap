@@ -222,7 +222,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             </div>
           </div>
           <div
-            class="border-t border-default my-6"
+            class="border-t my-6"
           />
           <div
             class="mb-6"
@@ -239,7 +239,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             </p>
           </div>
           <div
-            class="border-t border-default my-6"
+            class="border-t my-6"
           />
           <div
             class="mb-6"

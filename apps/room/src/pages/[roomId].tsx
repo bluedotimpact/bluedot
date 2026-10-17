@@ -115,9 +115,9 @@ const RoomControlPage = withAuth(({ auth }) => {
                   </Button>
                 </div>
                 <div className="flex md:flex-col gap-1.5 items-center h-full">
-                  <div className="border-t md:border-l border-default flex-1" />
+                  <div className="border-t md:border-l flex-1" />
                   <div>OR</div>
-                  <div className="border-t md:border-l border-default flex-1" />
+                  <div className="border-t md:border-l flex-1" />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <div className="flex gap-1.5 items-center"><FaLink /> Join existing meeting</div>

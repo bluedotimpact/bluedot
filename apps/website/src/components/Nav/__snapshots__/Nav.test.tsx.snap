@@ -3,7 +3,7 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-default"
+    class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b"
   >
     <div
       class="nav__container section-base"
@@ -296,7 +296,7 @@ exports[`Nav > renders with courses 1`] = `
                   </a>
                 </div>
                 <div
-                  class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
+                  class="flex flex-col gap-4 pt-6 mt-6 border-t"
                 >
                   <a
                     class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
@@ -577,7 +577,7 @@ exports[`Nav > renders with courses 1`] = `
             class="nav-cta flex flex-row items-center gap-4"
           >
             <a
-              class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center border border-default text-primary hover:text-primary hover:bg-tint"
+              class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 border-accent on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center border text-primary hover:text-primary hover:bg-tint"
               href="/login?redirect_to=%2Ftest-page"
               tabindex="0"
             >

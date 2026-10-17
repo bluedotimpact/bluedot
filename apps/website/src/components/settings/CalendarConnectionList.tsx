@@ -10,7 +10,7 @@ export type CalendarConnectionSummary = {
 
 /** The person's connected calendars, each with Disconnect. Used on /account and /account/calendars. */
 const CalendarConnectionList = ({ connections }: { connections: CalendarConnectionSummary[] }) => (
-  <ul className="flex flex-col divide-y divide-default rounded-surface border border-default" aria-label="Connected calendars">
+  <ul className="flex flex-col divide-y rounded-surface border" aria-label="Connected calendars">
     {connections.map((connection) => (
       <ConnectionRow key={connection.id} connection={connection} />
     ))}

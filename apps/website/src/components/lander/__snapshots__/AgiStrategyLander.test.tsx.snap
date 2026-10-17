@@ -319,7 +319,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     </a>
                   </div>
                   <div
-                    class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
+                    class="flex flex-col gap-4 pt-6 mt-6 border-t"
                   >
                     <a
                       class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
@@ -723,7 +723,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <div
       data-testid="graduate-section"
@@ -731,7 +731,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       Graduate Section
     </div>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <section
       class="w-full bg-white"
@@ -775,7 +775,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <section
       class="w-full bg-white"
@@ -841,7 +841,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <section
       class="w-full bg-white"
@@ -1109,7 +1109,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <section
       class="w-full bg-white"
@@ -1124,7 +1124,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           How the course works
         </h2>
         <div
-          class="w-full bd-md:max-w-text bg-white border border-default rounded-xl py-8 flex flex-col items-center gap-6"
+          class="w-full bd-md:max-w-text bg-white border rounded-xl py-8 flex flex-col items-center gap-6"
         >
           <div
             class="flex flex-col w-full"
@@ -1252,7 +1252,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <section
       class="w-full bg-white"
@@ -1287,7 +1287,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <section
       aria-atomic="true"
@@ -1519,7 +1519,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
-      class="border-t-hairline border-default"
+      class="border-t-hairline"
     />
     <script
       type="application/ld+json"
@@ -1545,7 +1545,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-6"
           >
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-background"
@@ -1594,7 +1594,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-beginners"
@@ -1643,7 +1643,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-formats"
@@ -1692,7 +1692,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-timezones"
@@ -1741,7 +1741,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-direction"
@@ -1790,7 +1790,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-funding"
@@ -1846,7 +1846,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-certificate"
@@ -1895,7 +1895,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-free"
@@ -1944,7 +1944,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="rounded-surface border border-default bg-raised overflow-hidden p-0"
+              class="rounded-surface border bg-raised overflow-hidden p-0"
             >
               <button
                 aria-controls="faq-answer-bluedot"

@@ -41,7 +41,7 @@ export const TabPills = <T extends string>({
             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
             isActive
               ? 'bg-dark border-dark text-on-dark'
-              : 'bg-canvas border-default text-primary hover:bg-tint',
+              : 'bg-canvas text-primary hover:bg-tint',
           )}
         >
           {tab.label}

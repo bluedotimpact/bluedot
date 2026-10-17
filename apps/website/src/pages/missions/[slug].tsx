@@ -40,7 +40,7 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
         <MarkdownExtendedRenderer>
           {mission.description ?? undefined}
         </MarkdownExtendedRenderer>
-        <div className="my-8 border-t border-default pt-8">
+        <div className="my-8 border-t pt-8">
           <Button url={ROUTES.missions.url} variant="secondary">
             <FaChevronLeft aria-hidden className="size-4" />
             See other missions

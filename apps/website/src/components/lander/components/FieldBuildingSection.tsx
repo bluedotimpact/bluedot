@@ -41,7 +41,7 @@ const FieldBuildingSection = ({
           </P>
         </div>
 
-        <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-default rounded-xl flex flex-col overflow-hidden">
+        <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border rounded-xl flex flex-col overflow-hidden">
           {roles.map((role, index) => (
             <div key={role.title}>
               <div className="flex flex-col md:flex-row gap-3 md:gap-8 px-5 md:px-8 py-5 md:py-6">

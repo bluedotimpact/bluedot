@@ -301,7 +301,7 @@ const AlumniStoryCarousel = ({
   );
 };
 
-const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-white border border-default rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-strong hover:shadow-lg transition-all duration-200';
+const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-white border rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-strong hover:shadow-lg transition-all duration-200';
 
 const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>

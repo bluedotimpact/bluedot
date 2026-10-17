@@ -164,7 +164,7 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-stone-200, currentColor);
+        border-color: var(--color-default, currentColor);
     }
 
     /* h1 and h2 use Inter Display */
@@ -197,7 +197,7 @@
 }
 
 @utility container-lined {
-    @apply border border-default rounded-surface;
+    @apply border rounded-surface;
 }
 
 @utility container-active {

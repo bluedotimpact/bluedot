@@ -99,7 +99,7 @@ export const Select = ({
         offset={8}
         maxHeight={400}
         className={cn(
-          'w-(--trigger-width) rounded-surface border border-default bg-raised shadow-md overflow-y-auto',
+          'w-(--trigger-width) rounded-surface border bg-raised shadow-md overflow-y-auto',
           // ghost triggers are only as wide as the selected label; let the menu grow to its widest option
           variant === 'ghost' && 'min-w-max',
         )}
