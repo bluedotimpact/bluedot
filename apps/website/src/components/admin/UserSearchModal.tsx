@@ -47,7 +47,7 @@ export const UserSearchModal = ({
 
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
-      <>
+      <div className="flex flex-col gap-4">
         <Input
           ref={inputRef}
           type="search"
@@ -55,7 +55,6 @@ export const UserSearchModal = ({
           onChange={(e) => setSearchTermInput(e.target.value)}
           placeholder="Search by name or email..."
           aria-label="Search by name or email"
-          className="mb-4"
           leading={<FaMagnifyingGlass aria-hidden />}
           trailing={searchTermInput ? (
             <button
@@ -99,7 +98,7 @@ export const UserSearchModal = ({
             </button>
           ))}
         </div>
-      </>
+      </div>
     </Modal>
   );
 };
