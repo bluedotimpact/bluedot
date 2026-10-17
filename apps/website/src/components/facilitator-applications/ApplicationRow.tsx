@@ -70,7 +70,7 @@ const ApplicationRow = ({
           <StatusPill className="hidden sm:inline-flex">{statusLabel}</StatusPill>
           <span className="hidden sm:contents">{inlineActions}</span>
           {overflowItems.length > 0 && (
-            <OverflowMenu ariaLabel="Application actions" items={overflowItems} />
+            <OverflowMenu aria-label="Application actions" items={overflowItems} />
           )}
         </div>
       </div>

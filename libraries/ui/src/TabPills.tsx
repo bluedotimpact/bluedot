@@ -7,14 +7,14 @@ type TabPill<T extends string> = {
 };
 
 export type TabPillsProps<T extends string> = {
-  ariaLabel: string;
+  'aria-label': string;
   tabs: readonly TabPill<T>[];
   value: T;
   onChange: (id: T) => void;
 };
 
 export const TabPills = <T extends string>({
-  ariaLabel, tabs, value, onChange,
+  'aria-label': ariaLabel, tabs, value, onChange,
 }: TabPillsProps<T>) => (
   <div
     role="group"

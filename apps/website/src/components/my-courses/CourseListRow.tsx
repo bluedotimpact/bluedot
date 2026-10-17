@@ -165,13 +165,13 @@ const CourseListRow = (row: CourseListRowProps) => {
             <div className="hidden items-center gap-3 sm:flex">
               {inlineActions}
               {state !== 'dropped' && overflowItems.length > 0 && (
-                <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+                <OverflowMenu aria-label="Course actions" items={overflowItems} />
               )}
             </div>
             {/* Mobile only: RHS buttons stacked vertically */}
             <div className="flex flex-1 flex-col items-center justify-between gap-2 sm:hidden">
               {state !== 'dropped' && overflowItems.length > 0 ? (
-                <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+                <OverflowMenu aria-label="Course actions" items={overflowItems} />
               ) : <span aria-hidden />}
               {!hasInlineActions && chevronButton}
             </div>

@@ -12,13 +12,13 @@ export type SlideListProps = {
   maxRows?: number;
 };
 
-export const SlideList: React.FC<SlideListProps> = ({
+export const SlideList = ({
   className,
   children,
   maxItemsPerSlide = 1,
   minItemWidth = 260,
   maxRows = 2,
-}) => {
+}: SlideListProps) => {
   const slidesRef = useRef<HTMLDivElement | null>(null);
   const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
   const [scrollPercent, setScrollPercent] = useState(0);
@@ -178,14 +178,14 @@ export const SlideList: React.FC<SlideListProps> = ({
           <SlideListBtn
             onClick={() => scrollTo('previous')}
             disabled={scrollPercent === 0}
-            ariaLabel="Previous slide"
+            aria-label="Previous slide"
             direction="previous"
           />
           {ScrollBar}
           <SlideListBtn
             onClick={() => scrollTo('next')}
             disabled={scrollPercent === 100}
-            ariaLabel="Next slide"
+            aria-label="Next slide"
             direction="next"
           />
         </div>
@@ -194,13 +194,13 @@ export const SlideList: React.FC<SlideListProps> = ({
   );
 };
 
-export const SlideListBtn: React.FC<{
+export const SlideListBtn = ({
+  onClick, disabled, 'aria-label': ariaLabel, direction,
+}: {
   onClick: () => void;
   disabled: boolean;
-  ariaLabel: string;
+  'aria-label': string;
   direction: 'previous' | 'next';
-}> = ({
-  onClick, disabled, ariaLabel, direction,
 }) => (
   <button
     type="button"

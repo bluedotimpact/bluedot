@@ -13,12 +13,12 @@ type ModalDemoProps = Omit<ModalProps, 'isOpen' | 'setIsOpen' | 'children'> & {
   openLabel?: string;
 };
 
-const ModalDemo: React.FC<ModalDemoProps> = ({
+const ModalDemo = ({
   initialOpen = false,
   openLabel = 'Open modal',
   children,
   ...props
-}) => {
+}: ModalDemoProps) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   return (
@@ -231,7 +231,7 @@ export const CustomTitle: Story = {
         </button>
       </div>
     ),
-    ariaLabel: 'Participant feedback',
+    'aria-label': 'Participant feedback',
     children: <P>A ReactNode title owns its own layout; the close button still sits at the trailing edge.</P>,
   },
 };

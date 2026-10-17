@@ -24,7 +24,7 @@ const ViewParticipantsModal = ({ groupId, handleClose }: ViewParticipantsModalPr
       }}
       title="Participants"
       bottomDrawerOnMobile
-      ariaLabel="Participants in your group"
+      aria-label="Participants in your group"
     >
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">

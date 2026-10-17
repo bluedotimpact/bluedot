@@ -38,7 +38,6 @@ export type ButtonOrMenuItem = {
   onClick?: () => void;
   isVisible: boolean;
   target?: React.HTMLAttributeAnchorTarget;
-  ariaLabel?: string;
   /**
    * Optional icon to display only when the button appears in the overflow menu
    */
@@ -53,13 +52,13 @@ type GroupDiscussionBannerProps = {
   pendingSwitchType?: SwitchType | null;
 };
 
-const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
+const GroupDiscussionBanner = ({
   unit,
   groupDiscussion,
   userRole,
   hostKeyForFacilitators,
   pendingSwitchType = null,
-}) => {
+}: GroupDiscussionBannerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
@@ -280,7 +279,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                 {showPendingPill && <span className="ml-auto">{pendingPill}</span>}
                 {hasOverflow && (
                   <OverflowMenu
-                    ariaLabel="More discussion options"
+                    aria-label="More discussion options"
                     // 'ghost' variant styling
                     buttonClassName="ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
                     items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
@@ -378,7 +377,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
               {hasOverflow && (
                 <OverflowMenu
-                  ariaLabel="More discussion options"
+                  aria-label="More discussion options"
                   // 'secondary' variant styling
                   buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
@@ -422,7 +421,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   );
 };
 
-const IndicatorIcon: React.FC<{ isLive: boolean }> = ({ isLive }) => (
+const IndicatorIcon = ({ isLive }: { isLive: boolean }) => (
   <div className={clsx(
     'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
     isLive ? 'bg-bluedot-normal font-bold border-4 rounded-lg' : 'bg-white border rounded',

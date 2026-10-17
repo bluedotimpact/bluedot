@@ -71,13 +71,13 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
         <div className="hidden shrink-0 items-center gap-3 sm:flex">
           {inlineActions}
           {desktopOverflowItems.length > 0 && (
-            <OverflowMenu ariaLabel="Discussion actions" items={desktopOverflowItems} />
+            <OverflowMenu aria-label="Discussion actions" items={desktopOverflowItems} />
           )}
         </div>
         {/* Mobile: only the overflow menu, but it contains every action (inline buttons fold in). */}
         <div className="sm:hidden">
           {mobileOverflowItems.length > 0 && (
-            <OverflowMenu ariaLabel="Discussion actions" items={mobileOverflowItems} />
+            <OverflowMenu aria-label="Discussion actions" items={mobileOverflowItems} />
           )}
         </div>
       </div>

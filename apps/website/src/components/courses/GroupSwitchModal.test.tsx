@@ -1117,10 +1117,10 @@ describe('GroupSwitchModal', () => {
     test('sorts non-disabled before disabled', () => {
       const options = [
         {
-          groupName: 'Group A', dateTime: 1000, isDisabled: true, description: '', isRecurringTime: false,
+          groupName: 'Group A', dateTime: 1000, disabled: true, description: '', isRecurringTime: false,
         },
         {
-          groupName: 'Group B', dateTime: 500, isDisabled: false, description: '', isRecurringTime: false,
+          groupName: 'Group B', dateTime: 500, disabled: false, description: '', isRecurringTime: false,
         },
       ];
       const sorted = sortGroupSwitchOptions(options);

@@ -20,13 +20,13 @@ export type OverflowMenuItemProps = {
   onAction?: () => void;
   href?: string;
   target?: string;
-  isDisabled?: boolean;
+  disabled?: boolean;
 };
 
 export type OverflowMenuProps = {
   items: OverflowMenuItemProps[];
   buttonClassName?: string;
-  ariaLabel?: string;
+  'aria-label'?: string;
   /** If not provided, defaults to vertical ellipsis icon */
   trigger?: ReactNode;
 };
@@ -40,7 +40,7 @@ type MenuContentProps = {
 // Trigger button styled as secondary. Menu items are the primary actions
 const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
 
-const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) => {
+const MenuContent = ({ items, isOpen, setIsOpen }: MenuContentProps) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
   const handleAction = (key: React.Key) => {
@@ -58,14 +58,14 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
         <MenuItem
           key={item.id}
           id={item.id}
-          href={item.isDisabled ? undefined : item.href}
+          href={item.disabled ? undefined : item.href}
           target={item.target}
-          isDisabled={item.isDisabled}
+          isDisabled={item.disabled}
           className={clsx(
             'block px-4 py-3 outline-none',
-            item.isDisabled && 'cursor-default text-disabled',
-            !item.isDisabled && 'cursor-pointer',
-            !item.isDisabled && (isDesktop ? 'hover:bg-tint' : 'hover:bg-tint active:bg-active rounded-lg'),
+            item.disabled && 'cursor-default text-disabled',
+            !item.disabled && 'cursor-pointer',
+            !item.disabled && (isDesktop ? 'hover:bg-tint' : 'hover:bg-tint active:bg-active rounded-lg'),
           )}
         >
           {item.label}
@@ -98,12 +98,12 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
   return null;
 };
 
-export const OverflowMenu: React.FC<OverflowMenuProps> = ({
+export const OverflowMenu = ({
   items,
   buttonClassName,
-  ariaLabel = 'More options',
+  'aria-label': ariaLabel = 'More options',
   trigger,
-}) => {
+}: OverflowMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

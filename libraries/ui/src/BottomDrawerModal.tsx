@@ -1,4 +1,3 @@
-import type React from 'react';
 import {
   useState, useEffect, useId, useRef,
 } from 'react';
@@ -34,16 +33,16 @@ export type BottomDrawerModalProps = Omit<ModalProps, 'bottomDrawerOnMobile'> & 
   initialSize: 'fit-content' | 'fit-screen';
 };
 
-export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
+export const BottomDrawerModal = ({
   isOpen,
   setIsOpen,
   title,
   initialSize,
   children,
-  ariaLabel,
+  'aria-label': ariaLabel,
   isDismissable = true,
   footer,
-}) => {
+}: BottomDrawerModalProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [isFullyExpanded, setIsFullyExpanded] = useState(false);

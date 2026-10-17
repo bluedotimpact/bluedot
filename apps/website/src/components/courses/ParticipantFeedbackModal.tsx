@@ -40,7 +40,7 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
-const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ meetPersonId, participant, followUpOptions, initialData, onClose, onSaved, onNoStrongImpression }) => {
+const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, initialData, onClose, onSaved, onNoStrongImpression }: ParticipantFeedbackModalProps) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
@@ -87,7 +87,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         </div>
       )}
       bottomDrawerOnMobile
-      ariaLabel="Participant feedback"
+      aria-label="Participant feedback"
       isDismissable={false}
     >
       <>
@@ -108,7 +108,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           </div>
           <RubricSelector
             name="show-up"
-            ariaLabelledBy="show-up-label"
+            aria-labelledby="show-up-label"
             options={SHOW_UP_OPTIONS}
             value={showUpRating}
             onChange={setShowUpRating}
@@ -126,7 +126,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           </div>
           <RubricSelector
             name="engage"
-            ariaLabelledBy="engage-label"
+            aria-labelledby="engage-label"
             options={ENGAGE_OPTIONS}
             value={engageRating}
             onChange={setEngageRating}
@@ -204,7 +204,7 @@ export type RubricOption = {
 
 type RubricSelectorProps = {
   name: string;
-  ariaLabelledBy: string;
+  'aria-labelledby': string;
   options: RubricOption[];
   value: number | null;
   onChange: (value: number) => void;
@@ -218,7 +218,7 @@ const BUBBLE_COLORS: Record<number, string> = {
   1: 'bg-[#ffe4e0] text-[#8a2020]',
 };
 
-export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabelledBy, options, value, onChange }) => {
+export const RubricSelector = ({ name, 'aria-labelledby': ariaLabelledBy, options, value, onChange }: RubricSelectorProps) => {
   return (
     <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-md border-[0.5px] overflow-clip">
       {options.map((option, idx) => {

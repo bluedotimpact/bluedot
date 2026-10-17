@@ -4,7 +4,6 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
-import type React from 'react';
 import { useMemo, useState } from 'react';
 import { FaCheck, FaUser } from 'react-icons/fa6';
 import type { AppRouter } from '../../server/routers/_app';
@@ -110,7 +109,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   groupName={g.group.groupName ?? 'Group [Unknown]'}
                   dateTime={g.group.startTimeUtc}
                   spotsLeftIfKnown={g.spotsLeftIfKnown}
-                  isDisabled={g.spotsLeftIfKnown === 0}
+                  disabled={g.spotsLeftIfKnown === 0}
                   isSubmitting={rejoinMutation.isPending}
                   onJoin={() => handleJoin(g)}
                 />
@@ -163,19 +162,19 @@ type RejoinGroupOptionProps = {
   groupName: string;
   dateTime: number | null;
   spotsLeftIfKnown: number | null;
-  isDisabled?: boolean;
+  disabled?: boolean;
   isSubmitting?: boolean;
   onJoin: () => void;
 };
 
-const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
+const RejoinGroupOption = ({
   groupName,
   dateTime,
   spotsLeftIfKnown,
-  isDisabled,
+  disabled,
   isSubmitting,
   onJoin,
-}) => {
+}: RejoinGroupOptionProps) => {
   const displayDate = useMemo(() => {
     if (!dateTime) return null;
     return formatDateMonthAndDay(dateTime);
@@ -190,7 +189,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
     = spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
 
   return (
-    <div className={cn('rounded-lg border bg-white p-3', isDisabled && 'opacity-50')}>
+    <div className={cn('rounded-lg border bg-white p-3', disabled && 'opacity-50')}>
       <div className="grid grid-cols-[80px_1fr] items-center gap-4">
         <div className="self-center border-r border-subtle text-center">
           {displayDate && displayTime && (
@@ -211,7 +210,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
           <Button
             onClick={onJoin}
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-            disabled={isDisabled || isSubmitting}
+            disabled={disabled || isSubmitting}
             aria-label={`Join ${groupName}`}
             className="my-auto h-fit"
           >
