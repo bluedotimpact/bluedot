@@ -39,7 +39,7 @@ exports[`TeamSection > renders as expected 1`] = `
             class="w-full pt-2 text-left md:pt-3"
           >
             <h4
-              class="bluedot-h4 not-prose text-size-sm mb-1"
+              class="bluedot-h4 not-prose text-size-xs mb-1 md:text-size-sm"
             >
               Test Person
             </h4>
