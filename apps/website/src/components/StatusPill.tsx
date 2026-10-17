@@ -11,7 +11,7 @@ export type StatusPillProps = {
 const StatusPill = ({ icon, children, className }: StatusPillProps) => (
   <span
     className={cn(
-      'inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker',
+      'inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-semibold text-bluedot-darker',
       className,
     )}
   >
