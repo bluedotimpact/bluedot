@@ -214,7 +214,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           <div className="flex min-w-0 items-center gap-3">
             <button ref={menuButton} type="button" onClick={() => setMobileOpen(true)} aria-label="Open navigation" aria-expanded={mobileOpen} className="flex size-11 shrink-0 items-center justify-center rounded-surface hover:bg-tint md:hidden"><PortalIcon name="menu" /></button>
           </div>
-          {preview && <span className="shrink-0 rounded-full bg-warning-bg px-3 py-1 text-size-xxs text-warning-fg"><span className="hidden sm:inline">Local preview · sample data</span><span className="sm:hidden">Sample data</span></span>}
+          {preview && <span className="shrink-0 rounded-full bg-warning-bg px-3 py-1 text-size-xxs font-semibold text-warning-fg"><span className="hidden sm:inline">Local preview · sample data</span><span className="sm:hidden">Sample data</span></span>}
         </header>}
         <main id="app-content" aria-label={auth ? activeApp?.name : undefined} tabIndex={-1} className="min-w-0 flex-1 outline-none">
           {auth !== null || isLogin ? children : (
