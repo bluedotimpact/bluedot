@@ -32,48 +32,27 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+        <svg
+          class="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary"
+          fill="none"
+          height="14"
+          viewBox="0 0 15 14"
+          width="15"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            class="text-bluedot-navy"
-            fill="none"
-            height="14"
-            viewBox="0 0 15 14"
-            width="15"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g
-              clip-path="url(#resize-handle-clip)"
-              opacity="0.6"
-            >
-              <path
-                d="M11.875 7L7.5 11.375"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11 2.1875L2.6875 10.5"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clippath
-                id="resize-handle-clip"
-              >
-                <rect
-                  fill="white"
-                  height="14"
-                  transform="translate(0.5)"
-                  width="14"
-                />
-              </clippath>
-            </defs>
-          </svg>
-        </div>
+          <path
+            d="M11.875 7L7.5 11.375"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11 2.1875L2.6875 10.5"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </div>
     </div>
     <div
@@ -143,48 +122,27 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+        <svg
+          class="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary"
+          fill="none"
+          height="14"
+          viewBox="0 0 15 14"
+          width="15"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            class="text-bluedot-navy"
-            fill="none"
-            height="14"
-            viewBox="0 0 15 14"
-            width="15"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g
-              clip-path="url(#resize-handle-clip)"
-              opacity="0.6"
-            >
-              <path
-                d="M11.875 7L7.5 11.375"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11 2.1875L2.6875 10.5"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clippath
-                id="resize-handle-clip"
-              >
-                <rect
-                  fill="white"
-                  height="14"
-                  transform="translate(0.5)"
-                  width="14"
-                />
-              </clippath>
-            </defs>
-          </svg>
-        </div>
+          <path
+            d="M11.875 7L7.5 11.375"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11 2.1875L2.6875 10.5"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </div>
       <div
         aria-atomic="true"
@@ -244,48 +202,27 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+        <svg
+          class="pointer-events-none absolute right-2 bottom-2 z-[2] text-secondary"
+          fill="none"
+          height="14"
+          viewBox="0 0 15 14"
+          width="15"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            class="text-bluedot-navy"
-            fill="none"
-            height="14"
-            viewBox="0 0 15 14"
-            width="15"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g
-              clip-path="url(#resize-handle-clip)"
-              opacity="0.6"
-            >
-              <path
-                d="M11.875 7L7.5 11.375"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11 2.1875L2.6875 10.5"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clippath
-                id="resize-handle-clip"
-              >
-                <rect
-                  fill="white"
-                  height="14"
-                  transform="translate(0.5)"
-                  width="14"
-                />
-              </clippath>
-            </defs>
-          </svg>
-        </div>
+          <path
+            d="M11.875 7L7.5 11.375"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11 2.1875L2.6875 10.5"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </div>
       <div
         aria-atomic="true"
