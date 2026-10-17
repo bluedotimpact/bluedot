@@ -74,7 +74,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   cardBackgroundColor?: string;
 }) => {
   const cardContent = (
-    <div className="flex flex-col lg:flex-row-reverse w-full h-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]">
+    <div className="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]">
       {/* Quote and author info */}
       <div className="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between">
         {/* Quote text - sizing automatically determined by content length */}
