@@ -36,7 +36,6 @@ import {
   BooksIcon,
   ChunkIcon,
   LaurelWreathIcon,
-  ResizeHandleIcon,
 } from '.';
 
 // The 27 symbols on the Figma "Icons" page, in grid order, keyed by Figma name.
@@ -143,9 +142,6 @@ const Gallery = () => (
         </IconCell>
         <IconCell name="ChunkIcon" note="inactive">
           <ChunkIcon aria-hidden="true" />
-        </IconCell>
-        <IconCell name="ResizeHandleIcon">
-          <ResizeHandleIcon aria-hidden="true" />
         </IconCell>
       </Grid>
     </Section>

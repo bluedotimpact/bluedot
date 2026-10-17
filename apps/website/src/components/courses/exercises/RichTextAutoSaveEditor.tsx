@@ -2,7 +2,7 @@ import type React from 'react';
 import {
   useCallback, useEffect, useState, useRef,
 } from 'react';
-import { cn } from '@bluedot/ui';
+import { cn, ResizeHandleIcon } from '@bluedot/ui';
 import { useEditor, EditorContent } from '@tiptap/react';
 import Document from '@tiptap/extension-document';
 import Paragraph from '@tiptap/extension-paragraph';
@@ -17,7 +17,6 @@ import { Markdown } from 'tiptap-markdown';
 import Placeholder from '@tiptap/extension-placeholder';
 import SaveStatusIndicator from './SaveStatusIndicator';
 import { ONE_MINUTE_MS, ONE_SECOND_MS } from '../../../lib/constants';
-import { ResizeHandleIcon } from '../../icons';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -281,7 +280,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
         </div>
         {/* Custom drag notches overlay */}
         <div className="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
-          <ResizeHandleIcon />
+          <ResizeHandleIcon className="text-bluedot-navy/60" />
         </div>
       </div>
       {!disabled && (
