@@ -30,11 +30,11 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
       <div
         class="relative flex flex-col items-center px-5 md:px-16 pb-0"
       >
-        <p
-          class="text-size-xxs font-medium uppercase tracking-wide mt-16 text-secondary text-center"
+        <span
+          class="block text-size-xxs font-medium uppercase tracking-wide mt-16 text-secondary text-center"
         >
           Professional certification
-        </p>
+        </span>
         <h1
           class="mt-1 text-size-2xl font-semibold leading-tight tracking-tight text-bluedot-navy text-center font-display"
           style="font-feature-settings: 'ss04' 1;"
@@ -44,11 +44,11 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
         <div
           class="mt-12"
         >
-          <p
-            class="text-size-xxs font-medium uppercase tracking-wide text-secondary text-center"
+          <span
+            class="block text-size-xxs font-medium uppercase tracking-wide text-secondary text-center"
           >
             Awarded to
-          </p>
+          </span>
           <p
             class="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display"
           >
@@ -80,11 +80,11 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
         <div
           class="w-[156px] md:w-[240px]"
         >
-          <p
-            class="text-size-xxs font-medium uppercase tracking-wide text-secondary"
+          <span
+            class="block text-size-xxs font-medium uppercase tracking-wide text-secondary"
           >
             Issued
-          </p>
+          </span>
           <p
             class="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
             style="font-feature-settings: 'ss04' 1;"
@@ -111,11 +111,11 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
         <div
           class="w-[156px] md:w-[240px] text-right"
         >
-          <p
-            class="text-size-xxs font-medium uppercase tracking-wide text-secondary"
+          <span
+            class="block text-size-xxs font-medium uppercase tracking-wide text-secondary"
           >
             Certificate ID
-          </p>
+          </span>
           <p
             class="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
             style="font-feature-settings: 'ss04' 1;"
