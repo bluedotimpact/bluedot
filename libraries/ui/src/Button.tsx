@@ -3,7 +3,7 @@ import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 import { Dots } from './ProgressDots';
 import { cn } from './utils';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'black' | 'outline-black' | 'unstyled';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline-black' | 'unstyled';
 export type ButtonTone = 'destructive' | 'success' | 'warning';
 
 export type ButtonProps = {
@@ -33,7 +33,6 @@ const VARIANT_STYLES: Record<ButtonVariant, string> = {
     'border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover',
   ghost:
     'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
-  black: 'bg-dark text-on-dark hover:bg-bluedot-black',
   'outline-black': 'border border-strong font-medium text-primary hover:bg-tint',
   unstyled: '', // No colour/hover styles: fully controlled by className/style
 };
