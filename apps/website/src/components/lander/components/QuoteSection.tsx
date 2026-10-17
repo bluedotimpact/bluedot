@@ -367,7 +367,7 @@ const QuoteSection = ({
               <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10 grid">
                 {quotes.map((quote, index) => (
                   <div
-                    key={quote.name}
+                    key={quote.quote}
                     className={`[grid-area:1/1] ${index === activeIndex ? 'visible' : 'invisible'}`}
                     aria-hidden={index !== activeIndex}
                   >
