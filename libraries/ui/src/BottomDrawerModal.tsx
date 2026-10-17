@@ -40,7 +40,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   title,
   initialSize,
   children,
-  ariaLabel,
+  'aria-label': ariaLabel,
   isDismissable = true,
   footer,
 }) => {

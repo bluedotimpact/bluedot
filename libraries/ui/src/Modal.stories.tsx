@@ -231,7 +231,7 @@ export const CustomTitle: Story = {
         </button>
       </div>
     ),
-    ariaLabel: 'Participant feedback',
+    'aria-label': 'Participant feedback',
     children: <P>A ReactNode title owns its own layout; the close button still sits at the trailing edge.</P>,
   },
 };

@@ -15,8 +15,8 @@ export type ModalProps = {
   title?: ReactNode;
   children: ReactNode;
   bottomDrawerOnMobile?: boolean;
-  /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
-  ariaLabel?: string;
+  /** For when `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
+  'aria-label'?: string;
   /**
    * When false the dialog has no exit of its own: the close button is hidden and Escape, backdrop click
    * and (on mobile) drag-to-dismiss do nothing. The sheet can still be dragged up to expand. Use it while
@@ -37,7 +37,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   setIsOpen,
   title,
   children,
-  ariaLabel,
+  'aria-label': ariaLabel,
   isDismissable = true,
   footer,
 }) => {
@@ -77,7 +77,7 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   bottomDrawerOnMobile = false,
-  ariaLabel,
+  'aria-label': ariaLabel,
   isDismissable,
   footer,
 }) => {
@@ -92,14 +92,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} isDismissable={isDismissable} footer={footer}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" aria-label={ariaLabel} isDismissable={isDismissable} footer={footer}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} isDismissable={isDismissable} footer={footer}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} aria-label={ariaLabel} isDismissable={isDismissable} footer={footer}>
       {children}
     </DesktopModal>
   );

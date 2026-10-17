@@ -135,7 +135,7 @@ const FacilitatorApplicationsPage = () => {
             <>
               <H2 className="text-size-md">All Applications</H2>
               <TabPills
-                ariaLabel="Application filter"
+                aria-label="Application filter"
                 tabs={APPLICATION_TABS}
                 value={activeTab}
                 onChange={setActiveTab}

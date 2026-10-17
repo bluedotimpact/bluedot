@@ -178,14 +178,14 @@ export const SlideList: React.FC<SlideListProps> = ({
           <SlideListBtn
             onClick={() => scrollTo('previous')}
             disabled={scrollPercent === 0}
-            ariaLabel="Previous slide"
+            aria-label="Previous slide"
             direction="previous"
           />
           {ScrollBar}
           <SlideListBtn
             onClick={() => scrollTo('next')}
             disabled={scrollPercent === 100}
-            ariaLabel="Next slide"
+            aria-label="Next slide"
             direction="next"
           />
         </div>
@@ -197,10 +197,10 @@ export const SlideList: React.FC<SlideListProps> = ({
 export const SlideListBtn: React.FC<{
   onClick: () => void;
   disabled: boolean;
-  ariaLabel: string;
+  'aria-label': string;
   direction: 'previous' | 'next';
 }> = ({
-  onClick, disabled, ariaLabel, direction,
+  onClick, disabled, 'aria-label': ariaLabel, direction,
 }) => (
   <button
     type="button"

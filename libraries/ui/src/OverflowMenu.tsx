@@ -26,7 +26,7 @@ export type OverflowMenuItemProps = {
 export type OverflowMenuProps = {
   items: OverflowMenuItemProps[];
   buttonClassName?: string;
-  ariaLabel?: string;
+  'aria-label'?: string;
   /** If not provided, defaults to vertical ellipsis icon */
   trigger?: ReactNode;
 };
@@ -101,7 +101,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
 export const OverflowMenu: React.FC<OverflowMenuProps> = ({
   items,
   buttonClassName,
-  ariaLabel = 'More options',
+  'aria-label': ariaLabel = 'More options',
   trigger,
 }) => {
   const [isOpen, setIsOpen] = useState(false);

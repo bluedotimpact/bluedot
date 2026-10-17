@@ -400,7 +400,7 @@ export default function GroupSwitchModal({
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={getModalTitle()}
       bottomDrawerOnMobile
-      ariaLabel="Group switching"
+      aria-label="Group switching"
       footer={!isLoading && !showSuccess && isManualRequest && (
         <Button
           className="w-full"
