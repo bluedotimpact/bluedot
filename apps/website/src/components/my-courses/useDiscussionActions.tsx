@@ -99,14 +99,14 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       variant: 'inline',
       inline: hasPendingReschedule
         ? rescheduleRequestedPill
-        : <Button variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
+        : <Button variant="secondary" size="small" onClick={onReschedule}>Reschedule</Button>,
       overflow: rescheduleOverflow,
     },
     {
       id: 'join-now',
       isVisible: status === 'live' && Boolean(discussionMeetLink),
       variant: 'inline',
-      inline: discussionMeetLink ? <Button variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</Button> : null,
+      inline: discussionMeetLink ? <Button variant="primary" size="small" url={discussionMeetLink} target="_blank">Join now</Button> : null,
       overflow: {
         id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
       },
@@ -129,7 +129,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       variant: 'inline',
       inline: hasPendingReschedule
         ? rescheduleRequestedPill
-        : <Button variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</Button>,
+        : <Button variant="primary" size="small" onClick={onReschedule}>Reschedule</Button>,
       overflow: rescheduleOverflow,
     },
     {
@@ -163,7 +163,7 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       isVisible: status === 'live' && Boolean(discussionMeetLink),
       variant: 'inline',
       inline: discussionMeetLink ? (
-        <Button variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</Button>
+        <Button variant="primary" size="small" url={discussionMeetLink} target="_blank">Join now</Button>
       ) : null,
       overflow: {
         id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',

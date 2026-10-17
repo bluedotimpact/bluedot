@@ -59,7 +59,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
         </button>
       </span>
     ),
-    className: 'text-red-600',
+    className: 'text-error-fg',
   },
 });
 
@@ -89,7 +89,7 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal">
+      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-bluedot-normal">
         {!isIdle && config?.icon}
         {!isIdle && text}
       </div>

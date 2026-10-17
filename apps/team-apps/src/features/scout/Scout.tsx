@@ -420,7 +420,7 @@ const Scout = () => {
               </div>
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
-            <p className="text-size-xxs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
+            <p className="text-size-xs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="secondary" disabled={writing} onClick={() => {
                 setConfirmation(undefined);
@@ -447,7 +447,7 @@ const isLinkedIn = (u: string) => {
 };
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (
-  <p className="mt-2 text-size-xxs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Esc</kbd> {back}</p>
+  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Esc</kbd> {back}</p>
 );
 
 const SessionDecisions: React.FC<{ decisions: Done[] }> = ({ decisions }) => {

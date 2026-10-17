@@ -299,7 +299,7 @@ const getParticipantActions = (
       isVisible: Boolean(showLockedCert && feedbackFormUrl),
       variant: 'inline',
       inline: feedbackFormUrl ? (
-        <Button variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5 text-size-xxs">
+        <Button variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5">
           <FaLock />
           <span>Share feedback<span className="hidden sm:inline"> to view your certificate</span></span>
         </Button>
@@ -309,21 +309,21 @@ const getParticipantActions = (
       id: 'view-certificate',
       isVisible: state === 'completed' && hasCert && !showLockedCert,
       variant: 'inline',
-      inline: <Button variant="primary" size="small" url={certificateUrl} className="text-size-xxs">View certificate</Button>,
+      inline: <Button variant="primary" size="small" url={certificateUrl}>View certificate</Button>,
     },
     {
       id: 'action-plan',
       isVisible: Boolean(showActionPlan),
       variant: 'inline',
       inline: hasSubmittedActionPlan ? (
-        <Button variant="primary" size="small" disabled className="gap-1.5 text-size-xxs disabled:opacity-80">
+        <Button variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
           <span>Action plan submitted</span>
           <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
             <FaCheck className="size-1.5 text-bluedot-darker" />
           </span>
         </Button>
       ) : (
-        <Button variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank" className="text-size-xxs">
+        <Button variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank">
           Submit action plan
         </Button>
       ),
@@ -343,7 +343,6 @@ const getParticipantActions = (
             roundId: courseRegistration.roundId ?? '',
           })}
           target="_blank"
-          className="text-size-xxs"
         >
           {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
         </Button>
@@ -353,7 +352,7 @@ const getParticipantActions = (
       id: 'view-curriculum',
       isVisible: state === 'upcoming' && Boolean(course.slug),
       variant: 'inline',
-      inline: <Button variant="outline-black" size="small" url={`/courses/${course.slug}/1/1`} className="text-size-xxs">View curriculum</Button>,
+      inline: <Button variant="outline-black" size="small" url={`/courses/${course.slug}/1/1`}>View curriculum</Button>,
     },
     {
       id: 'dropped-pill',
@@ -365,7 +364,7 @@ const getParticipantActions = (
       id: 'apply-again',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <Button variant="primary" size="small" url={applyAgainUrl} target="_blank" className="text-size-xxs">Apply again</Button>,
+      inline: <Button variant="primary" size="small" url={applyAgainUrl} target="_blank">Apply again</Button>,
     },
     {
       id: 'open-doc',
@@ -443,7 +442,6 @@ const getFacilitatorActions = (
           size="small"
           url={`/facilitator-feedback/${meetPersonId}`}
           target="_blank"
-          className="text-size-xxs"
         >
           {hasSubmittedFeedback ? 'Edit feedback' : 'Share feedback'}
         </Button>

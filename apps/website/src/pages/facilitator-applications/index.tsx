@@ -67,7 +67,6 @@ const getApplicationActions = (
             roundId: app.roundId ?? '',
           })}
           target="_blank"
-          className="text-size-xxs"
         >
           {app.availabilityIntervalsUTC ? 'Edit availability' : 'Share availability'}
         </Button>

@@ -307,7 +307,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xxs hover:bg-tint"
+                        className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xs hover:bg-tint"
                       >
                         <FaPaperclip className="size-3.5 shrink-0" />
                         <span>Add, drag, or paste attachments here</span>
@@ -317,7 +317,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 )}
               </div>
               {attachmentError && (
-                <p className="text-size-xxs mt-1 text-red-600" role="alert" aria-live="polite">
+                <p className="text-size-xs mt-1 text-error-fg" role="alert" aria-live="polite">
                   {attachmentError}
                 </p>
               )}
@@ -380,7 +380,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 }}
               />
               {emailError && (
-                <p className="text-size-xxs mt-1 text-red-600" role="alert" aria-live="polite">
+                <p className="text-size-xs mt-1 text-error-fg" role="alert" aria-live="polite">
                   {emailError}
                 </p>
               )}

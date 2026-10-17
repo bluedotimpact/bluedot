@@ -205,7 +205,7 @@ const FacilitatorFeedbackPage = () => {
 
           <div className="flex flex-col gap-4">
             <p className="text-size-xs font-semibold text-bluedot-navy">
-              Overall rating <span className="text-red-600">*</span>
+              Overall rating <span className="text-error-fg">*</span>
             </p>
             <StarRating rating={overallRating} onChange={setOverallRating} />
           </div>
@@ -213,7 +213,7 @@ const FacilitatorFeedbackPage = () => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label htmlFor="most-valuable" className="text-size-xs font-semibold text-bluedot-navy">
-                What did you find most valuable? <span className="text-red-600">*</span>
+                What did you find most valuable? <span className="text-error-fg">*</span>
               </label>
               <p className="text-size-xs text-secondary">Describe a specific moment or element that stands out.</p>
             </div>
@@ -228,7 +228,7 @@ const FacilitatorFeedbackPage = () => {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label htmlFor="difficulties" className="text-size-xs font-semibold text-bluedot-navy">
-                Where did you face difficulties? <span className="text-red-600">*</span>
+                Where did you face difficulties? <span className="text-error-fg">*</span>
               </label>
               <p className="text-size-xs text-secondary">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
             </div>
@@ -367,7 +367,7 @@ const FacilitatorFeedbackPage = () => {
           {isAdmin && formData?.existingCourseFeedback?.completed === true && (
             <button
               type="button"
-              className="self-start text-size-xxs text-secondary underline cursor-pointer"
+              className="self-start text-size-xs text-secondary underline cursor-pointer"
               onClick={() => unsubmitFeedback.mutate({ meetPersonId }, {
                 onSuccess: () => window.location.reload(),
               })}
@@ -438,10 +438,10 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
-        <p className="text-size-xxs text-secondary">{getSubtitle(feedback)}</p>
+        <p className="text-size-xs text-secondary">{getSubtitle(feedback)}</p>
         {showNudge && !feedback && (
-          <p className="flex items-center gap-1 text-size-xxs leading-normal font-medium text-[#cc6b11]">
-            <PiWarningCircle className="size-[11px] shrink-0" aria-hidden />
+          <p className="flex items-center gap-1 text-size-xs leading-normal font-medium text-warning-fg">
+            <PiWarningCircle className="size-3.5 shrink-0" aria-hidden />
             Even just a star rating helps
           </p>
         )}

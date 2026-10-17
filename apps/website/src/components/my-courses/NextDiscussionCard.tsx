@@ -28,8 +28,7 @@ const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isL
     {isLive ? <LiveBadge /> : (
       <>
         <div className="flex h-4 items-center justify-center bg-bluedot-normal sm:h-6">
-          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-          <span className="text-[10px] leading-relaxed text-white sm:text-size-xxs sm:font-semibold">{month.toUpperCase()}</span>
+          <span className="text-size-xxs font-semibold leading-none text-white">{month.toUpperCase()}</span>
         </div>
         <div className="flex flex-1 items-center justify-center">
           {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
@@ -180,7 +179,6 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
           url={discussionDocUrl}
           target="_blank"
           disabled={!discussionDocUrl}
-          className="text-size-xxs"
         >
           Open discussion doc
         </Button>
@@ -190,7 +188,6 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
             size="small"
             onClick={onOpenUpdateTime}
             disabled={!roundId}
-            className="text-size-xxs"
           >
             Update discussion time
           </Button>
@@ -202,7 +199,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
             url={zoomLink}
             target="_blank"
             disabled={!zoomLink}
-            className="flex-1 text-size-xxs sm:flex-none"
+            className="flex-1 sm:flex-none"
           >
             Join discussion
           </Button>
@@ -227,7 +224,6 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
           variant="secondary"
           size="small"
           onClick={onOpenReschedule}
-          className="text-size-xxs"
         >
           Reschedule
         </Button>
@@ -237,7 +233,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
         size="small"
         url={primaryHref}
         target={isLive ? '_blank' : undefined}
-        className="flex-1 text-size-xxs sm:flex-none"
+        className="flex-1 sm:flex-none"
       >
         {primaryLabel}
       </Button>

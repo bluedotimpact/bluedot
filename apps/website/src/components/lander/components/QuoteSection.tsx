@@ -48,7 +48,7 @@ const FONT_SIZE_THRESHOLDS = {
 } as const;
 
 const FONT_SIZE_CLASSES = {
-  EXTRA_LONG: 'text-size-xxs sm:text-size-xs bd-md:text-size-sm xl:text-size-md', // For quotes > 400 chars
+  EXTRA_LONG: 'text-size-xs bd-md:text-size-sm xl:text-size-md', // For quotes > 400 chars
   LONG: 'text-size-sm sm:text-size-md xl:text-size-lg', // For quotes 200-400 chars
   DEFAULT: 'text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
 } as const;
@@ -74,7 +74,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   cardBackgroundColor?: string;
 }) => {
   const cardContent = (
-    <div className="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]">
+    <div className="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]">
       {/* Quote and author info */}
       <div className="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between">
         {/* Quote text - sizing automatically determined by content length */}
@@ -91,6 +91,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
           {quote.url && isActive ? (
             <a href={quote.url} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
               <img
+                loading="lazy"
                 src={quote.imageSrc}
                 alt={quote.name}
                 className="size-12 sm:size-16 object-cover rounded-full lg:hidden"
@@ -98,6 +99,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
             </a>
           ) : (
             <img
+              loading="lazy"
               src={quote.imageSrc}
               alt={quote.name}
               className="size-12 sm:size-16 object-cover rounded-full lg:hidden"
@@ -126,6 +128,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
             className="block size-full cursor-pointer"
           >
             <img
+              loading="lazy"
               src={quote.imageSrc}
               alt={quote.name}
               className="size-full object-cover rounded-l-xl"
@@ -133,6 +136,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
           </a>
         ) : (
           <img
+            loading="lazy"
             src={quote.imageSrc}
             alt={quote.name}
             className="size-full object-cover rounded-l-xl"
@@ -144,7 +148,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 
   return (
     <div
-      className="w-full rounded-xl overflow-hidden"
+      className="w-full h-full rounded-xl overflow-hidden"
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       style={{ backgroundColor: cardBackgroundColor || DEFAULT_COLORS.cardBg }}
     >
@@ -359,8 +363,17 @@ const QuoteSection = ({
           <div className="lg:hidden relative">
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
-              <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10">
-                <QuoteCard quote={activeQuote} isActive cardBackgroundColor={cardBackgroundColor} />
+              {/* Every quote is stacked so the container holds the tallest card and nothing below it jumps */}
+              <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10 grid">
+                {quotes.map((quote, index) => (
+                  <div
+                    key={quote.quote}
+                    className={`[grid-area:1/1] ${index === activeIndex ? 'visible' : 'invisible'}`}
+                    aria-hidden={index !== activeIndex}
+                  >
+                    <QuoteCard quote={quote} isActive={index === activeIndex} cardBackgroundColor={cardBackgroundColor} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>

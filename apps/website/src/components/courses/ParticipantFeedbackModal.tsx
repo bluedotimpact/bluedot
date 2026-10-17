@@ -100,7 +100,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
-              How did they show up across discussions? <span className="text-red-600">*</span>
+              How did they show up across discussions? <span className="text-error-fg">*</span>
             </p>
             <p className="text-size-xs text-secondary">
               Think about preparation, initiative, and engagement between sessions.
@@ -118,7 +118,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
-              How did they engage with ideas during discussions? <span className="text-red-600">*</span>
+              How did they engage with ideas during discussions? <span className="text-error-fg">*</span>
             </p>
             <p className="text-size-xs text-secondary">
               Think about quality of thinking, willingness to challenge, and depth of engagement.
@@ -135,7 +135,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
 
         <fieldset className="m-0 mt-8 flex flex-col gap-1.5 border-0 p-0">
           <legend className="p-0 text-size-xs font-semibold text-bluedot-navy">
-            How should we follow up with them? <span className="text-red-600">*</span>
+            How should we follow up with them? <span className="text-error-fg">*</span>
           </legend>
           <p className="text-size-xs text-secondary">Check all that apply.</p>
           <div className="mt-2.5 flex flex-col gap-2">
@@ -172,7 +172,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-subtle">
-          <p className="text-size-xxs text-secondary">Changes save when you click "Done"</p>
+          <p className="text-size-xs text-secondary">Changes save when you click "Done"</p>
           <div className="flex gap-2.5">
             <Button variant="outline-black" onClick={onClose} disabled={savePeerFeedback.isPending}>
               Cancel
@@ -242,7 +242,7 @@ export const RubricSelector = ({ name, 'aria-labelledby': ariaLabelledBy, option
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
               <p className="text-size-xs leading-normal text-bluedot-navy">{option.label}</p>
               {isSelected && (
-                <p className="text-size-xxs leading-relaxed text-bluedot-navy mt-1.5">{option.description}</p>
+                <p className="text-size-xs leading-relaxed text-secondary mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (

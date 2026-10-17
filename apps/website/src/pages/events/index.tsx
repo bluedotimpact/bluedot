@@ -88,7 +88,7 @@ const EventsPage = () => {
               <Button url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</Button>
             </div>
           </div>
-          <div className="mb-6 flex flex-col gap-1 text-size-xxs leading-relaxed text-secondary sm:flex-row sm:justify-between">
+          <div className="mb-6 flex flex-col gap-1 text-size-xs leading-relaxed text-secondary sm:flex-row sm:justify-between">
             <p role="status">{!isLoading && !error ? `${filteredEvents.length} upcoming ${filteredEvents.length === 1 ? 'event' : 'events'}` : 'Upcoming events'}</p>
             <p>Online events in your time. In-person events in venue time.</p>
           </div>

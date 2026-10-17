@@ -34,7 +34,7 @@ const ViewParticipantsModal = ({ groupId, handleClose }: ViewParticipantsModalPr
             <p className="text-size-xs text-secondary py-2">No other participants in your group yet.</p>
           )}
           {facilitators.map((p) => (
-            <ParticipantRow key={p.id} name={p.name} rightHandNode={<span className="text-size-xxs font-medium text-secondary">Facilitator</span>} />
+            <ParticipantRow key={p.id} name={p.name} rightHandNode={<span className="text-size-xs font-medium text-secondary">Facilitator</span>} />
           ))}
           {participants.map((p) => (
             <ParticipantRow key={p.id} name={p.name} />
