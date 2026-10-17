@@ -32,7 +32,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                 style="background-color: var(--bluedot-lightest);"
               >
                 <div
-                  class="flex flex-col lg:flex-row-reverse w-full h-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
+                  class="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]"
                 >
                   <div
                     class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
@@ -55,6 +55,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                         <img
                           alt="Dario Amodei"
                           class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                          loading="lazy"
                           src="/images/lander/foai/dario.webp"
                         />
                       </a>
@@ -88,6 +89,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       <img
                         alt="Dario Amodei"
                         class="size-full object-cover rounded-l-xl"
+                        loading="lazy"
                         src="/images/lander/foai/dario.webp"
                       />
                     </a>
@@ -104,7 +106,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                 style="background-color: var(--bluedot-lightest);"
               >
                 <div
-                  class="flex flex-col lg:flex-row-reverse w-full h-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
+                  class="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]"
                 >
                   <div
                     class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
@@ -121,6 +123,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       <img
                         alt="Sundar Pichai"
                         class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        loading="lazy"
                         src="/images/agi-strategy/sundar.webp"
                       />
                       <div
@@ -147,6 +150,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     <img
                       alt="Sundar Pichai"
                       class="size-full object-cover rounded-l-xl"
+                      loading="lazy"
                       src="/images/agi-strategy/sundar.webp"
                     />
                   </div>
@@ -170,7 +174,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
               style="background-color: var(--bluedot-lightest);"
             >
               <div
-                class="flex flex-col lg:flex-row-reverse w-full h-full min-h-[465px] bd-md:min-h-0 bd-md:!h-[377px] lg:h-[385px]"
+                class="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]"
               >
                 <div
                   class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
@@ -193,6 +197,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       <img
                         alt="Dario Amodei"
                         class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        loading="lazy"
                         src="/images/lander/foai/dario.webp"
                       />
                     </a>
@@ -226,6 +231,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     <img
                       alt="Dario Amodei"
                       class="size-full object-cover rounded-l-xl"
+                      loading="lazy"
                       src="/images/lander/foai/dario.webp"
                     />
                   </a>
