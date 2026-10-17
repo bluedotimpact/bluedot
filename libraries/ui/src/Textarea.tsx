@@ -15,7 +15,7 @@ export const Textarea: React.ForwardRefExoticComponent<TextareaProps> = forwardR
     <div className={cn('relative w-full', className)}>
       <textarea
         className={cn(
-          'block w-full min-h-24 p-3 border border-border-control rounded-surface text-size-sm leading-6 text-primary bg-raised placeholder:text-placeholder',
+          'peer block w-full min-h-24 p-3 border border-border-control rounded-surface text-size-sm leading-6 text-primary bg-raised placeholder:text-placeholder',
           'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
           'disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed disabled:resize-none',
           '[&::-webkit-resizer]:hidden',
@@ -23,12 +23,10 @@ export const Textarea: React.ForwardRefExoticComponent<TextareaProps> = forwardR
         {...props}
         ref={ref}
       />
-      {!props.disabled && (
-        <ResizeHandleIcon
-          aria-hidden="true"
-          className="pointer-events-none absolute right-1 bottom-1 size-4 text-secondary hidden supports-[selector(::-webkit-resizer)]:block"
-        />
-      )}
+      <ResizeHandleIcon
+        aria-hidden="true"
+        className="pointer-events-none absolute right-1 bottom-1 size-4 text-secondary hidden supports-[selector(::-webkit-resizer)]:block peer-disabled:invisible"
+      />
     </div>
   );
 });
