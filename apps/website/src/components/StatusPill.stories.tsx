@@ -3,7 +3,7 @@ import { FaBan, FaCheck } from 'react-icons/fa6';
 import StatusPill from './StatusPill';
 
 const meta = {
-  title: 'website/my-courses/StatusPill',
+  title: 'website/StatusPill',
   component: StatusPill,
   parameters: { layout: 'padded' },
   args: { children: 'Attended', icon: <FaCheck aria-hidden className="size-3" /> },
