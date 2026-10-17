@@ -19,6 +19,7 @@ const INCLUDED_ROUTES = [
   ROUTES.contact,
   ROUTES.joinUs,
   ROUTES.missions,
+  ROUTES.research,
   ROUTES.privacyPolicy,
   ROUTES.contractorPrivacyNotice,
 ];

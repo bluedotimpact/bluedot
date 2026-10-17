@@ -1,0 +1,2724 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ResearchPage > renders every research area with one link per item 1`] = `
+<div>
+  <div>
+    <section
+      class="relative w-full min-h-[317px] bd-md:min-h-[366px]"
+    >
+      <nav
+        class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
+      >
+        <div
+          class="nav__container section-base"
+        >
+          <div
+            class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
+          >
+            <div
+              class="flex items-center gap-1.5"
+            >
+              <div
+                class="mobile-nav-links xl:hidden"
+              >
+                <button
+                  aria-expanded="false"
+                  aria-label="Open menu"
+                  class="relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-surface focus-visible:outline-2 focus-visible:-outline-offset-2 disabled:pointer-events-none disabled:opacity-40 before:absolute before:-inset-1.5 mobile-nav-links__btn text-white hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="size-4"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 448 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
+                    />
+                  </svg>
+                </button>
+                <div
+                  class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                >
+                  <div
+                    class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
+                    role="presentation"
+                  >
+                    <div
+                      class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
+                    >
+                      <div
+                        class="nav-dropdown"
+                      >
+                        <button
+                          aria-controls="courses-dropdown"
+                          aria-expanded="false"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                          type="button"
+                        >
+                          Courses
+                          <svg
+                            aria-hidden="true"
+                            class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 512 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                            />
+                          </svg>
+                        </button>
+                        <div
+                          aria-label="Courses menu"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          id="courses-dropdown"
+                          role="region"
+                        >
+                          <div
+                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          >
+                            <span
+                              class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                              role="status"
+                            >
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 0ms;"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 150ms;"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 300ms;"
+                              />
+                              <span
+                                class="sr-only"
+                              >
+                                Loading…
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="nav-dropdown"
+                      >
+                        <button
+                          aria-controls="grants-dropdown"
+                          aria-expanded="false"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                          type="button"
+                        >
+                          Grants
+                          <svg
+                            aria-hidden="true"
+                            class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 512 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                            />
+                          </svg>
+                        </button>
+                        <div
+                          aria-label="Grants menu"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          id="grants-dropdown"
+                          role="region"
+                        >
+                          <div
+                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          >
+                            <span
+                              class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                              role="status"
+                            >
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 0ms;"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 150ms;"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 300ms;"
+                              />
+                              <span
+                                class="sr-only"
+                              >
+                                Loading…
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="nav-dropdown"
+                      >
+                        <button
+                          aria-controls="programs-dropdown"
+                          aria-expanded="false"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                          type="button"
+                        >
+                          Programs
+                          <svg
+                            aria-hidden="true"
+                            class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 512 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                            />
+                          </svg>
+                        </button>
+                        <div
+                          aria-label="Programs menu"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          id="programs-dropdown"
+                          role="region"
+                        >
+                          <div
+                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          >
+                            <span
+                              class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                              role="status"
+                            >
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 0ms;"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 150ms;"
+                              />
+                              <span
+                                aria-hidden="true"
+                                class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                                style="animation-delay: 300ms;"
+                              />
+                              <span
+                                class="sr-only"
+                              >
+                                Loading…
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/missions"
+                        tabindex="0"
+                      >
+                        Missions
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/alumni"
+                        tabindex="0"
+                      >
+                        Alumni
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        About
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Join us
+                      </a>
+                    </div>
+                    <div
+                      class="flex flex-col gap-4 pt-6 mt-6 border-t border-default"
+                    >
+                      <a
+                        class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                        href="/login?register=true&redirect_to=%2Fresearch"
+                        tabindex="0"
+                      >
+                        Start for free
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="bluedot-a not-prose logo shrink-0 w-[151px] min-[681px]:w-[200px] no-underline"
+                href="/"
+                tabindex="0"
+              >
+                <img
+                  alt="BlueDot Impact Logo"
+                  class="logo__img h-5 min-[681px]:h-6 mr-auto transition-all duration-300"
+                  src="/images/logo/BlueDot_Impact_Logo_White.svg"
+                />
+              </a>
+            </div>
+            <div
+              class="flex items-center gap-12"
+            >
+              <div
+                class="nav-links flex gap-9 [&>*]:w-fit hidden xl:flex max-[1360px]:gap-6"
+              >
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    aria-controls="courses-dropdown"
+                    aria-expanded="false"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                    type="button"
+                  >
+                    Courses
+                    <svg
+                      aria-hidden="true"
+                      class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    aria-label="Courses menu"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    id="courses-dropdown"
+                    role="region"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    >
+                      <span
+                        class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                        role="status"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 0ms;"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 150ms;"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 300ms;"
+                        />
+                        <span
+                          class="sr-only"
+                        >
+                          Loading…
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    aria-controls="grants-dropdown"
+                    aria-expanded="false"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                    type="button"
+                  >
+                    Grants
+                    <svg
+                      aria-hidden="true"
+                      class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    aria-label="Grants menu"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    id="grants-dropdown"
+                    role="region"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    >
+                      <span
+                        class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                        role="status"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 0ms;"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 150ms;"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 300ms;"
+                        />
+                        <span
+                          class="sr-only"
+                        >
+                          Loading…
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    aria-controls="programs-dropdown"
+                    aria-expanded="false"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                    type="button"
+                  >
+                    Programs
+                    <svg
+                      aria-hidden="true"
+                      class="size-3 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    aria-label="Programs menu"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    id="programs-dropdown"
+                    role="region"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    >
+                      <span
+                        class="my-6 flex items-center justify-center gap-2 text-accent py-2"
+                        role="status"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 0ms;"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 150ms;"
+                        />
+                        <span
+                          aria-hidden="true"
+                          class="size-2 rounded-full bg-current motion-safe:animate-bounce motion-reduce:animate-pulse"
+                          style="animation-delay: 300ms;"
+                        />
+                        <span
+                          class="sr-only"
+                        >
+                          Loading…
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/missions"
+                  tabindex="0"
+                >
+                  Missions
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/alumni"
+                  tabindex="0"
+                >
+                  Alumni
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Join us
+                </a>
+              </div>
+              <div
+                class="nav-cta flex flex-row items-center gap-4"
+              >
+                <a
+                  class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                  href="/login?redirect_to=%2Fresearch"
+                  tabindex="0"
+                >
+                  Sign in
+                </a>
+                <a
+                  class="not-prose w-fit cursor-pointer gap-2 whitespace-nowrap rounded-surface font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                  href="/login?register=true&redirect_to=%2Fresearch"
+                  tabindex="0"
+                >
+                  Start for free
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <img
+        alt=""
+        class="absolute inset-0 size-full object-cover -scale-x-100"
+        fetchpriority="high"
+        src="/images/homepage/hero.webp"
+      />
+      <div
+        class="relative z-10 flex flex-col justify-center h-full min-h-[317px] bd-md:min-h-[366px] pt-[calc(var(--nav-height-mobile)+2rem)] lg:pt-[calc(var(--nav-height-desktop)+2rem)] pb-8"
+        data-on-dark="true"
+      >
+        <div
+          class="section-base"
+        >
+          <div
+            class="flex flex-col gap-6 max-w-[780px]"
+          >
+            <h1
+              class="bluedot-h1 text-white text-size-2xl lg:text-size-3xl xl:text-size-4xl leading-tight font-normal tracking-tighter text-left"
+            >
+              Research
+            </h1>
+            <p
+              class="text-size-sm bd-md:text-size-md leading-relaxed text-white"
+            >
+              Research is a core part of our work. It shapes what we teach, who we fund and which projects we launch.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="bg-canvas border-subtle w-full border-b py-3"
+    >
+      <nav
+        aria-label="Breadcrumbs"
+        class="section-base"
+      >
+        <ol
+          class="text-size-xs flex min-w-0 items-center gap-2 leading-normal font-medium"
+        >
+          <li
+            class="flex min-w-0 items-center gap-2"
+          >
+            <a
+              class="bluedot-a not-prose text-secondary hover:text-primary truncate no-underline"
+              href="/"
+              tabindex="0"
+              title="Home"
+            >
+              Home
+            </a>
+            <svg
+              aria-hidden="true"
+              class="size-3 text-secondary shrink-0"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </li>
+          <li
+            class="flex min-w-0 items-center gap-2"
+          >
+            <span
+              aria-current="page"
+              class="text-primary truncate"
+              title="Research"
+            >
+              Research
+            </span>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <section
+      class="section section-body gap-12"
+    >
+      <section
+        class="flex scroll-mt-28 flex-col gap-6"
+        id="field-strategy"
+      >
+        <div
+          class="flex max-w-prose flex-col gap-2"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-size-lg"
+          >
+            Field strategy
+          </h2>
+          <p
+            class="bluedot-p not-prose"
+          >
+            We map a problem area through the literature and dozens of expert calls, then turn what we learn into concrete projects for founders and researchers.
+          </p>
+        </div>
+        <div
+          class="flex flex-col gap-6"
+        >
+          <ul
+            class="flex list-none flex-col divide-y divide-subtle"
+          >
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="/missions"
+                tabindex="0"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Missions
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Problem briefs for projects we'd love someone to take on, each setting out the problem, why it matters, what success looks like and the work needed.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      BlueDot Impact · Since May 2026 · Problem briefs
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    See missions
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://docs.google.com/document/d/1XAfw9XHltgjDEIjVkKpyStaGdGbZbL6ss3PO6G6EGY4/edit?tab=t.gphxdsc7qzoc"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Field strategy: critical worker respiratory protection
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Problem analysis, theory of change and cost-effectiveness estimates for giving critical workers high-quality respirators in a severe pandemic.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Dewi Erwan · May 2026 · Working draft
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/field-strategy-playbook"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      A playbook for field strategy
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Our method for field strategy research: about 50 expert calls in 50 days, then a strategy that names the threat, what success looks like, the main obstacle and the next 6–12 months of work.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Dewi Erwan · December 2025 · Method
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://docs.google.com/document/d/1siKzEQvZqkKI1oPWpKLPPOWSqJCTB_cIr3PYHSJRYpg/edit?tab=t.0"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Field strategy: UV air disinfection
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Why UV air disinfection matters, where it stands today, what is holding it back, and the trials and safety studies that would move it forward.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Dewi Erwan · November 2025 · Working draft
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/startup-studio"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Our experiments to support founders to protect humanity
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Three weeks scoping pandemic PPE stockpiles with 50+ expert interviews, organized around three questions: what needs to be done, who will pay for it and who will make it happen.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Dewi Erwan · November 2025 · Problem scoping
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        class="flex scroll-mt-28 flex-col gap-6"
+        id="strategy-and-threat-models"
+      >
+        <div
+          class="flex max-w-prose flex-col gap-2"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-size-lg"
+          >
+            Strategy and threat models
+          </h2>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Reviews of how AI could cause catastrophe, which plans could prevent it and what the field needs, built on expert interviews and the published literature.
+          </p>
+        </div>
+        <div
+          class="flex flex-col gap-6"
+        >
+          <ul
+            class="flex list-none flex-col divide-y divide-subtle"
+          >
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/we-asked-ai-safety-orgs-about-their-hiring-needs"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      We asked 10+ AI safety orgs about their hiring needs
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Interviews with hiring managers at more than ten AI safety organizations. The hardest people to find can lead work on their own and care deeply about AI risk.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Li-Lian Ang · February 2026 · Interview study
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/how-ai-could-enable-catastrophic-pandemics"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      How AI could enable catastrophic pandemics
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      How AI could lower the barriers to creating pandemic pathogens, drawing on frontier-model safety evaluations, studies of AI-enabled biological tools and the history of bioweapons programs.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Will Saunter · October 2025 · Literature review
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/how-ai-could-enable-critical-infrastructure-collapse"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      How AI could enable critical infrastructure collapse
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      How AI cuts the expertise and time needed to attack power grids, water systems and hospitals, drawing on real incidents and recent research on AI's offensive cyber capabilities.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Li-Lian Ang · October 2025 · Literature review
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/course-portfolio-vision"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Our vision for comprehensive AI safety training
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Interviews with 50+ AI safety experts and a review of the strategy literature, distilled into a five-layer defense-in-depth framework: prevent, detect, constrain, withstand and adapt.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Will Saunter · July 2025 · Expert interviews
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/5-ways-to-develop-ai-safety-plan"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      5 ways to develop an AI safety plan or field strategy
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Eleven concrete methods for building a plan, grouped into five approaches, with lessons from the ones we tried.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · June 2025 · Methods
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/what-makes-a-good-ai-safety-plan"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      What makes a good AI safety plan?
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Criteria for judging whether an AI safety plan would actually work, and a prompt for stress-testing your own.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · June 2025 · Framework
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/ai-safety-paths-plans-and-strategies"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Key paths, plans and strategies to AI safety success
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      A map of the main routes to AI safety success, from a review of 50+ published plans and interviews with 10+ researchers.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · June 2025 · Literature review
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        class="flex scroll-mt-28 flex-col gap-6"
+        id="program-studies"
+      >
+        <div
+          class="flex max-w-prose flex-col gap-2"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-size-lg"
+          >
+            Studies of our programs
+          </h2>
+          <p
+            class="bluedot-p not-prose"
+          >
+            We test whether our courses and programs work and publish what we find, including null results.
+          </p>
+        </div>
+        <div
+          class="flex flex-col gap-6"
+        >
+          <ul
+            class="flex list-none flex-col divide-y divide-subtle"
+          >
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/can-you-teach-context"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Can you teach context?
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      A four-day residential experiment with 24 participants. We broke AI safety "context" into five learnable components and report what worked and what didn't.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Joshua Landes and Harry Waterman · September 2026 · Pilot study
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/avoid-technical-ai-safety-application-mistakes"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      How to avoid the 3 mistakes behind most rejected Technical AI Safety applicants
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      What separated strong and weak applicants across roughly 1,000 applications to our Technical AI Safety course.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Li-Lian Ang · November 2025 · Application analysis
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/a-bluedot-incubator-v1"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      What we learned from turning our AGI Strategy Course into an Incubator
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      A five-day pilot with seven participants that produced six problem-solution documents, and what we would change about format, selection and co-founder matching.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Joshua Landes and Aniket Chakravorty · October 2025 · Program evaluation
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/first-ops-bootcamp-lessons"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      What we learned from our first Operations Bootcamp
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Participant feedback, outreach results and success criteria from a bootcamp for experienced operations professionals moving into AI safety organizations.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      BlueDot Impact · June 2025 · Program evaluation
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/ai-alignment-june-2024-retro"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      AI Alignment June 2024 course retrospective
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Half of participants submitted a project, up from 36% on the previous run, and more were rated high quality. What drove the gains and what we still need to fix.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · October 2024 · Course retrospective
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/is-proposal-feedback-helpful"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Does project proposal feedback result in better final projects?
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      We gave feedback on a random half of 81 project proposals. It made no significant difference to how many projects were finished or how good they were.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · October 2024 · Randomized test
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/alignment-participant-user-interviews"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Summary of AI alignment participant user interviews
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      How participants on our June 2024 AI Alignment course used the readings, exercises and discussions, and where the course fell short.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · September 2024 · Interview study
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/avoid-alignment-application-mistakes"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      How to avoid the 2 mistakes behind 89% of rejected AI alignment applications
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      An analysis of rejected applications to our AI Alignment course, classified with an LLM and spot-checked by hand.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · July 2024 · Application analysis
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/ai-alignment-march-2024-retro"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      What we learnt from running our AI alignment course in March 2024
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      A structured look back at the course's systems, curriculum and recruitment, published as part of how we work in public.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · July 2024 · Course retrospective
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/2022-ai-alignment-course-impact"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      2022 AI Alignment Course: 5→37% working on AI safety
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      We traced the careers of the 342 people on our 2022 course. The share working on AI safety rose from about 5% to about 37%.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Dewi Erwan · May 2024 · Cohort follow-up
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/avoid-governance-application-mistakes"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      How to avoid the 4 mistakes behind 92% of rejected AI governance applications
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      An analysis of rejected applications to our AI Governance course and the four mistakes behind most of them.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · April 2024 · Application analysis
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/2023-impact-report"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      2023 Impact Report Summary
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Our public summary of 2023: how we delivered our courses, the platform we built to run them at scale, and what participants got from them.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Dewi Erwan · March 2024 · Annual report
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        class="flex scroll-mt-28 flex-col gap-6"
+        id="research-agendas"
+      >
+        <div
+          class="flex max-w-prose flex-col gap-2"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-size-lg"
+          >
+            Research agendas
+          </h2>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Open questions and project ideas we want people to work on, with guidance on doing the work well.
+          </p>
+        </div>
+        <div
+          class="flex flex-col gap-6"
+        >
+          <ul
+            class="flex list-none flex-col divide-y divide-subtle"
+          >
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/give-ai-companies-something-to-aim"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Give AI companies something to aim for. The case for beneficial capability evals.
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Why we need benchmarks for capabilities that keep us safe, such as safety research and cyber defense, and two ways to build them.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones and Li-Lian Ang · January 2026 · Research agenda
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/dual-use-advice"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Navigating dual-use projects in biosecurity
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      How to judge and manage the misuse risk in biosecurity projects such as benchmarks, AI agents and red-teaming, written for our course participants and hackathon teams.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Will Saunter · November 2025 · Guidance
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/ai-safety-articles-we-would-like-to-exist"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      3 articles on AI safety we'd like to exist
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Three gaps in the literature we kept running into while teaching, and what each missing article should cover.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · June 2024 · Research gaps
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/ai-governance-project-ideas"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      AI governance project ideas
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Five worked examples of governance research projects, from regional policy analysis to a policy tracker and historical case studies.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Luke Drago · June 2024 · Project ideas
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/alignment-project-ideas"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      AI alignment project ideas
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      A curated list of alignment research projects for our course participants, from model organisms of misalignment to interpretability and compute governance.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · April 2024 · Project ideas
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/p/alignment-project-guidance"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      How to do an excellent AI alignment project
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      How to run a strong course project: pick one narrow question, test it early, build a minimal working version and improve it with feedback.
+                    </div>
+                    <div
+                      class="mt-1 text-size-xs leading-relaxed text-secondary"
+                    >
+                      Adam Jones · April 2024 · Guidance
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <section
+        class="flex scroll-mt-28 flex-col gap-6"
+        id="research-we-support"
+      >
+        <div
+          class="flex max-w-prose flex-col gap-2"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-size-lg"
+          >
+            Research we support
+          </h2>
+          <p
+            class="bluedot-p not-prose"
+          >
+            These projects belong to the people who run them. We help with funding, mentoring and a place to publish.
+          </p>
+        </div>
+        <div
+          class="flex flex-col gap-6"
+        >
+          <ul
+            class="flex list-none flex-col divide-y divide-subtle"
+          >
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="/courses/technical-ai-safety-project"
+                tabindex="0"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Technical AI Safety Project Sprint
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      A mentored 30-hour project course for graduates of our Technical AI Safety course. Participants choose a project and see it through.
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    See the sprint
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="/grants/rapid#grants-made"
+                tabindex="0"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Rapid Grants
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Fast grants for compute, research tools and travel to present research. Grantees design and run their own projects.
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    See funded projects
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+            <li
+              class="py-4 first:pt-0 last:pb-0"
+            >
+              <a
+                class="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-4 group rounded-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+                href="https://blog.bluedot.org/s/projects"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                <div
+                  class="flex min-w-0 flex-1 items-stretch gap-4"
+                >
+                  <div
+                    class="w-1 shrink-0 rounded-sm bg-accent-subtle transition-colors group-hover:bg-accent group-focus-visible:bg-accent"
+                  />
+                  <div
+                    class="min-w-0 flex-1"
+                  >
+                    <p
+                      class="text-size-md leading-snug font-semibold text-primary"
+                    >
+                      Participant projects
+                      <span
+                        class="sr-only"
+                      >
+                         (opens in a new tab)
+                      </span>
+                    </p>
+                    <div
+                      class="mt-1 text-size-sm leading-relaxed text-secondary"
+                    >
+                      Course participants publish their end-of-course projects on our blog, from interpretability experiments to biosecurity analyses.
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ml-5 flex shrink-0 items-center text-size-xs font-semibold text-link transition-colors group-hover:text-link-hover bd-md:ml-0 bd-md:whitespace-nowrap"
+                >
+                  <span
+                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                  >
+                    Read on our blog
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </section>
+    <div
+      class="page-newsletter w-full bd-md:px-spacing-x bd-md:mt-spacing-y bd-md:mb-16"
+    >
+      <div
+        class="mx-auto max-w-max-width"
+      >
+        <div
+          class="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden"
+        >
+          <div
+            aria-hidden="true"
+            class="absolute inset-0 pointer-events-none"
+          >
+            <div
+              class="absolute inset-0 bd-md:rounded-xl -scale-x-100 bg-cover"
+              style="background-image: url("/images/homepage/hero.webp"); background-position: 50% 60%;"
+            />
+            <div
+              class="absolute inset-0 bd-md:rounded-xl"
+              style="mix-blend-mode: overlay;"
+            />
+          </div>
+          <div
+            class="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12"
+          >
+            <div
+              class="flex flex-col gap-4 w-full"
+            >
+              <p
+                class="text-size-xxs font-medium uppercase tracking-wide text-on-dark-secondary"
+              >
+                Newsletter
+              </p>
+              <h3
+                class="bluedot-h3 not-prose text-white max-w-narrow"
+              >
+                Subscribe to get AI safety news and course updates delivered directly to your inbox
+              </h3>
+            </div>
+            <div
+              class="relative w-full lg:w-[480px]"
+            >
+              <form
+                class="flex flex-col lg:flex-row gap-3 w-full transition-opacity duration-300 opacity-100"
+                data-on-dark="true"
+              >
+                <label
+                  class="sr-only"
+                  for="newsletter-email"
+                >
+                  Email address
+                </label>
+                <input
+                  class="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-tight tracking-wide text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                  id="newsletter-email"
+                  placeholder="Email"
+                  required=""
+                  style="background-origin: padding-box, border-box; background-clip: padding-box, border-box;"
+                  type="email"
+                  value=""
+                />
+                <button
+                  class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover w-full lg:w-auto"
+                  type="submit"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+            <img
+              alt=""
+              class="bd-md:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
+              src="/images/homepage/newsletter.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
