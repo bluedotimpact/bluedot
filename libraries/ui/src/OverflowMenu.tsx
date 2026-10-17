@@ -20,7 +20,7 @@ export type OverflowMenuItemProps = {
   onAction?: () => void;
   href?: string;
   target?: string;
-  isDisabled?: boolean;
+  disabled?: boolean;
 };
 
 export type OverflowMenuProps = {
@@ -58,14 +58,14 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
         <MenuItem
           key={item.id}
           id={item.id}
-          href={item.isDisabled ? undefined : item.href}
+          href={item.disabled ? undefined : item.href}
           target={item.target}
-          isDisabled={item.isDisabled}
+          isDisabled={item.disabled}
           className={clsx(
             'block px-4 py-3 outline-none',
-            item.isDisabled && 'cursor-default text-disabled',
-            !item.isDisabled && 'cursor-pointer',
-            !item.isDisabled && (isDesktop ? 'hover:bg-tint' : 'hover:bg-tint active:bg-active rounded-lg'),
+            item.disabled && 'cursor-default text-disabled',
+            !item.disabled && 'cursor-pointer',
+            !item.disabled && (isDesktop ? 'hover:bg-tint' : 'hover:bg-tint active:bg-active rounded-lg'),
           )}
         >
           {item.label}

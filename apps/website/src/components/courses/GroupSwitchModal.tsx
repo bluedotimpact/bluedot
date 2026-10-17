@@ -238,7 +238,7 @@ export default function GroupSwitchModal({
         id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.group.startTimeUtc,
-        isDisabled: g.spotsLeftIfKnown === 0,
+        disabled: g.spotsLeftIfKnown === 0,
         isSelected,
         isRecurringTime: true,
         isDaily,
@@ -263,7 +263,7 @@ export default function GroupSwitchModal({
         id: d.discussion.id,
         groupName: d.groupName,
         dateTime: d.discussion.startDateTime,
-        isDisabled: d.spotsLeftIfKnown === 0,
+        disabled: d.spotsLeftIfKnown === 0,
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
@@ -285,7 +285,7 @@ export default function GroupSwitchModal({
   const hasMoreOptions = groupSwitchOptions.length > INITIAL_OPTIONS_SHOWN;
   const visibleOptions = showAllOptions ? groupSwitchOptions : groupSwitchOptions.slice(0, INITIAL_OPTIONS_SHOWN);
 
-  const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
+  const alternativeCount = groupSwitchOptions.filter((op) => !op.disabled).length;
   const alternativeCountMessage = isTemporarySwitch
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
     : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
@@ -491,8 +491,8 @@ export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
   return [...options].sort((a, b) => {
     // Sort enabled before disabled
-    const disabledA = a.isDisabled ?? false;
-    const disabledB = b.isDisabled ?? false;
+    const disabledA = a.disabled ?? false;
+    const disabledB = b.disabled ?? false;
     if (disabledA !== disabledB) {
       return disabledA ? 1 : -1;
     }
@@ -576,7 +576,7 @@ type GroupSwitchOptionProps = {
   id?: string;
   groupName: string;
   dateTime: number | null;
-  isDisabled?: boolean;
+  disabled?: boolean;
   description: React.ReactNode;
   isSelected?: boolean;
   userIsParticipant?: boolean;
@@ -591,7 +591,7 @@ type GroupSwitchOptionProps = {
 const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   groupName,
   dateTime,
-  isDisabled,
+  disabled,
   description,
   isSelected,
   userIsParticipant,
@@ -627,10 +627,10 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
       className={cn(
         'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 hover:border-strong',
         isSelected && 'border-bluedot-normal hover:border-bluedot-normal bg-blue-50',
-        isDisabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
+        disabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
         userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',
       )}
-      {...(!isDisabled && !userIsParticipant && {
+      {...(!disabled && !userIsParticipant && {
         onClick: onSelect,
         onKeyDown(e: React.KeyboardEvent) {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -673,7 +673,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
                 onConfirm?.();
               }}
               // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              disabled={isDisabled || !canSubmit || isSubmitting}
+              disabled={disabled || !canSubmit || isSubmitting}
               aria-label={`Confirm selection of ${groupName}`}
               className="h-fit my-auto"
             >

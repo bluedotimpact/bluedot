@@ -89,7 +89,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
   const rescheduleRequestedPill = <StatusPill icon={<PendingIcon />}>Reschedule requested</StatusPill>;
   // Mobile keeps the menu item, greyed out, labelled so the user knows why.
   const rescheduleOverflow = hasPendingReschedule
-    ? { id: 'reschedule', label: 'Reschedule requested', isDisabled: true }
+    ? { id: 'reschedule', label: 'Reschedule requested', disabled: true }
     : { id: 'reschedule', label: 'Reschedule', onAction: onReschedule };
 
   return [
