@@ -60,6 +60,7 @@ Use these before you build anything. Browse them in [Storybook](https://storyboo
 
 - Use the component defaults first.
 - Text primitives (`H1`–`H4`, `P`, `A`, `Eyebrow`): you can set colour and size with semantic tokens (`text-secondary`, `text-on-dark-secondary`, `text-size-md`). Don't re-add weight, leading or tracking.
+- Text size floor: `text-size-xs` (14px) for anything people read, including helper, error and meta text. `text-size-xxs` (12px) is only for tags, chips and eyebrows, and only semibold or uppercase.
 - All other components: use `className` for layout (margin, width, grid or flex placement). Colour comes from props. On a dark surface, set `data-on-dark` on the container.
 - A visual override (colour, size, padding, radius, border) needs a reason in the PR. If several callers need the same override, add a variant or prop to the shared component instead.
 - Build a bespoke component only when no existing component fits. Use tokens only, and say in the PR why.
