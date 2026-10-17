@@ -244,7 +244,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
   const editorContainerClasses = cn(
     'resize-y overflow-auto relative cursor-text',
-    'box-border w-full bg-white bg-resize-grip rounded-md z-[1] p-4',
+    'box-border w-full bg-white resize-grip rounded-md z-[1] p-4',
     'border-[0.5px] border-border-control',
     'focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'transition-all duration-200',
