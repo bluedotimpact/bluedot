@@ -22,6 +22,8 @@ const twMerge = extendTailwindMerge({
       'font-size': [
         { 'text-size': ['xxs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'] },
       ],
+      // Custom utility in tailwind.css; without this it's read as a bg colour and fights `bg-raised`
+      'bg-image': [{ bg: ['resize-grip'] }],
     },
   },
 });
