@@ -14,7 +14,7 @@ import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/g
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import type { SwitchType } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
-import StatusPill, { PendingIcon } from '../my-courses/StatusPill';
+import StatusPill, { PendingIcon } from '../StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
