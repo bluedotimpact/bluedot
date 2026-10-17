@@ -90,7 +90,7 @@ export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateT
     {isLive ? <LiveBadge /> : (
       <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
         <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>
-        <div className="text-size-xs font-medium leading-normal text-secondary">{formatTime12HourClock(dateTimeSeconds)}</div>
+        <div className="text-size-xs font-medium text-secondary">{formatTime12HourClock(dateTimeSeconds)}</div>
       </div>
     )}
   </div>
