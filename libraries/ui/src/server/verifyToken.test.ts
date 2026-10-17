@@ -187,6 +187,17 @@ describe('rejection errors', () => {
     expect((error as Error).message).toContain(message);
   });
 
+  test('throws InvalidTokenError for a non-RSA signing key', async () => {
+    const verify = await loadVerifier();
+    const { InvalidTokenError } = await import('../utils/InvalidTokenError');
+    vi.mocked(axios.get).mockResolvedValue({ data: { keys: [{ kid: KID, kty: 'EC' }] } });
+
+    const error = await verify(signToken()).catch((err: unknown) => err);
+
+    expect(error).toBeInstanceOf(InvalidTokenError);
+    expect((error as Error).message).toContain('Unsupported public key type: EC');
+  });
+
   test('propagates a signing-key fetch failure as something other than InvalidTokenError', async () => {
     const verify = await loadVerifier();
     const { InvalidTokenError } = await import('../utils/InvalidTokenError');
