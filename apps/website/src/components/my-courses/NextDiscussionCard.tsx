@@ -28,7 +28,7 @@ const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isL
     {isLive ? <LiveBadge /> : (
       <>
         <div className="flex h-4 items-center justify-center bg-bluedot-normal sm:h-6">
-          <span className="text-size-xxs font-semibold leading-relaxed text-white">{month.toUpperCase()}</span>
+          <span className="text-size-xxs font-semibold leading-none text-white">{month.toUpperCase()}</span>
         </div>
         <div className="flex flex-1 items-center justify-center">
           {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
