@@ -98,7 +98,7 @@ const AdminChangeEmail = withAdminGuard(() => {
                 </p>
               )}
               {requestMutation.error && (
-                <p role="alert" className="text-size-xs text-red-600">{requestMutation.error.message}</p>
+                <p role="alert" className="text-size-xs text-error-fg">{requestMutation.error.message}</p>
               )}
             </div>
           )}

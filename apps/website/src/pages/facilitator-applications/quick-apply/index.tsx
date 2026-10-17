@@ -408,7 +408,7 @@ const QuickApplyForm = ({
               <span className="text-size-xs text-secondary">group(s)</span>
             </div>
             {errors.numGroupsToFacilitate && (
-              <p className="text-size-xs text-red-600">Enter how many groups you can facilitate (1 to 10).</p>
+              <p className="text-size-xs text-error-fg">Enter how many groups you can facilitate (1 to 10).</p>
             )}
           </div>
 
@@ -488,7 +488,7 @@ const QuickApplyForm = ({
             rules={{ validate: (v) => Object.values(v).some(Boolean) || 'Select at least one time slot.' }}
             render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
           />
-          {errors.timeAv && <p className="text-size-xs text-red-600">{errors.timeAv.message}</p>}
+          {errors.timeAv && <p className="text-size-xs text-error-fg">{errors.timeAv.message}</p>}
         </div>
 
         <div className="flex flex-col gap-3">
