@@ -91,6 +91,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
           {quote.url && isActive ? (
             <a href={quote.url} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
               <img
+                loading="lazy"
                 src={quote.imageSrc}
                 alt={quote.name}
                 className="size-12 sm:size-16 object-cover rounded-full lg:hidden"
@@ -98,6 +99,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
             </a>
           ) : (
             <img
+              loading="lazy"
               src={quote.imageSrc}
               alt={quote.name}
               className="size-12 sm:size-16 object-cover rounded-full lg:hidden"
@@ -126,6 +128,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
             className="block size-full cursor-pointer"
           >
             <img
+              loading="lazy"
               src={quote.imageSrc}
               alt={quote.name}
               className="size-full object-cover rounded-l-xl"
@@ -133,6 +136,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
           </a>
         ) : (
           <img
+            loading="lazy"
             src={quote.imageSrc}
             alt={quote.name}
             className="size-full object-cover rounded-l-xl"
