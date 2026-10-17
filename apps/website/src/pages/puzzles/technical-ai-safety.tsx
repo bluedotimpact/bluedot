@@ -20,7 +20,6 @@ const TAS = COURSE_COLORS['technical-ai-safety'];
 
 const SECTION_CONTAINER_CLASS = 'max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x';
 const SECTION_PADDING_CLASS = `${SECTION_CONTAINER_CLASS} py-6 bd-md:py-8 lg:py-10`;
-const EYEBROW_CLASS = 'text-size-xxs font-medium uppercase tracking-wide text-secondary';
 
 const TASKS = [
   {
@@ -246,7 +245,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section>
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>The puzzle</h2>
+              <h2><Eyebrow className="text-secondary">The puzzle</Eyebrow></h2>
               <P className="mt-4 text-size-md leading-relaxed">
                 We trained a model on short text inputs to predict eight binary features simultaneously (e.g. contains a person&rsquo;s name, mentions a food, phrased as a question). After a particular layer of this model, seven of these features are represented linearly, where a single direction in the activation space describes that feature. However, one feature is represented in a different way.
               </P>
@@ -261,7 +260,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section className="bg-canvas">
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Your three tasks</h2>
+              <h2><Eyebrow className="text-secondary">Your three tasks</Eyebrow></h2>
               <ol className="mt-4 space-y-3">
                 {TASKS.map((task) => (
                   <li key={task.n} className="flex gap-3 text-size-sm text-secondary leading-relaxed">
@@ -297,7 +296,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section>
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Winners</h2>
+              <h2><Eyebrow className="text-secondary">Winners</Eyebrow></h2>
               <div
                 className="mt-5 rounded-lg border p-6 lg:p-8 text-center"
                 style={{ backgroundColor: TAS.bright }}
@@ -335,7 +334,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section className="bg-canvas">
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Correct submissions</h2>
+              <h2><Eyebrow className="text-secondary">Correct submissions</Eyebrow></h2>
               <div className="mt-4 rounded-lg border p-6 lg:p-8">
                 <ul className="columns-2 bd-md:columns-3 lg:columns-4 gap-x-6 space-y-1.5">
                   {CORRECT_SUBMISSIONS.map((name) => (
