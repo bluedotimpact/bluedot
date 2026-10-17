@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http';
 import { type NextApiRequest, type NextApiResponse } from 'next';
-import { InvalidTokenError } from '@bluedot/ui/src/Login';
+import { InvalidTokenError } from '@bluedot/ui/src/api';
 import {
   beforeEach, expect, test, vi,
 } from 'vitest';
@@ -10,7 +10,7 @@ const {
 } = vi.hoisted(() => ({
   verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchLeadCourses: vi.fn(async (_email: string): Promise<string[]> => []), fetchPerson: vi.fn(), recordDecision: vi.fn(),
 }));
-vi.mock('@bluedot/ui', () => ({ loginPresets: { googleBlueDot: { verifyAndDecodeToken: verify } } }));
+vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyGoogleBlueDotToken: verify }));
 vi.mock('./index', () => ({
   fetchQueue, fetchInvitedThisWeek, fetchLeadCourses, fetchPerson, recordDecision,
 }));

@@ -1,6 +1,7 @@
 import { courseRegistrationTable, userTable } from '@bluedot/db';
 import type { TRPCError } from '@trpc/server';
-import { InvalidTokenError, loginPresets } from '@bluedot/ui/src/Login';
+import { InvalidTokenError } from '@bluedot/ui/src/api';
+import { verifyKeycloakToken } from '@bluedot/ui/src/server/verifyToken';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import db from '../../lib/api/db';
 import {
@@ -37,17 +38,7 @@ vi.mock('@bluedot/utils/src/slackNotifications', () => ({
   slackAlert: vi.fn(),
 }));
 
-vi.mock('@bluedot/ui/src/Login', async () => {
-  const actual = await vi.importActual('@bluedot/ui/src/Login');
-  return {
-    ...actual,
-    loginPresets: {
-      keycloak: {
-        verifyAndDecodeToken: vi.fn(),
-      },
-    },
-  };
-});
+vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyKeycloakToken: vi.fn() }));
 
 setupTestDb();
 
@@ -59,8 +50,8 @@ beforeEach(() => {
   mutableEnv.EMAIL_CHANGE_TOKEN_SECRET = 'test-secret';
   vi.mocked(verifyKeycloakPassword).mockReset();
   vi.mocked(updateKeycloakPassword).mockReset();
-  vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockReset();
-  vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+  vi.mocked(verifyKeycloakToken).mockReset();
+  vi.mocked(verifyKeycloakToken).mockResolvedValue({
     sub: 'test-sub',
     email: 'test@example.com',
     iss: 'test-issuer',
@@ -180,14 +171,14 @@ describe('users.changePassword', () => {
 
 describe('users.ensureExists', () => {
   test('rejects invalid tokens with UNAUTHORIZED', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new InvalidTokenError('Invalid signature'));
+    vi.mocked(verifyKeycloakToken).mockRejectedValue(new InvalidTokenError('Invalid signature'));
 
     await expect(createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'bad-token' }))
       .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
   });
 
   test('surfaces a signing-key fetch failure as a server error, not UNAUTHORIZED', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new Error('getaddrinfo ENOTFOUND login.bluedot.org'));
+    vi.mocked(verifyKeycloakToken).mockRejectedValue(new Error('getaddrinfo ENOTFOUND login.bluedot.org'));
 
     await expect(createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' }))
       .rejects.toMatchObject({ code: 'INTERNAL_SERVER_ERROR' });
@@ -227,7 +218,7 @@ describe('users.ensureExists', () => {
   });
 
   test('writes the name from the token when creating a new user', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+    vi.mocked(verifyKeycloakToken).mockResolvedValue({
       sub: 'test-sub',
       email: 'test@example.com',
       name: 'John Doe',
@@ -246,7 +237,7 @@ describe('users.ensureExists', () => {
   });
 
   test('splits the name claim when the token has no given/family name', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+    vi.mocked(verifyKeycloakToken).mockResolvedValue({
       sub: 'test-sub',
       email: 'test@example.com',
       name: 'Mary Jane Smith',
@@ -265,7 +256,7 @@ describe('users.ensureExists', () => {
   test('backfills an empty name from the token on a user matched by email (no keycloakIdentifier yet)', async () => {
     await testDb.insert(userTable, { id: 'u1', email: 'test@example.com' });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+    vi.mocked(verifyKeycloakToken).mockResolvedValue({
       sub: 'test-sub',
       email: 'test@example.com',
       name: 'John Doe',
@@ -286,7 +277,7 @@ describe('users.ensureExists', () => {
   test('backfills an empty name from the token on a returning user matched by keycloakIdentifier', async () => {
     await testDb.insert(userTable, { id: 'u1', email: 'test@example.com', keycloakIdentifier: 'test-sub' });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+    vi.mocked(verifyKeycloakToken).mockResolvedValue({
       sub: 'test-sub',
       email: 'test@example.com',
       name: 'John Doe',
@@ -309,7 +300,7 @@ describe('users.ensureExists', () => {
       id: 'u1', email: 'test@example.com', name: 'Manual Name', keycloakIdentifier: 'test-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+    vi.mocked(verifyKeycloakToken).mockResolvedValue({
       sub: 'test-sub',
       email: 'test@example.com',
       name: 'Google Name',
@@ -448,7 +439,7 @@ describe('users.ensureExists', () => {
       name: 'Test User',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue({
+    vi.mocked(verifyKeycloakToken).mockResolvedValue({
       sub: '',
       email: 'test@example.com',
       iss: 'test-issuer',
