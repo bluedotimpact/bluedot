@@ -56,6 +56,7 @@ type ResourceDisplayProps = {
   unitNumber?: string;
   courseSlug?: string;
   chunkIndex?: number;
+  headerActions?: React.ReactNode;
 };
 
 export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
@@ -66,6 +67,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   unitNumber,
   courseSlug,
   chunkIndex,
+  headerActions,
 }) => {
   const auth = useAuthStore((s) => s.auth);
   const { data: resourceCompletions, isLoading: resourceCompletionsLoading, error: resourceCompletionsError } = trpc.resources.getResourceCompletions.useQuery({ unitResourceIds: resources.map((r) => r.id) }, { enabled: resources.length > 0 && Boolean(auth) });
@@ -94,15 +96,21 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
   return (
     <section className={`resource-display ${className}`} aria-label={unitContext || 'Course resources and exercises'}>
+      {coreResources.length === 0 && headerActions && (
+        <div className="mb-6">{headerActions}</div>
+      )}
       {/* Core Resources */}
       {coreResources.length > 0 && (
         <section>
-          <h4
-            id={resourcesHeadingId}
-            className="text-size-md font-semibold leading-normal tracking-normal mb-6 bluedot-h4 not-prose"
-          >
-            Resources{totalCoreResourceTime > 0 ? ` (${formatResourceTime(totalCoreResourceTime)})` : ''}
-          </h4>
+          <header className="mb-6 flex items-center justify-between gap-3 md:flex-wrap md:gap-x-4">
+            <h4
+              id={resourcesHeadingId}
+              className="min-w-0 text-size-md font-semibold leading-normal tracking-normal bluedot-h4 not-prose"
+            >
+              Resources{totalCoreResourceTime > 0 && <> <span className="inline-block">({formatResourceTime(totalCoreResourceTime)})</span></>}
+            </h4>
+            {headerActions}
+          </header>
           <ul className="flex flex-col gap-6" aria-labelledby={resourcesHeadingId}>
             {coreResources.map((resource) => (
               <ResourceListItem
