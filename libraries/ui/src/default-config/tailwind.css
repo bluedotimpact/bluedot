@@ -223,19 +223,12 @@
     }
 }
 
-/* Textarea resize grip, drawn inset because the native one sits flush in the corner and can't be moved.
-   Only where the native grip can be hidden (not Firefox). Stroke is text-secondary; data URIs can't read CSS vars.
-   Registered as a bg-image class in cn(), so a caller's `bg-none` removes it. */
-@utility bg-resize-grip {
-    @supports selector(::-webkit-resizer) {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 14' fill='none' stroke='%2313132eb2' stroke-linecap='round'%3E%3Cpath d='M11.875 7L7.5 11.375'/%3E%3Cpath d='M11 2.1875L2.6875 10.5'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 4px bottom 4px;
-        background-size: 16px;
-
-        &::-webkit-resizer {
-            display: none;
-        }
+/* Resize grip in our style. Drawn on the resizer itself so it always sits on the real drag area, including
+   beside classic scrollbars. Goes away with `resize-none`. Firefox can't style it and keeps its native grip.
+   Stroke is text-secondary; data URIs can't read CSS vars. */
+@utility resize-grip {
+    &::-webkit-resizer {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 14' fill='none' stroke='%2313132eb2' stroke-linecap='round'%3E%3Cpath d='M11.875 7L7.5 11.375'/%3E%3Cpath d='M11 2.1875L2.6875 10.5'/%3E%3C/svg%3E") no-repeat right 1px bottom 1px / 16px;
     }
 }
 
