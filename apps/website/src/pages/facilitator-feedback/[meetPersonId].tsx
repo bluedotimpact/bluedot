@@ -440,7 +440,7 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
         <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
         <p className="text-size-xs text-secondary">{getSubtitle(feedback)}</p>
         {showNudge && !feedback && (
-          <p className="flex items-center gap-1 text-size-xs leading-normal font-medium text-[#cc6b11]">
+          <p className="flex items-center gap-1 text-size-xs leading-normal font-medium text-warning-fg">
             <PiWarningCircle className="size-[11px] shrink-0" aria-hidden />
             Even just a star rating helps
           </p>

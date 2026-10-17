@@ -242,7 +242,7 @@ export const RubricSelector = ({ name, 'aria-labelledby': ariaLabelledBy, option
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
               <p className="text-size-xs leading-normal text-bluedot-navy">{option.label}</p>
               {isSelected && (
-                <p className="text-size-xs leading-relaxed text-bluedot-navy mt-1.5">{option.description}</p>
+                <p className="text-size-xs leading-relaxed text-secondary mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (
