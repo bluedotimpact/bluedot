@@ -223,6 +223,15 @@
     }
 }
 
+/* Resize grip in our style. Drawn on the resizer itself so it always sits on the real drag area, including
+   beside classic scrollbars. Goes away with `resize-none`. Firefox can't style it and keeps its native grip.
+   Stroke is text-secondary; data URIs can't read CSS vars. */
+@utility resize-grip {
+    &::-webkit-resizer {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 14' fill='none' stroke='%2313132eb2' stroke-linecap='round'%3E%3Cpath d='M11.875 7L7.5 11.375'/%3E%3Cpath d='M11 2.1875L2.6875 10.5'/%3E%3C/svg%3E") no-repeat right 1px bottom 1px / 16px;
+    }
+}
+
 /* Base section class that just applies padding and centering, suitable for nav, footer etc */
 @utility section-base {
     @apply w-full max-w-max-width mx-auto px-spacing-x;

@@ -328,7 +328,6 @@ export default function GroupSwitchModal({
           placeholder="Share your reason here..."
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="min-h-20"
           required
           aria-label="Reason for group switch request"
         />

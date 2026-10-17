@@ -17,7 +17,6 @@ import { Markdown } from 'tiptap-markdown';
 import Placeholder from '@tiptap/extension-placeholder';
 import SaveStatusIndicator from './SaveStatusIndicator';
 import { ONE_MINUTE_MS, ONE_SECOND_MS } from '../../../lib/constants';
-import { ResizeHandleIcon } from '../../icons';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -245,11 +244,10 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
   const editorContainerClasses = cn(
     'resize-y overflow-auto relative cursor-text',
-    'box-border w-full bg-white rounded-md z-[1] p-4',
+    'box-border w-full bg-white resize-grip rounded-md z-[1] p-4',
     'border-[0.5px] border-border-control',
     'focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'transition-all duration-200',
-    '[&::-webkit-resizer]:hidden',
     disabled && 'cursor-not-allowed opacity-60',
     EDITOR_HEIGHT_STYLES[height],
     className,
@@ -278,10 +276,6 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
             aria-label="Rich text input area"
             aria-describedby={!disabled ? 'save-status-message' : undefined}
           />
-        </div>
-        {/* Custom drag notches overlay */}
-        <div className="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
-          <ResizeHandleIcon />
         </div>
       </div>
       {!disabled && (

@@ -35,4 +35,13 @@ describe('Textarea', () => {
 
     expect(ref.current).toBeInstanceOf(HTMLTextAreaElement);
   });
+
+  test('caller classes reach the textarea', () => {
+    render(<Textarea aria-label="Answer" className="min-h-12 resize-none" />);
+
+    const { classList } = screen.getByRole('textbox', { name: 'Answer' });
+    expect(classList).toContain('min-h-12');
+    expect(classList).not.toContain('min-h-24');
+    expect(classList).toContain('resize-none');
+  });
 });
