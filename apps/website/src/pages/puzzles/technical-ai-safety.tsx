@@ -213,7 +213,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         })}
       </Head>
 
-      <div className="relative bg-white">
+      <div className="relative bg-canvas">
         <Nav variant="default" />
 
         {/* Title section — clean, no banner */}
@@ -271,7 +271,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                       {task.n}.
                     </span>
                     <span>
-                      <span className="font-semibold text-bluedot-navy">{task.title}</span>
+                      <span className="font-semibold text-primary">{task.title}</span>
                       {' '}
                       {task.body}
                     </span>
@@ -282,7 +282,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 <Button
                   url={PUZZLE_URL}
                   size="small"
-                  className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-white hover:brightness-110"
+                  className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-on-dark hover:brightness-110"
                   style={{ backgroundColor: TAS.full }}
                 >
                   See the puzzle
@@ -305,7 +305,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 <Eyebrow className="mt-3" style={{ color: TAS.full }}>
                   {FIRST_PRIZE.place} · {FIRST_PRIZE.amount}
                 </Eyebrow>
-                <p className="mt-2 text-size-lg font-semibold text-bluedot-navy">
+                <p className="mt-2 text-size-lg font-semibold text-primary">
                   {FIRST_PRIZE.winners[0]}
                 </p>
               </div>
@@ -318,7 +318,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                     </Eyebrow>
                     <ul className="mt-2 space-y-0.5">
                       {p.winners.map((name) => (
-                        <li key={name} className="text-size-sm font-semibold text-bluedot-navy leading-snug">
+                        <li key={name} className="text-size-sm font-semibold text-primary leading-snug">
                           {name}
                         </li>
                       ))}

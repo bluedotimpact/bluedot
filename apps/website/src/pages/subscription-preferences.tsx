@@ -37,7 +37,7 @@ const SubscriptionPreferencesPage = ({ cid, token, topicId: highlightTopicId }: 
     : data.topics;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-canvas">
       <Head>
         {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
         <meta name="robots" content="noindex" />

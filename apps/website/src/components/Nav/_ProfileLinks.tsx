@@ -64,7 +64,7 @@ export const ProfileLinks: React.FC<{
         onClick={onToggleProfile}
         className={clsx(
           'profile-links__btn',
-          onColoredBackground && 'text-white hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
+          onColoredBackground && 'text-on-dark hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
         )}
       >
         {expandedSections.profile ? <FaXmark aria-hidden="true" className="size-5" /> : <FaCircleUser className="size-6 opacity-75" aria-hidden="true" />}

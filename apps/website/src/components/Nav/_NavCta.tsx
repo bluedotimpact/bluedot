@@ -38,15 +38,15 @@ export const NavCta: React.FC<{
       return clsx(
         baseClasses,
         onColoredBackground
-          ? 'bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker'
-          : 'bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white',
+          ? 'bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker hover:text-bluedot-darker'
+          : 'bg-accent hover:bg-accent-hover text-on-dark hover:text-on-dark',
       );
     }
 
     return clsx(
       baseClasses,
       onColoredBackground
-        ? 'bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm'
+        ? 'bg-white/15 border border-white/20 text-on-dark hover:text-on-dark hover:bg-white/20 backdrop-blur-sm'
         : 'border text-primary hover:text-primary hover:bg-tint',
     );
   };

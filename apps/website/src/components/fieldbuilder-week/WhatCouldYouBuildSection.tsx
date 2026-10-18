@@ -50,7 +50,7 @@ const WhatCouldYouBuildSection = () => {
               className="flex flex-col gap-4"
             >
               <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/50">
-                <Icon className="text-bluedot-navy" size={24} />
+                <Icon className="text-primary" size={24} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <H4>
@@ -64,7 +64,7 @@ const WhatCouldYouBuildSection = () => {
           ))}
           <div className="flex flex-col gap-4 rounded-surface border-2 border-dashed bg-bluedot-lighter/20 p-6">
             <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/60">
-              <PiSparkle className="text-bluedot-navy" size={24} />
+              <PiSparkle className="text-primary" size={24} />
             </div>
             <div className="flex flex-col gap-1.5">
               <H4>

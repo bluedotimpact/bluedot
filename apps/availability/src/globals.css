@@ -7,7 +7,7 @@
 }
 
 .timezone-select .solid-select-list {
-  @apply bg-white border-border-control border-2 w-32;
+  @apply bg-raised border-border-control border-2 w-32;
 }
 
 .timezone-select .solid-select-option {

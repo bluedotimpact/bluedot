@@ -81,8 +81,8 @@ const StatsStrip = ({
 
 const StatItem = ({ label, value, compact }: { label: string; value: string; compact: boolean }) => {
   const valueClass = compact
-    ? 'text-size-md font-medium leading-tight text-bluedot-navy'
-    : 'text-size-lg bd-md:text-[28px] font-medium leading-tight text-bluedot-navy';
+    ? 'text-size-md font-medium leading-tight text-primary'
+    : 'text-size-lg bd-md:text-[28px] font-medium leading-tight text-primary';
 
   return (
     <div className="flex flex-col gap-1">

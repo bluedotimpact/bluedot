@@ -201,7 +201,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-            <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+            <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
             <P className="text-center text-primary">
@@ -225,7 +225,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-            <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+            <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
             <P className="text-center text-primary">
@@ -285,7 +285,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               />
               {selectedDiscussion && (
                 <P>
-                  Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
+                  Current time: <span className="text-accent">{selectedDiscussionTimeString}</span>
                 </P>
               )}
             </div>

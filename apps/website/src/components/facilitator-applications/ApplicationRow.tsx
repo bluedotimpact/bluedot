@@ -34,7 +34,7 @@ const ApplicationRow = ({
   const statusLabel = APPLICATION_STATUS_LABEL[status];
 
   return (
-    <li className="relative overflow-hidden rounded-xl border bg-white">
+    <li className="relative overflow-hidden rounded-xl border bg-raised">
       {tint && (
         <div
           aria-hidden
@@ -59,7 +59,7 @@ const ApplicationRow = ({
               {courseTitle}
             </Eyebrow>
           )}
-          <p className="text-pretty text-size-md font-semibold text-bluedot-navy">
+          <p className="text-pretty text-size-md font-semibold text-primary">
             {roundName ?? 'Round'}
           </p>
           {dateRange && (

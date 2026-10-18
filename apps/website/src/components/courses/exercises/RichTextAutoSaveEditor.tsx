@@ -244,9 +244,9 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
   const editorContainerClasses = cn(
     'resize-y overflow-auto relative cursor-text',
-    'box-border w-full bg-white resize-grip rounded-md z-[1] p-4',
+    'box-border w-full bg-raised resize-grip rounded-md z-[1] p-4',
     'border-[0.5px] border-border-control',
-    'focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
+    'focus-within:border-[1.25px] focus-within:border-focus focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'transition-all duration-200',
     disabled && 'cursor-not-allowed opacity-60',
     EDITOR_HEIGHT_STYLES[height],
@@ -262,7 +262,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
             className={cn(
               'outline-none max-w-none',
               '[&_.ProseMirror]:outline-none',
-              '[&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-bluedot-navy',
+              '[&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-primary',
               '[&_.ProseMirror_p]:m-0',
               '[&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1',
               '[&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1',

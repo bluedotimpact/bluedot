@@ -53,7 +53,7 @@ const PuzzleSubmittedPage = () => (
       })}
     </Head>
 
-    <div className="relative bg-white">
+    <div className="relative bg-canvas">
       <Nav variant="default" />
 
       {/* Title */}
@@ -79,7 +79,7 @@ const PuzzleSubmittedPage = () => (
               {' '}
               <a
                 href="https://bluedot.org/courses/future-of-ai?utm_source=puzzle%20submission"
-                className="font-semibold underline underline-offset-2 hover:text-bluedot-normal"
+                className="font-semibold underline underline-offset-2 hover:text-link"
               >
                 Future of AI course
               </a>
@@ -101,7 +101,7 @@ const PuzzleSubmittedPage = () => (
                 href={BOOKS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold underline underline-offset-2 hover:text-bluedot-normal"
+                className="font-semibold underline underline-offset-2 hover:text-link"
               >
                 free AI safety book
               </a>
@@ -127,7 +127,7 @@ const PuzzleSubmittedPage = () => (
                   <div className="flex-1">
                     <a
                       href={o.url}
-                      className="text-size-md font-semibold text-bluedot-navy underline underline-offset-2 hover:text-bluedot-normal"
+                      className="text-size-md font-semibold text-primary underline underline-offset-2 hover:text-link"
                     >
                       {o.name}
                     </a>

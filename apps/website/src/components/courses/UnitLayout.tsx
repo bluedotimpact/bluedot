@@ -138,7 +138,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <>
           <button
             type="button"
-            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             disabled={isFirstChunk && !prevUnit}
             onClick={handlePrevClick}
             aria-label="Previous"
@@ -148,7 +148,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           </button>
           <button
             type="button"
-            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             disabled={isLastChunk && !nextUnit}
             onClick={handleNextClick}
             aria-label="Next"
@@ -239,7 +239,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
             <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <Button
-                className="unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
+                className="unit__cta-link [&]:bg-accent [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-on-dark"
                 onClick={handleNextClick}
                 variant="primary"
               >

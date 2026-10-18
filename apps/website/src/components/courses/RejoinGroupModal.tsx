@@ -86,7 +86,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
         {!isLoading && !rejoinMutation.isSuccess && (
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
-              <span className="text-size-sm text-bluedot-navy font-medium">Select a group</span>
+              <span className="text-size-sm text-primary font-medium">Select a group</span>
               <p className="text-size-xs text-secondary">
                 Select the group you want to rejoin. The displayed time is in your time zone:
                 <span className="font-medium"> {getGMTOffsetWithCity()}</span>
@@ -94,7 +94,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
             </div>
             <div className="mt-1 flex flex-col gap-2">
               {!isLoading && groups.length === 0 && (
-                <p className="text-size-sm text-bluedot-normal py-4 text-center">
+                <p className="text-size-sm text-accent py-4 text-center">
                   No groups are currently available to join. Please{' '}
                   <a href="mailto:team@bluedot.org" className="underline">
                     contact us
@@ -127,7 +127,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                       <div className="text-size-sm font-semibold whitespace-nowrap">
                         {formatDateMonthAndDay(joinedGroup.group.startTimeUtc)}
                       </div>
-                      <div className="text-size-xs text-bluedot-normal font-medium whitespace-nowrap">
+                      <div className="text-size-xs text-accent font-medium whitespace-nowrap">
                         {formatTime12HourClock(joinedGroup.group.startTimeUtc)}
                       </div>
                     </>
@@ -137,7 +137,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   <div className="text-size-sm mb-0.5 font-semibold">
                     {joinedGroup.group.groupName ?? 'Group [Unknown]'}
                   </div>
-                  <div className="text-size-xs text-bluedot-normal flex items-center gap-1">
+                  <div className="text-size-xs text-accent flex items-center gap-1">
                     <span>You joined this group</span>
                     <FaCheck aria-hidden="true" className="size-3" />
                   </div>
@@ -189,7 +189,7 @@ const RejoinGroupOption = ({
     = spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
 
   return (
-    <div className={cn('rounded-lg border bg-white p-3', disabled && 'opacity-50')}>
+    <div className={cn('rounded-lg border bg-raised p-3', disabled && 'opacity-50')}>
       <div className="grid grid-cols-[80px_1fr] items-center gap-4">
         <div className="self-center border-r border-subtle text-center">
           {displayDate && displayTime && (

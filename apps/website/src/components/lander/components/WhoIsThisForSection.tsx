@@ -30,7 +30,7 @@ const WhoIsThisForSection = ({
   iconBackgroundColor,
 }: WhoIsThisForSectionProps) => {
   return (
-    <section className="w-full bg-white">
+    <section className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <H2 className="text-center mb-12 md:mb-16">
           {title}
@@ -42,10 +42,10 @@ const WhoIsThisForSection = ({
               className="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
             >
               <div
-                className={`size-14 rounded-lg flex items-center justify-center flex-shrink-0 ${!iconBackgroundColor ? 'bg-bluedot-normal' : ''}`}
+                className={`size-14 rounded-lg flex items-center justify-center flex-shrink-0 ${!iconBackgroundColor ? 'bg-accent' : ''}`}
                 style={iconBackgroundColor ? { backgroundColor: iconBackgroundColor } : undefined}
               >
-                <IconComponent className="text-white" size={28} />
+                <IconComponent className="text-on-dark" size={28} />
               </div>
               <P className="text-size-md leading-relaxed">
                 <span className="font-semibold">{boldText}</span>

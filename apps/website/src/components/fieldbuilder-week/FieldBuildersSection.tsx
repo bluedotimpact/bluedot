@@ -90,7 +90,7 @@ const BUILDERS: Builder[] = [
 
 const VISIBLE_COUNT = 3;
 
-const styledLinkClass = 'font-semibold text-bluedot-navy underline underline-offset-2 hover:text-bluedot-normal';
+const styledLinkClass = 'font-semibold text-primary underline underline-offset-2 hover:text-link';
 
 const BuilderRow = ({ builder }: { builder: Builder }) => {
   return (
@@ -119,7 +119,7 @@ const BuilderRow = ({ builder }: { builder: Builder }) => {
             {builder.founder.name}
           </a>
         ) : (
-          <span className="font-semibold text-bluedot-navy">{builder.founder.name}</span>
+          <span className="font-semibold text-primary">{builder.founder.name}</span>
         )}
         {builder.before}
         <a

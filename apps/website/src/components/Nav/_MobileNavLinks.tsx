@@ -38,7 +38,7 @@ export const MobileNavLinks: React.FC<{
 
     return clsx(
       baseClasses,
-      'bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white',
+      'bg-accent hover:bg-accent-hover text-on-dark hover:text-on-dark',
     );
   };
 
@@ -61,7 +61,7 @@ export const MobileNavLinks: React.FC<{
         onClick={onToggleMobileNav}
         className={clsx(
           'mobile-nav-links__btn',
-          onColoredBackground && 'text-white hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
+          onColoredBackground && 'text-on-dark hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark',
         )}
       >
         {expandedSections.mobileNav ? <FaXmark aria-hidden="true" className="size-5" /> : <FaBars aria-hidden="true" className="size-4" />}

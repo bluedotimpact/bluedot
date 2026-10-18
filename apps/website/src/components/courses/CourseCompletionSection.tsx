@@ -52,10 +52,10 @@ const FEATURE_CARDS: FeatureCard[] = [
 ];
 
 const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor?: string }) => (
-  <div className="container-lined flex-1 bg-white p-5 flex flex-col gap-2 text-left">
+  <div className="container-lined flex-1 bg-raised p-5 flex flex-col gap-2 text-left">
     <div className="flex items-center gap-2">
       <card.icon className="size-5" style={{ color: accentColor }} />
-      <p className="text-size-sm font-semibold leading-normal text-bluedot-navy">{card.title}</p>
+      <p className="text-size-sm font-semibold leading-normal text-primary">{card.title}</p>
     </div>
     <P className="text-secondary">{card.description}</P>
   </div>
@@ -73,11 +73,11 @@ const SocialProof = ({ accentColor }: { accentColor?: string }) => (
           key={src}
           src={src}
           alt=""
-          className="size-6 rounded-full object-cover ring-2 ring-white"
+          className="size-6 rounded-full object-cover ring-2 ring-raised"
         />
       ))}
     </div>
-    <p className="text-size-xs leading-normal text-bluedot-navy text-center sm:text-left">
+    <p className="text-size-xs leading-normal text-primary text-center sm:text-left">
       Join{' '}
       <span className="font-semibold" style={{ color: accentColor }}>{COMMUNITY_SIZE_LABEL}</span>
       {' '}already enrolled
@@ -147,7 +147,7 @@ export default function CourseCompletionSection({
           ))}
         </div>
 
-        <div className="container-lined bg-white p-6">
+        <div className="container-lined bg-raised p-6">
           {roundsData.intense.length > 0 && (
             <RoundGroup
               type="intensive"
@@ -170,7 +170,7 @@ export default function CourseCompletionSection({
         </div>
 
         {detailsWithoutSchedule.length > 0 && (
-          <div className="container-lined bg-white px-6">
+          <div className="container-lined bg-raised px-6">
             <Collapsible title={info?.title ?? 'How the course works'} className="border-b-0">
               <div className="flex flex-col">
                 {detailsWithoutSchedule.map((detail) => (

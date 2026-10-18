@@ -12,7 +12,7 @@ import {
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
-const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
+const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-link';
 
 export const TAS_COLORS = COURSE_COLORS['technical-ai-safety'];
 
@@ -79,7 +79,7 @@ export const createTechnicalAiSafetyContent = (
       <>
         <p className="mb-5">This course doesn&apos;t end at Unit 6. Here&apos;s where our alumni go - and how we help them get there.</p>
         <CardShell className="bg-tint text-left">
-          <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">We don&apos;t just teach</p>
+          <p className="text-size-sm font-semibold leading-normal text-primary mb-3">We don&apos;t just teach</p>
           <p className="text-size-sm leading-relaxed text-secondary">
             BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run
             {' '}
@@ -163,7 +163,7 @@ export const createTechnicalAiSafetyContent = (
     ],
     callout: (
       <>
-        <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">Technical AI Safety Project Sprint</p>
+        <p className="text-size-sm font-semibold leading-normal text-primary mb-3">Technical AI Safety Project Sprint</p>
         <p className="text-size-sm leading-relaxed text-secondary">
           After completing this course, you can apply for our
           {' '}

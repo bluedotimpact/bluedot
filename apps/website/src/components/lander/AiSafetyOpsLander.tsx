@@ -15,7 +15,7 @@ import { pageMetaTags, linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags
 
 const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string }) => {
   return (
-    <div className="ai-safety-ops-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
+    <div className="ai-safety-ops-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-accent-subtle">
       <H3 className="ai-safety-ops-lander__banner-title">{title}</H3>
       <Button className="ai-safety-ops-lander__banner-cta" url={ctaUrl}>
         Apply now

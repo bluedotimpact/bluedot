@@ -193,7 +193,7 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
 
           <p className="text-size-xs leading-relaxed text-secondary">
             Questions about the course? Contact{' '}
-            <a href="mailto:online-course@digitalminds.cam" className="text-bluedot-normal underline">
+            <a href="mailto:online-course@digitalminds.cam" className="text-link underline">
               online-course@digitalminds.cam
             </a>
             .

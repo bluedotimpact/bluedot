@@ -237,7 +237,7 @@ const QuoteSection = ({
 
     return (
       <section
-        className="w-full bg-white"
+        className="w-full bg-canvas"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -259,7 +259,7 @@ const QuoteSection = ({
                       className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
                     />
                     <div className="flex flex-col">
-                      <div className="text-size-sm bd-md:text-size-md font-semibold leading-normal text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+                      <div className="text-size-sm bd-md:text-size-md font-semibold leading-normal text-primary group-hover:text-link transition-colors">
                         {quote.name}
                       </div>
                       <div className="text-size-sm leading-relaxed text-secondary">
@@ -275,7 +275,7 @@ const QuoteSection = ({
                     aria-hidden={!isActive}
                   >
                     <blockquote
-                      className={`${getEditorialFontSize(quote.quote)} leading-relaxed font-medium text-bluedot-navy`}
+                      className={`${getEditorialFontSize(quote.quote)} leading-relaxed font-medium text-primary`}
                     >
                       {quote.quote}
                     </blockquote>
@@ -303,10 +303,10 @@ const QuoteSection = ({
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                 aria-label="Previous quote"
               >
-                <span className="text-bluedot-navy text-size-sm leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
+                <span className="text-primary text-size-sm leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
               </button>
 
               <div className="flex items-center gap-2 mx-1">
@@ -315,7 +315,7 @@ const QuoteSection = ({
                     type="button"
                     key={`indicator-${quote.name}`}
                     onClick={() => handleIndicatorClick(index)}
-                    className="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                    className="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                     style={{
                       backgroundColor: index === activeIndex ? dotActiveColor : 'rgba(11, 21, 53, 0.15)',
                     }}
@@ -328,10 +328,10 @@ const QuoteSection = ({
               <button
                 type="button"
                 onClick={handleNext}
-                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                 aria-label="Next quote"
               >
-                <span className="text-bluedot-navy text-size-sm leading-none">→</span>
+                <span className="text-primary text-size-sm leading-none">→</span>
               </button>
 
               <span className="text-size-xs text-secondary ml-auto tabular-nums">
@@ -395,11 +395,11 @@ const QuoteSection = ({
             <button
               type="button"
               onClick={handlePrevious}
-              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
               aria-label="Previous quote"
             >
               <span
-                className="text-bluedot-navy text-size-lg font-medium select-none"
+                className="text-primary text-size-lg font-medium select-none"
                 style={{
                   transform: 'scaleX(-1)',
                 }}
@@ -416,7 +416,7 @@ const QuoteSection = ({
                 type="button"
                 key={`indicator-${quote.name}`}
                 onClick={() => handleIndicatorClick(index)}
-                className="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                 aria-label={`Go to quote ${index + 1}`}
               >
                 <div
@@ -435,11 +435,11 @@ const QuoteSection = ({
             <button
               type="button"
               onClick={handleNext}
-              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
               aria-label="Next quote"
             >
               <span
-                className="text-bluedot-navy text-size-lg font-medium select-none"
+                className="text-primary text-size-lg font-medium select-none"
               >
                 →
               </span>

@@ -16,7 +16,7 @@ export type CourseBenefitsSectionProps = {
 
 const CourseBenefitsSection = ({ title, benefits, iconBackgroundColor = 'var(--bluedot-lightest)' }: CourseBenefitsSectionProps) => {
   return (
-    <section className="w-full bg-white">
+    <section className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24">
         <H2 className="text-center mb-16">
           {title}

@@ -53,7 +53,7 @@ const EventsPage = () => {
       <main className="pb-16">
         <section aria-label="Upcoming events" className="section-base pt-6 sm:pt-8">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-            <div className="flex flex-wrap gap-1 rounded-xl border bg-white p-1" aria-label="Event format">
+            <div className="flex flex-wrap gap-1 rounded-xl border bg-raised p-1" aria-label="Event format">
               {Object.entries(FILTERS).map(([key, label]) => (
                 <button
                   key={key}
@@ -64,7 +64,7 @@ const EventsPage = () => {
                     setLocation('all');
                     setVisibleCount(PAGE_SIZE);
                   }}
-                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal sm:flex-none sm:px-4 ${filter === key ? 'bg-bluedot-navy text-white' : 'text-secondary hover:bg-tint'}`}
+                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-focus sm:flex-none sm:px-4 ${filter === key ? 'bg-dark text-on-dark' : 'text-secondary hover:bg-tint'}`}
                 >{label}</button>
               ))}
             </div>
@@ -78,7 +78,7 @@ const EventsPage = () => {
                       setLocation(e.target.value);
                       setVisibleCount(PAGE_SIZE);
                     }}
-                    className="min-w-0 flex-1 rounded-lg border border-border-control bg-white px-3 py-2.5 text-bluedot-navy sm:min-w-44"
+                    className="min-w-0 flex-1 rounded-lg border border-border-control bg-raised px-3 py-2.5 text-primary sm:min-w-44"
                   >
                     <option value="all">Everywhere</option>
                     {locations.map((value) => <option key={value} value={value}>{formatLocationLabel(value)}</option>)}
@@ -98,16 +98,16 @@ const EventsPage = () => {
             <>
               <EventAgenda events={visibleEvents} />
               {filteredEvents.length === 0 && (
-                <div className="rounded-2xl border bg-white p-8 text-center">
+                <div className="rounded-2xl border bg-raised p-8 text-center">
                   <p className="text-size-md font-semibold">{upcomingEvents.length ? 'No events match these filters.' : 'More events are on the way.'}</p>
                   <p className="mt-3 text-size-sm text-secondary">{upcomingEvents.length ? 'Try another location or browse all upcoming events.' : 'Follow our Luma calendar to hear about the next one.'}</p>
                   {upcomingEvents.length > 0 ? (
-                    <button type="button" className="mt-5 text-bluedot-normal underline" onClick={() => {
+                    <button type="button" className="mt-5 text-link underline" onClick={() => {
                       setFilter('all');
                       setLocation('all');
                       setVisibleCount(PAGE_SIZE);
                     }}>Clear filters</button>
-                  ) : <a href={trackedUrl(LUMA_CALENDAR_URL, 'empty-cta')} className="mt-5 inline-block text-bluedot-normal underline">Open the Luma calendar ↗</a>}
+                  ) : <a href={trackedUrl(LUMA_CALENDAR_URL, 'empty-cta')} className="mt-5 inline-block text-link underline">Open the Luma calendar ↗</a>}
                 </div>
               )}
               {visibleCount < filteredEvents.length && (

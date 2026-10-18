@@ -126,7 +126,7 @@ export const SlideList = ({
     <div className="slide-list__progress w-full relative h-1">
       <div className="absolute h-px top-px w-full bg-default" />
       <div
-        className="absolute h-full bg-bluedot-normal"
+        className="absolute h-full bg-accent"
         style={{
           width: scrollBarWidth,
           left: scrollBarLeft,
@@ -142,7 +142,7 @@ export const SlideList = ({
           <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
             <div
               className={clsx(
-                'slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50',
+                'slide-list__gradient-left absolute inset-y-0 w-8 from-canvas to-transparent opacity-50',
                 scrollPercent < 95 ? 'right-0 bg-linear-to-l' : 'left-0 bg-linear-to-r',
               )}
             />

@@ -169,26 +169,26 @@
 
     /* h1 and h2 use Inter Display */
     .bluedot-h1 {
-        @apply text-bluedot-navy text-size-2xl font-semibold leading-tight tracking-tight;
+        @apply text-primary text-size-2xl font-semibold leading-tight tracking-tight;
         font-family: InterDisplay, var(--font-sans);
     }
     .bluedot-h2 {
-        @apply text-bluedot-navy text-size-xl font-semibold leading-snug tracking-tight;
+        @apply text-primary text-size-xl font-semibold leading-snug tracking-tight;
         font-family: InterDisplay, var(--font-sans);
     }
     .bluedot-h3 {
-        @apply text-bluedot-navy font-sans text-size-lg font-semibold leading-normal tracking-normal;
+        @apply text-primary font-sans text-size-lg font-semibold leading-normal tracking-normal;
     }
     .bluedot-h4 {
-        @apply text-bluedot-navy font-sans text-size-md font-semibold leading-normal tracking-normal;
+        @apply text-primary font-sans text-size-md font-semibold leading-normal tracking-normal;
     }
     .bluedot-p {
-        @apply text-bluedot-navy font-sans text-size-sm font-normal leading-relaxed;
+        @apply text-primary font-sans text-size-sm font-normal leading-relaxed;
         font-variant-ligatures: none;
         font-feature-settings: "liga" 0, "clig" 0;
     }
     .bluedot-a {
-        @apply text-bluedot-normal hover:text-bluedot-dark cursor-pointer underline;
+        @apply text-link hover:text-link-hover cursor-pointer underline;
     }
 }
 
@@ -247,12 +247,12 @@
     @apply relative transition-[translate] duration-200;
     @apply hover:text-current hover:-translate-y-[4px];
     /* underline is applied by ::after psuedoelement for consistency across text and incorporated SVGs */
-    @apply after:content-[""] after:invisible after:absolute after:bg-bluedot-normal after:transition-[translate] after:duration-200 after:left-0 after:bottom-0 after:w-full after:h-[2px];
+    @apply after:content-[""] after:invisible after:absolute after:bg-accent after:transition-[translate] after:duration-200 after:left-0 after:bottom-0 after:w-full after:h-[2px];
     @apply hover:after:visible hover:after:translate-y-[4px];
 }
 
 @utility nav-link-animation-dark {
-    @apply after:bg-bluedot-lighter;
+    @apply after:bg-on-dark-link;
 }
 
 @utility link-on-dark {

@@ -28,7 +28,7 @@ const ProgramsPage = () => {
         <div className="flex justify-center pt-6 bd-md:pt-8 lg:pt-10">
           <Button
             url={ROUTES.courses.url}
-            className="px-4 bg-tint text-bluedot-navy hover:text-bluedot-navy text-size-sm font-medium tracking-tighter rounded-md hover:bg-active"
+            className="px-4 bg-tint text-primary hover:text-primary text-size-sm font-medium tracking-tighter rounded-md hover:bg-active"
           >
             Explore courses instead
           </Button>

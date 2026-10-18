@@ -34,7 +34,7 @@ export const RoundItem = ({
 
   const dateContent = (
     <div>
-      <p className="text-size-sm leading-relaxed font-semibold text-bluedot-navy">{title}</p>
+      <p className="text-size-sm leading-relaxed font-semibold text-primary">{title}</p>
       <p className="text-size-sm leading-relaxed text-secondary">{subtitle}</p>
     </div>
   );

@@ -52,7 +52,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
   const iconPath = getCertificateIconPath(courseSlug);
 
   return (
-    <div className="w-full max-w-text-narrow bg-white rounded-lg border overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
+    <div className="w-full max-w-text-narrow bg-raised rounded-lg border overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
       <div className="relative">
         {iconPath && (
           /* Decorative pattern overlay: a 1248x450 grid of icon-masked dots,
@@ -120,7 +120,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </Eyebrow>
 
           <h1
-            className="mt-1 text-size-2xl font-semibold leading-tight tracking-tight text-bluedot-navy text-center font-display"
+            className="mt-1 text-size-2xl font-semibold leading-tight tracking-tight text-primary text-center font-display"
             style={DISPLAY_FONT_STYLE}
           >
             {courseName}
@@ -130,14 +130,14 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
             <Eyebrow className="text-secondary text-center">
               Awarded to
             </Eyebrow>
-            <p className="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display">
+            <p className="mt-1 text-2xl font-semibold leading-tight text-primary text-center font-display">
               {recipientName}
             </p>
           </div>
 
           <div className="mt-12 md:max-w-[672px]">
             <p
-              className="text-size-sm md:text-base leading-relaxed tracking-tighter text-secondary text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
+              className="text-size-sm md:text-base leading-relaxed tracking-tighter text-secondary text-center [&_strong]:font-semibold [&_strong]:text-primary"
               style={DISPLAY_FONT_STYLE}
 
               dangerouslySetInnerHTML={{ __html: description }}
@@ -153,7 +153,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               Issued
             </Eyebrow>
             <p
-              className="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
+              className="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-primary"
               style={DISPLAY_FONT_STYLE}
             >
               {issuedDate}
@@ -175,7 +175,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               Certificate ID
             </Eyebrow>
             <p
-              className="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
+              className="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-primary"
               style={DISPLAY_FONT_STYLE}
             >
               {certificateId}

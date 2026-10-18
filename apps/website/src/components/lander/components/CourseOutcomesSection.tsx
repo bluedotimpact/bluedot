@@ -35,7 +35,7 @@ const CourseOutcomesSection = ({
   cta,
 }: CourseOutcomesSectionProps) => {
   return (
-    <section id={id} className="w-full bg-white">
+    <section id={id} className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         {headingVariant === 'compact' ? (
           <H3 className="w-full bd-md:max-w-text bd-md:mx-auto mb-8 md:mb-10">
@@ -75,7 +75,7 @@ const CourseOutcomesSection = ({
                     {outcome.linkUrl && (
                       <Link
                         href={outcome.linkUrl}
-                        className="inline-flex items-center gap-1 text-size-sm font-medium text-bluedot-normal hover:underline mt-2"
+                        className="inline-flex items-center gap-1 text-size-sm font-medium text-link hover:underline mt-2"
                       >
                         {outcome.linkText ?? 'Open unit'}
                         <span aria-hidden="true">→</span>

@@ -38,7 +38,7 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
   const applicationUrl = useApplicationUrl(GRANT_TYPE);
 
   return (
-    <div className="bg-white text-bluedot-navy">
+    <div className="bg-canvas text-primary">
       <Head>
         {pageMetaTags({ title: `${programName} | BlueDot Impact`, description: PAGE_DESCRIPTION })}
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />

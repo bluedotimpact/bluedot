@@ -26,11 +26,11 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
-    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-bluedot-normal" />,
+    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-accent" />,
     text: 'Saving...',
   },
   saved: {
-    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px] text-bluedot-normal" />,
+    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px] text-accent" />,
     text: savedText,
   },
   error: {
@@ -55,7 +55,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
           }}
         >
           Retry
-          <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-navy ml-0.5" />
+          <FaRotateLeft aria-hidden="true" className="size-4 text-primary ml-0.5" />
         </button>
       </span>
     ),
@@ -89,7 +89,7 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-bluedot-normal">
+      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-accent">
         {!isIdle && config?.icon}
         {!isIdle && text}
       </div>

@@ -350,7 +350,7 @@ export default function GroupSwitchModal({
               <button
                 type="button"
                 onClick={() => setShowAllOptions(true)}
-                className="text-size-sm text-bluedot-normal hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
+                className="text-size-sm text-link hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
               >
                 See all {isTemporarySwitch ? 'discussions' : 'groups'}
               </button>
@@ -376,7 +376,7 @@ export default function GroupSwitchModal({
             })}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-bluedot-normal underline"
+            className="text-link underline"
           >
             please update your availability
           </a>
@@ -422,7 +422,7 @@ export default function GroupSwitchModal({
             {visibleFormSections.map((section, index) => (
               <div key={section.id} className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
-                  <span className="text-size-sm font-medium text-bluedot-navy">{index + 1}. {section.title}</span>
+                  <span className="text-size-sm font-medium text-primary">{index + 1}. {section.title}</span>
                   {section.subtitle && (
                     <p className="text-size-xs text-secondary">{section.subtitle}</p>
                   )}
@@ -444,7 +444,7 @@ export default function GroupSwitchModal({
               </div>
               <Button
                 variant="secondary"
-                className="border-bluedot-navy text-bluedot-navy hover:bg-blue-50"
+                className="border-bluedot-navy text-primary hover:bg-blue-50"
                 onClick={() => setIsManualRequest(true)}
                 aria-label="Request manual group switch"
               >
@@ -539,22 +539,22 @@ const getGroupSwitchDescription = ({
   if (isTemporarySwitch) {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-bluedot-normal">You are attending this discussion</span>
+        ? <span className="text-accent">You are attending this discussion</span>
         : <span>You are switching out of this discussion</span>;
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-bluedot-normal">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
+      return <span className="text-accent">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
     }
   } else {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-bluedot-normal">You are currently in this group</span>
+        ? <span className="text-accent">You are currently in this group</span>
         : <span>You are switching out of this group for all upcoming units</span>;
     }
 
     if (isSelected) {
-      return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
+      return <span className="text-accent">You are switching into this group for all upcoming units</span>;
     }
   }
 
@@ -624,9 +624,9 @@ const GroupSwitchOption = ({
   return (
     <div
       className={cn(
-        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 hover:border-strong',
-        isSelected && 'border-bluedot-normal hover:border-bluedot-normal bg-blue-50',
-        disabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
+        'rounded-lg p-3 transition-all cursor-pointer border bg-raised hover:bg-blue-50 hover:border-strong',
+        isSelected && 'border-accent hover:border-accent bg-blue-50',
+        disabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-raised',
         userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',
       )}
       {...(!disabled && !userIsParticipant && {
@@ -652,7 +652,7 @@ const GroupSwitchOption = ({
           {displayDate && displayTime && (
             <>
               <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
-              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-bluedot-normal' : 'text-secondary'}`}>{displayTime}</div>
+              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-accent' : 'text-secondary'}`}>{displayTime}</div>
             </>
           )}
         </div>

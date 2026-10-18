@@ -25,7 +25,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
         <div className="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 bd-md:justify-center bd-md:px-8 bd-md:py-20 lg:px-12 lg:pt-32 lg:pb-24 xl:justify-start xl:pt-40 xl:pb-[120px] min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100">
           <div className="w-full max-w-[1488px] mx-auto min-[1440px]:px-6">
             {/* Text container with responsive dimensions */}
-            <div className="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white">
+            <div className="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-on-dark">
               <HeroH1
                 className="w-full lg:w-[682px] slide-up-fade-in flex items-center"
                 /* Deliberately Inter, not the InterDisplay that `.bluedot-h1` sets: the design

@@ -62,7 +62,7 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
         {discussionPrepareLink ? (
           <a
             href={discussionPrepareLink}
-            className="block text-size-sm font-semibold leading-relaxed text-bluedot-black no-underline w-fit transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+            className="block text-size-sm font-semibold leading-relaxed text-bluedot-black no-underline w-fit transition-colors hover:text-link hover:underline underline-offset-2"
           >
             {title}
           </a>
@@ -98,7 +98,7 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
 export const TimeWidget = ({ isLive, dateTimeSeconds, className = '' }: { isLive: boolean; dateTimeSeconds: number; className?: string }) => (
   <div className={`flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-md border ${className}`}>
     {isLive ? <LiveBadge /> : (
-      <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
+      <div className="px-3 py-[7px] text-center text-primary" aria-hidden>
         <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>
         <div className="text-size-xs font-medium text-secondary">{formatTime12HourClock(dateTimeSeconds)}</div>
       </div>

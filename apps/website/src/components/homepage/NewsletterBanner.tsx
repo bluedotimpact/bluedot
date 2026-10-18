@@ -84,7 +84,7 @@ const NewsletterBanner = () => {
             Newsletter
           </Eyebrow>
 
-          <H3 className="text-white max-w-narrow">
+          <H3 className="text-on-dark max-w-narrow">
             Subscribe to get AI safety news and course updates delivered directly to your inbox
           </H3>
         </div>
@@ -108,7 +108,7 @@ const NewsletterBanner = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-tight tracking-wide text-bluedot-navy placeholder:text-placeholder border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+              className="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
               style={{
                 // Gradient border on focus - Tailwind doesn't support gradient borders with double background layers
                 backgroundOrigin: 'padding-box, border-box',
