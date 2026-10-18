@@ -83,7 +83,7 @@ const OpportunityCard = ({
             {external && <span className="sr-only"> (opens in a new tab)</span>}
           </span>
         </Heading>
-        {description && <P className="text-on-dark-secondary">{description}</P>}
+        {description && <P className="text-white/85">{description}</P>}
       </div>
       {(Boolean(details) || Boolean(ctaLabel)) && (
         <div className="relative mt-auto pt-8">

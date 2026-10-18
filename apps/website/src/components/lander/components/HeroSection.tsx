@@ -90,10 +90,10 @@ const HeroSection = ({
                 <HeroH1 className="font-semibold">
                   {title}
                 </HeroH1>
-                <P className="bd-md:text-size-md leading-relaxed text-on-dark-secondary whitespace-pre-line">
+                <P className="bd-md:text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                   {description}
                 </P>
-                {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-on-dark-secondary' : 'text-secondary'}`}>{quickFacts}</P>}
+                {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
               </div>
 
               {/* CTA Buttons - stacked on mobile, side-by-side on tablet */}
@@ -136,10 +136,10 @@ const HeroSection = ({
                   <HeroH1 className="font-semibold text-left">
                     {title}
                   </HeroH1>
-                  <P className="text-size-md leading-relaxed text-on-dark-secondary whitespace-pre-line">
+                  <P className="text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                     {description}
                   </P>
-                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-on-dark-secondary' : 'text-secondary'}`}>{quickFacts}</P>}
+                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
                 </div>
 
                 <div className="flex gap-3">
@@ -199,10 +199,10 @@ const HeroSection = ({
                     {title}
                   </HeroH1>
 
-                  <P className="sm:text-size-md leading-relaxed text-on-dark-secondary whitespace-pre-line">
+                  <P className="sm:text-size-md leading-relaxed text-white/85 whitespace-pre-line">
                     {description}
                   </P>
-                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-on-dark-secondary' : 'text-secondary'}`}>{quickFacts}</P>}
+                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
                 </div>
 
                 {/* CTA Buttons */}
@@ -262,7 +262,7 @@ const HeroSection = ({
                   <P className="sm:text-size-md leading-relaxed text-secondary whitespace-pre-line">
                     {description}
                   </P>
-                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-on-dark-secondary' : 'text-secondary'}`}>{quickFacts}</P>}
+                  {quickFacts && <P className={`text-size-sm font-medium ${hasGradient ? 'text-white/85' : 'text-secondary'}`}>{quickFacts}</P>}
                 </div>
 
                 {/* CTA Buttons */}
