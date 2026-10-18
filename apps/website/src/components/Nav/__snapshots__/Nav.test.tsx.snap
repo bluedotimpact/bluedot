@@ -55,7 +55,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="courses-dropdown"
                       aria-expanded="false"
-                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Courses
@@ -82,10 +82,10 @@ exports[`Nav > renders with courses 1`] = `
                       role="region"
                     >
                       <div
-                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                        class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                       >
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/future-of-ai"
                           tabindex="0"
                         >
@@ -101,14 +101,14 @@ exports[`Nav > renders with courses 1`] = `
                           class="border-t border-subtle my-2"
                         />
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/agi-strategy"
                           tabindex="0"
                         >
                           Featured Course
                         </a>
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/ops"
                           tabindex="0"
                         >
@@ -121,7 +121,7 @@ exports[`Nav > renders with courses 1`] = `
                           </span>
                         </a>
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses/project-sprint"
                           tabindex="0"
                         >
@@ -131,7 +131,7 @@ exports[`Nav > renders with courses 1`] = `
                           class="border-t border-subtle my-2"
                         />
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/courses"
                           tabindex="0"
                         >
@@ -146,7 +146,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="grants-dropdown"
                       aria-expanded="false"
-                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Grants
@@ -173,17 +173,17 @@ exports[`Nav > renders with courses 1`] = `
                       role="region"
                     >
                       <div
-                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                        class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                       >
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/grants/rapid"
                           tabindex="0"
                         >
                           Rapid Grants
                         </a>
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/grants/career-transition"
                           tabindex="0"
                         >
@@ -193,7 +193,7 @@ exports[`Nav > renders with courses 1`] = `
                           class="border-t border-subtle my-2"
                         />
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/grants"
                           tabindex="0"
                         >
@@ -208,7 +208,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="programs-dropdown"
                       aria-expanded="false"
-                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Programs
@@ -235,17 +235,17 @@ exports[`Nav > renders with courses 1`] = `
                       role="region"
                     >
                       <div
-                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                        class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                       >
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/programs/incubator-week"
                           tabindex="0"
                         >
                           Incubator Week
                         </a>
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="https://aisb.dev/"
                           rel="noopener noreferrer"
                           tabindex="0"
@@ -257,7 +257,7 @@ exports[`Nav > renders with courses 1`] = `
                           class="border-t border-subtle my-2"
                         />
                         <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                           href="/programs?utm_source=website&utm_campaign=nav"
                           tabindex="0"
                         >
@@ -267,28 +267,28 @@ exports[`Nav > renders with courses 1`] = `
                     </div>
                   </div>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/missions"
                     tabindex="0"
                   >
                     Missions
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/alumni"
                     tabindex="0"
                   >
                     Alumni
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/about"
                     tabindex="0"
                   >
                     About
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                    class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                     href="/join-us"
                     tabindex="0"
                   >
@@ -333,7 +333,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="courses-dropdown"
                 aria-expanded="false"
-                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Courses
@@ -360,10 +360,10 @@ exports[`Nav > renders with courses 1`] = `
                 role="region"
               >
                 <div
-                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                  class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                 >
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/future-of-ai"
                     tabindex="0"
                   >
@@ -379,14 +379,14 @@ exports[`Nav > renders with courses 1`] = `
                     class="border-t border-subtle my-2"
                   />
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/agi-strategy"
                     tabindex="0"
                   >
                     Featured Course
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/ops"
                     tabindex="0"
                   >
@@ -399,7 +399,7 @@ exports[`Nav > renders with courses 1`] = `
                     </span>
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/project-sprint"
                     tabindex="0"
                   >
@@ -409,7 +409,7 @@ exports[`Nav > renders with courses 1`] = `
                     class="border-t border-subtle my-2"
                   />
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses"
                     tabindex="0"
                   >
@@ -424,7 +424,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="grants-dropdown"
                 aria-expanded="false"
-                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Grants
@@ -451,17 +451,17 @@ exports[`Nav > renders with courses 1`] = `
                 role="region"
               >
                 <div
-                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                  class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                 >
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/grants/rapid"
                     tabindex="0"
                   >
                     Rapid Grants
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/grants/career-transition"
                     tabindex="0"
                   >
@@ -471,7 +471,7 @@ exports[`Nav > renders with courses 1`] = `
                     class="border-t border-subtle my-2"
                   />
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/grants"
                     tabindex="0"
                   >
@@ -486,7 +486,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="programs-dropdown"
                 aria-expanded="false"
-                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Programs
@@ -513,17 +513,17 @@ exports[`Nav > renders with courses 1`] = `
                 role="region"
               >
                 <div
-                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                  class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                 >
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/programs/incubator-week"
                     tabindex="0"
                   >
                     Incubator Week
                   </a>
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="https://aisb.dev/"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -535,7 +535,7 @@ exports[`Nav > renders with courses 1`] = `
                     class="border-t border-subtle my-2"
                   />
                   <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/programs?utm_source=website&utm_campaign=nav"
                     tabindex="0"
                   >
@@ -545,28 +545,28 @@ exports[`Nav > renders with courses 1`] = `
               </div>
             </div>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/missions"
               tabindex="0"
             >
               Missions
             </a>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/alumni"
               tabindex="0"
             >
               Alumni
             </a>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/about"
               tabindex="0"
             >
               About
             </a>
             <a
-              class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+              class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
               href="/join-us"
               tabindex="0"
             >
@@ -577,7 +577,7 @@ exports[`Nav > renders with courses 1`] = `
             class="nav-cta flex flex-row items-center gap-4"
           >
             <a
-              class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold border-accent on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed border text-primary hover:bg-tint"
+              class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold border-accent on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed border text-primary hover:bg-tint"
               href="/login?redirect_to=%2Ftest-page"
               tabindex="0"
             >

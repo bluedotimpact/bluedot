@@ -3,7 +3,7 @@
 exports[`HistorySection > renders desktop as expected 1`] = `
 <div>
   <section
-    class="history-section section section-body"
+    class="section section-body"
   >
     <h3
       class="bluedot-h3 not-prose mb-6"
@@ -14,10 +14,10 @@ exports[`HistorySection > renders desktop as expected 1`] = `
       class="flex flex-col lg:flex-row lg:gap-2 gap-8"
     >
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
             class="w-full flex gap-2"
@@ -39,10 +39,10 @@ exports[`HistorySection > renders desktop as expected 1`] = `
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
             class="w-full flex gap-2"
@@ -64,10 +64,10 @@ exports[`HistorySection > renders desktop as expected 1`] = `
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
             class="w-full flex gap-2"
@@ -89,10 +89,10 @@ exports[`HistorySection > renders desktop as expected 1`] = `
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
             class="w-full flex gap-2"
@@ -114,10 +114,10 @@ exports[`HistorySection > renders desktop as expected 1`] = `
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
             class="w-full flex gap-2"

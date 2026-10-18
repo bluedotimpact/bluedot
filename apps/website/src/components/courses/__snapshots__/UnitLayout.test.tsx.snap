@@ -4,7 +4,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 <div>
   <div>
     <div
-      class="mobile-unit-header bg-canvas flex h-[76px] w-full items-center border-b px-3 sticky top-(--nav-height-mobile) z-10 md:hidden"
+      class="bg-canvas flex h-[76px] w-full items-center border-b px-3 sticky top-(--nav-height-mobile) z-10 md:hidden"
     >
       <nav
         class="flex w-full items-center justify-between"
@@ -852,10 +852,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </p>
               </div>
               <div
-                class="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0"
+                class="flex justify-center mt-6 mx-1 mb-14 sm:mb-0"
               >
                 <button
-                  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover unit__cta-link [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
+                  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
                   type="button"
                 >
                   Continue
@@ -922,7 +922,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
 <button
-  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover unit__cta-link [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
+  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
   type="button"
 >
   Continue
