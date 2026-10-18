@@ -62,7 +62,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
               url={courseUrl}
               // Course-coloured fill with a darkening overlay on hover; unstyled so primary's hover fill cannot override it
               variant="unstyled"
-              className="h-9 px-4 py-[7px] rounded-md text-size-xs font-medium text-primary w-fit bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
+              className="text-primary bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
             >
               Start for free
             </Button>
