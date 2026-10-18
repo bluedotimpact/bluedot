@@ -17,7 +17,6 @@ type SaveStatusIndicatorProps = {
 const getStatusConfig = (savedText: string): Record<SaveStatus, {
   icon?: React.ReactNode;
   text: string | ((onRetry?: () => void) => React.ReactNode);
-  className?: string;
 }> => ({
   idle: {
     text: '',
@@ -48,7 +47,6 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
         </button>
       </span>
     ),
-    className: 'text-error-fg',
   },
 });
 
