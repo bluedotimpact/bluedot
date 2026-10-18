@@ -113,7 +113,7 @@ const HeroSection = ({
                     url={secondaryCta.url}
                     variant="unstyled"
                     size="large"
-                    className="bg-transparent border w-full bd-md:w-auto hover:bg-white/10"
+                    className="bg-transparent border w-full bd-md:w-auto hover:bg-surface-on-dark-subtle"
                     style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                   >
                     {secondaryCta.text}
@@ -158,7 +158,7 @@ const HeroSection = ({
                       url={secondaryCta.url}
                       variant="unstyled"
                       size="large"
-                      className="bg-transparent border hover:bg-white/10"
+                      className="bg-transparent border hover:bg-surface-on-dark-subtle"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
@@ -222,7 +222,7 @@ const HeroSection = ({
                       url={secondaryCta.url}
                       variant="unstyled"
                       size="large"
-                      className="w-full bd-md:w-auto bg-transparent border hover:bg-white/10"
+                      className="w-full bd-md:w-auto bg-transparent border hover:bg-surface-on-dark-subtle"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}

@@ -555,7 +555,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-border-on-dark pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -1183,7 +1183,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-border-on-dark pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -1817,7 +1817,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-border-on-dark pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"

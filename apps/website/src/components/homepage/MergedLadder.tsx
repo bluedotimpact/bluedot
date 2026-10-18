@@ -62,7 +62,7 @@ const FoaiRungCard = () => (
         backgroundSize: '464.64px 736.56px',
       }}
     />
-    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+    <div className="absolute inset-0 bg-overlay-image opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
     <div className="relative z-10 flex flex-col h-full p-6 md:p-7 min-h-[260px] md:min-h-[300px]">
       <div className="flex-grow">
         <div className="size-14 md:size-16">
@@ -81,7 +81,7 @@ const FoaiRungCard = () => (
           {['2 hours', 'Free', 'No application'].map((tag) => (
             <span
               key={tag}
-              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-on-dark"
+              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-surface-on-dark-subtle border border-border-on-dark backdrop-blur-[10px] text-on-dark"
             >
               {tag}
             </span>
@@ -115,7 +115,7 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
           backgroundSize: '464.64px 736.56px',
         }}
       />
-      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+      <div className="absolute inset-0 bg-overlay-image opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
       <div className={clsx(
         'relative z-10 flex flex-col h-full p-6 md:p-7',
         featured ? 'min-h-[260px] md:min-h-[300px]' : 'min-h-[260px] md:min-h-[280px]',
@@ -140,11 +140,11 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
           </P>
           <div className="flex flex-wrap gap-2 mt-1">
             {course.durationHours != null && (
-              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-on-dark">
+              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-surface-on-dark-subtle border border-border-on-dark backdrop-blur-[10px] text-on-dark">
                 {course.durationHours}H
               </span>
             )}
-            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-on-dark">
+            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-surface-on-dark-subtle border border-border-on-dark backdrop-blur-[10px] text-on-dark">
               Cohort-based
             </span>
           </div>

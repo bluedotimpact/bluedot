@@ -60,7 +60,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
       return clsx(
         'nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300',
         'bg-transparent',
-        'border-b border-white/15',
+        'border-b border-border-on-dark',
       );
     }
 

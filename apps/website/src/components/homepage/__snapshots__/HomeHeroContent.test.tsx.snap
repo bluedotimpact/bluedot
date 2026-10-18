@@ -6,7 +6,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
     class="relative w-full"
   >
     <nav
-      class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
+      class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-border-on-dark"
     >
       <div
         class="section-base"
@@ -524,7 +524,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               class="nav-cta flex flex-row items-center gap-4"
             >
               <a
-                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-surface-on-dark border border-border-on-dark text-on-dark hover:bg-surface-on-dark-hover backdrop-blur-sm"
                 href="/login?redirect_to=undefined"
                 tabindex="0"
               >

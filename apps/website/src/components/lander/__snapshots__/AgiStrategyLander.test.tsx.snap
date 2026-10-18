@@ -54,7 +54,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       {"@context":"https://schema.org","@type":"Course","availableLanguage":"en","name":"AGI Strategy Course | BlueDot Impact","description":"The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving.","image":"https://bluedot.org/images/courses/link-preview/agi-strategy.png","url":"https://bluedot.org/courses/agi-strategy","provider":{"@type":"Organization","name":"BlueDot Impact","sameAs":"https://bluedot.org"},"offers":[{"@type":"Offer","category":"Free"}],"hasCourseInstance":[{"@type":"CourseInstance","courseMode":"Online"}]}
     </script>
     <nav
-      class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
+      class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-border-on-dark"
     >
       <div
         class="section-base"
@@ -572,7 +572,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="nav-cta flex flex-row items-center gap-4"
             >
               <a
-                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-surface-on-dark border border-border-on-dark text-on-dark hover:bg-surface-on-dark-hover backdrop-blur-sm"
                 href="/login?redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
@@ -646,7 +646,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 Apply now
               </a>
               <a
-                class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 text-size-sm font-medium bg-transparent border w-full bd-md:w-auto hover:bg-white/10"
+                class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 text-size-sm font-medium bg-transparent border w-full bd-md:w-auto hover:bg-surface-on-dark-subtle"
                 href="/courses/agi-strategy/1/1"
                 style="border-color: #BCA9FF; color: #BCA9FF;"
                 tabindex="0"
@@ -699,7 +699,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Apply now
                 </a>
                 <a
-                  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 text-size-sm font-medium bg-transparent border hover:bg-white/10"
+                  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 text-size-sm font-medium bg-transparent border hover:bg-surface-on-dark-subtle"
                   href="/courses/agi-strategy/1/1"
                   style="border-color: #BCA9FF; color: #BCA9FF;"
                   tabindex="0"

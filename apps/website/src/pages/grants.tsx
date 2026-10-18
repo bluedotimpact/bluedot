@@ -118,7 +118,7 @@ const GrantsPage = () => {
                         <P className="text-size-lg font-medium text-on-dark">{route.amount}</P>
                         <P className="mt-1 text-size-xs text-white/85">{route.application}</P>
                         {stats && (
-                          <P className="mt-3 text-size-xs text-white/75">
+                          <P className="mt-3 text-size-xs text-on-dark-secondary">
                             {AWARDED_AMOUNT_FORMAT.format(stats.totalAmountUsd).toLowerCase()} awarded across {stats.count.toLocaleString('en-US')} {stats.count === 1 ? 'grant' : 'grants'}
                           </P>
                         )}

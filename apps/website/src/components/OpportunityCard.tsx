@@ -71,7 +71,7 @@ const OpportunityCard = ({
           backgroundSize: '464.64px 736.56px',
         }}
       />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-overlay-image opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none" />
       <div className={clsx('relative flex items-start justify-between gap-4', compact ? 'mb-7' : 'mb-8 md:mb-10')}>
         <Icon aria-hidden="true" className="size-6" />
         {!ctaLabel && <Arrow aria-hidden="true" className={arrowClassName} />}
@@ -87,7 +87,7 @@ const OpportunityCard = ({
       </div>
       {(Boolean(details) || Boolean(ctaLabel)) && (
         <div className="relative mt-auto pt-8">
-          <div className="flex flex-col gap-6 border-t border-white/20 pt-6">
+          <div className="flex flex-col gap-6 border-t border-border-on-dark pt-6">
             {details}
             {ctaLabel && (
               <span className="flex items-center justify-between gap-4 text-size-sm font-medium">

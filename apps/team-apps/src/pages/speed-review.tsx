@@ -602,7 +602,7 @@ const SpeedReviewPage = () => {
           if (undoToast.kind === 'moved') void handleUndoMove();
           else handleUndo();
         }}
-        className="font-semibold text-accent hover:text-bluedot-lighter underline underline-offset-2 disabled:opacity-40"
+        className="font-semibold text-on-dark-link hover:text-on-dark-link-hover underline underline-offset-2 disabled:opacity-40"
       >
         {undoToast.kind === 'moved' ? 'Undo move' : 'Re-rate'}
       </button>
