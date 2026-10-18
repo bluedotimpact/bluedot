@@ -18,6 +18,8 @@ describe('Field', () => {
     const input = screen.getByRole('textbox', { name: 'Email' });
     expect(screen.getByText('Email').textContent).toBe('Email *');
     expect(input).toBeRequired();
+    // aria only: native `required` would let the browser block submit ahead of the Field's error
+    expect(input).not.toHaveAttribute('required');
     expect(input).toHaveAttribute('aria-invalid', 'true');
     expect(input).toHaveAccessibleDescription('Cohort logistics only. Enter a valid email.');
     expect(screen.getByText('Enter a valid email.')).toBeInTheDocument();
@@ -39,7 +41,7 @@ describe('Field', () => {
     render(<>
       <p id="external-hint">External hint</p>
       <Field label="Name" description="Hint" error="Bad" required>
-        <Input aria-describedby="external-hint" aria-invalid={false} required={false} />
+        <Input aria-describedby="external-hint" aria-invalid={false} aria-required={false} />
       </Field>
     </>);
 
@@ -78,13 +80,14 @@ describe('Field', () => {
   });
 
   test('wires a Select trigger', () => {
-    render(<Field label="Timezone" description="Your local offset." error="Pick one">
+    const { container } = render(<Field label="Timezone" description="Your local offset." error="Pick one" required>
       <Select options={[{ value: 'utc', label: 'UTC' }]} />
     </Field>);
 
     const trigger = screen.getByRole('button', { name: /Timezone/ });
     expect(trigger).toHaveAccessibleDescription('Your local offset. Pick one');
     expect(screen.getByText('Timezone')).toHaveAttribute('for', trigger.id);
+    expect(container.querySelector('select')).not.toBeRequired();
   });
 
   test('without a label, a Checkbox keeps its own label and still gets the error', () => {
@@ -117,7 +120,7 @@ describe('Field', () => {
 });
 
 describe('FieldSet', () => {
-  test('names the group with the legend and describes group and options', () => {
+  test('names the group with the legend and describes the group, not each option', () => {
     render(<FieldSet legend="Topics" description="Pick all that apply." error="Pick at least one." required>
       <Checkbox name="topics" value="a">Alignment</Checkbox>
       <Checkbox name="topics" value="b">Governance</Checkbox>
@@ -130,7 +133,7 @@ describe('FieldSet', () => {
     expect(boxes).toHaveLength(2);
     for (const box of boxes) {
       expect(box).toHaveAttribute('aria-invalid', 'true');
-      expect(box).toHaveAccessibleDescription('Pick all that apply. Pick at least one.');
+      expect(box).not.toHaveAttribute('aria-describedby');
       expect(box).not.toBeRequired();
       expect(box).not.toHaveAttribute('aria-labelledby');
       expect(box).not.toHaveAttribute('id');
