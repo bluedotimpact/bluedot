@@ -45,11 +45,11 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
       className,
     )}
   >
-    <nav className="mobile-unit-header__nav flex w-full flex-row items-center justify-between">
+    <nav className="mobile-unit-header__nav flex w-full items-center justify-between">
       {/* Left side - course info */}
       <button
         type="button"
-        className="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
+        className="mobile-unit-header__course-container flex flex-1 cursor-pointer items-center gap-2 rounded outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
         onClick={onCourseMenuClick}
         aria-label="Open course navigation menu"
       >
@@ -65,7 +65,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
       </button>
       {/* Right side - navigation arrows */}
       {mobileNavigation && (
-        <div className="mobile-unit-header__navigation flex h-8 flex-row items-center gap-3">
+        <div className="mobile-unit-header__navigation flex h-8 items-center gap-3">
           <IconButton
             className="text-primary"
             disabled={mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit}
@@ -228,7 +228,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
         <div className="md:min-w-0 md:flex-1">
           {/* Breadcrumbs bar */}
           <div className="bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
-            <div className="flex size-full flex-row items-center justify-between gap-2 px-6">
+            <div className="flex size-full items-center justify-between gap-2 px-6">
               {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-2">
                 <button
