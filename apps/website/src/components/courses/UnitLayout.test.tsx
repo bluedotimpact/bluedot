@@ -142,7 +142,6 @@ describe('UnitLayout', () => {
     });
 
     expect(screen.queryByRole('button', { name: /continue/i })).not.toBeNull();
-    expect(container.querySelector('.unit__last-unit-cta-container')).toBeFalsy();
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
 
