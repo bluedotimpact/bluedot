@@ -425,15 +425,14 @@ const QuickApplyForm = ({
           </button>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <Field error={errors.timeAv?.message}>
           <Controller
             control={control}
             name="timeAv"
             rules={{ validate: (v) => Object.values(v).some(Boolean) || 'Select at least one time slot.' }}
             render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
           />
-          {errors.timeAv && <p className="text-size-xs leading-normal text-error-fg">{errors.timeAv.message}</p>}
-        </div>
+        </Field>
 
         <Field label="Additional comments">
           <Textarea {...register('availabilityComments')} />
