@@ -31,7 +31,7 @@ export const useFieldControlProps = <P extends FieldControlProps>(props: P): P =
 
   return {
     ...props,
-    id: props.id ?? field.id,
+    id: field.id ?? props.id,
     'aria-labelledby': hasOwnName ? props['aria-labelledby'] : field.labelId,
     'aria-describedby': joinIds(props['aria-describedby'], field.describedBy),
     'aria-invalid': props['aria-invalid'] ?? (field.invalid ? true : undefined),
