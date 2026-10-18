@@ -237,9 +237,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(nextUnit || !isLastChunk) && (
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
-            <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
+            <div className="flex justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <Button
-                className="unit__cta-link [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
+                className="[&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
                 onClick={handleNextClick}
                 variant="primary"
               >

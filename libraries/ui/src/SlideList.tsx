@@ -136,7 +136,7 @@ export const SlideList = ({
   );
 
   return (
-    <div className={clsx('slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0', className)}>
+    <div className={clsx('relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0', className)}>
       <div className="relative flex-1">
         {!allChildrenFit && (
           <div className="absolute inset-0 pointer-events-none z-10 flex">
@@ -160,7 +160,7 @@ export const SlideList = ({
         >
           {React.Children.map(children, (child) => (
             <div
-              className="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              className="shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
               data-width={itemWidth} // style.width can't be picked up in tests, so add it as an attr that can be read
               style={{
                 width: itemWidth,

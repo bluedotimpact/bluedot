@@ -41,7 +41,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
 }) => (
   <div
     className={cn(
-      'mobile-unit-header bg-canvas flex h-[76px] w-full items-center border-b px-3',
+      'bg-canvas flex h-[76px] w-full items-center border-b px-3',
       className,
     )}
   >
