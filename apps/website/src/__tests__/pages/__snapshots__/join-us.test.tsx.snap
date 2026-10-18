@@ -276,7 +276,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                       class="flex flex-col gap-4 pt-6 mt-6 border-t"
                     >
                       <a
-                        class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
+                        class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
                         href="/login?register=true&redirect_to=%2Fjoin-us"
                         tabindex="0"
                       >
@@ -527,14 +527,14 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 class="nav-cta flex flex-row items-center gap-4"
               >
                 <a
-                  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-surface-on-dark border border-border-on-dark text-on-dark hover:bg-surface-on-dark-hover backdrop-blur-sm"
+                  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-surface-on-dark border border-border-on-dark text-on-dark hover:bg-surface-on-dark-hover backdrop-blur-sm"
                   href="/login?redirect_to=%2Fjoin-us"
                   tabindex="0"
                 >
                   Sign in
                 </a>
                 <a
-                  class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker"
+                  class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 font-semibold on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker"
                   href="/login?register=true&redirect_to=%2Fjoin-us"
                   tabindex="0"
                 >
@@ -729,7 +729,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   value=""
                 />
                 <button
-                  class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 text-size-xs font-semibold border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover w-full lg:w-auto"
+                  class="not-prose flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover w-full lg:w-auto"
                   type="submit"
                 >
                   Subscribe
