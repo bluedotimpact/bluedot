@@ -6,7 +6,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
   aria-label="Quote carousel"
   aria-live="polite"
   class="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
-  style="background-color: #FFFFFF;"
+  style="background-color: var(--color-canvas);"
 >
   <div
     class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] bd-md:max-w-none bd-md:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
@@ -39,7 +39,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                   >
                     <blockquote
                       class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                      style="color: var(--bluedot-navy);"
+                      style="color: var(--color-primary);"
                     >
                       "AI could surpass almost all humans at almost everything shortly after 2027."
                     </blockquote>
@@ -64,13 +64,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       >
                         <div
                           class="text-size-md leading-tight font-semibold"
-                          style="color: var(--bluedot-navy);"
+                          style="color: var(--color-primary);"
                         >
                           Dario Amodei
                         </div>
                         <div
                           class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                          style="color: var(--bluedot-navy);"
+                          style="color: var(--color-primary);"
                         >
                           CEO, Anthropic
                         </div>
@@ -113,7 +113,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                   >
                     <blockquote
                       class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                      style="color: var(--bluedot-navy);"
+                      style="color: var(--color-primary);"
                     >
                       "The downside is, at some point, humanity loses control."
                     </blockquote>
@@ -131,13 +131,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       >
                         <div
                           class="text-size-md leading-tight font-semibold"
-                          style="color: var(--bluedot-navy);"
+                          style="color: var(--color-primary);"
                         >
                           Sundar Pichai
                         </div>
                         <div
                           class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                          style="color: var(--bluedot-navy);"
+                          style="color: var(--color-primary);"
                         >
                           CEO, Google
                         </div>
@@ -181,7 +181,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                 >
                   <blockquote
                     class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                    style="color: var(--bluedot-navy);"
+                    style="color: var(--color-primary);"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
                   </blockquote>
@@ -206,13 +206,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     >
                       <div
                         class="text-size-md leading-tight font-semibold"
-                        style="color: var(--bluedot-navy);"
+                        style="color: var(--color-primary);"
                       >
                         Dario Amodei
                       </div>
                       <div
                         class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                        style="color: var(--bluedot-navy);"
+                        style="color: var(--color-primary);"
                       >
                         CEO, Anthropic
                       </div>
@@ -267,7 +267,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
         >
           <div
             class="w-full bd-md:w-24 h-1.5 rounded transition-all duration-300"
-            style="background-color: var(--bluedot-normal); opacity: 1;"
+            style="background-color: var(--color-accent); opacity: 1;"
           />
         </button>
         <button
@@ -277,7 +277,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
         >
           <div
             class="w-full bd-md:w-24 h-1.5 rounded transition-all duration-300"
-            style="background-color: var(--bluedot-navy); opacity: 0.15;"
+            style="background-color: var(--color-primary); opacity: 0.15;"
           />
         </button>
       </div>

@@ -24,7 +24,7 @@ export type QuoteSectionProps = {
   quotes: QuoteWithUrl[];
   /** Background color for the quote card (only used by the `card` variant). Defaults to `var(--bluedot-lightest)`. */
   cardBackgroundColor?: string;
-  /** Accent color for the active navigation indicator. Defaults to bluedot-normal */
+  /** Accent color for the active navigation indicator. Defaults to the accent colour */
   accentColor?: string;
   /**
    * `card`: original lavender-card-with-side-image layout.
@@ -35,10 +35,10 @@ export type QuoteSectionProps = {
 
 // Design constants - these stay consistent across all courses
 const DEFAULT_COLORS = {
-  background: '#FFFFFF',
+  background: 'var(--color-canvas)',
   cardBg: 'var(--bluedot-lightest)',
-  text: 'var(--bluedot-navy)',
-  accent: 'var(--bluedot-normal)',
+  text: 'var(--color-primary)',
+  accent: 'var(--color-accent)',
 };
 
 // Font sizing configuration

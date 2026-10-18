@@ -33,7 +33,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
               height="24"
               stroke="currentColor"
               stroke-width="0"
-              style="color: white;"
+              style="color: var(--color-on-dark);"
               viewBox="0 0 256 256"
               width="24"
               xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </div>
           <span
             class="text-size-md font-semibold leading-snug flex-grow text-left"
-            style="color: white;"
+            style="color: var(--color-on-dark);"
           >
             Technical people considering governance
           </span>
@@ -131,7 +131,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </div>
           <span
             class="text-size-md font-semibold leading-snug flex-grow text-left"
-            style="color: var(--bluedot-navy);"
+            style="color: var(--color-primary);"
           >
             High-potential people early in their careers
           </span>
@@ -217,7 +217,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </div>
           <span
             class="text-size-md font-semibold leading-snug flex-grow text-left"
-            style="color: var(--bluedot-navy);"
+            style="color: var(--color-primary);"
           >
             Policy professionals adding AI expertise
           </span>
