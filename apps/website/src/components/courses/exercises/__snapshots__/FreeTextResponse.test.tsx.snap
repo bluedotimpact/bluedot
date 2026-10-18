@@ -105,12 +105,12 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       <div
         aria-atomic="true"
         aria-live="polite"
-        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
+        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0 bg-info-bg border-info-border text-info-fg"
         id="save-status-message"
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-accent"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium"
         />
       </div>
     </div>
@@ -164,12 +164,12 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       <div
         aria-atomic="true"
         aria-live="polite"
-        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
+        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0 bg-info-bg border-info-border text-info-fg"
         id="save-status-message"
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-accent"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium"
         />
       </div>
     </div>

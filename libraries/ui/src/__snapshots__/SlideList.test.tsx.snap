@@ -53,7 +53,7 @@ exports[`SlideList > renders correctly 1`] = `
     >
       <button
         aria-label="Previous slide"
-        class="slide-list__nav-button p-3 border rounded-surface transition-colors m-[3px] mt-0 text-black hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+        class="slide-list__nav-button p-3 border rounded-surface transition-colors m-[3px] mt-0 text-primary hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-focus"
         disabled=""
         type="button"
       >
@@ -86,7 +86,7 @@ exports[`SlideList > renders correctly 1`] = `
       </div>
       <button
         aria-label="Next slide"
-        class="slide-list__nav-button p-3 border rounded-surface transition-colors m-[3px] mt-0 text-black hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+        class="slide-list__nav-button p-3 border rounded-surface transition-colors m-[3px] mt-0 text-primary hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-focus"
         type="button"
       >
         <svg

@@ -66,7 +66,7 @@ const AddParticipantModal = ({ meetPersonId, excludeIds, onAdd, onClose }: AddPa
         <div className="flex flex-col gap-1.5">
           {isLoading && <ProgressDots />}
           {isError && (
-            <p className="text-red-600 text-size-xs py-2" role="alert" aria-live="polite">
+            <p className="text-error-fg text-size-xs py-2" role="alert" aria-live="polite">
               Couldn't load participants. Please try again.
             </p>
           )}

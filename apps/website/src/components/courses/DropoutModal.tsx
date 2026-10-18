@@ -228,7 +228,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       </Callout>
 
       <div className="flex flex-col gap-2">
-        <p className="text-size-md font-medium text-black">1. What would you like to do?</p>
+        <p className="text-size-md font-medium text-primary">1. What would you like to do?</p>
         <Select
           aria-label="Action type"
           value={dropoutType}
@@ -244,7 +244,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <p className="text-size-md font-medium text-black">2. We'd love to hear why</p>
+        <p className="text-size-md font-medium text-primary">2. We'd love to hear why</p>
         <p className="text-size-xs text-secondary">
           Your feedback helps us improve the course. Thank you for participating.
         </p>
@@ -257,7 +257,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       </div>
 
       {dropoutMutation.isError && (
-        <P className="text-red-600">{dropoutMutation.error?.message || 'An error occurred. Please try again.'}</P>
+        <P className="text-error-fg">{dropoutMutation.error?.message || 'An error occurred. Please try again.'}</P>
       )}
 
       <Button

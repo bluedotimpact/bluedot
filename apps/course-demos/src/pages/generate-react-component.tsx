@@ -88,7 +88,7 @@ const DemoPage: React.FC = () => {
 
         {error && (
           <>
-            <H2 className="text-red-500">Something went wrong</H2>
+            <H2 className="text-error-fg">Something went wrong</H2>
             <P>
               Sorry, we couldn't generate your app. Error: {error?.message || 'Unknown'}
             </P>

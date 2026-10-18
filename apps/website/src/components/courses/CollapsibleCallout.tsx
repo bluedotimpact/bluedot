@@ -17,7 +17,7 @@ export const CollapsibleCallout: React.FC<CollapsibleCalloutProps> = ({
       title={title}
       className={clsx(
         'callout my-6 px-6 !py-0 rounded-xl !border bg-raised transition-shadow hover:shadow-sm',
-        '[&_summary>span:first-child]:!text-size-sm [&_summary>span:first-child]:!font-medium [&_summary>span:first-child]:!text-bluedot-black [&_summary>span:first-child]:!leading-relaxed',
+        '[&_summary>span:first-child]:!text-size-sm [&_summary>span:first-child]:!font-medium [&_summary>span:first-child]:!text-primary [&_summary>span:first-child]:!leading-relaxed',
         '[&_summary_svg]:!size-4 [&_summary_svg]:!text-secondary',
         '[&_summary]:!py-4 [&_summary]:!items-center',
         '[&[open]_summary]:!pb-3 [&[open]_summary]:!border-b [&[open]_summary]:!border-subtle',

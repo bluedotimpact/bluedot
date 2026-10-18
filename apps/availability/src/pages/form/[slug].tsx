@@ -117,7 +117,7 @@ const Form: React.FC<{
           {submitting && <ProgressDots className="w-full" />}
           {!submitting && (
             <>
-              <P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
+              <P className={`text-size-xs text-error-fg mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
                 {!isValidEmail() && <>* Input a valid email.<br /></>}
                 {!longEnoughInterval()
                 && <>* Fill out at least one interval of length at least {minLength} minutes.</>}

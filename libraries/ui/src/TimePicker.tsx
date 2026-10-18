@@ -44,7 +44,7 @@ export const TimePicker = ({
       onChange={handleChange}
       isDisabled={disabled}
     >
-      {label && <Label className="cursor-default text-black">{label}</Label>}
+      {label && <Label className="cursor-default text-primary">{label}</Label>}
       <DateInput
         className={({ isFocusWithin, isDisabled }) => cn(
           'flex h-11 items-center rounded-surface border border-border-control bg-raised px-3 text-primary transition',

@@ -227,7 +227,7 @@ const GroupDiscussionBanner = ({
 
   return (
     <>
-      <div className="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]">
+      <div className="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-info-border">
         <div className="flex items-center gap-3 text-size-xs">
           {(discussionIsLive || discussionIsSoonOrLive) && (
             <IndicatorIcon isLive={discussionIsLive} />
@@ -423,7 +423,7 @@ const GroupDiscussionBanner = ({
 
 const IndicatorIcon = ({ isLive }: { isLive: boolean }) => (
   <div className={clsx(
-    'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
+    'px-3 py-1 flex items-center justify-center border-info-border',
     isLive ? 'bg-accent font-bold border-4 rounded-lg' : 'bg-raised border rounded',
   )}
   >

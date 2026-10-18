@@ -103,7 +103,7 @@ const PreferencesForm = ({
             onChange={(e) => handleToggle(topic.id, e.target.checked)}
           >
             <div>
-              <P className="font-semibold text-black leading-snug">{topic.name}</P>
+              <P className="font-semibold text-primary leading-snug">{topic.name}</P>
               {topic.description && (
                 <P className="text-secondary text-size-sm mt-0.5">{topic.description}</P>
               )}
@@ -115,7 +115,7 @@ const PreferencesForm = ({
       <div className="pt-4 space-y-4">
         {saved && <P className="text-success-fg text-size-sm">Your preferences have been saved. It may take a few seconds for changes to appear if you revisit this page.</P>}
         {saveMutation.error && (
-          <P className="text-red-600 text-size-sm">Failed to save. Please try again.</P>
+          <P className="text-error-fg text-size-sm">Failed to save. Please try again.</P>
         )}
         <Button
           variant="primary"

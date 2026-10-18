@@ -106,7 +106,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               />
               {inlineError && (
                 <p
-                  className="text-red-600 text-size-sm mt-1"
+                  className="text-error-fg text-size-sm mt-1"
                   id="new-email-error"
                   role="alert"
                   aria-live="polite"

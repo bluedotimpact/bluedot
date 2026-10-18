@@ -55,7 +55,7 @@ const NewsletterBanner = () => {
   };
 
   return (
-    <div className="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden">
+    <div className="relative w-full bd-md:border bd-md:border-subtle bd-md:rounded-xl overflow-hidden">
       {/* Background Layers - Non-interactive */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         {/* Background Image - Flipped Horizontally */}
@@ -108,7 +108,7 @@ const NewsletterBanner = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+              className="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-border-control focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
               style={{
                 // Gradient border on focus - Tailwind doesn't support gradient borders with double background layers
                 backgroundOrigin: 'padding-box, border-box',
@@ -143,8 +143,8 @@ const NewsletterBanner = () => {
 
           {/* Error Message */}
           {errorMessage && (
-            <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-red-50 border border-red-200 animate-in fade-in duration-300">
-              <p className="text-size-sm text-red-800 leading-tight font-medium">
+            <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-error-bg border border-error-border animate-in fade-in duration-300">
+              <p className="text-size-sm text-error-fg leading-tight font-medium">
                 {errorMessage}
               </p>
             </div>

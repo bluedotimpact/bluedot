@@ -77,7 +77,7 @@ const PostPreviewPanel = ({
       </div>
     </div>
     <p className="text-primary line-clamp-3 text-size-sm leading-relaxed">
-      {shareText} <span className="text-blue-600">{courseUrl}</span>
+      {shareText} <span className="text-link">{courseUrl}</span>
     </p>
     <img
       src={`/images/courses/link-preview/${courseSlug}.png`}

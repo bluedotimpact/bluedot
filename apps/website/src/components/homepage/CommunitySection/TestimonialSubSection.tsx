@@ -34,7 +34,7 @@ const TestimonialSection = ({
                 />
               </div>
               <div className="testimonial__info">
-                <div className="testimonial__name font-semibold text-bluedot-black">
+                <div className="testimonial__name font-semibold text-primary">
                   {testimonial.name}
                 </div>
                 <div className="testimonial__role text-size-sm text-bluedot-darker">

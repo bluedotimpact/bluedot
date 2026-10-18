@@ -329,7 +329,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 {recordingUrl ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex items-center gap-2.5 rounded-md bg-[#0EAC53] px-3 py-2 text-on-dark">
+                      <div className="flex items-center gap-2.5 rounded-md bg-success-fg px-3 py-2 text-on-dark">
                         <FaCheck className="size-3.5 shrink-0" />
                         <span className="text-size-xs">Recording saved</span>
                       </div>
@@ -368,7 +368,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 value={email}
                 className={cn(
                   'rounded-surface border bg-raised px-3 py-2 text-size-xs placeholder:text-size-xs',
-                  emailError && 'border-red-500',
+                  emailError && 'border-error-fg',
                 )}
                 placeholder="Email"
                 required

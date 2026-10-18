@@ -28,7 +28,7 @@ const CourseBenefitsSection = ({ title, benefits, iconBackgroundColor = 'var(--b
                 className="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: iconBackgroundColor }}
               >
-                <Icon className="text-black" size={28} />
+                <Icon className="text-primary" size={28} />
               </div>
               <div className="space-y-2">
                 <H3 className="text-size-md">

@@ -163,7 +163,7 @@ export const DatePicker = ({
   return (
     <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', className)}>
       {label ? (
-        <label htmlFor={inputId} className="text-black">
+        <label htmlFor={inputId} className="text-primary">
           {label}
         </label>
       ) : null}
