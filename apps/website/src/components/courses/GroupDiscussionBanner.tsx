@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  Button, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
+  Button, OverflowMenu, useCurrentTimeMs, type ButtonProps, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -18,15 +18,15 @@ import StatusPill, { PendingIcon } from '../StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
-const BUTTON_STYLES: Record<'primary' | 'secondary' | 'ghost', { variant: 'primary' | 'outline-black'; className?: string }> = {
+const BUTTON_STYLES: Record<'primary' | 'secondary' | 'ghost', { variant: ButtonProps['variant']; className?: string }> = {
   primary: { variant: 'primary' },
   secondary: {
-    variant: 'outline-black',
-    className: 'border-info-border text-accent hover:bg-accent-subtle',
+    variant: 'secondary',
+    className: 'border-info-border font-medium',
   },
   ghost: {
-    variant: 'outline-black',
-    className: 'border-none text-accent hover:bg-accent-subtle',
+    variant: 'secondary',
+    className: 'border-none font-medium',
   },
 };
 
