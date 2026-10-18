@@ -291,7 +291,7 @@ const ResponseCard = ({
           {response.completedAt ? (
             new Date(response.completedAt).toLocaleString()
           ) : (
-            <span className="text-orange-700">
+            <span className="text-warning-fg">
               In progress
               {response.createdAt && <> · started {new Date(response.createdAt).toLocaleString()}</>}
             </span>

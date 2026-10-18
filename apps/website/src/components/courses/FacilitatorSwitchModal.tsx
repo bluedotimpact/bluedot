@@ -340,7 +340,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <div className="flex flex-col gap-2">
           <p className="text-size-md font-medium text-black">3. Select new facilitator</p>
           {facilitatorsQuery.isError && (
-            <P className="text-red-600">
+            <P className="text-error-fg">
               {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}
             </P>
           )}
@@ -354,7 +354,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         {changeFacilitatorMutation.isError && (
-          <P className="text-red-600">
+          <P className="text-error-fg">
             {changeFacilitatorMutation.error?.message || 'An error occurred. Please try again.'}
           </P>
         )}
@@ -385,7 +385,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       footer={showUpdateTimeFooter && (
         <div className="flex flex-col gap-2">
           {updateDiscussionTimeMutation.isError && (
-            <P className="text-red-600">
+            <P className="text-error-fg">
               {updateDiscussionTimeMutation.error?.message || 'An error occurred. Please try again.'}
             </P>
           )}

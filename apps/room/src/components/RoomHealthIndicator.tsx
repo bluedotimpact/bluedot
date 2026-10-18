@@ -8,7 +8,7 @@ export const RoomHealthIndicator: React.FC<{ status: RoomStatus }> = ({ status }
   const isHealthy = isRoomHealthy(status);
 
   return (
-    <div className={clsx('px-3 py-1 rounded-full text-sm font-medium', isHealthy ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
+    <div className={clsx('px-3 py-1 rounded-full text-sm font-medium', isHealthy ? 'bg-success-bg text-success-fg' : 'bg-error-bg text-error-fg')}>
       {isHealthy ? `Online (seen ${new Date(status.lastHeartbeatAt * 1000).toLocaleTimeString()})` : 'Offline'}
     </div>
   );

@@ -143,8 +143,8 @@ const NewsletterBanner = () => {
 
           {/* Error Message */}
           {errorMessage && (
-            <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-red-50 border border-red-200 animate-in fade-in duration-300">
-              <p className="text-size-sm text-red-800 leading-tight font-medium">
+            <div className="absolute inset-0 flex items-center justify-center lg:justify-start w-full px-4 py-3 rounded-md bg-error-bg border border-error-border animate-in fade-in duration-300">
+              <p className="text-size-sm text-error-fg leading-tight font-medium">
                 {errorMessage}
               </p>
             </div>

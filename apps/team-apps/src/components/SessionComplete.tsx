@@ -413,7 +413,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           {totalCount && acceptedCount !== null && reviewedCount !== null ? (
             <>
               <div className="h-full bg-accent" style={{ width: `${(acceptedCount / totalCount) * 100}%` }} />
-              <div className="h-full bg-red-700" style={{ width: `${((reviewedCount - acceptedCount) / totalCount) * 100}%` }} />
+              <div className="h-full bg-error-fg" style={{ width: `${((reviewedCount - acceptedCount) / totalCount) * 100}%` }} />
             </>
           ) : null}
         </div>
@@ -424,7 +424,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               Accepted ({acceptedCount})
             </span>
             <span className="flex items-center gap-1 text-size-xs text-secondary">
-              <span className="inline-block size-2 rounded-sm bg-red-700" />
+              <span className="inline-block size-2 rounded-sm bg-error-fg" />
               Rejected ({reviewedCount - acceptedCount})
             </span>
             <span className="flex items-center gap-1 text-size-xs text-secondary">

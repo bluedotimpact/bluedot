@@ -77,7 +77,7 @@ const SiteLoginPage = () => {
             {loading ? 'Checking...' : 'Enter'}
           </Button>
           {error && (
-            <p className="text-red-600 text-center text-size-sm">{error}</p>
+            <p className="text-error-fg text-center text-size-sm">{error}</p>
           )}
         </form>
       </div>

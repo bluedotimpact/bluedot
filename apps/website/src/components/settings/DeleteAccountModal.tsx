@@ -134,7 +134,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
 
             <div className="flex flex-col gap-4">
               <label htmlFor="delete-confirmation" className="text-size-xs font-semibold text-primary">
-                Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-red-600">*</span>
+                Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-error-fg">*</span>
               </label>
               <input
                 id="delete-confirmation"

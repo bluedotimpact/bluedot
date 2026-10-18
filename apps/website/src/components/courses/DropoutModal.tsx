@@ -257,7 +257,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       </div>
 
       {dropoutMutation.isError && (
-        <P className="text-red-600">{dropoutMutation.error?.message || 'An error occurred. Please try again.'}</P>
+        <P className="text-error-fg">{dropoutMutation.error?.message || 'An error occurred. Please try again.'}</P>
       )}
 
       <Button

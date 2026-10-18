@@ -34,10 +34,10 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: savedText,
   },
   error: {
-    icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px] text-[#DC0000]" />,
+    icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px] text-error-fg" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
-        <span className="text-[#DC0000]">Couldn't save answer.</span>
+        <span className="text-error-fg">Couldn't save answer.</span>
         <button
           type="button"
           onClick={onRetry}
