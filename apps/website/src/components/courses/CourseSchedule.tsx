@@ -152,7 +152,7 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
                 'group flex items-center gap-3 h-11 pl-5 border-l-4 transition-colors cursor-pointer w-full text-left',
                 isActive
                   ? 'border-accent'
-                  : 'border-[rgba(21,21,21,0.15)] hover:border-accent',
+                  : 'border-default hover:border-accent',
               )}
             >
               <span

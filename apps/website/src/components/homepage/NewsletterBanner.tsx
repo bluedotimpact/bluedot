@@ -55,7 +55,7 @@ const NewsletterBanner = () => {
   };
 
   return (
-    <div className="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden">
+    <div className="relative w-full bd-md:border bd-md:border-subtle bd-md:rounded-xl overflow-hidden">
       {/* Background Layers - Non-interactive */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         {/* Background Image - Flipped Horizontally */}
@@ -108,7 +108,7 @@ const NewsletterBanner = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+              className="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-subtle focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
               style={{
                 // Gradient border on focus - Tailwind doesn't support gradient borders with double background layers
                 backgroundOrigin: 'padding-box, border-box',
