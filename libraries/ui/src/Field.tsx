@@ -15,9 +15,9 @@ export const FieldContext = createContext<FieldContextValue | null>(null);
 
 type FieldControlProps = {
   id?: string;
-  required?: boolean;
   'aria-describedby'?: string;
   'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
+  'aria-required'?: boolean | 'true' | 'false';
 };
 
 /** Merges the surrounding Field's wiring into a control's props. Explicit props win. No-op outside a Field. */
@@ -28,9 +28,9 @@ export const useFieldControlProps = <P extends FieldControlProps>(props: P): P =
   return {
     ...props,
     id: props.id ?? field.id,
-    required: props.required ?? field.required,
     'aria-describedby': joinIds(props['aria-describedby'], field.describedBy),
     'aria-invalid': props['aria-invalid'] ?? (field.invalid ? true : undefined),
+    'aria-required': props['aria-required'] ?? (field.required ? true : undefined),
   };
 };
 
@@ -43,7 +43,7 @@ const LABEL_STYLES = 'text-size-sm font-semibold leading-normal text-primary';
 const DESCRIPTION_STYLES = 'text-size-xs leading-normal text-secondary';
 const ERROR_STYLES = 'text-size-xs leading-normal text-error-fg';
 
-// Decorative; native `required` on the control carries the semantics.
+// Decorative; `aria-required` on the control carries the semantics.
 const RequiredMarker = () => <span aria-hidden className="text-error-fg"> *</span>;
 
 export type FieldProps = {
