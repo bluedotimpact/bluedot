@@ -55,7 +55,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="courses-dropdown-mobile"
                       aria-expanded="false"
-                      class="flex items-center cursor-pointer no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                      class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                       type="button"
                     >
                       Courses
@@ -76,14 +76,16 @@ exports[`Nav > renders with courses 1`] = `
                       </svg>
                     </button>
                     <div
+                      aria-label="Courses menu"
                       class="pl-4 hidden"
                       id="courses-dropdown-mobile"
+                      role="region"
                     >
                       <div
                         class="flex flex-col text-pretty w-full"
                       >
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="/courses/future-of-ai"
                           tabindex="0"
                         >
@@ -96,14 +98,14 @@ exports[`Nav > renders with courses 1`] = `
                           </span>
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="/courses/agi-strategy"
                           tabindex="0"
                         >
                           Featured Course
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="/courses/ops"
                           tabindex="0"
                         >
@@ -116,14 +118,14 @@ exports[`Nav > renders with courses 1`] = `
                           </span>
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="/courses/project-sprint"
                           tabindex="0"
                         >
                           Project Sprint
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
                           href="/courses"
                           tabindex="0"
                         >
@@ -141,7 +143,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="grants-dropdown-mobile"
                       aria-expanded="false"
-                      class="flex items-center cursor-pointer no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                      class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                       type="button"
                     >
                       Grants
@@ -162,28 +164,30 @@ exports[`Nav > renders with courses 1`] = `
                       </svg>
                     </button>
                     <div
+                      aria-label="Grants menu"
                       class="pl-4 hidden"
                       id="grants-dropdown-mobile"
+                      role="region"
                     >
                       <div
                         class="flex flex-col text-pretty w-full"
                       >
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="/grants/rapid"
                           tabindex="0"
                         >
                           Rapid Grants
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="/grants/career-transition"
                           tabindex="0"
                         >
                           Career Transition Grants
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
                           href="/grants"
                           tabindex="0"
                         >
@@ -201,7 +205,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="programs-dropdown-mobile"
                       aria-expanded="false"
-                      class="flex items-center cursor-pointer no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                      class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                       type="button"
                     >
                       Programs
@@ -222,21 +226,23 @@ exports[`Nav > renders with courses 1`] = `
                       </svg>
                     </button>
                     <div
+                      aria-label="Programs menu"
                       class="pl-4 hidden"
                       id="programs-dropdown-mobile"
+                      role="region"
                     >
                       <div
                         class="flex flex-col text-pretty w-full"
                       >
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="/programs/incubator-week"
                           tabindex="0"
                         >
                           Incubator Week
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-primary hover:text-primary"
                           href="https://aisb.dev/"
                           rel="noopener noreferrer"
                           tabindex="0"
@@ -245,7 +251,7 @@ exports[`Nav > renders with courses 1`] = `
                           AI Security Bootcamp
                         </a>
                         <a
-                          class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
+                          class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent text-link hover:text-link"
                           href="/programs?utm_source=website&utm_campaign=nav"
                           tabindex="0"
                         >
@@ -260,28 +266,28 @@ exports[`Nav > renders with courses 1`] = `
                     </div>
                   </div>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                     href="/missions"
                     tabindex="0"
                   >
                     Missions
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                     href="/alumni"
                     tabindex="0"
                   >
                     Alumni
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                     href="/about"
                     tabindex="0"
                   >
                     About
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                     href="/join-us"
                     tabindex="0"
                   >
@@ -324,7 +330,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="courses-dropdown"
                 aria-expanded="false"
-                class="flex items-center cursor-pointer no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit gap-2"
+                class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap gap-2"
                 type="button"
               >
                 Courses
@@ -345,14 +351,16 @@ exports[`Nav > renders with courses 1`] = `
                 </svg>
               </button>
               <div
+                aria-label="Courses menu"
                 class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="courses-dropdown"
+                role="region"
               >
                 <div
                   class="flex flex-col text-pretty w-fit mx-auto"
                 >
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="/courses/future-of-ai"
                     tabindex="0"
                   >
@@ -365,14 +373,14 @@ exports[`Nav > renders with courses 1`] = `
                     </span>
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="/courses/agi-strategy"
                     tabindex="0"
                   >
                     Featured Course
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="/courses/ops"
                     tabindex="0"
                   >
@@ -385,14 +393,14 @@ exports[`Nav > renders with courses 1`] = `
                     </span>
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="/courses/project-sprint"
                     tabindex="0"
                   >
                     Project Sprint
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-link hover:text-link"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-link hover:text-link"
                     href="/courses"
                     tabindex="0"
                   >
@@ -410,7 +418,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="grants-dropdown"
                 aria-expanded="false"
-                class="flex items-center cursor-pointer no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit gap-2"
+                class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap gap-2"
                 type="button"
               >
                 Grants
@@ -431,28 +439,30 @@ exports[`Nav > renders with courses 1`] = `
                 </svg>
               </button>
               <div
+                aria-label="Grants menu"
                 class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="grants-dropdown"
+                role="region"
               >
                 <div
                   class="flex flex-col text-pretty w-fit mx-auto"
                 >
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="/grants/rapid"
                     tabindex="0"
                   >
                     Rapid Grants
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="/grants/career-transition"
                     tabindex="0"
                   >
                     Career Transition Grants
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-link hover:text-link"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-link hover:text-link"
                     href="/grants"
                     tabindex="0"
                   >
@@ -470,7 +480,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="programs-dropdown"
                 aria-expanded="false"
-                class="flex items-center cursor-pointer no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit gap-2"
+                class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap gap-2"
                 type="button"
               >
                 Programs
@@ -491,21 +501,23 @@ exports[`Nav > renders with courses 1`] = `
                 </svg>
               </button>
               <div
+                aria-label="Programs menu"
                 class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="programs-dropdown"
+                role="region"
               >
                 <div
                   class="flex flex-col text-pretty w-fit mx-auto"
                 >
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="/programs/incubator-week"
                     tabindex="0"
                   >
                     Incubator Week
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-primary hover:text-primary"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
                     href="https://aisb.dev/"
                     rel="noopener noreferrer"
                     tabindex="0"
@@ -514,7 +526,7 @@ exports[`Nav > renders with courses 1`] = `
                     AI Security Bootcamp
                   </a>
                   <a
-                    class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit flex min-h-11 items-center text-link hover:text-link"
+                    class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-link hover:text-link"
                     href="/programs?utm_source=website&utm_campaign=nav"
                     tabindex="0"
                   >
@@ -529,28 +541,28 @@ exports[`Nav > renders with courses 1`] = `
               </div>
             </div>
             <a
-              class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit"
+              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
               href="/missions"
               tabindex="0"
             >
               Missions
             </a>
             <a
-              class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit"
+              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
               href="/alumni"
               tabindex="0"
             >
               Alumni
             </a>
             <a
-              class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit"
+              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
               href="/about"
               tabindex="0"
             >
               About
             </a>
             <a
-              class="bluedot-a not-prose no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit"
+              class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary nav-link-animation w-fit whitespace-nowrap"
               href="/join-us"
               tabindex="0"
             >
