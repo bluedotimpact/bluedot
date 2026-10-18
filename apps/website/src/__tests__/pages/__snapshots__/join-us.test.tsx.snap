@@ -674,7 +674,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="mx-auto max-w-max-width"
       >
         <div
-          class="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden"
+          class="relative w-full bd-md:border bd-md:border-subtle bd-md:rounded-xl overflow-hidden"
         >
           <div
             aria-hidden="true"
@@ -720,7 +720,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   Email address
                 </label>
                 <input
-                  class="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                  class="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-subtle focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
                   id="newsletter-email"
                   placeholder="Email"
                   required=""

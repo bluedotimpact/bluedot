@@ -11,7 +11,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       >
         <button
           aria-label="Open course navigation menu"
-          class="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          class="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
           type="button"
         >
           <div

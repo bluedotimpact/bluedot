@@ -3,13 +3,13 @@
 exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facilitator with host key 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-info-border"
   >
     <div
       class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-raised border rounded"
+        class="px-3 py-1 flex items-center justify-center border-info-border bg-raised border rounded"
       >
         <svg
           aria-hidden="true"
@@ -219,13 +219,13 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
 exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for participant when discussion starts soon 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-info-border"
   >
     <div
       class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-raised border rounded"
+        class="px-3 py-1 flex items-center justify-center border-info-border bg-raised border rounded"
       >
         <svg
           aria-hidden="true"
@@ -405,7 +405,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
 exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees discussion doc button even when discussion is not starting soon 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-info-border"
   >
     <div
       class="flex items-center gap-3 text-size-xs"
