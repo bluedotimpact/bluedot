@@ -12,7 +12,7 @@ const TestimonialSection = ({
   title,
 }: TestimonialSubSectionProps) => {
   return (
-    <div className="testimonial-section pb-spacing-y">
+    <div className="pb-spacing-y">
       <SectionHeading title={title} titleLevel="h3" />
       <SlideList
         maxItemsPerSlide={3}
@@ -20,7 +20,7 @@ const TestimonialSection = ({
         minItemWidth={300}
       >
         {testimonials.map((testimonial) => (
-          <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-lg p-8">
+          <div key={testimonial.name} className="flex flex-col h-full border rounded-lg p-8">
             <blockquote className="mb-space-between flex-grow">
               "{testimonial.quote}"
             </blockquote>
