@@ -26,18 +26,18 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
-    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-accent" />,
+    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px]" />,
     text: 'Saving...',
   },
   saved: {
-    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px] text-accent" />,
+    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px]" />,
     text: savedText,
   },
   error: {
-    icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px] text-error-fg" />,
+    icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px]" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
-        <span className="text-error-fg">Couldn't save answer.</span>
+        <span>Couldn't save answer.</span>
         <button
           type="button"
           onClick={onRetry}
@@ -70,15 +70,14 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
       id={id}
       className={cn(
         '-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0',
-        !isIdle && (isError
-          ? 'opacity-100 bg-error-bg border-error-border'
-          : 'opacity-100 bg-info-bg border-info-border'),
+        !isIdle && 'opacity-100',
+        isError ? 'bg-error-bg border-error-border text-error-fg' : 'bg-info-bg border-info-border text-info-fg',
       )}
       role="status"
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-accent">
+      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium">
         {!isIdle && config?.icon}
         {!isIdle && text}
       </div>
