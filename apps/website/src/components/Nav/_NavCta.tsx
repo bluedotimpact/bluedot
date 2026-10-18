@@ -44,7 +44,7 @@ export const NavCta: React.FC<{
     return clsx(
       baseClasses,
       onColoredBackground
-        ? 'bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm'
+        ? 'bg-surface-on-dark border border-border-on-dark text-on-dark hover:bg-surface-on-dark-hover backdrop-blur-sm'
         : 'border text-primary hover:bg-tint',
     );
   };

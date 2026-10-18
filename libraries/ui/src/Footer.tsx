@@ -199,7 +199,7 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Copyright */}
-            <div className="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20">
+            <div className="mt-12 border-t border-border-on-dark pt-8 text-size-sm text-on-dark-secondary leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20">
               <p className="mb-2">
                 &copy; {new Date().getFullYear()}. BlueDot Impact operates as BlueDot Impact Ltd, a UK CLG (<A href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="text-on-dark-link hover:text-on-dark-link-hover">14964572</A>), and BlueDot Impact US Inc, a US 501(c)(3) (<A href="https://projects.propublica.org/nonprofits/organizations/994885308" target="_blank" rel="noopener noreferrer" className="text-on-dark-link hover:text-on-dark-link-hover">99-4885308</A>).
               </p>

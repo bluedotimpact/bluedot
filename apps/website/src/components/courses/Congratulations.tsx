@@ -98,7 +98,7 @@ const ChatPreviewPanel = ({ courseUrl, shareText }: { courseUrl: string; shareTe
         <br />
         <span className="tracking-[0.16px] underline">{courseUrl}</span>
       </p>
-      <p className="mt-1 text-right text-size-xxs text-white/60">19:45</p>
+      <p className="mt-1 text-right text-size-xxs text-on-dark-secondary">19:45</p>
       <svg
         className="text-accent absolute"
         style={{ right: '5px', bottom: '-8.917px' }}
