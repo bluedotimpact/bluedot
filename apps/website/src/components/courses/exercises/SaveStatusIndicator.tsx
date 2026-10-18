@@ -44,7 +44,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
           className="flex items-center gap-0.5 font-medium text-primary underline cursor-pointer"
         >
           Retry
-          <FaRotateLeft aria-hidden="true" className="size-4 text-primary ml-0.5" />
+          <FaRotateLeft aria-hidden="true" className="size-4 ml-0.5" />
         </button>
       </span>
     ),
