@@ -3,9 +3,9 @@ import clsx from 'clsx';
 export const MOBILE_NAV_DRAWER_ID = 'mobile-nav-drawer';
 export const PROFILE_DRAWER_ID = 'profile-menu-drawer';
 
-export const NAV_LINK_CLASS = 'no-underline whitespace-nowrap text-size-sm font-medium leading-relaxed align-middle';
-// Desktop only: hover is meaningless on touch and the underline needs a text-width element
-export const NAV_LINK_ANIMATION_CLASS = 'nav-link-animation w-fit';
+export const NAV_LINK_CLASS = 'no-underline text-size-sm font-medium leading-relaxed align-middle';
+// Desktop only: hover is meaningless on touch, the underline needs a text-width element, and drawer rows must wrap
+export const NAV_LINK_ANIMATION_CLASS = 'nav-link-animation w-fit whitespace-nowrap';
 // Full-width rows would stretch the underline across the drawer, so current page uses weight + colour
 export const DRAWER_ROW_CLASS = 'flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent';
 
