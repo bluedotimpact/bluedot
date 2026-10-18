@@ -59,7 +59,7 @@ export const MobileNavLinks: React.FC<{
       </IconButton>
       <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(expandedSections.mobileNav))}>
         <div
-          className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
+          className="flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
           onClick={(e) => {
             // Close mobile nav when any link is clicked
             if ((e.target as HTMLElement).tagName === 'A') {
@@ -100,7 +100,7 @@ export const MobileNavLinks: React.FC<{
             <div className="flex flex-col gap-4 pt-6 mt-6 border-t">
               {/* Start for free button: Show when screen < 680px */}
               <Button
-                className="mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
+                className="hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
                 variant="primary"
                 url={joinUrl}
               >

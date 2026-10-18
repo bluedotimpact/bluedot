@@ -123,7 +123,7 @@ export const SlideList = ({
   const scrollBarLeft = `calc((100% - ${scrollBarWidth}) * ${scrollPercent / 100})`;
 
   const ScrollBar = (
-    <div className="slide-list__progress w-full relative h-1">
+    <div className="w-full relative h-1">
       <div className="absolute h-px top-px w-full bg-default" />
       <div
         className="absolute h-full bg-accent"
@@ -136,13 +136,13 @@ export const SlideList = ({
   );
 
   return (
-    <div className={clsx('slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0', className)}>
-      <div className="slide-list__gradient-wrapper relative flex-1">
+    <div className={clsx('relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0', className)}>
+      <div className="relative flex-1">
         {!allChildrenFit && (
-          <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
+          <div className="absolute inset-0 pointer-events-none z-10 flex">
             <div
               className={clsx(
-                'slide-list__gradient-left absolute inset-y-0 w-8 from-canvas to-transparent opacity-50',
+                'absolute inset-y-0 w-8 from-canvas to-transparent opacity-50',
                 scrollPercent < 95 ? 'right-0 bg-linear-to-l' : 'left-0 bg-linear-to-r',
               )}
             />
@@ -152,7 +152,7 @@ export const SlideList = ({
         <div
           ref={slidesRef}
           className={clsx(
-            'slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between',
+            'flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between',
             'scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory',
             allChildrenFit && 'flex-wrap',
           )}
@@ -160,7 +160,7 @@ export const SlideList = ({
         >
           {React.Children.map(children, (child) => (
             <div
-              className="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              className="shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
               data-width={itemWidth} // style.width can't be picked up in tests, so add it as an attr that can be read
               style={{
                 width: itemWidth,
@@ -207,7 +207,6 @@ export const SlideListBtn = ({
     onClick={onClick}
     disabled={disabled}
     className={clsx(
-      'slide-list__nav-button',
       'p-3 border rounded-surface transition-colors m-[3px] mt-0',
       'text-primary',
       'hover:bg-tint hover:cursor-pointer',

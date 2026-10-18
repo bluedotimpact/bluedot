@@ -200,13 +200,13 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </div>
 
       {/* Main content section */}
-      <Section className="unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0 lg:max-xl:!px-6">
-        <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x pt-6 md:pt-8">
-          <div className="unit__title-container">
+      <Section className="!border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0 lg:max-xl:!px-6">
+        <div className="flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x pt-6 md:pt-8">
+          <div>
             <Eyebrow className="mb-2">Unit {unit.unitNumber}: {unit.title}</Eyebrow>
             {chunk?.chunkTitle && (
               // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: standalone H1 in course-unit chrome, fixed 32px is intentional
-              <H1 className="unit__title text-[32px] leading-snug">{chunk.chunkTitle}</H1>
+              <H1 className="text-[32px] leading-snug">{chunk.chunkTitle}</H1>
             )}
           </div>
           {chunk?.id === NEXT_STEPS_CHUNK_ID ? (
@@ -237,9 +237,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(nextUnit || !isLastChunk) && (
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
-            <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
+            <div className="flex justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <Button
-                className="unit__cta-link [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
+                className="[&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
                 onClick={handleNextClick}
                 variant="primary"
               >

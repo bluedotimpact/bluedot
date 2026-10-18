@@ -55,8 +55,8 @@ const OpportunityCard = ({
   const arrowSize = external ? 'size-3' : 'size-4.5';
   const Heading = { 2: H2, 3: H3, 4: H4 }[headingLevel];
   const className = clsx(
-    'opportunity-card group relative flex h-full min-h-56 flex-col overflow-hidden rounded-surface border text-on-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus',
-    compact ? 'action-cards__card p-6 md:p-7' : 'p-6 md:p-8',
+    'group relative flex h-full min-h-56 flex-col overflow-hidden rounded-surface border text-on-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus',
+    compact ? 'p-6 md:p-7' : 'p-6 md:p-8',
   );
   const arrowClassName = clsx(arrowSize, 'shrink-0 opacity-70 transition-[transform,opacity] duration-200 group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100 motion-reduce:transform-none motion-reduce:transition-none');
 

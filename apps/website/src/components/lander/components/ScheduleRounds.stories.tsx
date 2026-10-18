@@ -62,7 +62,7 @@ const FallbackContent = (
     <div className="flex justify-start">
       <Button
         url="https://example.com/apply"
-        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium rounded-md transition-colors"
+        className="px-5 py-[9px] md:py-3 text-size-xs md:text-size-sm font-medium rounded-md transition-colors"
       >
         Apply now
       </Button>

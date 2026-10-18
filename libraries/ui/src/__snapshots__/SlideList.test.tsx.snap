@@ -3,24 +3,24 @@
 exports[`SlideList > renders correctly 1`] = `
 <div>
   <div
-    class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0"
+    class="relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0"
   >
     <div
-      class="slide-list__gradient-wrapper relative flex-1"
+      class="relative flex-1"
     >
       <div
-        class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+        class="absolute inset-0 pointer-events-none z-10 flex"
       >
         <div
-          class="slide-list__gradient-left absolute inset-y-0 w-8 from-canvas to-transparent opacity-50 right-0 bg-linear-to-l"
+          class="absolute inset-y-0 w-8 from-canvas to-transparent opacity-50 right-0 bg-linear-to-l"
         />
       </div>
       <div
-        class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+        class="flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
         style="scroll-padding-inline: 0px;"
       >
         <div
-          class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+          class="shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
           data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
           style="scroll-margin-left: -0px;"
         >
@@ -29,7 +29,7 @@ exports[`SlideList > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+          class="shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
           data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
           style="scroll-margin-left: -0px;"
         >
@@ -38,7 +38,7 @@ exports[`SlideList > renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+          class="shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
           data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
           style="scroll-margin-left: -0px;"
         >
@@ -53,7 +53,7 @@ exports[`SlideList > renders correctly 1`] = `
     >
       <button
         aria-label="Previous slide"
-        class="slide-list__nav-button p-3 border rounded-surface transition-colors m-[3px] mt-0 text-primary hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-focus"
+        class="p-3 border rounded-surface transition-colors m-[3px] mt-0 text-primary hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-focus"
         disabled=""
         type="button"
       >
@@ -74,7 +74,7 @@ exports[`SlideList > renders correctly 1`] = `
         </svg>
       </button>
       <div
-        class="slide-list__progress w-full relative h-1"
+        class="w-full relative h-1"
       >
         <div
           class="absolute h-px top-px w-full bg-default"
@@ -86,7 +86,7 @@ exports[`SlideList > renders correctly 1`] = `
       </div>
       <button
         aria-label="Next slide"
-        class="slide-list__nav-button p-3 border rounded-surface transition-colors m-[3px] mt-0 text-primary hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-focus"
+        class="p-3 border rounded-surface transition-colors m-[3px] mt-0 text-primary hover:bg-tint hover:cursor-pointer active:bg-active disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-focus"
         type="button"
       >
         <svg

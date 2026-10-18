@@ -51,7 +51,7 @@ export const ProfileLinks: React.FC<{
   const getNavLinkClasses = () => {
     // Profile dropdown links: always dark text on white background
     return clsx(
-      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
+      'nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
       'text-bluedot-darker hover:text-bluedot-darker',
     );
   };
@@ -75,7 +75,7 @@ export const ProfileLinks: React.FC<{
           DRAWER_CLASSES(expandedSections.profile, DRAWER_Z_PROFILE),
         )}
       >
-        <div className="profile-links__links flex flex-col gap-4 w-fit overflow-hidden mx-auto">
+        <div className="flex flex-col gap-4 w-fit overflow-hidden mx-auto">
           <A
             href={ROUTES.myCourses.url}
             className={getNavLinkClasses()}

@@ -60,14 +60,14 @@ export const NavCta: React.FC<{
       ) : (
         <>
           <Button
-            className={clsx('nav-cta__secondary-cta flex', getButtonClasses('secondary'))}
+            className={getButtonClasses('secondary')}
             variant="secondary"
             url={loginUrl}
           >
             Sign in
           </Button>
           <Button
-            className={clsx('nav-cta__primary-cta hidden bd-md:flex', getButtonClasses('primary'))}
+            className={clsx('hidden bd-md:flex', getButtonClasses('primary'))}
             variant="primary"
             url={joinUrl}
           >

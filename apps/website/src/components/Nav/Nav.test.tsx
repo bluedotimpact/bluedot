@@ -92,7 +92,7 @@ describe('Nav', () => {
 
     // Wait for and verify course links
     await waitFor(() => {
-      const courseLinks = container.querySelectorAll(`${selector} .nav-dropdown__dropdown-content a`);
+      const courseLinks = container.querySelectorAll(`${selector} [aria-label="Courses menu"] a`);
 
       // Check specific course links and their URLs
       const foaiCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Future of AI'));

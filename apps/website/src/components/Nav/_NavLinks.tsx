@@ -96,7 +96,7 @@ export const NavLinks: React.FC<{
     }
 
     return clsx(
-      'nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle',
+      'nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle',
       textColor,
       isCurrentPathValue && 'font-bold',
     );
@@ -249,8 +249,8 @@ const NavDropdown: React.FC<{
         aria-expanded={isExpanded}
         aria-controls={`${title.toLowerCase()}-dropdown`}
         className={clsx(
-          'nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap',
-          'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
+          'flex items-center gap-2 cursor-pointer whitespace-nowrap',
+          'nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
           getDropdownButtonClasses(),
         )}
       >
@@ -268,13 +268,12 @@ const NavDropdown: React.FC<{
         role="region"
         aria-label={`${title} menu`}
         className={clsx(
-          'nav-dropdown__content-wrapper',
           isExpanded ? 'z-40' : 'pointer-events-none',
           getDropdownContentClasses(),
           className,
         )}
       >
-        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty')}>
+        <div className="flex flex-col gap-3 w-fit mx-auto text-pretty">
           {loading ? (
             <ProgressDots className="py-2" />
           ) : (
@@ -292,7 +291,7 @@ const NavDropdown: React.FC<{
                     href={link.url}
                     {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     className={clsx(
-                      'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
+                      'nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
                       'pt-1',
                       linkTextColor,
                     )}

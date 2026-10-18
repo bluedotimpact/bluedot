@@ -10,10 +10,10 @@ exports[`AboutPage > should render correctly 1`] = `
         class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
       >
         <div
-          class="nav__container section-base"
+          class="section-base"
         >
           <div
-            class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
+            class="w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
           >
             <div
               class="flex items-center gap-1.5"
@@ -47,7 +47,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 >
                   <div
-                    class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
+                    class="flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
                     role="presentation"
                   >
                     <div
@@ -59,7 +59,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <button
                           aria-controls="courses-dropdown"
                           aria-expanded="false"
-                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                          class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                           type="button"
                         >
                           Courses
@@ -81,15 +81,15 @@ exports[`AboutPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Courses menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="courses-dropdown"
                           role="region"
                         >
                           <div
-                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                            class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                           >
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/courses/future-of-ai"
                               tabindex="0"
                             >
@@ -108,7 +108,7 @@ exports[`AboutPage > should render correctly 1`] = `
                               class="border-t border-subtle my-2"
                             />
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/courses"
                               tabindex="0"
                             >
@@ -123,7 +123,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <button
                           aria-controls="grants-dropdown"
                           aria-expanded="false"
-                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                          class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                           type="button"
                         >
                           Grants
@@ -145,22 +145,22 @@ exports[`AboutPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Grants menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="grants-dropdown"
                           role="region"
                         >
                           <div
-                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                            class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                           >
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/grants/rapid"
                               tabindex="0"
                             >
                               Rapid Grants
                             </a>
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/grants/career-transition"
                               tabindex="0"
                             >
@@ -170,7 +170,7 @@ exports[`AboutPage > should render correctly 1`] = `
                               class="border-t border-subtle my-2"
                             />
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/grants"
                               tabindex="0"
                             >
@@ -185,7 +185,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <button
                           aria-controls="programs-dropdown"
                           aria-expanded="false"
-                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                          class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                           type="button"
                         >
                           Programs
@@ -207,22 +207,22 @@ exports[`AboutPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Programs menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="programs-dropdown"
                           role="region"
                         >
                           <div
-                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                            class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                           >
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/programs/incubator-week"
                               tabindex="0"
                             >
                               Incubator Week
                             </a>
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="https://aisb.dev/"
                               rel="noopener noreferrer"
                               tabindex="0"
@@ -234,7 +234,7 @@ exports[`AboutPage > should render correctly 1`] = `
                               class="border-t border-subtle my-2"
                             />
                             <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/programs?utm_source=website&utm_campaign=nav"
                               tabindex="0"
                             >
@@ -244,28 +244,28 @@ exports[`AboutPage > should render correctly 1`] = `
                         </div>
                       </div>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                        class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                         href="/missions"
                         tabindex="0"
                       >
                         Missions
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                        class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                         href="/alumni"
                         tabindex="0"
                       >
                         Alumni
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                        class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                         href="/about"
                         tabindex="0"
                       >
                         About
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                        class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                         href="/join-us"
                         tabindex="0"
                       >
@@ -276,7 +276,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="flex flex-col gap-4 pt-6 mt-6 border-t"
                     >
                       <a
-                        class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
+                        class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
                         href="/login?register=true&redirect_to=%2Fabout"
                         tabindex="0"
                       >
@@ -310,7 +310,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   <button
                     aria-controls="courses-dropdown"
                     aria-expanded="false"
-                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                    class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                     type="button"
                   >
                     Courses
@@ -332,15 +332,15 @@ exports[`AboutPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Courses menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="courses-dropdown"
                     role="region"
                   >
                     <div
-                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                      class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                     >
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/courses/future-of-ai"
                         tabindex="0"
                       >
@@ -359,7 +359,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         class="border-t border-subtle my-2"
                       />
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/courses"
                         tabindex="0"
                       >
@@ -374,7 +374,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   <button
                     aria-controls="grants-dropdown"
                     aria-expanded="false"
-                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                    class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                     type="button"
                   >
                     Grants
@@ -396,22 +396,22 @@ exports[`AboutPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Grants menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="grants-dropdown"
                     role="region"
                   >
                     <div
-                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                      class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                     >
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/grants/rapid"
                         tabindex="0"
                       >
                         Rapid Grants
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/grants/career-transition"
                         tabindex="0"
                       >
@@ -421,7 +421,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         class="border-t border-subtle my-2"
                       />
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/grants"
                         tabindex="0"
                       >
@@ -436,7 +436,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   <button
                     aria-controls="programs-dropdown"
                     aria-expanded="false"
-                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                    class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                     type="button"
                   >
                     Programs
@@ -458,22 +458,22 @@ exports[`AboutPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Programs menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="programs-dropdown"
                     role="region"
                   >
                     <div
-                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                      class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                     >
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/programs/incubator-week"
                         tabindex="0"
                       >
                         Incubator Week
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="https://aisb.dev/"
                         rel="noopener noreferrer"
                         tabindex="0"
@@ -485,7 +485,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         class="border-t border-subtle my-2"
                       />
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        class="bluedot-a not-prose nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/programs?utm_source=website&utm_campaign=nav"
                         tabindex="0"
                       >
@@ -495,28 +495,28 @@ exports[`AboutPage > should render correctly 1`] = `
                   </div>
                 </div>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                  class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                   href="/missions"
                   tabindex="0"
                 >
                   Missions
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                  class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                   href="/alumni"
                   tabindex="0"
                 >
                   Alumni
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                  class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                   href="/about"
                   tabindex="0"
                 >
                   About
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                  class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -527,14 +527,14 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="nav-cta flex flex-row items-center gap-4"
               >
                 <a
-                  class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm"
+                  class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm"
                   href="/login?redirect_to=%2Fabout"
                   tabindex="0"
                 >
                   Sign in
                 </a>
                 <a
-                  class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker"
+                  class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker"
                   href="/login?register=true&redirect_to=%2Fabout"
                   tabindex="0"
                 >
@@ -758,7 +758,7 @@ exports[`AboutPage > should render correctly 1`] = `
       </div>
     </section>
     <section
-      class="history-section section section-body"
+      class="section section-body"
     >
       <h3
         class="bluedot-h3 not-prose mb-6"
@@ -766,16 +766,16 @@ exports[`AboutPage > should render correctly 1`] = `
         Our history
       </h3>
       <div
-        class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
+        class="flex flex-col lg:flex-row lg:gap-2 gap-8"
       >
         <div
-          class="history-section__event flex-1"
+          class="flex-1"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="flex flex-col gap-space-between"
           >
             <div
-              class="history-section__year-container w-full flex gap-2"
+              class="w-full flex gap-2"
             >
               <p
                 class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -783,24 +783,24 @@ exports[`AboutPage > should render correctly 1`] = `
                 2021
               </p>
               <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+                class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
               />
             </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose mr-12"
             >
               Started as reading groups at the University of Cambridge.
             </p>
           </div>
         </div>
         <div
-          class="history-section__event flex-1"
+          class="flex-1"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="flex flex-col gap-space-between"
           >
             <div
-              class="history-section__year-container w-full flex gap-2"
+              class="w-full flex gap-2"
             >
               <p
                 class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -808,24 +808,24 @@ exports[`AboutPage > should render correctly 1`] = `
                 2022
               </p>
               <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+                class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
               />
             </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose mr-12"
             >
               Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
             </p>
           </div>
         </div>
         <div
-          class="history-section__event flex-1"
+          class="flex-1"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="flex flex-col gap-space-between"
           >
             <div
-              class="history-section__year-container w-full flex gap-2"
+              class="w-full flex gap-2"
             >
               <p
                 class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -833,24 +833,24 @@ exports[`AboutPage > should render correctly 1`] = `
                 2023
               </p>
               <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+                class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
               />
             </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose mr-12"
             >
               Expanded to AI governance and biosecurity. Trained 900. Moved to London.
             </p>
           </div>
         </div>
         <div
-          class="history-section__event flex-1"
+          class="flex-1"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="flex flex-col gap-space-between"
           >
             <div
-              class="history-section__year-container w-full flex gap-2"
+              class="w-full flex gap-2"
             >
               <p
                 class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -858,24 +858,24 @@ exports[`AboutPage > should render correctly 1`] = `
                 2024
               </p>
               <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+                class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
               />
             </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose mr-12"
             >
               Trained 3,500. Raised $5M.
             </p>
           </div>
         </div>
         <div
-          class="history-section__event flex-1"
+          class="flex-1"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="flex flex-col gap-space-between"
           >
             <div
-              class="history-section__year-container w-full flex gap-2"
+              class="w-full flex gap-2"
             >
               <p
                 class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -883,11 +883,11 @@ exports[`AboutPage > should render correctly 1`] = `
                 2025
               </p>
               <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+                class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
               />
             </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose mr-12"
             >
               Launched monthly courses. Raised $25M. Announced SF expansion.
             </p>

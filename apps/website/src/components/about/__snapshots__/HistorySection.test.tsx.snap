@@ -3,7 +3,7 @@
 exports[`HistorySection > renders desktop as expected 1`] = `
 <div>
   <section
-    class="history-section section section-body"
+    class="section section-body"
   >
     <h3
       class="bluedot-h3 not-prose mb-6"
@@ -11,16 +11,16 @@ exports[`HistorySection > renders desktop as expected 1`] = `
       Our history
     </h3>
     <div
-      class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
+      class="flex flex-col lg:flex-row lg:gap-2 gap-8"
     >
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
-            class="history-section__year-container w-full flex gap-2"
+            class="w-full flex gap-2"
           >
             <p
               class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -28,24 +28,24 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               2021
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+              class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
-            class="bluedot-p not-prose history-section__event-details mr-12"
+            class="bluedot-p not-prose mr-12"
           >
             Started as reading groups at the University of Cambridge.
           </p>
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
-            class="history-section__year-container w-full flex gap-2"
+            class="w-full flex gap-2"
           >
             <p
               class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -53,24 +53,24 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               2022
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+              class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
-            class="bluedot-p not-prose history-section__event-details mr-12"
+            class="bluedot-p not-prose mr-12"
           >
             Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
           </p>
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
-            class="history-section__year-container w-full flex gap-2"
+            class="w-full flex gap-2"
           >
             <p
               class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -78,24 +78,24 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               2023
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+              class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
-            class="bluedot-p not-prose history-section__event-details mr-12"
+            class="bluedot-p not-prose mr-12"
           >
             Expanded to AI governance and biosecurity. Trained 900. Moved to London.
           </p>
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
-            class="history-section__year-container w-full flex gap-2"
+            class="w-full flex gap-2"
           >
             <p
               class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -103,24 +103,24 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               2024
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+              class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
-            class="bluedot-p not-prose history-section__event-details mr-12"
+            class="bluedot-p not-prose mr-12"
           >
             Trained 3,500. Raised $5M.
           </p>
         </div>
       </div>
       <div
-        class="history-section__event flex-1"
+        class="flex-1"
       >
         <div
-          class="history-section__event-container--desktop flex flex-col gap-space-between"
+          class="flex flex-col gap-space-between"
         >
           <div
-            class="history-section__year-container w-full flex gap-2"
+            class="w-full flex gap-2"
           >
             <p
               class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
@@ -128,11 +128,11 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               2025
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+              class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
-            class="bluedot-p not-prose history-section__event-details mr-12"
+            class="bluedot-p not-prose mr-12"
           >
             Launched monthly courses. Raised $25M. Announced SF expansion.
           </p>
