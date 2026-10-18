@@ -43,7 +43,7 @@ const AIModelResponse: React.FC<{
         <span className="text-size-lg font-medium">{model.name}</span>
         {response.correct !== undefined && (
 
-          <span tabIndex={response.correctness_reason ? 0 : undefined} className={`px-2 py-0.5 text-xs font-medium rounded-full ${response.correct ? 'bg-success-bg text-success-fg' : 'bg-error-bg text-error-fg'} group ${response.correctness_reason ? 'underline decoration-dotted cursor-help' : ''}`}>
+          <span tabIndex={response.correctness_reason ? 0 : undefined} className={`px-2 py-0.5 text-xs font-medium rounded-full ${response.correct ? 'border border-success-border bg-success-bg text-success-fg' : 'border border-error-border bg-error-bg text-error-fg'} group ${response.correctness_reason ? 'underline decoration-dotted cursor-help' : ''}`}>
             {response.correct ? 'Correct' : 'Incorrect'}
             {response.correctness_reason && (
               <div role="tooltip" className="absolute left-0 bottom-full mb-2 bg-dark text-on-dark p-2 rounded text-size-sm w-full hidden opacity-0 group-hover:block group-focus:block group-hover:opacity-100 group-focus:opacity-100 transition-opacity z-10">
