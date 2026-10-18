@@ -203,6 +203,8 @@ const NavDropdown = ({
       </button>
       <div
         id={panelId}
+        role="region"
+        aria-label={`${title} menu`}
         className={inMobileDrawer ? clsx('pl-4', !isExpanded && 'hidden') : DRAWER_CLASSES(isExpanded)}
       >
         <div className={clsx('flex flex-col text-pretty', inMobileDrawer ? 'w-full' : 'w-fit mx-auto')}>
