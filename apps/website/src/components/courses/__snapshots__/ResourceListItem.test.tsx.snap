@@ -27,7 +27,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-primary transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -41,7 +41,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-primary transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -77,7 +77,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-primary transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -91,7 +91,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-primary transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -133,7 +133,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-primary transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -147,7 +147,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-primary transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -176,7 +176,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-primary transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -190,7 +190,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-primary transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -232,7 +232,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="size-4 text-secondary group-hover:text-primary transition-colors duration-200"
       fill="currentColor"
       height="1em"
       stroke="currentColor"
@@ -246,7 +246,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-normal text-secondary group-hover:text-primary transition-colors duration-200"
     >
       Listen to article
     </span>

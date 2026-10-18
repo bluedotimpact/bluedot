@@ -3,17 +3,17 @@
 exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facilitator with host key 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]"
   >
     <div
       class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
+        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-raised border rounded"
       >
         <svg
           aria-hidden="true"
-          class="size-5 text-bluedot-normal"
+          class="size-5 text-accent"
           fill="currentColor"
           height="1em"
           stroke="currentColor"
@@ -31,17 +31,17 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         class="flex gap-1.5 min-w-0 flex-initial"
       >
         <span
-          class="text-bluedot-normal font-bold whitespace-nowrap"
+          class="text-accent font-bold whitespace-nowrap"
         >
           Discussion in 30 minutes
         </span>
         <span
-          class="text-bluedot-normal whitespace-nowrap"
+          class="text-accent whitespace-nowrap"
         >
           •
         </span>
         <a
-          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+          class="text-link underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           href="/courses/test-course/1/1"
         >
           Unit 1: Introduction to AI Safety
@@ -52,7 +52,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         id="discussion-banner-desktop-container"
       >
         <a
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-bluedot-normal flex items-center gap-1.5"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-accent flex items-center gap-1.5"
           href="https://zoom.us/j/123456789"
           rel="noopener noreferrer"
           tabindex="0"
@@ -80,7 +80,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           </div>
         </a>
         <button
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-1.5"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle flex items-center gap-1.5"
           type="button"
         >
           <svg
@@ -99,7 +99,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Host key: 123456
         </button>
         <a
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-1.5"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle flex items-center gap-1.5"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -111,7 +111,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           aria-expanded="false"
           aria-haspopup="true"
           aria-label="More discussion options"
-          class="flex items-center justify-center p-2 rounded-md border border-bluedot-normal cursor-pointer ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
+          class="flex items-center justify-center p-2 rounded-md border border-accent cursor-pointer ml-auto border-none bg-transparent text-accent hover:bg-accent-subtle px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
           data-rac=""
           data-react-aria-pressable="true"
           id="react-aria-:r4:"
@@ -121,12 +121,12 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Facilitator options
         </button>
         <div
-          class="ml-1 h-6 w-px bg-[#B5C3EC]"
+          class="ml-1 h-6 w-px bg-info-border"
         />
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="text-bluedot-normal ml-auto cursor-pointer hover:opacity-80"
+        class="text-accent ml-auto cursor-pointer hover:opacity-80"
         type="button"
       >
         <svg
@@ -152,7 +152,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
       id="discussion-banner-mobile-container"
     >
       <a
-        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-bluedot-normal w-full sm:flex-1 gap-1.5"
+        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-accent w-full sm:flex-1 gap-1.5"
         href="https://zoom.us/j/123456789"
         rel="noopener noreferrer"
         tabindex="0"
@@ -180,7 +180,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         </div>
       </a>
       <button
-        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full sm:flex-1 gap-1.5"
+        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle w-full sm:flex-1 gap-1.5"
         type="button"
       >
         <svg
@@ -202,7 +202,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center p-2 rounded-md text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
+        class="flex items-center justify-center p-2 rounded-md text-accent hover:bg-accent-subtle cursor-pointer flex-1 border border-info-border w-full px-3 py-2.5 h-9 text-size-xs font-medium"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r8:"
@@ -219,17 +219,17 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
 exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for participant when discussion starts soon 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]"
   >
     <div
       class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
+        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-raised border rounded"
       >
         <svg
           aria-hidden="true"
-          class="size-5 text-bluedot-normal"
+          class="size-5 text-accent"
           fill="currentColor"
           height="1em"
           stroke="currentColor"
@@ -247,17 +247,17 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         class="flex gap-1.5 min-w-0 flex-initial"
       >
         <span
-          class="text-bluedot-normal font-bold whitespace-nowrap"
+          class="text-accent font-bold whitespace-nowrap"
         >
           Discussion in 30 minutes
         </span>
         <span
-          class="text-bluedot-normal whitespace-nowrap"
+          class="text-accent whitespace-nowrap"
         >
           •
         </span>
         <a
-          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+          class="text-link underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           href="/courses/test-course/1/1"
         >
           Unit 1: Introduction to AI Safety
@@ -268,7 +268,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         id="discussion-banner-desktop-container"
       >
         <a
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-bluedot-normal flex items-center gap-1.5"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-accent flex items-center gap-1.5"
           href="https://zoom.us/j/123456789"
           rel="noopener noreferrer"
           tabindex="0"
@@ -296,7 +296,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           </div>
         </a>
         <a
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-1.5"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle flex items-center gap-1.5"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -305,7 +305,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Open discussion doc
         </a>
         <a
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-1.5"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle flex items-center gap-1.5"
           href="https://app.slack.com/client/T01K0M15NEQ/C1234567890"
           rel="noopener noreferrer"
           tabindex="0"
@@ -314,18 +314,18 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Message group
         </a>
         <button
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border border-strong font-medium bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-1.5 ml-auto"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border border-strong font-medium bg-transparent border-none text-accent hover:bg-accent-subtle flex items-center gap-1.5 ml-auto"
           type="button"
         >
           Can't make it?
         </button>
         <div
-          class="ml-1 h-6 w-px bg-[#B5C3EC]"
+          class="ml-1 h-6 w-px bg-info-border"
         />
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="text-bluedot-normal ml-auto cursor-pointer hover:opacity-80"
+        class="text-accent ml-auto cursor-pointer hover:opacity-80"
         type="button"
       >
         <svg
@@ -351,7 +351,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
       id="discussion-banner-mobile-container"
     >
       <a
-        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-bluedot-normal w-full sm:flex-1 gap-1.5"
+        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs font-semibold text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover bg-accent w-full sm:flex-1 gap-1.5"
         href="https://zoom.us/j/123456789"
         rel="noopener noreferrer"
         tabindex="0"
@@ -379,7 +379,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         </div>
       </a>
       <button
-        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full sm:flex-1 gap-1.5"
+        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle w-full sm:flex-1 gap-1.5"
         type="button"
       >
         Can't make it?
@@ -388,7 +388,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center p-2 rounded-md text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
+        class="flex items-center justify-center p-2 rounded-md text-accent hover:bg-accent-subtle cursor-pointer flex-1 border border-info-border w-full px-3 py-2.5 h-9 text-size-xs font-medium"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r0:"
@@ -405,7 +405,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
 exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees discussion doc button even when discussion is not starting soon 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]"
   >
     <div
       class="flex items-center gap-3 text-size-xs"
@@ -414,17 +414,17 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         class="flex gap-1.5 min-w-0 flex-initial"
       >
         <span
-          class="text-bluedot-normal font-bold whitespace-nowrap"
+          class="text-accent font-bold whitespace-nowrap"
         >
           Discussion in 2 hours
         </span>
         <span
-          class="text-bluedot-normal whitespace-nowrap"
+          class="text-accent whitespace-nowrap"
         >
           •
         </span>
         <a
-          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+          class="text-link underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           href="/courses/test-course/1/1"
         >
           Unit 1: Introduction to AI Safety
@@ -435,7 +435,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         id="discussion-banner-desktop-container"
       >
         <a
-          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-1.5"
+          class="not-prose w-fit cursor-pointer justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle flex items-center gap-1.5"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -447,7 +447,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
           aria-expanded="false"
           aria-haspopup="true"
           aria-label="More discussion options"
-          class="flex items-center justify-center p-2 rounded-md border border-bluedot-normal cursor-pointer ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
+          class="flex items-center justify-center p-2 rounded-md border border-accent cursor-pointer ml-auto border-none bg-transparent text-accent hover:bg-accent-subtle px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
           data-rac=""
           data-react-aria-pressable="true"
           id="react-aria-:r1n:"
@@ -457,12 +457,12 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
           Facilitator options
         </button>
         <div
-          class="ml-1 h-6 w-px bg-[#B5C3EC]"
+          class="ml-1 h-6 w-px bg-info-border"
         />
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="text-bluedot-normal ml-auto cursor-pointer hover:opacity-80"
+        class="text-accent ml-auto cursor-pointer hover:opacity-80"
         type="button"
       >
         <svg
@@ -488,7 +488,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       id="discussion-banner-mobile-container"
     >
       <a
-        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full sm:flex-1 gap-1.5"
+        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle w-full sm:flex-1 gap-1.5"
         href="https://docs.google.com/document/d/abc123"
         rel="noopener noreferrer"
         tabindex="0"
@@ -497,7 +497,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         Open discussion doc
       </a>
       <button
-        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full sm:flex-1 gap-1.5"
+        class="not-prose flex cursor-pointer items-center justify-center whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 text-size-xs border font-medium bg-transparent border-info-border text-accent hover:bg-accent-subtle w-full sm:flex-1 gap-1.5"
         type="button"
       >
         Update discussion time
@@ -506,7 +506,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center p-2 rounded-md text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
+        class="flex items-center justify-center p-2 rounded-md text-accent hover:bg-accent-subtle cursor-pointer flex-1 border border-info-border w-full px-3 py-2.5 h-9 text-size-xs font-medium"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r1r:"

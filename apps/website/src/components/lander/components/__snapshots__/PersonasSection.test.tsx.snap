@@ -2,7 +2,7 @@
 
 exports[`PersonasSection > renders correctly with default expanded index 1`] = `
 <section
-  class="w-full bg-white"
+  class="w-full bg-canvas"
 >
   <div
     class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
@@ -51,7 +51,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </span>
           <svg
             aria-hidden="true"
-            class="size-5 flex-shrink-0 transition-transform duration-300 text-white rotate-45"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-on-dark rotate-45"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -137,7 +137,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </span>
           <svg
             aria-hidden="true"
-            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-primary"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -223,7 +223,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           </span>
           <svg
             aria-hidden="true"
-            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-primary"
             fill="currentColor"
             height="1em"
             stroke="currentColor"

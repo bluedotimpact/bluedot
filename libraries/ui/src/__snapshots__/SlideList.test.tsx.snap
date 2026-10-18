@@ -12,7 +12,7 @@ exports[`SlideList > renders correctly 1`] = `
         class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
       >
         <div
-          class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
+          class="slide-list__gradient-left absolute inset-y-0 w-8 from-canvas to-transparent opacity-50 right-0 bg-linear-to-l"
         />
       </div>
       <div
@@ -80,7 +80,7 @@ exports[`SlideList > renders correctly 1`] = `
           class="absolute h-px top-px w-full bg-default"
         />
         <div
-          class="absolute h-full bg-bluedot-normal"
+          class="absolute h-full bg-accent"
           style="width: 33.33333333333333%;"
         />
       </div>

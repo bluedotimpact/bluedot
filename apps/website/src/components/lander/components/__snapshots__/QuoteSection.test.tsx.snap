@@ -247,11 +247,11 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
     >
       <button
         aria-label="Previous quote"
-        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
         type="button"
       >
         <span
-          class="text-bluedot-navy text-size-lg font-medium select-none"
+          class="text-primary text-size-lg font-medium select-none"
           style="transform: scaleX(-1);"
         >
           →
@@ -262,7 +262,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
       >
         <button
           aria-label="Go to quote 1"
-          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
           type="button"
         >
           <div
@@ -272,7 +272,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
         </button>
         <button
           aria-label="Go to quote 2"
-          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
           type="button"
         >
           <div
@@ -283,11 +283,11 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
       </div>
       <button
         aria-label="Next quote"
-        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
         type="button"
       >
         <span
-          class="text-bluedot-navy text-size-lg font-medium select-none"
+          class="text-primary text-size-lg font-medium select-none"
         >
           →
         </span>
