@@ -121,7 +121,7 @@ export const RadioGroupError: Story = {
 /** Stack Fields with `gap-6` (space/lg). */
 export const FormLayout: Story = {
   render: () => (
-    <form noValidate className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6">
       <Field label="Full name" required>
         <Input autoComplete="name" />
       </Field>
