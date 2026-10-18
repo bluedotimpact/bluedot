@@ -49,7 +49,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
       {/* Left side - course info */}
       <button
         type="button"
-        className="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
         onClick={onCourseMenuClick}
         aria-label="Open course navigation menu"
       >

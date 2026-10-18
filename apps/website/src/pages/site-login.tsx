@@ -67,7 +67,7 @@ const SiteLoginPage = () => {
               placeholder="Enter password"
               autoComplete="current-password"
               autoFocus
-              className="flex-1 p-3 border border-border-control rounded text-size-sm outline-none focus:border-blue-600"
+              className="flex-1 p-3 border border-border-control rounded text-size-sm outline-none focus:border-focus"
             />
             <Button variant="outline-black" size="small" onClick={() => setShowPassword((prev) => !prev)}>
               {showPassword ? 'Hide' : 'Show'}

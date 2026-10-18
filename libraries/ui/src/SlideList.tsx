@@ -213,7 +213,7 @@ export const SlideListBtn = ({
       'hover:bg-tint hover:cursor-pointer',
       'active:bg-active',
       'disabled:opacity-50 disabled:cursor-not-allowed',
-      'focus:outline-hidden focus:ring-2 focus:ring-bluedot-light',
+      'focus:outline-hidden focus:ring-2 focus:ring-focus',
     )}
     aria-label={ariaLabel}
   >
