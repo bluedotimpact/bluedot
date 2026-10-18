@@ -249,7 +249,7 @@ const NavDropdown: React.FC<{
         aria-expanded={isExpanded}
         aria-controls={`${title.toLowerCase()}-dropdown`}
         className={clsx(
-          'nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap',
+          'flex items-center gap-2 cursor-pointer whitespace-nowrap',
           'nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle',
           getDropdownButtonClasses(),
         )}
@@ -268,7 +268,6 @@ const NavDropdown: React.FC<{
         role="region"
         aria-label={`${title} menu`}
         className={clsx(
-          'nav-dropdown__content-wrapper',
           isExpanded ? 'z-40' : 'pointer-events-none',
           getDropdownContentClasses(),
           className,

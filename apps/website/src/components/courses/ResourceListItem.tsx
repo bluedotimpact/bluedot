@@ -291,7 +291,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
 
           {/* Resource guide */}
           {resource.resourceGuide && (
-            <div className="resource-item__guide mt-4">
+            <div className="mt-4">
               <MarkdownExtendedRenderer className="text-primary text-size-sm font-normal leading-relaxed">
                 {resource.resourceGuide}
               </MarkdownExtendedRenderer>
@@ -325,7 +325,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
 
           {/* Login prompt for unauthenticated users */}
           {!auth && (
-            <P className="resource-item__login-prompt mt-4">
+            <P className="mt-4">
               <A href={addQueryParam(addQueryParam(ROUTES.login.url, 'redirect_to', router.asPath), 'register', 'true')}>
                 Create a free account
               </A> to track your progress and unlock access to the full course content.
