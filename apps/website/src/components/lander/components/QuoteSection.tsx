@@ -79,8 +79,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
       <div className="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between">
         {/* Quote text - sizing automatically determined by content length */}
         <blockquote
-          className={`${getFontSizeForQuote(quote.quote)} leading-normal lg:leading-tight font-semibold text-center lg:text-left`}
-          style={{ color: DEFAULT_COLORS.text }}
+          className={`${getFontSizeForQuote(quote.quote)} leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary`}
         >
           {quote.quote}
         </blockquote>
@@ -108,10 +107,10 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 
           {/* Name and role */}
           <div className="flex flex-col items-center lg:items-start">
-            <div className="text-size-md leading-tight font-semibold" style={{ color: DEFAULT_COLORS.text }}>
+            <div className="text-size-md leading-tight font-semibold text-primary">
               {quote.name}
             </div>
-            <div className="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0" style={{ color: DEFAULT_COLORS.text }}>
+            <div className="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary">
               {quote.role}
             </div>
           </div>
@@ -346,8 +345,7 @@ const QuoteSection = ({
 
   return (
     <section
-      className="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
-      style={{ backgroundColor: DEFAULT_COLORS.background }}
+      className="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden bg-canvas"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

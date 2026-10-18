@@ -79,8 +79,7 @@ const PersonasSection = ({
                     />
                   </div>
                   <span
-                    className="text-size-md font-semibold leading-snug flex-grow text-left"
-                    style={{ color: isExpanded ? 'var(--color-on-dark)' : 'var(--color-primary)' }}
+                    className={cn('text-size-md font-semibold leading-snug flex-grow text-left', isExpanded ? 'text-on-dark' : 'text-primary')}
                   >
                     {persona.title}
                   </span>

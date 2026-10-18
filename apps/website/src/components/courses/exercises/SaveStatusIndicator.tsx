@@ -37,22 +37,11 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px] text-[#DC0000]" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
-        <span style={{ color: '#DC0000' }}>Couldn't save answer.</span>
+        <span className="text-[#DC0000]">Couldn't save answer.</span>
         <button
           type="button"
           onClick={onRetry}
-          style={{
-            color: 'var(--color-primary)',
-            fontWeight: 500,
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-            textDecoration: 'underline',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '2px',
-          }}
+          className="flex items-center gap-0.5 font-medium text-primary underline cursor-pointer"
         >
           Retry
           <FaRotateLeft aria-hidden="true" className="size-4 text-primary ml-0.5" />
