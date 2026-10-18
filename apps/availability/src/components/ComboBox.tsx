@@ -29,7 +29,7 @@ export const ComboBox = <
         borderRadius: 2,
         colors: {
           ...theme.colors,
-          primary: '#1144CC',
+          primary: 'var(--color-accent)',
         },
       })}
       classNames={{

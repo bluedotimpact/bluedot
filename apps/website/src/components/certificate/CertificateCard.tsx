@@ -70,7 +70,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
                   style={{
                     left: pos.x,
                     top: pos.y,
-                    backgroundColor: 'var(--bluedot-navy)',
+                    backgroundColor: 'var(--color-primary)',
                     WebkitMaskImage: `url(${iconPath})`,
                     maskImage: `url(${iconPath})`,
                     WebkitMaskSize: 'contain',

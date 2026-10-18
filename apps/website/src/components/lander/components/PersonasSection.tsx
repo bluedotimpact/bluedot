@@ -75,12 +75,12 @@ const PersonasSection = ({
                   >
                     <IconComponent
                       size={24}
-                      style={{ color: isExpanded ? 'white' : accentColor }}
+                      style={{ color: isExpanded ? 'var(--color-on-dark)' : accentColor }}
                     />
                   </div>
                   <span
                     className="text-size-md font-semibold leading-snug flex-grow text-left"
-                    style={{ color: isExpanded ? 'white' : 'var(--bluedot-navy)' }}
+                    style={{ color: isExpanded ? 'var(--color-on-dark)' : 'var(--color-primary)' }}
                   >
                     {persona.title}
                   </span>

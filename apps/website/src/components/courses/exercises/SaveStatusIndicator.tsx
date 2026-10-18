@@ -42,7 +42,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
           type="button"
           onClick={onRetry}
           style={{
-            color: 'var(--bluedot-navy)',
+            color: 'var(--color-primary)',
             fontWeight: 500,
             background: 'none',
             border: 'none',

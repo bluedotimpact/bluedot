@@ -25,7 +25,7 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
           <div
             aria-hidden
             className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-12 sm:rounded-2xl"
-            style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-bluedot-normal)' }}
+            style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-accent)' }}
           >
             <img
               src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
