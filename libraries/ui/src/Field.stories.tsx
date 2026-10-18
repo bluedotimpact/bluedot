@@ -53,7 +53,7 @@ export const WithDescription: Story = {
   args: { description: 'We only use this for cohort logistics.' },
 };
 
-export const Error: Story = {
+export const WithError: Story = {
   args: {
     required: true,
     description: 'We only use this for cohort logistics.',
