@@ -29,6 +29,7 @@ const mockedUseAuthStore = vi.mocked(useAuthStore, true);
 // MarketingHero renders <Nav /> which calls next/router's useRouter
 vi.mock('next/router', () => ({
   useRouter: () => ({
+    asPath: '/admin/sync-dashboard',
     pathname: '/admin/sync-dashboard',
     query: {},
   }),
