@@ -100,7 +100,9 @@ export const NavLinks = ({
   const toneClass = isOnDark ? 'text-on-dark hover:text-on-dark nav-link-animation-dark' : 'text-primary hover:text-primary';
   const topLevelLinkClasses = clsx(NAV_LINK_CLASS, toneClass, inMobileDrawer ? DRAWER_ROW_CLASS : NAV_LINK_ANIMATION_CLASS);
 
-  const isCurrent = (url: string) => router.pathname === url || router.pathname.startsWith(`${url}/`);
+  // asPath, not pathname: on a course page pathname is the route pattern /courses/[courseSlug]
+  const currentPath = new URL(router.asPath, 'https://bluedot.org').pathname;
+  const isCurrent = (url: string) => currentPath === url || currentPath.startsWith(`${url}/`);
 
   const renderTopLevelLink = (title: string, url: string) => (
     <A
