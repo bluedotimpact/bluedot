@@ -35,7 +35,6 @@ export type QuoteSectionProps = {
 
 // Design constants - these stay consistent across all courses
 const DEFAULT_COLORS = {
-  background: 'var(--color-canvas)',
   cardBg: 'var(--bluedot-lightest)',
   text: 'var(--color-primary)',
   accent: 'var(--color-accent)',
