@@ -17,7 +17,7 @@ const meta = {
         component: `
 Wraps one form control with its label, description and error, and wires them together for assistive tech.
 
-- **Controls wire themselves.** \`Input\`, \`Textarea\`, \`Select\`, \`Checkbox\` and \`Radio\` pick up \`id\`, \`aria-describedby\`, \`aria-invalid\` and \`required\` from the surrounding Field.
+- **Controls wire themselves.** \`Input\`, \`Textarea\`, \`Select\`, \`Checkbox\` and \`Radio\` pick up \`id\`, \`aria-describedby\`, \`aria-invalid\` and \`aria-required\` from the surrounding Field. Other controls get no wiring; call \`useFieldControlProps\` to add it.
 - **\`error\` marks the field invalid.** Pass the message when there is one, nothing otherwise.
 - **Put \`id\` on Field, not the control**, or the label detaches.
 - **Single checkbox:** omit \`label\`. The Checkbox text is the label; Field adds the error.
