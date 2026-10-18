@@ -270,7 +270,7 @@ const GroupDiscussionBanner = ({
                       url={button.url}
                       onClick={button.onClick}
                       target={button.target}
-                      className={clsx(style.className, 'flex items-center gap-1.5', isRightAligned && 'ml-auto')}
+                      className={clsx(style.className, 'gap-1.5', isRightAligned && 'ml-auto')}
                     >
                       {button.label}
                     </Button>
