@@ -322,13 +322,29 @@ describe('Nav', () => {
   });
 
   test('marks the current section with aria-current, including on child routes', () => {
-    (useRouter as unknown as Mock).mockReturnValue({ ...mockRouter, pathname: '/join-us/[slug]' });
+    (useRouter as unknown as Mock).mockReturnValue({ ...mockRouter, pathname: '/join-us/[slug]', asPath: '/join-us/engineer?ref=x' });
     render(<Nav />, { wrapper: TrpcProvider });
 
     const joinUsLinks = screen.getAllByRole('link', { name: 'Join us' });
     expect(joinUsLinks.length).toBeGreaterThan(0);
     joinUsLinks.forEach((link) => expect(link.getAttribute('aria-current')).toBe('page'));
     screen.getAllByRole('link', { name: 'About' }).forEach((link) => expect(link.getAttribute('aria-current')).toBeNull());
+  });
+
+  test('marks the current course in the dropdown on dynamic course routes', async () => {
+    (useRouter as unknown as Mock).mockReturnValue({ ...mockRouter, pathname: '/courses/[courseSlug]/[unitNumber]', asPath: '/courses/agi-strategy/2' });
+    const user = userEvent.setup();
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    const coursesButton = getCoursesTrigger('desktop');
+    await user.click(coursesButton);
+
+    await waitFor(() => {
+      const panel = within(getControlledPanel(coursesButton));
+      expect(panel.getByRole('link', { name: 'Featured Course' }).getAttribute('aria-current')).toBe('page');
+      expect(panel.getByRole('link', { name: /Future of AI/ }).getAttribute('aria-current')).toBeNull();
+      expect(panel.getByRole('link', { name: /See all courses/ }).getAttribute('aria-current')).toBeNull();
+    });
   });
 
   test('login button includes redirect_to parameter with current path', () => {
