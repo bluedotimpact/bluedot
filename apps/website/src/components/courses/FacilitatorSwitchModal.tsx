@@ -249,7 +249,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <>
           <InformationBanner modalType={modalType} />
           <div className="flex flex-col gap-2">
-            <p className="text-size-md font-medium text-black">1. What kind of update are you making?</p>
+            <p className="text-size-md font-medium text-primary">1. What kind of update are you making?</p>
             <Select
               aria-label="Action"
               value={switchType}
@@ -260,7 +260,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <p className="text-size-md font-medium text-black">2. For which group?</p>
+            <p className="text-size-md font-medium text-primary">2. For which group?</p>
             <Select
               aria-label="Group"
               value={selectedGroupId}
@@ -275,7 +275,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
           {isSingleUnitChange && (
             <div className="flex flex-col gap-2">
-              <p className="text-size-md font-medium text-black">3. For which discussion?</p>
+              <p className="text-size-md font-medium text-primary">3. For which discussion?</p>
               <Select
                 aria-label="Discussion"
                 options={discussionOptions}
@@ -292,7 +292,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           )}
 
           <div className="flex flex-col gap-2">
-            <p className="text-size-md font-medium text-black">
+            <p className="text-size-md font-medium text-primary">
               {isSingleUnitChange ? '4' : '3'}. Select new discussion time
             </p>
             <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
@@ -313,7 +313,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       <>
         <InformationBanner modalType={modalType} />
         <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-black">1. For which group?</p>
+          <p className="text-size-md font-medium text-primary">1. For which group?</p>
           <Select
             aria-label="Group"
             value={selectedGroupId}
@@ -327,7 +327,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-black">2. For which discussion?</p>
+          <p className="text-size-md font-medium text-primary">2. For which discussion?</p>
           <Select
             aria-label="Discussion"
             options={discussionOptions}
@@ -338,7 +338,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-black">3. Select new facilitator</p>
+          <p className="text-size-md font-medium text-primary">3. Select new facilitator</p>
           {facilitatorsQuery.isError && (
             <P className="text-error-fg">
               {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}

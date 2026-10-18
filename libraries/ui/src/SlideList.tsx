@@ -209,7 +209,7 @@ export const SlideListBtn = ({
     className={clsx(
       'slide-list__nav-button',
       'p-3 border rounded-surface transition-colors m-[3px] mt-0',
-      'text-black',
+      'text-primary',
       'hover:bg-tint hover:cursor-pointer',
       'active:bg-active',
       'disabled:opacity-50 disabled:cursor-not-allowed',

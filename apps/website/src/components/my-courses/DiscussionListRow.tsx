@@ -58,16 +58,16 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
     <li className="flex items-center gap-5 py-4 not-last:border-b">
       <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} className={mutedClass} />
       <div className={`min-w-0 flex-1 ${mutedClass}`}>
-        <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
+        <p className="text-size-xxs font-semibold text-primary">{unitLabel}</p>
         {discussionPrepareLink ? (
           <a
             href={discussionPrepareLink}
-            className="block text-size-sm font-semibold leading-relaxed text-bluedot-black no-underline w-fit transition-colors hover:text-link hover:underline underline-offset-2"
+            className="block text-size-sm font-semibold leading-relaxed text-primary no-underline w-fit transition-colors hover:text-link hover:underline underline-offset-2"
           >
             {title}
           </a>
         ) : (
-          <p className="text-size-sm font-semibold leading-relaxed text-bluedot-black">{title}</p>
+          <p className="text-size-sm font-semibold leading-relaxed text-primary">{title}</p>
         )}
         {substituteFacilitatorNote && (
           <p className="line-clamp-2 text-size-xxs font-medium leading-snug text-secondary" title={substituteFacilitatorNote}>{substituteFacilitatorNote}</p>

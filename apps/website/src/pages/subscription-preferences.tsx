@@ -103,7 +103,7 @@ const PreferencesForm = ({
             onChange={(e) => handleToggle(topic.id, e.target.checked)}
           >
             <div>
-              <P className="font-semibold text-black leading-snug">{topic.name}</P>
+              <P className="font-semibold text-primary leading-snug">{topic.name}</P>
               {topic.description && (
                 <P className="text-secondary text-size-sm mt-0.5">{topic.description}</P>
               )}
