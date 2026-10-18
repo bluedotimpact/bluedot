@@ -15,8 +15,6 @@ export const FieldContext = createContext<FieldContextValue | null>(null);
 
 type FieldControlProps = {
   id?: string;
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
   'aria-describedby'?: string;
   'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
   'aria-required'?: boolean | 'true' | 'false';
@@ -27,12 +25,10 @@ export const useFieldControlProps = <P extends FieldControlProps>(props: P): P =
   const field = useContext(FieldContext);
   if (!field) return props;
 
-  const hasOwnName = props['aria-label'] !== undefined || props['aria-labelledby'] !== undefined;
-
   return {
     ...props,
+    // Field's id wins so `<label htmlFor>` cannot detach; FieldSet sets none, so options keep theirs
     id: field.id ?? props.id,
-    'aria-labelledby': hasOwnName ? props['aria-labelledby'] : field.labelId,
     'aria-describedby': joinIds(props['aria-describedby'], field.describedBy),
     'aria-invalid': props['aria-invalid'] ?? (field.invalid ? true : undefined),
     'aria-required': props['aria-required'] ?? (field.required ? true : undefined),
