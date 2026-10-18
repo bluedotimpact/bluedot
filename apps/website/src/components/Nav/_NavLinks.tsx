@@ -273,7 +273,7 @@ const NavDropdown: React.FC<{
           className,
         )}
       >
-        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty')}>
+        <div className="flex flex-col gap-3 w-fit mx-auto text-pretty">
           {loading ? (
             <ProgressDots className="py-2" />
           ) : (
