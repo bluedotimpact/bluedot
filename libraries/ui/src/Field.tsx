@@ -126,7 +126,8 @@ export const FieldSet = ({
   const describedBy = joinIds(description ? descriptionId : undefined, invalid ? errorId : undefined);
 
   return (
-    <FieldContext.Provider value={{ describedBy, invalid }}>
+    <FieldContext.Provider value={{ invalid }}>
+      {/* Description and error describe the group, not each option, so they are announced once. */}
       <fieldset
         aria-describedby={describedBy}
         className={cn('m-0 flex w-full min-w-0 flex-col gap-2 border-0 p-0', className)}
