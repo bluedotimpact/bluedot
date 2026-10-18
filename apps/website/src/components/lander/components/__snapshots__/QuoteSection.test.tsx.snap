@@ -5,8 +5,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
   aria-atomic="true"
   aria-label="Quote carousel"
   aria-live="polite"
-  class="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
-  style="background-color: var(--color-canvas);"
+  class="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden bg-canvas"
 >
   <div
     class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] bd-md:max-w-none bd-md:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
@@ -38,8 +37,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                   >
                     <blockquote
-                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                      style="color: var(--color-primary);"
+                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary"
                     >
                       "AI could surpass almost all humans at almost everything shortly after 2027."
                     </blockquote>
@@ -63,14 +61,12 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                         class="flex flex-col items-center lg:items-start"
                       >
                         <div
-                          class="text-size-md leading-tight font-semibold"
-                          style="color: var(--color-primary);"
+                          class="text-size-md leading-tight font-semibold text-primary"
                         >
                           Dario Amodei
                         </div>
                         <div
-                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                          style="color: var(--color-primary);"
+                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary"
                         >
                           CEO, Anthropic
                         </div>
@@ -112,8 +108,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                   >
                     <blockquote
-                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                      style="color: var(--color-primary);"
+                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary"
                     >
                       "The downside is, at some point, humanity loses control."
                     </blockquote>
@@ -130,14 +125,12 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                         class="flex flex-col items-center lg:items-start"
                       >
                         <div
-                          class="text-size-md leading-tight font-semibold"
-                          style="color: var(--color-primary);"
+                          class="text-size-md leading-tight font-semibold text-primary"
                         >
                           Sundar Pichai
                         </div>
                         <div
-                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                          style="color: var(--color-primary);"
+                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary"
                         >
                           CEO, Google
                         </div>
@@ -180,8 +173,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                   class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                 >
                   <blockquote
-                    class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                    style="color: var(--color-primary);"
+                    class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
                   </blockquote>
@@ -205,14 +197,12 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       class="flex flex-col items-center lg:items-start"
                     >
                       <div
-                        class="text-size-md leading-tight font-semibold"
-                        style="color: var(--color-primary);"
+                        class="text-size-md leading-tight font-semibold text-primary"
                       >
                         Dario Amodei
                       </div>
                       <div
-                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                        style="color: var(--color-primary);"
+                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary"
                       >
                         CEO, Anthropic
                       </div>
