@@ -3,7 +3,7 @@
 exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = `
 <div>
   <div
-    class="w-full max-w-text-narrow bg-white rounded-lg border overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]"
+    class="w-full max-w-text-narrow bg-raised rounded-lg border overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]"
   >
     <div
       class="relative"
@@ -36,7 +36,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           Professional certification
         </span>
         <h1
-          class="mt-1 text-size-2xl font-semibold leading-tight tracking-tight text-bluedot-navy text-center font-display"
+          class="mt-1 text-size-2xl font-semibold leading-tight tracking-tight text-primary text-center font-display"
           style="font-feature-settings: 'ss04' 1;"
         >
           Test Course
@@ -50,7 +50,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
             Awarded to
           </span>
           <p
-            class="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display"
+            class="mt-1 text-2xl font-semibold leading-tight text-primary text-center font-display"
           >
             John Doe
           </p>
@@ -59,7 +59,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           class="mt-12 md:max-w-[672px]"
         >
           <p
-            class="text-size-sm md:text-base leading-relaxed tracking-tighter text-secondary text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
+            class="text-size-sm md:text-base leading-relaxed tracking-tighter text-secondary text-center [&_strong]:font-semibold [&_strong]:text-primary"
             style="font-feature-settings: 'ss04' 1;"
           >
             Successfully completed the 
@@ -86,7 +86,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
             Issued
           </span>
           <p
-            class="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
+            class="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-primary"
             style="font-feature-settings: 'ss04' 1;"
           >
             January 15, 2025
@@ -117,7 +117,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
             Certificate ID
           </span>
           <p
-            class="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-bluedot-navy"
+            class="mt-1 text-size-sm md:text-base font-medium leading-relaxed tracking-tighter text-primary"
             style="font-feature-settings: 'ss04' 1;"
           >
             cert-123-abc

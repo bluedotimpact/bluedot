@@ -23,12 +23,12 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             class="history-section__year-container w-full flex gap-2"
           >
             <p
-              class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+              class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
             >
               2021
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
@@ -48,12 +48,12 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             class="history-section__year-container w-full flex gap-2"
           >
             <p
-              class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+              class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
             >
               2022
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
@@ -73,12 +73,12 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             class="history-section__year-container w-full flex gap-2"
           >
             <p
-              class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+              class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
             >
               2023
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
@@ -98,12 +98,12 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             class="history-section__year-container w-full flex gap-2"
           >
             <p
-              class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+              class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
             >
               2024
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p
@@ -123,12 +123,12 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             class="history-section__year-container w-full flex gap-2"
           >
             <p
-              class="bluedot-p not-prose bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+              class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
             >
               2025
             </p>
             <div
-              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
             />
           </div>
           <p

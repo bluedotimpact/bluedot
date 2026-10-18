@@ -56,10 +56,10 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         <CourseIcon courseSlug={courseSlug} size="small" />
         <div className="mobile-unit-header__course-title-container flex min-w-0 flex-1 flex-col justify-center text-left">
           <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-            <p className="mobile-unit-header__course-title text-size-md text-bluedot-navy truncate leading-snug font-semibold">
+            <p className="mobile-unit-header__course-title text-size-md text-primary truncate leading-snug font-semibold">
               {courseTitle}
             </p>
-            <FaChevronDown className="text-bluedot-navy size-3 flex-shrink-0" />
+            <FaChevronDown className="text-primary size-3 flex-shrink-0" />
           </div>
         </div>
       </button>
@@ -87,7 +87,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
       {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
         <div className="absolute inset-x-0 bottom-0 h-1">
           <div
-            className="bg-bluedot-normal h-full"
+            className="bg-accent h-full"
             style={{ width: `${courseProgressData.courseProgress.percentage}%` }}
             aria-label={`Course ${courseProgressData.courseProgress.percentage}% complete`}
           />
@@ -234,7 +234,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-                  className="text-size-xs text-bluedot-navy flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
+                  className="text-size-xs text-primary flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >
                   <FaBars className="size-[16px]" />

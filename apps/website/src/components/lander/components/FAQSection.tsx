@@ -1,7 +1,6 @@
 import {
   CardShell, cn, H2, P,
 } from '@bluedot/ui';
-import clsx from 'clsx';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 
@@ -29,11 +28,10 @@ export type FAQSectionProps = {
   title: string;
   /** Array of FAQ items to display */
   items: FAQItem[];
-  background?: 'white' | 'canvas';
   variant?: 'cards' | 'plain';
 };
 
-const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' }: FAQSectionProps) => {
+const FAQSection = ({ id, title, items, variant = 'cards' }: FAQSectionProps) => {
   const [openQuestions, setOpenQuestions] = useState<string[]>([]);
 
   const getAnswerText = (item: FAQItem): string => {
@@ -91,7 +89,7 @@ const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' 
           </div>
         </section>
       ) : (
-        <section id={id} className={clsx('w-full', background === 'canvas' ? 'bg-canvas' : 'bg-white')}>
+        <section id={id} className="w-full bg-canvas">
           <div className="max-w-max-width bd-md:px-8 lg:px-spacing-x bd-md:pt-16 bd-md:pb-12 mx-auto px-5 py-12 lg:py-16 xl:py-24">
             <div className="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16">
               <H2 className="text-center">
@@ -113,7 +111,7 @@ const FAQSection = ({ id, title, items, background = 'white', variant = 'cards' 
                         aria-expanded={isOpen}
                         aria-controls={`faq-answer-${item.id}`}
                       >
-                        <span className="text-bluedot-navy flex-grow text-size-md leading-snug font-semibold">
+                        <span className="text-primary flex-grow text-size-md leading-snug font-semibold">
                           {item.question}
                         </span>
                         <FaPlus

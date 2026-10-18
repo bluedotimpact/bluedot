@@ -115,7 +115,7 @@ const GrantsPage = () => {
                     ctaLabel="Explore grant"
                     details={(
                       <div>
-                        <P className="text-size-lg font-medium text-white">{route.amount}</P>
+                        <P className="text-size-lg font-medium text-on-dark">{route.amount}</P>
                         <P className="mt-1 text-size-xs text-white/85">{route.application}</P>
                         {stats && (
                           <P className="mt-3 text-size-xs text-white/75">

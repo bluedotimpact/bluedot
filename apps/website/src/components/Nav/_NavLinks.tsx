@@ -92,7 +92,7 @@ export const NavLinks: React.FC<{
     // Desktop navbar uses white text on colored background, dark text elsewhere
     let textColor = 'text-primary hover:text-primary';
     if (!expandedSections.mobileNav && onColoredBackground) {
-      textColor = 'text-white hover:text-white nav-link-animation-dark';
+      textColor = 'text-on-dark hover:text-on-dark nav-link-animation-dark';
     }
 
     return clsx(
@@ -220,7 +220,7 @@ const NavDropdown: React.FC<{
     }
 
     if (onColoredBackground) {
-      return 'text-white hover:text-white nav-link-animation-dark';
+      return 'text-on-dark hover:text-on-dark nav-link-animation-dark';
     }
 
     return 'text-primary hover:text-primary';

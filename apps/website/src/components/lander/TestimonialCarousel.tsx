@@ -175,7 +175,7 @@ const TestimonialCarousel = ({
     : 'Meet our alumni shaping AI\'s future';
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="w-full bg-canvas py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container */}
       <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
         {/* Header Section */}
@@ -348,7 +348,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
     </>
   );
 
-  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border rounded-xl overflow-hidden w-[276px] bd-md:w-[288px] xl:w-[320px]';
+  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-raised border rounded-xl overflow-hidden w-[276px] bd-md:w-[288px] xl:w-[320px]';
 
   if (testimonial.url) {
     return (
@@ -394,7 +394,7 @@ const NavigationButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-size-lg font-medium select-none"
+      className="text-primary text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

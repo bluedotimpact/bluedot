@@ -33,7 +33,7 @@ export default function RoundGroup({
 
   return (
     <div>
-      <div className="text-bluedot-navy mb-6 text-size-sm leading-tight">
+      <div className="text-primary mb-6 text-size-sm leading-tight">
         <span className="font-semibold tracking-wide uppercase">{label}</span>
         <span className="ml-1 font-normal opacity-80">{description}</span>
       </div>

@@ -36,7 +36,7 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
         </P>
       )}
       {profileUrl && (
-        <span className="mt-auto pt-4 text-size-xs font-medium text-secondary transition-colors group-hover:text-bluedot-navy">
+        <span className="mt-auto pt-4 text-size-xs font-medium text-secondary transition-colors group-hover:text-primary">
           View profile →
         </span>
       )}

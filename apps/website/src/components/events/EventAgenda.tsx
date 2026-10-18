@@ -20,24 +20,24 @@ const EventCard = ({ event, campaign, titleHeading: TitleHeading }: {
         href={addQueryParam(addQueryParam(addQueryParam(event.url, 'utm_source', 'website'), 'utm_campaign', campaign), 'utm_content', 'event-link')}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center gap-4 rounded-2xl border bg-white p-4 transition-colors hover:border-bluedot-normal/40 hover:bg-bluedot-light/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bluedot-normal sm:gap-6 sm:p-5"
+        className="group flex items-center gap-4 rounded-2xl border bg-raised p-4 transition-colors hover:border-bluedot-normal/40 hover:bg-bluedot-light/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus sm:gap-6 sm:p-5"
       >
         <div className="size-20 shrink-0 overflow-hidden rounded-xl bg-bluedot-light sm:size-28">
           {event.coverUrl && !imageFailed ? (
             <img src={event.coverUrl} alt="" width={112} height={112} loading="lazy" onError={() => setImageFailed(true)} className="size-full object-cover" />
           ) : (
-            <div className="flex size-full items-center justify-center text-bluedot-normal"><FaRegCalendarDays className="size-6" aria-hidden="true" /></div>
+            <div className="flex size-full items-center justify-center text-accent"><FaRegCalendarDays className="size-6" aria-hidden="true" /></div>
           )}
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-size-xs font-medium leading-relaxed text-secondary">{buildTimeDeltaString(event)}</p>
-          <TitleHeading className="mt-1 text-size-sm font-semibold leading-snug tracking-tight text-bluedot-navy group-hover:text-bluedot-normal sm:text-size-md">{event.title}</TitleHeading>
+          <TitleHeading className="mt-1 text-size-sm font-semibold leading-snug tracking-tight text-primary group-hover:text-link sm:text-size-md">{event.title}</TitleHeading>
           <p className="mt-2 flex items-center gap-1.5 text-size-xs leading-relaxed text-secondary">
             <LocationIcon className="size-3 shrink-0" aria-hidden="true" />
             {formatLocationLabel(event.location)}
           </p>
         </div>
-        <FaArrowUpRightFromSquare className="hidden size-3.5 shrink-0 text-secondary group-hover:text-bluedot-normal sm:block" aria-hidden="true" />
+        <FaArrowUpRightFromSquare className="hidden size-3.5 shrink-0 text-secondary group-hover:text-link sm:block" aria-hidden="true" />
       </a>
     </li>
   );
@@ -62,7 +62,7 @@ const EventAgenda = ({ events, campaign = 'events-page' }: {
     <div className="flex flex-col gap-7">
       {groups.map((group, index) => (
         <div key={`${group.date}-${index}`} className="grid gap-3 sm:grid-cols-[160px_minmax(0,1fr)] sm:gap-8">
-          <DateHeading className="pt-2 text-size-sm font-semibold leading-relaxed text-bluedot-navy">{group.date}</DateHeading>
+          <DateHeading className="pt-2 text-size-sm font-semibold leading-relaxed text-primary">{group.date}</DateHeading>
           <ul className="flex flex-col gap-3">
             {group.events.map((event) => <EventCard key={event.id} event={event} campaign={campaign} titleHeading={titleHeading} />)}
           </ul>

@@ -105,14 +105,14 @@ const CourseListRow = (row: CourseListRowProps) => {
       onClick={toggleExpand}
       aria-expanded={isExpanded}
       aria-label={isExpanded ? `Collapse ${course.title}` : `Expand ${course.title}`}
-      className="flex size-[38px] cursor-pointer items-center justify-center text-bluedot-normal sm:size-5"
+      className="flex size-[38px] cursor-pointer items-center justify-center text-accent sm:size-5"
     >
       <FaChevronRight aria-hidden="true" className={`size-3 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
     </button>
   ) : null;
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-white">
+    <div className="overflow-hidden rounded-xl border bg-raised">
       <div className="relative">
         {tint && (
           <div
@@ -128,7 +128,7 @@ const CourseListRow = (row: CourseListRowProps) => {
             aria-hidden
             className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-16 sm:rounded-2xl"
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-            style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-bluedot-normal)' }}
+            style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-accent)' }}
           >
             <img
               src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
@@ -144,7 +144,7 @@ const CourseListRow = (row: CourseListRowProps) => {
             <H3 className={`text-pretty text-size-md ${row.mode === 'facilitator' ? '' : 'sm:text-size-lg'}`}>
               <a
                 href={`/courses/${course.slug}`}
-                className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+                className="text-primary no-underline transition-colors hover:text-link hover:underline underline-offset-2"
               >
                 {row.mode === 'facilitator' ? getFacilitatorHeadline(row) : course.title}
               </a>
@@ -163,7 +163,7 @@ const CourseListRow = (row: CourseListRowProps) => {
               )}
             </H3>
             {subtitle && (
-              <p className="mt-1 text-size-xs text-bluedot-navy">{subtitle}</p>
+              <p className="mt-1 text-size-xs text-primary">{subtitle}</p>
             )}
           </div>
           <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
@@ -345,7 +345,7 @@ const getParticipantSubtitle = (row: ParticipantRowProps, isNotInGroup: boolean)
       : null;
 
     return renderParts([
-      <span key="status" className="text-bluedot-normal font-medium">{statusText}</span>,
+      <span key="status" className="text-accent font-medium">{statusText}</span>,
       startsAddendum,
     ]);
   }

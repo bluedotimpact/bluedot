@@ -225,7 +225,7 @@ const AlumniStoryCarousel = ({
   }, [scroll]);
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="w-full bg-canvas py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container */}
       <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-12 lg:mb-16">
         <div className="flex flex-col items-center text-center bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left gap-6 bd-md:gap-16">
@@ -301,7 +301,7 @@ const AlumniStoryCarousel = ({
   );
 };
 
-const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-white border rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-strong hover:shadow-lg transition-all duration-200';
+const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-raised border rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-strong hover:shadow-lg transition-all duration-200';
 
 const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
@@ -330,7 +330,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
         {story.story}
       </P>
       {story.storyUrl && (
-        <span className="mt-auto self-end text-size-xs font-semibold text-bluedot-normal whitespace-nowrap">
+        <span className="mt-auto self-end text-size-xs font-semibold text-link whitespace-nowrap">
           Read full story →
         </span>
       )}
@@ -380,7 +380,7 @@ const NavigationButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-size-lg font-medium select-none"
+      className="text-primary text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

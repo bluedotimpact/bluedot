@@ -168,7 +168,7 @@ const SyncDashboard = () => {
           <H3 className="mb-4 flex items-center gap-2">
             Sync requests (last 24 hours)
             {isFetching && (
-              <FaCircleNotch aria-hidden="true" className="size-3 animate-spin text-bluedot-normal" />
+              <FaCircleNotch aria-hidden="true" className="size-3 animate-spin text-accent" />
             )}
           </H3>
 
@@ -236,7 +236,7 @@ const StatusBadge = ({ status }: { status: SyncStatus }) => {
   };
 
   return (
-    <span className={`px-2 py-1 rounded text-white text-sm ${colors[status]}`}>
+    <span className={`px-2 py-1 rounded text-on-dark text-sm ${colors[status]}`}>
       {status}
     </span>
   );

@@ -49,7 +49,7 @@ export const OnDark: Story = {
   args: { className: 'text-on-dark hover:bg-surface-on-dark-subtle focus-visible:outline-on-dark' },
   decorators: [
     (Story) => (
-      <div className="bg-bluedot-navy p-6">
+      <div className="bg-dark p-6">
         <Story />
       </div>
     ),

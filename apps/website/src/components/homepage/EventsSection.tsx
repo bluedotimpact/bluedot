@@ -13,7 +13,7 @@ const EventsSection = () => {
   return (
     <section
       id="upcoming-events"
-      className="w-full bg-white py-12 bd-md:py-16 lg:py-20 xl:py-24"
+      className="w-full bg-canvas py-12 bd-md:py-16 lg:py-20 xl:py-24"
       aria-labelledby="events-section-heading"
     >
       <div className="section-base">
@@ -24,7 +24,7 @@ const EventsSection = () => {
         {isLoading && <div className="py-8"><ProgressDots /></div>}
         {error && (
           <p role="alert" className="py-6 text-size-sm leading-relaxed text-secondary">
-            We couldn’t load the events. <a className="text-bluedot-normal underline" href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=events-section&utm_content=error-cta">Check the calendar on Luma ↗</a>
+            We couldn’t load the events. <a className="text-link underline" href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=events-section&utm_content=error-cta">Check the calendar on Luma ↗</a>
           </p>
         )}
         {!isLoading && !error && displayEvents.length > 0 && (

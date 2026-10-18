@@ -98,7 +98,7 @@ const FacilitatorFeedbackPage = () => {
 
   if (isLoading || shouldShow404 || !router.isReady) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         <ProgressDots />
       </div>
     );
@@ -106,7 +106,7 @@ const FacilitatorFeedbackPage = () => {
 
   if (error ?? !formData) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
         <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
       </div>
     );
@@ -168,7 +168,7 @@ const FacilitatorFeedbackPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-cream-normal">
+    <div className="min-h-screen bg-canvas">
       <Head>
         {pageMetaTags({ title: `${roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact` })}
       </Head>
@@ -181,10 +181,10 @@ const FacilitatorFeedbackPage = () => {
         )}
 
         {/* Hero card */}
-        <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 flex flex-col gap-6">
+        <section className="bg-raised rounded-xl border border-t-8 border-t-accent p-5 sm:p-9 flex flex-col gap-6">
           <div>
             <H1 className="text-size-lg mb-2">Course Feedback</H1>
-            <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
+            <p className="text-size-xs font-medium text-accent">{roundName}</p>
           </div>
           <div className="flex flex-col gap-2 text-size-xs text-secondary">
             <div className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support participants.</div>
@@ -194,7 +194,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Course feedback card */}
-        <section className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-7">
+        <section className="bg-raised rounded-xl border p-5 sm:p-9 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
             <Eyebrow>Course feedback</Eyebrow>
             <div className="flex flex-col gap-1">
@@ -204,7 +204,7 @@ const FacilitatorFeedbackPage = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <p className="text-size-xs font-semibold text-bluedot-navy">
+            <p className="text-size-xs font-semibold text-primary">
               Overall rating <span className="text-error-fg">*</span>
             </p>
             <StarRating rating={overallRating} onChange={setOverallRating} />
@@ -212,7 +212,7 @@ const FacilitatorFeedbackPage = () => {
 
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="most-valuable" className="text-size-xs font-semibold text-bluedot-navy">
+              <label htmlFor="most-valuable" className="text-size-xs font-semibold text-primary">
                 What did you find most valuable? <span className="text-error-fg">*</span>
               </label>
               <p className="text-size-xs text-secondary">Describe a specific moment or element that stands out.</p>
@@ -227,7 +227,7 @@ const FacilitatorFeedbackPage = () => {
 
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="difficulties" className="text-size-xs font-semibold text-bluedot-navy">
+              <label htmlFor="difficulties" className="text-size-xs font-semibold text-primary">
                 Where did you face difficulties? <span className="text-error-fg">*</span>
               </label>
               <p className="text-size-xs text-secondary">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
@@ -243,7 +243,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Participant insights card */}
-        <section ref={participantInsightsRef} className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-5">
+        <section ref={participantInsightsRef} className="bg-raised rounded-xl border p-5 sm:p-9 flex flex-col gap-5">
           <div className="flex flex-col gap-4">
             <Eyebrow>Participant insights</Eyebrow>
             <div className="flex flex-col gap-2">
@@ -316,7 +316,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Submit section */}
-        <section className="bg-white rounded-lg border p-5 flex flex-col gap-3">
+        <section className="bg-raised rounded-lg border p-5 flex flex-col gap-3">
           {showIncompleteWarning && completedCount < totalCount ? (
             <>
               {/* Appears in response to a submit attempt, so announce it */}
@@ -360,7 +360,7 @@ const FacilitatorFeedbackPage = () => {
                 {submitFeedback.isPending ? 'Saving...' : submitIdleLabel}
               </Button>
               <p className="text-size-xs text-secondary">
-                <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{totalCount}</span> participant feedback completed
+                <span className="font-semibold text-primary">{completedCount}</span> of <span className="font-semibold text-primary">{totalCount}</span> participant feedback completed
               </p>
             </div>
           )}
@@ -433,11 +433,11 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
       onClick={onClick}
       className="w-full flex items-center gap-3 border rounded-lg px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-tint active:bg-active focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
     >
-      <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-size-xs font-bold ${feedback ? 'bg-bluedot-normal' : 'bg-bluedot-navy'}`}>
+      <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-on-dark text-size-xs font-bold ${feedback ? 'bg-accent' : 'bg-dark'}`}>
         {feedback ? '✓' : getInitials(participant.name)}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1">
-        <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
+        <p className="text-size-xs font-semibold text-primary">{participant.name}</p>
         <p className="text-size-xs text-secondary">{getSubtitle(feedback)}</p>
         {showNudge && !feedback && (
           <p className="flex items-center gap-1 text-size-xs leading-normal font-medium text-warning-fg">
@@ -446,7 +446,7 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
           </p>
         )}
       </div>
-      <span className="shrink-0 text-size-xs font-medium text-bluedot-normal">
+      <span className="shrink-0 text-size-xs font-medium text-accent">
         {feedback ? 'Edit' : 'Add feedback →'}
       </span>
     </button>

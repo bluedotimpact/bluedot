@@ -34,7 +34,7 @@ const Embed: React.FC<EmbedProps> = ({
         <div className="p-5 pb-4">
           <div className="flex items-center gap-4">
             <div className="size-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-              <FaMusic aria-hidden="true" className="size-5 text-white" />
+              <FaMusic aria-hidden="true" className="size-5 text-on-dark" />
             </div>
             <div className="flex-1">
               <h3 className="text-size-lg font-semibold text-primary">Suno AI Music</h3>

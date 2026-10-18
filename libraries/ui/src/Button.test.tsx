@@ -102,11 +102,11 @@ describe('Button', () => {
   // silently dropping `text-size-*` from the size config because `text-size-*`
   // wasn't registered as a font-size class group. The fix lives in `cn()`.
   test('keeps its font-size when caller adds a text colour class', () => {
-    render(<Button variant="unstyled" size="large" className="text-bluedot-navy">
+    render(<Button variant="unstyled" size="large" className="text-primary">
       Click me
     </Button>);
     const button = screen.getByRole('button');
     expect(button.className).includes('text-size-sm');
-    expect(button.className).includes('text-bluedot-navy');
+    expect(button.className).includes('text-primary');
   });
 });

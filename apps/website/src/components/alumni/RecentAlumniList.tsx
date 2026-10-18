@@ -24,7 +24,7 @@ const RecentAlumniList = () => {
   const visible = expanded || !hasMore ? alumni : alumni.slice(0, collapsedCount);
 
   return (
-    <section className="w-full bg-white py-12 bd-md:py-16 lg:py-20">
+    <section className="w-full bg-canvas py-12 bd-md:py-16 lg:py-20">
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
         <div className="flex flex-col gap-2 mb-8 bd-md:mb-12">
           <Eyebrow className="text-secondary">
@@ -67,7 +67,7 @@ const AlumniRow = ({ alum }: { alum: TransformedTestimonial }) => {
         <P className="text-size-xs text-secondary truncate">{alum.jobTitle}</P>
       </div>
       {linkHref && (
-        <span className="text-size-lg text-bluedot-normal flex-shrink-0" aria-hidden="true">→</span>
+        <span className="text-size-lg text-accent flex-shrink-0" aria-hidden="true">→</span>
       )}
     </div>
   );

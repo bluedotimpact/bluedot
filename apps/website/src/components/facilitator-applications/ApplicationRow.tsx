@@ -34,7 +34,7 @@ const ApplicationRow = ({
   const statusLabel = APPLICATION_STATUS_LABEL[status];
 
   return (
-    <li className="relative overflow-hidden rounded-xl border bg-white">
+    <li className="relative overflow-hidden rounded-xl border bg-raised">
       {tint && (
         <div
           aria-hidden
@@ -46,7 +46,7 @@ const ApplicationRow = ({
         <div
           aria-hidden
           className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-16 sm:rounded-2xl"
-          style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-bluedot-normal)' }}
+          style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-accent)' }}
         >
           <img
             src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
@@ -59,7 +59,7 @@ const ApplicationRow = ({
               {courseTitle}
             </Eyebrow>
           )}
-          <p className="text-pretty text-size-md font-semibold text-bluedot-navy">
+          <p className="text-pretty text-size-md font-semibold text-primary">
             {roundName ?? 'Round'}
           </p>
           {dateRange && (

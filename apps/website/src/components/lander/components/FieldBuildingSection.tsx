@@ -24,7 +24,7 @@ const FieldBuildingSection = ({
   headingVariant = 'default',
 }: FieldBuildingSectionProps) => {
   return (
-    <section id={id} className="w-full bg-white">
+    <section id={id} className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-12 xl:px-40 py-12 bd-md:py-16 xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         <div className={headingVariant === 'compact' ? 'w-full max-w-text' : 'max-w-text text-center'}>
           {headingVariant === 'compact' ? (
@@ -41,7 +41,7 @@ const FieldBuildingSection = ({
           </P>
         </div>
 
-        <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border rounded-xl flex flex-col overflow-hidden">
+        <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-raised border rounded-xl flex flex-col overflow-hidden">
           {roles.map((role, index) => (
             <div key={role.title}>
               <div className="flex flex-col md:flex-row gap-3 md:gap-8 px-5 md:px-8 py-5 md:py-6">
@@ -57,7 +57,7 @@ const FieldBuildingSection = ({
                   </P>
                   <Link
                     href={role.linkUrl}
-                    className="mt-3 inline-flex items-center gap-1 text-size-sm font-medium text-bluedot-normal hover:underline"
+                    className="mt-3 inline-flex items-center gap-1 text-size-sm font-medium text-link hover:underline"
                   >
                     {role.linkText}
                     <span aria-hidden="true">→</span>

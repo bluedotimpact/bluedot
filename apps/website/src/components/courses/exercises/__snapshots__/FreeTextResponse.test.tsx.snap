@@ -12,11 +12,11 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative box-border w-full bg-white resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 cursor-not-allowed opacity-60 min-h-[140px]"
+          class="resize-y overflow-auto relative box-border w-full bg-raised resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-focus focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 cursor-not-allowed opacity-60 min-h-[140px]"
         >
           <div
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-primary [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -76,12 +76,12 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-raised resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-focus focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-primary [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -110,7 +110,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-bluedot-normal"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-accent"
         />
       </div>
     </div>
@@ -140,12 +140,12 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-raised resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-focus focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-primary [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -169,7 +169,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-bluedot-normal"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-accent"
         />
       </div>
     </div>

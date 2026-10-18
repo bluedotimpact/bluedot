@@ -53,9 +53,9 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
     const opacityClass = isActive ? 'opacity-100' : 'opacity-60';
     const bgClass = isActive ? activeBackground : 'bg-transparent';
 
-    let textColorClass = 'text-bluedot-navy';
+    let textColorClass = 'text-primary';
     if (isActive && isLikeButton) {
-      textColorClass = 'text-bluedot-normal';
+      textColorClass = 'text-accent';
     }
 
     const likeGlyph = isActive ? FaThumbsUp : FaRegThumbsUp;
@@ -246,7 +246,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               } ${
                 (() => {
                   if (isCompleted) {
-                    return 'bg-bluedot-normal border-none';
+                    return 'bg-accent border-none';
                   }
 
                   if (isHovered) {
@@ -258,14 +258,14 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               }`}
             >
               {(isCompleted || isHovered) && (
-                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-white' : 'text-secondary')} />
+                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-on-dark' : 'text-secondary')} />
               )}
             </button>
           </div>
         )}
 
         {/* Main resource card */}
-        <div className="resource-item container-lined relative z-[1] bg-white p-6">
+        <div className="resource-item container-lined relative z-[1] bg-raised p-6">
           {/* Resource title and link */}
           {resource.resourceLink ? (
             <a
@@ -276,12 +276,12 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               aria-label={`${resource.resourceName} (opens in new tab)`}
             >
               <FaviconImage url={resource.resourceLink} displaySize={16} className="mt-[3px]" />
-              <span className="leading-normal font-semibold text-inherit no-underline transition-colors hover:text-bluedot-normal hover:underline">
+              <span className="leading-normal font-semibold text-inherit no-underline transition-colors hover:text-link hover:underline">
                 {resource.resourceName}
                 {/* External link icon - inline so it flows with text on wrap */}
                 <FaArrowUpRightFromSquare
                   aria-hidden="true"
-                  className="inline-block size-3 align-middle ml-2 text-bluedot-navy"
+                  className="inline-block size-3 align-middle ml-2 text-primary"
                 />
               </span>
             </a>
@@ -357,10 +357,10 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                       className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
                       aria-label="Mark resource as incomplete"
                     >
-                      <span className="font-medium text-size-xs leading-normal text-bluedot-normal">
+                      <span className="font-medium text-size-xs leading-normal text-accent">
                         Completed
                       </span>
-                      <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-normal" />
+                      <FaRotateLeft aria-hidden="true" className="size-4 text-accent" />
                     </button>
                   )}
 

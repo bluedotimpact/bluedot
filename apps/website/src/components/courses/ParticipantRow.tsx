@@ -10,7 +10,7 @@ type ParticipantRowProps = {
 const ParticipantRow = ({ name, rightHandNode }: ParticipantRowProps) => (
   <div className="flex items-center gap-3 border rounded-md px-3 py-3">
     <Avatar name={name} />
-    <span className="flex-1 text-size-xs font-medium text-bluedot-navy truncate">{name}</span>
+    <span className="flex-1 text-size-xs font-medium text-primary truncate">{name}</span>
     {rightHandNode}
   </div>
 );

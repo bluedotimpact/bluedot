@@ -154,7 +154,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
     return (
       <div className="flex w-full flex-col items-center justify-center gap-8">
         <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-          <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+          <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
         </div>
         <div className="flex max-w-narrow flex-col items-center gap-4">
           <P className="text-primary text-center">{message}</P>
@@ -211,7 +211,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
             disabled={!hasRounds || dropoutMutation.isPending}
           />
           {!hasRounds && (
-            <P className="text-bluedot-normal text-size-xs mt-1">
+            <P className="text-accent text-size-xs mt-1">
               No upcoming rounds for this intensity available. You can select a different intensity or drop out instead.
             </P>
           )}
@@ -319,7 +319,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
         {mutation.isSuccess ? (
           <>
             <div className="bg-bluedot-normal/10 self-center rounded-full p-4">
-              <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+              <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
             </div>
             <P className="text-primary text-center text-pretty">
               Your application has been withdrawn. If this was a mistake, please email us.

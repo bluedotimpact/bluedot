@@ -28,12 +28,12 @@ const WhatThisIsForSection = () => {
             We look for a worthwhile direction, evidence you can make progress, and a clear role for funding.
             Wildcards welcome. If in doubt,{' '}
             {applicationUrl ? (
-              <a href={applicationUrl} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline underline-offset-4">apply</a>
+              <a href={applicationUrl} target="_blank" rel="noopener noreferrer" className="text-link underline underline-offset-4">apply</a>
             ) : 'apply'}.
           </p>
           <p className="mt-4 text-size-xs leading-relaxed text-secondary">
             Looking for support to move into AI safety or biosecurity full-time? See our{' '}
-            <Link href="/grants/career-transition" className="text-bluedot-normal underline underline-offset-4">Career Transition Grants</Link>.
+            <Link href="/grants/career-transition" className="text-link underline underline-offset-4">Career Transition Grants</Link>.
           </p>
         </div>
       </div>

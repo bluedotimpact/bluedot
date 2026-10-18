@@ -99,7 +99,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
+            <p id="show-up-label" className="text-size-xs font-semibold text-primary">
               How did they show up across discussions? <span className="text-error-fg">*</span>
             </p>
             <p className="text-size-xs text-secondary">
@@ -117,7 +117,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
+            <p id="engage-label" className="text-size-xs font-semibold text-primary">
               How did they engage with ideas during discussions? <span className="text-error-fg">*</span>
             </p>
             <p className="text-size-xs text-secondary">
@@ -134,7 +134,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         </div>
 
         <fieldset className="m-0 mt-8 flex flex-col gap-1.5 border-0 p-0">
-          <legend className="p-0 text-size-xs font-semibold text-bluedot-navy">
+          <legend className="p-0 text-size-xs font-semibold text-primary">
             How should we follow up with them? <span className="text-error-fg">*</span>
           </legend>
           <p className="text-size-xs text-secondary">Check all that apply.</p>
@@ -156,7 +156,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="investment-note" className="text-size-xs font-semibold text-bluedot-navy">
+            <label htmlFor="investment-note" className="text-size-xs font-semibold text-primary">
               In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
             </label>
             <p className="text-size-xs text-secondary">Feel free to paste this from your 1:1 report.</p>
@@ -226,7 +226,7 @@ export const RubricSelector = ({ name, 'aria-labelledby': ariaLabelledBy, option
         return (
           <label
             key={option.value}
-            className={`relative flex items-start cursor-pointer ${isLast ? '' : 'border-b border-subtle'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-bluedot-normal ${isSelected ? 'bg-[#e5edfe]' : 'bg-white'}`}
+            className={`relative flex items-start cursor-pointer ${isLast ? '' : 'border-b border-subtle'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-focus ${isSelected ? 'bg-[#e5edfe]' : 'bg-raised'}`}
           >
             <input
               type="radio"
@@ -240,14 +240,14 @@ export const RubricSelector = ({ name, 'aria-labelledby': ariaLabelledBy, option
               {option.value}
             </div>
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
-              <p className="text-size-xs leading-normal text-bluedot-navy">{option.label}</p>
+              <p className="text-size-xs leading-normal text-primary">{option.label}</p>
               {isSelected && (
                 <p className="text-size-xs leading-relaxed text-secondary mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (
               <div className="w-[30px] shrink-0 flex justify-center pt-3">
-                <FaCheck className="size-3.5 text-bluedot-normal" aria-hidden />
+                <FaCheck className="size-3.5 text-accent" aria-hidden />
               </div>
             )}
           </label>

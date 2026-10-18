@@ -62,7 +62,7 @@ const FallbackContent = (
     <div className="flex justify-start">
       <Button
         url="https://example.com/apply"
-        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium rounded-md hover:bg-[#1a3399] transition-colors"
       >
         Apply now
       </Button>
@@ -84,7 +84,7 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <div className="max-w-text-narrow p-8 bg-white">
+      <div className="max-w-text-narrow p-8 bg-raised">
         <Story />
       </div>
     ),

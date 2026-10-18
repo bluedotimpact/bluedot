@@ -61,7 +61,7 @@ const HeroSection = ({
 
   return (
     <section
-      className={`w-full ${!hasGradient ? 'bg-white' : ''}`}
+      className={`w-full ${!hasGradient ? 'bg-canvas' : ''}`}
       style={hasGradient ? { background: gradient } : undefined}
     >
       {layoutType === 'constrained' && (
@@ -102,7 +102,7 @@ const HeroSection = ({
                   url={primaryCta.url}
                   variant="unstyled"
                   size="large"
-                  className="bg-accent-on-dark text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
+                  className="bg-accent-on-dark text-primary w-full bd-md:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -147,7 +147,7 @@ const HeroSection = ({
                     url={primaryCta.url}
                     variant="unstyled"
                     size="large"
-                    className="bg-accent-on-dark text-bluedot-navy hover:brightness-90"
+                    className="bg-accent-on-dark text-primary hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -211,7 +211,7 @@ const HeroSection = ({
                     url={primaryCta.url}
                     variant="unstyled"
                     size="large"
-                    className="w-full bd-md:w-auto bg-accent-on-dark text-bluedot-navy hover:brightness-90"
+                    className="w-full bd-md:w-auto bg-accent-on-dark text-primary hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -255,7 +255,7 @@ const HeroSection = ({
                     </Eyebrow>
                   )}
 
-                  <HeroH1 className="font-semibold text-left text-bluedot-navy">
+                  <HeroH1 className="font-semibold text-left text-primary">
                     {title}
                   </HeroH1>
 

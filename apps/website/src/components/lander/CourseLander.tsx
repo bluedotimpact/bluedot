@@ -147,7 +147,7 @@ const CourseLander = ({
   };
 
   return (
-    <div className="relative bg-white">
+    <div className="relative bg-canvas">
       <Head>
         {pageMetaTags({ title: content.meta.title, description: seoDescription })}
 

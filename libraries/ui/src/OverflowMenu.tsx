@@ -38,7 +38,7 @@ type MenuContentProps = {
 };
 
 // Trigger button styled as secondary. Menu items are the primary actions
-const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
+const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md border border-accent text-accent hover:bg-accent-subtle cursor-pointer';
 
 const MenuContent = ({ items, isOpen, setIsOpen }: MenuContentProps) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
@@ -80,7 +80,7 @@ const MenuContent = ({ items, isOpen, setIsOpen }: MenuContentProps) => {
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         placement="bottom end"
-        className="bg-white rounded-surface shadow-[0_4px_12px_rgba(0,0,0,0.08)] border overflow-hidden min-w-[200px]"
+        className="bg-raised rounded-surface shadow-[0_4px_12px_rgba(0,0,0,0.08)] border overflow-hidden min-w-[200px]"
       >
         {menuContent}
       </Popover>

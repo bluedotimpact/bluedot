@@ -66,7 +66,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
 
     return clsx(
       'nav sticky top-0 z-50 w-full transition-all duration-300',
-      'bg-white',
+      'bg-raised',
       'border-b',
     );
   };

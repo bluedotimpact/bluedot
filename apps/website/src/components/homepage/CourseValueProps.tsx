@@ -31,7 +31,7 @@ const ValueProp = ({ iconType, title, description }: { iconType: 'career' | 'net
   return (
     <div className="flex flex-col gap-6 bd-md:basis-0 bd-md:grow">
       <div className="size-16 rounded-full bg-tint flex items-center justify-center">
-        <IconComponent className="size-8 text-bluedot-navy" />
+        <IconComponent className="size-8 text-primary" />
       </div>
       <div className="flex flex-col gap-2">
         <H4 className="text-size-md font-medium">{title}</H4>

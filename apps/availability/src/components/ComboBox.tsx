@@ -29,11 +29,11 @@ export const ComboBox = <
         borderRadius: 2,
         colors: {
           ...theme.colors,
-          primary: '#1144CC',
+          primary: 'var(--color-accent)',
         },
       })}
       classNames={{
-        control: (state) => clsx('!border-2 !rounded-sm !min-h-0 !shadow-none', state.isFocused ? '!border-bluedot-normal' : '!border-border-control'),
+        control: (state) => clsx('!border-2 !rounded-sm !min-h-0 !shadow-none', state.isFocused ? '!border-focus' : '!border-border-control'),
         valueContainer: () => '!py-0',
         dropdownIndicator: () => '!py-0',
       }}

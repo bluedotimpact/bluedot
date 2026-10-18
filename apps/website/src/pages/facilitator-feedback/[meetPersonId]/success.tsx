@@ -61,7 +61,7 @@ const FacilitatorFeedbackSuccessPage = () => {
 
   if (isLoading || shouldShow404 || !router.isReady || notSubmitted) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         <ProgressDots />
       </div>
     );
@@ -69,7 +69,7 @@ const FacilitatorFeedbackSuccessPage = () => {
 
   if (error ?? !data) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
+      <div className="min-h-screen bg-canvas flex items-center justify-center px-4">
         <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
       </div>
     );
@@ -96,7 +96,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-cream-normal">
+    <div className="min-h-screen bg-canvas">
       <Head>
         {pageMetaTags({ title: `${data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact` })}
       </Head>
@@ -126,11 +126,11 @@ const FacilitatorFeedbackSuccessPage = () => {
       )}
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
-        <section className="bg-white rounded-lg border p-6 sm:p-12 flex flex-col gap-7">
+        <section className="bg-raised rounded-lg border p-6 sm:p-12 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
             <div className="size-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
               {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- icon glyph size, not body text; 28px fits the 60px container */}
-              <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
+              <PiCheck className="text-accent text-[28px]" aria-hidden />
             </div>
             <div className="flex flex-col gap-2">
               <H1 className="text-size-lg">Feedback submitted!</H1>
@@ -157,9 +157,9 @@ const FacilitatorFeedbackSuccessPage = () => {
             <div className="bg-tint border rounded-md p-6 flex flex-col gap-2">
               <div className="flex items-center gap-2.5">
                 <div className="size-8 rounded-md bg-bluedot-normal/10 flex items-center justify-center shrink-0">
-                  <PiCreditCard className="text-bluedot-normal" aria-hidden />
+                  <PiCreditCard className="text-accent" aria-hidden />
                 </div>
-                <p className="text-size-xs font-semibold text-bluedot-navy">Ready to submit your invoice?</p>
+                <p className="text-size-xs font-semibold text-primary">Ready to submit your invoice?</p>
               </div>
               <p className="text-size-xs text-secondary leading-relaxed">
                 You can submit your bank details below and expect to receive your compensation within a week. We'll also send you a link by email.

@@ -70,7 +70,7 @@ const FoaiRungCard = () => (
         </div>
       </div>
       <div className="flex flex-col gap-3 mt-5">
-        <H3 className="font-medium leading-snug tracking-tight text-white">
+        <H3 className="font-medium leading-snug tracking-tight text-on-dark">
           The Future of AI
           <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
         </H3>
@@ -81,7 +81,7 @@ const FoaiRungCard = () => (
           {['2 hours', 'Free', 'No application'].map((tag) => (
             <span
               key={tag}
-              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-on-dark"
             >
               {tag}
             </span>
@@ -128,7 +128,7 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
         </div>
         <div className="flex flex-col gap-3 mt-5">
           <H3 className={clsx(
-            'font-medium leading-snug tracking-tight text-white',
+            'font-medium leading-snug tracking-tight text-on-dark',
             !featured && 'text-size-md md:text-size-lg',
           )}
           >
@@ -140,11 +140,11 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
           </P>
           <div className="flex flex-wrap gap-2 mt-1">
             {course.durationHours != null && (
-              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-on-dark">
                 {course.durationHours}H
               </span>
             )}
-            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-on-dark">
               Cohort-based
             </span>
           </div>

@@ -44,7 +44,7 @@ const PersonasSection = ({
   };
 
   return (
-    <section id={id} className="w-full bg-white">
+    <section id={id} className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <H2 className="text-center mb-12 md:mb-16">
           {title}
@@ -75,12 +75,11 @@ const PersonasSection = ({
                   >
                     <IconComponent
                       size={24}
-                      style={{ color: isExpanded ? 'white' : accentColor }}
+                      style={{ color: isExpanded ? 'var(--color-on-dark)' : accentColor }}
                     />
                   </div>
                   <span
-                    className="text-size-md font-semibold leading-snug flex-grow text-left"
-                    style={{ color: isExpanded ? 'white' : 'var(--bluedot-navy)' }}
+                    className={cn('text-size-md font-semibold leading-snug flex-grow text-left', isExpanded ? 'text-on-dark' : 'text-primary')}
                   >
                     {persona.title}
                   </span>
@@ -88,7 +87,7 @@ const PersonasSection = ({
                     aria-hidden="true"
                     className={cn(
                       'size-5 flex-shrink-0 transition-transform duration-300',
-                      isExpanded ? 'text-white rotate-45' : 'text-bluedot-navy',
+                      isExpanded ? 'text-on-dark rotate-45' : 'text-primary',
                     )}
                   />
                 </button>

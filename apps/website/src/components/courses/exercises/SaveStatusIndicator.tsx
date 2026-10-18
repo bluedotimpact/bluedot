@@ -26,36 +26,25 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
-    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-bluedot-normal" />,
+    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-accent" />,
     text: 'Saving...',
   },
   saved: {
-    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px] text-bluedot-normal" />,
+    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px] text-accent" />,
     text: savedText,
   },
   error: {
     icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px] text-[#DC0000]" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
-        <span style={{ color: '#DC0000' }}>Couldn't save answer.</span>
+        <span className="text-[#DC0000]">Couldn't save answer.</span>
         <button
           type="button"
           onClick={onRetry}
-          style={{
-            color: 'var(--bluedot-navy)',
-            fontWeight: 500,
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-            textDecoration: 'underline',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '2px',
-          }}
+          className="flex items-center gap-0.5 font-medium text-primary underline cursor-pointer"
         >
           Retry
-          <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-navy ml-0.5" />
+          <FaRotateLeft aria-hidden="true" className="size-4 text-primary ml-0.5" />
         </button>
       </span>
     ),
@@ -89,7 +78,7 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-bluedot-normal">
+      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium text-accent">
         {!isIdle && config?.icon}
         {!isIdle && text}
       </div>

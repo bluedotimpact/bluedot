@@ -19,10 +19,10 @@ const ListenToArticleButton: React.FC<ListenToArticleButtonProps> = ({ audioUrl,
       aria-label={`Listen to article: ${resourceTitle} (opens in Spotify)`}
       type="button"
     >
-      <FaCirclePlay aria-hidden="true" className="size-4 text-secondary group-hover:text-bluedot-navy transition-colors duration-200" />
+      <FaCirclePlay aria-hidden="true" className="size-4 text-secondary group-hover:text-primary transition-colors duration-200" />
 
       {/* Text */}
-      <span className="text-size-xs font-medium leading-normal text-secondary group-hover:text-bluedot-navy transition-colors duration-200">
+      <span className="text-size-xs font-medium leading-normal text-secondary group-hover:text-primary transition-colors duration-200">
         Listen to article
       </span>
     </button>

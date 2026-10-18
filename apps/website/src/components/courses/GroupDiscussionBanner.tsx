@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  Button, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
+  Button, OverflowMenu, useCurrentTimeMs, type ButtonProps, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -18,15 +18,15 @@ import StatusPill, { PendingIcon } from '../StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
-const BUTTON_STYLES = {
-  primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },
+const BUTTON_STYLES: Record<'primary' | 'secondary' | 'ghost', { variant: ButtonProps['variant']; className?: string }> = {
+  primary: { variant: 'primary' },
   secondary: {
-    variant: 'outline-black' as const,
-    className: 'bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter',
+    variant: 'secondary',
+    className: 'border-info-border font-medium',
   },
   ghost: {
-    variant: 'outline-black' as const,
-    className: 'bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter',
+    variant: 'secondary',
+    className: 'border-none font-medium',
   },
 };
 
@@ -227,19 +227,19 @@ const GroupDiscussionBanner = ({
 
   return (
     <>
-      <div className="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]">
+      <div className="@container flex flex-col gap-3 px-4 py-3 bg-info-bg border-b border-[#C9D4F5]">
         <div className="flex items-center gap-3 text-size-xs">
           {(discussionIsLive || discussionIsSoonOrLive) && (
             <IndicatorIcon isLive={discussionIsLive} />
           )}
           <div className="flex gap-1.5 min-w-0 flex-initial">
-            <span className="text-bluedot-normal font-bold whitespace-nowrap">
+            <span className="text-accent font-bold whitespace-nowrap">
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
-            <span className="text-bluedot-normal whitespace-nowrap">•</span>
+            <span className="text-accent whitespace-nowrap">•</span>
             <Link
               href={prepareLink}
-              className="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+              className="text-link underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
             >
               {unitTitle}
             </Link>
@@ -281,7 +281,7 @@ const GroupDiscussionBanner = ({
                   <OverflowMenu
                     aria-label="More discussion options"
                     // 'ghost' variant styling
-                    buttonClassName="ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
+                    buttonClassName="ml-auto border-none px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
                     items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
                       id: button.id,
                       label: button.overflowIcon ? (
@@ -297,7 +297,7 @@ const GroupDiscussionBanner = ({
                     trigger={isFacilitator ? 'Facilitator options' : 'More options'}
                   />
                 )}
-                <div className="ml-1 h-6 w-px bg-[#B5C3EC]" />
+                <div className="ml-1 h-6 w-px bg-info-border" />
               </div>
             );
           })()}
@@ -306,7 +306,7 @@ const GroupDiscussionBanner = ({
             type="button"
             aria-label={isOpen ? 'Collapse upcoming discussion banner' : 'Expand upcoming discussion banner'}
             onClick={() => setIsOpen(!isOpen)}
-            className="text-bluedot-normal ml-auto cursor-pointer hover:opacity-80"
+            className="text-accent ml-auto cursor-pointer hover:opacity-80"
           >
             <FaPlus
               aria-hidden="true"
@@ -379,7 +379,7 @@ const GroupDiscussionBanner = ({
                 <OverflowMenu
                   aria-label="More discussion options"
                   // 'secondary' variant styling
-                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
+                  buttonClassName="flex-1 border border-info-border w-full px-3 py-2.5 h-9 text-size-xs font-medium"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
                     label: button.overflowIcon ? (
@@ -424,13 +424,13 @@ const GroupDiscussionBanner = ({
 const IndicatorIcon = ({ isLive }: { isLive: boolean }) => (
   <div className={clsx(
     'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
-    isLive ? 'bg-bluedot-normal font-bold border-4 rounded-lg' : 'bg-white border rounded',
+    isLive ? 'bg-accent font-bold border-4 rounded-lg' : 'bg-raised border rounded',
   )}
   >
     {isLive ? (
-      <div className="text-white -translate-y-[0.5px]">LIVE</div>
+      <div className="text-on-dark -translate-y-[0.5px]">LIVE</div>
     ) : (
-      <FaVideo aria-hidden="true" className="size-5 text-bluedot-normal" />
+      <FaVideo aria-hidden="true" className="size-5 text-accent" />
     )}
   </div>
 );

@@ -89,7 +89,7 @@ const Form: React.FC<{
 
   return (
     <main className="min-h-screen bg-bluedot-darker flow-root px-8 py-12">
-      <Section className="border-b-0 py-16 px-12 bg-cream-normal rounded-lg max-w-3xl">
+      <Section className="border-b-0 py-16 px-12 bg-canvas rounded-lg max-w-3xl">
         <Eyebrow>Time availability form</Eyebrow>
         <H1 className="text-size-lg">{title}</H1>
         <div className="space-y-2 mt-4">

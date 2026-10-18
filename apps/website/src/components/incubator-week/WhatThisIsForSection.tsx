@@ -63,7 +63,7 @@ const WhatThisIsForSection = () => {
           {AUDIENCES.map(({ icon: Icon, title, description }) => (
             <div key={title} className="flex flex-col gap-5">
               <div className="size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/40">
-                <Icon className="text-bluedot-navy" size={28} />
+                <Icon className="text-primary" size={28} />
               </div>
               <div className="flex flex-col gap-2">
                 <H4>

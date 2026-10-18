@@ -148,13 +148,13 @@ const formatMonthAndYear = (isoDate: string): string => new Date(isoDate).toLoca
 });
 
 const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
-  <header className="flex items-center gap-4 border-b bg-white px-5 py-5 sm:pr-5 sm:pl-10">
+  <header className="flex items-center gap-4 border-b bg-raised px-5 py-5 sm:pr-5 sm:pl-10">
     <Link href="/" className="shrink-0">
       <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-5" />
     </Link>
     <div className="bg-default h-[18px] w-px shrink-0" aria-hidden />
     <div className="text-size-xs flex min-w-0 items-center gap-2">
-      <span className="text-bluedot-navy shrink-0 font-semibold">Quick Apply</span>
+      <span className="text-primary shrink-0 font-semibold">Quick Apply</span>
       {subtitle && (
         <>
           <span className="text-secondary shrink-0" aria-hidden>
@@ -168,7 +168,7 @@ const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
 );
 
 const Shell = ({ subtitle, children }: { subtitle?: string; children: React.ReactNode }) => (
-  <div className="bg-cream-normal min-h-screen">
+  <div className="bg-canvas min-h-screen">
     <Head>
       {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
     </Head>
@@ -188,7 +188,7 @@ const Section = ({
   description?: string;
   children: React.ReactNode;
 }) => (
-  <section className="flex flex-col gap-7 rounded-lg border bg-white p-6 sm:p-9">
+  <section className="flex flex-col gap-7 rounded-lg border bg-raised p-6 sm:p-9">
     <div className="flex flex-col gap-4">
       <Eyebrow>{label}</Eyebrow>
       <div className="flex flex-col gap-1.5">
@@ -220,9 +220,9 @@ const QuestionCollapsible = ({
   <details
     open={open}
     onToggle={onToggle && ((e) => onToggle(e.currentTarget.open))}
-    className="group rounded-md border bg-white [&_summary::-webkit-details-marker]:hidden"
+    className="group rounded-md border bg-raised [&_summary::-webkit-details-marker]:hidden"
   >
-    <summary className="text-size-xs text-bluedot-navy flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
+    <summary className="text-size-xs text-primary flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
       {title}
       <FaChevronDown
         aria-hidden
@@ -262,7 +262,7 @@ const DetailsField = ({
   children: React.ReactNode;
 }) => (
   <div className="flex flex-col gap-1.5">
-    <label htmlFor={htmlFor} className="text-size-xs text-bluedot-navy font-semibold">
+    <label htmlFor={htmlFor} className="text-size-xs text-primary font-semibold">
       {label}
       {required && <span className="text-error-fg"> *</span>}
     </label>
@@ -374,9 +374,9 @@ const QuickApplyForm = ({
   return (
     <Shell subtitle={roundLine || undefined}>
       <div className="overflow-hidden rounded-lg border">
-        <div className="bg-bluedot-normal h-[9px]" />
-        <div className="flex flex-col gap-3 bg-white p-6 sm:p-9">
-          {roundLine && <p className="text-size-xs text-bluedot-normal font-medium">{roundLine}</p>}
+        <div className="bg-accent h-[9px]" />
+        <div className="flex flex-col gap-3 bg-raised p-6 sm:p-9">
+          {roundLine && <p className="text-size-xs text-accent font-medium">{roundLine}</p>}
           <H1 className="text-size-xl">Quick Apply</H1>
         </div>
       </div>
@@ -388,7 +388,7 @@ const QuickApplyForm = ({
       >
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-3">
-            <label htmlFor="numGroupsToFacilitate" className="text-size-xs text-bluedot-navy font-semibold">
+            <label htmlFor="numGroupsToFacilitate" className="text-size-xs text-primary font-semibold">
               # groups to facilitate <span className="text-error-fg">*</span>
             </label>
             <div className="flex items-center gap-2">
@@ -414,7 +414,7 @@ const QuickApplyForm = ({
 
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
-              <label htmlFor="formFeedback" className="text-size-xs text-bluedot-navy font-semibold">
+              <label htmlFor="formFeedback" className="text-size-xs text-primary font-semibold">
                 Any requests or special information?
               </label>
               <p className="text-size-xs text-secondary">e.g. on the desired amount/composition of groups</p>
@@ -455,7 +455,7 @@ const QuickApplyForm = ({
       >
         <div className="flex items-end justify-between gap-4">
           <div className="flex w-56 flex-col gap-1.5">
-            <label htmlFor="timezone" className="text-size-xs text-bluedot-navy font-semibold">
+            <label htmlFor="timezone" className="text-size-xs text-primary font-semibold">
               Timezone
             </label>
             <Controller
@@ -492,7 +492,7 @@ const QuickApplyForm = ({
         </div>
 
         <div className="flex flex-col gap-3">
-          <label htmlFor="availabilityComments" className="text-size-xs text-bluedot-navy font-semibold">
+          <label htmlFor="availabilityComments" className="text-size-xs text-primary font-semibold">
             Additional comments
           </label>
           <Textarea id="availabilityComments" {...register('availabilityComments')} />
@@ -586,7 +586,7 @@ const QuickApplyForm = ({
 
         <Checkbox {...register('shareDetails')}>
           <span className="flex flex-col gap-0.5">
-            <span className="text-size-xs text-bluedot-navy font-semibold">
+            <span className="text-size-xs text-primary font-semibold">
               Share my data with third-party AI safety organisations
             </span>
             <span className="text-size-xs text-secondary">
@@ -598,7 +598,7 @@ const QuickApplyForm = ({
         </Checkbox>
       </Section>
 
-      <div className="rounded-lg border bg-white p-5">
+      <div className="rounded-lg border bg-raised p-5">
         <Button onClick={handleSubmit(onSubmit)} disabled={quickApply.isPending}>
           {quickApply.isPending ? 'Submitting…' : 'Submit'}
         </Button>

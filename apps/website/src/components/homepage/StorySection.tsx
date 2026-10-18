@@ -23,7 +23,7 @@ const StorySection = () => {
           <Button
             size="small"
             url={ROUTES.about.url}
-            className="h-11 px-[17px] py-4 text-size-xs font-normal leading-snug tracking-wide text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200"
+            className="h-11 px-[17px] py-4 text-size-xs font-normal leading-snug tracking-wide rounded-md"
           >
             Learn more
           </Button>

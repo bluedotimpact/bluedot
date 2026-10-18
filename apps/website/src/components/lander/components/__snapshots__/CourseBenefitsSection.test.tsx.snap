@@ -2,7 +2,7 @@
 
 exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
 <section
-  class="w-full bg-white"
+  class="w-full bg-canvas"
 >
   <div
     class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24"

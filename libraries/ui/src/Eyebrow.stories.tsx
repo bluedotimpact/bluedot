@@ -22,7 +22,7 @@ export const Default: Story = {
 // Override the colour for on-dark or muted contexts via className.
 export const OnDark: Story = {
   render: () => (
-    <div className="bg-bluedot-navy p-6">
+    <div className="bg-dark p-6">
       <Eyebrow className="text-on-dark-secondary">Self-paced course</Eyebrow>
     </div>
   ),
