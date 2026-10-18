@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import type { ReactNode, SelectHTMLAttributes } from 'react';
 import {
   Button,
@@ -9,7 +8,7 @@ import {
   SelectValue,
 } from 'react-aria-components';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
-import { FieldContext, useFieldControlProps } from './Field';
+import { useFieldControlProps } from './Field';
 import { cn } from './utils';
 
 export type SelectOption = {
@@ -62,9 +61,6 @@ export const Select = ({
   ...nativeProps
 }: SelectProps) => {
   const { required, 'aria-invalid': ariaInvalid, ...rest } = useFieldControlProps(nativeProps);
-  // react-aria puts `aria-labelledby` on the trigger, which beats the Field's `<label for>`.
-  const fieldLabelId = useContext(FieldContext)?.labelId;
-  const hasOwnName = rest['aria-label'] !== undefined || rest['aria-labelledby'] !== undefined;
   const selectedOption = options.find((op) => op.value === value);
   // A value with no matching option (e.g. a stored timezone no longer in the list) should still show
   const showsPlaceholder = !selectedOption && !value;
@@ -73,7 +69,6 @@ export const Select = ({
   return (
     <AriaSelect
       {...rest}
-      aria-labelledby={hasOwnName ? rest['aria-labelledby'] : fieldLabelId}
       selectedKey={value ?? null}
       onSelectionChange={(key) => {
         if (key !== null) onChange?.(String(key));
