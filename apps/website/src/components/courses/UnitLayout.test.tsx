@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   describe,
@@ -118,7 +118,7 @@ describe('UnitLayout', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
+    expect(screen.getByRole('button', { name: /continue/i })).toMatchSnapshot();
   });
 
   test('does not render Congratulations section if it is not the final chunk of final unit', async () => {
@@ -141,7 +141,7 @@ describe('UnitLayout', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    expect(container.querySelector('.unit__cta-container')).not.toBeNull();
+    expect(screen.queryByRole('button', { name: /continue/i })).not.toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeFalsy();
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
@@ -164,7 +164,7 @@ describe('UnitLayout', () => {
     await waitFor(() => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
-    expect(container.querySelector('.unit__cta-container')).toBeNull();
+    expect(screen.queryByRole('button', { name: /continue/i })).toBeNull();
     expect(container.querySelector('.congratulations')).toBeNull();
   });
 
