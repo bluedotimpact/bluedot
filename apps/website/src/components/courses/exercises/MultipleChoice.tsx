@@ -121,7 +121,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       </fieldset>
       {!isLoggedIn && (
         <Button
-          className="!bg-bluedot-normal !whitespace-normal"
+          className="!whitespace-normal"
           variant="primary"
           url={getLoginUrl(router.asPath, true)}
         >
@@ -131,7 +131,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       )}
       {isLoggedIn && !hasResult && (
         <Button
-          className="!bg-bluedot-normal"
           variant="primary"
           type="submit"
           disabled={!currentAnswer}
