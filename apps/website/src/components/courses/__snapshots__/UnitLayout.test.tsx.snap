@@ -4,14 +4,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 <div>
   <div>
     <div
-      class="mobile-unit-header bg-canvas flex h-[76px] w-full items-center border-b px-3 unit__mobile-header sticky top-(--nav-height-mobile) z-10 md:hidden"
+      class="mobile-unit-header bg-canvas flex h-[76px] w-full items-center border-b px-3 sticky top-(--nav-height-mobile) z-10 md:hidden"
     >
       <nav
-        class="mobile-unit-header__nav flex w-full flex-row items-center justify-between"
+        class="flex w-full items-center justify-between"
       >
         <button
           aria-label="Open course navigation menu"
-          class="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
+          class="flex flex-1 cursor-pointer items-center gap-2 rounded outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
           type="button"
         >
           <div
@@ -29,13 +29,13 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </svg>
           </div>
           <div
-            class="mobile-unit-header__course-title-container flex min-w-0 flex-1 flex-col justify-center text-left"
+            class="flex min-w-0 flex-1 flex-col justify-center text-left"
           >
             <div
-              class="mobile-unit-header__course-title-row flex items-center gap-1"
+              class="flex items-center gap-1"
             >
               <p
-                class="mobile-unit-header__course-title text-size-md text-primary truncate leading-snug font-semibold"
+                class="text-size-md text-primary truncate leading-snug font-semibold"
               >
                 What the fish [Test Course]
               </p>
@@ -57,7 +57,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </div>
         </button>
         <div
-          class="mobile-unit-header__navigation flex h-8 flex-row items-center gap-3"
+          class="flex h-8 items-center gap-3"
         >
           <button
             aria-label="Previous section"
@@ -656,7 +656,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
         >
           <div
-            class="flex size-full flex-row items-center justify-between gap-2 px-6"
+            class="flex size-full items-center justify-between gap-2 px-6"
           >
             <div
               class="flex items-center gap-2"
@@ -680,9 +680,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"
                   />
                 </svg>
-                <span
-                  class=""
-                >
+                <span>
                   Hide
                 </span>
               </button>
@@ -818,17 +816,15 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="bg-canvas"
         />
         <section
-          class="section section-body unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0 lg:max-xl:!px-6"
+          class="section section-body !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0 lg:max-xl:!px-6"
         >
           <div
             class="section__body"
           >
             <div
-              class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x pt-6 md:pt-8"
+              class="flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x pt-6 md:pt-8"
             >
-              <div
-                class="unit__title-container"
-              >
+              <div>
                 <span
                   class="block text-size-xxs font-medium uppercase tracking-wide text-accent mb-2"
                 >
@@ -838,7 +834,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   Basic Principles of Fish
                 </span>
                 <h1
-                  class="bluedot-h1 not-prose unit__title text-[32px] leading-snug"
+                  class="bluedot-h1 not-prose text-[32px] leading-snug"
                 >
                   What can AI do today?
                 </h1>

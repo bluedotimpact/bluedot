@@ -6,10 +6,10 @@ exports[`Nav > renders with courses 1`] = `
     class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-raised border-b"
   >
     <div
-      class="nav__container section-base"
+      class="section-base"
     >
       <div
-        class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
+        class="w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
       >
         <div
           class="flex items-center gap-1.5"
@@ -43,7 +43,7 @@ exports[`Nav > renders with courses 1`] = `
               class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
             >
               <div
-                class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
+                class="flex flex-col grow font-medium pb-8 pt-2 xl:hidden"
                 role="presentation"
               >
                 <div
@@ -55,7 +55,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="courses-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Courses
@@ -77,7 +77,7 @@ exports[`Nav > renders with courses 1`] = `
                     </button>
                     <div
                       aria-label="Courses menu"
-                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                       id="courses-dropdown"
                       role="region"
                     >
@@ -146,7 +146,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="grants-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Grants
@@ -168,7 +168,7 @@ exports[`Nav > renders with courses 1`] = `
                     </button>
                     <div
                       aria-label="Grants menu"
-                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                       id="grants-dropdown"
                       role="region"
                     >
@@ -208,7 +208,7 @@ exports[`Nav > renders with courses 1`] = `
                     <button
                       aria-controls="programs-dropdown"
                       aria-expanded="false"
-                      class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                      class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                       type="button"
                     >
                       Programs
@@ -230,7 +230,7 @@ exports[`Nav > renders with courses 1`] = `
                     </button>
                     <div
                       aria-label="Programs menu"
-                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                       id="programs-dropdown"
                       role="region"
                     >
@@ -299,7 +299,7 @@ exports[`Nav > renders with courses 1`] = `
                   class="flex flex-col gap-4 pt-6 mt-6 border-t"
                 >
                   <a
-                    class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
+                    class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
                     href="/login?register=true&redirect_to=%2Ftest-page"
                     tabindex="0"
                   >
@@ -333,7 +333,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="courses-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Courses
@@ -355,7 +355,7 @@ exports[`Nav > renders with courses 1`] = `
               </button>
               <div
                 aria-label="Courses menu"
-                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 id="courses-dropdown"
                 role="region"
               >
@@ -424,7 +424,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="grants-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Grants
@@ -446,7 +446,7 @@ exports[`Nav > renders with courses 1`] = `
               </button>
               <div
                 aria-label="Grants menu"
-                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 id="grants-dropdown"
                 role="region"
               >
@@ -486,7 +486,7 @@ exports[`Nav > renders with courses 1`] = `
               <button
                 aria-controls="programs-dropdown"
                 aria-expanded="false"
-                class="nav-dropdown__btn flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
+                class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary"
                 type="button"
               >
                 Programs
@@ -508,7 +508,7 @@ exports[`Nav > renders with courses 1`] = `
               </button>
               <div
                 aria-label="Programs menu"
-                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                class="pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full xl:-left-spacing-x xl:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-raised max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 id="programs-dropdown"
                 role="region"
               >
@@ -577,14 +577,14 @@ exports[`Nav > renders with courses 1`] = `
             class="nav-cta flex flex-row items-center gap-4"
           >
             <a
-              class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold border-accent on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed border text-primary hover:bg-tint"
+              class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold border-accent on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed border text-primary hover:bg-tint"
               href="/login?redirect_to=%2Ftest-page"
               tabindex="0"
             >
               Sign in
             </a>
             <a
-              class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
+              class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
               href="/login?register=true&redirect_to=%2Ftest-page"
               tabindex="0"
             >
