@@ -106,7 +106,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <button
                         aria-controls="courses-dropdown"
                         aria-expanded="false"
-                        class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                        class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                         type="button"
                       >
                         Courses
@@ -133,7 +133,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         role="region"
                       >
                         <div
-                          class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
                           <span
                             class="my-6 flex items-center justify-center gap-2 text-accent py-2"
@@ -169,7 +169,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <button
                         aria-controls="grants-dropdown"
                         aria-expanded="false"
-                        class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                        class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                         type="button"
                       >
                         Grants
@@ -196,7 +196,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         role="region"
                       >
                         <div
-                          class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
                           <span
                             class="my-6 flex items-center justify-center gap-2 text-accent py-2"
@@ -232,7 +232,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <button
                         aria-controls="programs-dropdown"
                         aria-expanded="false"
-                        class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                        class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                         type="button"
                       >
                         Programs
@@ -259,7 +259,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         role="region"
                       >
                         <div
-                          class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
                           <span
                             class="my-6 flex items-center justify-center gap-2 text-accent py-2"
@@ -290,28 +290,28 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       </div>
                     </div>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                       href="/missions"
                       tabindex="0"
                     >
                       Missions
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                       href="/alumni"
                       tabindex="0"
                     >
                       Alumni
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                       href="/about"
                       tabindex="0"
                     >
                       About
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                      class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                       href="/join-us"
                       tabindex="0"
                     >
@@ -356,7 +356,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <button
                   aria-controls="courses-dropdown"
                   aria-expanded="false"
-                  class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                  class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                   type="button"
                 >
                   Courses
@@ -383,7 +383,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   role="region"
                 >
                   <div
-                    class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
                     <span
                       class="my-6 flex items-center justify-center gap-2 text-accent py-2"
@@ -419,7 +419,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <button
                   aria-controls="grants-dropdown"
                   aria-expanded="false"
-                  class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                  class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                   type="button"
                 >
                   Grants
@@ -446,7 +446,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   role="region"
                 >
                   <div
-                    class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
                     <span
                       class="my-6 flex items-center justify-center gap-2 text-accent py-2"
@@ -482,7 +482,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <button
                   aria-controls="programs-dropdown"
                   aria-expanded="false"
-                  class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                  class="flex items-center gap-2 cursor-pointer whitespace-nowrap nav-link-animation w-fit no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                   type="button"
                 >
                   Programs
@@ -509,7 +509,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   role="region"
                 >
                   <div
-                    class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    class="flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
                     <span
                       class="my-6 flex items-center justify-center gap-2 text-accent py-2"
@@ -540,28 +540,28 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </div>
               </div>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                 href="/missions"
                 tabindex="0"
               >
                 Missions
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                 href="/alumni"
                 tabindex="0"
               >
                 Alumni
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                 href="/about"
                 tabindex="0"
               >
                 About
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
+                class="bluedot-a not-prose nav-link-animation w-fit whitespace-nowrap no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark"
                 href="/join-us"
                 tabindex="0"
               >
@@ -572,7 +572,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="nav-cta flex flex-row items-center gap-4"
             >
               <a
-                class="not-prose w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 font-semibold on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover px-3 py-[5px] rounded-md text-size-sm leading-relaxed bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm"
                 href="/login?redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
