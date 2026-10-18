@@ -35,14 +35,14 @@ export type SelectProps = NativeSelectProps & {
 
 const TRIGGER_STYLES = {
   default: [
-    'w-full h-11 px-3 rounded-surface border border-border-control bg-raised',
+    'w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised',
     'text-size-sm leading-6 text-primary',
     'hover:bg-tint',
     'group-data-[disabled]:border-default group-data-[disabled]:bg-surface-disabled group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-surface-disabled',
     'group-data-[invalid]:border-error-fg',
   ],
   ghost: [
-    'w-fit h-11 px-3 rounded-surface',
+    'w-fit min-h-11 px-3 rounded-surface',
     'text-size-md font-medium text-primary',
     'hover:bg-tint',
     'group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-transparent',
