@@ -30,7 +30,7 @@ export const Grant: Story = {
     details: (
       <div>
         <P className="text-size-lg font-medium text-on-dark">Up to $20k</P>
-        <P className="mt-1 text-size-xs text-on-dark-secondary">About 15 minutes to apply</P>
+        <P className="mt-1 text-size-xs text-white/85">About 15 minutes to apply</P>
         <P className="mt-3 text-size-xs text-on-dark-secondary">$105k awarded across 104 grants</P>
       </div>
     ),

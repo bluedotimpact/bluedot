@@ -53,7 +53,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
                 Your certificate<br />awaits. Enroll today.
               </h2>
 
-              <p className="text-size-xs font-normal leading-relaxed text-on-dark md:text-on-dark-secondary">
+              <p className="text-size-xs font-normal leading-relaxed text-on-dark md:text-white/80">
                 Join thousands of professionals building expertise in {courseName.toLowerCase()}.
               </p>
             </div>
