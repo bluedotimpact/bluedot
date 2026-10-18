@@ -32,22 +32,20 @@ export const NavCta: React.FC<{
     }
   }, [router.asPath]);
   const getButtonClasses = (type: 'primary' | 'secondary') => {
-    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center';
+    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed';
 
     if (type === 'primary') {
       return clsx(
         baseClasses,
-        onColoredBackground
-          ? 'bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker hover:text-bluedot-darker'
-          : 'bg-accent hover:bg-accent-hover text-on-dark hover:text-on-dark',
+        onColoredBackground && 'bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker',
       );
     }
 
     return clsx(
       baseClasses,
       onColoredBackground
-        ? 'bg-white/15 border border-white/20 text-on-dark hover:text-on-dark hover:bg-white/20 backdrop-blur-sm'
-        : 'border text-primary hover:text-primary hover:bg-tint',
+        ? 'bg-white/15 border border-white/20 text-on-dark hover:bg-white/20 backdrop-blur-sm'
+        : 'border text-primary hover:bg-tint',
     );
   };
 

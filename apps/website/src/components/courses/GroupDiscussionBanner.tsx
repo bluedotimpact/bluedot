@@ -18,15 +18,15 @@ import StatusPill, { PendingIcon } from '../StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
-const BUTTON_STYLES = {
-  primary: { variant: 'primary' as const, className: 'bg-accent' },
+const BUTTON_STYLES: Record<'primary' | 'secondary' | 'ghost', { variant: 'primary' | 'outline-black'; className?: string }> = {
+  primary: { variant: 'primary' },
   secondary: {
-    variant: 'outline-black' as const,
-    className: 'bg-transparent border-info-border text-accent hover:bg-accent-subtle',
+    variant: 'outline-black',
+    className: 'border-info-border text-accent hover:bg-accent-subtle',
   },
   ghost: {
-    variant: 'outline-black' as const,
-    className: 'bg-transparent border-none text-accent hover:bg-accent-subtle',
+    variant: 'outline-black',
+    className: 'border-none text-accent hover:bg-accent-subtle',
   },
 };
 
@@ -281,7 +281,7 @@ const GroupDiscussionBanner = ({
                   <OverflowMenu
                     aria-label="More discussion options"
                     // 'ghost' variant styling
-                    buttonClassName="ml-auto border-none bg-transparent text-accent hover:bg-accent-subtle px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
+                    buttonClassName="ml-auto border-none px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
                     items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
                       id: button.id,
                       label: button.overflowIcon ? (

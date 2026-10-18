@@ -239,7 +239,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
             <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <Button
-                className="unit__cta-link [&]:bg-accent [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)] hover:text-on-dark"
+                className="unit__cta-link [&]:hover:bg-[color-mix(in_oklab,var(--color-accent),black_20%)]"
                 onClick={handleNextClick}
                 variant="primary"
               >

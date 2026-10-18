@@ -33,15 +33,6 @@ export const MobileNavLinks: React.FC<{
     `.${MOBILE_NAV_CLASS}`,
   );
 
-  const getPrimaryButtonClasses = () => {
-    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed items-center justify-center';
-
-    return clsx(
-      baseClasses,
-      'bg-accent hover:bg-accent-hover text-on-dark hover:text-on-dark',
-    );
-  };
-
   const onToggleMobileNav = () => {
     updateExpandedSections({
       mobileNav: !expandedSections.mobileNav,
@@ -109,7 +100,7 @@ export const MobileNavLinks: React.FC<{
             <div className="flex flex-col gap-4 pt-6 mt-6 border-t">
               {/* Start for free button: Show when screen < 680px */}
               <Button
-                className={clsx('mobile-nav-cta__join hidden max-[679px]:flex', getPrimaryButtonClasses())}
+                className="mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm leading-relaxed"
                 variant="primary"
                 url={joinUrl}
               >
