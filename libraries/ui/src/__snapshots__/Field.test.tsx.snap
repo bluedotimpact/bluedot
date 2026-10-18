@@ -31,9 +31,10 @@ exports[`Field > renders Default as expected 1`] = `
     <input
       aria-describedby="email-description email-error"
       aria-invalid="true"
+      aria-labelledby="email-label"
+      aria-required="true"
       class="w-full h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
       id="email"
-      required=""
       type="email"
     />
     <p
@@ -73,7 +74,6 @@ exports[`FieldSet > renders Default as expected 1`] = `
       class="group relative flex gap-2 cursor-pointer text-size-sm leading-normal has-disabled:cursor-not-allowed text-primary has-disabled:text-disabled items-start py-2.5"
     >
       <input
-        aria-describedby=":rl:-description :rl:-error"
         aria-invalid="true"
         class="peer sr-only"
         name="topics"
