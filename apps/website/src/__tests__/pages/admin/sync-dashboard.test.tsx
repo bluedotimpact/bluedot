@@ -144,7 +144,7 @@ describe('SyncDashboard - Main User Journeys', () => {
     await waitFor(() => {
       expect(screen.getByRole('table')).toBeInTheDocument();
     });
-    expect(screen.getByText('queued')).toHaveClass('bg-gray-500');
+    expect(screen.getByText('queued')).toHaveClass('bg-dark');
     expect(screen.getByText('running')).toHaveClass('bg-warning-fg');
     expect(screen.getByText('completed')).toHaveClass('bg-success-fg');
 
