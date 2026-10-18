@@ -1,7 +1,7 @@
 import {
-  Avatar, Callout, Checkbox, Button, ErrorSection, Field, FieldSet, Modal, ModalTitle, Textarea, useFieldControlProps,
+  Avatar, Callout, Checkbox, Button, ErrorSection, Field, FieldContext, FieldSet, Modal, ModalTitle, Textarea, useFieldControlProps,
 } from '@bluedot/ui';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 
@@ -210,7 +210,9 @@ const BUBBLE_COLORS: Record<number, string> = {
 export const RubricSelector = ({
   name, id, 'aria-labelledby': ariaLabelledBy, options, value, onChange,
 }: RubricSelectorProps) => {
-  const groupProps = useFieldControlProps({ id, 'aria-labelledby': ariaLabelledBy });
+  // A radiogroup <div> cannot be named by the Field's `<label for>`, so take the label id directly.
+  const fieldLabelId = useContext(FieldContext)?.labelId;
+  const groupProps = useFieldControlProps({ id, 'aria-labelledby': ariaLabelledBy ?? fieldLabelId });
   return (
     <div role="radiogroup" {...groupProps} className="rounded-md border-[0.5px] overflow-clip">
       {options.map((option, idx) => {
