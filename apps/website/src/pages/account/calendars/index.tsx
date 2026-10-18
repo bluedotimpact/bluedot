@@ -113,7 +113,7 @@ const CalendarsPage = withAuth(() => {
             onClick={connect}
             aria-label={hasConnections ? 'Add another calendar' : 'Connect Google Calendar'}
             // The longer label is too wide for a 320px screen, so let it wrap
-            className="min-h-11 max-w-full whitespace-normal py-2 text-left"
+            className="max-w-full whitespace-normal py-2 text-left"
           >
             {hasConnections ? 'Add another calendar (e.g. your work one)' : 'Connect Google Calendar'}
           </Button>
