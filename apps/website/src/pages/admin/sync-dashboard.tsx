@@ -229,7 +229,7 @@ const SyncDashboard = () => {
 
 const StatusBadge = ({ status }: { status: SyncStatus }) => {
   const colors = {
-    queued: 'bg-gray-500',
+    queued: 'bg-dark',
     running: 'bg-warning-fg',
     completed: 'bg-success-fg',
     failed: 'bg-error-fg',
