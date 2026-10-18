@@ -408,7 +408,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             <span>{Math.round((reviewedCount / totalCount) * 100)}%</span>
           )}
         </div>
-        {/* Outer track = unreviewed, green = accepted, red = rejected */}
+        {/* Outer track = unreviewed, blue = accepted, red = rejected */}
         <div className="w-full h-4 bg-active rounded-full overflow-hidden flex">
           {totalCount && acceptedCount !== null && reviewedCount !== null ? (
             <>
