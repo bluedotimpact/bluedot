@@ -131,16 +131,6 @@ export const createTechnicalAiSafetyProjectContent = (
         answerText: 'Yes. Once you\'re accepted onto the sprint, you can apply for Rapid Grants if you need compute or other resources for your project.',
       },
       {
-        id: 'project-submission',
-        question: 'What happens after I submit my project?',
-        answer: (
-          <>
-            You'll get feedback on your project from an AI safety expert. We'll feature the best projects on <a href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">our website</a> and share it with hiring managers from relevant AI safety orgs.
-          </>
-        ),
-        answerText: 'You\'ll get feedback on your project from an AI safety expert. We\'ll feature the best projects on our website and share it with hiring managers from relevant AI safety orgs.',
-      },
-      {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
         answer: (
