@@ -112,6 +112,8 @@ describe('POST /api/calendar-connections/busy', () => {
           // From the most recently connected calendar
           timeZone: 'America/New_York',
           email: 'robin@bluedot.example',
+          // Every address to invite: the BlueDot account, then each connected Google account, newest first
+          emails: ['robin@bluedot.example', 'work@gmail.example', 'personal@gmail.example'],
           busy: [
             { start: '2026-10-20T09:00:00.000Z', end: '2026-10-20T11:30:00.000Z' },
             { start: '2026-10-21T15:00:00.000Z', end: '2026-10-21T16:00:00.000Z' },
@@ -120,7 +122,7 @@ describe('POST /api/calendar-connections/busy', () => {
           matchedBy: 'slack',
         },
         'U-NOBODY': {
-          connected: false, timeZone: null, email: null, busy: [], errors: [], matchedBy: null,
+          connected: false, timeZone: null, email: null, emails: [], busy: [], errors: [], matchedBy: null,
         },
       },
     });
@@ -206,6 +208,7 @@ describe('POST /api/calendar-connections/busy', () => {
         connected: true,
         timeZone: 'Europe/Berlin',
         email: 'Wey@BlueDot.example',
+        emails: ['wey@bluedot.example', 'wey@gmail.example'],
         busy: [{ start: '2026-10-20T09:00:00.000Z', end: '2026-10-20T10:00:00.000Z' }],
         errors: [],
         matchedBy: 'email',

@@ -38,6 +38,7 @@ export default makeApiRoute({
       connected: z.boolean(),
       timeZone: z.string().nullable(),
       email: z.string().nullable(),
+      emails: z.array(z.string()),
       busy: z.array(intervalSchema),
       errors: z.array(z.string()),
       // How the calendars were found, for Dot-to-Dot's logs
