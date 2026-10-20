@@ -46,11 +46,12 @@ afterEach(() => {
 const renderPage = () => render(<CalendarsPage />, { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) });
 
 describe('/account/calendars', () => {
-  test('anyone logged in can connect, without a Slack link, and is told how we find them on Slack', async () => {
+  test('anyone logged in can connect, without a Slack link, and is not asked about emails', async () => {
     renderPage();
 
     expect(await screen.findByRole('button', { name: 'Connect Google Calendar' })).toBeInTheDocument();
-    expect(await screen.findByText(/using your BlueDot account email, test@example.com/)).toBeInTheDocument();
+    expect(screen.getByText(/any Google account, work or personal/)).toBeInTheDocument();
+    expect(screen.queryByText(/email/i)).not.toBeInTheDocument();
     expect(screen.queryByRole('list', { name: 'Connected calendars' })).not.toBeInTheDocument();
   });
 
@@ -72,13 +73,13 @@ describe('/account/calendars', () => {
     expect(screen.getByRole('button', { name: 'Add another calendar' })).toBeInTheDocument();
   });
 
-  test('a valid Slack link says the calendars will be linked to Slack', async () => {
+  test('a valid Slack link lets them connect with no expiry warning', async () => {
     vi.useFakeTimers({ now: Date.parse('2026-10-19T15:00:00Z'), toFake: ['Date'] });
     routerQuery.current = { s: CONNECT_TOKEN };
 
     renderPage();
 
-    expect(await screen.findByText(/link your calendars to your Slack account/)).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: 'Connect Google Calendar' })).toBeInTheDocument();
     expect(screen.queryByText('This Slack link has expired')).not.toBeInTheDocument();
   });
 
