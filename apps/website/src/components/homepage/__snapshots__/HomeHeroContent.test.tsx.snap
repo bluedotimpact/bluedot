@@ -7,13 +7,13 @@ exports[`HomeHeroContent > renders as expected 1`] = `
   >
     <nav
       aria-label="Main"
-      class="z-50 w-full absolute top-0 inset-x-0 bg-transparent border-b border-on-dark/15"
+      class="z-50 absolute top-0 inset-x-0 bg-transparent border-b border-on-dark/15"
     >
       <div
         class="section-base"
       >
         <div
-          class="w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
+          class="flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
         >
           <div
             class="flex items-center gap-1.5"
@@ -46,11 +46,11 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </svg>
               </button>
               <div
-                class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
+                class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="mobile-nav-drawer"
               >
                 <div
-                  class="flex flex-col grow font-medium xl:hidden"
+                  class="flex flex-col font-medium"
                 >
                   <div
                     class="flex flex-col"
@@ -59,7 +59,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="courses-dropdown-mobile"
                         aria-expanded="false"
-                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                         type="button"
                       >
                         Courses
@@ -120,7 +120,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="grants-dropdown-mobile"
                         aria-expanded="false"
-                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                         type="button"
                       >
                         Grants
@@ -181,7 +181,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       <button
                         aria-controls="programs-dropdown-mobile"
                         aria-expanded="false"
-                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
+                        class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent justify-between"
                         type="button"
                       >
                         Programs
@@ -239,28 +239,28 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       </div>
                     </div>
                     <a
-                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                       href="/missions"
                       tabindex="0"
                     >
                       Missions
                     </a>
                     <a
-                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                       href="/alumni"
                       tabindex="0"
                     >
                       Alumni
                     </a>
                     <a
-                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                       href="/about"
                       tabindex="0"
                     >
                       About
                     </a>
                     <a
-                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
+                      class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-primary hover:text-primary flex min-h-11 w-full items-center aria-[current=page]:font-semibold aria-[current=page]:text-accent aria-[current=page]:hover:text-accent"
                       href="/join-us"
                       tabindex="0"
                     >
@@ -303,7 +303,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 <button
                   aria-controls="courses-dropdown"
                   aria-expanded="false"
-                  class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap gap-2"
+                  class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap gap-2"
                   type="button"
                 >
                   Courses
@@ -325,7 +325,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </button>
                 <div
                   aria-label="Courses menu"
-                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
+                  class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                   id="courses-dropdown"
                   role="region"
                 >
@@ -364,7 +364,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 <button
                   aria-controls="grants-dropdown"
                   aria-expanded="false"
-                  class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap gap-2"
+                  class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap gap-2"
                   type="button"
                 >
                   Grants
@@ -386,7 +386,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </button>
                 <div
                   aria-label="Grants menu"
-                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
+                  class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                   id="grants-dropdown"
                   role="region"
                 >
@@ -425,7 +425,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 <button
                   aria-controls="programs-dropdown"
                   aria-expanded="false"
-                  class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap gap-2"
+                  class="flex items-center cursor-pointer no-underline text-size-sm font-medium leading-relaxed text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap gap-2"
                   type="button"
                 >
                   Programs
@@ -447,7 +447,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </button>
                 <div
                   aria-label="Programs menu"
-                  class="absolute top-full inset-x-0 w-full px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
+                  class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                   id="programs-dropdown"
                   role="region"
                 >
@@ -483,28 +483,28 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </div>
               </div>
               <a
-                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
+                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
                 href="/missions"
                 tabindex="0"
               >
                 Missions
               </a>
               <a
-                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
+                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
                 href="/alumni"
                 tabindex="0"
               >
                 Alumni
               </a>
               <a
-                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
+                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
                 href="/about"
                 tabindex="0"
               >
                 About
               </a>
               <a
-                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
+                class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed text-on-dark hover:text-on-dark nav-link-animation-dark nav-link-animation w-fit whitespace-nowrap"
                 href="/join-us"
                 tabindex="0"
               >
@@ -512,7 +512,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               </a>
             </div>
             <div
-              class="flex flex-row items-center gap-4"
+              class="flex items-center gap-4"
               data-on-dark="true"
             >
               <a
