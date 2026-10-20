@@ -368,7 +368,7 @@ const GroupDiscussionBanner = ({
                     url={button.url}
                     onClick={button.onClick}
                     target={button.target}
-                    className={clsx(style.className, 'w-full sm:flex-1 gap-1.5')}
+                    className={clsx(style.className, 'w-full flex-1 gap-1.5')}
                   >
                     {button.label}
                   </Button>

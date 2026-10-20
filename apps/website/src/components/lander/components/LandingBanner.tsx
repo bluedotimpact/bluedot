@@ -45,7 +45,7 @@ const LandingBanner = ({
 
             <Button
               variant="ghost"
-              className="text-size-sm font-medium leading-relaxed px-5 py-3 h-12 bg-accent-on-dark text-primary rounded-md hover:bg-accent-on-dark-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus"
+              className="text-size-sm font-medium leading-relaxed px-5 py-3 min-h-12 bg-accent-on-dark text-primary rounded-md hover:bg-accent-on-dark-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus"
               url={ctaUrl}
             >
               {ctaText}

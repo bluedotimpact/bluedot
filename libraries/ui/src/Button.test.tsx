@@ -11,7 +11,7 @@ describe('Button', () => {
     const button = screen.getByRole('button');
     expect(button.tagName).toBe('BUTTON');
     expect(button.className).includes('bg-accent');
-    expect(button.className).includes('h-11');
+    expect(button.className).includes('min-h-11');
     expect(button).toMatchSnapshot();
   });
 
@@ -38,9 +38,9 @@ describe('Button', () => {
   });
 
   test.each([
-    ['small', 'h-9', 'text-size-xs', 'font-semibold'],
-    ['medium', 'h-11', 'text-size-xs', 'font-semibold'],
-    ['large', 'h-[50px]', 'text-size-sm', 'font-medium'],
+    ['small', 'min-h-9', 'text-size-xs', 'font-semibold'],
+    ['medium', 'min-h-11', 'text-size-xs', 'font-semibold'],
+    ['large', 'min-h-[50px]', 'text-size-sm', 'font-medium'],
   ] as const)('%s size sets the height and type', (size, height, textSize, weight) => {
     render(<Button size={size}>Click me</Button>);
     const button = screen.getByRole('button');
