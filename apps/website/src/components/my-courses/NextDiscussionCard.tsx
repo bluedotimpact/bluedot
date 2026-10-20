@@ -1,5 +1,7 @@
 import type { Group, Unit } from '@bluedot/db';
-import { Button, H3, useCurrentTimeMs } from '@bluedot/ui';
+import {
+  Button, H3, Tag, useCurrentTimeMs,
+} from '@bluedot/ui';
 import { useState, type ReactNode } from 'react';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
@@ -8,7 +10,7 @@ import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { TimeWidget } from './DiscussionListRow';
 import LiveBadge from './LiveBadge';
-import StatusPill, { PendingIcon } from '../StatusPill';
+import { PendingIcon } from '../PendingIcon';
 
 // The course name stays in the eyebrow in every state (incl. live); the live cue lives in the
 // left graphic. There's no "starting soon" state — a soon discussion reads as a normal upcoming one.
@@ -215,9 +217,10 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
   return (
     <>
       {pendingSwitchType && (
-        <StatusPill icon={<PendingIcon />}>
+        <Tag shape="pill">
+          <PendingIcon />
           {pendingSwitchType === 'Switch group for one unit' ? 'Reschedule requested' : 'Group switch requested'}
-        </StatusPill>
+        </Tag>
       )}
       {roundId && !pendingSwitchType && (
         <Button
