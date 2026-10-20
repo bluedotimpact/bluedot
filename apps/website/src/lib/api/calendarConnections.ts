@@ -117,6 +117,9 @@ export type BusyUser = {
   connected: boolean;
   timeZone: string | null;
   email: string | null;
+  // Every address we know for them: their BlueDot account email(s) and each connected Google account. Dot-to-Dot
+  // invites all of them, so the chat shows up in whichever calendar they actually use.
+  emails: string[];
   busy: BusyInterval[];
   errors: string[];
   matchedBy: 'slack' | 'email' | null;
@@ -196,6 +199,10 @@ export async function getBusyTimes({ members, timeMin, timeMax }: { members: Bus
       connected: working.length > 0,
       timeZone: withResults.find(({ connection }) => connection.timeZone)?.connection.timeZone ?? null,
       email: latestUserId ? emailByUserId.get(latestUserId) ?? null : null,
+      emails: [...new Set(withResults
+        .flatMap(({ connection }) => [emailByUserId.get(connection.userId), connection.providerAccountEmail])
+        .filter((email): email is string => Boolean(email?.trim()))
+        .map(normaliseEmail))],
       busy: mergeIntervals(working.flatMap(({ result }) => (result.ok ? result.busy : []))),
       errors: withResults.flatMap(({ result }) => (result.ok ? [] : [result.error])),
       matchedBy,
