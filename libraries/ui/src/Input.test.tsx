@@ -20,7 +20,7 @@ describe('Input', () => {
   test('applies className to the input element', () => {
     render(<Input aria-label="Groups" className="w-16" />);
 
-    expect(screen.getByRole('textbox', { name: 'Groups' })).toHaveClass('w-16', 'h-11');
+    expect(screen.getByRole('textbox', { name: 'Groups' })).toHaveClass('w-16', 'min-h-11');
   });
 
   test('applies className to the wrapper when adornments are set', () => {

@@ -37,7 +37,7 @@ export const TabPills = <T extends string>({
           aria-pressed={isActive}
           onClick={() => onChange(tab.id)}
           className={cn(
-            'h-11 shrink-0 px-4 rounded-full border text-size-xs font-medium cursor-pointer transition-colors motion-reduce:transition-none',
+            'min-h-11 shrink-0 px-4 rounded-full border text-size-xs font-medium cursor-pointer transition-colors motion-reduce:transition-none',
             'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
             isActive
               ? 'bg-dark border-dark text-on-dark'
