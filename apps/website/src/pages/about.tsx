@@ -17,7 +17,7 @@ const AboutPage = () => {
       </Head>
       <MarketingHero
         title="About us"
-        subtitle="Building the workforce that protects humanity"
+        subtitle="Our mission is to build the workforce that protects humanity."
       />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <IntroSection />
