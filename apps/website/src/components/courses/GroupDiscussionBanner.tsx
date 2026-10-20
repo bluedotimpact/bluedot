@@ -114,7 +114,7 @@ const GroupDiscussionBanner = ({
   const isFacilitator = userRole === 'facilitator';
   const showPendingPill = Boolean(pendingSwitchType) && !isFacilitator;
   const pendingPill = (
-    <Tag tone="accent" shape="pill">
+    <Tag shape="pill">
       <PendingIcon />
       {pendingSwitchType === 'Switch group for one unit' ? 'Reschedule requested' : 'Group switch requested'}
     </Tag>
