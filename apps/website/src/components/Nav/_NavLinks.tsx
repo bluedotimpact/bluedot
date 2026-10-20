@@ -79,10 +79,10 @@ export const NavLinks = ({
       title: 'Grants',
       loading: grantsLoading,
       links: [
-        ...(grants ?? [])
-          .map((grant) => ({ grant, url: getGrantPath(grant.slug) }))
-          .filter((entry): entry is typeof entry & { url: string } => Boolean(entry.url))
-          .map(({ grant, url }) => ({ title: grant.name, url })),
+        ...(grants ?? []).flatMap((grant) => {
+          const url = getGrantPath(grant.slug);
+          return url ? [{ title: grant.name, url }] : [];
+        }),
         { title: 'See all grants', url: ROUTES.grants.url, footer: true },
       ],
     },
@@ -91,9 +91,7 @@ export const NavLinks = ({
       title: 'Programs',
       loading: programsLoading,
       links: [
-        ...(programs ?? [])
-          .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
-          .map((program) => ({ title: program.name, url: `/programs/${program.slug}` })),
+        ...(programs ?? []).flatMap((program) => (program.slug ? [{ title: program.name, url: `/programs/${program.slug}` }] : [])),
         { title: AI_SECURITY_BOOTCAMP.title, url: AI_SECURITY_BOOTCAMP.url, external: true },
         { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav`, footer: true },
       ],
