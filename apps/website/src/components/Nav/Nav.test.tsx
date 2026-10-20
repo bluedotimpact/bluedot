@@ -11,7 +11,7 @@ import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { Nav } from './Nav';
 import {
-  createMockCourse, MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS,
+  createMockCourse, createMockCourseRegistration, MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS,
 } from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
@@ -344,6 +344,25 @@ describe('Nav', () => {
       expect(panel.getByRole('link', { name: 'Featured Course' }).getAttribute('aria-current')).toBe('page');
       expect(panel.getByRole('link', { name: /Future of AI/ }).getAttribute('aria-current')).toBeNull();
       expect(panel.getByRole('link', { name: /See all courses/ }).getAttribute('aria-current')).toBeNull();
+    });
+  });
+
+  test('marks the current course in the dropdown when enrolled (deep-link url)', async () => {
+    withLoggedInUser();
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => [
+      createMockCourseRegistration({ courseId: '1', roundStatus: 'Active' }),
+    ]));
+    (useRouter as unknown as Mock).mockReturnValue({ ...mockRouter, pathname: '/courses/[courseSlug]/[unitNumber]/[chunkNumber]', asPath: '/courses/agi-strategy/2/3' });
+    const user = userEvent.setup();
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    const coursesButton = getCoursesTrigger('desktop');
+    await user.click(coursesButton);
+
+    await waitFor(() => {
+      const link = within(getControlledPanel(coursesButton)).getByRole('link', { name: 'Featured Course' });
+      expect(link.getAttribute('href')).toBe('/courses/agi-strategy/1/1');
+      expect(link.getAttribute('aria-current')).toBe('page');
     });
   });
 

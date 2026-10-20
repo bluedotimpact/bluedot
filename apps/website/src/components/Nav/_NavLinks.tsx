@@ -24,6 +24,8 @@ import {
 type NavDropdownLink = {
   title: string;
   url: string;
+  // Path to match for aria-current when url is a deep link (e.g. /courses/x/1/1 for enrolled users)
+  currentPath?: string;
   isNew?: boolean | null;
   external?: boolean;
   footer?: boolean;
@@ -57,6 +59,7 @@ export const NavLinks = ({
     .map((course) => ({
       title: course.title,
       url: getPrimaryCourseURL(course.slug),
+      currentPath: `/courses/${course.slug}`,
       isNew: course.isNew ?? false,
     }));
 
@@ -218,7 +221,7 @@ const NavDropdown = ({
                 key={link.url}
                 href={link.url}
                 {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                aria-current={!link.footer && isCurrent(link.url) ? 'page' : undefined}
+                aria-current={!link.footer && isCurrent(link.currentPath ?? link.url) ? 'page' : undefined}
                 className={clsx(
                   NAV_LINK_CLASS,
                   inMobileDrawer ? DRAWER_ROW_CLASS : clsx(NAV_LINK_ANIMATION_CLASS, 'flex min-h-11 items-center'),
