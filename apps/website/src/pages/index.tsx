@@ -7,7 +7,7 @@ import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { pageMetaTags, linkPreviewMetaTags, LINK_PREVIEW_FALLBACK_IMAGE_URL } from '../lib/linkPreviewMetaTags';
 
-const META_TITLE = 'BlueDot Impact | Have a positive impact on the trajectory of AI';
+const META_TITLE = 'BlueDot Impact | Let\'s make sure AI goes well for all of us';
 const META_DESCRIPTION = 'Free online courses, grants, and intensive in-person programs from the leading talent accelerator for beneficial AI and societal resilience. Join 10,000+ alumni and start today.';
 
 const HomePage = () => {
