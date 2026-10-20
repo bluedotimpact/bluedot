@@ -190,7 +190,7 @@ export const DatePicker = ({
           onBlur={handleInputBlur}
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
-          className="h-full min-w-0 flex-1 rounded-surface bg-transparent px-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
+          className="min-w-0 flex-1 self-stretch rounded-surface bg-transparent px-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
         />
         <IconButton
           popoverTarget={popoverId}
