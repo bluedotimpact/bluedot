@@ -96,7 +96,7 @@ const CalendarsPage = withAuth(() => {
         <P>Connect your Google Calendar so we can schedule your 1-1 chats at times you're free.</P>
         <ul className="bluedot-p list-disc pl-6 flex flex-col gap-2">
           <li>We only see when you're busy. We never see event names, details, guests or locations.</li>
-          <li>You can connect more than one calendar, for example your work one and your personal one.</li>
+          <li>Your calendar can be on any Google account, even one with a different email from your BlueDot account. You can connect more than one, for example your work one and your personal one.</li>
           <li>You can disconnect a calendar at any time on this page.</li>
         </ul>
         <P className="text-secondary text-size-xs">
