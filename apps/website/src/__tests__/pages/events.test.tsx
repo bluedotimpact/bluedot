@@ -17,6 +17,7 @@ import { TrpcProvider } from '../trpcProvider';
 
 vi.mock('next/router', () => ({
   useRouter: () => ({
+    asPath: '/events',
     pathname: '/events',
     query: {},
   }),

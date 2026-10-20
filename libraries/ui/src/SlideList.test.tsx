@@ -168,7 +168,7 @@ describe('SlideList', () => {
       expect(screen.queryAllByLabelText(/(Previous|Next) slide/)).toHaveLength(2);
     });
 
-    const firstSlide = container.querySelector('.slide-list__slide');
+    const firstSlide = container.querySelector('[data-width]');
     expect(firstSlide).toHaveAttribute('data-width', expect.stringContaining('50%'));
   });
 });

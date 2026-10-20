@@ -122,7 +122,7 @@ const MyCoursesPage = () => {
                 </div>
               )}
               <TabPills
-                ariaLabel="Course filter"
+                aria-label="Course filter"
                 tabs={TABS}
                 value={activeTab}
                 onChange={setActiveTab}

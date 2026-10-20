@@ -9,11 +9,13 @@ export default makeApiRoute({
   requireAuth: false,
   responseBody: z.object({
     toReview: z.record(z.enum(COURSES), z.number()),
+    mustLook: z.record(z.enum(COURSES), z.number()),
     invitedThisWeek: z.record(z.object({ total: z.number(), viaApp: z.number() })),
   }),
 }, async (_, { raw }) => {
   verifyAutomationToken(raw.req.headers.authorization);
   const [items, invitedThisWeek] = await Promise.all([fetchQueue(), fetchInvitedThisWeek()]);
   const toReview = Object.fromEntries(COURSES.map((course) => [course, items.filter((item) => item.course === course).length]));
-  return { toReview, invitedThisWeek };
+  const mustLook = Object.fromEntries(COURSES.map((course) => [course, items.filter((item) => item.course === course && item.mustLook).length]));
+  return { toReview, mustLook, invitedThisWeek };
 });

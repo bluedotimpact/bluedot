@@ -9,7 +9,7 @@ import {
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { trpc } from '../../../utils/trpc';
-import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
+import { Nav } from '../../../components/Nav/Nav';
 import { useFacilitatorFeedbackStorage } from '../../../hooks/useFacilitatorFeedbackStorage';
 import { pageMetaTags } from '../../../lib/linkPreviewMetaTags';
 
@@ -61,16 +61,22 @@ const FacilitatorFeedbackSuccessPage = () => {
 
   if (isLoading || shouldShow404 || !router.isReady || notSubmitted) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center">
-        <ProgressDots />
+      <div className="min-h-screen bg-canvas">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center py-16">
+          <ProgressDots />
+        </div>
       </div>
     );
   }
 
   if (error ?? !data) {
     return (
-      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
-        <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+      <div className="min-h-screen bg-canvas">
+        <Nav variant="minimal" title="Course Feedback" />
+        <div className="flex items-center justify-center px-4 py-16">
+          <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+        </div>
       </div>
     );
   }
@@ -96,12 +102,12 @@ const FacilitatorFeedbackSuccessPage = () => {
     .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-cream-normal">
+    <div className="min-h-screen bg-canvas">
       <Head>
         {pageMetaTags({ title: `${data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact` })}
       </Head>
 
-      <FacilitatorFeedbackHeader roundName={data.roundName || undefined} />
+      <Nav variant="minimal" title="Course Feedback" context={data.roundName || undefined} />
 
       {showConfetti && windowSize.width > 0 && (
         <div className="fixed inset-0 pointer-events-none z-50">
@@ -126,15 +132,15 @@ const FacilitatorFeedbackSuccessPage = () => {
       )}
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
-        <section className="bg-white rounded-lg border border-default p-6 sm:p-12 flex flex-col gap-7">
+        <section className="bg-raised rounded-lg border p-6 sm:p-12 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
             <div className="size-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
               {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- icon glyph size, not body text; 28px fits the 60px container */}
-              <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
+              <PiCheck className="text-accent text-[28px]" aria-hidden />
             </div>
             <div className="flex flex-col gap-2">
               <H1 className="text-size-lg">Feedback submitted!</H1>
-              <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
+              <p className="text-size-xs text-secondary leading-relaxed">
                 Your insights help BlueDot support the most engaged participants and improve every future cohort.
               </p>
             </div>
@@ -148,20 +154,20 @@ const FacilitatorFeedbackSuccessPage = () => {
 
           <Link
             href={`/facilitator-feedback/${meetPersonId}`}
-            className="self-start text-size-xs font-medium text-bluedot-navy/60 underline underline-offset-[2px] hover:opacity-80"
+            className="self-start text-size-xs font-medium text-secondary underline underline-offset-[2px] hover:opacity-80"
           >
             Edit response
           </Link>
 
           {showInvoiceCard && invoiceUrl && (
-            <div className="bg-[#f8f9fb] border border-default rounded-md p-6 flex flex-col gap-2">
+            <div className="bg-tint border rounded-md p-6 flex flex-col gap-2">
               <div className="flex items-center gap-2.5">
                 <div className="size-8 rounded-md bg-bluedot-normal/10 flex items-center justify-center shrink-0">
-                  <PiCreditCard className="text-bluedot-normal" aria-hidden />
+                  <PiCreditCard className="text-accent" aria-hidden />
                 </div>
-                <p className="text-size-xs font-semibold text-bluedot-navy">Ready to submit your invoice?</p>
+                <p className="text-size-xs font-semibold text-primary">Ready to submit your invoice?</p>
               </div>
-              <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
+              <p className="text-size-xs text-secondary leading-relaxed">
                 You can submit your bank details below and expect to receive your compensation within a week. We'll also send you a link by email.
               </p>
               <Button url={invoiceUrl} target="_blank" className="mt-2">

@@ -45,17 +45,17 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
     const isActive = feedbackValue === resourceFeedback;
     const isLikeButton = feedbackValue === RESOURCE_FEEDBACK.LIKE;
 
-    const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-bluedot-navy/10';
-    const hoverBackground = 'hover:bg-bluedot-navy/8';
+    const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-active';
+    const hoverBackground = 'hover:bg-tint';
 
     const baseClasses = 'flex flex-row justify-center items-center px-2 py-1.5 h-[30px] rounded-md border-none transition-all duration-200 font-medium text-size-xs leading-normal cursor-pointer';
     const buttonGapClass = variant === 'mobile' ? 'gap-2' : 'gap-1.5';
     const opacityClass = isActive ? 'opacity-100' : 'opacity-60';
     const bgClass = isActive ? activeBackground : 'bg-transparent';
 
-    let textColorClass = 'text-bluedot-navy';
+    let textColorClass = 'text-primary';
     if (isActive && isLikeButton) {
-      textColorClass = 'text-bluedot-normal';
+      textColorClass = 'text-accent';
     }
 
     const likeGlyph = isActive ? FaThumbsUp : FaRegThumbsUp;
@@ -246,26 +246,26 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               } ${
                 (() => {
                   if (isCompleted) {
-                    return 'bg-bluedot-normal border-none';
+                    return 'bg-accent border-none';
                   }
 
                   if (isHovered) {
                     return 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]';
                   }
 
-                  return 'bg-bluedot-lightest border border-bluedot-navy/20';
+                  return 'bg-bluedot-lightest border';
                 })()
               }`}
             >
               {(isCompleted || isHovered) && (
-                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-white' : 'text-bluedot-navy/60')} />
+                <FaCheck aria-hidden="true" className={cn('size-2.5', isCompleted ? 'text-on-dark' : 'text-secondary')} />
               )}
             </button>
           </div>
         )}
 
         {/* Main resource card */}
-        <div className="resource-item container-lined relative z-[1] bg-white p-6">
+        <div className="resource-item container-lined relative z-[1] bg-raised p-6">
           {/* Resource title and link */}
           {resource.resourceLink ? (
             <a
@@ -276,12 +276,12 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               aria-label={`${resource.resourceName} (opens in new tab)`}
             >
               <FaviconImage url={resource.resourceLink} displaySize={16} className="mt-[3px]" />
-              <span className="leading-normal font-semibold text-inherit no-underline transition-colors hover:text-bluedot-normal hover:underline">
+              <span className="leading-normal font-semibold text-inherit no-underline transition-colors hover:text-link hover:underline">
                 {resource.resourceName}
                 {/* External link icon - inline so it flows with text on wrap */}
                 <FaArrowUpRightFromSquare
                   aria-hidden="true"
-                  className="inline-block size-3 align-middle ml-2 text-bluedot-navy"
+                  className="inline-block size-3 align-middle ml-2 text-primary"
                 />
               </span>
             </a>
@@ -291,8 +291,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
 
           {/* Resource guide */}
           {resource.resourceGuide && (
-            <div className="resource-item__guide mt-4">
-              <MarkdownExtendedRenderer className="text-gray-700 text-size-sm font-normal leading-relaxed">
+            <div className="mt-4">
+              <MarkdownExtendedRenderer className="text-primary text-size-sm font-normal leading-relaxed">
                 {resource.resourceGuide}
               </MarkdownExtendedRenderer>
             </div>
@@ -302,7 +302,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(resource.authors || resource.year || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
             <div className="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">
-              <P className="text-gray-600 text-size-xs font-medium leading-normal">
+              <P className="text-secondary text-size-xs font-medium leading-normal">
                 {resource.authors && <span>{resource.authors}</span>}
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {resource.authors && (resource.year || resource.timeFocusOnMins) && <span> · </span>}
@@ -325,7 +325,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
 
           {/* Login prompt for unauthenticated users */}
           {!auth && (
-            <P className="resource-item__login-prompt mt-4">
+            <P className="mt-4">
               <A href={addQueryParam(addQueryParam(ROUTES.login.url, 'redirect_to', router.asPath), 'register', 'true')}>
                 Create a free account
               </A> to track your progress and unlock access to the full course content.
@@ -336,7 +336,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {auth && (
             <div className="lg:hidden">
               {/* Separator line */}
-              <div className="w-full h-0 border-[0.5px] border-bluedot-navy/20 my-4" />
+              <div className="w-full h-0 border-[0.5px] border-subtle my-4" />
 
               {/* Bottom action bar */}
               <div className="flex flex-col gap-3">
@@ -357,10 +357,10 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                       className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
                       aria-label="Mark resource as incomplete"
                     >
-                      <span className="font-medium text-size-xs leading-normal text-bluedot-normal">
+                      <span className="font-medium text-size-xs leading-normal text-accent">
                         Completed
                       </span>
-                      <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-normal" />
+                      <FaRotateLeft aria-hidden="true" className="size-4 text-accent" />
                     </button>
                   )}
 
@@ -398,12 +398,12 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
         {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
-              className={`hidden lg:flex flex-col transition-all duration-200 pt-[23px] px-4 gap-2 w-full bg-bluedot-navy/5 border-[0.5px] border-bluedot-navy/15 rounded-b-[10px] -mt-4 relative z-0 ${resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback ? 'pb-4' : 'pb-[9px]'}`}
+              className={`hidden lg:flex flex-col transition-all duration-200 pt-[23px] px-4 gap-2 w-full bg-tint border-[0.5px] border-subtle rounded-b-[10px] -mt-4 relative z-0 ${resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback ? 'pb-4' : 'pb-[9px]'}`}
               role="region"
               aria-label="Resource feedback section"
             >
               <div className="flex items-center gap-3 px-2">
-                <P className="font-medium text-size-xs leading-normal text-bluedot-navy/80">
+                <P className="font-medium text-size-xs leading-normal text-secondary">
                   Was this resource useful?
                 </P>
                 <FeedbackSection

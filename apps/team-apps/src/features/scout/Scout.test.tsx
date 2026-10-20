@@ -21,7 +21,7 @@ vi.mock('@bluedot/ui', () => ({
   Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
 }));
-import Scout from './Scout';
+import Scout, { greeting, headline } from './Scout';
 
 const response = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status });
 const person = (id: string, name: string, course: Course): Person => ({
@@ -36,7 +36,7 @@ const samplePeople: Person[] = [
 ];
 const mockFetch = vi.mocked(authFetch);
 const realQueue = samplePeople.map((p) => ({
-  id: p.id, name: p.name, email: p.email, roundId: `sample-${p.course}`, course: p.course, roundName: p.roundName, hasReport: true, hasCertificate: true,
+  id: p.id, name: p.name, email: p.email, roundId: `sample-${p.course}`, course: p.course, roundName: p.roundName, hasReport: true, hasCertificate: true, mustLook: false,
 }));
 const pathOf = (input: RequestInfo | URL) => (input instanceof Request ? input.url : input.toString());
 const read = async (input: RequestInfo | URL) => {
@@ -172,11 +172,23 @@ test('the picker opens only the courses the signed-in person leads, and everythi
   expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
   expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(true);
   cleanup();
-  mockFetch.mockImplementation(async (path) => (pathOf(path).endsWith('/queue') ? response({ items: realQueue, leadCourses: ['Biosecurity'] }) : read(path)));
+  mockFetch.mockImplementation(async (path) => (pathOf(path).endsWith('/queue') ? response({ items: realQueue, leadCourses: ['Biosecurity'], leadName: 'Sample' }) : read(path)));
   render(<Scout />);
   await screen.findByText('Biosecurity');
   expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
   expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(false);
+  expect(screen.getByRole('heading', { level: 1 }).textContent).toMatch(/^Good (morning|afternoon|evening), Sample!$/);
+});
+
+test('the greeting follows the hour and drops the name when nobody is known', () => {
+  expect(greeting('Sample', new Date('2026-10-20T09:00:00'))).toBe('Good morning, Sample!');
+  expect(greeting('Sample', new Date('2026-10-20T15:00:00'))).toBe('Good afternoon, Sample!');
+  expect(greeting(undefined, new Date('2026-10-20T21:00:00'))).toBe('Good evening!');
+  expect(headline(0, 3)).toEqual(['Your must-look queue is clear. Hurray 🎉', '3 of 20 invites sent this week. Off the mark, keep going!']);
+  expect(headline(1, 0)).toEqual(['1 person is waiting in your must-look queue.', '0 of 20 invites sent this week. Let’s find some people!']);
+  expect(headline(12, 12)).toEqual(['12 people are waiting in your must-look queue.', '12 of 20 invites sent this week. Good pace, keep it up!']);
+  expect(headline(12, 25)[1]).toBe('25 of 20 invites sent this week. Weekly target reached, brilliant!');
+  expect(headline(12, 26)[1]).toBe('26 of 20 invites sent this week. You are killing it! 🔥');
 });
 
 test('after a round, "Review next round" only offers another round of the same course; otherwise only the main page', async () => {
@@ -204,6 +216,38 @@ test('after a round, "Review next round" only offers another round of the same c
   await screen.findByRole('heading', { name: /Round done/ });
   fireEvent.click(screen.getByRole('button', { name: /Review next round/ }));
   await screen.findByText('Sam Chen');
+});
+
+test('must look is one queue per course, newest round first, and ends on "Must look is clear" with no next round', async () => {
+  const older = { ...realQueue[0]!, mustLook: true, roundEnd: '2026-09-05' };
+  const newer = {
+    ...realQueue[1]!, mustLook: true, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Sep W38) - Intensive', roundEnd: '2026-10-03',
+  };
+  mockFetch.mockImplementation(async (path, init) => {
+    if (init?.method === 'POST') return response({ ok: true });
+    return pathOf(path).endsWith('/queue') ? response({ items: [older, newer, realQueue[2]!, realQueue[3]!] }) : read(path);
+  });
+  render(<Scout />);
+  // Every Technical AI Safety person is must look, so there is no backlog round to pick for that course
+  await screen.findByTestId('choose-must-look-Technical AI Safety');
+  expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
+  expect(screen.getByText('2 to review →')).toBeTruthy();
+  fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
+  await screen.findByText('Must look');
+  expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();
+  await screen.findByText('Sam Chen');
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Invite' }).hasAttribute('disabled')).toBe(false));
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+  await screen.findByText('Alex Morgan');
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Don’t invite' }).hasAttribute('disabled')).toBe(false));
+  fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
+  fireEvent.click(screen.getAllByRole('button', { name: 'Don’t invite' })[1]!);
+  await screen.findByRole('heading', { name: /Must look is clear/ });
+  expect(screen.queryByRole('button', { name: /Review next round/ })).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Back to main page' }));
+  await screen.findByTestId('choose-round-sample-Biosecurity');
+  expect(screen.queryByTestId('choose-must-look-Technical AI Safety')).toBeNull();
 });
 
 test('a one-person round shows the pass-done screen after one skip; L opens LinkedIn; Esc returns to the main page', async () => {

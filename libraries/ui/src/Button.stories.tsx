@@ -25,7 +25,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const VARIANTS: NonNullable<ButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'black', 'outline-black'];
+const VARIANTS: NonNullable<ButtonProps['variant']>[] = ['primary', 'secondary', 'ghost', 'outline-black'];
 const TONES: NonNullable<ButtonProps['tone']>[] = ['destructive', 'success', 'warning'];
 
 // One row per variant: default · disabled · loading · with icon

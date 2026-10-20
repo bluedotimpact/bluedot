@@ -21,7 +21,7 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { hasEndDateTime } from '../../lib/group-discussions/utils';
+import { hasEndDateTime, isGroupFacilitator } from '../../lib/group-discussions/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
@@ -81,8 +81,8 @@ async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { sub: s
   return meetPerson;
 }
 
-// A meetPerson maps to one application, but can facilitate several groups within the same round
-// (never across rounds). The feedback form spans all of them.
+// A meetPerson maps to one application, but can facilitate several groups within its round, and may
+// have substituted in other rounds' groups. The feedback form spans all of them.
 // A group counts if the person is its current facilitator, or if they attended one of its discussions
 // under this facilitator registration: the group may since have been handed to someone else, or they
 // may have covered sessions as a substitute. Attendance is also what their pay is calculated from.
@@ -98,7 +98,9 @@ async function getGroupsForFacilitator(meetPerson: { id: string; attendedDiscuss
 
   const isCurrentFacilitator = arrayContains(groupTable.pg.facilitator, [meetPerson.id]);
   const groups = await db.pg
-    .select({ id: groupTable.pg.id, groupName: groupTable.pg.groupName, participants: groupTable.pg.participants })
+    .select({
+      id: groupTable.pg.id, groupName: groupTable.pg.groupName, round: groupTable.pg.round, participants: groupTable.pg.participants,
+    })
     .from(groupTable.pg)
     .where(attendedGroupIds.length > 0
       ? or(isCurrentFacilitator, inArray(groupTable.pg.id, attendedGroupIds))
@@ -203,7 +205,12 @@ export const facilitatorRouter = router({
           throw new TRPCError({ code: 'NOT_FOUND', message: `Related group not found for discussion ${discussion.id}` });
         }
 
-        return { ...discussion, groupDetails: group, unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null };
+        return {
+          ...discussion,
+          groupDetails: group,
+          unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null,
+          isGroupFacilitator: isGroupFacilitator(group, facilitator.id),
+        };
       });
     }),
 
@@ -249,6 +256,11 @@ export const facilitatorRouter = router({
           .where(and(eq(groupDiscussionTable.pg.group, groupId), inArray(groupDiscussionTable.pg.id, allowedDiscussions)));
         if (groupDiscussions.length === 0) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions in this group' });
+        }
+
+        const group = await db.getFirst(groupTable, { filter: { id: groupId } });
+        if (!group || !isGroupFacilitator(group, facilitator.id)) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Only the group\'s facilitator can change its discussion time permanently' });
         }
       }
 
@@ -442,8 +454,15 @@ export const facilitatorRouter = router({
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const target = await db.getFirst(meetPersonTable, { filter: { id: input.participantId } });
-      if (!target || target.role !== COURSE_ROLE.PARTICIPANT || target.round !== meetPerson.round) {
+      if (!target || target.role !== COURSE_ROLE.PARTICIPANT) {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your round' });
+      }
+
+      if (target.round !== meetPerson.round) {
+        const groups = await getGroupsForFacilitator(meetPerson);
+        if (!groups.some((g) => g.round === target.round)) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your round' });
+        }
       }
 
       const validOptions = await getNextStepsOptions();

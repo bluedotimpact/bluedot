@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLeadCourses, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, ratingOutOf, toHistoryRow, writeAiSummary,
+  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLead, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, ratingOutOf, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -30,7 +30,7 @@ const reads = async (input: RequestInfo | URL, init?: RequestInit) => {
     });
   }
 
-  if (url.pathname.endsWith('tblYavwHtMMcn8Wt1')) return json({ records: [{ id: 'recLeadExample01', fields: { fldybLwD2UCqXFeb8: 'Lead@example.org', fldwPw2PCIDfn1ZqE: 'Biosecurity, Pandemics' } }] });
+  if (url.pathname.endsWith('tblYavwHtMMcn8Wt1')) return json({ records: [{ id: 'recLeadExample01', fields: { fldybLwD2UCqXFeb8: 'Lead@example.org', fldwPw2PCIDfn1ZqE: 'Biosecurity, Pandemics', fldYo8haU379WYYt0: ' Sample  Lead\n' } }] });
   if (url.pathname.endsWith('tblu6u7F2NHfCMgsk')) return json({ records: [{ id: 'recRoundExample01', fields: { fldEBVjEF9l2IEyG7: 'Test round', fldvorW4UVmRTihB9: ['Technical AI Safety'] } }] });
   return json({ records: eligible ? [{ id, fields: untouched }] : [] });
 };
@@ -96,18 +96,21 @@ test('a person marked Waiting for review can still be invited or passed; any oth
   expect(patches()).toHaveLength(2);
 });
 
-test('preserves queue order from Airtable and follows pagination', async () => {
+test('preserves queue order from Airtable, follows pagination, and reads must look from the formula field', async () => {
   const first = 'recScoutSample002';
   fetchMock.mockImplementation(async (input, init) => {
     const url = new URL(input instanceof Request ? input.url : input.toString());
     if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
       expect(url.searchParams.get('view')).toBe('viwbqIzi8JU9oQ6DT');
-      return json(url.searchParams.has('offset') ? { records: [{ id, fields: untouched }] } : { records: [{ id: first, fields: untouched }], offset: 'next-page' });
+      expect(url.searchParams.getAll('fields[]')).toContain('fldcs9jnQrVcOMkwf');
+      return json(url.searchParams.has('offset') ? { records: [{ id, fields: untouched }] } : { records: [{ id: first, fields: { ...untouched, fldcs9jnQrVcOMkwf: 1 } }], offset: 'next-page' });
     }
 
     return reads(input, init);
   });
-  expect((await run(fetchQueue())).map((item) => item.id)).toEqual([first, id]);
+  const items = await run(fetchQueue());
+  expect(items.map((item) => item.id)).toEqual([first, id]);
+  expect(items.map((item) => item.mustLook)).toEqual([true, false]);
 });
 
 test('leaves out people with an approved career transition grant or a completed evaluation call', async () => {
@@ -208,11 +211,11 @@ test('a history row carries the sessions attended and expected when the registra
   expect(withoutCounts.isCurrent).toBe(true);
 });
 
-test('lead courses: only scouted courses count, matched by email regardless of case; nobody known means none', async () => {
+test('lead: only scouted courses count, matched by email regardless of case, plus a first name; nobody known means none', async () => {
   expect(parseLeadCourses('Biosecurity, Pandemics, AGI Strategy ')).toEqual(['Biosecurity', 'AGI Strategy']);
   expect(parseLeadCourses(undefined)).toEqual([]);
-  expect(await run(fetchLeadCourses('lead@EXAMPLE.org'))).toEqual(['Biosecurity']);
-  expect(await run(fetchLeadCourses('someone.else@example.org'))).toEqual([]);
+  expect(await run(fetchLead('lead@EXAMPLE.org'))).toEqual({ courses: ['Biosecurity'], firstName: 'Sample' });
+  expect(await run(fetchLead('someone.else@example.org'))).toEqual({ courses: [], firstName: undefined });
 });
 
 test('the summary is one write; the lookup state reads both fields; the sweep asks for anyone missing either', async () => {

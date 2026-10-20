@@ -17,7 +17,6 @@ type SaveStatusIndicatorProps = {
 const getStatusConfig = (savedText: string): Record<SaveStatus, {
   icon?: React.ReactNode;
   text: string | ((onRetry?: () => void) => React.ReactNode);
-  className?: string;
 }> => ({
   idle: {
     text: '',
@@ -26,40 +25,28 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
-    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px] text-bluedot-normal" />,
+    icon: <FaCircleNotch aria-hidden="true" className="size-3 animate-spin -translate-y-[0.5px]" />,
     text: 'Saving...',
   },
   saved: {
-    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px] text-bluedot-normal" />,
+    icon: <FaCircleCheck aria-hidden="true" className="size-3.5 -translate-y-[0.5px]" />,
     text: savedText,
   },
   error: {
-    icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px] text-[#DC0000]" />,
+    icon: <FaCircleXmark aria-hidden="true" className="size-4 -translate-y-[0.5px]" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
-        <span style={{ color: '#DC0000' }}>Couldn't save answer.</span>
+        <span>Couldn't save answer.</span>
         <button
           type="button"
           onClick={onRetry}
-          style={{
-            color: 'var(--bluedot-navy)',
-            fontWeight: 500,
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            cursor: 'pointer',
-            textDecoration: 'underline',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '2px',
-          }}
+          className="flex items-center gap-0.5 font-medium text-primary underline cursor-pointer"
         >
           Retry
-          <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-navy ml-0.5" />
+          <FaRotateLeft aria-hidden="true" className="size-4 ml-0.5" />
         </button>
       </span>
     ),
-    className: 'text-red-600',
   },
 });
 
@@ -81,15 +68,14 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
       id={id}
       className={cn(
         '-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0',
-        !isIdle && (isError
-          ? 'opacity-100 bg-[rgba(220,0,0,0.05)] border-[rgba(220,0,0,0.1)]'
-          : 'opacity-100 bg-[#F4F7FD] border-[rgba(34,68,187,0.1)]'),
+        !isIdle && 'opacity-100',
+        isError ? 'bg-error-bg border-error-border text-error-fg' : 'bg-info-bg border-info-border text-info-fg',
       )}
       role="status"
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal">
+      <div className="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium">
         {!isIdle && config?.icon}
         {!isIdle && text}
       </div>

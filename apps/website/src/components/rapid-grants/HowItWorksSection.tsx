@@ -41,7 +41,7 @@ const HowItWorksSection = () => {
 
   return (
     <section className="section-base rapid-grants-how-section">
-      <div className="flex flex-col gap-6 border-b border-bluedot-navy/15 py-10 bd-md:py-12">
+      <div className="flex flex-col gap-6 border-b border-subtle py-10 bd-md:py-12">
         <h2 className="text-size-lg font-medium tracking-tight">How it works</h2>
 
         <ol className="grid list-none gap-5 p-0 bd-md:grid-cols-3 bd-md:gap-8">

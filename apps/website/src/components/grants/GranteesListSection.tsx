@@ -30,7 +30,7 @@ export const EditorialGranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) 
     <div className="min-w-0">
       <h3 className="text-size-sm bd-md:text-size-md font-medium leading-snug tracking-tight break-words">
         {grantee.link ? (
-          <a href={grantee.link} target="_blank" rel="noopener noreferrer" className="hover:text-bluedot-normal underline decoration-bluedot-navy/25 underline-offset-4 hover:decoration-bluedot-normal">
+          <a href={grantee.link} target="_blank" rel="noopener noreferrer" className="hover:text-link underline decoration-default underline-offset-4 hover:decoration-link">
             {grantee.projectTitle}
           </a>
         ) : grantee.projectTitle}
@@ -99,7 +99,7 @@ const GranteesListSection = ({
                 aria-label="Sort projects"
                 value={sortOrder}
                 onChange={(event) => setSortOrder(event.target.value)}
-                className="min-h-11 cursor-pointer rounded bg-transparent py-2 pr-1 text-size-xs text-bluedot-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-bluedot-normal"
+                className="min-h-11 cursor-pointer rounded bg-transparent py-2 pr-1 text-size-xs text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-focus"
               >
                 <option value="newest">Newest</option>
                 <option value="largest">Largest grant</option>
@@ -125,7 +125,7 @@ const GranteesListSection = ({
             </H2>
           )}
           {subtitle && (
-            <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 mt-4">
+            <P className="bd-md:text-size-md leading-relaxed text-secondary mt-4">
               {subtitle}
             </P>
           )}

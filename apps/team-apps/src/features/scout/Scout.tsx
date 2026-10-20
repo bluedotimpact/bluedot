@@ -12,9 +12,10 @@ import { isLocalPreview } from '../../lib/preview';
 import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
-import { QueueSource } from './QueueSource';
 import { openNextSection } from './sectionNav';
-import { roundKey, roundLabel, roundsFor } from './reviewQueue';
+import {
+  mustLookFor, roundKey, roundLabel, roundsFor,
+} from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
   Course, Decision, InvitedThisWeek, Person, QueueItem,
@@ -35,6 +36,30 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
 
+// Exported for tests
+export const greeting = (name?: string, now = new Date()) => {
+  const hour = now.getHours();
+  let word = 'Good evening';
+  if (hour < 12) word = 'Good morning';
+  else if (hour < 18) word = 'Good afternoon';
+  return name ? `${word}, ${name}!` : `${word}!`;
+};
+
+// The line under the greeting for a course lead: what is waiting in their must-look queue and
+// how far they are from the weekly invite target. Exported for tests.
+export const WEEKLY_INVITE_TARGET = 20;
+export const headline = (mustLook: number, invitedThisWeek: number): [string, string] => {
+  let waiting = `${mustLook} people are waiting in your must-look queue.`;
+  if (mustLook === 0) waiting = 'Your must-look queue is clear. Hurray 🎉';
+  if (mustLook === 1) waiting = '1 person is waiting in your must-look queue.';
+  let mood = 'Let’s find some people!';
+  if (invitedThisWeek > 25) mood = 'You are killing it! 🔥';
+  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET) mood = 'Weekly target reached, brilliant!';
+  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET / 2) mood = 'Good pace, keep it up!';
+  else if (invitedThisWeek > 0) mood = 'Off the mark, keep going!';
+  return [waiting, `${invitedThisWeek} of ${WEEKLY_INVITE_TARGET} invites sent this week. ${mood}`];
+};
+
 // Scout reads live Airtable data and has no sample data set, so the portal's local
 // preview mode (synthetic token, no Airtable token) cannot show it
 const PreviewNotice = () => (
@@ -50,10 +75,18 @@ const PreviewNotice = () => (
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [leadCourses, setLeadCourses] = useState<Course[]>([]);
+  const [leadName, setLeadName] = useState<string>();
+  // Set after mount: the page is prerendered, and the hour there is not the lead's hour
+  const [greetingText, setGreetingText] = useState('');
+  useEffect(() => {
+    setGreetingText(greeting(leadName));
+  }, [leadName]);
   const [invited, setInvited] = useState<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
+  // Must look reviews a course's must-look people across rounds; `round` then only names the course
+  const [mustLook, setMustLook] = useState(false);
   // Looking one person up from the search box or a ?person= link: just their card and a
   // decision, no round, no queue, then back to the start.
   const [lookup, setLookup] = useState<QueueItem>();
@@ -84,11 +117,12 @@ const Scout = () => {
     setSaveError(undefined);
     setConflict(false);
     try {
-      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[] }>('queue');
+      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string }>('queue');
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
       setInvited(data.invitedThisWeek ?? {});
       setLeadCourses(data.leadCourses ?? []);
+      setLeadName(data.leadName);
       setSkipOrder([]);
       setPeople({});
       requested.current.clear();
@@ -103,36 +137,52 @@ const Scout = () => {
   }, [loadQueue]);
 
   const remaining = useMemo(() => items.filter((item) => !done[item.id]), [items, done]);
-  const roundItems = round ? remaining.filter((item) => roundKey(item) === roundKey(round)) : [];
-  const skippedItems = skipOrder.map((id) => roundItems.find((item) => item.id === id)).filter((item): item is QueueItem => item !== undefined);
-  const queue = [...roundItems.filter((item) => !skipOrder.includes(item.id)), ...skippedItems];
+  const inScope = (item: QueueItem) => {
+    if (!round) return false;
+    return mustLook ? item.course === round.course && item.mustLook : !item.mustLook && roundKey(item) === roundKey(round);
+  };
+
+  let scopeItems: QueueItem[] = [];
+  if (round) scopeItems = mustLook ? mustLookFor(remaining, round.course) : remaining.filter(inScope);
+  const skippedItems = skipOrder.map((id) => scopeItems.find((item) => item.id === id)).filter((item): item is QueueItem => item !== undefined);
+  const queue = [...scopeItems.filter((item) => !skipOrder.includes(item.id)), ...skippedItems];
   const current = lookup ?? queue[0];
   const upcoming = lookup ? undefined : queue[1];
   const loaded = current ? people[current.id] : undefined;
   const person = loaded && 'person' in loaded ? loaded.person : undefined;
-  const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
-  const total = roundItems.length + decisions.length;
+  const decisions = Object.values(done).filter((entry) => inScope(entry.item));
+  const total = scopeItems.length + decisions.length;
+  let scopeLabel = '';
+  if (round) scopeLabel = mustLook ? 'Must look' : roundLabel(round);
 
-  // Next round of the same course that still has people; other courses are a deliberate choice on the main page
-  const nextRound = round ? roundsFor(remaining, round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
-  // Everyone left in the round has been skipped once: say so instead of silently showing the first skip again
-  const allSkipped = roundItems.length > 0 && roundItems.every((item) => skipOrder.includes(item.id));
+  // Next backlog round of the same course that still has people; other courses, and the backlog
+  // after must look, are a deliberate choice on the main page
+  const nextRound = round && !mustLook ? roundsFor(remaining.filter((item) => !item.mustLook), round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
+  // Everyone left in the queue has been skipped once: say so instead of silently showing the first skip again
+  const allSkipped = scopeItems.length > 0 && scopeItems.every((item) => skipOrder.includes(item.id));
   const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u !== undefined && isLinkedIn(u));
   const cardOpen = lookup !== undefined || (round !== undefined && !allSkipped && current !== undefined);
 
   const leaveRound = useCallback(() => {
     setRound(undefined);
+    setMustLook(false);
     setSkipOrder([]);
     setNotice(undefined);
   }, []);
 
-  const chooseRound = (item: QueueItem) => {
+  const chooseRound = (item: QueueItem, asMustLook = false) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
     setRound(item);
+    setMustLook(asMustLook);
     setSkipOrder([]);
     setSaveError(undefined);
     setConflict(false);
     setNotice(undefined);
+  };
+
+  const chooseMustLook = (course: Course) => {
+    const anchor = mustLookFor(remaining, course)[0];
+    if (anchor) chooseRound(anchor, true);
   };
 
   // The URL carries the person being looked up, so a card can be shared as a link
@@ -213,9 +263,9 @@ const Scout = () => {
   }, [currentId]);
 
   useEffect(() => {
-    setSessionActive(!loading && !queueError && (roundItems.length > 0 || lookup !== undefined || confirmation !== undefined));
+    setSessionActive(!loading && !queueError && (scopeItems.length > 0 || lookup !== undefined || confirmation !== undefined));
     return () => setSessionActive(false);
-  }, [loading, queueError, roundItems.length, lookup, confirmation, setSessionActive]);
+  }, [loading, queueError, scopeItems.length, lookup, confirmation, setSessionActive]);
 
   const skip = useCallback(() => {
     if (!current || lookup !== undefined || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
@@ -321,12 +371,17 @@ const Scout = () => {
         {!round && !lookup && (
           <>
             <header className="flex flex-wrap items-start justify-between gap-3">
-              <div><h1 className="text-size-lg font-semibold">Course talent scouting</h1><p className="mt-1 text-size-sm text-secondary">Which course participant should get an evaluation call?</p></div>
+              <div>
+                <h1 className="text-size-lg font-semibold">{greetingText}</h1>
+                {!loading && !queueError && leadCourses.length > 0 && headline(
+                  remaining.filter((item) => item.mustLook && leadCourses.includes(item.course)).length,
+                  leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0),
+                ).map((line) => <p key={line} className="mt-1 text-size-sm text-secondary">{line}</p>)}
+              </div>
               <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
                 void loadQueue();
               }}>Refresh queue</Button>
             </header>
-            {!loading && !queueError && <QueueSource count={remaining.length} />}
           </>
         )}
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
@@ -339,7 +394,7 @@ const Scout = () => {
             </section>
             {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
             <ReviewEvidence key={lookup.id} item={lookup} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(lookup.id)} actions={
-              <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
+              <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                   <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
@@ -353,13 +408,13 @@ const Scout = () => {
           <>
             {notice && <Callout role="status">{notice}</Callout>}
             <PersonSearch items={remaining} query={search} onQueryChange={setSearch} onSelect={openLookup} />
-            <RoundPicker items={remaining} invited={invited} leadCourses={leadCourses} onSelect={chooseRound} />
+            <RoundPicker items={remaining} invited={invited} leadCourses={leadCourses} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
           </>
         ) : <>
           <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <p className="font-medium">{round.course}</p>
-              <p className="text-size-xs text-secondary">{roundLabel(round)}</p>
+              <p className="text-size-xs text-secondary">{scopeLabel}</p>
               <p className="text-size-xs text-secondary">{decisions.length} of {total} reviewed{skippedItems.length > 0 && ` · ${skippedItems.length} skipped for now`}</p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -367,7 +422,7 @@ const Scout = () => {
                 setSkipOrder((state) => state.slice(0, -1));
                 setNotice(undefined);
               }}>Undo skip</Button>
-              <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>Change round</Button>
+              <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>{mustLook ? 'Change queue' : 'Change round'}</Button>
             </div>
           </section>
           <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
@@ -375,7 +430,7 @@ const Scout = () => {
           {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
           {allSkipped && (
             <section className={`${panel} space-y-4 p-6`}>
-              <h2 className="text-size-lg font-semibold">Everyone seen once <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
+              <h2 className="text-size-lg font-semibold">Everyone seen once <span className="font-normal text-secondary">· {round.course} {scopeLabel}</span></h2>
               <p className="text-size-sm text-secondary">{skippedItems.length} skipped · {decisions.length} decided</p>
               <div className="flex flex-wrap gap-2">
                 <Button disabled={controlsDisabled} onClick={() => setSkipOrder([])}>Go through the skipped again</Button>
@@ -385,7 +440,7 @@ const Scout = () => {
             </section>
           )}
           {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
-            <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
+            <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                 <Button variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></Button>
@@ -394,7 +449,7 @@ const Scout = () => {
               <KeyHints back="main page" />
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
-            <h2 className="text-size-lg font-semibold">Round done <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
+            <h2 className="text-size-lg font-semibold">{mustLook ? 'Must look is clear' : 'Round done'} <span className="font-normal text-secondary">· {round.course}{!mustLook && ` ${scopeLabel}`}</span></h2>
             <p className="text-size-sm text-secondary">{decisions.filter((entry) => entry.decision === 'invite').length} invited · {decisions.filter((entry) => entry.decision === 'decline').length} marked don’t invite</p>
             <SessionDecisions decisions={decisions} />
             {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Decisions are saved in Airtable; the invite emails are sent from there.</p>}
@@ -420,7 +475,7 @@ const Scout = () => {
               </div>
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
-            <p className="text-size-xxs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
+            <p className="text-size-xs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="secondary" disabled={writing} onClick={() => {
                 setConfirmation(undefined);
@@ -447,7 +502,7 @@ const isLinkedIn = (u: string) => {
 };
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (
-  <p className="mt-2 text-size-xxs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Esc</kbd> {back}</p>
+  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Esc</kbd> {back}</p>
 );
 
 const SessionDecisions: React.FC<{ decisions: Done[] }> = ({ decisions }) => {

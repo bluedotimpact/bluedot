@@ -96,10 +96,10 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               className="flex items-center gap-2 h-[30px] transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
               aria-label="Mark exercise as incomplete"
             >
-              <span className="font-medium text-size-xs leading-normal text-bluedot-normal">
+              <span className="font-medium text-size-xs leading-normal text-accent">
                 Completed
               </span>
-              <FaRotateLeft aria-hidden="true" className="size-4 text-bluedot-normal" />
+              <FaRotateLeft aria-hidden="true" className="size-4 text-accent" />
             </button>
           )}
         </div>

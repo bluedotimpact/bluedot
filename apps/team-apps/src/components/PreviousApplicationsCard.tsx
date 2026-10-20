@@ -44,19 +44,19 @@ const summarise = (history: PreviousApplication[], course: string): Verdict => {
 
 const opinionBadgeClass = (opinion: string): string => {
   switch (opinion) {
-    case 'Strong yes': return 'bg-blue-800 text-white';
+    case 'Strong yes': return 'bg-blue-800 text-on-dark';
     case 'Weak yes': return 'bg-sky-400 text-primary';
-    case 'Neutral': return 'bg-stone-500 text-white';
-    case 'Weak no': return 'bg-red-500 text-white';
-    case 'Strong no': return 'bg-red-700 text-white';
+    case 'Neutral': return 'bg-stone-500 text-on-dark';
+    case 'Weak no': return 'bg-red-500 text-on-dark';
+    case 'Strong no': return 'bg-red-700 text-on-dark';
     default: return 'bg-active text-primary';
   }
 };
 
 const decisionBadgeClass = (decision: string): string => {
   switch (decision) {
-    case 'Accept': return 'bg-blue-600 text-white';
-    case 'Reject': return 'bg-red-600 text-white';
+    case 'Accept': return 'bg-blue-600 text-on-dark';
+    case 'Reject': return 'bg-red-600 text-on-dark';
     default: return 'bg-active text-primary';
   }
 };

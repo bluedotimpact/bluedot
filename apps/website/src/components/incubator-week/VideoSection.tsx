@@ -11,7 +11,7 @@ const VideoSection = () => {
           <TrackRecordSection />
         </div>
 
-        <div className="order-1 overflow-hidden rounded-xl bg-bluedot-navy p-1.5 shadow-xl bd-md:p-2 lg:order-2">
+        <div className="order-1 overflow-hidden rounded-xl bg-dark p-1.5 shadow-xl bd-md:p-2 lg:order-2">
           <iframe
             src={VIDEO_EMBED_URL}
             title={VIDEO_TITLE}

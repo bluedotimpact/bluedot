@@ -21,6 +21,7 @@ const INCLUDED_ROUTES = [
   ROUTES.missions,
   ROUTES.research,
   ROUTES.privacyPolicy,
+  ROUTES.contractorPrivacyNotice,
 ];
 
 /** Parse git history to determine when file was last updated */

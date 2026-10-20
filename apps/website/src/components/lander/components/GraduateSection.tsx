@@ -27,7 +27,7 @@ const logos = [
 
 const GraduateSection = ({ label = 'Our 10,000+ alumni work at' }: { label?: string }) => {
   return (
-    <section className="w-full h-[106px] bd-md:h-[91px] bg-white flex items-center">
+    <section className="w-full h-[106px] bd-md:h-[91px] bg-canvas flex items-center">
       {/* At 2xl viewports the alumni bar right-aligns with a 272px gap on the left so
         * the logo wall visually extends from a sibling element above. Bespoke layout —
         * not a candidate for the standard max-w-max-width container. Revisit with Cyrus

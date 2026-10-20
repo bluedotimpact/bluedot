@@ -47,7 +47,7 @@ export const UserSearchModal = ({
 
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title={title}>
-      <>
+      <div className="flex flex-col gap-4">
         <Input
           ref={inputRef}
           type="search"
@@ -55,7 +55,6 @@ export const UserSearchModal = ({
           onChange={(e) => setSearchTermInput(e.target.value)}
           placeholder="Search by name or email..."
           aria-label="Search by name or email"
-          className="mb-4"
           leading={<FaMagnifyingGlass aria-hidden />}
           trailing={searchTermInput ? (
             <button
@@ -75,21 +74,21 @@ export const UserSearchModal = ({
         <div className="md:h-[400px] overflow-y-auto">
           {error && <ErrorSection error={error} />}
           {isLoading && <ProgressDots />}
-          {showNoResults && <p className="text-gray-500 text-center py-4">No users found</p>}
+          {showNoResults && <p className="text-secondary text-center py-4">No users found</p>}
           {searchResults && searchResults.length > 0 && searchResults.map((user) => (
             <button
               key={user.id}
               type="button"
               onClick={() => handleSelectUser(user)}
-              className="w-full cursor-pointer text-left px-3 py-2 hover:bg-gray-100 rounded"
+              className="w-full cursor-pointer text-left px-3 py-2 hover:bg-tint rounded"
             >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 md:gap-4">
                 <div className="min-w-0">
                   {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                   <div className="font-medium truncate">{user.name || '(No name)'}</div>
-                  <div className="text-size-sm text-gray-500 truncate">{user.email}</div>
+                  <div className="text-size-sm text-secondary truncate">{user.email}</div>
                 </div>
-                <div className="text-size-sm text-gray-400 md:flex-shrink-0 md:text-right">
+                <div className="text-size-sm text-secondary md:flex-shrink-0 md:text-right">
                   {user.courseCount > 0 && <div>{user.courseCount} course{user.courseCount !== 1 ? 's' : ''}</div>}
                   {user.lastSeenAt && (
                     <div>Last seen: {formatDateTimeRelative({ dateTimeMs: new Date(user.lastSeenAt).getTime(), currentTimeMs })}</div>
@@ -99,7 +98,7 @@ export const UserSearchModal = ({
             </button>
           ))}
         </div>
-      </>
+      </div>
     </Modal>
   );
 };

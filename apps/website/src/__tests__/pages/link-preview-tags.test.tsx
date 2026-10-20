@@ -6,6 +6,7 @@ import AboutPage from '../../pages/about';
 import AttendancePolicyPage from '../../pages/attendance-policy';
 import CodeOfConductPage from '../../pages/code-of-conduct';
 import ContactPage from '../../pages/contact';
+import ContractorPrivacyNoticePage from '../../pages/privacy';
 import PrivacyPolicyPage from '../../pages/privacy-policy';
 import ProgramsPage from '../../pages/programs';
 import ResearchPage from '../../pages/research';
@@ -43,6 +44,7 @@ describe('public pages give link previews their own title and description', () =
     ['/code-of-conduct', CodeOfConductPage],
     ['/contact', ContactPage],
     ['/privacy-policy', PrivacyPolicyPage],
+    ['/privacy', ContractorPrivacyNoticePage],
     ['/programs', ProgramsPage],
     ['/research', ResearchPage],
   ])('%s', (path, Page) => {

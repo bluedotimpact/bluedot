@@ -4,7 +4,6 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
-import type React from 'react';
 import { useMemo, useState } from 'react';
 import { FaCheck, FaUser } from 'react-icons/fa6';
 import type { AppRouter } from '../../server/routers/_app';
@@ -87,15 +86,15 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
         {!isLoading && !rejoinMutation.isSuccess && (
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
-              <span className="text-size-sm text-bluedot-navy font-medium">Select a group</span>
-              <p className="text-size-xs text-charcoal-mid">
+              <span className="text-size-sm text-primary font-medium">Select a group</span>
+              <p className="text-size-xs text-secondary">
                 Select the group you want to rejoin. The displayed time is in your time zone:
                 <span className="font-medium"> {getGMTOffsetWithCity()}</span>
               </p>
             </div>
             <div className="mt-1 flex flex-col gap-2">
               {!isLoading && groups.length === 0 && (
-                <p className="text-size-sm text-bluedot-normal py-4 text-center">
+                <p className="text-size-sm text-accent py-4 text-center">
                   No groups are currently available to join. Please{' '}
                   <a href="mailto:team@bluedot.org" className="underline">
                     contact us
@@ -110,7 +109,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   groupName={g.group.groupName ?? 'Group [Unknown]'}
                   dateTime={g.group.startTimeUtc}
                   spotsLeftIfKnown={g.spotsLeftIfKnown}
-                  isDisabled={g.spotsLeftIfKnown === 0}
+                  disabled={g.spotsLeftIfKnown === 0}
                   isSubmitting={rejoinMutation.isPending}
                   onJoin={() => handleJoin(g)}
                 />
@@ -122,13 +121,13 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
           <div className="flex flex-col items-center gap-8">
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-4">
-                <div className="shrink-0 rounded-md border border-gray-200 px-3 py-[7px] text-center">
+                <div className="shrink-0 rounded-md border px-3 py-[7px] text-center">
                   {joinedGroup.group.startTimeUtc && (
                     <>
                       <div className="text-size-sm font-semibold whitespace-nowrap">
                         {formatDateMonthAndDay(joinedGroup.group.startTimeUtc)}
                       </div>
-                      <div className="text-size-xs text-bluedot-normal font-medium whitespace-nowrap">
+                      <div className="text-size-xs text-accent font-medium whitespace-nowrap">
                         {formatTime12HourClock(joinedGroup.group.startTimeUtc)}
                       </div>
                     </>
@@ -138,13 +137,13 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   <div className="text-size-sm mb-0.5 font-semibold">
                     {joinedGroup.group.groupName ?? 'Group [Unknown]'}
                   </div>
-                  <div className="text-size-xs text-bluedot-normal flex items-center gap-1">
+                  <div className="text-size-xs text-accent flex items-center gap-1">
                     <span>You joined this group</span>
                     <FaCheck aria-hidden="true" className="size-3" />
                   </div>
                 </div>
               </div>
-              <p className="text-size-xs text-bluedot-navy/70 max-w-[320px] text-center leading-relaxed">
+              <p className="text-size-xs text-secondary max-w-[320px] text-center leading-relaxed">
                 You <strong>will receive a calendar invite shortly</strong> and be added to the group's Slack channel.
               </p>
             </div>
@@ -163,19 +162,19 @@ type RejoinGroupOptionProps = {
   groupName: string;
   dateTime: number | null;
   spotsLeftIfKnown: number | null;
-  isDisabled?: boolean;
+  disabled?: boolean;
   isSubmitting?: boolean;
   onJoin: () => void;
 };
 
-const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
+const RejoinGroupOption = ({
   groupName,
   dateTime,
   spotsLeftIfKnown,
-  isDisabled,
+  disabled,
   isSubmitting,
   onJoin,
-}) => {
+}: RejoinGroupOptionProps) => {
   const displayDate = useMemo(() => {
     if (!dateTime) return null;
     return formatDateMonthAndDay(dateTime);
@@ -190,20 +189,20 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
     = spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
 
   return (
-    <div className={cn('rounded-lg border border-gray-200 bg-white p-3', isDisabled && 'opacity-50')}>
+    <div className={cn('rounded-lg border bg-raised p-3', disabled && 'opacity-50')}>
       <div className="grid grid-cols-[80px_1fr] items-center gap-4">
-        <div className="self-center border-r border-gray-200 text-center">
+        <div className="self-center border-r border-subtle text-center">
           {displayDate && displayTime && (
             <>
               <div className="mt-px mb-[3px] font-medium whitespace-nowrap">{displayDate}</div>
-              <div className="text-size-xs whitespace-nowrap text-gray-500">{displayTime}</div>
+              <div className="text-size-xs whitespace-nowrap text-secondary">{displayTime}</div>
             </>
           )}
         </div>
         <div className="flex justify-between gap-4">
           <div>
             <div className="mb-1 font-semibold">{groupName}</div>
-            <div className="text-size-xs flex items-center gap-1.5 text-gray-500">
+            <div className="text-size-xs flex items-center gap-1.5 text-secondary">
               <FaUser aria-hidden="true" className="size-2.5 -translate-y-px" />
               <span>{spotsLabel}</span>
             </div>
@@ -211,7 +210,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
           <Button
             onClick={onJoin}
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-            disabled={isDisabled || isSubmitting}
+            disabled={disabled || isSubmitting}
             aria-label={`Join ${groupName}`}
             className="my-auto h-fit"
           >

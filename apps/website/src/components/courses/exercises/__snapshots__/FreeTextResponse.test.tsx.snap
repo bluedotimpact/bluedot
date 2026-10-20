@@ -12,11 +12,11 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden cursor-not-allowed opacity-60 min-h-[140px]"
+          class="resize-y overflow-auto relative box-border w-full bg-raised resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-focus focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 cursor-not-allowed opacity-60 min-h-[140px]"
         >
           <div
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-primary [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -32,55 +32,13 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
-        >
-          <svg
-            class="text-bluedot-navy"
-            fill="none"
-            height="14"
-            viewBox="0 0 15 14"
-            width="15"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g
-              clip-path="url(#resize-handle-clip)"
-              opacity="0.6"
-            >
-              <path
-                d="M11.875 7L7.5 11.375"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11 2.1875L2.6875 10.5"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clippath
-                id="resize-handle-clip"
-              >
-                <rect
-                  fill="white"
-                  height="14"
-                  transform="translate(0.5)"
-                  width="14"
-                />
-              </clippath>
-            </defs>
-          </svg>
-        </div>
       </div>
     </div>
     <div
       class="w-full flex"
     >
       <a
-        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover !w-auto !whitespace-normal text-center min-w-0"
+        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover !w-auto !whitespace-normal text-center min-w-0"
         href="/login?register=true&redirect_to=%2Ftest-path"
         tabindex="0"
       >
@@ -118,12 +76,12 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-raised resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-focus focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-primary [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -143,65 +101,23 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
-        >
-          <svg
-            class="text-bluedot-navy"
-            fill="none"
-            height="14"
-            viewBox="0 0 15 14"
-            width="15"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g
-              clip-path="url(#resize-handle-clip)"
-              opacity="0.6"
-            >
-              <path
-                d="M11.875 7L7.5 11.375"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11 2.1875L2.6875 10.5"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clippath
-                id="resize-handle-clip"
-              >
-                <rect
-                  fill="white"
-                  height="14"
-                  transform="translate(0.5)"
-                  width="14"
-                />
-              </clippath>
-            </defs>
-          </svg>
-        </div>
       </div>
       <div
         aria-atomic="true"
         aria-live="polite"
-        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
+        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0 bg-info-bg border-info-border text-info-fg"
         id="save-status-message"
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium"
         />
       </div>
     </div>
     <div>
       <button
         aria-label="Mark exercise as complete"
-        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
+        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-9 px-3 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
         disabled=""
         type="button"
       >
@@ -224,12 +140,12 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-raised resize-grip rounded-md z-[1] p-4 border-[0.5px] border-border-control focus-within:border-[1.25px] focus-within:border-focus focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-relaxed [&_.ProseMirror]:text-primary [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-placeholder [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -244,65 +160,23 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
-        >
-          <svg
-            class="text-bluedot-navy"
-            fill="none"
-            height="14"
-            viewBox="0 0 15 14"
-            width="15"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g
-              clip-path="url(#resize-handle-clip)"
-              opacity="0.6"
-            >
-              <path
-                d="M11.875 7L7.5 11.375"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11 2.1875L2.6875 10.5"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clippath
-                id="resize-handle-clip"
-              >
-                <rect
-                  fill="white"
-                  height="14"
-                  transform="translate(0.5)"
-                  width="14"
-                />
-              </clippath>
-            </defs>
-          </svg>
-        </div>
       </div>
       <div
         aria-atomic="true"
         aria-live="polite"
-        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
+        class="-mt-2.5 pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0 bg-info-bg border-info-border text-info-fg"
         id="save-status-message"
         role="status"
       >
         <div
-          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal"
+          class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xs font-medium"
         />
       </div>
     </div>
     <div>
       <button
         aria-label="Mark exercise as complete"
-        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-9 px-3 bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
+        class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-9 px-3 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
         type="button"
       >
         Complete

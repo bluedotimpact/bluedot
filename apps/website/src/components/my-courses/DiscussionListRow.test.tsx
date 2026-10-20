@@ -241,12 +241,16 @@ describe('DiscussionListRow', () => {
       onClickFacilitatorReschedule = () => {},
       onClickFacilitatorAssignSubstitute = () => {},
       onClickViewAttendees = () => {},
+      isFacilitatedByCurrentUser,
+      substituteFacilitatorNote,
     }: {
       status?: DisplayStatus;
       discussion?: GroupDiscussionWithEnd;
       onClickFacilitatorReschedule?: (d: GroupDiscussionWithEnd) => void;
       onClickFacilitatorAssignSubstitute?: (d: GroupDiscussionWithEnd) => void;
       onClickViewAttendees?: () => void;
+      isFacilitatedByCurrentUser?: boolean;
+      substituteFacilitatorNote?: string;
     } = {}) => {
       const statusProps = propsForStatus(status, discussion);
       return render(<ul>
@@ -259,6 +263,8 @@ describe('DiscussionListRow', () => {
           onClickFacilitatorReschedule={onClickFacilitatorReschedule}
           onClickFacilitatorAssignSubstitute={onClickFacilitatorAssignSubstitute}
           onClickViewAttendees={onClickViewAttendees}
+          isFacilitatedByCurrentUser={isFacilitatedByCurrentUser}
+          substituteFacilitatorNote={substituteFacilitatorNote}
           {...statusProps}
         />
       </ul>);
@@ -292,9 +298,16 @@ describe('DiscussionListRow', () => {
       expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
     });
 
+    test('past and absent: shows the "Absent" pill instead of "Facilitated"', () => {
+      renderFacRow({ status: 'absent' });
+      expect(screen.getByText('Absent')).toBeInTheDocument();
+      expect(screen.queryByText('Facilitated')).toBeNull();
+    });
+
     test('past: shows the "Facilitated" pill; overflow keeps "View attendees" but drops the mutating actions', () => {
       const { container } = renderFacRow({ status: 'attended' });
       expect(screen.getByText('Facilitated')).toBeInTheDocument();
+      expect(screen.queryByText('Absent')).toBeNull();
       const items = openOverflowAndGetLabels(container, 'desktop');
       expect(items).toContain('View attendees');
       expect(items).not.toContain('Reschedule');
@@ -323,6 +336,30 @@ describe('DiscussionListRow', () => {
       clickOverflowItem(container, 'Change facilitator');
       expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledTimes(1);
       expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledWith(expect.objectContaining({ id: baseDiscussion.id }));
+    });
+
+    describe('discussions involving a substitute', () => {
+      test('covered by a substitute: greyed row with "Covered by" note, no status pill and no actions', () => {
+        const { container } = renderFacRow({
+          status: 'upcoming', discussion: withAttendees(3), isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker',
+        });
+        expect(screen.getByText('Covered by Bob Baker')).toBeInTheDocument();
+        expect(screen.queryByText('3 Attending')).toBeNull();
+        expect(openOverflowAndGetLabels(container, 'desktop')).toEqual([]);
+        expect(openOverflowAndGetLabels(container, 'mobile')).toEqual([]);
+      });
+
+      test('covered and past: no "Facilitated" pill', () => {
+        renderFacRow({ status: 'absent', isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker' });
+        expect(screen.queryByText('Facilitated')).toBeNull();
+      });
+
+      test('covering for someone: "Covering for" note with the full facilitator actions', () => {
+        const { container } = renderFacRow({ status: 'upcoming', discussion: withAttendees(3), substituteFacilitatorNote: 'Covering for Alice Archer' });
+        expect(screen.getByText('Covering for Alice Archer')).toBeInTheDocument();
+        expect(screen.getByText('3 Attending')).toBeInTheDocument();
+        expect(openOverflowAndGetLabels(container, 'desktop')).toEqual(expect.arrayContaining(['View attendees', 'Reschedule', 'Change facilitator']));
+      });
     });
   });
 });

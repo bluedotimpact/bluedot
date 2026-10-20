@@ -3,7 +3,7 @@ import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 import { Dots } from './ProgressDots';
 import { cn } from './utils';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'black' | 'outline-black' | 'unstyled';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline-black' | 'unstyled';
 export type ButtonTone = 'destructive' | 'success' | 'warning';
 
 export type ButtonProps = {
@@ -18,12 +18,12 @@ export type ButtonProps = {
 } & Omit<ClickTargetProps, 'aria-busy'>;
 
 // `disabled:` applies to buttons, `aria-disabled:` to links. A busy control dims like disabled but keeps focus
-const BASE_STYLES = 'not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50';
+const BASE_STYLES = 'not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50';
 
 const SIZE_STYLES = {
-  small: 'h-9 px-3',
-  medium: 'h-11 px-4',
-  large: 'h-[50px] px-5',
+  small: 'min-h-9 px-3 text-size-xs font-semibold',
+  medium: 'min-h-11 px-4 text-size-xs font-semibold',
+  large: 'min-h-[50px] px-5 text-size-sm font-medium',
 } as const;
 
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
@@ -33,7 +33,6 @@ const VARIANT_STYLES: Record<ButtonVariant, string> = {
     'border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover',
   ghost:
     'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
-  black: 'bg-dark text-on-dark hover:bg-bluedot-black',
   'outline-black': 'border border-strong font-medium text-primary hover:bg-tint',
   unstyled: '', // No colour/hover styles: fully controlled by className/style
 };

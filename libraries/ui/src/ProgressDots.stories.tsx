@@ -24,7 +24,7 @@ export const OnDark: Story = {
   },
   decorators: [
     (Story) => (
-      <div className="bg-bluedot-navy p-8 rounded-surface">
+      <div className="bg-dark p-8 rounded-surface">
         <Story />
       </div>
     ),

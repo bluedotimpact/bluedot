@@ -9,7 +9,7 @@ import {
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
-const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
+const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-link';
 
 export const AI_GOVERNANCE_COLORS = COURSE_COLORS['ai-governance'];
 

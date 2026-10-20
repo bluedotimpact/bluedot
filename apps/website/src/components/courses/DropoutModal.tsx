@@ -154,10 +154,10 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
     return (
       <div className="flex w-full flex-col items-center justify-center gap-8">
         <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-          <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+          <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
         </div>
         <div className="flex max-w-narrow flex-col items-center gap-4">
-          <P className="text-bluedot-navy/80 text-center">{message}</P>
+          <P className="text-primary text-center">{message}</P>
         </div>
         <Button className="w-full" onClick={handleCloseWithInvalidation}>
           Close
@@ -182,9 +182,9 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       : [];
 
     return (
-      <div className="border-l-2 border-default pl-4 ml-2 mt-3 flex flex-col gap-3">
+      <div className="border-l-2 pl-4 ml-2 mt-3 flex flex-col gap-3">
         <div className="flex flex-col gap-1">
-          <span className="text-size-sm font-medium text-bluedot-navy/80">Intensity</span>
+          <span className="text-size-sm font-medium text-primary">Intensity</span>
           <Select
             aria-label="Intensity"
             value={effectiveIntensity}
@@ -201,7 +201,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="text-size-sm font-medium text-bluedot-navy/80">Round</span>
+          <span className="text-size-sm font-medium text-primary">Round</span>
           <Select
             aria-label="Round"
             value={hasRounds ? effectiveTargetRoundId : undefined}
@@ -211,7 +211,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
             disabled={!hasRounds || dropoutMutation.isPending}
           />
           {!hasRounds && (
-            <P className="text-bluedot-normal text-size-xs mt-1">
+            <P className="text-accent text-size-xs mt-1">
               No upcoming rounds for this intensity available. You can select a different intensity or drop out instead.
             </P>
           )}
@@ -228,7 +228,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       </Callout>
 
       <div className="flex flex-col gap-2">
-        <p className="text-size-md font-medium text-black">1. What would you like to do?</p>
+        <p className="text-size-md font-medium text-primary">1. What would you like to do?</p>
         <Select
           aria-label="Action type"
           value={dropoutType}
@@ -244,21 +244,20 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <p className="text-size-md font-medium text-black">2. We'd love to hear why</p>
-        <p className="text-size-xs text-charcoal-mid">
+        <p className="text-size-md font-medium text-primary">2. We'd love to hear why</p>
+        <p className="text-size-xs text-secondary">
           Your feedback helps us improve the course. Thank you for participating.
         </p>
         <Textarea
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           placeholder="Share your reason for leaving..."
-          rows={3}
           disabled={dropoutMutation.isPending}
         />
       </div>
 
       {dropoutMutation.isError && (
-        <P className="text-red-600">{dropoutMutation.error?.message || 'An error occurred. Please try again.'}</P>
+        <P className="text-error-fg">{dropoutMutation.error?.message || 'An error occurred. Please try again.'}</P>
       )}
 
       <Button
@@ -320,9 +319,9 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
         {mutation.isSuccess ? (
           <>
             <div className="bg-bluedot-normal/10 self-center rounded-full p-4">
-              <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+              <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
             </div>
-            <P className="text-bluedot-navy/80 text-center text-pretty">
+            <P className="text-primary text-center text-pretty">
               Your application has been withdrawn. If this was a mistake, please email us.
             </P>
             <Button className="w-full" onClick={handleCloseWithInvalidation}>
@@ -331,7 +330,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
           </>
         ) : (
           <>
-            <P className="text-bluedot-navy/80 text-pretty">
+            <P className="text-primary text-pretty">
               Are you sure? You&apos;ll need to re-apply if you change your mind.
             </P>
             {mutation.isError && <ErrorSection error={mutation.error} />}

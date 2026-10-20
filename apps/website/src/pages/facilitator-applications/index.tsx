@@ -67,7 +67,6 @@ const getApplicationActions = (
             roundId: app.roundId ?? '',
           })}
           target="_blank"
-          className="text-size-xxs"
         >
           {app.availabilityIntervalsUTC ? 'Edit availability' : 'Share availability'}
         </Button>
@@ -135,7 +134,7 @@ const FacilitatorApplicationsPage = () => {
             <>
               <H2 className="text-size-md">All Applications</H2>
               <TabPills
-                ariaLabel="Application filter"
+                aria-label="Application filter"
                 tabs={APPLICATION_TABS}
                 value={activeTab}
                 onChange={setActiveTab}

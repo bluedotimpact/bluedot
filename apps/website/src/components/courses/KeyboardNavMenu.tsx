@@ -26,7 +26,7 @@ const KeyboardNavMenu = ({
     <DialogTrigger>
       <Button
         aria-label="Keyboard shortcuts"
-        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
+        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-secondary transition-colors hover:bg-tint hover:text-primary aria-expanded:bg-active aria-expanded:text-primary"
       >
         <span aria-hidden="true" className="text-size-sm leading-none">⌘</span>
         Shortcuts
@@ -34,7 +34,7 @@ const KeyboardNavMenu = ({
       <Popover placement="top start">
         <Dialog
           aria-label={popoverTitle || 'Keyboard shortcuts'}
-          className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
+          className="w-fit rounded-lg border bg-raised p-4 shadow-sm"
         >
           {popoverTitle && (
             <ModalTitle className="mb-3">

@@ -20,7 +20,7 @@ const WhatThisIsForSection = () => {
             Career Transition Grants support people who are ready to spend a defined period working full-time on a transition into impactful AI safety or biosecurity work.
           </P>
           <P>You might use the grant to:</P>
-          <ul className="flex flex-col gap-3 pl-6 list-disc text-size-sm leading-relaxed text-bluedot-navy/80">
+          <ul className="flex flex-col gap-3 pl-6 list-disc text-size-sm leading-relaxed text-primary">
             {EXAMPLE_USES.map((item) => <li key={item}>{item}</li>)}
           </ul>
           <P>

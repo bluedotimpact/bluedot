@@ -8,6 +8,7 @@ import {
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
+import TeamSize from '../../shared/TeamSize';
 
 const TASP_COLORS = COURSE_COLORS['technical-ai-safety-project'];
 
@@ -131,16 +132,6 @@ export const createTechnicalAiSafetyProjectContent = (
         answerText: 'Yes. Once you\'re accepted onto the sprint, you can apply for Rapid Grants if you need compute or other resources for your project.',
       },
       {
-        id: 'project-submission',
-        question: 'What happens after I submit my project?',
-        answer: (
-          <>
-            You'll get feedback on your project from an AI safety expert. We'll feature the best projects on <a href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">our website</a> and share it with hiring managers from relevant AI safety orgs.
-          </>
-        ),
-        answerText: 'You\'ll get feedback on your project from an AI safety expert. We\'ll feature the best projects on our website and share it with hiring managers from relevant AI safety orgs.',
-      },
-      {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
         answer: (
@@ -149,10 +140,10 @@ export const createTechnicalAiSafetyProjectContent = (
             <br /><br />
             Our courses are the main entry point into the AI safety field.
             <br /><br />
-            We're a team of 16. We've raised $71M in total.
+            We're <TeamSize />. We've raised $71M in total.
           </>
         ),
-        answerText: 'We\'re a nonprofit with people based in San Francisco, London, and remotely. Since 2022, we\'ve trained 10,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re a team of 16. We\'ve raised $71M in total.',
+        answerText: 'We\'re a nonprofit with people based in San Francisco, London, and remotely. Since 2022, we\'ve trained 10,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'ve raised $71M in total.',
       },
     ],
   },

@@ -7,6 +7,7 @@ import { ROUTES } from '../lib/routes';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import ProfileNameEditor from '../components/settings/ProfileNameEditor';
 import AccountSettingsSection from '../components/settings/AccountSettingsSection';
+import CalendarConnectionsSection from '../components/settings/CalendarConnectionsSection';
 import { trpc } from '../utils/trpc';
 import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
@@ -44,14 +45,16 @@ const AccountSettingsPage = () => {
               onSave={() => utils.users.getUser.invalidate()}
             />
 
-            <div className="border-t border-default my-6" />
+            <div className="border-t my-6" />
 
             <div className="mb-6">
               <P className="font-semibold mb-2">Email*</P>
-              <P className="text-gray-600">{user.email}</P>
+              <P className="text-primary">{user.email}</P>
             </div>
 
-            <div className="border-t border-default my-6" />
+            <div className="border-t my-6" />
+
+            <CalendarConnectionsSection />
 
             <AccountSettingsSection />
           </MyBlueDotLayout>

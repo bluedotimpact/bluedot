@@ -1,5 +1,5 @@
 import {
-  H2, ProgressDots, useLatestUtmParams,
+  Eyebrow, H2, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
 import type { Course } from '@bluedot/db';
 import clsx from 'clsx';
@@ -151,20 +151,20 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
               className={clsx(
                 'group flex items-center gap-3 h-11 pl-5 border-l-4 transition-colors cursor-pointer w-full text-left',
                 isActive
-                  ? 'border-bluedot-normal'
-                  : 'border-[rgba(21,21,21,0.15)] hover:border-bluedot-normal',
+                  ? 'border-accent'
+                  : 'border-default hover:border-accent',
               )}
             >
               <span
                 className={clsx(
                   'text-size-sm leading-relaxed font-normal',
-                  isActive ? 'text-bluedot-normal' : 'text-bluedot-navy',
+                  isActive ? 'text-accent' : 'text-primary',
                 )}
               >
                 {course.title}
               </span>
               {isNew && (
-                <span className="bg-bluedot-lightest text-bluedot-normal text-size-xxs font-bold leading-6 px-1.5 rounded-md">
+                <span className="bg-bluedot-lightest text-accent text-size-xxs font-bold leading-6 px-1.5 rounded-md">
                   NEW
                 </span>
               )}
@@ -180,9 +180,9 @@ export const CourseScheduleMenu = ({ sections }: CourseScheduleMenuProps) => {
       {sections.map((section, index) => (
         section.items.length > 0 && (
           <div key={section.label} className={index > 0 ? 'mt-8' : undefined}>
-            <H2 className="text-size-xxs font-medium text-accent uppercase tracking-wide mb-[30px]">
-              {section.label}
-            </H2>
+            <h2 className="mb-[30px]">
+              <Eyebrow>{section.label}</Eyebrow>
+            </h2>
             {renderItems(section.items)}
           </div>
         )
@@ -202,7 +202,7 @@ export const CourseScheduleList = ({ courses }: CourseScheduleListProps) => {
         <div key={course.id} id={`course-${course.slug}`}>
           <CourseScheduleCard course={course} />
           {index < courses.length - 1 && (
-            <div className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
+            <div className="my-12 lg:my-16 xl:my-20 border-t border-subtle" />
           )}
         </div>
       ))}
@@ -229,7 +229,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
     <article className="flex flex-col">
       <CourseScheduleHeader course={course} />
 
-      <p className="mt-6 text-size-md leading-relaxed font-normal text-bluedot-navy/80">
+      <p className="mt-6 text-size-md leading-relaxed font-normal text-secondary">
         {course.shortDescription}
       </p>
 
@@ -261,10 +261,10 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
         )}
 
         {!roundsLoading && !showRounds && (
-          <div className="flex items-center min-h-12 border-l-4 border-bluedot-navy/20 pl-5">
-            <p className="text-size-sm leading-relaxed font-normal text-bluedot-navy/50">
+          <div className="flex items-center min-h-12 border-l-4 pl-5">
+            <p className="text-size-sm leading-relaxed font-normal text-secondary">
               No upcoming rounds.{' '}
-              <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
+              <Link href={`/courses/${course.slug}`} className="text-link font-medium hover:underline cursor-pointer">
                 Learn more about this course
               </Link>
             </p>
@@ -296,7 +296,7 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           <H2 className="text-size-lg leading-normal">
             {course.title}
           </H2>
-          <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-size-lg leading-normal text-primary transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -313,7 +313,7 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
           <H2 className="text-size-lg leading-normal">
             {course.title}
           </H2>
-          <span className="text-size-lg leading-normal text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-size-lg leading-normal text-primary transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>

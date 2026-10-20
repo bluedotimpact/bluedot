@@ -13,7 +13,7 @@ type NextStepsChunkProps = {
   courseSlug: string;
 };
 
-const externalLinkClassName = 'font-semibold text-bluedot-normal underline hover:text-bluedot-navy';
+const externalLinkClassName = 'font-semibold text-link underline hover:text-primary';
 
 const DigitalMindsNextStepsChunk: React.FC = () => (
   <div className="next-steps-chunk flex flex-col gap-6 mt-8 md:mt-6">
@@ -21,7 +21,7 @@ const DigitalMindsNextStepsChunk: React.FC = () => (
       Congratulations on finishing the Introduction to Digital Minds course! Here are some ways you can continue to learn about and contribute to the digital minds field.
     </P>
 
-    <div className="flex flex-col gap-5 text-size-sm leading-relaxed text-bluedot-navy">
+    <div className="flex flex-col gap-5 text-size-sm leading-relaxed text-primary">
       <div>
         <a
           href="https://www.digitalminds.news/"

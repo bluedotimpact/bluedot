@@ -90,7 +90,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         technicalSkillRationale={technicalSkillRationale}
       />
 
-      <div className="border border-subtle rounded-lg divide-y divide-stone-700 overflow-hidden">
+      <div className="border border-subtle rounded-lg divide-y divide-subtle overflow-hidden">
         {([
           { title: 'Path to impact', content: pathToImpact },
           { title: 'Experience', content: experience },

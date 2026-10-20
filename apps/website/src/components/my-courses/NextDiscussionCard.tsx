@@ -1,6 +1,9 @@
 import type { Group, Unit } from '@bluedot/db';
-import { Button, H3, useCurrentTimeMs } from '@bluedot/ui';
+import {
+  Button, H3, Tag, useCurrentTimeMs,
+} from '@bluedot/ui';
 import { useState, type ReactNode } from 'react';
+import { FaRegClock } from 'react-icons/fa6';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import type { SwitchType } from '../../server/routers/group-switching';
@@ -8,7 +11,6 @@ import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { TimeWidget } from './DiscussionListRow';
 import LiveBadge from './LiveBadge';
-import StatusPill, { PendingIcon } from './StatusPill';
 
 // The course name stays in the eyebrow in every state (incl. live); the live cue lives in the
 // left graphic. There's no "starting soon" state — a soon discussion reads as a normal upcoming one.
@@ -24,16 +26,15 @@ const formatDatetimeLabel = (startSec: number, endSec: number) =>
 
 // Fixed square badge slot: shows the calendar date, or the LIVE indicator (same dimensions) when live.
 const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isLive: boolean }) => (
-  <div aria-hidden={!isLive} className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border border-default bg-white sm:size-16 sm:rounded-2xl">
+  <div aria-hidden={!isLive} className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border bg-raised sm:size-16 sm:rounded-2xl">
     {isLive ? <LiveBadge /> : (
       <>
-        <div className="flex h-4 items-center justify-center bg-bluedot-normal sm:h-6">
-          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-          <span className="text-[10px] leading-relaxed text-white sm:text-size-xxs sm:font-semibold">{month.toUpperCase()}</span>
+        <div className="flex h-4 items-center justify-center bg-accent sm:h-6">
+          <span className="text-size-xxs font-semibold leading-none text-on-dark">{month.toUpperCase()}</span>
         </div>
         <div className="flex flex-1 items-center justify-center">
           {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-          <span className="text-size-md font-semibold leading-normal text-bluedot-navy sm:text-[28px] sm:font-bold sm:leading-none">{day}</span>
+          <span className="text-size-md font-semibold leading-normal text-primary sm:text-[28px] sm:font-bold sm:leading-none">{day}</span>
         </div>
       </>
     )}
@@ -91,28 +92,28 @@ const NextDiscussionCard = ({
 
   return (
     <>
-      <div className="flex flex-col gap-4 rounded-xl border border-default bg-white p-5 sm:flex-row sm:items-center sm:gap-5 sm:p-6">
+      <div className="flex flex-col gap-4 rounded-xl border bg-raised p-5 sm:flex-row sm:items-center sm:gap-5 sm:p-6">
         <div className="flex w-full items-start gap-4 sm:flex-1 sm:items-center sm:gap-5">
           {mode === 'facilitator'
             ? <TimeWidget isLive={isLive} dateTimeSeconds={discussion.startDateTime} />
             : <CalendarBadge month={month} day={day} isLive={isLive} />}
           <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
             <div className="flex flex-col items-start">
-              <p className="text-size-xxs font-semibold leading-normal text-bluedot-normal">
+              <p className="text-size-xxs font-semibold leading-normal text-accent">
                 {formatEyebrow(eyebrowPrefix, unitNumber)}
               </p>
               <H3 className="text-size-md sm:text-size-lg">
                 {titleHref ? (
                   <a
                     href={titleHref}
-                    className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+                    className="text-primary no-underline transition-colors hover:text-link hover:underline underline-offset-2"
                   >
                     {unit?.title ?? 'Discussion'}
                   </a>
                 ) : (unit?.title ?? 'Discussion')}
               </H3>
             </div>
-            <p className="text-size-xs text-bluedot-navy">
+            <p className="text-size-xs text-primary">
               {mode === 'facilitator'
                 ? (facilitatorSubtitle ?? '')
                 : formatDatetimeLabel(discussion.startDateTime, discussion.endDateTime)}
@@ -180,7 +181,6 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
           url={discussionDocUrl}
           target="_blank"
           disabled={!discussionDocUrl}
-          className="text-size-xxs"
         >
           Open discussion doc
         </Button>
@@ -190,7 +190,6 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
             size="small"
             onClick={onOpenUpdateTime}
             disabled={!roundId}
-            className="text-size-xxs"
           >
             Update discussion time
           </Button>
@@ -202,7 +201,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
             url={zoomLink}
             target="_blank"
             disabled={!zoomLink}
-            className="flex-1 text-size-xxs sm:flex-none"
+            className="flex-1 sm:flex-none"
           >
             Join discussion
           </Button>
@@ -218,16 +217,16 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
   return (
     <>
       {pendingSwitchType && (
-        <StatusPill icon={<PendingIcon />}>
+        <Tag shape="pill">
+          <FaRegClock aria-hidden />
           {pendingSwitchType === 'Switch group for one unit' ? 'Reschedule requested' : 'Group switch requested'}
-        </StatusPill>
+        </Tag>
       )}
       {roundId && !pendingSwitchType && (
         <Button
           variant="secondary"
           size="small"
           onClick={onOpenReschedule}
-          className="text-size-xxs"
         >
           Reschedule
         </Button>
@@ -237,7 +236,7 @@ const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
         size="small"
         url={primaryHref}
         target={isLive ? '_blank' : undefined}
-        className="flex-1 text-size-xxs sm:flex-none"
+        className="flex-1 sm:flex-none"
       >
         {primaryLabel}
       </Button>

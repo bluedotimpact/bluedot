@@ -51,7 +51,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
     <div className="bg-[#F9FBFF] px-8 pt-6 pb-8 rounded-b-lg flex flex-col gap-6">
       {groups.length > 1 && (
         <div className="flex flex-col gap-2">
-          <span className="text-size-xs font-semibold text-bluedot-navy">Select your group:</span>
+          <span className="text-size-xs font-semibold text-primary">Select your group:</span>
           <Select
             options={groups.map((g) => ({ value: g.id, label: getGroupLabel(g) }))}
             value={selectedGroup.id}
@@ -60,13 +60,13 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
           />
         </div>
       )}
-      <p className="text-size-xs font-semibold text-bluedot-navy">
+      <p className="text-size-xs font-semibold text-primary">
         <span>{responses.length} {responses.length === 1 ? 'Response' : 'Responses'}</span>
         {' · '}
         <span>{pendingCount} Pending</span>
       </p>
 
-      <div className="flex flex-col divide-y divide-gray-200">
+      <div className="flex flex-col divide-y divide-subtle">
         {responses.map((r, i) => (
           <ResponseBlock
 
@@ -90,12 +90,12 @@ const ResponseBlock: React.FC<{
   return (
     <div className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0">
       <div className="flex items-center gap-2">
-        <div className="size-6 rounded-full bg-bluedot-lighter flex items-center justify-center flex-shrink-0">
-          <FaUser className="size-3 text-bluedot-normal" />
+        <div className="size-6 rounded-full bg-accent-subtle flex items-center justify-center flex-shrink-0">
+          <FaUser className="size-3 text-accent" />
         </div>
-        <span className="font-semibold text-size-xs text-bluedot-navy">{name}</span>
+        <span className="font-semibold text-size-xs text-primary">{name}</span>
       </div>
-      <div className="border-l-2 border-bluedot-lighter pl-4 ml-3">
+      <div className="border-l-2 border-accent-subtle pl-4 ml-3">
         <div className="relative">
           <div
             className="leading-relaxed"
@@ -117,7 +117,7 @@ const ResponseBlock: React.FC<{
         <button
           type="button"
           onClick={() => setExpanded(!expanded)}
-          className="text-size-xs text-bluedot-normal font-medium mt-2 cursor-pointer hover:underline block ml-3 pl-4"
+          className="text-size-xs text-link font-medium mt-2 cursor-pointer hover:underline block ml-3 pl-4"
         >
           {expanded ? 'Show less' : 'Show more'}
         </button>

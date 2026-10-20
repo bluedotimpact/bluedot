@@ -11,8 +11,9 @@ import {
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
+import TeamSize from '../../shared/TeamSize';
 
-const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
+const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-link';
 
 export const TAS_COLORS = COURSE_COLORS['technical-ai-safety'];
 
@@ -78,9 +79,9 @@ export const createTechnicalAiSafetyContent = (
     intro: (
       <>
         <p className="mb-5">This course doesn&apos;t end at Unit 6. Here&apos;s where our alumni go - and how we help them get there.</p>
-        <CardShell className="bg-bluedot-navy/[0.03] text-left">
-          <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">We don&apos;t just teach</p>
-          <p className="text-size-sm leading-relaxed text-bluedot-navy/80">
+        <CardShell className="bg-tint text-left">
+          <p className="text-size-sm font-semibold leading-normal text-primary mb-3">We don&apos;t just teach</p>
+          <p className="text-size-sm leading-relaxed text-secondary">
             BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run
             {' '}
             <a href="/grants/rapid" className={externalLinkClassName}>Rapid Grants</a>
@@ -163,8 +164,8 @@ export const createTechnicalAiSafetyContent = (
     ],
     callout: (
       <>
-        <p className="text-size-sm font-semibold leading-normal text-bluedot-navy mb-3">Technical AI Safety Project Sprint</p>
-        <p className="text-size-sm leading-relaxed text-bluedot-navy/80">
+        <p className="text-size-sm font-semibold leading-normal text-primary mb-3">Technical AI Safety Project Sprint</p>
+        <p className="text-size-sm leading-relaxed text-secondary">
           After completing this course, you can apply for our
           {' '}
           <a href="/courses/technical-ai-safety-project" className={externalLinkClassName}>Project Sprint</a>
@@ -236,10 +237,10 @@ export const createTechnicalAiSafetyContent = (
             <br /><br />
             Our courses are the main entry point into the AI safety field.
             <br /><br />
-            We're a team of 16. We've raised $71M in total.
+            We're <TeamSize />. We've raised $71M in total.
           </>
         ),
-        answerText: 'We\'re a nonprofit with people based in San Francisco, London, and remotely. Since 2022, we\'ve trained 10,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re a team of 16. We\'ve raised $71M in total.',
+        answerText: 'We\'re a nonprofit with people based in San Francisco, London, and remotely. Since 2022, we\'ve trained 10,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'ve raised $71M in total.',
       },
     ],
   },

@@ -47,6 +47,6 @@ export const CustomStylesCallout: Story = {
   args: {
     title: 'Want to know how this was done?',
     children: 'The `className` prop was used to apply custom styles to the callout container.',
-    className: '!bg-red-100 !border-red-500',
+    className: '!bg-error-bg !border-error-border',
   },
 };

@@ -10,7 +10,7 @@ const Header = () => (
       >
         Start making an impact today
       </h2>
-      <P className="md:text-size-md leading-relaxed text-bluedot-navy/80 max-w-4xl">
+      <P className="md:text-size-md leading-relaxed text-secondary max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>
@@ -30,12 +30,12 @@ const ValueProp = ({ iconType, title, description }: { iconType: 'career' | 'net
 
   return (
     <div className="flex flex-col gap-6 bd-md:basis-0 bd-md:grow">
-      <div className="size-16 rounded-full bg-bluedot-navy/8 flex items-center justify-center">
-        <IconComponent className="size-8 text-bluedot-navy" />
+      <div className="size-16 rounded-full bg-tint flex items-center justify-center">
+        <IconComponent className="size-8 text-primary" />
       </div>
       <div className="flex flex-col gap-2">
         <H4 className="text-size-md font-medium">{title}</H4>
-        <P className="text-bluedot-navy/80">{description}</P>
+        <P className="text-secondary">{description}</P>
       </div>
     </div>
   );
@@ -48,13 +48,13 @@ const ValueProps = () => (
       title="Build a career in AI safety, fast"
       description="25% of our graduates land impactful roles within six months of completing a course."
     />
-    <div className="h-px bd-md:h-auto bd-md:w-px bg-bluedot-navy/20 bd-md:mx-8" />
+    <div className="h-px bd-md:h-auto bd-md:w-px bg-default bd-md:mx-8" />
     <ValueProp
       iconType="network"
       title="Get recognised in the industry"
       description="Hiring managers at all the major AI companies and governments recruit from our community."
     />
-    <div className="h-px bd-md:h-auto bd-md:w-px bg-bluedot-navy/20 bd-md:mx-8" />
+    <div className="h-px bd-md:h-auto bd-md:w-px bg-default bd-md:mx-8" />
     <ValueProp
       iconType="expert"
       title="Join a growing global community"

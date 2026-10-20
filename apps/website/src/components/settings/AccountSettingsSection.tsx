@@ -228,7 +228,7 @@ const ChangePasswordModal = ({
           />
           {errors.current && (
             <p
-              className="text-red-600 text-size-sm mt-1"
+              className="text-error-fg text-size-sm mt-1"
               id="current-password-error"
               role="alert"
               aria-live="polite"
@@ -260,7 +260,7 @@ const ChangePasswordModal = ({
           />
           {!errors.new && (
             <p
-              className="text-charcoal-mid text-size-sm mt-1"
+              className="text-secondary text-size-sm mt-1"
               id="new-password-hint"
             >
               Password must be at least 8 characters
@@ -268,7 +268,7 @@ const ChangePasswordModal = ({
           )}
           {errors.new && (
             <p
-              className="text-red-600 text-size-sm mt-1"
+              className="text-error-fg text-size-sm mt-1"
               id="new-password-error"
               role="alert"
               aria-live="polite"
@@ -300,7 +300,7 @@ const ChangePasswordModal = ({
           />
           {errors.confirm && (
             <p
-              className="text-red-600 text-size-sm mt-1"
+              className="text-error-fg text-size-sm mt-1"
               id="confirm-password-error"
               role="alert"
               aria-live="polite"

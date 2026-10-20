@@ -602,7 +602,7 @@ const SpeedReviewPage = () => {
           if (undoToast.kind === 'moved') void handleUndoMove();
           else handleUndo();
         }}
-        className="font-semibold text-accent hover:text-bluedot-lighter underline underline-offset-2 disabled:opacity-40"
+        className="font-semibold text-on-dark-link hover:text-on-dark-link-hover underline underline-offset-2 disabled:opacity-40"
       >
         {undoToast.kind === 'moved' ? 'Undo move' : 'Re-rate'}
       </button>
@@ -697,7 +697,7 @@ const SpeedReviewPage = () => {
       </div>
 
       {milestoneToast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-accent text-white text-size-sm px-5 py-2.5 rounded-full shadow-lg pointer-events-none max-w-[90vw] text-center">
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-accent text-on-dark text-size-sm px-5 py-2.5 rounded-full shadow-lg pointer-events-none max-w-[90vw] text-center">
           {milestoneToast}
         </div>
       )}
