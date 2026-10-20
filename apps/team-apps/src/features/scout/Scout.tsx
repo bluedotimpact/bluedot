@@ -45,11 +45,14 @@ export const greeting = (name?: string, now = new Date()) => {
   return name ? `${word}, ${name}!` : `${word}!`;
 };
 
-// The one line under the greeting: how much must-look work is waiting in the lead's courses
-// (everyone's, for someone who leads none). Exported for tests.
-export const headline = (mustLook: number) => {
-  if (mustLook === 0) return 'Your must-look queue is clear. Nice work.';
-  return mustLook === 1 ? '1 person is waiting for your look.' : `${mustLook} people are waiting for your look.`;
+// The line under the greeting for a course lead: what is waiting in their must-look queue and
+// how far they are from the weekly invite target. Exported for tests.
+export const WEEKLY_INVITE_TARGET = 20;
+export const headline = (mustLook: number, invitedThisWeek: number) => {
+  let waiting = `${mustLook} people are waiting in your must-look queue.`;
+  if (mustLook === 0) waiting = 'Your must-look queue is clear. Hurray 🎉';
+  if (mustLook === 1) waiting = '1 person is waiting in your must-look queue.';
+  return `${waiting} ${invitedThisWeek} of ${WEEKLY_INVITE_TARGET} invites sent this week.`;
 };
 
 // Scout reads live Airtable data and has no sample data set, so the portal's local
@@ -360,7 +363,14 @@ const Scout = () => {
             <header className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h1 className="text-size-lg font-semibold">{greeting(leadName)}</h1>
-                {!loading && !queueError && <p className="mt-1 text-size-sm text-secondary">{headline(remaining.filter((item) => item.mustLook && (leadCourses.length === 0 || leadCourses.includes(item.course))).length)}</p>}
+                {!loading && !queueError && leadCourses.length > 0 && (
+                  <p className="mt-1 text-size-sm text-secondary">
+                    {headline(
+                      remaining.filter((item) => item.mustLook && leadCourses.includes(item.course)).length,
+                      leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0),
+                    )}
+                  </p>
+                )}
               </div>
               <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
                 void loadQueue();
@@ -378,7 +388,7 @@ const Scout = () => {
             </section>
             {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
             <ReviewEvidence key={lookup.id} item={lookup} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(lookup.id)} actions={
-              <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
+              <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                   <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
@@ -424,7 +434,7 @@ const Scout = () => {
             </section>
           )}
           {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
-            <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
+            <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                 <Button variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></Button>

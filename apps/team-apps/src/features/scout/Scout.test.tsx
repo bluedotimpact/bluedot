@@ -184,9 +184,9 @@ test('the greeting follows the hour and drops the name when nobody is known', ()
   expect(greeting('Sample', new Date('2026-10-20T09:00:00'))).toBe('Good morning, Sample!');
   expect(greeting('Sample', new Date('2026-10-20T15:00:00'))).toBe('Good afternoon, Sample!');
   expect(greeting(undefined, new Date('2026-10-20T21:00:00'))).toBe('Good evening!');
-  expect(headline(0)).toBe('Your must-look queue is clear. Nice work.');
-  expect(headline(1)).toBe('1 person is waiting for your look.');
-  expect(headline(12)).toBe('12 people are waiting for your look.');
+  expect(headline(0, 3)).toBe('Your must-look queue is clear. Hurray 🎉 3 of 20 invites sent this week.');
+  expect(headline(1, 0)).toBe('1 person is waiting in your must-look queue. 0 of 20 invites sent this week.');
+  expect(headline(12, 7)).toBe('12 people are waiting in your must-look queue. 7 of 20 invites sent this week.');
 });
 
 test('after a round, "Review next round" only offers another round of the same course; otherwise only the main page', async () => {

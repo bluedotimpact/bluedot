@@ -11,7 +11,7 @@ const backlogChoice = `${choice} border-subtle hover:border-accent hover:bg-tint
 const mustLookChoice = `${choice} border-accent bg-info-bg text-info-fg hover:border-strong`;
 
 // A course's one-line summary: what the lead must look at, and what went out this week
-const summaryLabel = (mustLook: number, invited?: { total: number }) => `${mustLook} must look${mustLook === 0 ? ', hurray' : ''} · ${invited?.total ?? 0} invited this week`;
+const summaryLabel = (mustLook: number, invited?: { total: number }) => `${mustLook} must look · ${invited?.total ?? 0} invited this week`;
 
 // A lead's own courses open first; with no known courses everything is open.
 export const RoundPicker = ({
