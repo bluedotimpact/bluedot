@@ -15,9 +15,9 @@ export const Tag = ({
   return (
     <span
       className={cn(
-        'inline-flex w-fit items-center gap-1 py-2 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0',
-        shape === 'rounded' && 'rounded-surface px-4',
-        shape === 'pill' && 'rounded-full px-3',
+        'inline-flex w-fit items-center gap-1 whitespace-nowrap bg-accent-subtle text-size-xxs font-semibold leading-4 [&>svg]:size-3.5 [&>svg]:shrink-0',
+        shape === 'rounded' && 'rounded-surface px-4 py-2 text-accent',
+        shape === 'pill' && 'rounded-full px-3 py-2.5 text-secondary',
         className,
       )}
     >
