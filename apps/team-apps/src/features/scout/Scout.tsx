@@ -12,7 +12,6 @@ import { isLocalPreview } from '../../lib/preview';
 import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
-import { QueueSource } from './QueueSource';
 import { openNextSection } from './sectionNav';
 import {
   mustLookFor, roundKey, roundLabel, roundsFor,
@@ -37,6 +36,30 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
 
+// Exported for tests
+export const greeting = (name?: string, now = new Date()) => {
+  const hour = now.getHours();
+  let word = 'Good evening';
+  if (hour < 12) word = 'Good morning';
+  else if (hour < 18) word = 'Good afternoon';
+  return name ? `${word}, ${name}!` : `${word}!`;
+};
+
+// The line under the greeting for a course lead: what is waiting in their must-look queue and
+// how far they are from the weekly invite target. Exported for tests.
+export const WEEKLY_INVITE_TARGET = 20;
+export const headline = (mustLook: number, invitedThisWeek: number): [string, string] => {
+  let waiting = `${mustLook} people are waiting in your must-look queue.`;
+  if (mustLook === 0) waiting = 'Your must-look queue is clear. Hurray 🎉';
+  if (mustLook === 1) waiting = '1 person is waiting in your must-look queue.';
+  let mood = 'Let’s find some people!';
+  if (invitedThisWeek > 25) mood = 'You are killing it! 🔥';
+  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET) mood = 'Weekly target reached, brilliant!';
+  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET / 2) mood = 'Good pace, keep it up!';
+  else if (invitedThisWeek > 0) mood = 'Off the mark, keep going!';
+  return [waiting, `${invitedThisWeek} of ${WEEKLY_INVITE_TARGET} invites sent this week. ${mood}`];
+};
+
 // Scout reads live Airtable data and has no sample data set, so the portal's local
 // preview mode (synthetic token, no Airtable token) cannot show it
 const PreviewNotice = () => (
@@ -52,6 +75,12 @@ const PreviewNotice = () => (
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [leadCourses, setLeadCourses] = useState<Course[]>([]);
+  const [leadName, setLeadName] = useState<string>();
+  // Set after mount: the page is prerendered, and the hour there is not the lead's hour
+  const [greetingText, setGreetingText] = useState('');
+  useEffect(() => {
+    setGreetingText(greeting(leadName));
+  }, [leadName]);
   const [invited, setInvited] = useState<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
@@ -88,11 +117,12 @@ const Scout = () => {
     setSaveError(undefined);
     setConflict(false);
     try {
-      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[] }>('queue');
+      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string }>('queue');
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
       setInvited(data.invitedThisWeek ?? {});
       setLeadCourses(data.leadCourses ?? []);
+      setLeadName(data.leadName);
       setSkipOrder([]);
       setPeople({});
       requested.current.clear();
@@ -341,12 +371,17 @@ const Scout = () => {
         {!round && !lookup && (
           <>
             <header className="flex flex-wrap items-start justify-between gap-3">
-              <div><h1 className="text-size-lg font-semibold">Course talent scouting</h1><p className="mt-1 text-size-sm text-secondary">Which course participant should get an evaluation call?</p></div>
+              <div>
+                <h1 className="text-size-lg font-semibold">{greetingText}</h1>
+                {!loading && !queueError && leadCourses.length > 0 && headline(
+                  remaining.filter((item) => item.mustLook && leadCourses.includes(item.course)).length,
+                  leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0),
+                ).map((line) => <p key={line} className="mt-1 text-size-sm text-secondary">{line}</p>)}
+              </div>
               <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
                 void loadQueue();
               }}>Refresh queue</Button>
             </header>
-            {!loading && !queueError && <QueueSource count={remaining.length} />}
           </>
         )}
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
@@ -359,7 +394,7 @@ const Scout = () => {
             </section>
             {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
             <ReviewEvidence key={lookup.id} item={lookup} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(lookup.id)} actions={
-              <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
+              <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                   <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
@@ -405,7 +440,7 @@ const Scout = () => {
             </section>
           )}
           {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
-            <div className="rounded-b-overlay border-t border-subtle bg-canvas p-4">
+            <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                 <Button variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></Button>
