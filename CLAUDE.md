@@ -39,11 +39,6 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
   - When unsure whether a story is warranted (e.g. small internal component, ambiguous reuse), ask the user.
 - For non-trivial work, sketch a plan before editing.
 
-## Designing in Figma
-
-- Figma design work for BlueDot screens (recreate, redesign, mock up, or design from a brief or image) uses the `bluedot-figma` skill in `.claude/skills/`, not the generic Figma skills.
-- Design system file: https://www.figma.com/design/b48ano1xNhjFlspfahUkGn/BlueDot-Design-System
-
 ## Coding rules
 
 - All new database access goes through `@bluedot/db`. Don't talk to Airtable or Postgres directly, and don't bypass the abstraction.
