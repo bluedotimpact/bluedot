@@ -57,7 +57,6 @@ const CalendarsPage = withAuth(() => {
     { enabled: connectToken !== null },
   );
   const connections = trpc.calendarConnections.list.useQuery(undefined, { enabled: query !== null });
-  const user = trpc.users.getUser.useQuery(undefined, { enabled: query !== null });
 
   const connect = async () => {
     setIsStarting(true);
@@ -89,14 +88,14 @@ const CalendarsPage = withAuth(() => {
         {error && <Callout tone="error" title={error.title} role="alert">{error.body}</Callout>}
         {connectToken !== null && !linkIsValid && (
           <Callout tone="warning" title="This Slack link has expired">
-            You can still connect your calendar here. If you use a different email on Slack, ask us for a new link.
+            You can still connect your calendar here, or use the newest link we sent you in Slack.
           </Callout>
         )}
 
         <P>Connect your Google Calendar so we can schedule your 1-1 chats at times you're free.</P>
         <ul className="bluedot-p list-disc pl-6 flex flex-col gap-2">
           <li>We only see when you're busy. We never see event names, details, guests or locations.</li>
-          <li>Your calendar can be on any Google account, even one with a different email from your BlueDot account. You can connect more than one, for example your work one and your personal one.</li>
+          <li>Your calendar can be on any Google account, work or personal. You can connect more than one.</li>
           <li>You can disconnect a calendar at any time on this page.</li>
         </ul>
         <P className="text-secondary text-size-xs">
@@ -120,11 +119,6 @@ const CalendarsPage = withAuth(() => {
           {startError && <p className="text-size-sm text-error-fg" role="alert">{startError}</p>}
         </div>
 
-        <P className="text-secondary text-size-xs">
-          {linkIsValid
-            ? 'You opened this from Slack, so we\'ll link your calendars to your Slack account.'
-            : `We find you on Slack using your BlueDot account email${user.data?.email ? `, ${user.data.email}` : ''}. If you use a different email on Slack, open the link we sent you there instead.`}
-        </P>
       </>
     );
   };
