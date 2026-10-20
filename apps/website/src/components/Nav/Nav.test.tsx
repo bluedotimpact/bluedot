@@ -225,7 +225,7 @@ describe('Nav', () => {
       expect(mobileNavDrawer.className).not.toMatch(/invisible/);
     });
 
-    // Simulate clicking outside the nav drawer (useDismissible listens for mousedown)
+    // Simulate clicking outside the nav drawer (useDismissible listens for pointerdown)
     await user.click(document.body);
 
     await waitFor(() => {
@@ -307,7 +307,7 @@ describe('Nav', () => {
 
     const desktopFeaturedCourseLink = await within(getControlledPanel(coursesButton)).findByRole('link', { name: /Featured Course/i });
 
-    // A real click starts with mousedown inside the panel, which must not count as click-outside
+    // A real click starts with pointerdown inside the panel, which must not count as click-outside
     await user.click(desktopFeaturedCourseLink);
 
     await waitFor(() => {
