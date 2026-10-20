@@ -94,7 +94,7 @@ exports[`AboutPage > should render correctly 1`] = `
                             >
                               Future of AI
                               <span
-                                class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+                                class="inline-flex w-fit items-center gap-1 whitespace-nowrap bg-accent-subtle text-size-xxs font-semibold leading-4 [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 py-2 text-accent ml-2"
                               >
                                 Start Here
                               </span>
@@ -336,7 +336,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       >
                         Future of AI
                         <span
-                          class="inline-flex w-fit items-center gap-1 text-size-xxs font-semibold leading-snug [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface bg-accent-subtle text-accent ml-2 px-2 py-0.5"
+                          class="inline-flex w-fit items-center gap-1 whitespace-nowrap bg-accent-subtle text-size-xxs font-semibold leading-4 [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 py-2 text-accent ml-2"
                         >
                           Start Here
                         </span>
