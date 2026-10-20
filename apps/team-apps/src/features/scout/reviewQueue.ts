@@ -18,7 +18,8 @@ export const roundPickerLabel = (item: QueueItem, now = new Date()) => {
   return `Ended ${date} (${roundLabel(item)})`;
 };
 
-// The course's must-look people across rounds, newest round first; within a round, the view's order
+// The course's must-look people across rounds, most recently finished round first (that is when the
+// certificate, facilitator feedback and project land); within a round, the view's order
 export const mustLookFor = (items: QueueItem[], course: string) => items
   .filter((item) => item.course === course && item.mustLook)
   .sort((a, b) => (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
