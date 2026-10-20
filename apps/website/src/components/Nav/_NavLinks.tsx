@@ -26,10 +26,9 @@ type NavDropdownLink = {
   url: string;
   // Path to match for aria-current when url is a deep link (e.g. /courses/x/1/1 for enrolled users)
   currentPath?: string;
-  isNew?: boolean | null;
+  tag?: 'New' | 'Start Here';
   external?: boolean;
   footer?: boolean;
-  startHere?: boolean;
 };
 
 type NavLinksProps = {
@@ -60,7 +59,7 @@ export const NavLinks = ({
       title: course.title,
       url: getPrimaryCourseURL(course.slug),
       currentPath: `/courses/${course.slug}`,
-      isNew: course.isNew ?? false,
+      tag: course.isNew ? 'New' as const : undefined,
     }));
 
   const sections: { section: NavSection; title: string; links: NavDropdownLink[]; loading: boolean }[] = [
@@ -69,7 +68,7 @@ export const NavLinks = ({
       title: 'Courses',
       loading: coursesLoading,
       links: [
-        { title: 'Future of AI', url: `/courses/${FOAI_COURSE_SLUG}`, startHere: true },
+        { title: 'Future of AI', url: `/courses/${FOAI_COURSE_SLUG}`, tag: 'Start Here' },
         ...courseLinks,
         { title: 'See all courses', url: ROUTES.courses.url, footer: true },
       ],
@@ -228,14 +227,9 @@ const NavDropdown = ({
               >
                 {link.title}
                 {link.footer && <span aria-hidden="true">&nbsp;→</span>}
-                {link.isNew && (
+                {link.tag && (
                   <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                    New
-                  </Tag>
-                )}
-                {link.startHere && (
-                  <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                    Start Here
+                    {link.tag}
                   </Tag>
                 )}
               </A>
