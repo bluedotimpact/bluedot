@@ -701,55 +701,6 @@ exports[`AboutPage > should render correctly 1`] = `
       </div>
     </section>
     <section
-      class="beliefs-section section section-body"
-    >
-      <h3
-        class="bluedot-h3 not-prose mb-6"
-      >
-        What we believe
-      </h3>
-      <div
-        class="flex flex-col gap-6"
-      >
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            AGI could arrive soon, and society isn't ready
-          </h4>
-          <p
-            class="bluedot-p not-prose"
-          >
-            Human-level AI could be only a few years away. AI companies are moving fast. The institutions meant to govern them are moving much slower.
-          </p>
-        </div>
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            A few people at key moments can change history
-          </h4>
-          <p
-            class="bluedot-p not-prose"
-          >
-            In the past, a small number of people in the right place at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
-          </p>
-        </div>
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            We need urgency and wisdom
-          </h4>
-          <p
-            class="bluedot-p not-prose"
-          >
-            The stakes are huge and time is short. But panic leads to bad decisions. We need to act fast and think clearly.
-          </p>
-        </div>
-      </div>
-    </section>
-    <section
       class="values-section section section-body"
       id="principles"
     >
