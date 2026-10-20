@@ -76,6 +76,11 @@ const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [leadCourses, setLeadCourses] = useState<Course[]>([]);
   const [leadName, setLeadName] = useState<string>();
+  // Set after mount: the page is prerendered, and the hour there is not the lead's hour
+  const [greetingText, setGreetingText] = useState('');
+  useEffect(() => {
+    setGreetingText(greeting(leadName));
+  }, [leadName]);
   const [invited, setInvited] = useState<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
@@ -367,7 +372,7 @@ const Scout = () => {
           <>
             <header className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h1 className="text-size-lg font-semibold">{greeting(leadName)}</h1>
+                <h1 className="text-size-lg font-semibold">{greetingText}</h1>
                 {!loading && !queueError && leadCourses.length > 0 && headline(
                   remaining.filter((item) => item.mustLook && leadCourses.includes(item.course)).length,
                   leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0),
