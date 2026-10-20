@@ -171,7 +171,7 @@ const Block = ({ block }: { block: ContentBlock }) => {
       return (
         <div className="not-prose my-4 flex flex-wrap items-center gap-2">
           <span className="text-size-xs text-secondary">Legal basis</span>
-          {block.bases.map((basis) => <Tag key={basis} variant="secondary">{basis}</Tag>)}
+          {block.bases.map((basis) => <Tag key={basis}>{basis}</Tag>)}
         </div>
       );
     default:

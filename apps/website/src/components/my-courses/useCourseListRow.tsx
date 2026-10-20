@@ -1,8 +1,10 @@
 import {
-  Button, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
+  Button, Tag, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
-import { FaBan, FaCheck, FaLock } from 'react-icons/fa6';
+import {
+  FaBan, FaCheck, FaLock, FaRegClock,
+} from 'react-icons/fa6';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
@@ -14,7 +16,6 @@ import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
 import type { CourseAction } from './DiscussionListRow';
-import StatusPill, { PendingIcon } from '../StatusPill';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';
@@ -292,7 +293,7 @@ const getParticipantActions = (
       id: 'group-switch-requested-pill',
       isVisible: inProgressOrUpcoming && hasPendingGroupSwitchRequest,
       variant: 'inline',
-      inline: <StatusPill icon={<PendingIcon />}>Group switch requested</StatusPill>,
+      inline: <Tag shape="pill"><FaRegClock aria-hidden />Group switch requested</Tag>,
     },
     {
       id: 'share-feedback',
@@ -358,7 +359,7 @@ const getParticipantActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Dropped</StatusPill>,
+      inline: <Tag shape="pill"><FaBan aria-hidden />Dropped</Tag>,
     },
     {
       id: 'apply-again',
@@ -430,7 +431,7 @@ const getFacilitatorActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Dropped</StatusPill>,
+      inline: <Tag shape="pill"><FaBan aria-hidden />Dropped</Tag>,
     },
     {
       id: 'share-feedback-facilitator',

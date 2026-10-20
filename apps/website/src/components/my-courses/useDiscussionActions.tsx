@@ -1,12 +1,11 @@
 import {
-  Button, useCurrentTimeMs, type OverflowMenuItemProps,
+  Button, Tag, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
-import { FaBan, FaCheck } from 'react-icons/fa6';
+import { FaBan, FaCheck, FaRegClock } from 'react-icons/fa6';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
-import StatusPill, { PendingIcon } from '../StatusPill';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
@@ -86,7 +85,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
-  const rescheduleRequestedPill = <StatusPill icon={<PendingIcon />}>Reschedule requested</StatusPill>;
+  const rescheduleRequestedPill = <Tag shape="pill"><FaRegClock aria-hidden />Reschedule requested</Tag>;
   // Mobile keeps the menu item, greyed out, labelled so the user knows why.
   const rescheduleOverflow = hasPendingReschedule
     ? { id: 'reschedule', label: 'Reschedule requested', disabled: true }
@@ -115,13 +114,13 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attended-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: <StatusPill icon={<FaCheck aria-hidden className="size-3" />}>Attended</StatusPill>,
+      inline: <Tag shape="pill"><FaCheck aria-hidden />Attended</Tag>,
     },
     {
       id: 'absent-pill',
       isVisible: status === 'absent',
       variant: 'inline',
-      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Absent</StatusPill>,
+      inline: <Tag shape="pill"><FaBan aria-hidden />Absent</Tag>,
     },
     {
       id: 'reschedule-absent',
@@ -173,19 +172,19 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attending-pill',
       isVisible: !isPast && status !== 'live',
       variant: 'inline',
-      inline: <StatusPill>{attendingCount} Attending</StatusPill>,
+      inline: <Tag shape="pill">{attendingCount} Attending</Tag>,
     },
     {
       id: 'facilitated-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: <StatusPill icon={<FaCheck aria-hidden size={12} />}>Facilitated</StatusPill>,
+      inline: <Tag shape="pill"><FaCheck aria-hidden />Facilitated</Tag>,
     },
     {
       id: 'absent-pill-facilitator',
       isVisible: status === 'absent',
       variant: 'inline',
-      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Absent</StatusPill>,
+      inline: <Tag shape="pill"><FaBan aria-hidden />Absent</Tag>,
     },
     {
       id: 'view-attendees',

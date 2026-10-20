@@ -1,9 +1,10 @@
-import { Eyebrow, OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
+import {
+  Eyebrow, OverflowMenu, Tag, type OverflowMenuItemProps,
+} from '@bluedot/ui';
 import type { ReactNode } from 'react';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { formatDateRange } from '../../lib/utils';
-import StatusPill from '../StatusPill';
 import { APPLICATION_STATUS_LABEL, type ApplicationStatus } from './applicationTabs';
 
 export type ApplicationRowProps = {
@@ -67,7 +68,7 @@ const ApplicationRow = ({
           )}
         </div>
         <div className="flex shrink-0 items-center gap-3">
-          <StatusPill className="hidden sm:inline-flex">{statusLabel}</StatusPill>
+          <Tag shape="pill" className="hidden sm:inline-flex">{statusLabel}</Tag>
           <span className="hidden sm:contents">{inlineActions}</span>
           {overflowItems.length > 0 && (
             <OverflowMenu aria-label="Application actions" items={overflowItems} />
@@ -75,7 +76,7 @@ const ApplicationRow = ({
         </div>
       </div>
       <div className="relative flex flex-wrap items-center gap-3 px-5 pb-5 sm:hidden">
-        <StatusPill>{statusLabel}</StatusPill>
+        <Tag shape="pill">{statusLabel}</Tag>
         {inlineActions}
       </div>
     </li>

@@ -119,9 +119,8 @@ describe('Nav', () => {
       expect(seeAllCourses?.getAttribute('href')).toBe('/courses');
 
       // Verify tags: one "Start Here" on FoAI, one "New" on new course
-      const tagTexts = panel.getAllByRole('status').map((t) => t.textContent);
-      expect(tagTexts).toContain('Start Here');
-      expect(tagTexts).toContain('New');
+      expect(panel.getByText('Start Here')).toBeTruthy();
+      expect(panel.getByText('New')).toBeTruthy();
     });
   };
 

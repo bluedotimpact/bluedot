@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  Button, OverflowMenu, useCurrentTimeMs, type ButtonProps, type OverflowMenuItemProps,
+  Button, OverflowMenu, Tag, useCurrentTimeMs, type ButtonProps, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -8,13 +8,12 @@ import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import {
-  FaClock, FaCopy, FaFileLines, FaPeopleArrows, FaPlus, FaSlack, FaVideo,
+  FaClock, FaCopy, FaFileLines, FaPeopleArrows, FaPlus, FaRegClock, FaSlack, FaVideo,
 } from 'react-icons/fa6';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import type { SwitchType } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
-import StatusPill, { PendingIcon } from '../StatusPill';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
@@ -114,9 +113,10 @@ const GroupDiscussionBanner = ({
   const isFacilitator = userRole === 'facilitator';
   const showPendingPill = Boolean(pendingSwitchType) && !isFacilitator;
   const pendingPill = (
-    <StatusPill icon={<PendingIcon />} className="bg-accent-subtle">
+    <Tag shape="pill">
+      <FaRegClock aria-hidden />
       {pendingSwitchType === 'Switch group for one unit' ? 'Reschedule requested' : 'Group switch requested'}
-    </StatusPill>
+    </Tag>
   );
 
   const copyHostKeyIfFacilitator = async () => {
