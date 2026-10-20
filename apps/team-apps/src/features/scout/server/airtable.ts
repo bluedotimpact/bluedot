@@ -445,7 +445,7 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
       opinion: str(r.fields[REG.opinion]),
       hasCertificate: !!r.fields[REG.certificateCreatedAt],
       hasReport: strList(r.fields[REG.reports]).length > 0,
-      mustLook: r.fields[REG.mustLook] === 1,
+      mustLook: !!r.fields[REG.mustLook],
     });
   }
 
