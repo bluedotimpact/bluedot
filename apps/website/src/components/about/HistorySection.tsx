@@ -10,6 +10,7 @@ const HistorySection = () => {
         <HistoryEvent year="2023">Expanded to AI governance and biosecurity. Trained 900. Moved to London.</HistoryEvent>
         <HistoryEvent year="2024">Trained 3,500. Raised $5M.</HistoryEvent>
         <HistoryEvent year="2025">Launched monthly courses. Raised $25M. Announced SF expansion.</HistoryEvent>
+        <HistoryEvent year="2026">Moved our headquarters to San Francisco. Trained over 10,000 people.</HistoryEvent>
       </div>
     </section>
   );

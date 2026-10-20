@@ -629,24 +629,128 @@ exports[`JoinUsPage > should render correctly 1`] = `
     <section
       class="section section-body"
     >
-      <h3
-        class="bluedot-h3 not-prose mb-6"
-      >
-        Why us
-      </h3>
       <div
-        class="flex flex-col gap-5"
+        class="flex flex-col gap-10 max-w-prose"
       >
-        <p
-          class="bluedot-p not-prose"
-        >
-          We're a team of 16, growing to 20, with people based in San Francisco, London, and remotely. We've raised $71M to date. If you join now, you'll shape how the organisation works, what we build, and who we become.
-        </p>
-        <p
-          class="bluedot-p not-prose"
-        >
-          On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people. We delete bureaucracy: our expense policy is "act in BlueDot's best interest." We're a non-profit, but our salaries are benchmarked on SF tech salaries.
-        </p>
+        <div>
+          <h3
+            class="bluedot-h3 not-prose mb-4"
+          >
+            Why join us
+          </h3>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <p
+              class="bluedot-p not-prose"
+            >
+              We're 
+              <span
+                class="invisible"
+              >
+                a team of 20
+              </span>
+               in San Francisco, London and remotely. We've raised $71M, and we plan to grow to 50 people over the next 12 months.
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              Join now and you'll help shape what BlueDot becomes. You might launch a course, give out grants, run an in-person program, or find a way to reach ten times more people.
+            </p>
+          </div>
+        </div>
+        <div>
+          <h3
+            class="bluedot-h3 not-prose mb-4"
+          >
+            How we work
+          </h3>
+          <p
+            class="bluedot-p not-prose"
+          >
+            We work in public, move fast on decisions that are easy to undo, and give each other direct feedback. Read 
+            <a
+              class="bluedot-a not-prose"
+              href="/about#principles"
+              tabindex="0"
+            >
+              our principles
+            </a>
+            .
+          </p>
+        </div>
+        <div>
+          <h3
+            class="bluedot-h3 not-prose mb-4"
+          >
+            What we offer
+          </h3>
+          <ul
+            class="flex flex-col gap-2 list-disc pl-5"
+          >
+            <li>
+              <p
+                class="bluedot-p not-prose"
+              >
+                Salaries benchmarked on SF tech salaries
+              </p>
+            </li>
+            <li>
+              <p
+                class="bluedot-p not-prose"
+              >
+                10% employer retirement contribution and health insurance
+              </p>
+            </li>
+            <li>
+              <p
+                class="bluedot-p not-prose"
+              >
+                Unlimited paid time off
+              </p>
+            </li>
+            <li>
+              <p
+                class="bluedot-p not-prose"
+              >
+                Yearly wellbeing and commute allowances
+              </p>
+            </li>
+            <li>
+              <p
+                class="bluedot-p not-prose"
+              >
+                Relocation support and US visa sponsorship
+              </p>
+            </li>
+            <li>
+              <p
+                class="bluedot-p not-prose"
+              >
+                One expense rule: 
+                <a
+                  class="bluedot-a not-prose"
+                  href="https://blog.bluedot.org/p/expenses"
+                  tabindex="0"
+                >
+                  act in BlueDot's best interest
+                </a>
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="bluedot-h3 not-prose mb-4"
+          >
+            How we hire
+          </h3>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Apply, do a paid work test, then an interview and an in-person work trial. Exceptional people can skip straight to the trial.
+          </p>
+        </div>
       </div>
     </section>
     <section

@@ -632,30 +632,71 @@ exports[`AboutPage > should render correctly 1`] = `
       <h3
         class="bluedot-h3 not-prose mb-6"
       >
-        Who we are
+        What we do
       </h3>
       <div
-        class="intro-section__text-container flex flex-col gap-5"
+        class="intro-section__text-container flex flex-col gap-5 max-w-prose"
       >
         <p
           class="bluedot-p not-prose"
         >
-          In 2021, a handful of us at Cambridge wanted to work on AI safety, but couldn't find where to start. Important ideas and arguments were scattered across the internet. There were no courses, no career paths, and few people to talk to. So we started running reading groups.
+          AI is moving fast, and too few people are working to make it go well. We find people who could help and get them working on it full-time.
+        </p>
+        <ul
+          class="flex flex-col gap-3 list-disc pl-5"
+        >
+          <li>
+            <p
+              class="bluedot-p not-prose"
+            >
+              <strong>
+                Courses
+                .
+              </strong>
+               
+              Free courses in AI safety, AI governance and biosecurity. Over 10,000 people have taken them.
+            </p>
+          </li>
+          <li>
+            <p
+              class="bluedot-p not-prose"
+            >
+              <strong>
+                Grants
+                .
+              </strong>
+               
+              Funding for people to change careers or start new projects.
+            </p>
+          </li>
+          <li>
+            <p
+              class="bluedot-p not-prose"
+            >
+              <strong>
+                Programs
+                .
+              </strong>
+               
+              In-person programs that give people the context and connections to get started.
+            </p>
+          </li>
+        </ul>
+        <p
+          class="bluedot-p not-prose"
+        >
+          Our alumni work at Anthropic, Google DeepMind, the UK AI Security Institute and many other organisations.
         </p>
         <p
           class="bluedot-p not-prose"
         >
-          Those reading groups evolved into the BlueDot courses. We've trained over 10,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.
-        </p>
-        <p
-          class="bluedot-p not-prose"
-        >
-          But training alone isn't enough. We give out grants to support career transitions, and we help exceptional people land impactful roles or start new organisations. Our goal isn't just to educate people, it's to get them working on the most important problems.
-        </p>
-        <p
-          class="bluedot-p not-prose"
-        >
-          The gap between how fast AI is advancing and how fast the safety and security workforce is growing is the most dangerous mismatch of our time. Our team of 16 works from San Francisco, London, and remotely. We're working as fast as we can to close it.
+          We started in 2021 as reading groups in Cambridge. Today we're 
+          <span
+            class="invisible"
+          >
+            a team of 20
+          </span>
+           in San Francisco, London and remotely, and we've raised $71M.
         </p>
       </div>
     </section>
@@ -665,7 +706,7 @@ exports[`AboutPage > should render correctly 1`] = `
       <h3
         class="bluedot-h3 not-prose mb-6"
       >
-        Core beliefs
+        What we believe
       </h3>
       <div
         class="flex flex-col gap-6"
@@ -674,24 +715,24 @@ exports[`AboutPage > should render correctly 1`] = `
           <h4
             class="bluedot-h4 not-prose mb-2"
           >
-            AGI could arrive soon, and society is dangerously unprepared
+            AGI could arrive soon, and society isn't ready
           </h4>
           <p
             class="bluedot-p not-prose"
           >
-            Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.
+            Human-level AI could be only a few years away. AI companies are moving fast. The institutions meant to govern them are moving much slower.
           </p>
         </div>
         <div>
           <h4
             class="bluedot-h4 not-prose mb-2"
           >
-            People at key moments rewrite history
+            A few people at key moments can change history
           </h4>
           <p
             class="bluedot-p not-prose"
           >
-            The future of AI isn't set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
+            In the past, a small number of people in the right place at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
           </p>
         </div>
         <div>
@@ -703,18 +744,19 @@ exports[`AboutPage > should render correctly 1`] = `
           <p
             class="bluedot-p not-prose"
           >
-            The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.
+            The stakes are huge and time is short. But panic leads to bad decisions. We need to act fast and think clearly.
           </p>
         </div>
       </div>
     </section>
     <section
       class="values-section section section-body"
+      id="principles"
     >
       <h3
         class="bluedot-h3 not-prose mb-6"
       >
-        Values
+        How we work
       </h3>
       <div
         class="flex flex-col gap-6"
@@ -723,36 +765,72 @@ exports[`AboutPage > should render correctly 1`] = `
           <h4
             class="bluedot-h4 not-prose mb-2"
           >
-            Own the mission
+            Our job is the mission
           </h4>
           <p
             class="bluedot-p not-prose"
           >
-            We all take responsibility for achieving our mission, not just getting tasks done. If something important needs doing and it's not anyone's job, it's your job.
+            Do what the mission needs, even if it's weird, uncomfortable, difficult, or not part of your role.
           </p>
         </div>
         <div>
           <h4
             class="bluedot-h4 not-prose mb-2"
           >
-            Think hard and move fast
+            What is the goal?
           </h4>
           <p
             class="bluedot-p not-prose"
           >
-            We think carefully about what matters most, then we pursue it with urgency. Speed in the wrong direction is wasted effort.
+            Obsessively ask yourself this, write your answer in plain English, work out your biggest blocker and how to fix it, then let small fires burn.
           </p>
         </div>
         <div>
           <h4
             class="bluedot-h4 not-prose mb-2"
           >
-            Say the uncomfortable truth
+            Don't wait for permission
           </h4>
           <p
             class="bluedot-p not-prose"
           >
-            We give feedback directly and receive it generously. The mission is too important for politeness to get in the way of honesty.
+            When a decision is easy to undo, take action fast, and try things before you conclude they can't be done.
+          </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 not-prose mb-2"
+          >
+            Public by default
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Give everyone enough context to build on your work by posting regular updates, sharing wins and failures, and avoiding DMs.
+          </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 not-prose mb-2"
+          >
+            Connect with people first
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Before you work with someone or try to persuade them, be curious about their story and what matters to them, help them feel comfortable, and let them get to know you.
+          </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 not-prose mb-2"
+          >
+            Actionable feedback is a gift
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Challenge decisions and share feedback quickly and in public, especially with people who seem more senior or smarter than you, without being an asshole.
           </p>
         </div>
       </div>
@@ -890,6 +968,31 @@ exports[`AboutPage > should render correctly 1`] = `
               class="bluedot-p not-prose mr-12"
             >
               Launched monthly courses. Raised $25M. Announced SF expansion.
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="flex flex-col gap-space-between"
+          >
+            <div
+              class="w-full flex gap-2"
+            >
+              <p
+                class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+              >
+                2026
+              </p>
+              <div
+                class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+              />
+            </div>
+            <p
+              class="bluedot-p not-prose mr-12"
+            >
+              Moved our headquarters to San Francisco. Trained over 10,000 people.
             </p>
           </div>
         </div>

@@ -11,6 +11,7 @@ import {
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
+import TeamSize from '../../shared/TeamSize';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-link';
 
@@ -236,10 +237,10 @@ export const createTechnicalAiSafetyContent = (
             <br /><br />
             Our courses are the main entry point into the AI safety field.
             <br /><br />
-            We're a team of 16. We've raised $71M in total.
+            We're <TeamSize />. We've raised $71M in total.
           </>
         ),
-        answerText: 'We\'re a nonprofit with people based in San Francisco, London, and remotely. Since 2022, we\'ve trained 10,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re a team of 16. We\'ve raised $71M in total.',
+        answerText: 'We\'re a nonprofit with people based in San Francisco, London, and remotely. Since 2022, we\'ve trained 10,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'ve raised $71M in total.',
       },
     ],
   },
