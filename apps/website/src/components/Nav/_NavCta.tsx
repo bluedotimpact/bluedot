@@ -1,80 +1,41 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@bluedot/ui';
 import { useRouter } from 'next/router';
-import clsx from 'clsx';
 import { getLoginUrl } from '../../utils/getLoginUrl';
+import { ROUTES } from '../../lib/routes';
 
 import { ProfileLinks } from './_ProfileLinks';
-import { ROUTES } from '../../lib/routes';
-import { type ExpandedSectionsState } from './utils';
+import { type NavMenu } from './utils';
 
-export const NavCta: React.FC<{
-  // Required
-  expandedSections: ExpandedSectionsState;
-  updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
-  // Optional
+type NavCtaProps = {
+  menu: NavMenu;
   isLoggedIn?: boolean;
   onColoredBackground?: boolean;
-}> = ({
-  isLoggedIn,
-  expandedSections,
-  updateExpandedSections,
-  onColoredBackground = false,
-}) => {
+};
+
+export const NavCta = ({ menu, isLoggedIn, onColoredBackground = false }: NavCtaProps) => {
   const router = useRouter();
+  // Static pages render asPath without the query string on the server, so set the redirect_to after hydration
   const [loginUrl, setLoginUrl] = useState(ROUTES.login.url);
   const [joinUrl, setJoinUrl] = useState(ROUTES.join.url);
-
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setLoginUrl(getLoginUrl(router.asPath));
-      setJoinUrl(getLoginUrl(router.asPath, true));
-    }
+    setLoginUrl(getLoginUrl(router.asPath));
+    setJoinUrl(getLoginUrl(router.asPath, true));
   }, [router.asPath]);
-  const getButtonClasses = (type: 'primary' | 'secondary') => {
-    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm leading-relaxed';
 
-    if (type === 'primary') {
-      return clsx(
-        baseClasses,
-        onColoredBackground && 'bg-accent-on-dark hover:bg-accent-on-dark-hover text-bluedot-darker',
-      );
-    }
+  if (isLoggedIn) {
+    return <ProfileLinks menu={menu} onColoredBackground={onColoredBackground} />;
+  }
 
-    return clsx(
-      baseClasses,
-      onColoredBackground
-        ? 'bg-surface-on-dark border border-border-on-dark text-on-dark hover:bg-surface-on-dark-hover backdrop-blur-sm'
-        : 'border text-primary hover:bg-tint',
-    );
-  };
-
+  // data-on-dark stays on this wrapper, not the <nav>: the drawers are DOM-nested inside the bar and sit on canvas
   return (
-    <div className="nav-cta flex flex-row items-center gap-4">
-      {isLoggedIn ? (
-        <ProfileLinks
-          expandedSections={expandedSections}
-          updateExpandedSections={updateExpandedSections}
-          onColoredBackground={onColoredBackground}
-        />
-      ) : (
-        <>
-          <Button
-            className={getButtonClasses('secondary')}
-            variant="secondary"
-            url={loginUrl}
-          >
-            Sign in
-          </Button>
-          <Button
-            className={clsx('hidden bd-md:flex', getButtonClasses('primary'))}
-            variant="primary"
-            url={joinUrl}
-          >
-            Start for free
-          </Button>
-        </>
-      )}
+    <div className="flex items-center gap-4" data-on-dark={onColoredBackground || undefined}>
+      <Button variant="secondary" url={loginUrl}>
+        Sign in
+      </Button>
+      <Button className="hidden bd-md:flex" url={joinUrl}>
+        Start for free
+      </Button>
     </div>
   );
 };
