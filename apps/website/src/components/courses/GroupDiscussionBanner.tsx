@@ -8,13 +8,12 @@ import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import {
-  FaClock, FaCopy, FaFileLines, FaPeopleArrows, FaPlus, FaSlack, FaVideo,
+  FaClock, FaCopy, FaFileLines, FaPeopleArrows, FaPlus, FaRegClock, FaSlack, FaVideo,
 } from 'react-icons/fa6';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import type { SwitchType } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
-import { PendingIcon } from '../PendingIcon';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
@@ -115,7 +114,7 @@ const GroupDiscussionBanner = ({
   const showPendingPill = Boolean(pendingSwitchType) && !isFacilitator;
   const pendingPill = (
     <Tag shape="pill">
-      <PendingIcon />
+      <FaRegClock aria-hidden />
       {pendingSwitchType === 'Switch group for one unit' ? 'Reschedule requested' : 'Group switch requested'}
     </Tag>
   );

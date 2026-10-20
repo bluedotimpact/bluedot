@@ -2,7 +2,9 @@ import {
   Button, Tag, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
-import { FaBan, FaCheck, FaLock } from 'react-icons/fa6';
+import {
+  FaBan, FaCheck, FaLock, FaRegClock,
+} from 'react-icons/fa6';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
@@ -14,7 +16,6 @@ import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
 import type { CourseAction } from './DiscussionListRow';
-import { PendingIcon } from '../PendingIcon';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';
@@ -292,7 +293,7 @@ const getParticipantActions = (
       id: 'group-switch-requested-pill',
       isVisible: inProgressOrUpcoming && hasPendingGroupSwitchRequest,
       variant: 'inline',
-      inline: <Tag shape="pill"><PendingIcon />Group switch requested</Tag>,
+      inline: <Tag shape="pill"><FaRegClock aria-hidden />Group switch requested</Tag>,
     },
     {
       id: 'share-feedback',

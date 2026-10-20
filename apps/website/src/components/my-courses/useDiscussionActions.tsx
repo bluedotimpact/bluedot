@@ -2,11 +2,10 @@ import {
   Button, Tag, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
-import { FaBan, FaCheck } from 'react-icons/fa6';
+import { FaBan, FaCheck, FaRegClock } from 'react-icons/fa6';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
-import { PendingIcon } from '../PendingIcon';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
@@ -86,7 +85,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
-  const rescheduleRequestedPill = <Tag shape="pill"><PendingIcon />Reschedule requested</Tag>;
+  const rescheduleRequestedPill = <Tag shape="pill"><FaRegClock aria-hidden />Reschedule requested</Tag>;
   // Mobile keeps the menu item, greyed out, labelled so the user knows why.
   const rescheduleOverflow = hasPendingReschedule
     ? { id: 'reschedule', label: 'Reschedule requested', disabled: true }
