@@ -216,7 +216,7 @@ const NavDropdown = ({
               <A
                 key={link.url}
                 href={link.url}
-                {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                target={link.external ? '_blank' : undefined}
                 aria-current={!link.footer && isCurrent(link.currentPath ?? link.url) ? 'page' : undefined}
                 className={clsx(
                   NAV_LINK_CLASS,
