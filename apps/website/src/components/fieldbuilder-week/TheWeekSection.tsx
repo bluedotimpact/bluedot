@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import {
-  A, H3, H4, P, Tag,
+  A, Eyebrow, H3, H4, P,
 } from '@bluedot/ui';
 
 type ScheduleItem = {
@@ -46,7 +46,7 @@ const TheWeekSection = () => {
               className="flex flex-col bd-md:flex-row bd-md:items-baseline gap-3 bd-md:gap-10 py-6"
             >
               <div className="bd-md:w-40 bd-md:shrink-0">
-                <Tag shape="pill">{item.cadence}</Tag>
+                <Eyebrow>{item.cadence}</Eyebrow>
               </div>
               <div className="flex flex-col gap-2">
                 <H4>
