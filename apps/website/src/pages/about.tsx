@@ -2,7 +2,6 @@ import { Breadcrumbs, Button } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
 import IntroSection from '../components/about/IntroSection';
-import ValuesSection from '../components/about/ValuesSection';
 import HistorySection from '../components/about/HistorySection';
 import TeamSection from '../components/about/TeamSection';
 import { ROUTES } from '../lib/routes';
@@ -22,7 +21,6 @@ const AboutPage = () => {
       />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <IntroSection />
-      <ValuesSection />
       <HistorySection />
       <TeamSection />
       <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center">

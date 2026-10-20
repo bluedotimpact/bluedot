@@ -1,5 +1,4 @@
 import { A, H3, P } from '@bluedot/ui';
-import { ROUTES } from '../../lib/routes';
 import TeamSize from '../shared/TeamSize';
 
 const offers = [
@@ -20,11 +19,6 @@ const WhyUsSection = () => {
             <P>We&apos;re <TeamSize /> in San Francisco, London and remotely. We&apos;ve raised $71M, and we plan to grow to 50 people over the next 12 months.</P>
             <P>Join now and you&apos;ll help shape what BlueDot becomes. You might launch a course, give out grants, run an in-person program, or find a way to reach ten times more people.</P>
           </div>
-        </div>
-
-        <div>
-          <H3 className="mb-4">How we work</H3>
-          <P>We work in public, move fast on decisions that are easy to undo, and give each other direct feedback. Read <A href={`${ROUTES.about.url}#principles`}>our principles</A>.</P>
         </div>
 
         <div>
