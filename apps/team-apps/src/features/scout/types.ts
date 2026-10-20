@@ -14,6 +14,8 @@ export type QueueItem = {
   opinion?: string;
   hasCertificate: boolean;
   hasReport: boolean;
+  // "[*] Talent scouting must look" in Airtable: the short queue a lead is asked to clear; the rest is backlog
+  mustLook: boolean;
 };
 
 // Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share

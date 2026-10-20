@@ -14,7 +14,9 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { QueueSource } from './QueueSource';
 import { openNextSection } from './sectionNav';
-import { roundKey, roundLabel, roundsFor } from './reviewQueue';
+import {
+  mustLookFor, roundKey, roundLabel, roundsFor,
+} from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
   Course, Decision, InvitedThisWeek, Person, QueueItem,
@@ -54,6 +56,8 @@ const Scout = () => {
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
+  // Must look reviews a course's must-look people across rounds; `round` then only names the course
+  const [mustLook, setMustLook] = useState(false);
   // Looking one person up from the search box or a ?person= link: just their card and a
   // decision, no round, no queue, then back to the start.
   const [lookup, setLookup] = useState<QueueItem>();
@@ -103,36 +107,52 @@ const Scout = () => {
   }, [loadQueue]);
 
   const remaining = useMemo(() => items.filter((item) => !done[item.id]), [items, done]);
-  const roundItems = round ? remaining.filter((item) => roundKey(item) === roundKey(round)) : [];
-  const skippedItems = skipOrder.map((id) => roundItems.find((item) => item.id === id)).filter((item): item is QueueItem => item !== undefined);
-  const queue = [...roundItems.filter((item) => !skipOrder.includes(item.id)), ...skippedItems];
+  const inScope = (item: QueueItem) => {
+    if (!round) return false;
+    return mustLook ? item.course === round.course && item.mustLook : !item.mustLook && roundKey(item) === roundKey(round);
+  };
+
+  let scopeItems: QueueItem[] = [];
+  if (round) scopeItems = mustLook ? mustLookFor(remaining, round.course) : remaining.filter(inScope);
+  const skippedItems = skipOrder.map((id) => scopeItems.find((item) => item.id === id)).filter((item): item is QueueItem => item !== undefined);
+  const queue = [...scopeItems.filter((item) => !skipOrder.includes(item.id)), ...skippedItems];
   const current = lookup ?? queue[0];
   const upcoming = lookup ? undefined : queue[1];
   const loaded = current ? people[current.id] : undefined;
   const person = loaded && 'person' in loaded ? loaded.person : undefined;
-  const decisions = Object.values(done).filter((entry) => round && roundKey(entry.item) === roundKey(round));
-  const total = roundItems.length + decisions.length;
+  const decisions = Object.values(done).filter((entry) => inScope(entry.item));
+  const total = scopeItems.length + decisions.length;
+  let scopeLabel = '';
+  if (round) scopeLabel = mustLook ? 'Must look' : roundLabel(round);
 
-  // Next round of the same course that still has people; other courses are a deliberate choice on the main page
-  const nextRound = round ? roundsFor(remaining, round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
-  // Everyone left in the round has been skipped once: say so instead of silently showing the first skip again
-  const allSkipped = roundItems.length > 0 && roundItems.every((item) => skipOrder.includes(item.id));
+  // Next backlog round of the same course that still has people; other courses, and the backlog
+  // after must look, are a deliberate choice on the main page
+  const nextRound = round && !mustLook ? roundsFor(remaining.filter((item) => !item.mustLook), round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
+  // Everyone left in the queue has been skipped once: say so instead of silently showing the first skip again
+  const allSkipped = scopeItems.length > 0 && scopeItems.every((item) => skipOrder.includes(item.id));
   const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u !== undefined && isLinkedIn(u));
   const cardOpen = lookup !== undefined || (round !== undefined && !allSkipped && current !== undefined);
 
   const leaveRound = useCallback(() => {
     setRound(undefined);
+    setMustLook(false);
     setSkipOrder([]);
     setNotice(undefined);
   }, []);
 
-  const chooseRound = (item: QueueItem) => {
+  const chooseRound = (item: QueueItem, asMustLook = false) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
     setRound(item);
+    setMustLook(asMustLook);
     setSkipOrder([]);
     setSaveError(undefined);
     setConflict(false);
     setNotice(undefined);
+  };
+
+  const chooseMustLook = (course: Course) => {
+    const anchor = mustLookFor(remaining, course)[0];
+    if (anchor) chooseRound(anchor, true);
   };
 
   // The URL carries the person being looked up, so a card can be shared as a link
@@ -213,9 +233,9 @@ const Scout = () => {
   }, [currentId]);
 
   useEffect(() => {
-    setSessionActive(!loading && !queueError && (roundItems.length > 0 || lookup !== undefined || confirmation !== undefined));
+    setSessionActive(!loading && !queueError && (scopeItems.length > 0 || lookup !== undefined || confirmation !== undefined));
     return () => setSessionActive(false);
-  }, [loading, queueError, roundItems.length, lookup, confirmation, setSessionActive]);
+  }, [loading, queueError, scopeItems.length, lookup, confirmation, setSessionActive]);
 
   const skip = useCallback(() => {
     if (!current || lookup !== undefined || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
@@ -353,13 +373,13 @@ const Scout = () => {
           <>
             {notice && <Callout role="status">{notice}</Callout>}
             <PersonSearch items={remaining} query={search} onQueryChange={setSearch} onSelect={openLookup} />
-            <RoundPicker items={remaining} invited={invited} leadCourses={leadCourses} onSelect={chooseRound} />
+            <RoundPicker items={remaining} invited={invited} leadCourses={leadCourses} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
           </>
         ) : <>
           <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <p className="font-medium">{round.course}</p>
-              <p className="text-size-xs text-secondary">{roundLabel(round)}</p>
+              <p className="text-size-xs text-secondary">{scopeLabel}</p>
               <p className="text-size-xs text-secondary">{decisions.length} of {total} reviewed{skippedItems.length > 0 && ` · ${skippedItems.length} skipped for now`}</p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -367,7 +387,7 @@ const Scout = () => {
                 setSkipOrder((state) => state.slice(0, -1));
                 setNotice(undefined);
               }}>Undo skip</Button>
-              <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>Change round</Button>
+              <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>{mustLook ? 'Change queue' : 'Change round'}</Button>
             </div>
           </section>
           <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
@@ -375,7 +395,7 @@ const Scout = () => {
           {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
           {allSkipped && (
             <section className={`${panel} space-y-4 p-6`}>
-              <h2 className="text-size-lg font-semibold">Everyone seen once <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
+              <h2 className="text-size-lg font-semibold">Everyone seen once <span className="font-normal text-secondary">· {round.course} {scopeLabel}</span></h2>
               <p className="text-size-sm text-secondary">{skippedItems.length} skipped · {decisions.length} decided</p>
               <div className="flex flex-wrap gap-2">
                 <Button disabled={controlsDisabled} onClick={() => setSkipOrder([])}>Go through the skipped again</Button>
@@ -394,7 +414,7 @@ const Scout = () => {
               <KeyHints back="main page" />
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
-            <h2 className="text-size-lg font-semibold">Round done <span className="font-normal text-secondary">· {round.course} {roundLabel(round)}</span></h2>
+            <h2 className="text-size-lg font-semibold">{mustLook ? 'Must look is clear' : 'Round done'} <span className="font-normal text-secondary">· {round.course}{!mustLook && ` ${scopeLabel}`}</span></h2>
             <p className="text-size-sm text-secondary">{decisions.filter((entry) => entry.decision === 'invite').length} invited · {decisions.filter((entry) => entry.decision === 'decline').length} marked don’t invite</p>
             <SessionDecisions decisions={decisions} />
             {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Decisions are saved in Airtable; the invite emails are sent from there.</p>}
