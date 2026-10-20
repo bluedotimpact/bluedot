@@ -31,7 +31,7 @@ type Story = StoryObj<typeof meta>;
 export const About: Story = {
   args: {
     title: 'About us',
-    subtitle: 'Building the workforce that protects humanity',
+    subtitle: 'Our mission is to build the workforce that protects humanity.',
   },
 };
 
