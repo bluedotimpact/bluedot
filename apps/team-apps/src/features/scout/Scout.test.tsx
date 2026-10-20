@@ -233,7 +233,7 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
   expect(screen.getByText('2 to review →')).toBeTruthy();
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
-  await screen.findByText('Must look');
+  await screen.findByText(/· Must look$/);
   expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();
   await screen.findByText('Sam Chen');
   await waitFor(() => expect(screen.getByRole('button', { name: 'Invite' }).hasAttribute('disabled')).toBe(false));
