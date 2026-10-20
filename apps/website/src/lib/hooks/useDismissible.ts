@@ -18,7 +18,7 @@ export function useDismissible<Container extends HTMLElement = HTMLDivElement>(o
       return undefined;
     }
 
-    const handleMouseDown = (event: MouseEvent) => {
+    const handlePointerDown = (event: PointerEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         onCloseRef.current();
       }
@@ -36,10 +36,10 @@ export function useDismissible<Container extends HTMLElement = HTMLDivElement>(o
       }
     };
 
-    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('pointerdown', handlePointerDown);
     document.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('pointerdown', handlePointerDown);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [enabled]);
