@@ -86,12 +86,7 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
   const discussionMeetLink = discussion.zoomLink || undefined;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
-  const rescheduleRequestedPill = (
-    <Tag shape="pill">
-      <PendingIcon />
-      Reschedule requested
-    </Tag>
-  );
+  const rescheduleRequestedPill = <Tag shape="pill"><PendingIcon />Reschedule requested</Tag>;
   // Mobile keeps the menu item, greyed out, labelled so the user knows why.
   const rescheduleOverflow = hasPendingReschedule
     ? { id: 'reschedule', label: 'Reschedule requested', disabled: true }
@@ -120,23 +115,13 @@ const participantActions = (ctx: BuildInput): CourseAction[] => {
       id: 'attended-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: (
-        <Tag shape="pill">
-          <FaCheck aria-hidden />
-          Attended
-        </Tag>
-      ),
+      inline: <Tag shape="pill"><FaCheck aria-hidden />Attended</Tag>,
     },
     {
       id: 'absent-pill',
       isVisible: status === 'absent',
       variant: 'inline',
-      inline: (
-        <Tag shape="pill">
-          <FaBan aria-hidden />
-          Absent
-        </Tag>
-      ),
+      inline: <Tag shape="pill"><FaBan aria-hidden />Absent</Tag>,
     },
     {
       id: 'reschedule-absent',
@@ -194,23 +179,13 @@ const facilitatorActions = (ctx: BuildInput): CourseAction[] => {
       id: 'facilitated-pill',
       isVisible: status === 'attended',
       variant: 'inline',
-      inline: (
-        <Tag shape="pill">
-          <FaCheck aria-hidden />
-          Facilitated
-        </Tag>
-      ),
+      inline: <Tag shape="pill"><FaCheck aria-hidden />Facilitated</Tag>,
     },
     {
       id: 'absent-pill-facilitator',
       isVisible: status === 'absent',
       variant: 'inline',
-      inline: (
-        <Tag shape="pill">
-          <FaBan aria-hidden />
-          Absent
-        </Tag>
-      ),
+      inline: <Tag shape="pill"><FaBan aria-hidden />Absent</Tag>,
     },
     {
       id: 'view-attendees',

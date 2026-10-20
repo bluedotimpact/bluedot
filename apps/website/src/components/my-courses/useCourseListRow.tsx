@@ -292,12 +292,7 @@ const getParticipantActions = (
       id: 'group-switch-requested-pill',
       isVisible: inProgressOrUpcoming && hasPendingGroupSwitchRequest,
       variant: 'inline',
-      inline: (
-        <Tag shape="pill">
-          <PendingIcon />
-          Group switch requested
-        </Tag>
-      ),
+      inline: <Tag shape="pill"><PendingIcon />Group switch requested</Tag>,
     },
     {
       id: 'share-feedback',
@@ -363,12 +358,7 @@ const getParticipantActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: (
-        <Tag shape="pill">
-          <FaBan aria-hidden />
-          Dropped
-        </Tag>
-      ),
+      inline: <Tag shape="pill"><FaBan aria-hidden />Dropped</Tag>,
     },
     {
       id: 'apply-again',
@@ -440,12 +430,7 @@ const getFacilitatorActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: (
-        <Tag shape="pill">
-          <FaBan aria-hidden />
-          Dropped
-        </Tag>
-      ),
+      inline: <Tag shape="pill"><FaBan aria-hidden />Dropped</Tag>,
     },
     {
       id: 'share-feedback-facilitator',
