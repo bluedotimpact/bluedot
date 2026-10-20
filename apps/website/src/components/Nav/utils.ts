@@ -3,7 +3,7 @@ import clsx from 'clsx';
 export const MOBILE_NAV_DRAWER_ID = 'mobile-nav-drawer';
 export const PROFILE_DRAWER_ID = 'profile-menu-drawer';
 
-export const NAV_LINK_CLASS = 'no-underline text-size-sm font-medium leading-relaxed align-middle';
+export const NAV_LINK_CLASS = 'no-underline text-size-sm font-medium leading-relaxed';
 // Desktop only: hover is meaningless on touch, the underline needs a text-width element, and drawer rows must wrap
 export const NAV_LINK_ANIMATION_CLASS = 'nav-link-animation w-fit whitespace-nowrap';
 // Full-width rows would stretch the underline across the drawer, so current page uses weight + colour
@@ -11,7 +11,7 @@ export const DRAWER_ROW_CLASS = 'flex min-h-11 w-full items-center aria-[current
 
 // z-40 sits inside the nav's own z-50 stacking context; Modal is 60, Toast 70
 export const DRAWER_CLASSES = (isOpen: boolean) => clsx(
-  'absolute top-full inset-x-0 w-full',
+  'absolute top-full inset-x-0',
   'px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none',
   'bg-canvas',
   isOpen

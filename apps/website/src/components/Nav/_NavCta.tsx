@@ -29,7 +29,7 @@ export const NavCta = ({ menu, isLoggedIn, onColoredBackground = false }: NavCta
 
   // data-on-dark stays on this wrapper, not the <nav>: the drawers are DOM-nested inside the bar and sit on canvas
   return (
-    <div className="flex flex-row items-center gap-4" data-on-dark={onColoredBackground || undefined}>
+    <div className="flex items-center gap-4" data-on-dark={onColoredBackground || undefined}>
       <Button variant="secondary" url={loginUrl}>
         Sign in
       </Button>

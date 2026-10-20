@@ -12,8 +12,8 @@ import {
   CLOSED_MENU, type NavMenu, type NavMenuState, type NavSection,
 } from './utils';
 
-const NAV_BAR_CLASS = 'z-50 w-full';
-const NAV_ROW_CLASS = 'w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)';
+const NAV_BAR_CLASS = 'z-50';
+const NAV_ROW_CLASS = 'flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)';
 
 export type NavProps =
   | {
