@@ -27,7 +27,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
             {/* Text container with responsive dimensions */}
             <div className="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-on-dark">
               <HeroH1
-                className="w-full text-balance slide-up-fade-in"
+                className="w-full xl:w-[960px] xl:max-w-none text-balance slide-up-fade-in"
                 /* Deliberately Inter, not the InterDisplay that `.bluedot-h1` sets: the design
                    calls for Inter's wider letterforms here. Inline style because the unlayered
                    `.bluedot-h1` rule in globals.css outranks any Tailwind font utility. */
