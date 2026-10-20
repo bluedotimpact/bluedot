@@ -3,7 +3,7 @@
 exports[`Tag > renders default as expected 1`] = `
 <div>
   <span
-    class="inline-flex w-fit items-center gap-1 whitespace-nowrap bg-accent-subtle text-size-xxs font-semibold leading-4 text-accent [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 py-2"
+    class="inline-flex w-fit items-center gap-1 whitespace-nowrap bg-accent-subtle text-size-xxs font-semibold leading-4 text-primary [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 py-2"
   >
     Basic tag
   </span>
@@ -12,7 +12,7 @@ exports[`Tag > renders default as expected 1`] = `
 
 exports[`Tag > renders with optional args 1`] = `
 <span
-  class="inline-flex w-fit items-center gap-1 whitespace-nowrap bg-accent-subtle text-size-xxs font-semibold leading-4 text-accent [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 py-2 custom-class"
+  class="inline-flex w-fit items-center gap-1 whitespace-nowrap bg-accent-subtle text-size-xxs font-semibold leading-4 text-primary [&>svg]:size-3.5 [&>svg]:shrink-0 rounded-surface px-4 py-2 custom-class"
 >
   Custom tag
 </span>
