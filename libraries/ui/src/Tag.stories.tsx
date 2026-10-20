@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { IoCheckmark } from 'react-icons/io5';
+import { FaCheck } from 'react-icons/fa6';
 
 import { Tag } from './Tag';
 
@@ -17,20 +17,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    children: 'Label',
-  },
-};
-
-export const Accent: Story = {
-  args: {
     children: 'New',
-    tone: 'accent',
   },
 };
 
 export const Pill: Story = {
   args: {
-    children: 'Weekly',
+    children: '3 Attending',
     shape: 'pill',
   },
 };
@@ -39,7 +32,7 @@ export const WithIcon: Story = {
   args: {
     children: (
       <>
-        <IoCheckmark aria-hidden />
+        <FaCheck aria-hidden />
         Attended
       </>
     ),
@@ -50,11 +43,9 @@ export const WithIcon: Story = {
 export const AllVariants: Story = {
   args: { children: null },
   render: () => (
-    <div className="grid w-fit grid-cols-2 gap-4">
-      <Tag>Neutral</Tag>
-      <Tag tone="accent">Accent</Tag>
-      <Tag shape="pill"><IoCheckmark aria-hidden />Neutral</Tag>
-      <Tag tone="accent" shape="pill"><IoCheckmark aria-hidden />Accent</Tag>
+    <div className="flex w-fit items-center gap-4">
+      <Tag>Start Here</Tag>
+      <Tag shape="pill"><FaCheck aria-hidden />Attended</Tag>
     </div>
   ),
 };
