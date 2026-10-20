@@ -76,10 +76,8 @@ exports[`Nav > renders with courses 1`] = `
                       </svg>
                     </button>
                     <div
-                      aria-label="Courses menu"
                       class="pl-4 hidden"
                       id="courses-dropdown-mobile"
-                      role="region"
                     >
                       <div
                         class="flex flex-col text-pretty w-full"
@@ -164,10 +162,8 @@ exports[`Nav > renders with courses 1`] = `
                       </svg>
                     </button>
                     <div
-                      aria-label="Grants menu"
                       class="pl-4 hidden"
                       id="grants-dropdown-mobile"
-                      role="region"
                     >
                       <div
                         class="flex flex-col text-pretty w-full"
@@ -226,10 +222,8 @@ exports[`Nav > renders with courses 1`] = `
                       </svg>
                     </button>
                     <div
-                      aria-label="Programs menu"
                       class="pl-4 hidden"
                       id="programs-dropdown-mobile"
-                      role="region"
                     >
                       <div
                         class="flex flex-col text-pretty w-full"
@@ -351,10 +345,8 @@ exports[`Nav > renders with courses 1`] = `
                 </svg>
               </button>
               <div
-                aria-label="Courses menu"
                 class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="courses-dropdown"
-                role="region"
               >
                 <div
                   class="flex flex-col text-pretty w-fit mx-auto"
@@ -439,10 +431,8 @@ exports[`Nav > renders with courses 1`] = `
                 </svg>
               </button>
               <div
-                aria-label="Grants menu"
                 class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="grants-dropdown"
-                role="region"
               >
                 <div
                   class="flex flex-col text-pretty w-fit mx-auto"
@@ -501,10 +491,8 @@ exports[`Nav > renders with courses 1`] = `
                 </svg>
               </button>
               <div
-                aria-label="Programs menu"
                 class="absolute top-full inset-x-0 px-spacing-x transition-all duration-300 ease-in-out motion-reduce:transition-none bg-canvas max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden invisible"
                 id="programs-dropdown"
-                role="region"
               >
                 <div
                   class="flex flex-col text-pretty w-fit mx-auto"
