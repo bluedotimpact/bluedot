@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { HeroH1 } from '@bluedot/ui';
+import { Button, HeroH1 } from '@bluedot/ui';
 import GraduateSection from '../lander/components/GraduateSection';
 import { Nav } from '../Nav/Nav';
 
@@ -22,19 +22,22 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
         <div className="relative z-20 min-h-[60px] lg:min-h-[76px] -scale-x-100" />
 
         {/* Content Container */}
-        <div className="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 bd-md:justify-center bd-md:px-8 bd-md:py-20 lg:px-12 lg:pt-32 lg:pb-24 xl:justify-start xl:pt-40 xl:pb-[120px] min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100">
+        <div data-on-dark className="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 bd-md:justify-center bd-md:px-8 bd-md:py-20 lg:px-12 lg:pt-32 lg:pb-24 xl:justify-start xl:pt-40 xl:pb-[120px] min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100">
           <div className="w-full max-w-[1488px] mx-auto min-[1440px]:px-6">
             {/* Text container with responsive dimensions */}
             <div className="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-on-dark">
               <HeroH1
-                className="w-full lg:w-[682px] slide-up-fade-in flex items-center"
+                className="w-full text-balance slide-up-fade-in"
                 /* Deliberately Inter, not the InterDisplay that `.bluedot-h1` sets: the design
                    calls for Inter's wider letterforms here. Inline style because the unlayered
                    `.bluedot-h1` rule in globals.css outranks any Tailwind font utility. */
                 style={{ fontFamily: 'var(--font-sans)' }}
               >
-                We help you have a positive impact on the trajectory of AI
+                Humanity is building something smarter and more powerful than itself.
               </HeroH1>
+              <p className="text-size-lg xl:text-size-xl leading-snug font-normal text-balance slide-up-fade-in">
+                Let&apos;s make sure it goes well for all of us.
+              </p>
               <p
                 className="text-size-sm bd-md:text-size-md leading-relaxed font-normal w-full max-w-[280px] bd-md:max-w-[616px] lg:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto"
                 style={{
@@ -42,8 +45,16 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
                   fontFeatureSettings: '"ss02" on',
                 }}
               >
-                BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run online courses, fund talented people, and bring ambitious teams together through intensive in-person programs.
+                AI could cure diseases, end poverty and create a better future than anyone can imagine. It could also cause catastrophes that our civilization can&apos;t recover from. Today, only a few thousand people are working to make AI go well. BlueDot helps you become one of them, with free courses, intensive in-person programs, and funding.
               </p>
+              <div className="flex flex-col items-center gap-3">
+                <Button url="/courses/future-of-ai" size="large">
+                  Start the free Future of AI course
+                </Button>
+                <p className="text-size-xs">
+                  No application. Finish it in an evening.
+                </p>
+              </div>
             </div>
           </div>
         </div>

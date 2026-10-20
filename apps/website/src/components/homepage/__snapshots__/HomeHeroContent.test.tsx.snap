@@ -556,6 +556,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
       />
       <div
         class="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 bd-md:justify-center bd-md:px-8 bd-md:py-20 lg:px-12 lg:pt-32 lg:pb-24 xl:justify-start xl:pt-40 xl:pb-[120px] min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100"
+        data-on-dark="true"
       >
         <div
           class="w-full max-w-[1488px] mx-auto min-[1440px]:px-6"
@@ -564,17 +565,38 @@ exports[`HomeHeroContent > renders as expected 1`] = `
             class="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-on-dark"
           >
             <h1
-              class="bluedot-h1 text-on-dark text-center text-size-2xl lg:text-size-3xl xl:text-size-4xl leading-tight font-normal tracking-tighter w-full lg:w-[682px] slide-up-fade-in flex items-center"
+              class="bluedot-h1 text-on-dark text-center text-size-2xl lg:text-size-3xl xl:text-size-4xl leading-tight font-normal tracking-tighter w-full text-balance slide-up-fade-in"
               style="font-family: var(--font-sans);"
             >
-              We help you have a positive impact on the trajectory of AI
+              Humanity is building something smarter and more powerful than itself.
             </h1>
+            <p
+              class="text-size-lg xl:text-size-xl leading-snug font-normal text-balance slide-up-fade-in"
+            >
+              Let's make sure it goes well for all of us.
+            </p>
             <p
               class="text-size-sm bd-md:text-size-md leading-relaxed font-normal w-full max-w-[280px] bd-md:max-w-[616px] lg:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto"
               style="font-feature-settings: "ss02" on;"
             >
-              BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run online courses, fund talented people, and bring ambitious teams together through intensive in-person programs.
+              AI could cure diseases, end poverty and create a better future than anyone can imagine. It could also cause catastrophes that our civilization can't recover from. Today, only a few thousand people are working to make AI go well. BlueDot helps you become one of them, with free courses, intensive in-person programs, and funding.
             </p>
+            <div
+              class="flex flex-col items-center gap-3"
+            >
+              <a
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 text-size-sm font-medium bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
+                href="/courses/future-of-ai"
+                tabindex="0"
+              >
+                Start the free Future of AI course
+              </a>
+              <p
+                class="text-size-xs"
+              >
+                No application. Finish it in an evening.
+              </p>
+            </div>
           </div>
         </div>
       </div>
