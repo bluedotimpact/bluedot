@@ -48,11 +48,15 @@ export const greeting = (name?: string, now = new Date()) => {
 // The line under the greeting for a course lead: what is waiting in their must-look queue and
 // how far they are from the weekly invite target. Exported for tests.
 export const WEEKLY_INVITE_TARGET = 20;
-export const headline = (mustLook: number, invitedThisWeek: number) => {
+export const headline = (mustLook: number, invitedThisWeek: number): [string, string] => {
   let waiting = `${mustLook} people are waiting in your must-look queue.`;
   if (mustLook === 0) waiting = 'Your must-look queue is clear. Hurray 🎉';
   if (mustLook === 1) waiting = '1 person is waiting in your must-look queue.';
-  return `${waiting} ${invitedThisWeek} of ${WEEKLY_INVITE_TARGET} invites sent this week.`;
+  let mood = 'Fresh week.';
+  if (invitedThisWeek >= WEEKLY_INVITE_TARGET) mood = 'Target hit 🎯';
+  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET / 2) mood = 'Over halfway.';
+  else if (invitedThisWeek > 0) mood = 'Good start.';
+  return [waiting, `${invitedThisWeek} of ${WEEKLY_INVITE_TARGET} invites sent this week. ${mood}`];
 };
 
 // Scout reads live Airtable data and has no sample data set, so the portal's local
@@ -363,14 +367,10 @@ const Scout = () => {
             <header className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h1 className="text-size-lg font-semibold">{greeting(leadName)}</h1>
-                {!loading && !queueError && leadCourses.length > 0 && (
-                  <p className="mt-1 text-size-sm text-secondary">
-                    {headline(
-                      remaining.filter((item) => item.mustLook && leadCourses.includes(item.course)).length,
-                      leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0),
-                    )}
-                  </p>
-                )}
+                {!loading && !queueError && leadCourses.length > 0 && headline(
+                  remaining.filter((item) => item.mustLook && leadCourses.includes(item.course)).length,
+                  leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0),
+                ).map((line) => <p key={line} className="mt-1 text-size-sm text-secondary">{line}</p>)}
               </div>
               <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
                 void loadQueue();
