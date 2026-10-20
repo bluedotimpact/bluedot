@@ -52,10 +52,11 @@ export const headline = (mustLook: number, invitedThisWeek: number): [string, st
   let waiting = `${mustLook} people are waiting in your must-look queue.`;
   if (mustLook === 0) waiting = 'Your must-look queue is clear. Hurray 🎉';
   if (mustLook === 1) waiting = '1 person is waiting in your must-look queue.';
-  let mood = 'Fresh week.';
-  if (invitedThisWeek >= WEEKLY_INVITE_TARGET) mood = 'Target hit 🎯';
-  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET / 2) mood = 'Over halfway.';
-  else if (invitedThisWeek > 0) mood = 'Good start.';
+  let mood = 'Let’s find some people!';
+  if (invitedThisWeek > 25) mood = 'You are killing it! 🔥';
+  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET) mood = 'Weekly target reached, brilliant!';
+  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET / 2) mood = 'Good pace, keep it up!';
+  else if (invitedThisWeek > 0) mood = 'Off the mark, keep going!';
   return [waiting, `${invitedThisWeek} of ${WEEKLY_INVITE_TARGET} invites sent this week. ${mood}`];
 };
 

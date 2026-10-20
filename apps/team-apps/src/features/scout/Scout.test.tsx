@@ -184,10 +184,11 @@ test('the greeting follows the hour and drops the name when nobody is known', ()
   expect(greeting('Sample', new Date('2026-10-20T09:00:00'))).toBe('Good morning, Sample!');
   expect(greeting('Sample', new Date('2026-10-20T15:00:00'))).toBe('Good afternoon, Sample!');
   expect(greeting(undefined, new Date('2026-10-20T21:00:00'))).toBe('Good evening!');
-  expect(headline(0, 3)).toEqual(['Your must-look queue is clear. Hurray 🎉', '3 of 20 invites sent this week. Good start.']);
-  expect(headline(1, 0)).toEqual(['1 person is waiting in your must-look queue.', '0 of 20 invites sent this week. Fresh week.']);
-  expect(headline(12, 12)).toEqual(['12 people are waiting in your must-look queue.', '12 of 20 invites sent this week. Over halfway.']);
-  expect(headline(12, 21)[1]).toBe('21 of 20 invites sent this week. Target hit 🎯');
+  expect(headline(0, 3)).toEqual(['Your must-look queue is clear. Hurray 🎉', '3 of 20 invites sent this week. Off the mark, keep going!']);
+  expect(headline(1, 0)).toEqual(['1 person is waiting in your must-look queue.', '0 of 20 invites sent this week. Let’s find some people!']);
+  expect(headline(12, 12)).toEqual(['12 people are waiting in your must-look queue.', '12 of 20 invites sent this week. Good pace, keep it up!']);
+  expect(headline(12, 25)[1]).toBe('25 of 20 invites sent this week. Weekly target reached, brilliant!');
+  expect(headline(12, 26)[1]).toBe('26 of 20 invites sent this week. You are killing it! 🔥');
 });
 
 test('after a round, "Review next round" only offers another round of the same course; otherwise only the main page', async () => {
