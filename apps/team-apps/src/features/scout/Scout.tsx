@@ -45,6 +45,13 @@ export const greeting = (name?: string, now = new Date()) => {
   return name ? `${word}, ${name}!` : `${word}!`;
 };
 
+// The one line under the greeting: how much must-look work is waiting in the lead's courses
+// (everyone's, for someone who leads none). Exported for tests.
+export const headline = (mustLook: number) => {
+  if (mustLook === 0) return 'Your must-look queue is clear. Nice work.';
+  return mustLook === 1 ? '1 person is waiting for your look.' : `${mustLook} people are waiting for your look.`;
+};
+
 // Scout reads live Airtable data and has no sample data set, so the portal's local
 // preview mode (synthetic token, no Airtable token) cannot show it
 const PreviewNotice = () => (
@@ -351,7 +358,10 @@ const Scout = () => {
         {!round && !lookup && (
           <>
             <header className="flex flex-wrap items-start justify-between gap-3">
-              <h1 className="text-size-lg font-semibold">{greeting(leadName)}</h1>
+              <div>
+                <h1 className="text-size-lg font-semibold">{greeting(leadName)}</h1>
+                {!loading && !queueError && <p className="mt-1 text-size-sm text-secondary">{headline(remaining.filter((item) => item.mustLook && (leadCourses.length === 0 || leadCourses.includes(item.course))).length)}</p>}
+              </div>
               <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
                 void loadQueue();
               }}>Refresh queue</Button>

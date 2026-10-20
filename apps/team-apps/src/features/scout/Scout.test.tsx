@@ -21,7 +21,7 @@ vi.mock('@bluedot/ui', () => ({
   Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
 }));
-import Scout, { greeting } from './Scout';
+import Scout, { greeting, headline } from './Scout';
 
 const response = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status });
 const person = (id: string, name: string, course: Course): Person => ({
@@ -184,6 +184,9 @@ test('the greeting follows the hour and drops the name when nobody is known', ()
   expect(greeting('Sample', new Date('2026-10-20T09:00:00'))).toBe('Good morning, Sample!');
   expect(greeting('Sample', new Date('2026-10-20T15:00:00'))).toBe('Good afternoon, Sample!');
   expect(greeting(undefined, new Date('2026-10-20T21:00:00'))).toBe('Good evening!');
+  expect(headline(0)).toBe('Your must-look queue is clear. Nice work.');
+  expect(headline(1)).toBe('1 person is waiting for your look.');
+  expect(headline(12)).toBe('12 people are waiting for your look.');
 });
 
 test('after a round, "Review next round" only offers another round of the same course; otherwise only the main page', async () => {

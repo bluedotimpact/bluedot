@@ -6,15 +6,12 @@ import { panel } from './reviewStyles';
 
 const choice = 'flex min-h-14 w-full items-center justify-between gap-3 rounded-surface border px-4 py-3 text-left text-size-sm font-medium';
 const backlogChoice = `${choice} border-subtle hover:border-accent hover:bg-tint`;
-// Must look is the queue to clear, so it is the one that stands out
-const mustLookChoice = `${choice} border-accent bg-tint hover:bg-accent hover:text-white`;
+// Must look is the queue to clear, so it is the one that stands out (the emphasised-choice
+// colours RatingButtons uses)
+const mustLookChoice = `${choice} border-accent bg-info-bg text-info-fg hover:border-strong`;
 
 // A course's one-line summary: what the lead must look at, and what went out this week
-const summaryLabel = (mustLook: number, invited?: { total: number }) => {
-  const parts = [mustLook === 0 ? 'must look is clear' : `${mustLook} must look`];
-  if (invited && invited.total > 0) parts.push(`${invited.total} invited this week`);
-  return parts.join(' · ');
-};
+const summaryLabel = (mustLook: number, invited?: { total: number }) => `${mustLook} must look${mustLook === 0 ? ', hurray' : ''} · ${invited?.total ?? 0} invited this week`;
 
 // A lead's own courses open first; with no known courses everything is open.
 export const RoundPicker = ({
