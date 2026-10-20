@@ -14,7 +14,7 @@ import { trpc } from '../../utils/trpc';
 import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.joinUs;
-const JOIN_US_SUBTITLE = 'AI safety needs thousands more people. We need the team that gets them there.';
+const JOIN_US_SUBTITLE = 'We train, fund and place people working on AI safety. We\'re hiring.';
 
 const JoinUsPage = () => {
   const { data: cmsData, isLoading: cmsLoading, error: cmsError } = trpc.jobs.getAll.useQuery();

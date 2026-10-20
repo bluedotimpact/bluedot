@@ -38,7 +38,7 @@ export const About: Story = {
 export const JoinUs: Story = {
   args: {
     title: 'Work with us',
-    subtitle: 'AI safety needs thousands more people. We need the team that gets them there.',
+    subtitle: 'We train, fund and place people working on AI safety. We\'re hiring.',
   },
 };
 
