@@ -339,7 +339,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="flex flex-col text-pretty w-fit mx-auto"
                     >
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
                         href="/courses/future-of-ai"
                         tabindex="0"
                       >
@@ -352,7 +352,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         </span>
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
                         href="/courses"
                         tabindex="0"
                       >
@@ -400,21 +400,21 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="flex flex-col text-pretty w-fit mx-auto"
                     >
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
                         href="/grants/rapid"
                         tabindex="0"
                       >
                         Rapid Grants
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
                         href="/grants/career-transition"
                         tabindex="0"
                       >
                         Career Transition Grants
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
                         href="/grants"
                         tabindex="0"
                       >
@@ -462,14 +462,14 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="flex flex-col text-pretty w-fit mx-auto"
                     >
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
                         href="/programs/incubator-week"
                         tabindex="0"
                       >
                         Incubator Week
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-primary hover:text-primary"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-primary hover:text-primary"
                         href="https://aisb.dev/"
                         rel="noopener noreferrer"
                         tabindex="0"
@@ -478,7 +478,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         AI Security Bootcamp
                       </a>
                       <a
-                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap flex min-h-11 items-center text-link hover:text-link"
+                        class="bluedot-a not-prose no-underline text-size-sm font-medium leading-relaxed align-middle nav-link-animation w-fit whitespace-nowrap my-[11px] text-link hover:text-link"
                         href="/programs?utm_source=website&utm_campaign=nav"
                         tabindex="0"
                       >
