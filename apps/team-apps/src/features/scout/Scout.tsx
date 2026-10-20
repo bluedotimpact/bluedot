@@ -411,21 +411,11 @@ const Scout = () => {
             <RoundPicker items={remaining} invited={invited} leadCourses={leadCourses} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
           </>
         ) : <>
-          <section aria-label="Review scope" className={`${panel} flex flex-wrap items-center justify-between gap-3 px-4 py-3`}>
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <p className="font-medium">{round.course}</p>
-              <p className="text-size-xs text-secondary">{scopeLabel}</p>
-              <p className="text-size-xs text-secondary">{decisions.length} of {total} reviewed{skippedItems.length > 0 && ` · ${skippedItems.length} skipped for now`}</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline-black" disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
-                setSkipOrder((state) => state.slice(0, -1));
-                setNotice(undefined);
-              }}>Undo skip</Button>
-              <Button variant="outline-black" disabled={controlsDisabled} onClick={leaveRound}>{mustLook ? 'Change queue' : 'Change round'}</Button>
-            </div>
+          {/* Where the lead is, as one quiet line; progress and skips live in the action bar below the card */}
+          <section aria-label="Review scope" className="flex flex-wrap items-center justify-between gap-2 px-1">
+            <p className="text-size-xs text-secondary"><span className="text-size-sm font-medium text-primary">{round.course}</span> · {scopeLabel}</p>
+            <Button variant="outline-black" size="small" disabled={controlsDisabled} onClick={leaveRound}>{mustLook ? 'Change queue' : 'Change round'}</Button>
           </section>
-          <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 w-full appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
           {notice && <Callout role="status">{notice}</Callout>}
           {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
           {allSkipped && (
@@ -440,7 +430,16 @@ const Scout = () => {
             </section>
           )}
           {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
-            <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
+            <div className="sticky bottom-0 flex flex-col gap-3 rounded-b-overlay border-t border-subtle bg-canvas p-4">
+              <div className="flex flex-wrap items-center gap-3 text-size-xs text-secondary">
+                <span className="font-medium text-primary">{decisions.length} of {total} reviewed</span>
+                <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 min-w-20 flex-1 appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
+                <span>{skippedItems.length} skipped</span>
+                <Button variant="outline-black" size="small" disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
+                  setSkipOrder((state) => state.slice(0, -1));
+                  setNotice(undefined);
+                }}>Undo skip</Button>
+              </div>
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
                 <Button variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></Button>

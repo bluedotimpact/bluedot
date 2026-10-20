@@ -29,7 +29,7 @@ export const RoundPicker = ({
             {mustLook.length > 0
               ? <button type="button" data-testid={`choose-must-look-${course}`} onClick={() => onSelectMustLook(course)} className={mustLookChoice}><span>Must look</span><span className="shrink-0 text-size-xs">{mustLook.length} to review →</span></button>
               : <p className="py-2 text-size-xs text-secondary">Must look is clear.</p>}
-            <p className="pt-2 text-size-xs font-medium text-secondary">Backlog, if you have time <span className="font-normal">· {backlog.length}</span></p>
+            <p className="pt-2 text-size-xs font-medium text-secondary">Backlog <span className="font-normal">· {backlog.length}</span></p>
             {backlog.length === 0 && <p className="py-2 text-size-xs text-secondary">Nobody in the backlog right now.</p>}
             {roundsFor(backlog, course).map((item) => <button key={roundKey(item)} type="button" data-testid={`choose-round-${roundKey(item)}`} onClick={() => onSelect(item)} className={backlogChoice}><span>{roundPickerLabel(item)}</span><span className="shrink-0 text-size-xs text-secondary">{backlog.filter((p) => roundKey(p) === roundKey(item)).length} to review →</span></button>)}
           </div>

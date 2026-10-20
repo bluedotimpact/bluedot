@@ -2,7 +2,7 @@ import {
   cleanup, fireEvent, render, screen,
 } from '@testing-library/react';
 import { afterEach, expect, test } from 'vitest';
-import { PersonCard } from './PersonCard';
+import { PersonCard, mustLookReasons } from './PersonCard';
 import { openNextSection } from './sectionNav';
 import type { Person } from './types';
 
@@ -66,7 +66,8 @@ test('the AI summary sits at the top of the card as a list, an older prose summa
   expect(screen.queryByText(/Worth a look/)).toBeNull();
   cleanup();
   render(<PersonCard person={{ ...person, aiSummary: 'Built a thing last month.' }} showName />);
-  expect(screen.getByText('Built a thing last month.').textContent).toBe('AIBuilt a thing last month.');
+  expect(screen.getByText('Built a thing last month.').tagName).toBe('P');
+  expect(screen.getByText('AI summary')).toBeTruthy();
   cleanup();
   render(<PersonCard person={person} showName />);
   expect(screen.queryByText(/Built a thing/)).toBeNull();
@@ -119,4 +120,26 @@ test('a dropped-out course shows their reason when the row is opened, and a dash
   fireEvent.click(screen.getByText('Dropped out'));
   expect(screen.getByText('Drop out reason')).toBeTruthy();
   expect(screen.getByText('–')).toBeTruthy();
+});
+
+test('the must-look reason names the signals behind it and only shows for must-look people', () => {
+  const strong: Person = {
+    ...person,
+    opinion: 'Strong yes',
+    facilitatorFeedback: [{
+      id: 'recPeerSample00001', rating: 10, ratingOutOf: 10, nextSteps: [], recommendToFacilitate: false,
+    }],
+    reports: [{
+      id: 'recReportSample001', overallTake: 'Weak yes', nextSteps: [], ratings: [],
+    }, {
+      id: 'recReportSample002', overallTake: 'Unsure', nextSteps: [], ratings: [],
+    }],
+  };
+  expect(mustLookReasons(strong)).toEqual(['Strong yes', 'Facilitator 10/10', 'Facilitator 1-1 with take: Weak yes']);
+  expect(mustLookReasons(person)).toEqual([]);
+  render(<PersonCard person={strong} showName mustLook />);
+  expect(screen.getByText('Must look reason').parentElement!.textContent).toBe('Must look reason Strong yes · Facilitator 10/10 · Facilitator 1-1 with take: Weak yes');
+  cleanup();
+  render(<PersonCard person={strong} showName />);
+  expect(screen.queryByText('Must look reason')).toBeNull();
 });
