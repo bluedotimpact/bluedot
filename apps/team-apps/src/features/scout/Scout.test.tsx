@@ -22,6 +22,7 @@ vi.mock('@bluedot/ui', () => ({
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
 }));
 import Scout, { greeting, headline } from './Scout';
+import { pickRecap } from './RoundPicker';
 
 const response = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status });
 const person = (id: string, name: string, course: Course): Person => ({
@@ -235,6 +236,7 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
   expect(screen.getByText('2 to review →')).toBeTruthy();
   expect(screen.getByText('1 strong yes · 1 facilitator scores of 10/10')).toBeTruthy();
+  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 strong yes · 1 facilitator scores of 10/10 · 1 other');
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
   await screen.findByText(/· Shortlist$/);
   expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();

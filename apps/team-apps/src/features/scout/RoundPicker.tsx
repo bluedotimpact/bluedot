@@ -17,11 +17,12 @@ const summaryLabel = (mustLook: number, invited?: { total: number }) => `${mustL
 
 // What is on the shortlist, one count per person so the parts add up to the total. Exported for tests.
 const PICK_LABELS: Record<PickReason, string> = { 'strong yes': 'strong yes', 'good 1-1': 'positive facilitator 1-1 takes', 'facilitator 10': 'facilitator scores of 10/10' };
-export const pickRecap = (picks: QueueItem[]) => PICK_REASONS
-  .map((reason) => ({ reason, count: picks.filter((item) => item.pickReason === reason).length }))
-  .filter(({ count }) => count > 0)
-  .map(({ reason, count }) => `${count} ${PICK_LABELS[reason]}`)
-  .join(' · ');
+export const pickRecap = (picks: QueueItem[]) => {
+  const parts = PICK_REASONS.map((reason) => ({ label: PICK_LABELS[reason], count: picks.filter((item) => item.pickReason === reason).length }));
+  // Shortlisted by the Airtable formula for a signal the code does not know: shown rather than dropped, so the parts always add up
+  parts.push({ label: 'other', count: picks.filter((item) => item.pickReason === undefined).length });
+  return parts.filter(({ count }) => count > 0).map(({ label, count }) => `${count} ${label}`).join(' · ');
+};
 
 // A lead's own courses open first; with no known courses everything is open.
 export const RoundPicker = ({
@@ -31,6 +32,7 @@ export const RoundPicker = ({
     <div><h2 className="text-size-md font-semibold">Clear your shortlist today!</h2><p className="mt-1 text-size-sm text-secondary">Do you want to invite more people? Check the backlog.</p></div>
     <div className="space-y-4">{courses.map((course) => {
       const mustLook = mustLookFor(items, course);
+      const recap = pickRecap(mustLook);
       const backlog = backlogFor(items, course);
       return (
         <details key={course} open={leadCourses.length === 0 || leadCourses.includes(course)}>
@@ -39,7 +41,7 @@ export const RoundPicker = ({
             {mustLook.length > 0
               ? (
                 <button type="button" data-testid={`choose-must-look-${course}`} onClick={() => onSelectMustLook(course)} className={mustLookChoice}>
-                  <span className="flex min-w-0 flex-col gap-0.5"><span>Shortlist</span>{pickRecap(mustLook) && <span className="text-size-xs font-normal text-primary">{pickRecap(mustLook)}</span>}</span>
+                  <span className="flex min-w-0 flex-col gap-0.5"><span>Shortlist</span>{recap && <span className="text-size-xs font-normal text-primary">{recap}</span>}</span>
                   <span className="shrink-0 text-size-xs">{mustLook.length} to review →</span>
                 </button>
               )
