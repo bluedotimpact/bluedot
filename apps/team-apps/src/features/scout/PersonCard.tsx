@@ -689,8 +689,8 @@ const feedbackSummary = (fb: FacilitatorFeedback) => {
 // Exported for tests.
 export const mustLookReasons = (person: Person): string[] => [
   ...(person.opinion?.toLowerCase() === 'strong yes' ? ['Strong yes'] : []),
-  ...(person.facilitatorFeedback.some((fb) => fb.rating === 10 && fb.ratingOutOf === 10) ? ['Facilitator 10/10'] : []),
-  ...person.reports.filter((r) => ['strong yes', 'weak yes'].includes(r.overallTake?.toLowerCase() ?? '')).map((r) => `Facilitator 1-1 with take: ${r.overallTake}`),
+  ...person.reports.filter((r) => ['strong yes', 'weak yes'].includes(r.overallTake?.toLowerCase() ?? '')).map((r) => `Positive facilitator 1-1 take: ${r.overallTake}`),
+  ...(person.facilitatorFeedback.some((fb) => fb.rating === 10 && fb.ratingOutOf === 10) ? ['Facilitator score 10/10'] : []),
 ];
 
 export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?: boolean }> = ({ person, showName, mustLook = false }) => {
@@ -728,7 +728,13 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
           <OpinionBadge opinion={person.opinion} />
           {person.email && <CopyEmail email={person.email} />}
         </div>
-        {reasons.length > 0 && <p className="text-size-sm"><span className="text-size-xxs font-semibold uppercase tracking-wide text-secondary">Must look reason</span> {reasons.join(' · ')}</p>}
+        {/* A strip in the top-picks colours from the picker, sized to its text so a one-word reason is a tag, not an empty band */}
+        {reasons.length > 0 && (
+          <p className="w-fit max-w-full rounded-r-surface border-l-[3px] border-accent bg-info-bg py-2 pl-[13px] pr-4 text-size-sm text-primary">
+            <span className="mr-2 text-size-xxs font-semibold uppercase tracking-wide text-info-fg">Shortlisted because</span>
+            {' '}{reasons.join(' · ')}
+          </p>
+        )}
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
         {person.aiSummary && (
           <div className="flex flex-col gap-1 rounded-surface bg-warning-bg px-3 py-2">

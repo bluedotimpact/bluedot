@@ -135,11 +135,11 @@ test('the must-look reason names the signals behind it and only shows for must-l
       id: 'recReportSample002', overallTake: 'Unsure', nextSteps: [], ratings: [],
     }],
   };
-  expect(mustLookReasons(strong)).toEqual(['Strong yes', 'Facilitator 10/10', 'Facilitator 1-1 with take: Weak yes']);
+  expect(mustLookReasons(strong)).toEqual(['Strong yes', 'Positive facilitator 1-1 take: Weak yes', 'Facilitator score 10/10']);
   expect(mustLookReasons(person)).toEqual([]);
   render(<PersonCard person={strong} showName mustLook />);
-  expect(screen.getByText('Must look reason').parentElement!.textContent).toBe('Must look reason Strong yes · Facilitator 10/10 · Facilitator 1-1 with take: Weak yes');
+  expect(screen.getByText('Shortlisted because').parentElement!.textContent).toBe('Shortlisted because Strong yes · Positive facilitator 1-1 take: Weak yes · Facilitator score 10/10');
   cleanup();
   render(<PersonCard person={strong} showName />);
-  expect(screen.queryByText('Must look reason')).toBeNull();
+  expect(screen.queryByText('Shortlisted because')).toBeNull();
 });

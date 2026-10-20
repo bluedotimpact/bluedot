@@ -184,9 +184,9 @@ test('the greeting follows the hour and drops the name when nobody is known', ()
   expect(greeting('Sample', new Date('2026-10-20T09:00:00'))).toBe('Good morning, Sample!');
   expect(greeting('Sample', new Date('2026-10-20T15:00:00'))).toBe('Good afternoon, Sample!');
   expect(greeting(undefined, new Date('2026-10-20T21:00:00'))).toBe('Good evening!');
-  expect(headline(0, 3)).toEqual(['Your must-look queue is clear. Hurray 🎉', '3 of 20 invites sent this week. Off the mark, keep going!']);
-  expect(headline(1, 0)).toEqual(['1 person is waiting in your must-look queue.', '0 of 20 invites sent this week. Let’s find some people!']);
-  expect(headline(12, 12)).toEqual(['12 people are waiting in your must-look queue.', '12 of 20 invites sent this week. Good pace, keep it up!']);
+  expect(headline(0, 3)).toEqual(['Your shortlist is clear. Hurray 🎉', '3 of 20 invites sent this week. Off the mark, keep going!']);
+  expect(headline(1, 0)).toEqual(['1 person is waiting on your shortlist.', '0 of 20 invites sent this week. Let’s find some people!']);
+  expect(headline(12, 12)).toEqual(['12 people are waiting on your shortlist.', '12 of 20 invites sent this week. Good pace, keep it up!']);
   expect(headline(12, 25)[1]).toBe('25 of 20 invites sent this week. Weekly target reached, brilliant!');
   expect(headline(12, 26)[1]).toBe('26 of 20 invites sent this week. You are killing it! 🔥');
 });
@@ -219,9 +219,11 @@ test('after a round, "Review next round" only offers another round of the same c
 });
 
 test('must look is one queue per course, newest round first, and ends on "Must look is clear" with no next round', async () => {
-  const older = { ...realQueue[0]!, mustLook: true, roundEnd: '2026-09-05' };
+  const older = {
+    ...realQueue[0]!, mustLook: true, pickReason: 'strong yes' as const, roundEnd: '2026-09-05',
+  };
   const newer = {
-    ...realQueue[1]!, mustLook: true, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Sep W38) - Intensive', roundEnd: '2026-10-03',
+    ...realQueue[1]!, mustLook: true, pickReason: 'facilitator 10' as const, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Sep W38) - Intensive', roundEnd: '2026-10-03',
   };
   mockFetch.mockImplementation(async (path, init) => {
     if (init?.method === 'POST') return response({ ok: true });
@@ -232,8 +234,9 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   await screen.findByTestId('choose-must-look-Technical AI Safety');
   expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
   expect(screen.getByText('2 to review →')).toBeTruthy();
+  expect(screen.getByText('1 strong yes · 1 facilitator scores of 10/10')).toBeTruthy();
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
-  await screen.findByText(/· Must look$/);
+  await screen.findByText(/· Shortlist$/);
   expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();
   await screen.findByText('Sam Chen');
   await waitFor(() => expect(screen.getByRole('button', { name: 'Invite' }).hasAttribute('disabled')).toBe(false));
@@ -243,7 +246,7 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   await waitFor(() => expect(screen.getByRole('button', { name: 'Don’t invite' }).hasAttribute('disabled')).toBe(false));
   fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
   fireEvent.click(screen.getAllByRole('button', { name: 'Don’t invite' })[1]!);
-  await screen.findByRole('heading', { name: /Must look is clear/ });
+  await screen.findByRole('heading', { name: /Shortlist cleared/ });
   expect(screen.queryByRole('button', { name: /Review next round/ })).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'Back to main page' }));
   await screen.findByTestId('choose-round-sample-Biosecurity');

@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLead, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, ratingOutOf, toHistoryRow, writeAiSummary,
+  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLead, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, pickReasonOf, ratingOutOf, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -103,7 +103,7 @@ test('preserves queue order from Airtable, follows pagination, and reads must lo
     if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
       expect(url.searchParams.get('view')).toBe('viwbqIzi8JU9oQ6DT');
       expect(url.searchParams.getAll('fields[]')).toContain('fldcs9jnQrVcOMkwf');
-      return json(url.searchParams.has('offset') ? { records: [{ id, fields: untouched }] } : { records: [{ id: first, fields: { ...untouched, fldcs9jnQrVcOMkwf: 1 } }], offset: 'next-page' });
+      return json(url.searchParams.has('offset') ? { records: [{ id, fields: untouched }] } : { records: [{ id: first, fields: { ...untouched, fldcs9jnQrVcOMkwf: 1, fldAOii0tbRfD1210: [10] } }], offset: 'next-page' });
     }
 
     return reads(input, init);
@@ -111,6 +111,7 @@ test('preserves queue order from Airtable, follows pagination, and reads must lo
   const items = await run(fetchQueue());
   expect(items.map((item) => item.id)).toEqual([first, id]);
   expect(items.map((item) => item.mustLook)).toEqual([true, false]);
+  expect(items.map((item) => item.pickReason)).toEqual(['facilitator 10', undefined]);
 });
 
 test('leaves out people with an approved career transition grant or a completed evaluation call', async () => {
@@ -258,4 +259,12 @@ test('the drop-out reason is the latest drop-out on the application, never a def
   expect(reasons.get('recAppSample00001')).toBe('Started a new job');
   expect(reasons.has('recAppSample00002')).toBe(false);
   expect(reasons.has('recAppSample00003')).toBe(false);
+});
+
+test('a top pick gets one reason, in the order the picker counts them', () => {
+  const ten = { fldAOii0tbRfD1210: [10, 6] };
+  expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Strong yes', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('strong yes');
+  expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Weak yes', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('good 1-1');
+  expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Neutral', fldH4kT9DA79mlzBg: ['Unsure'] })).toBe('facilitator 10');
+  expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [9] })).toBeUndefined();
 });

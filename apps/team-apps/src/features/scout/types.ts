@@ -14,9 +14,14 @@ export type QueueItem = {
   opinion?: string;
   hasCertificate: boolean;
   hasReport: boolean;
-  // "[*] Talent scouting must look" in Airtable: the short queue a lead is asked to clear; the rest is backlog
+  // "[*] Talent scouting must look" in Airtable: the shortlist, the short queue a lead is asked to clear; the rest is backlog
   mustLook: boolean;
+  // The signal that made them a top pick, one per person so the picker's recap adds up
+  pickReason?: PickReason;
 };
+
+export const PICK_REASONS = ['strong yes', 'good 1-1', 'facilitator 10'] as const;
+export type PickReason = (typeof PICK_REASONS)[number];
 
 // Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share
 export type InvitedThisWeek = Partial<Record<Course, { total: number; viaApp: number }>>;
