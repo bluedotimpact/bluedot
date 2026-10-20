@@ -640,7 +640,7 @@ exports[`AboutPage > should render correctly 1`] = `
         <p
           class="bluedot-p not-prose"
         >
-          AI is moving fast, and too few people are working to make it go well. We find people who could help and get them working on it full-time.
+          AI is the most transformative technology humanity has ever produced. Too few people are working to make it go well. We find people who could help, and we support them to go full-time working on solving important problems.
         </p>
         <ul
           class="flex flex-col gap-3 list-disc pl-5"
@@ -690,13 +690,15 @@ exports[`AboutPage > should render correctly 1`] = `
         <p
           class="bluedot-p not-prose"
         >
-          We started in 2021 as reading groups in Cambridge. Today we're 
+          We started in 2021 as reading groups in Cambridge. Today, we're 
           <span
             class="invisible"
           >
-            a team of 20
+            a 
+            global team
+             of 20
           </span>
-           in San Francisco, London and remotely, and we've raised $71M.
+          , with staff in San Francisco, London and elsewhere. We've raised $71M, and we plan to grow to 50 over the next 12 months.
         </p>
       </div>
     </section>

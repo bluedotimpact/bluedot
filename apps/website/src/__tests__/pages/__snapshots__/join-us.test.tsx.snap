@@ -571,6 +571,15 @@ exports[`JoinUsPage > should render correctly 1`] = `
             >
               AI safety needs thousands more people. We need the team that gets them there.
             </p>
+            <div>
+              <a
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
+                href="/about"
+                tabindex="0"
+              >
+                About BlueDot
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -626,113 +635,6 @@ exports[`JoinUsPage > should render correctly 1`] = `
         </ol>
       </nav>
     </div>
-    <section
-      class="section section-body"
-    >
-      <div
-        class="flex flex-col gap-10"
-      >
-        <div>
-          <h3
-            class="bluedot-h3 not-prose mb-4"
-          >
-            Why join us
-          </h3>
-          <div
-            class="flex flex-col gap-4"
-          >
-            <p
-              class="bluedot-p not-prose"
-            >
-              We're 
-              <span
-                class="invisible"
-              >
-                a team of 20
-              </span>
-               in San Francisco, London and remotely. We've raised $71M, and we plan to grow to 50 people over the next 12 months.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              Join now and you'll help shape what BlueDot becomes. You might launch a course, give out grants, run an in-person program, or find a way to reach ten times more people.
-            </p>
-          </div>
-        </div>
-        <div>
-          <h3
-            class="bluedot-h3 not-prose mb-4"
-          >
-            What we offer
-          </h3>
-          <ul
-            class="flex flex-col gap-2 list-disc pl-5"
-          >
-            <li>
-              <p
-                class="bluedot-p not-prose"
-              >
-                Salaries benchmarked on SF tech salaries
-              </p>
-            </li>
-            <li>
-              <p
-                class="bluedot-p not-prose"
-              >
-                10% employer retirement contribution and health insurance
-              </p>
-            </li>
-            <li>
-              <p
-                class="bluedot-p not-prose"
-              >
-                Unlimited paid time off
-              </p>
-            </li>
-            <li>
-              <p
-                class="bluedot-p not-prose"
-              >
-                Yearly wellbeing and commute allowances
-              </p>
-            </li>
-            <li>
-              <p
-                class="bluedot-p not-prose"
-              >
-                Relocation support and US visa sponsorship
-              </p>
-            </li>
-            <li>
-              <p
-                class="bluedot-p not-prose"
-              >
-                One expense rule: 
-                <a
-                  class="bluedot-a not-prose"
-                  href="https://blog.bluedot.org/p/expenses"
-                  tabindex="0"
-                >
-                  act in BlueDot's best interest
-                </a>
-              </p>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3
-            class="bluedot-h3 not-prose mb-4"
-          >
-            How we hire
-          </h3>
-          <p
-            class="bluedot-p not-prose"
-          >
-            Apply, do a paid work test, then an interview and an in-person work trial. Exceptional people can skip straight to the trial.
-          </p>
-        </div>
-      </div>
-    </section>
     <section
       class="section section-body"
     >

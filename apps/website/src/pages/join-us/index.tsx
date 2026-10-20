@@ -1,5 +1,6 @@
 import {
   Breadcrumbs,
+  Button,
   ErrorSection,
   H3,
   ProgressDots,
@@ -8,7 +9,6 @@ import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import PageNewsletter from '../../components/PageNewsletter';
 import JobsListSection from '../../components/join-us/JobsListSection';
-import WhyUsSection from '../../components/join-us/WhyUsSection';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 import { pageMetaTags } from '../../lib/linkPreviewMetaTags';
@@ -24,9 +24,12 @@ const JoinUsPage = () => {
       <Head>
         {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact`, description: JOIN_US_SUBTITLE })}
       </Head>
-      <MarketingHero title="Work with us" subtitle={JOIN_US_SUBTITLE} />
+      <MarketingHero
+        title="Work with us"
+        subtitle={JOIN_US_SUBTITLE}
+        cta={<Button url={ROUTES.about.url}>About BlueDot</Button>}
+      />
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <WhyUsSection />
       {cmsLoading && (
         <section className="section section-body">
           <H3 className="mb-6">
