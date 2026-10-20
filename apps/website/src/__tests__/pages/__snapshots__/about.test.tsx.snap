@@ -709,82 +709,76 @@ exports[`AboutPage > should render correctly 1`] = `
       >
         How we work
       </h3>
-      <div
-        class="flex flex-col gap-6"
+      <ul
+        class="flex flex-col gap-3 list-disc pl-5"
       >
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            Our job is the mission
-          </h4>
+        <li>
           <p
             class="bluedot-p not-prose"
           >
+            <strong>
+              Our job is the mission:
+            </strong>
+             
             Do what the mission needs, even if it's weird, uncomfortable, difficult, or not part of your role.
           </p>
-        </div>
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            What is the goal?
-          </h4>
+        </li>
+        <li>
           <p
             class="bluedot-p not-prose"
           >
+            <strong>
+              What is the goal?
+            </strong>
+             
             Obsessively ask yourself this, write your answer in plain English, work out your biggest blocker and how to fix it, then let small fires burn.
           </p>
-        </div>
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            Don't wait for permission
-          </h4>
+        </li>
+        <li>
           <p
             class="bluedot-p not-prose"
           >
+            <strong>
+              Don't wait for permission:
+            </strong>
+             
             When a decision is easy to undo, take action fast, and try things before you conclude they can't be done.
           </p>
-        </div>
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            Public by default
-          </h4>
+        </li>
+        <li>
           <p
             class="bluedot-p not-prose"
           >
+            <strong>
+              Public by default:
+            </strong>
+             
             Give everyone enough context to build on your work by posting regular updates, sharing wins and failures, and avoiding DMs.
           </p>
-        </div>
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            Connect with people first
-          </h4>
+        </li>
+        <li>
           <p
             class="bluedot-p not-prose"
           >
+            <strong>
+              Connect with people first:
+            </strong>
+             
             Before you work with someone or try to persuade them, be curious about their story and what matters to them, help them feel comfortable, and let them get to know you.
           </p>
-        </div>
-        <div>
-          <h4
-            class="bluedot-h4 not-prose mb-2"
-          >
-            Actionable feedback is a gift
-          </h4>
+        </li>
+        <li>
           <p
             class="bluedot-p not-prose"
           >
+            <strong>
+              Actionable feedback is a gift:
+            </strong>
+             
             Challenge decisions and share feedback quickly and in public, especially with people who seem more senior or smarter than you, without being an asshole.
           </p>
-        </div>
-      </div>
+        </li>
+      </ul>
     </section>
     <section
       class="section section-body"

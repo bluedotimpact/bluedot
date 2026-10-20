@@ -1,4 +1,4 @@
-import { H3, H4, P } from '@bluedot/ui';
+import { H3, P } from '@bluedot/ui';
 
 const values = [
   {
@@ -31,14 +31,14 @@ const ValuesSection = () => {
   return (
     <section id="principles" className="values-section section section-body">
       <H3 className="mb-6">How we work</H3>
-      <div className="flex flex-col gap-6">
+      <ul className="flex flex-col gap-3 list-disc pl-5">
         {values.map((value) => (
-          <div key={value.title}>
-            <H4 className="mb-2">{value.title}</H4>
-            <P>{value.description}</P>
-          </div>
+          <li key={value.title}>
+            {/* No colon after a title that already ends in a question mark */}
+            <P><strong>{value.title.endsWith('?') ? value.title : `${value.title}:`}</strong> {value.description}</P>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 };
