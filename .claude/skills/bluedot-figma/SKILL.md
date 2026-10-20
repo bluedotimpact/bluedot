@@ -49,7 +49,7 @@ Read the current page in the repo first so you understand what it does and what 
 There's no existing page or reference to work from, so the brief is the spec. Before designing, make sure you understand who the page is for, what they need to do on it, and what content it holds; if the brief doesn't say, ask as part of step 2. Look in the repo for similar pages and how they're laid out and navigated, so the new page feels like part of the same app. Then design it using the design system, and briefly explain your main layout and component choices and any assumptions you made to fill gaps in the brief.
 
 ### Rules for all task types
-- Use design system component instances only. Never detach an instance.
+- Wherever a design system component exists for an element, use an instance of it. Never detach an instance. Plain frames and text layers are fine for layout and content, and for gaps you annotate (see section 5).
 - Bind every colour, spacing, typography and radius value to a design system variable. No hard-coded values.
 - Use auto layout.
 - Fill designs with realistic mock data (course names, units, dates, user names) so they don't show an empty state, unless the empty state is what's being designed.
