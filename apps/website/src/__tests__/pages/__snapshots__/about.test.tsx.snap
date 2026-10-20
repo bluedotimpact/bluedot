@@ -691,13 +691,10 @@ exports[`AboutPage > should render correctly 1`] = `
           class="bluedot-p not-prose"
         >
           We started in 2021 as reading groups in Cambridge. Today, we're 
-          <span
-            class="invisible"
-          >
-            a 
-            global team
-             of 20
-          </span>
+          a 
+          global team
+           of 
+          18
           , with staff in San Francisco, London and elsewhere. We've raised $71M, and we plan to grow to 50 over the next 12 months.
         </p>
       </div>
