@@ -19,7 +19,7 @@ const UserSearchModal = dynamic(() => import('../admin/UserSearchModal').then((m
 });
 
 // Full-width rows like the mobile drawer below xl; a centred animated column under the desktop bar from xl
-const PROFILE_LINK_CLASSES = clsx(NAV_LINK_CLASS, 'flex min-h-11 items-center text-primary hover:text-primary xl:w-fit xl:nav-link-animation');
+const PROFILE_LINK_CLASSES = clsx(NAV_LINK_CLASS, 'flex min-h-11 items-center text-primary hover:text-primary xl:min-h-0 xl:my-[11px] xl:w-fit xl:nav-link-animation');
 
 type ProfileLinksProps = {
   menu: NavMenu;
