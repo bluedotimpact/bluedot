@@ -49,9 +49,9 @@ export const greeting = (name?: string, now = new Date()) => {
 // how far they are from the weekly invite target. Exported for tests.
 export const WEEKLY_INVITE_TARGET = 20;
 export const headline = (mustLook: number, invitedThisWeek: number): [string, string] => {
-  let waiting = `${mustLook} people are waiting in your must-look queue.`;
-  if (mustLook === 0) waiting = 'Your must-look queue is clear. Hurray 🎉';
-  if (mustLook === 1) waiting = '1 person is waiting in your must-look queue.';
+  let waiting = `${mustLook} people are waiting on your shortlist.`;
+  if (mustLook === 0) waiting = 'Your shortlist is clear. Hurray 🎉';
+  if (mustLook === 1) waiting = '1 person is waiting on your shortlist.';
   let mood = 'Let’s find some people!';
   if (invitedThisWeek > 25) mood = 'You are killing it! 🔥';
   else if (invitedThisWeek >= WEEKLY_INVITE_TARGET) mood = 'Weekly target reached, brilliant!';
@@ -85,7 +85,7 @@ const Scout = () => {
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
-  // Must look reviews a course's must-look people across rounds; `round` then only names the course
+  // The shortlist reviews a course's must-look people across rounds; `round` then only names the course
   const [mustLook, setMustLook] = useState(false);
   // Looking one person up from the search box or a ?person= link: just their card and a
   // decision, no round, no queue, then back to the start.
@@ -153,7 +153,7 @@ const Scout = () => {
   const decisions = Object.values(done).filter((entry) => inScope(entry.item));
   const total = scopeItems.length + decisions.length;
   let scopeLabel = '';
-  if (round) scopeLabel = mustLook ? 'Must look' : roundLabel(round);
+  if (round) scopeLabel = mustLook ? 'Shortlist' : roundLabel(round);
 
   // Next backlog round of the same course that still has people; other courses, and the backlog
   // after must look, are a deliberate choice on the main page
@@ -448,7 +448,7 @@ const Scout = () => {
               <KeyHints back="main page" />
             </div>
           } /> : <section className={`${panel} space-y-4 p-6`}>
-            <h2 className="text-size-lg font-semibold">{mustLook ? 'Must look is clear' : 'Round done'} <span className="font-normal text-secondary">· {round.course}{!mustLook && ` ${scopeLabel}`}</span></h2>
+            <h2 className="text-size-lg font-semibold">{mustLook ? 'Shortlist cleared' : 'Round done'} <span className="font-normal text-secondary">· {round.course}{!mustLook && ` ${scopeLabel}`}</span></h2>
             <p className="text-size-sm text-secondary">{decisions.filter((entry) => entry.decision === 'invite').length} invited · {decisions.filter((entry) => entry.decision === 'decline').length} marked don’t invite</p>
             <SessionDecisions decisions={decisions} />
             {decisions.length > 0 && <p className="max-w-prose text-size-xs leading-relaxed text-secondary">Decisions are saved in Airtable; the invite emails are sent from there.</p>}
