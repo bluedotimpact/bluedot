@@ -35,6 +35,16 @@ describe('teamMembers.getAll', () => {
   });
 });
 
+describe('teamMembers.getActiveCount', () => {
+  test('counts every active row, including ones without a photo', async () => {
+    await testDb.insert(teamMemberTable, { name: 'Ada', status: 'Active', imagePublicUrls: 'https://example.com/ada.jpg' });
+    await testDb.insert(teamMemberTable, { name: 'No photo', status: 'Active', imagePublicUrls: null });
+    await testDb.insert(teamMemberTable, { name: 'Gone', status: 'Inactive', imagePublicUrls: 'https://example.com/gone.jpg' });
+
+    expect(await createCaller().teamMembers.getActiveCount()).toBe(2);
+  });
+});
+
 describe('teamMembers.getOneOnOneAdvisors', () => {
   test('returns advisor profile descriptions for active 1-1 advisors', async () => {
     await testDb.insert(teamMemberTable, {

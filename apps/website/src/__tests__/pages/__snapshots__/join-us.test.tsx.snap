@@ -569,8 +569,17 @@ exports[`JoinUsPage > should render correctly 1`] = `
             <p
               class="text-size-sm bd-md:text-size-md leading-relaxed text-on-dark"
             >
-              AI safety needs thousands more people. We need the team that gets them there.
+              We train, fund and place people working on AI safety. We're hiring.
             </p>
+            <div>
+              <a
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
+                href="/about"
+                tabindex="0"
+              >
+                About BlueDot
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -626,29 +635,6 @@ exports[`JoinUsPage > should render correctly 1`] = `
         </ol>
       </nav>
     </div>
-    <section
-      class="section section-body"
-    >
-      <h3
-        class="bluedot-h3 not-prose mb-6"
-      >
-        Why us
-      </h3>
-      <div
-        class="flex flex-col gap-5"
-      >
-        <p
-          class="bluedot-p not-prose"
-        >
-          We're a team of 16, growing to 20, with people based in San Francisco, London, and remotely. We've raised $71M to date. If you join now, you'll shape how the organisation works, what we build, and who we become.
-        </p>
-        <p
-          class="bluedot-p not-prose"
-        >
-          On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people. We delete bureaucracy: our expense policy is "act in BlueDot's best interest." We're a non-profit, but our salaries are benchmarked on SF tech salaries.
-        </p>
-      </div>
-    </section>
     <section
       class="section section-body"
     >

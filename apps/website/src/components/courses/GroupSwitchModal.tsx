@@ -150,6 +150,7 @@ export default function GroupSwitchModal({
   const currentDiscussionAsGroupSwitchOption = formatCurrentDiscussionAsGroupSwitchOption();
 
   const isSubmitDisabled = isSubmitting
+    || !reason.trim()
     || (isManualRequest && !hasUpdatedAvailability)
     || (!isManualRequest && !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
 

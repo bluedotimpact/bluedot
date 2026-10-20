@@ -138,6 +138,31 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           </p>
         </div>
       </div>
+      <div
+        class="flex-1"
+      >
+        <div
+          class="flex flex-col gap-space-between"
+        >
+          <div
+            class="w-full flex gap-2"
+          >
+            <p
+              class="bluedot-p not-prose bg-accent rounded-full px-4 py-2 text-on-dark text-size-sm font-bold w-min"
+            >
+              2026
+            </p>
+            <div
+              class="relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-accent after:right-0"
+            />
+          </div>
+          <p
+            class="bluedot-p not-prose mr-12"
+          >
+            Moved our headquarters to San Francisco. Trained over 10,000 people.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 </div>
