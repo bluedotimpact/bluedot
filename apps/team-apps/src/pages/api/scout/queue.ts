@@ -9,7 +9,7 @@ export default makeApiRoute({
     items: z.array(z.object({
       id: z.string(), course: z.enum(COURSES),
       name: z.string().optional(), email: z.string().optional(), roundId: z.string().optional(), roundName: z.string(), roundEnd: z.string().optional(), opinion: z.string().optional(),
-      hasCertificate: z.boolean(), hasReport: z.boolean(),
+      hasCertificate: z.boolean(), hasReport: z.boolean(), mustLook: z.boolean(),
     })),
     invitedThisWeek: z.record(z.object({ total: z.number(), viaApp: z.number() })),
     leadCourses: z.array(z.enum(COURSES)),

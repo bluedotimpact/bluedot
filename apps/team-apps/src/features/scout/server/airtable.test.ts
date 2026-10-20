@@ -96,18 +96,21 @@ test('a person marked Waiting for review can still be invited or passed; any oth
   expect(patches()).toHaveLength(2);
 });
 
-test('preserves queue order from Airtable and follows pagination', async () => {
+test('preserves queue order from Airtable, follows pagination, and reads must look from the formula field', async () => {
   const first = 'recScoutSample002';
   fetchMock.mockImplementation(async (input, init) => {
     const url = new URL(input instanceof Request ? input.url : input.toString());
     if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
       expect(url.searchParams.get('view')).toBe('viwbqIzi8JU9oQ6DT');
-      return json(url.searchParams.has('offset') ? { records: [{ id, fields: untouched }] } : { records: [{ id: first, fields: untouched }], offset: 'next-page' });
+      expect(url.searchParams.getAll('fields[]')).toContain('fldcs9jnQrVcOMkwf');
+      return json(url.searchParams.has('offset') ? { records: [{ id, fields: untouched }] } : { records: [{ id: first, fields: { ...untouched, fldcs9jnQrVcOMkwf: 1 } }], offset: 'next-page' });
     }
 
     return reads(input, init);
   });
-  expect((await run(fetchQueue())).map((item) => item.id)).toEqual([first, id]);
+  const items = await run(fetchQueue());
+  expect(items.map((item) => item.id)).toEqual([first, id]);
+  expect(items.map((item) => item.mustLook)).toEqual([true, false]);
 });
 
 test('leaves out people with an approved career transition grant or a completed evaluation call', async () => {

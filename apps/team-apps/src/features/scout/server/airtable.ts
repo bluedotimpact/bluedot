@@ -84,6 +84,7 @@ const REG = {
   attendedDiscussions: 'fldTEkxGZQxTqHhdX',
   numAttended: 'fldObmJR3eMFoSIfF',
   numExpected: 'fldPq8IHeoXBkD8nE',
+  mustLook: 'fldcs9jnQrVcOMkwf',
 } as const;
 
 // Course runner › Group discussion: one row per session a group holds
@@ -387,7 +388,7 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 // ---- Queue ----
 
-const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
+const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports, REG.mustLook];
 
 // Emails with an approved CTG or a completed eval call; call status "Reject" means no call happened.
 const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
@@ -444,6 +445,7 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
       opinion: str(r.fields[REG.opinion]),
       hasCertificate: !!r.fields[REG.certificateCreatedAt],
       hasReport: strList(r.fields[REG.reports]).length > 0,
+      mustLook: r.fields[REG.mustLook] === 1,
     });
   }
 
