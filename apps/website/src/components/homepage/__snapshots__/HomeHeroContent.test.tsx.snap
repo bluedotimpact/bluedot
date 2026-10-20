@@ -579,24 +579,15 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               class="text-size-sm bd-md:text-size-md leading-relaxed font-normal w-full max-w-[280px] bd-md:max-w-[616px] lg:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto"
               style="font-feature-settings: "ss02" on;"
             >
-              AI could cure diseases, end poverty and create a better future than anyone can imagine. It could also cause catastrophes that our civilization can't recover from. Today, only a few thousand people are working to make AI go well. BlueDot helps you become one of them, with free courses, intensive in-person programs, and funding.
+              AI could cure diseases and end poverty. It could also cause catastrophes we can't recover from. Only a few thousand people are working to make it go well. BlueDot helps you join them.
             </p>
-            <div
-              class="flex flex-col items-center gap-3"
+            <a
+              class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 text-size-sm font-medium bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
+              href="/courses/future-of-ai"
+              tabindex="0"
             >
-              <a
-                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-[50px] px-5 text-size-sm font-medium bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
-                href="/courses/future-of-ai"
-                tabindex="0"
-              >
-                Start the free Future of AI course
-              </a>
-              <p
-                class="text-size-xs"
-              >
-                No application. Finish it in an evening.
-              </p>
-            </div>
+              Start the free Future of AI course
+            </a>
           </div>
         </div>
       </div>

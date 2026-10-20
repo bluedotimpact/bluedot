@@ -45,16 +45,11 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
                   fontFeatureSettings: '"ss02" on',
                 }}
               >
-                AI could cure diseases, end poverty and create a better future than anyone can imagine. It could also cause catastrophes that our civilization can&apos;t recover from. Today, only a few thousand people are working to make AI go well. BlueDot helps you become one of them, with free courses, intensive in-person programs, and funding.
+                AI could cure diseases and end poverty. It could also cause catastrophes we can&apos;t recover from. Only a few thousand people are working to make it go well. BlueDot helps you join them.
               </p>
-              <div className="flex flex-col items-center gap-3">
-                <Button url="/courses/future-of-ai" size="large">
-                  Start the free Future of AI course
-                </Button>
-                <p className="text-size-xs">
-                  No application. Finish it in an evening.
-                </p>
-              </div>
+              <Button url="/courses/future-of-ai" size="large">
+                Start the free Future of AI course
+              </Button>
             </div>
           </div>
         </div>
