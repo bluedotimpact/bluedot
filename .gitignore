@@ -42,6 +42,7 @@ core
 *.pem
 .vscode/launch.json
 .cursorrules
-.claude/
+.claude/*
+!.claude/skills/
 CLAUDE.local.md
 plan.md
