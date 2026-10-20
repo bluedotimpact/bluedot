@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import { fetchInvitedThisWeek, fetchLeadCourses, fetchQueue } from '../../../features/scout/server';
+import { fetchInvitedThisWeek, fetchLead, fetchQueue } from '../../../features/scout/server';
 import { COURSES } from '../../../features/scout/types';
 
 export default makeApiRoute({
@@ -13,8 +13,11 @@ export default makeApiRoute({
     })),
     invitedThisWeek: z.record(z.object({ total: z.number(), viaApp: z.number() })),
     leadCourses: z.array(z.enum(COURSES)),
+    leadName: z.string().optional(),
   }),
 }, async (_, { auth }) => {
-  const [items, invitedThisWeek, leadCourses] = await Promise.all([fetchQueue(), fetchInvitedThisWeek(), fetchLeadCourses(auth.email)]);
-  return { items, invitedThisWeek, leadCourses };
+  const [items, invitedThisWeek, lead] = await Promise.all([fetchQueue(), fetchInvitedThisWeek(), fetchLead(auth.email)]);
+  return {
+    items, invitedThisWeek, leadCourses: lead.courses, leadName: lead.firstName,
+  };
 });

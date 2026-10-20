@@ -105,6 +105,7 @@ const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
 const LEAD = {
   email: 'fldybLwD2UCqXFeb8',
   courses: 'fldwPw2PCIDfn1ZqE',
+  fullName: 'fldYo8haU379WYYt0',
 } as const;
 
 const ROUND = {
@@ -459,13 +460,16 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
 // Exported for tests.
 export const parseLeadCourses = (text?: string): Course[] => (text ?? '').split(',').map((c) => c.trim()).filter((c): c is Course => COURSES.includes(c as Course));
 
-// The scouted courses the signed-in person leads, so the picker can open those first. Empty
-// when they lead none or the read fails.
-export const fetchLeadCourses = async (email: string): Promise<Course[]> => {
+export type Lead = { courses: Course[]; firstName?: string };
+
+// The signed-in person's Course leads row: the scouted courses they lead, so the picker can open
+// those first, and their first name for the greeting. No courses and no name when they lead
+// none or the read fails.
+export const fetchLead = async (email: string): Promise<Lead> => {
   const wanted = normaliseEmail(email);
   const leads = await optional(fetchAll(COURSE_LEADS_URL, {}, Object.values(LEAD)), []);
   const own = leads.find((r) => normaliseEmail(str(r.fields[LEAD.email]) ?? '') === wanted);
-  return parseLeadCourses(str(own?.fields[LEAD.courses]));
+  return { courses: parseLeadCourses(str(own?.fields[LEAD.courses])), firstName: str(own?.fields[LEAD.fullName])?.trim().split(/\s+/)[0] };
 };
 
 export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThisWeek> => {

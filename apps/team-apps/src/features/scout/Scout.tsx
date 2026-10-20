@@ -12,7 +12,6 @@ import { isLocalPreview } from '../../lib/preview';
 import { ReviewEvidence } from './ReviewEvidence';
 import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
-import { QueueSource } from './QueueSource';
 import { openNextSection } from './sectionNav';
 import {
   mustLookFor, roundKey, roundLabel, roundsFor,
@@ -37,6 +36,15 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
 
+// Exported for tests
+export const greeting = (name?: string, now = new Date()) => {
+  const hour = now.getHours();
+  let word = 'Good evening';
+  if (hour < 12) word = 'Good morning';
+  else if (hour < 18) word = 'Good afternoon';
+  return name ? `${word}, ${name}!` : `${word}!`;
+};
+
 // Scout reads live Airtable data and has no sample data set, so the portal's local
 // preview mode (synthetic token, no Airtable token) cannot show it
 const PreviewNotice = () => (
@@ -52,6 +60,7 @@ const PreviewNotice = () => (
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [leadCourses, setLeadCourses] = useState<Course[]>([]);
+  const [leadName, setLeadName] = useState<string>();
   const [invited, setInvited] = useState<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
@@ -88,11 +97,12 @@ const Scout = () => {
     setSaveError(undefined);
     setConflict(false);
     try {
-      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[] }>('queue');
+      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string }>('queue');
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
       setInvited(data.invitedThisWeek ?? {});
       setLeadCourses(data.leadCourses ?? []);
+      setLeadName(data.leadName);
       setSkipOrder([]);
       setPeople({});
       requested.current.clear();
@@ -341,12 +351,11 @@ const Scout = () => {
         {!round && !lookup && (
           <>
             <header className="flex flex-wrap items-start justify-between gap-3">
-              <div><h1 className="text-size-lg font-semibold">Course talent scouting</h1><p className="mt-1 text-size-sm text-secondary">Which course participant should get an evaluation call?</p></div>
+              <h1 className="text-size-lg font-semibold">{greeting(leadName)}</h1>
               <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
                 void loadQueue();
               }}>Refresh queue</Button>
             </header>
-            {!loading && !queueError && <QueueSource count={remaining.length} />}
           </>
         )}
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}

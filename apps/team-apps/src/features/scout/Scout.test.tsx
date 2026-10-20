@@ -21,7 +21,7 @@ vi.mock('@bluedot/ui', () => ({
   Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
 }));
-import Scout from './Scout';
+import Scout, { greeting } from './Scout';
 
 const response = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status });
 const person = (id: string, name: string, course: Course): Person => ({
@@ -172,11 +172,18 @@ test('the picker opens only the courses the signed-in person leads, and everythi
   expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
   expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(true);
   cleanup();
-  mockFetch.mockImplementation(async (path) => (pathOf(path).endsWith('/queue') ? response({ items: realQueue, leadCourses: ['Biosecurity'] }) : read(path)));
+  mockFetch.mockImplementation(async (path) => (pathOf(path).endsWith('/queue') ? response({ items: realQueue, leadCourses: ['Biosecurity'], leadName: 'Sample' }) : read(path)));
   render(<Scout />);
   await screen.findByText('Biosecurity');
   expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
   expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(false);
+  expect(screen.getByRole('heading', { level: 1 }).textContent).toMatch(/^Good (morning|afternoon|evening), Sample!$/);
+});
+
+test('the greeting follows the hour and drops the name when nobody is known', () => {
+  expect(greeting('Sample', new Date('2026-10-20T09:00:00'))).toBe('Good morning, Sample!');
+  expect(greeting('Sample', new Date('2026-10-20T15:00:00'))).toBe('Good afternoon, Sample!');
+  expect(greeting(undefined, new Date('2026-10-20T21:00:00'))).toBe('Good evening!');
 });
 
 test('after a round, "Review next round" only offers another round of the same course; otherwise only the main page', async () => {

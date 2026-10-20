@@ -6,13 +6,13 @@ import {
 } from 'vitest';
 
 const {
-  verify, fetchQueue, fetchInvitedThisWeek, fetchLeadCourses, fetchPerson, recordDecision,
+  verify, fetchQueue, fetchInvitedThisWeek, fetchLead, fetchPerson, recordDecision,
 } = vi.hoisted(() => ({
-  verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchLeadCourses: vi.fn(async (_email: string): Promise<string[]> => []), fetchPerson: vi.fn(), recordDecision: vi.fn(),
+  verify: vi.fn(), fetchQueue: vi.fn(), fetchInvitedThisWeek: vi.fn(async () => ({})), fetchLead: vi.fn(async (_email: string): Promise<{ courses: string[]; firstName?: string }> => ({ courses: [] })), fetchPerson: vi.fn(), recordDecision: vi.fn(),
 }));
 vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyGoogleBlueDotToken: verify }));
 vi.mock('./index', () => ({
-  fetchQueue, fetchInvitedThisWeek, fetchLeadCourses, fetchPerson, recordDecision,
+  fetchQueue, fetchInvitedThisWeek, fetchLead, fetchPerson, recordDecision,
 }));
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only', AIRTABLE_AUTOMATION_TOKEN: 'automation-secret', ALERTS_SLACK_BOT_TOKEN: 'IGNORE_SLACK_ALERTS' } }));
 const { lookUpPeople, idsToLookUp, assess } = vi.hoisted(() => ({
@@ -62,13 +62,13 @@ test('any verified staff member can read and decide without an admin role', asyn
   expect(recordDecision).toHaveBeenCalledWith('recScoutSample001', 'invite');
 });
 
-test('the queue carries the courses led by the signed-in email', async () => {
-  fetchLeadCourses.mockResolvedValueOnce(['Biosecurity']);
+test('the queue carries the courses led by the signed-in email and their first name', async () => {
+  fetchLead.mockResolvedValueOnce({ courses: ['Biosecurity'], firstName: 'Sample' });
   const { req, res } = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers });
   await queue(req, res);
   expect(res._getStatusCode()).toBe(200);
-  expect(fetchLeadCourses).toHaveBeenCalledWith('staff@bluedot.org');
-  expect(res._getJSONData().leadCourses).toEqual(['Biosecurity']);
+  expect(fetchLead).toHaveBeenCalledWith('staff@bluedot.org');
+  expect(res._getJSONData()).toMatchObject({ leadCourses: ['Biosecurity'], leadName: 'Sample' });
 });
 
 test('rejects non-staff identities, wrong methods and invalid decisions', async () => {
