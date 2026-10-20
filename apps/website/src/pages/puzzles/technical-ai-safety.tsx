@@ -282,7 +282,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 <Button
                   url={PUZZLE_URL}
                   size="small"
-                  className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-on-dark hover:brightness-110"
+                  className="min-h-11 lg:min-h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-on-dark hover:brightness-110"
                   style={{ backgroundColor: TAS.full }}
                 >
                   See the puzzle
