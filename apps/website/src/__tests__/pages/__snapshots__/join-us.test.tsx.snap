@@ -630,7 +630,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
       class="section section-body"
     >
       <div
-        class="flex flex-col gap-10 max-w-prose"
+        class="flex flex-col gap-10"
       >
         <div>
           <h3

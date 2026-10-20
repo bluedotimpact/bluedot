@@ -635,7 +635,7 @@ exports[`AboutPage > should render correctly 1`] = `
         What we do
       </h3>
       <div
-        class="intro-section__text-container flex flex-col gap-5 max-w-prose"
+        class="intro-section__text-container flex flex-col gap-5"
       >
         <p
           class="bluedot-p not-prose"

@@ -20,7 +20,7 @@ const IntroSection = () => {
   return (
     <section className="intro-section section section-body">
       <H3 className="mb-6">What we do</H3>
-      <div className="intro-section__text-container flex flex-col gap-5 max-w-prose">
+      <div className="intro-section__text-container flex flex-col gap-5">
         <P>AI is moving fast, and too few people are working to make it go well. We find people who could help and get them working on it full-time.</P>
         <ul className="flex flex-col gap-3 list-disc pl-5">
           {steps.map((step) => (

@@ -13,7 +13,7 @@ const offers = [
 const WhyUsSection = () => {
   return (
     <section className="section section-body">
-      <div className="flex flex-col gap-10 max-w-prose">
+      <div className="flex flex-col gap-10">
         <div>
           <H3 className="mb-4">Why join us</H3>
           <div className="flex flex-col gap-4">
