@@ -78,6 +78,93 @@ describe('FreeTextResponse', () => {
     expect(container).toMatchSnapshot();
   });
 
+  describe('Line breaks', () => {
+    // A hard break is saved as a backslash before the newline (CommonMark)
+    const savedTwoLines = 'First\\\nSecond';
+
+    test('saves a line break typed with Shift+Enter', async () => {
+      const user = userEvent.setup();
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
+
+      const editor = container.querySelector('.ProseMirror')!;
+
+      await user.click(editor);
+      await user.type(editor, 'First{Shift>}{Enter}{/Shift}Second');
+      await user.click(container);
+
+      // The test DOM puts the caret one character back, so only check that a hard break was saved
+      await waitFor(() => {
+        expect(mockOnExerciseSubmit).toHaveBeenCalledWith(expect.stringContaining('\\\n'), undefined);
+      }, { timeout: 3000 });
+    });
+
+    test('shows a saved line break again after reloading', async () => {
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={savedTwoLines} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror p')?.innerHTML).toBe('First<br>Second');
+      });
+    });
+
+    test('shows a line break saved as two trailing spaces', async () => {
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={'First  \nSecond'} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror p')?.innerHTML).toBe('First<br>Second');
+      });
+    });
+
+    test('shows a saved line break inside a bullet', async () => {
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={'- First\\\n  Second'} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror li p')?.innerHTML).toBe('First<br>Second');
+      });
+    });
+
+    test('keeps answers saved without a hard break on one line', async () => {
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={'First\nSecond'} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror p')?.innerHTML).toBe('First Second');
+      });
+    });
+
+    test('saves a line break typed with Shift+Enter inside a nested bullet', async () => {
+      const user = userEvent.setup();
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={'- Parent\n  - Child'} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror ul ul li p')).toBeTruthy();
+      });
+
+      const child = container.querySelector('.ProseMirror ul ul li p')!;
+
+      await user.click(child);
+      await user.type(child, '{Shift>}{Enter}{/Shift}more');
+      await user.click(container);
+
+      // The break stays inside the nested item. The test DOM can swap the last typed letters, so the word isn't checked
+      await waitFor(() => {
+        expect(mockOnExerciseSubmit).toHaveBeenCalledWith(expect.stringMatching(/^- Parent\n {2}- Child\\\n {4}\w+$/), undefined);
+      }, { timeout: 3000 });
+    });
+
+    test('keeps nested bullets after reloading', async () => {
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={'- Parent\n  - Child\n    - Grandchild'} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror ul ul ul li')?.textContent).toBe('Grandchild');
+      });
+    });
+  });
+
   describe('Auto-save functionality', () => {
     beforeEach(() => {
       vi.clearAllMocks();

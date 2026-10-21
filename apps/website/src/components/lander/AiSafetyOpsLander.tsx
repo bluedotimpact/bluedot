@@ -15,9 +15,9 @@ import { pageMetaTags, linkPreviewMetaTags } from '../../lib/linkPreviewMetaTags
 
 const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string }) => {
   return (
-    <div className="ai-safety-ops-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
-      <H3 className="ai-safety-ops-lander__banner-title">{title}</H3>
-      <Button className="ai-safety-ops-lander__banner-cta" url={ctaUrl}>
+    <div className="relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-accent-subtle">
+      <H3>{title}</H3>
+      <Button url={ctaUrl}>
         Apply now
         <FaChevronRight aria-hidden className="size-4" />
       </Button>
@@ -49,15 +49,15 @@ const AiSafetyOpsLander = () => {
       <MarketingHero title={PAGE_TITLE} subtitle={PAGE_TAGLINE} />
 
       <Section>
-        <div className="ai-safety-ops-lander__intro flex flex-col gap-6 items-center text-center mx-auto max-w-3xl">
+        <div className="flex flex-col gap-6 items-center text-center mx-auto max-w-3xl">
           <div className="flex flex-row flex-wrap justify-center gap-2 items-center">
-            <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
+            <div className="flex gap-2 items-center border rounded-lg px-4 py-3 text-primary">
               <FaRegCalendar aria-hidden="true" /> 6 hours total
             </div>
-            <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
+            <div className="flex gap-2 items-center border rounded-lg px-4 py-3 text-primary">
               <FaUserGroup aria-hidden="true" /> Group discussions
             </div>
-            <div className="flex gap-2 items-center border border-default rounded-lg px-4 py-3 text-primary">
+            <div className="flex gap-2 items-center border rounded-lg px-4 py-3 text-primary">
               <FaLaptop aria-hidden="true" /> Online
             </div>
           </div>
@@ -66,7 +66,7 @@ const AiSafetyOpsLander = () => {
       </Section>
 
       <Section>
-        <div className="ai-safety-ops-lander__details-section w-full flex flex-col justify-center gap-12 items-center mx-auto max-w-3xl">
+        <div className="w-full flex flex-col justify-center gap-12 items-center mx-auto max-w-3xl">
           <MarkdownExtendedRenderer>
             {`## What roles does this bootcamp prepare you for?
 

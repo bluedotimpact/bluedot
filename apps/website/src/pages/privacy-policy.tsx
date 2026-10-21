@@ -10,7 +10,7 @@ import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
 const CURRENT_ROUTE = ROUTES.privacyPolicy;
 
-const SUBTITLE = 'Effective date: 30 August, 2024.';
+const SUBTITLE = 'Effective date: 15 October, 2026.';
 
 const PrivacyPolicyPage = () => {
   return (
@@ -36,6 +36,17 @@ This policy describes how we collect, use, and share your personal information w
 
 - Activity on our Platforms, such as applications to our courses, attendance at discussions, or exercise responses on our Course Hub.
 - Communications between us, such as emails or Slack messages to our staff.
+
+### Calendar availability, if you connect a calendar
+
+Some of our programs pair members for 1-1 chats. If you choose to connect a calendar (through "Calendar Connect" on your account), we use it to schedule those chats at times you're free.
+
+- We only see when you're busy ("free/busy" information). We can't see event names, descriptions, guests or locations.
+- We store an access token from your calendar provider so we can check your availability each week. It's encrypted, and we never share it.
+- We also store the email address of the calendar account and your time zone, so we know whose calendar it is and when to suggest chats.
+- To find you on Slack, we match your BlueDot account email to your Slack email. If you connect through a link we sent you on Slack, we store your Slack user ID instead.
+- You can disconnect a calendar at any time from your account. This deletes what we stored and asks your provider to revoke our access. Deleting your BlueDot account does the same for every calendar you connected.
+- Our use of information received from Google APIs follows the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.
 
 ### Personal information we collect from your devices
 

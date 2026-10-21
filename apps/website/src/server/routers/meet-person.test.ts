@@ -1,4 +1,4 @@
-import { groupTable, meetPersonTable } from '@bluedot/db';
+import { groupDiscussionTable, groupTable, meetPersonTable } from '@bluedot/db';
 import {
   beforeEach, describe, expect, test,
 } from 'vitest';
@@ -104,6 +104,50 @@ describe('meetPerson.getGroupParticipants', () => {
     const result = await caller.meetPerson.getGroupParticipants({ groupId: 'group-fac' });
 
     expect(result.facilitators).toEqual([]);
+    expect(result.participants.map((p) => p.name)).toEqual(['Bob Participant']);
+  });
+  test('authorizes a substitute who facilitates one of the group\'s discussions, and lists only the group\'s facilitators', async () => {
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-me-sub', userId: 'test-user', applicationsBaseRecordId: 'reg-me-sub', round: 'round-1', role: 'Facilitator',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-fac-zara', applicationsBaseRecordId: 'reg-fac-zara', round: 'round-1', role: 'Facilitator', name: 'Zara Facilitator',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-p-bob', applicationsBaseRecordId: 'reg-p-bob', round: 'round-1', role: 'Participant', name: 'Bob Participant',
+    });
+    await testDb.insert(groupTable, {
+      id: 'group-covered',
+      groupName: 'Covered Group',
+      round: 'round-1',
+      participants: ['mp-p-bob'],
+      facilitator: ['mp-fac-zara'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-covered',
+      group: 'group-covered',
+      round: 'round-1',
+      startDateTime: 1_900_000_000,
+      endDateTime: 1_900_003_600,
+      facilitators: ['mp-me-sub'],
+      participantsExpected: ['mp-p-bob'],
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-sub-yan', applicationsBaseRecordId: 'reg-sub-yan', round: 'round-1', role: 'Facilitator', name: 'Yan Substitute',
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-covered-2',
+      group: 'group-covered',
+      round: 'round-1',
+      startDateTime: 1_900_100_000,
+      endDateTime: 1_900_103_600,
+      facilitators: ['mp-sub-yan'],
+      participantsExpected: ['mp-p-bob'],
+    });
+
+    const result = await caller.meetPerson.getGroupParticipants({ groupId: 'group-covered' });
+
+    expect(result.facilitators.map((p) => p.name)).toEqual(['Zara Facilitator']);
     expect(result.participants.map((p) => p.name)).toEqual(['Bob Participant']);
   });
 });

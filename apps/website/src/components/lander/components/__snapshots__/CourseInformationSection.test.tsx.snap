@@ -2,7 +2,7 @@
 
 exports[`CourseInformationSection > renders correctly with default colors 1`] = `
 <section
-  class="w-full bg-white"
+  class="w-full bg-canvas"
 >
   <div
     class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
@@ -13,7 +13,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
       Course information
     </h2>
     <div
-      class="w-full bd-md:max-w-text bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
+      class="w-full bd-md:max-w-text bg-raised border rounded-xl py-8 flex flex-col items-center gap-6"
     >
       <div
         class="flex flex-col w-full"
@@ -35,7 +35,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <div
-                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
               >
                 <span
                   class="font-semibold"
@@ -54,7 +54,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             </div>
           </div>
           <div
-            class="w-full h-px bg-bluedot-navy/10 my-6"
+            class="w-full h-px bg-subtle my-6"
           />
         </div>
         <div>
@@ -74,7 +74,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <div
-                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
               >
                 Each day or week, you will:
                 <br />
@@ -94,7 +94,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             </div>
           </div>
           <div
-            class="w-full h-px bg-bluedot-navy/10 my-6"
+            class="w-full h-px bg-subtle my-6"
           />
         </div>
         <div>
@@ -114,14 +114,14 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <div
-                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
               >
                 All discussions will be facilitated by an AI safety expert.
               </div>
             </div>
           </div>
           <div
-            class="w-full h-px bg-bluedot-navy/10 my-6"
+            class="w-full h-px bg-subtle my-6"
           />
         </div>
         <div>
@@ -141,14 +141,14 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <div
-                class="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal"
               >
                 This course is freely available and operates on a "pay-what-you-want" model.
               </div>
             </div>
           </div>
           <div
-            class="w-full h-px bg-bluedot-navy/10 my-6"
+            class="w-full h-px bg-subtle my-6"
           />
         </div>
         <div>
@@ -171,10 +171,10 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
                 class="flex flex-col gap-4"
               >
                 <div
-                  class="h-20 w-full animate-pulse rounded bg-gray-200"
+                  class="h-20 w-full animate-pulse rounded bg-active"
                 />
                 <div
-                  class="h-20 w-full animate-pulse rounded bg-gray-200"
+                  class="h-20 w-full animate-pulse rounded bg-active"
                 />
               </div>
             </div>

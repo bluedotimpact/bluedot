@@ -30,16 +30,16 @@ const ApplicationPreviewSection = () => {
       <div className="w-full flex flex-col gap-6">
         <H3>Application preview</H3>
         <P className="max-w-3xl">The application takes around 45 minutes. You can prepare the main evidence before you begin.</P>
-        <details className="group overflow-hidden rounded-xl border border-bluedot-navy/10 bg-white">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 font-semibold text-bluedot-navy [&::-webkit-details-marker]:hidden">
+        <details className="group overflow-hidden rounded-xl border bg-raised">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 font-semibold text-primary [&::-webkit-details-marker]:hidden">
             What to prepare
             <PiCaretDown aria-hidden className="size-5 shrink-0 transition-transform group-open:rotate-180" />
           </summary>
-          <ul className="grid grid-cols-1 gap-5 border-t border-bluedot-navy/10 px-6 py-6 bd-md:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-5 border-t border-subtle px-6 py-6 bd-md:grid-cols-2">
             {PREPARATION_ITEMS.map((item) => (
               <li key={item.title} className="flex flex-col gap-1">
-                <strong className="text-size-sm text-bluedot-navy">{item.title}</strong>
-                <P className="text-bluedot-navy/80">{item.body}</P>
+                <strong className="text-size-sm text-primary">{item.title}</strong>
+                <P className="text-secondary">{item.body}</P>
               </li>
             ))}
           </ul>

@@ -20,7 +20,6 @@ const TAS = COURSE_COLORS['technical-ai-safety'];
 
 const SECTION_CONTAINER_CLASS = 'max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x';
 const SECTION_PADDING_CLASS = `${SECTION_CONTAINER_CLASS} py-6 bd-md:py-8 lg:py-10`;
-const EYEBROW_CLASS = 'text-size-xxs font-medium uppercase tracking-wide text-secondary';
 
 const TASKS = [
   {
@@ -214,7 +213,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         })}
       </Head>
 
-      <div className="relative bg-white">
+      <div className="relative bg-canvas">
         <Nav variant="default" />
 
         {/* Title section — clean, no banner */}
@@ -224,7 +223,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
               <H1>
                 {PAGE_TITLE}
               </H1>
-              <P className="text-size-md leading-relaxed text-bluedot-navy/80">
+              <P className="text-size-md leading-relaxed text-secondary">
                 {PAGE_SUBTITLE}
               </P>
             </div>
@@ -246,7 +245,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section>
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>The puzzle</h2>
+              <h2><Eyebrow className="text-secondary">The puzzle</Eyebrow></h2>
               <P className="mt-4 text-size-md leading-relaxed">
                 We trained a model on short text inputs to predict eight binary features simultaneously (e.g. contains a person&rsquo;s name, mentions a food, phrased as a question). After a particular layer of this model, seven of these features are represented linearly, where a single direction in the activation space describes that feature. However, one feature is represented in a different way.
               </P>
@@ -261,10 +260,10 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section className="bg-canvas">
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Your three tasks</h2>
+              <h2><Eyebrow className="text-secondary">Your three tasks</Eyebrow></h2>
               <ol className="mt-4 space-y-3">
                 {TASKS.map((task) => (
-                  <li key={task.n} className="flex gap-3 text-size-sm text-bluedot-navy/80 leading-relaxed">
+                  <li key={task.n} className="flex gap-3 text-size-sm text-secondary leading-relaxed">
                     <span
                       className="font-semibold shrink-0 tabular-nums"
                       style={{ color: TAS.full }}
@@ -272,7 +271,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                       {task.n}.
                     </span>
                     <span>
-                      <span className="font-semibold text-bluedot-navy">{task.title}</span>
+                      <span className="font-semibold text-primary">{task.title}</span>
                       {' '}
                       {task.body}
                     </span>
@@ -283,7 +282,7 @@ const PuzzleTechnicalAiSafetyPage = () => {
                 <Button
                   url={PUZZLE_URL}
                   size="small"
-                  className="h-11 lg:h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-white hover:brightness-110"
+                  className="min-h-11 lg:min-h-12 px-6 lg:px-7 text-size-sm font-semibold rounded-md text-on-dark hover:brightness-110"
                   style={{ backgroundColor: TAS.full }}
                 >
                   See the puzzle
@@ -297,29 +296,29 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section>
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Winners</h2>
+              <h2><Eyebrow className="text-secondary">Winners</Eyebrow></h2>
               <div
-                className="mt-5 rounded-lg border border-default p-6 lg:p-8 text-center"
+                className="mt-5 rounded-lg border p-6 lg:p-8 text-center"
                 style={{ backgroundColor: TAS.bright }}
               >
                 <p className="text-size-xl leading-none">{FIRST_PRIZE.medal}</p>
                 <Eyebrow className="mt-3" style={{ color: TAS.full }}>
                   {FIRST_PRIZE.place} · {FIRST_PRIZE.amount}
                 </Eyebrow>
-                <p className="mt-2 text-size-lg font-semibold text-bluedot-navy">
+                <p className="mt-2 text-size-lg font-semibold text-primary">
                   {FIRST_PRIZE.winners[0]}
                 </p>
               </div>
               <div className="mt-4 grid bd-md:grid-cols-3 gap-4">
                 {RUNNER_UP_PRIZES.map((p) => (
-                  <div key={p.place} className="rounded-lg border border-default p-5 text-center">
+                  <div key={p.place} className="rounded-lg border p-5 text-center">
                     <p className="text-size-lg leading-none">{p.medal}</p>
                     <Eyebrow className="mt-3 text-secondary">
                       {p.place} · {p.amount}
                     </Eyebrow>
                     <ul className="mt-2 space-y-0.5">
                       {p.winners.map((name) => (
-                        <li key={name} className="text-size-sm font-semibold text-bluedot-navy leading-snug">
+                        <li key={name} className="text-size-sm font-semibold text-primary leading-snug">
                           {name}
                         </li>
                       ))}
@@ -335,19 +334,19 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <section className="bg-canvas">
           <div className={SECTION_PADDING_CLASS}>
             <div className="max-w-text mx-auto">
-              <h2 className={EYEBROW_CLASS}>Correct submissions</h2>
-              <div className="mt-4 rounded-lg border border-default p-6 lg:p-8">
+              <h2><Eyebrow className="text-secondary">Correct submissions</Eyebrow></h2>
+              <div className="mt-4 rounded-lg border p-6 lg:p-8">
                 <ul className="columns-2 bd-md:columns-3 lg:columns-4 gap-x-6 space-y-1.5">
                   {CORRECT_SUBMISSIONS.map((name) => (
                     <li
                       key={name}
-                      className="break-inside-avoid text-size-sm text-bluedot-navy/80 leading-relaxed"
+                      className="break-inside-avoid text-size-sm text-secondary leading-relaxed"
                     >
                       {name}
                     </li>
                   ))}
                 </ul>
-                <p className="mt-4 text-size-xs text-bluedot-navy/50 leading-relaxed">
+                <p className="mt-4 text-size-xs text-secondary leading-relaxed">
                   ...and {UNNAMED_SUBMISSIONS_COUNT} others who chose not to be named.
                 </p>
               </div>

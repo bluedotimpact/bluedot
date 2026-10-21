@@ -12,7 +12,7 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
   const tint = course.courseSlug ? COURSE_COLORS[course.courseSlug as CourseColorSlug]?.bright : undefined;
 
   return (
-    <li className="border-charcoal-light relative overflow-hidden rounded-xl border bg-white">
+    <li className="relative overflow-hidden rounded-xl border bg-raised">
       {tint && (
         <div
           aria-hidden
@@ -25,7 +25,7 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
           <div
             aria-hidden
             className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-12 sm:rounded-2xl"
-            style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-bluedot-normal)' }}
+            style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-accent)' }}
           >
             <img
               src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
@@ -33,25 +33,25 @@ const CourseQuickApplyCard = ({ course }: { course: EligibleRoundsCourse }) => {
               alt=""
             />
           </div>
-          <p className="text-size-md text-bluedot-navy min-w-0 flex-1 font-semibold text-pretty">
+          <p className="text-size-md text-primary min-w-0 flex-1 font-semibold text-pretty">
             {course.courseTitle ?? 'Course'}
           </p>
           <FaChevronDown
             aria-hidden
-            className="text-bluedot-navy size-4 shrink-0 transition-transform group-open:rotate-180"
+            className="text-primary size-4 shrink-0 transition-transform group-open:rotate-180"
           />
         </summary>
-        <ul className="border-charcoal-light flex flex-col border-t px-5 pb-5 sm:px-6 sm:pb-6">
+        <ul className="border-subtle flex flex-col border-t px-5 pb-5 sm:px-6 sm:pb-6">
           {course.rounds.map((round) => {
             const dateRange = formatDateRange(round.firstDiscussionDate, round.lastDiscussionDate);
             return (
               <li
                 key={round.id}
-                className="border-charcoal-light flex flex-wrap items-center justify-between gap-3 border-b py-4 last:border-b-0 last:pb-0"
+                className="border-subtle flex flex-wrap items-center justify-between gap-3 border-b py-4 last:border-b-0 last:pb-0"
               >
                 <div className="min-w-0 flex flex-col gap-1">
-                  <p className="text-size-md text-bluedot-navy font-semibold">{round.label}</p>
-                  {dateRange && <p className="text-size-xs text-bluedot-navy/80">{dateRange}</p>}
+                  <p className="text-size-md text-primary font-semibold">{round.label}</p>
+                  {dateRange && <p className="text-size-xs text-secondary">{dateRange}</p>}
                 </div>
                 <Button size="small" variant="secondary" url={`${ROUTES.quickApply.url}?round=${round.id}`}>
                   Quick apply

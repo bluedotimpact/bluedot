@@ -34,17 +34,17 @@ const AdminDeletionRequests = withAdminGuard(() => {
             {selectedUser ? (
               <>
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-                <p className="font-semibold text-bluedot-navy break-words">{selectedUser.name || '(no name)'}</p>
-                <p className="text-size-xs text-bluedot-navy/70 break-words">{selectedUser.email}</p>
-                <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{selectedUser.id}</code></p>
+                <p className="font-semibold text-primary break-words">{selectedUser.name || '(no name)'}</p>
+                <p className="text-size-xs text-secondary break-words">{selectedUser.email}</p>
+                <p className="text-size-xs text-secondary">User ID: <code>{selectedUser.id}</code></p>
               </>
             ) : (
-              <p className="text-size-xs text-bluedot-navy/70">No user selected.</p>
+              <p className="text-size-xs text-secondary">No user selected.</p>
             )}
             <button
               type="button"
               onClick={() => setIsSelectUserModalOpen(true)}
-              className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
+              className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
             >
               {selectedUser ? 'Select a different user' : 'Select user'}
             </button>
@@ -61,15 +61,15 @@ const AdminDeletionRequests = withAdminGuard(() => {
           )}
 
           <div className="flex flex-col gap-2">
-            <h2 className="text-size-md font-semibold text-bluedot-navy">Requests</h2>
+            <h2 className="text-size-md font-semibold text-primary">Requests</h2>
             {requestsQuery.isLoading && <ProgressDots className="py-4" />}
             {requestsQuery.data?.length === 0 && (
-              <p className="text-size-xs text-bluedot-navy/70">No deletion requests yet.</p>
+              <p className="text-size-xs text-secondary">No deletion requests yet.</p>
             )}
             {requestsQuery.data?.map((request) => (
               <div key={request.id} className="container-lined p-4 flex flex-col gap-1">
-                <p className="font-semibold text-bluedot-navy break-words">{request.email}</p>
-                <p className="text-size-xs text-bluedot-navy/70">
+                <p className="font-semibold text-primary break-words">{request.email}</p>
+                <p className="text-size-xs text-secondary">
                   {request.status} &middot; requested {request.requestedAt}
                   {request.completedAt && ` · completed ${request.completedAt}`}
                 </p>

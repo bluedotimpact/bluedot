@@ -16,7 +16,7 @@ const FUNDED_ORGANIZATIONS: PublicRapidGrant[] = [
 const FundedOrganizationsSection = () => {
   return (
     <section id="organizations-funded" className="section-base scroll-mt-28 seed-grant-funded-section">
-      <div className="border-b border-bluedot-navy/15 py-10 bd-md:py-12">
+      <div className="border-b border-subtle py-10 bd-md:py-12">
         <h2 className="mb-8 text-size-lg font-medium tracking-tight">Organizations we&apos;ve helped fund</h2>
         <ListGroup>
           {FUNDED_ORGANIZATIONS.map((organization) => (

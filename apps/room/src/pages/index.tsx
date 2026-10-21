@@ -39,9 +39,9 @@ const DashboardPage = withAuth(({ auth }) => {
         <div className="section-base">
           <H1 className="mb-4">Rooms</H1>
           <div className="animate-pulse grid gap-6 md:grid-cols-2">
-            <div className="h-20 bg-stone-200 rounded" />
-            <div className="h-20 bg-stone-200 rounded" />
-            <div className="h-20 bg-stone-200 rounded" />
+            <div className="h-20 bg-active rounded" />
+            <div className="h-20 bg-active rounded" />
+            <div className="h-20 bg-active rounded" />
           </div>
         </div>
       </div>

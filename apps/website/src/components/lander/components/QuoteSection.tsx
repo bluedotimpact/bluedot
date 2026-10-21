@@ -24,7 +24,7 @@ export type QuoteSectionProps = {
   quotes: QuoteWithUrl[];
   /** Background color for the quote card (only used by the `card` variant). Defaults to `var(--bluedot-lightest)`. */
   cardBackgroundColor?: string;
-  /** Accent color for the active navigation indicator. Defaults to bluedot-normal */
+  /** Accent color for the active navigation indicator. Defaults to the accent colour */
   accentColor?: string;
   /**
    * `card`: original lavender-card-with-side-image layout.
@@ -35,10 +35,9 @@ export type QuoteSectionProps = {
 
 // Design constants - these stay consistent across all courses
 const DEFAULT_COLORS = {
-  background: '#FFFFFF',
   cardBg: 'var(--bluedot-lightest)',
-  text: 'var(--bluedot-navy)',
-  accent: 'var(--bluedot-normal)',
+  text: 'var(--color-primary)',
+  accent: 'var(--color-accent)',
 };
 
 // Font sizing configuration
@@ -48,7 +47,7 @@ const FONT_SIZE_THRESHOLDS = {
 } as const;
 
 const FONT_SIZE_CLASSES = {
-  EXTRA_LONG: 'text-size-xxs sm:text-size-xs bd-md:text-size-sm xl:text-size-md', // For quotes > 400 chars
+  EXTRA_LONG: 'text-size-xs bd-md:text-size-sm xl:text-size-md', // For quotes > 400 chars
   LONG: 'text-size-sm sm:text-size-md xl:text-size-lg', // For quotes 200-400 chars
   DEFAULT: 'text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
 } as const;
@@ -74,13 +73,12 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   cardBackgroundColor?: string;
 }) => {
   const cardContent = (
-    <div className="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]">
+    <div className="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]">
       {/* Quote and author info */}
       <div className="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between">
         {/* Quote text - sizing automatically determined by content length */}
         <blockquote
-          className={`${getFontSizeForQuote(quote.quote)} leading-normal lg:leading-tight font-semibold text-center lg:text-left`}
-          style={{ color: DEFAULT_COLORS.text }}
+          className={`${getFontSizeForQuote(quote.quote)} leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary`}
         >
           {quote.quote}
         </blockquote>
@@ -91,6 +89,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
           {quote.url && isActive ? (
             <a href={quote.url} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
               <img
+                loading="lazy"
                 src={quote.imageSrc}
                 alt={quote.name}
                 className="size-12 sm:size-16 object-cover rounded-full lg:hidden"
@@ -98,6 +97,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
             </a>
           ) : (
             <img
+              loading="lazy"
               src={quote.imageSrc}
               alt={quote.name}
               className="size-12 sm:size-16 object-cover rounded-full lg:hidden"
@@ -106,10 +106,10 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 
           {/* Name and role */}
           <div className="flex flex-col items-center lg:items-start">
-            <div className="text-size-md leading-tight font-semibold" style={{ color: DEFAULT_COLORS.text }}>
+            <div className="text-size-md leading-tight font-semibold text-primary">
               {quote.name}
             </div>
-            <div className="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0" style={{ color: DEFAULT_COLORS.text }}>
+            <div className="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary">
               {quote.role}
             </div>
           </div>
@@ -126,6 +126,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
             className="block size-full cursor-pointer"
           >
             <img
+              loading="lazy"
               src={quote.imageSrc}
               alt={quote.name}
               className="size-full object-cover rounded-l-xl"
@@ -133,6 +134,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
           </a>
         ) : (
           <img
+            loading="lazy"
             src={quote.imageSrc}
             alt={quote.name}
             className="size-full object-cover rounded-l-xl"
@@ -144,7 +146,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 
   return (
     <div
-      className="w-full rounded-xl overflow-hidden"
+      className="w-full h-full rounded-xl overflow-hidden"
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       style={{ backgroundColor: cardBackgroundColor || DEFAULT_COLORS.cardBg }}
     >
@@ -233,7 +235,7 @@ const QuoteSection = ({
 
     return (
       <section
-        className="w-full bg-white"
+        className="w-full bg-canvas"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -255,10 +257,10 @@ const QuoteSection = ({
                       className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
                     />
                     <div className="flex flex-col">
-                      <div className="text-size-sm bd-md:text-size-md font-semibold leading-normal text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+                      <div className="text-size-sm bd-md:text-size-md font-semibold leading-normal text-primary group-hover:text-link transition-colors">
                         {quote.name}
                       </div>
-                      <div className="text-size-sm leading-relaxed text-bluedot-navy/60">
+                      <div className="text-size-sm leading-relaxed text-secondary">
                         {quote.role}
                       </div>
                     </div>
@@ -271,7 +273,7 @@ const QuoteSection = ({
                     aria-hidden={!isActive}
                   >
                     <blockquote
-                      className={`${getEditorialFontSize(quote.quote)} leading-relaxed font-medium text-bluedot-navy`}
+                      className={`${getEditorialFontSize(quote.quote)} leading-relaxed font-medium text-primary`}
                     >
                       {quote.quote}
                     </blockquote>
@@ -299,10 +301,10 @@ const QuoteSection = ({
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                 aria-label="Previous quote"
               >
-                <span className="text-bluedot-navy text-size-sm leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
+                <span className="text-primary text-size-sm leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
               </button>
 
               <div className="flex items-center gap-2 mx-1">
@@ -311,7 +313,7 @@ const QuoteSection = ({
                     type="button"
                     key={`indicator-${quote.name}`}
                     onClick={() => handleIndicatorClick(index)}
-                    className="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                    className="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                     style={{
                       backgroundColor: index === activeIndex ? dotActiveColor : 'rgba(11, 21, 53, 0.15)',
                     }}
@@ -324,13 +326,13 @@ const QuoteSection = ({
               <button
                 type="button"
                 onClick={handleNext}
-                className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="size-10 rounded-full flex items-center justify-center bg-tint hover:bg-active transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                 aria-label="Next quote"
               >
-                <span className="text-bluedot-navy text-size-sm leading-none">→</span>
+                <span className="text-primary text-size-sm leading-none">→</span>
               </button>
 
-              <span className="text-size-xs text-bluedot-navy/50 ml-auto tabular-nums">
+              <span className="text-size-xs text-secondary ml-auto tabular-nums">
                 {activeIndex + 1} / {quotes.length}
               </span>
             </div>
@@ -342,8 +344,7 @@ const QuoteSection = ({
 
   return (
     <section
-      className="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
-      style={{ backgroundColor: DEFAULT_COLORS.background }}
+      className="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden bg-canvas"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -359,8 +360,17 @@ const QuoteSection = ({
           <div className="lg:hidden relative">
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
-              <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10">
-                <QuoteCard quote={activeQuote} isActive cardBackgroundColor={cardBackgroundColor} />
+              {/* Every quote is stacked so the container holds the tallest card and nothing below it jumps */}
+              <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10 grid">
+                {quotes.map((quote, index) => (
+                  <div
+                    key={quote.quote}
+                    className={`[grid-area:1/1] ${index === activeIndex ? 'visible' : 'invisible'}`}
+                    aria-hidden={index !== activeIndex}
+                  >
+                    <QuoteCard quote={quote} isActive={index === activeIndex} cardBackgroundColor={cardBackgroundColor} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -382,11 +392,11 @@ const QuoteSection = ({
             <button
               type="button"
               onClick={handlePrevious}
-              className="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
               aria-label="Previous quote"
             >
               <span
-                className="text-bluedot-navy text-size-lg font-medium select-none"
+                className="text-primary text-size-lg font-medium select-none"
                 style={{
                   transform: 'scaleX(-1)',
                 }}
@@ -403,7 +413,7 @@ const QuoteSection = ({
                 type="button"
                 key={`indicator-${quote.name}`}
                 onClick={() => handleIndicatorClick(index)}
-                className="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
                 aria-label={`Go to quote ${index + 1}`}
               >
                 <div
@@ -422,11 +432,11 @@ const QuoteSection = ({
             <button
               type="button"
               onClick={handleNext}
-              className="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
               aria-label="Next quote"
             >
               <span
-                className="text-bluedot-navy text-size-lg font-medium select-none"
+                className="text-primary text-size-lg font-medium select-none"
               >
                 →
               </span>

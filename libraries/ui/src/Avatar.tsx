@@ -42,7 +42,7 @@ export const Avatar: React.FC<AvatarProps> = ({ name, size = 'small', imageSrc, 
     <div
       aria-hidden
       className={cn(
-        'bg-bluedot-normal flex shrink-0 items-center justify-center rounded-full font-bold text-white',
+        'bg-accent flex shrink-0 items-center justify-center rounded-full font-bold text-on-dark',
         sizeClasses[size],
         className,
       )}

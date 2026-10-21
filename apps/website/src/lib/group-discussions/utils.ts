@@ -1,9 +1,18 @@
-import { type GroupDiscussion } from '@bluedot/db';
+import { type Group, type GroupDiscussion } from '@bluedot/db';
 
 // Discussions can be bulk-created without an end time; server boundaries filter those out so the UI only sees scheduled ones.
 export type GroupDiscussionWithEnd = GroupDiscussion & { endDateTime: number };
 
 export const hasEndDateTime = (d: GroupDiscussion): d is GroupDiscussionWithEnd => d.endDateTime !== null;
+
+// Owns the group, as opposed to covering one of its discussions as a substitute.
+export const isGroupFacilitator = (group: Pick<Group, 'facilitator'>, meetPersonId: string) => (
+  (group.facilitator ?? []).includes(meetPersonId)
+);
+
+export const isDiscussionFacilitator = (discussion: Pick<GroupDiscussion, 'facilitators'>, meetPersonId: string) => (
+  (discussion.facilitators ?? []).includes(meetPersonId)
+);
 
 const ONE_HOUR_MS = 3_600_000;
 

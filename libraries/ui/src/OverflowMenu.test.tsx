@@ -57,7 +57,7 @@ describe('OverflowMenu', () => {
     const onAction = vi.fn();
     const mockItems = [
       {
-        id: 'reschedule', label: 'Reschedule', onAction, isDisabled: true,
+        id: 'reschedule', label: 'Reschedule', onAction, disabled: true,
       },
       { id: 'download', label: 'Download', onAction: vi.fn() },
     ];

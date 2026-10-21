@@ -18,7 +18,7 @@ export const ReviewEvidence = ({
           <Button variant="outline-black" className="mt-3" onClick={onRetry}>Retry participant</Button>
         </div>
       )}
-      {person && <PersonCard person={person} showName />}
+      {person && <PersonCard person={person} showName mustLook={item.mustLook} />}
     </div>
     {actions}
   </section>

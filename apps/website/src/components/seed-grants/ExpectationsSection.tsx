@@ -1,5 +1,6 @@
-import { H3, H4, P } from '@bluedot/ui';
-import { Pill } from '../Pill';
+import {
+  Eyebrow, H3, H4, P,
+} from '@bluedot/ui';
 
 const EXPECTATIONS = [
   {
@@ -19,26 +20,26 @@ const ExpectationsSection = () => {
     <section className="section section-body seed-grant-expectations-section">
       <div className="w-full flex flex-col gap-6">
         <H3>What we expect from you</H3>
-        <P className="text-bluedot-navy/80">We keep this light.</P>
+        <P className="text-secondary">We keep this light.</P>
 
-        <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
+        <ul className="flex flex-col divide-y divide-subtle border-y border-subtle">
           {EXPECTATIONS.map((item) => (
             <li
               key={item.title}
               className="flex flex-col bd-md:flex-row bd-md:items-baseline gap-3 bd-md:gap-10 py-6"
             >
               <div className="bd-md:w-40 bd-md:shrink-0">
-                <Pill>{item.cadence}</Pill>
+                <Eyebrow>{item.cadence}</Eyebrow>
               </div>
               <div className="flex flex-col gap-2">
                 <H4>{item.title}</H4>
-                <P className="text-bluedot-navy/80">{item.body}</P>
+                <P className="text-secondary">{item.body}</P>
               </div>
             </li>
           ))}
         </ul>
 
-        <P className="text-bluedot-navy/80">
+        <P className="text-secondary">
           If you stop working on the project before the grant ends, tell us and return the unspent funds.
         </P>
       </div>

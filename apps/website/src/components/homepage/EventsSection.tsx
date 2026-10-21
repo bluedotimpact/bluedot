@@ -13,28 +13,28 @@ const EventsSection = () => {
   return (
     <section
       id="upcoming-events"
-      className="w-full bg-white py-12 bd-md:py-16 lg:py-20 xl:py-24"
+      className="w-full bg-canvas py-12 bd-md:py-16 lg:py-20 xl:py-24"
       aria-labelledby="events-section-heading"
     >
       <div className="section-base">
         <div className="mb-8 text-center">
           <h2 id="events-section-heading" className="bluedot-h2 font-medium tracking-tighter">Join an upcoming event</h2>
-          <p className="mx-auto mt-4 max-w-[620px] text-size-sm leading-relaxed text-bluedot-navy/70">Reading groups, workshops, and meetups. Connect with the BlueDot community online and around the world.</p>
+          <p className="mx-auto mt-4 max-w-[620px] text-size-sm leading-relaxed text-secondary">Reading groups, workshops, and meetups. Connect with the BlueDot community online and around the world.</p>
         </div>
         {isLoading && <div className="py-8"><ProgressDots /></div>}
         {error && (
-          <p role="alert" className="py-6 text-size-sm leading-relaxed text-bluedot-navy/70">
-            We couldn’t load the events. <a className="text-bluedot-normal underline" href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=events-section&utm_content=error-cta">Check the calendar on Luma ↗</a>
+          <p role="alert" className="py-6 text-size-sm leading-relaxed text-secondary">
+            We couldn’t load the events. <a className="text-link underline" href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=events-section&utm_content=error-cta">Check the calendar on Luma ↗</a>
           </p>
         )}
         {!isLoading && !error && displayEvents.length > 0 && (
           <>
-            <p className="mb-6 text-size-xxs leading-relaxed text-bluedot-navy/60">Online events in your time. In-person events in venue time.</p>
+            <p className="mb-6 text-size-xs leading-relaxed text-secondary">Online events in your time. In-person events in venue time.</p>
             <EventAgenda events={displayEvents} campaign="events-section" />
           </>
         )}
         {!isLoading && !error && displayEvents.length === 0 && (
-          <p className="py-6 text-size-sm leading-relaxed text-bluedot-navy/70">More events are on the way. Explore our calendar for the latest updates.</p>
+          <p className="py-6 text-size-sm leading-relaxed text-secondary">More events are on the way. Explore our calendar for the latest updates.</p>
         )}
         <div className="mt-8 flex justify-center">
           <Button url={EVENTS_SECTION_URL} variant="secondary">See all events →</Button>

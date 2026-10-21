@@ -13,9 +13,9 @@ type RoundItemProps = {
   href: string;
   /** CTA button text. Defaults to "Apply now" */
   ctaText?: string;
-  /** Left accent bar color. Defaults to var(--bluedot-normal) */
+  /** Left accent bar color. Defaults to var(--color-accent) */
   accentColor?: string;
-  /** CTA text color. Defaults to var(--bluedot-normal). Pass accentColor here when the page is course-themed (e.g. lander pages) */
+  /** CTA text color. Defaults to var(--color-accent). Pass accentColor here when the page is course-themed (e.g. lander pages) */
   ctaColor?: string;
 };
 
@@ -28,14 +28,14 @@ export const RoundItem = ({
   ctaColor,
 }: RoundItemProps) => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const barColor = accentColor || 'var(--bluedot-normal)';
+  const barColor = accentColor || 'var(--color-accent)';
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const resolvedCtaColor = ctaColor || 'var(--bluedot-normal)';
+  const resolvedCtaColor = ctaColor || 'var(--color-accent)';
 
   const dateContent = (
     <div>
-      <p className="text-size-sm leading-relaxed font-semibold text-bluedot-navy">{title}</p>
-      <p className="text-size-sm leading-relaxed text-bluedot-navy/50">{subtitle}</p>
+      <p className="text-size-sm leading-relaxed font-semibold text-primary">{title}</p>
+      <p className="text-size-sm leading-relaxed text-secondary">{subtitle}</p>
     </div>
   );
 

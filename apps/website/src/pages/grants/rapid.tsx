@@ -38,7 +38,7 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
   const applicationUrl = useApplicationUrl(GRANT_TYPE);
 
   return (
-    <div className="bg-white text-bluedot-navy">
+    <div className="bg-canvas text-primary">
       <Head>
         {pageMetaTags({ title: `${programName} | BlueDot Impact`, description: PAGE_DESCRIPTION })}
         <link rel="canonical" href={`${SITE_URL}${PAGE_PATH}`} />
@@ -61,7 +61,7 @@ const RapidGrantsPage = ({ programName }: ProgramDetailPageProps) => {
       <GrantFaqSection grantType={GRANT_TYPE} variant="plain" />
       {applicationUrl && (
         <div className="section-base">
-          <div className="flex flex-col items-start gap-5 border-t border-bluedot-navy/15 py-10 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:py-12">
+          <div className="flex flex-col items-start gap-5 border-t border-subtle py-10 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:py-12">
             <p className="text-size-lg tracking-tight">Have something in mind?</p>
             <Button url={applicationUrl} target="_blank">Apply for a Rapid Grant <FaChevronRight aria-hidden className="size-4" /></Button>
           </div>

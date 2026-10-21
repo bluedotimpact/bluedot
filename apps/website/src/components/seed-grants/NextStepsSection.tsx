@@ -39,13 +39,13 @@ const NextStepsSection = () => {
           {NEXT_STEPS.map((step, index) => (
             <li key={step.title} className="flex flex-col gap-3">
               <span
-                className="flex items-center justify-center size-8 rounded-full bg-bluedot-normal text-white text-size-xs font-semibold"
+                className="flex items-center justify-center size-8 rounded-full bg-accent text-on-dark text-size-xs font-semibold"
                 aria-hidden="true"
               >
                 {index + 1}
               </span>
               <H4>{step.title}</H4>
-              <P className="text-bluedot-navy/80">{step.body}</P>
+              <P className="text-secondary">{step.body}</P>
             </li>
           ))}
         </ol>

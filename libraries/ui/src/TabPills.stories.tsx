@@ -26,7 +26,7 @@ const meta = {
   // Same horizontal padding as section-base so the edge bleed lines up as it does in the app
   decorators: [(Story) => <div className="px-spacing-x py-4"><Story /></div>],
   args: {
-    ariaLabel: 'Course filter',
+    'aria-label': 'Course filter',
     tabs: TABS,
     value: 'inProgress',
     onChange: () => {},

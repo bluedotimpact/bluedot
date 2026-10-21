@@ -49,15 +49,15 @@ const SiteLoginPage = () => {
   );
 
   return (
-    <div className={`${inter.className} min-h-screen flex items-center justify-center bg-gray-100`}>
+    <div className={`${inter.className} min-h-screen flex items-center justify-center bg-tint`}>
       <Head>
         {pageMetaTags({ title: 'Site Access | BlueDot Impact' })}
         <meta name="robots" content="noindex" />
       </Head>
-      <div className="bg-white p-8 rounded shadow-md w-[400px] max-w-full">
+      <div className="bg-raised p-8 rounded shadow-md w-[400px] max-w-full">
         <H1 className="text-size-lg mb-2 text-center">Site Access</H1>
-        <p className="text-size-sm text-gray-500 text-center mb-6">
-          <a href="https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=stgchk2vz4wbectnrh4v7gdsmu&i=aledjayhetmqgd4h64fg4kn3hy&h=bluedotimpact.1password.com" className="underline hover:text-gray-700" target="_blank" rel="noopener noreferrer">Here in 1Password</a> if you have access.
+        <p className="text-size-sm text-secondary text-center mb-6">
+          <a href="https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=stgchk2vz4wbectnrh4v7gdsmu&i=aledjayhetmqgd4h64fg4kn3hy&h=bluedotimpact.1password.com" className="underline hover:text-primary" target="_blank" rel="noopener noreferrer">Here in 1Password</a> if you have access.
         </p>
         <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex gap-2">
@@ -67,7 +67,7 @@ const SiteLoginPage = () => {
               placeholder="Enter password"
               autoComplete="current-password"
               autoFocus
-              className="flex-1 p-3 border border-gray-300 rounded text-size-sm outline-none focus:border-blue-600"
+              className="flex-1 p-3 border border-border-control rounded text-size-sm outline-none focus:border-focus"
             />
             <Button variant="outline-black" size="small" onClick={() => setShowPassword((prev) => !prev)}>
               {showPassword ? 'Hide' : 'Show'}
@@ -77,7 +77,7 @@ const SiteLoginPage = () => {
             {loading ? 'Checking...' : 'Enter'}
           </Button>
           {error && (
-            <p className="text-red-600 text-center text-size-sm">{error}</p>
+            <p className="text-error-fg text-center text-size-sm">{error}</p>
           )}
         </form>
       </div>

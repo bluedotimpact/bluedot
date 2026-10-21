@@ -19,7 +19,7 @@ export const TimeOffsetSelector = <
 
   return (
     <div className={className}>
-      <label className="text-size-xs text-stone-500 block">Time offset {!fieldState.isDirty ? `(Default: ${browserTimezoneName})` : ''}</label>
+      <label className="text-size-xs text-secondary block">Time offset {!fieldState.isDirty ? `(Default: ${browserTimezoneName})` : ''}</label>
       <ComboBox options={options} control={props.control} name={field.name} />
     </div>
   );

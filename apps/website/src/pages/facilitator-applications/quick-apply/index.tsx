@@ -21,10 +21,10 @@ import {
   utcIntervalStringToGrid,
 } from '@bluedot/utils';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Nav } from '../../../components/Nav/Nav';
 import { ROUTES } from '../../../lib/routes';
 import { CAREER_LEVELS, PROFESSIONS } from '../../../lib/schemas/facilitatorApplications/applicantDetails.schema';
 import { formatDateRange } from '../../../lib/utils';
@@ -147,32 +147,12 @@ const formatMonthAndYear = (isoDate: string): string => new Date(isoDate).toLoca
   month: 'long', year: 'numeric', timeZone: 'UTC',
 });
 
-const QuickApplyHeader = ({ subtitle }: { subtitle?: string }) => (
-  <header className="border-charcoal-light flex items-center gap-4 border-b bg-white px-5 py-5 sm:pr-5 sm:pl-10">
-    <Link href="/" className="shrink-0">
-      <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-5" />
-    </Link>
-    <div className="bg-charcoal-light h-[18px] w-px shrink-0" aria-hidden />
-    <div className="text-size-xs flex min-w-0 items-center gap-2">
-      <span className="text-bluedot-navy shrink-0 font-semibold">Quick Apply</span>
-      {subtitle && (
-        <>
-          <span className="text-charcoal-mid shrink-0" aria-hidden>
-            &middot;
-          </span>
-          <span className="text-bluedot-navy/60 truncate font-medium">{subtitle}</span>
-        </>
-      )}
-    </div>
-  </header>
-);
-
 const Shell = ({ subtitle, children }: { subtitle?: string; children: React.ReactNode }) => (
-  <div className="bg-cream-normal min-h-screen">
+  <div className="bg-canvas min-h-screen">
     <Head>
       {pageMetaTags({ title: `${CURRENT_ROUTE.title} | BlueDot Impact` })}
     </Head>
-    <QuickApplyHeader subtitle={subtitle} />
+    <Nav variant="minimal" title={CURRENT_ROUTE.title} context={subtitle} />
     <div className="mx-auto flex max-w-[680px] flex-col gap-4 px-4 py-8 pb-16">{children}</div>
   </div>
 );
@@ -188,12 +168,12 @@ const Section = ({
   description?: string;
   children: React.ReactNode;
 }) => (
-  <section className="border-charcoal-light flex flex-col gap-7 rounded-lg border bg-white p-6 sm:p-9">
+  <section className="flex flex-col gap-7 rounded-lg border bg-raised p-6 sm:p-9">
     <div className="flex flex-col gap-4">
       <Eyebrow>{label}</Eyebrow>
       <div className="flex flex-col gap-1.5">
         <H2 className="text-size-md">{title}</H2>
-        {description && <p className="text-size-xs text-bluedot-navy/60">{description}</p>}
+        {description && <p className="text-size-xs text-secondary">{description}</p>}
       </div>
     </div>
     {children}
@@ -220,9 +200,9 @@ const QuestionCollapsible = ({
   <details
     open={open}
     onToggle={onToggle && ((e) => onToggle(e.currentTarget.open))}
-    className="group border-charcoal-light rounded-md border bg-white [&_summary::-webkit-details-marker]:hidden"
+    className="group rounded-md border bg-raised [&_summary::-webkit-details-marker]:hidden"
   >
-    <summary className="text-size-xs text-bluedot-navy flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
+    <summary className="text-size-xs text-primary flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-4 font-semibold">
       {title}
       <FaChevronDown
         aria-hidden
@@ -230,7 +210,7 @@ const QuestionCollapsible = ({
       />
     </summary>
     <div className="flex flex-col gap-3 px-3 pb-4">
-      <div className="text-size-xxs text-bluedot-navy/60 flex flex-col gap-1">
+      <div className="text-size-xs text-secondary flex flex-col gap-1">
         {intro && <p>{intro}</p>}
         {bullets && (
           <ul className="list-disc space-y-0.5 pl-[18px]">
@@ -262,13 +242,13 @@ const DetailsField = ({
   children: React.ReactNode;
 }) => (
   <div className="flex flex-col gap-1.5">
-    <label htmlFor={htmlFor} className="text-size-xs text-bluedot-navy font-semibold">
+    <label htmlFor={htmlFor} className="text-size-xs text-primary font-semibold">
       {label}
       {required && <span className="text-error-fg"> *</span>}
     </label>
-    {hint && <p className="text-size-xxs text-bluedot-navy/60">{hint}</p>}
+    {hint && <p className="text-size-xs text-secondary">{hint}</p>}
     {children}
-    {error && <p className="text-size-xxs text-error-fg">{error}</p>}
+    {error && <p className="text-size-xs text-error-fg">{error}</p>}
   </div>
 );
 
@@ -373,10 +353,10 @@ const QuickApplyForm = ({
 
   return (
     <Shell subtitle={roundLine || undefined}>
-      <div className="border-charcoal-light overflow-hidden rounded-lg border">
-        <div className="bg-bluedot-normal h-[9px]" />
-        <div className="flex flex-col gap-3 bg-white p-6 sm:p-9">
-          {roundLine && <p className="text-size-xs text-bluedot-normal font-medium">{roundLine}</p>}
+      <div className="overflow-hidden rounded-lg border">
+        <div className="bg-accent h-[9px]" />
+        <div className="flex flex-col gap-3 bg-raised p-6 sm:p-9">
+          {roundLine && <p className="text-size-xs text-accent font-medium">{roundLine}</p>}
           <H1 className="text-size-xl">Quick Apply</H1>
         </div>
       </div>
@@ -388,8 +368,8 @@ const QuickApplyForm = ({
       >
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-3">
-            <label htmlFor="numGroupsToFacilitate" className="text-size-xs text-bluedot-navy font-semibold">
-              # groups to facilitate <span className="text-red-600">*</span>
+            <label htmlFor="numGroupsToFacilitate" className="text-size-xs text-primary font-semibold">
+              # groups to facilitate <span className="text-error-fg">*</span>
             </label>
             <div className="flex items-center gap-2">
               <Input
@@ -405,21 +385,21 @@ const QuickApplyForm = ({
                   max: 10,
                 })}
               />
-              <span className="text-size-xs text-bluedot-navy/60">group(s)</span>
+              <span className="text-size-xs text-secondary">group(s)</span>
             </div>
             {errors.numGroupsToFacilitate && (
-              <p className="text-size-xs text-red-600">Enter how many groups you can facilitate (1 to 10).</p>
+              <p className="text-size-xs text-error-fg">Enter how many groups you can facilitate (1 to 10).</p>
             )}
           </div>
 
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
-              <label htmlFor="formFeedback" className="text-size-xs text-bluedot-navy font-semibold">
+              <label htmlFor="formFeedback" className="text-size-xs text-primary font-semibold">
                 Any requests or special information?
               </label>
-              <p className="text-size-xxs text-bluedot-navy/60">e.g. on the desired amount/composition of groups</p>
+              <p className="text-size-xs text-secondary">e.g. on the desired amount/composition of groups</p>
             </div>
-            <Textarea id="formFeedback" className="min-h-24" {...register('formFeedback')} />
+            <Textarea id="formFeedback" {...register('formFeedback')} />
           </div>
         </div>
       </Section>
@@ -438,7 +418,7 @@ const QuickApplyForm = ({
               bullets={question.bullets}
               outro={question.outro}
             >
-              <Textarea aria-label={question.label} className="min-h-24" {...register(question.name)} />
+              <Textarea aria-label={question.label} {...register(question.name)} />
             </QuestionCollapsible>
           ))}
         </div>
@@ -448,14 +428,14 @@ const QuickApplyForm = ({
         label="Your availability"
         title={(
           <>
-            Share your availability <span className="text-red-600">*</span>
+            Share your availability <span className="text-error-fg">*</span>
           </>
         )}
         description="Provide your availability so we can schedule your discussions at times that suit you. It'll be saved as a default for your next application."
       >
         <div className="flex items-end justify-between gap-4">
           <div className="flex w-56 flex-col gap-1.5">
-            <label htmlFor="timezone" className="text-size-xs text-bluedot-navy font-semibold">
+            <label htmlFor="timezone" className="text-size-xs text-primary font-semibold">
               Timezone
             </label>
             <Controller
@@ -475,7 +455,7 @@ const QuickApplyForm = ({
           <button
             type="button"
             onClick={() => setValue('timeAv', {})}
-            className="text-size-xxs text-bluedot-navy/60 cursor-pointer font-medium underline"
+            className="text-size-xs text-secondary cursor-pointer font-medium underline"
           >
             Clear availability selection
           </button>
@@ -488,14 +468,14 @@ const QuickApplyForm = ({
             rules={{ validate: (v) => Object.values(v).some(Boolean) || 'Select at least one time slot.' }}
             render={({ field }) => <TimeAvailabilityGrid value={field.value} onChange={field.onChange} />}
           />
-          {errors.timeAv && <p className="text-size-xs text-red-600">{errors.timeAv.message}</p>}
+          {errors.timeAv && <p className="text-size-xs text-error-fg">{errors.timeAv.message}</p>}
         </div>
 
         <div className="flex flex-col gap-3">
-          <label htmlFor="availabilityComments" className="text-size-xs text-bluedot-navy font-semibold">
+          <label htmlFor="availabilityComments" className="text-size-xs text-primary font-semibold">
             Additional comments
           </label>
-          <Textarea id="availabilityComments" className="min-h-24" {...register('availabilityComments')} />
+          <Textarea id="availabilityComments" {...register('availabilityComments')} />
         </div>
       </Section>
 
@@ -513,7 +493,7 @@ const QuickApplyForm = ({
             <span className="flex min-w-0 flex-col gap-0.5">
               <span>{hasPriorDetails ? 'Update your details' : 'Your details'}</span>
               {detailsLine && (
-                <span className="text-size-xxs text-bluedot-navy/60 truncate font-medium">{detailsLine}</span>
+                <span className="text-size-xs text-secondary truncate font-medium">{detailsLine}</span>
               )}
             </span>
           )}
@@ -586,10 +566,10 @@ const QuickApplyForm = ({
 
         <Checkbox {...register('shareDetails')}>
           <span className="flex flex-col gap-0.5">
-            <span className="text-size-xs text-bluedot-navy font-semibold">
+            <span className="text-size-xs text-primary font-semibold">
               Share my data with third-party AI safety organisations
             </span>
-            <span className="text-size-xxs text-bluedot-navy/60">
+            <span className="text-size-xs text-secondary">
               If you opt in, we may share parts of this application and your course participation with
               organisations we trust. They sometimes email people about jobs or other opportunities. It
               won’t affect your application decision.
@@ -598,7 +578,7 @@ const QuickApplyForm = ({
         </Checkbox>
       </Section>
 
-      <div className="border-charcoal-light rounded-lg border bg-white p-5">
+      <div className="rounded-lg border bg-raised p-5">
         <Button onClick={handleSubmit(onSubmit)} disabled={quickApply.isPending}>
           {quickApply.isPending ? 'Submitting…' : 'Submit'}
         </Button>

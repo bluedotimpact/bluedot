@@ -35,7 +35,7 @@ const WhatWeLookForSection = () => {
           {CRITERIA.map((criterion) => (
             <CardShell key={criterion.title} className="flex flex-col gap-4">
               <H4>{criterion.title}</H4>
-              <div className="flex flex-col gap-3 text-bluedot-navy/80">
+              <div className="flex flex-col gap-3 text-secondary">
                 {criterion.body}
               </div>
             </CardShell>
