@@ -1,5 +1,5 @@
 name: Improve developer experience
-description: Suggest improvements that make development easier and faster
+description: Suggest an internal, engineering-only change, such as tooling, CI, linting, docs or code health
 title: "Short descriptive title"
 assignees: []
 type: "devex"
