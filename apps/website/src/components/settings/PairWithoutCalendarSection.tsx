@@ -31,7 +31,7 @@ const PairWithoutCalendarSection = ({ connectToken, hasWorkingCalendar }: { conn
                 : 'We\'ll pick a daytime slot in your time zone, and you can move the invite if it clashes.'}
             </P>
           </div>
-          <Button variant="secondary" size="small" loading={stop.isPending} onClick={() => stop.mutate()}>
+          <Button variant="secondary" loading={stop.isPending} onClick={() => stop.mutate()}>
             Stop
           </Button>
         </>
