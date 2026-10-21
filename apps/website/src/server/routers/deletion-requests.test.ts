@@ -1,5 +1,6 @@
 import {
   calendarConnectionTable,
+  calendarPairWithoutCalendarTable,
   courseFeedbackTable,
   courseRegistrationTable,
   deletionRequestTable,
@@ -228,6 +229,9 @@ const seedSubjectData = async () => {
     encryptedRefreshToken: encryptRefreshToken(`refresh-${userId}`),
     scopes: 'openid email',
   })));
+  await testDb.pg.insert(calendarPairWithoutCalendarTable.pg).values([SUBJECT.id, 'test-user'].map((userId) => ({
+    id: `pair-${userId}`, userId, slackUserId: `slack-${userId}`,
+  })));
 };
 
 const seedRequest = (overrides: Record<string, unknown> = {}) => testDb.insert(deletionRequestTable, {
@@ -254,6 +258,7 @@ const expectDeletionEndState = async () => {
   expect(await pgIdsIn(exerciseResponsePgTable)).toEqual(['er-other']);
   expect(await pgIdsIn(resourceCompletionPgTable)).toEqual(['rc-other']);
   expect(await pgIdsIn(calendarConnectionTable)).toEqual(['cal-test-user']);
+  expect(await pgIdsIn(calendarPairWithoutCalendarTable)).toEqual(['pair-test-user']);
   expect(await pgIdsIn(selfServeCourseRegistrationTable)).toEqual(['ss-other']);
   expect(await pgIdsIn(dropoutTable)).toEqual(['do-other', 'do-subject']);
   expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared']);
@@ -272,6 +277,7 @@ const ALL_STEPS = [
   'exercise-responses',
   'resource-completions',
   'calendar-connections',
+  'calendar-pair-without-calendar',
   'self-serve-course-registrations',
   'project-submissions',
   'course-registrations',
@@ -290,6 +296,7 @@ const STEP_PG_TABLES = {
   'exercise-responses': exerciseResponsePgTable,
   'resource-completions': resourceCompletionPgTable,
   'calendar-connections': calendarConnectionTable,
+  'calendar-pair-without-calendar': calendarPairWithoutCalendarTable,
 } as const;
 
 // Makes the named step fail exactly once, through whichever channel it deletes on.
@@ -664,6 +671,7 @@ describe('deletionRequests.executeAccountDeletion', () => {
       { step: 'exercise-responses', deleted: 1 },
       { step: 'resource-completions', deleted: 1 },
       { step: 'calendar-connections', deleted: 1 },
+      { step: 'calendar-pair-without-calendar', deleted: 1 },
       { step: 'self-serve-course-registrations', deleted: 1 },
       { step: 'project-submissions', deleted: 1 },
       { step: 'course-registrations', deleted: 1 },
@@ -675,6 +683,7 @@ describe('deletionRequests.executeAccountDeletion', () => {
     expect(await pgIdsIn(exerciseResponsePgTable)).toEqual(['er-other']);
     expect(await pgIdsIn(resourceCompletionPgTable)).toEqual(['rc-other']);
     expect(await pgIdsIn(calendarConnectionTable)).toEqual(['cal-test-user']);
+    expect(await pgIdsIn(calendarPairWithoutCalendarTable)).toEqual(['pair-test-user']);
     expect(googleRevokes).toEqual([`refresh-${SUBJECT.id}`]);
     expect(await pgIdsIn(selfServeCourseRegistrationTable)).toEqual(['ss-other']);
     expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject-unlinked']);

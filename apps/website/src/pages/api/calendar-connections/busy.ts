@@ -2,6 +2,7 @@ import createHttpError from 'http-errors';
 import { z } from 'zod';
 import { getBusyApiSecret, secretsMatch } from '../../../lib/api/calendarConnect';
 import { getBusyTimes } from '../../../lib/api/calendarConnections';
+import { addPairWithoutCalendar } from '../../../lib/api/calendarPairWithoutCalendar';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
 const MAX_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
@@ -43,6 +44,8 @@ export default makeApiRoute({
       errors: z.array(z.string()),
       // How the calendars were found, for Dot-to-Dot's logs
       matchedBy: z.enum(['slack', 'email']).nullable(),
+      // They asked to be paired without a calendar. Dot-to-Dot treats them as free in working hours unless `connected`.
+      pairWithoutCalendar: z.boolean(),
     })),
   }),
 }, async (rawBody, { raw: { req, res } }) => {
@@ -74,10 +77,10 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('The window can be at most 14 days');
   }
 
-  const users = await getBusyTimes({
+  const busy = await getBusyTimes({
     members: body.members,
     timeMin: new Date(timeMinMs).toISOString(),
     timeMax: new Date(timeMaxMs).toISOString(),
   });
-  return { users };
+  return { users: await addPairWithoutCalendar({ members: body.members, users: busy }) };
 });

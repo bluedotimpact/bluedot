@@ -1,6 +1,8 @@
 import '@testing-library/jest-dom';
-import { calendarConnectionTable } from '@bluedot/db';
-import { render, screen } from '@testing-library/react';
+import { calendarConnectionTable, calendarPairWithoutCalendarTable } from '@bluedot/db';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
@@ -102,5 +104,68 @@ describe('/account/calendars', () => {
     routerQuery.current = { error: 'missing_scope' };
     renderPage();
     expect(await screen.findByText('We need permission to see when you\'re busy')).toBeInTheDocument();
+  });
+
+  describe('pairing without a calendar', () => {
+    const seedCalendar = (lastError: string | null = null) => testDb.pg.insert(calendarConnectionTable.pg).values({
+      id: 'c1',
+      slackUserId: null,
+      userId: 'test-user',
+      provider: 'google',
+      providerAccountId: 'sub-1',
+      providerAccountEmail: 'personal@gmail.example',
+      encryptedRefreshToken: encryptRefreshToken('rt'),
+      scopes: 'openid email',
+      lastError,
+    });
+    const optIns = () => testDb.pg.select().from(calendarPairWithoutCalendarTable.pg);
+
+    test('can be turned on and stopped', async () => {
+      renderPage();
+
+      expect(await screen.findByRole('heading', { name: 'Can\'t connect your calendar?' })).toBeInTheDocument();
+      fireEvent.click(screen.getByRole('button', { name: 'Pair me without a calendar' }));
+
+      expect(await screen.findByText('You\'ll be paired without a calendar.')).toBeInTheDocument();
+      expect(await optIns()).toMatchObject([{ userId: 'test-user', slackUserId: null }]);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Stop' }));
+      expect(await screen.findByRole('button', { name: 'Pair me without a calendar' })).toBeInTheDocument();
+      expect(await optIns()).toEqual([]);
+    });
+
+    test('a valid Slack link links the opt-in to that Slack member', async () => {
+      vi.useFakeTimers({ now: Date.parse('2026-10-19T15:00:00Z'), toFake: ['Date'] });
+      routerQuery.current = { s: CONNECT_TOKEN };
+      renderPage();
+
+      fireEvent.click(await screen.findByRole('button', { name: 'Pair me without a calendar' }));
+
+      await waitFor(async () => expect(await optIns()).toMatchObject([{ userId: 'test-user', slackUserId: 'U0BASQRM0H2' }]));
+    });
+
+    test('is hidden when they have a working calendar', async () => {
+      await seedCalendar();
+      renderPage();
+
+      expect(await screen.findByText('personal@gmail.example')).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Pair me without a calendar' })).not.toBeInTheDocument();
+    });
+
+    test('is offered when their only calendar needs reconnecting', async () => {
+      await seedCalendar('invalid_grant');
+      renderPage();
+
+      expect(await screen.findByRole('button', { name: 'Pair me without a calendar' })).toBeInTheDocument();
+    });
+
+    test('stays visible when on, even with a working calendar, so they can stop it', async () => {
+      await seedCalendar();
+      await testDb.pg.insert(calendarPairWithoutCalendarTable.pg).values({ userId: 'test-user', slackUserId: null });
+      renderPage();
+
+      expect(await screen.findByText(/so we'll use that to find times you're free/)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Stop' })).toBeInTheDocument();
+    });
   });
 });
