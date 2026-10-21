@@ -229,22 +229,51 @@ describe('courses.getCourseProgress', () => {
     expect(after.courseProgress).toEqual({ totalCount: 2, completedCount: 2, percentage: 100 });
   });
 
-  test('a chunk titled Optional does not count, even with Core items', async () => {
+  test('a done item in an Optional chunk raises the % as a bonus, never above 100%', async () => {
     await seedLoggedInUser();
     await seedCourse('optional-prog');
     await seedUnit('uopl', 'optional-prog', '1');
-    await seedChunk('uopl-intro', 'uopl', { title: 'Introduction', exercises: ['ex-main'] });
+    await seedChunk('uopl-intro', 'uopl', { title: 'Introduction', exercises: ['ex-main-1', 'ex-main-2'] });
     await seedChunk('uopl-extra', 'uopl', { title: '[Optional] Biology 101', exercises: ['ex-extra'] });
-    await seedExercise('ex-main');
+    await seedExercise('ex-main-1');
+    await seedExercise('ex-main-2');
     await seedExercise('ex-extra');
-
-    await testDb.pg.insert(exerciseResponsePgTable.pg).values({
-      id: 'r-main', userId: ['test-user'], exerciseId: 'ex-main', response: 'x', completedAt: '2026-01-01',
+    const complete = (exerciseId: string) => testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: `r-${exerciseId}`, userId: ['test-user'], exerciseId, response: 'x', completedAt: '2026-01-01',
     });
 
-    const { courseProgress } = await caller.courses.getCourseProgress({ courseSlug: 'optional-prog' });
+    await complete('ex-extra');
+    const bonusOnly = await caller.courses.getCourseProgress({ courseSlug: 'optional-prog' });
+    expect(bonusOnly.courseProgress).toEqual({ totalCount: 2, completedCount: 1, percentage: 50 });
 
-    expect(courseProgress).toEqual({ totalCount: 1, completedCount: 1, percentage: 100 });
+    await complete('ex-main-1');
+    await complete('ex-main-2');
+    const everything = await caller.courses.getCourseProgress({ courseSlug: 'optional-prog' });
+    expect(everything.courseProgress).toEqual({ totalCount: 2, completedCount: 2, percentage: 100 });
+    expect(everything.chunkProgressByUnitNumber['1']?.map((c) => c.isOptionOrOptional)).toEqual([false, true]);
+  });
+
+  test('finishing a second, smaller option never lowers the %', async () => {
+    await seedLoggedInUser();
+    await seedCourse('switch-prog');
+    await seedUnit('usw', 'switch-prog', '1');
+    await seedChunk('usw-intro', 'usw', { title: 'Introduction', exercises: ['r1', 'r2', 'r3', 'r4'] });
+    await seedChunk('usw-1', 'usw', { title: 'Option 1: Long', exercises: ['a1', 'a2', 'a3'] });
+    await seedChunk('usw-2', 'usw', { title: 'Option 2: Short', exercises: ['b1'] });
+    await Promise.all(['r1', 'r2', 'r3', 'r4', 'a1', 'a2', 'a3', 'b1'].map((id) => seedExercise(id)));
+    const complete = (exerciseId: string) => testDb.pg.insert(exerciseResponsePgTable.pg).values({
+      id: `r-${exerciseId}`, userId: ['test-user'], exerciseId, response: 'x', completedAt: '2026-01-01',
+    });
+
+    await complete('r1');
+    await complete('a1');
+    await complete('a2');
+    const before = await caller.courses.getCourseProgress({ courseSlug: 'switch-prog' });
+    expect(before.courseProgress).toEqual({ totalCount: 7, completedCount: 3, percentage: 43 });
+
+    await complete('b1');
+    const after = await caller.courses.getCourseProgress({ courseSlug: 'switch-prog' });
+    expect(after.courseProgress).toEqual({ totalCount: 5, completedCount: 4, percentage: 80 });
   });
 
   test('Core-status exercises count toward progress', async () => {
@@ -345,12 +374,21 @@ describe('countCourseProgress', () => {
     expect(countCourseProgress(units, required, new Set(['b1']))).toEqual({ totalCount: 4, completedCount: 1 });
   });
 
-  test('switches to the option the learner has done more of', () => {
+  test('switches to the option the learner has done more of, and still counts the other option as done', () => {
     const units = [[chunk('Option 1: Short', ['a1', 'a2']), chunk('Option 2: Long', ['b1', 'b2', 'b3'])]];
     const required = new Set(['a1', 'a2', 'b1', 'b2', 'b3']);
 
     expect(countCourseProgress(units, required, new Set(['b1']))).toEqual({ totalCount: 3, completedCount: 1 });
-    expect(countCourseProgress(units, required, new Set(['b1', 'a1', 'a2']))).toEqual({ totalCount: 2, completedCount: 2 });
+    expect(countCourseProgress(units, required, new Set(['b1', 'a1']))).toEqual({ totalCount: 2, completedCount: 2 });
+    expect(countCourseProgress(units, required, new Set(['b1', 'b2', 'a1', 'a2']))).toEqual({ totalCount: 2, completedCount: 2 });
+  });
+
+  test('done items in Optional chunks add to done but are never in the total, capped at the total', () => {
+    const units = [[chunk('Reading', ['r1', 'r2']), chunk('Optional reading', ['o1', 'o2', 'o3'])]];
+    const required = new Set(['r1', 'r2', 'o1', 'o2', 'o3']);
+
+    expect(countCourseProgress(units, required, new Set(['o1']))).toEqual({ totalCount: 2, completedCount: 1 });
+    expect(countCourseProgress(units, required, new Set(['r1', 'o1', 'o2', 'o3']))).toEqual({ totalCount: 2, completedCount: 2 });
   });
 
   test('skips chunks titled Optional, and only counts "Option <number>" chunks as options', () => {

@@ -69,12 +69,20 @@ export const defaultProgressHandlers: RequestHandler[] = [
     },
     chunkProgressByUnitNumber: {
       1: [
-        { totalCount: 4, completedCount: 0, allCompleted: false }, // chunk-1
-        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-2
+        {
+          totalCount: 4, completedCount: 0, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-1
+        {
+          totalCount: 3, completedCount: 0, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-2
       ],
       2: [
-        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
-        { totalCount: 2, completedCount: 0, allCompleted: false }, // chunk-4
+        {
+          totalCount: 3, completedCount: 0, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-3
+        {
+          totalCount: 2, completedCount: 0, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-4
       ],
     },
   })),
@@ -89,12 +97,20 @@ export const someProgressHandlers: RequestHandler[] = [
     },
     chunkProgressByUnitNumber: {
       1: [
-        { totalCount: 4, completedCount: 3, allCompleted: false }, // chunk-1: res-1, res-2, ex-1 completed
-        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-2
+        {
+          totalCount: 4, completedCount: 3, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-1: res-1, res-2, ex-1 completed
+        {
+          totalCount: 3, completedCount: 0, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-2
       ],
       2: [
-        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
-        { totalCount: 2, completedCount: 0, allCompleted: false }, // chunk-4
+        {
+          totalCount: 3, completedCount: 0, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-3
+        {
+          totalCount: 2, completedCount: 0, allCompleted: false, isOptionOrOptional: false,
+        }, // chunk-4
       ],
     },
   })),
@@ -109,12 +125,20 @@ export const allCompletedHandlers: RequestHandler[] = [
     },
     chunkProgressByUnitNumber: {
       1: [
-        { totalCount: 4, completedCount: 4, allCompleted: true }, // chunk-1
-        { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-2
+        {
+          totalCount: 4, completedCount: 4, allCompleted: true, isOptionOrOptional: false,
+        }, // chunk-1
+        {
+          totalCount: 3, completedCount: 3, allCompleted: true, isOptionOrOptional: false,
+        }, // chunk-2
       ],
       2: [
-        { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-3
-        { totalCount: 2, completedCount: 2, allCompleted: true }, // chunk-4
+        {
+          totalCount: 3, completedCount: 3, allCompleted: true, isOptionOrOptional: false,
+        }, // chunk-3
+        {
+          totalCount: 2, completedCount: 2, allCompleted: true, isOptionOrOptional: false,
+        }, // chunk-4
       ],
     },
   })),

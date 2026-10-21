@@ -22,7 +22,14 @@ export async function optimisticallyUpdateCourseProgress(
     return undefined;
   }
 
-  const newCompleted = clamp(prev.courseProgress.completedCount + delta, 0, prev.courseProgress.totalCount);
+  // Option and Optional chunks can change the course total, and completed items above the total
+  // are capped by the server. In those cases keep the course count and let the refetch update it.
+  const isOptionOrOptional = unitNumber != null && chunkIndex != null
+    && prev.chunkProgressByUnitNumber[unitNumber]?.[chunkIndex]?.isOptionOrOptional === true;
+  const mayBeCapped = delta === -1 && prev.courseProgress.completedCount === prev.courseProgress.totalCount;
+  const newCompleted = isOptionOrOptional || mayBeCapped
+    ? prev.courseProgress.completedCount
+    : clamp(prev.courseProgress.completedCount + delta, 0, prev.courseProgress.totalCount);
 
   utils.courses.getCourseProgress.setData(
     { courseSlug },

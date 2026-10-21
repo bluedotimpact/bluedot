@@ -218,9 +218,11 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
 const isOptionalChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /optional/i.test(chunk.chunkTitle);
 const isOptionChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /option\s+\d+/i.test(chunk.chunkTitle);
 
-// Optional chunks don't count. Within a unit, only the option the learner has done the largest
-// share of counts, so finishing any one option can reach 100%. Before any option is started, the
-// largest one counts.
+// The total counts every required item outside Optional chunks, plus one option per unit: the
+// option the learner has done the largest share of (the largest one before any is started).
+// Every completed required item counts as done, including items in Optional chunks and in other
+// options, capped at the total. So finishing one option per unit reaches 100%, and extra work
+// can only raise the percentage.
 export const countCourseProgress = (
   chunksByUnit: Pick<Chunk, 'chunkTitle' | 'chunkResources' | 'chunkExercises'>[][],
   requiredIds: Set<string>,
@@ -233,29 +235,27 @@ export const countCourseProgress = (
 
   // Items outside Option chunks always count, once, even if they also appear in an option.
   const regularIds = new Set(requiredChunksByUnit.flat().filter((c) => !isOptionChunk(c)).flatMap(requiredIdsIn));
-  let totalCount = regularIds.size;
-  let completedCount = [...regularIds].filter((id) => completedIds.has(id)).length;
+  const countedIds = new Set(regularIds);
 
   for (const chunks of requiredChunksByUnit) {
     const options = chunks
       .filter(isOptionChunk)
       .map((c) => {
         const ids = [...new Set(requiredIdsIn(c))].filter((id) => !regularIds.has(id));
-        return { total: ids.length, completed: ids.filter((id) => completedIds.has(id)).length };
+        return { ids, share: ids.filter((id) => completedIds.has(id)).length / ids.length };
       })
-      .filter((o) => o.total > 0);
+      .filter((o) => o.ids.length > 0);
 
     if (options.length > 0) {
-      const counted = options.reduce((best, o) => {
-        const share = o.completed / o.total;
-        const bestShare = best.completed / best.total;
-        return share > bestShare || (share === bestShare && o.total > best.total) ? o : best;
-      });
-      totalCount += counted.total;
-      completedCount += counted.completed;
+      const counted = options.reduce((best, o) => (
+        o.share > best.share || (o.share === best.share && o.ids.length > best.ids.length) ? o : best
+      ));
+      counted.ids.forEach((id) => countedIds.add(id));
     }
   }
 
+  const totalCount = countedIds.size;
+  const completedCount = Math.min(totalCount, [...requiredIds].filter((id) => completedIds.has(id)).length);
   return { totalCount, completedCount };
 };
 
@@ -380,21 +380,23 @@ export const coursesRouter = router({
       const completedResourceIdSet = new Set(resourceCompletions.map((c) => c.unitResourceId).filter((id): id is string => id != null));
       const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
-      const chunkProgressByUnitNumber: Record<string, ChunkProgress[]> = {};
+      const chunkProgressByUnitNumber: Record<string, (ChunkProgress & { isOptionOrOptional: boolean })[]> = {};
 
       for (const unit of units) {
         const unitChunks = allChunks
           .filter((c) => c.unitId === unit.id)
           .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
-        chunkProgressByUnitNumber[unit.unitNumber] = unitChunks.map((chunk) => {
-          return calculateChunkProgress(
+        chunkProgressByUnitNumber[unit.unitNumber] = unitChunks.map((chunk) => ({
+          ...calculateChunkProgress(
             chunk,
             coreResourceIdSet,
             requiredExerciseIdSet,
             completedResourceIdSet,
             completedExerciseIdSet,
-          );
-        });
+          ),
+          // Tells the client a toggle here may not move the course count by exactly one
+          isOptionOrOptional: isOptionalChunk(chunk) || isOptionChunk(chunk),
+        }));
       }
 
       const requiredIdSet = new Set([...coreResourceIds, ...requiredExerciseIds]);
