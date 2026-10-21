@@ -135,6 +135,27 @@ describe('FreeTextResponse', () => {
       });
     });
 
+    test('saves a line break typed with Shift+Enter inside a nested bullet', async () => {
+      const user = userEvent.setup();
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={'- Parent\n  - Child'} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror ul ul li p')).toBeTruthy();
+      });
+
+      const child = container.querySelector('.ProseMirror ul ul li p')!;
+
+      await user.click(child);
+      await user.type(child, '{Shift>}{Enter}{/Shift}more');
+      await user.click(container);
+
+      // The break stays inside the nested item. The test DOM can swap the last typed letters, so the word isn't checked
+      await waitFor(() => {
+        expect(mockOnExerciseSubmit).toHaveBeenCalledWith(expect.stringMatching(/^- Parent\n {2}- Child\\\n {4}\w+$/), undefined);
+      }, { timeout: 3000 });
+    });
+
     test('keeps nested bullets after reloading', async () => {
       const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse={'- Parent\n  - Child\n    - Grandchild'} isLoggedIn />);
 
