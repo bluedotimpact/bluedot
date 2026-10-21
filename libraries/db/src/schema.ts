@@ -115,6 +115,27 @@ export const calendarConnectionTable = deprecationSafePgTable('calendar_connecti
   ],
 });
 
+/**
+ * BlueDot users who can't connect a calendar (e.g. they use Proton or Apple) but still want Dot-to-Dot to pair them.
+ * Dot-to-Dot treats them as free during the working day in their Slack time zone.
+ * NOTE: This is a Postgres-only table, NOT synced from Airtable. One row per user; deleting the row turns it off.
+ */
+export const calendarPairWithoutCalendarTable = deprecationSafePgTable('calendar_pair_without_calendar', {
+  columns: {
+    id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
+    // Points at userTable: the BlueDot account that opted in
+    userId: text().notNull(),
+    // Set when the user opted in through a signed Slack link. Null means Dot-to-Dot matches them by account email instead.
+    slackUserId: text(),
+    createdAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+  },
+  indexes: (t) => [
+    uniqueIndex('calendar_pair_without_calendar_userId_idx').on(t.userId),
+    index('calendar_pair_without_calendar_slackUserId_idx').on(t.slackUserId),
+  ],
+});
+
 export const courseTable = pgAirtable('course', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbl6nq5AVLKINBJ73',
@@ -1883,6 +1904,7 @@ export type SyncMetadata = InferSelectModel<typeof syncMetadataTable.pg>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
 export type CalendarConnection = InferSelectModel<typeof calendarConnectionTable.pg>;
+export type CalendarPairWithoutCalendar = InferSelectModel<typeof calendarPairWithoutCalendarTable.pg>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
 export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable.pg>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
