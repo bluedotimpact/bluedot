@@ -75,12 +75,12 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
           aria-labelledby="my-bluedot-nav-label"
           class="hidden w-[200px] shrink-0 lg:block"
         >
-          <p
-            class="text-size-xxs font-medium uppercase tracking-wide text-accent mb-4"
+          <span
+            class="block text-size-xxs font-medium uppercase tracking-wide text-accent mb-4"
             id="my-bluedot-nav-label"
           >
             My BlueDot
-          </p>
+          </span>
           <div
             class="relative"
           >
@@ -155,7 +155,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   </label>
                   <input
                     aria-invalid="false"
-                    class="w-full h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
+                    class="w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
                     id=":r0:"
                     placeholder="Enter your first name"
                     type="text"
@@ -178,7 +178,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   </label>
                   <input
                     aria-invalid="false"
-                    class="w-full h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
+                    class="w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
                     id=":r1:"
                     placeholder="Enter your last name"
                     type="text"
@@ -190,7 +190,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                 >
                   <button
                     aria-label="Save profile name changes"
-                    class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover whitespace-nowrap"
+                    class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover whitespace-nowrap"
                     type="button"
                   >
                     <span
@@ -212,7 +212,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   </button>
                   <button
                     aria-label="Cancel profile name changes"
-                    class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover"
+                    class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover"
                     type="button"
                   >
                     Cancel
@@ -222,7 +222,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             </div>
           </div>
           <div
-            class="border-t border-default my-6"
+            class="border-t my-6"
           />
           <div
             class="mb-6"
@@ -233,13 +233,13 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               Email*
             </p>
             <p
-              class="bluedot-p not-prose text-gray-600"
+              class="bluedot-p not-prose text-primary"
             >
               john.doe@example.com
             </p>
           </div>
           <div
-            class="border-t border-default my-6"
+            class="border-t my-6"
           />
           <div
             class="mb-6"
@@ -254,21 +254,21 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             >
               <button
                 aria-label="Change email"
-                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover"
                 type="button"
               >
                 Change email
               </button>
               <button
                 aria-label="Change password"
-                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover"
                 type="button"
               >
                 Change password
               </button>
               <button
                 aria-label="Delete account"
-                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface text-size-xs font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 h-11 px-4 border on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover border-error-fg text-error-fg hover:bg-error-bg"
+                class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold border on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover border-error-fg text-error-fg hover:bg-error-bg"
                 type="button"
               >
                 Delete account

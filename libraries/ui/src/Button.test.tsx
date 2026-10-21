@@ -11,7 +11,7 @@ describe('Button', () => {
     const button = screen.getByRole('button');
     expect(button.tagName).toBe('BUTTON');
     expect(button.className).includes('bg-accent');
-    expect(button.className).includes('h-11');
+    expect(button.className).includes('min-h-11');
     expect(button).toMatchSnapshot();
   });
 
@@ -25,7 +25,6 @@ describe('Button', () => {
 
   test.each([
     ['ghost', 'text-secondary'],
-    ['black', 'bg-dark'],
     ['outline-black', 'border-strong'],
   ] as const)('%s variant uses its token', (variant, token) => {
     render(<Button variant={variant}>Click me</Button>);
@@ -39,15 +38,15 @@ describe('Button', () => {
   });
 
   test.each([
-    ['small', 'h-9'],
-    ['medium', 'h-11'],
-    ['large', 'h-[50px]'],
-  ] as const)('%s size sets the height', (size, height) => {
+    ['small', 'min-h-9', 'text-size-xs', 'font-semibold'],
+    ['medium', 'min-h-11', 'text-size-xs', 'font-semibold'],
+    ['large', 'min-h-[50px]', 'text-size-sm', 'font-medium'],
+  ] as const)('%s size sets the height and type', (size, height, textSize, weight) => {
     render(<Button size={size}>Click me</Button>);
     const button = screen.getByRole('button');
     expect(button.className).includes(height);
-    expect(button.className).includes('text-size-xs');
-    expect(button.className).includes('font-semibold');
+    expect(button.className).includes(textSize);
+    expect(button.className).includes(weight);
   });
 
   describe('tone', () => {
@@ -103,11 +102,11 @@ describe('Button', () => {
   // silently dropping `text-size-*` from the size config because `text-size-*`
   // wasn't registered as a font-size class group. The fix lives in `cn()`.
   test('keeps its font-size when caller adds a text colour class', () => {
-    render(<Button variant="unstyled" size="large" className="text-bluedot-navy">
+    render(<Button variant="unstyled" size="large" className="text-primary">
       Click me
     </Button>);
     const button = screen.getByRole('button');
-    expect(button.className).includes('text-size-xs');
-    expect(button.className).includes('text-bluedot-navy');
+    expect(button.className).includes('text-size-sm');
+    expect(button.className).includes('text-primary');
   });
 });

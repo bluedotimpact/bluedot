@@ -19,7 +19,7 @@ exports[`Footer > renders default as expected 1`] = `
             tabindex="0"
           >
             <p
-              class="w-48 h-6 text-size-lg text-white bluedot-p"
+              class="w-48 h-6 text-size-lg text-on-dark bluedot-p"
             >
               BlueDot Impact
             </p>
@@ -99,7 +99,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -108,7 +108,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -117,7 +117,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -126,7 +126,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -135,7 +135,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -144,7 +144,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -153,7 +153,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -164,7 +164,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -173,7 +173,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -186,7 +186,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -198,7 +198,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -210,7 +210,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -226,7 +226,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -235,7 +235,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -244,7 +244,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -253,7 +253,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -262,7 +262,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -271,7 +271,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -280,7 +280,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -291,7 +291,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -300,7 +300,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -313,7 +313,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -325,7 +325,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -337,7 +337,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -357,7 +357,7 @@ exports[`Footer > renders default as expected 1`] = `
               tabindex="0"
             >
               <p
-                class="w-48 h-6 text-size-lg text-white bluedot-p"
+                class="w-48 h-6 text-size-lg text-on-dark bluedot-p"
               >
                 BlueDot Impact
               </p>
@@ -434,7 +434,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -443,7 +443,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -452,7 +452,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -461,7 +461,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -470,7 +470,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -479,7 +479,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -488,7 +488,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -499,7 +499,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -508,7 +508,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -521,7 +521,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -533,7 +533,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -545,7 +545,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -555,7 +555,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-border-on-dark pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -564,7 +564,7 @@ exports[`Footer > renders default as expected 1`] = `
             2026
             . BlueDot Impact operates as BlueDot Impact Ltd, a UK CLG (
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://find-and-update.company-information.service.gov.uk/company/14964572"
               rel="noopener noreferrer"
               tabindex="0"
@@ -574,7 +574,7 @@ exports[`Footer > renders default as expected 1`] = `
             </a>
             ), and BlueDot Impact US Inc, a US 501(c)(3) (
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://projects.propublica.org/nonprofits/organizations/994885308"
               rel="noopener noreferrer"
               tabindex="0"
@@ -587,7 +587,7 @@ exports[`Footer > renders default as expected 1`] = `
           <p>
             Funded by 
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://www.coefficientgiving.org/"
               rel="noopener noreferrer"
               tabindex="0"
@@ -623,7 +623,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             tabindex="0"
           >
             <p
-              class="w-48 h-6 text-size-lg text-white bluedot-p"
+              class="w-48 h-6 text-size-lg text-on-dark bluedot-p"
             >
               BlueDot Impact
             </p>
@@ -703,7 +703,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -712,7 +712,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -721,7 +721,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -730,7 +730,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -739,7 +739,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -748,7 +748,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -757,7 +757,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -768,7 +768,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -777,7 +777,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -786,7 +786,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <button
-                  class="text-size-sm leading-snug text-bluedot-lighter hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
+                  class="text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover font-normal bg-transparent border-none p-0 cursor-pointer"
                   type="button"
                 >
                   Submit feedback
@@ -798,7 +798,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -810,7 +810,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -822,7 +822,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -838,7 +838,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -847,7 +847,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -856,7 +856,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -865,7 +865,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -874,7 +874,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -883,7 +883,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -892,7 +892,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -903,7 +903,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -912,7 +912,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -921,7 +921,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <button
-                  class="text-size-sm leading-snug text-bluedot-lighter hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
+                  class="text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover font-normal bg-transparent border-none p-0 cursor-pointer"
                   type="button"
                 >
                   Submit feedback
@@ -933,7 +933,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -945,7 +945,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -957,7 +957,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -977,7 +977,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               tabindex="0"
             >
               <p
-                class="w-48 h-6 text-size-lg text-white bluedot-p"
+                class="w-48 h-6 text-size-lg text-on-dark bluedot-p"
               >
                 BlueDot Impact
               </p>
@@ -1054,7 +1054,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1063,7 +1063,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -1072,7 +1072,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -1081,7 +1081,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -1090,7 +1090,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -1099,7 +1099,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -1108,7 +1108,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -1119,7 +1119,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -1128,7 +1128,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -1137,7 +1137,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
               </li>
               <li>
                 <button
-                  class="text-size-sm leading-snug text-bluedot-lighter hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
+                  class="text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover font-normal bg-transparent border-none p-0 cursor-pointer"
                   type="button"
                 >
                   Submit feedback
@@ -1149,7 +1149,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -1161,7 +1161,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -1173,7 +1173,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -1183,7 +1183,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-border-on-dark pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -1192,7 +1192,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             2026
             . BlueDot Impact operates as BlueDot Impact Ltd, a UK CLG (
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://find-and-update.company-information.service.gov.uk/company/14964572"
               rel="noopener noreferrer"
               tabindex="0"
@@ -1202,7 +1202,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
             </a>
             ), and BlueDot Impact US Inc, a US 501(c)(3) (
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://projects.propublica.org/nonprofits/organizations/994885308"
               rel="noopener noreferrer"
               tabindex="0"
@@ -1215,7 +1215,7 @@ exports[`Footer > renders with "submit feedback" when onOpenFeedback is provided
           <p>
             Funded by 
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://www.coefficientgiving.org/"
               rel="noopener noreferrer"
               tabindex="0"
@@ -1331,7 +1331,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1340,7 +1340,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -1349,7 +1349,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -1358,7 +1358,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -1367,7 +1367,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -1376,7 +1376,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -1385,7 +1385,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -1396,7 +1396,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -1405,7 +1405,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -1418,7 +1418,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -1430,7 +1430,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -1439,7 +1439,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/grants/rapid"
                   tabindex="0"
                 >
@@ -1452,7 +1452,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -1468,7 +1468,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1477,7 +1477,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -1486,7 +1486,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -1495,7 +1495,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -1504,7 +1504,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -1513,7 +1513,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -1522,7 +1522,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -1533,7 +1533,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -1542,7 +1542,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -1555,7 +1555,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -1567,7 +1567,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -1576,7 +1576,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/grants/rapid"
                   tabindex="0"
                 >
@@ -1589,7 +1589,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -1686,7 +1686,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               BlueDot Impact
             </h3>
@@ -1695,7 +1695,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/alumni"
                   tabindex="0"
                 >
@@ -1704,7 +1704,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -1713,7 +1713,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -1722,7 +1722,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
                 >
@@ -1731,7 +1731,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/missions"
                   tabindex="0"
                 >
@@ -1740,7 +1740,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -1751,7 +1751,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -1760,7 +1760,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -1773,7 +1773,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Courses
             </h3>
@@ -1785,7 +1785,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Grants
             </h3>
@@ -1794,7 +1794,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-snug text-bluedot-lighter hover:text-white no-underline font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover no-underline font-normal"
                   href="/grants/rapid"
                   tabindex="0"
                 >
@@ -1807,7 +1807,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col gap-4"
           >
             <h3
-              class="bluedot-h3 not-prose text-white text-size-sm"
+              class="bluedot-h3 not-prose text-on-dark text-size-sm"
             >
               Programs
             </h3>
@@ -1817,7 +1817,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-border-on-dark pt-8 text-size-sm text-bluedot-lighter leading-relaxed bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -1826,7 +1826,7 @@ exports[`Footer > renders with optional args 1`] = `
             2026
             . BlueDot Impact operates as BlueDot Impact Ltd, a UK CLG (
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://find-and-update.company-information.service.gov.uk/company/14964572"
               rel="noopener noreferrer"
               tabindex="0"
@@ -1836,7 +1836,7 @@ exports[`Footer > renders with optional args 1`] = `
             </a>
             ), and BlueDot Impact US Inc, a US 501(c)(3) (
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://projects.propublica.org/nonprofits/organizations/994885308"
               rel="noopener noreferrer"
               tabindex="0"
@@ -1849,7 +1849,7 @@ exports[`Footer > renders with optional args 1`] = `
           <p>
             Funded by 
             <a
-              class="bluedot-a not-prose text-bluedot-lighter hover:text-white"
+              class="bluedot-a not-prose text-on-dark-link hover:text-on-dark-link-hover"
               href="https://www.coefficientgiving.org/"
               rel="noopener noreferrer"
               tabindex="0"

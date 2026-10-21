@@ -33,6 +33,12 @@ const privacyPolicy: BluedotRoute = {
   parentPages: [home],
 };
 
+const contractorPrivacyNotice: BluedotRoute = {
+  title: 'Contractor Privacy Notice',
+  url: '/privacy',
+  parentPages: [home],
+};
+
 const joinUs: BluedotRoute = {
   title: 'Work with us',
   url: '/join-us',
@@ -177,6 +183,12 @@ const confirmEmailChange: BluedotRoute = {
   parentPages: [home],
 };
 
+const calendars: BluedotRoute = {
+  title: 'Calendars',
+  url: '/account/calendars',
+  parentPages: [home, account],
+};
+
 export const ROUTES = {
   about,
   admin,
@@ -185,10 +197,12 @@ export const ROUTES = {
   adminSyncDashboard,
   adminUserExerciseResponses,
   confirmEmailChange,
+  calendars,
   alumni,
   blog,
   certification,
   contact,
+  contractorPrivacyNotice,
   courses,
   events,
   home,

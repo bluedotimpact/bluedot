@@ -12,7 +12,6 @@ const GrantFaqSection = ({ grantType, variant }: Props) => (
     id={`${grantType}-faq`}
     title="Frequently asked questions"
     items={GRANT_TYPE_FAQS[grantType]}
-    background="canvas"
     variant={variant}
   />
 );

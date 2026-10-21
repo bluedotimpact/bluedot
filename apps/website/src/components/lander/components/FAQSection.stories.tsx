@@ -119,9 +119,9 @@ export const WithRichContent: Story = {
           <>
             You can reach us through:
             <br /><br />
-            <strong>Email:</strong> <a href="mailto:support@bluedot.org" className="text-[#2244BB] underline">support@bluedot.org</a>
+            <strong>Email:</strong> <a href="mailto:support@bluedot.org" className="text-link underline">support@bluedot.org</a>
             <br />
-            <strong>Twitter:</strong> <a href="https://twitter.com/bluedotimpact" target="_blank" rel="noopener noreferrer" className="text-[#2244BB] underline">@bluedotimpact</a>
+            <strong>Twitter:</strong> <a href="https://twitter.com/bluedotimpact" target="_blank" rel="noopener noreferrer" className="text-link underline">@bluedotimpact</a>
             <br />
             <strong>Response time:</strong> Within 48 hours
           </>
@@ -140,7 +140,7 @@ export const WithRichContent: Story = {
             <br />
             <strong>After the first week:</strong> No refunds, but you can defer to a future cohort.
             <br /><br />
-            Contact <a href="mailto:support@bluedot.org" className="text-[#2244BB] underline">support@bluedot.org</a> for any concerns.
+            Contact <a href="mailto:support@bluedot.org" className="text-link underline">support@bluedot.org</a> for any concerns.
           </>
         ),
       },

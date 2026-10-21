@@ -67,17 +67,17 @@ const PostPreviewPanel = ({
   shareText: string;
   courseUrl: string;
 }) => (
-  <div className="flex h-full flex-col gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l">
+  <div className="flex h-full flex-col gap-4 border-t border-subtle bg-tint p-5 md:border-t-0 md:border-l">
     <Eyebrow className="text-secondary">Post Preview</Eyebrow>
     <div className="flex items-center gap-3">
-      <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
+      <div className="bg-active size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">
-        <div className="bg-bluedot-navy/15 h-2.5 w-24 rounded-full" />
-        <div className="bg-bluedot-navy/15 h-2.5 w-14 rounded-full" />
+        <div className="bg-active h-2.5 w-24 rounded-full" />
+        <div className="bg-active h-2.5 w-14 rounded-full" />
       </div>
     </div>
-    <p className="text-bluedot-navy line-clamp-3 text-size-sm leading-relaxed">
-      {shareText} <span className="text-blue-600">{courseUrl}</span>
+    <p className="text-primary line-clamp-3 text-size-sm leading-relaxed">
+      {shareText} <span className="text-link">{courseUrl}</span>
     </p>
     <img
       src={`/images/courses/link-preview/${courseSlug}.png`}
@@ -91,16 +91,16 @@ const PostPreviewPanel = ({
 );
 
 const ChatPreviewPanel = ({ courseUrl, shareText }: { courseUrl: string; shareText: string }) => (
-  <div className="flex h-full flex-col items-center justify-center border-l border-[#e5e9f2] bg-[#fbfbfd] p-8">
-    <div className="bg-bluedot-normal relative max-w-[280px] rounded-lg px-4 py-3 shadow-sm">
-      <p className="text-size-xs leading-normal text-white">
+  <div className="flex h-full flex-col items-center justify-center border-l border-subtle bg-tint p-8">
+    <div className="bg-accent relative max-w-[280px] rounded-lg px-4 py-3 shadow-sm">
+      <p className="text-size-xs leading-normal text-on-dark">
         {shareText}
         <br />
         <span className="tracking-[0.16px] underline">{courseUrl}</span>
       </p>
-      <p className="mt-1 text-right text-size-xxs text-white/60">19:45</p>
+      <p className="mt-1 text-right text-size-xxs text-on-dark-secondary">19:45</p>
       <svg
-        className="text-bluedot-normal absolute"
+        className="text-accent absolute"
         style={{ right: '5px', bottom: '-8.917px' }}
         width="15"
         height="13"
@@ -128,7 +128,7 @@ type ShareCardProps = {
 };
 
 const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => (
-  <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
+  <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] bg-raised md:min-h-[327px] md:flex-row">
     <div className="flex flex-col gap-8 p-6 md:w-1/2 md:px-10 md:py-8">
       <div className="flex flex-col gap-3">
         <H3 className="text-size-md">{title}</H3>
@@ -154,18 +154,18 @@ const AttendanceIneligibleCard = ({
   const missed = discussionsHeld - uniqueDiscussionAttendance;
 
   return (
-    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-charcoal-mid/50 bg-bluedot-lightest px-5 py-6">
+    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border bg-bluedot-lightest px-5 py-6">
       <div className="flex items-center gap-3">
-        <FaCircleMinus className="size-8 shrink-0 text-charcoal-mid" />
-        <span className="text-bluedot-navy text-size-sm leading-5 font-semibold">
+        <FaCircleMinus className="size-8 shrink-0 text-secondary" />
+        <span className="text-primary text-size-sm leading-5 font-semibold">
           Certificate requirement not met
         </span>
       </div>
-      <p className="text-bluedot-navy text-size-xs leading-relaxed">
+      <p className="text-primary text-size-xs leading-relaxed">
         Discussions attended: {uniqueDiscussionAttendance} of {discussionsHeld} discussions so far - Missed {missed}{' '}
         (max 1 allowed)
       </p>
-      <p className="text-bluedot-navy text-size-xs leading-5">
+      <p className="text-primary text-size-xs leading-5">
         If you have any questions about certificate requirement, get in touch at{' '}
         <a href="mailto:team@bluedot.org" className="underline">
           team@bluedot.org
@@ -183,11 +183,11 @@ const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: strin
   const badgeSrc = getCertificateBadgePath(courseSlug);
 
   return (
-    <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-slate-200 bg-white px-6 py-10 shadow-sm">
+    <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border bg-raised px-6 py-10 shadow-sm">
       <img src={badgeSrc} alt="" className="h-[160px] w-auto object-contain" />
       <Eyebrow className="text-secondary">Professional Certification</Eyebrow>
       {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-      <p className="text-bluedot-navy text-center text-[28px] leading-tight font-semibold">{courseTitle}</p>
+      <p className="text-primary text-center text-[28px] leading-tight font-semibold">{courseTitle}</p>
     </div>
   );
 };
@@ -299,7 +299,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   return (
     <div className="flex w-full flex-col items-center gap-6">
       <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-      {description && <p className="max-w-[480px] text-center text-size-xs text-charcoal-mid">{description}</p>}
+      {description && <p className="max-w-[480px] text-center text-size-xs text-secondary">{description}</p>}
       {cta}
     </div>
   );
@@ -313,7 +313,7 @@ const CertificateHero = ({ courseId, courseSlug, courseTitle }: CertificateHeroP
     return (
       <div className="flex w-full flex-col items-center gap-6">
         <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-        <p className="max-w-[480px] text-center text-size-xs text-charcoal-mid">
+        <p className="max-w-[480px] text-center text-size-xs text-secondary">
           Create a free account to earn your course certificate.
         </p>
         <Button url={getLoginUrl(router.asPath)} variant="primary">
@@ -367,7 +367,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   };
 
   return (
-    <div className={cn('congratulations flex flex-col bg-white', className)}>
+    <div className={cn('congratulations flex flex-col bg-raised', className)}>
       {/* Certificate hero section */}
       <div className="flex flex-col items-center gap-8 pt-12 pb-16">
         <LaurelWreath courseSlug={courseSlug} />
@@ -388,10 +388,10 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               Start making impact today
             </Eyebrow>
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: fixed 32px at all breakpoints inside the gradient share card */}
-            <H2 className="text-[32px] text-white">
+            <H2 className="text-[32px] text-on-dark">
               Help more people discover AI safety today
             </H2>
-            <P className="text-white">
+            <P className="text-on-dark">
               You&apos;ve spent time understanding one of the most important problems of our era. A post or a message to
               the right person can have a real ripple effect.
             </P>
@@ -434,7 +434,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       </div>
 
       {courseId === FOAI_COURSE_ID && (
-        <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
+        <div className="border-hairline flex flex-col gap-6 rounded-lg bg-raised p-10 py-12">
           <div className="flex flex-col gap-3">
             <H3 className="text-size-md">Want to go deeper?</H3>
             <P>

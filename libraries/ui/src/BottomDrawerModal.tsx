@@ -1,4 +1,3 @@
-import type React from 'react';
 import {
   useState, useEffect, useId, useRef,
 } from 'react';
@@ -34,15 +33,16 @@ export type BottomDrawerModalProps = Omit<ModalProps, 'bottomDrawerOnMobile'> & 
   initialSize: 'fit-content' | 'fit-screen';
 };
 
-export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
+export const BottomDrawerModal = ({
   isOpen,
   setIsOpen,
   title,
   initialSize,
   children,
-  ariaLabel,
+  'aria-label': ariaLabel,
   isDismissable = true,
-}) => {
+  footer,
+}: BottomDrawerModalProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [isFullyExpanded, setIsFullyExpanded] = useState(false);
@@ -54,6 +54,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   // Refs to measure the sheet's chrome and content for 'fit-content'
   const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
 
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
 
@@ -80,7 +81,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
       requestAnimationFrame(() => {
         const contentHeight = contentRef.current?.scrollHeight ?? 0;
         const headerHeight = headerRef.current?.offsetHeight ?? 0;
-        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight;
+        const footerHeight = footerRef.current?.offsetHeight ?? 0;
+        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight + footerHeight;
         const contentBasedY = availableHeight - totalNeededHeight;
 
         // Use the larger y value (less expansion) = min height
@@ -209,7 +211,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       className="flex justify-center pt-2 pb-3 cursor-grab active:cursor-grabbing touch-none"
                       onPointerDown={(e) => dragControls.start(e)}
                     >
-                      <div className="w-[30px] h-1 bg-bluedot-navy/30 rounded-xs" />
+                      <div className="w-[30px] h-1 bg-strong rounded-xs" />
                     </div>
 
                     <ModalHeader
@@ -233,6 +235,11 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       {children}
                     </div>
                   </div>
+                  {footer && (
+                    <div ref={footerRef} className="border-t border-subtle px-5 py-3">
+                      {footer}
+                    </div>
+                  )}
                   {/*
                     * Spacer div: The parent can overflow off the screen, fill the off-screen space
                     * so the content fills exactly the on-screen area.

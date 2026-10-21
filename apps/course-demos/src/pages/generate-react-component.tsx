@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import {
-  H2, H3, P, A, Button, ProgressDots, ClickTarget, Textarea,
+  H2, H3, P, A, Button, ProgressDots, ClickTarget, Input,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
@@ -51,20 +51,20 @@ const DemoPage: React.FC = () => {
         <div className="mb-4">
           <H2 className="mt-4 mb-2">What do you want to build?</H2>
           <div className="relative flex">
-            <Textarea
+            <Input
               placeholder="A website about..."
               value={userPrompt}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setUserPrompt(e.target.value)}
-              onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserPrompt(e.target.value)}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
                   handleSubmit();
                 }
               }}
-              rows={1}
             />
             <Button
               onClick={() => handleSubmit()}
               disabled={loading || !userPrompt.trim()}
+              size="small"
               className="absolute right-1.5 top-1/2 -translate-y-1/2"
             >
               {loading ? 'Creating...' : 'Create'}
@@ -74,7 +74,7 @@ const DemoPage: React.FC = () => {
             Examples:
             {EXAMPLES.map((example) => (
               <ClickTarget
-                className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-stone-200"
+                className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-tint"
                 key={example}
                 onClick={() => {
                   setUserPrompt(example);
@@ -88,7 +88,7 @@ const DemoPage: React.FC = () => {
 
         {error && (
           <>
-            <H2 className="text-red-500">Something went wrong</H2>
+            <H2 className="text-error-fg">Something went wrong</H2>
             <P>
               Sorry, we couldn't generate your app. Error: {error?.message || 'Unknown'}
             </P>
@@ -144,7 +144,7 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
 
   return (
     <div className="flex flex-col gap-4 mt-2">
-      <div className="bg-stone-200 p-4 rounded-md">
+      <div className="bg-tint p-4 rounded-md">
         <P className="font-medium"><A href={courseLink}>The Future of AI Course</A> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</P>
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />

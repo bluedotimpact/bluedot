@@ -10,7 +10,7 @@ import { cn } from './utils';
 
 // Unlike Callout, Toast tints the description as well as the title
 const TOAST_STYLES: Record<ToastVariant, { container: string; Icon?: IconType; role: 'status' | 'alert' }> = {
-  default: { container: 'border-default bg-raised text-primary', role: 'status' },
+  default: { container: 'bg-raised text-primary', role: 'status' },
   success: { container: cn(TONE_STYLES.success.surface, TONE_STYLES.success.fg), Icon: TONE_STYLES.success.Icon, role: 'status' },
   warning: { container: cn(TONE_STYLES.warning.surface, TONE_STYLES.warning.fg), Icon: TONE_STYLES.warning.Icon, role: 'status' },
   error: { container: cn(TONE_STYLES.error.surface, TONE_STYLES.error.fg), Icon: TONE_STYLES.error.Icon, role: 'alert' },
@@ -97,8 +97,8 @@ const ToastItem = ({ toast }: { toast: ToastEntry }) => {
     >
       {Icon && <Icon size={20} className="shrink-0 self-start" aria-hidden="true" />}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <p className="text-size-xs font-semibold break-words">{toast.message}</p>
-        {toast.description && <p className="text-size-xxs font-normal break-words">{toast.description}</p>}
+        <p className="text-size-sm font-semibold break-words">{toast.message}</p>
+        {toast.description && <p className="text-size-xs font-normal break-words">{toast.description}</p>}
       </div>
       <button
         type="button"

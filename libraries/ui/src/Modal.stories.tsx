@@ -13,12 +13,12 @@ type ModalDemoProps = Omit<ModalProps, 'isOpen' | 'setIsOpen' | 'children'> & {
   openLabel?: string;
 };
 
-const ModalDemo: React.FC<ModalDemoProps> = ({
+const ModalDemo = ({
   initialOpen = false,
   openLabel = 'Open modal',
   children,
   ...props
-}) => {
+}: ModalDemoProps) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   return (
@@ -117,6 +117,32 @@ export const WithForm: Story = {
   },
 };
 
+export const WithFooter: Story = {
+  args: {
+    title: 'Request a new time',
+    initialOpen: true,
+    bottomDrawerOnMobile: true,
+    footer: <Button className="w-full">Submit</Button>,
+    children: (
+      <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+        {['Group', 'Discussion', 'New date', 'New time', 'Reason', 'Anything else?'].map((label) => (
+          <div key={label} className="flex flex-col gap-2">
+            <label htmlFor={`story-footer-${label}`} className="font-semibold">{label}</label>
+            <Input id={`story-footer-${label}`} />
+          </div>
+        ))}
+      </form>
+    ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '`footer` stays in view below the body while the body scrolls, so a long form keeps its submit button on screen. Keep it to the action buttons.',
+      },
+    },
+  },
+};
+
 export const NotDismissable: Story = {
   render() {
     const NotDismissableDemo = () => {
@@ -205,7 +231,7 @@ export const CustomTitle: Story = {
         </button>
       </div>
     ),
-    ariaLabel: 'Participant feedback',
+    'aria-label': 'Participant feedback',
     children: <P>A ReactNode title owns its own layout; the close button still sits at the trailing edge.</P>,
   },
 };

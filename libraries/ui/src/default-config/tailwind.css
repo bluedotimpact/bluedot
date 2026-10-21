@@ -76,10 +76,6 @@
     --color-bluedot-black: var(--bluedot-black);
     --color-bluedot-navy: var(--bluedot-navy);
 
-    --color-charcoal-light: var(--bluedot-charcoal-light);
-    --color-charcoal-mid: var(--bluedot-charcoal-mid);
-    --color-charcoal-normal: var(--bluedot-charcoal-normal);
-
     --color-aisf-lighter: var(--bluedot-aisf-lighter);
     --color-aisf-light: var(--bluedot-aisf-light);
     --color-aisf-normal: var(--bluedot-aisf-normal);
@@ -168,31 +164,31 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-stone-200, currentColor);
+        border-color: var(--color-default, currentColor);
     }
 
     /* h1 and h2 use Inter Display */
     .bluedot-h1 {
-        @apply text-bluedot-navy text-size-2xl font-semibold leading-tight tracking-tight;
+        @apply text-primary text-size-2xl font-semibold leading-tight tracking-tight;
         font-family: InterDisplay, var(--font-sans);
     }
     .bluedot-h2 {
-        @apply text-bluedot-navy text-size-xl font-semibold leading-snug tracking-tight;
+        @apply text-primary text-size-xl font-semibold leading-snug tracking-tight;
         font-family: InterDisplay, var(--font-sans);
     }
     .bluedot-h3 {
-        @apply text-bluedot-navy font-sans text-size-lg font-semibold leading-normal tracking-normal;
+        @apply text-primary font-sans text-size-lg font-semibold leading-normal tracking-normal;
     }
     .bluedot-h4 {
-        @apply text-bluedot-navy font-sans text-size-md font-semibold leading-normal tracking-normal;
+        @apply text-primary font-sans text-size-md font-semibold leading-normal tracking-normal;
     }
     .bluedot-p {
-        @apply text-bluedot-navy font-sans text-size-sm font-normal leading-relaxed;
+        @apply text-primary font-sans text-size-sm font-normal leading-relaxed;
         font-variant-ligatures: none;
         font-feature-settings: "liga" 0, "clig" 0;
     }
     .bluedot-a {
-        @apply text-bluedot-normal hover:text-bluedot-dark cursor-pointer underline;
+        @apply text-link hover:text-link-hover cursor-pointer underline;
     }
 }
 
@@ -201,7 +197,7 @@
 }
 
 @utility container-lined {
-    @apply border border-default rounded-surface;
+    @apply border rounded-surface;
 }
 
 @utility container-active {
@@ -227,6 +223,15 @@
     }
 }
 
+/* Resize grip in our style. Drawn on the resizer itself so it always sits on the real drag area, including
+   beside classic scrollbars. Goes away with `resize-none`. Firefox can't style it and keeps its native grip.
+   Stroke is text-secondary; data URIs can't read CSS vars. */
+@utility resize-grip {
+    &::-webkit-resizer {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 14' fill='none' stroke='%2313132eb2' stroke-linecap='round'%3E%3Cpath d='M11.875 7L7.5 11.375'/%3E%3Cpath d='M11 2.1875L2.6875 10.5'/%3E%3C/svg%3E") no-repeat right 1px bottom 1px / 16px;
+    }
+}
+
 /* Base section class that just applies padding and centering, suitable for nav, footer etc */
 @utility section-base {
     @apply w-full max-w-max-width mx-auto px-spacing-x;
@@ -239,15 +244,16 @@
 }
 
 @utility nav-link-animation {
-    @apply relative transition-[translate] duration-200;
-    @apply hover:text-current hover:-translate-y-[4px];
+    @apply relative transition-[translate] duration-200 motion-reduce:transition-none;
+    @apply hover:text-current hover:-translate-y-[4px] motion-reduce:hover:translate-y-0;
     /* underline is applied by ::after psuedoelement for consistency across text and incorporated SVGs */
-    @apply after:content-[""] after:invisible after:absolute after:bg-bluedot-normal after:transition-[translate] after:duration-200 after:left-0 after:bottom-0 after:w-full after:h-[2px];
+    @apply after:content-[""] after:invisible after:absolute after:bg-accent after:transition-[translate] after:duration-200 motion-reduce:after:transition-none after:left-0 after:bottom-0 after:w-full after:h-[2px];
     @apply hover:after:visible hover:after:translate-y-[4px];
+    @apply aria-[current=page]:after:visible aria-[current=page]:after:translate-y-[4px];
 }
 
 @utility nav-link-animation-dark {
-    @apply after:bg-bluedot-lighter;
+    @apply after:bg-on-dark-link;
 }
 
 @utility link-on-dark {
@@ -315,10 +321,6 @@
     --bluedot-darker: #00114D;
     --bluedot-black: #1E1E1E;
     --bluedot-navy: #13132E;
-
-    --bluedot-charcoal-light: #CCCCCC;
-    --bluedot-charcoal-mid: #6A6F7A;
-    --bluedot-charcoal-normal: #1E1E1E;
 
     --bluedot-aisf-lighter: #E6B3FF;
     --bluedot-aisf-light: #D680FF;

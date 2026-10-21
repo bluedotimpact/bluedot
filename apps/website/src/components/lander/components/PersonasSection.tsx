@@ -44,7 +44,7 @@ const PersonasSection = ({
   };
 
   return (
-    <section id={id} className="w-full bg-white">
+    <section id={id} className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <H2 className="text-center mb-12 md:mb-16">
           {title}
@@ -63,7 +63,7 @@ const PersonasSection = ({
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}
-                  className="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+                  className="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
                   style={isExpanded ? { backgroundColor: accentColor } : {}}
                   aria-expanded={isExpanded}
                 >
@@ -75,12 +75,11 @@ const PersonasSection = ({
                   >
                     <IconComponent
                       size={24}
-                      style={{ color: isExpanded ? 'white' : accentColor }}
+                      style={{ color: isExpanded ? 'var(--color-on-dark)' : accentColor }}
                     />
                   </div>
                   <span
-                    className="text-size-md font-semibold leading-snug flex-grow text-left"
-                    style={{ color: isExpanded ? 'white' : 'var(--bluedot-navy)' }}
+                    className={cn('text-size-md font-semibold leading-snug flex-grow text-left', isExpanded ? 'text-on-dark' : 'text-primary')}
                   >
                     {persona.title}
                   </span>
@@ -88,7 +87,7 @@ const PersonasSection = ({
                     aria-hidden="true"
                     className={cn(
                       'size-5 flex-shrink-0 transition-transform duration-300',
-                      isExpanded ? 'text-white rotate-45' : 'text-bluedot-navy',
+                      isExpanded ? 'text-on-dark rotate-45' : 'text-primary',
                     )}
                   />
                 </button>
@@ -109,17 +108,17 @@ const PersonasSection = ({
                       )}
 
                       {/* Description */}
-                      <P className="text-bluedot-navy/80">
+                      <P className="text-secondary">
                         {persona.description}
                       </P>
 
                       {/* What this looks like */}
                       {persona.valueProposition && (
-                        <div className="pt-4 border-t border-bluedot-navy/10">
+                        <div className="pt-4 border-t border-subtle">
                           <Eyebrow className="text-secondary mb-2">
                             What this looks like
                           </Eyebrow>
-                          <P className="text-bluedot-navy/80">
+                          <P className="text-primary">
                             {persona.valueProposition}
                           </P>
                         </div>
@@ -144,7 +143,7 @@ const PersonasSection = ({
           </div>
         )}
         {footerText && (
-          <P className="text-center text-bluedot-navy/80 mt-10 md:mt-12">
+          <P className="text-center text-secondary mt-10 md:mt-12">
             {footerText}
           </P>
         )}

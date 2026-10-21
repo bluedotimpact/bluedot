@@ -4,6 +4,7 @@ import {
   courseTable,
   dropoutTable,
   eq,
+  groupDiscussionTable,
   groupTable,
   inArray,
   meetPersonTable,
@@ -83,9 +84,13 @@ export const meetPersonRouter = router({
         .where(eq(meetPersonTable.pg.userId, user.id));
       const callerMeetPersonIds = new Set(callerMeetPersons.map((m) => m.id));
 
+      const facilitatorsOfAnyDiscussion = (await db.pg
+        .select({ facilitators: groupDiscussionTable.pg.facilitators })
+        .from(groupDiscussionTable.pg)
+        .where(eq(groupDiscussionTable.pg.group, group.id))).flatMap((d) => d.facilitators ?? []);
       const facilitatorIdsArr = group.facilitator ?? [];
       const participantIdsArr = group.participants ?? [];
-      const callerIsMember = facilitatorIdsArr.some((id) => callerMeetPersonIds.has(id))
+      const callerIsMember = [...facilitatorIdsArr, ...facilitatorsOfAnyDiscussion].some((id) => callerMeetPersonIds.has(id))
         || participantIdsArr.some((id) => callerMeetPersonIds.has(id));
       if (!callerIsMember) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'group not found' });

@@ -9,7 +9,7 @@ const meta = {
     layout: 'centered',
   },
   args: {
-    ariaLabel: 'Actions menu',
+    'aria-label': 'Actions menu',
     items: [
       {
         id: 'edit',
@@ -50,7 +50,7 @@ export const WithDisabledItem: Story = {
       {
         id: 'reschedule',
         label: 'Reschedule',
-        isDisabled: true,
+        disabled: true,
       },
       {
         id: 'download',

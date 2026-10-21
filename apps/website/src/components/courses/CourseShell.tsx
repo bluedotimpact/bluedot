@@ -41,31 +41,31 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
 }) => (
   <div
     className={cn(
-      'mobile-unit-header bg-canvas border-default flex h-[76px] w-full items-center border-b px-3',
+      'bg-canvas flex h-[76px] w-full items-center border-b px-3',
       className,
     )}
   >
-    <nav className="mobile-unit-header__nav flex w-full flex-row items-center justify-between">
+    <nav className="flex w-full items-center justify-between">
       {/* Left side - course info */}
       <button
         type="button"
-        className="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="flex flex-1 cursor-pointer items-center gap-2 rounded outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2"
         onClick={onCourseMenuClick}
         aria-label="Open course navigation menu"
       >
         <CourseIcon courseSlug={courseSlug} size="small" />
-        <div className="mobile-unit-header__course-title-container flex min-w-0 flex-1 flex-col justify-center text-left">
-          <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-            <p className="mobile-unit-header__course-title text-size-md text-bluedot-navy truncate leading-snug font-semibold">
+        <div className="flex min-w-0 flex-1 flex-col justify-center text-left">
+          <div className="flex items-center gap-1">
+            <p className="text-size-md text-primary truncate leading-snug font-semibold">
               {courseTitle}
             </p>
-            <FaChevronDown className="text-bluedot-navy size-3 flex-shrink-0" />
+            <FaChevronDown className="text-primary size-3 flex-shrink-0" />
           </div>
         </div>
       </button>
       {/* Right side - navigation arrows */}
       {mobileNavigation && (
-        <div className="mobile-unit-header__navigation flex h-8 flex-row items-center gap-3">
+        <div className="flex h-8 items-center gap-3">
           <IconButton
             className="text-primary"
             disabled={mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit}
@@ -87,7 +87,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
       {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
         <div className="absolute inset-x-0 bottom-0 h-1">
           <div
-            className="bg-bluedot-normal h-full"
+            className="bg-accent h-full"
             style={{ width: `${courseProgressData.courseProgress.percentage}%` }}
             aria-label={`Course ${courseProgressData.courseProgress.percentage}% complete`}
           />
@@ -202,7 +202,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
   return (
     <div>
       <MobileHeader
-        className="unit__mobile-header sticky top-(--nav-height-mobile) z-10 md:hidden"
+        className="sticky top-(--nav-height-mobile) z-10 md:hidden"
         courseTitle={courseTitle}
         courseSlug={courseSlug}
         courseProgressData={courseProgressData}
@@ -227,20 +227,20 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
         <div className="md:min-w-0 md:flex-1">
           {/* Breadcrumbs bar */}
-          <div className="border-bluedot-navy/20 bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
-            <div className="flex size-full flex-row items-center justify-between gap-2 px-6">
+          <div className="bg-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
+            <div className="flex size-full items-center justify-between gap-2 px-6">
               {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-                  className="text-size-xs text-bluedot-navy flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
+                  className="text-size-xs text-primary flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >
                   <FaBars className="size-[16px]" />
-                  <span className="">{isSidebarHidden ? 'Show' : 'Hide'}</span>
+                  <span>{isSidebarHidden ? 'Show' : 'Hide'}</span>
                 </button>
-                <span className="h-[18px] w-px bg-charcoal-mid opacity-50" />
+                <span className="h-[18px] w-px bg-default" />
               </div>
 
               <nav className="flex min-h-[18px] min-w-0 flex-1 items-center" aria-label="Breadcrumbs">

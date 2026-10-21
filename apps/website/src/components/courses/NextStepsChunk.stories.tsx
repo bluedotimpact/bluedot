@@ -10,7 +10,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="mx-auto max-w-[900px] text-bluedot-navy">
+      <div className="mx-auto max-w-[900px] text-primary">
         <H1 className="text-size-xl">Next steps</H1>
         <Story />
       </div>

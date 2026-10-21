@@ -34,7 +34,7 @@ export const SideBar = ({
     <div className={cn(
       'sidebar flex flex-col bg-canvas',
       'size-full md:w-[360px]',
-      'border-r-[0.5px] border-default',
+      'border-r-[0.5px]',
       className,
     )}
     >

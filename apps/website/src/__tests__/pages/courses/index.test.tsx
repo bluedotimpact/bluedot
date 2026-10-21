@@ -14,6 +14,7 @@ vi.mock('next/head', () => ({
 
 vi.mock('next/router', () => ({
   useRouter: () => ({
+    asPath: '/courses',
     pathname: '/courses',
     query: {},
   }),

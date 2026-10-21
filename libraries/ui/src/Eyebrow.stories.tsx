@@ -22,7 +22,7 @@ export const Default: Story = {
 // Override the colour for on-dark or muted contexts via className.
 export const OnDark: Story = {
   render: () => (
-    <div className="bg-bluedot-navy p-6">
+    <div className="bg-dark p-6">
       <Eyebrow className="text-on-dark-secondary">Self-paced course</Eyebrow>
     </div>
   ),
@@ -41,4 +41,13 @@ export const DynamicAccent: Story = {
     children: 'Start making impact today',
     style: { color: '#a32e00' },
   },
+};
+
+// When the eyebrow is the section heading, wrap it in a bare heading element.
+export const AsHeading: Story = {
+  render: () => (
+    <h2>
+      <Eyebrow className="text-secondary">The puzzle</Eyebrow>
+    </h2>
+  ),
 };
