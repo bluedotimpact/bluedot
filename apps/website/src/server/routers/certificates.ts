@@ -257,8 +257,7 @@ export const certificatesRouter = router({
       // final once at most one discussion is still to come. Anything we can't place in the past —
       // no end time, or a row that hasn't synced yet — counts as still to come, so the total comes
       // from the linked ids rather than the rows we managed to read.
-      // After a permanent group switch the old group's discussion for a unit can stay linked next
-      // to the new group's one, so a unit counts as held once however many discussions it had.
+      // A unit with more than one discussion (usually after a group switch) counts as held once.
       const nowInSeconds = Math.floor(Date.now() / 1000);
       const endedDiscussions = expectedDiscussions
         .filter((d) => d.endDateTime != null && d.endDateTime <= nowInSeconds);

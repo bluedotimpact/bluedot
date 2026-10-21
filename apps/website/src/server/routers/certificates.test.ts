@@ -324,7 +324,7 @@ describe('certificates.getStatus', () => {
       endOffsets, unitNumbers, attended, numUnits, lastDiscussionDate,
     }: {
       endOffsets?: (number | null)[];
-      unitNumbers?: number[];
+      unitNumbers?: (number | null)[];
       attended: number | null;
       numUnits: number;
       lastDiscussionDate: string;
@@ -429,14 +429,57 @@ describe('certificates.getStatus', () => {
       });
     });
 
-    test('counts a unit once when a group switch left the old group\'s discussion linked', async () => {
-      // Six units held; unit 1 also has the old group's discussion, which they missed after switching.
+    test('counts a unit once when it has more than one discussion', async () => {
+      // Six units held; unit 1 also has another group's discussion, which they missed.
       await seedParticipant({
         endOffsets: [-7, -6, -5, -4, -3, -2, -1].map((days) => days * 24 * ONE_HOUR_SECONDS),
         unitNumbers: [1, 1, 2, 3, 4, 5, 6],
         attended: 5,
         numUnits: 6,
         lastDiscussionDate: '2020-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'action-plan-pending', hasAtMostOneDiscussionLeft: true });
+    });
+
+    test('still reports two distinct missed units when a unit has more than one discussion', async () => {
+      await seedParticipant({
+        endOffsets: [-7, -6, -5, -4, -3, -2, -1].map((days) => days * 24 * ONE_HOUR_SECONDS),
+        unitNumbers: [1, 1, 2, 3, 4, 5, 6],
+        attended: 4,
+        numUnits: 6,
+        lastDiscussionDate: '2020-01-01',
+      });
+
+      expect(await getStatus()).toEqual({
+        status: 'attendance-ineligible',
+        uniqueDiscussionAttendance: 4,
+        discussionsHeld: 6,
+        meetPersonId: 'mp1',
+        hasSubmittedActionPlan: false,
+      });
+    });
+
+    test('counts discussions with no unit number separately', async () => {
+      await seedParticipant({
+        endOffsets: [-7, -6, -5, -4, -3, -2, -1].map((days) => days * 24 * ONE_HOUR_SECONDS),
+        unitNumbers: [null, null, 2, 3, 4, 5, 6],
+        attended: 5,
+        numUnits: 6,
+        lastDiscussionDate: '2020-01-01',
+      });
+
+      expect(await getStatus()).toMatchObject({ status: 'attendance-ineligible', discussionsHeld: 7 });
+    });
+
+    test('counts a doubled unit once while the last unit is still to come', async () => {
+      // Units 1 to 5 held (unit 1 twice), one missed; unit 6 is tomorrow.
+      await seedParticipant({
+        endOffsets: [-6, -5, -4, -3, -2, -1, 1].map((days) => days * 24 * ONE_HOUR_SECONDS),
+        unitNumbers: [1, 1, 2, 3, 4, 5, 6],
+        attended: 4,
+        numUnits: 6,
+        lastDiscussionDate: '2999-01-01',
       });
 
       expect(await getStatus()).toMatchObject({ status: 'action-plan-pending', hasAtMostOneDiscussionLeft: true });
