@@ -20,8 +20,7 @@ export type QueueItem = {
   pickReason?: PickReason;
 };
 
-// In priority order: course evidence (a facilitator vouching after a 1-1, then a 10/10 score)
-// before the opinion formed at application time
+// Why someone is on the shortlist, in priority order: course evidence before the application opinion
 export const PICK_REASONS = ['endorsement', 'facilitator 10', 'strong yes'] as const;
 export type PickReason = (typeof PICK_REASONS)[number];
 

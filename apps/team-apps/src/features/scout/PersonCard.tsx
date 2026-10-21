@@ -686,8 +686,7 @@ const feedbackSummary = (fb: FacilitatorFeedback) => {
   return <>{score}{who}{fb.round ? ` · ${shortRound(fb.round)}` : ''}</>;
 };
 
-// Why this person is in the must-look queue, from the same signals the Airtable formula uses,
-// endorsement first. Exported for tests.
+// Why this person is on the shortlist, in PICK_REASONS order. Exported for tests.
 export const mustLookReasons = (person: Person): string[] => [
   ...(endorsers(person).length > 0 ? [`Endorsed by ${endorsers(person).join(' and ')}`] : []),
   ...(topScorers(person).length > 0 ? [`Scored 10/10 by ${topScorers(person).join(' and ')}`] : []),

@@ -393,11 +393,9 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports, REG.mustLook, REG.facilitatorRatings, REG.reportTakes];
 
-// Why someone is on the shortlist, in PICK_REASONS order: a facilitator endorsement (a 1-1 take
-// of Strong yes), then a facilitator 10/10, then a strong yes opinion. One reason per person so the
-// picker's recap adds up; undefined when the Airtable formula shortlisted them for something else.
-// Mirrors the "[*] Talent scouting must look" formula in Airtable; a signal added there without a
-// case here shows up as "other" in the picker's recap. Exported for tests.
+// The one signal that put a person on the shortlist, in PICK_REASONS order so the picker's recap
+// adds up. Mirrors the "[*] Talent scouting must look" formula; a signal added there without a case
+// here shows as "other". Exported for tests.
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
   if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
   if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => rating === 10)) return 'facilitator 10';
@@ -1022,25 +1020,16 @@ const patchRegistration = async (id: string, fields: Record<string, unknown>) =>
   if (!response.ok) throw airtableError(response, `update ${id}`);
 };
 
-// A lead's note to the facilitator who endorsed this person, written to "Review notes" on each
-// Strong yes report (the Course runner automation emails the facilitator from that field once the
-// status changes, so this runs before the status write). Appends when a note is already there.
+// The lead's note to the facilitator, on each Strong yes report. Written before the status so the
+// facilitator email (sent by the Course runner automation on the status change) includes it.
 const noteEndorsers = async (fields: Record<string, unknown>, note: string | undefined) => {
   const text = note?.trim();
   const reportIds = strList(fields[REG.reports]);
   if (!text || reportIds.length === 0) return;
-  const reports = await fetchMany(REPORTS_URL, reportIds, [REPORT.overallTake, REPORT.reviewNotes]);
+  const reports = await fetchMany(REPORTS_URL, reportIds, [REPORT.overallTake]);
   await Promise.all(reports
     .filter((r) => str(r.fields[REPORT.overallTake])?.toLowerCase() === 'strong yes')
-    .map(async (r) => {
-      const existing = str(r.fields[REPORT.reviewNotes]);
-      const response = await airtableFetch(`${REPORTS_URL}/${r.id}`, {
-        method: 'PATCH',
-        headers: headers(),
-        body: JSON.stringify({ fields: { [REPORT.reviewNotes]: existing ? `${existing}\n\n${text}` : text } }),
-      });
-      if (!response.ok) throw airtableError(response, `update report ${r.id}`);
-    }));
+    .map((r) => airtableFetch(`${REPORTS_URL}/${r.id}`, { method: 'PATCH', headers: headers(), body: JSON.stringify({ fields: { [REPORT.reviewNotes]: text } }) })));
 };
 
 // Don't invite = a status only. The person leaves the queue view; the status can

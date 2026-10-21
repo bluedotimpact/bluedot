@@ -100,7 +100,6 @@ const Scout = () => {
   const generation = useRef(0);
   const [done, setDone] = useState<Record<string, Done>>({});
   const [confirmation, setConfirmation] = useState<Confirmation>();
-  // The lead's optional line to the facilitator who endorsed this person; sent with the decision
   const [note, setNote] = useState('');
   const [writing, setWriting] = useState(false);
   const writingRef = useRef(false);
@@ -481,7 +480,6 @@ const Scout = () => {
                   Your note to the facilitator (optional)
                   <textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder="Anything you would like to tell them?" className="mt-1 block w-full resize-y rounded-surface border border-subtle bg-white p-2 text-size-sm text-primary" />
                 </label>
-                {/* The note is the lead's chance to react to the report, so the report is one click away */}
                 <details className="text-size-xs">
                   <summary className="cursor-pointer text-secondary underline underline-offset-2 hover:text-primary">Remind me what they said</summary>
                   <div className="mt-2 space-y-3">
