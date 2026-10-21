@@ -43,7 +43,7 @@ const airtableStyle = (colour?: string) => (colour && AIRTABLE[colour] ? { backg
 const Badge: React.FC<{ children: ReactNode; className?: string; colour?: string; title?: string }> = ({
   children, className = 'bg-tint text-primary', colour, title,
 }) => (
-  <span title={title} className={cn('inline-flex items-center max-w-full whitespace-normal break-words rounded-sm px-2 py-0.5 text-size-xxs font-medium', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
+  <span title={title} className={cn('inline-flex items-center max-w-full whitespace-normal break-words rounded-sm px-2 py-0.5 text-size-xxs font-semibold', !airtableStyle(colour) && className)} style={airtableStyle(colour)}>{children}</span>
 );
 
 // Rapid grants store the same options in lower case ("strong yes"), so match by lower case
@@ -151,15 +151,11 @@ const Section: React.FC<{
 const Meta: React.FC<{ children: ReactNode }> = ({ children }) => <span>{children}</span>;
 
 // "- " lines become a list; a summary written before the bullet format stays a paragraph
+// Rendered inside the labelled "AI summary" block, so it carries no AI mark of its own
 const AiSummary: React.FC<{ text: string }> = ({ text }) => {
   const bullets = text.split('\n').map((line) => line.trim()).filter((line) => line.startsWith('- ')).map((line) => line.slice(2));
-  if (bullets.length === 0) return <p className="max-w-prose text-size-sm leading-relaxed"><AiMark />{text}</p>;
-  return (
-    <div className="flex max-w-prose items-start gap-0.5 text-size-sm leading-relaxed">
-      <AiMark />
-      <ul className="list-disc space-y-0.5 pl-4">{bullets.map((b, i) => <li key={i}>{b}</li>)}</ul>
-    </div>
-  );
+  if (bullets.length === 0) return <p className="max-w-prose text-size-sm leading-relaxed">{text}</p>;
+  return <ul className="max-w-prose list-disc space-y-0.5 pl-4 text-size-sm leading-relaxed">{bullets.map((b, i) => <li key={i}>{b}</li>)}</ul>;
 };
 
 // Quiet label between groups of sections: what is about the person, what is about this round
@@ -689,7 +685,16 @@ const feedbackSummary = (fb: FacilitatorFeedback) => {
   return <>{score}{who}{fb.round ? ` · ${shortRound(fb.round)}` : ''}</>;
 };
 
-export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ person, showName }) => {
+// Why this person is in the must-look queue, from the same signals the Airtable formula uses.
+// Exported for tests.
+export const mustLookReasons = (person: Person): string[] => [
+  ...(person.opinion?.toLowerCase() === 'strong yes' ? ['Strong yes'] : []),
+  ...person.reports.filter((r) => ['strong yes', 'weak yes'].includes(r.overallTake?.toLowerCase() ?? '')).map((r) => `Positive facilitator 1-1 take: ${r.overallTake}`),
+  ...(person.facilitatorFeedback.some((fb) => fb.rating === 10 && fb.ratingOutOf === 10) ? ['Facilitator score 10/10'] : []),
+];
+
+export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?: boolean }> = ({ person, showName, mustLook = false }) => {
+  const reasons = mustLook ? mustLookReasons(person) : [];
   // LinkedIn sometimes lives only on the application record, so merge both sources
   const profileLinks = [...new Map([person.profileUrl, person.application?.profileUrl, person.application?.otherProfileUrl]
     .filter((u): u is string => !!u)
@@ -723,9 +728,20 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
           <OpinionBadge opinion={person.opinion} />
           {person.email && <CopyEmail email={person.email} />}
         </div>
+        {/* A strip in the top-picks colours from the picker, sized to its text so a one-word reason is a tag, not an empty band */}
+        {reasons.length > 0 && (
+          <p className="w-fit max-w-full rounded-r-surface border-l-[3px] border-accent bg-info-bg py-2 pl-[13px] pr-4 text-size-sm text-primary">
+            <span className="mr-2 text-size-xxs font-semibold uppercase tracking-wide text-info-fg">Shortlisted because</span>
+            {' '}{reasons.join(' · ')}
+          </p>
+        )}
         {summaryLine && <p className="text-size-sm text-secondary">{summaryLine}</p>}
-        {person.aiSummary && <AiSummary text={person.aiSummary} />}
-        {/* Line 1: where they are online. Line 2: our own records about them. */}
+        {person.aiSummary && (
+          <div className="flex flex-col gap-1 rounded-surface bg-warning-bg px-3 py-2">
+            <p className="text-size-xxs font-semibold uppercase tracking-wide text-warning-fg">AI summary</p>
+            <AiSummary text={person.aiSummary} />
+          </div>
+        )}
         {(profileLinks.length > 0 || foundLinks.length > 0) && (
           <div className="flex flex-wrap gap-2 pt-1">
             {profileLinks.map((u) => (
@@ -736,25 +752,28 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean }> = ({ pe
             ))}
           </div>
         )}
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-size-xs">
-          <span className="font-medium text-secondary">BlueDot records:</span>
-          {person.crmPersonId
-            ? <A href={`https://airtable.com/${CRM_BASE_ID}/${CRM_PERSON_PAGE_ID}/${person.crmPersonId}`} target="_blank" className="inline-flex min-h-11 items-center">CRM record ↗</A>
-            : <span className="text-disabled">no CRM record found for this email</span>}
-          {person.projects.filter((p) => p.url).map((p) => (
-            <A key={p.id} href={p.url} target="_blank" className="inline-flex min-h-11 items-center">Project ↗</A>
-          ))}
-        </div>
       </CardShell>
 
       <GroupLabel>About them</GroupLabel>
       <FoundOnline facts={person.webFacts} lookedUpOn={person.lookedUpOn} givenUrls={profileLinks} />
 
-      <Section title="With BlueDot" count={withBlueDotCount} defaultOpen empty={withBlueDotCount === 0} emptyText="no registrations found for this email">
+      <Section
+        title="With BlueDot"
+        count={withBlueDotCount}
+        defaultOpen
+        empty={withBlueDotCount === 0}
+        emptyText="no registrations found for this email"
+        meta={person.crmPersonId
+          ? <A href={`https://airtable.com/${CRM_BASE_ID}/${CRM_PERSON_PAGE_ID}/${person.crmPersonId}`} target="_blank" className="font-normal">CRM record ↗</A>
+          : <span className="font-normal text-disabled">no CRM record</span>}
+      >
         <TimelineList>{timeline.map((item) => item.node)}</TimelineList>
       </Section>
 
-      <GroupLabel spaced>This round · {roundLabel}</GroupLabel>
+      <GroupLabel spaced>
+        This round · {roundLabel}
+        {person.projects.filter((p) => p.url).map((p) => <A key={p.id} href={p.url} target="_blank" className="ml-3 normal-case tracking-normal">Project ↗</A>)}
+      </GroupLabel>
       <Section
         title="Application"
         empty={!app}

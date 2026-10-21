@@ -51,7 +51,7 @@ const RungHeader = ({ rung }: { rung: Rung }) => (
 const FoaiRungCard = () => (
   <a
     href="/courses/future-of-ai"
-    className="relative rounded-surface border border-bluedot-navy/10 overflow-hidden group cursor-pointer block w-full lg:max-w-[50%] mx-auto"
+    className="relative rounded-surface border overflow-hidden group cursor-pointer block w-full lg:max-w-[50%] mx-auto"
   >
     <div className="absolute inset-0 pointer-events-none" style={{ background: FOAI.gradient }} />
     <div
@@ -62,7 +62,7 @@ const FoaiRungCard = () => (
         backgroundSize: '464.64px 736.56px',
       }}
     />
-    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+    <div className="absolute inset-0 bg-overlay-image opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
     <div className="relative z-10 flex flex-col h-full p-6 md:p-7 min-h-[260px] md:min-h-[300px]">
       <div className="flex-grow">
         <div className="size-14 md:size-16">
@@ -70,7 +70,7 @@ const FoaiRungCard = () => (
         </div>
       </div>
       <div className="flex flex-col gap-3 mt-5">
-        <H3 className="font-medium leading-snug tracking-tight text-white">
+        <H3 className="font-medium leading-snug tracking-tight text-on-dark">
           The Future of AI
           <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
         </H3>
@@ -81,7 +81,7 @@ const FoaiRungCard = () => (
           {['2 hours', 'Free', 'No application'].map((tag) => (
             <span
               key={tag}
-              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+              className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-surface-on-dark-subtle border border-border-on-dark backdrop-blur-[10px] text-on-dark"
             >
               {tag}
             </span>
@@ -104,7 +104,7 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
   return (
     <a
       href={`/courses/${course.slug}`}
-      className="relative rounded-surface border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full"
+      className="relative rounded-surface border overflow-hidden group cursor-pointer block h-full"
     >
       <div className="absolute inset-0 pointer-events-none" style={{ background: colors.gradient }} />
       <div
@@ -115,7 +115,7 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
           backgroundSize: '464.64px 736.56px',
         }}
       />
-      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+      <div className="absolute inset-0 bg-overlay-image opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
       <div className={clsx(
         'relative z-10 flex flex-col h-full p-6 md:p-7',
         featured ? 'min-h-[260px] md:min-h-[300px]' : 'min-h-[260px] md:min-h-[280px]',
@@ -128,7 +128,7 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
         </div>
         <div className="flex flex-col gap-3 mt-5">
           <H3 className={clsx(
-            'font-medium leading-snug tracking-tight text-white',
+            'font-medium leading-snug tracking-tight text-on-dark',
             !featured && 'text-size-md md:text-size-lg',
           )}
           >
@@ -140,11 +140,11 @@ const CohortCard = ({ course, featured = false }: { course: CohortCardData; feat
           </P>
           <div className="flex flex-wrap gap-2 mt-1">
             {course.durationHours != null && (
-              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+              <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-surface-on-dark-subtle border border-border-on-dark backdrop-blur-[10px] text-on-dark">
                 {course.durationHours}H
               </span>
             )}
-            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white">
+            <span className="px-[10px] py-[5px] text-size-xxs font-medium leading-normal tracking-wide uppercase rounded bg-surface-on-dark-subtle border border-border-on-dark backdrop-blur-[10px] text-on-dark">
               Cohort-based
             </span>
           </div>
@@ -186,7 +186,7 @@ const MergedLadder = () => {
           <CohortCard course={featuredCohort} featured />
         </div>
         <div className="flex justify-center">
-          <FaArrowDown aria-hidden="true" className="size-6 text-bluedot-navy/40" />
+          <FaArrowDown aria-hidden="true" className="size-6 text-secondary" />
         </div>
         <div className="grid grid-cols-1 bd-md:grid-cols-3 gap-4 md:gap-5">
           {otherCohorts.slice(0, 3).map((c) => (

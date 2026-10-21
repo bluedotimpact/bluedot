@@ -89,14 +89,14 @@ const Form: React.FC<{
 
   return (
     <main className="min-h-screen bg-bluedot-darker flow-root px-8 py-12">
-      <Section className="border-b-0 py-16 px-12 bg-cream-normal rounded-lg max-w-3xl">
+      <Section className="border-b-0 py-16 px-12 bg-canvas rounded-lg max-w-3xl">
         <Eyebrow>Time availability form</Eyebrow>
         <H1 className="text-size-lg">{title}</H1>
         <div className="space-y-2 mt-4">
           <P>Submit your availability so we can schedule your discussions at times that suit you.</P>
         </div>
         <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 mt-6">
-          <label className="text-size-xs text-stone-500 block">Email<br />
+          <label className="text-size-xs text-secondary block">Email<br />
             <Input
               type="text"
               placeholder="you@example.com"
@@ -105,9 +105,9 @@ const Form: React.FC<{
           </label>
           <TimeOffsetSelector control={control} name="timezone" />
         </div>
-        <P className="text-size-xs text-stone-500 mt-6 mb-4">Click and drag to indicate the times you will be regularly free during the course. It's okay if you can't make the odd week here and there - you can switch group for weeks where you can't make your usual time.</P>
+        <P className="text-size-xs text-secondary mt-6 mb-4">Click and drag to indicate the times you will be regularly free during the course. It's okay if you can't make the odd week here and there - you can switch group for weeks where you can't make your usual time.</P>
         <TimeAvailabilityInput control={control} name="timeAv" />
-        <label className="text-size-xs text-stone-500 block mt-4">(Optional) Additional comments<br />
+        <label className="text-size-xs text-secondary block mt-4">(Optional) Additional comments<br />
           <Textarea
             className="mt-1"
             {...register('comment')}
@@ -117,7 +117,7 @@ const Form: React.FC<{
           {submitting && <ProgressDots className="w-full" />}
           {!submitting && (
             <>
-              <P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
+              <P className={`text-size-xs text-error-fg mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
                 {!isValidEmail() && <>* Input a valid email.<br /></>}
                 {!longEnoughInterval()
                 && <>* Fill out at least one interval of length at least {minLength} minutes.</>}

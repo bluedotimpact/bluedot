@@ -13,7 +13,7 @@ type AddParticipantModalProps = {
   onClose: () => void;
 };
 
-const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId, excludeIds, onAdd, onClose }) => {
+const AddParticipantModal = ({ meetPersonId, excludeIds, onAdd, onClose }: AddParticipantModalProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { data, isLoading, isError } = trpc.facilitators.searchAddableParticipants.useQuery({
@@ -32,11 +32,11 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
       }}
       title="Add a participant"
       bottomDrawerOnMobile
-      ariaLabel="Add a participant"
+      aria-label="Add a participant"
       isDismissable={false}
     >
       <div className="flex flex-col gap-4">
-        <p className="text-size-xs leading-normal text-bluedot-navy/60">
+        <p className="text-size-xs leading-normal text-secondary">
           Search for a participant enrolled in this course who isn't already on your list.
         </p>
 
@@ -66,12 +66,12 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
         <div className="flex flex-col gap-1.5">
           {isLoading && <ProgressDots />}
           {isError && (
-            <p className="text-red-600 text-size-xs py-2" role="alert" aria-live="polite">
+            <p className="text-error-fg text-size-xs py-2" role="alert" aria-live="polite">
               Couldn't load participants. Please try again.
             </p>
           )}
           {!isLoading && !isError && results.length === 0 && (
-            <p className="text-size-xs text-bluedot-navy/60 py-2">No participants found.</p>
+            <p className="text-size-xs text-secondary py-2">No participants found.</p>
           )}
           {results.map((person) => (
             <ParticipantRow
@@ -86,7 +86,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
           ))}
         </div>
 
-        <div className="flex justify-end pt-4 border-t border-gray-200 pb-4 sm:pb-0">
+        <div className="flex justify-end pt-4 border-t border-subtle pb-4 sm:pb-0">
           <Button variant="outline-black" onClick={onClose}>
             Cancel
           </Button>

@@ -134,7 +134,7 @@ const FacilitatedCoursesPage = () => {
               )}
               <QuickApplyBanner />
               <TabPills
-                ariaLabel="Course filter"
+                aria-label="Course filter"
                 tabs={TABS}
                 value={activeTab}
                 onChange={setActiveTab}

@@ -100,6 +100,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     error,
   } = trpc.facilitators.discussionsAvailable.useQuery({ roundId });
   const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
+  // Substitutes can only change the time of the discussion they cover
+  const switchOptions = SWITCH_OPTIONS.map((opt) => ({
+    ...opt,
+    disabled: opt.value === 'Change permanently' && discussions.some((d) => d.group === selectedGroupId && !d.isGroupFacilitator),
+  }));
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
@@ -196,18 +201,18 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-            <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+            <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make
               sure you communicate this with them. You should see the changes reflected in the calendar event and Course
               Hub.
             </P>
-            <P className="text-center text-bluedot-navy/80">Please allow up to 10 minutes to see the changes.</P>
+            <P className="text-center text-primary">Please allow up to 10 minutes to see the changes.</P>
           </div>
           <Button className="w-full" onClick={handleClose}>
             Close
@@ -220,14 +225,14 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-            <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+            <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
               {groupOptions.find((g) => g.value === selectedGroupId)?.label}.
             </P>
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-center text-primary">
               You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes
               to see the changes.
             </P>
@@ -244,18 +249,18 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <>
           <InformationBanner modalType={modalType} />
           <div className="flex flex-col gap-2">
-            <p className="text-size-md font-medium text-black">1. What kind of update are you making?</p>
+            <p className="text-size-md font-medium text-primary">1. What kind of update are you making?</p>
             <Select
               aria-label="Action"
               value={switchType}
               onChange={(value) => setSwitchType(value as FacilitatorSwitchType)}
-              options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+              options={switchOptions}
               placeholder="Choose an option"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <p className="text-size-md font-medium text-black">2. For which group?</p>
+            <p className="text-size-md font-medium text-primary">2. For which group?</p>
             <Select
               aria-label="Group"
               value={selectedGroupId}
@@ -263,14 +268,14 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
                 setSelectedGroupId(value);
                 setSelectedDiscussionId(undefined);
               }}
-              options={groupOptions}
+              options={groupOptions.map((opt) => ({ ...opt, disabled: !isSingleUnitChange && discussions.some((d) => d.group === opt.value && !d.isGroupFacilitator) }))}
               placeholder="Choose a group"
             />
           </div>
 
           {isSingleUnitChange && (
             <div className="flex flex-col gap-2">
-              <p className="text-size-md font-medium text-black">3. For which discussion?</p>
+              <p className="text-size-md font-medium text-primary">3. For which discussion?</p>
               <Select
                 aria-label="Discussion"
                 options={discussionOptions}
@@ -280,18 +285,18 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               />
               {selectedDiscussion && (
                 <P>
-                  Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
+                  Current time: <span className="text-accent">{selectedDiscussionTimeString}</span>
                 </P>
               )}
             </div>
           )}
 
           <div className="flex flex-col gap-2">
-            <p className="text-size-md font-medium text-black">
+            <p className="text-size-md font-medium text-primary">
               {isSingleUnitChange ? '4' : '3'}. Select new discussion time
             </p>
             <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
-            <div className="flex flex-row gap-4">
+            <div className="flex gap-4">
               <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
               <TimePicker
                 className="w-fit"
@@ -308,7 +313,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       <>
         <InformationBanner modalType={modalType} />
         <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-black">1. For which group?</p>
+          <p className="text-size-md font-medium text-primary">1. For which group?</p>
           <Select
             aria-label="Group"
             value={selectedGroupId}
@@ -322,7 +327,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-black">2. For which discussion?</p>
+          <p className="text-size-md font-medium text-primary">2. For which discussion?</p>
           <Select
             aria-label="Discussion"
             options={discussionOptions}
@@ -333,9 +338,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-black">3. Select new facilitator</p>
+          <p className="text-size-md font-medium text-primary">3. Select new facilitator</p>
           {facilitatorsQuery.isError && (
-            <P className="text-red-600">
+            <P className="text-error-fg">
               {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}
             </P>
           )}
@@ -349,7 +354,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         {changeFacilitatorMutation.isError && (
-          <P className="text-red-600">
+          <P className="text-error-fg">
             {changeFacilitatorMutation.error?.message || 'An error occurred. Please try again.'}
           </P>
         )}
@@ -380,7 +385,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       footer={showUpdateTimeFooter && (
         <div className="flex flex-col gap-2">
           {updateDiscussionTimeMutation.isError && (
-            <P className="text-red-600">
+            <P className="text-error-fg">
               {updateDiscussionTimeMutation.error?.message || 'An error occurred. Please try again.'}
             </P>
           )}

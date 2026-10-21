@@ -90,11 +90,11 @@ const BUILDERS: Builder[] = [
 
 const VISIBLE_COUNT = 3;
 
-const styledLinkClass = 'font-semibold text-bluedot-navy underline underline-offset-2 hover:text-bluedot-normal';
+const styledLinkClass = 'font-semibold text-primary underline underline-offset-2 hover:text-link';
 
 const BuilderRow = ({ builder }: { builder: Builder }) => {
   return (
-    <div className="grid grid-cols-1 bd-md:grid-cols-[140px_1fr] gap-5 bd-md:gap-12 py-7 bd-md:py-9 items-center border-t border-bluedot-navy/10 first:border-t-0">
+    <div className="grid grid-cols-1 bd-md:grid-cols-[140px_1fr] gap-5 bd-md:gap-12 py-7 bd-md:py-9 items-center border-t border-subtle first:border-t-0">
       <a
         href={builder.program.url}
         target="_blank"
@@ -108,7 +108,7 @@ const BuilderRow = ({ builder }: { builder: Builder }) => {
           className="max-w-full max-h-full object-contain"
         />
       </a>
-      <P className="text-size-md leading-relaxed text-bluedot-navy/80 max-w-[680px]">
+      <P className="text-size-md leading-relaxed text-secondary max-w-[680px]">
         {builder.founder.profileUrl ? (
           <a
             href={builder.founder.profileUrl}
@@ -119,7 +119,7 @@ const BuilderRow = ({ builder }: { builder: Builder }) => {
             {builder.founder.name}
           </a>
         ) : (
-          <span className="font-semibold text-bluedot-navy">{builder.founder.name}</span>
+          <span className="font-semibold text-primary">{builder.founder.name}</span>
         )}
         {builder.before}
         <a
@@ -148,7 +148,7 @@ const FieldBuildersSection = () => {
           Most AI safety programs started because someone saw a talent gap and decided to do something about it.
         </H3>
 
-        <div className="flex flex-col border-t border-b border-bluedot-navy/10">
+        <div className="flex flex-col border-t border-b border-subtle">
           {visibleBuilders.map((builder) => (
             <BuilderRow key={builder.slug} builder={builder} />
           ))}

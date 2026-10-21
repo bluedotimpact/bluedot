@@ -2,7 +2,7 @@
 
 exports[`PersonasSection > renders correctly with default expanded index 1`] = `
 <section
-  class="w-full bg-white"
+  class="w-full bg-canvas"
 >
   <div
     class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
@@ -16,11 +16,11 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
       class="max-w-text-narrow mx-auto flex flex-col gap-4"
     >
       <div
-        class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
+        class="rounded-surface border bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="true"
-          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
           style="background-color: #1F588A;"
           type="button"
         >
@@ -33,7 +33,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
               height="24"
               stroke="currentColor"
               stroke-width="0"
-              style="color: white;"
+              style="color: var(--color-on-dark);"
               viewBox="0 0 256 256"
               width="24"
               xmlns="http://www.w3.org/2000/svg"
@@ -44,14 +44,13 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             </svg>
           </div>
           <span
-            class="text-size-md font-semibold leading-snug flex-grow text-left"
-            style="color: white;"
+            class="text-size-md font-semibold leading-snug flex-grow text-left text-on-dark"
           >
             Technical people considering governance
           </span>
           <svg
             aria-hidden="true"
-            class="size-5 flex-shrink-0 transition-transform duration-300 text-white rotate-45"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-on-dark rotate-45"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -80,20 +79,20 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You get the tech. Now you want to know if policy is where you should point it.
               </p>
               <p
-                class="bluedot-p not-prose text-bluedot-navy/80"
+                class="bluedot-p not-prose text-secondary"
               >
                 You understand the technology - how the systems work, what scaling means.
               </p>
               <div
-                class="pt-4 border-t border-bluedot-navy/10"
+                class="pt-4 border-t border-subtle"
               >
-                <p
-                  class="text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
+                <span
+                  class="block text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
                 >
                   What this looks like
-                </p>
+                </span>
                 <p
-                  class="bluedot-p not-prose text-bluedot-navy/80"
+                  class="bluedot-p not-prose text-primary"
                 >
                   People like you have made this move.
                 </p>
@@ -103,11 +102,11 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
         </div>
       </div>
       <div
-        class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
+        class="rounded-surface border bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="false"
-          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
           type="button"
         >
           <div
@@ -130,14 +129,13 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             </svg>
           </div>
           <span
-            class="text-size-md font-semibold leading-snug flex-grow text-left"
-            style="color: var(--bluedot-navy);"
+            class="text-size-md font-semibold leading-snug flex-grow text-left text-primary"
           >
             High-potential people early in their careers
           </span>
           <svg
             aria-hidden="true"
-            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-primary"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -166,20 +164,20 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You have options. You're not the type to drift into a default path.
               </p>
               <p
-                class="bluedot-p not-prose text-bluedot-navy/80"
+                class="bluedot-p not-prose text-secondary"
               >
                 You're at a top university or recently graduated.
               </p>
               <div
-                class="pt-4 border-t border-bluedot-navy/10"
+                class="pt-4 border-t border-subtle"
               >
-                <p
-                  class="text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
+                <span
+                  class="block text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
                 >
                   What this looks like
-                </p>
+                </span>
                 <p
-                  class="bluedot-p not-prose text-bluedot-navy/80"
+                  class="bluedot-p not-prose text-primary"
                 >
                   You'll join a cohort of others at the same stage.
                 </p>
@@ -189,11 +187,11 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
         </div>
       </div>
       <div
-        class="rounded-surface border border-subtle bg-raised overflow-hidden p-0"
+        class="rounded-surface border bg-raised overflow-hidden p-0"
       >
         <button
           aria-expanded="false"
-          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+          class="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-tint"
           type="button"
         >
           <div
@@ -216,14 +214,13 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             </svg>
           </div>
           <span
-            class="text-size-md font-semibold leading-snug flex-grow text-left"
-            style="color: var(--bluedot-navy);"
+            class="text-size-md font-semibold leading-snug flex-grow text-left text-primary"
           >
             Policy professionals adding AI expertise
           </span>
           <svg
             aria-hidden="true"
-            class="size-5 flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
+            class="size-5 flex-shrink-0 transition-transform duration-300 text-primary"
             fill="currentColor"
             height="1em"
             stroke="currentColor"
@@ -252,20 +249,20 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
                 You know how policy works. AI is eating your field.
               </p>
               <p
-                class="bluedot-p not-prose text-bluedot-navy/80"
+                class="bluedot-p not-prose text-secondary"
               >
                 You already work in government, a think tank, or policy.
               </p>
               <div
-                class="pt-4 border-t border-bluedot-navy/10"
+                class="pt-4 border-t border-subtle"
               >
-                <p
-                  class="text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
+                <span
+                  class="block text-size-xxs font-medium uppercase tracking-wide text-secondary mb-2"
                 >
                   What this looks like
-                </p>
+                </span>
                 <p
-                  class="bluedot-p not-prose text-bluedot-navy/80"
+                  class="bluedot-p not-prose text-primary"
                 >
                   You'll become the person your org turns to on AI.
                 </p>

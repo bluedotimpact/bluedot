@@ -29,8 +29,8 @@ export const ScheduleRounds = ({
   if (isLoading) {
     return (
       <div className="flex flex-col gap-4">
-        <div className="h-20 w-full animate-pulse rounded bg-gray-200" />
-        <div className="h-20 w-full animate-pulse rounded bg-gray-200" />
+        <div className="h-20 w-full animate-pulse rounded bg-active" />
+        <div className="h-20 w-full animate-pulse rounded bg-active" />
       </div>
     );
   }

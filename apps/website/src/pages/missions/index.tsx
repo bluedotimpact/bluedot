@@ -46,6 +46,7 @@ const MissionsPage = () => {
             Both are open for submissions.
           </P>
         </div>
+        <hr className="border-default" />
         {isLoading && <ProgressDots />}
         {missions && <MissionsListSection missions={missions} />}
       </section>

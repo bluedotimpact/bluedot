@@ -50,27 +50,27 @@ const WhatCouldYouBuildSection = () => {
               className="flex flex-col gap-4"
             >
               <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/50">
-                <Icon className="text-bluedot-navy" size={24} />
+                <Icon className="text-primary" size={24} />
               </div>
               <div className="flex flex-col gap-1.5">
                 <H4>
                   {title}
                 </H4>
-                <P className="text-bluedot-navy/80">
+                <P className="text-secondary">
                   {description}
                 </P>
               </div>
             </CardShell>
           ))}
-          <div className="flex flex-col gap-4 rounded-surface border-2 border-dashed border-bluedot-navy/20 bg-bluedot-lighter/20 p-6">
+          <div className="flex flex-col gap-4 rounded-surface border-2 border-dashed bg-bluedot-lighter/20 p-6">
             <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/60">
-              <PiSparkle className="text-bluedot-navy" size={24} />
+              <PiSparkle className="text-primary" size={24} />
             </div>
             <div className="flex flex-col gap-1.5">
               <H4>
                 Your idea
               </H4>
-              <P className="text-bluedot-navy/80">
+              <P className="text-secondary">
                 Pitch us whatever you&apos;ve been sitting on. If it brings serious talent into AI safety, we want to hear it.
               </P>
             </div>

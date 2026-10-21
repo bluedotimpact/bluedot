@@ -161,7 +161,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
   }, [value, cellRefs, dragState, mainGrid, onChange]);
 
   return (
-    <div className="text-size-xs w-full touch-none text-stone-500">
+    <div className="text-size-xs w-full touch-none text-secondary">
       <div className="flex">
         <div className="w-12" />
         <div className="grid w-full grid-cols-7 text-center">
@@ -180,7 +180,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
             ))}
         </div>
         <div className="w-full">
-          <div ref={mainGrid} className="grid w-full grid-cols-7 border-t border-l border-gray-800 bg-white">
+          <div ref={mainGrid} className="grid w-full grid-cols-7 border-t border-l border-border-control bg-raised">
             {cellCoords.map((coord, i) => {
               const isBlocked = value[serializeCoord(coord)];
 
@@ -205,7 +205,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
                     cellRefs[i] = { ref, coord };
                   }}
                   className={clsx(
-                    `relative h-4 border-r border-b border-gray-800 ${borderStyle}`,
+                    `relative h-4 border-r border-b border-border-control ${borderStyle}`,
                     isBlocked && 'bg-green-400',
                   )}
                   onPointerDown={(e) => {

@@ -225,7 +225,7 @@ const AlumniStoryCarousel = ({
   }, [scroll]);
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="w-full bg-canvas py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container */}
       <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-12 lg:mb-16">
         <div className="flex flex-col items-center text-center bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left gap-6 bd-md:gap-16">
@@ -234,7 +234,7 @@ const AlumniStoryCarousel = ({
               {title}
             </H2>
             {subtitle && (
-              <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 italic">
+              <P className="bd-md:text-size-md leading-relaxed text-secondary italic">
                 {subtitle}
               </P>
             )}
@@ -301,12 +301,12 @@ const AlumniStoryCarousel = ({
   );
 };
 
-const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-bluedot-navy/20 hover:shadow-lg transition-all duration-200';
+const cardClassName = 'flex flex-col flex-shrink-0 h-full bg-raised border rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-strong hover:shadow-lg transition-all duration-200';
 
 const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
     {/* Top section with image and info */}
-    <div className="flex items-start gap-4 p-5 bd-md:p-6 border-b border-bluedot-navy/6">
+    <div className="flex items-start gap-4 p-5 bd-md:p-6 border-b border-subtle">
       {/* One-off: the static size ramp can't express 64px → 80px at bd-md, so
           className preserves the exact pre-Avatar responsive rendering. */}
       <Avatar
@@ -318,7 +318,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
         <P className="text-size-md font-semibold leading-snug truncate">
           {story.name}
         </P>
-        <P className="text-size-xs bd-md:text-size-sm leading-relaxed text-bluedot-navy/80">
+        <P className="text-size-xs bd-md:text-size-sm leading-relaxed text-secondary">
           {story.role}
         </P>
       </div>
@@ -326,11 +326,11 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
 
     {/* Story content */}
     <div className="p-5 bd-md:p-6 flex-grow flex flex-col gap-3">
-      <P className="text-bluedot-navy/80 line-clamp-5">
+      <P className="text-primary line-clamp-5">
         {story.story}
       </P>
       {story.storyUrl && (
-        <span className="mt-auto self-end text-size-xs font-semibold text-bluedot-normal whitespace-nowrap">
+        <span className="mt-auto self-end text-size-xs font-semibold text-link whitespace-nowrap">
           Read full story →
         </span>
       )}
@@ -373,14 +373,14 @@ const NavigationButton = ({
     onClick={onClick}
     className={clsx(
       'size-[44px] rounded-full flex items-center justify-center',
-      'bg-bluedot-navy/8',
+      'bg-tint',
       'transition-all duration-200',
-      'opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer',
+      'opacity-80 hover:opacity-100 hover:bg-active cursor-pointer',
     )}
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-size-lg font-medium select-none"
+      className="text-primary text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

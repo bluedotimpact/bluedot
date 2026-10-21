@@ -170,10 +170,10 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
               <H1>
                 {course.title}
               </H1>
-              <p className="text-size-md leading-relaxed text-bluedot-navy/80">
+              <p className="text-size-md leading-relaxed text-secondary">
                 {course.shortDescription}
               </p>
-              <p className="text-size-sm leading-relaxed text-bluedot-navy/70">
+              <p className="text-size-sm leading-relaxed text-secondary">
                 {externalCoursePage.summary}
               </p>
             </div>
@@ -191,9 +191,9 @@ const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
             </Button>
           </div>
 
-          <p className="text-size-xs leading-relaxed text-bluedot-navy/60">
+          <p className="text-size-xs leading-relaxed text-secondary">
             Questions about the course? Contact{' '}
-            <a href="mailto:online-course@digitalminds.cam" className="text-bluedot-normal underline">
+            <a href="mailto:online-course@digitalminds.cam" className="text-link underline">
               online-course@digitalminds.cam
             </a>
             .

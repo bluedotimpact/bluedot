@@ -24,6 +24,7 @@ const mockDiscussions = [
     }),
     groupDetails: createMockGroup({ id: 'group-1', groupName: 'Monday 9am ET' }),
     unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
+    isGroupFacilitator: true,
   },
 ];
 

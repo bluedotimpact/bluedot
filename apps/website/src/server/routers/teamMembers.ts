@@ -24,6 +24,15 @@ function getOptionalText(value: string | null): string | undefined {
 }
 
 export const teamMembersRouter = router({
+  // Staff count shown in public copy ("We're a team of N"). Counts every Active row in the Team table.
+  getActiveCount: publicProcedure
+    .query(async () => {
+      const active = await db.scan(teamMemberTable, {
+        status: 'Active',
+      });
+
+      return active.length;
+    }),
   getAll: publicProcedure
     .query(async () => {
       const all = await db.scan(teamMemberTable, {

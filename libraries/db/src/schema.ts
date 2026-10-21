@@ -1,6 +1,6 @@
 import {
   pgTable, text, boolean, numeric, timestamp,
-  serial,
+  serial, index, uniqueIndex,
 } from 'drizzle-orm/pg-core';
 import { type InferSelectModel, sql } from 'drizzle-orm';
 
@@ -75,6 +75,44 @@ export const posthogEmittedEventsTable = pgTable('posthog_emitted_events', {
   distinctId: text().notNull(), // a row exists only after a successful emit, which always has a distinct_id
   eventTimestamp: timestamp({ mode: 'string', withTimezone: true }).notNull(),
   sentAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+});
+
+export type CalendarProvider = 'google';
+
+/**
+ * Calendars that BlueDot users have connected so Dot-to-Dot can find times when both people in a pair are free.
+ * NOTE: This is a Postgres-only table, NOT synced from Airtable, because it holds OAuth refresh tokens.
+ * One row per connected provider account per user; a user can connect several (e.g. work and personal).
+ */
+export const calendarConnectionTable = deprecationSafePgTable('calendar_connection', {
+  columns: {
+    id: text('id').primaryKey().default(sql`gen_random_uuid()::text`),
+    // Set when the user connected through a signed Slack link. Null means Dot-to-Dot matches them by account email instead.
+    slackUserId: text(),
+    // Points at userTable: the BlueDot account that connected the calendar
+    userId: text().notNull(),
+    provider: text().$type<CalendarProvider>().notNull(),
+    // The provider's stable account id (Google's `sub`), which survives the account changing its email
+    providerAccountId: text().notNull(),
+    providerAccountEmail: text().notNull(),
+    // Encrypted by the application before insert. Never store a plaintext token here.
+    encryptedRefreshToken: text().notNull(),
+    // Space-separated, as returned by the provider's token endpoint
+    scopes: text().notNull(),
+    // IANA time zone from the browser when the calendar was connected, e.g. 'Europe/London'
+    timeZone: text(),
+    // Set when a busy-times lookup fails, e.g. because the user revoked access. Cleared on success.
+    lastError: text(),
+    lastErrorAt: timestamp({ mode: 'string', withTimezone: true }),
+    createdAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp({ mode: 'string', withTimezone: true }).defaultNow().notNull(),
+  },
+  indexes: (t) => [
+    // Reconnecting the same account updates its row rather than adding a duplicate.
+    // Leading with userId also serves "this user's calendars" lookups.
+    uniqueIndex('calendar_connection_userId_provider_providerAccountId_idx').on(t.userId, t.provider, t.providerAccountId),
+    index('calendar_connection_slackUserId_idx').on(t.slackUserId),
+  ],
 });
 
 export const courseTable = pgAirtable('course', {
@@ -157,6 +195,11 @@ export const exerciseResponsePgTable = deprecationSafePgTable('exercise_response
     completedAt: text(),
     userId: text().array(),
   },
+  indexes: (t) => [
+    // userId is an array queried with `@>`, which only a GIN index can serve.
+    index('exercise_response_userId_idx').using('gin', t.userId).with({ fastupdate: 'off' }),
+    index('exercise_response_exerciseId_idx').on(t.exerciseId),
+  ],
 });
 
 export const formConfigurationTable = pgAirtable('form_configuration', {
@@ -534,6 +577,9 @@ export const meetPersonTable = pgAirtable('meet_person', {
       deprecated: true,
     },
   },
+  indexes: (t) => [
+    index('meet_person_userId_idx').on(t.userId),
+  ],
 });
 
 export const zoomAccountTable = pgAirtable('zoom_account', {
@@ -1447,6 +1493,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       airtableId: 'fldCqp2Yp3xD9VGmK',
     },
   },
+  indexes: (t) => [
+    index('course_registration_userId_idx').on(t.userId),
+    index('course_registration_certificateId_idx').on(t.certificateId),
+  ],
 });
 
 export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_registration', {
@@ -1502,6 +1552,9 @@ export const selfServeCourseRegistrationTable = pgAirtable('self_serve_course_re
       deprecated: true,
     },
   },
+  indexes: (t) => [
+    index('self_serve_course_registration_userId_idx').on(t.userId),
+  ],
 });
 
 export const userTable = pgAirtable('user', {
@@ -1566,6 +1619,10 @@ export const userTable = pgAirtable('user', {
       airtableId: 'fldsMtibz4pDg0ztQ',
     },
   },
+  indexes: (t) => [
+    index('user_keycloakIdentifier_idx').on(t.keycloakIdentifier),
+    index('user_email_idx').on(t.email),
+  ],
 });
 
 export const deletionRequestTable = pgAirtable('deletion_request', {
@@ -1629,6 +1686,10 @@ export const resourceCompletionPgTable = deprecationSafePgTable('resource_comple
     createdAt: text(),
     completedAt: text(),
   },
+  indexes: (t) => [
+    // userId is an array queried with `@>`, which only a GIN index can serve.
+    index('resource_completion_userId_idx').using('gin', t.userId).with({ fastupdate: 'off' }),
+  ],
 });
 
 export const teamMemberTable = pgAirtable('team_member', {
@@ -1821,6 +1882,7 @@ export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable.pg>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type PosthogEmittedEvent = InferSelectModel<typeof posthogEmittedEventsTable>;
+export type CalendarConnection = InferSelectModel<typeof calendarConnectionTable.pg>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
 export type ExerciseResponse = InferSelectModel<typeof exerciseResponsePgTable.pg>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;

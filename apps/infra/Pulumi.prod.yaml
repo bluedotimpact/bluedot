@@ -40,17 +40,19 @@ config:
     secure: v1:3TlW+6Q1YhvmuJ15:rRAcVGJSQiWyYT9Ynrh1+2/nPzecEg67kKyaHe9ovn++vaD4qtR++nG0jHlcTfOePg78435VeZar
   infra:cioHmacSecret:
     secure: v1:wPbUSYK/0qQk8Ney:k/Rusjtz9RuaLWnIT68V+oX7DZ/xFcb18jqSlyn+vVKpLWfSVrbOZSvJjhSFFLKuocEVIXqxluJmlixdVtV9yRl5ov4trNIeJfu8FWaDhsA=
-  infra:mcpAggregatorSecret:
-    secure: v1:y9qSfOFvE69wDwsR:DsNc4IBABgqn249uTJCdbrR2X7VbvwH3piaHN1kHSQMnfMcU+zGHrlPsDKhcxnQPnEvlrvvHmu57iw7D25QYKQ6E6Mn1hHhwNsEZh5dPG24=
-  infra:mcpAuthWrapperSecret:
-    secure: v1:H4FJ9MqBYF2ddbBm:DfZtl1M9zUBUxcNges2VCGl0LoMPSe64qOonjtGgR4ShI8u+vlw/Tgndb1PcNZweRc8JWUAc0EWYB8lEJ7H3HoAbWRZFib5QY42pG2pz/M4=
-  infra:mcpGoogleOauthClientId:
-    secure: v1:rrEk1XQ9LwV+9G6s:KUs0YC8GYniqNrD8Z+xB1l/7S5Lt5B2aZVvaXMCEHmObdtlp15idwrHIJKg6RzqFCQuPXJbZYC+KvCHiA0fURDJ81ABpm4Ax0ex60de4SvuVmx5L1P5P6w==
-  infra:mcpGoogleOauthClientSecret:
-    secure: v1:b5UzcM6qaYfkVVdW:xhm2fxYkE8rZ/hdDf/HxweP6Ey/Xwbb7Yakk+BfCTZ4/RKcOSDvMyHQry7dr9ahBJ2cU
   infra:notionApiToken:
     secure: v1:HEjKay/4nQ17dBxm:xLYbdntkzu0viT4+zw9sbwrJ4u4Ukn4vL4g0G67mxk50SgCEmTo2dyXR+BGQQhC4ksuYs67z2xi3g5U+RTjSG/5Q
   infra:airtableAutomationToken:
     secure: v1:6tP/YKX2E+Gb4R26:Wrz1cPwU10jp4aydNBZG89RZRHcKEhUkDHlh+XiYebdh69+RWWRaaZpBrdlSD4O1
   infra:emailChangeTokenSecret:
     secure: v1:VtFjt+4/HVPIqCye:sEpK3xzXgn6hWPFGE8TH34PS6iOsTnIBqMPdAypUpQBiBAHkZ82tMnwY1vRJ4dq20n7dAjMAwHHOBpq3R/7FWEiOc5mDZFLJEdUbXWyDa+k=
+  infra:googleCalendarClientId:
+    secure: v1:qHgRc5HvfpfxXlDY:14yQFSGoQ/sgK6Q/NKbllmoDSioo8Xfsq7PThEMAAWFsHK6C4Qbd96GWz+5lpoOTRCLnhlzRkCPHORCEWWmyDmbrno/lOR25JQXZKpzsk2LZ2VBq9i6Y5Q==
+  infra:googleCalendarClientSecret:
+    secure: v1:i/9tG9YsbWB/JzQb:AaXUcpWuar5a7uHWf48anqQWKbkHquZTvYeFbqewqIhhC+dr/MDaWyt8wYxG3jvprP8o
+  infra:calendarConnectLinkSecret:
+    secure: v1:ujoL4B+tEV3aSV4j:oRqPZ/j96R6Uxpsj+3criGMXhOtBZAHIaf6zLBqSQC8uIBjt0JlTtJ1YR2MTrc88Ql3iJUdWYti5aOWxAcfwGu8HJUOZNVbfuQ8X8SDyF5I=
+  infra:calendarConnectEncryptionKey:
+    secure: v1:ihsBNwOLFQkxfXdO:NwmrPxGbs7zyZh+31xRDaItRJI1mAl+UdZVfebSaQDHHkpz8bZwQ8Kblck4CCS2RSFXNjmYDXikhsb/S
+  infra:calendarConnectBusyApiSecret:
+    secure: v1:Z/5YYZKpbIpDYYhk:hARZXijbNqUJX99IXrimIAhE9HqUiJgzp4mTCQxTuagLqDI0t9G8/q1UqJD8zanuoc70+GK+V/6BgDZ1YNtZrwBXSf5A5JhjxXbzccyeYBc=

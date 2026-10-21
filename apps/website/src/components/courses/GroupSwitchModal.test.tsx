@@ -795,6 +795,11 @@ describe('GroupSwitchModal', () => {
       fireEvent.click(screen.getByRole('checkbox', { name: /I have updated my availability/i }));
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
+      expect(submitButton).toBeDisabled();
+
+      fireEvent.change(screen.getByLabelText('Reason for group switch request'), {
+        target: { value: 'No available options work for me' },
+      });
       expect(submitButton).not.toBeDisabled();
       fireEvent.click(submitButton);
 
@@ -832,6 +837,9 @@ describe('GroupSwitchModal', () => {
         .toHaveAttribute('href', expect.stringContaining('email=test%40bluedot.org'));
 
       fireEvent.click(screen.getByRole('checkbox', { name: /I have updated my availability/i }));
+      fireEvent.change(screen.getByLabelText('Reason for group switch request'), {
+        target: { value: 'No available options work for me' },
+      });
 
       expect(screen.getByRole('button', { name: /Submit group switch request/i })).not.toBeDisabled();
     });
@@ -1117,10 +1125,10 @@ describe('GroupSwitchModal', () => {
     test('sorts non-disabled before disabled', () => {
       const options = [
         {
-          groupName: 'Group A', dateTime: 1000, isDisabled: true, description: '', isRecurringTime: false,
+          groupName: 'Group A', dateTime: 1000, disabled: true, description: '', isRecurringTime: false,
         },
         {
-          groupName: 'Group B', dateTime: 500, isDisabled: false, description: '', isRecurringTime: false,
+          groupName: 'Group B', dateTime: 500, disabled: false, description: '', isRecurringTime: false,
         },
       ];
       const sorted = sortGroupSwitchOptions(options);

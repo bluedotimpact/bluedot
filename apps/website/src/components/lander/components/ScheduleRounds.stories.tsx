@@ -56,13 +56,13 @@ const mockPartTimeRounds = [
 
 const FallbackContent = (
   <div className="flex flex-col gap-4">
-    <p className="text-size-sm leading-relaxed text-bluedot-navy/80 font-normal">
+    <p className="text-size-sm leading-relaxed text-secondary font-normal">
       Check above for upcoming rounds and application deadlines.
     </p>
     <div className="flex justify-start">
       <Button
         url="https://example.com/apply"
-        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+        className="px-5 py-[9px] md:py-3 text-size-xs md:text-size-sm font-medium rounded-md transition-colors"
       >
         Apply now
       </Button>
@@ -84,7 +84,7 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <div className="max-w-text-narrow p-8 bg-white">
+      <div className="max-w-text-narrow p-8 bg-raised">
         <Story />
       </div>
     ),

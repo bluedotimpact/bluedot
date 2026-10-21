@@ -3,7 +3,7 @@ import {
   DeprecationSafePgTable, isDeprecationSafeTable, isTable, sql,
 } from '@bluedot/db';
 // eslint-disable-next-line import/no-extraneous-dependencies -- drizzle-orm is transitive via @bluedot/db; only needed to build a table fixture below
-import { pgTable, text } from 'drizzle-orm/pg-core';
+import { getTableConfig, pgTable, text } from 'drizzle-orm/pg-core';
 import { pushSchema } from 'drizzle-kit/api';
 import * as schema from '@bluedot/db/src/schema';
 import { statementsRequireFullSync, cleanupRemovedColumns } from './schema-sync';
@@ -50,6 +50,15 @@ describe('statementsRequireFullSync', () => {
       'ALTER TABLE "exercise_response" ALTER COLUMN "id" SET DEFAULT gen_random_uuid()::text',
       'ALTER TABLE "x" ADD COLUMN "y" text',
     ])).toBe(true);
+  });
+
+  test('given only index DDL, returns false', () => {
+    expect(statementsRequireFullSync([
+      'CREATE INDEX "user_email_idx" ON "user" USING btree ("email");',
+      'CREATE UNIQUE INDEX "x_y_idx" ON "x" USING btree ("y");',
+      'CREATE INDEX "exercise_response_userId_idx" ON "exercise_response" USING gin ("userId");',
+      'DROP INDEX "old_idx";',
+    ])).toBe(false);
   });
 
   // --- Adversarial cases probing for FALSE NEGATIVES (a backfill-requiring
@@ -155,6 +164,19 @@ describe('statementsRequireFullSync against real drizzle-kit push output', () =>
     }
 
     expect(statementsRequireFullSync(result.statementsToExecute)).toBe(false);
+  });
+
+  test('pushing the schema creates every index declared in schema.ts', async () => {
+    const declared = Object.values(schema).flatMap((value) => (isDeprecationSafeTable(value)
+      ? getTableConfig(value.pgWithDeprecatedColumns ?? value.pg).indexes.map((i) => i.config.name)
+      : []));
+    expect(declared.length).toBeGreaterThan(0);
+
+    const result = await db.pg.execute(sql`SELECT indexname FROM pg_indexes WHERE schemaname = 'public'`);
+    const actual = new Set(result.rows.map((row: { indexname: string }) => row.indexname));
+    for (const name of declared) {
+      expect(actual, `index ${name} should exist after push`).toContain(name);
+    }
   });
 });
 

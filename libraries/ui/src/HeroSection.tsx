@@ -10,7 +10,7 @@ export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
     // (40 → 56 → 64 → 72px) from existing tokens: 2xl/3xl/4xl each step up
     // once at the md breakpoint, so no dedicated display token is needed.
     // Explicit leading-tight because the size tokens carry their own line-heights.
-    <h1 className={cn('bluedot-h1 text-white text-center text-size-2xl lg:text-size-3xl xl:text-size-4xl leading-tight font-normal tracking-tighter', className)} {...otherProps}>{children}</h1>
+    <h1 className={cn('bluedot-h1 text-on-dark text-center text-size-2xl lg:text-size-3xl xl:text-size-4xl leading-tight font-normal tracking-tighter', className)} {...otherProps}>{children}</h1>
   );
 };
 

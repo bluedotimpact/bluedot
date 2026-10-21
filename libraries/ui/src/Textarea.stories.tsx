@@ -7,7 +7,6 @@ const meta = {
   tags: ['autodocs'],
   args: {
     placeholder: 'Write your answer here…',
-    rows: 4,
   },
 } satisfies Meta<typeof Textarea>;
 
@@ -24,4 +23,8 @@ export const Filled: Story = {
 
 export const Disabled: Story = {
   args: { defaultValue: SAMPLE, disabled: true },
+};
+
+export const ReadOnly: Story = {
+  args: { defaultValue: SAMPLE, readOnly: true },
 };

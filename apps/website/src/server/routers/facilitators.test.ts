@@ -1,6 +1,7 @@
 import {
   courseFeedbackTable,
   courseTable,
+  facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
   groupTable,
   meetPersonTable,
@@ -237,6 +238,36 @@ describe('facilitators.savePeerFeedback', () => {
       ...baseInput,
       participantId: 'other-round-participant',
     })).rejects.toThrow('Participant is not in your round');
+  });
+
+  test('allows feedback for a participant of another round\'s group the facilitator substituted in', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'other-round-participant',
+      round: 'different-round',
+      role: 'Participant',
+    });
+    await testDb.insert(groupTable, {
+      id: 'other-round-group',
+      groupName: 'Other Round Group',
+      round: 'different-round',
+      facilitator: ['someone-else'],
+      participants: ['other-round-participant'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'other-round-discussion',
+      group: 'other-round-group',
+      facilitators: [FACILITATOR_ID],
+      startDateTime: 1000,
+      endDateTime: 2000,
+    });
+    await testDb.update(meetPersonTable, { id: FACILITATOR_ID, attendedDiscussions: ['other-round-discussion'] });
+
+    await caller.facilitators.savePeerFeedback({ ...baseInput, participantId: 'other-round-participant' });
+
+    const pfs = await testDb.scan(peerFeedbackTable);
+    expect(pfs).toHaveLength(1);
+    expect(pfs[0]!.feedbackRecipient).toEqual(['other-round-participant']);
   });
 
   test('rejects a Facilitator as a feedback recipient', async () => {
@@ -596,6 +627,62 @@ describe('facilitators.getFacilitatorsForRound', () => {
 
     await expect(caller.facilitators.getFacilitatorsForRound({ roundId: 'round-2' }))
       .rejects.toThrow('No facilitator found for this round');
+  });
+});
+
+describe('facilitators.updateDiscussion', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+  const COVERED_GROUP_ID = 'group-covered';
+  const COVERED_DISCUSSION_ID = 'discussion-covered';
+  const requestedDateTimeInSeconds = Math.floor(Date.now() / 1000) + 14 * 24 * 60 * 60;
+
+  async function seedSubstituteCover() {
+    await seedFacilitatorGroup();
+    await testDb.insert(groupTable, {
+      id: COVERED_GROUP_ID,
+      groupName: 'Covered group',
+      round: ROUND_ID,
+      facilitator: ['other-facilitator'],
+      participants: [],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: COVERED_DISCUSSION_ID,
+      group: COVERED_GROUP_ID,
+      facilitators: [FACILITATOR_ID],
+      participantsExpected: [],
+      startDateTime: requestedDateTimeInSeconds - 24 * 60 * 60,
+      endDateTime: requestedDateTimeInSeconds - 23 * 60 * 60,
+    });
+    await testDb.update(meetPersonTable, { id: FACILITATOR_ID, expectedDiscussionsFacilitator: [COVERED_DISCUSSION_ID] });
+  }
+
+  test('rejects a permanent time change from a substitute who is not the group\'s facilitator', async () => {
+    await seedSubstituteCover();
+
+    await expect(caller.facilitators.updateDiscussion({ roundId: ROUND_ID, groupId: COVERED_GROUP_ID, requestedDateTimeInSeconds }))
+      .rejects.toMatchObject({ code: 'FORBIDDEN' });
+    expect(await testDb.pg.select().from(facilitatorDiscussionSwitchingTable.pg)).toEqual([]);
+  });
+
+  test('lets the group\'s facilitator change its discussion time permanently', async () => {
+    await seedSubstituteCover();
+    await testDb.update(groupTable, { id: COVERED_GROUP_ID, facilitator: [FACILITATOR_ID] });
+
+    await caller.facilitators.updateDiscussion({ roundId: ROUND_ID, groupId: COVERED_GROUP_ID, requestedDateTimeInSeconds });
+
+    const requests = await testDb.pg.select().from(facilitatorDiscussionSwitchingTable.pg);
+    expect(requests.map((r) => r.switchType)).toEqual(['Change permanently']);
+  });
+
+  test('still lets a substitute change the time of the one discussion they cover', async () => {
+    await seedSubstituteCover();
+
+    await caller.facilitators.updateDiscussion({
+      roundId: ROUND_ID, discussionId: COVERED_DISCUSSION_ID, groupId: COVERED_GROUP_ID, requestedDateTimeInSeconds,
+    });
+
+    const requests = await testDb.pg.select().from(facilitatorDiscussionSwitchingTable.pg);
+    expect(requests.map((r) => r.switchType)).toEqual(['Change for one unit']);
   });
 });
 
