@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ApplicationRow from './ApplicationRow';
 
 const availabilityButton = (label: string) => (
-  <Button key="availability" variant="primary" size="small" url="https://availability.bluedot.org/form/bluedot-course" target="_blank" className="text-size-xxs">
+  <Button key="availability" variant="primary" size="small" url="https://availability.bluedot.org/form/bluedot-course" target="_blank">
     {label}
   </Button>
 );

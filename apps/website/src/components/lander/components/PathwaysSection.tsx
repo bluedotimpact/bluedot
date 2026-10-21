@@ -37,14 +37,14 @@ const PathwaysSection = ({
   id, title, intro, pathways, callout,
 }: PathwaysSectionProps) => {
   return (
-    <section id={id} className="w-full bg-white">
+    <section id={id} className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <div className="max-w-section-wide mx-auto">
           <H2 className={`text-center ${intro ? 'mb-4' : 'mb-12 md:mb-16'}`}>
             {title}
           </H2>
           {intro && (
-            <div className="text-size-sm bd-md:text-size-md leading-relaxed text-bluedot-navy/70 text-center mb-12 md:mb-16 max-w-[860px] mx-auto">
+            <div className="text-size-sm bd-md:text-size-md leading-relaxed text-secondary text-center mb-12 md:mb-16 max-w-[860px] mx-auto">
               {intro}
             </div>
           )}
@@ -61,19 +61,19 @@ const PathwaysSection = ({
                     className="size-12 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: pathway.accentColor }}
                   >
-                    <IconComponent className="text-white" size={24} />
+                    <IconComponent className="text-on-dark" size={24} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <H3 className="text-size-md">
                       {pathway.title}
                     </H3>
-                    <P className="text-bluedot-navy/80">
+                    <P className="text-secondary">
                       {pathway.description}
                     </P>
                     {pathway.linkUrl && pathway.linkText && (
                       <Link
                         href={pathway.linkUrl}
-                        className="text-size-sm font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1"
+                        className="text-size-sm font-medium text-link hover:underline mt-1 inline-flex items-center gap-1"
                       >
                         {pathway.linkText}
                         <span>→</span>
@@ -86,8 +86,8 @@ const PathwaysSection = ({
           </div>
 
           {callout && (
-            <CardShell className="mt-10 md:mt-12 bg-bluedot-navy/[0.03]">
-              <div className="text-size-sm leading-relaxed text-bluedot-navy/80">
+            <CardShell className="mt-10 md:mt-12 bg-tint">
+              <div className="text-size-sm leading-relaxed text-secondary">
                 {callout}
               </div>
             </CardShell>

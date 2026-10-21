@@ -1,7 +1,7 @@
 import { type ColumnBuilderRuntimeConfig } from 'drizzle-orm';
-import { type BuildColumns } from 'drizzle-orm/column-builder';
+import { type BuildColumns, type BuildExtraConfigColumns } from 'drizzle-orm/column-builder';
 import {
-  type numeric, type boolean as pgBoolean, type PgTableWithColumns, type text,
+  type numeric, type boolean as pgBoolean, type IndexBuilder, type PgColumnBuilderBase, type PgTableWithColumns, type text,
 } from 'drizzle-orm/pg-core';
 
 // BEGIN vendored from airtable-ts/src/mapping/typeUtils.ts
@@ -50,6 +50,10 @@ export type DeprecatedPgAirtableColumnInput = {
   deprecated: true;
 };
 
+/** Third argument of drizzle's `pgTable`, narrowed to indexes. */
+export type PgIndexesConfig<TColumnsMap extends Record<string, PgColumnBuilderBase>> =
+  (self: BuildExtraConfigColumns<string, TColumnsMap, 'pg'>) => IndexBuilder[];
+
 export type PgAirtableConfig<
   TColumns extends Record<string, PgAirtableColumnInput>,
 > = {
@@ -57,6 +61,7 @@ export type PgAirtableConfig<
   tableId: string;
   columns: TColumns;
   deprecatedColumns?: Record<string, DeprecatedPgAirtableColumnInput>;
+  indexes?: PgIndexesConfig<ExtractPgColumns<TColumns>>;
 };
 
 export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {

@@ -1,5 +1,5 @@
 import {
-  addQueryParam, ErrorSection, H3, ProgressDots,
+  addQueryParam, ErrorSection, Eyebrow, ProgressDots,
 } from '@bluedot/ui';
 import OpportunityCard, { type OpportunityCardTone } from '../OpportunityCard';
 import { getGrantPath } from '../../lib/grantTypes';
@@ -101,9 +101,9 @@ const ActionCards = () => {
 
         return (
           <section key={group.id} aria-labelledby={`homepage-actions-${group.id}`} className="action-cards__group flex min-w-0 flex-col gap-4">
-            <H3 className="text-size-xxs font-medium uppercase tracking-wide text-secondary">
-              <span id={`homepage-actions-${group.id}`}>{group.title}</span>
-            </H3>
+            <h3>
+              <Eyebrow id={`homepage-actions-${group.id}`} className="text-secondary">{group.title}</Eyebrow>
+            </h3>
             {content}
           </section>
         );

@@ -85,7 +85,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
   const renderRequestedView = () => (
     <div className="flex w-full flex-col items-center justify-center gap-8">
       <div className="bg-bluedot-normal/10 flex rounded-full p-4">
-        <FaCheck aria-hidden="true" className="size-7.5 text-bluedot-normal" />
+        <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
       </div>
       <div className="flex w-full flex-col gap-4">
         {isUserInitiated ? (
@@ -133,8 +133,8 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
             )}
 
             <div className="flex flex-col gap-4">
-              <label htmlFor="delete-confirmation" className="text-size-xs font-semibold text-bluedot-navy">
-                Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-red-600">*</span>
+              <label htmlFor="delete-confirmation" className="text-size-xs font-semibold text-primary">
+                Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-error-fg">*</span>
               </label>
               <input
                 id="delete-confirmation"
@@ -148,7 +148,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
                 placeholder={confirmationPhrase}
                 disabled={requestDeletion.isPending || alreadyRequested}
                 className={cn(
-                  'w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400',
+                  'w-full border border-border-control rounded-md p-3 text-size-xs text-primary placeholder:text-placeholder',
                   requestDeletion.isPending && 'cursor-not-allowed',
                 )}
               />

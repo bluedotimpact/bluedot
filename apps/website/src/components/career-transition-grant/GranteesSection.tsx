@@ -24,19 +24,19 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
             {profileUrl ? <ClickTarget url={profileUrl} className="after:absolute after:inset-0">{name}</ClickTarget> : name}
           </H4>
           {bio && (
-            <p className="mt-1 text-size-xs leading-normal text-bluedot-navy/68">
+            <p className="mt-1 text-size-xs leading-normal text-secondary">
               {bio}
             </p>
           )}
         </div>
       </div>
       {plan && (
-        <P className="mt-4 text-size-xs leading-relaxed text-bluedot-navy/80">
+        <P className="mt-4 text-size-xs leading-relaxed text-primary">
           {plan}
         </P>
       )}
       {profileUrl && (
-        <span className="mt-auto pt-4 text-size-xs font-medium text-bluedot-navy/68 transition-colors group-hover:text-bluedot-navy">
+        <span className="mt-auto pt-4 text-size-xs font-medium text-secondary transition-colors group-hover:text-primary">
           View profile →
         </span>
       )}

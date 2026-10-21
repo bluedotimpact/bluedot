@@ -175,7 +175,7 @@ const TestimonialCarousel = ({
     : 'Meet our alumni shaping AI\'s future';
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="w-full bg-canvas py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container */}
       <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
         {/* Header Section */}
@@ -197,7 +197,7 @@ const TestimonialCarousel = ({
               </H2>
             )}
             {subtitle && (
-              <P className="bd-md:text-size-md leading-relaxed text-bluedot-navy/80 max-w-full">
+              <P className="bd-md:text-size-md leading-relaxed text-secondary max-w-full">
                 {subtitle}
               </P>
             )}
@@ -313,7 +313,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
       <P className="font-semibold leading-snug text-left w-full">
         {testimonial.name}
       </P>
-      <P className="text-size-xs leading-relaxed text-bluedot-navy/80 text-left w-full">
+      <P className="text-size-xs leading-relaxed text-secondary text-left w-full">
         {testimonial.jobTitle}
       </P>
     </div>
@@ -348,7 +348,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
     </>
   );
 
-  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-xl overflow-hidden w-[276px] bd-md:w-[288px] xl:w-[320px]';
+  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-raised border rounded-xl overflow-hidden w-[276px] bd-md:w-[288px] xl:w-[320px]';
 
   if (testimonial.url) {
     return (
@@ -385,16 +385,16 @@ const NavigationButton = ({
     disabled={disabled}
     className={clsx(
       'size-[44px] rounded-full flex items-center justify-center',
-      'bg-bluedot-navy/8',
+      'bg-tint',
       'transition-all duration-200',
       disabled
         ? 'opacity-50 cursor-not-allowed'
-        : 'opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer',
+        : 'opacity-80 hover:opacity-100 hover:bg-active cursor-pointer',
     )}
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-size-lg font-medium select-none"
+      className="text-primary text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

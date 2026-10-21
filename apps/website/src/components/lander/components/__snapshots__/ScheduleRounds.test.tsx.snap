@@ -5,10 +5,10 @@ exports[`ScheduleRounds > renders correctly with default colors 1`] = `
   class="flex flex-col gap-4"
 >
   <div
-    class="h-20 w-full animate-pulse rounded bg-gray-200"
+    class="h-20 w-full animate-pulse rounded bg-active"
   />
   <div
-    class="h-20 w-full animate-pulse rounded bg-gray-200"
+    class="h-20 w-full animate-pulse rounded bg-active"
   />
 </div>
 `;

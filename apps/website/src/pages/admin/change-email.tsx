@@ -49,17 +49,17 @@ const AdminChangeEmail = withAdminGuard(() => {
             {selectedUser ? (
               <>
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-                <p className="font-semibold text-bluedot-navy break-words">{selectedUser.name || '(no name)'}</p>
-                <p className="text-size-xs text-bluedot-navy/70 break-words">{selectedUser.email}</p>
-                <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{selectedUser.id}</code></p>
+                <p className="font-semibold text-primary break-words">{selectedUser.name || '(no name)'}</p>
+                <p className="text-size-xs text-secondary break-words">{selectedUser.email}</p>
+                <p className="text-size-xs text-secondary">User ID: <code>{selectedUser.id}</code></p>
               </>
             ) : (
-              <p className="text-size-xs text-bluedot-navy/70">No user selected.</p>
+              <p className="text-size-xs text-secondary">No user selected.</p>
             )}
             <button
               type="button"
               onClick={() => setIsSelectUserModalOpen(true)}
-              className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
+              className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
             >
               {selectedUser ? 'Select a different user' : 'Select user'}
             </button>
@@ -98,7 +98,7 @@ const AdminChangeEmail = withAdminGuard(() => {
                 </p>
               )}
               {requestMutation.error && (
-                <p role="alert" className="text-size-xs text-red-600">{requestMutation.error.message}</p>
+                <p role="alert" className="text-size-xs text-error-fg">{requestMutation.error.message}</p>
               )}
             </div>
           )}

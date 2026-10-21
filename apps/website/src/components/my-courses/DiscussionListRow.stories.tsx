@@ -28,7 +28,7 @@ const unit = {
 } as unknown as Unit;
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <ul className="max-w-[720px] divide-y divide-default">{children}</ul>
+  <ul className="max-w-[720px] divide-y">{children}</ul>
 );
 
 const meta = {
@@ -91,10 +91,13 @@ export const AllFacilitatorStates: Story = {
       <DiscussionListRow {...args} discussion={upcomingFac} />
       <DiscussionListRow {...args} discussion={soonFac} />
       <DiscussionListRow {...args} discussion={liveFac} />
+      <DiscussionListRow {...args} discussion={pastFac} isAttended />
       <DiscussionListRow {...args} discussion={pastFac} />
     </>
   ),
 };
+
+export const FacilitatorPastAttended: Story = { args: { ...facBaseArgs, discussion: pastFac, isAttended: true } };
 
 export const Upcoming: Story = { args: { ...baseArgs, discussion: upcoming } };
 export const Soon: Story = { args: { ...baseArgs, discussion: soon } };
@@ -106,7 +109,28 @@ export const RescheduleRequested: Story = { args: { ...baseArgs, discussion: upc
 export const RescheduleRequestedLive: Story = { args: { ...baseArgs, discussion: live, hasPendingReschedule: true } };
 export const RescheduleRequestedAbsent: Story = { args: { ...baseArgs, discussion: past, hasPendingReschedule: true } };
 
+const coveredByBob = { isFacilitatedByCurrentUser: false, substituteFacilitatorNote: 'Covered by Bob Baker' };
+const coveringForAlice = { substituteFacilitatorNote: 'Covering for Alice Archer' };
+
+/** Rows involved in a substitution, on both sides: the group facilitator's view, then the substitute's. */
+export const AllSubstituteStates: Story = {
+  args: facBaseArgs,
+  render: (args) => (
+    <>
+      <DiscussionListRow {...args} discussion={upcomingFac} {...coveredByBob} />
+      <DiscussionListRow {...args} discussion={pastFac} {...coveredByBob} />
+      <DiscussionListRow {...args} discussion={upcomingFac} {...coveringForAlice} />
+      <DiscussionListRow {...args} discussion={liveFac} {...coveringForAlice} />
+      <DiscussionListRow {...args} discussion={pastFac} isAttended {...coveringForAlice} />
+    </>
+  ),
+};
+
 export const FacilitatorUpcoming: Story = { args: { ...facBaseArgs, discussion: upcomingFac } };
 export const FacilitatorSoon: Story = { args: { ...facBaseArgs, discussion: soonFac } };
 export const FacilitatorLive: Story = { args: { ...facBaseArgs, discussion: liveFac } };
 export const FacilitatorPast: Story = { args: { ...facBaseArgs, discussion: pastFac } };
+/** The group facilitator's view of a discussion a substitute runs: greyed out, no status pill. */
+export const CoveredBySubstitute: Story = { args: { ...facBaseArgs, discussion: upcomingFac, ...coveredByBob } };
+/** The substitute's view of the discussion they cover. */
+export const CoveringForGroupFacilitator: Story = { args: { ...facBaseArgs, discussion: upcomingFac, ...coveringForAlice } };

@@ -33,7 +33,7 @@ export default function RoundGroup({
 
   return (
     <div>
-      <div className="text-bluedot-navy mb-6 text-size-sm leading-tight">
+      <div className="text-primary mb-6 text-size-sm leading-tight">
         <span className="font-semibold tracking-wide uppercase">{label}</span>
         <span className="ml-1 font-normal opacity-80">{description}</span>
       </div>
@@ -46,7 +46,7 @@ export default function RoundGroup({
               href={buildRoundApplyUrl(applicationUrl, round.id)}
               accentColor={accentColor}
             />
-            {index < displayedRounds.length - 1 && <div className="border-bluedot-navy/10 my-4 border-t" />}
+            {index < displayedRounds.length - 1 && <div className="border-subtle my-4 border-t" />}
           </li>
         ))}
       </ul>

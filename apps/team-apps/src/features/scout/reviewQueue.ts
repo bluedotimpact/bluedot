@@ -18,6 +18,15 @@ export const roundPickerLabel = (item: QueueItem, now = new Date()) => {
   return `Ended ${date} (${roundLabel(item)})`;
 };
 
+// The course's must-look people across rounds, most recently finished round first (that is when the
+// certificate, facilitator feedback and project land); within a round, the view's order
+export const mustLookFor = (items: QueueItem[], course: string) => items
+  .filter((item) => item.course === course && item.mustLook)
+  .sort((a, b) => (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
+
+// The backlog is everyone else, still picked round by round
+export const backlogFor = (items: QueueItem[], course: string) => items.filter((item) => item.course === course && !item.mustLook);
+
 export const roundsFor = (items: QueueItem[], course: string) => {
   const rounds = new Map<string, QueueItem>();
   items.filter((item) => !course || item.course === course).forEach((item) => rounds.set(roundKey(item), item));

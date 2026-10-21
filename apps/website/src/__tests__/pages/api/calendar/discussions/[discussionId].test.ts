@@ -14,17 +14,7 @@ import {
 } from '../../../../testUtils';
 import { ONE_HOUR_SECONDS } from '../../../../../lib/constants';
 
-vi.mock('@bluedot/ui', async () => {
-  const actual = await vi.importActual('@bluedot/ui');
-  return {
-    ...actual,
-    loginPresets: {
-      keycloak: {
-        verifyAndDecodeToken: vi.fn(),
-      },
-    },
-  };
-});
+vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyKeycloakToken: vi.fn() }));
 
 vi.mock('../../../../../../lib/api/env', () => ({
   default: {
@@ -47,7 +37,7 @@ vi.mock('../../../../../lib/api/db', () => ({
   },
 }));
 
-import { loginPresets } from '@bluedot/ui';
+import { verifyKeycloakToken } from '@bluedot/ui/src/server/verifyToken';
 import handler from '../../../../../pages/api/calendar/discussions/[discussionId]';
 import db from '../../../../../lib/api/db';
 
@@ -111,7 +101,7 @@ describe('calendar discussion download api', () => {
   it('returns 403 when the authenticated user is not attached to the discussion', async () => {
     const { req, res } = createMockReqRes();
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(mockAuth);
     vi.mocked(db.getFirst).mockResolvedValue({ id: 'user-ash', email: 'ash@example.com' } as never);
     vi.mocked(db.get).mockResolvedValueOnce(createMockGroupDiscussion({
       id: 'discussion-1',
@@ -137,7 +127,7 @@ describe('calendar discussion download api', () => {
   it('returns 409 when the discussion has no end time', async () => {
     const { req, res } = createMockReqRes();
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(mockAuth);
     vi.mocked(db.getFirst).mockResolvedValue({ id: 'user-ash', email: 'ash@example.com' } as never);
     vi.mocked(db.get).mockResolvedValueOnce({
       ...createMockGroupDiscussion({
@@ -166,7 +156,7 @@ describe('calendar discussion download api', () => {
   it('returns a calendar file for an attached user', async () => {
     const { req, res } = createMockReqRes();
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(mockAuth);
     vi.mocked(db.getFirst).mockResolvedValue({ id: 'user-ash', email: 'ash@example.com' } as never);
     vi.mocked(db.get)
       .mockResolvedValueOnce(createMockGroupDiscussion({

@@ -2,7 +2,7 @@ import type React from 'react';
 import { Button } from './Button';
 import { cn } from './utils';
 
-const CARD_SHELL_STYLES = 'rounded-surface border border-subtle bg-raised p-6';
+const CARD_SHELL_STYLES = 'rounded-surface border bg-raised p-6';
 const CARD_HOVER_STYLES = 'transition-[border-color,box-shadow] duration-200 hover:border-strong hover:shadow-sm';
 
 export type CardShellProps = React.PropsWithChildren<{

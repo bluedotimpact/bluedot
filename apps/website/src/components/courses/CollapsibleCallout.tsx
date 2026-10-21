@@ -16,11 +16,11 @@ export const CollapsibleCallout: React.FC<CollapsibleCalloutProps> = ({
     <Collapsible
       title={title}
       className={clsx(
-        'callout my-6 px-6 !py-0 rounded-xl !border !border-bluedot-navy/10 bg-white transition-shadow hover:shadow-sm',
-        '[&_summary>span:first-child]:!text-size-sm [&_summary>span:first-child]:!font-medium [&_summary>span:first-child]:!text-bluedot-black [&_summary>span:first-child]:!leading-relaxed',
+        'callout my-6 px-6 !py-0 rounded-xl !border bg-raised transition-shadow hover:shadow-sm',
+        '[&_summary>span:first-child]:!text-size-sm [&_summary>span:first-child]:!font-medium [&_summary>span:first-child]:!text-primary [&_summary>span:first-child]:!leading-relaxed',
         '[&_summary_svg]:!size-4 [&_summary_svg]:!text-secondary',
         '[&_summary]:!py-4 [&_summary]:!items-center',
-        '[&[open]_summary]:!pb-3 [&[open]_summary]:!border-b [&[open]_summary]:!border-bluedot-navy/10',
+        '[&[open]_summary]:!pb-3 [&[open]_summary]:!border-b [&[open]_summary]:!border-subtle',
         '[&>div]:!pt-3 [&>div]:!pb-4 [&>div]:!flex [&>div]:!flex-col [&>div]:!gap-3',
         '[&>div_p]:!my-0 [&>div_ul]:!my-0 [&>div_ol]:!my-0',
         className,

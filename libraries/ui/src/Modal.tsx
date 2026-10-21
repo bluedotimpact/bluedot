@@ -1,5 +1,4 @@
 import { type ReactNode } from 'react';
-import type React from 'react';
 import {
   Dialog,
   Modal as AriaModal,
@@ -15,8 +14,8 @@ export type ModalProps = {
   title?: ReactNode;
   children: ReactNode;
   bottomDrawerOnMobile?: boolean;
-  /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
-  ariaLabel?: string;
+  /** For when `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
+  'aria-label'?: string;
   /**
    * When false the dialog has no exit of its own: the close button is hidden and Escape, backdrop click
    * and (on mobile) drag-to-dismiss do nothing. The sheet can still be dragged up to expand. Use it while
@@ -25,16 +24,22 @@ export type ModalProps = {
    * whose close is refused after its exit animation is left as an invisible overlay.
    */
   isDismissable?: boolean;
+  /**
+   * Actions that stay in view below the scrolling body. Use it for a form long enough to push its submit
+   * button off small screens. It takes height from the body, so keep it to the action buttons.
+   */
+  footer?: ReactNode;
 };
 
-const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
+const DesktopModal = ({
   isOpen,
   setIsOpen,
   title,
   children,
-  ariaLabel,
+  'aria-label': ariaLabel,
   isDismissable = true,
-}) => {
+  footer,
+}: Omit<ModalProps, 'bottomDrawerOnMobile'>) => {
   return (
     <ModalOverlay
       isDismissable={isDismissable}
@@ -58,21 +63,23 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
           <div className="min-h-0 overflow-y-auto px-8 pt-4 pb-6">
             {children}
           </div>
+          {footer && <div className="border-t border-subtle px-8 py-3">{footer}</div>}
         </Dialog>
       </AriaModal>
     </ModalOverlay>
   );
 };
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal = ({
   isOpen,
   setIsOpen,
   title,
   children,
   bottomDrawerOnMobile = false,
-  ariaLabel,
+  'aria-label': ariaLabel,
   isDismissable,
-}) => {
+  footer,
+}: ModalProps) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
   // Don't render anything until breakpoint is determined to avoid desktop flicker
@@ -84,14 +91,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} isDismissable={isDismissable}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" aria-label={ariaLabel} isDismissable={isDismissable} footer={footer}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} isDismissable={isDismissable}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} aria-label={ariaLabel} isDismissable={isDismissable} footer={footer}>
       {children}
     </DesktopModal>
   );

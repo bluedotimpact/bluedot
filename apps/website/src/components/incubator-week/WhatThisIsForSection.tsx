@@ -52,7 +52,7 @@ const WhatThisIsForSection = () => {
               <li>Lysander Mawby: Mechanistic interpretability; Just wrapped up the FR8 incubator ($100k at $5M val)</li>
             </ul>
           </div>
-          <P className="text-bluedot-navy/80 pt-4">
+          <P className="text-secondary pt-4">
             Run by BlueDot Impact. We&apos;ve raised $71M to build the workforce and organizations needed to safely navigate AGI.
           </P>
         </div>
@@ -63,13 +63,13 @@ const WhatThisIsForSection = () => {
           {AUDIENCES.map(({ icon: Icon, title, description }) => (
             <div key={title} className="flex flex-col gap-5">
               <div className="size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/40">
-                <Icon className="text-bluedot-navy" size={28} />
+                <Icon className="text-primary" size={28} />
               </div>
               <div className="flex flex-col gap-2">
                 <H4>
                   {title}
                 </H4>
-                <P className="text-bluedot-navy/80">
+                <P className="text-secondary">
                   {description}
                 </P>
               </div>

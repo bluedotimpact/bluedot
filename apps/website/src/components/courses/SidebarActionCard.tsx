@@ -8,7 +8,7 @@ export type SidebarActionTone = 'solid' | 'success' | 'subtle' | 'outline' | 'lo
 const TONE_STYLES: Record<SidebarActionTone, string> = {
   solid: 'border-accent bg-accent text-on-dark hover:bg-accent-hover',
   success: 'border-success-border bg-success-bg text-success-fg hover:opacity-90',
-  subtle: 'border-accent bg-accent-subtle text-accent hover:opacity-90',
+  subtle: 'border-info-border bg-info-bg text-info-fg hover:opacity-90',
   outline: 'border-accent bg-transparent text-accent hover:bg-accent-subtle',
   locked: 'border-transparent bg-tint text-secondary',
 };

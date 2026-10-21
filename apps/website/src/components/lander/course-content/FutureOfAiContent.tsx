@@ -7,6 +7,7 @@ import {
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
+import TeamSize from '../../shared/TeamSize';
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 
@@ -139,10 +140,10 @@ export const createFutureOfAiContent = (
         question: 'Who is BlueDot Impact?',
         answer: (
           <>
-            We're the world's leading talent accelerator for beneficial AI and societal resilience. Since 2022, we've trained 10,000+ people. Our courses are the main entry point into the AI safety field. We're a team of 16 based in San Francisco, London, and remotely. We've raised $71M in total.
+            We're the world's leading talent accelerator for beneficial AI and societal resilience. Since 2022, we've trained 10,000+ people. Our courses are the main entry point into the AI safety field. We're <TeamSize /> based in San Francisco, London, and remotely. We've raised $71M in total.
           </>
         ),
-        answerText: 'We\'re the world\'s leading talent accelerator for beneficial AI and societal resilience. Since 2022, we\'ve trained 10,000+ people. Our courses are the main entry point into the AI safety field. We\'re a team of 16 based in San Francisco, London, and remotely. We\'ve raised $71M in total.',
+        answerText: 'We\'re the world\'s leading talent accelerator for beneficial AI and societal resilience. Since 2022, we\'ve trained 10,000+ people. Our courses are the main entry point into the AI safety field. We\'re based in San Francisco, London, and remotely. We\'ve raised $71M in total.',
       },
     ],
   },

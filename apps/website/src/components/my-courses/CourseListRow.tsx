@@ -10,7 +10,7 @@ import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { formatMonthAndDay, parseWeekFromRoundName } from '../../lib/utils';
-import DiscussionList from './DiscussionList';
+import DiscussionList, { type FacilitatorViewContext } from './DiscussionList';
 import { classifyCourseRegistration, useCourseListRow } from './useCourseListRow';
 
 export type CourseListRowMode = 'participant' | 'facilitator';
@@ -64,6 +64,8 @@ export type ParticipantRowProps = CommonRowProps & {
 
 export type FacilitatorRowProps = CommonRowProps & {
   mode: 'facilitator';
+  /** Names of the group's facilitators and of any substitutes on its discussions, by meetPerson id. */
+  facilitatorNamesByMeetPersonId: Record<string, string>;
 };
 
 export type CourseListRowProps = ParticipantRowProps | FacilitatorRowProps;
@@ -91,6 +93,10 @@ const CourseListRow = (row: CourseListRowProps) => {
     if (canExpand) onToggleExpand?.();
   };
 
+  const facilitatorViewContext: FacilitatorViewContext | undefined = row.mode === 'facilitator' && row.group
+    ? { currentUserMeetPersonId: meetPersonId, group: row.group, facilitatorNamesByMeetPersonId: row.facilitatorNamesByMeetPersonId }
+    : undefined;
+
   const hasInlineActions = inlineActions.length > 0;
 
   const chevronButton = canExpand ? (
@@ -99,14 +105,14 @@ const CourseListRow = (row: CourseListRowProps) => {
       onClick={toggleExpand}
       aria-expanded={isExpanded}
       aria-label={isExpanded ? `Collapse ${course.title}` : `Expand ${course.title}`}
-      className="flex size-[38px] cursor-pointer items-center justify-center text-bluedot-normal sm:size-5"
+      className="flex size-[38px] cursor-pointer items-center justify-center text-accent sm:size-5"
     >
       <FaChevronRight aria-hidden="true" className={`size-3 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
     </button>
   ) : null;
 
   return (
-    <div className="overflow-hidden rounded-xl border border-default bg-white">
+    <div className="overflow-hidden rounded-xl border bg-raised">
       <div className="relative">
         {tint && (
           <div
@@ -122,7 +128,7 @@ const CourseListRow = (row: CourseListRowProps) => {
             aria-hidden
             className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-16 sm:rounded-2xl"
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-            style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-bluedot-normal)' }}
+            style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-accent)' }}
           >
             <img
               src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
@@ -138,7 +144,7 @@ const CourseListRow = (row: CourseListRowProps) => {
             <H3 className={`text-pretty text-size-md ${row.mode === 'facilitator' ? '' : 'sm:text-size-lg'}`}>
               <a
                 href={`/courses/${course.slug}`}
-                className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+                className="text-primary no-underline transition-colors hover:text-link hover:underline underline-offset-2"
               >
                 {row.mode === 'facilitator' ? getFacilitatorHeadline(row) : course.title}
               </a>
@@ -157,7 +163,7 @@ const CourseListRow = (row: CourseListRowProps) => {
               )}
             </H3>
             {subtitle && (
-              <p className="mt-1 text-size-xs text-bluedot-navy">{subtitle}</p>
+              <p className="mt-1 text-size-xs text-primary">{subtitle}</p>
             )}
           </div>
           <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
@@ -165,13 +171,13 @@ const CourseListRow = (row: CourseListRowProps) => {
             <div className="hidden items-center gap-3 sm:flex">
               {inlineActions}
               {state !== 'dropped' && overflowItems.length > 0 && (
-                <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+                <OverflowMenu aria-label="Course actions" items={overflowItems} />
               )}
             </div>
             {/* Mobile only: RHS buttons stacked vertically */}
             <div className="flex flex-1 flex-col items-center justify-between gap-2 sm:hidden">
               {state !== 'dropped' && overflowItems.length > 0 ? (
-                <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+                <OverflowMenu aria-label="Course actions" items={overflowItems} />
               ) : <span aria-hidden />}
               {!hasInlineActions && chevronButton}
             </div>
@@ -189,7 +195,7 @@ const CourseListRow = (row: CourseListRowProps) => {
         )}
       </div>
       {isExpanded && canExpand && (
-        <div className="border-t border-default">
+        <div className="border-t">
           {discussions.length > 0 ? (
             <DiscussionList
               mode={mode}
@@ -200,13 +206,14 @@ const CourseListRow = (row: CourseListRowProps) => {
               canReschedule={state !== 'dropped' && !courseRegistration.certificateCreatedAt}
               rescheduleEligibleUnits={row.mode === 'participant' ? row.rescheduleEligibleUnits : []}
               discussionIdsWithPendingReschedule={row.mode === 'participant' && (state === 'in-progress' || state === 'upcoming') ? row.discussionIdsWithPendingReschedule : []}
+              facilitatorViewContext={facilitatorViewContext}
               onClickReschedule={modalCallbacks.onClickReschedule}
               onClickFacilitatorReschedule={modalCallbacks.onClickFacilitatorReschedule}
               onClickFacilitatorAssignSubstitute={modalCallbacks.onClickFacilitatorAssignSubstitute}
               onClickViewAttendees={modalCallbacks.onClickViewAttendees}
             />
           ) : (
-            <p className="px-5 py-4 text-size-xs text-gray-500 sm:px-6">No discussions to show.</p>
+            <p className="px-5 py-4 text-size-xs text-secondary sm:px-6">No discussions to show.</p>
           )}
         </div>
       )}
@@ -338,7 +345,7 @@ const getParticipantSubtitle = (row: ParticipantRowProps, isNotInGroup: boolean)
       : null;
 
     return renderParts([
-      <span key="status" className="text-bluedot-normal font-medium">{statusText}</span>,
+      <span key="status" className="text-accent font-medium">{statusText}</span>,
       startsAddendum,
     ]);
   }

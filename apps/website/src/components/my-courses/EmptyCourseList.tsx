@@ -13,11 +13,11 @@ const EmptyCourseList = ({
   title, description, cta, icon = <BooksIcon aria-hidden />,
 }: EmptyCourseListProps) => (
   <div className="flex flex-col items-center gap-3 py-12 text-center">
-    <div className="text-bluedot-normal">{icon}</div>
-    <p className="text-size-md font-semibold text-bluedot-navy">{title}</p>
-    {description && <p className="max-w-[40ch] text-size-sm text-bluedot-navy/60">{description}</p>}
+    <div className="text-accent">{icon}</div>
+    <p className="text-size-md font-semibold text-primary">{title}</p>
+    {description && <p className="max-w-[40ch] text-size-sm text-secondary">{description}</p>}
     {cta && (
-      <Button variant="primary" size="small" url={cta.href} className="text-size-xxs">
+      <Button variant="primary" size="small" url={cta.href}>
         {cta.label}
       </Button>
     )}

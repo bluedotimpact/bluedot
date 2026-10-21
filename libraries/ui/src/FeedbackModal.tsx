@@ -45,21 +45,21 @@ const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => vo
   return (
     <div className="relative shrink-0">
       {isImage && objectUrl ? (
-        <div className="border-bluedot-navy/20 size-12 overflow-hidden rounded-sm border">
+        <div className="size-12 overflow-hidden rounded-sm border">
           <img src={objectUrl} alt={file.name} className="size-full object-cover" />
         </div>
       ) : (
-        <div className="border-default text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-gray-50 px-2">
+        <div className="text-size-xs text-primary flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-tint px-2">
           {file.name}
         </div>
       )}
       <button
         type="button"
         onClick={onRemove}
-        className="bg-bluedot-navy absolute -top-1 -right-1 flex size-3 items-center justify-center rounded-full"
+        className="bg-dark absolute -top-1 -right-1 flex size-3 items-center justify-center rounded-full"
         aria-label={`Remove ${file.name}`}
       >
-        <FaXmark className="size-2 text-white" />
+        <FaXmark className="size-2 text-on-dark" />
       </button>
     </div>
   );
@@ -220,9 +220,9 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
         {showSuccess ? (
           <div className="flex flex-col items-center gap-8">
             <div className="bg-bluedot-normal/10 mt-2 flex rounded-full p-4">
-              <FaCheck className="text-bluedot-normal size-8" />
+              <FaCheck className="text-accent size-8" />
             </div>
-            <p className="text-bluedot-navy/60 max-w-[500px] text-center text-size-xs leading-relaxed">
+            <p className="text-secondary max-w-[500px] text-center text-size-xs leading-relaxed">
               Your feedback has been sent! We'll be in touch if we have follow-up questions.
             </p>
             <Button className="mt-4 w-full" onClick={() => handleModalOpenChange(false)}>
@@ -234,12 +234,12 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
             {error && <ErrorView error={error} />}
 
             <div className="flex flex-col gap-1.5">
-              <p className="text-bluedot-navy text-size-xs leading-relaxed">
+              <p className="text-primary text-size-xs leading-relaxed">
                 We're here to help! Whether it's a bug or an idea on how to improve your experience, we're all ears.
               </p>
               <label
                 htmlFor="feedback-description"
-                className="text-bluedot-navy mt-2.5 text-size-xs leading-5.5 font-semibold"
+                className="text-primary mt-2.5 text-size-xs leading-5.5 font-semibold"
               >
                 Description
               </label>
@@ -248,8 +248,8 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 className={cn(
                   'flex flex-col gap-3 rounded-surface border p-3 transition-colors',
                   isDragging
-                    ? 'border-bluedot-normal bg-bluedot-normal/[8%] border-dashed'
-                    : 'border-default focus-within:border-bluedot-normal bg-white',
+                    ? 'border-accent bg-bluedot-normal/[8%] border-dashed'
+                    : 'focus-within:border-focus bg-raised',
                 )}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -257,8 +257,8 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
               >
                 {isDragging ? (
                   <div className="flex min-h-[140px] flex-col items-center justify-center gap-3">
-                    <FaImage className="text-bluedot-normal size-8" />
-                    <span className="text-size-sm text-bluedot-normal text-center opacity-80">
+                    <FaImage className="text-accent size-8" />
+                    <span className="text-size-sm text-accent text-center opacity-80">
                       Drop any file(s) here to add them
                     </span>
                   </div>
@@ -307,7 +307,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="text-bluedot-navy/60 flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xxs hover:bg-gray-100"
+                        className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xs hover:bg-tint"
                       >
                         <FaPaperclip className="size-3.5 shrink-0" />
                         <span>Add, drag, or paste attachments here</span>
@@ -317,7 +317,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 )}
               </div>
               {attachmentError && (
-                <p className="text-size-xxs mt-1 text-red-600" role="alert" aria-live="polite">
+                <p className="text-size-xs mt-1 text-error-fg" role="alert" aria-live="polite">
                   {attachmentError}
                 </p>
               )}
@@ -325,11 +325,11 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
 
             {onRecordScreen && (
               <div className="hidden flex-col gap-3 md:flex">
-                <p className="text-bluedot-navy text-size-xs font-semibold">Could you show us with a video?</p>
+                <p className="text-primary text-size-xs font-semibold">Could you show us with a video?</p>
                 {recordingUrl ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex items-center gap-2.5 rounded-md bg-[#0EAC53] px-3 py-2 text-white">
+                      <div className="flex items-center gap-2.5 rounded-md bg-success-fg px-3 py-2 text-on-dark">
                         <FaCheck className="size-3.5 shrink-0" />
                         <span className="text-size-xs">Recording saved</span>
                       </div>
@@ -342,7 +342,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="border-default text-bluedot-navy/60 rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
+                      className="text-secondary rounded-surface border bg-raised px-3 py-2 text-size-xs placeholder:text-size-xs"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -356,10 +356,10 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
             )}
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="feedback-email" className="text-bluedot-navy text-size-xs leading-5.5 font-semibold">
+              <label htmlFor="feedback-email" className="text-primary text-size-xs leading-5.5 font-semibold">
                 Your contact email
               </label>
-              <p className="text-bluedot-navy/60 text-size-xs">
+              <p className="text-secondary text-size-xs">
                 Please leave your email so we can contact you with follow-ups as needed.
               </p>
               <input
@@ -367,8 +367,8 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 type="email"
                 value={email}
                 className={cn(
-                  'border-default rounded-surface border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
-                  emailError && 'border-red-500',
+                  'rounded-surface border bg-raised px-3 py-2 text-size-xs placeholder:text-size-xs',
+                  emailError && 'border-error-fg',
                 )}
                 placeholder="Email"
                 required
@@ -380,7 +380,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 }}
               />
               {emailError && (
-                <p className="text-size-xxs mt-1 text-red-600" role="alert" aria-live="polite">
+                <p className="text-size-xs mt-1 text-error-fg" role="alert" aria-live="polite">
                   {emailError}
                 </p>
               )}

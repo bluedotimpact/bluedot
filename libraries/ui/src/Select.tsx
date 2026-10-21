@@ -35,14 +35,14 @@ export type SelectProps = NativeSelectProps & {
 
 const TRIGGER_STYLES = {
   default: [
-    'w-full h-11 px-3 rounded-surface border border-border-control bg-raised',
+    'w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised',
     'text-size-sm leading-6 text-primary',
     'hover:bg-tint',
     'group-data-[disabled]:border-default group-data-[disabled]:bg-surface-disabled group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-surface-disabled',
     'group-data-[invalid]:border-error-fg',
   ],
   ghost: [
-    'w-fit h-11 px-3 rounded-surface',
+    'w-fit min-h-11 px-3 rounded-surface',
     'text-size-md font-medium text-primary',
     'hover:bg-tint',
     'group-data-[disabled]:text-disabled group-data-[disabled]:hover:bg-transparent',
@@ -99,7 +99,7 @@ export const Select = ({
         offset={8}
         maxHeight={400}
         className={cn(
-          'w-(--trigger-width) rounded-surface border border-default bg-raised shadow-md overflow-y-auto',
+          'w-(--trigger-width) rounded-surface border bg-raised shadow-md overflow-y-auto',
           // ghost triggers are only as wide as the selected label; let the menu grow to its widest option
           variant === 'ghost' && 'min-w-max',
         )}

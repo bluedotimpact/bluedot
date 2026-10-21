@@ -28,12 +28,14 @@ describe('AboutPage', () => {
     server.use(
       trpcMsw.courses.getAll.query(() => []),
       trpcMsw.teamMembers.getAll.query(() => []),
+      trpcMsw.teamMembers.getActiveCount.query(() => 18),
       trpcMsw.programs.getInPerson.query(() => MOCK_NAV_IN_PERSON_PROGRAMS),
       trpcMsw.programs.getGrants.query(() => MOCK_NAV_GRANTS),
     );
     const { container } = render(<AboutPage />, { wrapper: TrpcProvider });
 
     expect(await screen.findByRole('list', { name: 'Team members' })).toBeInTheDocument();
+    expect(await screen.findByText(/a global team of 18/)).toBeInTheDocument();
 
     expect(container).toMatchSnapshot();
   });

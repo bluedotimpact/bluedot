@@ -17,9 +17,53 @@ import { Button, /* etc. */ } from '@bluedot/ui';
 
 ## Components
 
-If you are a human, you can use [storybook](../../apps/storybook/) to browse the components.
+Use these before you build anything. Browse them in [Storybook](https://storybook.k8s.bluedot.org) (local: `cd apps/storybook && npm start`). Get props and variants from the component source and its story. Tokens are documented in [`GettingStarted.mdx`](../../apps/storybook/src/GettingStarted.mdx).
 
-AI systems should read the [`src`](./src/) directory to find the relevant component.
+| Need | Use | Not |
+| --- | --- | --- |
+| Button or CTA link | `Button` | Styled `<a>`/`<button>`; className colour overrides (use `variant`/`tone`) |
+| Icon-only action | `IconButton` | `Button` with only an icon |
+| Unstyled clickable wrapper | `ClickTarget` | Hand-rolled link-or-button switch |
+| Headings, body text, links | `H1`–`H4`, `P`, `A` | Raw `<h2 className="text-...">` |
+| Small label above a heading | `Eyebrow` | Uppercase `<span>` with custom tracking |
+| Page hero | `HeroSection`, `HeroH1`, `HeroCTAContainer` | |
+| Page section | `Section`, `SectionHeading` | |
+| Card | `Card`, `CardShell` (static shell for custom content) | Bordered `<div>` |
+| List of link rows | `ListRow` in `ListGroup` | `Card` per row; hand-rolled dividers |
+| Inline notice or error | `Callout` | `toast` for persistent info; hand-rolled coloured boxes |
+| Error from a failed query | `ErrorSection` | |
+| Transient feedback | `Toaster` + `toast()` | `Callout` |
+| Modal or bottom sheet | `Modal` (sheet on mobile), `ModalTitle` | Custom overlay |
+| Menu of actions | `OverflowMenu` | |
+| Tooltip | `Tooltip` | Native `title` for meaningful content |
+| Show/hide | `Collapsible` | Hand-rolled `useState` disclosure |
+| Tabs / filter pills | `TabPills` | |
+| Breadcrumbs | `Breadcrumbs`, `BreadcrumbTrail` | |
+| Status or category label | `Tag` | |
+| Avatar | `Avatar` | `<img className="rounded-full">` |
+| Loading indicator | `ProgressDots`; `Button` `loading` prop | Spinner icons |
+| Carousel | `SlideList` | |
+| Share | `ShareButton` | |
+| Text input, search | `Input` (leading/trailing slots) | Raw `<input>` |
+| Multi-line text | `Textarea` | |
+| Checkbox, radio | `Checkbox`, `Radio` | Raw `<input type="checkbox">` |
+| Dropdown | `Select` | Native `<select>` |
+| Date, time | `DatePicker`, `TimePicker` | Native `type="date"`/`"time"` |
+| On/off setting | `ToggleSwitch` | Checkbox styled as a switch |
+| Availability grid | `TimeAvailabilityGrid` | |
+| Feedback form | `FeedbackModal` | |
+| Footer | `Footer` | |
+| Icons | `react-icons/fa6`, imported directly. See [`DEVELOPMENT_HANDBOOK.md` → Icons](../../DEVELOPMENT_HANDBOOK.md#icons) | Other icon families; custom SVG when a Font Awesome glyph exists |
+| Class merging | `cn` | String concatenation |
+
+### Overrides
+
+- Use the component defaults first.
+- Text primitives (`H1`–`H4`, `P`, `A`, `Eyebrow`): you can set colour and size with semantic tokens (`text-secondary`, `text-on-dark-secondary`, `text-size-md`). Don't re-add weight, leading or tracking.
+- Text size floor: `text-size-xs` (14px) for anything people read, including helper, error and meta text. `text-size-xxs` (12px) is only for tags, chips and eyebrows, and only semibold or uppercase.
+- All other components: use `className` for layout (margin, width, grid or flex placement). Colour comes from props. On a dark surface, set `data-on-dark` on the container.
+- A visual override (colour, size, padding, radius, border) needs a reason in the PR. If several callers need the same override, add a variant or prop to the shared component instead.
+- Build a bespoke component only when no existing component fits. Use tokens only, and say in the PR why.
 
 ## Utilities
 
@@ -54,16 +98,15 @@ console.log(`Is this the Krusty Krab? NO,THIS IS ${env.APP_NAME}!!!!`);
 In `src/lib/api/makeApiRoute.ts`, you'll have something like:
 
 ```typescript
-import { loginPresets } from '@bluedot/ui';
-import { makeMakeApiRoute } from '@bluedot/ui/src/api';
+import { makeMakeApiRoute, verifyKeycloakToken } from '@bluedot/ui/src/api';
 import env from './env';
 
 export const makeApiRoute = makeMakeApiRoute({
   env,
   // Two options:
-  // 1. keycloak, for BlueDot customers via login.bluedot.org
-  // 2. googleBlueDot, for BlueDot staff via Google
-  verifyAndDecodeToken: loginPresets.keycloak.verifyAndDecodeToken,
+  // 1. verifyKeycloakToken, for BlueDot customers via login.bluedot.org
+  // 2. verifyGoogleBlueDotToken, for BlueDot staff via Google
+  verifyAndDecodeToken: verifyKeycloakToken,
 });
 ```
 

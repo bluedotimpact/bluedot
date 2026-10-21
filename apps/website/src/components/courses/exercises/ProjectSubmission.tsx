@@ -13,8 +13,8 @@ export type ProjectSubmissionProps = {
 // Matches how a completed free-text exercise reports itself, minus the undo affordance.
 const SubmittedIndicator = () => (
   <div className="flex items-center gap-2 h-[30px]">
-    <FaCircleCheck aria-hidden="true" className="size-4 text-bluedot-normal" />
-    <span className="font-medium text-size-xs leading-normal text-bluedot-normal">Project/action plan submitted</span>
+    <FaCircleCheck aria-hidden="true" className="size-4 text-accent" />
+    <span className="font-medium text-size-xs leading-normal text-accent">Project/action plan submitted</span>
   </div>
 );
 

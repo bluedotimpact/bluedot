@@ -1,4 +1,6 @@
-import { Eyebrow, OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
+import {
+  Eyebrow, OverflowMenu, Tag, type OverflowMenuItemProps,
+} from '@bluedot/ui';
 import type { ReactNode } from 'react';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
@@ -17,8 +19,6 @@ export type ApplicationRowProps = {
   overflowItems?: OverflowMenuItemProps[];
 };
 
-const STATUS_PILL_CLASS = 'text-size-xxs min-h-9 items-center justify-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] font-medium text-bluedot-navy';
-
 const ApplicationRow = ({
   courseTitle,
   courseSlug,
@@ -35,7 +35,7 @@ const ApplicationRow = ({
   const statusLabel = APPLICATION_STATUS_LABEL[status];
 
   return (
-    <li className="relative overflow-hidden rounded-xl border border-charcoal-light bg-white">
+    <li className="relative overflow-hidden rounded-xl border bg-raised">
       {tint && (
         <div
           aria-hidden
@@ -47,7 +47,7 @@ const ApplicationRow = ({
         <div
           aria-hidden
           className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-16 sm:rounded-2xl"
-          style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-bluedot-normal)' }}
+          style={{ backgroundColor: courseConfig?.iconBackground ?? 'var(--color-accent)' }}
         >
           <img
             src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
@@ -60,23 +60,23 @@ const ApplicationRow = ({
               {courseTitle}
             </Eyebrow>
           )}
-          <p className="text-pretty text-size-md font-semibold text-bluedot-navy">
+          <p className="text-pretty text-size-md font-semibold text-primary">
             {roundName ?? 'Round'}
           </p>
           {dateRange && (
-            <p className="mt-1 text-size-xs text-bluedot-navy/60">{dateRange}</p>
+            <p className="mt-1 text-size-xs text-secondary">{dateRange}</p>
           )}
         </div>
         <div className="flex shrink-0 items-center gap-3">
-          <span className={`hidden sm:inline-flex ${STATUS_PILL_CLASS}`}>{statusLabel}</span>
+          <Tag shape="pill" className="hidden sm:inline-flex">{statusLabel}</Tag>
           <span className="hidden sm:contents">{inlineActions}</span>
           {overflowItems.length > 0 && (
-            <OverflowMenu ariaLabel="Application actions" items={overflowItems} />
+            <OverflowMenu aria-label="Application actions" items={overflowItems} />
           )}
         </div>
       </div>
       <div className="relative flex flex-wrap items-center gap-3 px-5 pb-5 sm:hidden">
-        <span className={`inline-flex ${STATUS_PILL_CLASS}`}>{statusLabel}</span>
+        <Tag shape="pill">{statusLabel}</Tag>
         {inlineActions}
       </div>
     </li>

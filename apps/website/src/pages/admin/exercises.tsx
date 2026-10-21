@@ -112,7 +112,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
     if (!userId) return null;
     if (exerciseResponseQuery.error && !exerciseResponseQuery.data) return <ErrorSection error={exerciseResponseQuery.error} />;
     if (!exerciseResponseQuery.data) return <ProgressDots className="py-8" />;
-    if (items.length === 0) return <p className="text-bluedot-navy/60 py-8 text-center">No exercise responses match these filters.</p>;
+    if (items.length === 0) return <p className="text-secondary py-8 text-center">No exercise responses match these filters.</p>;
 
     return (
       <ol className="flex flex-col gap-3">
@@ -138,19 +138,19 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
             <div className="container-lined p-4 flex flex-col gap-1">
               {user && (
                 <>
-                  <p className="font-semibold text-bluedot-navy break-words">{user.name || '(no name)'}</p>
-                  <p className="text-size-xs text-bluedot-navy/70 break-words" title={user.email}>{maskEmail(user.email)}</p>
+                  <p className="font-semibold text-primary break-words">{user.name || '(no name)'}</p>
+                  <p className="text-size-xs text-secondary break-words" title={user.email}>{maskEmail(user.email)}</p>
                   {user.lastSeenAt && (
-                    <p className="text-size-xxs text-bluedot-navy/50 mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
+                    <p className="text-size-xs text-secondary mt-1">Last seen: {new Date(user.lastSeenAt).toLocaleString()}</p>
                   )}
                 </>
               )}
-              {!user && userId && <p className="text-size-xs text-bluedot-navy/50">Loading user...</p>}
-              {userId && <p className="text-size-xxs text-bluedot-navy/50">User ID: <code>{userId}</code></p>}
+              {!user && userId && <p className="text-size-xs text-secondary">Loading user...</p>}
+              {userId && <p className="text-size-xs text-secondary">User ID: <code>{userId}</code></p>}
               <button
                 type="button"
                 onClick={() => setIsSelectUserModalOpen(true)}
-                className="self-start text-size-xxs text-bluedot-normal underline hover:opacity-80 cursor-pointer"
+                className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
               >
                 Select user
               </button>
@@ -162,7 +162,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
 
             {courses.length > 0 && (
               <fieldset className="flex flex-col border-0 m-0 p-0 min-w-0">
-                <legend className="mb-2 text-size-xs font-semibold text-bluedot-navy">Course</legend>
+                <legend className="mb-2 text-size-xs font-semibold text-primary">Course</legend>
                 <Radio
                   name="course"
                   checked={!courseId}
@@ -212,7 +212,7 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
             {renderResults()}
 
             {items.length > 0 && (
-              <div ref={infiniteScrollSentinelRef} className="py-4 text-center text-size-xs text-bluedot-navy/50">
+              <div ref={infiniteScrollSentinelRef} className="py-4 text-center text-size-xs text-secondary">
                 {exerciseResponseQuery.isFetchingNextPage && 'Loading...'}
                 {!exerciseResponseQuery.hasNextPage && 'End of responses'}
               </div>
@@ -248,16 +248,16 @@ const ResponseCard = ({
     <li className="container-lined p-4 flex flex-col gap-3">
       <header className="flex flex-wrap justify-between gap-2 text-size-xs">
         <div className="flex flex-col gap-0.5 min-w-0">
-          <p className="font-semibold text-bluedot-navy break-words">
+          <p className="font-semibold text-primary break-words">
             {exercise?.title ?? '(unknown exercise)'}
           </p>
-          <p className="text-bluedot-navy/60 break-words">
+          <p className="text-secondary break-words">
             {unit?.courseSlug ? (
               <a
                 href={`/courses/${unit.courseSlug}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-bluedot-normal underline hover:opacity-80"
+                className="text-link underline hover:opacity-80"
               >
                 {unit.courseTitle}
               </a>
@@ -271,7 +271,7 @@ const ResponseCard = ({
                   href={chunkPosition ? `/courses/${unit.courseSlug}/${unit.unitNumber}/${chunkPosition}` : `/courses/${unit.courseSlug}/${unit.unitNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-bluedot-normal underline hover:opacity-80"
+                  className="text-link underline hover:opacity-80"
                 >
                   Unit {unit.unitNumber}: {unit.title}
                   {chunkPosition && (
@@ -287,11 +287,11 @@ const ResponseCard = ({
             )}
           </p>
         </div>
-        <p className="text-bluedot-navy/50 whitespace-nowrap">
+        <p className="text-secondary whitespace-nowrap">
           {response.completedAt ? (
             new Date(response.completedAt).toLocaleString()
           ) : (
-            <span className="text-orange-700">
+            <span className="text-warning-fg">
               In progress
               {response.createdAt && <> · started {new Date(response.createdAt).toLocaleString()}</>}
             </span>
@@ -299,20 +299,20 @@ const ResponseCard = ({
         </p>
       </header>
 
-      <div className="border-l-2 border-bluedot-lighter pl-4">
+      <div className="border-l-2 border-accent-subtle pl-4">
         <div className="relative">
           <div className={`leading-relaxed ${!expanded && canTruncate ? 'line-clamp-8' : ''}`}>
             <MarkdownExtendedRenderer>{responseText}</MarkdownExtendedRenderer>
           </div>
           {!expanded && canTruncate && (
-            <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-canvas to-transparent pointer-events-none" />
           )}
         </div>
         {canTruncate && (
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="text-size-xs text-bluedot-normal font-medium mt-2 cursor-pointer hover:underline"
+            className="text-size-xs text-link font-medium mt-2 cursor-pointer hover:underline"
           >
             {expanded ? 'Show less' : 'Show more'}
           </button>

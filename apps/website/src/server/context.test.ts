@@ -5,24 +5,15 @@ import { createServer, request } from 'http';
 import type { AddressInfo } from 'net';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { userTable } from '@bluedot/db';
-import { InvalidTokenError, loginPresets } from '@bluedot/ui/src/Login';
+import { InvalidTokenError } from '@bluedot/ui/src/api';
+import { verifyKeycloakToken } from '@bluedot/ui/src/server/verifyToken';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { createContext } from './context';
 import trpcHandler from '../pages/api/trpc/[trpc]';
 import { setupTestDb, testDb } from '../__tests__/dbTestUtils';
 import { ONE_HOUR_SECONDS } from '../lib/constants';
 
-vi.mock('@bluedot/ui/src/Login', async () => {
-  const actual = await vi.importActual('@bluedot/ui/src/Login');
-  return {
-    ...actual,
-    loginPresets: {
-      keycloak: {
-        verifyAndDecodeToken: vi.fn(),
-      },
-    },
-  };
-});
+vi.mock('@bluedot/ui/src/server/verifyToken', () => ({ verifyKeycloakToken: vi.fn() }));
 
 vi.mock('@bluedot/utils/src/slackNotifications', () => ({
   slackAlert: vi.fn(async () => {}),
@@ -49,14 +40,14 @@ describe('createContext: Happy path', () => {
   });
 
   test('returns authenticated user when valid token is provided', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(mockAuth);
 
     const req = createMockReq({ authorization: 'Bearer valid-token' });
     const result = await createContext({ req } as Parameters<typeof createContext>[0]);
 
     expect(result.auth).toEqual(mockAuth);
     expect(result.impersonation).toBeNull();
-    expect(loginPresets.keycloak.verifyAndDecodeToken).toHaveBeenCalledWith('valid-token');
+    expect(verifyKeycloakToken).toHaveBeenCalledWith('valid-token');
   });
 });
 
@@ -74,7 +65,7 @@ describe('createContext: User impersonation', () => {
       id: 'target-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(adminAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -99,7 +90,7 @@ describe('createContext: User impersonation', () => {
     // Target has no keycloakIdentifier yet (e.g. hasn't logged in since the backfill).
     await testDb.insert(userTable, { id: 'target-id', email: 'target@example.com', name: 'Target User' });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(adminAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -119,7 +110,7 @@ describe('createContext: User impersonation', () => {
       id: 'allowed-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(scopedAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -144,7 +135,7 @@ describe('createContext: User impersonation', () => {
       id: 'other-id', email: 'other@example.com', name: 'Other User', keycloakIdentifier: 'other-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(scopedAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -165,7 +156,7 @@ describe('createContext: User impersonation', () => {
       id: 'some-target-id', email: 'target@example.com', name: 'Target User', keycloakIdentifier: 'target-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(mockAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -183,7 +174,7 @@ describe('createContext: User impersonation', () => {
       id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true, keycloakIdentifier: 'admin-sub',
     });
 
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
+    vi.mocked(verifyKeycloakToken).mockResolvedValue(adminAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
@@ -202,7 +193,7 @@ describe('createContext: Token verification failures', () => {
   });
 
   test('a rejected token yields a logged-out context', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new InvalidTokenError('Token expired'));
+    vi.mocked(verifyKeycloakToken).mockRejectedValue(new InvalidTokenError('Token expired'));
 
     const req = createMockReq({ authorization: 'Bearer expired-token' });
     const result = await createContext({ req } as Parameters<typeof createContext>[0]);
@@ -212,7 +203,7 @@ describe('createContext: Token verification failures', () => {
 
   test('any other verification failure propagates', async () => {
     const networkError = new Error('getaddrinfo ENOTFOUND login.bluedot.org');
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(networkError);
+    vi.mocked(verifyKeycloakToken).mockRejectedValue(networkError);
 
     const req = createMockReq({ authorization: 'Bearer valid-token' });
 
@@ -254,7 +245,7 @@ describe('tRPC handler: Token verification failures', () => {
   });
 
   test('an expired token on a protected procedure is a 401 with no Slack alert', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new InvalidTokenError('Token expired'));
+    vi.mocked(verifyKeycloakToken).mockRejectedValue(new InvalidTokenError('Token expired'));
 
     const { status } = await callProcedure('users.getUser', { authorization: 'Bearer expired-token' });
 
@@ -263,7 +254,7 @@ describe('tRPC handler: Token verification failures', () => {
   });
 
   test('a signing-key fetch failure is a 500 that alerts Slack', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockRejectedValue(new Error('getaddrinfo ENOTFOUND login.bluedot.org'));
+    vi.mocked(verifyKeycloakToken).mockRejectedValue(new Error('getaddrinfo ENOTFOUND login.bluedot.org'));
 
     const { status } = await callProcedure('users.getUser', { authorization: 'Bearer valid-token' });
 

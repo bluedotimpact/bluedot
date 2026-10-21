@@ -47,13 +47,13 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
             <div className="flex flex-col gap-3">
               <h2
                 // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: certificate CTA hero, fixed 36px paired with custom font-display
-                className="text-[36px] font-medium leading-tight tracking-tight text-white font-display"
+                className="text-[36px] font-medium leading-tight tracking-tight text-on-dark font-display"
                 style={DISPLAY_FONT_STYLE}
               >
                 Your certificate<br />awaits. Enroll today.
               </h2>
 
-              <p className="text-size-xs font-normal leading-relaxed text-white md:text-white/80">
+              <p className="text-size-xs font-normal leading-relaxed text-on-dark md:text-white/80">
                 Join thousands of professionals building expertise in {courseName.toLowerCase()}.
               </p>
             </div>
@@ -62,7 +62,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
               url={courseUrl}
               // Course-coloured fill with a darkening overlay on hover; unstyled so primary's hover fill cannot override it
               variant="unstyled"
-              className="h-9 px-4 py-[7px] rounded-md text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
+              className="text-primary bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
             >
               Start for free
             </Button>

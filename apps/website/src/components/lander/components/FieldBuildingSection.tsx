@@ -24,7 +24,7 @@ const FieldBuildingSection = ({
   headingVariant = 'default',
 }: FieldBuildingSectionProps) => {
   return (
-    <section id={id} className="w-full bg-white">
+    <section id={id} className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-12 xl:px-40 py-12 bd-md:py-16 xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         <div className={headingVariant === 'compact' ? 'w-full max-w-text' : 'max-w-text text-center'}>
           {headingVariant === 'compact' ? (
@@ -36,12 +36,12 @@ const FieldBuildingSection = ({
               {title}
             </H2>
           )}
-          <P className="mt-4 bd-md:text-size-md leading-relaxed text-bluedot-navy/80">
+          <P className="mt-4 bd-md:text-size-md leading-relaxed text-secondary">
             {intro}
           </P>
         </div>
 
-        <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-bluedot-navy/10 rounded-xl flex flex-col overflow-hidden">
+        <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-raised border rounded-xl flex flex-col overflow-hidden">
           {roles.map((role, index) => (
             <div key={role.title}>
               <div className="flex flex-col md:flex-row gap-3 md:gap-8 px-5 md:px-8 py-5 md:py-6">
@@ -52,12 +52,12 @@ const FieldBuildingSection = ({
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <P className="text-bluedot-navy/80">
+                  <P className="text-secondary">
                     {role.description}
                   </P>
                   <Link
                     href={role.linkUrl}
-                    className="mt-3 inline-flex items-center gap-1 text-size-sm font-medium text-bluedot-normal hover:underline"
+                    className="mt-3 inline-flex items-center gap-1 text-size-sm font-medium text-link hover:underline"
                   >
                     {role.linkText}
                     <span aria-hidden="true">→</span>
@@ -65,7 +65,7 @@ const FieldBuildingSection = ({
                 </div>
               </div>
 
-              {index < roles.length - 1 && <div className="w-full h-px bg-bluedot-navy/10" />}
+              {index < roles.length - 1 && <div className="w-full h-px bg-subtle" />}
             </div>
           ))}
         </div>

@@ -5,8 +5,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
   aria-atomic="true"
   aria-label="Quote carousel"
   aria-live="polite"
-  class="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
-  style="background-color: #FFFFFF;"
+  class="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden bg-canvas"
 >
   <div
     class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] bd-md:max-w-none bd-md:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
@@ -21,72 +20,133 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
           class="flex justify-center w-full"
         >
           <div
-            class="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10"
+            class="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10 grid"
           >
             <div
-              class="w-full rounded-xl overflow-hidden"
-              style="background-color: var(--bluedot-lightest);"
+              aria-hidden="false"
+              class="[grid-area:1/1] visible"
             >
               <div
-                class="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]"
+                class="w-full h-full rounded-xl overflow-hidden"
+                style="background-color: var(--bluedot-lightest);"
               >
                 <div
-                  class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
+                  class="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]"
                 >
-                  <blockquote
-                    class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                    style="color: var(--bluedot-navy);"
-                  >
-                    "AI could surpass almost all humans at almost everything shortly after 2027."
-                  </blockquote>
                   <div
-                    class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                    class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
+                  >
+                    <blockquote
+                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary"
+                    >
+                      "AI could surpass almost all humans at almost everything shortly after 2027."
+                    </blockquote>
+                    <div
+                      class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                    >
+                      <a
+                        class="cursor-pointer"
+                        href="https://example.com/source"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          alt="Dario Amodei"
+                          class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                          loading="lazy"
+                          src="/images/lander/foai/dario.webp"
+                        />
+                      </a>
+                      <div
+                        class="flex flex-col items-center lg:items-start"
+                      >
+                        <div
+                          class="text-size-md leading-tight font-semibold text-primary"
+                        >
+                          Dario Amodei
+                        </div>
+                        <div
+                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary"
+                        >
+                          CEO, Anthropic
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
                   >
                     <a
-                      class="cursor-pointer"
+                      class="block size-full cursor-pointer"
                       href="https://example.com/source"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <img
                         alt="Dario Amodei"
-                        class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        class="size-full object-cover rounded-l-xl"
+                        loading="lazy"
                         src="/images/lander/foai/dario.webp"
                       />
                     </a>
-                    <div
-                      class="flex flex-col items-center lg:items-start"
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              aria-hidden="true"
+              class="[grid-area:1/1] invisible"
+            >
+              <div
+                class="w-full h-full rounded-xl overflow-hidden"
+                style="background-color: var(--bluedot-lightest);"
+              >
+                <div
+                  class="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]"
+                >
+                  <div
+                    class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
+                  >
+                    <blockquote
+                      class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary"
                     >
+                      "The downside is, at some point, humanity loses control."
+                    </blockquote>
+                    <div
+                      class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                    >
+                      <img
+                        alt="Sundar Pichai"
+                        class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        loading="lazy"
+                        src="/images/agi-strategy/sundar.webp"
+                      />
                       <div
-                        class="text-size-md leading-tight font-semibold"
-                        style="color: var(--bluedot-navy);"
+                        class="flex flex-col items-center lg:items-start"
                       >
-                        Dario Amodei
-                      </div>
-                      <div
-                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                        style="color: var(--bluedot-navy);"
-                      >
-                        CEO, Anthropic
+                        <div
+                          class="text-size-md leading-tight font-semibold text-primary"
+                        >
+                          Sundar Pichai
+                        </div>
+                        <div
+                          class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary"
+                        >
+                          CEO, Google
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
-                >
-                  <a
-                    class="block size-full cursor-pointer"
-                    href="https://example.com/source"
-                    rel="noopener noreferrer"
-                    target="_blank"
+                  <div
+                    class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
                   >
                     <img
-                      alt="Dario Amodei"
+                      alt="Sundar Pichai"
                       class="size-full object-cover rounded-l-xl"
-                      src="/images/lander/foai/dario.webp"
+                      loading="lazy"
+                      src="/images/agi-strategy/sundar.webp"
                     />
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -103,18 +163,17 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
             class="lg:w-[928px] xl:w-[1120px] relative z-10"
           >
             <div
-              class="w-full rounded-xl overflow-hidden"
+              class="w-full h-full rounded-xl overflow-hidden"
               style="background-color: var(--bluedot-lightest);"
             >
               <div
-                class="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]"
+                class="flex flex-col lg:flex-row-reverse w-full h-full lg:h-[385px]"
               >
                 <div
                   class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                 >
                   <blockquote
-                    class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                    style="color: var(--bluedot-navy);"
+                    class="text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left text-primary"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
                   </blockquote>
@@ -130,6 +189,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       <img
                         alt="Dario Amodei"
                         class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        loading="lazy"
                         src="/images/lander/foai/dario.webp"
                       />
                     </a>
@@ -137,14 +197,12 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       class="flex flex-col items-center lg:items-start"
                     >
                       <div
-                        class="text-size-md leading-tight font-semibold"
-                        style="color: var(--bluedot-navy);"
+                        class="text-size-md leading-tight font-semibold text-primary"
                       >
                         Dario Amodei
                       </div>
                       <div
-                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0"
-                        style="color: var(--bluedot-navy);"
+                        class="text-size-sm leading-relaxed opacity-80 text-center lg:text-left lg:px-0 text-primary"
                       >
                         CEO, Anthropic
                       </div>
@@ -163,6 +221,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     <img
                       alt="Dario Amodei"
                       class="size-full object-cover rounded-l-xl"
+                      loading="lazy"
                       src="/images/lander/foai/dario.webp"
                     />
                   </a>
@@ -178,11 +237,11 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
     >
       <button
         aria-label="Previous quote"
-        class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
         type="button"
       >
         <span
-          class="text-bluedot-navy text-size-lg font-medium select-none"
+          class="text-primary text-size-lg font-medium select-none"
           style="transform: scaleX(-1);"
         >
           →
@@ -193,32 +252,32 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
       >
         <button
           aria-label="Go to quote 1"
-          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
           type="button"
         >
           <div
             class="w-full bd-md:w-24 h-1.5 rounded transition-all duration-300"
-            style="background-color: var(--bluedot-normal); opacity: 1;"
+            style="background-color: var(--color-accent); opacity: 1;"
           />
         </button>
         <button
           aria-label="Go to quote 2"
-          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
           type="button"
         >
           <div
             class="w-full bd-md:w-24 h-1.5 rounded transition-all duration-300"
-            style="background-color: var(--bluedot-navy); opacity: 0.15;"
+            style="background-color: var(--color-primary); opacity: 0.15;"
           />
         </button>
       </div>
       <button
         aria-label="Next quote"
-        class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-tint transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-active cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-focus"
         type="button"
       >
         <span
-          class="text-bluedot-navy text-size-lg font-medium select-none"
+          class="text-primary text-size-lg font-medium select-none"
         >
           →
         </span>

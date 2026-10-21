@@ -9,6 +9,7 @@ import { MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS } from '../../__tests__/te
 
 vi.mock('next/router', () => ({
   useRouter: () => ({
+    asPath: '/',
     pathname: '/',
     query: {},
   }),

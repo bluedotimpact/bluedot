@@ -44,6 +44,12 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.profile).toBeDefined();
   });
 
+  test('contractor privacy notice route has correct URL, title and parent', () => {
+    expect(ROUTES.contractorPrivacyNotice.url).toBe('/privacy');
+    expect(ROUTES.contractorPrivacyNotice.title).toBe('Contractor Privacy Notice');
+    expect(ROUTES.contractorPrivacyNotice.parentPages).toEqual([ROUTES.home]);
+  });
+
   test('programs route has correct URL and title', () => {
     expect(ROUTES.programs.url).toBe('/programs');
     expect(ROUTES.programs.title).toBe('Programs');

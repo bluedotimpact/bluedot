@@ -22,7 +22,7 @@ export const Default: Story = {
       return (
         <div className="flex flex-col gap-4">
           <DatePicker label="Pick a date" value={date} onChange={setDate} />
-          <div className="text-white text-size-sm">
+          <div className="text-on-dark text-size-sm">
             Selected: {date ? date.toLocaleDateString() : 'None'}
           </div>
         </div>
