@@ -1,4 +1,4 @@
-import { calendarConnectionTable, userTable } from '@bluedot/db';
+import { calendarConnectionTable, calendarPairWithoutCalendarTable, userTable } from '@bluedot/db';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
@@ -120,9 +120,10 @@ describe('POST /api/calendar-connections/busy', () => {
           ],
           errors: [],
           matchedBy: 'slack',
+          pairWithoutCalendar: false,
         },
         'U-NOBODY': {
-          connected: false, timeZone: null, email: null, emails: [], busy: [], errors: [], matchedBy: null,
+          connected: false, timeZone: null, email: null, emails: [], busy: [], errors: [], matchedBy: null, pairWithoutCalendar: false,
         },
       },
     });
@@ -212,6 +213,7 @@ describe('POST /api/calendar-connections/busy', () => {
         busy: [{ start: '2026-10-20T09:00:00.000Z', end: '2026-10-20T10:00:00.000Z' }],
         errors: [],
         matchedBy: 'email',
+        pairWithoutCalendar: false,
       });
     });
 
@@ -261,6 +263,80 @@ describe('POST /api/calendar-connections/busy', () => {
       const many = Array.from({ length: 501 }, (_, i) => ({ slackUserId: `U${i}`, email: null }));
       expect((await call({ body: members(many) })).statusCode).toBe(400);
       expect((await call({ body: members([{ slackUserId: 'U1', email: 'a@x.com' }, { slackUserId: 'U1', email: 'b@x.com' }]) })).statusCode).toBe(400);
+    });
+  });
+
+  describe('pairing without a calendar', () => {
+    const members = (list: { slackUserId: string; email: string | null }[]) => ({ members: list, ...WINDOW });
+    type Users = { users: Record<string, { connected: boolean; email: string | null; emails: string[]; busy: unknown[]; pairWithoutCalendar: boolean }> };
+    const optIn = (values: { userId: string; slackUserId: string | null }) => testDb.pg.insert(calendarPairWithoutCalendarTable.pg).values(values);
+
+    beforeEach(async () => {
+      await testDb.insert(userTable, { id: 'rec-wey', email: 'Wey@BlueDot.example', name: 'Wey' });
+    });
+
+    test('finds an opt-in linked to the Slack member, and adds their account email to invite', async () => {
+      await optIn({ userId: 'rec-robin', slackUserId: 'U-ROBIN' });
+
+      const res = await call({ body: members([{ slackUserId: 'U-ROBIN', email: 'other@slack.example' }]) });
+
+      expect(res.statusCode).toBe(200);
+      expect((res.body as Users).users['U-ROBIN']).toEqual({
+        connected: false,
+        timeZone: null,
+        email: 'robin@bluedot.example',
+        emails: ['robin@bluedot.example'],
+        busy: [],
+        errors: [],
+        matchedBy: null,
+        pairWithoutCalendar: true,
+      });
+      expect(google.freeBusyRequests).toEqual([]);
+    });
+
+    test('finds an unlinked opt-in by account email, ignoring case and spaces', async () => {
+      await optIn({ userId: 'rec-wey', slackUserId: null });
+
+      const res = await call({ body: members([{ slackUserId: 'U-WEY', email: ' wey@bluedot.EXAMPLE' }]) });
+
+      expect((res.body as Users).users['U-WEY']).toMatchObject({
+        connected: false, email: 'Wey@BlueDot.example', emails: ['wey@bluedot.example'], pairWithoutCalendar: true,
+      });
+    });
+
+    test('ignores an opt-in linked to a different Slack member, and a Slack link wins over email', async () => {
+      await optIn({ userId: 'rec-wey', slackUserId: 'U-SOMEONE-ELSE' });
+      await optIn({ userId: 'rec-robin', slackUserId: 'U-ROBIN' });
+
+      const res = await call({
+        body: members([{ slackUserId: 'U-WEY', email: 'wey@bluedot.example' }, { slackUserId: 'U-ROBIN', email: 'wey@bluedot.example' }]),
+      });
+      const { users } = res.body as Users;
+
+      expect(users['U-WEY']).toMatchObject({ pairWithoutCalendar: false, email: null, emails: [] });
+      expect(users['U-ROBIN']).toMatchObject({ pairWithoutCalendar: true, email: 'robin@bluedot.example' });
+    });
+
+    test('is reported alongside a working calendar, which keeps its own busy times and emails', async () => {
+      await seedConnection({ id: 'personal', refreshToken: 'rt-personal' });
+      google.accounts.get('rt-personal')!.busy = [{ start: '2026-10-20T09:00:00Z', end: '2026-10-20T10:00:00Z' }];
+      await optIn({ userId: 'rec-robin', slackUserId: 'U-ROBIN' });
+
+      const res = await call();
+
+      expect((res.body as Users).users['U-ROBIN']).toMatchObject({
+        connected: true,
+        email: 'robin@bluedot.example',
+        emails: ['robin@bluedot.example', 'personal@gmail.example'],
+        busy: [{ start: '2026-10-20T09:00:00.000Z', end: '2026-10-20T10:00:00.000Z' }],
+        pairWithoutCalendar: true,
+      });
+    });
+
+    test('works with the older slackUserIds body', async () => {
+      await optIn({ userId: 'rec-robin', slackUserId: 'U-ROBIN' });
+      const res = await call();
+      expect((res.body as Users).users['U-ROBIN']?.pairWithoutCalendar).toBe(true);
     });
   });
 });

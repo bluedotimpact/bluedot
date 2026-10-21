@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CalendarConnectionList from '../../../components/settings/CalendarConnectionList';
+import PairWithoutCalendarSection from '../../../components/settings/PairWithoutCalendarSection';
 import { ROUTES } from '../../../lib/routes';
 import { pageMetaTags } from '../../../lib/linkPreviewMetaTags';
 import { startGoogleCalendarConnect } from '../../../lib/startCalendarConnect';
@@ -118,6 +119,11 @@ const CalendarsPage = withAuth(() => {
           </Button>
           {startError && <p className="text-size-sm text-error-fg" role="alert">{startError}</p>}
         </div>
+
+        <PairWithoutCalendarSection
+          connectToken={linkIsValid ? connectToken : null}
+          hasWorkingCalendar={connections.data?.some((c) => !c.needsReconnect) ?? false}
+        />
 
       </>
     );

@@ -2,6 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { verifyConnectTokenFromEnv } from '../../lib/api/calendarConnect';
 import { disconnectConnection, listConnectionsForUser } from '../../lib/api/calendarConnections';
+import { clearPairWithoutCalendar, getPairWithoutCalendar, setPairWithoutCalendar } from '../../lib/api/calendarPairWithoutCalendar';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 
 export const calendarConnectionsRouter = router({
@@ -36,4 +37,33 @@ export const calendarConnectionsRouter = router({
 
       return { ok: true };
     }),
+
+  pairWithoutCalendarStatus: protectedProcedure.query(async ({ ctx }) => {
+    const user = await getUserFromAuthOrThrow(ctx.auth);
+    return { on: (await getPairWithoutCalendar(user.id)) !== null };
+  }),
+
+  // A valid signed Slack link (`token`) links the opt-in to that Slack member, as when connecting a calendar
+  pairWithoutCalendar: protectedProcedure
+    .input(z.object({ token: z.string().max(2000).nullable() }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.impersonation) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'You can\'t change this while impersonating someone' });
+      }
+
+      const user = await getUserFromAuthOrThrow(ctx.auth);
+      const linkedSlackUserId = input.token ? verifyConnectTokenFromEnv(input.token)?.slackUserId ?? null : null;
+      await setPairWithoutCalendar({ userId: user.id, linkedSlackUserId });
+      return { ok: true };
+    }),
+
+  stopPairWithoutCalendar: protectedProcedure.mutation(async ({ ctx }) => {
+    if (ctx.impersonation) {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'You can\'t change this while impersonating someone' });
+    }
+
+    const user = await getUserFromAuthOrThrow(ctx.auth);
+    await clearPairWithoutCalendar(user.id);
+    return { ok: true };
+  }),
 });

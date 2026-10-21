@@ -48,6 +48,8 @@ Some of our programs pair members for 1-1 chats. If you choose to connect a cale
 - You can disconnect a calendar at any time from your account. This deletes what we stored and asks your provider to revoke our access. Deleting your BlueDot account does the same for every calendar you connected.
 - Our use of information received from Google APIs follows the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.
 
+If you can't connect a calendar, you can choose to be paired without one instead. We then store only that choice, and your Slack user ID if we have it from a link we sent you on Slack. You can turn it off at any time, and deleting your BlueDot account deletes it.
+
 ### Personal information we collect from your devices
 
 - Usage data, associated with technical identifiers such as a cookie on your web browser.

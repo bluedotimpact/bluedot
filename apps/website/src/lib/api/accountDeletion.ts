@@ -23,6 +23,7 @@ import { TRPCError } from '@trpc/server';
 import { logger } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { deleteConnections, listConnectionsForUser } from './calendarConnections';
+import { clearPairWithoutCalendar } from './calendarPairWithoutCalendar';
 import { deleteKeycloakUser, keycloakUserExists } from './keycloak';
 import { CIO_API_BASE, getProfileById, setSubscriptionTopics } from './customerio';
 import db from './db';
@@ -171,6 +172,10 @@ const buildDeletionSteps = ({ userId, keycloakIdentifier, registrationIds, meetP
     {
       name: 'calendar-connections',
       run: async () => deleteConnections(await listConnectionsForUser(userId)),
+    },
+    {
+      name: 'calendar-pair-without-calendar',
+      run: async () => clearPairWithoutCalendar(userId),
     },
     deleteMatchingAirtableRecords({ name: 'self-serve-course-registrations', table: selfServeCourseRegistrationTable, sqlCondition: eq(selfServeCourseRegistrationTable.pg.userId, userId) }),
     // Leave project submissions that have co-authors
