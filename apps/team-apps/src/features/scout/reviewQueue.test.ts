@@ -47,11 +47,11 @@ test('must look is one queue per course, newest round first, keeping the view or
   expect(backlogFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugBacklog']);
 });
 
-test('the shortlist runs completers first, then endorsements, 10/10 scores, strong yes, each newest round first', () => {
+test('the shortlist runs completers first, then endorsements, top scores, strong yes, each newest round first', () => {
   const items: QueueItem[] = [
     { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugStrong', pickReason: 'strong yes' },
     { ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepEndorsed', pickReason: 'endorsement' },
-    { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugTen', pickReason: 'facilitator 10' },
+    { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugTen', pickReason: 'top score' },
     {
       ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugEndorsedNoCert', pickReason: 'endorsement', hasCertificate: false,
     },

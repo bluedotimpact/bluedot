@@ -33,9 +33,11 @@ export const backlogFor = (items: QueueItem[], course: string) => items.filter((
 export const endorsements = (person: Person) => person.reports.filter((r) => r.overallTake?.toLowerCase() === 'strong yes');
 export const endorsers = (person: Person): string[] => [...new Set(endorsements(person).map((r) => r.facilitator ?? 'their facilitator'))];
 
-export const topScorers = (person: Person): string[] => [...new Set(person.facilitatorFeedback
-  .filter((fb) => fb.rating === 10 && fb.ratingOutOf === 10)
-  .map((fb) => fb.reviewer ?? 'their facilitator'))];
+// A top score is 9 or 10 out of 10 in the facilitator's end-of-course feedback
+export const topScores = (person: Person) => person.facilitatorFeedback
+  .filter((fb) => fb.ratingOutOf === 10 && fb.rating !== undefined && fb.rating >= 9)
+  .map((fb) => ({ score: fb.rating!, name: fb.reviewer ?? 'their facilitator' }))
+  .sort((a, b) => b.score - a.score);
 
 export const roundsFor = (items: QueueItem[], course: string) => {
   const rounds = new Map<string, QueueItem>();

@@ -6,7 +6,7 @@ import { FaChevronRight } from 'react-icons/fa6';
 import {
   type EvaluationCall, type FacilitatorFeedback, type GrantApplication, type OtherApplication, type Application, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
 } from './types';
-import { endorsers, topScorers } from './reviewQueue';
+import { endorsers, topScores } from './reviewQueue';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
 const CRM_BASE_ID = 'apppOzz9fPg59PxLa';
@@ -689,7 +689,7 @@ const feedbackSummary = (fb: FacilitatorFeedback) => {
 // Why this person is on the shortlist, in PICK_REASONS order. Exported for tests.
 export const mustLookReasons = (person: Person): string[] => [
   ...(endorsers(person).length > 0 ? [`Endorsed by ${endorsers(person).join(' and ')}`] : []),
-  ...(topScorers(person).length > 0 ? [`Scored 10/10 by ${topScorers(person).join(' and ')}`] : []),
+  ...(topScores(person).length > 0 ? [`Scored ${topScores(person).map((x) => `${x.score}/10 by ${x.name}`).join(' and ')}`] : []),
   ...(person.opinion?.toLowerCase() === 'strong yes' ? ['Strong yes'] : []),
 ];
 
@@ -820,7 +820,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
               {r.ratings.map((x) => <Answer key={x.label} defaultOpen label={`Why ${x.label.toLowerCase()}${x.score !== undefined ? ` ${x.score}/5` : ''}`} text={x.evidence} />)}
               <Answer defaultOpen label="Their plans" text={r.plans} />
               <Answer defaultOpen label="Anything else" text={r.anythingElse} />
-              <Answer defaultOpen label="Review notes (BlueDot)" text={r.reviewNotes} />
+              <Answer defaultOpen label="Note to facilitator" text={r.reviewNotes} />
             </div>
           ))}
         </Section>

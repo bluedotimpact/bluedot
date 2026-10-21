@@ -224,7 +224,7 @@ test('must look is one queue per course, newest round first, and ends on "Must l
     ...realQueue[0]!, mustLook: true, pickReason: 'strong yes' as const, roundEnd: '2026-09-05',
   };
   const newer = {
-    ...realQueue[1]!, mustLook: true, pickReason: 'facilitator 10' as const, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Sep W38) - Intensive', roundEnd: '2026-10-03',
+    ...realQueue[1]!, mustLook: true, pickReason: 'top score' as const, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Sep W38) - Intensive', roundEnd: '2026-10-03',
   };
   mockFetch.mockImplementation(async (path, init) => {
     if (init?.method === 'POST') return response({ ok: true });
@@ -235,8 +235,8 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   await screen.findByTestId('choose-must-look-Technical AI Safety');
   expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
   expect(screen.getByText('2 to review →')).toBeTruthy();
-  expect(screen.getByText('1 facilitator scores of 10/10 · 1 strong yes')).toBeTruthy();
-  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 facilitator scores of 10/10 · 1 strong yes · 1 other');
+  expect(screen.getByText('1 high facilitator feedback · 1 strong yes')).toBeTruthy();
+  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 high facilitator feedback · 1 strong yes · 1 other');
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
   await screen.findByText(/· Shortlist$/);
   expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();
