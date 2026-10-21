@@ -212,11 +212,15 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
   return { coreResourceIds, requiredExerciseIds };
 };
 
-const OPTION_CHUNK_PATTERN = /option\s+\d+/i;
+// Chunks with "Optional" in the title aren't required. "Option N" chunks in a unit are
+// alternatives (learners do one). The duration estimate and course progress both use these.
+// Check isOptionalChunk first: "Option 1 (optional)" is optional.
+const isOptionalChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /optional/i.test(chunk.chunkTitle);
+const isOptionChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /option\s+\d+/i.test(chunk.chunkTitle);
 
-// "Option N" chunks in a unit are alternatives (learners do one), as in the duration estimate.
-// Only the option the learner has done the largest share of counts, so finishing any one option
-// can reach 100%. Before any option is started, the largest one counts.
+// Optional chunks don't count. Within a unit, only the option the learner has done the largest
+// share of counts, so finishing any one option can reach 100%. Before any option is started, the
+// largest one counts.
 export const countCourseProgress = (
   chunksByUnit: Pick<Chunk, 'chunkTitle' | 'chunkResources' | 'chunkExercises'>[][],
   requiredIds: Set<string>,
@@ -225,14 +229,14 @@ export const countCourseProgress = (
   type CourseChunk = (typeof chunksByUnit)[number][number];
   const requiredIdsIn = (chunk: CourseChunk) => [...(chunk.chunkResources ?? []), ...(chunk.chunkExercises ?? [])]
     .filter((id) => requiredIds.has(id));
-  const isOptionChunk = (chunk: CourseChunk) => OPTION_CHUNK_PATTERN.test(chunk.chunkTitle);
+  const requiredChunksByUnit = chunksByUnit.map((chunks) => chunks.filter((c) => !isOptionalChunk(c)));
 
   // Items outside Option chunks always count, once, even if they also appear in an option.
-  const regularIds = new Set(chunksByUnit.flat().filter((c) => !isOptionChunk(c)).flatMap(requiredIdsIn));
+  const regularIds = new Set(requiredChunksByUnit.flat().filter((c) => !isOptionChunk(c)).flatMap(requiredIdsIn));
   let totalCount = regularIds.size;
   let completedCount = [...regularIds].filter((id) => completedIds.has(id)).length;
 
-  for (const chunks of chunksByUnit) {
+  for (const chunks of requiredChunksByUnit) {
     const options = chunks
       .filter(isOptionChunk)
       .map((c) => {
@@ -323,15 +327,12 @@ export const coursesRouter = router({
       // - Skip chunks with "Optional" in title (not required)
       // - For "Option N:" chunks, take max (they are alternatives)
       // - Sum the rest
-      const optionPattern = /option\s+\d+/i;
-      const optionalPattern = /optional/i;
-
       const unitMetadata = allUnits.map((unit) => {
         const chunks = allChunks.filter((c) => c.unitId === unit.id);
 
-        const requiredChunks = chunks.filter((c) => !optionalPattern.test(c.chunkTitle));
-        const optionChunks = requiredChunks.filter((c) => optionPattern.test(c.chunkTitle));
-        const regularChunks = requiredChunks.filter((c) => !optionPattern.test(c.chunkTitle));
+        const requiredChunks = chunks.filter((c) => !isOptionalChunk(c));
+        const optionChunks = requiredChunks.filter(isOptionChunk);
+        const regularChunks = requiredChunks.filter((c) => !isOptionChunk(c));
         const optionMaxTime = optionChunks.length > 0
           ? Math.max(...optionChunks.map((c) => c.estimatedTime ?? 0))
           : 0;
