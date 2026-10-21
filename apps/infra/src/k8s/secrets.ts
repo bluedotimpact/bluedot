@@ -33,6 +33,8 @@ const toK8s = [
   'calendarConnectLinkSecret',
   'calendarConnectEncryptionKey',
   'calendarConnectBusyApiSecret',
+  'microsoftCalendarClientId',
+  'microsoftCalendarClientSecret',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {
