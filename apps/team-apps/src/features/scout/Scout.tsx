@@ -359,7 +359,7 @@ const Scout = () => {
   }, [ask, skip, confirm, confirmation, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
 
   const controlsDisabled = writing || confirmation !== undefined || promptOpen;
-  let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
+  let confirmDescription = 'This removes the participant from the queue and they won’t be considered again.';
   if (confirmation?.decision === 'invite') confirmDescription = 'This emails the participant on behalf of the course lead. You cannot undo this email.';
   let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
   if (saveError) confirmLabel = 'Retry save';
