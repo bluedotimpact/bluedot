@@ -127,7 +127,11 @@ test('the must-look reason names the signals behind it and only shows for must-l
     ...person,
     opinion: 'Strong yes',
     facilitatorFeedback: [{
+      id: 'recPeerSample00002', reviewer: 'Other Scorer', rating: 9, ratingOutOf: 10, nextSteps: [], recommendToFacilitate: false,
+    }, {
       id: 'recPeerSample00001', reviewer: 'Sample Scorer', rating: 10, ratingOutOf: 10, nextSteps: [], recommendToFacilitate: false,
+    }, {
+      id: 'recPeerSample00003', reviewer: 'Old Scorer', rating: 5, ratingOutOf: 5, nextSteps: [], recommendToFacilitate: false,
     }],
     reports: [{
       id: 'recReportSample001', overallTake: 'Strong yes', facilitator: 'Sample Facilitator', nextSteps: [], ratings: [],
@@ -135,10 +139,10 @@ test('the must-look reason names the signals behind it and only shows for must-l
       id: 'recReportSample002', overallTake: 'Weak yes', nextSteps: [], ratings: [],
     }],
   };
-  expect(mustLookReasons(strong)).toEqual(['Endorsed by Sample Facilitator', 'Scored 10/10 by Sample Scorer', 'Strong yes']);
+  expect(mustLookReasons(strong)).toEqual(['Endorsed by Sample Facilitator', 'Scored 10/10 by Sample Scorer and 9/10 by Other Scorer', 'Strong yes']);
   expect(mustLookReasons(person)).toEqual([]);
   render(<PersonCard person={strong} showName mustLook />);
-  expect(screen.getByText('Shortlisted because').parentElement!.textContent).toBe('Shortlisted because Endorsed by Sample Facilitator · Scored 10/10 by Sample Scorer · Strong yes');
+  expect(screen.getByText('Shortlisted because').parentElement!.textContent).toBe('Shortlisted because Endorsed by Sample Facilitator · Scored 10/10 by Sample Scorer and 9/10 by Other Scorer · Strong yes');
   cleanup();
   render(<PersonCard person={strong} showName />);
   expect(screen.queryByText('Shortlisted because')).toBeNull();

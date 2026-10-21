@@ -398,7 +398,7 @@ const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certi
 // here shows as "other". Exported for tests.
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
   if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
-  if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => rating === 10)) return 'facilitator 10';
+  if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => typeof rating === 'number' && rating >= 9)) return 'top score';
   if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
   return undefined;
 };
