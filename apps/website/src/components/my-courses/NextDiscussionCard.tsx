@@ -27,7 +27,7 @@ const formatDatetimeLabel = (startSec: number, endSec: number) =>
 // Fixed square badge slot: shows the calendar date, or the LIVE indicator (same dimensions) when live.
 const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isLive: boolean }) => (
   <div aria-hidden={!isLive} className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border bg-raised sm:size-16 sm:rounded-2xl">
-    {isLive ? <LiveBadge /> : (
+    {isLive ? <LiveBadge compact /> : (
       <>
         <div className="flex h-4 items-center justify-center bg-accent sm:h-6">
           <span className="text-size-xxs font-semibold leading-none text-on-dark">{month.toUpperCase()}</span>
