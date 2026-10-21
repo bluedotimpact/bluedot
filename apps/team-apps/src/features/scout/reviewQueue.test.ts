@@ -46,3 +46,12 @@ test('must look is one queue per course, newest round first, keeping the view or
   expect(mustLookFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAug1', 'recAug2', 'recSep1', 'recJul1']);
   expect(backlogFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugBacklog']);
 });
+
+test('facilitator endorsements come first on the shortlist, then the newest round', () => {
+  const items: QueueItem[] = [
+    { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugStrong', pickReason: 'strong yes' },
+    { ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepEndorsed', pickReason: 'endorsement' },
+    { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugEndorsed', pickReason: 'endorsement' },
+  ];
+  expect(mustLookFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugEndorsed', 'recSepEndorsed', 'recAugStrong']);
+});

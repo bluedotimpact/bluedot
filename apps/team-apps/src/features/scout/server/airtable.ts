@@ -399,8 +399,8 @@ const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certi
 // Mirrors the "[*] Talent scouting must look" formula in Airtable; a signal added there without a
 // case here shows up as "other" in the picker's recap. Exported for tests.
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
-  if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
   if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
+  if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
   if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => rating === 10)) return 'facilitator 10';
   return undefined;
 };

@@ -6,6 +6,7 @@ import { FaChevronRight } from 'react-icons/fa6';
 import {
   type EvaluationCall, type FacilitatorFeedback, type GrantApplication, type OtherApplication, type Application, type Person, type Project, type RapidGrant, type Registration, type Session, type WebFacts, type WebLink, type WebSource,
 } from './types';
+import { endorsers } from './reviewQueue';
 
 // The CRM interface page course leads already use to prepare calls ("Their CRM record")
 const CRM_BASE_ID = 'apppOzz9fPg59PxLa';
@@ -685,11 +686,11 @@ const feedbackSummary = (fb: FacilitatorFeedback) => {
   return <>{score}{who}{fb.round ? ` · ${shortRound(fb.round)}` : ''}</>;
 };
 
-// Why this person is in the must-look queue, from the same signals the Airtable formula uses.
-// Exported for tests.
+// Why this person is in the must-look queue, from the same signals the Airtable formula uses,
+// endorsement first. Exported for tests.
 export const mustLookReasons = (person: Person): string[] => [
+  ...(endorsers(person).length > 0 ? [`Endorsed by ${endorsers(person).join(' and ')}`] : []),
   ...(person.opinion?.toLowerCase() === 'strong yes' ? ['Strong yes'] : []),
-  ...(person.reports.some((r) => r.overallTake?.toLowerCase() === 'strong yes') ? ['Facilitator endorsement'] : []),
   ...(person.facilitatorFeedback.some((fb) => fb.rating === 10 && fb.ratingOutOf === 10) ? ['Facilitator score 10/10'] : []),
 ];
 

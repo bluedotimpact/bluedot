@@ -20,7 +20,8 @@ export type QueueItem = {
   pickReason?: PickReason;
 };
 
-export const PICK_REASONS = ['strong yes', 'endorsement', 'facilitator 10'] as const;
+// In priority order: an endorsement is a facilitator vouching after a 1-1, so it outranks the opinion
+export const PICK_REASONS = ['endorsement', 'strong yes', 'facilitator 10'] as const;
 export type PickReason = (typeof PICK_REASONS)[number];
 
 // Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share
