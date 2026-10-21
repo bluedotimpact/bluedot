@@ -17,9 +17,15 @@ reviews:
   path_instructions:
     - path: "libraries/db/src/schema.ts"
       instructions: |
-        These tables are synced to Postgres by pg-sync-service, which pushes schema changes before
-        the website adopts the new code. Comment ONLY when a change appears to skip the migration
-        process below; stay silent on additive or unrelated edits.
+        These tables are synced to Postgres by pg-sync-service. Code that uses a new column can run
+        before pg-sync-service has added it, which breaks staging, so schema changes ship ahead of
+        the code that uses them. Comment ONLY when a change appears to skip the migration process
+        below; stay silent on unrelated edits.
+        - A column is added to a `pgAirtable` table and the same PR also reads or writes it outside
+          `libraries/db` (application code, not tests or fixtures). Adding a column is two PRs: add
+          it to the schema and merge, wait for a sync, then use it. Plain `pgTable` and
+          `deprecationSafePgTable` tables aren't synced from Airtable, so adding and using one of
+          their columns in the same PR is fine.
         - A column is deleted outright instead of first being moved into the table's
           `deprecatedColumns`. Safe removal is two PRs: move to `deprecatedColumns` (nullable),
           merge and deploy to prod, then delete.
