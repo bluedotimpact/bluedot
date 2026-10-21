@@ -235,8 +235,8 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   await screen.findByTestId('choose-must-look-Technical AI Safety');
   expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
   expect(screen.getByText('2 to review →')).toBeTruthy();
-  expect(screen.getByText('1 strong yes · 1 facilitator scores of 10/10')).toBeTruthy();
-  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 strong yes · 1 facilitator scores of 10/10 · 1 other');
+  expect(screen.getByText('1 facilitator scores of 10/10 · 1 strong yes')).toBeTruthy();
+  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 facilitator scores of 10/10 · 1 strong yes · 1 other');
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
   await screen.findByText(/· Shortlist$/);
   expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();
@@ -305,7 +305,7 @@ test('Enter confirms the open dialog', async () => {
 test('deciding on an endorsed person names the facilitator, warns that they will be emailed, and sends the note', async () => {
   const endorsed: Person = {
     ...samplePeople[0]!, reports: [{
-      id: 'recReportSample001', overallTake: 'Strong yes', facilitator: 'Sample Facilitator', nextSteps: [], ratings: [],
+      id: 'recReportSample001', overallTake: 'Strong yes', facilitator: 'Sample Facilitator', quickTake: 'Sharpest questions in the group.', nextSteps: [], ratings: [{ label: 'Agency', score: 5, evidence: 'Started a reading group.' }],
     }],
   };
   mockFetch.mockImplementation(async (path, init) => {
@@ -317,7 +317,10 @@ test('deciding on an endorsed person names the facilitator, warns that they will
   fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
   const dialog = await screen.findByRole('dialog');
   expect(dialog.textContent).toContain('Endorsed by Sample Facilitator.');
-  expect(dialog.textContent).toContain('This also emails them to say you didn’t invite Alex.');
+  expect(dialog.textContent).toContain('This also emails Sample to let them know.');
+  expect(dialog.textContent).toContain('Your note to the facilitator (optional)');
+  expect(dialog.textContent).toContain('Overall take: Sharpest questions in the group.');
+  expect(dialog.textContent).toContain('Agency 5/5: Started a reading group.');
   fireEvent.change(screen.getByRole('textbox', { name: 'Note to the facilitator' }), { target: { value: '  Not quite ready for a call yet. ' } });
   fireEvent.click(screen.getAllByRole('button', { name: 'Don’t invite' }).slice(-1)[0]!);
   await waitFor(() => expect(decisions()).toHaveLength(1));

@@ -14,7 +14,7 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { openNextSection } from './sectionNav';
 import {
-  mustLookFor, roundKey, roundLabel, roundsFor, endorsers,
+  mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
 } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
@@ -475,12 +475,31 @@ const Scout = () => {
               <div className="space-y-2 rounded-surface border-l-[3px] border-accent bg-info-bg py-2 pl-[13px] pr-3">
                 <p>
                   <span className="font-semibold">Endorsed by {endorsers(confirmation.person).join(' and ')}.</span>
-                  {' '}This also emails them to say you {confirmation.decision === 'invite' ? 'invited' : 'didn’t invite'} {confirmation.person.name.split(' ')[0]}.
+                  {' '}This also emails {endorsers(confirmation.person).map((name) => name.split(' ')[0]).join(' and ')} to let them know.
                 </p>
                 <label className="block text-size-xs text-secondary">
-                  Add a line for them if you can. They will read it.
-                  <textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder={confirmation.decision === 'invite' ? 'What made you want to talk to them?' : 'What would have tipped it?'} className="mt-1 block w-full resize-y rounded-surface border border-subtle bg-white p-2 text-size-sm text-primary" />
+                  Your note to the facilitator (optional)
+                  <textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder="Anything you would like to tell them?" className="mt-1 block w-full resize-y rounded-surface border border-subtle bg-white p-2 text-size-sm text-primary" />
                 </label>
+                {/* The note is the lead's chance to react to the report, so the report is one click away */}
+                <details className="text-size-xs">
+                  <summary className="cursor-pointer text-secondary underline underline-offset-2 hover:text-primary">Remind me what they said</summary>
+                  <div className="mt-2 space-y-3">
+                    {endorsements(confirmation.person).map((r) => (
+                      <div key={r.id} className="space-y-1">
+                        {endorsements(confirmation.person).length > 1 && <p className="font-semibold">{r.facilitator ?? 'Facilitator'}</p>}
+                        {[
+                          { label: 'Overall take', text: r.quickTake },
+                          ...r.ratings.filter((x) => x.evidence).map((x) => ({ label: `${x.label}${x.score !== undefined ? ` ${x.score}/5` : ''}`, text: x.evidence })),
+                          { label: 'Their plans', text: r.plans },
+                          { label: 'Anything else', text: r.anythingElse },
+                        ].filter((x) => x.text).map((x) => (
+                          <p key={x.label} className="whitespace-pre-wrap"><span className="font-semibold">{x.label}:</span> {x.text}</p>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </details>
               </div>
             )}
             {writing && (

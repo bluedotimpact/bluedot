@@ -1,5 +1,5 @@
 import {
-  COURSES, type Course, type Person, type QueueItem,
+  COURSES, PICK_REASONS, type Course, type Person, type QueueItem,
 } from './types';
 
 export const courses: readonly Course[] = COURSES;
@@ -20,21 +20,27 @@ export const roundPickerLabel = (item: QueueItem, now = new Date()) => {
   return `Ended ${date} (${roundLabel(item)})`;
 };
 
-// The course's must-look people across rounds: facilitator endorsements first (a lead's decision on
-// them also closes the loop with the facilitator), then most recently finished round first (that is
+// The course's must-look people: completers before non-completers; within that, by the signal
+// that put them here in PICK_REASONS order (an endorsement first, since the lead's decision also
+// closes the loop with the facilitator); within that, most recently finished round first (that is
 // when the certificate, facilitator feedback and project land); within a round, the view's order
+const tier = (item: QueueItem) => (item.pickReason ? PICK_REASONS.indexOf(item.pickReason) : PICK_REASONS.length);
 export const mustLookFor = (items: QueueItem[], course: string) => items
   .filter((item) => item.course === course && item.mustLook)
-  .sort((a, b) => Number(b.pickReason === 'endorsement') - Number(a.pickReason === 'endorsement') || (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
+  .sort((a, b) => Number(b.hasCertificate) - Number(a.hasCertificate) || tier(a) - tier(b) || (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
 
 // The backlog is everyone else, still picked round by round
 export const backlogFor = (items: QueueItem[], course: string) => items.filter((item) => item.course === course && !item.mustLook);
 
-// The facilitators who endorsed this person: a 1-1 report with an overall take of Strong yes.
-// The decision dialog uses it to say who will hear about the decision.
-export const endorsers = (person: Person): string[] => [...new Set(person.reports
-  .filter((r) => r.overallTake?.toLowerCase() === 'strong yes')
-  .map((r) => r.facilitator ?? 'their facilitator'))];
+// The reports that endorse this person (an overall take of Strong yes), and the facilitators who
+// wrote them. The decision dialog uses both: who will hear about the decision, and what they said.
+export const endorsements = (person: Person) => person.reports.filter((r) => r.overallTake?.toLowerCase() === 'strong yes');
+export const endorsers = (person: Person): string[] => [...new Set(endorsements(person).map((r) => r.facilitator ?? 'their facilitator'))];
+
+// The facilitators who scored this person 10/10 in their end-of-course feedback
+export const topScorers = (person: Person): string[] => [...new Set(person.facilitatorFeedback
+  .filter((fb) => fb.rating === 10 && fb.ratingOutOf === 10)
+  .map((fb) => fb.reviewer ?? 'their facilitator'))];
 
 export const roundsFor = (items: QueueItem[], course: string) => {
   const rounds = new Map<string, QueueItem>();
