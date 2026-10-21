@@ -316,8 +316,7 @@ test('deciding on an endorsed person names the facilitator, warns that they will
   await start();
   fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
   const dialog = await screen.findByRole('dialog');
-  expect(dialog.textContent).toContain('Endorsed by Sample Facilitator.');
-  expect(dialog.textContent).toContain('This also emails Sample to let them know.');
+  expect(dialog.textContent).toContain('Endorsed: This will email Sample Facilitator to let them know.');
   expect(dialog.textContent).toContain('Your note to the facilitator (optional)');
   expect(dialog.textContent).toContain('Overall take: Sharpest questions in the group.');
   expect(dialog.textContent).toContain('Agency 5/5: Started a reading group.');

@@ -472,10 +472,10 @@ const Scout = () => {
             <p className="font-semibold">{confirmation.person.name}</p>
             <p>{confirmDescription}</p>
             {endorsers(confirmation.person).length > 0 && (
-              <div className="space-y-2 rounded-surface border-l-[3px] border-accent bg-info-bg py-2 pl-[13px] pr-3">
+              <div className={`space-y-2 rounded-surface border-l-[3px] py-2 pl-[13px] pr-3 ${confirmation.decision === 'invite' ? 'border-accent bg-info-bg' : 'border-error-border bg-error-bg'}`}>
                 <p>
-                  <span className="font-semibold">Endorsed by {endorsers(confirmation.person).join(' and ')}.</span>
-                  {' '}This also emails {endorsers(confirmation.person).map((name) => name.split(' ')[0]).join(' and ')} to let them know.
+                  <span className="font-semibold">Endorsed:</span>
+                  {' '}This will email {endorsers(confirmation.person).join(' and ')} to let them know.
                 </p>
                 <label className="block text-size-xs text-secondary">
                   Your note to the facilitator (optional)
@@ -509,7 +509,6 @@ const Scout = () => {
               </div>
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
-            <p className="text-size-xs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="secondary" disabled={writing} onClick={() => {
                 setConfirmation(undefined);
