@@ -69,12 +69,12 @@ describe('courseRegistrations.getByCourseId', () => {
     expect(result?.id).toBe('reg-real');
   });
 
-  test('returns the newest of several non-duplicate registrations', async () => {
+  test('returns the newest registration when isDuplicate is unset on every row', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-old', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 1,
+      id: 'reg-old', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 1, isDuplicate: null,
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-new', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 2, isDuplicate: false,
+      id: 'reg-new', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 2, isDuplicate: null,
     });
 
     const result = await createCaller(testAuthContextLoggedIn)

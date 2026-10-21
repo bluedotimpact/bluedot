@@ -10,7 +10,9 @@ import {
   exerciseTable,
   groupDiscussionTable,
   inArray,
+  isNull,
   meetPersonTable,
+  or,
   roundTable,
   selfServeCourseRegistrationTable,
 } from '@bluedot/db';
@@ -23,7 +25,6 @@ import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 import type { AppRouter } from './_app';
-import { getAcceptedCourseRegistration } from './course-registrations';
 import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(userId: string): Promise<boolean> {
@@ -214,7 +215,21 @@ export const certificatesRouter = router({
       return { status: 'exercises-incomplete' } as const;
     }
 
-    const courseRegistration = await getAcceptedCourseRegistration({ userId: user.id, courseId });
+    // Skip registrations flagged as duplicates, so the newest real one wins
+    const [courseRegistration] = await db.pg
+      .select()
+      .from(courseRegistrationTable.pg)
+      .where(and(
+        eq(courseRegistrationTable.pg.userId, user.id),
+        eq(courseRegistrationTable.pg.courseId, courseId),
+        eq(courseRegistrationTable.pg.decision, 'Accept'),
+        or(
+          eq(courseRegistrationTable.pg.isDuplicate, false),
+          isNull(courseRegistrationTable.pg.isDuplicate),
+        ),
+      ))
+      .orderBy(desc(courseRegistrationTable.pg.autoNumberId))
+      .limit(1);
 
     if (!courseRegistration) {
       const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);

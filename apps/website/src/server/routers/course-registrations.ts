@@ -12,33 +12,30 @@ import {
 } from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
 
-// Registrations flagged as duplicates have no meetPerson record, so they must never win over the real one.
-export const getAcceptedCourseRegistration = async ({ userId, courseId }: { userId: string; courseId: string }) => {
-  const [courseRegistration] = await db.pg
-    .select()
-    .from(courseRegistrationTable.pg)
-    .where(and(
-      eq(courseRegistrationTable.pg.userId, userId),
-      eq(courseRegistrationTable.pg.courseId, courseId),
-      eq(courseRegistrationTable.pg.decision, 'Accept'),
-      or(
-        eq(courseRegistrationTable.pg.isDuplicate, false),
-        isNull(courseRegistrationTable.pg.isDuplicate),
-      ),
-    ))
-    .orderBy(desc(courseRegistrationTable.pg.autoNumberId))
-    .limit(1);
-
-  return courseRegistration ?? null;
-};
-
 export const courseRegistrationsRouter = router({
   getByCourseId: protectedProcedure
     .input(z.object({ courseId: z.string() }))
     .query(async ({ ctx, input }) => {
+      const { courseId } = input;
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
-      return getAcceptedCourseRegistration({ userId: user.id, courseId: input.courseId });
+      // Skip registrations flagged as duplicates, so the newest real one wins
+      const [courseRegistration] = await db.pg
+        .select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.userId, user.id),
+          eq(courseRegistrationTable.pg.courseId, courseId),
+          eq(courseRegistrationTable.pg.decision, 'Accept'),
+          or(
+            eq(courseRegistrationTable.pg.isDuplicate, false),
+            isNull(courseRegistrationTable.pg.isDuplicate),
+          ),
+        ))
+        .orderBy(desc(courseRegistrationTable.pg.autoNumberId))
+        .limit(1);
+
+      return courseRegistration ?? null;
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
