@@ -16,7 +16,7 @@ const mustLookChoice = `${choice} border-accent bg-info-bg text-info-fg hover:bo
 const summaryLabel = (mustLook: number, invited?: { total: number }) => `${mustLook} shortlisted · ${invited?.total ?? 0} invited this week`;
 
 // What is on the shortlist, one count per person so the parts add up to the total. Exported for tests.
-const PICK_LABELS: Record<PickReason, string> = { 'strong yes': 'strong yes', 'good 1-1': 'positive facilitator 1-1 takes', 'facilitator 10': 'facilitator scores of 10/10' };
+const PICK_LABELS: Record<PickReason, string> = { 'strong yes': 'strong yes', endorsement: 'facilitator endorsements', 'facilitator 10': 'facilitator scores of 10/10' };
 export const pickRecap = (picks: QueueItem[]) => {
   const parts = PICK_REASONS.map((reason) => ({ label: PICK_LABELS[reason], count: picks.filter((item) => item.pickReason === reason).length }));
   // Shortlisted by the Airtable formula for a signal the code does not know: shown rather than dropped, so the parts always add up

@@ -394,12 +394,13 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports, REG.mustLook, REG.facilitatorRatings, REG.reportTakes];
 
 // The one signal that put a person on the shortlist, in the order the picker counts them, so each
-// person is counted once: a strong yes first, then a good 1-1 take, then a facilitator 10/10.
+// person is counted once: a strong yes first, then a facilitator endorsement (a 1-1 take of
+// Strong yes, as the advising guide defines it), then a facilitator 10/10.
 // Mirrors the "[*] Talent scouting must look" formula in Airtable; a signal added there without a
 // case here shows up as "other" in the picker's recap. Exported for tests.
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
   if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
-  if (strList(fields[REG.reportTakes]).some((take) => ['strong yes', 'weak yes'].includes(take.toLowerCase()))) return 'good 1-1';
+  if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
   if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => rating === 10)) return 'facilitator 10';
   return undefined;
 };

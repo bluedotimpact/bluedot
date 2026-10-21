@@ -20,7 +20,7 @@ export type QueueItem = {
   pickReason?: PickReason;
 };
 
-export const PICK_REASONS = ['strong yes', 'good 1-1', 'facilitator 10'] as const;
+export const PICK_REASONS = ['strong yes', 'endorsement', 'facilitator 10'] as const;
 export type PickReason = (typeof PICK_REASONS)[number];
 
 // Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share

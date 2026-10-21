@@ -689,7 +689,7 @@ const feedbackSummary = (fb: FacilitatorFeedback) => {
 // Exported for tests.
 export const mustLookReasons = (person: Person): string[] => [
   ...(person.opinion?.toLowerCase() === 'strong yes' ? ['Strong yes'] : []),
-  ...person.reports.filter((r) => ['strong yes', 'weak yes'].includes(r.overallTake?.toLowerCase() ?? '')).map((r) => `Positive facilitator 1-1 take: ${r.overallTake}`),
+  ...(person.reports.some((r) => r.overallTake?.toLowerCase() === 'strong yes') ? ['Facilitator endorsement'] : []),
   ...(person.facilitatorFeedback.some((fb) => fb.rating === 10 && fb.ratingOutOf === 10) ? ['Facilitator score 10/10'] : []),
 ];
 
