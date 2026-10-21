@@ -1,4 +1,6 @@
-import { COURSES, type Course, type QueueItem } from './types';
+import {
+  COURSES, PICK_REASONS, type Course, type Person, type QueueItem,
+} from './types';
 
 export const courses: readonly Course[] = COURSES;
 export const roundKey = (item: QueueItem) => item.roundId ?? `${item.course}:${item.roundName}`;
@@ -18,14 +20,22 @@ export const roundPickerLabel = (item: QueueItem, now = new Date()) => {
   return `Ended ${date} (${roundLabel(item)})`;
 };
 
-// The course's must-look people across rounds, most recently finished round first (that is when the
-// certificate, facilitator feedback and project land); within a round, the view's order
+// The course's shortlist: completers first, then by PICK_REASONS, then most recently finished round
+const tier = (item: QueueItem) => (item.pickReason ? PICK_REASONS.indexOf(item.pickReason) : PICK_REASONS.length);
 export const mustLookFor = (items: QueueItem[], course: string) => items
   .filter((item) => item.course === course && item.mustLook)
-  .sort((a, b) => (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
+  .sort((a, b) => Number(b.hasCertificate) - Number(a.hasCertificate) || tier(a) - tier(b) || (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
 
 // The backlog is everyone else, still picked round by round
 export const backlogFor = (items: QueueItem[], course: string) => items.filter((item) => item.course === course && !item.mustLook);
+
+// An endorsement is a 1-1 report with an overall take of Strong yes
+export const endorsements = (person: Person) => person.reports.filter((r) => r.overallTake?.toLowerCase() === 'strong yes');
+export const endorsers = (person: Person): string[] => [...new Set(endorsements(person).map((r) => r.facilitator ?? 'their facilitator'))];
+
+export const topScorers = (person: Person): string[] => [...new Set(person.facilitatorFeedback
+  .filter((fb) => fb.rating === 10 && fb.ratingOutOf === 10)
+  .map((fb) => fb.reviewer ?? 'their facilitator'))];
 
 export const roundsFor = (items: QueueItem[], course: string) => {
   const rounds = new Map<string, QueueItem>();

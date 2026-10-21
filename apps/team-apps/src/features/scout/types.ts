@@ -20,7 +20,8 @@ export type QueueItem = {
   pickReason?: PickReason;
 };
 
-export const PICK_REASONS = ['strong yes', 'good 1-1', 'facilitator 10'] as const;
+// Why someone is on the shortlist, in priority order: course evidence before the application opinion
+export const PICK_REASONS = ['endorsement', 'facilitator 10', 'strong yes'] as const;
 export type PickReason = (typeof PICK_REASONS)[number];
 
 // Invites sent this week (Monday to Sunday) per course, all sources, plus the app's share

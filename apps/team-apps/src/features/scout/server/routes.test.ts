@@ -59,7 +59,7 @@ test('any verified staff member can read and decide without an admin role', asyn
   const writes = createMocks<NextApiRequest, NextApiResponse>({ method: 'POST', headers, body: { id: 'recScoutSample001', decision: 'invite' } });
   await decision(writes.req, writes.res);
   expect(writes.res._getStatusCode()).toBe(200);
-  expect(recordDecision).toHaveBeenCalledWith('recScoutSample001', 'invite');
+  expect(recordDecision).toHaveBeenCalledWith('recScoutSample001', 'invite', undefined);
 });
 
 test('the queue carries the courses led by the signed-in email and their first name', async () => {

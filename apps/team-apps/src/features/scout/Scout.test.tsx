@@ -235,8 +235,8 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   await screen.findByTestId('choose-must-look-Technical AI Safety');
   expect(screen.queryByTestId('choose-round-sample-Technical AI Safety')).toBeNull();
   expect(screen.getByText('2 to review →')).toBeTruthy();
-  expect(screen.getByText('1 strong yes · 1 facilitator scores of 10/10')).toBeTruthy();
-  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 strong yes · 1 facilitator scores of 10/10 · 1 other');
+  expect(screen.getByText('1 facilitator scores of 10/10 · 1 strong yes')).toBeTruthy();
+  expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 facilitator scores of 10/10 · 1 strong yes · 1 other');
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
   await screen.findByText(/· Shortlist$/);
   expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();
@@ -300,6 +300,35 @@ test('Enter confirms the open dialog', async () => {
   await waitFor(() => expect(decisions()).toHaveLength(1));
   await screen.findByText('Sam Chen');
   expect(JSON.parse(decisions()[0]![1]!.body as string)).toEqual({ id: samplePeople[0]!.id, decision: 'invite' });
+});
+
+test('deciding on an endorsed person names the facilitator, warns that they will be emailed, and sends the note', async () => {
+  const endorsed: Person = {
+    ...samplePeople[0]!, reports: [{
+      id: 'recReportSample001', overallTake: 'Strong yes', facilitator: 'Sample Facilitator', quickTake: 'Sharpest questions in the group.', nextSteps: [], ratings: [{ label: 'Agency', score: 5, evidence: 'Started a reading group.' }],
+    }],
+  };
+  mockFetch.mockImplementation(async (path, init) => {
+    if (init?.method === 'POST') return response({ ok: true });
+    if (pathOf(path).endsWith(endorsed.id)) return response({ person: endorsed });
+    return read(path);
+  });
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
+  const dialog = await screen.findByRole('dialog');
+  expect(dialog.textContent).toContain('Endorsed: This will email Sample Facilitator to let them know.');
+  expect(dialog.textContent).toContain('Your note to the facilitator (optional)');
+  expect(dialog.textContent).toContain('Overall take: Sharpest questions in the group.');
+  expect(dialog.textContent).toContain('Agency 5/5: Started a reading group.');
+  fireEvent.change(screen.getByRole('textbox', { name: 'Note to the facilitator' }), { target: { value: '  Not quite ready for a call yet. ' } });
+  fireEvent.click(screen.getAllByRole('button', { name: 'Don’t invite' }).slice(-1)[0]!);
+  await waitFor(() => expect(decisions()).toHaveLength(1));
+  expect(JSON.parse(decisions()[0]![1]!.body as string)).toEqual({ id: endorsed.id, decision: 'decline', note: 'Not quite ready for a call yet.' });
+  // The next person has no endorsement: no note box, no note in the request
+  await screen.findByText('Sam Chen');
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  await screen.findByRole('dialog');
+  expect(screen.queryByRole('textbox', { name: 'Note to the facilitator' })).toBeNull();
 });
 
 test('chooses a round before loading people and never includes another round from the same course', async () => {

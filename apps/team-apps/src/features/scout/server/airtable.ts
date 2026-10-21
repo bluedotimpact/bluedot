@@ -393,14 +393,13 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports, REG.mustLook, REG.facilitatorRatings, REG.reportTakes];
 
-// The one signal that put a person on the shortlist, in the order the picker counts them, so each
-// person is counted once: a strong yes first, then a good 1-1 take, then a facilitator 10/10.
-// Mirrors the "[*] Talent scouting must look" formula in Airtable; a signal added there without a
-// case here shows up as "other" in the picker's recap. Exported for tests.
+// The one signal that put a person on the shortlist, in PICK_REASONS order so the picker's recap
+// adds up. Mirrors the "[*] Talent scouting must look" formula; a signal added there without a case
+// here shows as "other". Exported for tests.
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
-  if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
-  if (strList(fields[REG.reportTakes]).some((take) => ['strong yes', 'weak yes'].includes(take.toLowerCase()))) return 'good 1-1';
+  if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
   if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => rating === 10)) return 'facilitator 10';
+  if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
   return undefined;
 };
 
@@ -1021,11 +1020,24 @@ const patchRegistration = async (id: string, fields: Record<string, unknown>) =>
   if (!response.ok) throw airtableError(response, `update ${id}`);
 };
 
+// The lead's note to the facilitator, on each Strong yes report. Written before the status so the
+// facilitator email (sent by the Course runner automation on the status change) includes it.
+const noteEndorsers = async (fields: Record<string, unknown>, note: string | undefined) => {
+  const text = note?.trim();
+  const reportIds = strList(fields[REG.reports]);
+  if (!text || reportIds.length === 0) return;
+  const reports = await fetchMany(REPORTS_URL, reportIds, [REPORT.overallTake]);
+  await Promise.all(reports
+    .filter((r) => str(r.fields[REPORT.overallTake])?.toLowerCase() === 'strong yes')
+    .map((r) => airtableFetch(`${REPORTS_URL}/${r.id}`, { method: 'PATCH', headers: headers(), body: JSON.stringify({ fields: { [REPORT.reviewNotes]: text } }) })));
+};
+
 // Don't invite = a status only. The person leaves the queue view; the status can
 // be cleared in Airtable if it was wrong.
-export const declineForReal = async (id: string): Promise<WriteResult> => {
+export const declineForReal = async (id: string, note?: string): Promise<WriteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
+  await noteEndorsers(check.fields, note);
   await patchRegistration(id, { [REG.scoutingStatus]: 'Pass' });
   return { ok: true };
 };
@@ -1035,9 +1047,10 @@ export const declineForReal = async (id: string): Promise<WriteResult> => {
 // the invite date and — because it sees the status — records the source as
 // "Talent scouting app". The source field itself is synced from the Applications base
 // and cannot be written through the API from here, which is why the automation owns it.
-export const inviteForReal = async (id: string): Promise<InviteResult> => {
+export const inviteForReal = async (id: string, note?: string): Promise<InviteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
+  await noteEndorsers(check.fields, note);
   await patchRegistration(id, { [REG.scoutingStatus]: 'Invited', [REG.sendInviteEmail]: true });
   return { ok: true };
 };

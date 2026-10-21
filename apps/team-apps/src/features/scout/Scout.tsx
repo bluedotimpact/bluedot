@@ -14,7 +14,7 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { openNextSection } from './sectionNav';
 import {
-  mustLookFor, roundKey, roundLabel, roundsFor,
+  mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
 } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
@@ -100,6 +100,7 @@ const Scout = () => {
   const generation = useRef(0);
   const [done, setDone] = useState<Record<string, Done>>({});
   const [confirmation, setConfirmation] = useState<Confirmation>();
+  const [note, setNote] = useState('');
   const [writing, setWriting] = useState(false);
   const writingRef = useRef(false);
   const [saveError, setSaveError] = useState<string>();
@@ -277,6 +278,7 @@ const Scout = () => {
   const ask = useCallback((decision: Decision) => {
     if (!current || person?.id !== current.id || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSaveError(undefined);
+    setNote('');
     setConfirmation({ person, decision, item: current });
   }, [person, current, allSkipped, confirmation, promptOpen, conflict]);
 
@@ -289,7 +291,8 @@ const Scout = () => {
     setWriting(true);
     setSaveError(undefined);
     try {
-      const result = await request<{ ok: boolean; reason?: string }>('decision', { id: selected.person.id, decision: selected.decision });
+      const forFacilitator = endorsers(selected.person).length > 0 ? note.trim() : '';
+      const result = await request<{ ok: boolean; reason?: string }>('decision', { id: selected.person.id, decision: selected.decision, ...(forFacilitator ? { note: forFacilitator } : {}) });
       if (!result.ok) {
         setConflict(true);
         setSaveError(result.reason ?? 'This participant is no longer available. Refresh the queue to continue.');
@@ -310,7 +313,7 @@ const Scout = () => {
       writingRef.current = false;
       setWriting(false);
     }
-  }, [confirmation, lookup, closeLookup]);
+  }, [confirmation, note, lookup, closeLookup]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -355,7 +358,7 @@ const Scout = () => {
   }, [ask, skip, confirm, confirmation, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
 
   const controlsDisabled = writing || confirmation !== undefined || promptOpen;
-  let confirmDescription = 'This removes the participant from the queue and they won’t be considered again (unless the status is cleared in Airtable).';
+  let confirmDescription = 'This removes the participant from the queue and they won’t be considered again.';
   if (confirmation?.decision === 'invite') confirmDescription = 'This emails the participant on behalf of the course lead. You cannot undo this email.';
   let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
   if (saveError) confirmLabel = 'Retry save';
@@ -467,6 +470,36 @@ const Scout = () => {
           {confirmation && <div className="max-w-md space-y-4 break-words text-size-sm">
             <p className="font-semibold">{confirmation.person.name}</p>
             <p>{confirmDescription}</p>
+            {endorsers(confirmation.person).length > 0 && (
+              <div className={`space-y-2 rounded-surface border-l-[3px] py-2 pl-[13px] pr-3 ${confirmation.decision === 'invite' ? 'border-accent bg-info-bg' : 'border-error-border bg-error-bg'}`}>
+                <p>
+                  <span className="font-semibold">Endorsed:</span>
+                  {' '}This will email {endorsers(confirmation.person).join(' and ')} to let them know.
+                </p>
+                <label className="block text-size-xs text-secondary">
+                  Your note to the facilitator (optional)
+                  <textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder="Anything you would like to tell them?" className="mt-1 block w-full resize-y rounded-surface border border-subtle bg-white p-2 text-size-sm text-primary" />
+                </label>
+                <details className="text-size-xs">
+                  <summary className="cursor-pointer text-secondary underline underline-offset-2 hover:text-primary">Remind me what they said</summary>
+                  <div className="mt-2 space-y-3">
+                    {endorsements(confirmation.person).map((r) => (
+                      <div key={r.id} className="space-y-1">
+                        {endorsements(confirmation.person).length > 1 && <p className="font-semibold">{r.facilitator ?? 'Facilitator'}</p>}
+                        {[
+                          { label: 'Overall take', text: r.quickTake },
+                          ...r.ratings.filter((x) => x.evidence).map((x) => ({ label: `${x.label}${x.score !== undefined ? ` ${x.score}/5` : ''}`, text: x.evidence })),
+                          { label: 'Their plans', text: r.plans },
+                          { label: 'Anything else', text: r.anythingElse },
+                        ].filter((x) => x.text).map((x) => (
+                          <p key={x.label} className="whitespace-pre-wrap"><span className="font-semibold">{x.label}:</span> {x.text}</p>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              </div>
+            )}
             {writing && (
               <div className="flex items-center gap-2 text-size-xs text-secondary" role="status">
                 <ProgressDots />
@@ -474,7 +507,6 @@ const Scout = () => {
               </div>
             )}
             {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
-            <p className="text-size-xs text-secondary"><kbd>Enter</kbd> confirm · <kbd>Esc</kbd> cancel</p>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="secondary" disabled={writing} onClick={() => {
                 setConfirmation(undefined);
