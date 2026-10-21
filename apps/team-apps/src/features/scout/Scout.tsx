@@ -14,7 +14,7 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { openNextSection } from './sectionNav';
 import {
-  mustLookFor, roundKey, roundLabel, roundsFor,
+  mustLookFor, roundKey, roundLabel, roundsFor, endorsers,
 } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
@@ -100,6 +100,8 @@ const Scout = () => {
   const generation = useRef(0);
   const [done, setDone] = useState<Record<string, Done>>({});
   const [confirmation, setConfirmation] = useState<Confirmation>();
+  // The lead's optional line to the facilitator who endorsed this person; sent with the decision
+  const [note, setNote] = useState('');
   const [writing, setWriting] = useState(false);
   const writingRef = useRef(false);
   const [saveError, setSaveError] = useState<string>();
@@ -277,6 +279,7 @@ const Scout = () => {
   const ask = useCallback((decision: Decision) => {
     if (!current || person?.id !== current.id || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
     setSaveError(undefined);
+    setNote('');
     setConfirmation({ person, decision, item: current });
   }, [person, current, allSkipped, confirmation, promptOpen, conflict]);
 
@@ -289,7 +292,8 @@ const Scout = () => {
     setWriting(true);
     setSaveError(undefined);
     try {
-      const result = await request<{ ok: boolean; reason?: string }>('decision', { id: selected.person.id, decision: selected.decision });
+      const forFacilitator = endorsers(selected.person).length > 0 ? note.trim() : '';
+      const result = await request<{ ok: boolean; reason?: string }>('decision', { id: selected.person.id, decision: selected.decision, ...(forFacilitator ? { note: forFacilitator } : {}) });
       if (!result.ok) {
         setConflict(true);
         setSaveError(result.reason ?? 'This participant is no longer available. Refresh the queue to continue.');
@@ -310,7 +314,7 @@ const Scout = () => {
       writingRef.current = false;
       setWriting(false);
     }
-  }, [confirmation, lookup, closeLookup]);
+  }, [confirmation, note, lookup, closeLookup]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -467,6 +471,18 @@ const Scout = () => {
           {confirmation && <div className="max-w-md space-y-4 break-words text-size-sm">
             <p className="font-semibold">{confirmation.person.name}</p>
             <p>{confirmDescription}</p>
+            {endorsers(confirmation.person).length > 0 && (
+              <div className="space-y-2 rounded-surface border-l-[3px] border-accent bg-info-bg py-2 pl-[13px] pr-3">
+                <p>
+                  <span className="font-semibold">Endorsed by {endorsers(confirmation.person).join(' and ')}.</span>
+                  {' '}This also emails them to say you {confirmation.decision === 'invite' ? 'invited' : 'didn’t invite'} {confirmation.person.name.split(' ')[0]}.
+                </p>
+                <label className="block text-size-xs text-secondary">
+                  Add a line for them if you can. They will read it.
+                  <textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder={confirmation.decision === 'invite' ? 'What made you want to talk to them?' : 'What would have tipped it?'} className="mt-1 block w-full resize-y rounded-surface border border-subtle bg-white p-2 text-size-sm text-primary" />
+                </label>
+              </div>
+            )}
             {writing && (
               <div className="flex items-center gap-2 text-size-xs text-secondary" role="status">
                 <ProgressDots />

@@ -1022,11 +1022,33 @@ const patchRegistration = async (id: string, fields: Record<string, unknown>) =>
   if (!response.ok) throw airtableError(response, `update ${id}`);
 };
 
+// A lead's note to the facilitator who endorsed this person, written to "Review notes" on each
+// Strong yes report (the Course runner automation emails the facilitator from that field once the
+// status changes, so this runs before the status write). Appends when a note is already there.
+const noteEndorsers = async (fields: Record<string, unknown>, note: string | undefined) => {
+  const text = note?.trim();
+  const reportIds = strList(fields[REG.reports]);
+  if (!text || reportIds.length === 0) return;
+  const reports = await fetchMany(REPORTS_URL, reportIds, [REPORT.overallTake, REPORT.reviewNotes]);
+  await Promise.all(reports
+    .filter((r) => str(r.fields[REPORT.overallTake])?.toLowerCase() === 'strong yes')
+    .map(async (r) => {
+      const existing = str(r.fields[REPORT.reviewNotes]);
+      const response = await airtableFetch(`${REPORTS_URL}/${r.id}`, {
+        method: 'PATCH',
+        headers: headers(),
+        body: JSON.stringify({ fields: { [REPORT.reviewNotes]: existing ? `${existing}\n\n${text}` : text } }),
+      });
+      if (!response.ok) throw airtableError(response, `update report ${r.id}`);
+    }));
+};
+
 // Don't invite = a status only. The person leaves the queue view; the status can
 // be cleared in Airtable if it was wrong.
-export const declineForReal = async (id: string): Promise<WriteResult> => {
+export const declineForReal = async (id: string, note?: string): Promise<WriteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
+  await noteEndorsers(check.fields, note);
   await patchRegistration(id, { [REG.scoutingStatus]: 'Pass' });
   return { ok: true };
 };
@@ -1036,9 +1058,10 @@ export const declineForReal = async (id: string): Promise<WriteResult> => {
 // the invite date and — because it sees the status — records the source as
 // "Talent scouting app". The source field itself is synced from the Applications base
 // and cannot be written through the API from here, which is why the automation owns it.
-export const inviteForReal = async (id: string): Promise<InviteResult> => {
+export const inviteForReal = async (id: string, note?: string): Promise<InviteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
+  await noteEndorsers(check.fields, note);
   await patchRegistration(id, { [REG.scoutingStatus]: 'Invited', [REG.sendInviteEmail]: true });
   return { ok: true };
 };

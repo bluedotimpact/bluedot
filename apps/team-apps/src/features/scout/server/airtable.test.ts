@@ -30,6 +30,15 @@ const reads = async (input: RequestInfo | URL, init?: RequestInit) => {
     });
   }
 
+  if (url.pathname.endsWith('tblRTbvkM5pMvWoEb')) {
+    return json({
+      records: [
+        { id: 'recReportSample001', fields: { fld2RJ0EwPPpo1uSr: 'Strong yes', fldE7HnjsEN7hq1VP: 'Earlier note.' } },
+        { id: 'recReportSample002', fields: { fld2RJ0EwPPpo1uSr: 'Weak yes' } },
+      ],
+    });
+  }
+
   if (url.pathname.endsWith('tblYavwHtMMcn8Wt1')) return json({ records: [{ id: 'recLeadExample01', fields: { fldybLwD2UCqXFeb8: 'Lead@example.org', fldwPw2PCIDfn1ZqE: 'Biosecurity, Pandemics', fldYo8haU379WYYt0: ' Sample  Lead\n' } }] });
   if (url.pathname.endsWith('tblu6u7F2NHfCMgsk')) return json({ records: [{ id: 'recRoundExample01', fields: { fldEBVjEF9l2IEyG7: 'Test round', fldvorW4UVmRTihB9: ['Technical AI Safety'] } }] });
   return json({ records: eligible ? [{ id, fields: untouched }] : [] });
@@ -62,6 +71,18 @@ test('invites with one write: scouting status plus the send box; the automation 
   expect(patches()).toHaveLength(1);
   expect((patches()[0]![0] as string)).toContain(`tblBeMxAM1FAW06n4/${id}`);
   expect(JSON.parse(patches()[0]![1]!.body as string)).toEqual({ fields: { fldr09njoFMHdDD1F: 'Invited', flddylvIrOk9DunGQ: true } });
+});
+
+test('a note goes to the endorsing report only, appended, and lands before the status so the facilitator email sees it', async () => {
+  currentFields = { ...untouched, fldhnrkUUKFyv6hGe: ['recReportSample001', 'recReportSample002'] };
+  expect(await run(declineForReal(id, '  Sharp on mechanisms, but no research experience yet.  '))).toEqual({ ok: true });
+  expect(patches().map(([url]) => (url as string).split('/').slice(-2).join('/'))).toEqual(['tblRTbvkM5pMvWoEb/recReportSample001', `tblBeMxAM1FAW06n4/${id}`]);
+  expect(JSON.parse(patches()[0]![1]!.body as string)).toEqual({ fields: { fldE7HnjsEN7hq1VP: 'Earlier note.\n\nSharp on mechanisms, but no research experience yet.' } });
+  // No reports, or an empty note: the registration write is the only one
+  currentFields = { ...untouched };
+  fetchMock.mockClear();
+  expect(await run(inviteForReal(id, '   '))).toEqual({ ok: true });
+  expect(patches()).toHaveLength(1);
 });
 
 test('declines only by setting the scouting status, without triggering email', async () => {

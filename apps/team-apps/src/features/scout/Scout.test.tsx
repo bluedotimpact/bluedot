@@ -302,6 +302,33 @@ test('Enter confirms the open dialog', async () => {
   expect(JSON.parse(decisions()[0]![1]!.body as string)).toEqual({ id: samplePeople[0]!.id, decision: 'invite' });
 });
 
+test('deciding on an endorsed person names the facilitator, warns that they will be emailed, and sends the note', async () => {
+  const endorsed: Person = {
+    ...samplePeople[0]!, reports: [{
+      id: 'recReportSample001', overallTake: 'Strong yes', facilitator: 'Sample Facilitator', nextSteps: [], ratings: [],
+    }],
+  };
+  mockFetch.mockImplementation(async (path, init) => {
+    if (init?.method === 'POST') return response({ ok: true });
+    if (pathOf(path).endsWith(endorsed.id)) return response({ person: endorsed });
+    return read(path);
+  });
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Don’t invite' }));
+  const dialog = await screen.findByRole('dialog');
+  expect(dialog.textContent).toContain('Endorsed by Sample Facilitator.');
+  expect(dialog.textContent).toContain('This also emails them to say you didn’t invite Alex.');
+  fireEvent.change(screen.getByRole('textbox', { name: 'Note to the facilitator' }), { target: { value: '  Not quite ready for a call yet. ' } });
+  fireEvent.click(screen.getAllByRole('button', { name: 'Don’t invite' }).slice(-1)[0]!);
+  await waitFor(() => expect(decisions()).toHaveLength(1));
+  expect(JSON.parse(decisions()[0]![1]!.body as string)).toEqual({ id: endorsed.id, decision: 'decline', note: 'Not quite ready for a call yet.' });
+  // The next person has no endorsement: no note box, no note in the request
+  await screen.findByText('Sam Chen');
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  await screen.findByRole('dialog');
+  expect(screen.queryByRole('textbox', { name: 'Note to the facilitator' })).toBeNull();
+});
+
 test('chooses a round before loading people and never includes another round from the same course', async () => {
   const queue = realQueue.map((item, index) => index === 1 ? { ...item, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' } : item);
   mockFetch.mockImplementation(async (path) => pathOf(path).endsWith('/queue') ? response({ items: queue }) : read(path));
