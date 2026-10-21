@@ -1,26 +1,31 @@
 import {
   A, Breadcrumbs, Button, Callout, H1, P, ProgressDots, Section, withAuth,
 } from '@bluedot/ui';
+import type { CalendarProvider } from '@bluedot/db';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CalendarConnectionList from '../../../components/settings/CalendarConnectionList';
 import { ROUTES } from '../../../lib/routes';
 import { pageMetaTags } from '../../../lib/linkPreviewMetaTags';
-import { startGoogleCalendarConnect } from '../../../lib/startCalendarConnect';
+import { startCalendarConnect } from '../../../lib/startCalendarConnect';
 import { trpc } from '../../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.calendars;
 
-// Matches CalendarConnectError in pages/api/calendar-connections/google/callback.ts
+// Matches CalendarConnectError in lib/api/calendarConnectRoutes.ts
 const ERROR_MESSAGES: Record<string, { title: string; body: string }> = {
   cancelled: {
     title: 'Your calendar wasn\'t connected',
-    body: 'You cancelled on the Google screen. You can try again whenever you like.',
+    body: 'You cancelled on the sign-in screen. You can try again whenever you like.',
   },
   missing_scope: {
     title: 'We need permission to see when you\'re busy',
-    body: 'On the Google screen, make sure the box to see your availability is ticked, then try again.',
+    body: 'On the sign-in screen, make sure the box to see your availability is ticked, then try again.',
+  },
+  needs_admin: {
+    title: 'Your organisation needs to approve BlueDot first',
+    body: 'Your work or school account only allows apps your IT team has approved. You can ask them to approve BlueDot, or connect a personal calendar instead.',
   },
   expired: {
     title: 'That took too long',
@@ -37,7 +42,7 @@ const CalendarsPage = withAuth(() => {
   // Read once, then cleared from the address bar so the Slack link doesn't end up in analytics or browser history
   const [query, setQuery] = useState<{ connectToken: string | null; errorCode: string | null; justConnected: boolean } | null>(null);
   const [startError, setStartError] = useState<string | null>(null);
-  const [isStarting, setIsStarting] = useState(false);
+  const [startingProvider, setStartingProvider] = useState<CalendarProvider | null>(null);
 
   useEffect(() => {
     if (!router.isReady || query) return;
@@ -57,20 +62,22 @@ const CalendarsPage = withAuth(() => {
     { enabled: connectToken !== null },
   );
   const connections = trpc.calendarConnections.list.useQuery(undefined, { enabled: query !== null });
+  const providers = trpc.calendarConnections.providers.useQuery();
+  const outlookAvailable = providers.data?.microsoft === true;
 
-  const connect = async () => {
-    setIsStarting(true);
+  const connect = async (provider: CalendarProvider) => {
+    setStartingProvider(provider);
     setStartError(null);
     try {
-      await startGoogleCalendarConnect({ connectToken: linkCheck.data?.valid ? connectToken : null });
+      await startCalendarConnect({ provider, connectToken: linkCheck.data?.valid ? connectToken : null });
     } catch (err) {
       setStartError(err instanceof Error ? err.message : String(err));
-      setIsStarting(false);
+      setStartingProvider(null);
     }
   };
 
   const renderContent = () => {
-    if (!query || connections.isLoading || (connectToken !== null && linkCheck.isLoading)) {
+    if (!query || connections.isLoading || providers.isLoading || (connectToken !== null && linkCheck.isLoading)) {
       return <ProgressDots className="py-8" />;
     }
 
@@ -92,11 +99,22 @@ const CalendarsPage = withAuth(() => {
           </Callout>
         )}
 
-        <P>Connect your Google Calendar so we can schedule your 1-1 chats at times you're free.</P>
+        <P>
+          {outlookAvailable
+            ? 'Connect your Google or Outlook calendar so we can schedule your 1-1 chats at times you\'re free.'
+            : 'Connect your Google Calendar so we can schedule your 1-1 chats at times you\'re free.'}
+        </P>
         <ul className="bluedot-p list-disc pl-6 flex flex-col gap-2">
           <li>We only see when you're busy. We never see event names, details, guests or locations.</li>
-          <li>Your calendar can be on any Google account, work or personal. You can connect more than one.</li>
-          <li>You can disconnect a calendar at any time on this page.</li>
+          <li>
+            {outlookAvailable
+              ? 'Your calendar can be on any Google or Microsoft account, work or personal. You can connect more than one.'
+              : 'Your calendar can be on any Google account, work or personal. You can connect more than one.'}
+          </li>
+          <li>
+            You can disconnect a calendar at any time on this page.
+            {outlookAvailable && ' For Outlook, you can also remove BlueDot\'s access in your Microsoft account settings.'}
+          </li>
         </ul>
         <P className="text-secondary text-size-xs">
           Read more in our <A href={ROUTES.privacyPolicy.url}>privacy policy</A>.
@@ -106,16 +124,45 @@ const CalendarsPage = withAuth(() => {
         {connections.error && <p className="text-size-sm text-error-fg" role="alert">{connections.error.message}</p>}
 
         <div className="flex flex-col items-start gap-2">
-          <Button
-            variant={hasConnections ? 'secondary' : 'primary'}
-            loading={isStarting}
-            onClick={connect}
-            aria-label={hasConnections ? 'Add another calendar' : 'Connect Google Calendar'}
-            // The longer label is too wide for a 320px screen, so let it wrap
-            className="max-w-full whitespace-normal py-2 text-left"
-          >
-            {hasConnections ? 'Add another calendar (e.g. your work one)' : 'Connect Google Calendar'}
-          </Button>
+          {outlookAvailable ? (
+            <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-start">
+              <Button
+                variant={hasConnections ? 'secondary' : 'primary'}
+                loading={startingProvider === 'google'}
+                disabled={startingProvider === 'microsoft'}
+                onClick={() => connect('google')}
+                className="max-w-full whitespace-normal py-2 text-left"
+              >
+                {hasConnections ? 'Add a Google calendar' : 'Connect Google Calendar'}
+              </Button>
+              <div className="flex max-w-full flex-col items-start gap-2 sm:max-w-64">
+                <Button
+                  variant={hasConnections ? 'secondary' : 'primary'}
+                  loading={startingProvider === 'microsoft'}
+                  disabled={startingProvider === 'google'}
+                  onClick={() => connect('microsoft')}
+                  aria-describedby="outlook-consent-note"
+                  className="max-w-full whitespace-normal py-2 text-left"
+                >
+                  {hasConnections ? 'Add an Outlook calendar' : 'Connect Outlook Calendar'}
+                </Button>
+                <p id="outlook-consent-note" className="text-size-xs text-secondary">
+                  Microsoft's screen asks to read your calendar. We only ask it for the times you're busy.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <Button
+              variant={hasConnections ? 'secondary' : 'primary'}
+              loading={startingProvider === 'google'}
+              onClick={() => connect('google')}
+              aria-label={hasConnections ? 'Add another calendar' : 'Connect Google Calendar'}
+              // The longer label is too wide for a 320px screen, so let it wrap
+              className="max-w-full whitespace-normal py-2 text-left"
+            >
+              {hasConnections ? 'Add another calendar (e.g. your work one)' : 'Connect Google Calendar'}
+            </Button>
+          )}
           {startError && <p className="text-size-sm text-error-fg" role="alert">{startError}</p>}
         </div>
 

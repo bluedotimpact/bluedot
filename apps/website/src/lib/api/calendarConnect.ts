@@ -11,10 +11,18 @@ import env from './env';
 export const GOOGLE_FREEBUSY_SCOPE = 'https://www.googleapis.com/auth/calendar.freebusy';
 export const GOOGLE_SCOPES = ['openid', 'email', GOOGLE_FREEBUSY_SCOPE];
 
-export const CALENDARS_PAGE_PATH = '/account/calendars';
-export const GOOGLE_CALLBACK_PATH = '/api/calendar-connections/google/callback';
+// Microsoft has no free/busy-only permission that works for personal accounts, so this is the narrowest one that
+// reads events on both personal and work accounts. We still only ask Graph for times and busy status.
+export const MICROSOFT_CALENDAR_SCOPE = 'https://graph.microsoft.com/Calendars.ReadBasic';
+// `profile` gives preferred_username, the fallback when a work account's token carries no email claim
+export const MICROSOFT_SCOPES = ['openid', 'email', 'profile', 'offline_access', MICROSOFT_CALENDAR_SCOPE];
 
-// Binds the OAuth round trip to the browser that started it. Scoped to the callback path so it's sent nowhere else.
+export const CALENDARS_PAGE_PATH = '/account/calendars';
+const CALENDAR_CONNECTIONS_API_PATH = '/api/calendar-connections';
+export const GOOGLE_CALLBACK_PATH = `${CALENDAR_CONNECTIONS_API_PATH}/google/callback`;
+export const MICROSOFT_CALLBACK_PATH = `${CALENDAR_CONNECTIONS_API_PATH}/microsoft/callback`;
+
+// Binds the OAuth round trip to the browser that started it. Scoped to the Calendar Connect API so it's sent nowhere else.
 export const STATE_COOKIE_NAME = 'calendar_connect_state';
 const STATE_TTL_SECONDS = 10 * 60;
 
@@ -28,7 +36,14 @@ export function getGoogleRedirectUri(): string {
   return `${getSiteUrl()}${GOOGLE_CALLBACK_PATH}`;
 }
 
-function requireEnv(name: 'CALENDAR_CONNECT_LINK_SECRET' | 'CALENDAR_CONNECT_ENCRYPTION_KEY' | 'GOOGLE_CALENDAR_CLIENT_ID' | 'GOOGLE_CALENDAR_CLIENT_SECRET' | 'CALENDAR_CONNECT_BUSY_API_SECRET'): string {
+export function getMicrosoftRedirectUri(): string {
+  return `${getSiteUrl()}${MICROSOFT_CALLBACK_PATH}`;
+}
+
+type CalendarConnectEnvName = 'CALENDAR_CONNECT_LINK_SECRET' | 'CALENDAR_CONNECT_ENCRYPTION_KEY' | 'GOOGLE_CALENDAR_CLIENT_ID' | 'GOOGLE_CALENDAR_CLIENT_SECRET'
+  | 'MICROSOFT_CALENDAR_CLIENT_ID' | 'MICROSOFT_CALENDAR_CLIENT_SECRET' | 'CALENDAR_CONNECT_BUSY_API_SECRET';
+
+function requireEnv(name: CalendarConnectEnvName): string {
   const value = env[name];
   if (!value) {
     throw new createHttpError.InternalServerError(`Calendar Connect is not configured: ${name} is missing`);
@@ -163,8 +178,8 @@ export function newNonce(): string {
 
 export function stateCookie({ nonce, maxAgeSeconds = STATE_TTL_SECONDS }: { nonce: string; maxAgeSeconds?: number }): string {
   const secure = getSiteUrl().startsWith('https://') ? '; Secure' : '';
-  // Lax, not Strict: the cookie has to come back on Google's top-level redirect to the callback
-  return `${STATE_COOKIE_NAME}=${nonce}; Path=${GOOGLE_CALLBACK_PATH}; Max-Age=${maxAgeSeconds}; HttpOnly; SameSite=Lax${secure}`;
+  // Lax, not Strict: the cookie has to come back on the provider's top-level redirect to the callback
+  return `${STATE_COOKIE_NAME}=${nonce}; Path=${CALENDAR_CONNECTIONS_API_PATH}; Max-Age=${maxAgeSeconds}; HttpOnly; SameSite=Lax${secure}`;
 }
 
 export function clearStateCookie(): string {
@@ -185,5 +200,13 @@ export const getGoogleClientCredentials = () => ({
   clientId: requireEnv('GOOGLE_CALENDAR_CLIENT_ID'),
   clientSecret: requireEnv('GOOGLE_CALENDAR_CLIENT_SECRET'),
 });
+
+export const getMicrosoftClientCredentials = () => ({
+  clientId: requireEnv('MICROSOFT_CALENDAR_CLIENT_ID'),
+  clientSecret: requireEnv('MICROSOFT_CALENDAR_CLIENT_SECRET'),
+});
+
+/** The Outlook button only shows once the Microsoft app's credentials are set for this environment. */
+export const isMicrosoftConfigured = () => Boolean(env.MICROSOFT_CALENDAR_CLIENT_ID && env.MICROSOFT_CALENDAR_CLIENT_SECRET);
 
 export const getBusyApiSecret = () => requireEnv('CALENDAR_CONNECT_BUSY_API_SECRET');

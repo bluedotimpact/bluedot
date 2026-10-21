@@ -8,7 +8,7 @@ import CalendarsPage from '../../../pages/account/calendars';
 import {
   createTrpcDbProvider, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../dbTestUtils';
-import { createFakeGoogle } from '../../fakeGoogle';
+import { TEST_CALENDAR_ENV, createFakeGoogle } from '../../fakeGoogle';
 import { encryptRefreshToken } from '../../../lib/api/calendarConnect';
 
 vi.mock('../../../lib/api/env', async () => ({ default: (await import('../../fakeGoogle')).TEST_CALENDAR_ENV }));
@@ -50,7 +50,8 @@ describe('/account/calendars', () => {
     renderPage();
 
     expect(await screen.findByRole('button', { name: 'Connect Google Calendar' })).toBeInTheDocument();
-    expect(screen.getByText(/any Google account, work or personal/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Connect Outlook Calendar' })).toHaveAccessibleDescription('Microsoft\'s screen asks to read your calendar. We only ask it for the times you\'re busy.');
+    expect(screen.getByText(/any Google or Microsoft account, work or personal/)).toBeInTheDocument();
     expect(screen.queryByText(/email/i)).not.toBeInTheDocument();
     expect(screen.queryByRole('list', { name: 'Connected calendars' })).not.toBeInTheDocument();
   });
@@ -70,7 +71,40 @@ describe('/account/calendars', () => {
     renderPage();
 
     expect(await screen.findByText('personal@gmail.example')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Add another calendar' })).toBeInTheDocument();
+    expect(screen.getByText(/^Google Calendar · Connected/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add a Google calendar' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add an Outlook calendar' })).toBeInTheDocument();
+  });
+
+  test('labels an Outlook connection as Outlook', async () => {
+    await testDb.pg.insert(calendarConnectionTable.pg).values({
+      id: 'c1',
+      userId: 'test-user',
+      provider: 'microsoft',
+      providerAccountId: 'ms-sub-1',
+      providerAccountEmail: 'robin@outlook.example',
+      encryptedRefreshToken: encryptRefreshToken('rt'),
+      scopes: 'Calendars.ReadBasic',
+    });
+
+    renderPage();
+
+    expect(await screen.findByText('robin@outlook.example')).toBeInTheDocument();
+    expect(screen.getByText(/^Outlook Calendar · Connected/)).toBeInTheDocument();
+  });
+
+  test('without Outlook credentials, offers Google only, as before', async () => {
+    const saved = TEST_CALENDAR_ENV.MICROSOFT_CALENDAR_CLIENT_ID;
+    // @ts-expect-error removing a key the type says is there
+    delete TEST_CALENDAR_ENV.MICROSOFT_CALENDAR_CLIENT_ID;
+    try {
+      renderPage();
+      expect(await screen.findByRole('button', { name: 'Connect Google Calendar' })).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Connect Outlook Calendar' })).not.toBeInTheDocument();
+      expect(screen.getByText(/any Google account, work or personal/)).toBeInTheDocument();
+    } finally {
+      TEST_CALENDAR_ENV.MICROSOFT_CALENDAR_CLIENT_ID = saved;
+    }
   });
 
   test('a valid Slack link lets them connect with no expiry warning', async () => {
@@ -91,6 +125,12 @@ describe('/account/calendars', () => {
 
     expect(await screen.findByText('This Slack link has expired')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Connect Google Calendar' })).toBeInTheDocument();
+  });
+
+  test('explains when a work account\'s organisation must approve BlueDot first', async () => {
+    routerQuery.current = { error: 'needs_admin' };
+    renderPage();
+    expect(await screen.findByText('Your organisation needs to approve BlueDot first')).toBeInTheDocument();
   });
 
   test('shows the result of coming back from Google', async () => {
