@@ -38,6 +38,17 @@ export const isDigitalMindsCourseSlug = (courseSlug: string) => (
   DIGITAL_MINDS_COURSE_SLUGS.includes(courseSlug)
 );
 
+// Courses that end without the synthetic "Next steps" chunk. FoAI has its own
+// ending, and the principles course is for new BlueDot staff in their first months.
+const COURSE_SLUGS_WITHOUT_NEXT_STEPS = [
+  FOAI_COURSE_SLUG,
+  'principles',
+];
+
+export const shouldShowNextStepsChunk = (courseSlug: string) => (
+  !COURSE_SLUGS_WITHOUT_NEXT_STEPS.includes(courseSlug)
+);
+
 export const getNextStepsChunkTitle = (courseSlug: string) => (
   isDigitalMindsCourseSlug(courseSlug)
     ? DIGITAL_MINDS_NEXT_STEPS_CHUNK_TITLE
