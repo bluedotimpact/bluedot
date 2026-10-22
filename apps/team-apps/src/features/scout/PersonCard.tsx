@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { Fragment, type ReactNode, useState } from 'react';
 import {
   A, CardShell, cn, Button, P,
 } from '@bluedot/ui';
@@ -681,18 +681,18 @@ const ProjectSection: React.FC<{ projects: Project[] }> = ({ projects }) => {
 // The two parts of a 10-point score, since leads weigh reasoning more than preparation for a call
 const scoreParts = (fb: FacilitatorFeedback) => (fb.ratingReasoning !== undefined && fb.ratingInitiative !== undefined ? ` (reasoning ${fb.ratingReasoning} · initiative ${fb.ratingInitiative})` : '');
 
-// "10/10 (reasoning 5 · initiative 5) · Aline gave 10 or more to 1 of the 7 they rated this round",
-// then on its own line "Aline gave reasoning 5 to 2 of the 7 they rated this round"
-const feedbackSummary = (fb: FacilitatorFeedback) => {
+// How this score sits on the facilitator's own scale, one row per part, fractions aligned:
+// "Total 8 or more · 2 of the 7 Aline rated this round" / "Reasoning 5 or more · 3 of the 7 …"
+const feedbackScale = (fb: FacilitatorFeedback): { label: string; value: string }[] => {
   const who = fb.reviewer?.split(' ')[0] ?? 'The facilitator';
-  const score = fb.rating !== undefined ? <><span className="font-semibold text-primary">{fb.rating}/{fb.ratingOutOf ?? 10}</span>{scoreParts(fb)} · </> : null;
-  if (fb.roundStats && fb.rating !== undefined) {
-    const reasoning = fb.roundStats.reasoningAtOrAbove !== undefined && fb.ratingReasoning !== undefined
-      ? <><br />{who} gave reasoning {fb.ratingReasoning}{fb.ratingReasoning < 5 ? ' or more' : ''} to {fb.roundStats.reasoningAtOrAbove} of the {fb.roundStats.rated} they rated this round.</> : null;
-    return <>{score}{who} gave {fb.rating} or more to {fb.roundStats.atOrAbove} of the {fb.roundStats.rated} they rated this round.{reasoning}</>;
+  if (!fb.roundStats || fb.rating === undefined) return [];
+  const of = `of the ${fb.roundStats.rated} ${who} rated this round`;
+  const rows = [{ label: `Total ${fb.rating} or more`, value: `${fb.roundStats.atOrAbove} ${of}` }];
+  if (fb.roundStats.reasoningAtOrAbove !== undefined && fb.ratingReasoning !== undefined) {
+    rows.push({ label: `Reasoning ${fb.ratingReasoning} or more`, value: `${fb.roundStats.reasoningAtOrAbove} ${of}` });
   }
 
-  return <>{score}{who}{fb.round ? ` · ${shortRound(fb.round)}` : ''}</>;
+  return rows;
 };
 
 // Why this person is on the shortlist, in PICK_REASONS order. Exported for tests.
@@ -850,14 +850,10 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
       >
         {person.facilitatorFeedback.map((fb, i) => (
           <div key={fb.id} className={cn('flex min-w-0 flex-col gap-2 break-words', i > 0 && 'border-t border-subtle pt-4')}>
-            <p className="text-size-xs text-secondary">{feedbackSummary(fb)}</p>
-            {(fb.recommendToFacilitate || fb.nextSteps.length > 0 || fb.motivation) && (
-              <div className="flex flex-wrap items-center gap-1 text-size-xs text-secondary">
-                <span className="mr-1">Facilitator flagged:</span>
-                {fb.recommendToFacilitate && <Badge>Recommended to facilitate</Badge>}
-                {fb.nextSteps.map((step) => <Badge key={step} colour={NEXT_STEP_COLOUR[step]}>{step.replace(/^\[!\] /, '')}</Badge>)}
-                {fb.motivation && <span className="ml-1">x-risk motivated: {fb.motivation}</span>}
-              </div>
+            {feedbackScale(fb).length > 0 && (
+              <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-size-xs text-secondary">
+                {feedbackScale(fb).map(({ label, value }) => <Fragment key={label}><dt>{label}</dt><dd><span className="font-semibold text-primary">{value.split(' of ')[0]}</span> of {value.split(' of ').slice(1).join(' of ')}</dd></Fragment>)}
+              </dl>
             )}
             <Answer defaultOpen label="Private feedback" text={fb.feedback} />
           </div>

@@ -95,7 +95,7 @@ test('each facilitator rating shows on its own scale', () => {
   const details = screen.getByText('Facilitator feedback').closest('details')!;
   details.open = true;
   fireEvent(details, new Event('toggle'));
-  expect(document.body.textContent).toContain('Other gave 8 or more to 2 of the 7 they rated this round.Other gave reasoning 5 to 3 of the 7 they rated this round.');
+  expect(document.body.textContent).toContain('Total 8 or more2 of the 7 Other rated this roundReasoning 5 or more3 of the 7 Other rated this round');
   expect(screen.queryByText('5/10')).toBeNull();
 });
 
