@@ -82,7 +82,7 @@ test('each facilitator rating shows on its own scale', () => {
           id: 'recFeedbackSample1', reviewer: 'Sample Facilitator', rating: 5, ratingOutOf: 5, nextSteps: [], recommendToFacilitate: false,
         },
         {
-          id: 'recFeedbackSample2', reviewer: 'Other Facilitator', rating: 8, ratingOutOf: 10, ratingReasoning: 5, ratingInitiative: 3, nextSteps: [], recommendToFacilitate: false,
+          id: 'recFeedbackSample2', reviewer: 'Other Facilitator', rating: 8, ratingOutOf: 10, ratingReasoning: 5, ratingInitiative: 3, nextSteps: [], recommendToFacilitate: false, roundStats: { rated: 7, atOrAbove: 2, reasoningAtOrAbove: 3 },
         },
       ],
     }}
@@ -91,6 +91,11 @@ test('each facilitator rating shows on its own scale', () => {
   expect(screen.getAllByText('5/5').length).toBeGreaterThan(0);
   expect(screen.getAllByText('8/10').length).toBeGreaterThan(0);
   expect(screen.getByText('(reasoning 5 · initiative 3)')).toBeTruthy();
+  // Open the section: the test DOM does not toggle <details> on a summary click
+  const details = screen.getByText('Facilitator feedback').closest('details')!;
+  details.open = true;
+  fireEvent(details, new Event('toggle'));
+  expect(document.body.textContent).toContain('Other gave 8 or more to 2 of the 7 they rated this round.Other gave reasoning 5 to 3 of the 7 they rated this round.');
   expect(screen.queryByText('5/10')).toBeNull();
 });
 
@@ -133,6 +138,8 @@ test('the must-look reason names the signals behind it and only shows for must-l
       id: 'recPeerSample00001', reviewer: 'Sample Scorer', rating: 10, ratingOutOf: 10, nextSteps: [], recommendToFacilitate: false,
     }, {
       id: 'recPeerSample00003', reviewer: 'Old Scorer', rating: 5, ratingOutOf: 5, nextSteps: [], recommendToFacilitate: false,
+    }, {
+      id: 'recPeerSample00004', reviewer: 'Sharp Scorer', rating: 8, ratingOutOf: 10, ratingReasoning: 5, ratingInitiative: 3, nextSteps: [], recommendToFacilitate: false,
     }],
     reports: [{
       id: 'recReportSample001', overallTake: 'Strong yes', facilitator: 'Sample Facilitator', nextSteps: [], ratings: [],
@@ -140,10 +147,10 @@ test('the must-look reason names the signals behind it and only shows for must-l
       id: 'recReportSample002', overallTake: 'Weak yes', nextSteps: [], ratings: [],
     }],
   };
-  expect(mustLookReasons(strong)).toEqual(['Endorsed by Sample Facilitator', 'Scored 10/10 by Sample Scorer and 9/10 by Other Scorer', 'Strong yes']);
+  expect(mustLookReasons(strong)).toEqual(['Endorsed by Sample Facilitator', 'Scored 10/10 by Sample Scorer and 9/10 by Other Scorer and reasoning 5/5 by Sharp Scorer', 'Strong yes']);
   expect(mustLookReasons(person)).toEqual([]);
   render(<PersonCard person={strong} showName mustLook />);
-  expect(screen.getByText('Shortlisted because').parentElement!.textContent).toBe('Shortlisted because Endorsed by Sample Facilitator · Scored 10/10 by Sample Scorer and 9/10 by Other Scorer · Strong yes');
+  expect(screen.getByText('Shortlisted because').parentElement!.textContent).toBe('Shortlisted because Endorsed by Sample Facilitator · Scored 10/10 by Sample Scorer and 9/10 by Other Scorer and reasoning 5/5 by Sharp Scorer · Strong yes');
   cleanup();
   render(<PersonCard person={strong} showName />);
   expect(screen.queryByText('Shortlisted because')).toBeNull();

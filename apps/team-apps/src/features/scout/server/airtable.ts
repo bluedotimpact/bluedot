@@ -656,12 +656,18 @@ export const ratingOutOf = (fields: AirtableRecord['fields']): 5 | 10 => (num(fi
 // How this facilitator rated everyone in the same round, so a lead can read an 8/10 against
 // the facilitator's own scale ("gave 8 or more to 3 of 8"). Matched by reviewer name; only
 // ratings on the same scale are compared.
-const fetchReviewerRoundStats = async (reviewer: string, roundName: string, rating: number, outOf: 5 | 10): Promise<{ rated: number; atOrAbove: number }> => {
+const fetchReviewerRoundStats = async (reviewer: string, roundName: string, rating: number, outOf: 5 | 10, reasoning?: number): Promise<FacilitatorFeedback['roundStats']> => {
   const quote = (v: string) => `'${v.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')}'`;
   const formula = `AND(ARRAYJOIN({[>] Reviewer name})=${quote(reviewer)}, FIND(${quote(roundName)}, ARRAYJOIN({[>] Round})))`;
   const records = await fetchAll(PEER_FEEDBACK_URL, { filterByFormula: formula }, [PEER.totalRating, PEER.ratingReasoning]);
-  const ratings = records.filter((r) => ratingOutOf(r.fields) === outOf).map((r) => num(r.fields[PEER.totalRating])).filter((x): x is number => x !== undefined);
-  return { rated: ratings.length, atOrAbove: ratings.filter((x) => x >= rating).length };
+  const sameScale = records.filter((r) => ratingOutOf(r.fields) === outOf);
+  const ratings = sameScale.map((r) => num(r.fields[PEER.totalRating])).filter((x): x is number => x !== undefined);
+  const reasonings = sameScale.map((r) => num(r.fields[PEER.ratingReasoning])).filter((x): x is number => x !== undefined);
+  return {
+    rated: ratings.length,
+    atOrAbove: ratings.filter((x) => x >= rating).length,
+    reasoningAtOrAbove: reasoning === undefined ? undefined : reasonings.filter((x) => x >= reasoning).length,
+  };
 };
 
 const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord): FacilitatorFeedback => ({
@@ -868,7 +874,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     .map(toFacilitatorFeedback(rounds))
     .map(async (fb) => (fb.reviewer && fb.round && fb.rating !== undefined && fb.ratingOutOf
       // Context only: if the stats read fails (renamed field, rate limit) the feedback still shows
-      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating, fb.ratingOutOf).catch(() => undefined) }
+      ? { ...fb, roundStats: await fetchReviewerRoundStats(fb.reviewer, fb.round, fb.rating, fb.ratingOutOf, fb.ratingReasoning).catch(() => undefined) }
       : fb)));
 
   return {
