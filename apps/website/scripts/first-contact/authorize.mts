@@ -3,7 +3,7 @@
 // One-off setup for First Contact: sign in as the dewi-bots@bluedot.org bot account, create the "First Contact"
 // calendar, and save the refresh token and calendar ID to apps/website/.env.local (which git ignores).
 //
-//   cd apps/website && npx tsx scripts/first-contact/authorize.ts
+//   cd apps/website && npx tsx scripts/first-contact/authorize.mts
 //
 // Uses the Calendar Connect OAuth client (GOOGLE_CALENDAR_CLIENT_ID/SECRET in .env.local) and its registered
 // http://localhost:8000/api/welcome/google/callback redirect URI, so stop any dev server on port 8000 first.
