@@ -20,7 +20,7 @@ const FALLBACK_NAME = 'Incubator Week';
 const PROGRAM_DESCRIPTION = '5 days in San Francisco. All expenses paid. Up to $200k in funding if we back your pitch.';
 const APPLICATION_DEADLINE = 'November 11';
 const PROGRAM_DATES = 'November 16–20';
-const CONTACT_EMAIL = 'joshua@bluedot.org';
+const CONTACT_EMAIL = 'team@bluedot.org';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/incubator-week-november-16-2026.png`;
 
