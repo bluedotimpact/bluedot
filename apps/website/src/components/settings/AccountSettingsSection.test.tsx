@@ -108,6 +108,7 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees all required field errors
+    expect(await screen.findAllByRole('alert')).toHaveLength(3);
     await expectFieldError(/current password/i, 'Current password is required');
     await expectFieldError(/^new password/i, 'Password must be at least 8 characters');
     await expectFieldError(/confirm new password/i, 'Please confirm your new password');
