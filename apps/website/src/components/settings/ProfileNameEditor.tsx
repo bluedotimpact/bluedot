@@ -94,7 +94,7 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
               onKeyDown={handleKeyDown}
               placeholder="Enter your first name"
               aria-describedby={nameError ? 'profile-name-error' : undefined}
-              aria-invalid={!!nameError}
+              aria-invalid={nameError ? true : undefined}
             />
           </Field>
           <Field label="Last name" required>
@@ -105,7 +105,7 @@ const ProfileNameEditor = ({ user, onSave, alwaysShowButtons = false }: ProfileN
               onKeyDown={handleKeyDown}
               placeholder="Enter your last name"
               aria-describedby={nameError ? 'profile-name-error' : undefined}
-              aria-invalid={!!nameError}
+              aria-invalid={nameError ? true : undefined}
             />
           </Field>
           {/* Always rendered so the column keeps its width */}
