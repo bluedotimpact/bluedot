@@ -2,8 +2,7 @@ import { OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import type { Unit } from '@bluedot/db';
 import { type ReactNode } from 'react';
 import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
-import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
-import LiveBadge from './LiveBadge';
+import { DateBadge } from './DateBadge';
 import { useDiscussionActions } from './useDiscussionActions';
 
 export type DiscussionListRowMode = 'participant' | 'facilitator';
@@ -56,7 +55,7 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
 
   return (
     <li className="flex items-center gap-5 py-4 not-last:border-b">
-      <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} className={mutedClass} />
+      <DateBadge layout="dateTime" isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} className={mutedClass} />
       <div className={`min-w-0 flex-1 ${mutedClass}`}>
         <p className="text-size-xxs font-semibold text-primary">{unitLabel}</p>
         {discussionPrepareLink ? (
@@ -94,16 +93,5 @@ const DiscussionListRow = (row: DiscussionListRowProps) => {
     </li>
   );
 };
-
-export const TimeWidget = ({ isLive, dateTimeSeconds, className = '' }: { isLive: boolean; dateTimeSeconds: number; className?: string }) => (
-  <div className={`flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-md border ${className}`}>
-    {isLive ? <LiveBadge /> : (
-      <div className="px-3 py-[7px] text-center text-primary" aria-hidden>
-        <div className="text-size-xs font-semibold leading-relaxed">{formatDateMonthAndDay(dateTimeSeconds)}</div>
-        <div className="text-size-xs font-medium text-secondary">{formatTime12HourClock(dateTimeSeconds)}</div>
-      </div>
-    )}
-  </div>
-);
 
 export default DiscussionListRow;
