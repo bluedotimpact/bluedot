@@ -82,7 +82,7 @@ test('each facilitator rating shows on its own scale', () => {
           id: 'recFeedbackSample1', reviewer: 'Sample Facilitator', rating: 5, ratingOutOf: 5, nextSteps: [], recommendToFacilitate: false,
         },
         {
-          id: 'recFeedbackSample2', reviewer: 'Other Facilitator', rating: 8, ratingOutOf: 10, nextSteps: [], recommendToFacilitate: false,
+          id: 'recFeedbackSample2', reviewer: 'Other Facilitator', rating: 8, ratingOutOf: 10, ratingReasoning: 5, ratingInitiative: 3, nextSteps: [], recommendToFacilitate: false,
         },
       ],
     }}
@@ -90,6 +90,7 @@ test('each facilitator rating shows on its own scale', () => {
   />);
   expect(screen.getAllByText('5/5').length).toBeGreaterThan(0);
   expect(screen.getAllByText('8/10').length).toBeGreaterThan(0);
+  expect(screen.getByText('(reasoning 5 · initiative 3)')).toBeTruthy();
   expect(screen.queryByText('5/10')).toBeNull();
 });
 

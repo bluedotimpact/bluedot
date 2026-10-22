@@ -678,10 +678,13 @@ const ProjectSection: React.FC<{ projects: Project[] }> = ({ projects }) => {
   );
 };
 
-// "10/10 · Aline gave 10 or more to 1 of the 7 they rated this round"
+// The two parts of a 10-point score, since leads weigh reasoning more than preparation for a call
+const scoreParts = (fb: FacilitatorFeedback) => (fb.ratingReasoning !== undefined && fb.ratingInitiative !== undefined ? ` (reasoning ${fb.ratingReasoning} · initiative ${fb.ratingInitiative})` : '');
+
+// "10/10 (reasoning 5 · initiative 5) · Aline gave 10 or more to 1 of the 7 they rated this round"
 const feedbackSummary = (fb: FacilitatorFeedback) => {
   const who = fb.reviewer?.split(' ')[0] ?? 'The facilitator';
-  const score = fb.rating !== undefined ? <><span className="font-semibold text-primary">{fb.rating}/{fb.ratingOutOf ?? 10}</span> · </> : null;
+  const score = fb.rating !== undefined ? <><span className="font-semibold text-primary">{fb.rating}/{fb.ratingOutOf ?? 10}</span>{scoreParts(fb)} · </> : null;
   if (fb.roundStats && fb.rating !== undefined) return <>{score}{who} gave {fb.rating} or more to {fb.roundStats.atOrAbove} of the {fb.roundStats.rated} they rated this round.</>;
   return <>{score}{who}{fb.round ? ` · ${shortRound(fb.round)}` : ''}</>;
 };
@@ -833,6 +836,7 @@ export const PersonCard: React.FC<{ person: Person; showName: boolean; mustLook?
         meta={person.facilitatorFeedback.map((fb) => (
           <span key={fb.id} className="flex items-center gap-2 font-normal">
             {fb.rating !== undefined && <span className="font-semibold text-primary">{fb.rating}/{fb.ratingOutOf ?? 10}</span>}
+            {scoreParts(fb) && <Meta>{scoreParts(fb).trim()}</Meta>}
             <Meta>{fb.reviewer ?? 'facilitator not recorded'}</Meta>
             <RecordLink url={fb.recordUrl} />
           </span>
