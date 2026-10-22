@@ -19,6 +19,7 @@ Our design system aims to be the single source of truth for designing BlueDot Im
 
 - [Colors](#colors)
 - [Typography](#typography)
+- [Spacing](#spacing)
 - [Border Radius](#border-radius)
 - [Elevation](#elevation)
 - [Resources](#resources)
@@ -268,19 +269,43 @@ Beyond size, the scale defines named tokens for the other three dimensions. Pref
   );
 })()}
 
-### Border Radius
+### Spacing
 
-We prefer two border radius tokens: `rounded-sm` and `rounded-lg`. 
-
-You can use `rounded-` Tailwind CSS utility classes to create rounded corners on your components.
+Use this ladder for padding, margin and gap (`p-*`, `m-*`, `gap-*`, `space-*`). Sizes (`w-*`, `h-*`, `size-*`) are not on it.
 
 <Unstyled>
-  <p className="p-8 max-w-64 bg-canvas rounded-lg border-default border-1">
-    <p className="mb-4 text-primary">rounded-lg</p>
-    <p className="p-4 max-w-48 bg-dark text-on-dark rounded-sm border-default border-1">
-      <p className="text-on-dark">rounded-sm</p>
-    </p>
-  </p>
+  <div className="flex flex-col gap-2 font-mono text-size-xxs text-secondary">
+    {[[0.5, 2], [1, 4], [2, 8], [3, 12], [4, 16], [5, 20], [6, 24], [8, 32], [12, 48], [16, 64], [24, 96]].map(([key, px]) => (
+      <div key={key} className="flex items-center gap-4">
+        <span className="w-24">{`p-${key} · ${px}px`}</span>
+        <div className="h-4 bg-accent" style={{ width: px }} />
+      </div>
+    ))}
+  </div>
+</Unstyled>
+
+- Off-ladder values need a reason in the PR. Exception: `gap-1.5` between an icon and its label.
+- Page gutters: use `section-base`, `section-body` or `px-spacing-x`, not ladder values.
+
+### Border Radius
+
+Pick the radius by surface role. Use the role class even when a raw class gives the same value (`rounded-surface`, not `rounded-lg`). Other radii need a reason in the PR.
+
+<Unstyled>
+  <div className="flex flex-wrap gap-6 font-mono text-size-xxs text-secondary">
+    {[
+      ['rounded-surface', '8px · cards, inputs, buttons (default)'],
+      ['rounded-overlay', '12px · modals, dialogs'],
+      ['rounded-sheet', '24px · bottom drawers'],
+      ['rounded-full', 'pills, avatars, circles'],
+    ].map(([cls, use]) => (
+      <div key={cls} className="flex flex-col gap-2 w-40">
+        <div className={`${cls} h-16 bg-accent-subtle border`} />
+        <span className="text-primary">{cls}</span>
+        <span>{use}</span>
+      </div>
+    ))}
+  </div>
 </Unstyled>
 
 ### Elevation
