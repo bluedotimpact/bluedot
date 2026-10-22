@@ -50,7 +50,10 @@ test('must look is one queue per course, newest round first, keeping the view or
 test('the shortlist runs completers first, then endorsements, strong yes, 10s, 9s, each newest round first', () => {
   const items: QueueItem[] = [
     { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugStrong', pickReason: 'strong yes' },
-    { ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepEndorsed', pickReason: 'endorsement' },
+    // An older endorsed person with a 10 still sits behind the newer endorsed one: the score only orders the high-feedback group
+    {
+      ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepEndorsed', pickReason: 'endorsement', topScore: 10,
+    },
     {
       ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugNine', pickReason: 'top score', topScore: 9,
     },
