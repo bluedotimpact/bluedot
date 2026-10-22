@@ -1,5 +1,5 @@
 import {
-  Avatar, Callout, Checkbox, Button, ErrorSection, Modal, ModalTitle, Textarea,
+  Avatar, Callout, Checkbox, Button, ErrorSection, Field, FieldSet, Modal, ModalTitle, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
@@ -97,75 +97,63 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
           Your responses are only seen by BlueDot staff
         </p>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <p id="show-up-label" className="text-size-xs font-semibold text-primary">
-              How did they show up across discussions? <span className="text-error-fg">*</span>
-            </p>
-            <p className="text-size-xs text-secondary">
-              Think about preparation, initiative, and engagement between sessions.
-            </p>
-          </div>
+        <FieldSet
+          legend="How did they show up across discussions?"
+          description="Think about preparation, initiative, and engagement between sessions."
+          required
+        >
           <RubricSelector
             name="show-up"
-            aria-labelledby="show-up-label"
             options={SHOW_UP_OPTIONS}
             value={showUpRating}
             onChange={setShowUpRating}
           />
-        </div>
+        </FieldSet>
 
-        <div className="mt-8 flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <p id="engage-label" className="text-size-xs font-semibold text-primary">
-              How did they engage with ideas during discussions? <span className="text-error-fg">*</span>
-            </p>
-            <p className="text-size-xs text-secondary">
-              Think about quality of thinking, willingness to challenge, and depth of engagement.
-            </p>
-          </div>
+        <FieldSet
+          legend="How did they engage with ideas during discussions?"
+          description="Think about quality of thinking, willingness to challenge, and depth of engagement."
+          required
+          className="mt-8"
+        >
           <RubricSelector
             name="engage"
-            aria-labelledby="engage-label"
             options={ENGAGE_OPTIONS}
             value={engageRating}
             onChange={setEngageRating}
           />
-        </div>
+        </FieldSet>
 
-        <fieldset className="m-0 mt-8 flex flex-col gap-1.5 border-0 p-0">
-          <legend className="p-0 text-size-xs font-semibold text-primary">
-            How should we follow up with them? <span className="text-error-fg">*</span>
-          </legend>
-          <p className="text-size-xs text-secondary">Check all that apply.</p>
-          <div className="mt-2.5 flex flex-col gap-2">
-            {followUpOptions.map((option) => (
-              <Checkbox
-                key={option.id}
-                card
-                checked={followUps.includes(option.name)}
-                onChange={(e) => setFollowUps(e.target.checked
-                  ? [...followUps, option.name]
-                  : followUps.filter((name) => name !== option.name))}
-              >
-                {option.label}
-              </Checkbox>
-            ))}
-          </div>
-        </fieldset>
+        <FieldSet
+          legend="How should we follow up with them?"
+          description="Check all that apply."
+          required
+          className="mt-8"
+        >
+          {followUpOptions.map((option) => (
+            <Checkbox
+              key={option.id}
+              card
+              checked={followUps.includes(option.name)}
+              onChange={(e) => setFollowUps(e.target.checked
+                ? [...followUps, option.name]
+                : followUps.filter((name) => name !== option.name))}
+            >
+              {option.label}
+            </Checkbox>
+          ))}
+        </FieldSet>
 
         <div className="mt-8 flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="investment-note" className="text-size-xs font-semibold text-primary">
-              In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
-            </label>
-            <p className="text-size-xs text-secondary">Feel free to paste this from your 1:1 report.</p>
-          </div>
-          <Textarea
-            id="investment-note"
-            value={investmentNote}
-            onChange={(e) => setInvestmentNote(e.target.value)}
-          />
+          <Field
+            label={'In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"'}
+            description="Feel free to paste this from your 1:1 report."
+          >
+            <Textarea
+              value={investmentNote}
+              onChange={(e) => setInvestmentNote(e.target.value)}
+            />
+          </Field>
           {isStandout && (
             <Callout>Sounds like they are a standout – a short note here would help us act on this.</Callout>
           )}
@@ -203,7 +191,6 @@ export type RubricOption = {
 
 type RubricSelectorProps = {
   name: string;
-  'aria-labelledby': string;
   options: RubricOption[];
   value: number | null;
   onChange: (value: number) => void;
@@ -217,9 +204,11 @@ const BUBBLE_COLORS: Record<number, string> = {
   1: 'bg-[#ffe4e0] text-[#8a2020]',
 };
 
-export const RubricSelector = ({ name, 'aria-labelledby': ariaLabelledBy, options, value, onChange }: RubricSelectorProps) => {
+export const RubricSelector = ({
+  name, options, value, onChange,
+}: RubricSelectorProps) => {
   return (
-    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-md border-[0.5px] overflow-clip">
+    <div className="rounded-md border-[0.5px] overflow-clip">
       {options.map((option, idx) => {
         const isSelected = value === option.value;
         const isLast = idx === options.length - 1;

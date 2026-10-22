@@ -11,6 +11,7 @@ import {
   CHOICE_ROOT_STYLES,
   CHOICE_ROW_STYLES,
 } from './choiceStyles';
+import { useFieldControlProps } from './Field';
 import { cn } from './utils';
 
 export type CheckboxProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className'> & {
@@ -36,22 +37,26 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
   card,
   children,
   className,
-  ...props
-}, ref) => (
-  <label
-    className={cn(
-      CHOICE_ROOT_STYLES,
-      CHOICE_ROOT_NEUTRAL_STYLES,
-      card ? [CHOICE_CARD_STYLES, CHOICE_CARD_NEUTRAL_STYLES] : CHOICE_ROW_STYLES,
-      className,
-    )}
-  >
-    <input {...props} ref={ref} type="checkbox" className="peer sr-only" />
-    <span aria-hidden className={cn(BOX_STYLES, !card && BOX_ROW_STYLES)}>
-      <FaCheck className="size-3.5" />
-    </span>
-    {children}
-  </label>
-));
+  ...rest
+}, ref) => {
+  const props = useFieldControlProps(rest);
+
+  return (
+    <label
+      className={cn(
+        CHOICE_ROOT_STYLES,
+        CHOICE_ROOT_NEUTRAL_STYLES,
+        card ? [CHOICE_CARD_STYLES, CHOICE_CARD_NEUTRAL_STYLES] : CHOICE_ROW_STYLES,
+        className,
+      )}
+    >
+      <input {...props} ref={ref} type="checkbox" className="peer sr-only" />
+      <span aria-hidden className={cn(BOX_STYLES, !card && BOX_ROW_STYLES)}>
+        <FaCheck className="size-3.5" />
+      </span>
+      {children}
+    </label>
+  );
+});
 
 Checkbox.displayName = 'Checkbox';
