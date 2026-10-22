@@ -97,7 +97,6 @@ const GranteesListSection = ({
               Sort:
               <Select
                 aria-label="Sort projects"
-                variant="ghost"
                 value={sortOrder}
                 onChange={setSortOrder}
                 options={[
