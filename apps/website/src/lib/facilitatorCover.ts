@@ -21,10 +21,10 @@ export type CoverMessageDetails = {
   startTimeSeconds: number;
   endTimeSeconds: number;
   /** Tagged facilitators whose availability covers the discussion */
-  freeFacilitators: CoverPerson[];
+  availableFacilitators: CoverPerson[];
   /** Tagged facilitators with no clashing discussion, whose availability doesn't cover it */
   noClashFacilitators: CoverPerson[];
-  moreFreeThanTagged: boolean;
+  moreAvailableThanTagged: boolean;
   assignUrl: string;
 };
 
@@ -66,14 +66,14 @@ const shuffle = <T>(items: T[], random: () => number): T[] => {
   return shuffled;
 };
 
-/** Up to MAX_TAGGED_FACILITATORS: free facilitators first, topped up with ones who just have no clash */
-export const pickFacilitatorsToTag = <T>({ free, noClash, random = Math.random }: {
-  free: T[];
+/** Up to MAX_TAGGED_FACILITATORS: available facilitators first, topped up with ones who just have no clash */
+export const pickFacilitatorsToTag = <T>({ available, noClash, random = Math.random }: {
+  available: T[];
   noClash: T[];
   random?: () => number;
-}): { free: T[]; noClash: T[] } => {
-  const pickedFree = shuffle(free, random).slice(0, MAX_TAGGED_FACILITATORS);
-  return { free: pickedFree, noClash: shuffle(noClash, random).slice(0, MAX_TAGGED_FACILITATORS - pickedFree.length) };
+}): { available: T[]; noClash: T[] } => {
+  const pickedAvailable = shuffle(available, random).slice(0, MAX_TAGGED_FACILITATORS);
+  return { available: pickedAvailable, noClash: shuffle(noClash, random).slice(0, MAX_TAGGED_FACILITATORS - pickedAvailable.length) };
 };
 
 const getTimeParts = ({ startTimeSeconds, endTimeSeconds, timeZone }: {
@@ -97,7 +97,7 @@ const getTimeParts = ({ startTimeSeconds, endTimeSeconds, timeZone }: {
 };
 
 /** The reader's local time, e.g. "Fri 23 Oct, 08:00–10:00" */
-export const formatCoverTime = ({ startTimeSeconds, endTimeSeconds, timeZone = 'UTC' }: {
+export const formatCoverTimeLocal = ({ startTimeSeconds, endTimeSeconds, timeZone = 'UTC' }: {
   startTimeSeconds: number;
   endTimeSeconds: number;
   timeZone?: string;
@@ -117,7 +117,7 @@ export const formatCoverTimeUtcBracket = ({ startTimeSeconds, endTimeSeconds, ti
   return `(${utc.date === local.date ? '' : `${utc.date}, `}${utc.startTime}–${utc.endTime} ${utc.zone})`;
 };
 
-const mentionsOf = (people: CoverPerson[]): CoverMessageSegment[] => people.flatMap((person, i): CoverMessageSegment[] => [
+const mentionSegments = (people: CoverPerson[]): CoverMessageSegment[] => people.flatMap((person, i): CoverMessageSegment[] => [
   ...(i > 0 ? [{ type: 'text' as const, text: ' ' }] : []),
   { type: 'mention', ...person },
 ]);
@@ -130,7 +130,7 @@ export const buildCoverMessage = ({ note, ...details }: CoverMessageDetails & { 
     .join(' · ');
   const trimmedNote = note?.trim();
 
-  const intro: CoverMessageSegment[] = [
+  const introParagraph: CoverMessageSegment[] = [
     requester,
     { type: 'text', text: ` is looking for cover for "${subject}" on ` },
     { type: 'time', startTimeSeconds: details.startTimeSeconds, endTimeSeconds: details.endTimeSeconds },
@@ -138,34 +138,34 @@ export const buildCoverMessage = ({ note, ...details }: CoverMessageDetails & { 
     ...(trimmedNote ? [{ type: 'text' as const, text: ` Note from them: "${trimmedNote}"` }] : []),
   ];
 
-  const { freeFacilitators: free, noClashFacilitators: noClash } = details;
-  const freeIntro: CoverMessageSegment = {
+  const { availableFacilitators: available, noClashFacilitators: noClash } = details;
+  const availableFacilitatorsIntro: CoverMessageSegment = {
     type: 'text',
-    text: `Facilitators free at that time according to their availability${details.moreFreeThanTagged
+    text: `Facilitators free at that time according to their availability${details.moreAvailableThanTagged
       ? ` (more than ${MAX_TAGGED_FACILITATORS} were free, so ${MAX_TAGGED_FACILITATORS} were picked at random)`
       : ''}: `,
   };
-  let tags: CoverMessageSegment[];
-  if (free.length > 0 && noClash.length > 0) {
-    tags = [
-      freeIntro,
-      ...mentionsOf(free),
+  let tagParagraph: CoverMessageSegment[];
+  if (available.length > 0 && noClash.length > 0) {
+    tagParagraph = [
+      availableFacilitatorsIntro,
+      ...mentionSegments(available),
       { type: 'text', text: '. Others with no clashing session: ' },
-      ...mentionsOf(noClash),
+      ...mentionSegments(noClash),
       { type: 'text', text: '.' },
     ];
-  } else if (free.length > 0) {
-    tags = [freeIntro, ...mentionsOf(free)];
+  } else if (available.length > 0) {
+    tagParagraph = [availableFacilitatorsIntro, ...mentionSegments(available)];
   } else if (noClash.length > 0) {
-    tags = [
+    tagParagraph = [
       { type: 'text', text: 'Nobody\'s availability matches that time, but these facilitators have no clashing session: ' },
-      ...mentionsOf(noClash),
+      ...mentionSegments(noClash),
     ];
   } else {
-    tags = [{ type: 'text', text: 'Nobody in this round is free at that time, so no one is tagged.' }];
+    tagParagraph = [{ type: 'text', text: 'Nobody in this round is free at that time, so no one is tagged.' }];
   }
 
-  const callToAction: CoverMessageSegment[] = [
+  const callToActionParagraph: CoverMessageSegment[] = [
     { type: 'text', text: 'If you can cover, please reply in this thread. You can reply even if you are not tagged above, as long as you\'ve facilitated this course recently! ' },
     requester,
     { type: 'text', text: ' can then go ' },
@@ -173,7 +173,7 @@ export const buildCoverMessage = ({ note, ...details }: CoverMessageDetails & { 
     { type: 'text', text: ' to assign you as a substitute.' },
   ];
 
-  return [intro, tags, callToAction];
+  return [introParagraph, tagParagraph, callToActionParagraph];
 };
 
 const escapeSlack = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

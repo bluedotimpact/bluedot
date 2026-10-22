@@ -249,7 +249,7 @@ const mockCoverMessageDetails: CoverMessageDetails = {
   groupName: 'Monday 9am ET',
   startTimeSeconds: previewStartSeconds,
   endTimeSeconds: previewStartSeconds + 1.5 * ONE_HOUR_SECONDS,
-  freeFacilitators: [
+  availableFacilitators: [
     { name: 'Jordan Lee', slackUserId: 'U0JORDAN' },
     { name: 'Priya Shah', slackUserId: 'U0PRIYA' },
     { name: 'Tom Becker', slackUserId: 'U0TOM' },
@@ -257,7 +257,7 @@ const mockCoverMessageDetails: CoverMessageDetails = {
     { name: 'Chris Novak', slackUserId: 'U0CHRIS' },
   ],
   noClashFacilitators: [],
-  moreFreeThanTagged: true,
+  moreAvailableThanTagged: true,
   assignUrl: 'https://bluedot.org/facilitated-courses?changeFacilitator=discussion-2',
 };
 
@@ -269,7 +269,7 @@ const askInChannelHandlers = ({ messageDetails = mockCoverMessageDetails, previe
   trpcStorybookMsw.facilitators.getFacilitatorsForRound.query(async () => mockFacilitators),
   trpcStorybookMsw.facilitators.getCoverRequestPreview.query(preview ?? (async () => ({
     messageDetails,
-    taggedFacilitatorIds: [...messageDetails.freeFacilitators, ...messageDetails.noClashFacilitators].map((f) => f.slackUserId ?? ''),
+    taggedFacilitatorIds: [...messageDetails.availableFacilitators, ...messageDetails.noClashFacilitators].map((f) => f.slackUserId ?? ''),
   }))),
   trpcStorybookMsw.facilitators.requestCover.mutation(async () => ({ threadUrl: 'https://slack.com/archives/C0123/p1700000000000000' })),
 ];
@@ -291,7 +291,7 @@ export const AskInChannelNobodyFree: Story = {
     msw: {
       handlers: askInChannelHandlers({
         messageDetails: {
-          ...mockCoverMessageDetails, freeFacilitators: [], noClashFacilitators: [], moreFreeThanTagged: false,
+          ...mockCoverMessageDetails, availableFacilitators: [], noClashFacilitators: [], moreAvailableThanTagged: false,
         },
       }),
     },
