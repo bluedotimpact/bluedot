@@ -86,6 +86,7 @@ const REG = {
   numExpected: 'fldPq8IHeoXBkD8nE',
   mustLook: 'fldcs9jnQrVcOMkwf',
   facilitatorRatings: 'fldAOii0tbRfD1210',
+  facilitatorReasoning: 'fld1rY5FPzVWrzyGM',
   reportTakes: 'fldH4kT9DA79mlzBg',
 } as const;
 
@@ -391,7 +392,7 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 // ---- Queue ----
 
-const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports, REG.mustLook, REG.facilitatorRatings, REG.reportTakes];
+const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports, REG.mustLook, REG.facilitatorRatings, REG.facilitatorReasoning, REG.reportTakes];
 
 // The one signal that put a person on the shortlist, in PICK_REASONS order so the picker's recap
 // adds up. Mirrors the "[*] Talent scouting must look" formula; a signal added there without a case
@@ -399,12 +400,13 @@ const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certi
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
   if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
   if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
-  if ((topScoreOf(fields) ?? 0) >= 9) return 'top score';
+  if ((topScoreOf(fields) ?? 0) >= 9 || numbers(fields[REG.facilitatorReasoning]).includes(5)) return 'top score';
   return undefined;
 };
 
+const numbers = (v: unknown): number[] => (Array.isArray(v) ? v.filter((x): x is number => typeof x === 'number') : []);
 const topScoreOf = (fields: AirtableRecord['fields']): number | undefined => {
-  const ratings = (Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).filter((r): r is number => typeof r === 'number');
+  const ratings = numbers(fields[REG.facilitatorRatings]);
   return ratings.length > 0 ? Math.max(...ratings) : undefined;
 };
 
