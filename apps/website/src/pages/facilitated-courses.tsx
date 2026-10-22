@@ -177,6 +177,7 @@ const ChangeFacilitatorFromLink = () => {
       roundId={row.roundId}
       initialDiscussion={{ id: discussion.id, group: discussion.group }}
       initialModalType="Change facilitator"
+      initialHasFoundCover
     />
   );
 };

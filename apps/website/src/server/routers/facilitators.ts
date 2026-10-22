@@ -1,15 +1,22 @@
 import {
   and,
   arrayContains,
+  arrayOverlaps,
   asc,
   COURSE_ROLE,
   courseFeedbackTable,
+  courseRegistrationTable,
+  courseTable,
   eq,
   facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
   groupTable,
+  gt,
+  gte,
   ilike,
   inArray,
+  isNull,
+  lt,
   meetPersonTable,
   notInArray,
   or,
@@ -21,9 +28,20 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { hasEndDateTime, isGroupFacilitator } from '../../lib/group-discussions/utils';
+import { hasEndDateTime, isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { getUserFromAuthOrThrow, protectedProcedure, router } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
+import { postToFacilitatorCommunity } from '../../lib/api/facilitatorCommunitySlack';
+import {
+  buildCoverMessage,
+  isAvailableThroughout,
+  MAX_TAGGED_FACILITATORS,
+  pickFacilitatorsToTag,
+  slackUserIdFromProfileUrl,
+  toSlackMrkdwn,
+  type CoverMessageDetails,
+} from '../../lib/facilitatorCover';
+import { ROUTES } from '../../lib/routes';
 
 // Options whose Airtable name starts with "[!]" are "actionable" — flagging the participant
 // for follow-up. The marker (and surrounding whitespace) is stripped before display on the client.
@@ -155,6 +173,163 @@ async function getOrCreateCourseFeedback(meetPerson: { id: string; round: string
   return created;
 }
 
+const discussionInput = z.object({
+  roundId: z.string(),
+  groupId: z.string(),
+  discussionId: z.string(),
+});
+
+// The caller facilitates this discussion, and it hasn't started yet
+async function getUpcomingDiscussionForFacilitator(
+  { roundId, groupId, discussionId }: z.infer<typeof discussionInput>,
+  ctx: { auth: { sub: string } },
+) {
+  const user = await getUserFromAuthOrThrow(ctx.auth);
+  const facilitator = await getFacilitator(roundId, user.id);
+  if (!(facilitator.expectedDiscussionsFacilitator ?? []).includes(discussionId)) {
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
+  }
+
+  const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
+  if (!discussion || discussion.group !== groupId) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
+  }
+
+  const nowInSeconds = Math.floor(Date.now() / 1000);
+  if (discussion.startDateTime <= nowInSeconds) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change facilitator for a discussion that has already started' });
+  }
+
+  return { facilitator, discussion };
+}
+
+async function getCoverableDiscussion(input: z.infer<typeof discussionInput>, ctx: { auth: { sub: string } }) {
+  const { facilitator, discussion } = await getUpcomingDiscussionForFacilitator(input, ctx);
+  if (!hasEndDateTime(discussion)) {
+    throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion has no end time' });
+  }
+
+  return { facilitator, discussion };
+}
+
+type CoverCandidate = { id: string; name: string; slackUserId: string };
+
+/**
+ * Other facilitators in the round with a Slack account and no clashing discussion, split by whether
+ * their weekly availability covers the discussion.
+ */
+async function getCoverCandidates({
+  roundId, requesterId, startTimeSeconds, endTimeSeconds,
+}: { roundId: string; requesterId: string; startTimeSeconds: number; endTimeSeconds: number }) {
+  const withSlack = (await db.pg
+    .select({
+      id: meetPersonTable.pg.id,
+      name: meetPersonTable.pg.name,
+      userId: meetPersonTable.pg.userId,
+      registrationId: meetPersonTable.pg.applicationsBaseRecordId,
+      slackProfileUrl: meetPersonTable.pg.slackProfileUrl,
+    })
+    .from(meetPersonTable.pg)
+    .where(and(eq(meetPersonTable.pg.round, roundId), eq(meetPersonTable.pg.role, COURSE_ROLE.FACILITATOR))))
+    .filter((f) => f.id !== requesterId)
+    .flatMap((f) => {
+      const slackUserId = slackUserIdFromProfileUrl(f.slackProfileUrl);
+      return slackUserId ? [{ ...f, slackUserId }] : [];
+    });
+
+  const registrationIds = withSlack.flatMap((f) => (f.registrationId ? [f.registrationId] : []));
+  const registrations = registrationIds.length > 0
+    ? await db.pg
+      .select({
+        id: courseRegistrationTable.pg.id,
+        decision: courseRegistrationTable.pg.decision,
+        availabilityIntervalsUTC: courseRegistrationTable.pg.availabilityIntervalsUTC,
+      })
+      .from(courseRegistrationTable.pg)
+      .where(inArray(courseRegistrationTable.pg.id, registrationIds))
+    : [];
+  const registrationById = new Map(registrations.map((r) => [r.id, r]));
+  const facilitators = withSlack.filter((f) => registrationById.get(f.registrationId ?? '')?.decision !== 'Withdrawn');
+  if (facilitators.length === 0) return { free: [], noClash: [] };
+
+  // A facilitator has one meetPerson per round, and their sessions in other rounds clash too
+  const candidateIdByUserId = new Map(facilitators.flatMap((f) => (f.userId ? [[f.userId, f.id] as const] : [])));
+  const otherRoundPeople = candidateIdByUserId.size > 0
+    ? await db.pg
+      .select({ id: meetPersonTable.pg.id, userId: meetPersonTable.pg.userId })
+      .from(meetPersonTable.pg)
+      .where(inArray(meetPersonTable.pg.userId, [...candidateIdByUserId.keys()]))
+    : [];
+  const candidateIdByMeetPersonId = new Map([
+    ...facilitators.map((f) => [f.id, f.id] as const),
+    ...otherRoundPeople.map((p) => [p.id, candidateIdByUserId.get(p.userId!)!] as const),
+  ]);
+  const meetPersonIds = [...candidateIdByMeetPersonId.keys()];
+
+  const clashingDiscussions = await db.pg
+    .select({ facilitators: groupDiscussionTable.pg.facilitators, participantsExpected: groupDiscussionTable.pg.participantsExpected })
+    .from(groupDiscussionTable.pg)
+    .where(and(
+      or(
+        arrayOverlaps(groupDiscussionTable.pg.facilitators, meetPersonIds),
+        arrayOverlaps(groupDiscussionTable.pg.participantsExpected, meetPersonIds),
+      ),
+      lt(groupDiscussionTable.pg.startDateTime, endTimeSeconds),
+      or(
+        gt(groupDiscussionTable.pg.endDateTime, startTimeSeconds),
+        and(isNull(groupDiscussionTable.pg.endDateTime), gte(groupDiscussionTable.pg.startDateTime, startTimeSeconds)),
+      ),
+    ));
+  const clashingCandidateIds = new Set(clashingDiscussions
+    .flatMap((d) => [...d.facilitators, ...(d.participantsExpected ?? [])])
+    .map((id) => candidateIdByMeetPersonId.get(id)));
+
+  const free: CoverCandidate[] = [];
+  const noClash: CoverCandidate[] = [];
+  for (const f of facilitators.filter((c) => !clashingCandidateIds.has(c.id))) {
+    const availabilityIntervalsUTC = registrationById.get(f.registrationId ?? '')?.availabilityIntervalsUTC ?? null;
+    const candidate = { id: f.id, name: f.name ?? '', slackUserId: f.slackUserId };
+    (isAvailableThroughout({ availabilityIntervalsUTC, startTimeSeconds, endTimeSeconds }) ? free : noClash).push(candidate);
+  }
+
+  return { free, noClash };
+}
+
+async function getCoverMessageDetails({
+  facilitator, discussion, roundId, groupId, tagged, moreFreeThanTagged,
+}: {
+  facilitator: { name: string | null; slackProfileUrl: string | null };
+  discussion: GroupDiscussionWithEnd;
+  roundId: string;
+  groupId: string;
+  tagged: { free: CoverCandidate[]; noClash: CoverCandidate[] };
+  moreFreeThanTagged: boolean;
+}): Promise<CoverMessageDetails> {
+  const [group, round, unit] = await Promise.all([
+    db.getFirst(groupTable, { filter: { id: groupId } }),
+    db.getFirst(roundTable, { filter: { id: roundId }, sortBy: 'id' }),
+    discussion.courseBuilderUnitRecordId
+      ? db.getFirst(unitTable, { filter: { id: discussion.courseBuilderUnitRecordId }, sortBy: 'id' })
+      : null,
+  ]);
+  const course = round?.course ? await db.getFirst(courseTable, { filter: { id: round.course }, sortBy: 'id' }) : null;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
+  const toPerson = ({ name, slackUserId }: CoverCandidate) => ({ name, slackUserId });
+
+  return {
+    requester: { name: facilitator.name ?? '', slackUserId: slackUserIdFromProfileUrl(facilitator.slackProfileUrl) },
+    courseTitle: course?.title ?? round?.title ?? '',
+    unitNumber: unit?.unitNumber ?? (discussion.unitNumber !== null ? String(discussion.unitNumber) : null),
+    groupName: group?.groupName ?? '',
+    startTimeSeconds: discussion.startDateTime,
+    endTimeSeconds: discussion.endDateTime,
+    freeFacilitators: tagged.free.map(toPerson),
+    noClashFacilitators: tagged.noClash.map(toPerson),
+    moreFreeThanTagged,
+    assignUrl: `${siteUrl}${ROUTES.facilitatedCourses.url}?${new URLSearchParams({ changeFacilitator: discussion.id })}`,
+  };
+}
+
 export const facilitatorRouter = router({
   // --- Switching ---
 
@@ -278,33 +453,10 @@ export const facilitatorRouter = router({
     }),
 
   requestFacilitatorChange: protectedProcedure
-    .input(z.object({
-      roundId: z.string(),
-      discussionId: z.string(),
-      groupId: z.string(),
-      newFacilitatorId: z.string(),
-    }))
+    .input(discussionInput.extend({ newFacilitatorId: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      const { roundId, discussionId, groupId, newFacilitatorId } = input;
-
-      const user = await getUserFromAuthOrThrow(ctx.auth);
-      const facilitator = await getFacilitator(roundId, user.id);
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
-
-      if (allowedDiscussions.length === 0 || !allowedDiscussions.includes(discussionId)) {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
-      }
-
-      const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
-      if (!discussion || discussion.group !== groupId) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
-      }
-
-      const nowInSeconds = Math.floor(Date.now() / 1000);
-      if (discussion.startDateTime <= nowInSeconds) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change facilitator for a discussion that has already started' });
-      }
+      const { discussionId, groupId, newFacilitatorId } = input;
+      const { facilitator } = await getUpcomingDiscussionForFacilitator(input, ctx);
 
       const newFacilitator = await db.getFirst(meetPersonTable, { filter: { id: newFacilitatorId } });
       if (!newFacilitator) {
@@ -329,6 +481,54 @@ export const facilitatorRouter = router({
       });
 
       return null;
+    }),
+
+  getCoverRequestPreview: protectedProcedure
+    .input(discussionInput)
+    .query(async ({ input, ctx }) => {
+      const { facilitator, discussion } = await getCoverableDiscussion(input, ctx);
+      const candidates = await getCoverCandidates({
+        roundId: input.roundId,
+        requesterId: facilitator.id,
+        startTimeSeconds: discussion.startDateTime,
+        endTimeSeconds: discussion.endDateTime,
+      });
+      const tagged = pickFacilitatorsToTag(candidates);
+
+      return {
+        messageDetails: await getCoverMessageDetails({
+          facilitator, discussion, roundId: input.roundId, groupId: input.groupId, tagged, moreFreeThanTagged: candidates.free.length > MAX_TAGGED_FACILITATORS,
+        }),
+        taggedFacilitatorIds: [...tagged.free, ...tagged.noClash].map((f) => f.id),
+      };
+    }),
+
+  requestCover: protectedProcedure
+    .input(discussionInput.extend({
+      note: z.string().max(1000).optional(),
+      // The random pick shown in the preview, so the post matches it
+      taggedFacilitatorIds: z.array(z.string()).max(MAX_TAGGED_FACILITATORS),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const { facilitator, discussion } = await getCoverableDiscussion(input, ctx);
+      const candidates = await getCoverCandidates({
+        roundId: input.roundId,
+        requesterId: facilitator.id,
+        startTimeSeconds: discussion.startDateTime,
+        endTimeSeconds: discussion.endDateTime,
+      });
+      const requested = new Set(input.taggedFacilitatorIds);
+      const tagged = {
+        free: candidates.free.filter((f) => requested.has(f.id)),
+        noClash: candidates.noClash.filter((f) => requested.has(f.id)),
+      };
+
+      const messageDetails = await getCoverMessageDetails({
+        facilitator, discussion, roundId: input.roundId, groupId: input.groupId, tagged, moreFreeThanTagged: candidates.free.length > MAX_TAGGED_FACILITATORS,
+      });
+      const { permalink } = await postToFacilitatorCommunity({ mrkdwn: toSlackMrkdwn(buildCoverMessage({ ...messageDetails, note: input.note })) });
+
+      return { threadUrl: permalink };
     }),
 
   // --- Feedback ---
