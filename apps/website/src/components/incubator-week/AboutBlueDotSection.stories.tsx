@@ -22,7 +22,7 @@ export const Default: Story = {
   args: {
     applicationUrl: 'https://example.com/apply',
     applicationDeadline: 'November 11',
-    contactEmail: 'joshua@bluedot.org',
+    contactEmail: 'team@bluedot.org',
   },
 };
 
