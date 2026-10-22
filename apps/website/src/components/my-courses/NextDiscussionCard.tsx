@@ -9,8 +9,7 @@ import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from
 import type { SwitchType } from '../../server/routers/group-switching';
 import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
-import { TimeWidget } from './DiscussionListRow';
-import LiveBadge from './LiveBadge';
+import { DateBadge } from './DateBadge';
 
 // The course name stays in the eyebrow in every state (incl. live); the live cue lives in the
 // left graphic. There's no "starting soon" state — a soon discussion reads as a normal upcoming one.
@@ -23,23 +22,6 @@ const formatEyebrow = (prefix: string, unitNumber: string | undefined): string =
 
 const formatDatetimeLabel = (startSec: number, endSec: number) =>
   `${formatDateMonthAndDay(startSec)}, ${formatTime12HourClock(startSec)} - ${formatTime12HourClock(endSec)}`;
-
-// Fixed square badge slot: shows the calendar date, or the LIVE indicator (same dimensions) when live.
-const CalendarBadge = ({ month, day, isLive }: { month: string; day: number; isLive: boolean }) => (
-  <div aria-hidden={!isLive} className="flex size-11 shrink-0 flex-col overflow-hidden rounded-lg border bg-raised sm:size-16 sm:rounded-2xl">
-    {isLive ? <LiveBadge compact /> : (
-      <>
-        <div className="flex h-4 items-center justify-center bg-accent sm:h-6">
-          <span className="text-size-xxs font-semibold leading-none text-on-dark">{month.toUpperCase()}</span>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-          <span className="text-size-md font-semibold leading-normal text-primary sm:text-[28px] sm:font-bold sm:leading-none">{day}</span>
-        </div>
-      </>
-    )}
-  </div>
-);
 
 export type NextDiscussionCardMode = 'participant' | 'facilitator';
 
@@ -66,13 +48,8 @@ const NextDiscussionCard = ({
   const [updateTimeOpen, setUpdateTimeOpen] = useState(false);
   const currentTimeMs = useCurrentTimeMs();
 
-  const startMs = discussion.startDateTime * 1000;
   const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
   const isLive = timeState === 'live';
-
-  const start = new Date(startMs);
-  const month = start.toLocaleDateString('en-US', { month: 'short' });
-  const day = start.getDate();
 
   const unitNumber = unit?.unitNumber;
   const titleHref = unitNumber != null ? buildCourseUnitUrl({ courseSlug, unitNumber }) : undefined;
@@ -94,9 +71,7 @@ const NextDiscussionCard = ({
     <>
       <div className="flex flex-col gap-4 rounded-xl border bg-raised p-5 sm:flex-row sm:items-center sm:gap-5 sm:p-6">
         <div className="flex w-full items-start gap-4 sm:flex-1 sm:items-center sm:gap-5">
-          {mode === 'facilitator'
-            ? <TimeWidget isLive={isLive} dateTimeSeconds={discussion.startDateTime} />
-            : <CalendarBadge month={month} day={day} isLive={isLive} />}
+          <DateBadge layout={mode === 'facilitator' ? 'dateTime' : 'calendar'} isLive={isLive} dateTimeSeconds={discussion.startDateTime} />
           <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
             <div className="flex flex-col items-start">
               <p className="text-size-xxs font-semibold leading-normal text-accent">
