@@ -58,7 +58,7 @@ export type FieldProps = {
   required?: boolean;
   /** Applied to the root. */
   className?: string;
-  /** One control. It must call `useFieldControlProps`. */
+  /** One control that calls `useFieldControlProps` (Input, Textarea, Select, Checkbox, Radio). Others get no wiring. */
   children: ReactNode;
 };
 
