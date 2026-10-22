@@ -3,10 +3,10 @@ import {
 } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CoursePage from './index';
-import { TrpcProvider } from '../../../__tests__/trpcProvider';
-import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
-import { MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS, createMockCourse } from '../../../__tests__/testUtils';
+import CoursePage from '../../../../pages/courses/[courseSlug]/index';
+import { TrpcProvider } from '../../../trpcProvider';
+import { server, trpcMsw } from '../../../trpcMswSetup';
+import { MOCK_NAV_GRANTS, MOCK_NAV_IN_PERSON_PROGRAMS, createMockCourse } from '../../../testUtils';
 
 const APPLY_URL = 'https://forms.bluedot.org/apply';
 
