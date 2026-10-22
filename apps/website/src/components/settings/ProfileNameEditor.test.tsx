@@ -56,7 +56,7 @@ const getButtonsRow = (container: HTMLElement): HTMLElement => getNameSaveButton
 
 // Helper function for error messages
 const getErrorMessage = (container: HTMLElement): HTMLElement | null => {
-  return container.querySelector('[role="alert"]');
+  return container.querySelector('[role="status"]');
 };
 
 describe('ProfileNameEditor', () => {
@@ -334,7 +334,7 @@ describe('ProfileNameEditor (with DB)', () => {
     fireEvent.click(saveButton);
 
     await waitFor(() => {
-      const error = container.querySelector('[role="alert"]');
+      const error = container.querySelector('[role="status"]');
       expect(error).toBeInTheDocument();
     });
   });
