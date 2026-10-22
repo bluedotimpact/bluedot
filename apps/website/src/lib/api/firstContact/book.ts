@@ -124,7 +124,7 @@ export function welcomePost({
   isFirstVisit: boolean;
 }): string {
   const hireFirstName = firstName(hire.name);
-  const lines = planned.map(({ teammate, slot }) => `• <@${teammate.slackUserId}> · ${slackDate(slot.start)}`);
+  const lines = [...planned].sort((a, b) => a.slot.start.getTime() - b.slot.start.getTime()).map(({ teammate, slot }) => `• <@${teammate.slackUserId}> · ${slackDate(slot.start)}`);
   const intro = isFirstVisit
     ? `:wave: *Welcome, ${hire.name}!* ${hireFirstName} is joining BlueDot and will meet:`
     : `:wave: ${hire.name} will also meet:`;

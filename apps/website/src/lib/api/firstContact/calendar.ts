@@ -89,7 +89,8 @@ export class FirstContactCalendar {
 
   /**
    * Books the chat with a Meet link and emails both people. The event ID comes from the two emails, so booking the
-   * same pair twice keeps the first event rather than making a second.
+   * same pair twice keeps the first event rather than making a second. Google keeps cancelled events, and their IDs
+   * can't be reused, so a pair whose earlier chat was cancelled gets that event back at the new time.
    */
   async bookChat({
     hire, teammate, slot, summary, description,
@@ -101,28 +102,39 @@ export class FirstContactCalendar {
     description: string;
   }): Promise<'booked' | 'already booked'> {
     const id = chatEventId({ hireEmail: hire.email, teammateEmail: teammate.email });
-    const response = await this.request(`/calendars/${encodeURIComponent(this.calendarId)}/events?conferenceDataVersion=1&sendUpdates=all`, {
+    const eventsPath = `/calendars/${encodeURIComponent(this.calendarId)}/events`;
+    const details = {
+      summary,
+      description,
+      start: { dateTime: slot.start.toISOString(), timeZone: 'UTC' },
+      end: { dateTime: slot.end.toISOString(), timeZone: 'UTC' },
+      attendees: [{ email: hire.email }, { email: teammate.email }],
+      guestsCanModify: true,
+      extendedProperties: {
+        private: {
+          [HIRE_PROPERTY]: hire.email.toLowerCase(),
+          [TEAMMATE_PROPERTY]: teammate.email.toLowerCase(),
+          [TEAMMATE_NAME_PROPERTY]: teammate.name,
+        },
+      },
+    };
+    const response = await this.request(`${eventsPath}?conferenceDataVersion=1&sendUpdates=all`, {
       method: 'POST',
       body: {
         id,
-        summary,
-        description,
-        start: { dateTime: slot.start.toISOString(), timeZone: 'UTC' },
-        end: { dateTime: slot.end.toISOString(), timeZone: 'UTC' },
-        attendees: [{ email: hire.email }, { email: teammate.email }],
-        guestsCanModify: true,
+        ...details,
         conferenceData: { createRequest: { requestId: id, conferenceSolutionKey: { type: 'hangoutsMeet' } } },
-        extendedProperties: {
-          private: {
-            [HIRE_PROPERTY]: hire.email.toLowerCase(),
-            [TEAMMATE_PROPERTY]: teammate.email.toLowerCase(),
-            [TEAMMATE_NAME_PROPERTY]: teammate.name,
-          },
-        },
       },
     });
-    if (response.status === 409) return 'already booked';
-    if (!response.ok) throw new Error(`Google event insert failed: HTTP ${response.status} ${await response.text()}`);
+    if (response.ok) return 'booked';
+    if (response.status !== 409) throw new Error(`Google event insert failed: HTTP ${response.status} ${await response.text()}`);
+
+    const existing = await this.request(`${eventsPath}/${id}`, { method: 'GET' });
+    if (!existing.ok) throw new Error(`Google event get failed: HTTP ${existing.status} ${await existing.text()}`);
+    if ((await existing.json() as { status?: string }).status !== 'cancelled') return 'already booked';
+
+    const revived = await this.request(`${eventsPath}/${id}?sendUpdates=all`, { method: 'PATCH', body: { ...details, status: 'confirmed' } });
+    if (!revived.ok) throw new Error(`Google event update failed: HTTP ${revived.status} ${await revived.text()}`);
     return 'booked';
   }
 }

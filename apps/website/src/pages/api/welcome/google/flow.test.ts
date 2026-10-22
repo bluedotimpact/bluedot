@@ -39,7 +39,7 @@ vi.mock('../../../../lib/api/makeApiRoute', async () => {
 
 const CALENDAR_EVENTS = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(TEST_ENV.WELCOME_GOOGLE_CALENDAR_ID)}/events`;
 
-type FakeEvent = { id: string; summary: string; description: string; start: { dateTime: string }; attendees: { email: string }[]; extendedProperties: { private: Record<string, string> } };
+type FakeEvent = { id: string; status?: string; summary: string; description: string; start: { dateTime: string }; attendees: { email: string }[]; extendedProperties: { private: Record<string, string> } };
 
 const SLACK_USERS: Record<string, unknown> = {
   U1: {
@@ -131,12 +131,20 @@ async function fakeFetch(input: string | URL | Request, init?: RequestInit): Pro
     expect(auth).toBe('Bearer bot-access');
     if (init?.method === 'POST') {
       const event = JSON.parse(init.body as string) as FakeEvent;
+      // Like Google, cancelled events keep their IDs
       if (events.some((e) => e.id === event.id)) return json(409, { error: { message: 'duplicate' } });
-      events.push(event);
+      events.push({ ...event, status: 'confirmed' });
       return json(200, event);
     }
 
-    return json(200, { items: events });
+    return json(200, { items: events.filter((e) => e.status !== 'cancelled') });
+  }
+
+  if (url.pathname.startsWith(new URL(CALENDAR_EVENTS).pathname)) {
+    const event = events.find((e) => e.id === url.pathname.split('/').pop());
+    if (!event) return json(404, { error: { message: 'not found' } });
+    if (init?.method === 'PATCH') Object.assign(event, JSON.parse(init.body as string));
+    return json(200, event);
   }
 
   if (url.origin === 'https://slack.com') {
@@ -311,6 +319,18 @@ describe('callback', () => {
     expect(events).toHaveLength(5);
     expect(slackPosts).toHaveLength(1);
     expect(slackMemberLookups).toBe(1);
+  });
+
+  test('books a pair again after their earlier chat was cancelled', async () => {
+    const first = await startFlow();
+    await callback({ query: { code: 'hire-code', state: first.state }, cookie: first.cookie });
+    for (const event of events) event.status = 'cancelled';
+
+    const second = await startFlow();
+    const res = await callback({ query: { code: 'hire-code', state: second.state }, cookie: second.cookie });
+
+    expect(resultFrom(res.redirectedTo).chats).toHaveLength(5);
+    expect(events.filter((e) => e.status === 'confirmed')).toHaveLength(5);
   });
 
   test('still shows the chats if posting in #welcome fails', async () => {
