@@ -37,7 +37,7 @@ const AIModelResponse: React.FC<{
   return (
     <div className="mb-4">
       <div className="flex items-center gap-2 mb-2 relative">
-        <div className="bg-purple-100 text-purple-800 px-3 py-1 rounded-lg flex items-center gap-2">
+        <div className="bg-info-bg text-info-fg px-3 py-1 rounded-lg flex items-center gap-2">
           <span>{model.releaseYear}</span>
         </div>
         <span className="text-size-lg font-medium">{model.name}</span>
