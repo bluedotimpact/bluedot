@@ -11,6 +11,7 @@ import {
   TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab,
 } from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
+import FacilitatorSwitchModal from '../components/courses/FacilitatorSwitchModal';
 import { QuickApplyBanner } from '../components/my-courses/QuickApplyBanner';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
@@ -153,7 +154,30 @@ const FacilitatedCoursesPage = () => {
           )}
         </div>
       </MyBlueDotLayout>
+      <ChangeFacilitatorFromLink />
     </div>
+  );
+};
+
+// `?changeFacilitator=<discussionId>` opens the modal for that discussion, e.g. from a Slack link
+const ChangeFacilitatorFromLink = () => {
+  const router = useRouter();
+  const { changeFacilitator: discussionId, ...otherQuery } = router.query;
+  const { data } = trpc.myBluedot.facilitatedCoursesPage.useQuery();
+
+  if (typeof discussionId !== 'string') return null;
+
+  const row = data?.courses.find((c) => c.discussions.some((d) => d.id === discussionId));
+  const discussion = row?.discussions.find((d) => d.id === discussionId);
+  if (!row?.roundId || !discussion) return null;
+
+  return (
+    <FacilitatorSwitchModal
+      handleClose={() => router.replace({ pathname: router.pathname, query: otherQuery }, undefined, { shallow: true })}
+      roundId={row.roundId}
+      initialDiscussion={{ id: discussion.id, group: discussion.group }}
+      initialModalType="Change facilitator"
+    />
   );
 };
 
