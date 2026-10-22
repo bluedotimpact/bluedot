@@ -1,4 +1,4 @@
-import { cn, Button } from '@bluedot/ui';
+import { cn, Button, ClickTarget } from '@bluedot/ui';
 import type React from 'react';
 import {
   useCallback, useEffect,
@@ -90,8 +90,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               Complete
             </Button>
           ) : (
-            <button
-              type="button"
+            <ClickTarget
               onClick={handleMarkIncomplete}
               className="flex items-center gap-2 h-[30px] transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
               aria-label="Mark exercise as incomplete"
@@ -100,7 +99,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
                 Completed
               </span>
               <FaRotateLeft aria-hidden="true" className="size-4 text-accent" />
-            </button>
+            </ClickTarget>
           )}
         </div>
       )}

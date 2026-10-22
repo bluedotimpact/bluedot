@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
 import {
-  Callout, Button, Checkbox, ProgressDots,
+  Callout, Button, Checkbox, ProgressDots, ClickTarget, TabPills,
 } from '@bluedot/ui';
 import { FaChevronDown } from 'react-icons/fa6';
 import { type Round } from '../lib/api/airtable';
@@ -124,22 +124,6 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
     return acc;
   }, {});
 
-  const segmentButton = (label: string, active: boolean, onClick: () => void) => (
-    <button
-      key={label}
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={`flex-1 min-h-11 min-w-11 px-3 py-2 rounded-md text-size-sm font-medium transition-colors ${
-        active
-          ? 'bg-active text-primary'
-          : 'text-secondary hover:text-primary'
-      }`}
-    >
-      {label}
-    </button>
-  );
-
   const offeredFilters = filterOptions ?? [];
   const atFilterLimit = filterIds.length >= MAX_QUEUE_FILTERS;
   const toggleFilter = (id: string) => updateFilterIds(filterIds.includes(id) ? filterIds.filter((selected) => selected !== id) : [...filterIds, id]);
@@ -157,10 +141,12 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
 
         <div>
           <p className="text-size-xs font-semibold uppercase tracking-wide text-secondary mb-2">Review from</p>
-          <div className="flex gap-1 bg-canvas border border-subtle rounded-lg p-1">
-            {segmentButton('Top of pile', direction === 'top', () => updateDirection('top'))}
-            {segmentButton('Bottom of pile', direction === 'bottom', () => updateDirection('bottom'))}
-          </div>
+          <TabPills
+            aria-label="Review from"
+            tabs={[{ id: 'top', label: 'Top of pile' }, { id: 'bottom', label: 'Bottom of pile' }]}
+            value={direction}
+            onChange={updateDirection}
+          />
         </div>
 
         {offeredFilters.length > 0 && (
@@ -190,19 +176,20 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
                 {filterIds.length > 1 && (
                   <div className="flex items-center gap-2">
                     <span id="filter-match-label" className="text-size-xs text-secondary">Match</span>
-                    <div role="group" aria-labelledby="filter-match-label" className="flex gap-1 bg-canvas border border-subtle rounded-lg p-1">
-                      {segmentButton('Any', filterMatch === 'any', () => updateFilterMatch('any'))}
-                      {segmentButton('All', filterMatch === 'all', () => updateFilterMatch('all'))}
-                    </div>
+                    <TabPills
+                      aria-label="Match"
+                      tabs={[{ id: 'any', label: 'Any' }, { id: 'all', label: 'All' }]}
+                      value={filterMatch}
+                      onChange={updateFilterMatch}
+                    />
                   </div>
                 )}
-                <button
-                  type="button"
+                <ClickTarget
                   onClick={() => updateFilterIds([])}
                   className="min-h-11 px-3 rounded-md text-size-sm font-medium text-secondary hover:text-primary underline underline-offset-2"
                 >
                   Clear
-                </button>
+                </ClickTarget>
                 {atFilterLimit && <p className="text-size-xs text-secondary">You can tick up to {MAX_QUEUE_FILTERS} at a time.</p>}
               </div>
             )}

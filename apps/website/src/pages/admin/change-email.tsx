@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, Button, Input, P, Section,
+  Breadcrumbs, Button, Input, P, Section, ClickTarget,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -56,13 +56,12 @@ const AdminChangeEmail = withAdminGuard(() => {
             ) : (
               <p className="text-size-xs text-secondary">No user selected.</p>
             )}
-            <button
-              type="button"
+            <ClickTarget
               onClick={() => setIsSelectUserModalOpen(true)}
               className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
             >
               {selectedUser ? 'Select a different user' : 'Select user'}
-            </button>
+            </ClickTarget>
           </div>
 
           {selectedUser && (

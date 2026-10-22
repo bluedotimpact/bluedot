@@ -1,4 +1,4 @@
-import { Modal, P } from '@bluedot/ui';
+import { Modal, P, ClickTarget } from '@bluedot/ui';
 import { type ReactNode, useState } from 'react';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { getActionPlanUrl } from '../../lib/utils';
@@ -146,9 +146,9 @@ export const SidebarCertificatePanel = ({
     subtitle = (
       <span>
         {'Finish the course and '}
-        <button type="button" className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>
+        <ClickTarget className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>
           meet requirements
-        </button>
+        </ClickTarget>
         {' to unlock'}
       </span>
     );

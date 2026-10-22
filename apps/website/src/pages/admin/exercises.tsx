@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, Checkbox, ErrorSection, FieldSet, ProgressDots, Radio, SearchInput, Section,
+  Breadcrumbs, Checkbox, ErrorSection, FieldSet, ProgressDots, Radio, SearchInput, Section, ClickTarget,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -145,13 +145,12 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               )}
               {!user && userId && <p className="text-size-xs text-secondary">Loading user...</p>}
               {userId && <p className="text-size-xs text-secondary">User ID: <code>{userId}</code></p>}
-              <button
-                type="button"
+              <ClickTarget
                 onClick={() => setIsSelectUserModalOpen(true)}
                 className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
               >
                 Select user
-              </button>
+              </ClickTarget>
             </div>
 
             <Checkbox checked={includeInProgress} onChange={(e) => setIncludeInProgress(e.target.checked)}>
@@ -290,13 +289,12 @@ const ResponseCard = ({
           )}
         </div>
         {canTruncate && (
-          <button
-            type="button"
+          <ClickTarget
             onClick={() => setExpanded(!expanded)}
             className="text-size-xs text-link font-medium mt-2 cursor-pointer hover:underline"
           >
             {expanded ? 'Show less' : 'Show more'}
-          </button>
+          </ClickTarget>
         )}
       </div>
     </li>

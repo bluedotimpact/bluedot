@@ -1,5 +1,5 @@
 import {
-  Breadcrumbs, Button, ProgressDots, Section,
+  Breadcrumbs, Button, ProgressDots, Section, ClickTarget,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState } from 'react';
@@ -41,13 +41,12 @@ const AdminDeletionRequests = withAdminGuard(() => {
             ) : (
               <p className="text-size-xs text-secondary">No user selected.</p>
             )}
-            <button
-              type="button"
+            <ClickTarget
               onClick={() => setIsSelectUserModalOpen(true)}
               className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
             >
               {selectedUser ? 'Select a different user' : 'Select user'}
-            </button>
+            </ClickTarget>
           </div>
 
           {selectedUser && (

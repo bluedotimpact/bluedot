@@ -10,6 +10,7 @@ import { Field } from './Field';
 import { Input } from './Input';
 import { Modal } from './Modal';
 import { cn } from './utils';
+import { ClickTarget } from './ClickTarget';
 
 const emailSchema = z.string().min(1, 'Email is required.').email('Please enter a valid email address.');
 
@@ -307,14 +308,13 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                           e.target.value = '';
                         }}
                       />
-                      <button
-                        type="button"
+                      <ClickTarget
                         onClick={() => fileInputRef.current?.click()}
                         className="text-secondary flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xs hover:bg-tint"
                       >
                         <FaPaperclip className="size-3.5 shrink-0" />
                         <span>Add, drag, or paste attachments here</span>
-                      </button>
+                      </ClickTarget>
                     </div>
                   </>
                 )}
