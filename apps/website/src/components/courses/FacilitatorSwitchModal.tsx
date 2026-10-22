@@ -19,7 +19,7 @@ import { FaCheck, FaClock, FaPeopleArrows } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import {
-  buildCoverMessage, formatCoverTime, formatCoverTimeUtcBracket, type CoverMessageDetails, type CoverMessageSegment,
+  buildCoverMessage, formatCoverTimeLocal, formatCoverTimeUtcBracket, type CoverMessageDetails, type CoverMessageSegment,
 } from '../../lib/facilitatorCover';
 
 const MODAL_TYPE_OPTIONS = [
@@ -57,7 +57,7 @@ const COVER_OPTIONS = [
 
 const AGREED_COVER_LABEL = COVER_OPTIONS[0].label;
 
-const coverOptionValue = (hasFoundCover: boolean | undefined) => {
+const toCoverOptionValue = (hasFoundCover: boolean | undefined) => {
   if (hasFoundCover === undefined) return undefined;
   return hasFoundCover ? 'Yes' : 'No';
 };
@@ -393,7 +393,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <p className="text-size-md font-medium text-primary">1. Have you found someone to cover?</p>
           <Select
             aria-label="Have you found someone to cover?"
-            value={coverOptionValue(hasFoundCover)}
+            value={toCoverOptionValue(hasFoundCover)}
             onChange={(value) => setHasFoundCover(value === 'Yes')}
             options={[...COVER_OPTIONS]}
             placeholder="Choose an option"
@@ -571,7 +571,7 @@ const CoverMessageDraft = ({ messageDetails, note }: { messageDetails: CoverMess
       case 'text': return segment.text;
       case 'time': return (
         <>
-          <span className="font-bold">{formatCoverTime({ ...segment, timeZone })}</span>
+          <span className="font-bold">{formatCoverTimeLocal({ ...segment, timeZone })}</span>
           {` ${formatCoverTimeUtcBracket({ ...segment, timeZone })}`}
         </>
       );

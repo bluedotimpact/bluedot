@@ -844,12 +844,12 @@ describe('facilitators cover requests', () => {
       groupName: 'Group 1 - Sam Rivera',
       startTimeSeconds,
       endTimeSeconds,
-      moreFreeThanTagged: false,
+      moreAvailableThanTagged: false,
     });
     expect(messageDetails.assignUrl).toMatch(/\/facilitated-courses\?changeFacilitator=discussion-1$/);
-    expect(namesOf(messageDetails.freeFacilitators)).toEqual(['back-to-back', 'free']);
+    expect(namesOf(messageDetails.availableFacilitators)).toEqual(['back-to-back', 'free']);
     expect(namesOf(messageDetails.noClashFacilitators)).toEqual(['no-availability', 'unavailable']);
-    expect(messageDetails.freeFacilitators.find((f) => f.name === 'free')).toEqual({ name: 'free', slackUserId: 'UFREE' });
+    expect(messageDetails.availableFacilitators.find((f) => f.name === 'free')).toEqual({ name: 'free', slackUserId: 'UFREE' });
     expect(taggedFacilitatorIds.sort()).toEqual(['back-to-back', 'free', 'no-availability', 'unavailable']);
   });
 
@@ -889,7 +889,7 @@ describe('facilitators cover requests', () => {
 
     const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
-    expect(namesOf(messageDetails.freeFacilitators)).toEqual(['earlier-no-end', 'free']);
+    expect(namesOf(messageDetails.availableFacilitators)).toEqual(['earlier-no-end', 'free']);
     expect(messageDetails.noClashFacilitators).toEqual([]);
   });
 
@@ -918,12 +918,12 @@ describe('facilitators cover requests', () => {
 
     const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
-    expect(namesOf(messageDetails.freeFacilitators)).toEqual(['free-1', 'free-2', 'free-3']);
+    expect(namesOf(messageDetails.availableFacilitators)).toEqual(['free-1', 'free-2', 'free-3']);
     expect(messageDetails.noClashFacilitators).toHaveLength(2);
     expect(taggedFacilitatorIds).toHaveLength(5);
   });
 
-  test('tags 5 free facilitators at random when more are free', async () => {
+  test('tags 5 available facilitators at random when more are free', async () => {
     await seedCoverRequest();
     for (let i = 1; i <= 7; i++) {
       // eslint-disable-next-line no-await-in-loop
@@ -934,9 +934,9 @@ describe('facilitators cover requests', () => {
 
     const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
-    expect(messageDetails.freeFacilitators).toHaveLength(5);
+    expect(messageDetails.availableFacilitators).toHaveLength(5);
     expect(messageDetails.noClashFacilitators).toEqual([]);
-    expect(messageDetails.moreFreeThanTagged).toBe(true);
+    expect(messageDetails.moreAvailableThanTagged).toBe(true);
   });
 
   test('tags nobody when nobody else in the round is free', async () => {
@@ -946,7 +946,7 @@ describe('facilitators cover requests', () => {
 
     const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
-    expect(messageDetails.freeFacilitators).toEqual([]);
+    expect(messageDetails.availableFacilitators).toEqual([]);
     expect(messageDetails.noClashFacilitators).toEqual([]);
     expect(taggedFacilitatorIds).toEqual([]);
   });

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import {
   buildCoverMessage,
-  formatCoverTime,
+  formatCoverTimeLocal,
   formatCoverTimeUtcBracket,
   isAvailableThroughout,
   pickFacilitatorsToTag,
@@ -52,17 +52,17 @@ describe('isAvailableThroughout', () => {
 
 describe('pickFacilitatorsToTag', () => {
   test('tags everyone when there are 5 or fewer', () => {
-    expect(pickFacilitatorsToTag({ free: ['a', 'b'], noClash: ['c'], random: () => 0.99 })).toEqual({ free: ['a', 'b'], noClash: ['c'] });
+    expect(pickFacilitatorsToTag({ available: ['a', 'b'], noClash: ['c'], random: () => 0.99 })).toEqual({ available: ['a', 'b'], noClash: ['c'] });
   });
 
-  test('tags 5 free facilitators at random and nobody else when more than 5 are free', () => {
-    const picked = pickFacilitatorsToTag({ free: ['a', 'b', 'c', 'd', 'e', 'f', 'g'], noClash: ['x'], random: () => 0 });
-    expect(picked).toEqual({ free: ['b', 'c', 'd', 'e', 'f'], noClash: [] });
+  test('tags 5 available facilitators at random and nobody else when more than 5 are available', () => {
+    const picked = pickFacilitatorsToTag({ available: ['a', 'b', 'c', 'd', 'e', 'f', 'g'], noClash: ['x'], random: () => 0 });
+    expect(picked).toEqual({ available: ['b', 'c', 'd', 'e', 'f'], noClash: [] });
   });
 
   test('tops up with facilitators who have no clash', () => {
-    const picked = pickFacilitatorsToTag({ free: ['a', 'b'], noClash: ['w', 'x', 'y', 'z'], random: () => 0 });
-    expect(picked).toEqual({ free: ['b', 'a'], noClash: ['x', 'y', 'z'] });
+    const picked = pickFacilitatorsToTag({ available: ['a', 'b'], noClash: ['w', 'x', 'y', 'z'], random: () => 0 });
+    expect(picked).toEqual({ available: ['b', 'a'], noClash: ['x', 'y', 'z'] });
   });
 });
 
@@ -75,12 +75,12 @@ describe('slackUserIdFromProfileUrl', () => {
   });
 });
 
-describe('formatCoverTime', () => {
+describe('formatCoverTimeLocal', () => {
   const range = { startTimeSeconds: FRI_0700_SECONDS, endTimeSeconds: FRI_0700_SECONDS + 2 * HOUR_SECONDS };
 
   test('shows the date and time in the given time zone, without a zone label', () => {
-    expect(formatCoverTime({ ...range, timeZone: 'Europe/London' })).toBe('Fri 23 Oct, 08:00–10:00');
-    expect(formatCoverTime(range)).toBe('Fri 23 Oct, 07:00–09:00');
+    expect(formatCoverTimeLocal({ ...range, timeZone: 'Europe/London' })).toBe('Fri 23 Oct, 08:00–10:00');
+    expect(formatCoverTimeLocal(range)).toBe('Fri 23 Oct, 07:00–09:00');
   });
 });
 
@@ -101,9 +101,9 @@ describe('buildCoverMessage + toSlackMrkdwn', () => {
     groupName: 'Group 14 - Sam Rivera',
     startTimeSeconds: FRI_0700_SECONDS,
     endTimeSeconds: FRI_0700_SECONDS + 2 * HOUR_SECONDS,
-    freeFacilitators: [{ name: 'Ada', slackUserId: 'UADA' }, { name: 'Bo', slackUserId: 'UBO' }],
+    availableFacilitators: [{ name: 'Ada', slackUserId: 'UADA' }, { name: 'Bo', slackUserId: 'UBO' }],
     noClashFacilitators: [],
-    moreFreeThanTagged: false,
+    moreAvailableThanTagged: false,
     assignUrl: 'https://bluedot.org/facilitated-courses?changeFacilitator=disc-1',
   };
   const time = '*<!date^1792738800^{date_short_pretty} {time}|Fri 23 Oct, 07:00>–<!date^1792746000^{time}|09:00 UTC>* (07:00–09:00 UTC)';
@@ -126,13 +126,13 @@ describe('buildCoverMessage + toSlackMrkdwn', () => {
     const tagLine = (overrides: Partial<CoverMessageDetails>) => toSlackMrkdwn(buildCoverMessage({ ...details, ...overrides })).split('\n\n')[1];
     const others = [{ name: 'Cy', slackUserId: 'UCY' }];
 
-    expect(tagLine({ moreFreeThanTagged: true }))
+    expect(tagLine({ moreAvailableThanTagged: true }))
       .toBe('Facilitators free at that time according to their availability (more than 5 were free, so 5 were picked at random): <@UADA> <@UBO>');
     expect(tagLine({ noClashFacilitators: others }))
       .toBe('Facilitators free at that time according to their availability: <@UADA> <@UBO>. Others with no clashing session: <@UCY>.');
-    expect(tagLine({ freeFacilitators: [], noClashFacilitators: others }))
+    expect(tagLine({ availableFacilitators: [], noClashFacilitators: others }))
       .toBe('Nobody\'s availability matches that time, but these facilitators have no clashing session: <@UCY>');
-    expect(tagLine({ freeFacilitators: [] }))
+    expect(tagLine({ availableFacilitators: [] }))
       .toBe('Nobody in this round is free at that time, so no one is tagged.');
   });
 

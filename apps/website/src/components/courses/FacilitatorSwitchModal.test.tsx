@@ -11,7 +11,7 @@ import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { createMockGroup, createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
-import { formatCoverTime, formatCoverTimeUtcBracket, type CoverMessageDetails } from '../../lib/facilitatorCover';
+import { formatCoverTimeLocal, formatCoverTimeUtcBracket, type CoverMessageDetails } from '../../lib/facilitatorCover';
 
 const nowSeconds = Math.floor(Date.now() / 1000);
 
@@ -113,9 +113,9 @@ describe('FacilitatorSwitchModal', () => {
       groupName: 'Monday 9am ET',
       startTimeSeconds: nowSeconds + ONE_DAY_SECONDS,
       endTimeSeconds: nowSeconds + ONE_DAY_SECONDS + 3600,
-      freeFacilitators: [{ name: 'Jordan Lee', slackUserId: 'U0JORDAN' }],
+      availableFacilitators: [{ name: 'Jordan Lee', slackUserId: 'U0JORDAN' }],
       noClashFacilitators: [],
-      moreFreeThanTagged: false,
+      moreAvailableThanTagged: false,
       assignUrl: 'https://bluedot.org/facilitated-courses?changeFacilitator=discussion-1',
     };
     let mockRequestCover: Mock;
@@ -160,7 +160,7 @@ describe('FacilitatorSwitchModal', () => {
       expect(draft).toHaveTextContent('@Sam Rivera is looking for cover for "AGI Strategy · Unit 1 · Monday 9am ET"');
       const range = { startTimeSeconds: messageDetails.startTimeSeconds, endTimeSeconds: messageDetails.endTimeSeconds };
       const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
-      expect(draft).toHaveTextContent(`${formatCoverTime({ ...range, timeZone })} ${formatCoverTimeUtcBracket({ ...range, timeZone })}`);
+      expect(draft).toHaveTextContent(`${formatCoverTimeLocal({ ...range, timeZone })} ${formatCoverTimeUtcBracket({ ...range, timeZone })}`);
       expect(screen.getByRole('link', { name: 'here' })).toHaveAttribute('href', messageDetails.assignUrl);
       expect(screen.queryByRole('button', { name: /New facilitator/ })).not.toBeInTheDocument();
     });
