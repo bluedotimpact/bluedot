@@ -49,7 +49,7 @@ const WhatCouldYouBuildSection = () => {
               key={title}
               className="flex flex-col gap-4"
             >
-              <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/50">
+              <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-accent-subtle/50">
                 <Icon className="text-primary" size={24} />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -62,8 +62,8 @@ const WhatCouldYouBuildSection = () => {
               </div>
             </CardShell>
           ))}
-          <div className="flex flex-col gap-4 rounded-surface border-2 border-dashed bg-bluedot-lighter/20 p-6">
-            <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/60">
+          <div className="flex flex-col gap-4 rounded-surface border-2 border-dashed bg-accent-subtle/20 p-6">
+            <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-accent-subtle/60">
               <PiSparkle className="text-primary" size={24} />
             </div>
             <div className="flex flex-col gap-1.5">
