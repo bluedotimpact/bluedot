@@ -56,3 +56,9 @@ config:
     secure: v1:ihsBNwOLFQkxfXdO:NwmrPxGbs7zyZh+31xRDaItRJI1mAl+UdZVfebSaQDHHkpz8bZwQ8Kblck4CCS2RSFXNjmYDXikhsb/S
   infra:calendarConnectBusyApiSecret:
     secure: v1:Z/5YYZKpbIpDYYhk:hARZXijbNqUJX99IXrimIAhE9HqUiJgzp4mTCQxTuagLqDI0t9G8/q1UqJD8zanuoc70+GK+V/6BgDZ1YNtZrwBXSf5A5JhjxXbzccyeYBc=
+  infra:welcomePassword:
+    secure: v1:z8t3PMF7/K2S1NfR:862jNVCZciKa0tw/U51M0Nefof8xNjbmuw==
+  infra:welcomeSlackBotToken:
+    secure: v1:UTGXOs6bhts6Y0Yi:UT2NvjM7SDjQ0G6Uocv2ZFiL8IiOsuHo7AvYT9TSPjEVNy+R36C+WJPQBwScDb9gXIdW79q/LlgTp5RkcoSvaN24bk3Di8+llXY=
+  infra:welcomeGoogleRefreshToken:
+    secure: v1:qH4ITzSBgldACBa4:idvkGATdL8UCGma1nBDLTKWVyIdthKaKWH0iQmQm1JqVFwKupHYt48iSYBpkVWtF6SwtOnIqGIydq55HJ+uvdqqdOwqgBdSFAenFNmOy0fzGkYaVPTOzCfUMwrrD8VF3cXRGUGGtKxHnddrwkAOBNbA8E0LYb4M=
