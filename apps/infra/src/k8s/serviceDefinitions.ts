@@ -10,7 +10,7 @@ const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
 const PG_SYNC_SLACK_CHANNEL_ID = 'C0BFEG755PG'; // #update_pg-sync
 const WELCOME_SLACK_CHANNEL_ID = 'C0CB9NY8JH2'; // #welcome, for First Contact
-// The "First Contact" calendar owned by dewi-bots@bluedot.org, from apps/website/scripts/first-contact/authorize.mts
+// The "First Contact" calendar owned by dewi-bots@bluedot.org, from apps/website/scripts/first-contact/authorize.ts
 const WELCOME_GOOGLE_CALENDAR_ID = 'c_a812f94ab7d406aec042d9edee89a50fe2f5e770cbc49e28a6ec15330787eeeb@group.calendar.google.com';
 
 // Public PostHog project key, same value the website ships as NEXT_PUBLIC_POSTHOG_KEY
