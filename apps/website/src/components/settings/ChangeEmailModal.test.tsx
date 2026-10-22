@@ -54,13 +54,13 @@ const typeEmail = (value: string) => {
 const emailInput = () => screen.getByLabelText(/new email/i);
 
 const expectEmailError = async (message: string) => {
-  expect(await screen.findByRole('status')).toHaveTextContent(message);
+  expect(await screen.findByRole('alert')).toHaveTextContent(message);
   expect(emailInput()).toHaveAccessibleDescription(message);
   expect(emailInput()).toHaveAttribute('aria-invalid', 'true');
 };
 
 const expectNoEmailError = () => {
-  expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   expect(emailInput()).not.toHaveAttribute('aria-invalid');
 };
 

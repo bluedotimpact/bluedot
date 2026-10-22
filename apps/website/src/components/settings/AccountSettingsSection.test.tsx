@@ -17,7 +17,7 @@ describe('AccountSettingsSection - User Journeys', () => {
 
   // Helper functions
   const expectFieldError = async (label: RegExp, message: string) => {
-    const errors = await screen.findAllByRole('status');
+    const errors = await screen.findAllByRole('alert');
     expect(errors.some((error) => error.textContent === message)).toBe(true);
     expect(screen.getByLabelText(label)).toHaveAccessibleDescription(expect.stringContaining(message));
     expect(screen.getByLabelText(label)).toHaveAttribute('aria-invalid', 'true');
@@ -95,7 +95,7 @@ describe('AccountSettingsSection - User Journeys', () => {
     });
 
     // Error clears when user types
-    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     expect(screen.getByLabelText(/current password/i)).not.toHaveAttribute('aria-invalid');
   });
 
@@ -108,7 +108,7 @@ describe('AccountSettingsSection - User Journeys', () => {
     submitForm();
 
     // User sees all required field errors
-    expect(await screen.findAllByRole('status')).toHaveLength(3);
+    expect(await screen.findAllByRole('alert')).toHaveLength(3);
     await expectFieldError(/current password/i, 'Current password is required');
     await expectFieldError(/^new password/i, 'Password must be at least 8 characters');
     await expectFieldError(/confirm new password/i, 'Please confirm your new password');
