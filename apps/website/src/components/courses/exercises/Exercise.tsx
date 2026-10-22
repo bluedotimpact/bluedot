@@ -228,7 +228,7 @@ const Exercise: React.FC<ExerciseProps> = ({
                 'size-6 rounded-full flex items-center justify-center p-0 transition-all duration-300 box-border',
                 checkboxDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
                 isCompleted && 'bg-accent border-none',
-                !isCompleted && checkboxHovered && !checkboxDisabled && 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]',
+                !isCompleted && checkboxHovered && !checkboxDisabled && 'bg-tint border border-border-control',
                 !isCompleted && !(checkboxHovered && !checkboxDisabled) && 'bg-bluedot-lightest border',
               )}
             >
