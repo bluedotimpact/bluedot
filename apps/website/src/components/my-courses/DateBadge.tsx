@@ -24,6 +24,31 @@ export const DateBadge = ({
   const isCalendar = layout === 'calendar';
   const date = new Date(dateTimeSeconds * 1000);
 
+  let content;
+  if (isLive) {
+    content = (
+      <>
+        <div className={cn('flex w-full items-center justify-center text-size-xs font-semibold leading-normal text-primary', isCalendar ? 'flex-1' : 'px-3 py-2')}>NOW</div>
+        <div className={cn(BAND_CLASS, isCalendar ? 'h-4 sm:h-5' : 'py-[3px]')}>LIVE</div>
+      </>
+    );
+  } else if (isCalendar) {
+    content = (
+      <time dateTime={date.toISOString()} className="contents">
+        <div className={cn(BAND_CLASS, 'h-4 sm:h-6')}>{date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}</div>
+        {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
+        <div className="flex flex-1 items-center justify-center text-size-md font-semibold leading-none text-primary sm:text-[28px] sm:font-bold">{date.getDate()}</div>
+      </time>
+    );
+  } else {
+    content = (
+      <time dateTime={date.toISOString()} className="flex flex-col gap-0.5 px-3 py-[7px]">
+        <span className="text-size-xs font-semibold leading-normal text-primary">{formatDateMonthAndDay(dateTimeSeconds)}</span>
+        <span className="text-size-xs leading-[1.5] text-secondary">{formatTime12HourClock(dateTimeSeconds)}</span>
+      </time>
+    );
+  }
+
   return (
     <div
       className={cn(
@@ -32,23 +57,7 @@ export const DateBadge = ({
         className,
       )}
     >
-      {isLive ? (
-        <>
-          <div className={cn('flex w-full items-center justify-center text-size-xs font-semibold leading-normal text-primary', isCalendar ? 'flex-1' : 'px-3 py-2')}>NOW</div>
-          <div className={cn(BAND_CLASS, isCalendar ? 'h-4 sm:h-5' : 'py-[3px]')}>LIVE</div>
-        </>
-      ) : isCalendar ? (
-        <time dateTime={date.toISOString()} className="contents">
-          <div className={cn(BAND_CLASS, 'h-4 sm:h-6')}>{date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}</div>
-          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
-          <div className="flex flex-1 items-center justify-center text-size-md font-semibold leading-none text-primary sm:text-[28px] sm:font-bold">{date.getDate()}</div>
-        </time>
-      ) : (
-        <time dateTime={date.toISOString()} className="flex flex-col gap-0.5 px-3 py-[7px]">
-          <span className="text-size-xs font-semibold leading-normal text-primary">{formatDateMonthAndDay(dateTimeSeconds)}</span>
-          <span className="text-size-xs leading-[1.5] text-secondary">{formatTime12HourClock(dateTimeSeconds)}</span>
-        </time>
-      )}
+      {content}
     </div>
   );
 };
