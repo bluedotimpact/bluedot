@@ -112,8 +112,10 @@ export type OAuthState = {
   connectToken: string | null;
 };
 
-// Derived from the token encryption key, with a label so the two uses never share a key
-const getStateKey = (): Uint8Array => createHash('sha256').update('calendar-connect-oauth-state:').update(getEncryptionKey()).digest();
+/** A key derived from the token encryption key, with a label so no two uses share a key. */
+export const deriveKey = (label: string): Uint8Array => createHash('sha256').update(`${label}:`).update(getEncryptionKey()).digest();
+
+const getStateKey = (): Uint8Array => deriveKey('calendar-connect-oauth-state');
 
 export async function createOAuthState(state: OAuthState): Promise<string> {
   return new EncryptJWT({ ...state })

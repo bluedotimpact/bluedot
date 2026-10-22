@@ -1,0 +1,81 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`/welcome > asks for the password and connects Google Calendar 1`] = `
+<div>
+  <div>
+    <title>
+      Welcome | BlueDot Impact
+    </title>
+    <meta
+      content="Welcome | BlueDot Impact"
+      property="og:title"
+    />
+    <meta
+      content="Welcome | BlueDot Impact"
+      name="twitter:title"
+    />
+    <meta
+      content="noindex"
+      name="robots"
+    />
+    <section
+      class="section section-body min-h-[50vh]"
+    >
+      <div
+        class="section__body"
+      >
+        <div
+          class="flex flex-col gap-4 max-w-prose"
+        >
+          <h1
+            class="bluedot-h1 not-prose"
+          >
+            Welcome to BlueDot!
+          </h1>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Meet five of your new teammates before you start. Connect your Google Calendar, and we'll book five 30-minute video calls in the next two weeks, at times you're free.
+          </p>
+          <p
+            class="bluedot-p not-prose text-secondary text-size-sm"
+          >
+            We only see when you're busy, not what your events are. We don't keep access.
+          </p>
+          <form
+            class="flex flex-col items-start gap-3"
+          >
+            <label
+              class="text-size-sm font-medium text-primary"
+              for="welcome-password"
+            >
+              Password (from your welcome email)
+            </label>
+            <input
+              aria-invalid="false"
+              autocomplete="off"
+              class="w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none max-w-[320px]"
+              id="welcome-password"
+              required=""
+              type="password"
+              value=""
+            />
+            <button
+              aria-label="Connect Google Calendar"
+              class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 min-h-11 px-4 text-size-xs font-semibold bg-accent text-on-dark hover:bg-accent-hover on-dark:bg-accent-on-dark on-dark:text-bluedot-darker on-dark:hover:bg-accent-on-dark-hover"
+              type="submit"
+            >
+              Connect Google Calendar
+            </button>
+          </form>
+          <p
+            class="bluedot-p not-prose text-secondary text-size-xs"
+          >
+            Not on Google Calendar? Tell your hiring manager, and they'll set up your calls.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;
