@@ -36,10 +36,10 @@ export const backlogFor = (items: QueueItem[], course: string) => items.filter((
 export const endorsements = (person: Person) => person.reports.filter((r) => r.overallTake?.toLowerCase() === 'strong yes');
 export const endorsers = (person: Person): string[] => [...new Set(endorsements(person).map((r) => r.facilitator ?? 'their facilitator'))];
 
-// A top score is 9 or 10 out of 10 in the facilitator's end-of-course feedback
+// High facilitator feedback: a total of 9 or 10, or reasoning 5 (the part leads weigh for a call)
 export const topScores = (person: Person) => person.facilitatorFeedback
-  .filter((fb) => fb.ratingOutOf === 10 && fb.rating !== undefined && fb.rating >= 9)
-  .map((fb) => ({ score: fb.rating!, name: fb.reviewer ?? 'their facilitator' }))
+  .filter((fb) => fb.ratingOutOf === 10 && fb.rating !== undefined && (fb.rating >= 9 || fb.ratingReasoning === 5))
+  .map((fb) => ({ score: fb.rating!, reasoning: fb.ratingReasoning, name: fb.reviewer ?? 'their facilitator' }))
   .sort((a, b) => b.score - a.score);
 
 export const roundsFor = (items: QueueItem[], course: string) => {

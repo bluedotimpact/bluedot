@@ -291,5 +291,6 @@ test('a top pick gets one reason, in the order the picker counts them', () => {
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Weak yes', fldH4kT9DA79mlzBg: ['Strong yes'] })).toBe('endorsement');
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Strong yes', fldH4kT9DA79mlzBg: ['Strong yes'] })).toBe('endorsement');
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Neutral', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('top score');
-  expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8] })).toBeUndefined();
+  expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [5] })).toBe('top score');
+  expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [4] })).toBeUndefined();
 });

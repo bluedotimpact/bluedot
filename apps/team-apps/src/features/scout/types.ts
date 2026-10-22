@@ -66,8 +66,9 @@ export type FacilitatorFeedback = {
   motivation?: string;
   nextSteps: string[];
   recommendToFacilitate: boolean;
-  // Everyone this facilitator rated in the same round, and how many got this score or more
-  roundStats?: { rated: number; atOrAbove: number };
+  // Everyone this facilitator rated in the same round: how many got this total or more, and
+  // how many got this reasoning score or more
+  roundStats?: { rated: number; atOrAbove: number; reasoningAtOrAbove?: number };
 };
 
 // A session (group discussion) this registration was expected at
