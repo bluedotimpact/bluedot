@@ -132,7 +132,13 @@ export const FieldSet = ({
             A legend is not a flex item, so the fieldset's `gap` does not apply to it; use margin. */}
         <legend className={cn(LABEL_STYLES, 'p-0', description ? 'mb-1' : 'mb-2')}>
           {legend}
-          {required && <RequiredMarker />}
+          {required && (
+            <>
+              <RequiredMarker />
+              {/* A fieldset cannot take aria-required, so the legend says it */}
+              <span className="sr-only"> (required)</span>
+            </>
+          )}
         </legend>
         {description && <p id={descriptionId} className={DESCRIPTION_STYLES}>{description}</p>}
         {children}
