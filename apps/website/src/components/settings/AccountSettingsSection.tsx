@@ -225,7 +225,8 @@ const ChangePasswordModal = ({
 
         <Field
           label="New password"
-          description="Password must be at least 8 characters"
+          // The error repeats the rule, so the hint hides while it shows
+          description={errors.new ? undefined : 'Password must be at least 8 characters'}
           required
           error={errors.new}
         >
