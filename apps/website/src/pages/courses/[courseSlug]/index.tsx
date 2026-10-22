@@ -209,7 +209,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
 
   const { course, units } = courseData;
   const trimmedApplyUrl = course.applyUrl?.trim() ?? '';
-  const hasApplyUrl = trimmedApplyUrl.length > 0;
+  const hasApplyUrl = course.status === 'Active' && trimmedApplyUrl.length > 0;
   const applyUrl = hasApplyUrl ? trimmedApplyUrl : registerInterestUrlWithUtm;
   const ctaLabel = hasApplyUrl ? 'Apply now' : 'Register interest';
 
