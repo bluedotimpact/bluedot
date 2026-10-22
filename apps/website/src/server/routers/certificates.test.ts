@@ -286,6 +286,21 @@ describe('certificates.getStatus', () => {
     expect(result).toMatchObject({ status: 'action-plan-pending', hasSubmittedActionPlan: false });
   });
 
+  test('uses the real registration when a newer one is flagged as a duplicate', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-real', email: 'test@example.com', userId: 'test-user', courseId: 'rec-other', decision: 'Accept', autoNumberId: 1,
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-duplicate', email: 'test@example.com', userId: 'test-user', courseId: 'rec-other', decision: 'Accept', autoNumberId: 2, isDuplicate: true,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp1', applicationsBaseRecordId: 'reg-real', role: 'Participant', projectSubmission: [],
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
+    expect(result).toMatchObject({ status: 'action-plan-pending', meetPersonId: 'mp1' });
+  });
+
   test('returns is-facilitator for non-FOAI Facilitators', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', userId: 'test-user', courseId: 'rec-other', decision: 'Accept',

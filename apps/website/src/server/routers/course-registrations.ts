@@ -1,6 +1,6 @@
 import {
   applicationsRoundTable, courseRegistrationTable, inArray,
-  eq, and, or, ne, isNull, sql, userTable, withAirtableRetry,
+  eq, and, or, ne, isNull, desc, sql, userTable, withAirtableRetry,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -19,13 +19,23 @@ export const courseRegistrationsRouter = router({
       const { courseId } = input;
       const user = await getUserFromAuthOrThrow(ctx.auth);
 
-      return db.getFirst(courseRegistrationTable, {
-        filter: {
-          userId: user.id,
-          courseId,
-          decision: 'Accept',
-        },
-      });
+      // Skip registrations flagged as duplicates, so the newest real one wins
+      const [courseRegistration] = await db.pg
+        .select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.userId, user.id),
+          eq(courseRegistrationTable.pg.courseId, courseId),
+          eq(courseRegistrationTable.pg.decision, 'Accept'),
+          or(
+            eq(courseRegistrationTable.pg.isDuplicate, false),
+            isNull(courseRegistrationTable.pg.isDuplicate),
+          ),
+        ))
+        .orderBy(desc(courseRegistrationTable.pg.autoNumberId))
+        .limit(1);
+
+      return courseRegistration ?? null;
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {

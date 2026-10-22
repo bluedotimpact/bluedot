@@ -10,7 +10,9 @@ import {
   exerciseTable,
   groupDiscussionTable,
   inArray,
+  isNull,
   meetPersonTable,
+  or,
   roundTable,
   selfServeCourseRegistrationTable,
 } from '@bluedot/db';
@@ -213,9 +215,21 @@ export const certificatesRouter = router({
       return { status: 'exercises-incomplete' } as const;
     }
 
-    const courseRegistration = await db.getFirst(courseRegistrationTable, {
-      filter: { userId: user.id, courseId, decision: 'Accept' },
-    });
+    // Skip registrations flagged as duplicates, so the newest real one wins
+    const [courseRegistration] = await db.pg
+      .select()
+      .from(courseRegistrationTable.pg)
+      .where(and(
+        eq(courseRegistrationTable.pg.userId, user.id),
+        eq(courseRegistrationTable.pg.courseId, courseId),
+        eq(courseRegistrationTable.pg.decision, 'Accept'),
+        or(
+          eq(courseRegistrationTable.pg.isDuplicate, false),
+          isNull(courseRegistrationTable.pg.isDuplicate),
+        ),
+      ))
+      .orderBy(desc(courseRegistrationTable.pg.autoNumberId))
+      .limit(1);
 
     if (!courseRegistration) {
       const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);

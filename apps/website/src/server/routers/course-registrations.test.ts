@@ -56,6 +56,32 @@ describe('courseRegistrations.getByCourseId', () => {
     expect(result).toBeNull();
   });
 
+  test('skips a newer registration flagged as a duplicate', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-real', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 1,
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-duplicate', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 2, isDuplicate: true,
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn)
+      .courseRegistrations.getByCourseId({ courseId: otherCourseId });
+    expect(result?.id).toBe('reg-real');
+  });
+
+  test('returns the newest registration when isDuplicate is unset on every row', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-old', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 1, isDuplicate: null,
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-new', email: 'test@example.com', userId: 'test-user', courseId: otherCourseId, decision: 'Accept', autoNumberId: 2, isDuplicate: null,
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn)
+      .courseRegistrations.getByCourseId({ courseId: otherCourseId });
+    expect(result?.id).toBe('reg-new');
+  });
+
   test('does not leak registrations belonging to other users', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'someone-else@example.com', userId: 'user-other', courseId: otherCourseId, decision: 'Accept',
