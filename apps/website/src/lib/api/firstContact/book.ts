@@ -40,11 +40,7 @@ export async function bookFirstContactChats({ hire, nowMs }: { hire: FirstContac
   const slack = new FirstContactSlack(config.slackToken, config.channelId);
   const hireEmail = hire.email.toLowerCase();
 
-  const [history, channelTeammates] = await Promise.all([
-    calendar.chatsSince({ since: new Date(nowMs - HISTORY_DAYS * 24 * 60 * 60 * 1000) }),
-    slack.teammates(),
-  ]);
-
+  const history = await calendar.chatsSince({ since: new Date(nowMs - HISTORY_DAYS * 24 * 60 * 60 * 1000) });
   const existing = history.filter((chat) => chat.hire === hireEmail);
   const needed = CHATS_PER_HIRE - existing.length;
   if (needed <= 0) return { chats: existing, missing: 0 };
@@ -53,7 +49,11 @@ export async function bookFirstContactChats({ hire, nowMs }: { hire: FirstContac
   for (const chat of history) pastChats.set(chat.teammateEmail, (pastChats.get(chat.teammateEmail) ?? 0) + 1);
 
   const alreadyMeeting = new Set(existing.map((chat) => chat.teammateEmail));
-  const candidates = channelTeammates.filter((t) => t.email !== hireEmail && !alreadyMeeting.has(t.email));
+  // New hires are often in Slack before they start, under a bluedot.org email that isn't the Google account they
+  // signed in with, so match their name too
+  const candidates = (await slack.teammates()).filter((t) => t.email !== hireEmail
+    && !sameName(t.name, hire.name)
+    && !alreadyMeeting.has(t.email));
   if (candidates.length === 0) throw new Error('First Contact found nobody to meet in the #welcome channel');
 
   const window = searchWindow({ nowMs });
@@ -144,6 +144,11 @@ function slackDate(date: Date): string {
     timeZone: 'UTC', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
   }).format(date);
   return `<!date^${Math.floor(date.getTime() / 1000)}^{date_short_pretty} at {time}|${fallback} UTC>`;
+}
+
+function sameName(a: string, b: string): boolean {
+  const normalise = (name: string) => name.trim().toLowerCase().replace(/\s+/g, ' ');
+  return normalise(a) === normalise(b);
 }
 
 function firstName(name: string): string {

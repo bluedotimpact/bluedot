@@ -2,6 +2,7 @@
 
 const SLACK_API = 'https://slack.com/api';
 const STAFF_EMAIL_DOMAIN = 'bluedot.org';
+const USERS_INFO_BATCH = 10;
 
 export type ChannelTeammate = {
   slackUserId: string;
@@ -50,7 +51,14 @@ export class FirstContactSlack {
       cursor = page.response_metadata?.next_cursor ?? '';
     } while (cursor);
 
-    const users = await Promise.all(memberIds.map(async (user) => (await this.call<{ user: SlackUser }>('users.info', { user })).user));
+    // A few at a time, so a big channel doesn't hit Slack's rate limit in one burst
+    const users: SlackUser[] = [];
+    for (let i = 0; i < memberIds.length; i += USERS_INFO_BATCH) {
+      // eslint-disable-next-line no-await-in-loop
+      users.push(...await Promise.all(memberIds.slice(i, i + USERS_INFO_BATCH)
+        .map(async (user) => (await this.call<{ user: SlackUser }>('users.info', { user })).user)));
+    }
+
     return users.flatMap((user) => {
       const email = user.profile?.email?.toLowerCase();
       if (user.deleted === true || user.is_bot === true || !email?.endsWith(`@${STAFF_EMAIL_DOMAIN}`)) return [];

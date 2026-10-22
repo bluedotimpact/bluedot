@@ -57,6 +57,10 @@ const SLACK_USERS: Record<string, unknown> = {
   U5: {
     id: 'U5', real_name: 'Cosima Axford', tz: 'Europe/London', profile: { email: 'cosima@bluedot.org', real_name: 'Cosima Axford' },
   },
+  // The hire, already in Slack under their new BlueDot email
+  UHIRE: {
+    id: 'UHIRE', real_name: 'Caitlin Mah', tz: 'America/Toronto', profile: { email: 'caitlin@bluedot.org', real_name: 'Caitlin Mah' },
+  },
   U6: {
     id: 'U6', real_name: 'Will Saunter', tz: 'America/Los_Angeles', profile: { email: 'will@bluedot.org', real_name: 'Will Saunter' },
   },
@@ -72,6 +76,8 @@ let slackPosts: { channel: string; text: string }[];
 let revoked: string[];
 let hireScope: string;
 let failSlackPost: boolean;
+let slackMemberLookups: number;
+let channelMembers: string[];
 
 const unsignedJwt = (claims: Record<string, unknown>) => [
   Buffer.from(JSON.stringify({ alg: 'RS256' })).toString('base64url'),
@@ -137,8 +143,9 @@ async function fakeFetch(input: string | URL | Request, init?: RequestInit): Pro
     expect(auth).toBe('Bearer xoxb-first-contact');
     const method = url.pathname.replace('/api/', '');
     if (method === 'conversations.members') {
+      slackMemberLookups += 1;
       expect(url.searchParams.get('channel')).toBe('C-WELCOME');
-      return json(200, { ok: true, members: Object.keys(SLACK_USERS) });
+      return json(200, { ok: true, members: channelMembers });
     }
 
     if (method === 'users.info') return json(200, { ok: true, user: SLACK_USERS[url.searchParams.get('user')!] });
@@ -161,6 +168,8 @@ beforeEach(() => {
   revoked = [];
   hireScope = `openid email profile ${GOOGLE_FREEBUSY_SCOPE}`;
   failSlackPost = false;
+  slackMemberLookups = 0;
+  channelMembers = Object.keys(SLACK_USERS);
 });
 
 afterEach(() => {
@@ -267,7 +276,7 @@ describe('callback', () => {
 
     expect(events).toHaveLength(5);
     const teammates = events.map((e) => e.extendedProperties.private.firstContactTeammate);
-    // Not the bot, the grantee, the deactivated account, or Will, whose calendar Google won't share
+    // Not the hire themselves, the bot, the grantee, the deactivated account, or Will, whose calendar Google won't share
     expect(new Set(teammates)).toEqual(new Set(['alex@bluedot.org', 'bilal@bluedot.org', 'lilian@bluedot.org', 'nixon@bluedot.org', 'cosima@bluedot.org']));
     for (const event of events) {
       expect(event.attendees[0]).toEqual({ email: 'caitlin.mah@example.com' });
@@ -282,6 +291,16 @@ describe('callback', () => {
     expect(slackPosts[0]!.text.match(/<@U\d>/g)).toHaveLength(5);
   });
 
+  test('never pairs the hire with their own BlueDot Slack account', async () => {
+    channelMembers = ['U1', 'U2', 'U3', 'UHIRE'];
+    const { state, cookie } = await startFlow();
+    const res = await callback({ query: { code: 'hire-code', state }, cookie });
+
+    expect(resultFrom(res.redirectedTo).missing).toBe('2');
+    expect(events.map((e) => e.extendedProperties.private.firstContactTeammate)).not.toContain('caitlin@bluedot.org');
+    expect(slackPosts[0]!.text).toContain('Couldn\'t find a time for 2 more calls');
+  });
+
   test('a second visit shows the same chats and books nothing new', async () => {
     const first = await startFlow();
     await callback({ query: { code: 'hire-code', state: first.state }, cookie: first.cookie });
@@ -291,6 +310,7 @@ describe('callback', () => {
     expect(resultFrom(res.redirectedTo).chats).toHaveLength(5);
     expect(events).toHaveLength(5);
     expect(slackPosts).toHaveLength(1);
+    expect(slackMemberLookups).toBe(1);
   });
 
   test('still shows the chats if posting in #welcome fails', async () => {
