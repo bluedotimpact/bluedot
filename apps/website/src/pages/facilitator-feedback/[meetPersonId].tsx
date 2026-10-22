@@ -227,7 +227,7 @@ const FacilitatorFeedbackPage = () => {
 
           <Field
             label="Where did you face difficulties?"
-            description="Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges."
+            description="Share at least two specific situations: underprepared moments, curriculum gaps, platform issues, or cohort challenges."
             required
           >
             <Textarea
