@@ -215,7 +215,7 @@ export const RubricSelector = ({
         return (
           <label
             key={option.value}
-            className={`relative flex items-start cursor-pointer ${isLast ? '' : 'border-b border-subtle'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-focus ${isSelected ? 'bg-[#e5edfe]' : 'bg-raised'}`}
+            className={`relative flex items-start cursor-pointer ${isLast ? '' : 'border-b border-subtle'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-focus ${isSelected ? 'bg-info-bg' : 'bg-raised'}`}
           >
             <input
               type="radio"
@@ -225,7 +225,7 @@ export const RubricSelector = ({
               onChange={() => onChange(option.value)}
               className="sr-only"
             />
-            <div className={`w-11 self-stretch shrink-0 flex items-start justify-center pt-3 text-size-sm leading-normal font-bold border-r ${isSelected ? 'bg-[#c4d3f8] text-[#0d3399] border-[#c4d3f8]' : `${BUBBLE_COLORS[option.value]} opacity-[0.56] border-[rgba(0,0,0,0.06)]`}`}>
+            <div className={`w-11 self-stretch shrink-0 flex items-start justify-center pt-3 text-size-sm leading-normal font-bold border-r ${isSelected ? 'bg-info-border text-accent border-info-border' : `${BUBBLE_COLORS[option.value]} opacity-[0.56] border-subtle`}`}>
               {option.value}
             </div>
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
