@@ -99,7 +99,7 @@ export const ImpersonationBadge = () => {
 
   return (
     <div className="fixed z-50 bottom-4 px-4 max-w-[100vw]">
-      <div className="max-w-full bg-yellow-400 text-black px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium">
+      <div className="max-w-full bg-warning-bg text-warning-fg border border-warning-border px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium">
         <span className="truncate">Impersonating: {maskedEmail}</span>
         <button
           type="button"
@@ -107,7 +107,7 @@ export const ImpersonationBadge = () => {
             safeSessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
             window.location.reload();
           }}
-          className="p-0.5 hover:bg-yellow-500 rounded"
+          className="p-0.5 hover:bg-warning-border rounded"
           aria-label="Stop impersonating"
         >
           <FaXmark aria-hidden="true" className="size-4" />
