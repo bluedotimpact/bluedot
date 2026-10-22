@@ -203,7 +203,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           {auth && (
             <div className="flex items-center rounded-surface">
               <button type="button" onClick={signOut} aria-label="Sign out" title="Sign out" className="flex size-11 shrink-0 items-center justify-center rounded-surface text-secondary hover:bg-tint"><PortalIcon name="logout" /></button>
-              {!collapsed && <div className="min-w-0 flex-1"><p className="text-size-xs font-medium">{preview ? 'Local preview' : 'Signed in'}</p><p className="truncate text-size-xxs text-secondary" title={auth.email}>{auth.email}</p></div>}
+              {!collapsed && <div className="min-w-0 flex-1"><p className="text-size-xs font-medium">{preview ? 'Local preview' : 'Signed in'}</p><p className="truncate text-size-xs text-secondary" title={auth.email}>{auth.email}</p></div>}
             </div>
           )}
           <button type="button" onClick={toggleCollapsed} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={`${collapsed ? 'Expand' : 'Collapse'} sidebar (⌘B / Ctrl+B)`} aria-keyshortcuts="Meta+B Control+B" aria-expanded={!collapsed} className="flex min-h-11 w-full items-center gap-3 rounded-surface px-3 text-size-xs text-secondary hover:bg-tint"><PortalIcon name="panel" className={`shrink-0 ${collapsed ? 'rotate-180' : ''}`} />{!collapsed && 'Collapse sidebar'}</button>
@@ -214,7 +214,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           <div className="flex min-w-0 items-center gap-3">
             <button ref={menuButton} type="button" onClick={() => setMobileOpen(true)} aria-label="Open navigation" aria-expanded={mobileOpen} className="flex size-11 shrink-0 items-center justify-center rounded-surface hover:bg-tint md:hidden"><PortalIcon name="menu" /></button>
           </div>
-          {preview && <span className="shrink-0 rounded-full bg-warning-bg px-3 py-1 text-size-xxs text-warning-fg"><span className="hidden sm:inline">Local preview · sample data</span><span className="sm:hidden">Sample data</span></span>}
+          {preview && <span className="shrink-0 rounded-full bg-warning-bg px-3 py-1 text-size-xxs font-semibold text-warning-fg"><span className="hidden sm:inline">Local preview · sample data</span><span className="sm:hidden">Sample data</span></span>}
         </header>}
         <main id="app-content" aria-label={auth ? activeApp?.name : undefined} tabIndex={-1} className="min-w-0 flex-1 outline-none">
           {auth !== null || isLogin ? children : (

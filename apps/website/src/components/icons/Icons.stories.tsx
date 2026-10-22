@@ -36,7 +36,6 @@ import {
   BooksIcon,
   ChunkIcon,
   LaurelWreathIcon,
-  ResizeHandleIcon,
 } from '.';
 
 // The 27 symbols on the Figma "Icons" page, in grid order, keyed by Figma name.
@@ -77,10 +76,10 @@ type IconCellProps = {
 };
 
 const IconCell = ({ name, children, note }: IconCellProps) => (
-  <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-default bg-raised p-4 text-center">
+  <div className="flex flex-col items-center justify-center gap-2 rounded-lg border bg-raised p-4 text-center">
     <div className="text-primary flex min-h-12 items-center justify-center">{children}</div>
     <div className="text-size-xs font-medium text-primary">{name}</div>
-    {note && <div className="text-size-xxs text-secondary">{note}</div>}
+    {note && <div className="text-size-xs text-secondary">{note}</div>}
   </div>
 );
 
@@ -143,9 +142,6 @@ const Gallery = () => (
         </IconCell>
         <IconCell name="ChunkIcon" note="inactive">
           <ChunkIcon aria-hidden="true" />
-        </IconCell>
-        <IconCell name="ResizeHandleIcon">
-          <ResizeHandleIcon aria-hidden="true" />
         </IconCell>
       </Grid>
     </Section>

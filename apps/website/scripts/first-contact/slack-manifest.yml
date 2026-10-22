@@ -1,0 +1,23 @@
+# Slack app for First Contact (bluedot.org/welcome). Create it at api.slack.com/apps → Create New App → From a manifest,
+# install it to the BlueDot workspace, and invite it to #welcome. Its bot token is WELCOME_SLACK_BOT_TOKEN.
+display_information:
+  name: First Contact
+  description: Books each new BlueDot hire five chats with teammates and says hello in #welcome.
+  background_color: "#0037ff"
+features:
+  bot_user:
+    display_name: First Contact
+    always_online: false
+oauth_config:
+  scopes:
+    bot:
+      # Who's in #welcome, with their emails and time zones
+      - channels:read
+      - users:read
+      - users:read.email
+      # The welcome post
+      - chat:write
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false

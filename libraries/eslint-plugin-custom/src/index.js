@@ -5,5 +5,6 @@ module.exports = {
     'no-overflow-scroll': require('./rules/no-overflow-scroll'),
     'no-arbitrary-text-size': require('./rules/no-arbitrary-text-size'),
     'require-page-meta-tags': require('./rules/require-page-meta-tags'),
+    'no-not-null-synced-column': require('./rules/no-not-null-synced-column'),
   },
 };

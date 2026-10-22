@@ -28,7 +28,7 @@ const MarketingHero = ({ title, subtitle, cta }: MarketingHeroProps) => {
               {title}
             </HeroH1>
             {subtitle && (
-              <p className="text-size-sm bd-md:text-size-md leading-relaxed text-white">
+              <p className="text-size-sm bd-md:text-size-md leading-relaxed text-on-dark">
                 {subtitle}
               </p>
             )}

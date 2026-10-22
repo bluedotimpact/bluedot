@@ -23,6 +23,18 @@ export default validateEnv({
     'CIO_HMAC_SECRET',
     'EMAIL_CHANGE_TOKEN_SECRET',
     'NOTION_API_TOKEN',
+    // Calendar Connect (see .env.local.template)
+    'GOOGLE_CALENDAR_CLIENT_ID',
+    'GOOGLE_CALENDAR_CLIENT_SECRET',
+    'CALENDAR_CONNECT_LINK_SECRET',
+    'CALENDAR_CONNECT_ENCRYPTION_KEY',
+    'CALENDAR_CONNECT_BUSY_API_SECRET',
+    // First Contact, the /welcome page for new hires (see .env.local.template)
+    'WELCOME_PASSWORD',
+    'WELCOME_SLACK_BOT_TOKEN',
+    'WELCOME_SLACK_CHANNEL_ID',
+    'WELCOME_GOOGLE_REFRESH_TOKEN',
+    'WELCOME_GOOGLE_CALENDAR_ID',
     'SENTRY_DSN',
     'SENTRY_ENVIRONMENT',
     'VITEST',

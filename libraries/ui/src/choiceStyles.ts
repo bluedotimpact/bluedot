@@ -18,7 +18,7 @@ export const CHOICE_CARD_STYLES = [
 ];
 
 export const CHOICE_CARD_NEUTRAL_STYLES = [
-  'border-default bg-canvas',
+  'bg-canvas',
   'hover:not-has-checked:not-has-disabled:bg-tint',
   'has-checked:not-has-disabled:border-accent has-checked:not-has-disabled:bg-accent-subtle',
   'has-disabled:bg-surface-disabled',

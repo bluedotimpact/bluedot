@@ -163,13 +163,13 @@ export const DatePicker = ({
   return (
     <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', className)}>
       {label ? (
-        <label htmlFor={inputId} className="text-black">
+        <label htmlFor={inputId} className="text-primary">
           {label}
         </label>
       ) : null}
       <div
         className={cn(
-          'relative flex h-11 items-center rounded-surface border border-border-control bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent group-has-[:popover-open]:border-accent group-has-[:popover-open]:ring-1 group-has-[:popover-open]:ring-accent',
+          'relative flex min-h-11 items-center rounded-surface border border-border-control bg-raised text-primary transition focus-within:border-accent focus-within:ring-1 focus-within:ring-accent group-has-[:popover-open]:border-accent group-has-[:popover-open]:ring-1 group-has-[:popover-open]:ring-accent',
           disabled && 'border-default bg-surface-disabled text-disabled',
         )}
       >
@@ -190,7 +190,7 @@ export const DatePicker = ({
           onBlur={handleInputBlur}
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
-          className="h-full min-w-0 flex-1 rounded-surface bg-transparent px-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
+          className="min-w-0 flex-1 self-stretch rounded-surface bg-transparent px-3 outline-none placeholder:text-placeholder disabled:cursor-not-allowed"
         />
         <IconButton
           popoverTarget={popoverId}

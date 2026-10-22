@@ -31,14 +31,14 @@ type Story = StoryObj<typeof meta>;
 export const About: Story = {
   args: {
     title: 'About us',
-    subtitle: 'Building the workforce that protects humanity',
+    subtitle: 'Our mission is to build the workforce that protects humanity.',
   },
 };
 
 export const JoinUs: Story = {
   args: {
     title: 'Work with us',
-    subtitle: 'AI safety needs thousands more people. We need the team that gets them there.',
+    subtitle: 'We train, fund and place people working on AI safety. We\'re hiring.',
   },
 };
 

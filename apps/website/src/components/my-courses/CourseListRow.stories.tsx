@@ -67,6 +67,7 @@ const stubFacilitator = (overrides: Partial<FacilitatorRowProps> = {}): Facilita
   isDroppedOut: false,
   isDeferred: false,
   isDeferredToAnotherRound: false,
+  facilitatorNamesByMeetPersonId: {},
   isExpanded: false,
   onToggleExpand: () => {},
   ...overrides,
@@ -266,7 +267,7 @@ const facilitatorInProgressIntensiveArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: {
-    id: 'group-7', groupNumber: 7, groupName: 'Group 7', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc',
+    id: 'group-7', facilitator: ['mp-fac-1'], groupNumber: 7, groupName: 'Group 7', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-03-10',
   roundEndDate: '2026-03-17',
@@ -284,7 +285,7 @@ const facilitatorInProgressPartTimeArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'agi-strategy', title: 'AGI Strategy', applyUrl: null },
   group: {
-    id: 'group-10', groupNumber: 10, groupName: 'Group 10', startTimeUtc: monday2pmPartTime, slackChannelId: 'C01XYZ', discussionDoc: 'https://example.com/discussion-doc',
+    id: 'group-10', facilitator: ['mp-fac-2'], groupNumber: 10, groupName: 'Group 10', startTimeUtc: monday2pmPartTime, slackChannelId: 'C01XYZ', discussionDoc: 'https://example.com/discussion-doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-03-10',
   roundEndDate: '2026-04-14',
@@ -302,7 +303,7 @@ const facilitatorUpcomingArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: {
-    id: 'group-9', groupNumber: 9, groupName: 'Group 9', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABC', discussionDoc: 'https://example.com/doc',
+    id: 'group-9', facilitator: ['mp-fac-3'], groupNumber: 9, groupName: 'Group 9', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABC', discussionDoc: 'https://example.com/doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-05-04',
   roundEndDate: '2026-05-11',
@@ -336,7 +337,7 @@ const facilitatorPastNeedFeedbackArgs = stubFacilitator({
   } as FacilitatorRowProps['courseRegistration'],
   course: { slug: 'agi-strategy', title: 'AGI Strategy', applyUrl: null },
   group: {
-    id: 'group-3', groupNumber: 3, groupName: 'Group 3', startTimeUtc: monday2pmPartTime, slackChannelId: 'C0123', discussionDoc: 'https://example.com/doc',
+    id: 'group-3', facilitator: ['mp-fac-past-1'], groupNumber: 3, groupName: 'Group 3', startTimeUtc: monday2pmPartTime, slackChannelId: 'C0123', discussionDoc: 'https://example.com/doc',
   } as FacilitatorRowProps['group'],
   roundStartDate: '2026-02-23',
   roundEndDate: '2026-03-23',
@@ -354,6 +355,39 @@ const facilitatorPastFeedbackSubmittedArgs: FacilitatorRowProps = {
   meetPersonId: 'mp-fac-past-2',
   hasSubmittedFeedback: true,
 };
+
+// A substitution: Alice runs Group 7, Bob covers Unit 3 for her.
+const ALICE = 'mp-fac-1';
+const BOB = 'mp-fac-bob';
+const facilitatorNamesByMeetPersonId = { [ALICE]: 'Alice Archer', [BOB]: 'Bob Baker' };
+const group7Discussions = [-7, -3, 2, 9].map((offsetDays, i) => createMockGroupDiscussion({
+  id: `disc-g7-unit-${i + 1}`,
+  group: 'group-7',
+  unitNumber: i + 1,
+  startDateTime: realNowSec + offsetDays * DAY,
+  endDateTime: realNowSec + offsetDays * DAY + 60 * 60,
+  facilitators: [i + 1 === 3 ? BOB : ALICE],
+  participantsExpected: ['p-1', 'p-2', 'p-3', 'p-4', 'p-5'],
+}));
+const group7Units = Object.fromEntries(group7Discussions.map((d, i) => [d.id, createMockUnit({ unitNumber: `${i + 1}`, title: unitTitles[i] })]));
+
+const groupFacilitatorWithCoveredDiscussionArgs = stubFacilitator({
+  ...facilitatorInProgressIntensiveArgs,
+  meetPersonId: ALICE,
+  discussions: group7Discussions,
+  attendedDiscussionIds: ['disc-g7-unit-1', 'disc-g7-unit-2'],
+  units: group7Units,
+  facilitatorNamesByMeetPersonId,
+  isExpanded: true,
+});
+
+const substituteCoveringOneDiscussionArgs = stubFacilitator({
+  ...groupFacilitatorWithCoveredDiscussionArgs,
+  courseRegistration: { ...groupFacilitatorWithCoveredDiscussionArgs.courseRegistration, id: 'reg-fac-bob' },
+  meetPersonId: BOB,
+  discussions: group7Discussions.filter((d) => d.facilitators.includes(BOB)),
+  attendedDiscussionIds: [],
+});
 
 const meta = {
   title: 'website/my-courses/CourseListRow',
@@ -444,3 +478,8 @@ export const FacilitatorUpcoming: Story = { args: facilitatorUpcomingArgs };
 export const FacilitatorAwaitingGroup: Story = { args: facilitatorAwaitingGroupArgs };
 export const FacilitatorPastNeedFeedback: Story = { args: facilitatorPastNeedFeedbackArgs };
 export const FacilitatorPastFeedbackSubmitted: Story = { args: facilitatorPastFeedbackSubmittedArgs };
+
+/** The group facilitator's view: a substitute runs Unit 3, which shows greyed out with no status pill. */
+export const GroupFacilitatorWithCoveredDiscussion: Story = { args: groupFacilitatorWithCoveredDiscussionArgs };
+/** The substitute's view of the same group: only Unit 3, the discussion they cover. */
+export const SubstituteCoveringOneDiscussion: Story = { args: substituteCoveringOneDiscussionArgs };

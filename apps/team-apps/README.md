@@ -21,7 +21,7 @@ Open `http://localhost:8000` and choose **Continue with Google**. Use this hostn
 
 Do not use real applicants for automated mutation tests. For live acceptance, use a designated test application or make a genuine review decision and check that it persists in Airtable.
 
-Every API endpoint verifies BlueDot Google Workspace membership through `loginPresets.googleBlueDot`, including the verified organization claim. Portal access does not require or grant the website's separate admin role. Expired or rejected credentials return the UI to sign-in at the requested route.
+Every API endpoint verifies BlueDot Google Workspace membership through `verifyGoogleBlueDotToken` from `@bluedot/ui/src/api`, including the verified organization claim. Portal access does not require or grant the website's separate admin role. Expired or rejected credentials return the UI to sign-in at the requested route.
 
 Ratings advance only after a successful save. Timer expiry moves an unrated application to the back of the queue. If only one application remains, its timer restarts and the UI explains why the same application stays visible; expiry never saves a rating. Failed ratings remain on the same application and can be retried. Leaving an active review asks for confirmation. Navigation and sign-out wait for pending writes. This release does not restore an unfinished session after refresh; saved ratings remain stored.
 

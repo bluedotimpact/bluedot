@@ -18,7 +18,7 @@ describe('RubricSelector', () => {
   test('renders all options', () => {
     const { getByText } = render(<RubricSelector
       name="show-up"
-      ariaLabelledBy="show-up-label"
+      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}
@@ -33,7 +33,7 @@ describe('RubricSelector', () => {
     const onChange = vi.fn();
     const { getByText } = render(<RubricSelector
       name="show-up"
-      ariaLabelledBy="show-up-label"
+      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={onChange}
@@ -46,7 +46,7 @@ describe('RubricSelector', () => {
   test('reflects the selected value', () => {
     const { container } = render(<RubricSelector
       name="show-up"
-      ariaLabelledBy="show-up-label"
+      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={3}
       onChange={() => {}}
@@ -61,7 +61,7 @@ describe('RubricSelector', () => {
   test('shows description only for the selected option', () => {
     const { getByText, queryByText } = render(<RubricSelector
       name="show-up"
-      ariaLabelledBy="show-up-label"
+      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={3}
       onChange={() => {}}
@@ -79,7 +79,7 @@ describe('RubricSelector', () => {
   test('hides all descriptions when nothing is selected', () => {
     const { queryByText } = render(<RubricSelector
       name="show-up"
-      ariaLabelledBy="show-up-label"
+      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}
@@ -93,7 +93,7 @@ describe('RubricSelector', () => {
   test('is a semantic radiogroup', () => {
     const { container } = render(<RubricSelector
       name="show-up"
-      ariaLabelledBy="show-up-label"
+      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}

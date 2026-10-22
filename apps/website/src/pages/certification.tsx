@@ -212,7 +212,7 @@ const CertificatePage = ({
           {isOwner ? (
             <div className="flex flex-col items-center gap-6">
               <ShareButtons shareUrl={shareUrl} shareText={shareText} />
-              <p className="text-size-md leading-normal tracking-tighter text-charcoal-mid text-center">
+              <p className="text-size-md leading-normal tracking-tighter text-secondary text-center">
                 Celebrate your achievement by sharing it with your professional network & friends.
               </p>
             </div>

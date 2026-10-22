@@ -50,7 +50,7 @@ const CourseInformationSection = ({
   headingVariant = 'default',
 }: CourseInformationSectionProps) => {
   return (
-    <section id={id} className="w-full bg-white">
+    <section id={id} className="w-full bg-canvas">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
         {headingVariant === 'compact' ? (
@@ -64,7 +64,7 @@ const CourseInformationSection = ({
         )}
 
         {/* White Card Container — capped to the same 840px column as ScheduleListSection. */}
-        <div className="w-full bd-md:max-w-text bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
+        <div className="w-full bd-md:max-w-text bg-raised border rounded-xl py-8 flex flex-col items-center gap-6">
           {/* Course Details List */}
           <div className="flex flex-col w-full">
             {details.map((detail, index) => (
@@ -87,13 +87,13 @@ const CourseInformationSection = ({
                         accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
-                            <P className="text-bluedot-navy/80">
+                            <P className="text-secondary">
                               {detail.scheduleDescription}
                             </P>
                             <div className="flex justify-start">
                               <Button
                                 url={applicationUrl}
-                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-bluedot-dark cursor-pointer transition-colors"
+                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium rounded-md transition-colors"
                               >
                                 {scheduleCtaText}
                               </Button>
@@ -114,7 +114,7 @@ const CourseInformationSection = ({
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                      <div className="bluedot-p not-prose text-size-sm leading-relaxed text-bluedot-navy/80 font-normal">
+                      <div className="bluedot-p not-prose text-size-sm leading-relaxed text-secondary font-normal">
                         {detail.description}
                       </div>
                     </div>
@@ -123,7 +123,7 @@ const CourseInformationSection = ({
 
                 {/* Divider */}
                 {index < details.length - 1 && (
-                  <div className="w-full h-px bg-bluedot-navy/10 my-6" />
+                  <div className="w-full h-px bg-subtle my-6" />
                 )}
               </div>
             ))}

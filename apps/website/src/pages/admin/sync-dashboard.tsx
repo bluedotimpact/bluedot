@@ -148,7 +148,7 @@ const SyncDashboard = () => {
             Request Full Sync
           </Button>
           {hasSyncRunning && (
-            <P className="mt-2 text-size-sm text-gray-600">
+            <P className="mt-2 text-size-sm text-secondary">
               A sync is currently running. Your request will be queued.
             </P>
           )}
@@ -168,17 +168,17 @@ const SyncDashboard = () => {
           <H3 className="mb-4 flex items-center gap-2">
             Sync requests (last 24 hours)
             {isFetching && (
-              <FaCircleNotch aria-hidden="true" className="size-3 animate-spin text-bluedot-normal" />
+              <FaCircleNotch aria-hidden="true" className="size-3 animate-spin text-accent" />
             )}
           </H3>
 
           {!syncData || syncData.length === 0 ? (
-            <P className="text-gray-600">No sync requests in the last 24 hours</P>
+            <P className="text-secondary">No sync requests in the last 24 hours</P>
           ) : (
             <div className="container-lined overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-canvas border-b border-default">
+                  <tr className="bg-canvas border-b">
                     <th className="p-3 text-left">Status</th>
                     <th className="p-3 text-left">Requested By</th>
                     <th className="p-3 text-left">Requested</th>
@@ -187,7 +187,7 @@ const SyncDashboard = () => {
                 </thead>
                 <tbody>
                   {syncData?.map((req) => (
-                    <tr key={req.id} className="border-b border-default last:border-b-0 hover:bg-canvas">
+                    <tr key={req.id} className="border-b last:border-b-0 hover:bg-canvas">
                       <td className="p-3">
                         <StatusBadge status={req.status} />
                       </td>
@@ -229,14 +229,14 @@ const SyncDashboard = () => {
 
 const StatusBadge = ({ status }: { status: SyncStatus }) => {
   const colors = {
-    queued: 'bg-gray-500',
-    running: 'bg-yellow-500',
-    completed: 'bg-green-500',
-    failed: 'bg-red-500',
+    queued: 'bg-dark',
+    running: 'bg-warning-fg',
+    completed: 'bg-success-fg',
+    failed: 'bg-error-fg',
   };
 
   return (
-    <span className={`px-2 py-1 rounded text-white text-sm ${colors[status]}`}>
+    <span className={`px-2 py-1 rounded text-on-dark text-sm ${colors[status]}`}>
       {status}
     </span>
   );

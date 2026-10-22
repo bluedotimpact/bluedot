@@ -9,7 +9,7 @@ exports[`LandingBanner > renders correctly 1`] = `
   >
     <div
       aria-label="AGI Strategy banner"
-      class="relative w-full h-[382px] bd-md:h-[360px] mx-auto overflow-hidden rounded-xl bg-bluedot-navy bg-cover bg-center xl:max-w-[1118px]"
+      class="relative w-full h-[382px] bd-md:h-[360px] mx-auto overflow-hidden rounded-xl bg-dark bg-cover bg-center xl:max-w-[1118px]"
       role="img"
       style="background-image: url("/images/lander/agi-strategy/hero-banner-split.webp");"
     >
@@ -26,12 +26,12 @@ exports[`LandingBanner > renders correctly 1`] = `
           src="/images/agi-strategy/bluedot-icon.svg"
         />
         <h3
-          class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] text-white leading-normal bd-md:leading-snug"
+          class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] text-on-dark leading-normal bd-md:leading-snug"
         >
           Start building towards a good future today
         </h3>
         <a
-          class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark text-size-sm font-medium leading-relaxed px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+          class="not-prose flex w-fit cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-surface transition-all duration-200 on-dark:focus-visible:outline-focus-on-dark disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-busy:pointer-events-none aria-busy:opacity-50 hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark text-size-sm font-medium leading-relaxed px-5 py-3 min-h-12 bg-accent-on-dark text-primary rounded-md hover:bg-accent-on-dark-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus"
           href="https://example.com/apply"
           tabindex="0"
         >

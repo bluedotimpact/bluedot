@@ -408,12 +408,12 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             <span>{Math.round((reviewedCount / totalCount) * 100)}%</span>
           )}
         </div>
-        {/* Outer track = unreviewed, green = accepted, red = rejected */}
+        {/* Outer track = unreviewed, blue = accepted, red = rejected */}
         <div className="w-full h-4 bg-active rounded-full overflow-hidden flex">
           {totalCount && acceptedCount !== null && reviewedCount !== null ? (
             <>
               <div className="h-full bg-accent" style={{ width: `${(acceptedCount / totalCount) * 100}%` }} />
-              <div className="h-full bg-red-700" style={{ width: `${((reviewedCount - acceptedCount) / totalCount) * 100}%` }} />
+              <div className="h-full bg-error-fg" style={{ width: `${((reviewedCount - acceptedCount) / totalCount) * 100}%` }} />
             </>
           ) : null}
         </div>
@@ -424,7 +424,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               Accepted ({acceptedCount})
             </span>
             <span className="flex items-center gap-1 text-size-xs text-secondary">
-              <span className="inline-block size-2 rounded-sm bg-red-700" />
+              <span className="inline-block size-2 rounded-sm bg-error-fg" />
               Rejected ({reviewedCount - acceptedCount})
             </span>
             <span className="flex items-center gap-1 text-size-xs text-secondary">

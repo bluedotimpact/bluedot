@@ -62,7 +62,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
             <P>
               We've sent a confirmation link to <span className="font-semibold">{requestEmailChange.data.sentTo}</span>.
             </P>
-            <P className="text-charcoal-mid">
+            <P className="text-secondary">
               Click the link in that email to finish updating your email address.
               Until then, you'll keep signing in with your current email. The link is valid for 48 hours.
             </P>
@@ -78,7 +78,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
         ) : (
           <form className="space-y-4" onSubmit={handleSubmit} noValidate>
             {requestEmailChange.error && !emailTaken && <ErrorSection error={requestEmailChange.error} />}
-            <P className="text-charcoal-mid">
+            <P className="text-secondary">
               We'll send a confirmation link to your new email address.
               Your email won't change until you click it.
             </P>
@@ -106,7 +106,7 @@ const ChangeEmailModal = ({ isOpen, setIsOpen }: ChangeEmailModalProps) => {
               />
               {inlineError && (
                 <p
-                  className="text-red-600 text-size-sm mt-1"
+                  className="text-error-fg text-size-sm mt-1"
                   id="new-email-error"
                   role="alert"
                   aria-live="polite"

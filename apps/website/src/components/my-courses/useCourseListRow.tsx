@@ -1,10 +1,12 @@
 import {
-  Button, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
+  Button, Tag, addQueryParam, useLatestUtmParams, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { Fragment, type ReactNode } from 'react';
-import { FaBan, FaCheck, FaLock } from 'react-icons/fa6';
+import {
+  FaBan, FaCheck, FaLock, FaRegClock,
+} from 'react-icons/fa6';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
-import type { GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
+import { isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
 import { ROUTES } from '../../lib/routes';
 import {
   buildApplicationUrl, buildAvailabilityFormUrl, buildGroupSlackChannelUrl, getActionPlanUrl,
@@ -14,7 +16,6 @@ import type {
   MyCoursesPageCourseRegistration, CourseListRowProps, FacilitatorRowProps, ParticipantRowProps,
 } from './CourseListRow';
 import type { CourseAction } from './DiscussionListRow';
-import StatusPill, { PendingIcon } from './StatusPill';
 import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';
@@ -292,14 +293,14 @@ const getParticipantActions = (
       id: 'group-switch-requested-pill',
       isVisible: inProgressOrUpcoming && hasPendingGroupSwitchRequest,
       variant: 'inline',
-      inline: <StatusPill icon={<PendingIcon />}>Group switch requested</StatusPill>,
+      inline: <Tag shape="pill"><FaRegClock aria-hidden />Group switch requested</Tag>,
     },
     {
       id: 'share-feedback',
       isVisible: Boolean(showLockedCert && feedbackFormUrl),
       variant: 'inline',
       inline: feedbackFormUrl ? (
-        <Button variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5 text-size-xxs">
+        <Button variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5">
           <FaLock />
           <span>Share feedback<span className="hidden sm:inline"> to view your certificate</span></span>
         </Button>
@@ -309,21 +310,21 @@ const getParticipantActions = (
       id: 'view-certificate',
       isVisible: state === 'completed' && hasCert && !showLockedCert,
       variant: 'inline',
-      inline: <Button variant="primary" size="small" url={certificateUrl} className="text-size-xxs">View certificate</Button>,
+      inline: <Button variant="primary" size="small" url={certificateUrl}>View certificate</Button>,
     },
     {
       id: 'action-plan',
       isVisible: Boolean(showActionPlan),
       variant: 'inline',
       inline: hasSubmittedActionPlan ? (
-        <Button variant="primary" size="small" disabled className="gap-1.5 text-size-xxs disabled:opacity-80">
+        <Button variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
           <span>Action plan submitted</span>
           <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
             <FaCheck className="size-1.5 text-bluedot-darker" />
           </span>
         </Button>
       ) : (
-        <Button variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank" className="text-size-xxs">
+        <Button variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank">
           Submit action plan
         </Button>
       ),
@@ -343,7 +344,6 @@ const getParticipantActions = (
             roundId: courseRegistration.roundId ?? '',
           })}
           target="_blank"
-          className="text-size-xxs"
         >
           {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
         </Button>
@@ -353,19 +353,19 @@ const getParticipantActions = (
       id: 'view-curriculum',
       isVisible: state === 'upcoming' && Boolean(course.slug),
       variant: 'inline',
-      inline: <Button variant="outline-black" size="small" url={`/courses/${course.slug}/1/1`} className="text-size-xxs">View curriculum</Button>,
+      inline: <Button variant="outline-black" size="small" url={`/courses/${course.slug}/1/1`}>View curriculum</Button>,
     },
     {
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Dropped</StatusPill>,
+      inline: <Tag shape="pill"><FaBan aria-hidden />Dropped</Tag>,
     },
     {
       id: 'apply-again',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <Button variant="primary" size="small" url={applyAgainUrl} target="_blank" className="text-size-xxs">Apply again</Button>,
+      inline: <Button variant="primary" size="small" url={applyAgainUrl} target="_blank">Apply again</Button>,
     },
     {
       id: 'open-doc',
@@ -431,7 +431,7 @@ const getFacilitatorActions = (
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <StatusPill icon={<FaBan aria-hidden className="size-3.5" />}>Dropped</StatusPill>,
+      inline: <Tag shape="pill"><FaBan aria-hidden />Dropped</Tag>,
     },
     {
       id: 'share-feedback-facilitator',
@@ -443,7 +443,6 @@ const getFacilitatorActions = (
           size="small"
           url={`/facilitator-feedback/${meetPersonId}`}
           target="_blank"
-          className="text-size-xxs"
         >
           {hasSubmittedFeedback ? 'Edit feedback' : 'Share feedback'}
         </Button>
@@ -475,7 +474,7 @@ const getFacilitatorActions = (
     },
     {
       id: 'reschedule-recurring',
-      isVisible: isActive && Boolean(group),
+      isVisible: isActive && !!group && !!meetPersonId && isGroupFacilitator(group, meetPersonId),
       variant: 'overflow',
       overflow: {
         id: 'reschedule-recurring',

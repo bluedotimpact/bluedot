@@ -69,55 +69,23 @@ npm run render-preview # render OG/preview images
 
 **Before** writing anything new, check what already exists. We have a real shared library and most marketing-page primitives are already in it.
 
-**Where to look:**
-- Run `cd apps/storybook && npm start` (or browse [storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org)).
-- Read `libraries/ui/src/index.ts` for the canonical exports.
-
-**`@bluedot/ui` cheat sheet:**
-
-| Need | Use |
-| --- | --- |
-| Button or link CTA | `Button` (variants: primary, secondary, black, outline-black, ghost; sizes: default, small) |
-| Page section / card | `Section`, `SectionHeading`, `Card` |
-| Heading / paragraph / link | `H1`–`H4`, `P`, `A` (or `bluedot-h1` / `bluedot-p` / `bluedot-a` utility classes) |
-| Hero (page top) | `HeroSection` + `HeroH1` / `HeroCTAContainer` |
-| Form input | `Input`, `Textarea`, `Select`, `DatePicker`, `TimePicker`, `ToggleSwitch` |
-| Modal / drawer / dropdown | `Modal`, `BottomDrawerModal`, `OverflowMenu`, `Tooltip` |
-| Accordion / show-hide | `Collapsible` |
-| Alert / tag / banner | `Tag`, `ErrorSection` |
-| Carousel / list / progress | `SlideList`, `ProgressDots`, `Breadcrumbs` |
-| Avatars / share | `ShareButton` |
-| Auth | `LoginRedirectPage`, `LoginOauthCallbackPage`, `useAuthStore`, `withAuth` |
-| Utils | `cn`, `addQueryParam`, `maybePlural`, `asError` |
+**Shared components:** see the cheat sheet and override rules in [`libraries/ui/README.md`](../../libraries/ui/README.md).
 
 **Website-local reusables** (in `src/components/`):
 
 - `MarketingHero` — top-of-page hero with image background + Nav (used on /about, /our-community, /join-us, /grants).
-- `ListRow` (`@bluedot/ui`) — link row with accent bar or leading element, summary/meta and trailing CTA (used on /grants, /join-us, course pages). Compose with `ListGroup` for divided lists.
-- `Nav/Nav` — main site nav (variants: default, transparent).
+- `Nav/Nav` — main site nav.
 - `Header` — page header wrapper.
+- `courses/CollapsibleCallout` — collapsible notice in course MDX (authored as `<Callout>`).
 
 If you find yourself duplicating one of these, stop and reuse instead.
-
-### Use named tokens/utilities, not raw colour or size literals
-
-The token system is documented in `apps/storybook/src/GettingStarted.mdx` (browse it via Storybook's "Getting Started" intro page).
-
-| Don't write | Write instead |
-| --- | --- |
-| `text-[#0037ff]`, `bg-[#f5f5f5]` (raw hex) | the semantic role token, e.g. `text-primary`, `bg-canvas`, `bg-accent`; fall back to a palette utility (`text-bluedot-navy/60`) only when no role fits |
-| `text-red-600`, `border-gray-300` (Tailwind default palette) | the status/border role: `text-error-fg`, `border-default` |
-| `bg-color-primary-accent`, `border-color-divider` (removed legacy `color-*` tokens) | `bg-accent`, `border-default`, `text-secondary` |
-| `text-[16px]`, `text-[18px]`, `text-[24px]` | `text-size-sm`, `text-size-md`, `text-size-lg` |
-
-Prefer the semantic role tokens (`text-primary`, `text-secondary`, `bg-canvas`, `border-default`, `bg-accent`; names mirror the Figma variables) and fall back to the `bluedot-*` palette (`text-bluedot-navy/60`) only when no role fits. Size tokens (`text-size-*`) are still preferred over raw px, though exact pixel values for spacing (e.g. `gap-[3px]`) are sometimes OK.
 
 ### Creating a New Component
 
 1. Create the component `.tsx` file in `src/components/`
 2. Add a Storybook story `.stories.tsx` — autodocs tag, at least 2 variants, args/argTypes
 3. Write tests in `.test.tsx` and run snapshots via `npm run test:update`
-4. Use Tailwind classes for styling and BEM classes for identification
+4. Use Tailwind classes for styling
 5. Add a `parameters.design.figma` URL pointing at the Figma node (see [`Button.stories.tsx`](../../libraries/ui/src/Button.stories.tsx) for an example)
 
 ### Making API Changes

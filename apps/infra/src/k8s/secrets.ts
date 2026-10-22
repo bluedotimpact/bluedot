@@ -28,6 +28,14 @@ const toK8s = [
   'emailChangeTokenSecret',
   'lumaApiKey',
   'notionApiToken',
+  'googleCalendarClientId',
+  'googleCalendarClientSecret',
+  'calendarConnectLinkSecret',
+  'calendarConnectEncryptionKey',
+  'calendarConnectBusyApiSecret',
+  'welcomePassword',
+  'welcomeSlackBotToken',
+  'welcomeGoogleRefreshToken',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

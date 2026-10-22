@@ -63,6 +63,9 @@ const Link = ({ href, children, ...props }: React.ComponentProps<'a'>) => {
   return <a href={href} {...props}>{children}</a>;
 };
 
+// Exported so pages that render their own markup can match this typography
+export const MARKDOWN_PROSE_CLASSES = 'prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-relaxed prose-li:leading-relaxed prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-relaxed prose-a:font-normal prose-a:underline max-w-none';
+
 export type MarkdownRendererProps = {
   children?: string;
   className?: string;
@@ -161,7 +164,7 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
 
   return (
     // See @utility prose in globals.css for advanced styles
-    <div className={clsx('markdown-extended-renderer prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-relaxed prose-li:leading-relaxed prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-relaxed prose-a:font-normal prose-a:underline max-w-none', className)}>
+    <div className={clsx('markdown-extended-renderer', MARKDOWN_PROSE_CLASSES, className)}>
       {Component && <Component components={getSupportedComponents()} />}
     </div>
   );

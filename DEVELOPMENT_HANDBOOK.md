@@ -229,7 +229,7 @@ See `src/components/settings/PasswordSection.tsx` for a complete real-world exam
 
 #### Error Handling
 
-Errors are handled inline per component using tRPC error codes. There is no centralized toast system — each component manages its own error UI with local state.
+Errors are handled inline per component using tRPC error codes. Show persistent errors with `Callout` and transient feedback with `toast()` from `@bluedot/ui`.
 
 **Pattern**:
 - Use `useState` for field-level error strings
@@ -490,6 +490,27 @@ You need to make two PRs:
 
 **Note**: Since Airtable is source of truth, PostgreSQL issues aren't catastrophic, but we should still avoid breaking prod data.
 
+#### Indexes
+
+Indexes live in `libraries/db/src/schema.ts`, next to the table they belong to, via the `indexes` option on `pgAirtable(...)` and `deprecationSafePgTable(...)`.
+
+```ts
+export const userTable = pgAirtable('user', {
+  // ...
+  indexes: (t) => [
+    index('user_email_idx').on(t.email),
+  ],
+});
+```
+
+- `pg-sync-service` pushes indexes together with columns on every start, straight to the production database when the PR merges. It also drops any index that is not declared in the schema, so never create indexes by hand on prod; they will disappear on the next deploy.
+- Name indexes `<table>_<column>_idx`, matching what Postgres would generate for `CREATE INDEX ON <table> (<column>)`.
+- Use plain `CREATE INDEX` (the default).
+- Array columns (`text().array()`) queried with `arrayContains` / `@>` need a GIN index: `index('x_userId_idx').using('gin', t.userId)`. A btree on an array column is never used for `@>`.
+- On GIN indexes, add `.with({ fastupdate: 'off' })` unless the table takes heavy writes. With the default, new entries wait in a pending list (up to 4 MB) that every lookup scans, and only vacuum or a full list clears it. Autovacuum rarely runs on our low-write tables, so lookups would stay slow.
+- Index DDL does not trigger a full Airtable resync (see `statementsRequireFullSync` in `apps/pg-sync-service/src/lib/schema-sync.ts`).
+- Unique indexes are usually not possible on Airtable-synced tables because Airtable does not enforce uniqueness; check for duplicates on prod before adding one.
+
 ---
 
 ## 5. Component Library
@@ -504,7 +525,7 @@ You need to make two PRs:
 
 ### Usage Guidelines
 
-All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones when possible.**
+All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones.** See the cheat sheet in [`libraries/ui/README.md`](./libraries/ui/README.md) and the override rules in [`CLAUDE.md`](./CLAUDE.md#before-you-start-a-task).
 
 ### Icons
 

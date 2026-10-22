@@ -115,10 +115,10 @@ const GrantsPage = () => {
                     ctaLabel="Explore grant"
                     details={(
                       <div>
-                        <P className="text-size-lg font-medium text-white">{route.amount}</P>
+                        <P className="text-size-lg font-medium text-on-dark">{route.amount}</P>
                         <P className="mt-1 text-size-xs text-white/85">{route.application}</P>
                         {stats && (
-                          <P className="mt-3 text-size-xs text-white/75">
+                          <P className="mt-3 text-size-xs text-on-dark-secondary">
                             {AWARDED_AMOUNT_FORMAT.format(stats.totalAmountUsd).toLowerCase()} awarded across {stats.count.toLocaleString('en-US')} {stats.count === 1 ? 'grant' : 'grants'}
                           </P>
                         )}
@@ -129,7 +129,7 @@ const GrantsPage = () => {
               );
             })}
           </ul>
-          <P className="mt-6 text-center text-size-xs text-bluedot-navy/65">Career Transition Grants generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
+          <P className="mt-6 text-center text-size-xs text-secondary">Career Transition Grants generally start at $20k. For smaller requests, apply to Rapid Grants.</P>
         </div>
       </section>
 

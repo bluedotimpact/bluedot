@@ -1,4 +1,6 @@
 import {
+  calendarConnectionTable,
+  calendarPairWithoutCalendarTable,
   courseFeedbackTable,
   courseRegistrationTable,
   deletionRequestTable,
@@ -17,6 +19,7 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
+import { encryptRefreshToken } from '../../lib/api/calendarConnect';
 import { deleteKeycloakUser, keycloakUserExists } from '../../lib/api/keycloak';
 import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
@@ -35,6 +38,7 @@ vi.mock('../../lib/api/env', () => ({
     AIRTABLE_AUTOMATION_TOKEN: 'test-token-secret',
     CIO_APP_API_KEY: 'fake-app-key',
     CIO_TRACK_API_KEY: 'fake:track-key',
+    CALENDAR_CONNECT_ENCRYPTION_KEY: 'MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=',
     VITEST: 'true',
   },
 }));
@@ -69,6 +73,7 @@ let keycloakUserPresent: boolean;
 let cioProfiles: CioProfile[];
 let cioTopicWrites: { cioId: string; topics: Record<string, boolean> }[];
 let cioEmailSends: { to: string; subject: string }[];
+let googleRevokes: string[];
 
 const fakeCio = async (input: string, init?: RequestInit) => {
   const url = new URL(input);
@@ -112,6 +117,11 @@ const fakeCio = async (input: string, init?: RequestInit) => {
     return ok({});
   }
 
+  if (method === 'POST' && url.href === 'https://oauth2.googleapis.com/revoke') {
+    googleRevokes.push(new URLSearchParams(init!.body as string).get('token')!);
+    return ok({});
+  }
+
   throw new Error(`Unexpected fetch: ${method} ${url}`);
 };
 
@@ -127,6 +137,7 @@ beforeEach(async () => {
   }];
   cioTopicWrites = [];
   cioEmailSends = [];
+  googleRevokes = [];
   vi.stubGlobal('fetch', vi.fn(fakeCio));
 
   airtableUserRecords = [{ id: SUBJECT.id }, { id: 'test-user' }];
@@ -208,6 +219,19 @@ const seedSubjectData = async () => {
     { id: 'rc-subject', userId: [SUBJECT.id] },
     { id: 'rc-other', userId: ['test-user'] },
   ]);
+  await testDb.pg.insert(calendarConnectionTable.pg).values([SUBJECT.id, 'test-user'].map((userId) => ({
+    id: `cal-${userId}`,
+    slackUserId: `slack-${userId}`,
+    userId,
+    provider: 'google' as const,
+    providerAccountId: `google-${userId}`,
+    providerAccountEmail: `${userId}@gmail.example`,
+    encryptedRefreshToken: encryptRefreshToken(`refresh-${userId}`),
+    scopes: 'openid email',
+  })));
+  await testDb.pg.insert(calendarPairWithoutCalendarTable.pg).values([SUBJECT.id, 'test-user'].map((userId) => ({
+    id: `pair-${userId}`, userId, slackUserId: `slack-${userId}`,
+  })));
 };
 
 const seedRequest = (overrides: Record<string, unknown> = {}) => testDb.insert(deletionRequestTable, {
@@ -233,6 +257,8 @@ const expectDeletionEndState = async () => {
   expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject-unlinked']);
   expect(await pgIdsIn(exerciseResponsePgTable)).toEqual(['er-other']);
   expect(await pgIdsIn(resourceCompletionPgTable)).toEqual(['rc-other']);
+  expect(await pgIdsIn(calendarConnectionTable)).toEqual(['cal-test-user']);
+  expect(await pgIdsIn(calendarPairWithoutCalendarTable)).toEqual(['pair-test-user']);
   expect(await pgIdsIn(selfServeCourseRegistrationTable)).toEqual(['ss-other']);
   expect(await pgIdsIn(dropoutTable)).toEqual(['do-other', 'do-subject']);
   expect(await pgIdsIn(projectSubmissionTable)).toEqual(['ps-other', 'ps-shared']);
@@ -250,6 +276,8 @@ const ALL_STEPS = [
   'customerio-subscription-topics',
   'exercise-responses',
   'resource-completions',
+  'calendar-connections',
+  'calendar-pair-without-calendar',
   'self-serve-course-registrations',
   'project-submissions',
   'course-registrations',
@@ -267,6 +295,8 @@ const STEP_AIRTABLE_TABLES = {
 const STEP_PG_TABLES = {
   'exercise-responses': exerciseResponsePgTable,
   'resource-completions': resourceCompletionPgTable,
+  'calendar-connections': calendarConnectionTable,
+  'calendar-pair-without-calendar': calendarPairWithoutCalendarTable,
 } as const;
 
 // Makes the named step fail exactly once, through whichever channel it deletes on.
@@ -640,6 +670,8 @@ describe('deletionRequests.executeAccountDeletion', () => {
       { step: 'customerio-subscription-topics', deleted: 1 },
       { step: 'exercise-responses', deleted: 1 },
       { step: 'resource-completions', deleted: 1 },
+      { step: 'calendar-connections', deleted: 1 },
+      { step: 'calendar-pair-without-calendar', deleted: 1 },
       { step: 'self-serve-course-registrations', deleted: 1 },
       { step: 'project-submissions', deleted: 1 },
       { step: 'course-registrations', deleted: 1 },
@@ -650,6 +682,9 @@ describe('deletionRequests.executeAccountDeletion', () => {
     expect(await pgIdsIn(userTable)).toEqual(['test-user']);
     expect(await pgIdsIn(exerciseResponsePgTable)).toEqual(['er-other']);
     expect(await pgIdsIn(resourceCompletionPgTable)).toEqual(['rc-other']);
+    expect(await pgIdsIn(calendarConnectionTable)).toEqual(['cal-test-user']);
+    expect(await pgIdsIn(calendarPairWithoutCalendarTable)).toEqual(['pair-test-user']);
+    expect(googleRevokes).toEqual([`refresh-${SUBJECT.id}`]);
     expect(await pgIdsIn(selfServeCourseRegistrationTable)).toEqual(['ss-other']);
     expect(await pgIdsIn(courseRegistrationTable)).toEqual(['reg-other', 'reg-subject-unlinked']);
     expect(await pgIdsIn(dropoutTable)).toEqual(['do-other', 'do-subject']);

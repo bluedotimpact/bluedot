@@ -9,7 +9,7 @@ import env from '../../../lib/api/env';
 import {
   COURSES,
   type Application, type Course, type CourseFeedback, type EvaluationCall, type FacilitatorFeedback,
-  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type OtherApplication, type Person, type Project, type QueueItem, type RapidGrant, type Registration, type Session, type WebFacts,
+  type FacilitatorReport, type GrantApplication, type InvitedThisWeek, type OtherApplication, type Person, type PickReason, type Project, type QueueItem, type RapidGrant, type Registration, type Session, type WebFacts,
 } from '../types';
 
 const COURSE_RUNNER = 'https://api.airtable.com/v0/appPs3sb9BrYZN69z';
@@ -84,6 +84,9 @@ const REG = {
   attendedDiscussions: 'fldTEkxGZQxTqHhdX',
   numAttended: 'fldObmJR3eMFoSIfF',
   numExpected: 'fldPq8IHeoXBkD8nE',
+  mustLook: 'fldcs9jnQrVcOMkwf',
+  facilitatorRatings: 'fldAOii0tbRfD1210',
+  reportTakes: 'fldH4kT9DA79mlzBg',
 } as const;
 
 // Course runner › Group discussion: one row per session a group holds
@@ -104,6 +107,7 @@ const REG_INVITE_DATE = 'fld9YWOaYvSauL5sV';
 const LEAD = {
   email: 'fldybLwD2UCqXFeb8',
   courses: 'fldwPw2PCIDfn1ZqE',
+  fullName: 'fldYo8haU379WYYt0',
 } as const;
 
 const ROUND = {
@@ -387,7 +391,17 @@ const courseOf = (round: Round | undefined): Course | undefined => {
 
 // ---- Queue ----
 
-const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports];
+const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certificateCreatedAt, REG.reports, REG.mustLook, REG.facilitatorRatings, REG.reportTakes];
+
+// The one signal that put a person on the shortlist, in PICK_REASONS order so the picker's recap
+// adds up. Mirrors the "[*] Talent scouting must look" formula; a signal added there without a case
+// here shows as "other". Exported for tests.
+export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
+  if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
+  if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => typeof rating === 'number' && rating >= 9)) return 'top score';
+  if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
+  return undefined;
+};
 
 // Emails with an approved CTG or a completed eval call; call status "Reject" means no call happened.
 const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
@@ -444,6 +458,8 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
       opinion: str(r.fields[REG.opinion]),
       hasCertificate: !!r.fields[REG.certificateCreatedAt],
       hasReport: strList(r.fields[REG.reports]).length > 0,
+      mustLook: !!r.fields[REG.mustLook],
+      pickReason: r.fields[REG.mustLook] ? pickReasonOf(r.fields) : undefined,
     });
   }
 
@@ -457,13 +473,16 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
 // Exported for tests.
 export const parseLeadCourses = (text?: string): Course[] => (text ?? '').split(',').map((c) => c.trim()).filter((c): c is Course => COURSES.includes(c as Course));
 
-// The scouted courses the signed-in person leads, so the picker can open those first. Empty
-// when they lead none or the read fails.
-export const fetchLeadCourses = async (email: string): Promise<Course[]> => {
+export type Lead = { courses: Course[]; firstName?: string };
+
+// The signed-in person's Course leads row: the scouted courses they lead, so the picker can open
+// those first, and their first name for the greeting. No courses and no name when they lead
+// none or the read fails.
+export const fetchLead = async (email: string): Promise<Lead> => {
   const wanted = normaliseEmail(email);
   const leads = await optional(fetchAll(COURSE_LEADS_URL, {}, Object.values(LEAD)), []);
   const own = leads.find((r) => normaliseEmail(str(r.fields[LEAD.email]) ?? '') === wanted);
-  return parseLeadCourses(str(own?.fields[LEAD.courses]));
+  return { courses: parseLeadCourses(str(own?.fields[LEAD.courses])), firstName: str(own?.fields[LEAD.fullName])?.trim().split(/\s+/)[0] };
 };
 
 export const fetchInvitedThisWeek = async (now = new Date()): Promise<InvitedThisWeek> => {
@@ -1001,11 +1020,24 @@ const patchRegistration = async (id: string, fields: Record<string, unknown>) =>
   if (!response.ok) throw airtableError(response, `update ${id}`);
 };
 
+// The lead's note to the facilitator, on each Strong yes report. Written before the status so the
+// facilitator email (sent by the Course runner automation on the status change) includes it.
+const noteEndorsers = async (fields: Record<string, unknown>, note: string | undefined) => {
+  const text = note?.trim();
+  const reportIds = strList(fields[REG.reports]);
+  if (!text || reportIds.length === 0) return;
+  const reports = await fetchMany(REPORTS_URL, reportIds, [REPORT.overallTake]);
+  await Promise.all(reports
+    .filter((r) => str(r.fields[REPORT.overallTake])?.toLowerCase() === 'strong yes')
+    .map((r) => airtableFetch(`${REPORTS_URL}/${r.id}`, { method: 'PATCH', headers: headers(), body: JSON.stringify({ fields: { [REPORT.reviewNotes]: text } }) })));
+};
+
 // Don't invite = a status only. The person leaves the queue view; the status can
 // be cleared in Airtable if it was wrong.
-export const declineForReal = async (id: string): Promise<WriteResult> => {
+export const declineForReal = async (id: string, note?: string): Promise<WriteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
+  await noteEndorsers(check.fields, note);
   await patchRegistration(id, { [REG.scoutingStatus]: 'Pass' });
   return { ok: true };
 };
@@ -1015,9 +1047,10 @@ export const declineForReal = async (id: string): Promise<WriteResult> => {
 // the invite date and — because it sees the status — records the source as
 // "Talent scouting app". The source field itself is synced from the Applications base
 // and cannot be written through the API from here, which is why the automation owns it.
-export const inviteForReal = async (id: string): Promise<InviteResult> => {
+export const inviteForReal = async (id: string, note?: string): Promise<InviteResult> => {
   const check = await untouchedOrReason(id);
   if (!check.ok) return check;
+  await noteEndorsers(check.fields, note);
   await patchRegistration(id, { [REG.scoutingStatus]: 'Invited', [REG.sendInviteEmail]: true });
   return { ok: true };
 };

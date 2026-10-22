@@ -29,6 +29,7 @@ const mockedUseAuthStore = vi.mocked(useAuthStore, true);
 // MarketingHero renders <Nav /> which calls next/router's useRouter
 vi.mock('next/router', () => ({
   useRouter: () => ({
+    asPath: '/admin/sync-dashboard',
     pathname: '/admin/sync-dashboard',
     query: {},
   }),
@@ -144,9 +145,9 @@ describe('SyncDashboard - Main User Journeys', () => {
     await waitFor(() => {
       expect(screen.getByRole('table')).toBeInTheDocument();
     });
-    expect(screen.getByText('queued')).toHaveClass('bg-gray-500');
-    expect(screen.getByText('running')).toHaveClass('bg-yellow-500');
-    expect(screen.getByText('completed')).toHaveClass('bg-green-500');
+    expect(screen.getByText('queued')).toHaveClass('bg-dark');
+    expect(screen.getByText('running')).toHaveClass('bg-warning-fg');
+    expect(screen.getByText('completed')).toHaveClass('bg-success-fg');
 
     // Should show warning message when sync is running
     expect(screen.getByText('A sync is currently running. Your request will be queued.')).toBeInTheDocument();

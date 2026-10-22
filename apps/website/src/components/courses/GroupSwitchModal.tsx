@@ -150,6 +150,7 @@ export default function GroupSwitchModal({
   const currentDiscussionAsGroupSwitchOption = formatCurrentDiscussionAsGroupSwitchOption();
 
   const isSubmitDisabled = isSubmitting
+    || !reason.trim()
     || (isManualRequest && !hasUpdatedAvailability)
     || (!isManualRequest && !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
 
@@ -192,7 +193,7 @@ export default function GroupSwitchModal({
         <div className="flex items-center w-full">
           <ClickTarget
             onClick={() => setIsManualRequest(false)}
-            className="text-black rounded-full p-1.5 hover:bg-gray-100 cursor-pointer"
+            className="text-primary rounded-full p-1.5 hover:bg-tint cursor-pointer"
             aria-label="Back to group selection"
           >
             <FaArrowLeft size={16} />
@@ -238,7 +239,7 @@ export default function GroupSwitchModal({
         id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.group.startTimeUtc,
-        isDisabled: g.spotsLeftIfKnown === 0,
+        disabled: g.spotsLeftIfKnown === 0,
         isSelected,
         isRecurringTime: true,
         isDaily,
@@ -263,7 +264,7 @@ export default function GroupSwitchModal({
         id: d.discussion.id,
         groupName: d.groupName,
         dateTime: d.discussion.startDateTime,
-        isDisabled: d.spotsLeftIfKnown === 0,
+        disabled: d.spotsLeftIfKnown === 0,
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
@@ -285,7 +286,7 @@ export default function GroupSwitchModal({
   const hasMoreOptions = groupSwitchOptions.length > INITIAL_OPTIONS_SHOWN;
   const visibleOptions = showAllOptions ? groupSwitchOptions : groupSwitchOptions.slice(0, INITIAL_OPTIONS_SHOWN);
 
-  const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
+  const alternativeCount = groupSwitchOptions.filter((op) => !op.disabled).length;
   const alternativeCountMessage = isTemporarySwitch
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
     : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
@@ -328,7 +329,6 @@ export default function GroupSwitchModal({
           placeholder="Share your reason here..."
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="min-h-20"
           required
           aria-label="Reason for group switch request"
         />
@@ -341,8 +341,8 @@ export default function GroupSwitchModal({
       control: (
         <div className="flex flex-col gap-2">
           {currentDiscussionAsGroupSwitchOption && <GroupSwitchOption {...currentDiscussionAsGroupSwitchOption} />}
-          <p className="text-size-xs mt-1 text-charcoal-mid">{alternativeCountMessage}</p>
-          <p className="text-size-xs text-charcoal-mid">Times are in your time zone: {getGMTOffsetWithCity()}</p>
+          <p className="text-size-xs mt-1 text-secondary">{alternativeCountMessage}</p>
+          <p className="text-size-xs text-secondary">Times are in your time zone: {getGMTOffsetWithCity()}</p>
           <div className="flex flex-col gap-2 mt-2">
             {visibleOptions.map((option) => (
               <GroupSwitchOption key={option.id} {...option} />
@@ -351,7 +351,7 @@ export default function GroupSwitchModal({
               <button
                 type="button"
                 onClick={() => setShowAllOptions(true)}
-                className="text-size-sm text-bluedot-normal hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
+                className="text-size-sm text-link hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
               >
                 See all {isTemporarySwitch ? 'discussions' : 'groups'}
               </button>
@@ -377,7 +377,7 @@ export default function GroupSwitchModal({
             })}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-bluedot-normal underline"
+            className="text-link underline"
           >
             please update your availability
           </a>
@@ -400,7 +400,17 @@ export default function GroupSwitchModal({
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={getModalTitle()}
       bottomDrawerOnMobile
-      ariaLabel="Group switching"
+      aria-label="Group switching"
+      footer={!isLoading && !showSuccess && isManualRequest && (
+        <Button
+          className="w-full"
+          onClick={handleSubmit}
+          disabled={isSubmitDisabled}
+          aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+        >
+          {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
+        </Button>
+      )}
     >
       <>
         {isLoading && <ProgressDots />}
@@ -413,39 +423,29 @@ export default function GroupSwitchModal({
             {visibleFormSections.map((section, index) => (
               <div key={section.id} className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
-                  <span className="text-size-sm font-medium text-bluedot-navy">{index + 1}. {section.title}</span>
+                  <span className="text-size-sm font-medium text-primary">{index + 1}. {section.title}</span>
                   {section.subtitle && (
-                    <p className="text-size-xs text-charcoal-mid">{section.subtitle}</p>
+                    <p className="text-size-xs text-secondary">{section.subtitle}</p>
                   )}
                 </div>
                 {section.control}
               </div>
             ))}
-            {isManualRequest && (
-              <Button
-                className="w-full"
-                onClick={handleSubmit}
-                disabled={isSubmitDisabled}
-                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-              >
-                {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
-              </Button>
-            )}
           </form>
         )}
         {!isLoading && !showSuccess && !isManualRequest && (
-          <div className="border-t border-default pt-8 mt-8 mb-2">
+          <div className="border-t pt-8 mt-8 mb-2">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
                 <H3 className="text-size-sm">Don't see a group that works?</H3>
-                <p className="text-size-xs text-charcoal-mid">
+                <p className="text-size-xs text-secondary">
                   You can request a manual switch to join a group that's full or a group that is not
                   listed above, and we'll do our best to accommodate you.
                 </p>
               </div>
               <Button
                 variant="secondary"
-                className="border-bluedot-navy text-bluedot-navy hover:bg-blue-50"
+                className="border-bluedot-navy text-primary hover:bg-blue-50"
                 onClick={() => setIsManualRequest(true)}
                 aria-label="Request manual group switch"
               >
@@ -459,7 +459,7 @@ export default function GroupSwitchModal({
             {!isManualRequest && selectedOption && (
               <GroupSwitchOption {...selectedOption} userIsParticipant />
             )}
-            <p className="text-size-sm text-center max-w-[500px] text-charcoal-mid">
+            <p className="text-size-sm text-center max-w-[500px] text-secondary">
               {getSuccessMessage()}
             </p>
             <Button
@@ -491,8 +491,8 @@ export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
   return [...options].sort((a, b) => {
     // Sort enabled before disabled
-    const disabledA = a.isDisabled ?? false;
-    const disabledB = b.isDisabled ?? false;
+    const disabledA = a.disabled ?? false;
+    const disabledB = b.disabled ?? false;
     if (disabledA !== disabledB) {
       return disabledA ? 1 : -1;
     }
@@ -540,22 +540,22 @@ const getGroupSwitchDescription = ({
   if (isTemporarySwitch) {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-bluedot-normal">You are attending this discussion</span>
+        ? <span className="text-accent">You are attending this discussion</span>
         : <span>You are switching out of this discussion</span>;
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-bluedot-normal">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
+      return <span className="text-accent">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
     }
   } else {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-bluedot-normal">You are currently in this group</span>
+        ? <span className="text-accent">You are currently in this group</span>
         : <span>You are switching out of this group for all upcoming units</span>;
     }
 
     if (isSelected) {
-      return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
+      return <span className="text-accent">You are switching into this group for all upcoming units</span>;
     }
   }
 
@@ -576,7 +576,7 @@ type GroupSwitchOptionProps = {
   id?: string;
   groupName: string;
   dateTime: number | null;
-  isDisabled?: boolean;
+  disabled?: boolean;
   description: React.ReactNode;
   isSelected?: boolean;
   userIsParticipant?: boolean;
@@ -588,10 +588,10 @@ type GroupSwitchOptionProps = {
   canSubmit?: boolean;
 };
 
-const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
+const GroupSwitchOption = ({
   groupName,
   dateTime,
-  isDisabled,
+  disabled,
   description,
   isSelected,
   userIsParticipant,
@@ -601,7 +601,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   onConfirm,
   isSubmitting,
   canSubmit,
-}) => {
+}: GroupSwitchOptionProps) => {
   const displayDate = useMemo(() => {
     if (!dateTime) {
       return null;
@@ -625,12 +625,12 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   return (
     <div
       className={cn(
-        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300',
-        isSelected && 'border-bluedot-normal hover:border-bluedot-normal bg-blue-50',
-        isDisabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
+        'rounded-lg p-3 transition-all cursor-pointer border bg-raised hover:bg-blue-50 hover:border-strong',
+        isSelected && 'border-accent hover:border-accent bg-blue-50',
+        disabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-raised',
         userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',
       )}
-      {...(!isDisabled && !userIsParticipant && {
+      {...(!disabled && !userIsParticipant && {
         onClick: onSelect,
         onKeyDown(e: React.KeyboardEvent) {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -653,7 +653,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           {displayDate && displayTime && (
             <>
               <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
-              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-bluedot-normal' : 'text-gray-500'}`}>{displayTime}</div>
+              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-accent' : 'text-secondary'}`}>{displayTime}</div>
             </>
           )}
         </div>
@@ -662,7 +662,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
             <div className="font-semibold mb-1">
               {groupName}
             </div>
-            <div className="flex items-center gap-1.5 text-size-xs text-gray-500">
+            <div className="flex items-center gap-1.5 text-size-xs text-secondary">
               {description}
             </div>
           </div>
@@ -673,7 +673,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
                 onConfirm?.();
               }}
               // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              disabled={isDisabled || !canSubmit || isSubmitting}
+              disabled={disabled || !canSubmit || isSubmitting}
               aria-label={`Confirm selection of ${groupName}`}
               className="h-fit my-auto"
             >

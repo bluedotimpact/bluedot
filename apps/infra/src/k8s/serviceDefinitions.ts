@@ -9,6 +9,9 @@ const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
 const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
 const PG_SYNC_SLACK_CHANNEL_ID = 'C0BFEG755PG'; // #update_pg-sync
+const WELCOME_SLACK_CHANNEL_ID = 'C0CB9NY8JH2'; // #welcome, for First Contact
+// The "First Contact" calendar owned by dewi-bots@bluedot.org, from apps/website/scripts/first-contact/authorize.ts
+const WELCOME_GOOGLE_CALENDAR_ID = 'c_a812f94ab7d406aec042d9edee89a50fe2f5e770cbc49e28a6ec15330787eeeb@group.calendar.google.com';
 
 // Public PostHog project key, same value the website ships as NEXT_PUBLIC_POSTHOG_KEY
 // (apps/website/.env.production.template). Not a secret: it's exposed in the browser bundle.
@@ -118,6 +121,16 @@ export const services: ServiceDefinition[] = [
           { name: 'CIO_HMAC_SECRET', valueFrom: envVarSources.cioHmacSecret },
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
+          { name: 'GOOGLE_CALENDAR_CLIENT_ID', valueFrom: envVarSources.googleCalendarClientId },
+          { name: 'GOOGLE_CALENDAR_CLIENT_SECRET', valueFrom: envVarSources.googleCalendarClientSecret },
+          { name: 'CALENDAR_CONNECT_LINK_SECRET', valueFrom: envVarSources.calendarConnectLinkSecret },
+          { name: 'CALENDAR_CONNECT_ENCRYPTION_KEY', valueFrom: envVarSources.calendarConnectEncryptionKey },
+          { name: 'CALENDAR_CONNECT_BUSY_API_SECRET', valueFrom: envVarSources.calendarConnectBusyApiSecret },
+          { name: 'WELCOME_PASSWORD', valueFrom: envVarSources.welcomePassword },
+          { name: 'WELCOME_SLACK_BOT_TOKEN', valueFrom: envVarSources.welcomeSlackBotToken },
+          { name: 'WELCOME_SLACK_CHANNEL_ID', value: WELCOME_SLACK_CHANNEL_ID },
+          { name: 'WELCOME_GOOGLE_REFRESH_TOKEN', valueFrom: envVarSources.welcomeGoogleRefreshToken },
+          { name: 'WELCOME_GOOGLE_CALENDAR_ID', value: WELCOME_GOOGLE_CALENDAR_ID },
         ],
         readinessProbe: WEBSITE_HEALTH_CHECK,
         livenessProbe: WEBSITE_HEALTH_CHECK,
@@ -161,6 +174,16 @@ export const services: ServiceDefinition[] = [
           { name: 'CIO_HMAC_SECRET', valueFrom: envVarSources.cioHmacSecret },
           { name: 'EMAIL_CHANGE_TOKEN_SECRET', valueFrom: envVarSources.emailChangeTokenSecret },
           { name: 'NOTION_API_TOKEN', valueFrom: envVarSources.notionApiToken },
+          { name: 'GOOGLE_CALENDAR_CLIENT_ID', valueFrom: envVarSources.googleCalendarClientId },
+          { name: 'GOOGLE_CALENDAR_CLIENT_SECRET', valueFrom: envVarSources.googleCalendarClientSecret },
+          { name: 'CALENDAR_CONNECT_LINK_SECRET', valueFrom: envVarSources.calendarConnectLinkSecret },
+          { name: 'CALENDAR_CONNECT_ENCRYPTION_KEY', valueFrom: envVarSources.calendarConnectEncryptionKey },
+          { name: 'CALENDAR_CONNECT_BUSY_API_SECRET', valueFrom: envVarSources.calendarConnectBusyApiSecret },
+          { name: 'WELCOME_PASSWORD', valueFrom: envVarSources.welcomePassword },
+          { name: 'WELCOME_SLACK_BOT_TOKEN', valueFrom: envVarSources.welcomeSlackBotToken },
+          { name: 'WELCOME_SLACK_CHANNEL_ID', value: WELCOME_SLACK_CHANNEL_ID },
+          { name: 'WELCOME_GOOGLE_REFRESH_TOKEN', valueFrom: envVarSources.welcomeGoogleRefreshToken },
+          { name: 'WELCOME_GOOGLE_CALENDAR_ID', value: WELCOME_GOOGLE_CALENDAR_ID },
         ],
         readinessProbe: WEBSITE_HEALTH_CHECK,
         livenessProbe: WEBSITE_HEALTH_CHECK,

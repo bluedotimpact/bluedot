@@ -22,6 +22,8 @@ import {
 import { TRPCError } from '@trpc/server';
 import { logger } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
+import { deleteConnections, listConnectionsForUser } from './calendarConnections';
+import { clearPairWithoutCalendar } from './calendarPairWithoutCalendar';
 import { deleteKeycloakUser, keycloakUserExists } from './keycloak';
 import { CIO_API_BASE, getProfileById, setSubscriptionTopics } from './customerio';
 import db from './db';
@@ -166,6 +168,15 @@ const buildDeletionSteps = ({ userId, keycloakIdentifier, registrationIds, meetP
     },
     deleteMatchingPgRecords({ name: 'exercise-responses', table: exerciseResponsePgTable, sqlCondition: arrayContains(exerciseResponsePgTable.pg.userId, [userId]) }),
     deleteMatchingPgRecords({ name: 'resource-completions', table: resourceCompletionPgTable, sqlCondition: arrayContains(resourceCompletionPgTable.pg.userId, [userId]) }),
+    // Also revokes each Google grant, best effort
+    {
+      name: 'calendar-connections',
+      run: async () => deleteConnections(await listConnectionsForUser(userId)),
+    },
+    {
+      name: 'calendar-pair-without-calendar',
+      run: async () => clearPairWithoutCalendar(userId),
+    },
     deleteMatchingAirtableRecords({ name: 'self-serve-course-registrations', table: selfServeCourseRegistrationTable, sqlCondition: eq(selfServeCourseRegistrationTable.pg.userId, userId) }),
     // Leave project submissions that have co-authors
     deleteMatchingAirtableRecords({ name: 'project-submissions', table: projectSubmissionTable, sqlCondition: linkedSolelyTo(projectSubmissionTable.pg.participant, meetPersonIds) }),
