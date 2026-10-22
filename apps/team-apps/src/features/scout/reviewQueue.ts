@@ -20,11 +20,12 @@ export const roundPickerLabel = (item: QueueItem, now = new Date()) => {
   return `Ended ${date} (${roundLabel(item)})`;
 };
 
-// The course's shortlist: completers first, then by PICK_REASONS, then most recently finished round
+// The course's shortlist: completers first, then by PICK_REASONS (10s before 9s), then most recently
+// finished round
 const tier = (item: QueueItem) => (item.pickReason ? PICK_REASONS.indexOf(item.pickReason) : PICK_REASONS.length);
 export const mustLookFor = (items: QueueItem[], course: string) => items
   .filter((item) => item.course === course && item.mustLook)
-  .sort((a, b) => Number(b.hasCertificate) - Number(a.hasCertificate) || tier(a) - tier(b) || (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
+  .sort((a, b) => Number(b.hasCertificate) - Number(a.hasCertificate) || tier(a) - tier(b) || (b.topScore ?? 0) - (a.topScore ?? 0) || (b.roundEnd ?? '').localeCompare(a.roundEnd ?? ''));
 
 // The backlog is everyone else, still picked round by round
 export const backlogFor = (items: QueueItem[], course: string) => items.filter((item) => item.course === course && !item.mustLook);

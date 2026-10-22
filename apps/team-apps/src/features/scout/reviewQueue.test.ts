@@ -47,16 +47,21 @@ test('must look is one queue per course, newest round first, keeping the view or
   expect(backlogFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugBacklog']);
 });
 
-test('the shortlist runs completers first, then endorsements, top scores, strong yes, each newest round first', () => {
+test('the shortlist runs completers first, then endorsements, strong yes, 10s, 9s, each newest round first', () => {
   const items: QueueItem[] = [
     { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugStrong', pickReason: 'strong yes' },
     { ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepEndorsed', pickReason: 'endorsement' },
-    { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugTen', pickReason: 'top score' },
+    {
+      ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugNine', pickReason: 'top score', topScore: 9,
+    },
+    {
+      ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepTen', pickReason: 'top score', topScore: 10,
+    },
     {
       ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugEndorsedNoCert', pickReason: 'endorsement', hasCertificate: false,
     },
     { ...item('aug', 'Biosecurity (2026 Aug W34) - Part-time', '2026-10-03', true), id: 'recAugEndorsed', pickReason: 'endorsement' },
     { ...item('sep', 'Biosecurity (2026 Sep W37) - Intensive', '2026-09-14', true), id: 'recSepOther' },
   ];
-  expect(mustLookFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugEndorsed', 'recSepEndorsed', 'recAugTen', 'recAugStrong', 'recSepOther', 'recAugEndorsedNoCert']);
+  expect(mustLookFor(items, 'Biosecurity').map((r) => r.id)).toEqual(['recAugEndorsed', 'recSepEndorsed', 'recAugStrong', 'recSepTen', 'recAugNine', 'recSepOther', 'recAugEndorsedNoCert']);
 });
