@@ -134,7 +134,7 @@ const FacilitatorFeedbackSuccessPage = () => {
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
         <section className="bg-raised rounded-lg border p-6 sm:p-12 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
-            <div className="size-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
+            <div className="size-[60px] rounded-full bg-accent/10 flex items-center justify-center">
               {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- icon glyph size, not body text; 28px fits the 60px container */}
               <PiCheck className="text-accent text-[28px]" aria-hidden />
             </div>
@@ -162,7 +162,7 @@ const FacilitatorFeedbackSuccessPage = () => {
           {showInvoiceCard && invoiceUrl && (
             <div className="bg-tint border rounded-md p-6 flex flex-col gap-2">
               <div className="flex items-center gap-2.5">
-                <div className="size-8 rounded-md bg-bluedot-normal/10 flex items-center justify-center shrink-0">
+                <div className="size-8 rounded-md bg-accent/10 flex items-center justify-center shrink-0">
                   <PiCreditCard className="text-accent" aria-hidden />
                 </div>
                 <p className="text-size-xs font-semibold text-primary">Ready to submit your invoice?</p>

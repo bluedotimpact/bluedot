@@ -219,7 +219,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
       <div>
         {showSuccess ? (
           <div className="flex flex-col items-center gap-8">
-            <div className="bg-bluedot-normal/10 mt-2 flex rounded-full p-4">
+            <div className="bg-accent/10 mt-2 flex rounded-full p-4">
               <FaCheck className="text-accent size-8" />
             </div>
             <p className="text-secondary max-w-[500px] text-center text-size-xs leading-relaxed">
@@ -248,7 +248,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 className={cn(
                   'flex flex-col gap-3 rounded-surface border p-3 transition-colors',
                   isDragging
-                    ? 'border-accent bg-bluedot-normal/[8%] border-dashed'
+                    ? 'border-accent bg-accent/[8%] border-dashed'
                     : 'focus-within:border-focus bg-raised',
                 )}
                 onDragOver={handleDragOver}

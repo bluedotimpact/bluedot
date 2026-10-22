@@ -85,7 +85,7 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
 
   const renderRequestedView = () => (
     <div className="flex w-full flex-col items-center justify-center gap-8">
-      <div className="bg-bluedot-normal/10 flex rounded-full p-4">
+      <div className="bg-accent/10 flex rounded-full p-4">
         <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
       </div>
       <div className="flex w-full flex-col gap-4">
