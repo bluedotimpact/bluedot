@@ -126,7 +126,7 @@ describe('FieldSet', () => {
       <Checkbox name="topics" value="b">Governance</Checkbox>
     </FieldSet>);
 
-    const group = screen.getByRole('group', { name: 'Topics' });
+    const group = screen.getByRole('group', { name: 'Topics (required)' });
     expect(group).toHaveAccessibleDescription('Pick all that apply. Pick at least one.');
 
     const boxes = screen.getAllByRole('checkbox');
