@@ -262,7 +262,7 @@ export const certificatesRouter = router({
       const expectedDiscussionIds = meetPerson.expectedDiscussionsParticipant ?? [];
       const expectedDiscussions = expectedDiscussionIds.length > 0
         ? await db.pg
-          .select({ endDateTime: groupDiscussionTable.pg.endDateTime })
+          .select({ id: groupDiscussionTable.pg.id, endDateTime: groupDiscussionTable.pg.endDateTime, unitNumber: groupDiscussionTable.pg.unitNumber })
           .from(groupDiscussionTable.pg)
           .where(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds))
         : [];
@@ -271,9 +271,12 @@ export const certificatesRouter = router({
       // final once at most one discussion is still to come. Anything we can't place in the past —
       // no end time, or a row that hasn't synced yet — counts as still to come, so the total comes
       // from the linked ids rather than the rows we managed to read.
+      // A unit with more than one discussion (usually after a group switch) counts as held once.
       const nowInSeconds = Math.floor(Date.now() / 1000);
-      const heldSoFar = expectedDiscussions
-        .filter((d) => d.endDateTime != null && d.endDateTime <= nowInSeconds).length;
+      const endedDiscussions = expectedDiscussions
+        .filter((d) => d.endDateTime != null && d.endDateTime <= nowInSeconds);
+      const heldSoFar = new Set(endedDiscussions
+        .map((d) => (d.unitNumber == null ? d.id : `unit-${d.unitNumber}`))).size;
 
       // With no discussions linked there is nothing to count, so fall back to the course totals,
       // which only mean anything once the round's last discussion day is fully behind us.
@@ -281,7 +284,7 @@ export const certificatesRouter = router({
       const roundEndTime
         = round?.lastDiscussionDate != null ? new Date(round.lastDiscussionDate).getTime() : null;
       const hasAtMostOneDiscussionLeft = hasDiscussionSchedule
-        ? expectedDiscussionIds.length - heldSoFar <= 1
+        ? expectedDiscussionIds.length - endedDiscussions.length <= 1
         : roundEndTime != null && roundEndTime + ONE_DAY_MS <= Date.now();
 
       const discussionsHeld = hasDiscussionSchedule ? heldSoFar : (meetPerson.numUnits ?? 0);
