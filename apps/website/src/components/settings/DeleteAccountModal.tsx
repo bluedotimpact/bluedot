@@ -1,8 +1,9 @@
 import {
   A,
-  cn,
   Button,
   ErrorSection,
+  Field,
+  Input,
   Modal,
   P,
   ProgressDots,
@@ -132,12 +133,8 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
               </P>
             )}
 
-            <div className="flex flex-col gap-4">
-              <label htmlFor="delete-confirmation" className="text-size-xs font-semibold text-primary">
-                Type &quot;{confirmationPhrase}&quot; to confirm <span className="text-error-fg">*</span>
-              </label>
-              <input
-                id="delete-confirmation"
+            <Field label={`Type "${confirmationPhrase}" to confirm`} required>
+              <Input
                 value={confirmationText}
                 onChange={(e) => {
                   setConfirmationText(e.target.value);
@@ -147,12 +144,8 @@ const DeleteAccountModal = (props: DeleteAccountModalProps) => {
                 }}
                 placeholder={confirmationPhrase}
                 disabled={requestDeletion.isPending || alreadyRequested}
-                className={cn(
-                  'w-full border border-border-control rounded-md p-3 text-size-xs text-primary placeholder:text-placeholder',
-                  requestDeletion.isPending && 'cursor-not-allowed',
-                )}
               />
-            </div>
+            </Field>
           </>
         )}
 

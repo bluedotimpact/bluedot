@@ -37,8 +37,10 @@ exports[`Field > renders Default as expected 1`] = `
       type="email"
     />
     <p
+      aria-live="polite"
       class="text-size-xs leading-normal text-error-fg"
       id="email-error"
+      role="alert"
     >
       Enter a valid email.
     </p>
@@ -106,8 +108,10 @@ exports[`FieldSet > renders Default as expected 1`] = `
       Alignment
     </label>
     <p
+      aria-live="polite"
       class="text-size-xs leading-normal text-error-fg"
       id=":rl:-error"
+      role="alert"
     >
       Pick at least one.
     </p>

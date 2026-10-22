@@ -137,24 +137,30 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               class="flex flex-col gap-4"
             >
               <div
-                class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center"
+                class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end"
               >
                 <div
-                  class="flex flex-col gap-2"
+                  class="flex w-full flex-col gap-2"
                 >
-                  <label
-                    class="font-semibold"
-                    for=":r0:"
+                  <div
+                    class="flex flex-col gap-1"
                   >
-                    First name
-                    <span
-                      aria-hidden="true"
+                    <label
+                      class="text-size-sm font-semibold leading-normal text-primary"
+                      for=":r0:"
+                      id=":r0:-label"
                     >
-                      *
-                    </span>
-                  </label>
+                      First name
+                      <span
+                        aria-hidden="true"
+                        class="text-error-fg"
+                      >
+                         *
+                      </span>
+                    </label>
+                  </div>
                   <input
-                    aria-invalid="false"
+                    aria-required="true"
                     class="w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
                     id=":r0:"
                     placeholder="Enter your first name"
@@ -163,21 +169,27 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   />
                 </div>
                 <div
-                  class="flex flex-col gap-2"
+                  class="flex w-full flex-col gap-2"
                 >
-                  <label
-                    class="font-semibold"
-                    for=":r1:"
+                  <div
+                    class="flex flex-col gap-1"
                   >
-                    Last name
-                    <span
-                      aria-hidden="true"
+                    <label
+                      class="text-size-sm font-semibold leading-normal text-primary"
+                      for=":r1:"
+                      id=":r1:-label"
                     >
-                      *
-                    </span>
-                  </label>
+                      Last name
+                      <span
+                        aria-hidden="true"
+                        class="text-error-fg"
+                      >
+                         *
+                      </span>
+                    </label>
+                  </div>
                   <input
-                    aria-invalid="false"
+                    aria-required="true"
                     class="w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
                     id=":r1:"
                     placeholder="Enter your last name"
@@ -186,7 +198,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   />
                 </div>
                 <div
-                  class="flex gap-2 sm:mt-8 max-sm:hidden sm:invisible"
+                  class="flex gap-2 max-sm:hidden sm:invisible"
                 >
                   <button
                     aria-label="Save profile name changes"
