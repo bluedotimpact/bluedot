@@ -1,7 +1,7 @@
 import {
-  Avatar, Callout, Checkbox, Button, ErrorSection, Field, FieldContext, FieldSet, Modal, ModalTitle, Textarea, useFieldControlProps,
+  Avatar, Callout, Checkbox, Button, ErrorSection, Field, FieldSet, Modal, ModalTitle, Textarea,
 } from '@bluedot/ui';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 
@@ -97,8 +97,8 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
           Your responses are only seen by BlueDot staff
         </p>
 
-        <Field
-          label="How did they show up across discussions?"
+        <FieldSet
+          legend="How did they show up across discussions?"
           description="Think about preparation, initiative, and engagement between sessions."
           required
         >
@@ -108,10 +108,10 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
             value={showUpRating}
             onChange={setShowUpRating}
           />
-        </Field>
+        </FieldSet>
 
-        <Field
-          label="How did they engage with ideas during discussions?"
+        <FieldSet
+          legend="How did they engage with ideas during discussions?"
           description="Think about quality of thinking, willingness to challenge, and depth of engagement."
           required
           className="mt-8"
@@ -122,7 +122,7 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
             value={engageRating}
             onChange={setEngageRating}
           />
-        </Field>
+        </FieldSet>
 
         <FieldSet
           legend="How should we follow up with them?"
@@ -191,9 +191,6 @@ export type RubricOption = {
 
 type RubricSelectorProps = {
   name: string;
-  id?: string;
-  /** Not needed inside a labelled `Field`. */
-  'aria-labelledby'?: string;
   options: RubricOption[];
   value: number | null;
   onChange: (value: number) => void;
@@ -208,13 +205,10 @@ const BUBBLE_COLORS: Record<number, string> = {
 };
 
 export const RubricSelector = ({
-  name, id, 'aria-labelledby': ariaLabelledBy, options, value, onChange,
+  name, options, value, onChange,
 }: RubricSelectorProps) => {
-  // A radiogroup <div> cannot be named by the Field's `<label for>`, so take the label id directly.
-  const fieldLabelId = useContext(FieldContext)?.labelId;
-  const groupProps = useFieldControlProps({ id, 'aria-labelledby': ariaLabelledBy ?? fieldLabelId });
   return (
-    <div role="radiogroup" {...groupProps} className="rounded-md border-[0.5px] overflow-clip">
+    <div className="rounded-md border-[0.5px] overflow-clip">
       {options.map((option, idx) => {
         const isSelected = value === option.value;
         const isLast = idx === options.length - 1;
