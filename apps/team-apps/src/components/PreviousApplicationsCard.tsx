@@ -84,7 +84,7 @@ const BannerLabel: React.FC<{ verdict: Verdict }> = ({ verdict }) => {
 };
 
 const bannerClass = (verdict: Verdict): string => {
-  if (verdict.kind === 'accepted') return 'bg-warning-bg/40 border-warning-border text-amber-200';
+  if (verdict.kind === 'accepted') return 'bg-warning-bg/40 border-warning-border text-warning-fg';
   if (verdict.kind === 'rejected') return 'bg-tint border-subtle text-primary';
   return 'bg-tint border-subtle text-secondary';
 };
