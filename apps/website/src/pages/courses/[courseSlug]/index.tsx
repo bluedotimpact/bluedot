@@ -17,7 +17,6 @@ import { buildApplicationUrl } from '../../../lib/utils';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
 import { CourseIcon } from '../../../components/courses/CourseIcon';
-import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
 import { createAgiStrategyContent } from '../../../components/lander/course-content/AgiStrategyContent';
 import { createBioSecurityContent } from '../../../components/lander/course-content/BioSecurityContent';
@@ -52,10 +51,6 @@ const CoursePage = ({
         soonestDeadline={soonestDeadline}
       />
     );
-  }
-
-  if (slug === 'ops') {
-    return <AiSafetyOpsLander />;
   }
 
   if (slug === 'agi-strategy') {
@@ -214,7 +209,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
 
   const { course, units } = courseData;
   const trimmedApplyUrl = course.applyUrl?.trim() ?? '';
-  const hasApplyUrl = trimmedApplyUrl.length > 0;
+  const hasApplyUrl = course.status === 'Active' && trimmedApplyUrl.length > 0;
   const applyUrl = hasApplyUrl ? trimmedApplyUrl : registerInterestUrlWithUtm;
   const ctaLabel = hasApplyUrl ? 'Apply now' : 'Register interest';
 
