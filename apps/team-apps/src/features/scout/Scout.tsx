@@ -4,7 +4,7 @@ import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import {
-  Callout, Button, Modal, ProgressDots,
+  Callout, Button, Modal, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
@@ -478,7 +478,7 @@ const Scout = () => {
                 </p>
                 <label className="block text-size-xs text-secondary">
                   Your note to the facilitator (optional)
-                  <textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder="Anything you would like to tell them?" className="mt-1 block w-full resize-y rounded-surface border border-subtle bg-white p-2 text-size-sm text-primary" />
+                  <Textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder="Anything you would like to tell them?" className="mt-1" />
                 </label>
                 <details className="text-size-xs">
                   <summary className="cursor-pointer text-secondary underline underline-offset-2 hover:text-primary">Remind me what they said</summary>

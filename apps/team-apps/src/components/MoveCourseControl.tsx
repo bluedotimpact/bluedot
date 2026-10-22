@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@bluedot/ui';
+import { Button, Select } from '@bluedot/ui';
 import { authFetch } from '../lib/client/api';
 import { pickMoveTargets } from '../lib/client/moveTargets';
 import { type MoveTargetCourse, courseOfRoundName } from '../lib/client/courseMoves';
@@ -79,18 +79,15 @@ export const MoveCourseControl: React.FC<MoveCourseControlProps> = ({
       </div>
 
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-        <label className="text-size-xs text-secondary shrink-0" htmlFor="move-round-select">Move to:</label>
-        <select
-          id="move-round-select"
-          value={selectedRoundId}
-          onChange={(e) => setSelectedRoundId(e.target.value)}
-          className="flex-1 bg-tint border border-strong rounded-lg min-h-11 px-3 py-2 text-size-sm text-primary focus:outline-none focus:border-strong"
-        >
-          <option value="">Select a round…</option>
-          {targetRounds.map((r) => (
-            <option key={r.id} value={r.id}>{r.name}</option>
-          ))}
-        </select>
+        <span id="move-round-label" className="text-size-xs text-secondary shrink-0">Move to:</span>
+        <Select
+          aria-labelledby="move-round-label"
+          value={selectedRoundId || undefined}
+          onChange={setSelectedRoundId}
+          placeholder="Select a round…"
+          options={targetRounds.map((r) => ({ value: r.id, label: r.name }))}
+          className="flex-1"
+        />
         <Button
           variant="secondary"
           tone="warning"

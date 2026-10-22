@@ -1,5 +1,5 @@
 import {
-  Button, ErrorSection, H2, H3, P, ProgressDots, ListGroup, ListRow,
+  Button, ErrorSection, H2, H3, P, ProgressDots, ListGroup, ListRow, Select,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { useState } from 'react';
@@ -93,18 +93,19 @@ const GranteesListSection = ({
             <h2 className="text-size-lg font-medium tracking-tight">{heading}</h2>
           ) : <H3>{heading}</H3>}
           {layout === 'editorial' && (
-            <label className="ml-auto flex items-center gap-2 text-size-xs text-secondary shrink-0">
+            <div className="ml-auto flex items-center gap-2 text-size-xs text-secondary shrink-0">
               Sort:
-              <select
+              <Select
                 aria-label="Sort projects"
+                variant="ghost"
                 value={sortOrder}
-                onChange={(event) => setSortOrder(event.target.value)}
-                className="min-h-11 cursor-pointer rounded bg-transparent py-2 pr-1 text-size-xs text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-focus"
-              >
-                <option value="newest">Newest</option>
-                <option value="largest">Largest grant</option>
-              </select>
-            </label>
+                onChange={setSortOrder}
+                options={[
+                  { value: 'newest', label: 'Newest' },
+                  { value: 'largest', label: 'Largest grant' },
+                ]}
+              />
+            </div>
           )}
           {hasHiddenGrantees && showAll && (
             <Button

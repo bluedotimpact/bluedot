@@ -28,11 +28,13 @@ describe('GranteesListSection', () => {
 
     render(<GranteesListSection heading="Projects we've funded" layout="editorial" limit={2} />, { wrapper: createTrpcDbProvider() });
     await screen.findByText('$100');
-    const sort = screen.getByRole('combobox', { name: 'Sort projects' });
-    fireEvent.change(sort, { target: { value: 'largest' } });
+    const sort = screen.getByRole('button', { name: /Sort projects/ });
+    fireEvent.click(sort);
+    fireEvent.click(screen.getByRole('option', { name: 'Largest grant' }));
     expect(screen.getByText('$300')).toBeInTheDocument();
     expect(screen.queryByText('$100')).not.toBeInTheDocument();
-    fireEvent.change(sort, { target: { value: 'newest' } });
+    fireEvent.click(sort);
+    fireEvent.click(screen.getByRole('option', { name: 'Newest' }));
     expect(screen.getByText('$100')).toBeInTheDocument();
     expect(screen.getByText('$200')).toBeInTheDocument();
     expect(screen.queryByText('$300')).not.toBeInTheDocument();
@@ -50,9 +52,10 @@ describe('GranteesListSection', () => {
     render(<GranteesListSection heading="Projects we've funded" layout="editorial" limit={1} />, { wrapper: createTrpcDbProvider() });
 
     await screen.findByRole('heading', { name: 'Newest project' });
-    const sort = screen.getByRole('combobox', { name: 'Sort projects' });
-    expect(sort).toHaveValue('newest');
-    fireEvent.change(sort, { target: { value: 'largest' } });
+    const sort = screen.getByRole('button', { name: /Sort projects/ });
+    expect(sort).toHaveTextContent('Newest');
+    fireEvent.click(sort);
+    fireEvent.click(screen.getByRole('option', { name: 'Largest grant' }));
     expect(screen.getByRole('heading', { name: 'Large recent project' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Newest project' })).not.toBeInTheDocument();
 
@@ -61,7 +64,8 @@ describe('GranteesListSection', () => {
       'Large recent project', 'Large older project', 'Newest project', 'Zero amount project',
     ]);
 
-    fireEvent.change(sort, { target: { value: 'newest' } });
+    fireEvent.click(sort);
+    fireEvent.click(screen.getByRole('option', { name: 'Newest' }));
     expect(screen.getAllByRole('heading', { level: 3 }).map((heading) => heading.textContent)).toEqual([
       'Newest project', 'Zero amount project', 'Large recent project', 'Large older project',
     ]);

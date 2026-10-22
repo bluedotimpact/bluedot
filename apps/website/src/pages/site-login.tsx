@@ -1,7 +1,9 @@
 import { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Button, H1 } from '@bluedot/ui';
+import {
+  Button, ClickTarget, H1, Input,
+} from '@bluedot/ui';
 import { inter } from '../lib/fonts';
 import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
@@ -60,19 +62,18 @@ const SiteLoginPage = () => {
           <a href="https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=stgchk2vz4wbectnrh4v7gdsmu&i=aledjayhetmqgd4h64fg4kn3hy&h=bluedotimpact.1password.com" className="underline hover:text-primary" target="_blank" rel="noopener noreferrer">Here in 1Password</a> if you have access.
         </p>
         <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex gap-2">
-            <input
-              name="password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Enter password"
-              autoComplete="current-password"
-              autoFocus
-              className="flex-1 p-3 border border-border-control rounded text-size-sm outline-none focus:border-focus"
-            />
-            <Button variant="outline-black" size="small" onClick={() => setShowPassword((prev) => !prev)}>
-              {showPassword ? 'Hide' : 'Show'}
-            </Button>
-          </div>
+          <Input
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Enter password"
+            autoComplete="current-password"
+            autoFocus
+            trailing={(
+              <ClickTarget onClick={() => setShowPassword((prev) => !prev)} className="text-size-sm font-medium text-secondary hover:text-primary">
+                {showPassword ? 'Hide' : 'Show'}
+              </ClickTarget>
+            )}
+          />
           <Button type="submit" loading={loading} className="w-full">
             {loading ? 'Checking...' : 'Enter'}
           </Button>

@@ -154,7 +154,8 @@ describe('EventsPage', () => {
       expect(screen.getByText('London Reading Group')).toBeTruthy();
     });
 
-    fireEvent.change(screen.getByRole('combobox', { name: 'Location' }), { target: { value: 'LONDON' } });
+    fireEvent.click(screen.getByRole('button', { name: /Location/ }));
+    fireEvent.click(screen.getByRole('option', { name: 'London' }));
 
     expect(screen.getByText('London Reading Group')).toBeTruthy();
     expect(screen.getByText('London Policy Meetup')).toBeTruthy();
@@ -172,7 +173,8 @@ test('filters the complete calendar before pagination and lets visitors reach la
   render(<EventsPage />, { wrapper: TrpcProvider });
   await screen.findByText('Event 0');
   expect(screen.queryByText('Event 24')).toBeNull();
-  fireEvent.change(screen.getByRole('combobox', { name: 'Location' }), { target: { value: 'OXFORD' } });
+  fireEvent.click(screen.getByRole('button', { name: /Location/ }));
+  fireEvent.click(screen.getByRole('option', { name: 'Oxford' }));
   expect(screen.getByText('Event 24')).toBeTruthy();
   expect(screen.queryByText('Event 0')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: 'All events' }));

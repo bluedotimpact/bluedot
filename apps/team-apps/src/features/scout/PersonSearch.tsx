@@ -1,3 +1,4 @@
+import { Input } from '@bluedot/ui';
 import { useId } from 'react';
 import type { QueueItem } from './types';
 import { roundLabel } from './reviewQueue';
@@ -22,14 +23,13 @@ export const PersonSearch = ({
   return (
     <section aria-label="Find a participant" className="flex flex-col gap-2">
       <label htmlFor={inputId} className="text-size-xs font-medium text-secondary">Find a participant in the queue</label>
-      <input
+      <Input
         id={inputId}
         type="search"
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
         placeholder="Name or email"
         autoComplete="off"
-        className="min-h-11 w-full rounded-surface border border-subtle bg-raised px-3 text-size-sm text-primary placeholder:text-disabled focus:outline-none focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-focus"
       />
       {active && results.length === 0 && <p className="text-size-xs text-secondary">Nobody in the queue matches that.</p>}
       {results.length > 0 && (

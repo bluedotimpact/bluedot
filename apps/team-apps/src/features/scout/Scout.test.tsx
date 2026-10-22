@@ -4,7 +4,7 @@ import {
 import {
   afterEach, beforeEach, expect, test, vi,
 } from 'vitest';
-import type { ReactNode } from 'react';
+import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react';
 import { useNavigationState } from '../../lib/client/navigation';
 import { authFetch } from '../../lib/client/api';
 import type { Course, Person } from './types';
@@ -20,6 +20,8 @@ vi.mock('@bluedot/ui', () => ({
   ProgressDots: () => <span>Loading</span>,
   Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
+  Input: (props: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
+  Textarea: (props: TextareaHTMLAttributes<HTMLTextAreaElement>) => <textarea {...props} />,
 }));
 import Scout, { greeting, headline } from './Scout';
 import { pickRecap } from './RoundPicker';

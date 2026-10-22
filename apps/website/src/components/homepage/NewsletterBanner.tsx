@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Eyebrow, H3 } from '@bluedot/ui';
+import {
+  Button, Eyebrow, H3, Input,
+} from '@bluedot/ui';
 import { getCioAnalytics } from '../analytics/CustomerioAnalytics';
 
 const NewsletterBanner = () => {
@@ -101,25 +103,13 @@ const NewsletterBanner = () => {
             <label htmlFor="newsletter-email" className="sr-only">
               Email address
             </label>
-            <input
+            <Input
               id="newsletter-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-border-control focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
-              style={{
-                // Gradient border on focus - Tailwind doesn't support gradient borders with double background layers
-                backgroundOrigin: 'padding-box, border-box',
-                backgroundClip: 'padding-box, border-box',
-              }}
-              onFocus={(e) => {
-                e.target.style.backgroundImage = 'linear-gradient(white, white), linear-gradient(90deg, #ff9c5a 0%, #ff5aa0 50%, #a05aff 100%)';
-              }}
-              onBlur={(e) => {
-                e.target.style.backgroundImage = 'none';
-              }}
             />
 
             <Button
