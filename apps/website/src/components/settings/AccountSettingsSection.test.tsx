@@ -116,8 +116,9 @@ describe('AccountSettingsSection - User Journeys', () => {
     fillPasswordForm(validPasswords.current, 'short', 'short');
     submitForm();
 
-    // User sees password length error
+    // User sees password length error once: the hint hides while the error repeats it
     await expectFieldError(/^new password/i, 'Password must be at least 8 characters');
+    expect(screen.getAllByText('Password must be at least 8 characters')).toHaveLength(1);
 
     // User fixes password but confirms don't match
     fillPasswordForm(validPasswords.current, validPasswords.new, 'DifferentPassword123!');
