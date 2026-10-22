@@ -425,6 +425,36 @@ describe('getAvailableGroupsAndDiscussions', () => {
     expect(result.groupsAvailable.map((g) => g.group.id)).toEqual(['g-own']);
   });
 
+  test('returns the user\'s session in a group they could not switch into as current, never as an option', () => {
+    // A disband or staff move put the participant in g-blocked for unit 1, which they aren't allowed to switch into.
+    const ownGroup = createMockGroup({ id: 'g-own', participants: [participantId], whoCanSwitchIntoThisGroup: [] });
+    const blockedGroup = createMockGroup({ id: 'g-blocked', participants: [], whoCanSwitchIntoThisGroup: ['Strong yes'] });
+
+    const result = getAvailableGroupsAndDiscussions({
+      allGroupsInRound: [ownGroup, blockedGroup],
+      allGroupDiscussionsInRound: [
+        createMockGroupDiscussion({
+          id: 'd-placed', group: 'g-blocked', unitNumber: 1, participantsExpected: [participantId], startDateTime: futureSec, endDateTime: futureSec + 60,
+        }),
+        createMockGroupDiscussion({
+          id: 'd-blocked-2', group: 'g-blocked', unitNumber: 2, participantsExpected: [], startDateTime: futureSec, endDateTime: futureSec + 60,
+        }),
+        createMockGroupDiscussion({
+          id: 'd-own-2', group: 'g-own', unitNumber: 2, participantsExpected: [participantId], startDateTime: futureSec, endDateTime: futureSec + 60,
+        }),
+      ],
+      participantId,
+      participantHumanOpinion: 'Neutral',
+      maxParticipants: 5,
+    });
+
+    expect(result.discussionsAvailable['1']?.map((d) => [d.discussion.id, d.userIsParticipant])).toEqual([['d-placed', true]]);
+    expect(result.discussionsAvailable['2']?.map((d) => d.discussion.id)).toEqual(['d-own-2']);
+    expect(result.groupsAvailable.map((g) => g.group.id)).toEqual(['g-own']);
+    expect(result.allowedGroups.map((g) => g.id)).toEqual(['g-own']);
+    expect(result.rescheduleEligibleUnits).toEqual([]);
+  });
+
   test.each([null, 'TODO'])('falls back to \'Neutral\' when humanOpinion is %j', (humanOpinion) => {
     // Group requires Neutral; participant has no opinion (null) or an unreviewed one (TODO). Should still match.
     const neutralGroup = createMockGroup({ id: 'g-neutral', participants: [], whoCanSwitchIntoThisGroup: ['Neutral'] });
