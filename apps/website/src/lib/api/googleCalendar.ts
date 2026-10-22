@@ -27,16 +27,24 @@ export class GoogleCalendarAccessError extends Error {
   }
 }
 
-export function buildGoogleAuthUrl({ state }: { state: string }): string {
+export function buildGoogleAuthUrl({
+  state, redirectUri = getGoogleRedirectUri(), scopes = GOOGLE_SCOPES, offline = true,
+}: {
+  state: string;
+  redirectUri?: string;
+  scopes?: string[];
+  // Offline + consent so Google always returns a refresh token, even when reconnecting the same account.
+  // Online is for one-off reads, like the /welcome page, which never stores a token.
+  offline?: boolean;
+}): string {
   const { clientId } = getGoogleClientCredentials();
   const url = new URL(AUTH_URL);
   url.searchParams.set('client_id', clientId);
-  url.searchParams.set('redirect_uri', getGoogleRedirectUri());
+  url.searchParams.set('redirect_uri', redirectUri);
   url.searchParams.set('response_type', 'code');
-  url.searchParams.set('scope', GOOGLE_SCOPES.join(' '));
-  // Offline + consent so Google always returns a refresh token, even when reconnecting the same account
-  url.searchParams.set('access_type', 'offline');
-  url.searchParams.set('prompt', 'consent');
+  url.searchParams.set('scope', scopes.join(' '));
+  url.searchParams.set('access_type', offline ? 'offline' : 'online');
+  url.searchParams.set('prompt', offline ? 'consent' : 'select_account');
   url.searchParams.set('include_granted_scopes', 'false');
   url.searchParams.set('state', state);
   return url.toString();
@@ -50,6 +58,40 @@ export type GoogleTokenExchange = {
 };
 
 export async function exchangeGoogleCode(code: string): Promise<GoogleTokenExchange> {
+  const body = await requestTokens({ code, redirectUri: getGoogleRedirectUri() });
+  if (!body.refresh_token) throw new Error('Google token exchange returned no refresh_token');
+  const claims = checkIdToken(body.id_token);
+
+  return {
+    refreshToken: body.refresh_token,
+    scopes: (body.scope ?? '').split(' ').filter(Boolean),
+    accountId: claims.sub,
+    email: claims.email,
+  };
+}
+
+export type GoogleAccessExchange = {
+  accessToken: string;
+  scopes: string[];
+  email: string;
+  name: string | null;
+};
+
+/** For one-off reads: returns a short-lived access token and who signed in. */
+export async function exchangeGoogleCodeForAccess({ code, redirectUri }: { code: string; redirectUri: string }): Promise<GoogleAccessExchange> {
+  const body = await requestTokens({ code, redirectUri });
+  if (!body.access_token) throw new Error('Google token exchange returned no access_token');
+  const claims = checkIdToken(body.id_token);
+
+  return {
+    accessToken: body.access_token,
+    scopes: (body.scope ?? '').split(' ').filter(Boolean),
+    email: claims.email,
+    name: claims.name,
+  };
+}
+
+async function requestTokens({ code, redirectUri }: { code: string; redirectUri: string }) {
   const { clientId, clientSecret } = getGoogleClientCredentials();
   const response = await fetch(TOKEN_URL, {
     method: 'POST',
@@ -58,7 +100,7 @@ export async function exchangeGoogleCode(code: string): Promise<GoogleTokenExcha
       code,
       client_id: clientId,
       client_secret: clientSecret,
-      redirect_uri: getGoogleRedirectUri(),
+      redirect_uri: redirectUri,
       grant_type: 'authorization_code',
     }),
   });
@@ -66,24 +108,19 @@ export async function exchangeGoogleCode(code: string): Promise<GoogleTokenExcha
     throw new Error(`Google token exchange failed: HTTP ${response.status} ${await response.text()}`);
   }
 
-  const body = await response.json() as { refresh_token?: string; scope?: string; id_token?: string };
-  if (!body.id_token) throw new Error('Google token exchange returned no id_token');
-  if (!body.refresh_token) throw new Error('Google token exchange returned no refresh_token');
+  return response.json() as Promise<{ access_token?: string; refresh_token?: string; scope?: string; id_token?: string }>;
+}
 
-  // The id_token came straight from Google's token endpoint over TLS, in exchange for our client secret, so
-  // OpenID Connect lets us trust it without checking the signature (OIDC Core 3.1.3.7). We still check who it's for.
-  const claims = decodeJwt(body.id_token);
-  if (claims.aud !== clientId) throw new Error('Google id_token audience mismatch');
+// The id_token came straight from Google's token endpoint over TLS, in exchange for our client secret, so
+// OpenID Connect lets us trust it without checking the signature (OIDC Core 3.1.3.7). We still check who it's for.
+function checkIdToken(idToken: string | undefined): { sub: string; email: string; name: string | null } {
+  if (!idToken) throw new Error('Google token exchange returned no id_token');
+  const claims = decodeJwt(idToken);
+  if (claims.aud !== getGoogleClientCredentials().clientId) throw new Error('Google id_token audience mismatch');
   if (typeof claims.iss !== 'string' || !GOOGLE_ISSUERS.has(claims.iss)) throw new Error('Google id_token issuer mismatch');
   if (typeof claims.sub !== 'string' || !claims.sub) throw new Error('Google id_token has no sub');
   if (typeof claims.email !== 'string' || !claims.email) throw new Error('Google id_token has no email');
-
-  return {
-    refreshToken: body.refresh_token,
-    scopes: (body.scope ?? '').split(' ').filter(Boolean),
-    accountId: claims.sub,
-    email: claims.email,
-  };
+  return { sub: claims.sub, email: claims.email, name: typeof claims.name === 'string' && claims.name.trim() ? claims.name.trim() : null };
 }
 
 export async function refreshGoogleAccessToken(refreshToken: string): Promise<string> {
