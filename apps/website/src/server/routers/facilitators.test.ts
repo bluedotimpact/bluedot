@@ -1,5 +1,6 @@
 import {
   courseFeedbackTable,
+  courseRegistrationTable,
   courseTable,
   facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
@@ -7,14 +8,16 @@ import {
   meetPersonTable,
   peerFeedbackTable,
   roundTable,
+  unitTable,
   userTable,
 } from '@bluedot/db';
 import {
-  beforeEach, describe, expect, test, vi,
+  afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
+import env from '../../lib/api/env';
 
 vi.mock('../airtableFieldOptions', () => ({
   getFieldOptions: vi.fn().mockResolvedValue([
@@ -741,3 +744,318 @@ describe('facilitators.submitFeedback', () => {
   });
 });
 
+describe('facilitators cover requests', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+  const HOUR_SECONDS = 60 * 60;
+  // Friday 23 Oct 2026, 07:00–09:00 UTC
+  const startTimeSeconds = Date.UTC(2026, 9, 23, 7, 0) / 1000;
+  const endTimeSeconds = startTimeSeconds + 2 * HOUR_SECONDS;
+  const AVAILABLE = 'F06:00 F10:00';
+  const UNAVAILABLE = 'M06:00 M10:00';
+  const coverInput = { roundId: ROUND_ID, groupId: GROUP_ID, discussionId: DISCUSSION_ID };
+
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['Date'], now: Date.UTC(2026, 9, 20) });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  async function seedCoverRequest() {
+    await seedFacilitatorGroup();
+    await testDb.update(meetPersonTable, {
+      id: FACILITATOR_ID,
+      name: 'Sam Rivera',
+      slackProfileUrl: 'https://aisafetyfundamentals.slack.com/team/UREQUESTER',
+      expectedDiscussionsFacilitator: [DISCUSSION_ID],
+    });
+    await testDb.update(groupTable, { id: GROUP_ID, groupName: 'Group 1 - Sam Rivera' });
+    await testDb.insert(unitTable, {
+      id: 'unit-4', unitNumber: '4', title: 'Unit 4', courseId: 'course-1', courseSlug: 'test-course',
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: DISCUSSION_ID,
+      group: GROUP_ID,
+      facilitators: [FACILITATOR_ID],
+      participantsExpected: [],
+      startDateTime: startTimeSeconds,
+      endDateTime: endTimeSeconds,
+      courseBuilderUnitRecordId: 'unit-4',
+    });
+  }
+
+  async function seedFacilitator(id: string, { round = ROUND_ID, availability = AVAILABLE as string | null, slack = true } = {}) {
+    await testDb.insert(courseRegistrationTable, {
+      id: `reg-${id}`,
+      email: `${id}@example.com`,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      availabilityIntervalsUTC: availability,
+    });
+    await testDb.insert(meetPersonTable, {
+      id,
+      name: id,
+      userId: `user-${id}`,
+      round,
+      role: 'Facilitator',
+      applicationsBaseRecordId: `reg-${id}`,
+      slackProfileUrl: slack ? `https://aisafetyfundamentals.slack.com/team/U${id.toUpperCase().replace(/-/g, '')}` : null,
+    });
+  }
+
+  async function seedDiscussionFacilitatedBy(meetPersonId: string, { startOffsetSeconds }: { startOffsetSeconds: number }) {
+    await testDb.insert(groupDiscussionTable, {
+      id: `discussion-${meetPersonId}`,
+      group: `group-${meetPersonId}`,
+      facilitators: [meetPersonId],
+      participantsExpected: [],
+      startDateTime: startTimeSeconds + startOffsetSeconds,
+      endDateTime: endTimeSeconds + startOffsetSeconds,
+    });
+  }
+
+  const namesOf = (people: { name: string }[]) => people.map((p) => p.name).sort();
+
+  test('splits same-round facilitators by availability, leaving out clashes and people without Slack', async () => {
+    await seedCoverRequest();
+    await seedFacilitator('free');
+    await seedFacilitator('unavailable', { availability: UNAVAILABLE });
+    await seedFacilitator('no-availability', { availability: null });
+    await seedFacilitator('no-slack', { slack: false });
+    await seedFacilitator('other-round', { round: 'round-2' });
+    await seedFacilitator('clash');
+    await seedDiscussionFacilitatedBy('clash', { startOffsetSeconds: HOUR_SECONDS });
+    await seedFacilitator('back-to-back');
+    await seedDiscussionFacilitatedBy('back-to-back', { startOffsetSeconds: -2 * HOUR_SECONDS });
+    // Clashes under their meetPerson in another round
+    await seedFacilitator('clash-elsewhere');
+    await testDb.insert(meetPersonTable, {
+      id: 'clash-elsewhere-round-2', userId: 'user-clash-elsewhere', round: 'round-2', role: 'Facilitator',
+    });
+    await seedDiscussionFacilitatedBy('clash-elsewhere-round-2', { startOffsetSeconds: -HOUR_SECONDS });
+
+    const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+
+    expect(messageDetails).toMatchObject({
+      requester: { name: 'Sam Rivera', slackUserId: 'UREQUESTER' },
+      courseTitle: 'Test',
+      unitNumber: '4',
+      groupName: 'Group 1 - Sam Rivera',
+      startTimeSeconds,
+      endTimeSeconds,
+      moreFreeThanTagged: false,
+    });
+    expect(messageDetails.assignUrl).toMatch(/\/facilitated-courses\?changeFacilitator=discussion-1$/);
+    expect(namesOf(messageDetails.freeFacilitators)).toEqual(['back-to-back', 'free']);
+    expect(namesOf(messageDetails.noClashFacilitators)).toEqual(['no-availability', 'unavailable']);
+    expect(messageDetails.freeFacilitators.find((f) => f.name === 'free')).toEqual({ name: 'free', slackUserId: 'UFREE' });
+    expect(taggedFacilitatorIds.sort()).toEqual(['back-to-back', 'free', 'no-availability', 'unavailable']);
+  });
+
+  test('counts a clashing session with no end time, or one they take part in as a participant', async () => {
+    await seedCoverRequest();
+    await seedFacilitator('free');
+    await seedFacilitator('clash-no-end');
+    await testDb.insert(groupDiscussionTable, {
+      id: 'discussion-no-end',
+      group: 'group-no-end',
+      facilitators: ['clash-no-end'],
+      participantsExpected: [],
+      startDateTime: startTimeSeconds + HOUR_SECONDS,
+      endDateTime: null,
+    });
+    await seedFacilitator('earlier-no-end');
+    await testDb.insert(groupDiscussionTable, {
+      id: 'discussion-earlier-no-end',
+      group: 'group-earlier-no-end',
+      facilitators: ['earlier-no-end'],
+      participantsExpected: [],
+      startDateTime: startTimeSeconds - HOUR_SECONDS,
+      endDateTime: null,
+    });
+    await seedFacilitator('studying');
+    await testDb.insert(meetPersonTable, {
+      id: 'studying-round-2', userId: 'user-studying', round: 'round-2', role: 'Participant',
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'discussion-studying',
+      group: 'group-studying',
+      facilitators: ['someone-else'],
+      participantsExpected: ['studying-round-2'],
+      startDateTime: startTimeSeconds + HOUR_SECONDS,
+      endDateTime: endTimeSeconds + HOUR_SECONDS,
+    });
+
+    const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
+
+    expect(namesOf(messageDetails.freeFacilitators)).toEqual(['earlier-no-end', 'free']);
+    expect(messageDetails.noClashFacilitators).toEqual([]);
+  });
+
+  test('leaves out facilitators who have withdrawn', async () => {
+    await seedCoverRequest();
+    await seedFacilitator('free');
+    await seedFacilitator('withdrawn');
+    await testDb.update(courseRegistrationTable, { id: 'reg-withdrawn', decision: 'Withdrawn' });
+
+    const { taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+
+    expect(taggedFacilitatorIds).toEqual(['free']);
+  });
+
+  test('tags all free facilitators, topped up to 5 with ones who have no clash', async () => {
+    await seedCoverRequest();
+    for (const id of ['free-1', 'free-2', 'free-3']) {
+      // eslint-disable-next-line no-await-in-loop
+      await seedFacilitator(id);
+    }
+
+    for (const id of ['other-1', 'other-2', 'other-3', 'other-4']) {
+      // eslint-disable-next-line no-await-in-loop
+      await seedFacilitator(id, { availability: UNAVAILABLE });
+    }
+
+    const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+
+    expect(namesOf(messageDetails.freeFacilitators)).toEqual(['free-1', 'free-2', 'free-3']);
+    expect(messageDetails.noClashFacilitators).toHaveLength(2);
+    expect(taggedFacilitatorIds).toHaveLength(5);
+  });
+
+  test('tags 5 free facilitators at random when more are free', async () => {
+    await seedCoverRequest();
+    for (let i = 1; i <= 7; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      await seedFacilitator(`free-${i}`);
+    }
+
+    await seedFacilitator('other', { availability: UNAVAILABLE });
+
+    const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
+
+    expect(messageDetails.freeFacilitators).toHaveLength(5);
+    expect(messageDetails.noClashFacilitators).toEqual([]);
+    expect(messageDetails.moreFreeThanTagged).toBe(true);
+  });
+
+  test('tags nobody when nobody else in the round is free', async () => {
+    await seedCoverRequest();
+    await seedFacilitator('clash');
+    await seedDiscussionFacilitatedBy('clash', { startOffsetSeconds: 0 });
+
+    const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+
+    expect(messageDetails.freeFacilitators).toEqual([]);
+    expect(messageDetails.noClashFacilitators).toEqual([]);
+    expect(taggedFacilitatorIds).toEqual([]);
+  });
+
+  test('rejects a discussion the caller does not facilitate, from another group, already started, or without an end', async () => {
+    await seedCoverRequest();
+    await seedSecondGroup();
+
+    await expect(caller.facilitators.getCoverRequestPreview({ ...coverInput, groupId: GROUP_2_ID })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+
+    await testDb.update(groupDiscussionTable, { id: DISCUSSION_ID, endDateTime: null });
+    await expect(caller.facilitators.getCoverRequestPreview(coverInput)).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+
+    await testDb.update(groupDiscussionTable, { id: DISCUSSION_ID, startDateTime: 1000, endDateTime: 2000 });
+    await expect(caller.facilitators.getCoverRequestPreview(coverInput)).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+
+    await testDb.update(meetPersonTable, { id: FACILITATOR_ID, expectedDiscussionsFacilitator: [] });
+    await expect(caller.facilitators.getCoverRequestPreview(coverInput)).rejects.toMatchObject({ code: 'FORBIDDEN' });
+    await expect(caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: [] })).rejects.toMatchObject({ code: 'FORBIDDEN' });
+  });
+
+  test('rejects more than 5 tagged facilitators', async () => {
+    await seedCoverRequest();
+
+    await expect(caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: ['a', 'b', 'c', 'd', 'e', 'f'] }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST' });
+  });
+
+  describe('requestCover', () => {
+    const originalFetch = globalThis.fetch;
+    const urlOf = (input: string | URL | Request) => (input instanceof Request ? input.url : input.toString());
+
+    beforeEach(() => {
+      env.COMMUNITY_SLACK_SUPPORT_BOT_TOKEN = 'xoxb-community';
+      env.FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID = 'CFACCOMMUNITY';
+    });
+
+    afterEach(() => {
+      delete env.COMMUNITY_SLACK_SUPPORT_BOT_TOKEN;
+      delete env.FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID;
+      vi.restoreAllMocks();
+    });
+
+    const stubSlack = ({ permalinkOk = true } = {}) => vi.spyOn(globalThis, 'fetch').mockImplementation(async (input, init) => {
+      const url = new URL(urlOf(input));
+      if (url.hostname !== 'slack.com') return originalFetch(input, init);
+      if (url.pathname === '/api/chat.postMessage') return Response.json({ ok: true, ts: '1792500000.000100' });
+      if (url.pathname === '/api/chat.getPermalink' && !permalinkOk) return Response.json({ ok: false, error: 'internal_error' });
+      if (url.pathname === '/api/chat.getPermalink') return Response.json({ ok: true, permalink: 'https://community.slack.com/archives/CFACCOMMUNITY/p1792500000000100' });
+      throw new Error(`Unexpected Slack call: ${url.pathname}`);
+    });
+
+    test('posts the previewed facilitators who are still eligible, and returns the permalink', async () => {
+      await seedCoverRequest();
+      await seedFacilitator('free');
+      await seedFacilitator('unavailable', { availability: UNAVAILABLE });
+      await seedFacilitator('clash');
+      await seedDiscussionFacilitatedBy('clash', { startOffsetSeconds: 0 });
+      const fetchSpy = stubSlack();
+
+      const result = await caller.facilitators.requestCover({
+        ...coverInput,
+        note: 'Back from holiday late',
+        taggedFacilitatorIds: ['unavailable', 'free', 'clash'],
+      });
+
+      expect(result).toEqual({ threadUrl: 'https://community.slack.com/archives/CFACCOMMUNITY/p1792500000000100' });
+      const slackCalls = fetchSpy.mock.calls.filter(([input]) => urlOf(input).startsWith('https://slack.com/'));
+      expect(slackCalls).toHaveLength(2);
+
+      const [postUrl, postInit] = slackCalls[0]!;
+      expect(postUrl).toBe('https://slack.com/api/chat.postMessage');
+      expect(postInit?.headers).toMatchObject({ Authorization: 'Bearer xoxb-community' });
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
+      expect(JSON.parse(postInit!.body as string)).toEqual({
+        channel: 'CFACCOMMUNITY',
+        unfurl_links: false,
+        unfurl_media: false,
+        text: [
+          '<@UREQUESTER> is looking for cover for "Test · Unit 4 · Group 1 - Sam Rivera" on '
+          + `*<!date^${startTimeSeconds}^{date_short_pretty} {time}|Fri 23 Oct, 07:00>–<!date^${endTimeSeconds}^{time}|09:00 UTC>* (07:00–09:00 UTC).`
+          + ' Note from them: "Back from holiday late"',
+          'Facilitators free at that time according to their availability: <@UFREE>. Others with no clashing session: <@UUNAVAILABLE>.',
+          'If you can cover, please reply in this thread. You can reply even if you are not tagged above, as long as you\'ve facilitated this course recently! '
+          + `<@UREQUESTER> can then go <${siteUrl}/facilitated-courses?changeFacilitator=discussion-1|here> to assign you as a substitute.`,
+        ].join('\n\n'),
+      });
+
+      expect(slackCalls[1]![0]).toBe('https://slack.com/api/chat.getPermalink?channel=CFACCOMMUNITY&message_ts=1792500000.000100');
+    });
+
+    test('still succeeds, without a link, when the post goes through but the permalink fails', async () => {
+      await seedCoverRequest();
+      const fetchSpy = stubSlack({ permalinkOk: false });
+
+      const result = await caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: [] });
+
+      expect(result).toEqual({ threadUrl: null });
+      expect(fetchSpy.mock.calls.filter(([input]) => urlOf(input).startsWith('https://slack.com/api/chat.postMessage'))).toHaveLength(1);
+    });
+
+    test('says so, without posting, when Slack is not set up', async () => {
+      delete env.COMMUNITY_SLACK_SUPPORT_BOT_TOKEN;
+      await seedCoverRequest();
+      const fetchSpy = stubSlack();
+
+      await expect(caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: [] }))
+        .rejects.toMatchObject({ code: 'PRECONDITION_FAILED', message: 'Posting to #facilitator-community is not set up' });
+      expect(fetchSpy.mock.calls.filter(([input]) => urlOf(input).startsWith('https://slack.com/'))).toEqual([]);
+    });
+  });
+});
