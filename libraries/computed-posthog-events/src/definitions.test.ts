@@ -639,6 +639,49 @@ describe('resource_completed', () => {
     expect(event!.properties).not.toHaveProperty('course_id');
   });
 
+  test('keeps the unit when the resource is in two chunks of the same unit', async () => {
+    await seedUnit('u1');
+    await seedUnitResource('ur1');
+    await seedChunk('chunk-a', 'u1', ['ur1']);
+    await seedChunk('chunk-b', 'u1', ['ur1']);
+    await seedUser('user1', 'a@x.com');
+    await completeResource('rc1', 'user1', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const [event] = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(event!.properties).toMatchObject({ unit_id: 'u1', course_id: 'c1' });
+  });
+
+  test('ignores a chunk with an empty unitId when working out the unit', async () => {
+    await seedUnit('u1');
+    await seedUnitResource('ur1');
+    await seedChunk('chunk-a', 'u1', ['ur1']);
+    await seedChunk('chunk-empty', '', ['ur1']);
+    await seedUser('user1', 'a@x.com');
+    await completeResource('rc1', 'user1', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const [event] = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(event!.properties).toMatchObject({ unit_id: 'u1' });
+  });
+
+  test('leaves out the unit when no chunk links the resource', async () => {
+    await seedUnitResource('ur1', { resourceName: 'Orphan reading' });
+    await seedUser('user1', 'a@x.com');
+    await completeResource('rc1', 'user1', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const [event] = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(event!.properties).toMatchObject({ unit_resource_id: 'ur1', resource_name: 'Orphan reading' });
+    expect(event!.properties).not.toHaveProperty('unit_id');
+  });
+
   test('skips completions without a completedAt', async () => {
     await seedUnitResource('ur1', { unitId: 'u1' });
     await seedUser('user1', 'a@x.com');

@@ -435,6 +435,8 @@ export const eventProjectionRules: EventProjectionRule[] = [
       // A resource shared by chunks in several units has no single unit, so it gets none.
       const unitIdsByUnitResourceId = new Map<string, Set<string>>();
       for (const chunk of chunks) {
+        // Some chunks have an empty unitId; that isn't a unit
+        if (!chunk.unitId) continue;
         for (const unitResourceId of chunk.chunkResources ?? []) {
           const unitIds = unitIdsByUnitResourceId.get(unitResourceId) ?? new Set<string>();
           unitIds.add(chunk.unitId);
