@@ -56,8 +56,8 @@ const opinionBadgeClass = (opinion: string): string => {
 
 const decisionBadgeClass = (decision: string): string => {
   switch (decision) {
-    case 'Accept': return 'bg-blue-600 text-on-dark';
-    case 'Reject': return 'bg-red-600 text-on-dark';
+    case 'Accept': return 'bg-info-fg text-on-dark';
+    case 'Reject': return 'bg-error-fg text-on-dark';
     default: return 'bg-active text-primary';
   }
 };
