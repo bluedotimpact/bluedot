@@ -42,6 +42,7 @@ const summarise = (history: PreviousApplication[], course: string): Verdict => {
   return { kind: 'other', count: history.length };
 };
 
+// Five-step yes/no ramp; the status tones only give three steps. Audited in #3318.
 const opinionBadgeClass = (opinion: string): string => {
   switch (opinion) {
     case 'Strong yes': return 'bg-blue-800 text-on-dark';

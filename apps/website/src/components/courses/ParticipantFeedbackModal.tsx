@@ -196,6 +196,7 @@ type RubricSelectorProps = {
   onChange: (value: number) => void;
 };
 
+// Five-step ramp; the status tones only give three steps. Audited in #3318.
 const BUBBLE_COLORS: Record<number, string> = {
   5: 'bg-[#d3f0e3] text-[#1a7a52]',
   4: 'bg-[#e2f5da] text-[#4a7a30]',
