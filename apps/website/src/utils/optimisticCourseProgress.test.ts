@@ -46,21 +46,27 @@ describe('optimisticallyUpdateCourseProgress', () => {
     expect(get().chunkProgressByUnitNumber[1]?.[1]?.completedCount).toBe(1);
   });
 
-  test('un-completing at 100% keeps the count, since bonus items may still cover it, but drops below 100%', async () => {
+  test('un-completing a regular item on a finished course takes one off', async () => {
     const { utils, get } = fakeUtils(4, 4);
     await optimisticallyUpdateCourseProgress(utils, 'c', '1', 0, -1);
-    expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 4, percentage: 99 });
+    expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 3, percentage: 75 });
   });
 
-  test('completing the last counted item shows 99% until the server says the course is finished', async () => {
+  test('completing the last counted item shows 100%', async () => {
     const { utils, get } = fakeUtils(3, 4);
     await optimisticallyUpdateCourseProgress(utils, 'c', '1', 0, 1);
-    expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 4, percentage: 99 });
+    expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 4, percentage: 100 });
   });
 
-  test('a finished course stays at 100% when more is completed', async () => {
+  test('199 of 200 shows 99%, not a rounded 100%', async () => {
+    const { utils, get } = fakeUtils(198, 200);
+    await optimisticallyUpdateCourseProgress(utils, 'c', '1', 0, 1);
+    expect(get().courseProgress).toEqual({ totalCount: 200, completedCount: 199, percentage: 99 });
+  });
+
+  test('an Optional toggle on a finished course stays at 100%', async () => {
     const { utils, get } = fakeUtils(4, 4);
-    await optimisticallyUpdateCourseProgress(utils, 'c', '1', 1, 1);
+    await optimisticallyUpdateCourseProgress(utils, 'c', '1', 1, -1);
     expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 4, percentage: 100 });
   });
 });

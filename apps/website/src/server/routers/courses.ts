@@ -218,12 +218,10 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
 const isOptionalChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /optional/i.test(chunk.chunkTitle);
 const isOptionChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /option\s+\d+/i.test(chunk.chunkTitle);
 
-// The total counts every required item outside Optional chunks, plus one option per unit: the
-// option the learner has done the largest share of (the largest one before any is started).
-// Every completed required item counts as done, including items in Optional chunks and in other
-// options, capped at the total. So extra work can only raise the percentage.
-// isComplete: every counted item is done, so every regular item and one full option per unit.
-// Only then is the course at 100%.
+// Progress counts required work only: every required item outside Optional and Option chunks,
+// plus one option per unit, the one the learner has done the largest share of (the largest one
+// before any is started). Items in Optional chunks and in the other options count in neither the
+// total nor the done count, so extra work never changes the percentage.
 export const countCourseProgress = (
   chunksByUnit: Pick<Chunk, 'chunkTitle' | 'chunkResources' | 'chunkExercises'>[][],
   requiredIds: Set<string>,
@@ -255,19 +253,16 @@ export const countCourseProgress = (
     }
   }
 
-  const totalCount = countedIds.size;
-  const isComplete = totalCount > 0 && [...countedIds].every((id) => completedIds.has(id));
-  const completedCount = isComplete
-    ? totalCount
-    : Math.min(totalCount, [...requiredIds].filter((id) => completedIds.has(id)).length);
-  return { totalCount, completedCount, isComplete };
+  return {
+    totalCount: countedIds.size,
+    completedCount: [...countedIds].filter((id) => completedIds.has(id)).length,
+  };
 };
 
-// 100% means the course is finished. Bonus work can reach the total without finishing it, and
-// 99.6% would round to 100, so an unfinished course shows at most 99%.
-const coursePercentage = (completedCount: number, totalCount: number, isComplete: boolean) => {
+// 100% means every counted item is done. Rounding (199 of 200 is 99.5%) never shows 100% before that.
+const courseProgressPercentage = (completedCount: number, totalCount: number) => {
   if (totalCount === 0) return 0;
-  return isComplete ? 100 : Math.min(99, Math.round((completedCount / totalCount) * 100));
+  return completedCount === totalCount ? 100 : Math.min(99, Math.round((completedCount / totalCount) * 100));
 };
 
 export const coursesRouter = router({
@@ -412,12 +407,12 @@ export const coursesRouter = router({
 
       const requiredIdSet = new Set([...coreResourceIds, ...requiredExerciseIds]);
       const completedIdSet = new Set([...completedResourceIdSet, ...completedExerciseIdSet]);
-      const { totalCount: courseTotalCount, completedCount: courseCompletedCount, isComplete } = countCourseProgress(
+      const { totalCount: courseTotalCount, completedCount: courseCompletedCount } = countCourseProgress(
         units.map((unit) => allChunks.filter((c) => c.unitId === unit.id)),
         requiredIdSet,
         completedIdSet,
       );
-      const percentage = coursePercentage(courseCompletedCount, courseTotalCount, isComplete);
+      const percentage = courseProgressPercentage(courseCompletedCount, courseTotalCount);
 
       return {
         courseProgress: {
