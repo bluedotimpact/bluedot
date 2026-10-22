@@ -662,11 +662,11 @@ const fetchReviewerRoundStats = async (reviewer: string, roundName: string, rati
   const quote = (v: string) => `'${v.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')}'`;
   const formula = `AND(ARRAYJOIN({[>] Reviewer name})=${quote(reviewer)}, FIND(${quote(roundName)}, ARRAYJOIN({[>] Round})))`;
   const records = await fetchAll(PEER_FEEDBACK_URL, { filterByFormula: formula }, [PEER.totalRating, PEER.ratingReasoning]);
-  const sameScale = records.filter((r) => ratingOutOf(r.fields) === outOf);
-  const ratings = sameScale.map((r) => num(r.fields[PEER.totalRating])).filter((x): x is number => x !== undefined);
-  const reasonings = sameScale.map((r) => num(r.fields[PEER.ratingReasoning])).filter((x): x is number => x !== undefined);
+  const rated = records.filter((r) => ratingOutOf(r.fields) === outOf && num(r.fields[PEER.totalRating]) !== undefined);
+  const ratings = rated.map((r) => num(r.fields[PEER.totalRating])!);
+  const reasonings = rated.map((r) => num(r.fields[PEER.ratingReasoning])).filter((x): x is number => x !== undefined);
   return {
-    rated: ratings.length,
+    rated: rated.length,
     atOrAbove: ratings.filter((x) => x >= rating).length,
     reasoningAtOrAbove: reasoning === undefined ? undefined : reasonings.filter((x) => x >= reasoning).length,
   };
