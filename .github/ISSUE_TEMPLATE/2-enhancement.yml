@@ -1,5 +1,5 @@
 name: Suggest enhancements
-description: Suggest an improvement to an existing feature for users
+description: Suggest a user-visible addition or improvement to an existing feature (users include the internal team, e.g. the admin tables)
 title: "Short descriptive title"
 assignees: []
 type: "enhancement"
