@@ -221,8 +221,9 @@ const isOptionChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /option\s+\d+/i.test
 // The total counts every required item outside Optional chunks, plus one option per unit: the
 // option the learner has done the largest share of (the largest one before any is started).
 // Every completed required item counts as done, including items in Optional chunks and in other
-// options, capped at the total. So finishing one option per unit reaches 100%, and extra work
-// can only raise the percentage.
+// options, capped at the total. So extra work can only raise the percentage.
+// isComplete: every counted item is done, so every regular item and one full option per unit.
+// Only then is the course at 100%.
 export const countCourseProgress = (
   chunksByUnit: Pick<Chunk, 'chunkTitle' | 'chunkResources' | 'chunkExercises'>[][],
   requiredIds: Set<string>,
@@ -255,8 +256,18 @@ export const countCourseProgress = (
   }
 
   const totalCount = countedIds.size;
-  const completedCount = Math.min(totalCount, [...requiredIds].filter((id) => completedIds.has(id)).length);
-  return { totalCount, completedCount };
+  const isComplete = totalCount > 0 && [...countedIds].every((id) => completedIds.has(id));
+  const completedCount = isComplete
+    ? totalCount
+    : Math.min(totalCount, [...requiredIds].filter((id) => completedIds.has(id)).length);
+  return { totalCount, completedCount, isComplete };
+};
+
+// 100% means the course is finished. Bonus work can reach the total without finishing it, and
+// 99.6% would round to 100, so an unfinished course shows at most 99%.
+const coursePercentage = (completedCount: number, totalCount: number, isComplete: boolean) => {
+  if (totalCount === 0) return 0;
+  return isComplete ? 100 : Math.min(99, Math.round((completedCount / totalCount) * 100));
 };
 
 export const coursesRouter = router({
@@ -401,12 +412,12 @@ export const coursesRouter = router({
 
       const requiredIdSet = new Set([...coreResourceIds, ...requiredExerciseIds]);
       const completedIdSet = new Set([...completedResourceIdSet, ...completedExerciseIdSet]);
-      const { totalCount: courseTotalCount, completedCount: courseCompletedCount } = countCourseProgress(
+      const { totalCount: courseTotalCount, completedCount: courseCompletedCount, isComplete } = countCourseProgress(
         units.map((unit) => allChunks.filter((c) => c.unitId === unit.id)),
         requiredIdSet,
         completedIdSet,
       );
-      const percentage = courseTotalCount > 0 ? Math.round((courseCompletedCount / courseTotalCount) * 100) : 0;
+      const percentage = coursePercentage(courseCompletedCount, courseTotalCount, isComplete);
 
       return {
         courseProgress: {

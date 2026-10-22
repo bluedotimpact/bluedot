@@ -30,6 +30,10 @@ export async function optimisticallyUpdateCourseProgress(
   const newCompleted = isOptionOrOptional || mayBeCapped
     ? prev.courseProgress.completedCount
     : clamp(prev.courseProgress.completedCount + delta, 0, prev.courseProgress.totalCount);
+  // Only the server knows if the course is finished (100%). Completing more keeps a finished
+  // course finished. Anything else shows at most 99% until the refetch.
+  const stillFinished = delta === 1 && prev.courseProgress.percentage === 100;
+  const rounded = prev.courseProgress.totalCount > 0 ? Math.round((newCompleted / prev.courseProgress.totalCount) * 100) : 0;
 
   utils.courses.getCourseProgress.setData(
     { courseSlug },
@@ -38,7 +42,7 @@ export async function optimisticallyUpdateCourseProgress(
       courseProgress: {
         ...prev.courseProgress,
         completedCount: newCompleted,
-        percentage: prev.courseProgress.totalCount > 0 ? Math.round((newCompleted / prev.courseProgress.totalCount) * 100) : 0,
+        percentage: stillFinished ? 100 : Math.min(99, rounded),
       },
       chunkProgressByUnitNumber: {
         ...prev.chunkProgressByUnitNumber,

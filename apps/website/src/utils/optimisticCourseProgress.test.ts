@@ -46,9 +46,21 @@ describe('optimisticallyUpdateCourseProgress', () => {
     expect(get().chunkProgressByUnitNumber[1]?.[1]?.completedCount).toBe(1);
   });
 
-  test('un-completing at 100% keeps the count, since bonus items may still cover it', async () => {
+  test('un-completing at 100% keeps the count, since bonus items may still cover it, but drops below 100%', async () => {
     const { utils, get } = fakeUtils(4, 4);
     await optimisticallyUpdateCourseProgress(utils, 'c', '1', 0, -1);
+    expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 4, percentage: 99 });
+  });
+
+  test('completing the last counted item shows 99% until the server says the course is finished', async () => {
+    const { utils, get } = fakeUtils(3, 4);
+    await optimisticallyUpdateCourseProgress(utils, 'c', '1', 0, 1);
+    expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 4, percentage: 99 });
+  });
+
+  test('a finished course stays at 100% when more is completed', async () => {
+    const { utils, get } = fakeUtils(4, 4);
+    await optimisticallyUpdateCourseProgress(utils, 'c', '1', 1, 1);
     expect(get().courseProgress).toEqual({ totalCount: 4, completedCount: 4, percentage: 100 });
   });
 });
