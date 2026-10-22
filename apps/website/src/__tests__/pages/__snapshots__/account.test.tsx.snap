@@ -98,7 +98,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             >
               <li>
                 <a
-                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-accent/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
                   href="/my-courses"
                   tabindex="0"
                 >
@@ -112,7 +112,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               <li>
                 <a
                   aria-current="page"
-                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-accent/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
                   href="/account"
                   tabindex="0"
                 >
