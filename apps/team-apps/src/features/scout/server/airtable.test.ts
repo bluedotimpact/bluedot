@@ -133,6 +133,7 @@ test('preserves queue order from Airtable, follows pagination, and reads must lo
   expect(items.map((item) => item.id)).toEqual([first, id]);
   expect(items.map((item) => item.mustLook)).toEqual([true, false]);
   expect(items.map((item) => item.pickReason)).toEqual(['top score', undefined]);
+  expect(items.map((item) => item.topScore)).toEqual([10, undefined]);
 });
 
 test('leaves out people with an approved career transition grant or a completed evaluation call', async () => {
@@ -284,8 +285,8 @@ test('the drop-out reason is the latest drop-out on the application, never a def
 
 test('a top pick gets one reason, in the order the picker counts them', () => {
   const ten = { fldAOii0tbRfD1210: [10, 6] };
-  expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Strong yes', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('top score');
-  expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Strong yes', fldAOii0tbRfD1210: [9] })).toBe('top score');
+  expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Strong yes', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('strong yes');
+  expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Strong yes', fldAOii0tbRfD1210: [9] })).toBe('strong yes');
   expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Strong yes', fldAOii0tbRfD1210: [8] })).toBe('strong yes');
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Weak yes', fldH4kT9DA79mlzBg: ['Strong yes'] })).toBe('endorsement');
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Strong yes', fldH4kT9DA79mlzBg: ['Strong yes'] })).toBe('endorsement');

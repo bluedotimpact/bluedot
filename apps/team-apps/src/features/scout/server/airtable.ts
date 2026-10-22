@@ -398,9 +398,14 @@ const QUEUE_FIELDS = [REG.fullName, REG.email, REG.round, REG.opinion, REG.certi
 // here shows as "other". Exported for tests.
 export const pickReasonOf = (fields: AirtableRecord['fields']): PickReason | undefined => {
   if (strList(fields[REG.reportTakes]).some((take) => take.toLowerCase() === 'strong yes')) return 'endorsement';
-  if ((Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).some((rating) => typeof rating === 'number' && rating >= 9)) return 'top score';
   if (str(fields[REG.opinion])?.toLowerCase() === 'strong yes') return 'strong yes';
+  if ((topScoreOf(fields) ?? 0) >= 9) return 'top score';
   return undefined;
+};
+
+const topScoreOf = (fields: AirtableRecord['fields']): number | undefined => {
+  const ratings = (Array.isArray(fields[REG.facilitatorRatings]) ? fields[REG.facilitatorRatings] as unknown[] : []).filter((r): r is number => typeof r === 'number');
+  return ratings.length > 0 ? Math.max(...ratings) : undefined;
 };
 
 // Emails with an approved CTG or a completed eval call; call status "Reject" means no call happened.
@@ -460,6 +465,7 @@ export const fetchQueue = async (): Promise<QueueItem[]> => {
       hasReport: strList(r.fields[REG.reports]).length > 0,
       mustLook: !!r.fields[REG.mustLook],
       pickReason: r.fields[REG.mustLook] ? pickReasonOf(r.fields) : undefined,
+      topScore: topScoreOf(r.fields),
     });
   }
 
