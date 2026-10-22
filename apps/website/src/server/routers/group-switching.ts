@@ -201,6 +201,17 @@ export function getAvailableGroupsAndDiscussions({
     participantId,
   });
 
+  // Staff moves and disbands can place someone outside their allowed groups: show that session as current, never as an option
+  const ownDiscussionsElsewhere = calculateGroupAvailability({
+    groupDiscussions: allGroupDiscussionsInRound.filter((d) => !allowedGroupIds.has(d.group) && isDiscussionParticipant(d, [participantId])),
+    groups: allGroupsInRound,
+    maxParticipants,
+    participantId,
+  }).discussionsAvailable;
+  for (const [unitKey, list] of Object.entries(ownDiscussionsElsewhere)) {
+    discussionsAvailable[unitKey] = [...(discussionsAvailable[unitKey] ?? []), ...list];
+  }
+
   return {
     allowedGroups,
     groupsAvailable,
