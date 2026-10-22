@@ -22,7 +22,14 @@ export async function optimisticallyUpdateCourseProgress(
     return undefined;
   }
 
-  const newCompleted = clamp(prev.courseProgress.completedCount + delta, 0, prev.courseProgress.totalCount);
+  const { totalCount } = prev.courseProgress;
+  // Items in Optional chunks don't count, and an Option toggle can change which option counts.
+  // For those, keep the course count and let the refetch update it. Other items move it by one.
+  const isOptionOrOptional = unitNumber != null && chunkIndex != null
+    && prev.chunkProgressByUnitNumber[unitNumber]?.[chunkIndex]?.isOptionOrOptional === true;
+  const newCompleted = isOptionOrOptional
+    ? prev.courseProgress.completedCount
+    : clamp(prev.courseProgress.completedCount + delta, 0, totalCount);
 
   utils.courses.getCourseProgress.setData(
     { courseSlug },
@@ -31,7 +38,7 @@ export async function optimisticallyUpdateCourseProgress(
       courseProgress: {
         ...prev.courseProgress,
         completedCount: newCompleted,
-        percentage: prev.courseProgress.totalCount > 0 ? Math.round((newCompleted / prev.courseProgress.totalCount) * 100) : 0,
+        percentage: percentage(newCompleted, totalCount),
       },
       chunkProgressByUnitNumber: {
         ...prev.chunkProgressByUnitNumber,
@@ -71,4 +78,10 @@ export function rollbackCourseProgress(
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
+}
+
+// Same rule as the server: 100% only when every counted item is done
+function percentage(completed: number, total: number): number {
+  if (total === 0) return 0;
+  return completed === total ? 100 : Math.min(99, Math.round((completed / total) * 100));
 }

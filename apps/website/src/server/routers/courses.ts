@@ -212,6 +212,59 @@ const getCoreResourceAndRequiredExerciseIds = async (chunks: Chunk[]) => {
   return { coreResourceIds, requiredExerciseIds };
 };
 
+// Chunks with "Optional" in the title aren't required. "Option N" chunks in a unit are
+// alternatives (learners do one). The duration estimate and course progress both use these.
+// Check isOptionalChunk first: "Option 1 (optional)" is optional.
+const isOptionalChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /optional/i.test(chunk.chunkTitle);
+const isOptionChunk = (chunk: Pick<Chunk, 'chunkTitle'>) => /option\s+\d+/i.test(chunk.chunkTitle);
+
+// Progress counts required work only: every required item outside Optional and Option chunks,
+// plus one option per unit, the one the learner has done the largest share of (the largest one
+// before any is started). Items in Optional chunks and in the other options count in neither the
+// total nor the done count, so extra work never changes the percentage.
+export const countCourseProgress = (
+  chunksByUnit: Pick<Chunk, 'chunkTitle' | 'chunkResources' | 'chunkExercises'>[][],
+  requiredIds: Set<string>,
+  completedIds: Set<string>,
+) => {
+  type CourseChunk = (typeof chunksByUnit)[number][number];
+  const requiredIdsIn = (chunk: CourseChunk) => [...(chunk.chunkResources ?? []), ...(chunk.chunkExercises ?? [])]
+    .filter((id) => requiredIds.has(id));
+  const requiredChunksByUnit = chunksByUnit.map((chunks) => chunks.filter((c) => !isOptionalChunk(c)));
+
+  // Items outside Option chunks always count, once, even if they also appear in an option.
+  const regularIds = new Set(requiredChunksByUnit.flat().filter((c) => !isOptionChunk(c)).flatMap(requiredIdsIn));
+  const countedIds = new Set(regularIds);
+
+  for (const chunks of requiredChunksByUnit) {
+    const options = chunks
+      .filter(isOptionChunk)
+      .map((c) => {
+        const ids = [...new Set(requiredIdsIn(c))].filter((id) => !regularIds.has(id));
+        return { ids, share: ids.filter((id) => completedIds.has(id)).length / ids.length };
+      })
+      .filter((o) => o.ids.length > 0);
+
+    if (options.length > 0) {
+      const counted = options.reduce((best, o) => (
+        o.share > best.share || (o.share === best.share && o.ids.length > best.ids.length) ? o : best
+      ));
+      counted.ids.forEach((id) => countedIds.add(id));
+    }
+  }
+
+  return {
+    totalCount: countedIds.size,
+    completedCount: [...countedIds].filter((id) => completedIds.has(id)).length,
+  };
+};
+
+// 100% means every counted item is done. Rounding (199 of 200 is 99.5%) never shows 100% before that.
+const courseProgressPercentage = (completedCount: number, totalCount: number) => {
+  if (totalCount === 0) return 0;
+  return completedCount === totalCount ? 100 : Math.min(99, Math.round((completedCount / totalCount) * 100));
+};
+
 export const coursesRouter = router({
   getUnit: publicProcedure
     .input(z.object({
@@ -280,15 +333,12 @@ export const coursesRouter = router({
       // - Skip chunks with "Optional" in title (not required)
       // - For "Option N:" chunks, take max (they are alternatives)
       // - Sum the rest
-      const optionPattern = /option\s+\d+/i;
-      const optionalPattern = /optional/i;
-
       const unitMetadata = allUnits.map((unit) => {
         const chunks = allChunks.filter((c) => c.unitId === unit.id);
 
-        const requiredChunks = chunks.filter((c) => !optionalPattern.test(c.chunkTitle));
-        const optionChunks = requiredChunks.filter((c) => optionPattern.test(c.chunkTitle));
-        const regularChunks = requiredChunks.filter((c) => !optionPattern.test(c.chunkTitle));
+        const requiredChunks = chunks.filter((c) => !isOptionalChunk(c));
+        const optionChunks = requiredChunks.filter(isOptionChunk);
+        const regularChunks = requiredChunks.filter((c) => !isOptionChunk(c));
         const optionMaxTime = optionChunks.length > 0
           ? Math.max(...optionChunks.map((c) => c.estimatedTime ?? 0))
           : 0;
@@ -336,26 +386,33 @@ export const coursesRouter = router({
       const completedResourceIdSet = new Set(resourceCompletions.map((c) => c.unitResourceId).filter((id): id is string => id != null));
       const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
-      const chunkProgressByUnitNumber: Record<string, ChunkProgress[]> = {};
+      const chunkProgressByUnitNumber: Record<string, (ChunkProgress & { isOptionOrOptional: boolean })[]> = {};
 
       for (const unit of units) {
         const unitChunks = allChunks
           .filter((c) => c.unitId === unit.id)
           .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
-        chunkProgressByUnitNumber[unit.unitNumber] = unitChunks.map((chunk) => {
-          return calculateChunkProgress(
+        chunkProgressByUnitNumber[unit.unitNumber] = unitChunks.map((chunk) => ({
+          ...calculateChunkProgress(
             chunk,
             coreResourceIdSet,
             requiredExerciseIdSet,
             completedResourceIdSet,
             completedExerciseIdSet,
-          );
-        });
+          ),
+          // Tells the client a toggle here may not move the course count by exactly one
+          isOptionOrOptional: isOptionalChunk(chunk) || isOptionChunk(chunk),
+        }));
       }
 
-      const courseTotalCount = coreResourceIds.length + requiredExerciseIds.length;
-      const courseCompletedCount = completedResourceIdSet.size + completedExerciseIdSet.size;
-      const percentage = courseTotalCount > 0 ? Math.round((courseCompletedCount / courseTotalCount) * 100) : 0;
+      const requiredIdSet = new Set([...coreResourceIds, ...requiredExerciseIds]);
+      const completedIdSet = new Set([...completedResourceIdSet, ...completedExerciseIdSet]);
+      const { totalCount: courseTotalCount, completedCount: courseCompletedCount } = countCourseProgress(
+        units.map((unit) => allChunks.filter((c) => c.unitId === unit.id)),
+        requiredIdSet,
+        completedIdSet,
+      );
+      const percentage = courseProgressPercentage(courseCompletedCount, courseTotalCount);
 
       return {
         courseProgress: {
