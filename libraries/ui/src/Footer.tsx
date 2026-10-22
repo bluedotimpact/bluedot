@@ -40,13 +40,12 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
         {links.map((link) =>
           link.onClick ? (
             <li key={link.label}>
-              <button
-                type="button"
+              <ClickTarget
                 onClick={link.onClick}
                 className="text-size-sm leading-snug text-on-dark-link hover:text-on-dark-link-hover font-normal bg-transparent border-none p-0 cursor-pointer"
               >
                 {link.label}
-              </button>
+              </ClickTarget>
             </li>
           ) : (
             <li key={link.url}>

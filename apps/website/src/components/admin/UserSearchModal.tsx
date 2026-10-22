@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  ErrorSection, Input, Modal, ProgressDots, useCurrentTimeMs,
+  ErrorSection, Input, Modal, ProgressDots, useCurrentTimeMs, IconButton,
 } from '@bluedot/ui';
 import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
@@ -57,17 +57,16 @@ export const UserSearchModal = ({
           aria-label="Search by name or email"
           leading={<FaMagnifyingGlass aria-hidden />}
           trailing={searchTermInput ? (
-            <button
-              type="button"
+            <IconButton
               aria-label="Clear search"
               onClick={() => {
                 setSearchTermInput('');
                 inputRef.current?.focus();
               }}
-              className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+              className="-mr-1.5 text-secondary hover:text-primary"
             >
               <FaXmark aria-hidden />
-            </button>
+            </IconButton>
           ) : undefined}
         />
 

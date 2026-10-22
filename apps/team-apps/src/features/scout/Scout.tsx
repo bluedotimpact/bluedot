@@ -4,7 +4,7 @@ import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import {
-  Callout, Button, Modal, ProgressDots,
+  Callout, Button, Modal, ProgressDots, ClickTarget,
 } from '@bluedot/ui';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
@@ -551,10 +551,10 @@ const SessionDecisions: React.FC<{ decisions: Done[] }> = ({ decisions }) => {
           </div>
         );
       })}
-      <button type="button" className="min-h-11 underline" onClick={() => {
+      <ClickTarget className="min-h-11 underline" onClick={() => {
         const text = decisions.map(({ decision, person }) => `${decision === 'invite' ? 'Invitation requested' : 'Don’t invite'}: ${person.name} <${person.email}>`).join('\n');
         void navigator.clipboard.writeText(text).then(() => setCopyStatus('Copied')).catch(() => setCopyStatus('Could not copy. Select the text above instead.'));
-      }}>Copy decisions</button>
+      }}>Copy decisions</ClickTarget>
       {copyStatus && <p role="status">{copyStatus}</p>}
     </div>
   );

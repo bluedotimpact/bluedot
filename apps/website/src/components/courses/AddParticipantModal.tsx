@@ -1,5 +1,5 @@
 import {
-  Button, Input, Modal, ProgressDots,
+  Button, Input, Modal, ProgressDots, IconButton,
 } from '@bluedot/ui';
 import { useRef, useState } from 'react';
 import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
@@ -49,17 +49,16 @@ const AddParticipantModal = ({ meetPersonId, excludeIds, onAdd, onClose }: AddPa
           aria-label="Search participants by name"
           leading={<FaMagnifyingGlass aria-hidden />}
           trailing={searchTerm ? (
-            <button
-              type="button"
+            <IconButton
               aria-label="Clear search"
               onClick={() => {
                 setSearchTerm('');
                 searchInputRef.current?.focus();
               }}
-              className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+              className="-mr-1.5 text-secondary hover:text-primary"
             >
               <FaXmark aria-hidden />
-            </button>
+            </IconButton>
           ) : undefined}
         />
 

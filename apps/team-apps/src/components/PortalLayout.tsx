@@ -4,7 +4,7 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
-  Button, H1, Modal, useAuthStore,
+  Button, H1, Modal, useAuthStore, IconButton,
 } from '@bluedot/ui';
 import { apps } from '../lib/apps';
 import { isLocalPreview, PREVIEW_EMAIL, PREVIEW_TOKEN } from '../lib/preview';
@@ -202,7 +202,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
         <div className="mt-auto space-y-2 pt-6">
           {auth && (
             <div className="flex items-center rounded-surface">
-              <button type="button" onClick={signOut} aria-label="Sign out" title="Sign out" className="flex size-11 shrink-0 items-center justify-center rounded-surface text-secondary hover:bg-tint"><PortalIcon name="logout" /></button>
+              <IconButton onClick={signOut} aria-label="Sign out" title="Sign out" className="text-secondary"><PortalIcon name="logout" /></IconButton>
               {!collapsed && <div className="min-w-0 flex-1"><p className="text-size-xs font-medium">{preview ? 'Local preview' : 'Signed in'}</p><p className="truncate text-size-xs text-secondary" title={auth.email}>{auth.email}</p></div>}
             </div>
           )}
@@ -212,7 +212,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
       <div className="flex min-w-0 flex-1 flex-col bg-raised">
         {auth && <header className="flex h-16 md:hidden shrink-0 items-center justify-between gap-3 border-b border-subtle px-4 sm:px-8">
           <div className="flex min-w-0 items-center gap-3">
-            <button ref={menuButton} type="button" onClick={() => setMobileOpen(true)} aria-label="Open navigation" aria-expanded={mobileOpen} className="flex size-11 shrink-0 items-center justify-center rounded-surface hover:bg-tint md:hidden"><PortalIcon name="menu" /></button>
+            <IconButton ref={menuButton} onClick={() => setMobileOpen(true)} aria-label="Open navigation" aria-expanded={mobileOpen} className="md:hidden"><PortalIcon name="menu" /></IconButton>
           </div>
           {preview && <span className="shrink-0 rounded-full bg-warning-bg px-3 py-1 text-size-xxs font-semibold text-warning-fg"><span className="hidden sm:inline">Local preview · sample data</span><span className="sm:hidden">Sample data</span></span>}
         </header>}

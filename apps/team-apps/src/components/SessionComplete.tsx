@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import {
-  Callout, Button, H1, H2, Modal,
+  Callout, Button, H1, H2, Modal, ClickTarget,
 } from '@bluedot/ui';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
@@ -313,23 +313,21 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             )}
           </div>
           {isMoved ? (
-            <button
-              type="button"
+            <ClickTarget
               disabled={pendingWrites > 0}
               onClick={() => undoMove(r.id)}
               className="min-h-11 shrink-0 text-size-xs text-warning-fg hover:text-primary underline underline-offset-2 disabled:opacity-40"
             >
               Undo move
-            </button>
+            </ClickTarget>
           ) : (
-            <button
-              type="button"
+            <ClickTarget
               disabled={pendingWrites > 0}
               onClick={() => setEditingId(isEditing ? null : r.id)}
               className="min-h-11 shrink-0 text-size-xs text-secondary hover:text-primary underline underline-offset-2"
             >
               {option.humanOpinion} → {option.decision}
-            </button>
+            </ClickTarget>
           )}
         </div>
         {isEditing && !isMoved && (
@@ -473,9 +471,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               if (emailCounts) return `${filtered ? 'Whole round: ' : ''}${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent`;
               if (!countsError) return 'Loading counts…';
               return (
-                <button type="button" onClick={refreshEmailCounts} className="underline underline-offset-2 hover:text-primary">
+                <ClickTarget onClick={refreshEmailCounts} className="underline underline-offset-2 hover:text-primary">
                   Counts unavailable — retry
-                </button>
+                </ClickTarget>
               );
             })()}
           </span>

@@ -2,7 +2,9 @@ import {
   useCallback, useEffect, useReducer, useRef, useState,
 } from 'react';
 import useAxios from 'axios-hooks';
-import { Button, H1, ProgressDots } from '@bluedot/ui';
+import {
+  Button, H1, ProgressDots, ClickTarget, IconButton,
+} from '@bluedot/ui';
 import { FaXmark } from 'react-icons/fa6';
 import {
   type Application, type RatedApplication, type RatingValue, type Direction, type QueueFilters, toHumanOpinion, toDecision,
@@ -595,8 +597,7 @@ const SpeedReviewPage = () => {
   const undoToastElement = undoToast && (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg flex max-w-[90vw] items-center gap-3 z-20">
       <span>{undoToast.kind === 'moved' ? 'Moved' : 'Rated'} {undoToast.name}</span>
-      <button
-        type="button"
+      <ClickTarget
         disabled={pendingWrites > 0}
         onClick={() => {
           if (undoToast.kind === 'moved') void handleUndoMove();
@@ -605,7 +606,7 @@ const SpeedReviewPage = () => {
         className="font-semibold text-on-dark-link hover:text-on-dark-link-hover underline underline-offset-2 disabled:opacity-40"
       >
         {undoToast.kind === 'moved' ? 'Undo move' : 'Re-rate'}
-      </button>
+      </ClickTarget>
     </div>
   );
 
@@ -654,16 +655,15 @@ const SpeedReviewPage = () => {
           <span className="font-mono text-size-xs text-secondary shrink-0">
             {state.seen.length}
           </span>
-          <button
-            type="button"
+          <IconButton
             onClick={() => dispatch({ type: 'CONCLUDE' })}
             disabled={pendingWrites > 0}
-            className="flex size-11 items-center justify-center rounded-surface text-secondary hover:bg-tint transition-colors shrink-0 disabled:opacity-40"
+            className="text-secondary"
             title="Conclude session (Esc)"
             aria-label="Conclude session"
           >
             <FaXmark className="size-5" />
-          </button>
+          </IconButton>
         </div>
 
         <div className="bg-raised rounded-xl border border-subtle p-4 sm:p-6">
