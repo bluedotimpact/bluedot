@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import UnitLayout, { type ChunkWithContent } from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
 import {
-  FOAI_COURSE_ID, FOAI_COURSE_SLUG, getNextStepsChunkTitle, NEXT_STEPS_CHUNK_ID,
+  FOAI_COURSE_ID, getNextStepsChunkTitle, NEXT_STEPS_CHUNK_ID, shouldShowNextStepsChunk,
 } from '../../../../lib/constants';
 import { getCourseOgImage } from '../../../../lib/courseOgImage';
 import { pageMetaTags, linkPreviewMetaTags } from '../../../../lib/linkPreviewMetaTags';
@@ -205,10 +205,10 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   const allUnitChunks = await getActiveChunksByUnit(units);
 
-  // Append a synthetic "Next steps" chunk to the last unit of every non-FoAI
-  // course so learners see relevant ways to continue after finishing.
+  // Append a synthetic "Next steps" chunk to the last unit of most courses
+  // so learners see relevant ways to continue after finishing.
   const finalUnit = units[units.length - 1];
-  const shouldShowNextSteps = courseSlug !== FOAI_COURSE_SLUG && finalUnit !== undefined;
+  const shouldShowNextSteps = shouldShowNextStepsChunk(courseSlug) && finalUnit !== undefined;
   if (shouldShowNextSteps) {
     const finalUnitChunks = allUnitChunks[finalUnit.id] ?? [];
     const lastChunkOrder = finalUnitChunks[finalUnitChunks.length - 1]?.chunkOrder;

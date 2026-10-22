@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import { getNextStepsChunkTitle } from '../../lib/constants';
+import { getNextStepsChunkTitle, shouldShowNextStepsChunk } from '../../lib/constants';
 import NextStepsChunk from './NextStepsChunk';
 
 describe('NextStepsChunk', () => {
@@ -11,6 +11,14 @@ describe('NextStepsChunk', () => {
     'cambridge-digital-minds',
   ])('uses the Digital Minds next-steps heading for the %s slug', (courseSlug) => {
     expect(getNextStepsChunkTitle(courseSlug)).toBe('Next steps');
+  });
+
+  test.each([
+    ['future-of-ai', false],
+    ['principles', false],
+    ['agi-strategy', true],
+  ])('shouldShowNextStepsChunk(%s) is %s', (courseSlug, expected) => {
+    expect(shouldShowNextStepsChunk(courseSlug)).toBe(expected);
   });
 
   test('renders Cambridge Digital Minds next steps for the Digital Minds course', () => {
