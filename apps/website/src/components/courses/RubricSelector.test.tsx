@@ -18,7 +18,6 @@ describe('RubricSelector', () => {
   test('renders all options', () => {
     const { getByText } = render(<RubricSelector
       name="show-up"
-      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}
@@ -33,7 +32,6 @@ describe('RubricSelector', () => {
     const onChange = vi.fn();
     const { getByText } = render(<RubricSelector
       name="show-up"
-      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={onChange}
@@ -46,7 +44,6 @@ describe('RubricSelector', () => {
   test('reflects the selected value', () => {
     const { container } = render(<RubricSelector
       name="show-up"
-      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={3}
       onChange={() => {}}
@@ -61,7 +58,6 @@ describe('RubricSelector', () => {
   test('shows description only for the selected option', () => {
     const { getByText, queryByText } = render(<RubricSelector
       name="show-up"
-      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={3}
       onChange={() => {}}
@@ -79,7 +75,6 @@ describe('RubricSelector', () => {
   test('hides all descriptions when nothing is selected', () => {
     const { queryByText } = render(<RubricSelector
       name="show-up"
-      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}
@@ -90,16 +85,14 @@ describe('RubricSelector', () => {
     });
   });
 
-  test('is a semantic radiogroup', () => {
+  test('renders one native radio per option, grouped by name', () => {
     const { container } = render(<RubricSelector
       name="show-up"
-      aria-labelledby="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}
     />);
 
-    expect(container.querySelector('[role="radiogroup"]')).toBeTruthy();
-    expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(5);
+    expect(container.querySelectorAll('input[type="radio"][name="show-up"]')).toHaveLength(5);
   });
 });

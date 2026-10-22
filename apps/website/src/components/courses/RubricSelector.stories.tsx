@@ -16,7 +16,6 @@ const RubricSelectorWrapper = () => {
   return (
     <RubricSelector
       name="show-up"
-      aria-labelledby="show-up-label"
       options={SAMPLE_OPTIONS}
       value={value}
       onChange={setValue}

@@ -87,7 +87,7 @@ describe('ParticipantFeedbackModal', () => {
     renderModal({ onSaved });
 
     expect(getDoneButton()).toBeDisabled();
-    expect(screen.getByRole('radiogroup', { name: 'How did they show up across discussions?' })).toBeRequired();
+    expect(screen.getByRole('group', { name: 'How did they show up across discussions? (required)' })).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Took clear ownership of their learning')); // 4
     fireEvent.click(screen.getByText('Regularly engaged critically')); // 4
