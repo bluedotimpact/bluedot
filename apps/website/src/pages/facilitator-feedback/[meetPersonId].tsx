@@ -209,13 +209,9 @@ const FacilitatorFeedbackPage = () => {
             </div>
           </div>
 
-          {/* StarRating names each star itself, so it can't be wired to a Field; the heading matches Field's label. */}
-          <div className="flex flex-col gap-2">
-            <p className="text-size-sm font-semibold leading-normal text-primary">
-              Overall rating <span aria-hidden className="text-error-fg">*</span>
-            </p>
+          <Field label="Overall rating" required>
             <StarRating rating={overallRating} onChange={setOverallRating} />
-          </div>
+          </Field>
 
           <Field
             label="What did you find most valuable?"
