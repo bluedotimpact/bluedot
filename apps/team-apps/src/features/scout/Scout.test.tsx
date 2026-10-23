@@ -22,7 +22,6 @@ vi.mock('@bluedot/ui', async () => ({
   ProgressDots: () => <span>Loading</span>,
   Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
-  ClickTarget: ({ children, onClick, disabled, className, title, 'aria-label': ariaLabel }: { children?: ReactNode; onClick?: () => void; disabled?: boolean; className?: string; title?: string; 'aria-label'?: string }) => <button type="button" onClick={onClick} disabled={disabled} className={className} title={title} aria-label={ariaLabel}>{children}</button>,
   IconButton: ({ children, onClick, disabled, title, 'aria-label': ariaLabel, 'aria-expanded': ariaExpanded }: { children?: ReactNode; onClick?: () => void; disabled?: boolean; title?: string; 'aria-label': string; 'aria-expanded'?: boolean }) => <button type="button" onClick={onClick} disabled={disabled} title={title} aria-label={ariaLabel} aria-expanded={ariaExpanded}>{children}</button>,
 }));
 import Scout, { goalLine, greeting } from './Scout';
