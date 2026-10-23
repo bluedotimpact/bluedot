@@ -11,6 +11,7 @@ const FUNDED_ORGANIZATIONS: PublicRapidGrant[] = [
   { projectTitle: 'Golemet', projectSummary: 'Research on collusion between AI agents.' },
   { projectTitle: 'Foldguard', projectSummary: 'DNA synthesis screening.', link: 'https://foldguard.bio/' },
   { projectTitle: 'Formation Research', projectSummary: 'Research on lock-in and concentration of power.', link: 'https://www.formationresearch.org/' },
+  { projectTitle: 'Compute Visibility Institute', projectSummary: 'Mapping advanced computing infrastructure using satellite imagery and open-source research.', link: 'https://computegov.com/' },
 ].map((organization) => ({ ...organization, granteeName: '', amountUsd: null }));
 
 const FundedOrganizationsSection = () => {
