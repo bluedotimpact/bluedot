@@ -2,7 +2,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import { FaCircleUser, FaXmark } from 'react-icons/fa6';
-import { A, IconButton, ClickTarget } from '@bluedot/ui';
+import { A, IconButton } from '@bluedot/ui';
 
 import {
   DRAWER_CLASSES, NAV_LINK_CLASS, type NavMenu, PROFILE_DRAWER_ID,
@@ -77,7 +77,8 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
           </A>
           <div className="border-t border-subtle my-2" />
           {impersonationAccess && impersonationAccess !== 'none' && (
-            <ClickTarget
+            <button
+              type="button"
               onClick={() => {
                 setIsImpersonateModalOpen(true);
                 menu.closeSection();
@@ -85,14 +86,15 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
               className={PROFILE_LINK_CLASSES}
             >
               Impersonate a user
-            </ClickTarget>
+            </button>
           )}
           {isAdmin && (
             <A href={ROUTES.admin.url} className={PROFILE_LINK_CLASSES} onClick={menu.closeSection}>
               Admin tools
             </A>
           )}
-          <ClickTarget
+          <button
+            type="button"
             onClick={() => {
               openFeedback();
               menu.closeSection();
@@ -100,7 +102,7 @@ export const ProfileLinks = ({ menu, onColoredBackground = false }: ProfileLinks
             className={PROFILE_LINK_CLASSES}
           >
             Submit feedback
-          </ClickTarget>
+          </button>
         </div>
       </div>
       {isImpersonateModalOpen && (
