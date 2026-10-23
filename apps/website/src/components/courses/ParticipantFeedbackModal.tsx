@@ -1,5 +1,15 @@
 import {
-  Avatar, Callout, Checkbox, Button, ErrorSection, Field, FieldSet, Modal, ModalTitle, Textarea,
+  Avatar,
+  Callout,
+  Checkbox,
+  Button,
+  ErrorSection,
+  Field,
+  FieldSet,
+  Modal,
+  ModalTitle,
+  Textarea,
+  ClickTarget,
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
@@ -76,14 +86,13 @@ const ParticipantFeedbackModal = ({ meetPersonId, participant, followUpOptions, 
         <div className="flex items-center gap-3">
           <Avatar name={participant.name} />
           <ModalTitle>{participant.name}</ModalTitle>
-          <button
-            type="button"
+          <ClickTarget
             onClick={onNoStrongImpression}
             disabled={savePeerFeedback.isPending}
             className="ml-auto text-size-xs font-medium text-secondary underline underline-offset-[3px] cursor-pointer disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed"
           >
             No strong impression
-          </button>
+          </ClickTarget>
         </div>
       )}
       bottomDrawerOnMobile

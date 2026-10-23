@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  addQueryParam, Breadcrumbs, Button, ProgressDots,
+  addQueryParam, Breadcrumbs, Button, ProgressDots, ClickTarget, TabPills,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
@@ -16,6 +16,7 @@ const LUMA_CALENDAR_URL = 'https://lu.ma/bluedotevents';
 const PAGE_SIZE = 20;
 const FILTERS = { all: 'All events', online: 'Online', 'in-person': 'In person' } as const;
 type EventFilter = keyof typeof FILTERS;
+const EVENT_FILTER_TABS = (Object.entries(FILTERS) as [EventFilter, string][]).map(([id, label]) => ({ id, label }));
 
 const trackedUrl = (url: string, content: string) => {
   const withSource = addQueryParam(url, 'utm_source', 'website');
@@ -53,21 +54,16 @@ const EventsPage = () => {
       <main className="pb-16">
         <section aria-label="Upcoming events" className="section-base pt-6 sm:pt-8">
           <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-            <div className="flex flex-wrap gap-1 rounded-xl border bg-raised p-1" aria-label="Event format">
-              {Object.entries(FILTERS).map(([key, label]) => (
-                <button
-                  key={key}
-                  type="button"
-                  aria-pressed={filter === key}
-                  onClick={() => {
-                    setFilter(key as EventFilter);
-                    setLocation('all');
-                    setVisibleCount(PAGE_SIZE);
-                  }}
-                  className={`flex-1 whitespace-nowrap rounded-lg px-2 py-2.5 text-size-xs font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-focus sm:flex-none sm:px-4 ${filter === key ? 'bg-dark text-on-dark' : 'text-secondary hover:bg-tint'}`}
-                >{label}</button>
-              ))}
-            </div>
+            <TabPills
+              aria-label="Event format"
+              tabs={EVENT_FILTER_TABS}
+              value={filter}
+              onChange={(key) => {
+                setFilter(key);
+                setLocation('all');
+                setVisibleCount(PAGE_SIZE);
+              }}
+            />
             <div className="flex flex-wrap items-center gap-4">
               {filter !== 'online' && locations.length > 0 && (
                 <label className="flex items-center gap-3 text-size-xs text-secondary">
@@ -102,11 +98,11 @@ const EventsPage = () => {
                   <p className="text-size-md font-semibold">{upcomingEvents.length ? 'No events match these filters.' : 'More events are on the way.'}</p>
                   <p className="mt-3 text-size-sm text-secondary">{upcomingEvents.length ? 'Try another location or browse all upcoming events.' : 'Follow our Luma calendar to hear about the next one.'}</p>
                   {upcomingEvents.length > 0 ? (
-                    <button type="button" className="mt-5 text-link underline" onClick={() => {
+                    <ClickTarget className="mt-5 text-link underline" onClick={() => {
                       setFilter('all');
                       setLocation('all');
                       setVisibleCount(PAGE_SIZE);
-                    }}>Clear filters</button>
+                    }}>Clear filters</ClickTarget>
                   ) : <a href={trackedUrl(LUMA_CALENDAR_URL, 'empty-cta')} className="mt-5 inline-block text-link underline">Open the Luma calendar ↗</a>}
                 </div>
               )}

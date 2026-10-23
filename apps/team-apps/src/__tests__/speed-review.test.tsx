@@ -34,6 +34,8 @@ vi.mock('@bluedot/ui', () => ({
     isOpen ? <div role="dialog"><h2>{title}</h2>{children}</div> : null
   ),
   ProgressDots: () => <span>Loading</span>,
+  ClickTarget: ({ children, onClick, disabled, className, title, 'aria-label': ariaLabel }: { children?: ReactNode; onClick?: () => void; disabled?: boolean; className?: string; title?: string; 'aria-label'?: string }) => <button type="button" onClick={onClick} disabled={disabled} className={className} title={title} aria-label={ariaLabel}>{children}</button>,
+  IconButton: ({ children, onClick, disabled, title, 'aria-label': ariaLabel, 'aria-expanded': ariaExpanded }: { children?: ReactNode; onClick?: () => void; disabled?: boolean; title?: string; 'aria-label': string; 'aria-expanded'?: boolean }) => <button type="button" onClick={onClick} disabled={disabled} title={title} aria-label={ariaLabel} aria-expanded={ariaExpanded}>{children}</button>,
 }));
 vi.mock('../components/RoundPicker', () => ({
   RoundPicker: ({ onSelect, notice }: { onSelect: (round: { id: string; name: string; course: string }, direction: string, filters?: QueueFilters) => void; notice?: string }) => {

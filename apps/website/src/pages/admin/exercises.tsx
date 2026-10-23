@@ -1,5 +1,14 @@
 import {
-  Breadcrumbs, Checkbox, ErrorSection, FieldSet, Input, ProgressDots, Radio, Section,
+  Breadcrumbs,
+  Checkbox,
+  ErrorSection,
+  FieldSet,
+  Input,
+  ProgressDots,
+  Radio,
+  Section,
+  ClickTarget,
+  IconButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -147,13 +156,12 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               )}
               {!user && userId && <p className="text-size-xs text-secondary">Loading user...</p>}
               {userId && <p className="text-size-xs text-secondary">User ID: <code>{userId}</code></p>}
-              <button
-                type="button"
+              <ClickTarget
                 onClick={() => setIsSelectUserModalOpen(true)}
                 className="self-start text-size-xs text-link underline hover:opacity-80 cursor-pointer"
               >
                 Select user
-              </button>
+              </ClickTarget>
             </div>
 
             <Checkbox checked={includeInProgress} onChange={(e) => setIncludeInProgress(e.target.checked)}>
@@ -194,17 +202,16 @@ const AdminUserExerciseResponses = withAdminGuard(() => {
               aria-label="Search question or response"
               leading={<FaMagnifyingGlass aria-hidden />}
               trailing={search ? (
-                <button
-                  type="button"
+                <IconButton
                   aria-label="Clear search"
                   onClick={() => {
                     setSearch('');
                     searchInputRef.current?.focus();
                   }}
-                  className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+                  className="-mr-1.5 text-secondary hover:text-primary"
                 >
                   <FaXmark aria-hidden />
-                </button>
+                </IconButton>
               ) : undefined}
             />
 
@@ -308,13 +315,12 @@ const ResponseCard = ({
           )}
         </div>
         {canTruncate && (
-          <button
-            type="button"
+          <ClickTarget
             onClick={() => setExpanded(!expanded)}
             className="text-size-xs text-link font-medium mt-2 cursor-pointer hover:underline"
           >
             {expanded ? 'Show less' : 'Show more'}
-          </button>
+          </ClickTarget>
         )}
       </div>
     </li>

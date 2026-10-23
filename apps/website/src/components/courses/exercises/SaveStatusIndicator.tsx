@@ -2,7 +2,7 @@ import type React from 'react';
 import {
   FaCircleCheck, FaCircleNotch, FaCircleXmark, FaRotateLeft,
 } from 'react-icons/fa6';
-import { cn } from '@bluedot/ui';
+import { cn, ClickTarget } from '@bluedot/ui';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -37,14 +37,13 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: (onRetry) => (
       <span className="flex items-center gap-1">
         <span>Couldn't save answer.</span>
-        <button
-          type="button"
+        <ClickTarget
           onClick={onRetry}
           className="flex items-center gap-0.5 font-medium text-primary underline cursor-pointer"
         >
           Retry
           <FaRotateLeft aria-hidden="true" className="size-4 ml-0.5" />
-        </button>
+        </ClickTarget>
       </span>
     ),
   },
