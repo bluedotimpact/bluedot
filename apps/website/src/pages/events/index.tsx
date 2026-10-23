@@ -84,7 +84,7 @@ const EventsPage = () => {
                       { value: 'all', label: 'Everywhere' },
                       ...locations.map((value) => ({ value, label: formatLocationLabel(value) })),
                     ]}
-                    className="min-w-0 flex-1 sm:min-w-44"
+                    className="sm:min-w-44"
                   />
                 </div>
               )}
