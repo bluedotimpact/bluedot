@@ -20,7 +20,7 @@ const EventCard = ({ event, campaign, titleHeading: TitleHeading }: {
         href={addQueryParam(addQueryParam(addQueryParam(event.url, 'utm_source', 'website'), 'utm_campaign', campaign), 'utm_content', 'event-link')}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-center gap-4 rounded-2xl border bg-raised p-4 transition-colors hover:border-accent/40 hover:bg-bluedot-light/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus sm:gap-6 sm:p-5"
+        className="group flex items-center gap-4 rounded-2xl border bg-raised p-4 transition-colors hover:border-accent/40 hover:bg-accent-subtle/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus sm:gap-6 sm:p-5"
       >
         <div className="size-20 shrink-0 overflow-hidden rounded-xl bg-bluedot-light sm:size-28">
           {event.coverUrl && !imageFailed ? (
