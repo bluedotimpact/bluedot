@@ -1,9 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import {
-  Button, ClickTarget, H1, Input,
-} from '@bluedot/ui';
+import { Button, H1, Input } from '@bluedot/ui';
 import { inter } from '../lib/fonts';
 import { pageMetaTags } from '../lib/linkPreviewMetaTags';
 
@@ -68,10 +66,11 @@ const SiteLoginPage = () => {
             placeholder="Enter password"
             autoComplete="current-password"
             autoFocus
+            className="[&>input]:pr-20"
             trailing={(
-              <ClickTarget onClick={() => setShowPassword((prev) => !prev)} className="text-size-sm font-medium text-secondary hover:text-primary">
+              <Button variant="ghost" onClick={() => setShowPassword((prev) => !prev)} className="-mr-3">
                 {showPassword ? 'Hide' : 'Show'}
-              </ClickTarget>
+              </Button>
             )}
           />
           <Button type="submit" loading={loading} className="w-full">
