@@ -5,6 +5,7 @@ import {
   afterEach, beforeEach, expect, test, vi,
 } from 'vitest';
 import type { ReactNode } from 'react';
+import type * as BluedotUi from '@bluedot/ui';
 import { useNavigationState } from '../../lib/client/navigation';
 import { authFetch } from '../../lib/client/api';
 import type { Course, Person } from './types';
@@ -15,7 +16,7 @@ const routerReplace = vi.fn();
 vi.mock('next/router', () => ({ useRouter: () => ({ query: routerQuery, pathname: '/scout', replace: routerReplace }) }));
 vi.mock('./PersonCard', () => ({ PersonCard: ({ person }: { person: { name: string } }) => <p>{person.name}</p> }));
 vi.mock('@bluedot/ui', async () => ({
-  ...(await vi.importActual<typeof import('@bluedot/ui')>('@bluedot/ui')),
+  ...(await vi.importActual<typeof BluedotUi>('@bluedot/ui')),
   Callout: ({ children, role }: { children: ReactNode; role?: string }) => <div role={role}>{children}</div>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   ProgressDots: () => <span>Loading</span>,

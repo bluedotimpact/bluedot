@@ -28,7 +28,7 @@ describe('GranteesListSection', () => {
 
     render(<GranteesListSection heading="Projects we've funded" layout="editorial" limit={2} />, { wrapper: createTrpcDbProvider() });
     await screen.findByText('$100');
-    const sort = screen.getByRole('button', { name: /Sort projects/ });
+    const sort = screen.getByRole('button', { name: /Sort:/ });
     fireEvent.click(sort);
     fireEvent.click(screen.getByRole('option', { name: 'Largest grant' }));
     expect(screen.getByText('$300')).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe('GranteesListSection', () => {
     render(<GranteesListSection heading="Projects we've funded" layout="editorial" limit={1} />, { wrapper: createTrpcDbProvider() });
 
     await screen.findByRole('heading', { name: 'Newest project' });
-    const sort = screen.getByRole('button', { name: /Sort projects/ });
+    const sort = screen.getByRole('button', { name: /Sort:/ });
     expect(sort).toHaveTextContent('Newest');
     fireEvent.click(sort);
     fireEvent.click(screen.getByRole('option', { name: 'Largest grant' }));
