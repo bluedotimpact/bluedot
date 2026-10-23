@@ -218,7 +218,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
                     <div
                       className={clsx(
                         'pointer-events-none absolute inset-0 size-full opacity-75',
-                        dragState.dragging === 'pos' ? 'bg-success-fg' : 'bg-error-fg',
+                        dragState.dragging === 'pos' ? 'bg-success-fg' : 'bg-raised',
                       )}
                     />
                   )}
