@@ -366,6 +366,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
             >
               <Input
                 type="email"
+                required
                 value={email}
                 placeholder="Email"
                 onBlur={() => setEmailError(validateEmail(email))}
