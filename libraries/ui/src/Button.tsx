@@ -3,12 +3,12 @@ import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 import { Dots } from './ProgressDots';
 import { cn } from './utils';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline-black' | 'unstyled';
-export type ButtonTone = 'destructive' | 'success' | 'warning';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'link' | 'outline-black' | 'unstyled';
+export type ButtonTone = 'destructive' | 'success' | 'warning' | 'accent';
 
 export type ButtonProps = {
   variant?: ButtonVariant;
-  // Semantic colour for primary/secondary; the other variants ignore it
+  // Semantic colour for primary/secondary, `accent` for link; the other variants ignore it
   tone?: ButtonTone;
   size?: 'small' | 'medium' | 'large';
   // Leading dots + blocks activation without taking focus away. The label stays as passed; swap it yourself if the copy should change.
@@ -33,12 +33,13 @@ const VARIANT_STYLES: Record<ButtonVariant, string> = {
     'border border-accent text-accent hover:bg-accent-subtle on-dark:border-border-on-dark on-dark:bg-surface-on-dark on-dark:text-on-dark on-dark:backdrop-blur-sm on-dark:hover:bg-surface-on-dark-hover',
   ghost:
     'text-secondary hover:bg-tint hover:text-primary on-dark:text-on-dark-secondary on-dark:hover:bg-surface-on-dark-subtle on-dark:hover:text-on-dark',
+  link: 'underline text-secondary hover:text-primary on-dark:text-on-dark on-dark:hover:text-on-dark-hover',
   'outline-black': 'border border-strong font-medium text-primary hover:bg-tint',
   unstyled: '', // No colour/hover styles: fully controlled by className/style
 };
 
-// Tone swaps the colour family; the primary/secondary chrome stays. Later classes win via cn()
-const TONE_STYLES: Partial<Record<ButtonVariant, Record<ButtonTone, string>>> = {
+// Tone swaps the colour family; the chrome stays. Not every tone applies to every variant. Later classes win via cn()
+const TONE_STYLES: Partial<Record<ButtonVariant, Partial<Record<ButtonTone, string>>>> = {
   primary: {
     destructive: 'bg-error-fg hover:bg-error-fg-hover',
     success: 'bg-success-fg hover:bg-success-fg-hover',
@@ -48,6 +49,9 @@ const TONE_STYLES: Partial<Record<ButtonVariant, Record<ButtonTone, string>>> = 
     destructive: 'border-error-fg text-error-fg hover:bg-error-bg',
     success: 'border-success-fg text-success-fg hover:bg-success-bg',
     warning: 'border-warning-fg text-warning-fg hover:bg-warning-bg',
+  },
+  link: {
+    accent: 'text-link hover:text-link-hover',
   },
 };
 
