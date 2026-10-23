@@ -309,7 +309,7 @@ describe('myCoursesPage.getOverview', () => {
     expect(result.nextDiscussion?.discussion.id).toBe('disc-active');
   });
 
-  test('registrations whose course is non-Active (archived) are filtered out', async () => {
+  test('registrations whose course is Past still show', async () => {
     await testDb.insert(courseTable, {
       id: 'course-active',
       slug: 'active-course',
@@ -319,9 +319,9 @@ describe('myCoursesPage.getOverview', () => {
       status: 'Active',
     });
     await testDb.insert(courseTable, {
-      id: 'course-archived',
-      slug: 'archived-course',
-      title: 'Archived Course',
+      id: 'course-past',
+      slug: 'past-course',
+      title: 'Past Course',
       shortDescription: 'b',
       units: [],
       status: 'Past',
@@ -337,17 +337,17 @@ describe('myCoursesPage.getOverview', () => {
       roundStatus: 'Past',
     });
     await testDb.insert(courseRegistrationTable, {
-      id: 'reg-archived',
+      id: 'reg-past',
       email: CALLER_EMAIL,
       userId: 'test-user',
-      courseId: 'course-archived',
+      courseId: 'course-past',
       decision: 'Accept',
       role: 'Participant',
       roundStatus: 'Past',
     });
 
     const result = await caller.myBluedot.myCoursesPage();
-    expect(result.courses.map((c) => c.course.slug)).toEqual(['active-course']);
+    expect(result.courses.map((c) => c.course.slug).sort()).toEqual(['active-course', 'past-course']);
   });
 
   describe('real-data shapes', () => {
