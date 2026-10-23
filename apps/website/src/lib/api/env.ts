@@ -35,7 +35,6 @@ export default validateEnv({
     'WELCOME_SLACK_CHANNEL_ID',
     'WELCOME_GOOGLE_REFRESH_TOKEN',
     'WELCOME_GOOGLE_CALENDAR_ID',
-    // Cover requests in the facilitator community Slack (see .env.local.template)
     'COMMUNITY_SLACK_SUPPORT_BOT_TOKEN',
     'FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID',
     'SENTRY_DSN',

@@ -26,6 +26,7 @@ import {
   userTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { createHash } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { hasEndDateTime, isGroupFacilitator, type GroupDiscussionWithEnd } from '../../lib/group-discussions/utils';
@@ -219,8 +220,8 @@ type CoverCandidate = { id: string; name: string; slackUserId: string };
  * their weekly availability covers the discussion.
  */
 async function getCoverCandidates({
-  roundId, requesterId, startTimeSeconds, endTimeSeconds,
-}: { roundId: string; requesterId: string; startTimeSeconds: number; endTimeSeconds: number }) {
+  roundId, requesterId, discussionId, startTimeSeconds, endTimeSeconds,
+}: { roundId: string; requesterId: string; discussionId: string; startTimeSeconds: number; endTimeSeconds: number }) {
   const facilitatorsWithSlackProfiles = (await db.pg
     .select({
       id: meetPersonTable.pg.id,
@@ -292,7 +293,11 @@ async function getCoverCandidates({
     (isAvailableThroughout({ availabilityIntervalsUTC, startTimeSeconds, endTimeSeconds }) ? available : noClash).push(candidate);
   }
 
-  return { available, noClash };
+  // A fixed random order per discussion, so the preview and the post tag the same people
+  const rank = (c: CoverCandidate) => createHash('sha256').update(`${discussionId}:${c.id}`).digest('hex');
+  const shuffled = (candidates: CoverCandidate[]) => candidates.sort((a, b) => rank(a).localeCompare(rank(b)));
+
+  return { available: shuffled(available), noClash: shuffled(noClash) };
 }
 
 async function getCoverMessageDetails({
@@ -314,7 +319,7 @@ async function getCoverMessageDetails({
   ]);
   const course = round?.course ? await db.getFirst(courseTable, { filter: { id: round.course }, sortBy: 'id' }) : null;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
-  const toCoverPerson = ({ name, slackUserId }: CoverCandidate) => ({ name, slackUserId });
+  const toSlackPerson = ({ name, slackUserId }: CoverCandidate) => ({ name, slackUserId });
 
   return {
     requester: { name: facilitator.name ?? '', slackUserId: slackUserIdFromProfileUrl(facilitator.slackProfileUrl) },
@@ -323,8 +328,8 @@ async function getCoverMessageDetails({
     groupName: group?.groupName ?? '',
     startTimeSeconds: discussion.startDateTime,
     endTimeSeconds: discussion.endDateTime,
-    availableFacilitators: tagged.available.map(toCoverPerson),
-    noClashFacilitators: tagged.noClash.map(toCoverPerson),
+    availableFacilitators: tagged.available.map(toSlackPerson),
+    noClashFacilitators: tagged.noClash.map(toSlackPerson),
     moreAvailableThanTagged,
     assignUrl: `${siteUrl}${ROUTES.facilitatedCourses.url}?${new URLSearchParams({ changeFacilitator: discussion.id })}`,
   };
@@ -490,6 +495,7 @@ export const facilitatorRouter = router({
       const candidates = await getCoverCandidates({
         roundId: input.roundId,
         requesterId: facilitator.id,
+        discussionId: discussion.id,
         startTimeSeconds: discussion.startDateTime,
         endTimeSeconds: discussion.endDateTime,
       });
@@ -499,29 +505,23 @@ export const facilitatorRouter = router({
         messageDetails: await getCoverMessageDetails({
           facilitator, discussion, roundId: input.roundId, groupId: input.groupId, tagged, moreAvailableThanTagged: candidates.available.length > MAX_TAGGED_FACILITATORS,
         }),
-        taggedFacilitatorIds: [...tagged.available, ...tagged.noClash].map((f) => f.id),
       };
     }),
 
   requestCover: protectedProcedure
     .input(discussionInput.extend({
       note: z.string().max(1000).optional(),
-      // The random pick shown in the preview, so the post matches it
-      taggedFacilitatorIds: z.array(z.string()).max(MAX_TAGGED_FACILITATORS),
     }))
     .mutation(async ({ input, ctx }) => {
       const { facilitator, discussion } = await getDiscussionNeedingCover(input, ctx);
       const candidates = await getCoverCandidates({
         roundId: input.roundId,
         requesterId: facilitator.id,
+        discussionId: discussion.id,
         startTimeSeconds: discussion.startDateTime,
         endTimeSeconds: discussion.endDateTime,
       });
-      const requestedFacilitatorIds = new Set(input.taggedFacilitatorIds);
-      const tagged = {
-        available: candidates.available.filter((f) => requestedFacilitatorIds.has(f.id)),
-        noClash: candidates.noClash.filter((f) => requestedFacilitatorIds.has(f.id)),
-      };
+      const tagged = pickFacilitatorsToTag(candidates);
 
       const messageDetails = await getCoverMessageDetails({
         facilitator, discussion, roundId: input.roundId, groupId: input.groupId, tagged, moreAvailableThanTagged: candidates.available.length > MAX_TAGGED_FACILITATORS,

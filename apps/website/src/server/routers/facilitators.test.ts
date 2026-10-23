@@ -835,7 +835,7 @@ describe('facilitators cover requests', () => {
     });
     await seedDiscussionFacilitatedBy('clash-elsewhere-round-2', { startOffsetSeconds: -HOUR_SECONDS });
 
-    const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+    const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
     expect(messageDetails).toMatchObject({
       requester: { name: 'Sam Rivera', slackUserId: 'UREQUESTER' },
@@ -850,7 +850,6 @@ describe('facilitators cover requests', () => {
     expect(namesOf(messageDetails.availableFacilitators)).toEqual(['back-to-back', 'free']);
     expect(namesOf(messageDetails.noClashFacilitators)).toEqual(['no-availability', 'unavailable']);
     expect(messageDetails.availableFacilitators.find((f) => f.name === 'free')).toEqual({ name: 'free', slackUserId: 'UFREE' });
-    expect(taggedFacilitatorIds.sort()).toEqual(['back-to-back', 'free', 'no-availability', 'unavailable']);
   });
 
   test('counts a clashing session with no end time, or one they take part in as a participant', async () => {
@@ -899,9 +898,9 @@ describe('facilitators cover requests', () => {
     await seedFacilitator('withdrawn');
     await testDb.update(courseRegistrationTable, { id: 'reg-withdrawn', decision: 'Withdrawn' });
 
-    const { taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+    const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
-    expect(taggedFacilitatorIds).toEqual(['free']);
+    expect(namesOf(messageDetails.availableFacilitators)).toEqual(['free']);
   });
 
   test('tags all free facilitators, topped up to 5 with ones who have no clash', async () => {
@@ -916,14 +915,13 @@ describe('facilitators cover requests', () => {
       await seedFacilitator(id, { availability: UNAVAILABLE });
     }
 
-    const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+    const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
     expect(namesOf(messageDetails.availableFacilitators)).toEqual(['free-1', 'free-2', 'free-3']);
     expect(messageDetails.noClashFacilitators).toHaveLength(2);
-    expect(taggedFacilitatorIds).toHaveLength(5);
   });
 
-  test('tags 5 available facilitators at random when more are free', async () => {
+  test('tags the same 5 available facilitators on every preview when more are free', async () => {
     await seedCoverRequest();
     for (let i = 1; i <= 7; i++) {
       // eslint-disable-next-line no-await-in-loop
@@ -933,8 +931,10 @@ describe('facilitators cover requests', () => {
     await seedFacilitator('other', { availability: UNAVAILABLE });
 
     const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
+    const { messageDetails: again } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
     expect(messageDetails.availableFacilitators).toHaveLength(5);
+    expect(again.availableFacilitators).toEqual(messageDetails.availableFacilitators);
     expect(messageDetails.noClashFacilitators).toEqual([]);
     expect(messageDetails.moreAvailableThanTagged).toBe(true);
   });
@@ -944,11 +944,10 @@ describe('facilitators cover requests', () => {
     await seedFacilitator('clash');
     await seedDiscussionFacilitatedBy('clash', { startOffsetSeconds: 0 });
 
-    const { messageDetails, taggedFacilitatorIds } = await caller.facilitators.getCoverRequestPreview(coverInput);
+    const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
 
     expect(messageDetails.availableFacilitators).toEqual([]);
     expect(messageDetails.noClashFacilitators).toEqual([]);
-    expect(taggedFacilitatorIds).toEqual([]);
   });
 
   test('rejects a discussion the caller does not facilitate, from another group, already started, or without an end', async () => {
@@ -965,14 +964,7 @@ describe('facilitators cover requests', () => {
 
     await testDb.update(meetPersonTable, { id: FACILITATOR_ID, expectedDiscussionsFacilitator: [] });
     await expect(caller.facilitators.getCoverRequestPreview(coverInput)).rejects.toMatchObject({ code: 'FORBIDDEN' });
-    await expect(caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: [] })).rejects.toMatchObject({ code: 'FORBIDDEN' });
-  });
-
-  test('rejects more than 5 tagged facilitators', async () => {
-    await seedCoverRequest();
-
-    await expect(caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: ['a', 'b', 'c', 'd', 'e', 'f'] }))
-      .rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    await expect(caller.facilitators.requestCover(coverInput)).rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 
   describe('requestCover', () => {
@@ -999,7 +991,7 @@ describe('facilitators cover requests', () => {
       throw new Error(`Unexpected Slack call: ${url.pathname}`);
     });
 
-    test('posts the previewed facilitators who are still eligible, and returns the permalink', async () => {
+    test('posts the eligible facilitators, and returns the permalink', async () => {
       await seedCoverRequest();
       await seedFacilitator('free');
       await seedFacilitator('unavailable', { availability: UNAVAILABLE });
@@ -1007,11 +999,7 @@ describe('facilitators cover requests', () => {
       await seedDiscussionFacilitatedBy('clash', { startOffsetSeconds: 0 });
       const fetchSpy = stubSlack();
 
-      const result = await caller.facilitators.requestCover({
-        ...coverInput,
-        note: 'Back from holiday late',
-        taggedFacilitatorIds: ['unavailable', 'free', 'clash'],
-      });
+      const result = await caller.facilitators.requestCover({ ...coverInput, note: 'Back from holiday late' });
 
       expect(result).toEqual({ threadUrl: 'https://community.slack.com/archives/CFACCOMMUNITY/p1792500000000100' });
       const slackCalls = fetchSpy.mock.calls.filter(([input]) => urlOf(input).startsWith('https://slack.com/'));
@@ -1038,11 +1026,30 @@ describe('facilitators cover requests', () => {
       expect(slackCalls[1]![0]).toBe('https://slack.com/api/chat.getPermalink?channel=CFACCOMMUNITY&message_ts=1792500000.000100');
     });
 
+    test('tags the same facilitators as the preview when more are free', async () => {
+      await seedCoverRequest();
+      const ids = [1, 2, 3, 4, 5, 6, 7].map((i) => `free-${i}`);
+      for (const id of ids) {
+        // eslint-disable-next-line no-await-in-loop
+        await seedFacilitator(id);
+      }
+
+      const fetchSpy = stubSlack();
+
+      const { messageDetails } = await caller.facilitators.getCoverRequestPreview(coverInput);
+      await caller.facilitators.requestCover(coverInput);
+
+      const postInit = fetchSpy.mock.calls.find(([input]) => urlOf(input) === 'https://slack.com/api/chat.postMessage')![1];
+      const { text } = JSON.parse(postInit!.body as string) as { text: string };
+      const taggedNames = namesOf(messageDetails.availableFacilitators);
+      expect(ids.filter((id) => text.includes(`<@U${id.toUpperCase().replace(/-/g, '')}>`))).toEqual(taggedNames);
+    });
+
     test('still succeeds, without a link, when the post goes through but the permalink fails', async () => {
       await seedCoverRequest();
       const fetchSpy = stubSlack({ permalinkOk: false });
 
-      const result = await caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: [] });
+      const result = await caller.facilitators.requestCover(coverInput);
 
       expect(result).toEqual({ threadUrl: null });
       expect(fetchSpy.mock.calls.filter(([input]) => urlOf(input).startsWith('https://slack.com/api/chat.postMessage'))).toHaveLength(1);
@@ -1053,7 +1060,7 @@ describe('facilitators cover requests', () => {
       await seedCoverRequest();
       const fetchSpy = stubSlack();
 
-      await expect(caller.facilitators.requestCover({ ...coverInput, taggedFacilitatorIds: [] }))
+      await expect(caller.facilitators.requestCover(coverInput))
         .rejects.toMatchObject({ code: 'PRECONDITION_FAILED', message: 'Posting to #facilitator-community is not set up' });
       expect(fetchSpy.mock.calls.filter(([input]) => urlOf(input).startsWith('https://slack.com/'))).toEqual([]);
     });
