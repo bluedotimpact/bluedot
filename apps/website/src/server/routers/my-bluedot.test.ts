@@ -1090,6 +1090,16 @@ describe('myBluedot.facilitatedCoursesPage', () => {
     expect(row?.discussions.map((d) => d.id)).toEqual(['disc-fac']);
   });
 
+  test('registrations whose course is Past still show', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.update(courseTable, { id: COURSE_ID, status: 'Past' });
+    await testDb.update(courseRegistrationTable, { id: REG_ID, roundStatus: 'Past' });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses.map((c) => c.courseRegistration.id)).toEqual([REG_ID]);
+  });
+
   test('fans out to one row per group when the facilitator runs multiple groups in one round', async () => {
     await seedSingleGroupFacilitator();
     await testDb.insert(groupTable, {
