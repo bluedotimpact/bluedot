@@ -22,33 +22,39 @@ const REPORTS_URL = `${COURSE_RUNNER}/tblRTbvkM5pMvWoEb`;
 const PROJECTS_URL = `${COURSE_RUNNER}/tblKo0mCsC7gfRGC7`;
 const FEEDBACK_URL = `${COURSE_RUNNER}/tblRFqRF2tKAqh7sp`;
 const PEER_FEEDBACK_URL = `${COURSE_RUNNER}/tbl8KC4Q1i5YlCGhm`;
-const GRANTS_URL = `${APPLICATIONS}/tblh5zr4jRdrndKnC`;
 const CALLS_URL = `${APPLICATIONS}/tblVstbJehu8wew93`;
 const APPLICATION_REGISTRATIONS_URL = `${APPLICATIONS}/tblXKnWoXK3R63F6D`;
 const DROP_OUTS_URL = `${APPLICATIONS}/tblmxqYXX1RaDvunu`;
 // CRM › Person: one record per human across courses, calls and notes
 const CRM_PERSON_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tblMYYK8bL2fRJmv7';
-const CRM_RAPID_GRANTS_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tbl3ftXbbaVDRGGLP';
+// CRM › Grant applications: every program's applications, synced from the Grantmaking base
+const CRM_GRANT_APPLICATIONS_URL = 'https://api.airtable.com/v0/apppOzz9fPg59PxLa/tbliURusTrQTjxtkB';
 
 // The record's page in Airtable, so a lead can open the row behind a timeline entry
 const recordLink = (tableApiUrl: string, id: string) => `${tableApiUrl.replace('https://api.airtable.com/v0/', 'https://airtable.com/')}/${id}`;
 
-// CRM › Rapid grants
-const RAPID = {
-  email: 'fldrm6UvPUfZaISgv',
-  createdAt: 'fldh9xhyMNic4820Z',
-  decision: 'fldhpWWgl7zZgd47R',
-  projectTitle: 'fldB2CfBZxzbAy3p7',
-  projectUrl: 'fldZmXrLwVEdeRdMQ',
-  oneLiner: 'fldcppNQHZZJa4USi',
-  amountRequested: 'fldBzDMLm9ahutnTF',
-  amountGranted: 'fldHJfsaPMImrlAOb',
-  opinion: 'fldS2oWvglg2D5d9z',
-  whyItMatters: 'fldjK9tMiOMXlzI0n',
-  publicUrl: 'fldVebX6W7HDpjVsG',
-  madeBy: 'fldJnWE07WCkh9F6J',
-  decidedAt: 'fldMfQhEyV24Wxgqx',
+// CRM › Grant applications. Program code splits CTGs from Rapid Grants and the other programs.
+const GRANT = {
+  programCode: 'fldzelzvDtfuMXspL',
+  email: 'fldWhnuEt3haRK4KN',
+  fullName: 'fldAXvEVzLD4rQiks',
+  submittedAt: 'fldKFGJDLiWfuKOiI',
+  decision: 'fldqUTdas8sW9C0Kl',
+  decidedAt: 'fldykc9T8l4Pl9zI5',
+  decidedBy: 'fld7Chg5AaKdHtyhr',
+  reasoning: 'fldJuqSsUChqKI6UI',
+  amountRequested: 'fldNEqii9jsT2eJbU',
+  amountAwarded: 'fld6mpfrtcHDeyJmF',
+  title: 'fldguPWX60DREd8lt',
+  oneLiner: 'fldGdzHiMlcJLlIH4',
+  projectLinks: 'fld6GDmgwtpkR3AVM',
+  publicUrl: 'fldK7XQXptVdyA5W1',
+  reviewerOpinion: 'fldrCJ1mhObtuFt1b',
+  riskPathway: 'fldhVtxmEenEu01EU',
+  pastNinetyDays: 'fldyTTOD43D4PQvW8',
+  oldFormResponses: 'fld9Cnp2l6CHKUkkf',
 } as const;
+const APPROVED_CTGS = 'AND({Program code}=\'CTG\',{Decision}=\'Approve\')';
 
 // Locked view "Talent scouting [read by Talent Scouting App]" — the hard filter
 // lives there, so course leads can change it without a deploy.
@@ -181,20 +187,6 @@ const PEER = {
   recommendToFacilitate: 'fldlCEk5bRh2LeafW',
 } as const;
 
-// Applications › Career transition grants
-const GRANT = {
-  email: 'fldAIKWJz3O3IzyH2',
-  firstName: 'fldlfnNiJnis63fOR',
-  lastName: 'fldx6Irt51pDkL9lq',
-  createdAt: 'fldE84yZkPAzBL2gl',
-  status: 'fldnfK6Wgb1CAuvFE',
-  decisionDate: 'fld3eJ88BBBQHgcmJ',
-  amountUsd: 'fldYhy8btQ5r8vRk0',
-  reasoning: 'fld8umY7wuskih6gg',
-  evaluator: 'fldGavMM0OtpbjwnT',
-  currentSituation: 'fldytFzdfdEikERie',
-} as const;
-
 // Applications › Evaluation calls
 const CALL = {
   email: 'fldCigDwg47QHQiM8',
@@ -271,8 +263,6 @@ const nonEmpty = (text?: string) => (text?.trim() ? text.trim() : undefined);
 const num = (v: unknown): number | undefined => (typeof v === 'number' ? v : undefined);
 const strList = (v: unknown): string[] => (Array.isArray(v) ? v.map(String).filter((s) => s.trim()) : []);
 const first = (v: unknown): string | undefined => strList(v)[0];
-// A collaborator field: { id, email, name }
-const collaboratorName = (v: unknown): string | undefined => (typeof v === 'object' && v !== null && 'name' in v ? str((v as { name?: unknown }).name) : undefined);
 const url = (v: unknown): string | undefined => {
   const s = str(v);
   if (!s) return undefined;
@@ -414,7 +404,7 @@ const topScoreOf = (fields: AirtableRecord['fields']): number | undefined => {
 const fetchAlreadySupportedEmails = async (): Promise<Set<string>> => {
   try {
     const [grants, calls] = await Promise.all([
-      fetchAll(GRANTS_URL, { filterByFormula: '{Status}=\'Approve\'' }, [GRANT.email]),
+      fetchAll(CRM_GRANT_APPLICATIONS_URL, { filterByFormula: APPROVED_CTGS }, [GRANT.email]),
       fetchAll(CALLS_URL, { filterByFormula: '{Status}=\'Call complete\'' }, [CALL.email]),
     ]);
     const emails = [...grants.map((r) => str(r.fields[GRANT.email])), ...calls.map((r) => str(r.fields[CALL.email]))];
@@ -434,11 +424,11 @@ export type GrantUnderOtherEmail = { recordUrl: string; email?: string };
 export const fetchGrantsUnderOtherEmail = async (name: string, email: string): Promise<GrantUnderOtherEmail[]> => {
   const wanted = normaliseName(name);
   if (!wanted) return [];
-  const grants = await fetchAll(GRANTS_URL, { filterByFormula: '{Status}=\'Approve\'' }, [GRANT.firstName, GRANT.lastName, GRANT.email]);
+  const grants = await fetchAll(CRM_GRANT_APPLICATIONS_URL, { filterByFormula: APPROVED_CTGS }, [GRANT.fullName, GRANT.email]);
   return grants
-    .filter((r) => normaliseName(`${str(r.fields[GRANT.firstName]) ?? ''} ${str(r.fields[GRANT.lastName]) ?? ''}`) === wanted)
+    .filter((r) => normaliseName(str(r.fields[GRANT.fullName]) ?? '') === wanted)
     .filter((r) => normaliseEmail(str(r.fields[GRANT.email]) ?? '') !== normaliseEmail(email))
-    .map((r) => ({ recordUrl: recordLink(GRANTS_URL, r.id), email: str(r.fields[GRANT.email]) }));
+    .map((r) => ({ recordUrl: recordLink(CRM_GRANT_APPLICATIONS_URL, r.id), email: str(r.fields[GRANT.email]) }));
 };
 
 export const fetchQueue = async (): Promise<QueueItem[]> => {
@@ -687,16 +677,17 @@ const toFacilitatorFeedback = (rounds: Map<string, Round>) => (r: AirtableRecord
   recommendToFacilitate: !!r.fields[PEER.recommendToFacilitate],
 });
 
+// Applications from before the August 2026 CTG form keep their answers in "Old-form responses"
 const toGrant = (r: AirtableRecord): GrantApplication => ({
   id: r.id,
-  recordUrl: recordLink(GRANTS_URL, r.id),
-  createdAt: str(r.fields[GRANT.createdAt]),
-  status: str(r.fields[GRANT.status]),
-  decisionDate: str(r.fields[GRANT.decisionDate]),
-  amountUsd: num(r.fields[GRANT.amountUsd]),
+  recordUrl: recordLink(CRM_GRANT_APPLICATIONS_URL, r.id),
+  createdAt: str(r.fields[GRANT.submittedAt]),
+  status: str(r.fields[GRANT.decision]),
+  decisionDate: str(r.fields[GRANT.decidedAt]),
+  amountUsd: num(r.fields[GRANT.amountAwarded]) ?? num(r.fields[GRANT.amountRequested]),
   reasoning: str(r.fields[GRANT.reasoning]),
-  decidedBy: collaboratorName(r.fields[GRANT.evaluator]),
-  currentSituation: str(r.fields[GRANT.currentSituation]),
+  decidedBy: str(r.fields[GRANT.decidedBy]),
+  currentSituation: str(r.fields[GRANT.pastNinetyDays]) ?? str(r.fields[GRANT.oldFormResponses]),
 });
 
 const toCall = (r: AirtableRecord): EvaluationCall => ({
@@ -751,21 +742,25 @@ const toApplication = (r: AirtableRecord): Application => {
 
 const HISTORY_FIELDS = [REG.round, REG.role, REG.opinion, REG.certificateCreatedAt, REG.droppedOut, REG.applicationId, REG.numAttended, REG.numExpected];
 
+const isCtg = (r: AirtableRecord) => str(r.fields[GRANT.programCode]) === 'CTG';
+
+// Project links is free text, one link per line
 const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   id: r.id,
-  recordUrl: recordLink(CRM_RAPID_GRANTS_URL, r.id),
-  createdAt: str(r.fields[RAPID.createdAt]),
-  decision: str(r.fields[RAPID.decision]),
-  projectTitle: str(r.fields[RAPID.projectTitle]),
-  projectUrl: url(r.fields[RAPID.projectUrl]),
-  oneLiner: str(r.fields[RAPID.oneLiner]),
-  amountRequestedUsd: num(r.fields[RAPID.amountRequested]),
-  amountGrantedUsd: num(r.fields[RAPID.amountGranted]),
-  opinion: str(r.fields[RAPID.opinion]),
-  whyItMatters: str(r.fields[RAPID.whyItMatters]),
-  publicUrl: url(r.fields[RAPID.publicUrl]),
-  madeBy: collaboratorName(r.fields[RAPID.madeBy]),
-  decidedAt: str(r.fields[RAPID.decidedAt]),
+  recordUrl: recordLink(CRM_GRANT_APPLICATIONS_URL, r.id),
+  program: str(r.fields[GRANT.programCode]),
+  createdAt: str(r.fields[GRANT.submittedAt]),
+  decision: str(r.fields[GRANT.decision]),
+  projectTitle: str(r.fields[GRANT.title]),
+  projectUrl: url(str(r.fields[GRANT.projectLinks])?.split('\n').find((line) => line.trim())?.trim()),
+  oneLiner: str(r.fields[GRANT.oneLiner]),
+  amountRequestedUsd: num(r.fields[GRANT.amountRequested]),
+  amountGrantedUsd: num(r.fields[GRANT.amountAwarded]),
+  opinion: str(r.fields[GRANT.reviewerOpinion]),
+  whyItMatters: str(r.fields[GRANT.riskPathway]),
+  publicUrl: url(r.fields[GRANT.publicUrl]),
+  madeBy: str(r.fields[GRANT.decidedBy]),
+  decidedAt: str(r.fields[GRANT.decidedAt]),
 });
 
 // Applications for this email that did not become a registration (the registrations'
@@ -851,10 +846,9 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
   const history = email ? await fetchHistory(email, id, rounds) : [];
   const registrationApplicationIds = new Set(history.map((h) => h.applicationId).filter((x): x is string => !!x));
   const pastApplicationIds = history.filter((h) => !h.isCurrent).map((h) => h.applicationId).filter((x): x is string => !!x);
-  const [otherApplications, grants, rapidGrants, calls, reports, peerFeedback, projects, feedback, application, crmPersonId, sessions, pastApplications] = await Promise.all([
+  const [otherApplications, grantApplications, calls, reports, peerFeedback, projects, feedback, application, crmPersonId, sessions, pastApplications] = await Promise.all([
     email ? fetchOtherApplications(email, registrationApplicationIds) : Promise.resolve([]),
-    email ? fetchAll(GRANTS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
-    email ? fetchAll(CRM_RAPID_GRANTS_URL, { filterByFormula: byEmailFormula('Applicant email', email) }, Object.values(RAPID)) : Promise.resolve([]),
+    email ? fetchAll(CRM_GRANT_APPLICATIONS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(GRANT)) : Promise.resolve([]),
     email ? fetchAll(CALLS_URL, { filterByFormula: byEmailFormula('Email', email) }, Object.values(CALL)) : Promise.resolve([]),
     fetchMany(REPORTS_URL, strList(f[REG.reports]), Object.values(REPORT)),
     fetchMany(PEER_FEEDBACK_URL, strList(f[REG.peerFeedback]), Object.values(PEER)),
@@ -900,8 +894,8 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     aiTake: nonEmpty(str(f[REG.aiTake])),
     history: attachPastApplications(history, applicationById).map((h) => ({ ...h, dropOutReason: h.droppedOut && h.applicationId ? reasonByApplication.get(h.applicationId) : undefined })),
     otherApplications,
-    grants: grants.map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
-    rapidGrants: rapidGrants.map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
+    grants: grantApplications.filter(isCtg).map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
+    rapidGrants: grantApplications.filter((r) => !isCtg(r)).map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     reports: reports.map(toReport(rounds, facilitators)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
     facilitatorFeedback,

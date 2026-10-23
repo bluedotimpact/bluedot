@@ -20,12 +20,12 @@ const reads = async (input: RequestInfo | URL, init?: RequestInit) => {
   if (init?.method === 'PATCH') return json({ id, fields: JSON.parse(init.body as string).fields });
 
   if (url.pathname.endsWith(id)) return json({ id, fields: currentFields });
-  if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) {
+  if (url.pathname.endsWith('tbliURusTrQTjxtkB')) {
     return json({
       records: [
-        { id: 'recGrantSample001', fields: { fldlfnNiJnis63fOR: 'Sámple', fldx6Irt51pDkL9lq: 'Participant ', fldAIKWJz3O3IzyH2: 'other.address@example.org' } },
-        { id: 'recGrantSample002', fields: { fldlfnNiJnis63fOR: 'Sample', fldx6Irt51pDkL9lq: 'Participant', fldAIKWJz3O3IzyH2: 'Sample.Participant@example.org' } },
-        { id: 'recGrantSample003', fields: { fldlfnNiJnis63fOR: 'Someone', fldx6Irt51pDkL9lq: 'Else', fldAIKWJz3O3IzyH2: 'someone.else@example.org' } },
+        { id: 'recGrantSample001', fields: { fldAXvEVzLD4rQiks: 'Sámple Participant ', fldWhnuEt3haRK4KN: 'other.address@example.org' } },
+        { id: 'recGrantSample002', fields: { fldAXvEVzLD4rQiks: 'Sample Participant', fldWhnuEt3haRK4KN: 'Sample.Participant@example.org' } },
+        { id: 'recGrantSample003', fields: { fldAXvEVzLD4rQiks: 'Someone Else', fldWhnuEt3haRK4KN: 'someone.else@example.org' } },
       ],
     });
   }
@@ -146,9 +146,9 @@ test('leaves out people with an approved career transition grant or a completed 
       return json({ records: [{ id, fields: withEmail('kept@example.org') }, { id: granted, fields: withEmail('Granted@example.org') }, { id: called, fields: withEmail('called@example.org') }] });
     }
 
-    if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) {
-      expect(url.searchParams.get('filterByFormula')).toBe('{Status}=\'Approve\'');
-      return json({ records: [{ id: 'recGrant', fields: { fldAIKWJz3O3IzyH2: 'granted@example.org' } }] });
+    if (url.pathname.endsWith('tbliURusTrQTjxtkB')) {
+      expect(url.searchParams.get('filterByFormula')).toBe('AND({Program code}=\'CTG\',{Decision}=\'Approve\')');
+      return json({ records: [{ id: 'recGrant', fields: { fldWhnuEt3haRK4KN: 'granted@example.org' } }] });
     }
 
     if (url.pathname.endsWith('tblVstbJehu8wew93')) {
@@ -255,7 +255,7 @@ test('the summary is one write; the lookup state reads both fields; the sweep as
 
 test('grants under another email: same full name ignoring accents, case and spacing, and only when the email differs', async () => {
   expect(await run(fetchGrantsUnderOtherEmail('Sample  participant', 'sample.participant@example.org'))).toEqual([
-    { recordUrl: 'https://airtable.com/appnJbsG1eWbAdEvf/tblh5zr4jRdrndKnC/recGrantSample001', email: 'other.address@example.org' },
+    { recordUrl: 'https://airtable.com/apppOzz9fPg59PxLa/tbliURusTrQTjxtkB/recGrantSample001', email: 'other.address@example.org' },
   ]);
   expect(await run(fetchGrantsUnderOtherEmail('Nobody Here', 'nobody@example.org'))).toEqual([]);
 });

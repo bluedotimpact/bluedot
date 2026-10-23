@@ -114,10 +114,12 @@ export type OtherApplication = {
   application?: Application;
 };
 
-// CRM › Rapid grants: small project grants, separate from career transition grants
+// CRM › Grant applications that aren't career transition grants: Rapid Grants, Events RFE, Seed and so on
 export type RapidGrant = {
   id: string;
   recordUrl?: string;
+  // Program code, e.g. RG, RFE-EVENTS, SEED
+  program?: string;
   createdAt?: string;
   decision?: string;
   projectTitle?: string;
