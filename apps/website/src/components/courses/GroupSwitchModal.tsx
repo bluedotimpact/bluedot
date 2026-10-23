@@ -445,7 +445,7 @@ export default function GroupSwitchModal({
               </div>
               <Button
                 variant="secondary"
-                className="border-bluedot-navy text-primary hover:bg-info-bg"
+                className="border-primary text-primary hover:bg-info-bg"
                 onClick={() => setIsManualRequest(true)}
                 aria-label="Request manual group switch"
               >
