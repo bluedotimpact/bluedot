@@ -228,7 +228,7 @@ const Exercise: React.FC<ExerciseProps> = ({
                 'size-6 rounded-full flex items-center justify-center p-0 transition-all duration-300 box-border',
                 checkboxDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
                 isCompleted && 'bg-accent border-none',
-                !isCompleted && checkboxHovered && !checkboxDisabled && 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]',
+                !isCompleted && checkboxHovered && !checkboxDisabled && 'bg-tint border border-border-control',
                 !isCompleted && !(checkboxHovered && !checkboxDisabled) && 'bg-bluedot-lightest border',
               )}
             >
@@ -238,7 +238,7 @@ const Exercise: React.FC<ExerciseProps> = ({
             </button>
           </div>
         )}
-        {/* Conditional padding: GroupResponses needs edge-to-edge for its blue background */}
+        {/* Conditional padding: GroupResponses needs edge-to-edge for its tinted panel */}
         <div className={cn('container-lined bg-raised flex flex-col gap-5', !showGroupResponses && 'p-8')}>
           <div className={cn('flex flex-col gap-2', showGroupResponses && 'px-8 pt-8')}>
             <p className="bluedot-h4 not-prose">{exerciseData.title}</p>

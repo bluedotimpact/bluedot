@@ -118,7 +118,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
             <div className="flex justify-center gap-10 m-8">
               <SocialButton
                 icon={<FaFacebook size={24} />}
-                color="text-blue-600"
+                color="text-accent"
                 onClick={() => shareToSocial('facebook')}
               >
                 Facebook
@@ -126,7 +126,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
 
               <SocialButton
                 icon={<FaXTwitter size={24} />}
-                color="text-black"
+                color="text-primary"
                 onClick={() => shareToSocial('x')}
               >
                 X
@@ -134,7 +134,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
 
               <SocialButton
                 icon={<FaLinkedin size={24} />}
-                color="text-blue-700"
+                color="text-accent"
                 onClick={() => shareToSocial('linkedin')}
               >
                 LinkedIn

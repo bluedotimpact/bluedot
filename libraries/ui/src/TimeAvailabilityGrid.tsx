@@ -206,7 +206,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
                   }}
                   className={clsx(
                     `relative h-4 border-r border-b border-border-control ${borderStyle}`,
-                    isBlocked && 'bg-green-400',
+                    isBlocked && 'bg-success-fg',
                   )}
                   onPointerDown={(e) => {
                     e.preventDefault();
@@ -218,7 +218,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
                     <div
                       className={clsx(
                         'pointer-events-none absolute inset-0 size-full opacity-75',
-                        dragState.dragging === 'pos' ? 'bg-green-400' : 'bg-purple-400',
+                        dragState.dragging === 'pos' ? 'bg-success-fg' : 'bg-raised',
                       )}
                     />
                   )}

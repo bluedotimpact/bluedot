@@ -42,6 +42,7 @@ const summarise = (history: PreviousApplication[], course: string): Verdict => {
   return { kind: 'other', count: history.length };
 };
 
+// Five-step yes/no ramp; the status tones only give three steps.
 const opinionBadgeClass = (opinion: string): string => {
   switch (opinion) {
     case 'Strong yes': return 'bg-blue-800 text-on-dark';
@@ -55,8 +56,8 @@ const opinionBadgeClass = (opinion: string): string => {
 
 const decisionBadgeClass = (decision: string): string => {
   switch (decision) {
-    case 'Accept': return 'bg-blue-600 text-on-dark';
-    case 'Reject': return 'bg-red-600 text-on-dark';
+    case 'Accept': return 'bg-info-fg text-on-dark';
+    case 'Reject': return 'bg-error-fg text-on-dark';
     default: return 'bg-active text-primary';
   }
 };
@@ -84,7 +85,7 @@ const BannerLabel: React.FC<{ verdict: Verdict }> = ({ verdict }) => {
 };
 
 const bannerClass = (verdict: Verdict): string => {
-  if (verdict.kind === 'accepted') return 'bg-warning-bg/40 border-warning-border text-amber-200';
+  if (verdict.kind === 'accepted') return 'bg-warning-bg/40 border-warning-border text-warning-fg';
   if (verdict.kind === 'rejected') return 'bg-tint border-subtle text-primary';
   return 'bg-tint border-subtle text-secondary';
 };

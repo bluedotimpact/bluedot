@@ -48,7 +48,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
   const pendingCount = Math.max(0, totalParticipants - responses.length);
 
   return (
-    <div className="bg-[#F9FBFF] px-8 pt-6 pb-8 rounded-b-lg flex flex-col gap-6">
+    <div className="bg-canvas px-8 pt-6 pb-8 rounded-b-lg flex flex-col gap-6">
       {groups.length > 1 && (
         <div className="flex flex-col gap-2">
           <span className="text-size-xs font-semibold text-primary">Select your group:</span>
@@ -109,7 +109,7 @@ const ResponseBlock: React.FC<{
             <MarkdownExtendedRenderer>{response}</MarkdownExtendedRenderer>
           </div>
           {!expanded && (
-            <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-[#F9FBFF] to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-canvas to-transparent pointer-events-none" />
           )}
         </div>
       </div>

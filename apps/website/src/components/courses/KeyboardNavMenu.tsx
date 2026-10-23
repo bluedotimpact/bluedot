@@ -49,7 +49,7 @@ const KeyboardNavMenu = ({
                   {keys.map((key) => (
                     <Keyboard
                       key={key}
-                      className="min-w-8 rounded border border-blue-700 bg-blue-100 px-2 py-1 text-center text-blue-800"
+                      className="min-w-8 rounded border border-info-border bg-info-bg px-2 py-1 text-center text-info-fg"
                     >
                       {key}
                     </Keyboard>

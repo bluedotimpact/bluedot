@@ -29,6 +29,7 @@ const Embed: React.FC<EmbedProps> = ({
       audioUrl = `https://cdn1.suno.ai/${songId}.mp3`;
     }
 
+    // Purple gradient and hover are Suno brand colours, not ours.
     return (
       <div className={clsx('embed rounded-xl border bg-raised shadow-md flex flex-col min-h-fit', className)}>
         <div className="p-5 pb-4">

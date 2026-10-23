@@ -445,7 +445,7 @@ export default function GroupSwitchModal({
               </div>
               <Button
                 variant="secondary"
-                className="border-bluedot-navy text-primary hover:bg-blue-50"
+                className="border-bluedot-navy text-primary hover:bg-info-bg"
                 onClick={() => setIsManualRequest(true)}
                 aria-label="Request manual group switch"
               >
@@ -625,8 +625,8 @@ const GroupSwitchOption = ({
   return (
     <div
       className={cn(
-        'rounded-lg p-3 transition-all cursor-pointer border bg-raised hover:bg-blue-50 hover:border-strong',
-        isSelected && 'border-accent hover:border-accent bg-blue-50',
+        'rounded-lg p-3 transition-all cursor-pointer border bg-raised hover:bg-info-bg hover:border-strong',
+        isSelected && 'border-accent hover:border-accent bg-info-bg',
         disabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-raised',
         userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',
       )}
