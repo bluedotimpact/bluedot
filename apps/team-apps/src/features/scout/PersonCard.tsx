@@ -365,7 +365,7 @@ const decisionStatus = (label?: string): Status => {
   if (!label) return { tone: 'quiet', label: 'No decision yet' };
   let tone: Tone = 'warn';
   if (/withdrawn/i.test(label)) tone = 'quiet';
-  else if (/reject|archiv/i.test(label)) tone = 'bad';
+  else if (/reject|declin|archiv/i.test(label)) tone = 'bad';
   else if (/accept|approve/i.test(label)) tone = 'good';
   else if (/complete/i.test(label)) tone = 'plain';
   return { tone, label: label === 'call' ? 'Call' : label };
@@ -547,14 +547,14 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
   <TimelineRow
     when={monthYear(g.decisionDate ?? g.createdAt)}
     kind="CTG"
-    detail={amounts(g.amountUsd)}
+    detail={amounts(g.amountRequestedUsd, g.amountUsd)}
     status={decisionStatus(g.status)}
     url={g.recordUrl}
     more={(
       <div className="flex flex-col gap-2">
         <DecisionLine by={g.decidedBy} on={g.decisionDate} />
         <More always label="BlueDot · Decision reasoning" text={hasText(g.reasoning) ? g.reasoning : undefined} />
-        {hasText(g.currentSituation) && <More label="Applicant · Current situation" text={g.currentSituation} />}
+        {hasText(g.currentSituation) && <More label="Applicant · Recent work and situation" text={g.currentSituation} />}
       </div>
     )}
   />
@@ -563,12 +563,12 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
 const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
   <TimelineRow
     when={monthYear(g.createdAt)}
-    kind="Rapid grant"
+    kind={g.program && g.program !== 'RG' ? g.program : 'Rapid grant'}
     detail={amounts(g.amountRequestedUsd, g.amountGrantedUsd)}
     opinion={g.opinion}
     status={decisionStatus(g.decision)}
     url={g.recordUrl}
-    more={(hasText(g.projectTitle) || hasText(g.whyItMatters) || g.madeBy) && (
+    more={(hasText(g.projectTitle) || hasText(g.whyItMatters) || [g.madeBy, g.publicUrl, g.projectUrl].some(Boolean)) && (
       <div className="flex flex-col gap-2">
         <DecisionLine by={g.madeBy} on={g.decidedAt} projectUrl={g.publicUrl ?? g.projectUrl} />
         {hasText(g.projectTitle) && <More label="Applicant · Project title" text={g.projectTitle} />}
