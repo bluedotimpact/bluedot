@@ -25,6 +25,7 @@ describe('Button', () => {
 
   test.each([
     ['ghost', 'text-secondary'],
+    ['link', 'underline'],
     ['outline-black', 'border-strong'],
   ] as const)('%s variant uses its token', (variant, token) => {
     render(<Button variant={variant}>Click me</Button>);
