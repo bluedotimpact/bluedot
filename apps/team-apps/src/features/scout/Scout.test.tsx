@@ -4,9 +4,7 @@ import {
 import {
   afterEach, beforeEach, expect, test, vi,
 } from 'vitest';
-import {
-  forwardRef, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes,
-} from 'react';
+import type { ReactNode } from 'react';
 import { useNavigationState } from '../../lib/client/navigation';
 import { authFetch } from '../../lib/client/api';
 import type { Course, Person } from './types';
@@ -16,14 +14,13 @@ const routerQuery: Record<string, string> = {};
 const routerReplace = vi.fn();
 vi.mock('next/router', () => ({ useRouter: () => ({ query: routerQuery, pathname: '/scout', replace: routerReplace }) }));
 vi.mock('./PersonCard', () => ({ PersonCard: ({ person }: { person: { name: string } }) => <p>{person.name}</p> }));
-vi.mock('@bluedot/ui', () => ({
+vi.mock('@bluedot/ui', async () => ({
+  ...(await vi.importActual<typeof import('@bluedot/ui')>('@bluedot/ui')),
   Callout: ({ children, role }: { children: ReactNode; role?: string }) => <div role={role}>{children}</div>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   ProgressDots: () => <span>Loading</span>,
   Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
-  Input: forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { trailing?: ReactNode }>(({ trailing, ...props }, ref) => <><input ref={ref} {...props} />{trailing}</>),
-  Textarea: (props: TextareaHTMLAttributes<HTMLTextAreaElement>) => <textarea {...props} />,
 }));
 import Scout, { greeting, headline } from './Scout';
 import { pickRecap } from './RoundPicker';
@@ -324,7 +321,7 @@ test('deciding on an endorsed person names the facilitator, warns that they will
   expect(dialog.textContent).toContain('Your note to the facilitator (optional)');
   expect(dialog.textContent).toContain('Overall take: Sharpest questions in the group.');
   expect(dialog.textContent).toContain('Agency 5/5: Started a reading group.');
-  fireEvent.change(screen.getByRole('textbox', { name: 'Note to the facilitator' }), { target: { value: '  Not quite ready for a call yet. ' } });
+  fireEvent.change(screen.getByRole('textbox', { name: 'Your note to the facilitator (optional)' }), { target: { value: '  Not quite ready for a call yet. ' } });
   fireEvent.click(screen.getAllByRole('button', { name: 'Don’t invite' }).slice(-1)[0]!);
   await waitFor(() => expect(decisions()).toHaveLength(1));
   expect(JSON.parse(decisions()[0]![1]!.body as string)).toEqual({ id: endorsed.id, decision: 'decline', note: 'Not quite ready for a call yet.' });
@@ -332,7 +329,7 @@ test('deciding on an endorsed person names the facilitator, warns that they will
   await screen.findByText('Sam Chen');
   fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
   await screen.findByRole('dialog');
-  expect(screen.queryByRole('textbox', { name: 'Note to the facilitator' })).toBeNull();
+  expect(screen.queryByRole('textbox', { name: 'Your note to the facilitator (optional)' })).toBeNull();
 });
 
 test('chooses a round before loading people and never includes another round from the same course', async () => {
