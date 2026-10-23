@@ -41,7 +41,7 @@ const StateRow = ({ variant, tone }: Pick<ButtonProps, 'variant' | 'tone'>) => (
 
 export const Primary: Story = {};
 
-export const Link: Story = {
+export const AsAnchor: Story = {
   args: { url: 'https://bluedot.org', children: 'Visit bluedot.org' },
 };
 
