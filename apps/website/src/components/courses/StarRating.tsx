@@ -11,7 +11,7 @@ type StarRatingProps = {
 const StarRating: React.FC<StarRatingProps> = ({ rating, onChange }) => {
   const [hoverRating, setHoverRating] = useState<number>(0);
 
-  // Star gold has no role token. Audited in #3318.
+  // Star gold has no role token.
   return (
     <div className="star-rating flex -mx-2">
       {[1, 2, 3, 4, 5].map((i) => (

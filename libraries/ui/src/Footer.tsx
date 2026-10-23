@@ -104,7 +104,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   const programLinks: FooterLinkItem[] = programs.map((program) => ({ url: program.path, label: program.title }));
 
-  // Footer black has no role token; `bg-dark` is navy. The website body background mirrors this hex. Audited in #3318.
+  // Footer black has no role token; `bg-dark` is navy. The website body background mirrors this hex.
   return (
     <footer className={clsx('w-full bg-[#02051E]', className)}>
       {loading ? (
