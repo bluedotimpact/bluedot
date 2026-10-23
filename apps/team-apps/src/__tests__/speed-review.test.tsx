@@ -5,6 +5,7 @@ import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import type { ReactNode } from 'react';
+import type * as BluedotUi from '@bluedot/ui';
 import type { Application, QueueFilters } from '../lib/client/types';
 import { useNavigationState } from '../lib/client/navigation';
 
@@ -25,7 +26,8 @@ vi.mock('axios-hooks', () => ({
   },
 }));
 vi.mock('../lib/client/api', () => ({ authFetch: vi.fn() }));
-vi.mock('@bluedot/ui', () => ({
+vi.mock('@bluedot/ui', async () => ({
+  ...(await vi.importActual<typeof BluedotUi>('@bluedot/ui')),
   Button: ({ children, onClick }: { children: ReactNode; onClick?: () => void }) => <button type="button" onClick={onClick}>{children}</button>,
   H1: ({ children }: { children: ReactNode }) => <h1>{children}</h1>,
   H2: ({ children }: { children: ReactNode }) => <h2>{children}</h2>,

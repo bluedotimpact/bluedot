@@ -4,7 +4,7 @@ import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import {
-  Callout, Button, Modal, ProgressDots,
+  Callout, Button, Field, Modal, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
@@ -476,10 +476,9 @@ const Scout = () => {
                   <span className="font-semibold">Endorsed:</span>
                   {' '}This will email {endorsers(confirmation.person).join(' and ')} to let them know.
                 </p>
-                <label className="block text-size-xs text-secondary">
-                  Your note to the facilitator (optional)
-                  <textarea aria-label="Note to the facilitator" value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} rows={2} maxLength={2000} placeholder="Anything you would like to tell them?" className="mt-1 block w-full resize-y rounded-surface border border-subtle bg-white p-2 text-size-sm text-primary" />
-                </label>
+                <Field label="Your note to the facilitator (optional)">
+                  <Textarea value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} maxLength={2000} placeholder="Anything you would like to tell them?" />
+                </Field>
                 <details className="text-size-xs">
                   <summary className="cursor-pointer text-secondary underline underline-offset-2 hover:text-primary">Remind me what they said</summary>
                   <div className="mt-2 space-y-3">

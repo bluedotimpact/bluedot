@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
-import { Callout, Button, ProgressDots } from '@bluedot/ui';
+import {
+  Callout, Button, Checkbox, ProgressDots,
+} from '@bluedot/ui';
 import { FaChevronDown } from 'react-icons/fa6';
 import { type Round } from '../lib/api/airtable';
 import {
@@ -169,23 +171,17 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
               {offeredFilters.map((option) => {
                 const checked = filterIds.includes(option.id);
                 const blocked = !checked && atFilterLimit;
-                let stateClasses = 'border-subtle cursor-pointer hover:border-accent';
-                if (checked) stateClasses = 'border-accent bg-tint cursor-pointer';
-                else if (blocked) stateClasses = 'border-subtle cursor-not-allowed opacity-50';
                 return (
-                  <label
+                  <Checkbox
                     key={option.id}
-                    className={`flex items-center gap-2 min-h-11 max-w-full px-3 py-2 rounded-lg border transition-colors ${stateClasses}`}
+                    card
+                    checked={checked}
+                    disabled={blocked}
+                    onChange={() => toggleFilter(option.id)}
+                    className="max-w-full"
                   >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      disabled={blocked}
-                      onChange={() => toggleFilter(option.id)}
-                      className="size-4 shrink-0 accent-accent"
-                    />
-                    <span className="min-w-0 break-words text-size-sm text-primary">{option.label}</span>
-                  </label>
+                    <span className="min-w-0 break-words">{option.label}</span>
+                  </Checkbox>
                 );
               })}
             </div>
