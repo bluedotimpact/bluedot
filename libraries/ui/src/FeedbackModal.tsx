@@ -248,7 +248,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 className={cn(
                   'flex flex-col gap-3 rounded-surface border p-3 transition-colors',
                   isDragging
-                    ? 'border-accent bg-accent/[8%] border-dashed'
+                    ? 'border-accent bg-accent/8 border-dashed'
                     : 'focus-within:border-focus bg-raised',
                 )}
                 onDragOver={handleDragOver}
