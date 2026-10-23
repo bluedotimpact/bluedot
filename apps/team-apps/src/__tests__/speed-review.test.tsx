@@ -4,7 +4,7 @@ import {
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import type { InputHTMLAttributes, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { Application, QueueFilters } from '../lib/client/types';
 import { useNavigationState } from '../lib/client/navigation';
 
@@ -34,7 +34,6 @@ vi.mock('@bluedot/ui', () => ({
     isOpen ? <div role="dialog"><h2>{title}</h2>{children}</div> : null
   ),
   ProgressDots: () => <span>Loading</span>,
-  Checkbox: ({ children, card: _card, ...props }: { children?: ReactNode; card?: boolean } & InputHTMLAttributes<HTMLInputElement>) => <label><input type="checkbox" {...props} />{children}</label>,
 }));
 vi.mock('../components/RoundPicker', () => ({
   RoundPicker: ({ onSelect, notice }: { onSelect: (round: { id: string; name: string; course: string }, direction: string, filters?: QueueFilters) => void; notice?: string }) => {
