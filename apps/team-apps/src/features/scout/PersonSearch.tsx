@@ -1,5 +1,6 @@
 import { Input } from '@bluedot/ui';
-import { useId } from 'react';
+import { useId, useRef } from 'react';
+import { FaXmark } from 'react-icons/fa6';
 import type { QueueItem } from './types';
 import { roundLabel } from './reviewQueue';
 
@@ -18,18 +19,33 @@ export const PersonSearch = ({
   items, query, onQueryChange, onSelect,
 }: { items: QueueItem[]; query: string; onQueryChange: (value: string) => void; onSelect: (item: QueueItem) => void }) => {
   const inputId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
   const results = searchQueue(items, query);
   const active = query.trim().length >= 2;
   return (
     <section aria-label="Find a participant" className="flex flex-col gap-2">
       <label htmlFor={inputId} className="text-size-xs font-medium text-secondary">Find a participant in the queue</label>
       <Input
+        ref={inputRef}
         id={inputId}
         type="search"
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
         placeholder="Name or email"
         autoComplete="off"
+        trailing={query ? (
+          <button
+            type="button"
+            aria-label="Clear search"
+            onClick={() => {
+              onQueryChange('');
+              inputRef.current?.focus();
+            }}
+            className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+          >
+            <FaXmark aria-hidden />
+          </button>
+        ) : undefined}
       />
       {active && results.length === 0 && <p className="text-size-xs text-secondary">Nobody in the queue matches that.</p>}
       {results.length > 0 && (
