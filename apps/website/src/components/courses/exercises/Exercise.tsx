@@ -238,7 +238,7 @@ const Exercise: React.FC<ExerciseProps> = ({
             </button>
           </div>
         )}
-        {/* Conditional padding: GroupResponses needs edge-to-edge for its blue background */}
+        {/* Conditional padding: GroupResponses needs edge-to-edge for its tinted panel */}
         <div className={cn('container-lined bg-raised flex flex-col gap-5', !showGroupResponses && 'p-8')}>
           <div className={cn('flex flex-col gap-2', showGroupResponses && 'px-8 pt-8')}>
             <p className="bluedot-h4 not-prose">{exerciseData.title}</p>
