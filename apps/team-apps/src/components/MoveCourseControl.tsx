@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { Button, Select } from '@bluedot/ui';
 import { authFetch } from '../lib/client/api';
 import { pickMoveTargets } from '../lib/client/moveTargets';
@@ -23,6 +23,7 @@ export const MoveCourseControl: React.FC<MoveCourseControlProps> = ({
   const pendingWrites = useNavigationState((state) => state.pendingWrites);
   const [targetRounds, setTargetRounds] = useState<Round[]>([]);
   const [selectedRoundId, setSelectedRoundId] = useState('');
+  const labelId = useId();
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
 
@@ -79,9 +80,9 @@ export const MoveCourseControl: React.FC<MoveCourseControlProps> = ({
       </div>
 
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-        <span id="move-round-label" className="text-size-xs text-secondary shrink-0">Move to:</span>
+        <span id={labelId} className="text-size-xs text-secondary shrink-0">Move to:</span>
         <Select
-          aria-labelledby="move-round-label"
+          aria-labelledby={labelId}
           value={selectedRoundId || undefined}
           onChange={setSelectedRoundId}
           placeholder="Select a round…"
