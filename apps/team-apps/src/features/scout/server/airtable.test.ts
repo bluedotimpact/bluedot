@@ -4,7 +4,7 @@ import {
 
 vi.mock('../../../lib/api/env', () => ({ default: { AIRTABLE_PERSONAL_ACCESS_TOKEN: 'test-only' } }));
 import {
-  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLead, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, pickReasonOf, ratingOutOf, toHistoryRow, writeAiSummary,
+  attachPastApplications, dropOutReasons, fetchGrantsUnderOtherEmail, fetchIdsNeedingLookup, fetchLead, fetchLookupState, fetchQueue, inviteForReal, declineForReal, parseLeadCourses, parseWebFacts, pickReasonOf, ratingOutOf, splitGrantApplications, toHistoryRow, writeAiSummary,
 } from './airtable';
 import type { Application, Registration } from '../types';
 
@@ -293,4 +293,36 @@ test('a top pick gets one reason, in the order the picker counts them', () => {
   expect(pickReasonOf({ ...ten, fldoLlp0mb3G1Cjrs: 'Neutral', fldH4kT9DA79mlzBg: ['Weak yes'] })).toBe('top score');
   expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [5] })).toBe('top score');
   expect(pickReasonOf({ fldoLlp0mb3G1Cjrs: 'Neutral', fldAOii0tbRfD1210: [8], fld1rY5FPzVWrzyGM: [4] })).toBeUndefined();
+});
+
+test('grant applications: CTGs and other programs split by program code, mapped from the CRM sync', () => {
+  const { grants, rapidGrants } = splitGrantApplications([
+    {
+      id: 'recGrantSample010',
+      fields: {
+        fldzelzvDtfuMXspL: 'RG', fldKFGJDLiWfuKOiI: '2026-10-20T10:00:00.000Z', fldqUTdas8sW9C0Kl: 'Decline', fldguPWX60DREd8lt: 'Evals sprint', fldNEqii9jsT2eJbU: 3000, fld6GDmgwtpkR3AVM: '\n github.com/example/evals \nhttps://example.org/second', fld7Chg5AaKdHtyhr: 'reviewer@example.org',
+      },
+    },
+    {
+      id: 'recGrantSample011',
+      fields: {
+        fldzelzvDtfuMXspL: 'CTG', fldKFGJDLiWfuKOiI: '2026-10-21T10:00:00.000Z', fldqUTdas8sW9C0Kl: 'Approve', fldNEqii9jsT2eJbU: 40000, fld6mpfrtcHDeyJmF: 30000, fldJuqSsUChqKI6UI: 'Strong track record.', fldyTTOD43D4PQvW8: 'Shipped an eval.', fld9Cnp2l6CHKUkkf: 'Old answers',
+      },
+    },
+    { id: 'recGrantSample012', fields: { fldzelzvDtfuMXspL: 'CTG', fldKFGJDLiWfuKOiI: '2026-07-01T10:00:00.000Z', fld9Cnp2l6CHKUkkf: 'Old answers' } },
+    { id: 'recGrantSample013', fields: { fldzelzvDtfuMXspL: 'SEED', fldKFGJDLiWfuKOiI: '2026-10-01T10:00:00.000Z' } },
+  ]);
+
+  expect(grants.map((g) => g.id)).toEqual(['recGrantSample012', 'recGrantSample011']);
+  expect(grants[1]).toMatchObject({
+    status: 'Approve', amountRequestedUsd: 40000, amountUsd: 30000, reasoning: 'Strong track record.', currentSituation: 'Shipped an eval.',
+    recordUrl: 'https://airtable.com/apppOzz9fPg59PxLa/tbliURusTrQTjxtkB/recGrantSample011',
+  });
+  expect(grants[0]!.currentSituation).toBe('Old answers');
+  expect(grants[0]!.amountUsd).toBeUndefined();
+
+  expect(rapidGrants.map((g) => [g.id, g.program])).toEqual([['recGrantSample013', 'SEED'], ['recGrantSample010', 'RG']]);
+  expect(rapidGrants[1]).toMatchObject({
+    decision: 'Decline', projectTitle: 'Evals sprint', amountRequestedUsd: 3000, projectUrl: 'https://github.com/example/evals', madeBy: 'reviewer@example.org',
+  });
 });

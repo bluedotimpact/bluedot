@@ -90,6 +90,8 @@ export type GrantApplication = {
   createdAt?: string;
   status?: string;
   decisionDate?: string;
+  amountRequestedUsd?: number;
+  // The awarded amount; empty until the grant is approved
   amountUsd?: number;
   // "Decision reasoning" is the evaluator's; "Current situation" is the applicant's answer
   reasoning?: string;

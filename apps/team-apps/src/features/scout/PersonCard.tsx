@@ -547,7 +547,7 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
   <TimelineRow
     when={monthYear(g.decisionDate ?? g.createdAt)}
     kind="CTG"
-    detail={amounts(g.amountUsd)}
+    detail={amounts(g.amountRequestedUsd, g.amountUsd)}
     status={decisionStatus(g.status)}
     url={g.recordUrl}
     more={(
@@ -563,12 +563,12 @@ const GrantRow: React.FC<{ g: GrantApplication }> = ({ g }) => (
 const RapidGrantRow: React.FC<{ g: RapidGrant }> = ({ g }) => (
   <TimelineRow
     when={monthYear(g.createdAt)}
-    kind={!g.program || g.program === 'RG' ? 'Rapid grant' : g.program}
+    kind={g.program && g.program !== 'RG' ? g.program : 'Rapid grant'}
     detail={amounts(g.amountRequestedUsd, g.amountGrantedUsd)}
     opinion={g.opinion}
     status={decisionStatus(g.decision)}
     url={g.recordUrl}
-    more={(hasText(g.projectTitle) || hasText(g.whyItMatters) || g.madeBy) && (
+    more={(hasText(g.projectTitle) || hasText(g.whyItMatters) || [g.madeBy, g.publicUrl, g.projectUrl].some(Boolean)) && (
       <div className="flex flex-col gap-2">
         <DecisionLine by={g.madeBy} on={g.decidedAt} projectUrl={g.publicUrl ?? g.projectUrl} />
         {hasText(g.projectTitle) && <More label="Applicant · Project title" text={g.projectTitle} />}

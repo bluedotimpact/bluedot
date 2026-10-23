@@ -684,7 +684,8 @@ const toGrant = (r: AirtableRecord): GrantApplication => ({
   createdAt: str(r.fields[GRANT.submittedAt]),
   status: str(r.fields[GRANT.decision]),
   decisionDate: str(r.fields[GRANT.decidedAt]),
-  amountUsd: num(r.fields[GRANT.amountAwarded]) ?? num(r.fields[GRANT.amountRequested]),
+  amountRequestedUsd: num(r.fields[GRANT.amountRequested]),
+  amountUsd: num(r.fields[GRANT.amountAwarded]),
   reasoning: str(r.fields[GRANT.reasoning]),
   decidedBy: str(r.fields[GRANT.decidedBy]),
   currentSituation: str(r.fields[GRANT.pastNinetyDays]) ?? str(r.fields[GRANT.oldFormResponses]),
@@ -761,6 +762,14 @@ const toRapidGrant = (r: AirtableRecord): RapidGrant => ({
   publicUrl: url(r.fields[GRANT.publicUrl]),
   madeBy: str(r.fields[GRANT.decidedBy]),
   decidedAt: str(r.fields[GRANT.decidedAt]),
+});
+
+const byCreatedAt = <T extends { createdAt?: string }>(a: T, b: T) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '');
+
+// CTGs get their own rows; every other program shows as a project grant
+export const splitGrantApplications = (records: AirtableRecord[]): { grants: GrantApplication[]; rapidGrants: RapidGrant[] } => ({
+  grants: records.filter(isCtg).map(toGrant).sort(byCreatedAt),
+  rapidGrants: records.filter((r) => !isCtg(r)).map(toRapidGrant).sort(byCreatedAt),
 });
 
 // Applications for this email that did not become a registration (the registrations'
@@ -894,8 +903,7 @@ export const fetchPerson = async (id: string): Promise<Person | undefined> => {
     aiTake: nonEmpty(str(f[REG.aiTake])),
     history: attachPastApplications(history, applicationById).map((h) => ({ ...h, dropOutReason: h.droppedOut && h.applicationId ? reasonByApplication.get(h.applicationId) : undefined })),
     otherApplications,
-    grants: grantApplications.filter(isCtg).map(toGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
-    rapidGrants: grantApplications.filter((r) => !isCtg(r)).map(toRapidGrant).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
+    ...splitGrantApplications(grantApplications),
     calls: calls.map(toCall).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '')),
     reports: reports.map(toReport(rounds, facilitators)).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? '')),
     facilitatorFeedback,
