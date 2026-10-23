@@ -60,12 +60,9 @@ const EMPTY_PARTICIPANT_ROW = {
   isDeferredToAnotherRound: false,
 } satisfies Omit<ParticipantRowProps, 'mode' | 'course' | 'courseRegistration'>;
 
-const fetchActiveCoursesByIds = async (ids: string[]) => {
+const fetchCoursesByIds = async (ids: string[]) => {
   if (ids.length === 0) return [];
-  return db.pg.select().from(courseTable.pg).where(and(
-    inArray(courseTable.pg.id, ids),
-    eq(courseTable.pg.status, 'Active'),
-  ));
+  return db.pg.select().from(courseTable.pg).where(inArray(courseTable.pg.id, ids));
 };
 
 const fetchApplicationsRoundsByIds = async (ids: string[]) => {
@@ -216,7 +213,7 @@ export const myBluedotRouter = router({
       ...selfServeRegistrations.map((cr) => cr.courseId),
     ]);
     const [courses, meetPersons, dropoutStatusByRegId] = await Promise.all([
-      fetchActiveCoursesByIds(courseIds),
+      fetchCoursesByIds(courseIds),
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.userId, user.id)),
       fetchDropoutStatusByRegId(facilitatedRegistrations.map((cr) => cr.id)),
     ]);
@@ -465,7 +462,7 @@ export const myBluedotRouter = router({
     }
 
     const [courses, meetPersons, dropoutStatusByRegId] = await Promise.all([
-      fetchActiveCoursesByIds(unique(courseRegistrations.map((cr) => cr.courseId))),
+      fetchCoursesByIds(unique(courseRegistrations.map((cr) => cr.courseId))),
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.userId, user.id)),
       fetchDropoutStatusByRegId(courseRegistrations.map((cr) => cr.id)),
     ]);
