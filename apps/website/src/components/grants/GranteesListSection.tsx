@@ -2,7 +2,7 @@ import {
   Button, ErrorSection, H2, H3, P, ProgressDots, ListGroup, ListRow, Select,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
@@ -61,6 +61,7 @@ const GranteesListSection = ({
 }: GranteesListSectionProps) => {
   const { data: grantees, isLoading, error } = trpc.grants.getAllPublicRapidGrantees.useQuery();
   const [showAll, setShowAll] = useState(false);
+  const sortLabelId = useId();
   const [sortOrder, setSortOrder] = useState('newest');
 
   if (error) {
@@ -94,9 +95,9 @@ const GranteesListSection = ({
           ) : <H3>{heading}</H3>}
           {layout === 'editorial' && (
             <div className="ml-auto flex items-center gap-2 text-size-xs text-secondary shrink-0">
-              Sort:
+              <span id={sortLabelId}>Sort:</span>
               <Select
-                aria-label="Sort projects"
+                aria-labelledby={sortLabelId}
                 value={sortOrder}
                 onChange={setSortOrder}
                 options={[
