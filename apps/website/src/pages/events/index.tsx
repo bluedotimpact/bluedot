@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import {
   addQueryParam, Breadcrumbs, Button, ProgressDots, Select,
 } from '@bluedot/ui';
@@ -29,6 +29,7 @@ const EventsPage = () => {
   const { data: events, isLoading, error } = trpc.luma.getUpcomingEvents.useQuery();
   const [filter, setFilter] = useState<EventFilter>('all');
   const [location, setLocation] = useState('all');
+  const locationLabelId = useId();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const upcomingEvents = events ?? [];
   const locations = [...new Set(upcomingEvents.filter(isInPerson)
@@ -71,9 +72,9 @@ const EventsPage = () => {
             <div className="flex flex-wrap items-center gap-4">
               {filter !== 'online' && locations.length > 0 && (
                 <div className="flex items-center gap-3 text-size-xs text-secondary">
-                  <span id="events-location-label">Location</span>
+                  <span id={locationLabelId}>Location</span>
                   <Select
-                    aria-labelledby="events-location-label"
+                    aria-labelledby={locationLabelId}
                     value={location}
                     onChange={(value) => {
                       setLocation(value);
