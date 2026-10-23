@@ -146,10 +146,10 @@ describe('?changeFacilitator link', () => {
     renderPage({ tab: 'upcoming', changeFacilitator: 'disc-1' });
 
     expect(await screen.findByRole('button', { name: /Select action type/i })).toHaveTextContent('Change facilitator');
-    expect(await screen.findByRole('button', { name: /Discussion/ })).toHaveTextContent('Unit 1: Intro');
-    expect(screen.getByRole('button', { name: /Group/ })).toHaveTextContent('Group 7');
+    expect(await screen.findByRole('button', { name: /For which discussion/ })).toHaveTextContent('Unit 1: Intro');
+    expect(screen.getByRole('button', { name: /For which group/ })).toHaveTextContent('Group 7');
     expect(screen.getByRole('button', { name: /Have you found someone to cover/ })).toHaveTextContent('Yes, I\'ve agreed with someone');
-    expect(screen.getByRole('button', { name: /New facilitator/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Select new facilitator/ })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 

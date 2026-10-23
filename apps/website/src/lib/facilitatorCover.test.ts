@@ -52,17 +52,17 @@ describe('isAvailableThroughout', () => {
 
 describe('pickFacilitatorsToTag', () => {
   test('tags everyone when there are 5 or fewer', () => {
-    expect(pickFacilitatorsToTag({ available: ['a', 'b'], noClash: ['c'], random: () => 0.99 })).toEqual({ available: ['a', 'b'], noClash: ['c'] });
+    expect(pickFacilitatorsToTag({ available: ['a', 'b'], noClash: ['c'] })).toEqual({ available: ['a', 'b'], noClash: ['c'] });
   });
 
-  test('tags 5 available facilitators at random and nobody else when more than 5 are available', () => {
-    const picked = pickFacilitatorsToTag({ available: ['a', 'b', 'c', 'd', 'e', 'f', 'g'], noClash: ['x'], random: () => 0 });
-    expect(picked).toEqual({ available: ['b', 'c', 'd', 'e', 'f'], noClash: [] });
+  test('tags the first 5 available facilitators and nobody else when more than 5 are available', () => {
+    const picked = pickFacilitatorsToTag({ available: ['a', 'b', 'c', 'd', 'e', 'f', 'g'], noClash: ['x'] });
+    expect(picked).toEqual({ available: ['a', 'b', 'c', 'd', 'e'], noClash: [] });
   });
 
   test('tops up with facilitators who have no clash', () => {
-    const picked = pickFacilitatorsToTag({ available: ['a', 'b'], noClash: ['w', 'x', 'y', 'z'], random: () => 0 });
-    expect(picked).toEqual({ available: ['b', 'a'], noClash: ['x', 'y', 'z'] });
+    const picked = pickFacilitatorsToTag({ available: ['a', 'b'], noClash: ['w', 'x', 'y', 'z'] });
+    expect(picked).toEqual({ available: ['a', 'b'], noClash: ['w', 'x', 'y'] });
   });
 });
 

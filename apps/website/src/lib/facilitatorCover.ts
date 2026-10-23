@@ -4,7 +4,7 @@ export const MAX_TAGGED_FACILITATORS = 5;
 
 const MINUTES_IN_DAY = 24 * 60;
 
-export type CoverPerson = { name: string; slackUserId: string | null };
+export type SlackPerson = { name: string; slackUserId: string | null };
 
 export type CoverMessageSegment =
   | { type: 'text'; text: string }
@@ -14,16 +14,16 @@ export type CoverMessageSegment =
   | { type: 'link'; text: string; url: string };
 
 export type CoverMessageDetails = {
-  requester: CoverPerson;
+  requester: SlackPerson;
   courseTitle: string;
   unitNumber: string | null;
   groupName: string;
   startTimeSeconds: number;
   endTimeSeconds: number;
   /** Tagged facilitators whose availability covers the discussion */
-  availableFacilitators: CoverPerson[];
+  availableFacilitators: SlackPerson[];
   /** Tagged facilitators with no clashing discussion, whose availability doesn't cover it */
-  noClashFacilitators: CoverPerson[];
+  noClashFacilitators: SlackPerson[];
   moreAvailableThanTagged: boolean;
   assignUrl: string;
 };
@@ -56,24 +56,10 @@ export const isAvailableThroughout = ({ availabilityIntervalsUTC, startTimeSecon
   return true;
 };
 
-const shuffle = <T>(items: T[], random: () => number): T[] => {
-  const shuffled = [...items];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
-  }
-
-  return shuffled;
-};
-
-/** Up to MAX_TAGGED_FACILITATORS: available facilitators first, topped up with ones who just have no clash */
-export const pickFacilitatorsToTag = <T>({ available, noClash, random = Math.random }: {
-  available: T[];
-  noClash: T[];
-  random?: () => number;
-}): { available: T[]; noClash: T[] } => {
-  const pickedAvailable = shuffle(available, random).slice(0, MAX_TAGGED_FACILITATORS);
-  return { available: pickedAvailable, noClash: shuffle(noClash, random).slice(0, MAX_TAGGED_FACILITATORS - pickedAvailable.length) };
+/** Up to MAX_TAGGED_FACILITATORS, in the order given: available facilitators first, topped up with ones who just have no clash */
+export const pickFacilitatorsToTag = <T>({ available, noClash }: { available: T[]; noClash: T[] }): { available: T[]; noClash: T[] } => {
+  const pickedAvailable = available.slice(0, MAX_TAGGED_FACILITATORS);
+  return { available: pickedAvailable, noClash: noClash.slice(0, MAX_TAGGED_FACILITATORS - pickedAvailable.length) };
 };
 
 const getTimeParts = ({ startTimeSeconds, endTimeSeconds, timeZone }: {
@@ -117,7 +103,7 @@ export const formatCoverTimeUtcBracket = ({ startTimeSeconds, endTimeSeconds, ti
   return `(${utc.date === local.date ? '' : `${utc.date}, `}${utc.startTime}–${utc.endTime} ${utc.zone})`;
 };
 
-const mentionSegments = (people: CoverPerson[]): CoverMessageSegment[] => people.flatMap((person, i): CoverMessageSegment[] => [
+const mentionSegments = (people: SlackPerson[]): CoverMessageSegment[] => people.flatMap((person, i): CoverMessageSegment[] => [
   ...(i > 0 ? [{ type: 'text' as const, text: ' ' }] : []),
   { type: 'mention', ...person },
 ]);

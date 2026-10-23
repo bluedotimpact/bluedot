@@ -123,7 +123,7 @@ describe('FacilitatorSwitchModal', () => {
     beforeEach(() => {
       mockRequestCover = vi.fn();
       server.use(
-        trpcMsw.facilitators.getCoverRequestPreview.query(() => ({ messageDetails, taggedFacilitatorIds: ['mp-jordan'] })),
+        trpcMsw.facilitators.getCoverRequestPreview.query(() => ({ messageDetails })),
         trpcMsw.facilitators.requestCover.mutation(({ input }) => {
           mockRequestCover(input);
           return { threadUrl: 'https://slack.com/archives/C1/p123' };
@@ -140,7 +140,7 @@ describe('FacilitatorSwitchModal', () => {
       renderModal({ initialModalType: 'Change facilitator' });
 
       expect(await screen.findByRole('button', { name: /Have you found someone to cover/ })).toHaveTextContent('Choose an option');
-      expect(screen.queryByRole('button', { name: /New facilitator/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Select new facilitator/ })).not.toBeInTheDocument();
       expect(screen.queryByRole('button', { name: 'Post to #facilitator-community' })).not.toBeInTheDocument();
       expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();
     });
@@ -149,7 +149,7 @@ describe('FacilitatorSwitchModal', () => {
       renderModal({ initialModalType: 'Change facilitator', initialHasFoundCover: true });
 
       expect(await screen.findByRole('button', { name: /Have you found someone to cover/ })).toHaveTextContent('Yes, I\'ve agreed with someone');
-      expect(screen.getByRole('button', { name: /New facilitator/ })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Select new facilitator/ })).toBeInTheDocument();
     });
 
     test('"No" shows the draft post built from the preview', async () => {
@@ -162,7 +162,7 @@ describe('FacilitatorSwitchModal', () => {
       const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
       expect(draft).toHaveTextContent(`${formatCoverTimeLocal({ ...range, timeZone })} ${formatCoverTimeUtcBracket({ ...range, timeZone })}`);
       expect(screen.getByRole('link', { name: 'here' })).toHaveAttribute('href', messageDetails.assignUrl);
-      expect(screen.queryByRole('button', { name: /New facilitator/ })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Select new facilitator/ })).not.toBeInTheDocument();
     });
 
     test('typing a note updates the draft', async () => {
@@ -189,7 +189,6 @@ describe('FacilitatorSwitchModal', () => {
         groupId: 'group-1',
         discussionId: 'discussion-1',
         note: 'Happy to swap',
-        taggedFacilitatorIds: ['mp-jordan'],
       });
       expect(screen.getByRole('link', { name: 'Open the thread' })).toHaveAttribute('href', 'https://slack.com/archives/C1/p123');
     });

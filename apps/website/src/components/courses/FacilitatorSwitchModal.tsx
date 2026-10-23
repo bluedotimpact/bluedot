@@ -3,6 +3,7 @@ import {
   Callout,
   Button,
   DatePicker,
+  Field,
   Modal,
   P,
   ProgressDots,
@@ -13,7 +14,7 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import {
-  Fragment, useEffect, useId, useState,
+  Fragment, useEffect, useState,
 } from 'react';
 import { FaCheck, FaClock, FaPeopleArrows } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
@@ -50,17 +51,13 @@ const SWITCH_OPTIONS = [
 
 export type FacilitatorSwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
+const AGREED_COVER_LABEL = 'Yes, I\'ve agreed with someone';
+const ASK_IN_CHANNEL_LABEL = 'No, ask in #facilitator-community';
+
 const COVER_OPTIONS = [
-  { value: 'Yes', label: 'Yes, I\'ve agreed with someone' },
-  { value: 'No', label: 'No, ask in #facilitator-community' },
-] as const;
-
-const AGREED_COVER_LABEL = COVER_OPTIONS[0].label;
-
-const toCoverOptionValue = (hasFoundCover: boolean | undefined) => {
-  if (hasFoundCover === undefined) return undefined;
-  return hasFoundCover ? 'Yes' : 'No';
-};
+  { value: AGREED_COVER_LABEL, label: AGREED_COVER_LABEL },
+  { value: ASK_IN_CHANNEL_LABEL, label: ASK_IN_CHANNEL_LABEL },
+];
 
 type FacilitatorSwitchModalProps = {
   handleClose: () => void;
@@ -70,7 +67,6 @@ type FacilitatorSwitchModalProps = {
   initialGroupId?: string;
   initialModalType?: FacilitatorModalType;
   initialSwitchType?: FacilitatorSwitchType;
-  /** Presets "Have you found someone to cover?" in "Change facilitator" mode; leave out to start unanswered */
   initialHasFoundCover?: boolean;
 };
 
@@ -93,10 +89,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
 
   // Change facilitator state
-  const [hasFoundCover, setHasFoundCover] = useState<boolean | undefined>(initialHasFoundCover);
+  const [coverChoice, setCoverChoice] = useState<string | undefined>(() => {
+    if (initialHasFoundCover === undefined) return undefined;
+    return initialHasFoundCover ? AGREED_COVER_LABEL : ASK_IN_CHANNEL_LABEL;
+  });
   const [selectedNewFacilitatorId, setSelectedNewFacilitatorId] = useState<string | undefined>();
   const [coverNote, setCoverNote] = useState('');
-  const coverNoteId = useId();
 
   // Reset mode-specific state when modal type changes
   useEffect(() => {
@@ -126,15 +124,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     error,
   } = trpc.facilitators.discussionsAvailable.useQuery({ roundId });
 
-  const isAskingForCover = modalType === 'Change facilitator' && hasFoundCover === false;
-  // Each fetch reshuffles who gets tagged, so keep the first result for the post to match
+  const isAskingForCover = modalType === 'Change facilitator' && coverChoice === ASK_IN_CHANNEL_LABEL;
   const coverPreviewQuery = trpc.facilitators.getCoverRequestPreview.useQuery(
     { roundId, groupId: selectedGroupId ?? '', discussionId: selectedDiscussionId ?? '' },
-    {
-      enabled: isAskingForCover && !!selectedGroupId && !!selectedDiscussionId,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    },
+    { enabled: isAskingForCover && !!selectedGroupId && !!selectedDiscussionId },
   );
   const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
   // Substitutes can only change the time of the discussion they cover
@@ -213,7 +206,6 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       groupId: selectedGroupId,
       discussionId: selectedDiscussionId,
       note: coverNote,
-      taggedFacilitatorIds: coverPreviewQuery.data.taggedFacilitatorIds,
     });
   };
 
@@ -389,21 +381,17 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
     return (
       <>
-        <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-primary">1. Have you found someone to cover?</p>
+        <Field label="1. Have you found someone to cover?">
           <Select
-            aria-label="Have you found someone to cover?"
-            value={toCoverOptionValue(hasFoundCover)}
-            onChange={(value) => setHasFoundCover(value === 'Yes')}
-            options={[...COVER_OPTIONS]}
+            value={coverChoice}
+            onChange={setCoverChoice}
+            options={COVER_OPTIONS}
             placeholder="Choose an option"
           />
-        </div>
+        </Field>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-primary">2. For which group?</p>
+        <Field label="2. For which group?">
           <Select
-            aria-label="Group"
             value={selectedGroupId}
             onChange={(value) => {
               setSelectedGroupId(value);
@@ -412,36 +400,30 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             options={groupOptions}
             placeholder="Choose a group"
           />
-        </div>
+        </Field>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-size-md font-medium text-primary">3. For which discussion?</p>
+        <Field label="3. For which discussion?">
           <Select
-            aria-label="Discussion"
             options={discussionOptions}
             value={selectedDiscussionId}
             onChange={(value) => setSelectedDiscussionId(value)}
             placeholder="Choose a discussion"
           />
-        </div>
+        </Field>
 
-        {hasFoundCover === true && (
+        {coverChoice === AGREED_COVER_LABEL && (
           <>
-            <div className="flex flex-col gap-2">
-              <p className="text-size-md font-medium text-primary">4. Select new facilitator</p>
-              {facilitatorsQuery.isError && (
-                <P className="text-error-fg">
-                  {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}
-                </P>
-              )}
+            <Field
+              label="4. Select new facilitator"
+              error={facilitatorsQuery.isError && (facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.')}
+            >
               <Select
-                aria-label="New facilitator"
                 options={[...(facilitatorsQuery.data ?? [])].sort((a, b) => a.label.localeCompare(b.label))}
                 value={selectedNewFacilitatorId}
                 onChange={(value) => setSelectedNewFacilitatorId(value)}
                 placeholder={facilitatorsQuery.isLoading ? 'Loading facilitators...' : 'Choose a facilitator'}
               />
-            </div>
+            </Field>
 
             {changeFacilitatorMutation.isError && (
               <P className="text-error-fg">
@@ -460,9 +442,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </>
         )}
 
-        {hasFoundCover === false && renderAskForCover()}
+        {isAskingForCover && renderAskForCover()}
 
-        {hasFoundCover === undefined && (
+        {coverChoice === undefined && (
           <Button className="w-full" disabled>Submit</Button>
         )}
       </>
@@ -471,19 +453,15 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   const renderAskForCover = () => (
     <>
-      <div className="flex flex-col gap-2">
-        <label htmlFor={coverNoteId} className="text-size-md font-medium text-primary">
-          4. Anything to add? <span className="font-normal text-secondary">(optional)</span>
-        </label>
+      <Field label={<>4. Anything to add? <span className="font-normal text-secondary">(optional)</span></>}>
         <Textarea
-          id={coverNoteId}
           rows={2}
           maxLength={1000}
           placeholder="e.g. At a conference that week, happy to swap a session in return"
           value={coverNote}
           onChange={(e) => setCoverNote(e.target.value)}
         />
-      </div>
+      </Field>
 
       {selectedGroupId && selectedDiscussionId && (
         <div className="flex flex-col gap-2">

@@ -267,10 +267,7 @@ const askInChannelHandlers = ({ messageDetails = mockCoverMessageDetails, previe
 } = {}) => [
   trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => mockDiscussions),
   trpcStorybookMsw.facilitators.getFacilitatorsForRound.query(async () => mockFacilitators),
-  trpcStorybookMsw.facilitators.getCoverRequestPreview.query(preview ?? (async () => ({
-    messageDetails,
-    taggedFacilitatorIds: [...messageDetails.availableFacilitators, ...messageDetails.noClashFacilitators].map((f) => f.slackUserId ?? ''),
-  }))),
+  trpcStorybookMsw.facilitators.getCoverRequestPreview.query(preview ?? (async () => ({ messageDetails }))),
   trpcStorybookMsw.facilitators.requestCover.mutation(async () => ({ threadUrl: 'https://slack.com/archives/C0123/p1700000000000000' })),
 ];
 
