@@ -49,7 +49,7 @@ export const MyBlueDotSidebar = () => {
               <li key={item.href}>
                 <ClickTarget
                   url={item.href}
-                  className="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
+                  className="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-accent/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus motion-reduce:transition-none"
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <span className={`text-size-sm leading-6 transition-colors motion-reduce:transition-none ${isActive ? 'text-accent' : 'text-primary'}`}>

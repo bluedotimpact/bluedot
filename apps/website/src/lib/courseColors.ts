@@ -105,5 +105,5 @@ export type CourseColorSlug = keyof typeof COURSE_COLORS;
  * Falls back to the brand blue for courses without a registered palette.
  */
 export const getCourseAccentColor = (courseSlug: string): string => {
-  return COURSE_COLORS[courseSlug as CourseColorSlug]?.full ?? 'var(--bluedot-normal)';
+  return COURSE_COLORS[courseSlug as CourseColorSlug]?.full ?? 'var(--color-accent)';
 };

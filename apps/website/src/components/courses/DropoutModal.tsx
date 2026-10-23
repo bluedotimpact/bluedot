@@ -153,7 +153,7 @@ const DropOrDeferModal: React.FC<DropOrDeferModalProps> = ({
 
     return (
       <div className="flex w-full flex-col items-center justify-center gap-8">
-        <div className="bg-bluedot-normal/10 flex rounded-full p-4">
+        <div className="bg-accent/10 flex rounded-full p-4">
           <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
         </div>
         <div className="flex max-w-narrow flex-col items-center gap-4">
@@ -318,7 +318,7 @@ const WithdrawConfirm: React.FC<{ applicantId: string; handleClose: () => void }
       <div className="flex flex-col gap-4">
         {mutation.isSuccess ? (
           <>
-            <div className="bg-bluedot-normal/10 self-center rounded-full p-4">
+            <div className="bg-accent/10 self-center rounded-full p-4">
               <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
             </div>
             <P className="text-primary text-center text-pretty">
