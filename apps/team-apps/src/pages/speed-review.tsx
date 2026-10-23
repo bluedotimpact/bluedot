@@ -3,7 +3,7 @@ import {
 } from 'react';
 import useAxios from 'axios-hooks';
 import {
-  Button, H1, ProgressDots, ClickTarget, IconButton,
+  Button, H1, ProgressDots, IconButton,
 } from '@bluedot/ui';
 import { FaXmark } from 'react-icons/fa6';
 import {
@@ -595,18 +595,18 @@ const SpeedReviewPage = () => {
   // ── Reviewing ─────────────────────────────────────────────────────────────
 
   const undoToastElement = undoToast && (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg flex max-w-[90vw] items-center gap-3 z-20">
+    <div data-on-dark className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-dark text-on-dark text-size-sm px-4 py-2 rounded-full shadow-lg flex max-w-[90vw] items-center gap-3 z-20">
       <span>{undoToast.kind === 'moved' ? 'Moved' : 'Rated'} {undoToast.name}</span>
-      <ClickTarget
+      <Button
+        variant="link"
         disabled={pendingWrites > 0}
         onClick={() => {
           if (undoToast.kind === 'moved') void handleUndoMove();
           else handleUndo();
         }}
-        className="font-semibold text-on-dark-link hover:text-on-dark-link-hover underline underline-offset-2 disabled:opacity-40"
       >
         {undoToast.kind === 'moved' ? 'Undo move' : 'Re-rate'}
-      </ClickTarget>
+      </Button>
     </div>
   );
 

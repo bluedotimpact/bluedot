@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import {
-  Callout, Button, H1, H2, Modal, ClickTarget,
+  Callout, Button, H1, H2, Modal,
 } from '@bluedot/ui';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
@@ -313,21 +313,13 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             )}
           </div>
           {isMoved ? (
-            <ClickTarget
-              disabled={pendingWrites > 0}
-              onClick={() => undoMove(r.id)}
-              className="min-h-11 shrink-0 text-size-xs text-warning-fg hover:text-primary underline underline-offset-2 disabled:opacity-40"
-            >
+            <Button variant="link" className="shrink-0" disabled={pendingWrites > 0} onClick={() => undoMove(r.id)}>
               Undo move
-            </ClickTarget>
+            </Button>
           ) : (
-            <ClickTarget
-              disabled={pendingWrites > 0}
-              onClick={() => setEditingId(isEditing ? null : r.id)}
-              className="min-h-11 shrink-0 text-size-xs text-secondary hover:text-primary underline underline-offset-2"
-            >
+            <Button variant="link" className="shrink-0" disabled={pendingWrites > 0} onClick={() => setEditingId(isEditing ? null : r.id)}>
               {option.humanOpinion} → {option.decision}
-            </ClickTarget>
+            </Button>
           )}
         </div>
         {isEditing && !isMoved && (
@@ -471,9 +463,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
               if (emailCounts) return `${filtered ? 'Whole round: ' : ''}${emailCounts.alreadySent} of ${emailCounts.reviewed} reviewed sent`;
               if (!countsError) return 'Loading counts…';
               return (
-                <ClickTarget onClick={refreshEmailCounts} className="underline underline-offset-2 hover:text-primary">
+                <Button variant="link" onClick={refreshEmailCounts}>
                   Counts unavailable — retry
-                </ClickTarget>
+                </Button>
               );
             })()}
           </span>

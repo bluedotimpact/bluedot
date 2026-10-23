@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useState } from 'react';
-import { Select, ClickTarget } from '@bluedot/ui';
+import { Select, Button } from '@bluedot/ui';
 import { FaUser } from 'react-icons/fa6';
 // TODO remove this import cycle
 
@@ -114,12 +114,9 @@ const ResponseBlock: React.FC<{
         </div>
       </div>
       {canTruncate && (
-        <ClickTarget
-          onClick={() => setExpanded(!expanded)}
-          className="text-size-xs text-link font-medium mt-2 cursor-pointer hover:underline block ml-3 pl-4"
-        >
+        <Button variant="link" tone="accent" className="mt-2 ml-3" onClick={() => setExpanded(!expanded)}>
           {expanded ? 'Show less' : 'Show more'}
-        </ClickTarget>
+        </Button>
       )}
     </div>
   );

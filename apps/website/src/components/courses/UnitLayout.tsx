@@ -1,5 +1,5 @@
 import {
-  Button, ErrorSection, Eyebrow, H1, Section, useAuthStore, ClickTarget,
+  Button, ErrorSection, Eyebrow, H1, Section, useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -131,24 +131,24 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       breadcrumb={`${unitNumber}. ${unit.title}`}
       navigationControls={(
         <>
-          <ClickTarget
-            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          <Button
+            variant="link"
             disabled={isFirstChunk && !prevUnit}
             onClick={handlePrevClick}
             aria-label="Previous"
             title="Navigate to previous section (use ← arrow key)"
           >
             ← Prev
-          </ClickTarget>
-          <ClickTarget
-            className="flex items-center gap-1 text-size-xs font-medium leading-snug text-primary hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          </Button>
+          <Button
+            variant="link"
             disabled={isLastChunk && !nextUnit}
             onClick={handleNextClick}
             aria-label="Next"
             title="Navigate to next section (use → arrow key)"
           >
             Next →
-          </ClickTarget>
+          </Button>
         </>
       )}
       mobileNavigation={{

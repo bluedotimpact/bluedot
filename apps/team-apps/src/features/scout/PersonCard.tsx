@@ -1,6 +1,6 @@
 import { Fragment, type ReactNode, useState } from 'react';
 import {
-  A, CardShell, cn, Button, P, ClickTarget,
+  A, CardShell, cn, Button, P,
 } from '@bluedot/ui';
 import { FaChevronRight } from 'react-icons/fa6';
 import {
@@ -311,9 +311,10 @@ const FoundOnline: React.FC<{ facts?: WebFacts; lookedUpOn?: string; givenUrls: 
 const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
   const [copied, setCopied] = useState(false);
   return (
-    <ClickTarget
+    <Button
+      variant="link"
       title="Copy email"
-      className="flex min-h-11 min-w-0 cursor-pointer items-center gap-1 text-size-xs text-secondary hover:text-primary"
+      className="min-w-0 whitespace-normal px-0"
       onClick={() => {
         void navigator.clipboard.writeText(email).then(() => {
           setCopied(true);
@@ -322,8 +323,8 @@ const CopyEmail: React.FC<{ email: string }> = ({ email }) => {
       }}
     >
       <span className="select-all break-all">{email}</span>
-      <span aria-hidden className="text-size-xs">{copied ? '✓' : '⧉'}</span>
-    </ClickTarget>
+      <span aria-hidden>{copied ? '✓' : '⧉'}</span>
+    </Button>
   );
 };
 

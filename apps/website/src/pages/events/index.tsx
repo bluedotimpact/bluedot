@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  addQueryParam, Breadcrumbs, Button, ProgressDots, ClickTarget, TabPills,
+  addQueryParam, Breadcrumbs, Button, ProgressDots, TabPills,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
@@ -98,11 +98,18 @@ const EventsPage = () => {
                   <p className="text-size-md font-semibold">{upcomingEvents.length ? 'No events match these filters.' : 'More events are on the way.'}</p>
                   <p className="mt-3 text-size-sm text-secondary">{upcomingEvents.length ? 'Try another location or browse all upcoming events.' : 'Follow our Luma calendar to hear about the next one.'}</p>
                   {upcomingEvents.length > 0 ? (
-                    <ClickTarget className="mt-5 text-link underline" onClick={() => {
-                      setFilter('all');
-                      setLocation('all');
-                      setVisibleCount(PAGE_SIZE);
-                    }}>Clear filters</ClickTarget>
+                    <Button
+                      variant="link"
+                      tone="accent"
+                      className="mt-5"
+                      onClick={() => {
+                        setFilter('all');
+                        setLocation('all');
+                        setVisibleCount(PAGE_SIZE);
+                      }}
+                    >
+                      Clear filters
+                    </Button>
                   ) : <a href={trackedUrl(LUMA_CALENDAR_URL, 'empty-cta')} className="mt-5 inline-block text-link underline">Open the Luma calendar ↗</a>}
                 </div>
               )}

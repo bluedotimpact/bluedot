@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 import {
-  A, addQueryParam, cn, Button, P, useAuthStore, ClickTarget,
+  A, addQueryParam, cn, Button, P, useAuthStore,
 } from '@bluedot/ui';
 import {
   FaArrowUpRightFromSquare, FaCheck, FaRegThumbsDown, FaRegThumbsUp, FaRotateLeft, FaThumbsDown, FaThumbsUp,
@@ -346,16 +346,10 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                       Complete
                     </Button>
                   ) : (
-                    <ClickTarget
-                      onClick={() => handleToggleComplete(false)}
-                      className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
-                      aria-label="Mark resource as incomplete"
-                    >
-                      <span className="font-medium text-size-xs leading-normal text-accent">
-                        Completed
-                      </span>
-                      <FaRotateLeft aria-hidden="true" className="size-4 text-accent" />
-                    </ClickTarget>
+                    <Button variant="link" tone="accent" onClick={() => handleToggleComplete(false)} aria-label="Mark resource as incomplete">
+                      Completed
+                      <FaRotateLeft aria-hidden="true" className="size-4" />
+                    </Button>
                   )}
 
                   {/* Feedback buttons - only show when there's an actual completion record */}
