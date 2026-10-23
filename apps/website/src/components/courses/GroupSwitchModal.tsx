@@ -5,7 +5,6 @@ import {
 import {
   Checkbox,
   cn,
-  ClickTarget,
   Button,
   ErrorSection,
   H3,
@@ -14,6 +13,7 @@ import {
   ProgressDots,
   Select,
   Textarea,
+  ClickTarget,
 } from '@bluedot/ui';
 import {
   FaArrowLeft, FaArrowRightArrowLeft, FaUser, FaUserClock,
@@ -356,12 +356,9 @@ export default function GroupSwitchModal({
               <GroupSwitchOption key={option.id} {...option} />
             ))}
             {hasMoreOptions && !showAllOptions && (
-              <ClickTarget
-                onClick={() => setShowAllOptions(true)}
-                className="text-size-sm text-link hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
-              >
+              <Button variant="link" tone="accent" className="mx-auto mt-2 -mb-2" onClick={() => setShowAllOptions(true)}>
                 See all {isTemporarySwitch ? 'discussions' : 'groups'}
-              </ClickTarget>
+              </Button>
             )}
           </div>
         </div>

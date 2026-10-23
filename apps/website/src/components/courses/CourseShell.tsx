@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  BreadcrumbTrail, cn, IconButton, ClickTarget,
+  BreadcrumbTrail, cn, IconButton, Button,
 } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import type React from 'react';
@@ -233,14 +233,14 @@ const CourseShell: React.FC<CourseShellProps> = ({
             <div className="flex size-full items-center justify-between gap-2 px-6">
               {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-2">
-                <ClickTarget
+                <Button
+                  variant="link"
                   onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-                  className="text-size-xs text-primary flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >
-                  <FaBars className="size-[16px]" />
-                  <span>{isSidebarHidden ? 'Show' : 'Hide'}</span>
-                </ClickTarget>
+                  <FaBars aria-hidden className="size-4" />
+                  {isSidebarHidden ? 'Show' : 'Hide'}
+                </Button>
                 <span className="h-[18px] w-px bg-default" />
               </div>
 

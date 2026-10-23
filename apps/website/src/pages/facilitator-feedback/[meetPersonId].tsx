@@ -2,17 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
-  Callout,
-  Button,
-  ErrorSection,
-  Eyebrow,
-  Field,
-  getInitials,
-  H1,
-  H2,
-  ProgressDots,
-  Textarea,
-  ClickTarget,
+  Callout, Button, ErrorSection, Eyebrow, Field, getInitials, H1, H2, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -330,9 +320,10 @@ const FacilitatorFeedbackPage = () => {
               <Callout tone="warning" role="alert" title={`${totalCount - completedCount} participants still need feedback.`}>
                 Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
               </Callout>
-              <ClickTarget
-                className="self-start text-size-xs text-secondary underline cursor-pointer transition-colors hover:text-primary disabled:opacity-50 disabled:pointer-events-none"
-                disabled={submitFeedback.isPending}
+              <Button
+                variant="link"
+                className="self-start"
+                loading={submitFeedback.isPending}
                 onClick={() => submitFeedback.mutate(submitPayload, {
                   onSuccess: async () => {
                     await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
@@ -341,7 +332,7 @@ const FacilitatorFeedbackPage = () => {
                 })}
               >
                 {submitFeedback.isPending ? 'Saving...' : submitAnywayIdleLabel}
-              </ClickTarget>
+              </Button>
             </>
           ) : (
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -371,14 +362,15 @@ const FacilitatorFeedbackPage = () => {
             </div>
           )}
           {isAdmin && formData?.existingCourseFeedback?.completed === true && (
-            <ClickTarget
-              className="self-start text-size-xs text-secondary underline cursor-pointer"
+            <Button
+              variant="link"
+              className="self-start"
               onClick={() => unsubmitFeedback.mutate({ meetPersonId }, {
                 onSuccess: () => window.location.reload(),
               })}
             >
               Unsubmit (admin)
-            </ClickTarget>
+            </Button>
           )}
         </section>
       </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
 import {
-  Callout, Button, Checkbox, ClickTarget, ProgressDots,
+  Callout, Button, Checkbox, ProgressDots,
 } from '@bluedot/ui';
 import { FaChevronDown } from 'react-icons/fa6';
 import { type Round } from '../lib/api/airtable';
@@ -196,12 +196,9 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect, notice }) =>
                     </div>
                   </div>
                 )}
-                <ClickTarget
-                  onClick={() => updateFilterIds([])}
-                  className="min-h-11 px-3 rounded-md text-size-sm font-medium text-secondary hover:text-primary underline underline-offset-2"
-                >
+                <Button variant="link" onClick={() => updateFilterIds([])}>
                   Clear
-                </ClickTarget>
+                </Button>
                 {atFilterLimit && <p className="text-size-xs text-secondary">You can tick up to {MAX_QUEUE_FILTERS} at a time.</p>}
               </div>
             )}

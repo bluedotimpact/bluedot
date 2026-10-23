@@ -4,7 +4,7 @@ import {
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import {
-  Callout, Button, Field, Modal, ProgressDots, Textarea, ClickTarget,
+  Callout, Button, Field, Modal, ProgressDots, Textarea,
 } from '@bluedot/ui';
 import { FaArrowsRotate, FaMagnifyingGlass } from 'react-icons/fa6';
 import { authFetch } from '../../lib/client/api';
@@ -625,10 +625,15 @@ const SessionDecisions: React.FC<{ decisions: Done[] }> = ({ decisions }) => {
           </div>
         );
       })}
-      <ClickTarget className="min-h-11 underline" onClick={() => {
-        const text = decisions.map(({ decision, person }) => `${decision === 'invite' ? 'Invitation requested' : 'Don’t invite'}: ${person.name} <${person.email}>`).join('\n');
-        void navigator.clipboard.writeText(text).then(() => setCopyStatus('Copied')).catch(() => setCopyStatus('Could not copy. Select the text above instead.'));
-      }}>Copy decisions</ClickTarget>
+      <Button
+        variant="link"
+        onClick={() => {
+          const text = decisions.map(({ decision, person }) => `${decision === 'invite' ? 'Invitation requested' : 'Don’t invite'}: ${person.name} <${person.email}>`).join('\n');
+          void navigator.clipboard.writeText(text).then(() => setCopyStatus('Copied')).catch(() => setCopyStatus('Could not copy. Select the text above instead.'));
+        }}
+      >
+        Copy decisions
+      </Button>
       {copyStatus && <p role="status">{copyStatus}</p>}
     </div>
   );

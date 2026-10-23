@@ -12,7 +12,6 @@ import {
   Textarea,
   TimeAvailabilityGrid,
   toast,
-  ClickTarget,
 } from '@bluedot/ui';
 import { FaChevronDown } from 'react-icons/fa6';
 import {
@@ -417,12 +416,9 @@ const QuickApplyForm = ({
               )}
             />
           </Field>
-          <ClickTarget
-            onClick={() => setValue('timeAv', {})}
-            className="text-size-xs text-secondary cursor-pointer font-medium underline"
-          >
+          <Button variant="link" onClick={() => setValue('timeAv', {})}>
             Clear availability selection
-          </ClickTarget>
+          </Button>
         </div>
 
         <Field error={errors.timeAv?.message}>
