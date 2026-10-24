@@ -1,5 +1,5 @@
 export { validateEnv } from './validateEnv';
-export { slackAlert } from './slackNotifications';
+export { slackAlert, type BatchGroup } from './slackNotifications';
 export { chunk } from './array';
 
 export {
