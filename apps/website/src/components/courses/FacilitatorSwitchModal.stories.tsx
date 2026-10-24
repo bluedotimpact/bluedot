@@ -4,6 +4,7 @@ import { createMockGroup, createMockGroupDiscussion, createMockUnit } from '../.
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import FacilitatorSwitchModal from './FacilitatorSwitchModal';
 import { ONE_DAY_SECONDS, ONE_HOUR_SECONDS, ONE_MINUTE_SECONDS } from '../../lib/constants';
+import type { CoverMessageDetails } from '../../lib/facilitatorCover';
 
 const meta = {
   title: 'website/courses/FacilitatorSwitchModal',
@@ -117,6 +118,7 @@ export const ChangeFacilitatorView: Story = {
     roundId: 'mock-round-id',
     initialDiscussion: mockDiscussions[1] ?? null,
     initialModalType: 'Change facilitator',
+    initialHasFoundCover: true,
   },
   parameters: {
     msw: {
@@ -230,6 +232,91 @@ export const Error: Story = {
           throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch discussions' });
         }),
       ],
+    },
+  },
+};
+
+// Next Monday 9am ET (13:00 UTC), to match the group name
+const nextMonday = new Date();
+nextMonday.setUTCDate(nextMonday.getUTCDate() + ((8 - nextMonday.getUTCDay()) % 7 || 7));
+nextMonday.setUTCHours(13, 0, 0, 0);
+const previewStartSeconds = Math.floor(nextMonday.getTime() / 1000);
+
+const mockCoverMessageDetails: CoverMessageDetails = {
+  requester: { name: 'Sam Rivera', slackUserId: 'U0SAM' },
+  courseTitle: 'AGI Strategy',
+  unitNumber: '2',
+  groupName: 'Monday 9am ET',
+  startTimeSeconds: previewStartSeconds,
+  endTimeSeconds: previewStartSeconds + 1.5 * ONE_HOUR_SECONDS,
+  availableFacilitators: [
+    { name: 'Jordan Lee', slackUserId: 'U0JORDAN' },
+    { name: 'Priya Shah', slackUserId: 'U0PRIYA' },
+    { name: 'Tom Becker', slackUserId: 'U0TOM' },
+    { name: 'Maximilian Featherstonehaugh-Montgomery', slackUserId: 'U0MAX' },
+    { name: 'Chris Novak', slackUserId: 'U0CHRIS' },
+  ],
+  noClashFacilitators: [],
+  moreAvailableThanTagged: true,
+  assignUrl: 'https://bluedot.org/facilitated-courses?changeFacilitator=discussion-2',
+};
+
+const askInChannelHandlers = ({ messageDetails = mockCoverMessageDetails, preview }: {
+  messageDetails?: CoverMessageDetails;
+  preview?: () => Promise<never>;
+} = {}) => [
+  trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => mockDiscussions),
+  trpcStorybookMsw.facilitators.getFacilitatorsForRound.query(async () => mockFacilitators),
+  trpcStorybookMsw.facilitators.getCoverRequestPreview.query(preview ?? (async () => ({ messageDetails }))),
+  trpcStorybookMsw.facilitators.requestCover.mutation(async () => ({ threadUrl: 'https://slack.com/archives/C0123/p1700000000000000' })),
+];
+
+export const AskInChannel: Story = {
+  args: {
+    handleClose() {},
+    roundId: 'mock-round-id',
+    initialDiscussion: { id: 'discussion-2', group: 'group-1' },
+    initialModalType: 'Change facilitator',
+    initialHasFoundCover: false,
+  },
+  parameters: { msw: { handlers: askInChannelHandlers() } },
+};
+
+export const AskInChannelNobodyFree: Story = {
+  args: AskInChannel.args,
+  parameters: {
+    msw: {
+      handlers: askInChannelHandlers({
+        messageDetails: {
+          ...mockCoverMessageDetails, availableFacilitators: [], noClashFacilitators: [], moreAvailableThanTagged: false,
+        },
+      }),
+    },
+  },
+};
+
+export const AskInChannelPreviewError: Story = {
+  args: AskInChannel.args,
+  parameters: {
+    msw: {
+      handlers: askInChannelHandlers({
+        preview: async () => {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion has no end time' });
+        },
+      }),
+    },
+  },
+};
+
+export const AskInChannelPreviewLoading: Story = {
+  args: AskInChannel.args,
+  parameters: {
+    msw: {
+      handlers: askInChannelHandlers({
+        preview: () => new Promise(() => {
+          /* never resolves */
+        }),
+      }),
     },
   },
 };
