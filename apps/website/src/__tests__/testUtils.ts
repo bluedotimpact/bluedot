@@ -280,7 +280,6 @@ export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitR
   timeFocusOnMins: 10,
   coreFurtherMaybe: 'Core',
   readingOrder: null,
-  unitId: 'unit-1',
   resourceId: null,
   syncedAudioUrl: null,
   year: 2024,

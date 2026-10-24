@@ -2,7 +2,7 @@ import {
   courseRegistrationTable, selfServeCourseRegistrationTable, courseTable, eq, userTable,
   groupDiscussionTable, meetPersonTable, roundTable, unitTable,
   exerciseTable, exerciseResponsePgTable, projectSubmissionTable,
-  unitResourceTable, resourceCompletionPgTable, dropoutTable,
+  unitResourceTable, resourceCompletionPgTable, dropoutTable, chunkTable,
 } from '@bluedot/db';
 import {
   afterEach, describe, expect, test, vi,
@@ -565,10 +565,18 @@ describe('resource_completed', () => {
       unitNumber: opts.unitNumber ?? '1',
       unitStatus: 'Active',
     });
-  const seedUnitResource = (id: string, opts: { unitId?: string; resourceName?: string; coreFurtherMaybe?: string } = {}) =>
-    testDb.insert(unitResourceTable, {
-      id, unitId: opts.unitId, resourceName: opts.resourceName, coreFurtherMaybe: opts.coreFurtherMaybe,
+  const seedChunk = (id: string, unitId: string, chunkResources: string[]) => testDb.insert(chunkTable, {
+    id, chunkId: id, unitId, chunkResources, chunkTitle: id, chunkOrder: '1', chunkContent: '', chunkType: 'Reading',
+  });
+  const seedUnitResource = async (id: string, opts: { unitId?: string; resourceName?: string; coreFurtherMaybe?: string } = {}) => {
+    await testDb.insert(unitResourceTable, {
+      id, resourceName: opts.resourceName, coreFurtherMaybe: opts.coreFurtherMaybe,
     });
+    if (opts.unitId) {
+      await seedChunk(`chunk-${id}`, opts.unitId, [id]);
+    }
+  };
+
   const seedUser = (id: string, email: string) => testDb.insert(userTable, {
     id, email, name: email, keycloakIdentifier: `sub-${id}`,
   });
@@ -611,6 +619,67 @@ describe('resource_completed', () => {
       course_name: 'AGI Strategy',
       course_slug: 'agi-strategy',
     });
+  });
+
+  test('leaves out the unit when the resource is in chunks of two units', async () => {
+    await seedUnit('u1');
+    await seedUnit('u2', { unitNumber: '2' });
+    await seedUnitResource('ur1', { resourceName: 'Shared reading' });
+    await seedChunk('chunk-a', 'u1', ['ur1']);
+    await seedChunk('chunk-b', 'u2', ['ur1']);
+    await seedUser('user1', 'a@x.com');
+    await completeResource('rc1', 'user1', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const [event] = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(event!.properties).toMatchObject({ unit_resource_id: 'ur1', resource_name: 'Shared reading' });
+    expect(event!.properties).not.toHaveProperty('unit_id');
+    expect(event!.properties).not.toHaveProperty('course_id');
+  });
+
+  test('keeps the unit when the resource is in two chunks of the same unit', async () => {
+    await seedUnit('u1');
+    await seedUnitResource('ur1');
+    await seedChunk('chunk-a', 'u1', ['ur1']);
+    await seedChunk('chunk-b', 'u1', ['ur1']);
+    await seedUser('user1', 'a@x.com');
+    await completeResource('rc1', 'user1', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const [event] = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(event!.properties).toMatchObject({ unit_id: 'u1', course_id: 'c1' });
+  });
+
+  test('ignores a chunk with an empty unitId when working out the unit', async () => {
+    await seedUnit('u1');
+    await seedUnitResource('ur1');
+    await seedChunk('chunk-a', 'u1', ['ur1']);
+    await seedChunk('chunk-empty', '', ['ur1']);
+    await seedUser('user1', 'a@x.com');
+    await completeResource('rc1', 'user1', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const [event] = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(event!.properties).toMatchObject({ unit_id: 'u1' });
+  });
+
+  test('leaves out the unit when no chunk links the resource', async () => {
+    await seedUnitResource('ur1', { resourceName: 'Orphan reading' });
+    await seedUser('user1', 'a@x.com');
+    await completeResource('rc1', 'user1', 'ur1', '2026-06-10T10:00:00.000Z');
+
+    const ph = mockPostHogBackend();
+    await forwardAllEventsToPostHog();
+
+    const [event] = ph.events.filter((e) => e.event === 'resource_completed');
+    expect(event!.properties).toMatchObject({ unit_resource_id: 'ur1', resource_name: 'Orphan reading' });
+    expect(event!.properties).not.toHaveProperty('unit_id');
   });
 
   test('skips completions without a completedAt', async () => {

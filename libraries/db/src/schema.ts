@@ -1226,10 +1226,6 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: text(),
       airtableId: 'fldBfLUY8GkI88jJF',
     },
-    unitId: {
-      pgColumn: text(),
-      airtableId: 'fldJX4h1sTNkacKru',
-    },
     resourceId: {
       pgColumn: text().array(),
       airtableId: 'fldJ2YZwUTmtdRp2Z',
@@ -1245,6 +1241,13 @@ export const unitResourceTable = pgAirtable('unit_resource', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldUOh3MNUIf0vnYb',
+    },
+  },
+  deprecatedColumns: {
+    unitId: {
+      pgColumn: text(),
+      airtableId: 'fldJX4h1sTNkacKru',
+      deprecated: true,
     },
   },
 });
