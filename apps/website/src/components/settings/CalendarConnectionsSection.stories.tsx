@@ -23,7 +23,7 @@ export const TwoCalendars: Story = {
             id: 'c1', provider: 'google', email: 'robin.hueber@gmail.com', connectedAt: '2026-10-15T10:00:00.000Z', needsReconnect: false,
           },
           {
-            id: 'c2', provider: 'google', email: 'robin.hueber.with.a.long.address@example-employer.org', connectedAt: '2026-10-16T10:00:00.000Z', needsReconnect: false,
+            id: 'c2', provider: 'microsoft', email: 'robin.hueber.with.a.long.address@example-employer.org', connectedAt: '2026-10-16T10:00:00.000Z', needsReconnect: false,
           },
         ]),
       ],
