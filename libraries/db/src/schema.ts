@@ -8,6 +8,7 @@ import { pgAirtable, deprecationSafePgTable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
+const COMMUNITY_BASE_ID = 'appkKc02xe9D0le4B';
 const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
 const AVAILABILITY_FORMS_BASE_ID = 'app6dkBHka8c4WaEj';
 const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
@@ -15,21 +16,21 @@ const WEB_CONTENT_BASE_ID = 'app63L1YChHfS6RJF';
 const CONTRACTOR_PAYMENTS_BASE_ID = 'appMVNtdBtvtJvu5E';
 
 export const specialProjectSubmissionTable = pgAirtable('special_project_submission', {
-  baseId: APPLICATIONS_BASE_ID,
-  tableId: 'tbl7Y5AsgvqKncM6Z',
+  baseId: COMMUNITY_BASE_ID,
+  tableId: 'tbli89qlusEtBarJd',
   columns: {
-    title: { pgColumn: text(), airtableId: 'fldwVZVwKf5TtefKZ' },
-    project: { pgColumn: text(), airtableId: 'fldQKIGNUVIilwGKN' },
-    whyItMatters: { pgColumn: text(), airtableId: 'fldXohHHl0NiMNd7b' },
-    suggestedOwner: { pgColumn: text(), airtableId: 'fldRiiLK8qSm5Qr3E' },
-    involvement: { pgColumn: text(), airtableId: 'fldMz0brUmBIunZih' },
-    name: { pgColumn: text(), airtableId: 'fldm0p4H8R0U7mqvX' },
-    contact: { pgColumn: text(), airtableId: 'fldx1UmaVWZsXBrIQ' },
-    context: { pgColumn: text(), airtableId: 'fldFdAt83XuTZdYos' },
-    submitterType: { pgColumn: text(), airtableId: 'fldSflOBJfQ83zZRc' },
-    submittedAtSeconds: { pgColumn: numeric({ mode: 'number' }), airtableId: 'fldboAD6PFPsOSypz' },
-    status: { pgColumn: text(), airtableId: 'fldeFWgrMmgEMvp7L' },
-    reviewNotes: { pgColumn: text(), airtableId: 'fldM5bsnzIbmEUl9U' },
+    title: { pgColumn: text(), airtableId: 'fldneD6vvmOEE74MP' },
+    project: { pgColumn: text(), airtableId: 'fldEgHxLsEOQaPOJP' },
+    whyItMatters: { pgColumn: text(), airtableId: 'fld4o9fho8IGELIAC' },
+    suggestedOwner: { pgColumn: text(), airtableId: 'flde0TTwKD1LPhBHQ' },
+    involvement: { pgColumn: text(), airtableId: 'fldjWcnIQXFCnSQRx' },
+    name: { pgColumn: text(), airtableId: 'fldDDjvbKrpe5NbxQ' },
+    contact: { pgColumn: text(), airtableId: 'fldZLF4XKwdkOSwQ7' },
+    context: { pgColumn: text(), airtableId: 'fldVpvHjNZRaCZkaR' },
+    submitterType: { pgColumn: text(), airtableId: 'fldI1jRL9wMSXfi4b' },
+    submittedAtSeconds: { pgColumn: numeric({ mode: 'number' }), airtableId: 'fldYrvu7U1XDEME0X' },
+    status: { pgColumn: text(), airtableId: 'fld1fSHngOe4Qfzvf' },
+    reviewNotes: { pgColumn: text(), airtableId: 'fldUGszp0rWQKQEsU' },
   },
 });
 
