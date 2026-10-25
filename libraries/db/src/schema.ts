@@ -14,6 +14,25 @@ const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
 const WEB_CONTENT_BASE_ID = 'app63L1YChHfS6RJF';
 const CONTRACTOR_PAYMENTS_BASE_ID = 'appMVNtdBtvtJvu5E';
 
+export const specialProjectSubmissionTable = pgAirtable('special_project_submission', {
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tbl7Y5AsgvqKncM6Z',
+  columns: {
+    title: { pgColumn: text(), airtableId: 'fldwVZVwKf5TtefKZ' },
+    project: { pgColumn: text(), airtableId: 'fldQKIGNUVIilwGKN' },
+    whyItMatters: { pgColumn: text(), airtableId: 'fldXohHHl0NiMNd7b' },
+    suggestedOwner: { pgColumn: text(), airtableId: 'fldRiiLK8qSm5Qr3E' },
+    involvement: { pgColumn: text(), airtableId: 'fldMz0brUmBIunZih' },
+    name: { pgColumn: text(), airtableId: 'fldm0p4H8R0U7mqvX' },
+    contact: { pgColumn: text(), airtableId: 'fldx1UmaVWZsXBrIQ' },
+    context: { pgColumn: text(), airtableId: 'fldFdAt83XuTZdYos' },
+    submitterType: { pgColumn: text(), airtableId: 'fldSflOBJfQ83zZRc' },
+    submittedAtSeconds: { pgColumn: numeric({ mode: 'number' }), airtableId: 'fldboAD6PFPsOSypz' },
+    status: { pgColumn: text(), airtableId: 'fldeFWgrMmgEMvp7L' },
+    reviewNotes: { pgColumn: text(), airtableId: 'fldM5bsnzIbmEUl9U' },
+  },
+});
+
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
  * in this Postgres db. Note that this is a regular `pgTable`, so is not itself synced. Tables
