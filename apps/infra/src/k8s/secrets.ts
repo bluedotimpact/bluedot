@@ -9,6 +9,7 @@ const toK8s = [
   'airtablePat',
   'airtableAutomationToken',
   'alertsSlackBotToken',
+  'communitySlackSupportBotToken',
   'anthropicApiKey',
   'ashbyApiKey',
   'openaiApiKey',

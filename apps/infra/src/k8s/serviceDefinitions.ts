@@ -10,6 +10,7 @@ const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
 const PG_SYNC_SLACK_CHANNEL_ID = 'C0BFEG755PG'; // #update_pg-sync
 const WELCOME_SLACK_CHANNEL_ID = 'C0CB9NY8JH2'; // #welcome, for First Contact
+const FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID = 'C084FCH5DUK'; // #facilitator-community in the community workspace (aisafetyfundamentals.slack.com)
 // The "First Contact" calendar owned by dewi-bots@bluedot.org, from apps/website/scripts/first-contact/authorize.ts
 const WELCOME_GOOGLE_CALENDAR_ID = 'c_a812f94ab7d406aec042d9edee89a50fe2f5e770cbc49e28a6ec15330787eeeb@group.calendar.google.com';
 
@@ -111,6 +112,8 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'KEYCLOAK_CLIENT_ID', valueFrom: envVarSources.keycloakClientId },
           { name: 'KEYCLOAK_CLIENT_SECRET', valueFrom: envVarSources.keycloakClientSecret },
+          { name: 'COMMUNITY_SLACK_SUPPORT_BOT_TOKEN', valueFrom: envVarSources.communitySlackSupportBotToken },
+          { name: 'FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID', value: FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID },
           { name: 'NEXT_PUBLIC_SITE_URL', value: 'https://website-staging.k8s.bluedot.org' },
           { name: 'SENTRY_DSN', value: WEBSITE_SENTRY_DSN },
           { name: 'SENTRY_ENVIRONMENT', value: 'staging' },
@@ -164,6 +167,8 @@ export const services: ServiceDefinition[] = [
           { name: 'KEYCLOAK_PREVIEW_CLIENT_ID', valueFrom: envVarSources.keycloakPreviewClientId },
           { name: 'KEYCLOAK_PREVIEW_CLIENT_SECRET', valueFrom: envVarSources.keycloakPreviewClientSecret },
           { name: 'KEYCLOAK_PREVIEW_AUTH_TOKEN', valueFrom: envVarSources.keycloakPreviewAuthToken },
+          { name: 'COMMUNITY_SLACK_SUPPORT_BOT_TOKEN', valueFrom: envVarSources.communitySlackSupportBotToken },
+          { name: 'FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID', value: FACILITATOR_COMMUNITY_SLACK_CHANNEL_ID },
           { name: 'NEXT_PUBLIC_SITE_URL', value: 'https://bluedot.org' },
           { name: 'SENTRY_DSN', value: WEBSITE_SENTRY_DSN },
           { name: 'SENTRY_ENVIRONMENT', value: 'production' },
