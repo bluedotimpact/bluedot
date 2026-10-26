@@ -1,4 +1,4 @@
-import { courseRegistrationTable, userTable } from '@bluedot/db';
+import { courseRegistrationTable, emailChangeRequestTable, userTable } from '@bluedot/db';
 import type { TRPCError } from '@trpc/server';
 import { InvalidTokenError } from '@bluedot/ui/src/api';
 import { verifyKeycloakToken } from '@bluedot/ui/src/server/verifyToken';
@@ -507,7 +507,15 @@ const seedTarget = (email = 'old@example.com') => testDb.insert(userTable, {
   id: 'target-id', email, name: 'Target', keycloakIdentifier: 'target-sub',
 });
 
-const mintToken = () => createEmailChangeToken({ userId: 'target-id', oldEmail: 'old@example.com', newEmail: 'new@example.com' });
+const mintToken = async () => {
+  await db.pg.insert(emailChangeRequestTable.pg).values({ userId: 'target-id', tokenId: 'token-1' })
+    .onConflictDoUpdate({ target: emailChangeRequestTable.pg.userId, set: { tokenId: 'token-1' } });
+  return createEmailChangeToken({
+    userId: 'target-id', oldEmail: 'old@example.com', newEmail: 'new@example.com', tokenId: 'token-1',
+  });
+};
+
+const lastSentToken = () => decodeURIComponent(vi.mocked(sendEmailChangeVerification).mock.lastCall![0].confirmUrl.split('token=')[1]!);
 
 describe('users.requestEmailChange', () => {
   test('rejects unauthenticated callers', async () => {
@@ -936,6 +944,17 @@ describe('users.confirmEmailChange', () => {
     expect(updateCustomerIoEmail).not.toHaveBeenCalled();
   });
 
+  test('the same link can be retried after Keycloak fails', async () => {
+    await seedTarget();
+    const token = await mintToken();
+    vi.mocked(updateKeycloakEmail).mockRejectedValueOnce(new Error('Keycloak rejected the email update.'));
+
+    await expect(anonCaller().users.confirmEmailChange({ token })).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+
+    await expect(anonCaller().users.confirmEmailChange({ token })).resolves.toMatchObject({ newEmail: 'new@example.com' });
+    expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('new@example.com');
+  });
+
   test('alerts and rethrows when Keycloak succeeded but the user table update fails', async () => {
     await seedTarget();
     const updateSpy = vi.spyOn(db, 'update').mockRejectedValueOnce(new Error('airtable down'));
@@ -976,6 +995,43 @@ describe('users.confirmEmailChange', () => {
     expect(updateKeycloakEmail).not.toHaveBeenCalled();
     expect(updateCustomerIoEmail).not.toHaveBeenCalled();
     expect(unlinkStaleGoogleIdentities).not.toHaveBeenCalled();
+  });
+
+  test('rejects a used link replayed after the email was changed back', async () => {
+    await seedAdmin();
+    await seedTarget();
+    const admin = callerAs('admin-sub');
+
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' });
+    const firstToken = lastSentToken();
+    await anonCaller().users.confirmEmailChange({ token: firstToken });
+
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'old@example.com' });
+    await anonCaller().users.confirmEmailChange({ token: lastSentToken() });
+    expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('old@example.com');
+    vi.mocked(updateKeycloakEmail).mockClear();
+
+    await expect(anonCaller().users.confirmEmailChange({ token: firstToken }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: 'This link is no longer valid' });
+    expect(updateKeycloakEmail).not.toHaveBeenCalled();
+    expect((await testDb.get(userTable, { id: 'target-id' })).email).toBe('old@example.com');
+  });
+
+  test('a newer request cancels an older link', async () => {
+    await seedAdmin();
+    await seedTarget();
+    const admin = callerAs('admin-sub');
+
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'new@example.com' });
+    const olderToken = lastSentToken();
+    await admin.users.requestEmailChange({ userId: 'target-id', newEmail: 'other@example.com' });
+
+    await expect(anonCaller().users.confirmEmailChange({ token: olderToken }))
+      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: 'This link is no longer valid' });
+    expect(updateKeycloakEmail).not.toHaveBeenCalled();
+
+    await expect(anonCaller().users.confirmEmailChange({ token: lastSentToken() }))
+      .resolves.toMatchObject({ newEmail: 'other@example.com' });
   });
 
   test('reports success without side effects when the change was already applied', async () => {

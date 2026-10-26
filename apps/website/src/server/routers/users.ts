@@ -1,5 +1,8 @@
-import { courseRegistrationTable, sql, userTable } from '@bluedot/db';
+import {
+  and, courseRegistrationTable, emailChangeRequestTable, eq, sql, userTable,
+} from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { randomUUID } from 'crypto';
 import { InvalidTokenError, logger, verifyKeycloakToken } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
@@ -53,7 +56,14 @@ async function sendEmailChangeConfirmation(
     throw new TRPCError({ code: 'CONFLICT', message: 'Another user already has this email' });
   }
 
-  const token = await createEmailChangeToken({ userId: user.id, oldEmail: user.email, newEmail });
+  // Replacing the stored id cancels any earlier link for this user
+  const tokenId = randomUUID();
+  await db.pg.insert(emailChangeRequestTable.pg).values({ userId: user.id, tokenId })
+    .onConflictDoUpdate({ target: emailChangeRequestTable.pg.userId, set: { tokenId } });
+
+  const token = await createEmailChangeToken({
+    userId: user.id, oldEmail: user.email, newEmail, tokenId,
+  });
   await sendEmailChangeVerification({ oldEmail: user.email, newEmail, confirmUrl: getEmailChangeConfirmUrl(token) });
 }
 
@@ -319,21 +329,36 @@ export const usersRouter = router({
         throw linkNoLongerValid();
       }
 
-      if (await isEmailTaken(payload.newEmail, user.id, user.keycloakIdentifier)) {
-        throw new TRPCError({ code: 'CONFLICT', message: 'Another account already has this email' });
+      // The account's email alone can't tell a used link apart, because it may since have been changed back to oldEmail
+      // Claiming the link with one atomic delete stops two concurrent clicks from both applying the change
+      const [claimedRequest] = await db.pg.delete(emailChangeRequestTable.pg)
+        .where(and(eq(emailChangeRequestTable.pg.userId, user.id), eq(emailChangeRequestTable.pg.tokenId, payload.tokenId)))
+        .returning();
+      if (!claimedRequest) {
+        throw linkNoLongerValid();
       }
 
       try {
-        await updateKeycloakEmail(user.keycloakIdentifier, payload.newEmail);
-      } catch (error) {
-        logger.error(`[EmailChange] Keycloak update failed for user ${user.id}`, error);
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'We could not update your email right now. Please try again later.', cause: error });
-      }
+        if (await isEmailTaken(payload.newEmail, user.id, user.keycloakIdentifier)) {
+          throw new TRPCError({ code: 'CONFLICT', message: 'Another account already has this email' });
+        }
 
-      try {
-        await db.update(userTable, { id: user.id, email: payload.newEmail });
+        try {
+          await updateKeycloakEmail(user.keycloakIdentifier, payload.newEmail);
+        } catch (error) {
+          logger.error(`[EmailChange] Keycloak update failed for user ${user.id}`, error);
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'We could not update your email right now. Please try again later.', cause: error });
+        }
+
+        try {
+          await db.update(userTable, { id: user.id, email: payload.newEmail });
+        } catch (error) {
+          await slackAlert(env, [`[EmailChange] Keycloak now has ${payload.newEmail} for user ${user.id} but the user table update failed and still has ${payload.oldEmail}: ${error instanceof Error ? error.message : String(error)}`]);
+          throw error;
+        }
       } catch (error) {
-        await slackAlert(env, [`[EmailChange] Keycloak now has ${payload.newEmail} for user ${user.id} but the user table update failed and still has ${payload.oldEmail}: ${error instanceof Error ? error.message : String(error)}`]);
+        // Hand the link back so the user can retry, unless a newer request has replaced it meanwhile
+        await db.pg.insert(emailChangeRequestTable.pg).values(claimedRequest).onConflictDoNothing();
         throw error;
       }
 
