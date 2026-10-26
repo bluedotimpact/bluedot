@@ -95,6 +95,7 @@ const Scout = () => {
     setGreetingText(greeting(leadName));
   }, [leadName]);
   const [invited, setInvited] = useState<InvitedThisWeek>({});
+  const invitedRef = useRef<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
@@ -124,6 +125,8 @@ const Scout = () => {
   const [freshInvites, setFreshInvites] = useState<Course[]>([]);
   const [goalPopup, setGoalPopup] = useState(false);
   const [sessionNote, setSessionNote] = useState<SessionNote>();
+  // Decisions already made when the current queue was opened, so its note only covers this visit
+  const doneAtOpen = useRef(new Set<string>());
   // ?viewAs=email shows the page as that lead sees it: their courses and their goal
   const viewAs = typeof router.query.viewAs === 'string' ? router.query.viewAs : undefined;
   const promptOpen = useNavigationState((state) => state.promptOpen);
@@ -141,10 +144,26 @@ const Scout = () => {
       const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string }>(viewAs ? `queue?viewAs=${encodeURIComponent(viewAs)}` : 'queue');
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
-      setInvited(data.invitedThisWeek ?? {});
+      const counts = data.invitedThisWeek ?? {};
+      const previous = invitedRef.current;
+      // An invite reaches these counts once Airtable stamps its date, a few seconds after it is sent;
+      // until a count rises it stays counted here. A falling count means a new week.
+      setFreshInvites((pending) => {
+        const kept: Course[] = [];
+        const absorbed = new Map<Course, number>();
+        pending.forEach((course) => {
+          const rise = (counts[course]?.total ?? 0) - (previous[course]?.total ?? 0);
+          if (rise < 0) return;
+          const used = absorbed.get(course) ?? 0;
+          if (used < rise) absorbed.set(course, used + 1);
+          else kept.push(course);
+        });
+        return kept;
+      });
+      invitedRef.current = counts;
+      setInvited(counts);
       setLeadCourses(data.leadCourses ?? []);
       setLeadName(data.leadName);
-      setFreshInvites([]);
       setSkipOrder([]);
       setPeople({});
       requested.current.clear();
@@ -189,11 +208,12 @@ const Scout = () => {
 
   // Leaving a queue part-way notes what was done there; a finished queue already showed its summary
   const leaveRound = useCallback(() => {
-    if (round && current && (decisions.length > 0 || skippedItems.length > 0)) {
+    const thisVisit = decisions.filter((entry) => !doneAtOpen.current.has(entry.person.id));
+    if (round && current && (thisVisit.length > 0 || skippedItems.length > 0)) {
       setSessionNote({
         course: round.course,
-        invited: decisions.filter((entry) => entry.decision === 'invite').map((entry) => entry.person.name),
-        declined: decisions.filter((entry) => entry.decision === 'decline').length,
+        invited: thisVisit.filter((entry) => entry.decision === 'invite').map((entry) => entry.person.name),
+        declined: thisVisit.filter((entry) => entry.decision === 'decline').length,
         skipped: skippedItems.length,
       });
     }
@@ -213,6 +233,7 @@ const Scout = () => {
 
   const chooseRound = (item: QueueItem, asMustLook = false) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
+    doneAtOpen.current = new Set(Object.keys(done));
     setRound(item);
     setMustLook(asMustLook);
     setSkipOrder([]);
@@ -246,6 +267,7 @@ const Scout = () => {
   const closeLookup = useCallback(() => {
     setLookup(undefined);
     setSearch('');
+    setSearchOpen(true);
     setPersonInUrl(undefined);
   }, [setPersonInUrl]);
 
