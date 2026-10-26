@@ -23,7 +23,7 @@ export type Scores = Partial<Record<ScoreKey, number>>;
 // emails, so anyone can register an unused @bluedot.org address; require
 // email_verified too.
 export function assertBluedotStaff(auth: { email: string; email_verified: boolean }): void {
-  if (auth.email_verified !== true || !auth.email.toLowerCase().endsWith('@bluedot.org')) {
+  if (!auth.email_verified || !auth.email.toLowerCase().endsWith('@bluedot.org')) {
     throw new createHttpError.Forbidden('Top Talent CRM is restricted to BlueDot staff.');
   }
 }
