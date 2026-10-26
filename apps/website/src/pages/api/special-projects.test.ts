@@ -14,9 +14,9 @@ vi.mock('@bluedot/utils', async (importOriginal) => ({
 }));
 
 const pitch = {
-  title: '  An important project  ',
-  project: 'Make something useful.',
+  outcome: '  More people doing useful AI safety work.  ',
   whyItMatters: 'It addresses an important gap.',
+  approach: 'Build a useful resource.',
 };
 
 let handler: NextApiHandler;
@@ -43,7 +43,10 @@ describe('Special Projects intake', () => {
     expect(res._getStatusCode()).toBe(200);
     expect(res._getJSONData()).toEqual({ received: true, reference: 'recSaved' });
     expect(db.insert).toHaveBeenCalledWith(expect.objectContaining({ airtable: specialProjectSubmissionTable.airtable }), expect.objectContaining({
-      title: 'An important project',
+      title: 'More people doing useful AI safety work.',
+      outcome: 'More people doing useful AI safety work.',
+      whyItMatters: pitch.whyItMatters,
+      approach: pitch.approach,
       submitterType: 'Person',
       status: 'New',
       submittedAtSeconds: expect.any(Number),
@@ -59,8 +62,10 @@ describe('Special Projects intake', () => {
   });
 
   test.each([
-    { ...pitch, title: ' ' },
-    { ...pitch, project: 'x'.repeat(8001) },
+    { ...pitch, outcome: ' ' },
+    { ...pitch, outcome: 'x'.repeat(8001) },
+    { ...pitch, approach: undefined },
+    { ...pitch, approach: 'x'.repeat(8001) },
     { ...pitch, whyItMatters: null },
     { ...pitch, contact: ['unexpected', 'array'] },
     { ...pitch, status: 'Exploring' },

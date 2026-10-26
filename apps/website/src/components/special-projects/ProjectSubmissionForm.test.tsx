@@ -10,9 +10,9 @@ afterEach(() => vi.unstubAllGlobals());
 
 const fillPitch = async () => {
   const user = userEvent.setup();
-  await user.type(screen.getByRole('textbox', { name: /Project title/ }), 'An important project');
-  await user.type(screen.getByRole('textbox', { name: /What should someone work on/ }), 'Build a useful resource.');
-  await user.type(screen.getByRole('textbox', { name: /Why does it matter/ }), 'It addresses a neglected problem.');
+  await user.type(screen.getByRole('textbox', { name: 'What outcome would you like to see in the world?' }), 'More people doing useful AI safety work.');
+  await user.type(screen.getByRole('textbox', { name: 'Why?' }), 'It addresses a neglected problem.');
+  await user.type(screen.getByRole('textbox', { name: 'How could someone make it happen/make progress towards it?' }), 'Build a useful resource.');
   return user;
 };
 
@@ -26,20 +26,26 @@ describe('ProjectSubmissionForm', () => {
     expect(await screen.findByRole('status')).toHaveTextContent('recSaved');
     expect(fetch).toHaveBeenCalledWith('/api/special-projects', expect.objectContaining({ method: 'POST' }));
     const payload = JSON.parse(fetch.mock.calls[0]![1].body as string);
-    expect(payload).toMatchObject({ title: 'An important project', submitterType: 'person', contact: '' });
+    expect(payload).toMatchObject({
+      outcome: 'More people doing useful AI safety work.',
+      whyItMatters: 'It addresses a neglected problem.',
+      approach: 'Build a useful resource.',
+      submitterType: 'person',
+      contact: '',
+    });
+    expect(payload).not.toHaveProperty('title');
   });
 
-  test('preserves an agent’s draft when the server is busy', async () => {
+  test('preserves the draft when the server is busy', async () => {
     const fetch = vi.fn().mockResolvedValue(new Response('{}', { status: 429 }));
     vi.stubGlobal('fetch', fetch);
     render(<ProjectSubmissionForm />);
     const user = await fillPitch();
-    await user.click(screen.getByRole('radio', { name: 'An AI agent' }));
     await act(async () => user.click(screen.getByRole('button', { name: 'Send your idea' })));
     expect(await screen.findByRole('alert')).toHaveTextContent('try again in a minute');
-    expect(screen.getByRole('textbox', { name: /Project title/ })).toHaveValue('An important project');
+    expect(screen.getByRole('textbox', { name: 'What outcome would you like to see in the world?' })).toHaveValue('More people doing useful AI safety work.');
+    expect(screen.getByRole('textbox', { name: 'How could someone make it happen/make progress towards it?' })).toHaveValue('Build a useful resource.');
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
-    expect(JSON.parse(fetch.mock.calls[0]![1].body as string).submitterType).toBe('agent');
   });
 
   test('does not report success without a receipt', async () => {

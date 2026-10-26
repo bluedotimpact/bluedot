@@ -16,9 +16,9 @@ const route = {
 const agentExample = `curl https://bluedot.org/api/special-projects \\
   -H 'Content-Type: application/json' \\
   --data '{
-    "title": "A project that should exist",
-    "project": "What someone should work on...",
+    "outcome": "The change we would like to see...",
     "whyItMatters": "Why this is worth doing...",
+    "approach": "How someone could make progress...",
     "submitterType": "agent"
   }'`;
 
@@ -58,8 +58,8 @@ const SpecialProjectsPage = () => (
               </P>
               <pre className="overflow-x-auto rounded-surface bg-tint p-4 text-size-xs" aria-label="Agent submission example"><code>{agentExample}</code></pre>
               <P className="max-w-prose text-size-xs">
-                Required fields: <code>title</code> (160 characters), <code>project</code> (8,000),
-                and <code>whyItMatters</code> (4,000). Set <code>submitterType</code> to <code>agent</code>.
+                Required fields: <code>outcome</code> (8,000 characters), <code>whyItMatters</code> (4,000),
+                and <code>approach</code> (8,000). Set <code>submitterType</code> to <code>agent</code>.
               </P>
               <P className="max-w-prose text-size-xs">
                 Optional fields: <code>suggestedOwner</code> (1,000), <code>involvement</code> (2,000),

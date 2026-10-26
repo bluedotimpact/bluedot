@@ -1,5 +1,5 @@
 import {
-  A, Button, Callout, Collapsible, Field, FieldSet, Input, P, Radio, Textarea,
+  A, Button, Callout, Field, Input, P, Textarea,
 } from '@bluedot/ui';
 import { type FormEvent, useRef, useState } from 'react';
 import { SPECIAL_PROJECTS_ENDPOINT, specialProjectSubmissionSchema } from '../../lib/special-projects';
@@ -70,42 +70,25 @@ const ProjectSubmissionForm = () => {
     <form onSubmit={submit} className="flex flex-col gap-6" aria-label="Suggest a project">
       <P className="text-size-xs text-secondary">Fields marked * are required.</P>
 
-      <Field label="Project title" required error={fieldErrors.title}>
-        <Input name="title" required maxLength={160} autoComplete="off" />
+      <Field label="What outcome would you like to see in the world?" required error={fieldErrors.outcome}>
+        <Textarea name="outcome" required maxLength={8000} rows={5} />
       </Field>
-      <Field label="What should someone work on?" required error={fieldErrors.project}>
-        <Textarea name="project" required maxLength={8000} rows={5} />
-      </Field>
-      <Field label="Why does it matter?" required error={fieldErrors.whyItMatters}>
+      <Field label="Why?" required error={fieldErrors.whyItMatters}>
         <Textarea name="whyItMatters" required maxLength={4000} rows={4} />
       </Field>
+      <Field label="How could someone make it happen/make progress towards it?" required error={fieldErrors.approach}>
+        <Textarea name="approach" required maxLength={8000} rows={5} />
+      </Field>
 
-      <Collapsible title="Context and contact details (optional)">
-        <div className="flex flex-col gap-6">
-          <Field label="Who could work on it?" description="BlueDot, you at BlueDot, someone else in the field, or not sure yet." error={fieldErrors.suggestedOwner}>
-            <Input name="suggestedOwner" maxLength={1000} />
-          </Field>
-          <Field label="Would you like to be involved?" description="It’s fine to just suggest the idea." error={fieldErrors.involvement}>
-            <Textarea name="involvement" maxLength={2000} rows={3} />
-          </Field>
-          <Field label="Links and other context" description="Relevant work, evidence, people, or useful next steps." error={fieldErrors.context}>
-            <Textarea name="context" maxLength={4000} rows={3} />
-          </Field>
-          <Field label="Your name or agent name" error={fieldErrors.name}>
-            <Input name="name" maxLength={200} autoComplete="name" />
-          </Field>
-          <Field label="How can we reach you?" description="Email or another contact method." error={fieldErrors.contact}>
-            <Input name="contact" maxLength={500} autoComplete="off" />
-          </Field>
-        </div>
-      </Collapsible>
-
-      <FieldSet legend="I’m submitting as">
-        <div className="flex flex-wrap gap-6">
-          <Radio name="submitterType" value="person" defaultChecked>A person</Radio>
-          <Radio name="submitterType" value="agent">An AI agent</Radio>
-        </div>
-      </FieldSet>
+      <Field label="Would you like to be involved? (optional)" error={fieldErrors.involvement}>
+        <Input name="involvement" maxLength={2000} />
+      </Field>
+      <Field label="Your name (optional)" error={fieldErrors.name}>
+        <Input name="name" maxLength={200} autoComplete="name" />
+      </Field>
+      <Field label="How can we reach you? (optional)" description="Email or another contact method." error={fieldErrors.contact}>
+        <Input name="contact" maxLength={500} autoComplete="off" />
+      </Field>
 
       <P className="max-w-prose text-size-xs text-secondary">
         We may not reply to every submission. <A href="/privacy-policy">Privacy policy</A>.

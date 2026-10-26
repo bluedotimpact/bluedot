@@ -20,6 +20,7 @@ const submit = makeApiRoute({
 }, async (submission) => {
   const record = await db.insert(specialProjectSubmissionTable, {
     ...submission,
+    title: submission.outcome.replace(/\s+/g, ' ').slice(0, 160),
     submitterType: submission.submitterType === 'agent' ? 'AI agent' : 'Person',
     submittedAtSeconds: Math.floor(Date.now() / 1000),
     status: 'New',
