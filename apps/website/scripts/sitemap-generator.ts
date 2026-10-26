@@ -17,7 +17,6 @@ const INCLUDED_ROUTES = [
   { title: 'Incubator Week', url: '/programs/incubator-week' },
   { title: 'Context Week', url: '/programs/context-week' },
   ROUTES.contact,
-  { title: 'Special Projects', url: '/special-projects' },
   ROUTES.joinUs,
   ROUTES.missions,
   ROUTES.privacyPolicy,
