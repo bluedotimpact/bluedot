@@ -29,7 +29,6 @@ const SpecialProjectsPage = () => (
         title: 'Special Projects | BlueDot Impact',
         description: 'BlueDot’s Special Projects team tests new ideas for advancing AI safety. Suggest a program, tool, organization, or other project worth trying.',
       })}
-      <meta name="robots" content="noindex" />
       <link rel="canonical" href="https://bluedot.org/special-projects" />
     </Head>
 
