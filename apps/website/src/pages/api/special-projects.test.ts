@@ -96,6 +96,26 @@ describe('Special Projects intake', () => {
     expect(res._getJSONData()).not.toHaveProperty('reference');
   });
 
+  test('returns the saved receipt when Airtable succeeds but its Postgres mirror fails', async () => {
+    const { AirtableInsertReplicationError } = await import('@bluedot/db');
+    vi.mocked(db.insert).mockRejectedValue(new AirtableInsertReplicationError('recAlreadySaved', new Error('Postgres unavailable')));
+
+    const res = await request();
+    expect(res._getStatusCode()).toBe(200);
+    expect(res._getJSONData()).toEqual({ received: true, reference: 'recAlreadySaved' });
+    expect(db.insert).toHaveBeenCalledTimes(1);
+  });
+
+  test('invalid submissions cannot exhaust the write allowance for valid submissions', async () => {
+    for (let i = 0; i < 25; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      expect((await request({ ...pitch, outcome: ' ' }))._getStatusCode()).toBe(400);
+    }
+
+    expect((await request())._getStatusCode()).toBe(200);
+    expect(db.insert).toHaveBeenCalledTimes(1);
+  });
+
   test('bounds intake and returns an actionable retry delay', async () => {
     for (let i = 0; i < 20; i += 1) {
       // eslint-disable-next-line no-await-in-loop

@@ -1,4 +1,4 @@
-export { PgAirtableDb } from './lib/client';
+export { PgAirtableDb, AirtableInsertReplicationError } from './lib/client';
 export type { PgDatabase } from './lib/client';
 export { isRetryableAirtableError, withAirtableRetry } from './lib/retry';
 export { getFirstFromPg } from './lib/pg-query';

@@ -10,7 +10,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import {
   isRetryableAirtableError, isRetryablePgError, retryDelayMs, patchPgClientToRetryQueries, withAirtableRetry, withPgRetryIdempotentWrite,
 } from './retry';
-import { PgAirtableDb } from '../index';
+import { AirtableInsertReplicationError, PgAirtableDb } from '../index';
 import type { PgAirtableTable } from '../index';
 
 let setTimeoutSpy: MockInstance<typeof setTimeout>;
@@ -159,6 +159,18 @@ describe('PgAirtableDb retry plumbing', () => {
     await expect(db.insert(table, {})).rejects.toThrow('airtable blip');
     expect(insert).toHaveBeenCalledTimes(1);
     expect(db.replicatedCalls).toBe(0);
+  });
+
+  test('preserves the saved Airtable ID when replication fails without repeating the insert', async () => {
+    const insert = vi.fn().mockResolvedValue({ id: 'recSaved' });
+    const db = setup({ insert });
+    const cause = new Error('Postgres unavailable');
+    vi.spyOn(db, 'ensureReplicated').mockRejectedValue(cause);
+
+    const error = await db.insert(table, {}).catch((failure: unknown) => failure);
+    expect(error).toBeInstanceOf(AirtableInsertReplicationError);
+    expect(error).toMatchObject({ recordId: 'recSaved', cause });
+    expect(insert).toHaveBeenCalledTimes(1);
   });
 
   test('update retries a 503 across four attempts', async () => {
