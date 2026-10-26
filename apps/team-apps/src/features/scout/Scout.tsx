@@ -6,6 +6,7 @@ import {
 import {
   Callout, Button, Modal, ProgressDots,
 } from '@bluedot/ui';
+import { FaArrowsRotate, FaMagnifyingGlass } from 'react-icons/fa6';
 import { authFetch } from '../../lib/client/api';
 import { useNavigationState } from '../../lib/client/navigation';
 import { isLocalPreview } from '../../lib/preview';
@@ -45,20 +46,32 @@ export const greeting = (name?: string, now = new Date()) => {
   return name ? `${word}, ${name}!` : `${word}!`;
 };
 
-// The line under the greeting for a course lead: what is waiting in their must-look queue and
-// how far they are from the weekly invite target. Exported for tests.
-export const WEEKLY_INVITE_TARGET = 20;
-export const headline = (mustLook: number, invitedThisWeek: number): [string, string] => {
-  let waiting = `${mustLook} people are waiting on your shortlist.`;
-  if (mustLook === 0) waiting = 'Your shortlist is clear. Hurray 🎉';
-  if (mustLook === 1) waiting = '1 person is waiting on your shortlist.';
-  let mood = 'Let’s find some people!';
-  if (invitedThisWeek > 25) mood = 'You are killing it! 🔥';
-  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET) mood = 'Weekly target reached, brilliant!';
-  else if (invitedThisWeek >= WEEKLY_INVITE_TARGET / 2) mood = 'Good pace, keep it up!';
-  else if (invitedThisWeek > 0) mood = 'Off the mark, keep going!';
-  return [waiting, `${invitedThisWeek} of ${WEEKLY_INVITE_TARGET} invites sent this week. ${mood}`];
+// A lead's weekly goal: invites sent this week across their courses, however they were sent.
+// Exported for tests.
+export const WEEKLY_INVITE_GOAL = 20;
+export const goalLine = (invited: number) => {
+  if (invited >= WEEKLY_INVITE_GOAL) return `You invited ${invited} people this week, woohoo!`;
+  const left = WEEKLY_INVITE_GOAL - invited;
+  return `${left} more ${left === 1 ? 'invite' : 'invites'} to hit this week’s goal!`;
 };
+
+const GoalDots = ({ invited, small = false }: { invited: number; small?: boolean }) => {
+  const met = invited >= WEEKLY_INVITE_GOAL;
+  const dot = (filled: boolean) => {
+    if (met) return 'bg-success-fg';
+    return filled ? 'bg-accent' : 'bg-subtle';
+  };
+
+  return (
+    <span role="img" aria-label={`${invited} of ${WEEKLY_INVITE_GOAL} invites this week`} className="flex flex-wrap items-center gap-1">
+      {Array.from({ length: WEEKLY_INVITE_GOAL }, (_, i) => <span key={i} className={`${small ? 'size-2' : 'size-2.5'} rounded-full ${dot(i < invited)}`} />)}
+      {invited > WEEKLY_INVITE_GOAL && <span className="ml-1 text-size-xs font-semibold text-success-fg">+{invited - WEEKLY_INVITE_GOAL}</span>}
+    </span>
+  );
+};
+
+// What the lead did in the queue they just left, shown once on the main page
+type SessionNote = { course: Course; invited: string[]; declined: number; skipped: number };
 
 // Scout reads live Airtable data and has no sample data set, so the portal's local
 // preview mode (synthetic token, no Airtable token) cannot show it
@@ -106,6 +119,13 @@ const Scout = () => {
   const [saveError, setSaveError] = useState<string>();
   const [conflict, setConflict] = useState(false);
   const [notice, setNotice] = useState<string>();
+  const [searchOpen, setSearchOpen] = useState(false);
+  // Invites sent since the queue was loaded; the next load counts them in invitedThisWeek
+  const [freshInvites, setFreshInvites] = useState<Course[]>([]);
+  const [goalPopup, setGoalPopup] = useState(false);
+  const [sessionNote, setSessionNote] = useState<SessionNote>();
+  // ?viewAs=email shows the page as that lead sees it: their courses and their goal
+  const viewAs = typeof router.query.viewAs === 'string' ? router.query.viewAs : undefined;
   const promptOpen = useNavigationState((state) => state.promptOpen);
   const setSessionActive = useNavigationState((state) => state.setSessionActive);
 
@@ -118,12 +138,13 @@ const Scout = () => {
     setSaveError(undefined);
     setConflict(false);
     try {
-      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string }>('queue');
+      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string }>(viewAs ? `queue?viewAs=${encodeURIComponent(viewAs)}` : 'queue');
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
       setInvited(data.invitedThisWeek ?? {});
       setLeadCourses(data.leadCourses ?? []);
       setLeadName(data.leadName);
+      setFreshInvites([]);
       setSkipOrder([]);
       setPeople({});
       requested.current.clear();
@@ -132,7 +153,7 @@ const Scout = () => {
     } finally {
       if (queueGeneration === generation.current) setLoading(false);
     }
-  }, []);
+  }, [viewAs]);
   useEffect(() => {
     void loadQueue();
   }, [loadQueue]);
@@ -163,13 +184,32 @@ const Scout = () => {
   const allSkipped = scopeItems.length > 0 && scopeItems.every((item) => skipOrder.includes(item.id));
   const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u !== undefined && isLinkedIn(u));
   const cardOpen = lookup !== undefined || (round !== undefined && !allSkipped && current !== undefined);
+  const weeklyInvites = leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0) + freshInvites.filter((course) => leadCourses.includes(course)).length;
+  const isLead = leadCourses.length > 0;
 
+  // Leaving a queue part-way notes what was done there; a finished queue already showed its summary
   const leaveRound = useCallback(() => {
+    if (round && current && (decisions.length > 0 || skippedItems.length > 0)) {
+      setSessionNote({
+        course: round.course,
+        invited: decisions.filter((entry) => entry.decision === 'invite').map((entry) => entry.person.name),
+        declined: decisions.filter((entry) => entry.decision === 'decline').length,
+        skipped: skippedItems.length,
+      });
+    }
+
     setRound(undefined);
     setMustLook(false);
     setSkipOrder([]);
     setNotice(undefined);
-  }, []);
+    setGoalPopup(false);
+  }, [round, current, decisions, skippedItems]);
+
+  useEffect(() => {
+    if (!sessionNote) return undefined;
+    const timer = setTimeout(() => setSessionNote(undefined), 30_000);
+    return () => clearTimeout(timer);
+  }, [sessionNote]);
 
   const chooseRound = (item: QueueItem, asMustLook = false) => {
     if (writingRef.current || confirmation !== undefined || promptOpen) return;
@@ -179,6 +219,7 @@ const Scout = () => {
     setSaveError(undefined);
     setConflict(false);
     setNotice(undefined);
+    setSessionNote(undefined);
   };
 
   const chooseMustLook = (course: Course) => {
@@ -301,6 +342,11 @@ const Scout = () => {
       }
 
       setDone((state) => ({ ...state, [selected.person.id]: selected }));
+      if (selected.decision === 'invite' && leadCourses.includes(selected.item.course)) {
+        setFreshInvites((state) => [...state, selected.item.course]);
+        if (weeklyInvites + 1 === WEEKLY_INVITE_GOAL) setGoalPopup(true);
+      }
+
       setSkipOrder((state) => state.filter((id) => id !== selected.person.id));
       setConfirmation(undefined);
       const who = selected.person.name ? `${selected.person.name}: ` : '';
@@ -313,13 +359,15 @@ const Scout = () => {
       writingRef.current = false;
       setWriting(false);
     }
-  }, [confirmation, note, lookup, closeLookup]);
+  }, [confirmation, note, lookup, closeLookup, leadCourses, weeklyInvites]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.repeat || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
       const target = event.target instanceof HTMLElement ? event.target : undefined;
       if (target?.isContentEditable === true || target?.closest('input, textarea, select')) return;
+      // The goal popup takes every key, so an Enter meant for it can never invite the next person
+      if (goalPopup) return;
       // Enter confirms the open dialog; Esc is handled by the dialog itself
       if (confirmation !== undefined) {
         if (event.key === 'Enter' && !writingRef.current) {
@@ -355,9 +403,9 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, confirm, confirmation, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
+  }, [ask, skip, confirm, confirmation, goalPopup, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
 
-  const controlsDisabled = writing || confirmation !== undefined || promptOpen;
+  const controlsDisabled = writing || confirmation !== undefined || goalPopup || promptOpen;
   let confirmDescription = 'This removes the participant from the queue and they won’t be considered again.';
   if (confirmation?.decision === 'invite') confirmDescription = 'This emails the participant on behalf of the course lead. You cannot undo this email.';
   let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
@@ -373,18 +421,21 @@ const Scout = () => {
         {/* While reviewing, the page belongs to the person: the title and the queue notes stay on the picker */}
         {!round && !lookup && (
           <>
-            <header className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <h1 className="text-size-lg font-semibold">{greetingText}</h1>
-                {!loading && !queueError && leadCourses.length > 0 && headline(
-                  remaining.filter((item) => item.mustLook && leadCourses.includes(item.course)).length,
-                  leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0),
-                ).map((line) => <p key={line} className="mt-1 text-size-sm text-secondary">{line}</p>)}
+            <header className="flex items-center justify-between gap-3">
+              <h1 className="text-size-lg font-semibold">{greetingText}</h1>
+              <div className="flex gap-1">
+                <button type="button" aria-label="Search participants" title="Search participants" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)} className={iconButton}><FaMagnifyingGlass aria-hidden /></button>
+                <button type="button" aria-label="Refresh queue" title="Refresh queue" disabled={controlsDisabled || loading} onClick={() => {
+                  void loadQueue();
+                }} className={iconButton}><FaArrowsRotate aria-hidden /></button>
               </div>
-              <Button variant="outline-black" disabled={controlsDisabled || loading} onClick={() => {
-                void loadQueue();
-              }}>Refresh queue</Button>
             </header>
+            {!loading && !queueError && isLead && (
+              <section aria-label="This week's goal" className="flex flex-col gap-2 px-1">
+                <p className={`text-size-sm font-medium ${weeklyInvites >= WEEKLY_INVITE_GOAL ? 'text-success-fg' : 'text-primary'}`}>{goalLine(weeklyInvites)}</p>
+                <GoalDots invited={weeklyInvites} />
+              </section>
+            )}
           </>
         )}
         {loading && <div role="status" aria-label="Loading queue" className="py-12"><ProgressDots /></div>}
@@ -409,14 +460,23 @@ const Scout = () => {
         )}
         {!loading && !queueError && !lookup && (!round ? (
           <>
+            {searchOpen && <PersonSearch items={remaining} query={search} onQueryChange={setSearch} onSelect={openLookup} />}
             {notice && <Callout role="status">{notice}</Callout>}
-            <PersonSearch items={remaining} query={search} onQueryChange={setSearch} onSelect={openLookup} />
-            <RoundPicker items={remaining} invited={invited} leadCourses={leadCourses} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
+            {sessionNote && (
+              <section role="status" aria-label="Your last queue" className={`${panel} flex items-start justify-between gap-3 px-4 py-3 text-size-sm`}>
+                <div>
+                  <p className="font-medium">Just now in {sessionNote.course}: {sessionNote.invited.length} invited · {sessionNote.declined} not invited · {sessionNote.skipped} skipped</p>
+                  {sessionNote.invited.length > 0 && <p className="mt-1 text-size-xs text-secondary">Invited: {sessionNote.invited.join(', ')}</p>}
+                </div>
+                <button type="button" aria-label="Close" onClick={() => setSessionNote(undefined)} className="min-h-11 shrink-0 px-2 text-secondary hover:text-primary">×</button>
+              </section>
+            )}
+            <RoundPicker items={remaining} leadCourses={leadCourses} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
           </>
         ) : <>
           {/* Where the lead is, as one quiet line; progress and skips live in the action bar below the card */}
           <section aria-label="Review scope" className="flex flex-wrap items-center justify-between gap-2 px-1">
-            <p className="text-size-xs text-secondary"><span className="text-size-sm font-medium text-primary">{round.course}</span> · {scopeLabel}</p>
+            <p className="text-size-xs text-secondary"><span className="text-size-sm font-medium text-primary">{round.course}</span> · {scopeLabel}{current && !allSkipped && <span> · {decisions.length} of {total} reviewed</span>}</p>
             <Button variant="outline-black" size="small" disabled={controlsDisabled} onClick={leaveRound}>{mustLook ? 'Change queue' : 'Change round'}</Button>
           </section>
           {notice && <Callout role="status">{notice}</Callout>}
@@ -435,9 +495,9 @@ const Scout = () => {
           {!allSkipped && (current ? <ReviewEvidence key={current.id} item={current} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(current.id)} actions={
             <div className="sticky bottom-0 flex flex-col gap-3 rounded-b-overlay border-t border-subtle bg-canvas p-4">
               <div className="flex flex-wrap items-center gap-3 text-size-xs text-secondary">
-                <span className="font-medium text-primary">{decisions.length} of {total} reviewed</span>
-                <progress aria-label="Review progress" max={total || 1} value={decisions.length} className="h-1.5 min-w-20 flex-1 appearance-none overflow-hidden rounded-full [&::-webkit-progress-bar]:bg-tint [&::-webkit-progress-value]:bg-accent [&::-moz-progress-bar]:bg-accent" />
-                <span>{skippedItems.length} skipped</span>
+                {isLead && <span className={`font-medium ${weeklyInvites >= WEEKLY_INVITE_GOAL ? 'text-success-fg' : 'text-primary'}`}>{Math.min(weeklyInvites, WEEKLY_INVITE_GOAL)} / {WEEKLY_INVITE_GOAL} this week</span>}
+                {isLead && <GoalDots invited={weeklyInvites} small />}
+                <span className="ml-auto">{skippedItems.length} skipped</span>
                 <Button variant="outline-black" size="small" disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
                   setSkipOrder((state) => state.slice(0, -1));
                   setNotice(undefined);
@@ -518,6 +578,19 @@ const Scout = () => {
             </div>
           </div>}
         </Modal>
+        <Modal isOpen={goalPopup} setIsOpen={(open) => setGoalPopup(open)} title={`${WEEKLY_INVITE_GOAL} invites this week, woohoo! 🎉`}>
+          <div className="max-w-md space-y-4 text-size-sm">
+            <p>You achieved this week’s goal. You can stop here, or keep going if you like.</p>
+            <div className="flex flex-wrap justify-end gap-2">
+              <Button variant="secondary" onClick={() => setGoalPopup(false)}>Keep reviewing</Button>
+              <Button onClick={() => {
+                setGoalPopup(false);
+                if (lookup) closeLookup();
+                else leaveRound();
+              }}>Done for this week</Button>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );
@@ -531,6 +604,8 @@ const isLinkedIn = (u: string) => {
     return false;
   }
 };
+
+const iconButton = 'flex size-11 items-center justify-center rounded-surface text-secondary hover:bg-tint hover:text-primary disabled:opacity-50';
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (
   <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Esc</kbd> {back}</p>

@@ -2,7 +2,7 @@ import {
   COURSES, PICK_REASONS, type Course, type Person, type QueueItem,
 } from './types';
 
-export const courses: readonly Course[] = COURSES;
+export const courses: readonly Course[] = ['Technical AI Safety Project', ...COURSES.filter((course) => course !== 'Technical AI Safety Project')];
 export const roundKey = (item: QueueItem) => item.roundId ?? `${item.course}:${item.roundName}`;
 export const roundLabel = (item: QueueItem) => item.roundName.replace(`${item.course} `, '').replace(/^\((.*?)\)/, '$1');
 

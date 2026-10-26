@@ -21,7 +21,7 @@ vi.mock('@bluedot/ui', () => ({
   Button: ({ children, onClick, disabled }: { children: ReactNode; onClick?: () => void; disabled?: boolean }) => <button type="button" onClick={onClick} disabled={disabled}>{children}</button>,
   Modal: ({ children, isOpen }: { children: ReactNode; isOpen: boolean }) => (isOpen ? <div role="dialog">{children}</div> : null),
 }));
-import Scout, { greeting, headline } from './Scout';
+import Scout, { goalLine, greeting } from './Scout';
 import { pickRecap } from './RoundPicker';
 
 const response = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status });
@@ -42,7 +42,7 @@ const realQueue = samplePeople.map((p) => ({
 const pathOf = (input: RequestInfo | URL) => (input instanceof Request ? input.url : input.toString());
 const read = async (input: RequestInfo | URL) => {
   const path = pathOf(input);
-  if (path.endsWith('/queue')) return response({ items: realQueue });
+  if (path.includes('/queue')) return response({ items: realQueue });
   return response({ person: samplePeople.find((p) => path.endsWith(p.id)) });
 };
 
@@ -167,29 +167,71 @@ test('skip moves the person to the end of the pass and is forgotten when the rou
   expect(decisions()).toHaveLength(0);
 });
 
-test('the picker opens only the courses the signed-in person leads, and everything when none are known', async () => {
+test('a lead sees their own courses, the others as names that open one at a time, and everything when they lead none', async () => {
   render(<Scout />);
-  await screen.findByText('Biosecurity');
-  expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
-  expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(true);
+  await screen.findByRole('region', { name: 'Biosecurity' });
+  expect(screen.getByRole('region', { name: 'Technical AI Safety' })).toBeTruthy();
+  expect(screen.queryByRole('navigation', { name: 'Other courses' })).toBeNull();
+  expect(screen.queryByRole('region', { name: 'This week\'s goal' })).toBeNull();
   cleanup();
-  mockFetch.mockImplementation(async (path) => (pathOf(path).endsWith('/queue') ? response({ items: realQueue, leadCourses: ['Biosecurity'], leadName: 'Sample' }) : read(path)));
+  mockFetch.mockImplementation(async (path) => (pathOf(path).includes('/queue') ? response({ items: realQueue, leadCourses: ['Biosecurity'], leadName: 'Sample' }) : read(path)));
   render(<Scout />);
-  await screen.findByText('Biosecurity');
-  expect(screen.getByText('Biosecurity').closest('details')!.open).toBe(true);
-  expect(screen.getByText('Technical AI Safety').closest('details')!.open).toBe(false);
+  await screen.findByRole('region', { name: 'Biosecurity' });
+  expect(screen.queryByRole('region', { name: 'Technical AI Safety' })).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Technical AI Safety' }));
+  expect(screen.getByRole('region', { name: 'Technical AI Safety' })).toBeTruthy();
+  fireEvent.click(screen.getByRole('button', { name: 'Close ×' }));
+  expect(screen.queryByRole('region', { name: 'Technical AI Safety' })).toBeNull();
   expect(screen.getByRole('heading', { level: 1 }).textContent).toMatch(/^Good (morning|afternoon|evening), Sample!$/);
+  expect(screen.getByText('20 more invites to hit this week’s goal!')).toBeTruthy();
 });
 
 test('the greeting follows the hour and drops the name when nobody is known', () => {
   expect(greeting('Sample', new Date('2026-10-20T09:00:00'))).toBe('Good morning, Sample!');
   expect(greeting('Sample', new Date('2026-10-20T15:00:00'))).toBe('Good afternoon, Sample!');
   expect(greeting(undefined, new Date('2026-10-20T21:00:00'))).toBe('Good evening!');
-  expect(headline(0, 3)).toEqual(['Your shortlist is clear. Hurray 🎉', '3 of 20 invites sent this week. Off the mark, keep going!']);
-  expect(headline(1, 0)).toEqual(['1 person is waiting on your shortlist.', '0 of 20 invites sent this week. Let’s find some people!']);
-  expect(headline(12, 12)).toEqual(['12 people are waiting on your shortlist.', '12 of 20 invites sent this week. Good pace, keep it up!']);
-  expect(headline(12, 25)[1]).toBe('25 of 20 invites sent this week. Weekly target reached, brilliant!');
-  expect(headline(12, 26)[1]).toBe('26 of 20 invites sent this week. You are killing it! 🔥');
+  expect(goalLine(0)).toBe('20 more invites to hit this week’s goal!');
+  expect(goalLine(19)).toBe('1 more invite to hit this week’s goal!');
+  expect(goalLine(20)).toBe('You invited 20 people this week, woohoo!');
+  expect(goalLine(24)).toBe('You invited 24 people this week, woohoo!');
+});
+
+test('the invite that reaches 20 opens a popup that takes the keyboard, so Enter cannot invite the next person', async () => {
+  mockFetch.mockImplementation(async (path, init) => {
+    if (init?.method === 'POST') return response({ ok: true });
+    return pathOf(path).includes('/queue') ? response({ items: realQueue, leadCourses: ['Technical AI Safety'], invitedThisWeek: { 'Technical AI Safety': { total: 19, viaApp: 0 } } }) : read(path);
+  });
+  await start();
+  expect(screen.getByText('19 / 20 this week')).toBeTruthy();
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+  await screen.findByText('You achieved this week’s goal. You can stop here, or keep going if you like.');
+  expect(screen.getByText('20 / 20 this week')).toBeTruthy();
+  fireEvent.keyDown(window, { key: 'Enter' });
+  fireEvent.keyDown(window, { key: 'ArrowRight' });
+  expect(screen.queryByRole('button', { name: 'Send invite' })).toBeNull();
+  expect(decisions()).toHaveLength(1);
+  fireEvent.click(screen.getByRole('button', { name: 'Keep reviewing' }));
+  expect(screen.queryByText('You achieved this week’s goal. You can stop here, or keep going if you like.')).toBeNull();
+  await screen.findByText('Sam Chen');
+});
+
+test('leaving a queue part-way notes what was done there on the main page', async () => {
+  mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: true }) : read(path)));
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+  await screen.findByText('Sam Chen');
+  fireEvent.keyDown(window, { key: 'Escape' });
+  await screen.findByText('Just now in Technical AI Safety: 1 invited · 0 not invited · 0 skipped');
+  expect(screen.getByText('Invited: Alex Morgan')).toBeTruthy();
+});
+
+test('?viewAs= asks the queue for that lead', async () => {
+  routerQuery.viewAs = 'lead@example.org';
+  render(<Scout />);
+  await screen.findByRole('region', { name: 'Biosecurity' });
+  expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith('/queue?viewAs=lead%40example.org'))).toBe(true);
 });
 
 test('after a round, "Review next round" only offers another round of the same course; otherwise only the main page', async () => {
@@ -197,7 +239,7 @@ test('after a round, "Review next round" only offers another round of the same c
   const sameCourseOtherRound = { ...realQueue[1]!, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' };
   const withQueue = (items: typeof realQueue) => mockFetch.mockImplementation(async (path, init) => {
     if (init?.method === 'POST') return response({ ok: true });
-    return pathOf(path).endsWith('/queue') ? response({ items }) : read(path);
+    return pathOf(path).includes('/queue') ? response({ items }) : read(path);
   });
 
   withQueue([realQueue[0]!, otherCourse]);
@@ -228,7 +270,7 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   };
   mockFetch.mockImplementation(async (path, init) => {
     if (init?.method === 'POST') return response({ ok: true });
-    return pathOf(path).endsWith('/queue') ? response({ items: [older, newer, realQueue[2]!, realQueue[3]!] }) : read(path);
+    return pathOf(path).includes('/queue') ? response({ items: [older, newer, realQueue[2]!, realQueue[3]!] }) : read(path);
   });
   render(<Scout />);
   // Every Technical AI Safety person is must look, so there is no backlog round to pick for that course
@@ -238,8 +280,7 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   expect(screen.getByText('1 strong yes · 1 high facilitator feedback')).toBeTruthy();
   expect(pickRecap([older, newer, { ...older, id: 'recNoReason', pickReason: undefined }])).toBe('1 strong yes · 1 high facilitator feedback · 1 other');
   fireEvent.click(screen.getByTestId('choose-must-look-Technical AI Safety'));
-  await screen.findByText(/· Shortlist$/);
-  expect(screen.getByText('0 of 2 reviewed')).toBeTruthy();
+  await screen.findByText(/0 of 2 reviewed/);
   await screen.findByText('Alex Morgan');
   await waitFor(() => expect(screen.getByRole('button', { name: 'Invite' }).hasAttribute('disabled')).toBe(false));
   fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
@@ -259,7 +300,7 @@ test('a one-person round shows the pass-done screen after one skip; L opens Link
   const open = vi.spyOn(window, 'open').mockImplementation(() => null);
   const withLinkedIn = { ...samplePeople[0]!, profileUrl: 'https://www.linkedin.com/in/sample-participant' };
   mockFetch.mockImplementation(async (path) => {
-    if (pathOf(path).endsWith('/queue')) return response({ items: [realQueue[0]!, realQueue[3]!] });
+    if (pathOf(path).includes('/queue')) return response({ items: [realQueue[0]!, realQueue[3]!] });
     return pathOf(path).endsWith(withLinkedIn.id) ? response({ person: withLinkedIn }) : read(path);
   });
   await start();
@@ -333,7 +374,7 @@ test('deciding on an endorsed person names the facilitator, warns that they will
 
 test('chooses a round before loading people and never includes another round from the same course', async () => {
   const queue = realQueue.map((item, index) => index === 1 ? { ...item, roundId: 'another-round', roundName: 'Technical AI Safety (2026 Jun W23) - Part-time' } : item);
-  mockFetch.mockImplementation(async (path) => pathOf(path).endsWith('/queue') ? response({ items: queue }) : read(path));
+  mockFetch.mockImplementation(async (path) => pathOf(path).includes('/queue') ? response({ items: queue }) : read(path));
   render(<Scout />);
   await screen.findByTestId('choose-round-sample-Technical AI Safety');
   expect(mockFetch.mock.calls.some(([path]) => pathOf(path).includes('/person/'))).toBe(false);
@@ -365,7 +406,7 @@ test('keeps saved decisions in the round summary after refresh and never offers 
       return response({ ok: true });
     }
 
-    if (saved && pathOf(path).endsWith('/queue')) return response({ items: realQueue.filter((item) => item.id !== samplePeople[0]!.id) });
+    if (saved && pathOf(path).includes('/queue')) return response({ items: realQueue.filter((item) => item.id !== samplePeople[0]!.id) });
     return read(path);
   });
   await start();
@@ -383,6 +424,7 @@ test('keeps saved decisions in the round summary after refresh and never offers 
 test('search opens one registration, a decision on it returns to the start and removes them from the queue', async () => {
   mockFetch.mockImplementation(async (path, init) => (init?.method === 'POST' ? response({ ok: true }) : read(path)));
   render(<Scout />);
+  fireEvent.click(await screen.findByRole('button', { name: 'Search participants' }));
   const box = await screen.findByLabelText('Find a participant in the queue');
   fireEvent.change(box, { target: { value: 'jordan' } });
   fireEvent.click(await screen.findByTestId('search-result-recScoutSample003'));
@@ -401,6 +443,7 @@ test('search opens one registration, a decision on it returns to the start and r
 
 test('back to search starts with an empty box; a ?person= link opens the card directly', async () => {
   render(<Scout />);
+  fireEvent.click(await screen.findByRole('button', { name: 'Search participants' }));
   fireEvent.change(await screen.findByLabelText('Find a participant in the queue'), { target: { value: 'example.org' } });
   expect(screen.getAllByTestId(/search-result-/)).toHaveLength(4);
   fireEvent.click(screen.getByTestId('search-result-recScoutSample002'));

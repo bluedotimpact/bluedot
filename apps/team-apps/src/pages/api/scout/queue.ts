@@ -15,8 +15,10 @@ export default makeApiRoute({
     leadCourses: z.array(z.enum(COURSES)),
     leadName: z.string().optional(),
   }),
-}, async (_, { auth }) => {
-  const [items, invitedThisWeek, lead] = await Promise.all([fetchQueue(), fetchInvitedThisWeek(), fetchLead(auth.email)]);
+}, async (_, { auth, raw }) => {
+  // ?viewAs= shows the picker as another lead sees it; everyone signed in can already see every course
+  const viewAs = z.string().email().safeParse(raw.req.query.viewAs);
+  const [items, invitedThisWeek, lead] = await Promise.all([fetchQueue(), fetchInvitedThisWeek(), fetchLead(viewAs.success ? viewAs.data : auth.email)]);
   return {
     items, invitedThisWeek, leadCourses: lead.courses, leadName: lead.firstName,
   };

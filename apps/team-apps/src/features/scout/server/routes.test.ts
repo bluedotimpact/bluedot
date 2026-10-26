@@ -69,6 +69,13 @@ test('the queue carries the courses led by the signed-in email and their first n
   expect(res._getStatusCode()).toBe(200);
   expect(fetchLead).toHaveBeenCalledWith('staff@bluedot.org');
   expect(res._getJSONData()).toMatchObject({ leadCourses: ['Biosecurity'], leadName: 'Sample' });
+
+  const viewing = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers, query: { viewAs: 'lead@example.org' } });
+  await queue(viewing.req, viewing.res);
+  expect(fetchLead).toHaveBeenLastCalledWith('lead@example.org');
+  const notAnEmail = createMocks<NextApiRequest, NextApiResponse>({ method: 'GET', headers, query: { viewAs: 'not an email' } });
+  await queue(notAnEmail.req, notAnEmail.res);
+  expect(fetchLead).toHaveBeenLastCalledWith('staff@bluedot.org');
 });
 
 test('rejects non-staff identities, wrong methods and invalid decisions', async () => {

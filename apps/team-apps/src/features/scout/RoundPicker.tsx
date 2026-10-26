@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import {
-  PICK_REASONS, type Course, type InvitedThisWeek, type PickReason, type QueueItem,
+  PICK_REASONS, type Course, type PickReason, type QueueItem,
 } from './types';
 import {
   backlogFor, courses, mustLookFor, roundKey, roundPickerLabel, roundsFor,
@@ -12,9 +13,6 @@ const backlogChoice = `${choice} border-subtle hover:border-accent hover:bg-tint
 // colours RatingButtons uses)
 const mustLookChoice = `${choice} border-accent bg-info-bg text-info-fg hover:border-strong`;
 
-// A course's one-line summary: what the lead must look at, and what went out this week
-const summaryLabel = (mustLook: number, invited?: { total: number }) => `${mustLook} shortlisted · ${invited?.total ?? 0} invited this week`;
-
 // What is on the shortlist, one count per person so the parts add up to the total. Exported for tests.
 const PICK_LABELS: Record<PickReason, string> = { 'strong yes': 'strong yes', endorsement: 'facilitator endorsements', 'top score': 'high facilitator feedback' };
 export const pickRecap = (picks: QueueItem[]) => {
@@ -24,43 +22,72 @@ export const pickRecap = (picks: QueueItem[]) => {
   return parts.filter(({ count }) => count > 0).map(({ label, count }) => `${count} ${label}`).join(' · ');
 };
 
-// A lead's own courses open first; with no known courses everything is open.
+type Pick = { onSelect: (item: QueueItem) => void; onSelectMustLook: (course: Course) => void };
+
+// One course: its shortlist, or once that is clear, the backlog round by round
+const CourseBox = ({
+  items, course, onSelect, onSelectMustLook, onClose,
+}: Pick & { items: QueueItem[]; course: Course; onClose?: () => void }) => {
+  const mustLook = mustLookFor(items, course);
+  const recap = pickRecap(mustLook);
+  const backlog = backlogFor(items, course);
+  const rounds = roundsFor(backlog, course);
+  return (
+    <section aria-label={course} className={`${panel} space-y-2 p-4 sm:p-5 ${onClose ? 'border-dashed' : ''}`}>
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-size-sm font-semibold text-secondary">{course}</h2>
+        {onClose && <button type="button" onClick={onClose} className="min-h-11 text-size-xs text-secondary hover:text-primary">Close ×</button>}
+      </div>
+      {mustLook.length > 0
+        ? (
+          <button type="button" data-testid={`choose-must-look-${course}`} onClick={() => onSelectMustLook(course)} className={mustLookChoice}>
+            <span className="flex min-w-0 flex-col gap-0.5"><span>Shortlist</span>{recap && <span className="text-size-xs font-normal text-primary">{recap}</span>}</span>
+            <span className="shrink-0 text-size-xs">{mustLook.length} to review →</span>
+          </button>
+        )
+        : (
+          <>
+            <p className="rounded-surface border border-success-border bg-success-bg px-4 py-3 text-size-sm font-medium text-success-fg"><span aria-hidden>✓ </span>Shortlist clear</p>
+            {/* Offered only once the shortlist is clear: until then the shortlist is the one thing to do */}
+            {rounds.length > 0 && (
+              <details className="group">
+                <summary className={`${backlogChoice} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
+                  <span className="flex min-w-0 flex-col gap-0.5"><span>Backlog</span><span className="text-size-xs font-normal text-secondary">More people by round</span></span>
+                  <span className="shrink-0 text-size-xs text-secondary">{backlog.length} in {rounds.length} {rounds.length === 1 ? 'round' : 'rounds'} <span className="inline-block transition-transform group-open:rotate-90 motion-reduce:transition-none" aria-hidden>→</span></span>
+                </summary>
+                <div className="space-y-2 pl-4 pt-2">
+                  {rounds.map((item) => <button key={roundKey(item)} type="button" data-testid={`choose-round-${roundKey(item)}`} onClick={() => onSelect(item)} className={backlogChoice}><span>{roundPickerLabel(item)}</span><span className="shrink-0 text-size-xs text-secondary">{backlog.filter((p) => roundKey(p) === roundKey(item)).length} to review →</span></button>)}
+                </div>
+              </details>
+            )}
+          </>
+        )}
+    </section>
+  );
+};
+
+// The lead's own courses, then the rest as a quiet row of names that open one course at a time.
+// Someone who leads no course sees every course as their own.
 export const RoundPicker = ({
-  items, invited, leadCourses, onSelect, onSelectMustLook,
-}: { items: QueueItem[]; invited: InvitedThisWeek; leadCourses: readonly Course[]; onSelect: (item: QueueItem) => void; onSelectMustLook: (course: Course) => void }) => (
-  <section aria-label="Choose a queue" className={`${panel} mx-auto w-full max-w-3xl space-y-5 p-5 sm:p-8`}>
-    <div><h2 className="text-size-md font-semibold">Clear your shortlist today!</h2><p className="mt-1 text-size-sm text-secondary">Do you want to invite more people? Check the backlog.</p></div>
-    <div className="space-y-4">{courses.map((course) => {
-      const mustLook = mustLookFor(items, course);
-      const recap = pickRecap(mustLook);
-      const backlog = backlogFor(items, course);
-      return (
-        <details key={course} open={leadCourses.length === 0 || leadCourses.includes(course)}>
-          <summary className="min-h-11 cursor-pointer py-3 text-size-sm font-semibold text-secondary">{course} <span className="font-normal">· {summaryLabel(mustLook.length, invited[course])}</span></summary>
-          <div className="space-y-2">
-            {mustLook.length > 0
-              ? (
-                <button type="button" data-testid={`choose-must-look-${course}`} onClick={() => onSelectMustLook(course)} className={mustLookChoice}>
-                  <span className="flex min-w-0 flex-col gap-0.5"><span>Shortlist</span>{recap && <span className="text-size-xs font-normal text-primary">{recap}</span>}</span>
-                  <span className="shrink-0 text-size-xs">{mustLook.length} to review →</span>
-                </button>
-              )
-              : <p className="py-2 text-size-xs text-secondary">Shortlist is clear.</p>}
-            {/* Closed by default and a verb, not a name: the backlog is optional, and a long list of rounds reads as work owed */}
-            <details className="group pl-2">
-              <summary className="inline-flex min-h-11 cursor-pointer list-none items-center text-size-xs text-secondary underline underline-offset-2 hover:text-primary [&::-webkit-details-marker]:hidden">
-                <span className="group-open:hidden">Show backlog ({backlog.length} people in {roundsFor(backlog, course).length} rounds)</span>
-                <span className="hidden group-open:inline">Hide backlog</span>
-              </summary>
-              <div className="space-y-2 pl-4 pt-1">
-                {backlog.length === 0 && <p className="py-2 text-size-xs text-secondary">Nobody in the backlog right now.</p>}
-                {roundsFor(backlog, course).map((item) => <button key={roundKey(item)} type="button" data-testid={`choose-round-${roundKey(item)}`} onClick={() => onSelect(item)} className={backlogChoice}><span>{roundPickerLabel(item)}</span><span className="shrink-0 text-size-xs text-secondary">{backlog.filter((p) => roundKey(p) === roundKey(item)).length} to review →</span></button>)}
-              </div>
-            </details>
+  items, leadCourses, onSelect, onSelectMustLook,
+}: Pick & { items: QueueItem[]; leadCourses: readonly Course[] }) => {
+  const [openOther, setOpenOther] = useState<Course>();
+  const own = leadCourses.length === 0 ? courses : courses.filter((course) => leadCourses.includes(course));
+  const others = courses.filter((course) => !own.includes(course));
+  return (
+    <div className="flex flex-col gap-4">
+      {own.map((course) => <CourseBox key={course} items={items} course={course} onSelect={onSelect} onSelectMustLook={onSelectMustLook} />)}
+      {others.length > 0 && (
+        <nav aria-label="Other courses" className="flex flex-col items-center gap-2 pt-1">
+          <p className="text-size-xs text-secondary">Browse other courses</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {others.map((course) => (
+              <button key={course} type="button" aria-pressed={openOther === course} onClick={() => setOpenOther(openOther === course ? undefined : course)} className={`min-h-9 rounded-full border px-3 text-size-xs ${openOther === course ? 'border-primary font-semibold text-primary' : 'border-subtle bg-raised text-secondary hover:text-primary'}`}>{course}</button>
+            ))}
           </div>
-        </details>
-      );
-    })}
+        </nav>
+      )}
+      {openOther && <CourseBox items={items} course={openOther} onSelect={onSelect} onSelectMustLook={onSelectMustLook} onClose={() => setOpenOther(undefined)} />}
     </div>
-  </section>
-);
+  );
+};
