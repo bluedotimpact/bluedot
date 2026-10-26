@@ -27,7 +27,7 @@ const SpecialProjectsPage = () => (
     <Head>
       {pageMetaTags({
         title: 'Special Projects | BlueDot Impact',
-        description: 'BlueDot’s Special Projects team tests new ideas for advancing AI safety. Suggest a programme, tool, organisation, or other project worth trying.',
+        description: 'BlueDot’s Special Projects team tests new ideas for advancing AI safety. Suggest a program, tool, organization, or other project worth trying.',
       })}
       <link rel="canonical" href="https://bluedot.org/special-projects" />
     </Head>
@@ -41,9 +41,9 @@ const SpecialProjectsPage = () => (
     <Section>
       <div className="mx-auto flex w-full max-w-prose flex-col gap-8">
         <P>
-          BlueDot’s Special Projects team tests new ideas for advancing AI safety, including new programmes,
-          tools, and organisations. Tell us what BlueDot should try, what you’d like to build here,
-          or what the wider field needs.
+          BlueDot’s Special Projects team tests new ideas for advancing AI safety, including new programs,
+          tools, and organizations. Tell us what we should try, what you’d like to build,
+          or what the wider field needs to get on top of.
         </P>
 
         <div id="suggest-project" className="min-w-0 scroll-mt-24">
