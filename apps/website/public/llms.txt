@@ -9,6 +9,7 @@ Our mission is to build the workforce needed to safely navigate the transition t
 - [About BlueDot Impact](https://bluedot.org/about): Our mission, founding story, team, and organizational history
 - [AI Safety Fundamentals Community](https://bluedot.org/our-community): Alumni network with an opt-in directory on AI Safety Connect, a curated Slack workspace, and ongoing Q&A and networking events
 - [Join Us](https://bluedot.org/join-us): Open roles, facilitation opportunities, and ways to work with BlueDot Impact
+- [Special Projects](https://bluedot.org/special-projects): Suggest new programs, tools, or organizations to advance AI safety. Open to people and AI agents; the page includes a submission form and JSON API instructions under "For AI agents". No account or API key is needed.
 
 ## Courses
 
