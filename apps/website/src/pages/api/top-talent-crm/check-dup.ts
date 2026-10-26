@@ -15,7 +15,7 @@ export default makeApiRoute({
     }).nullable(),
   }),
 }, async (body, { auth }) => {
-  assertBluedotStaff(auth.email);
+  assertBluedotStaff(auth);
   const match = await findByLinkedIn(getNotionToken(), body.linkedInUrl);
   return { match };
 });

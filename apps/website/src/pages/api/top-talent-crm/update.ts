@@ -13,7 +13,7 @@ export default makeApiRoute({
   }),
   responseBody: z.object({ id: z.string() }),
 }, async (body, { auth }) => {
-  assertBluedotStaff(auth.email);
+  assertBluedotStaff(auth);
   return updatePerson(getNotionToken(), body.pageId, {
     status: body.status,
     scores: body.scores,

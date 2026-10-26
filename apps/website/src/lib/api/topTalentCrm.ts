@@ -19,9 +19,11 @@ export type Scores = Partial<Record<ScoreKey, number>>;
 
 // Only BlueDot staff (bluedot.org emails) may use the CRM extension. The customers
 // Keycloak realm also contains course participants, so realm membership alone is
-// not enough — gate on the email domain.
-export function assertBluedotStaff(email: string): void {
-  if (!email.toLowerCase().endsWith('@bluedot.org')) {
+// not enough — gate on the email domain. Signup on that realm doesn't verify
+// emails, so anyone can register an unused @bluedot.org address; require
+// email_verified too.
+export function assertBluedotStaff(auth: { email: string; email_verified: boolean }): void {
+  if (auth.email_verified !== true || !auth.email.toLowerCase().endsWith('@bluedot.org')) {
     throw new createHttpError.Forbidden('Top Talent CRM is restricted to BlueDot staff.');
   }
 }

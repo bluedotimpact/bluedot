@@ -10,15 +10,19 @@ function jsonResponse(body: unknown, ok = true, status = 200): Response {
 }
 
 describe('assertBluedotStaff', () => {
-  test('allows bluedot.org emails (case-insensitive)', () => {
-    expect(() => assertBluedotStaff('dewi@bluedot.org')).not.toThrow();
-    expect(() => assertBluedotStaff('Dewi@BlueDot.org')).not.toThrow();
+  test('allows verified bluedot.org emails (case-insensitive)', () => {
+    expect(() => assertBluedotStaff({ email: 'dewi@bluedot.org', email_verified: true })).not.toThrow();
+    expect(() => assertBluedotStaff({ email: 'Dewi@BlueDot.org', email_verified: true })).not.toThrow();
   });
 
   test('rejects non-bluedot emails', () => {
-    expect(() => assertBluedotStaff('someone@gmail.com')).toThrow(/restricted to BlueDot staff/);
+    expect(() => assertBluedotStaff({ email: 'someone@gmail.com', email_verified: true })).toThrow(/restricted to BlueDot staff/);
     // Guard against a naive substring check being fooled by a lookalike domain.
-    expect(() => assertBluedotStaff('attacker@bluedot.org.evil.com')).toThrow();
+    expect(() => assertBluedotStaff({ email: 'attacker@bluedot.org.evil.com', email_verified: true })).toThrow();
+  });
+
+  test('rejects unverified bluedot.org emails', () => {
+    expect(() => assertBluedotStaff({ email: 'dewi@bluedot.org', email_verified: false })).toThrow(/restricted to BlueDot staff/);
   });
 });
 

@@ -18,7 +18,7 @@ export default makeApiRoute({
   }),
   responseBody: z.object({ id: z.string(), url: z.string() }),
 }, async (body, { auth }) => {
-  assertBluedotStaff(auth.email);
+  assertBluedotStaff(auth);
   const token = getNotionToken();
   // Owner is the signed-in staff member, resolved from their email — no client input.
   const ownerUserId = await resolveOwnerByEmail(token, auth.email);
