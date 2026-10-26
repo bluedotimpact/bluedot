@@ -33,7 +33,7 @@ test('offers a native form for ideas with any owner and discoverable agent instr
   render(<SpecialProjectsPage />, { wrapper: TrpcProvider });
   expect(await screen.findByRole('heading', { name: 'Special Projects', level: 1 })).toBeInTheDocument();
   expect(screen.getByRole('form', { name: 'Suggest a project' })).toBeInTheDocument();
-  expect(screen.getByText(/for you to work on at BlueDot, or for the wider field/)).toBeInTheDocument();
+  expect(screen.getByText(/what BlueDot should try, what you’d like to build here, or what the wider field needs/)).toBeInTheDocument();
   expect(screen.getByText('For AI agents')).toBeInTheDocument();
   expect(screen.getByLabelText('Agent submission example')).toHaveTextContent('https://bluedot.org/api/special-projects');
   const team = within(await screen.findByRole('region', { name: 'Special Projects team' }));

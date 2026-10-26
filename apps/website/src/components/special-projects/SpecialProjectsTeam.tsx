@@ -16,7 +16,7 @@ const SpecialProjectsTeam = () => {
 
   return (
     <section aria-label="Special Projects team" className="flex flex-col gap-6 border-t border-subtle pt-8">
-      <H2 className="text-size-md">The team</H2>
+      <H2 className="text-size-md">Team</H2>
       <ul className="flex flex-col gap-6 sm:flex-row sm:gap-8">
         {members.map((member) => (
           <li key={member.name} className="flex flex-1 items-center gap-3">
