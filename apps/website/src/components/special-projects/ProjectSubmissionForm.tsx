@@ -1,5 +1,5 @@
 import {
-  A, Button, Callout, Field, Input, P, Textarea,
+  A, Button, Callout, Collapsible, Field, Input, P, Textarea,
 } from '@bluedot/ui';
 import { type FormEvent, useRef, useState } from 'react';
 import { SPECIAL_PROJECTS_ENDPOINT, specialProjectSubmissionSchema } from '../../lib/special-projects';
@@ -80,15 +80,19 @@ const ProjectSubmissionForm = () => {
         <Textarea name="approach" required maxLength={8000} rows={5} />
       </Field>
 
-      <Field label="Would you like to be involved? (optional)" error={fieldErrors.involvement}>
-        <Input name="involvement" maxLength={2000} />
-      </Field>
-      <Field label="Your name (optional)" error={fieldErrors.name}>
-        <Input name="name" maxLength={200} autoComplete="name" />
-      </Field>
-      <Field label="How can we reach you? (optional)" description="Email or another contact method." error={fieldErrors.contact}>
-        <Input name="contact" maxLength={500} autoComplete="off" />
-      </Field>
+      <Collapsible title="Personal details (optional)">
+        <div className="flex flex-col gap-6">
+          <Field label="Would you like to be involved?" error={fieldErrors.involvement}>
+            <Input name="involvement" maxLength={2000} />
+          </Field>
+          <Field label="Your name" error={fieldErrors.name}>
+            <Input name="name" maxLength={200} autoComplete="name" />
+          </Field>
+          <Field label="How can we reach you?" description="Email or another contact method." error={fieldErrors.contact}>
+            <Input name="contact" maxLength={500} autoComplete="off" />
+          </Field>
+        </div>
+      </Collapsible>
 
       <P className="max-w-prose text-size-xs text-secondary">
         We may not reply to every submission. <A href="/privacy-policy">Privacy policy</A>.
