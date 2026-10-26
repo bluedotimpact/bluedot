@@ -10,7 +10,7 @@ afterEach(() => vi.unstubAllGlobals());
 
 const fillPitch = async () => {
   const user = userEvent.setup();
-  await user.type(screen.getByRole('textbox', { name: /Give it a short title/ }), 'An important project');
+  await user.type(screen.getByRole('textbox', { name: /Project title/ }), 'An important project');
   await user.type(screen.getByRole('textbox', { name: /What should someone work on/ }), 'Build a useful resource.');
   await user.type(screen.getByRole('textbox', { name: /Why does it matter/ }), 'It addresses a neglected problem.');
   return user;
@@ -37,7 +37,7 @@ describe('ProjectSubmissionForm', () => {
     await user.click(screen.getByRole('radio', { name: 'An AI agent' }));
     await act(async () => user.click(screen.getByRole('button', { name: 'Send your idea' })));
     expect(await screen.findByRole('alert')).toHaveTextContent('try again in a minute');
-    expect(screen.getByRole('textbox', { name: /Give it a short title/ })).toHaveValue('An important project');
+    expect(screen.getByRole('textbox', { name: /Project title/ })).toHaveValue('An important project');
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
     expect(JSON.parse(fetch.mock.calls[0]![1].body as string).submitterType).toBe('agent');
   });

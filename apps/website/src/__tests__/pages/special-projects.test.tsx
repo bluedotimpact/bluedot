@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import {
   beforeEach, expect, test, vi,
 } from 'vitest';
@@ -17,6 +17,15 @@ beforeEach(() => {
     trpcMsw.courses.getAll.query(() => []),
     trpcMsw.programs.getInPerson.query(() => MOCK_NAV_IN_PERSON_PROGRAMS),
     trpcMsw.programs.getGrants.query(() => MOCK_NAV_GRANTS),
+    trpcMsw.teamMembers.getAll.query(() => [
+      {
+        name: 'Harry Waterman', jobTitle: 'Special Projects', imageUrl: '/harry.webp', url: 'https://harrywaterman.com/',
+      },
+      {
+        name: 'Joshua Landes', jobTitle: 'Head of Special Projects', imageUrl: '/josh.webp', url: 'https://www.linkedin.com/in/josh-landes12/',
+      },
+      { name: 'Another teammate', jobTitle: 'Operations', imageUrl: '/other.webp' },
+    ]),
   );
 });
 
@@ -24,8 +33,11 @@ test('offers a native form for ideas with any owner and discoverable agent instr
   render(<SpecialProjectsPage />, { wrapper: TrpcProvider });
   expect(await screen.findByRole('heading', { name: 'Special Projects', level: 1 })).toBeInTheDocument();
   expect(screen.getByRole('form', { name: 'Suggest a project' })).toBeInTheDocument();
-  expect(screen.getByText(/something you think the wider field should do/)).toBeInTheDocument();
+  expect(screen.getByText(/for you to work on at BlueDot, or for the wider field/)).toBeInTheDocument();
   expect(screen.getByText('For AI agents')).toBeInTheDocument();
   expect(screen.getByLabelText('Agent submission example')).toHaveTextContent('https://bluedot.org/api/special-projects');
-  expect(screen.getByRole('link', { name: 'Rapid Grants' })).toHaveAttribute('href', '/grants/rapid');
+  const team = within(await screen.findByRole('region', { name: 'Special Projects team' }));
+  expect(team.getByRole('link', { name: 'Joshua Landes' })).toHaveAttribute('href', 'https://www.linkedin.com/in/josh-landes12/');
+  expect(team.getByRole('link', { name: 'Harry Waterman' })).toHaveAttribute('href', 'https://harrywaterman.com/');
+  expect(team.queryByText('Another teammate')).not.toBeInTheDocument();
 });

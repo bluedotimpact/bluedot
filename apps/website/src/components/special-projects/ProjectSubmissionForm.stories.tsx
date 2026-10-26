@@ -9,6 +9,7 @@ const meta = {
   component: ProjectSubmissionForm,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
+  decorators: [(Story) => <div className="mx-auto w-full max-w-prose"><Story /></div>],
 } satisfies Meta<typeof ProjectSubmissionForm>;
 
 export default meta;
