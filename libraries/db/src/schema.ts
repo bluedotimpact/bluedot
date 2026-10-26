@@ -20,8 +20,9 @@ export const specialProjectSubmissionTable = pgAirtable('special_project_submiss
   tableId: 'tbli89qlusEtBarJd',
   columns: {
     title: { pgColumn: text(), airtableId: 'fldneD6vvmOEE74MP' },
-    project: { pgColumn: text(), airtableId: 'fldEgHxLsEOQaPOJP' },
+    outcome: { pgColumn: text(), airtableId: 'fldEgHxLsEOQaPOJP' },
     whyItMatters: { pgColumn: text(), airtableId: 'fld4o9fho8IGELIAC' },
+    approach: { pgColumn: text(), airtableId: 'fldfoIthjVrJhtKdO' },
     suggestedOwner: { pgColumn: text(), airtableId: 'flde0TTwKD1LPhBHQ' },
     involvement: { pgColumn: text(), airtableId: 'fldjWcnIQXFCnSQRx' },
     name: { pgColumn: text(), airtableId: 'fldDDjvbKrpe5NbxQ' },
