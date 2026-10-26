@@ -5,7 +5,7 @@ import {
   describe, it, expect, vi, beforeEach,
 } from 'vitest';
 import {
-  deleteKeycloakUser, keycloakUserExists, registerPreviewRedirectUri, unlinkStaleGoogleIdentities,
+  deleteKeycloakUser, keycloakAccountOwnsEmail, keycloakUserExists, registerPreviewRedirectUri, unlinkStaleGoogleIdentities,
 } from './keycloak';
 
 vi.mock('axios');
@@ -291,5 +291,30 @@ describe('deleteKeycloakUser', () => {
     mockedAxios.isAxiosError.mockReturnValue(true);
     mockedAxios.request.mockRejectedValue(notFound());
     await expect(keycloakUserExists('user-sub')).resolves.toBe(false);
+  });
+});
+
+describe('keycloakAccountOwnsEmail', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    mockedAxios.post.mockResolvedValue(FAKE_TOKEN_RESPONSE);
+  });
+
+  it.each([
+    [{ email: 'Someone@Example.com', emailVerified: true }, true],
+    [{ email: 'someone@example.com', emailVerified: false }, false],
+    [{ email: 'someone@example.com' }, false],
+    [{ email: 'other@example.com', emailVerified: true }, false],
+  ])('accepts only a verified account holding the email (%o)', async (account, expected) => {
+    mockedAxios.request.mockResolvedValue({ data: account });
+
+    await expect(keycloakAccountOwnsEmail('user-sub', 'someone@example.com')).resolves.toBe(expected);
+  });
+
+  it('treats a missing account as not owning the email', async () => {
+    mockedAxios.isAxiosError.mockReturnValue(true);
+    mockedAxios.request.mockRejectedValue(Object.assign(new Error('Request failed'), { isAxiosError: true, response: { status: 404 } }));
+
+    await expect(keycloakAccountOwnsEmail('user-sub', 'someone@example.com')).resolves.toBe(false);
   });
 });

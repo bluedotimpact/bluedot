@@ -5,12 +5,35 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
+import { keycloakAccountOwnsEmail } from '../../lib/api/keycloak';
 import { normaliseEmail, verifyPublicToken } from '../../lib/api/utils';
 import { normalisedFirstAndLastName, userNameFields } from '../../lib/utils';
 import {
   getUserFromAuthOrThrow, protectedProcedure, publicProcedure, router,
 } from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
+
+// A row claimed by a login only collects registrations by email once that login has verified the email
+const canLinkByEmail = async (user: { keycloakIdentifier?: string | null }, email: string) => (
+  !user.keycloakIdentifier || keycloakAccountOwnsEmail(user.keycloakIdentifier, email)
+);
+
+export const linkUnlinkedRegistrationsByEmail = async ({ email, userId }: { email: string; userId: string }) => {
+  const unlinkedRegistrations = await db.pg
+    .select()
+    .from(courseRegistrationTable.pg)
+    .where(and(
+      sql`lower(trim(${courseRegistrationTable.pg.email})) = ${email}`,
+      or(isNull(courseRegistrationTable.pg.userId), eq(courseRegistrationTable.pg.userId, '')),
+    ));
+
+  await Promise.all(unlinkedRegistrations.map((registration) => db.update(courseRegistrationTable, {
+    id: registration.id,
+    userId,
+  })));
+
+  return unlinkedRegistrations.length;
+};
 
 export const courseRegistrationsRouter = router({
   getByCourseId: protectedProcedure
@@ -102,6 +125,10 @@ export const courseRegistrationsRouter = router({
         const nameParts = normalisedFirstAndLastName(courseRegistration);
         const existingUser = await db.getFirst(userTable, { filter: { email } });
         if (existingUser) {
+          if (!await canLinkByEmail(existingUser, email)) {
+            return { action: 'skipped-unverified-user' } as const;
+          }
+
           if (!existingUser.name && nameParts) {
             await db.update(userTable, { id: existingUser.id, ...userNameFields(nameParts) });
           }
@@ -131,21 +158,13 @@ export const courseRegistrationsRouter = router({
       }
 
       const canonicalUser = (await db.getFirst(userTable, { filter: { email } })) ?? user;
+      if (!await canLinkByEmail(canonicalUser, email)) {
+        return { action: 'skipped-unverified-user' } as const;
+      }
 
-      const unlinkedRegistrations = await db.pg
-        .select()
-        .from(courseRegistrationTable.pg)
-        .where(and(
-          sql`lower(trim(${courseRegistrationTable.pg.email})) = ${email}`,
-          or(isNull(courseRegistrationTable.pg.userId), eq(courseRegistrationTable.pg.userId, '')),
-        ));
+      const linkedCount = await linkUnlinkedRegistrationsByEmail({ email, userId: canonicalUser.id });
 
-      await Promise.all(unlinkedRegistrations.map((registration) => db.update(courseRegistrationTable, {
-        id: registration.id,
-        userId: canonicalUser.id,
-      })));
-
-      return { action: 'linked-user-registrations', userId: canonicalUser.id, linkedCount: unlinkedRegistrations.length } as const;
+      return { action: 'linked-user-registrations', userId: canonicalUser.id, linkedCount } as const;
     }),
 
   // Self-serve registration now lives in selfServeCourseRegistrations.ensureExists; these two are

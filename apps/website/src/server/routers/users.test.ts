@@ -26,6 +26,7 @@ vi.mock('../../lib/api/keycloak', () => ({
   adminRequest: vi.fn(),
   unlinkStaleGoogleIdentities: vi.fn(),
   registerPreviewRedirectUri: vi.fn(),
+  keycloakAccountOwnsEmail: vi.fn(),
 }));
 
 vi.mock('../../lib/api/customerio', () => ({
@@ -453,6 +454,71 @@ describe('users.ensureExists', () => {
 
     const user = await testDb.get(userTable, { email: 'test@example.com' });
     expect(user.keycloakIdentifier).toBeNull();
+  });
+
+  describe('with an unverified email', () => {
+    beforeEach(() => {
+      vi.mocked(verifyKeycloakToken).mockResolvedValue({
+        sub: 'attacker-sub',
+        email: 'victim@example.com',
+        iss: 'test-issuer',
+        aud: 'test-audience',
+        exp: Math.floor(Date.now() / 1000) + 3600,
+        email_verified: false,
+      });
+    });
+
+    test('does not adopt an applicant row matched by email, and its registrations stay unreadable', async () => {
+      await testDb.insert(userTable, { id: 'victim', email: 'victim@example.com', name: 'Victim' });
+      await testDb.insert(courseRegistrationTable, {
+        id: 'reg1', email: 'victim@example.com', courseId: 'c1', userId: 'victim',
+      });
+
+      await expect(createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' }))
+        .rejects.toMatchObject({ code: 'FORBIDDEN' });
+
+      expect((await testDb.get(userTable, { id: 'victim' })).keycloakIdentifier).toBeNull();
+      await expect(createCaller({
+        ...testAuthContextLoggedIn,
+        auth: {
+          ...testAuthContextLoggedIn.auth!, sub: 'attacker-sub', email: 'victim@example.com', email_verified: false,
+        },
+      }).courseRegistrations.getAll()).rejects.toMatchObject({ code: 'UNAUTHORIZED' });
+    });
+
+    test('does not rebind a row another login already holds', async () => {
+      await testDb.insert(userTable, {
+        id: 'victim', email: 'victim@example.com', name: 'Victim', keycloakIdentifier: 'victim-sub',
+      });
+
+      await expect(createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' }))
+        .rejects.toMatchObject({ code: 'FORBIDDEN' });
+
+      expect((await testDb.get(userTable, { id: 'victim' })).keycloakIdentifier).toBe('victim-sub');
+    });
+
+    test('still creates a row when none matches, without linking unclaimed registrations to it', async () => {
+      await testDb.insert(courseRegistrationTable, { id: 'reg1', email: 'victim@example.com', courseId: 'c1' });
+
+      const result = await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+      expect(result).toEqual({ isNewUser: true });
+      expect((await testDb.get(userTable, { email: 'victim@example.com' })).keycloakIdentifier).toBe('attacker-sub');
+      expect((await testDb.get(courseRegistrationTable, { id: 'reg1' })).userId).toBeNull();
+    });
+  });
+
+  test('links registrations held back by email once the login has verified the email', async () => {
+    await seedLoggedInUser();
+    await testDb.insert(courseRegistrationTable, { id: 'reg-held', email: 'Test@Example.com', courseId: 'c1' });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-other', email: 'test@example.com', courseId: 'c1', userId: 'someone-else',
+    });
+
+    await createCaller(testAuthContextLoggedOut).users.ensureExists({ token: 'valid-token' });
+
+    expect((await testDb.get(courseRegistrationTable, { id: 'reg-held' })).userId).toBe('test-user');
+    expect((await testDb.get(courseRegistrationTable, { id: 'reg-other' })).userId).toBe('someone-else');
   });
 });
 

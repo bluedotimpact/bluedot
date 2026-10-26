@@ -172,6 +172,20 @@ export async function updateKeycloakEmail(userSub: string, newEmail: string): Pr
   });
 }
 
+// Signup does not verify emails, so a Keycloak account only proves it owns `email` once Keycloak marks it verified.
+export async function keycloakAccountOwnsEmail(userSub: string, email: string): Promise<boolean> {
+  try {
+    const user = await adminRequest<{ email?: string; emailVerified?: boolean }>({ method: 'get', path: `/users/${userSub}` });
+    return user.emailVerified === true && normaliseEmail(user.email ?? '') === email;
+  } catch (error) {
+    if (createHttpError.isHttpError(error) && error.status === 404) {
+      return false;
+    }
+
+    throw error;
+  }
+}
+
 export async function keycloakUserExists(userSub: string): Promise<boolean> {
   try {
     await adminRequest({ method: 'get', path: `/users/${userSub}` });

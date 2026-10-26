@@ -8,6 +8,9 @@ import {
   createCaller, seedLoggedInUser, setupTestDb, testAuthContextLoggedIn, testAuthContextLoggedOut, testDb,
 } from '../../__tests__/dbTestUtils';
 import { FOAI_COURSE_ID } from '../../lib/constants';
+import { keycloakAccountOwnsEmail } from '../../lib/api/keycloak';
+
+vi.mock('../../lib/api/keycloak', () => ({ keycloakAccountOwnsEmail: vi.fn() }));
 
 setupTestDb();
 
@@ -345,6 +348,37 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     expect(user).toMatchObject({ firstName: null, lastName: null, name: '' });
     expect((await getRegistration('reg1'))?.userId).toBe(user?.id);
   });
+
+  test('links to a user claimed by a login that has verified the email', async () => {
+    vi.mocked(keycloakAccountOwnsEmail).mockResolvedValue(true);
+    await testDb.insert(userTable, {
+      id: 'user1', email: 'someone@example.com', name: 'Someone', keycloakIdentifier: 'someone-sub',
+    });
+    await testDb.insert(courseRegistrationTable, { id: 'reg1', email: 'someone@example.com', courseId: 'c1' });
+
+    const result = await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(result).toEqual({ action: 'linked', userId: 'user1' });
+    expect(vi.mocked(keycloakAccountOwnsEmail)).toHaveBeenCalledWith('someone-sub', 'someone@example.com');
+  });
+
+  test('does not link to a user claimed by a login that has not verified the email', async () => {
+    vi.mocked(keycloakAccountOwnsEmail).mockResolvedValue(false);
+    await testDb.insert(userTable, {
+      id: 'user1', email: 'someone@example.com', name: '', keycloakIdentifier: 'unverified-sub',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Real', lastName: 'Owner',
+    });
+    const usersBefore = await countUsers();
+
+    const result = await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(result).toEqual({ action: 'skipped-unverified-user' });
+    expect((await getRegistration('reg1'))?.userId).toBeNull();
+    expect((await testDb.get(userTable, { id: 'user1' })).name).toBe('');
+    expect(await countUsers()).toBe(usersBefore);
+  });
 });
 
 describe('courseRegistrations.linkToUser by userId', () => {
@@ -434,5 +468,18 @@ describe('courseRegistrations.linkToUser by userId', () => {
     await linkToUser({ userId: 'user1' });
 
     expect(await countUsers()).toBe(usersBefore);
+  });
+
+  test('does not link registrations to a user claimed by a login that has not verified the email', async () => {
+    vi.mocked(keycloakAccountOwnsEmail).mockResolvedValue(false);
+    await testDb.insert(userTable, {
+      id: 'user1', email: 'someone@example.com', name: 'Someone', keycloakIdentifier: 'unverified-sub',
+    });
+    await testDb.insert(courseRegistrationTable, { id: 'reg1', email: 'someone@example.com', courseId: 'c1' });
+
+    const result = await linkToUser({ userId: 'user1' });
+
+    expect(result).toEqual({ action: 'skipped-unverified-user' });
+    expect((await getRegistration('reg1'))?.userId).toBeNull();
   });
 });

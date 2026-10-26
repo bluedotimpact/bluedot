@@ -20,6 +20,7 @@ import { ROUTES } from '../../lib/routes';
 import {
   adminProcedure, getUserFromAuthOrThrow, impersonationRealIdentity, protectedProcedure, publicProcedure, router,
 } from '../trpc';
+import { linkUnlinkedRegistrationsByEmail } from './course-registrations';
 
 const linkNoLongerValid = () => new TRPCError({ code: 'BAD_REQUEST', message: 'This link is no longer valid' });
 
@@ -201,7 +202,9 @@ export const usersRouter = router({
         ...(input.initialUtmContent && !existingUser?.utmContent && { utmContent: input.initialUtmContent }),
       });
 
+      let userId: string;
       if (existingUserByKeycloakIdentifier) {
+        userId = existingUserByKeycloakIdentifier.id;
         // Update last seen timestamp if already exists
         await db.update(userTable, {
           id: existingUserByKeycloakIdentifier.id,
@@ -213,6 +216,15 @@ export const usersRouter = router({
         // If `existingUserByEmail` exists but not `existingUserByKeycloakIdentifier`, that
         // means the user has been created by an Airtable automation, but hasn't logged in yet.
         // Adopt the existing user row in this case (by setting `keycloakIdentifier` for next time).
+        // Signup does not verify emails, so only a verified email proves the row is the caller's.
+        if (!auth.email_verified) {
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'We already have records for this email. To confirm it\'s yours, reset your password with "Forgot password?" on the login page, then log in again.',
+          });
+        }
+
+        userId = existingUserByEmail.id;
         const isFirstLogin = !existingUserByEmail.keycloakIdentifier;
         await db.update(userTable, {
           id: existingUserByEmail.id,
@@ -225,7 +237,7 @@ export const usersRouter = router({
         });
       } else {
         // Create user if doesn't exist
-        await db.insert(userTable, {
+        const newUser = await db.insert(userTable, {
           email: auth.email,
           ...(sub && { keycloakIdentifier: sub }),
           ...(parts && userNameFields(parts)),
@@ -233,6 +245,17 @@ export const usersRouter = router({
           firstLoggedInAt: new Date().toISOString(),
           ...getInitialUtmFields(),
         });
+        userId = newUser.id;
+      }
+
+      // Registrations are held back from rows whose login hasn't verified the email (see linkToUser), so pick them up once
+      // it has. Like linkToUser, only onto the row holding the email, and without blocking login (the next login retries).
+      if (auth.email_verified && (!existingUserByEmail || existingUserByEmail.id === userId)) {
+        try {
+          await linkUnlinkedRegistrationsByEmail({ email: normaliseEmail(auth.email), userId });
+        } catch (error) {
+          logger.error(`[ensureExists] Failed to link unlinked registrations for user ${userId}`, error);
+        }
       }
 
       return {
