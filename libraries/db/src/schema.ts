@@ -8,11 +8,32 @@ import { pgAirtable, deprecationSafePgTable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
+const COMMUNITY_BASE_ID = 'appkKc02xe9D0le4B';
 const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
 const AVAILABILITY_FORMS_BASE_ID = 'app6dkBHka8c4WaEj';
 const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
 const WEB_CONTENT_BASE_ID = 'app63L1YChHfS6RJF';
 const CONTRACTOR_PAYMENTS_BASE_ID = 'appMVNtdBtvtJvu5E';
+
+export const specialProjectSubmissionTable = pgAirtable('special_project_submission', {
+  baseId: COMMUNITY_BASE_ID,
+  tableId: 'tbli89qlusEtBarJd',
+  columns: {
+    title: { pgColumn: text(), airtableId: 'fldneD6vvmOEE74MP' },
+    outcome: { pgColumn: text(), airtableId: 'fldEgHxLsEOQaPOJP' },
+    whyItMatters: { pgColumn: text(), airtableId: 'fld4o9fho8IGELIAC' },
+    approach: { pgColumn: text(), airtableId: 'fldfoIthjVrJhtKdO' },
+    suggestedOwner: { pgColumn: text(), airtableId: 'flde0TTwKD1LPhBHQ' },
+    involvement: { pgColumn: text(), airtableId: 'fldjWcnIQXFCnSQRx' },
+    name: { pgColumn: text(), airtableId: 'fldDDjvbKrpe5NbxQ' },
+    contact: { pgColumn: text(), airtableId: 'fldZLF4XKwdkOSwQ7' },
+    context: { pgColumn: text(), airtableId: 'fldVpvHjNZRaCZkaR' },
+    submitterType: { pgColumn: text(), airtableId: 'fldI1jRL9wMSXfi4b' },
+    submittedAtSeconds: { pgColumn: numeric({ mode: 'number' }), airtableId: 'fldYrvu7U1XDEME0X' },
+    status: { pgColumn: text(), airtableId: 'fld1fSHngOe4Qfzvf' },
+    reviewNotes: { pgColumn: text(), airtableId: 'fldUGszp0rWQKQEsU' },
+  },
+});
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field

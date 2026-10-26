@@ -30,6 +30,7 @@ export {
   zoomAccountTable,
   roundTable,
   projectSubmissionTable,
+  specialProjectSubmissionTable,
   applicationsRoundTable,
   meetCourseTable,
   chunkTable,
