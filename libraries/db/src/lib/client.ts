@@ -128,7 +128,7 @@ export class PgAirtableDb {
     if (pgClient) {
       this.pgUnrestricted = pgClient;
     } else {
-      const pg = drizzle({ connection: pgConnectionConfig(pgConnString) });
+      const pg = drizzle({ connection: pgConnectionConfig(pgConnString, { nodeEnv: env.NODE_ENV }) });
       patchPgClientToRetryQueries(pg.$client);
       this.pgUnrestricted = pg;
     }

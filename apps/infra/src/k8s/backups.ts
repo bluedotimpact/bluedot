@@ -17,6 +17,8 @@
 
 import * as k8s from '@pulumi/kubernetes';
 import { config } from '../config';
+// Relative import, not a package dependency, so that libraries/db changes don't trigger infra deploys.
+import { VULTR_PROJECT_CA } from '../../../../libraries/db/src/lib/pg-ssl';
 import { appPgConnectionDetails } from './postgres';
 import { provider } from './provider';
 
@@ -158,6 +160,10 @@ NAMESPACES_TO_BACKUP.forEach((namespace) => {
 // volume backups above miss it. k8up execs the `backupcommand` annotation in a running pod and
 // streams stdout into the same restic repo, so the daily Schedule captures a pg_dump too.
 const pgDumpLabels = { app: 'app-pg-dump' };
+const appPgCa = new k8s.core.v1.ConfigMap('app-pg-ca', {
+  metadata: { namespace: 'default' },
+  data: { 'ca.crt': VULTR_PROJECT_CA },
+}, { provider });
 new k8s.apps.v1.Deployment('app-pg-dump', {
   metadata: {
     name: 'app-pg-dump',
@@ -171,9 +177,8 @@ new k8s.apps.v1.Deployment('app-pg-dump', {
         labels: pgDumpLabels,
         annotations: {
           // sh -c so the shell expands $PG_URI (k8up shellword-splits the annotation).
-          // PG_URI carries sslmode=no-verify for node-postgres, but libpq/pg_dump rejects that
-          // value; rewrite it to the libpq equivalent `require` (encrypt, skip CA verification).
-          'k8up.io/backupcommand': 'sh -c \'pg_dump "$(echo "$PG_URI" | sed "s/sslmode=no-verify/sslmode=require/")"\'',
+          // PG_URI carries sslmode=verify-full; PGSSLROOTCERT points libpq at the Vultr CA.
+          'k8up.io/backupcommand': 'sh -c \'pg_dump "$PG_URI"\'',
           'k8up.io/file-extension': '.sql',
         },
       },
@@ -191,11 +196,28 @@ new k8s.apps.v1.Deployment('app-pg-dump', {
                 name: 'PG_URI',
                 valueFrom: appPgConnectionDetails.uri,
               },
+              {
+                name: 'PGSSLROOTCERT',
+                value: '/etc/app-pg-ca/ca.crt',
+              },
+            ],
+            volumeMounts: [
+              {
+                name: 'app-pg-ca',
+                readOnly: true,
+                mountPath: '/etc/app-pg-ca',
+              },
             ],
             resources: {
               requests: { cpu: '10m', memory: '32Mi' },
               limits: { memory: '128Mi' },
             },
+          },
+        ],
+        volumes: [
+          {
+            name: 'app-pg-ca',
+            configMap: { name: appPgCa.metadata.name },
           },
         ],
       },

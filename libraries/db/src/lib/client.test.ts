@@ -212,28 +212,30 @@ describe('getFirstFromPg (direct)', () => {
 });
 
 describe('pgConnectionConfig', () => {
+  const dev = { nodeEnv: 'development' };
+
   test('passes through a connection string with no sslmode', () => {
     const connString = 'postgres://user:pass@localhost:5432/bluedot_dev';
-    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+    expect(pgConnectionConfig(connString, dev)).toEqual({ connectionString: connString });
   });
 
-  test('passes through sslmode=no-verify (production posture)', () => {
+  test('passes through sslmode=no-verify outside production', () => {
     const connString = 'postgres://user:pass@db.example.com:5432/app?sslmode=no-verify';
-    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+    expect(pgConnectionConfig(connString, dev)).toEqual({ connectionString: connString });
   });
 
   test('passes through a non-URI connection string', () => {
     const connString = 'host=localhost dbname=app';
-    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+    expect(pgConnectionConfig(connString, dev)).toEqual({ connectionString: connString });
   });
 
   test('passes through sslmode=verify-ca (its no-hostname-check semantics are not supported)', () => {
     const connString = 'postgres://user:pass@db.vultrdb.com:16751/app?sslmode=verify-ca';
-    expect(pgConnectionConfig(connString)).toEqual({ connectionString: connString });
+    expect(pgConnectionConfig(connString, dev)).toEqual({ connectionString: connString });
   });
 
   test.each(['require', 'verify-full'])('sslmode=%s strips the param and attaches the Vultr CA plus system roots', (sslmode) => {
-    const config = pgConnectionConfig(`postgres://user:pass@db.vultrdb.com:16751/app?sslmode=${sslmode}`);
+    const config = pgConnectionConfig(`postgres://user:pass@db.vultrdb.com:16751/app?sslmode=${sslmode}`, dev);
 
     expect(config.connectionString).toBe('postgres://user:pass@db.vultrdb.com:16751/app');
     const { ca } = config.ssl as { ca: string[] };
@@ -242,10 +244,19 @@ describe('pgConnectionConfig', () => {
   });
 
   test('sslmode=require preserves credentials and other query params', () => {
-    const config = pgConnectionConfig('postgres://user:p%40ss@db.vultrdb.com:16751/app?application_name=x&sslmode=require');
+    const config = pgConnectionConfig('postgres://user:p%40ss@db.vultrdb.com:16751/app?application_name=x&sslmode=require', dev);
 
     expect(config.connectionString).toBe('postgres://user:p%40ss@db.vultrdb.com:16751/app?application_name=x');
     expect(config.ssl).toBeDefined();
+  });
+
+  test.each(['no-verify', 'prefer', 'require', 'verify-full'])('in production, sslmode=%s never skips server certificate verification', (sslmode) => {
+    const config = pgConnectionConfig(`postgres://user:pass@db.vultrdb.com:16751/app?sslmode=${sslmode}`, { nodeEnv: 'production' });
+
+    // A remaining sslmode=no-verify would make node-postgres set rejectUnauthorized: false.
+    expect(new URL(config.connectionString).searchParams.has('sslmode')).toBe(false);
+    expect(config.ssl?.ca).toContain(VULTR_PROJECT_CA);
+    expect(config.ssl).not.toHaveProperty('rejectUnauthorized');
   });
 });
 

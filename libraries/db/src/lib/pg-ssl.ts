@@ -47,8 +47,11 @@ sCZJJb8XeXOLXzB+kG5OwbbB2X4dKnYLJ+f+65KE7trhBE81GhRXfw==
  * attaching the Vultr CA (alongside the system roots), patch in the VULTR_PROJECT_CA
  * but drop the `sslmode` parameter, to avoid SELF_SIGNED_CERT_IN_CHAIN. This still
  * achieves the security benefit of sending the cert (avoiding man-in-the-middle attacks).
+ *
+ * In production, `no-verify` and `prefer` are upgraded the same way, so a production
+ * connection never skips server certificate verification.
  */
-export const pgConnectionConfig = (connString: string): PgPoolConfig => {
+export const pgConnectionConfig = (connString: string, { nodeEnv }: { nodeEnv: string | undefined }): PgPoolConfig => {
   let url: URL;
   try {
     url = new URL(connString);
@@ -60,7 +63,10 @@ export const pgConnectionConfig = (connString: string): PgPoolConfig => {
   // verify-ca is deliberately excluded: its libpq semantics skip hostname checks, which this
   // transformation can't preserve (Node TLS would enforce them).
   const sslmode = url.searchParams.get('sslmode');
-  if (sslmode === null || !['require', 'verify-full'].includes(sslmode)) {
+  const verifiedSslmodes = nodeEnv === 'production'
+    ? ['require', 'verify-full', 'no-verify', 'prefer']
+    : ['require', 'verify-full'];
+  if (sslmode === null || !verifiedSslmodes.includes(sslmode)) {
     return { connectionString: connString };
   }
 
