@@ -24,7 +24,7 @@ let handler: NextApiHandler;
 beforeEach(async () => {
   vi.resetModules();
   vi.mocked(db.insert).mockReset().mockResolvedValue({ id: 'recSaved' } as never);
-  handler = (await import('./special-projects')).default;
+  handler = (await import('../../pages/api/special-projects')).default;
 });
 
 const request = async (body: Record<string, unknown> = pitch, method = 'POST', contentType = 'application/json') => {
