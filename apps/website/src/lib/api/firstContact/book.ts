@@ -34,7 +34,8 @@ export const FIRST_CONTACT_PROMPTS = (hireFirstName: string, teammateFirstName: 
   'What\'s one thing about how you like to work?',
 ];
 
-export async function bookFirstContactChats({ hire, nowMs }: { hire: FirstContactHire; nowMs: number }): Promise<FirstContactResult> {
+export async function bookFirstContactChats({ hire: rawHire, nowMs }: { hire: FirstContactHire; nowMs: number }): Promise<FirstContactResult> {
+  const hire = { ...rawHire, name: cleanName(rawHire.name) };
   const config = getConfig();
   const calendar = new FirstContactCalendar(await refreshGoogleAccessToken(config.googleRefreshToken), config.calendarId);
   const slack = new FirstContactSlack(config.slackToken, config.channelId);
@@ -144,6 +145,15 @@ function slackDate(date: Date): string {
     timeZone: 'UTC', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
   }).format(date);
   return `<!date^${Math.floor(date.getTime() / 1000)}^{date_short_pretty} at {time}|${fallback} UTC>`;
+}
+
+/**
+ * Google profile names sometimes hold a placeholder surname like "Agatha ___". Drop any part with no letters or
+ * digits, so the invites and the #welcome post just say "Agatha".
+ */
+export function cleanName(name: string): string {
+  const parts = name.split(/\s+/).filter((part) => /[\p{L}\p{N}]/u.test(part));
+  return parts.length > 0 ? parts.join(' ') : name.trim();
 }
 
 function sameName(a: string, b: string): boolean {
