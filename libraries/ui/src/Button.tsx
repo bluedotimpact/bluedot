@@ -26,12 +26,12 @@ const SIZE_STYLES = {
   large: 'min-h-[50px] px-5 text-size-sm font-medium',
 } as const;
 
-// Link is inline text, so it drops the button chrome (padding, min height) and only keeps the type size
-const LINK_SIZE_STYLES = {
-  small: 'text-size-xs font-medium',
-  medium: 'text-size-xs font-medium',
-  large: 'text-size-sm font-medium',
-} as const;
+// Link mirrors SIZE_STYLES minus horizontal padding, and at a lighter weight since it is underlined text
+const LINK_SIZE_STYLES: Record<keyof typeof SIZE_STYLES, string> = {
+  small: 'min-h-9 text-size-xs font-medium',
+  medium: 'min-h-11 text-size-xs font-medium',
+  large: 'min-h-[50px] text-size-sm font-medium',
+};
 
 const VARIANT_STYLES: Record<ButtonVariant, string> = {
   primary:
