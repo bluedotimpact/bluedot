@@ -228,6 +228,40 @@ test('leaving a queue part-way notes what was done there on the main page', asyn
   fireEvent.keyDown(window, { key: 'Escape' });
   await screen.findByText('Just now in Technical AI Safety: 1 invited · 0 not invited · 0 skipped');
   expect(screen.getByText('Invited: Alex Morgan')).toBeTruthy();
+
+  // Reopening the same queue and leaving without doing anything does not repeat the earlier invite
+  fireEvent.click(screen.getByTestId('choose-round-sample-Technical AI Safety'));
+  await screen.findByText('Sam Chen');
+  fireEvent.keyDown(window, { key: 'Escape' });
+  await screen.findByTestId('choose-round-sample-Technical AI Safety');
+  expect(screen.queryByText(/Just now in/)).toBeNull();
+});
+
+test('an invite stays in the goal until the refreshed count includes it, and is not counted twice', async () => {
+  let serverTotal = 19;
+  let posted = false;
+  mockFetch.mockImplementation(async (path, init) => {
+    if (init?.method === 'POST') {
+      posted = true;
+      return response({ ok: true });
+    }
+
+    return pathOf(path).includes('/queue')
+      ? response({ items: posted ? realQueue.slice(1) : realQueue, leadCourses: ['Technical AI Safety'], invitedThisWeek: { 'Technical AI Safety': { total: serverTotal, viaApp: 0 } } })
+      : read(path);
+  });
+  await start();
+  fireEvent.click(screen.getByRole('button', { name: 'Invite' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send invite' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Keep reviewing' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Change round' }));
+  // Airtable has not stamped the invite date yet: the count from the server is still 19
+  fireEvent.click(screen.getByRole('button', { name: 'Refresh queue' }));
+  await screen.findByText('You invited 20 people this week, woohoo!');
+  serverTotal = 20;
+  fireEvent.click(screen.getByRole('button', { name: 'Refresh queue' }));
+  await waitFor(() => expect(mockFetch.mock.calls.filter(([path]) => pathOf(path).includes('/queue'))).toHaveLength(3));
+  await screen.findByText('You invited 20 people this week, woohoo!');
 });
 
 test('?viewAs= asks the queue for that lead', async () => {
@@ -459,7 +493,8 @@ test('back to search starts with an empty box; a ?person= link opens the card di
   routerQuery.person = 'recScoutSample004';
   render(<Scout />);
   await screen.findByText('Riley Williams');
-  expect(screen.getByRole('button', { name: 'Back to search' })).toBeTruthy();
+  fireEvent.click(screen.getByRole('button', { name: 'Back to search' }));
+  expect(await screen.findByLabelText('Find a participant in the queue')).toBeTruthy();
   cleanup();
 
   routerQuery.person = 'recNotInQueue00001';
