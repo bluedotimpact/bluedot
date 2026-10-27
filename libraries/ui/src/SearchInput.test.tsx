@@ -1,7 +1,7 @@
 import {
   describe, expect, test, vi,
 } from 'vitest';
-import { createRef, useState } from 'react';
+import { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { SearchInput } from './SearchInput';
@@ -54,9 +54,8 @@ describe('SearchInput', () => {
     expect(screen.getByRole('button', { name: 'Clear search' })).toBeDisabled();
   });
 
-  test('forwards ref to the input', () => {
-    const ref = createRef<HTMLInputElement>();
-    render(<SearchInput ref={ref} value="" onChange={() => {}} aria-label="Search" />);
-    expect(ref.current).toBe(screen.getByRole('searchbox', { name: 'Search' }));
+  test('autoFocus lands on the input', () => {
+    render(<SearchInput value="" onChange={() => {}} aria-label="Search" autoFocus />);
+    expect(document.activeElement).toBe(screen.getByRole('searchbox', { name: 'Search' }));
   });
 });
