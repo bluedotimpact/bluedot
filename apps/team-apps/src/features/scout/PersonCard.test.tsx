@@ -37,10 +37,28 @@ test('a timeline row with details opens on a click anywhere on it; the link and 
   expect(screen.getByText('“Sample project”')).toBeTruthy();
   fireEvent.click(screen.getByText('“Sample project”'));
   expect(screen.getByText('“Sample project”')).toBeTruthy();
-  fireEvent.click(screen.getByTitle('Open the record in Airtable'));
+  fireEvent.click(screen.getByRole('link', { name: 'Application record ↗' }));
   expect(screen.getByText('“Sample project”')).toBeTruthy();
   fireEvent.click(screen.getByRole('button', { name: 'Hide details' }));
   expect(screen.queryByText('“Sample project”')).toBeNull();
+});
+
+test('an opened course row links its record first, then the project submitted for that course', () => {
+  render(<PersonCard
+    person={{
+      ...person,
+      history: [{
+        id: 'recRegSample00002', recordUrl: 'https://airtable.example.org/recRegSample00002', course: 'Biosecurity', roundName: 'Biosecurity (2026 Feb W06) - Part-time', roundStart: '2026-02-02', facilitated: false, hasCertificate: true, droppedOut: false, isCurrent: false,
+        projects: [{
+          id: 'recProjSample0001', title: 'Sample brief', url: 'https://files.example.org/brief.pdf', scores: [], evalNotes: [], privateNotes: [],
+        }],
+      }],
+    }}
+    showName
+  />);
+  expect(screen.queryByRole('link', { name: 'Course record ↗' })).toBeNull();
+  fireEvent.click(screen.getByText('Participant'));
+  expect(screen.getAllByRole('link').map((link) => link.textContent).filter((text) => /record|^Project/.test(text ?? ''))).toEqual(['Course record ↗', 'Project: Sample brief ↗']);
 });
 
 test('openNextSection walks the top-level sections one at a time: closes the open one, opens the next, then starts over', () => {

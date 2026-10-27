@@ -49,6 +49,8 @@ export type Registration = {
   expected?: number;
   // The application behind a past registration, so a lead can read what they said back then
   application?: Application;
+  projectIds?: string[];
+  projects?: Project[];
 };
 
 // Facilitator's private feedback on a participant (Course runner › Peer feedback)
