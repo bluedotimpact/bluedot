@@ -37,7 +37,6 @@ export default [
           'unit.unitNumber',
           'unit.unitStatus',
           'course_registration.email',
-          'course_registration.courseId',
           'self_serve_course_registration.courseId',
           'user.email',
           'user.name',
