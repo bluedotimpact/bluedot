@@ -6,7 +6,7 @@ exports[`ImpersonationBadge > displays masked email when impersonating 1`] = `
     class="fixed z-50 bottom-4 px-4 max-w-[100vw]"
   >
     <div
-      class="max-w-full bg-yellow-400 text-black px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium"
+      class="max-w-full bg-warning-bg text-warning-fg border border-warning-border px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium"
     >
       <span
         class="truncate"
