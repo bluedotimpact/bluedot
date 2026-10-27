@@ -692,11 +692,10 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   Email address
                 </label>
                 <input
-                  class="w-full h-11 px-4 bg-raised rounded-md text-size-sm leading-tight tracking-wide text-primary placeholder:text-placeholder border border-border-control focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                  class="w-full min-h-11 px-3 rounded-surface border border-border-control bg-raised text-size-sm leading-6 text-primary placeholder:text-placeholder focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus disabled:border-default disabled:bg-surface-disabled disabled:text-disabled disabled:cursor-not-allowed aria-invalid:border-error-fg [&::-webkit-search-cancel-button]:appearance-none"
                   id="newsletter-email"
                   placeholder="Email"
                   required=""
-                  style="background-origin: padding-box, border-box; background-clip: padding-box, border-box;"
                   type="email"
                   value=""
                 />
