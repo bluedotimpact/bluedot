@@ -45,7 +45,8 @@ Use these before you build anything. Browse them in [Storybook](https://storyboo
 | Carousel | `SlideList` | |
 | Share | `ShareButton` | |
 | Label, description, error around a control | `Field`; `FieldSet` for checkbox/radio groups | Hand-rolled `<label>` + error `<p>` |
-| Text input, search | `Input` (leading/trailing slots) | Raw `<input>` |
+| Text input | `Input` (leading/trailing slots) | Raw `<input>` |
+| Search | `SearchInput` | `Input` with a hand-rolled icon and clear button |
 | Multi-line text | `Textarea` | |
 | Checkbox, radio | `Checkbox`, `Radio` | Raw `<input type="checkbox">` |
 | Dropdown | `Select` | Native `<select>` |
