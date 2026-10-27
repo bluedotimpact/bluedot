@@ -15,7 +15,7 @@ import { RoundPicker } from './RoundPicker';
 import { PersonSearch } from './PersonSearch';
 import { openNextSection } from './sectionNav';
 import {
-  mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
+  courses, mustLookFor, roundKey, roundLabel, roundsFor, endorsements, endorsers,
 } from './reviewQueue';
 import { panel } from './reviewStyles';
 import type {
@@ -23,8 +23,14 @@ import type {
 } from './types';
 
 type Loaded = { person: Person } | { error: string };
-type Confirmation = { decision: Decision; person: Person; item: QueueItem };
-type Done = Confirmation;
+type Entry = { decision: Decision; person: Person; item: QueueItem; note?: string; fromLookup?: boolean };
+type Staged = Entry & { until: number };
+// A decision whose save failed: the person comes back right after `after`, the one on screen
+// then, until the lead acts on that one; after that they are next
+type Retry = { id: string; decision: Decision; after?: string };
+type Alert = { id: string; text: string; tone: 'warning' | 'error' };
+type DecisionResult = { ok: boolean; reason?: string; already?: string; on?: string };
+type QueueResponse = { items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string; laterCourses?: Course[] };
 
 const request = async <T,>(path: string, body?: unknown): Promise<T> => {
   const response = await authFetch(`/api/scout/${path}`, body === undefined ? undefined : {
@@ -33,6 +39,11 @@ const request = async <T,>(path: string, body?: unknown): Promise<T> => {
   const data = await response.json();
   if (!response.ok) throw new Error(data.error ?? `Request failed (${response.status}). Please try again.`);
   return data as T;
+};
+
+const decisionBody = (entry: Entry) => {
+  const forFacilitator = endorsers(entry.person).length > 0 ? entry.note?.trim() : '';
+  return { id: entry.person.id, decision: entry.decision, ...(forFacilitator ? { note: forFacilitator } : {}) };
 };
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'Something went wrong. Please try again.');
@@ -54,6 +65,27 @@ export const goalLine = (invited: number) => {
   const left = WEEKLY_INVITE_GOAL - invited;
   return `${left} more ${left === 1 ? 'invite' : 'invites'} to hit this week’s goal!`;
 };
+
+// A decision waits this long before it is saved, so it can be undone. Exported for tests.
+export const UNDO_SECONDS = 5;
+const PRELOAD_AHEAD = 5;
+
+// The Monday (UTC) a week starts on, as the server counts invites
+const weekOf = (now = new Date()) => new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - ((now.getUTCDay() + 6) % 7))).toISOString().slice(0, 10);
+const dayMonth = (iso?: string) => (iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }) : undefined);
+
+// What the lead reads when someone else got there first. Exported for tests.
+export const alreadyHandledText = (name: string, result: DecisionResult) => {
+  const on = dayMonth(result.on);
+  const when = on ? ` on ${on}` : '';
+  if (result.already === 'Invited') return `${name} was already invited${when}, so yours didn’t go through.`;
+  if (result.already === 'Pass') return `${name} was already passed${when}, so yours didn’t go through.`;
+  return `${name}: ${result.reason ?? 'this person is no longer in the queue.'}`;
+};
+
+export const failedText = (name: string, decision: Decision) => (decision === 'invite'
+  ? `Your invite for ${name} didn’t go through, sorry! Please try again.`
+  : `Your pass on ${name} didn’t go through, sorry! Please try again.`);
 
 const GoalDots = ({ invited, small = false }: { invited: number; small?: boolean }) => {
   const met = invited >= WEEKLY_INVITE_GOAL;
@@ -88,6 +120,7 @@ const PreviewNotice = () => (
 const Scout = () => {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [leadCourses, setLeadCourses] = useState<Course[]>([]);
+  const leadCoursesRef = useRef<Course[]>([]);
   const [leadName, setLeadName] = useState<string>();
   // Set after mount: the page is prerendered, and the hour there is not the lead's hour
   const [greetingText, setGreetingText] = useState('');
@@ -97,6 +130,8 @@ const Scout = () => {
   const [invited, setInvited] = useState<InvitedThisWeek>({});
   const invitedRef = useRef<InvitedThisWeek>({});
   const [loading, setLoading] = useState(true);
+  const [othersLoading, setOthersLoading] = useState(false);
+  const [othersFailed, setOthersFailed] = useState(false);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
   // The shortlist reviews a course's must-look people across rounds; `round` then only names the course
@@ -111,18 +146,31 @@ const Scout = () => {
   const [skipOrder, setSkipOrder] = useState<string[]>([]);
   const [people, setPeople] = useState<Record<string, Loaded>>({});
   const requested = useRef(new Set<string>());
+  const loadsInFlight = useRef(0);
+  // Bumped whenever a card request settles, current or stale, so loading ahead always resumes
+  const [loadsSettled, setLoadsSettled] = useState(0);
   const generation = useRef(0);
-  const [done, setDone] = useState<Record<string, Done>>({});
-  const [confirmation, setConfirmation] = useState<Confirmation>();
+  // Saved decisions; the ones still saving; and the latest one, held for UNDO_SECONDS before saving
+  const [done, setDone] = useState<Record<string, Entry>>({});
+  const [inFlight, setInFlight] = useState<Record<string, Entry>>({});
+  const [staged, setStaged] = useState<Staged>();
+  const stagedRef = useRef<Staged>();
+  const stageTimer = useRef<ReturnType<typeof setTimeout>>();
+  const writeChain = useRef<Promise<void>>(Promise.resolve());
+  const [secondsLeft, setSecondsLeft] = useState(UNDO_SECONDS);
+  // People someone else already handled, and decisions whose save failed
+  const [gone, setGone] = useState<string[]>([]);
+  const [retries, setRetries] = useState<Retry[]>([]);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  // The endorsed-person box, which asks for a note to the facilitator before the decision is held
+  const [confirmation, setConfirmation] = useState<Entry>();
   const [note, setNote] = useState('');
-  const [writing, setWriting] = useState(false);
-  const writingRef = useRef(false);
-  const [saveError, setSaveError] = useState<string>();
-  const [conflict, setConflict] = useState(false);
   const [notice, setNotice] = useState<string>();
   const [searchOpen, setSearchOpen] = useState(false);
-  // Invites sent since the queue was loaded; the next load counts them in invitedThisWeek
-  const [freshInvites, setFreshInvites] = useState<Course[]>([]);
+  // Invites saved since the queue was loaded; the next load counts them in invitedThisWeek
+  const [freshInvites, setFreshInvites] = useState<{ course: Course; week: string }[]>([]);
+  const committedInvitesRef = useRef(0);
+  const currentIdRef = useRef<string>();
   const [goalPopup, setGoalPopup] = useState(false);
   const [sessionNote, setSessionNote] = useState<SessionNote>();
   // Decisions already made when the current queue was opened, so its note only covers this visit
@@ -132,16 +180,146 @@ const Scout = () => {
   const promptOpen = useNavigationState((state) => state.promptOpen);
   const setSessionActive = useNavigationState((state) => state.setSessionActive);
 
+  // The URL carries the person being looked up, so a card can be shared as a link
+  const setPersonInUrl = useCallback((id?: string) => {
+    const query = { ...router.query };
+    if (id) query.person = id;
+    else delete query.person;
+    void router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
+  }, [router]);
+
+  const commit = useCallback((entry: Entry) => {
+    const { id } = entry.person;
+    setInFlight((state) => ({ ...state, [id]: entry }));
+    // One save at a time, in the order they were made
+    writeChain.current = writeChain.current.then(async () => {
+      try {
+        const result = await request<DecisionResult>('decision', decisionBody(entry));
+        if (!result.ok) {
+          setGone((state) => [...state, id]);
+          setAlerts((state) => [...state, { id: `${id}-handled`, text: alreadyHandledText(entry.person.name, result), tone: 'error' }]);
+          return;
+        }
+
+        setDone((state) => ({ ...state, [id]: entry }));
+        if (entry.decision === 'invite' && leadCoursesRef.current.includes(entry.item.course)) {
+          if (committedInvitesRef.current + 1 === WEEKLY_INVITE_GOAL) setGoalPopup(true);
+          committedInvitesRef.current += 1;
+          setFreshInvites((state) => [...state, { course: entry.item.course, week: weekOf() }]);
+        }
+      } catch {
+        // The "just now" note only counts saved work
+        setSessionNote((summary) => {
+          if (!summary) return summary;
+          return entry.decision === 'invite'
+            ? { ...summary, invited: summary.invited.filter((name) => name !== entry.person.name) }
+            : { ...summary, declined: Math.max(0, summary.declined - 1) };
+        });
+        if (entry.fromLookup) {
+          setAlerts((state) => [...state, { id: `${id}-failed`, text: failedText(entry.person.name, entry.decision), tone: 'warning' }]);
+        } else {
+          setRetries((state) => [...state.filter((r) => r.id !== id), { id, decision: entry.decision, after: currentIdRef.current }]);
+        }
+      } finally {
+        setInFlight((state) => {
+          const next = { ...state };
+          delete next[id];
+          return next;
+        });
+      }
+    });
+  }, []);
+
+  const flush = useCallback(() => {
+    const pending = stagedRef.current;
+    if (!pending) return;
+    clearTimeout(stageTimer.current);
+    stagedRef.current = undefined;
+    setStaged(undefined);
+    commit(pending);
+  }, [commit]);
+
+  const stage = useCallback((entry: Entry) => {
+    // Only the latest decision can be undone: a new one saves the previous one now
+    flush();
+    const held: Staged = { ...entry, until: Date.now() + (UNDO_SECONDS * 1000) };
+    stagedRef.current = held;
+    setStaged(held);
+    setRetries((state) => state.filter((r) => r.id !== entry.person.id).map((r) => (r.after === entry.person.id ? { ...r, after: undefined } : r)));
+    stageTimer.current = setTimeout(() => {
+      if (stagedRef.current !== held) return;
+      stagedRef.current = undefined;
+      setStaged(undefined);
+      commit(held);
+    }, UNDO_SECONDS * 1000);
+  }, [commit, flush]);
+
+  const undo = useCallback(() => {
+    const pending = stagedRef.current;
+    if (!pending) return;
+    clearTimeout(stageTimer.current);
+    stagedRef.current = undefined;
+    setStaged(undefined);
+    if (pending.fromLookup) {
+      setLookup(pending.item);
+      setPersonInUrl(pending.item.id);
+    }
+  }, [setPersonInUrl]);
+
+  // A held decision counts as an unsaved change, so the portal waits for it before signing out
+  const holding = staged !== undefined;
+  useEffect(() => {
+    if (!holding) return undefined;
+    useNavigationState.setState((state) => ({ pendingWrites: state.pendingWrites + 1 }));
+    return () => useNavigationState.setState((state) => ({ pendingWrites: state.pendingWrites - 1 }));
+  }, [holding]);
+
+  // Closing or reloading the tab sends a held decision straight away; keepalive lets it finish
+  useEffect(() => {
+    const onPageHide = () => {
+      const pending = stagedRef.current;
+      if (!pending) return;
+      clearTimeout(stageTimer.current);
+      stagedRef.current = undefined;
+      // A page restored from the back/forward cache shows it as handled, not still held
+      setStaged(undefined);
+      setDone((state) => ({ ...state, [pending.person.id]: pending }));
+      void authFetch('/api/scout/decision', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(decisionBody(pending)), keepalive: true,
+      });
+    };
+
+    window.addEventListener('pagehide', onPageHide);
+    return () => window.removeEventListener('pagehide', onPageHide);
+  }, []);
+
+  // A held decision is saved, not dropped, when the page goes away
+  useEffect(() => () => {
+    const pending = stagedRef.current;
+    if (!pending) return;
+    clearTimeout(stageTimer.current);
+    commit(pending);
+  }, [commit]);
+
+  useEffect(() => {
+    if (!staged) return undefined;
+    const tick = () => setSecondsLeft(Math.max(1, Math.ceil((staged.until - Date.now()) / 1000)));
+    tick();
+    const timer = setInterval(tick, 250);
+    return () => clearInterval(timer);
+  }, [staged]);
+
   const loadQueue = useCallback(async () => {
-    if (writingRef.current) return;
+    flush();
     generation.current += 1;
     const queueGeneration = generation.current;
+    const withViewAs = (path: string) => (viewAs ? `${path}${path.includes('?') ? '&' : '?'}viewAs=${encodeURIComponent(viewAs)}` : path);
     setLoading(true);
+    setOthersFailed(false);
     setQueueError(undefined);
-    setSaveError(undefined);
-    setConflict(false);
     try {
-      const data = await request<{ items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string }>(viewAs ? `queue?viewAs=${encodeURIComponent(viewAs)}` : 'queue');
+      // The lead's own courses first; the rest load behind them
+      const data = await request<QueueResponse>(withViewAs('queue'));
       if (queueGeneration !== generation.current) return;
       setItems(data.items);
       const counts = data.invitedThisWeek ?? {};
@@ -149,35 +327,52 @@ const Scout = () => {
       // An invite reaches these counts once Airtable stamps its date, a few seconds after it is sent;
       // until a count rises it stays counted here. A falling count means a new week.
       setFreshInvites((pending) => {
-        const kept: Course[] = [];
+        const kept: { course: Course; week: string }[] = [];
         const absorbed = new Map<Course, number>();
-        pending.forEach((course) => {
-          const rise = (counts[course]?.total ?? 0) - (previous[course]?.total ?? 0);
+        pending.forEach((entry) => {
+          const rise = (counts[entry.course]?.total ?? 0) - (previous[entry.course]?.total ?? 0);
           if (rise < 0) return;
-          const used = absorbed.get(course) ?? 0;
-          if (used < rise) absorbed.set(course, used + 1);
-          else kept.push(course);
+          const used = absorbed.get(entry.course) ?? 0;
+          if (used < rise) absorbed.set(entry.course, used + 1);
+          else kept.push(entry);
         });
         return kept;
       });
       invitedRef.current = counts;
       setInvited(counts);
       setLeadCourses(data.leadCourses ?? []);
+      leadCoursesRef.current = data.leadCourses ?? [];
       setLeadName(data.leadName);
       setSkipOrder([]);
       setPeople({});
       requested.current.clear();
+      setLoading(false);
+      const later = data.laterCourses ?? [];
+      if (later.length === 0) return;
+      setOthersLoading(true);
+      try {
+        const rest = await request<QueueResponse>(withViewAs(`queue?courses=${encodeURIComponent(later.join(','))}`));
+        if (queueGeneration === generation.current) setItems((state) => [...state, ...rest.items]);
+      } catch {
+        if (queueGeneration === generation.current) setOthersFailed(true);
+      } finally {
+        if (queueGeneration === generation.current) setOthersLoading(false);
+      }
     } catch (error) {
-      if (queueGeneration === generation.current) setQueueError(message(error));
-    } finally {
-      if (queueGeneration === generation.current) setLoading(false);
+      if (queueGeneration === generation.current) {
+        setQueueError(message(error));
+        setLoading(false);
+      }
     }
-  }, [viewAs]);
+  }, [viewAs, flush]);
   useEffect(() => {
     void loadQueue();
   }, [loadQueue]);
 
-  const remaining = useMemo(() => items.filter((item) => !done[item.id]), [items, done]);
+  const remaining = useMemo(
+    () => items.filter((item) => !done[item.id] && !inFlight[item.id] && staged?.person.id !== item.id && !gone.includes(item.id)),
+    [items, done, inFlight, staged, gone],
+  );
   const inScope = (item: QueueItem) => {
     if (!round) return false;
     return mustLook ? item.course === round.course && item.mustLook : !item.mustLook && roundKey(item) === roundKey(round);
@@ -185,13 +380,23 @@ const Scout = () => {
 
   let scopeItems: QueueItem[] = [];
   if (round) scopeItems = mustLook ? mustLookFor(remaining, round.course) : remaining.filter(inScope);
+  const retryIds = new Set(retries.map((r) => r.id));
   const skippedItems = skipOrder.map((id) => scopeItems.find((item) => item.id === id)).filter((item): item is QueueItem => item !== undefined);
-  const queue = [...scopeItems.filter((item) => !skipOrder.includes(item.id)), ...skippedItems];
+  const queue = [...scopeItems.filter((item) => !skipOrder.includes(item.id) && !retryIds.has(item.id)), ...skippedItems.filter((item) => !retryIds.has(item.id))];
+  // A failed save comes back right after the person that was on screen when it failed
+  retries.forEach((retry) => {
+    const item = scopeItems.find((entry) => entry.id === retry.id);
+    if (!item) return;
+    const at = retry.after ? queue.findIndex((entry) => entry.id === retry.after) : -1;
+    queue.splice(at + 1, 0, item);
+  });
   const current = lookup ?? queue[0];
-  const upcoming = lookup ? undefined : queue[1];
+  currentIdRef.current = current?.id;
+  const retryOfCurrent = current ? retries.find((r) => r.id === current.id) : undefined;
   const loaded = current ? people[current.id] : undefined;
   const person = loaded && 'person' in loaded ? loaded.person : undefined;
-  const decisions = Object.values(done).filter((entry) => inScope(entry.item));
+  const handled = new Map([...Object.values(done), ...Object.values(inFlight), ...(staged ? [staged] : [])].map((entry) => [entry.person.id, entry]));
+  const decisions = [...handled.values()].filter((entry) => inScope(entry.item));
   const total = scopeItems.length + decisions.length;
   let scopeLabel = '';
   if (round) scopeLabel = mustLook ? 'Shortlist' : roundLabel(round);
@@ -200,10 +405,16 @@ const Scout = () => {
   // after must look, are a deliberate choice on the main page
   const nextRound = round && !mustLook ? roundsFor(remaining.filter((item) => !item.mustLook), round.course).find((item) => roundKey(item) !== roundKey(round)) : undefined;
   // Everyone left in the queue has been skipped once: say so instead of silently showing the first skip again
-  const allSkipped = scopeItems.length > 0 && scopeItems.every((item) => skipOrder.includes(item.id));
+  const allSkipped = scopeItems.length > 0 && scopeItems.every((item) => skipOrder.includes(item.id)) && retries.every((r) => !scopeItems.some((item) => item.id === r.id));
   const linkedInUrl = allSkipped ? undefined : [person?.profileUrl, person?.application?.profileUrl, person?.application?.otherProfileUrl].find((u) => u !== undefined && isLinkedIn(u));
   const cardOpen = lookup !== undefined || (round !== undefined && !allSkipped && current !== undefined);
-  const weeklyInvites = leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0) + freshInvites.filter((course) => leadCourses.includes(course)).length;
+  const thisWeek = weekOf();
+  const committedInvites = leadCourses.reduce((sum, course) => sum + (invited[course]?.total ?? 0), 0)
+    + freshInvites.filter((entry) => entry.week === thisWeek && leadCourses.includes(entry.course)).length;
+  useEffect(() => {
+    committedInvitesRef.current = committedInvites;
+  }, [committedInvites]);
+  const weeklyInvites = committedInvites + [...Object.values(inFlight), ...(staged ? [staged] : [])].filter((entry) => entry.decision === 'invite' && leadCourses.includes(entry.item.course)).length;
   const isLead = leadCourses.length > 0;
 
   // Leaving a queue part-way notes what was done there; a finished queue already showed its summary
@@ -218,12 +429,13 @@ const Scout = () => {
       });
     }
 
+    flush();
     setRound(undefined);
     setMustLook(false);
     setSkipOrder([]);
     setNotice(undefined);
     setGoalPopup(false);
-  }, [round, current, decisions, skippedItems]);
+  }, [round, current, decisions, skippedItems, flush]);
 
   useEffect(() => {
     if (!sessionNote) return undefined;
@@ -232,13 +444,13 @@ const Scout = () => {
   }, [sessionNote]);
 
   const chooseRound = (item: QueueItem, asMustLook = false) => {
-    if (writingRef.current || confirmation !== undefined || promptOpen) return;
-    doneAtOpen.current = new Set(Object.keys(done));
+    if (confirmation !== undefined || promptOpen) return;
+    // Like leaving the queue, moving to another round saves the held decision
+    flush();
+    doneAtOpen.current = new Set(handled.keys());
     setRound(item);
     setMustLook(asMustLook);
     setSkipOrder([]);
-    setSaveError(undefined);
-    setConflict(false);
     setNotice(undefined);
     setSessionNote(undefined);
   };
@@ -248,18 +460,9 @@ const Scout = () => {
     if (anchor) chooseRound(anchor, true);
   };
 
-  // The URL carries the person being looked up, so a card can be shared as a link
-  const setPersonInUrl = useCallback((id?: string) => {
-    const query = { ...router.query };
-    if (id) query.person = id;
-    else delete query.person;
-    void router.replace({ pathname: router.pathname, query }, undefined, { shallow: true });
-  }, [router]);
   const openLookup = (item: QueueItem) => {
-    if (writingRef.current || confirmation !== undefined || promptOpen) return;
+    if (confirmation !== undefined || promptOpen) return;
     setLookup(item);
-    setSaveError(undefined);
-    setConflict(false);
     setNotice(undefined);
     setPersonInUrl(item.id);
   };
@@ -284,7 +487,9 @@ const Scout = () => {
 
     if (lookup?.id === linked) return;
     const item = items.find((entry) => entry.id === linked);
-    if (item && !done[item.id]) {
+    // Someone in another course may still be loading
+    if (!item && othersLoading) return;
+    if (item && !handled.has(item.id)) {
       setLookup(item);
     } else {
       setLookup(undefined);
@@ -293,11 +498,12 @@ const Scout = () => {
     }
     // Runs when the URL parameter changes, not on every render that touches lookup or items
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, queueError, linked]);
+  }, [loading, queueError, linked, othersLoading]);
 
   const loadPerson = useCallback((id: string) => {
     if (requested.current.has(id)) return;
     requested.current.add(id);
+    loadsInFlight.current += 1;
     const requestedGeneration = generation.current;
     setPeople((state) => {
       const next = { ...state };
@@ -312,13 +518,46 @@ const Scout = () => {
         if (requestedGeneration !== generation.current) return;
         requested.current.delete(id);
         setPeople((state) => ({ ...state, [id]: { error: message(error) } }));
+      })
+      .finally(() => {
+        loadsInFlight.current -= 1;
+        setLoadsSettled((count) => count + 1);
       });
   }, []);
+
+  // Cards load one at a time ahead of the lead: the person on screen first, then the next few in
+  // the queue, or on the main page the top of their shortlists
+  let preload: QueueItem[] = [];
+  if (lookup) {
+    preload = [lookup];
+  } else if (round) {
+    preload = queue.slice(0, PRELOAD_AHEAD + 1);
+  } else {
+    const lists = courses.filter((course) => leadCourses.includes(course)).map((course) => mustLookFor(remaining, course));
+    for (let i = 0; i < PRELOAD_AHEAD && preload.length < PRELOAD_AHEAD; i += 1) {
+      lists.forEach((list) => {
+        if (list[i] && preload.length < PRELOAD_AHEAD) preload.push(list[i]!);
+      });
+    }
+  }
+
+  const preloadIds = preload.map((item) => item.id).join(',');
   useEffect(() => {
     if (loading || queueError) return;
-    if (current) loadPerson(current.id);
-    if (upcoming) loadPerson(upcoming.id);
-  }, [current, upcoming, loading, queueError, loadPerson]);
+    // A card that failed to load waits for the lead's Retry instead of being fetched again here
+    const waiting = (id: string) => !requested.current.has(id) && !(people[id] && 'error' in people[id]);
+    const ids = preloadIds ? preloadIds.split(',') : [];
+    const [first] = ids;
+    // The first person never waits behind a background load
+    if (first && waiting(first)) {
+      loadPerson(first);
+      return;
+    }
+
+    if (loadsInFlight.current > 0) return;
+    const next = ids.find(waiting);
+    if (next) loadPerson(next);
+  }, [preloadIds, people, loadsSettled, loading, queueError, loadPerson]);
 
   // A new person starts at the top of their card, however far down the previous one was read
   const currentId = current?.id;
@@ -326,75 +565,55 @@ const Scout = () => {
     if (currentId) window.scrollTo({ top: 0 });
   }, [currentId]);
 
+  const pendingSaves = Object.keys(inFlight).length + (staged ? 1 : 0);
   useEffect(() => {
-    setSessionActive(!loading && !queueError && (scopeItems.length > 0 || lookup !== undefined || confirmation !== undefined));
+    setSessionActive(!loading && !queueError && (scopeItems.length > 0 || lookup !== undefined || confirmation !== undefined || pendingSaves > 0));
     return () => setSessionActive(false);
-  }, [loading, queueError, scopeItems.length, lookup, confirmation, setSessionActive]);
+  }, [loading, queueError, scopeItems.length, lookup, confirmation, pendingSaves, setSessionActive]);
 
   const skip = useCallback(() => {
-    if (!current || lookup !== undefined || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
+    if (!current || lookup !== undefined || allSkipped || confirmation !== undefined || promptOpen) return;
     setSkipOrder((state) => [...state.filter((id) => id !== current.id), current.id]);
+    setRetries((state) => state.filter((r) => r.id !== current.id).map((r) => (r.after === current.id ? { ...r, after: undefined } : r)));
     setNotice(undefined);
-    setSaveError(undefined);
-  }, [current, lookup, allSkipped, confirmation, promptOpen, conflict]);
+  }, [current, lookup, allSkipped, confirmation, promptOpen]);
 
   const ask = useCallback((decision: Decision) => {
-    if (!current || person?.id !== current.id || allSkipped || writingRef.current || confirmation !== undefined || promptOpen || conflict) return;
-    setSaveError(undefined);
-    setNote('');
-    setConfirmation({ person, decision, item: current });
-  }, [person, current, allSkipped, confirmation, promptOpen, conflict]);
-
-  const confirm = useCallback(async () => {
-    if (!confirmation || writingRef.current) return;
-    // Capture the person before awaiting; a keystroke or double-click must never
-    // change who this request applies to or submit it twice.
-    const selected = confirmation;
-    writingRef.current = true;
-    setWriting(true);
-    setSaveError(undefined);
-    try {
-      const forFacilitator = endorsers(selected.person).length > 0 ? note.trim() : '';
-      const result = await request<{ ok: boolean; reason?: string }>('decision', { id: selected.person.id, decision: selected.decision, ...(forFacilitator ? { note: forFacilitator } : {}) });
-      if (!result.ok) {
-        setConflict(true);
-        setSaveError(result.reason ?? 'This participant is no longer available. Refresh the queue to continue.');
-        setConfirmation(undefined);
-        return;
-      }
-
-      setDone((state) => ({ ...state, [selected.person.id]: selected }));
-      if (selected.decision === 'invite' && leadCourses.includes(selected.item.course)) {
-        setFreshInvites((state) => [...state, selected.item.course]);
-        if (weeklyInvites + 1 === WEEKLY_INVITE_GOAL) setGoalPopup(true);
-      }
-
-      setSkipOrder((state) => state.filter((id) => id !== selected.person.id));
-      setConfirmation(undefined);
-      const who = selected.person.name ? `${selected.person.name}: ` : '';
-      setNotice(selected.decision === 'invite' ? `${who}invitation requested. Airtable will send the email.` : `${who}saved as don’t invite.`);
-      // A looked-up person is decided and done: back to the start
-      if (lookup?.id === selected.person.id) closeLookup();
-    } catch (error) {
-      setSaveError(message(error));
-    } finally {
-      writingRef.current = false;
-      setWriting(false);
+    if (!current || person?.id !== current.id || allSkipped || confirmation !== undefined || promptOpen) return;
+    const entry: Entry = {
+      person, decision, item: current, fromLookup: lookup !== undefined,
+    };
+    // Endorsed: the facilitator hears about it, so ask for an optional note first
+    if (endorsers(person).length > 0) {
+      setNote('');
+      setConfirmation(entry);
+      return;
     }
-  }, [confirmation, note, lookup, closeLookup, leadCourses, weeklyInvites]);
+
+    stage(entry);
+    if (lookup) closeLookup();
+  }, [person, current, allSkipped, confirmation, promptOpen, lookup, stage, closeLookup]);
+
+  const confirmNote = useCallback(() => {
+    if (!confirmation) return;
+    const entry = { ...confirmation, note };
+    setConfirmation(undefined);
+    stage(entry);
+    if (entry.fromLookup) closeLookup();
+  }, [confirmation, note, stage, closeLookup]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.defaultPrevented || event.repeat || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
       const target = event.target instanceof HTMLElement ? event.target : undefined;
       if (target?.isContentEditable === true || target?.closest('input, textarea, select')) return;
-      // The goal popup takes every key, so an Enter meant for it can never invite the next person
+      // The goal popup takes every key, so an Enter meant for it can never act on the next person
       if (goalPopup) return;
-      // Enter confirms the open dialog; Esc is handled by the dialog itself
+      // Enter confirms the open box; Esc is handled by the box itself
       if (confirmation !== undefined) {
-        if (event.key === 'Enter' && !writingRef.current) {
+        if (event.key === 'Enter') {
           event.preventDefault();
-          void confirm();
+          confirmNote();
         }
 
         return;
@@ -402,7 +621,7 @@ const Scout = () => {
 
       // Esc still works with a button focused, e.g. right after clicking Skip; the other keys yield to the control
       if (event.key !== 'Escape' && target?.closest('button, a, summary')) return;
-      if (writingRef.current || promptOpen || loading || queueError !== undefined) return;
+      if (promptOpen || loading || queueError !== undefined) return;
       const actions: Record<string, () => void> = {
         ArrowRight: () => ask('invite'),
         ArrowLeft: () => ask('decline'),
@@ -411,6 +630,7 @@ const Scout = () => {
         l: () => {
           if (linkedInUrl) window.open(linkedInUrl, '_blank', 'noopener');
         },
+        z: undo,
         Escape: () => {
           if (lookup) closeLookup();
           else if (round) leaveRound();
@@ -425,21 +645,24 @@ const Scout = () => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [ask, skip, confirm, confirmation, goalPopup, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
+  }, [ask, skip, undo, confirmNote, confirmation, goalPopup, promptOpen, loading, queueError, linkedInUrl, cardOpen, lookup, round, closeLookup, leaveRound]);
 
-  const controlsDisabled = writing || confirmation !== undefined || goalPopup || promptOpen;
-  let confirmDescription = 'This removes the participant from the queue and they won’t be considered again.';
-  if (confirmation?.decision === 'invite') confirmDescription = 'This emails the participant on behalf of the course lead. You cannot undo this email.';
-  let confirmLabel = confirmation?.decision === 'invite' ? 'Send invite' : 'Don’t invite';
-  if (saveError) confirmLabel = 'Retry save';
-  if (writing) confirmLabel = confirmation?.decision === 'invite' ? 'Sending invite…' : 'Saving…';
+  const controlsDisabled = confirmation !== undefined || goalPopup || promptOpen;
+  const dismissAlert = (id: string) => setAlerts((state) => state.filter((alert) => alert.id !== id));
 
   if (isLocalPreview()) return <PreviewNotice />;
 
   return (
     <div className="min-h-dvh bg-canvas p-3 sm:p-6">
       <Head><title>Course talent scouting · BlueDot Apps</title></Head>
+      {staged && (
+        <div role="status" className="fixed left-1/2 top-4 z-50 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap rounded-surface bg-primary px-4 py-2 text-size-sm text-white shadow-lg">
+          <span>{staged.decision === 'invite' ? 'Invited' : 'Passed on'} {staged.person.name} · <button type="button" onClick={undo} className="font-semibold underline underline-offset-2">Undo</button> <kbd className="ml-1 rounded-sm border border-white/50 px-1 text-size-xxs">Z</kbd></span>
+          <span aria-label={`Saving in ${secondsLeft} seconds`} className="grid size-6 place-items-center rounded-full border-2 border-white/70 text-size-xs font-semibold">{secondsLeft}</span>
+        </div>
+      )}
       <div className="mx-auto flex max-w-3xl flex-col gap-4">
+        {alerts.map((alert) => <Callout key={alert.id} tone={alert.tone} role="alert" onDismiss={() => dismissAlert(alert.id)}>{alert.text}</Callout>)}
         {/* While reviewing, the page belongs to the person: the title and the queue notes stay on the picker */}
         {!round && !lookup && (
           <>
@@ -468,12 +691,11 @@ const Scout = () => {
               <p className="text-size-xs text-secondary">Opened from search · {lookup.course} · {roundLabel(lookup)}</p>
               <Button variant="outline-black" disabled={controlsDisabled} onClick={closeLookup}>Back to search</Button>
             </section>
-            {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
             <ReviewEvidence key={lookup.id} item={lookup} person={person} error={loaded && 'error' in loaded ? loaded.error : undefined} onRetry={() => loadPerson(lookup.id)} actions={
               <div className="sticky bottom-0 rounded-b-overlay border-t border-subtle bg-canvas p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
-                  <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
+                  <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
+                  <Button disabled={!person || controlsDisabled} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
                 </div>
                 <KeyHints back="back to search" />
               </div>
@@ -493,7 +715,7 @@ const Scout = () => {
                 <button type="button" aria-label="Close" onClick={() => setSessionNote(undefined)} className="min-h-11 shrink-0 px-2 text-secondary hover:text-primary">×</button>
               </section>
             )}
-            <RoundPicker items={remaining} leadCourses={leadCourses} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
+            <RoundPicker items={remaining} leadCourses={leadCourses} othersLoading={othersLoading} othersFailed={othersFailed} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
           </>
         ) : <>
           {/* Where the lead is, as one quiet line; progress and skips live in the action bar below the card */}
@@ -502,7 +724,7 @@ const Scout = () => {
             <Button variant="outline-black" size="small" disabled={controlsDisabled} onClick={leaveRound}>{mustLook ? 'Change queue' : 'Change round'}</Button>
           </section>
           {notice && <Callout role="status">{notice}</Callout>}
-          {saveError && !confirmation && <Callout tone="error" role="alert">{saveError}</Callout>}
+          {retryOfCurrent && current && <Callout tone="warning" role="alert">{failedText(current.name ?? 'this person', retryOfCurrent.decision)}</Callout>}
           {allSkipped && (
             <section className={`${panel} space-y-4 p-6`}>
               <h2 className="text-size-lg font-semibold">Everyone seen once <span className="font-normal text-secondary">· {round.course} {scopeLabel}</span></h2>
@@ -520,15 +742,15 @@ const Scout = () => {
                 {isLead && <span className={`font-medium ${weeklyInvites >= WEEKLY_INVITE_GOAL ? 'text-success-fg' : 'text-primary'}`}>{Math.min(weeklyInvites, WEEKLY_INVITE_GOAL)} / {WEEKLY_INVITE_GOAL} this week</span>}
                 {isLead && <GoalDots invited={weeklyInvites} small />}
                 <span className="ml-auto">{skippedItems.length} skipped</span>
-                <Button variant="outline-black" size="small" disabled={controlsDisabled || conflict || skipOrder.length === 0} onClick={() => {
+                <Button variant="outline-black" size="small" disabled={controlsDisabled || skipOrder.length === 0} onClick={() => {
                   setSkipOrder((state) => state.slice(0, -1));
                   setNotice(undefined);
                 }}>Undo skip</Button>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled || conflict} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
-                <Button variant="outline-black" disabled={controlsDisabled || conflict} onClick={skip}>Skip <span aria-hidden>↓</span></Button>
-                <Button disabled={!person || controlsDisabled || conflict} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
+                <Button variant="secondary" tone="destructive" disabled={!person || controlsDisabled} onClick={() => ask('decline')}><span aria-hidden>←</span> Don’t invite</Button>
+                <Button variant="outline-black" disabled={controlsDisabled} onClick={skip}>Skip <span aria-hidden>↓</span></Button>
+                <Button disabled={!person || controlsDisabled} onClick={() => ask('invite')}>Invite <span aria-hidden>→</span></Button>
               </div>
               <KeyHints back="main page" />
             </div>
@@ -544,58 +766,38 @@ const Scout = () => {
           </section>)}
         </>)}
         <Modal isOpen={confirmation !== undefined} setIsOpen={(open) => {
-          if (!open && !writingRef.current) {
-            setConfirmation(undefined);
-            setSaveError(undefined);
-          }
-        }} isDismissable={!writing} title={confirmation?.decision === 'invite' ? 'Invite to an evaluation call?' : 'Mark as don’t invite?'}>
+          if (!open) setConfirmation(undefined);
+        }} title={confirmation ? `Add a note for ${endorsers(confirmation.person).join(' and ')}?` : ''}>
           {confirmation && <div className="max-w-md space-y-4 break-words text-size-sm">
-            <p className="font-semibold">{confirmation.person.name}</p>
-            <p>{confirmDescription}</p>
-            {endorsers(confirmation.person).length > 0 && (
-              <div className={`space-y-2 rounded-surface border-l-[3px] py-2 pl-[13px] pr-3 ${confirmation.decision === 'invite' ? 'border-accent bg-info-bg' : 'border-error-border bg-error-bg'}`}>
-                <p>
-                  <span className="font-semibold">Endorsed:</span>
-                  {' '}This will email {endorsers(confirmation.person).join(' and ')} to let them know.
-                </p>
-                <Field label="Your note to the facilitator (optional)">
-                  <Textarea value={note} onChange={(event) => setNote(event.target.value)} disabled={writing} maxLength={2000} placeholder="Anything you would like to tell them?" />
-                </Field>
-                <details className="text-size-xs">
-                  <summary className="cursor-pointer text-secondary underline underline-offset-2 hover:text-primary">Remind me what they said</summary>
-                  <div className="mt-2 space-y-3">
-                    {endorsements(confirmation.person).map((r) => (
-                      <div key={r.id} className="space-y-1">
-                        {endorsements(confirmation.person).length > 1 && <p className="font-semibold">{r.facilitator ?? 'Facilitator'}</p>}
-                        {[
-                          { label: 'Overall take', text: r.quickTake },
-                          ...r.ratings.filter((x) => x.evidence).map((x) => ({ label: `${x.label}${x.score !== undefined ? ` ${x.score}/5` : ''}`, text: x.evidence })),
-                          { label: 'Their plans', text: r.plans },
-                          { label: 'Anything else', text: r.anythingElse },
-                        ].filter((x) => x.text).map((x) => (
-                          <p key={x.label} className="whitespace-pre-wrap"><span className="font-semibold">{x.label}:</span> {x.text}</p>
-                        ))}
-                      </div>
+            <p>
+              {confirmation.decision === 'invite'
+                ? `They endorsed ${confirmation.person.name}, so they’ll get an email saying you invited them. You can add a note to it.`
+                : `They endorsed ${confirmation.person.name}, so they’ll get an email saying you won’t be inviting them this time. A short note on why helps them calibrate future endorsements.`}
+            </p>
+            <Field label="Your note (optional)">
+              <Textarea value={note} onChange={(event) => setNote(event.target.value)} maxLength={2000} placeholder="Anything you would like to tell them?" />
+            </Field>
+            <details className="text-size-xs">
+              <summary className="cursor-pointer text-secondary underline underline-offset-2 hover:text-primary">Remind me what they said</summary>
+              <div className="mt-2 space-y-3">
+                {endorsements(confirmation.person).map((r) => (
+                  <div key={r.id} className="space-y-1">
+                    {endorsements(confirmation.person).length > 1 && <p className="font-semibold">{r.facilitator ?? 'Facilitator'}</p>}
+                    {[
+                      { label: 'Overall take', text: r.quickTake },
+                      ...r.ratings.filter((x) => x.evidence).map((x) => ({ label: `${x.label}${x.score !== undefined ? ` ${x.score}/5` : ''}`, text: x.evidence })),
+                      { label: 'Their plans', text: r.plans },
+                      { label: 'Anything else', text: r.anythingElse },
+                    ].filter((x) => x.text).map((x) => (
+                      <p key={x.label} className="whitespace-pre-wrap"><span className="font-semibold">{x.label}:</span> “{x.text}”</p>
                     ))}
                   </div>
-                </details>
+                ))}
               </div>
-            )}
-            {writing && (
-              <div className="flex items-center gap-2 text-size-xs text-secondary" role="status">
-                <ProgressDots />
-                <span>Saving to Airtable.</span>
-              </div>
-            )}
-            {saveError && <p role="alert" className="text-error-fg">{saveError}</p>}
+            </details>
             <div className="flex flex-wrap justify-end gap-2">
-              <Button variant="secondary" disabled={writing} onClick={() => {
-                setConfirmation(undefined);
-                setSaveError(undefined);
-              }}>Cancel</Button>
-              <Button tone={confirmation.decision === 'invite' ? undefined : 'destructive'} loading={writing} onClick={() => {
-                void confirm();
-              }}>{confirmLabel}</Button>
+              <Button variant="secondary" onClick={() => setConfirmation(undefined)}>Cancel</Button>
+              <Button tone={confirmation.decision === 'invite' ? undefined : 'destructive'} onClick={confirmNote}>{confirmation.decision === 'invite' ? 'Invite' : 'Don’t invite'}</Button>
             </div>
           </div>}
         </Modal>
@@ -629,10 +831,10 @@ const isLinkedIn = (u: string) => {
 const iconButton = 'flex size-11 items-center justify-center rounded-surface text-secondary hover:bg-tint hover:text-primary disabled:opacity-50';
 
 const KeyHints: React.FC<{ back: string }> = ({ back }) => (
-  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Esc</kbd> {back}</p>
+  <p className="mt-2 text-size-xs text-secondary"><kbd>Space</kbd> next section · <kbd>L</kbd> LinkedIn · <kbd>Z</kbd> undo · <kbd>Esc</kbd> {back}</p>
 );
 
-const SessionDecisions: React.FC<{ decisions: Done[] }> = ({ decisions }) => {
+const SessionDecisions: React.FC<{ decisions: Entry[] }> = ({ decisions }) => {
   const [copyStatus, setCopyStatus] = useState<string>();
   if (decisions.length === 0) return null;
   return (
