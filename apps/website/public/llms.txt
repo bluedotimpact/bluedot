@@ -21,7 +21,7 @@ All cohort-based courses are free, run fully online, and pair 2–3 hours of wee
 - [Technical AI Safety](https://bluedot.org/courses/technical-ai-safety): 30-hour cohort course covering current safety techniques, open research gaps, and where to contribute. For ML researchers, software engineers, and policy professionals who need deep technical grounding. Requires basic understanding of how LLMs are trained.
 - [Biosecurity](https://bluedot.org/courses/biosecurity): 30-hour cohort course on pandemic prevention, detection, and response — including AI-enabled bioattacks. For engineers, scientists, policy professionals, and entrepreneurs working to build a pandemic-proof world. No biology background required.
 - [Technical AI Safety Project Sprint](https://bluedot.org/courses/technical-ai-safety-project): 30-hour project-based course where participants make a direct technical contribution to AI safety research or engineering, with weekly mentoring from an AI safety expert. For software engineers and early researchers building their AI safety portfolio. Coding experience required; Technical AI Safety course recommended first.
-- [The Future of AI](https://bluedot.org/courses/future-of-ai): Free 2-hour self-paced course introducing what AI can do today, where it's heading, and how to contribute. No prerequisites or technical background required.
+- [The Future of AI](https://bluedot.org/courses/future-of-ai): Free 90-minute self-paced course introducing what AI can do today, where it's heading, and how to contribute. No prerequisites or technical background required.
 
 ## Optional
 
