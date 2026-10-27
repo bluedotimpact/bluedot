@@ -1,4 +1,6 @@
-import { useId } from 'react';
+import { Field, Input } from '@bluedot/ui';
+import { useRef } from 'react';
+import { FaXmark } from 'react-icons/fa6';
 import type { QueueItem } from './types';
 import { roundLabel } from './reviewQueue';
 
@@ -16,21 +18,35 @@ export const searchQueue = (items: QueueItem[], query: string): QueueItem[] => {
 export const PersonSearch = ({
   items, query, onQueryChange, onSelect,
 }: { items: QueueItem[]; query: string; onQueryChange: (value: string) => void; onSelect: (item: QueueItem) => void }) => {
-  const inputId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
   const results = searchQueue(items, query);
   const active = query.trim().length >= 2;
   return (
     <section aria-label="Find a participant" className="flex flex-col gap-2">
-      <label htmlFor={inputId} className="text-size-xs font-medium text-secondary">Find a participant in the queue</label>
-      <input
-        id={inputId}
-        type="search"
-        value={query}
-        onChange={(e) => onQueryChange(e.target.value)}
-        placeholder="Name or email"
-        autoComplete="off"
-        className="min-h-11 w-full rounded-surface border border-subtle bg-raised px-3 text-size-sm text-primary placeholder:text-disabled focus:outline-none focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-focus"
-      />
+      <Field label="Find a participant in the queue">
+        <Input
+          ref={inputRef}
+          type="search"
+          value={query}
+          onChange={(e) => onQueryChange(e.target.value)}
+          placeholder="Name or email"
+          autoComplete="off"
+          trailing={(
+            <button
+              type="button"
+              aria-label="Clear search"
+              hidden={!query}
+              onClick={() => {
+                onQueryChange('');
+                inputRef.current?.focus();
+              }}
+              className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
+            >
+              <FaXmark aria-hidden />
+            </button>
+          )}
+        />
+      </Field>
       {active && results.length === 0 && <p className="text-size-xs text-secondary">Nobody in the queue matches that.</p>}
       {results.length > 0 && (
         <ul className="flex flex-col gap-1">

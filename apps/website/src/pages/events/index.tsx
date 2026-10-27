@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import {
-  addQueryParam, Breadcrumbs, Button, ProgressDots,
+  addQueryParam, Breadcrumbs, Button, ProgressDots, Select,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
@@ -29,6 +29,7 @@ const EventsPage = () => {
   const { data: events, isLoading, error } = trpc.luma.getUpcomingEvents.useQuery();
   const [filter, setFilter] = useState<EventFilter>('all');
   const [location, setLocation] = useState('all');
+  const locationLabelId = useId();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const upcomingEvents = events ?? [];
   const locations = [...new Set(upcomingEvents.filter(isInPerson)
@@ -70,20 +71,22 @@ const EventsPage = () => {
             </div>
             <div className="flex flex-wrap items-center gap-4">
               {filter !== 'online' && locations.length > 0 && (
-                <label className="flex items-center gap-3 text-size-xs text-secondary">
-                  Location
-                  <select
+                <div className="flex items-center gap-3 text-size-xs text-secondary">
+                  <span id={locationLabelId}>Location</span>
+                  <Select
+                    aria-labelledby={locationLabelId}
                     value={location}
-                    onChange={(e) => {
-                      setLocation(e.target.value);
+                    onChange={(value) => {
+                      setLocation(value);
                       setVisibleCount(PAGE_SIZE);
                     }}
-                    className="min-w-0 flex-1 rounded-lg border border-border-control bg-raised px-3 py-2.5 text-primary sm:min-w-44"
-                  >
-                    <option value="all">Everywhere</option>
-                    {locations.map((value) => <option key={value} value={value}>{formatLocationLabel(value)}</option>)}
-                  </select>
-                </label>
+                    options={[
+                      { value: 'all', label: 'Everywhere' },
+                      ...locations.map((value) => ({ value, label: formatLocationLabel(value) })),
+                    ]}
+                    className="sm:min-w-44"
+                  />
+                </div>
               )}
               <Button url={trackedUrl(LUMA_CALENDAR_URL, 'top-cta')} target="_blank" variant="secondary">Follow on Luma ↗</Button>
             </div>
