@@ -324,6 +324,9 @@ const Scout = () => {
     const queueGeneration = generation.current;
     const withViewAs = (path: string) => (viewAs ? `${path}${path.includes('?') ? '&' : '?'}viewAs=${encodeURIComponent(viewAs)}` : path);
     setLoading(true);
+    // A newer load owns these; a reply to an older one can no longer clear them
+    setOthersLoading(false);
+    setBacklogLoading(false);
     setOthersFailed(false);
     setBacklogFailed(false);
     setQueueError(undefined);

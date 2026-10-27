@@ -145,6 +145,28 @@ test('preserves queue order from Airtable, follows pagination, and reads must lo
   expect(items.map((item) => item.topScore)).toEqual([10, undefined]);
 });
 
+test.each([
+  ['shortlist', 'AND(ARRAYJOIN({[>] Course text})=\'Technical AI Safety\',{[*] Talent scouting must look formula})'],
+  ['backlog', 'AND(ARRAYJOIN({[>] Course text})=\'Technical AI Safety\',NOT({[*] Talent scouting must look formula}))'],
+] as const)('the %s read narrows the course to that part of the queue and still leaves out people already supported', async (part, formula) => {
+  const called = 'recScoutSample004';
+  const formulas: string[] = [];
+  fetchMock.mockImplementation(async (input, init) => {
+    const url = new URL(input instanceof Request ? input.url : input.toString());
+    if (url.pathname.endsWith('tblBeMxAM1FAW06n4')) {
+      expect(url.searchParams.get('view')).toBe('viwbqIzi8JU9oQ6DT');
+      formulas.push(url.searchParams.get('filterByFormula') ?? '');
+      return json({ records: [{ id, fields: { ...untouched, fld9BqZjF67r9Ce6O: 'kept@example.org' } }, { id: called, fields: { ...untouched, fld9BqZjF67r9Ce6O: 'called@example.org' } }] });
+    }
+
+    if (url.pathname.endsWith('tblVstbJehu8wew93')) return json({ records: [{ id: 'recCall', fields: { fldCigDwg47QHQiM8: 'called@example.org' } }] });
+    if (url.pathname.endsWith('tblh5zr4jRdrndKnC')) return json({ records: [] });
+    return reads(input, init);
+  });
+  expect((await run(fetchQueue(['Technical AI Safety'], part))).map((item) => item.id)).toEqual([id]);
+  expect(formulas).toEqual([formula]);
+});
+
 test('leaves out people with an approved career transition grant or a completed evaluation call', async () => {
   const granted = 'recScoutSample003';
   const called = 'recScoutSample004';
