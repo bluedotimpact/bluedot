@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
-import { FaMagnifyingGlass, FaXmark } from 'react-icons/fa6';
 import { Input } from './Input';
 
 const meta = {
@@ -35,32 +33,4 @@ export const Invalid: Story = {
 
 export const Password: Story = {
   args: { type: 'password', placeholder: 'Enter your password' },
-};
-
-const SearchExample = () => {
-  const [value, setValue] = useState('Alan Turing');
-  return (
-    <Input
-      type="search"
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      placeholder="Search by name..."
-      aria-label="Search"
-      leading={<FaMagnifyingGlass aria-hidden />}
-      trailing={value ? (
-        <button
-          type="button"
-          aria-label="Clear search"
-          onClick={() => setValue('')}
-          className="-mr-3 flex size-11 items-center justify-center text-secondary hover:text-primary"
-        >
-          <FaXmark aria-hidden />
-        </button>
-      ) : undefined}
-    />
-  );
-};
-
-export const Search: Story = {
-  render: () => <SearchExample />,
 };
