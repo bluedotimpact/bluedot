@@ -472,9 +472,15 @@ test('must look is one queue per course, newest round first, and ends on "Must l
   expect(screen.queryByTestId('choose-must-look-Technical AI Safety')).toBeNull();
 });
 
-test('a one-person round shows the pass-done screen after one skip; L opens LinkedIn; Esc returns to the main page', async () => {
+test('a one-person round shows the pass-done screen after one skip; L opens LinkedIn, P the project; Esc returns to the main page', async () => {
   const open = vi.spyOn(window, 'open').mockImplementation(() => null);
-  const withLinkedIn = { ...samplePeople[0]!, profileUrl: 'https://www.linkedin.com/in/sample-participant' };
+  const withLinkedIn = {
+    ...samplePeople[0]!,
+    profileUrl: 'https://www.linkedin.com/in/sample-participant',
+    projects: [{
+      id: 'recProjSample0001', url: 'https://files.example.org/project.pdf', scores: [], evalNotes: [], privateNotes: [],
+    }],
+  };
   mockFetch.mockImplementation(async (path) => {
     if (pathOf(path).includes('/queue')) return response({ items: [realQueue[0]!, realQueue[3]!] });
     return pathOf(path).endsWith(withLinkedIn.id) ? response({ person: withLinkedIn }) : read(path);
@@ -482,6 +488,8 @@ test('a one-person round shows the pass-done screen after one skip; L opens Link
   await start();
   fireEvent.keyDown(document.body, { key: 'l' });
   expect(open).toHaveBeenCalledWith('https://www.linkedin.com/in/sample-participant', '_blank', 'noopener');
+  fireEvent.keyDown(document.body, { key: 'p' });
+  expect(open).toHaveBeenCalledWith('https://files.example.org/project.pdf', '_blank', 'noopener');
   const skipButton = screen.getByRole('button', { name: 'Skip' });
   fireEvent.click(skipButton);
   await screen.findByRole('heading', { name: /Everyone seen once/ });
