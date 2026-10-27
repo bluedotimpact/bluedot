@@ -304,21 +304,27 @@ test('an invite stays in the goal until the refreshed count includes it, and is 
   await screen.findByText('You invited 20 people this week, woohoo!');
 });
 
-test('a lead\'s own course shows first; the other courses load behind it and open from their names', async () => {
+test('a lead\'s shortlist shows first; their backlog and the other courses load behind it, without duplicates', async () => {
+  const shortlisted = { ...realQueue[3]!, mustLook: true, pickReason: 'strong yes' as const };
   mockFetch.mockImplementation(async (path) => {
     const url = pathOf(path);
-    if (url.includes('/queue?courses=')) return response({ items: realQueue.filter((item) => item.course !== 'Biosecurity') });
+    // The backlog reply repeats the shortlisted person, as a changed formula could
+    if (url.includes('part=backlog')) return response({ items: [shortlisted], later: [] });
+    if (url.includes('part=all')) return response({ items: realQueue.filter((item) => item.course !== 'Biosecurity'), later: [] });
     if (url.includes('/queue')) {
       return response({
-        items: realQueue.filter((item) => item.course === 'Biosecurity'), leadCourses: ['Biosecurity'], leadName: 'Sample', laterCourses: ['Technical AI Safety', 'Technical AI Safety Project'],
+        items: [shortlisted], leadCourses: ['Biosecurity'], leadName: 'Sample', later: [{ courses: ['Biosecurity'], part: 'backlog' }, { courses: ['Technical AI Safety', 'Technical AI Safety Project'], part: 'all' }],
       });
     }
 
     return read(path);
   });
   render(<Scout />);
-  await screen.findByRole('region', { name: 'Biosecurity' });
-  await waitFor(() => expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith('/queue?courses=Technical%20AI%20Safety%2CTechnical%20AI%20Safety%20Project'))).toBe(true));
+  await screen.findByTestId('choose-must-look-Biosecurity');
+  await waitFor(() => expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith('/queue?courses=Technical%20AI%20Safety%2CTechnical%20AI%20Safety%20Project&part=all'))).toBe(true));
+  expect(mockFetch.mock.calls.some(([path]) => pathOf(path).endsWith('/queue?courses=Biosecurity&part=backlog'))).toBe(true);
+  await waitFor(() => expect(screen.queryByText('Loading the backlog…')).toBeNull());
+  expect(screen.getByText('1 to review →')).toBeTruthy();
   await waitFor(() => expect(screen.getByRole('button', { name: 'Technical AI Safety' }).hasAttribute('disabled')).toBe(false));
   fireEvent.click(screen.getByRole('button', { name: 'Technical AI Safety' }));
   expect(await screen.findByTestId('choose-round-sample-Technical AI Safety')).toBeTruthy();
@@ -367,8 +373,9 @@ test('a shared link to someone in a course that loads second still opens their c
   routerQuery.person = 'recScoutSample004';
   mockFetch.mockImplementation(async (path) => {
     const url = pathOf(path);
-    if (url.includes('/queue?courses=')) return response({ items: realQueue.filter((item) => item.course === 'Biosecurity'), laterCourses: [] });
-    if (url.includes('/queue')) return response({ items: realQueue.filter((item) => item.course !== 'Biosecurity'), leadCourses: ['Technical AI Safety'], laterCourses: ['Biosecurity'] });
+    if (url.includes('part=all')) return response({ items: realQueue.filter((item) => item.course === 'Biosecurity'), later: [] });
+    if (url.includes('part=backlog')) return response({ items: realQueue.filter((item) => item.course === 'Technical AI Safety'), later: [] });
+    if (url.includes('/queue')) return response({ items: [], leadCourses: ['Technical AI Safety'], later: [{ courses: ['Technical AI Safety'], part: 'backlog' }, { courses: ['Biosecurity'], part: 'all' }] });
     return read(path);
   });
   render(<Scout />);

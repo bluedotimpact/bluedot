@@ -30,7 +30,14 @@ type Staged = Entry & { until: number };
 type Retry = { id: string; decision: Decision; after?: string };
 type Alert = { id: string; text: string; tone: 'warning' | 'error' };
 type DecisionResult = { ok: boolean; reason?: string; already?: string; on?: string };
-type QueueResponse = { items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string; laterCourses?: Course[] };
+type QueuePart = 'shortlist' | 'backlog' | 'all';
+type QueueResponse = { items: QueueItem[]; invitedThisWeek?: InvitedThisWeek; leadCourses?: Course[]; leadName?: string; later?: { courses: Course[]; part: QueuePart }[] };
+
+// Pieces of the queue arrive separately; a person already listed is never added twice
+const mergeItems = (current: QueueItem[], incoming: QueueItem[]) => {
+  const known = new Set(current.map((item) => item.id));
+  return [...current, ...incoming.filter((item) => !known.has(item.id))];
+};
 
 const request = async <T,>(path: string, body?: unknown): Promise<T> => {
   const response = await authFetch(`/api/scout/${path}`, body === undefined ? undefined : {
@@ -132,6 +139,8 @@ const Scout = () => {
   const [loading, setLoading] = useState(true);
   const [othersLoading, setOthersLoading] = useState(false);
   const [othersFailed, setOthersFailed] = useState(false);
+  const [backlogLoading, setBacklogLoading] = useState(false);
+  const [backlogFailed, setBacklogFailed] = useState(false);
   const [queueError, setQueueError] = useState<string>();
   const [round, setRound] = useState<QueueItem>();
   // The shortlist reviews a course's must-look people across rounds; `round` then only names the course
@@ -316,6 +325,7 @@ const Scout = () => {
     const withViewAs = (path: string) => (viewAs ? `${path}${path.includes('?') ? '&' : '?'}viewAs=${encodeURIComponent(viewAs)}` : path);
     setLoading(true);
     setOthersFailed(false);
+    setBacklogFailed(false);
     setQueueError(undefined);
     try {
       // The lead's own courses first; the rest load behind them
@@ -347,17 +357,21 @@ const Scout = () => {
       setPeople({});
       requested.current.clear();
       setLoading(false);
-      const later = data.laterCourses ?? [];
-      if (later.length === 0) return;
-      setOthersLoading(true);
-      try {
-        const rest = await request<QueueResponse>(withViewAs(`queue?courses=${encodeURIComponent(later.join(','))}`));
-        if (queueGeneration === generation.current) setItems((state) => [...state, ...rest.items]);
-      } catch {
-        if (queueGeneration === generation.current) setOthersFailed(true);
-      } finally {
-        if (queueGeneration === generation.current) setOthersLoading(false);
-      }
+      // The lead's backlog and the other courses, side by side. A failure says so on the page;
+      // a reply from an older load is dropped.
+      await Promise.all((data.later ?? []).map(async ({ courses: wanted, part }) => {
+        const setPartLoading = part === 'backlog' ? setBacklogLoading : setOthersLoading;
+        const setPartFailed = part === 'backlog' ? setBacklogFailed : setOthersFailed;
+        setPartLoading(true);
+        try {
+          const rest = await request<QueueResponse>(withViewAs(`queue?courses=${encodeURIComponent(wanted.join(','))}&part=${part}`));
+          if (queueGeneration === generation.current) setItems((state) => mergeItems(state, rest.items));
+        } catch {
+          if (queueGeneration === generation.current) setPartFailed(true);
+        } finally {
+          if (queueGeneration === generation.current) setPartLoading(false);
+        }
+      }));
     } catch (error) {
       if (queueGeneration === generation.current) {
         setQueueError(message(error));
@@ -488,7 +502,7 @@ const Scout = () => {
     if (lookup?.id === linked) return;
     const item = items.find((entry) => entry.id === linked);
     // Someone in another course may still be loading
-    if (!item && othersLoading) return;
+    if (!item && (othersLoading || backlogLoading)) return;
     if (item && !handled.has(item.id)) {
       setLookup(item);
     } else {
@@ -498,7 +512,7 @@ const Scout = () => {
     }
     // Runs when the URL parameter changes, not on every render that touches lookup or items
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, queueError, linked, othersLoading]);
+  }, [loading, queueError, linked, othersLoading, backlogLoading]);
 
   const loadPerson = useCallback((id: string) => {
     if (requested.current.has(id)) return;
@@ -715,7 +729,7 @@ const Scout = () => {
                 <button type="button" aria-label="Close" onClick={() => setSessionNote(undefined)} className="min-h-11 shrink-0 px-2 text-secondary hover:text-primary">×</button>
               </section>
             )}
-            <RoundPicker items={remaining} leadCourses={leadCourses} othersLoading={othersLoading} othersFailed={othersFailed} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
+            <RoundPicker items={remaining} leadCourses={leadCourses} othersLoading={othersLoading} othersFailed={othersFailed} backlogLoading={backlogLoading} backlogFailed={backlogFailed} onSelect={chooseRound} onSelectMustLook={chooseMustLook} />
           </>
         ) : <>
           {/* Where the lead is, as one quiet line; progress and skips live in the action bar below the card */}
@@ -768,7 +782,7 @@ const Scout = () => {
         <Modal isOpen={confirmation !== undefined} setIsOpen={(open) => {
           if (!open) setConfirmation(undefined);
         }} title={confirmation ? `Add a note for ${endorsers(confirmation.person).join(' and ')}?` : ''}>
-          {confirmation && <div className="max-w-md space-y-4 break-words text-size-sm">
+          {confirmation && <div className="space-y-4 break-words text-size-sm">
             <p>
               {confirmation.decision === 'invite'
                 ? `They endorsed ${confirmation.person.name}, so they’ll get an email saying you invited them. You can add a note to it.`
@@ -789,20 +803,20 @@ const Scout = () => {
                       { label: 'Their plans', text: r.plans },
                       { label: 'Anything else', text: r.anythingElse },
                     ].filter((x) => x.text).map((x) => (
-                      <p key={x.label} className="whitespace-pre-wrap"><span className="font-semibold">{x.label}:</span> “{x.text}”</p>
+                      <p key={x.label} className="whitespace-pre-wrap"><span className="font-semibold">{x.label}:</span> “{x.text?.trim()}”</p>
                     ))}
                   </div>
                 ))}
               </div>
             </details>
             <div className="flex flex-wrap justify-end gap-2">
-              <Button variant="secondary" onClick={() => setConfirmation(undefined)}>Cancel</Button>
+              <Button variant="secondary" tone={confirmation.decision === 'invite' ? undefined : 'destructive'} onClick={() => setConfirmation(undefined)}>Cancel</Button>
               <Button tone={confirmation.decision === 'invite' ? undefined : 'destructive'} onClick={confirmNote}>{confirmation.decision === 'invite' ? 'Invite' : 'Don’t invite'}</Button>
             </div>
           </div>}
         </Modal>
         <Modal isOpen={goalPopup} setIsOpen={(open) => setGoalPopup(open)} title={`${WEEKLY_INVITE_GOAL} invites this week, woohoo! 🎉`}>
-          <div className="max-w-md space-y-4 text-size-sm">
+          <div className="space-y-4 text-size-sm">
             <p>You achieved this week’s goal. You can stop here, or keep going if you like.</p>
             <div className="flex flex-wrap justify-end gap-2">
               <Button variant="secondary" onClick={() => setGoalPopup(false)}>Keep reviewing</Button>

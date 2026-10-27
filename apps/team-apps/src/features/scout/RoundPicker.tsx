@@ -26,8 +26,8 @@ type Pick = { onSelect: (item: QueueItem) => void; onSelectMustLook: (course: Co
 
 // One course: its shortlist, or once that is clear, the backlog round by round
 const CourseBox = ({
-  items, course, onSelect, onSelectMustLook, onClose,
-}: Pick & { items: QueueItem[]; course: Course; onClose?: () => void }) => {
+  items, course, onSelect, onSelectMustLook, onClose, backlogLoading = false, backlogFailed = false,
+}: Pick & { items: QueueItem[]; course: Course; onClose?: () => void; backlogLoading?: boolean; backlogFailed?: boolean }) => {
   const mustLook = mustLookFor(items, course);
   const recap = pickRecap(mustLook);
   const backlog = backlogFor(items, course);
@@ -49,6 +49,8 @@ const CourseBox = ({
           <>
             <p className="rounded-surface border border-success-border bg-success-bg px-4 py-3 text-size-sm font-medium text-success-fg"><span aria-hidden>✓ </span>Shortlist clear</p>
             {/* Offered only once the shortlist is clear: until then the shortlist is the one thing to do */}
+            {backlogLoading && <p role="status" className="px-1 text-size-xs text-disabled">Loading the backlog…</p>}
+            {backlogFailed && <p role="alert" className="px-1 text-size-xs text-secondary">The backlog didn’t load. Refresh to try again.</p>}
             {rounds.length > 0 && (
               <details className="group">
                 <summary className={`${backlogChoice} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
@@ -69,14 +71,14 @@ const CourseBox = ({
 // The lead's own courses, then the rest as a quiet row of names that open one course at a time.
 // Someone who leads no course sees every course as their own.
 export const RoundPicker = ({
-  items, leadCourses, othersLoading = false, othersFailed = false, onSelect, onSelectMustLook,
-}: Pick & { items: QueueItem[]; leadCourses: readonly Course[]; othersLoading?: boolean; othersFailed?: boolean }) => {
+  items, leadCourses, othersLoading = false, othersFailed = false, backlogLoading = false, backlogFailed = false, onSelect, onSelectMustLook,
+}: Pick & { items: QueueItem[]; leadCourses: readonly Course[]; othersLoading?: boolean; othersFailed?: boolean; backlogLoading?: boolean; backlogFailed?: boolean }) => {
   const [openOther, setOpenOther] = useState<Course>();
   const own = leadCourses.length === 0 ? courses : courses.filter((course) => leadCourses.includes(course));
   const others = courses.filter((course) => !own.includes(course));
   return (
     <div className="flex flex-col gap-4">
-      {own.map((course) => <CourseBox key={course} items={items} course={course} onSelect={onSelect} onSelectMustLook={onSelectMustLook} />)}
+      {own.map((course) => <CourseBox key={course} items={items} course={course} onSelect={onSelect} onSelectMustLook={onSelectMustLook} backlogLoading={backlogLoading} backlogFailed={backlogFailed} />)}
       {others.length > 0 && (
         <nav aria-label="Other courses" className="flex flex-col items-center gap-2 pt-1">
           <p className="text-size-xs text-secondary">Browse other courses</p>
