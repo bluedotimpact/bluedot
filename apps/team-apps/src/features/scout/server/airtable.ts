@@ -458,10 +458,27 @@ export const fetchGrantsUnderOtherEmail = async (name: string, email: string): P
 
 // The shortlist alone is a short read, so a lead's first screen asks for it before the backlog
 export type QueuePart = 'shortlist' | 'backlog' | 'all';
+const MUST_LOOK = '{[*] Talent scouting must look}';
 const PART_FILTER: Record<QueuePart, string | undefined> = {
-  shortlist: '{[*] Talent scouting must look formula}',
-  backlog: 'NOT({[*] Talent scouting must look formula})',
+  shortlist: MUST_LOOK,
+  backlog: `NOT(${MUST_LOOK})`,
   all: undefined,
+};
+
+// Formulas name fields, so renaming the shortlist field breaks the narrow read: then read the
+// whole course and split it here, slower but still right
+const readCourse = async (course: Course, part: QueuePart): Promise<AirtableRecord[]> => {
+  const byCourse = `ARRAYJOIN({[>] Course text})='${course}'`;
+  const read = (filterByFormula: string) => fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula }, QUEUE_FIELDS);
+  const narrow = PART_FILTER[part];
+  if (!narrow) return read(byCourse);
+  try {
+    return await read(`AND(${byCourse},${narrow})`);
+  } catch (error) {
+    if ((error as { statusCode?: number }).statusCode !== 422) throw error;
+    logger.warn(`scout: the ${part} filter was refused, reading all of ${course} instead. Was ${MUST_LOOK} renamed?`);
+    return (await read(byCourse)).filter((r) => !!r.fields[REG.mustLook] === (part === 'shortlist'));
+  }
 };
 
 // Started before the lead is known, so it runs alongside the lead lookup
@@ -470,13 +487,8 @@ export const startSupportedCheck = () => fetchAlreadySupportedEmails();
 // One read per course, side by side: a single read of the whole view pages through it one
 // request at a time
 export const fetchQueue = async (wanted: readonly Course[] = COURSES, part: QueuePart = 'all', supported = fetchAlreadySupportedEmails()): Promise<QueueItem[]> => {
-  const filterFor = (course: Course) => {
-    const byCourse = `ARRAYJOIN({[>] Course text})='${course}'`;
-    return PART_FILTER[part] ? `AND(${byCourse},${PART_FILTER[part]})` : byCourse;
-  };
-
   const [pages, rounds, alreadySupported] = await Promise.all([
-    Promise.all(wanted.map((course) => fetchAll(REGISTRATIONS_URL, { view: QUEUE_VIEW_ID, filterByFormula: filterFor(course) }, QUEUE_FIELDS))),
+    Promise.all(wanted.map((course) => readCourse(course, part))),
     getRounds(),
     supported,
   ]);
