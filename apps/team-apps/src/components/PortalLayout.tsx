@@ -213,7 +213,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
       <div className="flex min-w-0 flex-1 flex-col bg-raised">
         {auth && <header className="flex h-16 md:hidden shrink-0 items-center justify-between gap-3 border-b border-subtle px-4 sm:px-8">
           <div className="flex min-w-0 items-center gap-3">
-            <IconButton ref={menuButton} onClick={() => setMobileOpen(true)} aria-label="Open navigation" aria-expanded={mobileOpen} className="md:hidden"><PortalIcon name="menu" /></IconButton>
+            <IconButton ref={menuButton} onClick={() => setMobileOpen(true)} aria-label="Open navigation" aria-expanded={mobileOpen}><PortalIcon name="menu" /></IconButton>
           </div>
           {preview && <span className="shrink-0 rounded-full bg-warning-bg px-3 py-1 text-size-xxs font-semibold text-warning-fg"><span className="hidden sm:inline">Local preview · sample data</span><span className="sm:hidden">Sample data</span></span>}
         </header>}

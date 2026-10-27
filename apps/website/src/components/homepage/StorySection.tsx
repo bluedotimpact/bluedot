@@ -12,11 +12,11 @@ const StorySection = () => {
 
         <div className="flex flex-col gap-8 items-center">
           <div className="flex flex-col">
-            <P className="bd-md:text-size-md leading-relaxed text-secondary mb-[1em]">
+            <P className="bd-md:text-size-md text-secondary mb-[1em]">
               BlueDot Impact is a non-profit talent accelerator with people based in San Francisco, London, and remotely. We help people build careers and organizations that positively impact the trajectory of AI - through our courses, career support, events, and startup programs.
             </P>
 
-            <P className="bd-md:text-size-md leading-relaxed text-secondary mb-0">
+            <P className="bd-md:text-size-md text-secondary">
               Since 2022, we've trained over 10,000 professionals worldwide, from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're <TeamSize />, and we've raised $71M to date.
             </P>
           </div>
@@ -24,7 +24,7 @@ const StorySection = () => {
           <Button
             size="small"
             url={ROUTES.about.url}
-            className="min-h-11 px-[17px] py-4 text-size-xs font-normal leading-snug tracking-wide rounded-md"
+            className="px-[17px] py-4 font-normal leading-snug tracking-wide"
           >
             Learn more
           </Button>

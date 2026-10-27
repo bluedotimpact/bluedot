@@ -62,7 +62,7 @@ const HowItWorksSection = () => {
                   ) : step.title}
                 </h3>
               </div>
-              <P className="text-size-sm text-secondary">{step.body}</P>
+              <P className="text-secondary">{step.body}</P>
             </li>
           ))}
         </ol>

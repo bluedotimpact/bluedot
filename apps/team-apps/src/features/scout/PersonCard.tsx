@@ -115,7 +115,7 @@ const Answer: React.FC<{ label: string; text?: string; defaultOpen?: boolean; ai
       preview={<span className="line-clamp-2 pl-[22px] text-size-sm leading-snug text-primary">{quoted(plain(text).replace(/\s+/g, ' '), ai)}</span>}
       bodyClassName="pl-[22px] pt-1"
     >
-      <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{quoted(plain(text), ai)}</P>
+      <P className="whitespace-pre-wrap">{quoted(plain(text), ai)}</P>
     </Disclosure>
   ) : null
 );
@@ -443,7 +443,7 @@ const More: React.FC<{ label: string; text?: string; ai?: boolean; always?: bool
   return (
     <div className="flex flex-col gap-1">
       <Caption ai={ai} red={red}>{label}</Caption>
-      {text ? <P className="whitespace-pre-wrap text-size-sm leading-relaxed">{quoted(plain(text), ai)}</P> : <span className="text-size-sm text-disabled">–</span>}
+      {text ? <P className="whitespace-pre-wrap">{quoted(plain(text), ai)}</P> : <span className="text-size-sm text-disabled">–</span>}
     </div>
   );
 };

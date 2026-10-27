@@ -82,7 +82,6 @@ const AdminChangeEmail = withAdminGuard(() => {
                   variant="primary"
                   onClick={submit}
                   disabled={requestMutation.isPending || !newEmail.trim()}
-                  className="whitespace-nowrap"
                 >
                   {requestMutation.isPending ? 'Sending...' : 'Send confirmation email'}
                 </Button>

@@ -148,7 +148,7 @@ const SyncDashboard = () => {
             Request Full Sync
           </Button>
           {hasSyncRunning && (
-            <P className="mt-2 text-size-sm text-secondary">
+            <P className="mt-2 text-secondary">
               A sync is currently running. Your request will be queued.
             </P>
           )}

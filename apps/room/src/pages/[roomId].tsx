@@ -100,7 +100,7 @@ const RoomControlPage = withAuth(({ auth }) => {
       <div className="max-w-2xl mx-auto">
         <div className="container-lined p-8 my-4 space-y-4">
           <div className="flex items-center justify-between">
-            <H3 className="!mt-0">{room.name}</H3>
+            <H3>{room.name}</H3>
             <div className="hidden sm:block">
               <RoomHealthIndicator status={room.status} />
             </div>
@@ -133,7 +133,6 @@ const RoomControlPage = withAuth(({ auth }) => {
                       onClick={() => setPiCurrentUrl(meetingUrl)}
                       disabled={!meetingUrl}
                       variant="secondary"
-                      className="h-9"
                     >
                       Join
                     </Button>

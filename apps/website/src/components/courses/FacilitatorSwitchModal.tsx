@@ -247,15 +247,15 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-primary">
+            <P className="text-center">
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
-            <P className="text-center text-primary">
+            <P className="text-center">
               As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make
               sure you communicate this with them. You should see the changes reflected in the calendar event and Course
               Hub.
             </P>
-            <P className="text-center text-primary">Please allow up to 10 minutes to see the changes.</P>
+            <P className="text-center">Please allow up to 10 minutes to see the changes.</P>
           </div>
           <Button className="w-full" onClick={handleClose}>
             Close
@@ -271,11 +271,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-primary">
+            <P className="text-center">
               You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
               {groupOptions.find((g) => g.value === selectedGroupId)?.label}.
             </P>
-            <P className="text-center text-primary">
+            <P className="text-center">
               You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes
               to see the changes.
             </P>
@@ -295,7 +295,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <FaCheck aria-hidden="true" className="size-7.5 text-accent" />
           </div>
           <div className="flex max-w-narrow flex-col items-center gap-4">
-            <P className="text-center text-primary">
+            <P className="text-center">
               Posted in #facilitator-community.
               {threadUrl && (
                 <>
@@ -303,7 +303,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
                 </>
               )}
             </P>
-            <P className="text-center text-primary">
+            <P className="text-center">
               When someone replies, come back here and choose <span className="font-bold">"{AGREED_COVER_LABEL}"</span>.
             </P>
           </div>
@@ -465,7 +465,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
       {selectedGroupId && selectedDiscussionId && (
         <div className="flex flex-col gap-2">
-          <P className="text-primary">
+          <P>
             This will be posted in <span className="text-accent">#facilitator-community</span>:
           </P>
           {coverPreviewQuery.isLoading && <ProgressDots />}

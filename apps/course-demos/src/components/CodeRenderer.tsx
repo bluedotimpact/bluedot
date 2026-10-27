@@ -88,7 +88,7 @@ export default function App() {
       {view === 'load_preview' && <div style={{ height, margin: '0 1px' }} />}
       {!hidePreview && (
         <nav className="justify-end items-center flex gap-2">
-          <P className="!my-0">Show:</P>
+          <P>Show:</P>
           <Button variant={view === 'code' ? 'primary' : 'secondary'} onClick={() => setView('code')}>Code</Button>
           <Button variant={view === 'preview' ? 'primary' : 'secondary'} onClick={() => setView('load_preview')}>Preview</Button>
         </nav>

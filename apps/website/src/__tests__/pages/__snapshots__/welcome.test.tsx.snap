@@ -38,7 +38,7 @@ exports[`/welcome > asks for the password and connects Google Calendar 1`] = `
             Meet five of your new teammates before you start. Connect your Google Calendar, and we'll book five 30-minute video calls in the next two weeks, at times you're free.
           </p>
           <p
-            class="bluedot-p not-prose text-secondary text-size-sm"
+            class="bluedot-p not-prose text-secondary"
           >
             We only see when you're busy, not what your events are. We don't keep access.
           </p>
