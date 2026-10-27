@@ -2,7 +2,7 @@ import {
   afterEach, describe, expect, test, vi,
 } from 'vitest';
 import { createHash } from 'crypto';
-import { SignJWT } from 'jose';
+import { EncryptJWT, SignJWT } from 'jose';
 import { createEmailChangeToken, verifyEmailChangeToken } from './emailChangeToken';
 import env from './env';
 
@@ -12,7 +12,9 @@ vi.mock('./env', () => ({
 
 const mutableEnv = env as { EMAIL_CHANGE_TOKEN_SECRET?: string };
 
-const mintToken = () => createEmailChangeToken({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' });
+const mintToken = () => createEmailChangeToken({
+  userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com', tokenId: 't1',
+});
 
 describe('emailChangeToken', () => {
   afterEach(() => {
@@ -21,9 +23,22 @@ describe('emailChangeToken', () => {
   });
 
   test('round-trips a payload, normalising emails', async () => {
-    const payload = await verifyEmailChangeToken(await createEmailChangeToken({ userId: 'u1', oldEmail: ' Old@Example.com ', newEmail: 'New@Example.com' }));
+    const payload = await verifyEmailChangeToken(await createEmailChangeToken({
+      userId: 'u1', oldEmail: ' Old@Example.com ', newEmail: 'New@Example.com', tokenId: 't1',
+    }));
 
-    expect(payload).toEqual({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' });
+    expect(payload).toEqual({
+      userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com', tokenId: 't1',
+    });
+  });
+
+  test('rejects a token without an id', async () => {
+    const token = await new EncryptJWT({ userId: 'u1', oldEmail: 'old@example.com', newEmail: 'new@example.com' })
+      .setProtectedHeader({ alg: 'dir', enc: 'A256GCM' })
+      .setExpirationTime('48h')
+      .encrypt(createHash('sha256').update('test-secret').digest());
+
+    await expect(verifyEmailChangeToken(token)).rejects.toThrowError('This link is no longer valid');
   });
 
   test('does not expose the payload in the token', async () => {
