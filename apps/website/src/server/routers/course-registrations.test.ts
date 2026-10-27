@@ -379,6 +379,21 @@ describe('courseRegistrations.linkToUser by courseRegistrationId', () => {
     expect((await testDb.get(userTable, { id: 'user1' })).name).toBe('');
     expect(await countUsers()).toBe(usersBefore);
   });
+
+  test('holds the registration back without failing when Keycloak is unavailable', async () => {
+    vi.mocked(keycloakAccountOwnsEmail).mockRejectedValue(new Error('Keycloak 503'));
+    await testDb.insert(userTable, {
+      id: 'user1', email: 'someone@example.com', name: '', keycloakIdentifier: 'some-sub',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'someone@example.com', courseId: 'c1', firstName: 'Real', lastName: 'Owner',
+    });
+
+    const result = await linkToUser({ courseRegistrationId: 'reg1' });
+
+    expect(result).toEqual({ action: 'skipped-unverified-user' });
+    expect((await getRegistration('reg1'))?.userId).toBeNull();
+  });
 });
 
 describe('courseRegistrations.linkToUser by userId', () => {

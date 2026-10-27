@@ -3,6 +3,7 @@ import {
   eq, and, or, ne, isNull, desc, sql, userTable, withAirtableRetry,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { logger } from '@bluedot/ui/src/api';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { keycloakAccountOwnsEmail } from '../../lib/api/keycloak';
@@ -13,10 +14,20 @@ import {
 } from '../trpc';
 import { ensureSelfServeRegistrationExistsProcedure } from './self-serve-course-registrations';
 
-// A row claimed by a login only collects registrations by email once that login has verified the email
-const canLinkByEmail = async (user: { keycloakIdentifier?: string | null }, email: string) => (
-  !user.keycloakIdentifier || keycloakAccountOwnsEmail(user.keycloakIdentifier, email)
-);
+// A row claimed by a login only collects registrations by email once that login has verified the email.
+// If Keycloak can't be reached, hold them back: the next verified login links them (see users.ensureExists).
+const canLinkByEmail = async (user: { keycloakIdentifier?: string | null }, email: string) => {
+  if (!user.keycloakIdentifier) {
+    return true;
+  }
+
+  try {
+    return await keycloakAccountOwnsEmail(user.keycloakIdentifier, email);
+  } catch (error) {
+    logger.error(`[linkToUser] Failed to check email verification for Keycloak user ${user.keycloakIdentifier}`, error);
+    return false;
+  }
+};
 
 export const linkUnlinkedRegistrationsByEmail = async ({ email, userId }: { email: string; userId: string }) => {
   const unlinkedRegistrations = await db.pg
