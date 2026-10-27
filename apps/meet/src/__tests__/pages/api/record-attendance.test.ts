@@ -3,13 +3,18 @@ import {
 } from 'vitest';
 
 const mockDb = vi.hoisted(() => {
-  const state = { airtableAttendees: [] as string[], resolveUpdate: null as null | (() => void) };
+  const state = {
+    airtableAttendees: [] as string[],
+    resolveUpdate: null as null | (() => void),
+    rejectUpdate: null as null | ((error: Error) => void),
+  };
   return {
     state,
     ensureReplicated: vi.fn(async () => ({ id: 'rec', attendees: [...state.airtableAttendees] })),
     update: vi.fn(async (_table: unknown, { attendees }: { id: string; attendees: string[] }) => {
-      await new Promise<void>((resolve) => {
+      await new Promise<void>((resolve, reject) => {
         state.resolveUpdate = resolve;
+        state.rejectUpdate = reject;
       });
       state.airtableAttendees = [...attendees];
     }),
@@ -80,5 +85,24 @@ describe('recordAttendance', () => {
 
     await recordAttendance({ groupDiscussionId: 'recThree', participantId: 'recA' });
     expect(mockDb.update).toHaveBeenCalledTimes(1);
+  });
+
+  test('a failed write rejects its batch, and the next batch and later requests still write', async () => {
+    const first = recordAttendance({ groupDiscussionId: 'recFour', participantId: 'recA' });
+    await flushMicrotasks();
+    const second = recordAttendance({ groupDiscussionId: 'recFour', participantId: 'recB' });
+
+    await flushMicrotasks();
+    mockDb.state.rejectUpdate?.(new Error('Airtable down'));
+    await expect(first).rejects.toThrow('Airtable down');
+
+    await finishUpdate();
+    await second;
+    expect(mockDb.update.mock.calls[1]?.[1]).toEqual({ id: 'recFour', attendees: ['recB'] });
+
+    const third = recordAttendance({ groupDiscussionId: 'recFour', participantId: 'recC' });
+    await finishUpdate();
+    await third;
+    expect(mockDb.update.mock.calls[2]?.[1]).toEqual({ id: 'recFour', attendees: ['recB', 'recC'] });
   });
 });
